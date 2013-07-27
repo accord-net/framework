@@ -1,0 +1,52 @@
+﻿<Dictionary>
+  <Words>
+    <Unrecognized>
+      <Word>tomin</Word>
+    </Unrecognized>
+    <Recognized>
+      <Word>indices</Word>
+      <Word>Mahalanobis</Word>
+      <Word>Elementwise</Word>
+      <Word>Im</Word>
+      <Word>Re</Word>
+      <Word>Asinh</Word>
+      <Word>Acosh</Word>
+      <Word>Cholesky</Word>
+      <Word>Eigenvalue</Word>
+      <Word>Eigenvalues</Word>
+      <Word>Frobenius</Word>
+      <Word>Sqrt</Word>
+      <Word>Submatrix</Word>
+      <Word>str</Word>
+      <Word>Haar</Word>
+      <Word>Haar</Word>
+    </Recognized>
+    <Deprecated>
+      <Term PreferredAlternate=""></Term>
+    </Deprecated>
+    <Compound>
+      <Term CompoundAlternate=""></Term>
+    </Compound>
+    <DiscreteExceptions>
+      <Term>x</Term>
+      <Term>y</Term>
+      <Term>a</Term>
+      <Term>b</Term>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>Qr</Acronym>
+      <Acronym>Lu</Acronym>
+      <Acronym>IWT</Acronym>
+      <Acronym>FWT</Acronym>
+      <Acronym>FHT</Acronym>
+      <Acronym>DHT</Acronym>
+      <Acronym>CDF</Acronym>
+      <Acronym>DCT</Acronym>
+      <Acronym>IDCT</Acronym>
+      <Acronym>DST</Acronym>
+      <Acronym>IDST</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.MachineLearning.Structures.KDTree">
+    <Position X="2.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structures\KDTree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.Structures.KDTree&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="2.25" Width="2" />
+    <Members>
+      <Field Name="count" Hidden="true" />
+      <Method Name="create" Hidden="true" />
+      <Field Name="dimensions" Hidden="true" />
+      <Field Name="distance" Hidden="true" />
+      <Method Name="find" Hidden="true" />
+      <Method Name="insert" Hidden="true" />
+      <Field Name="root" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="Accord.MachineLearning.Structures.KDTree&lt;T&gt;.KDTreeTraversal" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Structures\KDTree`1.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ACIAAIAAAABAADAABgAgAAYAAEAAEABACABAAABAIAA=</HashCode>
+      <FileName>Structures\KDTree`1.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Root" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.Structures.KDTreeNode&lt;T&gt;">
+    <Position X="3.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAkAAAAEAAAAAAAAAAACACgAAAAAAA=</HashCode>
+      <FileName>Structures\KDTreeNode.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.Structures.KDTreeNodeCollection&lt;T&gt;" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="5" Width="2.75" />
+    <Members>
+      <Field Name="farthest" Hidden="true" />
+      <Field Name="list" Hidden="true" />
+      <Field Name="nearest" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gCIAAkAQAABAABAQCAAAFASAABAAAAAAAAAAAABQIAA=</HashCode>
+      <FileName>Structures\KDTreeNodeCollection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.Structures.KDTreeNodeDistance&lt;T&gt;">
+    <Position X="0.5" Y="6.25" Width="2" />
+    <Members>
+      <Field Name="distance" Hidden="true" />
+      <Field Name="node" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAgAAAAAAAAEAAAIBAAAAAAAEAAiA=</HashCode>
+      <FileName>Structures\KDTreeNodeDistance.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.Structures.KDTreeTraversal">
+    <Position X="5.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAACAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Structures\KDTreeTraversal.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Delegate Name="Accord.MachineLearning.Structures.KDTreeTraversalMethod&lt;T&gt;">
+    <Position X="6.75" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Structures\KDTreeTraversal.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

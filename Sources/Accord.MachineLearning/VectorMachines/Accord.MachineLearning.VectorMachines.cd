@@ -1,0 +1,325 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Currently, Multiclass Support Vector Machines are limited only to Kernel machines. This may change in future versions.">
+    <Position X="7.067" Y="1.974" Height="0.651" Width="2.832" />
+  </Comment>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimization" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="4.25" Width="2.5" />
+    <Members>
+      <Field Name="activeExamples" Hidden="true" />
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="atBoundsExamples" Hidden="true" />
+      <Field Name="b_lower" Hidden="true" />
+      <Field Name="b_upper" Hidden="true" />
+      <Field Name="c" Hidden="true" />
+      <Field Name="cacheSize" Hidden="true" />
+      <Method Name="compute" Hidden="true" />
+      <Method Name="computeNoBias" Hidden="true" />
+      <Field Name="epsilon" Hidden="true" />
+      <Field Name="errors" Hidden="true" />
+      <Method Name="examineExample" Hidden="true" />
+      <Method Name="I" Hidden="true" />
+      <Field Name="i_lower" Hidden="true" />
+      <Field Name="i_upper" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="isCompact" Hidden="true" />
+      <Field Name="isLinear" Hidden="true" />
+      <Field Name="kernel" Hidden="true" />
+      <Field Name="kernelCache" Hidden="true" />
+      <Field Name="machine" Hidden="true" />
+      <Field Name="maxChecks" Hidden="true" />
+      <Field Name="negativeCost" Hidden="true" />
+      <Field Name="negativeWeight" Hidden="true" />
+      <Field Name="nonBoundExamples" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Field Name="positiveCost" Hidden="true" />
+      <Field Name="positiveWeight" Hidden="true" />
+      <Field Name="strategy" Hidden="true" />
+      <Method Name="takeStep" Hidden="true" />
+      <Field Name="tolerance" Hidden="true" />
+      <Method Name="updateSets" Hidden="true" />
+      <Field Name="useClassLabelProportion" Hidden="true" />
+      <Field Name="useComplexityHeuristic" Hidden="true" />
+      <Field Name="weights" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>Ew4ICBoAAAACEhQAAAFADDAAAQUwQBCABBAcALTGDMc=</HashCode>
+      <FileName>VectorMachines\Learning\SequentialMinimalOptimization.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Strategy" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.MulticlassSupportVectorLearning">
+    <Position X="15" Y="4.25" Width="2.5" />
+    <Members>
+      <Field Name="configure" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="msvm" Hidden="true" />
+      <Method Name="OnSubproblemFinished" Hidden="true" />
+      <Method Name="OnSubproblemStarted" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACQAAAAAAAAQAAAAAAAAAAAAQAAAABAgAAAAAAQgABI=</HashCode>
+      <FileName>VectorMachines\Learning\MulticlassSupportVectorLearning.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Algorithm" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.ProbabilisticOutputLearning">
+    <Position X="21.75" Y="4.25" Width="2.25" />
+    <Members>
+      <Field Name="distances" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="machine" Hidden="true" />
+      <Field Name="maxIterations" Hidden="true" />
+      <Field Name="minStepSize" Hidden="true" />
+      <Field Name="negatives" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Field Name="positives" Hidden="true" />
+      <Field Name="sigma" Hidden="true" />
+      <Field Name="targets" Hidden="true" />
+      <Field Name="tolerance" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AIAAAAKAgAACAAAAAAAABAAAAEAAABAQAABAAAQQAAI=</HashCode>
+      <FileName>VectorMachines\Learning\ProbabilisticOutputLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.SubproblemEventArgs">
+    <Position X="15" Y="10" Width="2" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>VectorMachines\Learning\MulticlassSupportVectorLearning.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.MultilabelSupportVectorLearning" BaseTypeListCollapsed="true">
+    <Position X="18" Y="4.25" Width="3.25" />
+    <Members>
+      <Field Name="configure" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="msvm" Hidden="true" />
+      <Method Name="OnSubproblemFinished" Hidden="true" />
+      <Method Name="OnSubproblemStarted" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ACQAAAAAAAAQAAAAAAEAAAAAQAAAABAgAAAAAAQgABI=</HashCode>
+      <FileName>VectorMachines\Learning\MultilabelSupportVectorLearning.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Algorithm" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.SupportVectorReduction" BaseTypeListCollapsed="true">
+    <Position X="21.75" Y="7.5" Width="2.25" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Method Name="compute" Hidden="true" />
+      <Field Name="kernel" Hidden="true" />
+      <Field Name="machine" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Field Name="supportVectors" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAQAARAAAI=</HashCode>
+      <FileName>VectorMachines\Learning\SupportVectorReduction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.KernelSupportVectorMachine">
+    <Position X="3" Y="6.5" Width="2.25" />
+    <Members>
+      <Field Name="kernel" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAI=</HashCode>
+      <FileName>VectorMachines\KernelSupportVectorMachine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Kernel" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.SupportVectorMachine">
+    <Position X="3" Y="2.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAhIAAgAAIEIAAAAAAAAAAEAAAQCQAAEAgQAAAAAA=</HashCode>
+      <FileName>VectorMachines\SupportVectorMachine.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.MulticlassSupportVectorMachine">
+    <Position X="6.75" Y="3" Width="3.25" />
+    <Members>
+      <Method Name="computeElimination" Hidden="true" />
+      <Method Name="computeParallel" Hidden="true" />
+      <Method Name="computeSequential" Hidden="true" />
+      <Method Name="computeSharedVectors" Hidden="true" />
+      <Method Name="computeVoting" Hidden="true" />
+      <Method Name="createOrResetCache" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Field Name="machines" Hidden="true" />
+      <Method Name="onDeserialized" Hidden="true" />
+      <Field Name="sharedVectors" Hidden="true" />
+      <Field Name="sharedVectorsCount" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+      <Field Name="totalVectorsCount" Hidden="true" />
+      <Field Name="uniqueVectorsCount" Hidden="true" />
+      <Field Name="vectorCache" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Accord.MachineLearning.VectorMachines.MulticlassSupportVectorMachine.Cache" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>VectorMachines\MulticlassSupportVectorMachine.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <AssociationLine Name="Machines" Type="Accord.MachineLearning.VectorMachines.KernelSupportVectorMachine" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="6.562" />
+        <Point X="6.375" Y="6.562" />
+        <Point X="6.375" Y="7.187" />
+        <Point X="5.25" Y="7.187" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>EWAgwKBAACUgBBAECCEAAAUAEAAKQCQDAAAAAAQAAAA=</HashCode>
+      <FileName>VectorMachines\MulticlassSupportVectorMachine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Machines" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.MultilabelSupportVectorMachine" BaseTypeListCollapsed="true">
+    <Position X="6.75" Y="7.75" Width="3.25" />
+    <Members>
+      <Method Name="ISupportVectorMachine.Compute" Hidden="true" />
+      <Field Name="machines" Hidden="true" />
+      <Field Name="sharedVectors" Hidden="true" />
+      <Field Name="sharedVectorsCount" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+      <Field Name="totalVectorsCount" Hidden="true" />
+      <Field Name="uniqueVectorsCount" Hidden="true" />
+      <Field Name="vectorCache" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="Accord.MachineLearning.VectorMachines.MultilabelSupportVectorMachine.Cache" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>VectorMachines\MultilabelSupportVectorMachine.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <AssociationLine Name="Machines" Type="Accord.MachineLearning.VectorMachines.KernelSupportVectorMachine" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.75" Y="8.796" />
+        <Point X="6.375" Y="8.796" />
+        <Point X="6.375" Y="7.938" />
+        <Point X="5.25" Y="7.938" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AWAgwKBAACEgBBgECCEAAAQAEAAKQAQDAAAAAAQAAAA=</HashCode>
+      <FileName>VectorMachines\MultilabelSupportVectorMachine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Machines" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.LeastSquaresLearning">
+    <Position X="24.5" Y="4.25" Width="1.75" />
+    <Members>
+      <Field Name="cache" Hidden="true" />
+      <Field Name="cacheSize" Hidden="true" />
+      <Method Name="conjugateGradient" Hidden="true" />
+      <Field Name="diagonal" Hidden="true" />
+      <Field Name="gamma" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="kernel" Hidden="true" />
+      <Field Name="machine" Hidden="true" />
+      <Field Name="ones" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Field Name="tolerance" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ACUAAAIAAAACAAAAAAABBABAAAAAABAAAAAEAAQAFEI=</HashCode>
+      <FileName>VectorMachines\Learning\LeastSquaresLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.MachineLearning.VectorMachines.Learning.ISupportVectorMachineLearning">
+    <Position X="13.25" Y="1.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>VectorMachines\Learning\ISupportVectorMachineLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.VectorMachines.Learning.ISupportCancellation">
+    <Position X="17" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>VectorMachines\Learning\ISupportVectorMachineLearning.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.MachineLearning.VectorMachines.ISupportVectorMachine">
+    <Position X="7.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>VectorMachines\ISupportVectorMachine.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Kernels.IKernel">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Enum Name="Accord.MachineLearning.VectorMachines.Learning.SelectionStrategy">
+    <Position X="12.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>VectorMachines\Learning\SequentialMinimalOptimization.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.MachineLearning.VectorMachines.MulticlassComputeMethod">
+    <Position X="3" Y="9.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAACAAAAA=</HashCode>
+      <FileName>VectorMachines\MulticlassSupportVectorMachine.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Accord.MachineLearning.VectorMachines.Learning.SupportVectorMachineLearningConfigurationFunction">
+    <Position X="16" Y="7.5" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAgAQQAAAAQAAAAAAAA=</HashCode>
+      <FileName>VectorMachines\Learning\MulticlassSupportVectorLearning.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

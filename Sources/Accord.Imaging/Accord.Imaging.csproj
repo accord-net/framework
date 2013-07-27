@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Accord.Imaging</RootNamespace>
+    <AssemblyName>Accord.Imaging</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <CodeAnalysisRuleSet>Migrated rules for Accord.Imaging.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\Release\Accord.Imaging.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
+    <OutputPath>..\..\Release (3.5)\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;TRACE;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\Release (3.5)\Accord.Imaging.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisLogFile>..\..\Release (3.5)\Accord.Imaging.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>..\..\Externals\AForge.NET\AForge.Imaging.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AForge.Math">
+      <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BagOfVisualWords.cs" />
+    <Compile Include="Contour\BorderFollowing.cs" />
+    <Compile Include="Contour\IContourExtractionAlgorithm.cs" />
+    <Compile Include="Converters\ArrayToImage.cs" />
+    <Compile Include="Converters\Base\IConverter.cs" />
+    <Compile Include="Converters\MatrixToImage.cs" />
+    <Compile Include="Converters\ImageToArray.cs" />
+    <Compile Include="Converters\ImageToMatrix.cs" />
+    <Compile Include="BagOfVisualWords`1.cs" />
+    <Compile Include="BagOfVisualWords`2.cs" />
+    <Compile Include="Filters\LineMarker.cs" />
+    <Compile Include="Filters\WhitePatch.cs" />
+    <Compile Include="Filters\GrayWorld.cs" />
+    <Compile Include="Filters\Kuwahara.cs" />
+    <Compile Include="Interest Points\Base\IFeatureDescriptor.cs" />
+    <Compile Include="Interest Points\FeatureDescriptor.cs" />
+    <Compile Include="UnsafeTools.cs" />
+    <Compile Include="Filters\CompassConvolution.cs" />
+    <Compile Include="Filters\Exponential.cs" />
+    <Compile Include="Filters\Logarithm.cs" />
+    <Compile Include="Filters\RobinsonEdgeDetector.cs" />
+    <Compile Include="Filters\GaborFilter.cs" />
+    <Compile Include="Filters\KirschEdgeDetector.cs" />
+    <Compile Include="Filters\Variance.cs" />
+    <Compile Include="GrayLevelCooccurrenceMatrix.cs" />
+    <Compile Include="GrayLevelDifferenceMethod.cs" />
+    <Compile Include="GrayLevelRunLength.cs" />
+    <Compile Include="Interest Points\Base\IFeaturePoint.cs" />
+    <Compile Include="Interest Points\Haralick\Haralick.cs" />
+    <Compile Include="Interest Points\Haralick\HaralickDescriptor.cs" />
+    <Compile Include="Interest Points\LocalBinaryPattern.cs" />
+    <Compile Include="Interest Points\FREAK\FastRetinaKeypointDetector.cs" />
+    <Compile Include="Interest Points\FREAK\FastRetinaKeypoint.cs" />
+    <Compile Include="Interest Points\FREAK\FastRetinaKeypointDescriptor.cs" />
+    <Compile Include="Interest Points\FREAK\FastRetinaKeypointPattern.cs" />
+    <Compile Include="Interest Points\HistogramsOfOrientedGradients.cs" />
+    <Compile Include="Interest Points\SURF\ResponseLayer.cs" />
+    <Compile Include="KNearestNeighborMatching.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Interest Points\CornerFeaturePoint.cs" />
+    <Compile Include="Interest Points\CornerFeaturesDetector.cs" />
+    <Compile Include="Interest Points\Base\IFeatureDetector.cs" />
+    <Compile Include="Moments\HuMoments.cs" />
+    <Compile Include="Moments\MomentsBase.cs" />
+    <Compile Include="RansacFundamentalEstimator.cs" />
+    <Compile Include="CorrelationMatching.cs" />
+    <Compile Include="Filters\CombineChannel.cs" />
+    <Compile Include="Filters\Rectification.cs" />
+    <Compile Include="Moments\CentralMoments.cs" />
+    <Compile Include="Moments\IMoments.cs" />
+    <Compile Include="Moments\RawMoments.cs" />
+    <Compile Include="Interest Points\FastCornersDetector.cs" />
+    <Compile Include="Filters\FeaturesMarker.cs" />
+    <Compile Include="Interest Points\SURF\SpeededUpRobustFeaturesDetector.cs" />
+    <Compile Include="Filters\Blend.cs" />
+    <Compile Include="Filters\Concatenate.cs" />
+    <Compile Include="Filters\RectanglesMarker.cs" />
+    <Compile Include="Filters\PairsMarker.cs" />
+    <Compile Include="Filters\PointsMarker.cs" />
+    <Compile Include="Filters\WaveletTransform.cs" />
+    <Compile Include="Interest Points\HarrisCornersDetector.cs" />
+    <Compile Include="IntegralImage2.cs" />
+    <Compile Include="Interest Points\SURF\SpeededUpRobustFeaturePoint.cs" />
+    <Compile Include="MatrixH.cs" />
+    <Compile Include="PointH.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RansacHomographyEstimator.cs" />
+    <Compile Include="Interest Points\SURF\SpeededUpRobustFeaturesDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tools.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Core\Accord.Core.csproj">
+      <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
+      <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.MachineLearning\Accord.MachineLearning.csproj">
+      <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
+      <Name>Accord.MachineLearning</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
+      <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
+      <Name>Accord.Math</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
+      <Name>Accord.Statistics</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Accord.Imaging.cd" />
+    <None Include="Accord.snk" />
+    <None Include="Converters\Accord.Imaging.Converters.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

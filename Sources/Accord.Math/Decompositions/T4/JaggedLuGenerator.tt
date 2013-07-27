@@ -1,0 +1,33 @@
+﻿<#@ template hostspecific="true" language="C#" #>
+<#@ include file="BaseDecomposition.ttinclude" #>
+<#
+	
+	string currentDirectory = Host.ResolvePath(@"./");
+	string parent = (new DirectoryInfo(currentDirectory)).Parent.FullName;
+	string path = Path.Combine(parent, "JaggedLuDecomposition.tt");
+
+
+	// Generate LU decomposition for 
+	// Double, Float and Decimal:
+
+	new DecompositionTemplate(Host, path)
+	{
+		DataType = "double"
+	}
+	.RenderToFile("JaggedLuDecomposition.cs");
+
+	new DecompositionTemplate(Host, path)
+	{
+		Suffix = "F", 
+		DataType = "float"
+	}
+	.RenderToFile("JaggedLuDecompositionF.cs");
+
+	new DecompositionTemplate(Host, path)
+	{
+		Suffix = "D",
+		DataType = "decimal"
+	}
+	.RenderToFile("JaggedLuDecompositionD.cs");
+
+#>

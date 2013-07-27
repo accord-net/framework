@@ -1,0 +1,481 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="ANOVA Tests">
+    <Position X="36.332" Y="24.784" Height="0.389" Width="1.025" />
+  </Comment>
+  <Comment CommentText="Power Analysis">
+    <Position X="32.361" Y="1.937" Height="0.468" Width="1.086" />
+  </Comment>
+  <Comment CommentText="Nonparametric tests">
+    <Position X="16.891" Y="20.688" Height="0.464" Width="1.393" />
+  </Comment>
+  <Class Name="Accord.Statistics.Testing.ChiSquareTest">
+    <Position X="22.25" Y="11" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEACAAAAAAAAAAAAQAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\ChiSquareTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.BhapkarTest">
+    <Position X="23.75" Y="14.25" Width="1.75" />
+    <Members>
+      <Field Name="d" Hidden="true" />
+      <Field Name="invS" Hidden="true" />
+      <Field Name="S" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAEAAQAAACAEAA=</HashCode>
+      <FileName>Testing\Contingency\BhapkarTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.BowkerTest">
+    <Position X="25" Y="17.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Contingency\BowkerTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.KappaTest">
+    <Position X="12" Y="16" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAQAAAAAAAAAAAAgAAAAAAAIAA=</HashCode>
+      <FileName>Testing\Contingency\KappaTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.McNemarTest">
+    <Position X="23" Y="17.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Contingency\McNemarTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.StuartMaxwellTest">
+    <Position X="20.25" Y="17.25" Width="2.5" />
+    <Members>
+      <Field Name="d" Hidden="true" />
+      <Field Name="invS" Hidden="true" />
+      <Field Name="S" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAEAAQAAACAEAA=</HashCode>
+      <FileName>Testing\Contingency\StuartMaxwellTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoMatrixKappaTest">
+    <Position X="0.5" Y="16.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Contingency\TwoMatrixKappaTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.FTest">
+    <Position X="36" Y="10.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEACAAAAEggAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\FTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.KolmogorovSmirnovTest">
+    <Position X="23.5" Y="22" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>ACACAAAAAAgAAAAAAAAAAAgAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\KolmogorovSmirnovTest.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Hypothesis" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Testing.AnovaSourceCollection">
+    <Position X="39.5" Y="24" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Multiple Samples\AnovaSourceCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.AnovaVariationSource">
+    <Position X="39.5" Y="21" Width="2.75" />
+    <Members>
+      <Field Name="anova" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAQAAQAAgCAABABAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Multiple Samples\AnovaVariationSource.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.OneWayAnova" BaseTypeListCollapsed="true">
+    <Position X="35.75" Y="20.25" Width="2.25" />
+    <Members>
+      <Field Name="DFb" Hidden="true" />
+      <Field Name="DFt" Hidden="true" />
+      <Field Name="DFw" Hidden="true" />
+      <Field Name="groupCount" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Field Name="means" Hidden="true" />
+      <Field Name="MSb" Hidden="true" />
+      <Field Name="MSw" Hidden="true" />
+      <Field Name="sizes" Hidden="true" />
+      <Field Name="SSb" Hidden="true" />
+      <Field Name="SSt" Hidden="true" />
+      <Field Name="SSw" Hidden="true" />
+      <Field Name="totalMean" Hidden="true" />
+      <Field Name="totalSize" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAMAAEAABAAgAAAAAAEBQAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Testing\Multiple Samples\OneWayAnova.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="FTest" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Table" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoWayAnova" BaseTypeListCollapsed="true">
+    <Position X="35.75" Y="22.25" Width="2.25" />
+    <Members>
+      <Field Name="aMean" Hidden="true" />
+      <Field Name="bMean" Hidden="true" />
+      <Field Name="cellMeans" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Field Name="totalMean" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAEAAAAAAEAAAQAAEQQAAAAAAQAAAEAAEAAAAAECA=</HashCode>
+      <FileName>Testing\Multiple Samples\TwoWayAnova.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Sources" />
+      <Property Name="ModelType" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Table" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoWayAnovaVariationSources">
+    <Position X="32" Y="23.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAMQAAAAIAAAAAAAAAQAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Testing\Multiple Samples\TwoWayAnova.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TTest">
+    <Position X="10.75" Y="11" Width="2.5" />
+    <Members>
+      <Method Name="power" Hidden="true" />
+      <Field Name="powerAnalysis" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEACAgEAAAgBAAAAAAAABAgAAMEAAAAAAQAABAAAAAA=</HashCode>
+      <FileName>Testing\TTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoSampleKolmogorovSmirnovTest">
+    <Position X="19.5" Y="22" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAACACQAAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\TwoSample\TwoSampleKolmogorovSmirnovTest.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Hypothesis" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoSampleTTest">
+    <Position X="8" Y="11" Width="2.5" />
+    <Members>
+      <Method Name="power" Hidden="true" />
+      <Field Name="powerAnalysis" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEACAgAAAAgBQAAAQAAABAgAAMEAAAAAAQAABAAIAAA=</HashCode>
+      <FileName>Testing\TwoSample\TwoSampleTTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.WaldTest">
+    <Position X="15.5" Y="16" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\WaldTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.ZTest">
+    <Position X="14" Y="11" Width="2.5" />
+    <Members>
+      <Method Name="power" Hidden="true" />
+      <Field Name="powerAnalysis" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEACAgEAAAgBAAAAAAAABAgAAMEAAAAAAQAABAAAAAA=</HashCode>
+      <FileName>Testing\ZTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoSampleZTest">
+    <Position X="2.5" Y="11" Width="2.25" />
+    <Members>
+      <Method Name="power" Hidden="true" />
+      <Field Name="powerAnalysis" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEACAgAAAAgBAAAAQAAABAgAAMEAAAAAAQAABAAIAAA=</HashCode>
+      <FileName>Testing\TwoSample\TwoSampleZTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.HypothesisTest&lt;TDistribution&gt;">
+    <Position X="17" Y="4.5" Width="3" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAACAIAAAAABgAAEAAAgAAgAAAAAAAAACAASAAAAgAA=</HashCode>
+      <FileName>Testing\Base\HypothesisTest.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Tail" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Testing.MannWhitneyWilcoxonTest">
+    <Position X="8.75" Y="22" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AEQCEgBAgAgAAAAAAAAAAAgAAgAAAEAAAAAAACAAAAA=</HashCode>
+      <FileName>Testing\TwoSample\MannWhitneyWilcoxonTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoSampleSignTest">
+    <Position X="30" Y="14.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\TwoSample\TwoSampleSignTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoSampleWilcoxonSignedRankTest">
+    <Position X="12.5" Y="25.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\TwoSample\TwoSampleWilcoxonSignedRankTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.BinomialTest">
+    <Position X="31.5" Y="11" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AEACAAAAAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\BinomialTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.FisherExactTest">
+    <Position X="27.25" Y="11" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AEACAAAAAAgAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Contingency\FisherExactTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.AverageKappaTest">
+    <Position X="20.75" Y="14.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAgQACAAAAAAA=</HashCode>
+      <FileName>Testing\Contingency\AverageKappaTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoAverageKappaTest">
+    <Position X="7.75" Y="16.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Contingency\TwoAverageKappaTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.SignTest">
+    <Position X="33.25" Y="14.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\SignTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.WilcoxonSignedRankTest">
+    <Position X="16" Y="25.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\WilcoxonSignedRankTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.WilcoxonTest">
+    <Position X="13.5" Y="21.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>QEACAAAAAAAAIAAAAAAAAAgAAgAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\WilcoxonTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.Power.BaseOneSamplePowerAnalysis">
+    <Position X="35" Y="1.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAgAAEAAAAFAAAQAAAAAAhAAACAAAAABA=</HashCode>
+      <FileName>Testing\Power\Base\BaseOneSamplePowerAnalysis.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Testing.Power.BaseTwoSamplePowerAnalysis">
+    <Position X="28.25" Y="1.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AABAAABAgAgAgAAkAAAAFAAAQAAAAAABAAACAAAQABA=</HashCode>
+      <FileName>Testing\Power\Base\BaseTwoSamplePowerAnalysis.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Testing.Power.TTestPowerAnalysis">
+    <Position X="36.25" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAEAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Power\TTestPowerAnalysis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.Power.TwoSampleTTestPowerAnalysis">
+    <Position X="29.75" Y="6" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Power\TwoSample\TwoSampleTTestPowerAnalysis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.Power.TwoSampleZTestPowerAnalysis">
+    <Position X="26.25" Y="6" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAEAAAAAFAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Power\TwoSample\TwoSampleZTestPowerAnalysis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.Power.ZTestPowerAnalysis">
+    <Position X="33.5" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAEAAAAAFAAAQAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Power\ZTestPowerAnalysis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.MultinomialTest">
+    <Position X="25.75" Y="14.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Testing\MultinomialTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.PairedTTest">
+    <Position X="5.75" Y="11" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AQACAgAAAAgBCAAAQAAAAAgAAMgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\TwoSample\PairedTTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoProportionZTest">
+    <Position X="3.75" Y="16.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\TwoSample\TwoProportionZTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.ReceiverOperatingCurveTest">
+    <Position X="15.5" Y="17.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAIAAgAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Contingency\ReceiverOperatingCurveTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.TwoReceiverOperatingCurveTest">
+    <Position X="3.75" Y="18.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Contingency\TwoReceiverOperatingCurveTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.BartlettTest">
+    <Position X="27" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Multiple Samples\BartlettTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Testing.LeveneTest">
+    <Position X="39.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Multiple Samples\LeveneTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Accord.Statistics.Testing.IHypothesisTest&lt;TDistribution&gt;">
+    <Position X="7" Y="4" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Base\IHypothesisTest.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Testing.IAnova">
+    <Position X="33.5" Y="19" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Multiple Samples\IAnova.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Testing.IHypothesisTest">
+    <Position X="7" Y="5.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAIAAAAAAAAAAAAAAAAgAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Testing\Base\IHypothesisTest.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Testing.Power.IPowerAnalysis">
+    <Position X="24" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAgAAAAAAAAAAAAAAAAAAhAAACAAAAAAA=</HashCode>
+      <FileName>Testing\Power\Base\IPowerAnalysis.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Testing.Power.ITwoSamplePowerAnalysis">
+    <Position X="24" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Power\Base\ITwoSamplePowerAnalysis.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Accord.Statistics.Testing.TwoWayAnovaModel">
+    <Position X="32.5" Y="21.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAAABAAAAAAAAABAAAA=</HashCode>
+      <FileName>Testing\Multiple Samples\TwoWayAnova.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Statistics.Testing.KolmogorovSmirnovTestHypothesis">
+    <Position X="23.5" Y="24.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAABAAAAAAAAACAAAAAAAAAAAAAAAAAQA=</HashCode>
+      <FileName>Testing\Base\HypothesisTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Statistics.Testing.TwoSampleKolmogorovSmirnovTestHypothesis">
+    <Position X="19.5" Y="24.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAABAAAAAAAAIA=</HashCode>
+      <FileName>Testing\Base\HypothesisTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Statistics.Testing.TwoSampleHypothesis">
+    <Position X="10.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Testing\Base\HypothesisTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Statistics.Testing.OneSampleHypothesis">
+    <Position X="10.75" Y="4.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAABAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Testing\Base\HypothesisTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Statistics.Testing.DistributionTail">
+    <Position X="14.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Testing\Base\HypothesisTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

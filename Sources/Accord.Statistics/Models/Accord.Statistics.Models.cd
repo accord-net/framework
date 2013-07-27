@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Statistics.Models.Regression.Linear.MultivariateLinearRegression">
+    <Position X="6.5" Y="1.75" Width="3.25" />
+    <Members>
+      <Field Name="coefficients" Hidden="true" />
+      <Method Name="ILinearRegression.Compute" Hidden="true" />
+      <Field Name="insertConstant" Hidden="true" />
+      <Field Name="intercepts" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>BEAAAAAAAAAAgAAAIAAAQAAAEEAAADAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Regression\Linear\MultivariateLinearRegression.cs</FileName>
+      <NewMemberFileName>Models\Regression\Linear\MultipleLinearRegression.cs</NewMemberFileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.Linear.PolynomialRegression">
+    <Position X="1" Y="5.75" Width="3.25" />
+    <Members>
+      <Method Name="ILinearRegression.Compute" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAQAAAAAAAAgAAEAAAAAAAQAEAAADAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Regression\Linear\PolynomialRegression.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="regression" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.Linear.SimpleLinearRegression">
+    <Position X="4.5" Y="5.75" Width="3.25" />
+    <Members>
+      <Method Name="ILinearRegression.Compute" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAQAAAAAAAAgAAEAAAAAAAAAAAAADAAAAAAAgAAAEA=</HashCode>
+      <FileName>Models\Regression\Linear\SimpleLinearRegression.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="regression" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.Linear.MultipleLinearRegression">
+    <Position X="3" Y="1.75" Width="3" />
+    <Members>
+      <Field Name="addIntercept" Hidden="true" />
+      <Field Name="coefficients" Hidden="true" />
+      <Method Name="ILinearRegression.Compute" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAACAAAAAgAAEAAAAQABAEEAAADAAAAAQAAAAAAA=</HashCode>
+      <FileName>Models\Regression\Linear\MultipleLinearRegression.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.LogisticRegression" BaseTypeListCollapsed="true">
+    <Position X="12" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="coefficients" Hidden="true" />
+      <Field Name="standardErrors" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAACAQAAACQIAIEEAAAAAAYAAABEAAABA=</HashCode>
+      <FileName>Models\Regression\Nonlinear\LogisticRegression.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Analysis.StepwiseLogisticRegressionAnalysis">
+    <Position X="13" Y="5" Width="2.75" />
+    <Members>
+      <Method Name="fit" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>BEAIAAAAAoAjCAYJBACIAAQAEAEAACAAAAQgAAAAAAA=</HashCode>
+      <FileName>Analysis\StepwiseLogisticRegressionAnalysis.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Nested" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Analysis.StepwiseLogisticRegressionModel">
+    <Position X="17" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAEAA=</HashCode>
+      <FileName>Analysis\StepwiseLogisticRegressionAnalysis.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.MultinomialLogisticRegression">
+    <Position X="15.25" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="categories" Hidden="true" />
+      <Field Name="coefficients" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="standardErrors" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAQAAACQIAYEEAAEBAAYAAABEAAABA=</HashCode>
+      <FileName>Models\Regression\Nonlinear\MultinomialLogisticRegression.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.Fitting.ProportionalHazardsNewtonRaphson" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="9.75" Width="2.75" />
+    <Members>
+      <Field Name="computeBaselineFunction" Hidden="true" />
+      <Field Name="computeStandardErrors" Hidden="true" />
+      <Field Name="convergence" Hidden="true" />
+      <Field Name="decomposition" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="hessian" Hidden="true" />
+      <Field Name="parameterCount" Hidden="true" />
+      <Field Name="partialGradient" Hidden="true" />
+      <Field Name="partialHessian" Hidden="true" />
+      <Field Name="previous" Hidden="true" />
+      <Field Name="regression" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACQABAAAABCQgAARAIAAAoAkAAIAAAAAYAAAAEAgII=</HashCode>
+      <FileName>Models\Survival\Fitting\PartialNewtonRaphson.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.ProportionalHazards">
+    <Position X="18.5" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IEAAAAAAAAAABAAAAAACAIAIEEAAAQAAQAAAhAAAAFA=</HashCode>
+      <FileName>Models\Survival\ProportionalHazards.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.Fitting.IterativeReweightedLeastSquares" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="10.25" Width="2.5" />
+    <Members>
+      <Field Name="computeStandardErrors" Hidden="true" />
+      <Field Name="decomposition" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="hessian" Hidden="true" />
+      <Field Name="parameterCount" Hidden="true" />
+      <Field Name="previous" Hidden="true" />
+      <Field Name="regression" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AASQABAAAABAQgAAQAIAAAgAAAAIAAAAAYAAAAAAgAI=</HashCode>
+      <FileName>Models\Regression\Nonlinear\Fitting\IterativeReweightedLeastSquares.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.Fitting.LowerBoundNewtonRaphson" BaseTypeListCollapsed="true">
+    <Position X="1.75" Y="10" Width="2.25" />
+    <Members>
+      <Field Name="computeStandardErrors" Hidden="true" />
+      <Field Name="decomposition" Hidden="true" />
+      <Field Name="deltas" Hidden="true" />
+      <Field Name="errors" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="K" Hidden="true" />
+      <Field Name="lowerBound" Hidden="true" />
+      <Field Name="M" Hidden="true" />
+      <Field Name="output" Hidden="true" />
+      <Field Name="parameterCount" Hidden="true" />
+      <Field Name="previous" Hidden="true" />
+      <Field Name="regression" Hidden="true" />
+      <Field Name="solution" Hidden="true" />
+      <Field Name="updateLowerBound" Hidden="true" />
+      <Field Name="weights" Hidden="true" />
+      <Field Name="xxt" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AECQAhEAAAFQQgAAQAMAAAEACAAAQABAAYAAAMJAgAI=</HashCode>
+      <FileName>Models\Regression\Nonlinear\Fitting\LowerBoundNewtonRaphson.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Statistics.Models.Regression.Fitting.LogisticGradientDescent">
+    <Position X="9.25" Y="5.5" Width="2" />
+    <Members>
+      <Field Name="deltas" Hidden="true" />
+      <Field Name="gradient" Hidden="true" />
+      <Field Name="parameterCount" Hidden="true" />
+      <Field Name="previous" Hidden="true" />
+      <Field Name="rate" Hidden="true" />
+      <Field Name="regression" Hidden="true" />
+      <Field Name="stochastic" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQQAFAAAABAAgAEQAIABAAAAAAAAAAAAYAAAGAAAAI=</HashCode>
+      <FileName>Models\Regression\Nonlinear\Fitting\LogisticGradientDescent.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.Statistics.Models.Regression.Linear.ILinearRegression">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Regression\Linear\ILinearRegression.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Regression.Fitting.ISurvivalFitting">
+    <Position X="15.25" Y="11.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Survival\Fitting\ISurvivalFitting.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Regression.Fitting.IMultipleRegressionFitting">
+    <Position X="12.5" Y="9.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Regression\Nonlinear\Fitting\Base\IMultipleRegressionFitting.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Statistics.Models.Regression.Fitting.IRegressionFitting">
+    <Position X="15.25" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Models\Regression\Nonlinear\Fitting\Base\IRegressionFitting.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

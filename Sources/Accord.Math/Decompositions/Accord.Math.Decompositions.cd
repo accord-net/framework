@@ -1,0 +1,416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Obs: The numeric decomposition classes are auto-generated for each data type using T4 templates.">
+    <Position X="9.628" Y="2.14" Height="0.65" Width="3.175" />
+  </Comment>
+  <Class Name="Accord.Math.Decompositions.CholeskyDecomposition">
+    <Position X="0.5" Y="8.5" Width="2.5" />
+    <Members>
+      <Method Name="LDLt" Hidden="true" />
+      <Method Name="LLt" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAEAQAEAAAAAAAAAEIAAAYIIgAEACBAkAEABIRAADA=</HashCode>
+      <FileName>Decompositions\CholeskyDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.EigenvalueDecomposition">
+    <Position X="6" Y="13.25" Width="2.5" />
+    <Members>
+      <Method Name="cdiv" Hidden="true" />
+      <Field Name="d" Hidden="true" />
+      <Field Name="e" Hidden="true" />
+      <Field Name="H" Hidden="true" />
+      <Method Name="hqr2" Hidden="true" />
+      <Field Name="n" Hidden="true" />
+      <Field Name="ort" Hidden="true" />
+      <Method Name="orthes" Hidden="true" />
+      <Field Name="symmetric" Hidden="true" />
+      <Method Name="tql2" Hidden="true" />
+      <Method Name="tred2" Hidden="true" />
+      <Field Name="V" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ICAgAAAAAAAAAAAAAAAAAAQAACIAAAAGEAAAAMBQBDA=</HashCode>
+      <FileName>Decompositions\EigenvalueDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.LuDecomposition">
+    <Position X="0.5" Y="4.25" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEgEAoAAAAAAACAAAAJAAAAIIACAQCAgAAAAAABAADA=</HashCode>
+      <FileName>Decompositions\LuDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.QrDecomposition">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAgAAAAAAAAAAAEIAAAAIMACQAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Decompositions\QrDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.SingularValueDecomposition">
+    <Position X="0.5" Y="13.25" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAgBAAAAAACAAAQgAEKAAAQIEAAAAgAAEpIggAAAABA=</HashCode>
+      <FileName>Decompositions\SingularValueDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.GeneralizedEigenvalueDecomposition">
+    <Position X="12.25" Y="13.25" Width="3" />
+    <Members>
+      <Method Name="qzhes" Hidden="true" />
+      <Method Name="qzit" Hidden="true" />
+      <Method Name="qzval" Hidden="true" />
+      <Method Name="qzvec" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>KCAACAAAAAAhAAgAAAAQBgQAgAAAAAAAUAAAAABAAB0=</HashCode>
+      <FileName>Decompositions\GeneralizedEigenvalueDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.CholeskyDecompositionD" BaseTypeListCollapsed="true">
+    <Position X="6" Y="8.5" Width="2.5" />
+    <Members>
+      <Field Name="D" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="diagonalMatrix" Hidden="true" />
+      <Field Name="L" Hidden="true" />
+      <Method Name="LDLt" Hidden="true" />
+      <Method Name="LLt" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="n" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="positiveDefinite" Hidden="true" />
+      <Field Name="robust" Hidden="true" />
+      <Field Name="symmetric" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAEAQAEAAAAAAAAAEIAAAYIIgAEACBAkAEABIRAADA=</HashCode>
+      <FileName>Decompositions\CholeskyDecompositionD.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.CholeskyDecompositionF" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="8.5" Width="2.5" />
+    <Members>
+      <Field Name="D" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="diagonalMatrix" Hidden="true" />
+      <Field Name="L" Hidden="true" />
+      <Method Name="LDLt" Hidden="true" />
+      <Method Name="LLt" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="n" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="positiveDefinite" Hidden="true" />
+      <Field Name="robust" Hidden="true" />
+      <Field Name="symmetric" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAEAQAEAAAAAAAAAEIAAAYIIgAEACBAkAEABIRAADA=</HashCode>
+      <FileName>Decompositions\CholeskyDecompositionF.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.EigenvalueDecompositionF" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="13.25" Width="3.25" />
+    <Members>
+      <Field Name="d" Hidden="true" />
+      <Field Name="e" Hidden="true" />
+      <Field Name="H" Hidden="true" />
+      <Field Name="n" Hidden="true" />
+      <Field Name="ort" Hidden="true" />
+      <Field Name="symmetric" Hidden="true" />
+      <Field Name="V" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ICAgAAAAAAAAAAAAAAAAAAQAACIAAAAGEAAAAMBQBDA=</HashCode>
+      <FileName>Decompositions\EigenvalueDecompositionF.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.JaggedCholeskyDecomposition" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="8.5" Width="3.25" />
+    <Members>
+      <Field Name="D" Hidden="true" />
+      <Field Name="destroyed" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="diagonalMatrix" Hidden="true" />
+      <Field Name="dimension" Hidden="true" />
+      <Field Name="L" Hidden="true" />
+      <Method Name="LDLt" Hidden="true" />
+      <Field Name="leftTriangularFactor" Hidden="true" />
+      <Method Name="LLt" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="positiveDefinite" Hidden="true" />
+      <Field Name="robust" Hidden="true" />
+      <Field Name="undefined" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAEIQAsAAAABAAAAEIAAAZIIgAEICBAAAEAhARAADA=</HashCode>
+      <FileName>Decompositions\JaggedCholeskyDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.JaggedCholeskyDecompositionD" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="8.5" Width="3.25" />
+    <Members>
+      <Field Name="D" Hidden="true" />
+      <Field Name="destroyed" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="diagonalMatrix" Hidden="true" />
+      <Field Name="dimension" Hidden="true" />
+      <Field Name="L" Hidden="true" />
+      <Method Name="LDLt" Hidden="true" />
+      <Field Name="leftTriangularFactor" Hidden="true" />
+      <Method Name="LLt" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="positiveDefinite" Hidden="true" />
+      <Field Name="robust" Hidden="true" />
+      <Field Name="undefined" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAEIQAsAAAABAAAAEIAAAZIIgAEICBAAAEAhARAADA=</HashCode>
+      <FileName>Decompositions\JaggedCholeskyDecompositionD.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.JaggedCholeskyDecompositionF" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="8.5" Width="3.25" />
+    <Members>
+      <Field Name="D" Hidden="true" />
+      <Field Name="destroyed" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="diagonalMatrix" Hidden="true" />
+      <Field Name="dimension" Hidden="true" />
+      <Field Name="L" Hidden="true" />
+      <Method Name="LDLt" Hidden="true" />
+      <Field Name="leftTriangularFactor" Hidden="true" />
+      <Method Name="LLt" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="positiveDefinite" Hidden="true" />
+      <Field Name="robust" Hidden="true" />
+      <Field Name="undefined" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAEIQAsAAAABAAAAEIAAAZIIgAEICBAAAEAhARAADA=</HashCode>
+      <FileName>Decompositions\JaggedCholeskyDecompositionF.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.JaggedLuDecomposition" BaseTypeListCollapsed="true">
+    <Position X="8.75" Y="4.25" Width="3" />
+    <Members>
+      <Field Name="cols" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="lowerTriangularFactor" Hidden="true" />
+      <Field Name="lu" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="pivotSign" Hidden="true" />
+      <Field Name="pivotVector" Hidden="true" />
+      <Field Name="rows" Hidden="true" />
+      <Field Name="upperTriangularFactor" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEgEAoAAAAAAACAAAAJAAAAIIACAQCAgAAAAAABAADA=</HashCode>
+      <FileName>Decompositions\JaggedLuDecomposition.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.JaggedLuDecompositionD" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="4.25" Width="3" />
+    <Members>
+      <Field Name="cols" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="lowerTriangularFactor" Hidden="true" />
+      <Field Name="lu" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="pivotSign" Hidden="true" />
+      <Field Name="pivotVector" Hidden="true" />
+      <Field Name="rows" Hidden="true" />
+      <Field Name="upperTriangularFactor" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEgEAoAAAAAAACAAAAJAAAAIIACAQCAgAAAAAABAADA=</HashCode>
+      <FileName>Decompositions\JaggedLuDecompositionD.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.JaggedLuDecompositionF" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="4.25" Width="3" />
+    <Members>
+      <Field Name="cols" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="lowerTriangularFactor" Hidden="true" />
+      <Field Name="lu" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="pivotSign" Hidden="true" />
+      <Field Name="pivotVector" Hidden="true" />
+      <Field Name="rows" Hidden="true" />
+      <Field Name="upperTriangularFactor" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEgEAoAAAAAAACAAAAJAAAAIIACAQCAgAAAAAABAADA=</HashCode>
+      <FileName>Decompositions\JaggedLuDecompositionF.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.LuDecompositionD" BaseTypeListCollapsed="true">
+    <Position X="6" Y="4.25" Width="2.5" />
+    <Members>
+      <Field Name="cols" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="lowerTriangularFactor" Hidden="true" />
+      <Field Name="lu" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="pivotSign" Hidden="true" />
+      <Field Name="pivotVector" Hidden="true" />
+      <Field Name="rows" Hidden="true" />
+      <Field Name="upperTriangularFactor" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEgEAoAAAAAAACAAAAJAAAAIIACAQCAgAAAAAABAADA=</HashCode>
+      <FileName>Decompositions\LuDecompositionD.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.LuDecompositionF" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="4.25" Width="2.5" />
+    <Members>
+      <Field Name="cols" Hidden="true" />
+      <Field Name="determinant" Hidden="true" />
+      <Field Name="lndeterminant" Hidden="true" />
+      <Field Name="lowerTriangularFactor" Hidden="true" />
+      <Field Name="lu" Hidden="true" />
+      <Field Name="nonsingular" Hidden="true" />
+      <Field Name="pivotSign" Hidden="true" />
+      <Field Name="pivotVector" Hidden="true" />
+      <Field Name="rows" Hidden="true" />
+      <Field Name="upperTriangularFactor" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEgEAoAAAAAAACAAAAJAAAAIIACAQCAgAAAAAABAADA=</HashCode>
+      <FileName>Decompositions\LuDecompositionF.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.NonnegativeMatrixFactorization">
+    <Position X="15.75" Y="13.25" Width="3.25" />
+    <Members>
+      <Field Name="H" Hidden="true" />
+      <Field Name="m" Hidden="true" />
+      <Field Name="n" Hidden="true" />
+      <Field Name="r" Hidden="true" />
+      <Field Name="W" Hidden="true" />
+      <Field Name="X" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABACAAAAAAAAAAAAAAAAAAAAAEgABAEBIQAA=</HashCode>
+      <FileName>Decompositions\NonnegativeFactorization.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Math.Decompositions.QrDecompositionD" BaseTypeListCollapsed="true">
+    <Position X="6" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="qr" Hidden="true" />
+      <Field Name="Rdiag" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAgAAAAAAAAAAAEIAAAAIMACQAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Decompositions\QrDecompositionD.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.QrDecompositionF" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="qr" Hidden="true" />
+      <Field Name="Rdiag" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAgAAAAAAAAAAAEIAAAAIMACQAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Decompositions\QrDecompositionF.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.Decompositions.SingularValueDecompositionF" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="13.25" Width="2.5" />
+    <Members>
+      <Field Name="eps" Hidden="true" />
+      <Field Name="m" Hidden="true" />
+      <Field Name="n" Hidden="true" />
+      <Field Name="s" Hidden="true" />
+      <Field Name="si" Hidden="true" />
+      <Field Name="swapped" Hidden="true" />
+      <Field Name="tiny" Hidden="true" />
+      <Field Name="u" Hidden="true" />
+      <Field Name="v" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>EAgBAAAAAACAAAQgAEKAAAQIEAAAAgAAEpIggAAAABA=</HashCode>
+      <FileName>Decompositions\SingularValueDecompositionF.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Math.ReducedRowEchelonForm">
+    <Position X="15.75" Y="15.5" Width="3.25" />
+    <Members>
+      <Field Name="cols" Hidden="true" />
+      <Field Name="freeCount" Hidden="true" />
+      <Field Name="pivot" Hidden="true" />
+      <Field Name="rows" Hidden="true" />
+      <Field Name="rref" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAEAAAABAAACAAABABAAAQAAACQAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Matrix\ReducedRowEchelonForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Accord.Math.Decompositions.ISolverMatrixDecomposition&lt;T&gt;">
+    <Position X="13.75" Y="2" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Decompositions\Base\ISolverMatrixDecomposition.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Math.Decompositions.ISolverArrayDecomposition&lt;T&gt;">
+    <Position X="13.75" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Decompositions\Base\ISolverArrayDecomposition.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

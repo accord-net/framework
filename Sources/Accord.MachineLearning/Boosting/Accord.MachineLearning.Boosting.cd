@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.MachineLearning.Boosting.AdaBoost&lt;TModel&gt;">
+    <Position X="1" Y="3.75" Width="2" />
+    <Members>
+      <Field Name="classifier" Hidden="true" />
+      <Field Name="convergence" Hidden="true" />
+      <Method Name="run" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAQAAgACAAACAAAAAAAAAAIAAAAAAAAAAQAAAAAAAII=</HashCode>
+      <FileName>Boosting\AdaBoost.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Creation" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.MachineLearning.Boosting.Weighted&lt;TModel&gt;">
+    <Position X="4.75" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Boosting\Boost.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.MachineLearning.Boosting.Boost&lt;TModel&gt;" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AGIAAAAAAAAAABAACAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Boosting\Boost.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Models" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.Boosting.Learners.DecisionStump" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="3" Width="1.5" />
+    <Members>
+      <Field Name="featureIndex" Hidden="true" />
+      <Field Name="inputCount" Hidden="true" />
+      <Field Name="sign" Hidden="true" />
+      <Field Name="threshold" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAACAAAEBAAAAAQAAAAAAAAACAAAAEggAAAAAA=</HashCode>
+      <FileName>Boosting\Classifiers\Stump.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Accord.MachineLearning.Boosting.IWeakClassifier">
+    <Position X="7.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Boosting\Classifiers\IWeakClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Delegate Name="Accord.MachineLearning.Boosting.ModelConstructor&lt;TModel&gt;">
+    <Position X="4.25" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Boosting\AdaBoost.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

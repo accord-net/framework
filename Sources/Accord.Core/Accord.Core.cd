@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.ConvergenceException">
+    <Position X="5" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ConvergenceException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.SingularMatrixException">
+    <Position X="1.75" Y="3.25" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SingularMatrixException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.DimensionMismatchException">
+    <Position X="13" Y="6" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\DimensionMismatchException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.NonPositiveDefiniteMatrixException">
+    <Position X="8" Y="3.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\NonPositiveDefiniteMatrixException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.NonSymmetricMatrixException">
+    <Position X="17.5" Y="6" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\NonSymmetricMatrixException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Exception" Collapsed="true">
+    <Position X="11" Y="0.75" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.ArgumentException" Collapsed="true">
+    <Position X="13.75" Y="4.5" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.InvalidOperationException" Collapsed="true">
+    <Position X="18" Y="4.5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="System.SystemException" Collapsed="true">
+    <Position X="16" Y="2.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

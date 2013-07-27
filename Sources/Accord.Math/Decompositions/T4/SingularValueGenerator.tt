@@ -1,0 +1,27 @@
+﻿<#@ template hostspecific="true" language="C#" #>
+<#@ include file="BaseDecomposition.ttinclude" #>
+<#
+	
+	string currentDirectory = Host.ResolvePath(@"./");
+	string parent = (new DirectoryInfo(currentDirectory)).Parent.FullName;
+	string path = Path.Combine(parent, "SingularValueDecomposition.tt");
+
+
+	// Generate Singular Value Decomposition
+	// for Double and Float.
+
+	new DecompositionTemplate(Host, path)
+	{
+		DataType = "Double"
+	}
+	.RenderToFile("SingularValueDecomposition.cs");
+
+	new DecompositionTemplate(Host, path)
+	{
+		Suffix = "F", 
+		DataType = "Single"
+	}
+	.RenderToFile("SingularValueDecompositionF.cs");
+
+#>
+

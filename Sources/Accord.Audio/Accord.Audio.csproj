@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Accord.Audio</RootNamespace>
+    <AssemblyName>Accord.Audio</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\Caio\Dados de aplicativos\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>..\..\Release\</OutputPath>
+    <DocumentationFile>..\..\Release\Accord.Audio.XML</DocumentationFile>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRules>
+    </CodeAnalysisRules>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
+    <OutputPath>..\..\Release (3.5)\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\Release (3.5)\Accord.Audio.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <FileAlignment>4096</FileAlignment>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisLogFile>..\..\Release (3.5)\Accord.Audio.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AForge.Math">
+      <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SlimDX">
+      <HintPath>..\..\Externals\SlimDX\net40\x86\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AudioSourceMixer.cs" />
+    <Compile Include="Events\AudioOutputErrorEventArgs.cs" />
+    <Compile Include="Events\PlayFrameEventArgs.cs" />
+    <Compile Include="Events\NewFrameRequestedEventArgs.cs" />
+    <Compile Include="Events\NewFrameEventArgs.cs" />
+    <Compile Include="Exceptions\AudioException.cs" />
+    <Compile Include="Exceptions\UnsupportedSampleFormatException.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Filters\Base\BaseFilter.cs" />
+    <Compile Include="Exceptions\InvalidSignalPropertiesException.cs" />
+    <Compile Include="Events\AudioSourceErrorEventArgs.cs">
+    </Compile>
+    <Compile Include="ComplexFilters\Base\BaseComplexFilter.cs" />
+    <Compile Include="ComplexFilters\CombFilter.cs" />
+    <Compile Include="ComplexFilters\DifferentialRectificationFilter.cs" />
+    <Compile Include="ComplexFilters\EnvelopeFilter.cs" />
+    <Compile Include="ComplexFilters\Base\IComplexFilter.cs" />
+    <Compile Include="ComplexFilters\IComplexFilterBank.cs" />
+    <Compile Include="Filters\EnvelopeFilter.cs" />
+    <Compile Include="Filters\HighPassFilter.cs" />
+    <Compile Include="Filters\LowPassFilter.cs" />
+    <Compile Include="Filters\WaveRectifier.cs" />
+    <Compile Include="Generators\ImpulseGenerator.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IAudioOutput.cs" />
+    <Compile Include="Metronome.cs" />
+    <Compile Include="SampleConverter.cs">
+    </Compile>
+    <Compile Include="Signals\Signal.cs" />
+    <Compile Include="Signals\ComplexSignal.cs" />
+    <Compile Include="Generators\CosineGenerator.cs" />
+    <Compile Include="Generators\ISignalGenerator.cs" />
+    <Compile Include="Generators\SquareGenerator.cs" />
+    <Compile Include="Filters\Base\IFilter.cs" />
+    <Compile Include="IAudioSource.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="Windows\BlackmanWindow.cs" />
+    <Compile Include="Windows\RaisedCosineWindow.cs" />
+    <Compile Include="Windows\IWindow.cs" />
+    <Compile Include="Windows\Extensions.cs" />
+    <Compile Include="Windows\WindowBase.cs" />
+    <None Include="Accord.snk" />
+    <None Include="Accord.Audio.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
+      <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
+      <Name>Accord.Math</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+</Project>

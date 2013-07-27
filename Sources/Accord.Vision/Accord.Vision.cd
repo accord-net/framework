@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Vision.Detection.HaarCascadeStage">
+    <Position X="9.75" Y="8.25" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAIAAAABAAEAAAAAAAAAAAAAAEAAAAAAAAAgAAAAABA=</HashCode>
+      <FileName>Detection\Haar Cascade\HaarCascadeStage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Trees" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Detection.HaarObjectDetector" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="3" Width="2.75" />
+    <Members>
+      <Method Name="checkSteadiness" Hidden="true" />
+      <Method Name="overlaps" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EACAMAAigSAAYIAQACBAEAgACAADAAAAAwEQAAAFKII=</HashCode>
+      <FileName>Detection\HaarObjectDetector.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="SearchMode" />
+      <Property Name="ScalingMode" />
+      <Property Name="Classifier" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Detection.HaarRectangle">
+    <Position X="20.25" Y="7.5" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ICAgAAAAhAAAAAAAAAABAEAAACAAAAAAAAAGAQAAYBA=</HashCode>
+      <FileName>Detection\Haar Cascade\HaarRectangle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Tracking.Camshift" BaseTypeListCollapsed="true">
+    <Position X="10.5" Y="1.25" Width="2.75" />
+    <Members>
+      <Method Name="camshift" Hidden="true" />
+      <Method Name="checkSteadiness" Hidden="true" />
+      <Method Name="computeHistogramRatio" Hidden="true" />
+      <Method Name="createHistogram" Hidden="true" />
+      <Method Name="generateBackprojectionMap" Hidden="true" />
+      <Method Name="GetBackprojection" Hidden="true" />
+      <Method Name="initialize" Hidden="true" />
+      <Method Name="meanShift" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Private" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>LAAAECQJAZAgREmAEkFAAAAAKcAIAAAAAhAEAgAQDIo=</HashCode>
+      <FileName>Tracking\Camshift.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Mode" />
+      <Property Name="TrackingObject" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Tracking.TrackingObject">
+    <Position X="14.75" Y="2.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAgBQAIAAAAAAAAEAAgABAAAEAAAQAIABA=</HashCode>
+      <FileName>Tracking\TrackingObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Detection.HaarFeatureNode">
+    <Position X="13.25" Y="8" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QgAAAEAAAAAAAAAAAAAAAAAAAAAAAAQAAQAkCAAAABA=</HashCode>
+      <FileName>Detection\Haar Cascade\HaarFeatureNode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Feature" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Detection.HaarFeature">
+    <Position X="16.75" Y="8.25" Width="2.25" />
+    <Members>
+      <Method Name="IXmlSerializable.GetSchema" Hidden="true" />
+      <Method Name="IXmlSerializable.ReadXml" Hidden="true" />
+      <Method Name="IXmlSerializable.WriteXml" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAACAABAAAAABAAAEAAAAEAAAAAAAAAAAAIBAAAABA=</HashCode>
+      <FileName>Detection\Haar Cascade\HaarFeature.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Rectangles" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Tracking.HslBlobTracker">
+    <Position X="18.5" Y="1.5" Width="2.25" />
+    <Members>
+      <Field Name="blobCounter" Hidden="true" />
+      <Field Name="extract" Hidden="true" />
+      <Method Name="extractBlob" Hidden="true" />
+      <Field Name="filter" Hidden="true" />
+      <Field Name="filterImage" Hidden="true" />
+      <Field Name="rotation" Hidden="true" />
+      <Field Name="trackingObject" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAFAAAREAAAEDAUAAAIFAAAAAAAAAQAAAAEJA=</HashCode>
+      <FileName>Tracking\HslBlobTracker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Detection.HaarCascade">
+    <Position X="6.5" Y="7.75" Width="2.25" />
+    <Members>
+      <Method Name="checkTiltedFeatures" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAABgAAAAAAAAAAAEAAAAAAAAAAACgAAAAAABg=</HashCode>
+      <FileName>Detection\Haar Cascade\HaarCascade.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Stages" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Detection.HaarClassifier">
+    <Position X="3.25" Y="8.25" Width="2.25" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAIAAgACAAIAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Detection\Haar Cascade\HaarClassifier.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Cascade" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Accord.Vision.Detection.Cascades.FaceHaarCascade">
+    <Position X="5.5" Y="11.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Detection\Haar Cascade\Default\FaceHaarCascade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Vision.Detection.Cascades.NoseHaarCascade">
+    <Position X="8" Y="11.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Detection\Haar Cascade\Default\NoseHaarCascade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.Vision.Tracking.MatchingTracker">
+    <Position X="21.5" Y="1.5" Width="1.5" />
+    <Members>
+      <Method Name="checkSteadiness" Hidden="true" />
+      <Field Name="crop" Hidden="true" />
+      <Method Name="match" Hidden="true" />
+      <Field Name="matcher" Hidden="true" />
+      <Method Name="registerTemplate" Hidden="true" />
+      <Field Name="searchWindow" Hidden="true" />
+      <Field Name="steady" Hidden="true" />
+      <Field Name="template" Hidden="true" />
+      <Field Name="threshold" Hidden="true" />
+      <Method Name="track" Hidden="true" />
+      <Field Name="trackingObject" Hidden="true" />
+      <Method Name="updateObject" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAAAAAAJAQAAREFAAABAAAAAAAAAACAAAQIgAAAACII=</HashCode>
+      <FileName>Tracking\MatchingTracker.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Vision.Detection.HaarCascadeWriter">
+    <Position X="11.5" Y="11.75" Width="1.75" />
+    <Members>
+      <Method Name="writeFeature" Hidden="true" />
+      <Field Name="writer" Hidden="true" />
+      <Method Name="writeRectangle" Hidden="true" />
+      <Method Name="writeStage" Hidden="true" />
+      <Method Name="writeTrees" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAEAAQAAAAAAAAAAgAAAAAQAAAAEAAAA=</HashCode>
+      <FileName>Detection\Haar Cascade\HaarCascadeWriter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Accord.Vision.Detection.IObjectDetector">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Detection\IObjectDetector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Accord.Vision.Tracking.IObjectTracker">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAABAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Tracking\IObjectTracker.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Accord.Vision.Detection.ObjectDetectorSearchMode">
+    <Position X="0.75" Y="4.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAACAAAAAAAAAAAAIACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Detection\HaarObjectDetector.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Vision.Tracking.CamshiftMode">
+    <Position X="15" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Tracking\Camshift.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Vision.Detection.ObjectDetectorScalingMode">
+    <Position X="0.75" Y="2.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Detection\HaarObjectDetector.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.Vision.Tracking.AxisOrientation">
+    <Position X="15.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Tracking\TrackingObject.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

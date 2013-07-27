@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Imaging.Converters.MatrixToImage">
+    <Position X="5.25" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\MatrixToImage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Imaging.Converters.ArrayToImage">
+    <Position X="5.25" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABBAAAAAAEIAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\ArrayToImage.cs</FileName>
+      <NewMemberFileName>Converters\ImageToArray.cs</NewMemberFileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Imaging.Converters.ImageToArray">
+    <Position X="0.75" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgABAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\ImageToArray.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Accord.Imaging.Converters.ImageToMatrix">
+    <Position X="0.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgABAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\ImageToMatrix.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="Accord.Imaging.Converters.IConverter&lt;TInput, TOutput&gt;">
+    <Position X="3" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Converters\Base\IConverter.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

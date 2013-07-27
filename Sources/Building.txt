@@ -1,0 +1,6 @@
+Accord.NET Framework building instructions
+==========================================
+
+In order to build Accord.NET, AForge.NET must be previously installed.
+Additionally, to build the documentation, AForge.NET may have to be
+re-referenced in the Sandcastle Help File Builder project.

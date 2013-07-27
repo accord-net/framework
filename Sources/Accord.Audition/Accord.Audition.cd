@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.Audition.Beat.EnergyBeatDetector" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="2.25" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>BAAAAAAEAAAAJAAAAAAAAgAgAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Beat\EnergyBeatDetector.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.Audition.Beat.EnergyBuffer">
+    <Position X="0.75" Y="5" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACIAAAAAAAAAAAAAAAAAAAAAAAACAAAAgAAAAIAgAAA=</HashCode>
+      <FileName>Beat\EnergyBeatDetector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Accord.Audition.Beat.IBeatDetector">
+    <Position X="2" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Beat\IBeatDetector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

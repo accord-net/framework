@@ -1,0 +1,397 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{49679C95-28CE-4D35-8F38-3D67A511A3C1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Accord.Tests.Statistics</RootNamespace>
+    <AssemblyName>Accord.Tests.Statistics</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>618</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
+    <OutputPath>bin\Release 3.5\</OutputPath>
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisLogFile>bin\Release\Accord.Tests.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <NoWarn>
+    </NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|x86'">
+    <OutputPath>bin\x86\Release 3.5\</OutputPath>
+    <DefineConstants>TRACE;NET35</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisLogFile>bin\x86\Release\Accord.Tests.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge, Version=2.2.3.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.2.3.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analysis\ProportionalHazardsAnalysisTest.cs" />
+    <Compile Include="Analysis\IndependentComponentAnalysisTest.cs" />
+    <Compile Include="Analysis\DescriptiveAnalysisTest.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistributionTest.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\WishartDistributionTest.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\DirichletDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\WrappedCauchyDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GompertzDistributionTest.cs" />
+    <Compile Include="Models\Regression\ProbitRegressionTest.cs" />
+    <Compile Include="Testing\BartlettTestTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistributionTest.cs" />
+    <Compile Include="Filters\GroupingFilterTest.cs" />
+    <Compile Include="Testing\FTestTest.cs" />
+    <Compile Include="Testing\LeveneTestTest.cs" />
+    <Compile Include="Models\Regression\LogisticGradientDescentTest.cs" />
+    <Compile Include="Models\Regression\CoxProportionalHazardsTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\BetaDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\MannWhitneyDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\InverseGammaDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\LaplaceDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\NegativeBinomialTest.cs" />
+    <Compile Include="Formats\ExcelReaderTest.cs" />
+    <Compile Include="Models\Fields\IndependentForwardBackwardAlgorithmTest.cs" />
+    <Compile Include="Models\Fields\Functions\IndependentHiddenMarkovClassifierFunctionTest.cs" />
+    <Compile Include="MovingNormalStatisticsTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ParetoDistributionTest.cs" />
+    <Compile Include="RunningMarkovClassifierTest.cs" />
+    <Compile Include="RunningMarkovModelTest.cs" />
+    <Compile Include="Testing\MultinomialTestTest.cs" />
+    <Compile Include="Models\Regression\NewtonRaphsonCoxLearningTest.cs" />
+    <Compile Include="Testing\BinomialTestTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\RayleighDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ExponentialDistributionTest.cs" />
+    <Compile Include="Testing\Contingency\FisherExactTestTest.cs" />
+    <Compile Include="Kernels\KernelFunctionCacheTest.cs" />
+    <Compile Include="Links\CauchitLinkFunctionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\CauchyDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GammaDistributionTest.cs" />
+    <Compile Include="Links\IdentityLinkFunctionTest.cs" />
+    <Compile Include="Links\InverseLinkFunctionTest.cs" />
+    <Compile Include="Links\InverseSquaredLinkFunctionTest.cs" />
+    <Compile Include="Links\LogitLinkFunctionTest.cs" />
+    <Compile Include="Links\LogLinkFunctionTest.cs" />
+    <Compile Include="Links\LogLogLinkFunctionTest.cs" />
+    <Compile Include="Links\ProbitLinkFunctionTest.cs" />
+    <Compile Include="Links\SinLinkFunctionTest.cs" />
+    <Compile Include="Testing\TwoSamples\PairedTTestTest.cs" />
+    <Compile Include="Testing\MannWhitneyWilcoxonTestTest.cs" />
+    <Compile Include="Models\Fields\Learning\GradientDescentHiddenLearningTest.cs" />
+    <Compile Include="Models\Fields\Learning\ResilientGradientHiddenLearningTest.cs" />
+    <Compile Include="Models\Markov\ViterbiLearning`1Test.cs" />
+    <Compile Include="Models\Markov\ViterbiLearningTest.cs" />
+    <Compile Include="Models\Markov\MaximumLikelihoodLearning`1Test.cs" />
+    <Compile Include="Analysis\MultipleLinearRegressionAnalysisTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\NoncentralTDistributionTest.cs" />
+    <Compile Include="Testing\SignTestTest.cs" />
+    <Compile Include="Testing\TwoSamples\TwoProportionZTestTest.cs" />
+    <Compile Include="Testing\WilcoxonSignedRankTestTest.cs" />
+    <Compile Include="Testing\TwoSamples\TwoSampleSignTestTest.cs" />
+    <Compile Include="Testing\Contingency\BhapkarTestTest.cs" />
+    <Compile Include="Testing\Contingency\BowkerTestTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\BinomialDistributionTest.cs" />
+    <Compile Include="CircularTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\KolmogorovSmirnovDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\WeibullDistributionTest.cs" />
+    <Compile Include="Analysis\LogisticRegressionAnalysisTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\GeometricDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\HypergeometricDistributionTest.cs" />
+    <Compile Include="Testing\Power\ZTestPowerAnalysisTest.cs" />
+    <Compile Include="Testing\TwoSamples\TwoSampleTTestTest.cs" />
+    <Compile Include="Testing\Contingency\TwoMatrixKappaTestTest.cs" />
+    <Compile Include="Testing\Contingency\KappaTestTest.cs" />
+    <Compile Include="Testing\Contingency\McNemarTestTest.cs" />
+    <Compile Include="Models\Fields\Learning\ConjugateGradientHiddenLearningTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\BernoulliDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\VonMisesDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\FDistributionTest.cs" />
+    <Compile Include="Distributions\Multivariate\Discrete\MultinomialDistributionTest.cs" />
+    <Compile Include="Distributions\Multivariate\MultivariateMixtureDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\GeneralDiscreteDistributionTest.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\MultivariateContinuousDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\UnivariateContinuousDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\UnivariateDiscreteDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\EmpiricalDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\LogNormalDistributionTest.cs" />
+    <Compile Include="Analysis\GeneralConfusionMatrixTest.cs" />
+    <Compile Include="Formats\SparseSampleReaderTest.cs" />
+    <Compile Include="Distributions\Multivariate\IndependentTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\InverseGaussianTest.cs" />
+    <Compile Include="Models\Fields\Features\FeatureTest.cs" />
+    <Compile Include="Distributions\Multivariate\Discrete\JointDistributionTest.cs" />
+    <Compile Include="Models\Fields\ConditionalRandomFieldTest.cs" />
+    <Compile Include="Models\Fields\Learning\MultivariateNormalQuasiNewtonHiddenLearningTest.cs" />
+    <Compile Include="Models\Fields\Learning\NormalQuasiNewtonHiddenLearningTest.cs" />
+    <Compile Include="Models\Fields\Functions\MultivariateNormalHiddenMarkovClassifierFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\NormalHiddenMarkovClassifierFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\HiddenMarkovClassifierFunctionTest.cs" />
+    <Compile Include="Models\Fields\HiddenConditionalRandomFieldTest.cs" />
+    <Compile Include="Models\Fields\Learning\QuasiNewtonHiddenLearningTest.cs" />
+    <Compile Include="Models\Fields\ForwardBackwardAlgorithmTest.cs" />
+    <Compile Include="Models\Fields\Functions\HiddenMarkovModelFunctionTest.cs" />
+    <Compile Include="Models\Fields\Learning\QuasiNewtonLearningTest.cs" />
+    <Compile Include="Models\Markov\ForwardBackwardAlgorithmTest.cs" />
+    <Compile Include="Models\Regression\MultinomialLogisticRegressionTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Regression\MultivariateLinearRegressionTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Distributions\Univariate\Continuous\NakagamiDistributionTest.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RunningNormalStatisticsTest.cs" />
+    <Compile Include="Testing\StuartMaxwellTestTest.cs" />
+    <Compile Include="Testing\OneWayAnovaTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\TDistributionTest.cs" />
+    <Compile Include="Testing\TTestTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ContinuousUniformDistributionTest.cs" />
+    <Compile Include="Testing\TwoWayAnovaTest.cs" />
+    <Compile Include="Testing\KolmogorovSmirnovTestTest.cs" />
+    <Compile Include="Testing\TwoSamples\TwoSampleZTestTest.cs" />
+    <Compile Include="Testing\Power\TTestPowerAnalysisTest.cs" />
+    <Compile Include="Testing\TwoSamples\TwoSampleKolmogorovSmirnovTestTest.cs" />
+    <Compile Include="Visualizations\HistogramTest.cs" />
+    <Compile Include="Kernels\AnovaTest.cs" />
+    <Compile Include="Filters\CodificationFilterTest.cs" />
+    <Compile Include="Kernels\DynamicTimeWarpingTest.cs" />
+    <Compile Include="Kernels\PolynomialTest.cs" />
+    <Compile Include="Kernels\LaplacianTest.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\MultivariateNormalDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\MixtureDistributionTest.cs" />
+    <Compile Include="Kernels\Sparse\SparseSigmoidTest.cs" />
+    <Compile Include="Kernels\Sparse\SparseLaplacianTest.cs" />
+    <Compile Include="Kernels\Sparse\SparseCauchyTest.cs" />
+    <Compile Include="Kernels\Sparse\SparsePolynomialTest.cs" />
+    <Compile Include="Kernels\Sparse\SparseGaussianTest.cs" />
+    <Compile Include="Kernels\Sparse\SparseLinearTest.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovModel`1Test.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\NormalDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\PoissonDistributionTest.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovClassifier`1Test.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ChiSquareDistributionTest.cs" />
+    <Compile Include="Analysis\ConfusionMatrixTest.cs" />
+    <Compile Include="Filters\DiscretizationFilterTest.cs" />
+    <Compile Include="Filters\StratificationFilterTest.cs" />
+    <Compile Include="Kernels\GaussianTest.cs" />
+    <Compile Include="Models\Markov\TopologyTest.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovClassifierTest.cs" />
+    <Compile Include="Models\Markov\HiddenMarkovModelTest.cs" />
+    <Compile Include="Analysis\KernelDiscriminantAnalysisTest.cs" />
+    <Compile Include="Analysis\KernelPrincipalComponentAnalysisTest.cs" />
+    <Compile Include="Analysis\LinearDiscriminantAnalysisTest.cs" />
+    <Compile Include="Filters\LinearScalingFilterTest.cs" />
+    <Compile Include="Models\Regression\LogisticRegressionTest.cs" />
+    <Compile Include="Models\Regression\MultipleLinearRegressionTest.cs" />
+    <Compile Include="Filters\NormalizationFilterTest.cs" />
+    <Compile Include="Analysis\PartialLeastSquaresAnalysisTest.cs" />
+    <Compile Include="Models\Regression\PolynomialRegressionTest.cs" />
+    <Compile Include="Analysis\PrincipalComponentAnalysisTest.cs" />
+    <Compile Include="Distributions\Multivariate\Discrete\MultivariateDiscreteDistributionTest.cs" />
+    <Compile Include="Filters\ProjectionFilterTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Analysis\ReceiverOperatingCharacteristicTest.cs" />
+    <Compile Include="Models\Regression\SimpleLinearRegressionTest.cs" />
+    <Compile Include="Kernels\SplineTest.cs" />
+    <Compile Include="Analysis\StepwiseLogisticRegressionAnalysisTest.cs" />
+    <Compile Include="Filters\SelectionFilterTest.cs" />
+    <Compile Include="Testing\ChiSquareTestTest.cs" />
+    <Compile Include="ToolsTest.cs" />
+    <Compile Include="Testing\ZTestTest.cs" />
+    <Compile Include="Models\Markov\MaximumLikelihoodLearningTest.cs" />
+    <Compile Include="Testing\TwoSamples\TwoSampleWilcoxonSignedRankTestTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\WilcoxonDistributionTest.cs" />
+    <Compile Include="Analysis\WeightedConfusionMatrixTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
+      <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
+      <Name>Accord.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
+      <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
+      <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj">
+      <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
+      <Name>Accord.MachineLearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
+      <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
+      <Name>Accord.Math</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
+      <Name>Accord.Statistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Tests.Math\Accord.Tests.Math.csproj">
+      <Project>{F454DBD6-2AB9-461D-9624-2249B921B6E6}</Project>
+      <Name>Accord.Tests.Math</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Accord.snk" />
+    <None Include="app.config" />
+    <None Include="Resources\CircleWithWeights.xls" />
+    <None Include="Resources\sample.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\sample.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\iris.scale.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

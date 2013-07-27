@@ -1,0 +1,28 @@
+﻿<Dictionary>
+  <Words>
+    <Unrecognized>
+      <Word></Word>
+    </Unrecognized>
+    <Recognized>
+      <Word>Cepstrum</Word>
+      <Word>FFT</Word>
+      <Word>BPM</Word>
+      <Word>Hann</Word>
+    </Recognized>
+    <Deprecated>
+      <Term PreferredAlternate=""></Term>
+    </Deprecated>
+    <Compound>
+      <Term CompoundAlternate=""></Term>
+    </Compound>
+    <DiscreteExceptions>
+      <Term></Term>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>fft</Acronym>
+      <Acronym>bpm</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

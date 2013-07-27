@@ -1,0 +1,44 @@
+﻿<#@ output extension=".txt" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating.VSHost" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ include file="T4Toolbox.tt" #>
+
+<#+
+    public class DecompositionTemplate : Template
+    {
+	    public String Suffix { get; set; }
+		public String DataType { get; set; }
+		public String FilePath { get; set; }
+		ITextTemplatingEngineHost Host;
+
+		public DecompositionTemplate(ITextTemplatingEngineHost host, string path)
+		{
+			this.Host = host;
+			Suffix = String.Empty;
+			FilePath = path;
+		}
+
+        public override string TransformText()
+        {
+			IServiceProvider serviceProvider = (IServiceProvider)Host;
+			ITextTemplating t4 = serviceProvider.GetService(typeof(STextTemplating)) as ITextTemplating;
+			ITextTemplatingSessionHost host = t4 as ITextTemplatingSessionHost;
+
+			// Create a Session in which to pass parameters:
+			host.Session = host.CreateSession();
+
+			// Add parameter values to the Session:
+			System.Runtime.Remoting.Messaging.CallContext.LogicalSetData("Suffix", Suffix);
+			System.Runtime.Remoting.Messaging.CallContext.LogicalSetData("T", DataType);
+
+			// Process a text template:
+			string result = t4.ProcessTemplate(FilePath, File.ReadAllText(FilePath));
+
+			// Write the result
+			Write(result);
+
+            return this.GenerationEnvironment.ToString();
+        }
+    }
+#>

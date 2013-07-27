@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9fc35957-bf2a-47cb-9663-259001cc4332}</ProjectGuid>
+    <ArchitectureToolsVersion>1.0.0.0</ArchitectureToolsVersion>
+    <Name>Accord.Documentation</Name>
+    <RootNamespace>Accord.Documentation</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" />
+  <ItemGroup>
+    <Content Include="Modules.dgml">
+      <SubType>Content</SubType>
+    </Content>
+    <Folder Include="D:\Projects\Accord.NET\Sources\Accord.Documentation\Diagrams\Classes" />
+    <Folder Include="D:\Projects\Accord.NET\Sources\Accord.Documentation\Diagrams\Modules" />
+    <Folder Include="ModelDefinition\" />
+    <Content Include="ModelDefinition\Accord.Documentation.uml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Controls.Audio\Accord.Controls.Audio.csproj">
+      <Name>Accord.Controls.Audio</Name>
+      <Project>{e0b826ac-2a51-41ec-9f09-561ca14a82bb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
+      <Name>Accord.Controls.Imaging</Name>
+      <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls.Vision\Accord.Controls.Vision.csproj">
+      <Name>Accord.Controls.Vision</Name>
+      <Project>{6158e759-fe2b-4308-ba29-11c9e4a07812}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
+      <Name>Accord.Core</Name>
+      <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.DirectSound\Accord.DirectSound.csproj">
+      <Name>Accord.DirectSound</Name>
+      <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Imaging\Accord.Imaging.csproj">
+      <Name>Accord.Imaging</Name>
+      <Project>{4959a83d-f78f-439e-80a5-41583eceaac6}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj">
+      <Name>Accord.MachineLearning</Name>
+      <Project>{7ab4bbcc-6222-423d-9ff9-ba9cb7c09199}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
+      <Name>Accord.Math</Name>
+      <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Neuro\Accord.Neuro.csproj">
+      <Name>Accord.Neuro</Name>
+      <Project>{179f3045-8757-4f4b-9508-f48327ba11e3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
+      <Name>Accord.Statistics</Name>
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Vision\Accord.Vision.csproj">
+      <Name>Accord.Vision</Name>
+      <Project>{c70a159d-74a4-405f-9a7f-c17acf451cca}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

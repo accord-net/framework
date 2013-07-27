@@ -1,0 +1,54 @@
+﻿<Dictionary>
+  <Words>
+    <Unrecognized>
+      <Word></Word>
+    </Unrecognized>
+    <Recognized>
+      <Word>Sines</Word>
+      <Word>Cosines</Word>
+      <Word>Mises</Word>
+      <Word>Univariate</Word>
+      <Word>Eigenvalues</Word>
+      <Word>Eigenvalue</Word>
+      <Word>Discretization</Word>
+      <Word>Laplacian</Word>
+      <Word>Sturges</Word>
+      <Word>Multiquadric</Word>
+      <Word>Skewness</Word>
+      <Word>Kurtosis</Word>
+      <Word>Discriminant</Word>
+      <Word>Discriminants</Word>
+      <Word>Cutpoint</Word>
+      <Word>Cutpoints</Word>
+      <Word>Precomputed</Word>
+      <Word>Ergodic</Word>
+      <Word>Demixing</Word>
+      <Word>Logcosh</Word>
+      <Word>x</Word>
+      <Word>y</Word>
+      <Word>ksi</Word>
+      <Word>bwd</Word>
+      <Word>fwd</Word>
+      <Word>kmeans</Word>
+      <Word>hsl</Word>
+    </Recognized>
+    <Deprecated>
+      <Term PreferredAlternate=""></Term>
+    </Deprecated>
+    <Compound>
+      <Term CompoundAlternate="KMeans">kmeans</Term>
+      <Term CompoundAlternate="McNemar">McNemar</Term>
+      <Term CompoundAlternate="DeLong">DeLong</Term>
+    </Compound>
+    <DiscreteExceptions>
+      <Term>x</Term>
+    </DiscreteExceptions>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>NIPALS</Acronym>
+      <Acronym>SIMPLS</Acronym>
+      <Acronym>Mc</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>
