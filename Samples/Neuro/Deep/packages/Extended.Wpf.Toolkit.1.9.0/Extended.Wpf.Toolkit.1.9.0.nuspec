@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Extended.Wpf.Toolkit</id>
+    <version>1.9.0</version>
+    <title>Extended WPF Toolkit</title>
+    <authors>Xceed</authors>
+    <owners>Xceed</owners>
+    <licenseUrl>http://wpftoolkit.codeplex.com/license</licenseUrl>
+    <projectUrl>http://wpftoolkit.codeplex.com/</projectUrl>
+    <iconUrl>http://xceed.com/images/SocialNetworks/LogoXCEEDTwitter.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Extended WPF Toolkit is the number one collection of WPF controls, components and utilities for creating next generation Windows applications. Provides 37 controls, all offered under the Microsoft Public License for maximum freedom. In v1.9: a record-breaking 70 improvements and the addition of 2D WPF layouts, which work with the new layout-to-layout animation control, SwitchPanel. Documentation, source, and discussions are hosted on CodePlex at http://wpftoolkit.codeplex.com.</description>
+    <summary>Extended WPF Toolkit is the number one collection of WPF controls for creating next-gen Windows apps. This release provides a record-breaking 70 improvements and a new animated WPF layout control.</summary>
+    <releaseNotes>Features a record-breaking 70 improvements and the addition of 2D WPF layouts, which work with the new layout-to-layout animation control, SwitchPanel.</releaseNotes>
+    <copyright>Copyright © Xceed Software Inc. 2010-2012</copyright>
+    <language />
+    <tags>WPF toolkit</tags>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework3.5, .NETFramework4.0" />
+      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework3.5, .NETFramework4.0" />
+      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework3.5, .NETFramework4.0" />
+      <frameworkAssembly assemblyName="System" targetFramework=".NETFramework3.5, .NETFramework4.0" />
+      <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

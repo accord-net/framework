@@ -1,0 +1,11 @@
+The freenect library in this folder is part of the OpenKinect project and were built from its sources:
+http://openkinect.org/
+Sources from git's master branch was used. Last updated and built on May 01, 2011.
+
+This is the same freenect library distributed with the AForge.NET Framework as of version 2.2.1. It is not
+part of the Accord.NET Framework and is available only for this sample application. While this application
+links against the libraries from the AForge.NET Framework and Accord.NET Framework, no libraries from either
+frameworks link against this application.
+
+The libfreenect library is available under a Apache 2 license, which has been included with this application.
+

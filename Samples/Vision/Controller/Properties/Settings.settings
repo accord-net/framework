@@ -1,0 +1,42 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Controller.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="scaleMax" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">140</Value>
+    </Setting>
+    <Setting Name="scaleMin" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">90</Value>
+    </Setting>
+    <Setting Name="xMax" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">128</Value>
+    </Setting>
+    <Setting Name="xMin" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">180</Value>
+    </Setting>
+    <Setting Name="yMax" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="yMin" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">150</Value>
+    </Setting>
+    <Setting Name="angleMax" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1.3290820121765137</Value>
+    </Setting>
+    <Setting Name="angleMin" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1.83104407787323</Value>
+    </Setting>
+    <Setting Name="face_xmax" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">-0.65</Value>
+    </Setting>
+    <Setting Name="face_xmin" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.65</Value>
+    </Setting>
+    <Setting Name="face_ymax" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">-0.1</Value>
+    </Setting>
+    <Setting Name="face_ymin" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.35</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

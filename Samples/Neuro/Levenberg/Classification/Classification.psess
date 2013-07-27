@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<VSPerformanceSession Version="1.00">
+  <Options>
+    <Solution>D:\Projects\Accord.NET\Sources\Accord.NET.sln</Solution>
+    <CollectionMethod>Sampling</CollectionMethod>
+    <AllocationMethod>None</AllocationMethod>
+    <LaunchRuntimeControl>true</LaunchRuntimeControl>
+    <AddReport>true</AddReport>
+    <ResourceBasedAnalysisSelected>true</ResourceBasedAnalysisSelected>
+    <ThreadBasedAnalysisSelected>true</ThreadBasedAnalysisSelected>
+    <UniqueReport>Timestamp</UniqueReport>
+    <SamplingMethod>PerformanceCounter</SamplingMethod>
+    <CycleCount>10000000</CycleCount>
+    <PageFaultCount>10</PageFaultCount>
+    <SysCallCount>10</SysCallCount>
+    <SamplingCounter Name="L2LinesIn" ReloadValue="00000000000186a0" DisplayName="L2 Lines In" />
+    <RelocateBinaries>false</RelocateBinaries>
+    <CollectOnHpcCluster>false</CollectOnHpcCluster>
+    <HPCSettings>
+      <NumberOfProcesses>0</NumberOfProcesses>
+      <TargetSelection>UnknownDisabled</TargetSelection>
+      <ProfileOnRank>0</ProfileOnRank>
+      <AdvancedProperties>
+        <Project>Classification</Project>
+        <CleanUp>true</CleanUp>
+        <MpiexecCommand>mpiexec.exe</MpiexecCommand>
+        <DeployCRT>true</DeployCRT>
+      </AdvancedProperties>
+    </HPCSettings>
+    <HardwareCounters EnableHWCounters="false" />
+    <EtwSettings />
+    <PdhSettings>
+      <PdhCountersEnabled>false</PdhCountersEnabled>
+      <PdhCountersRate>500</PdhCountersRate>
+      <PdhCounters>
+        <PdhCounter>\Memory\Pages/sec</PdhCounter>
+        <PdhCounter>\PhysicalDisk(_Total)\Avg. Disk Queue Length</PdhCounter>
+        <PdhCounter>\Processor(_Total)\% Processor Time</PdhCounter>
+      </PdhCounters>
+    </PdhSettings>
+  </Options>
+  <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+  <JScriptProfilingEnabled>false</JScriptProfilingEnabled>
+  <PreinstrumentEvent>
+    <InstrEventExclude>false</InstrEventExclude>
+  </PreinstrumentEvent>
+  <PostinstrumentEvent>
+    <InstrEventExclude>false</InstrEventExclude>
+  </PostinstrumentEvent>
+  <Binaries>
+    <ProjBinary>
+      <Path>D:\Projects\Accord.NET\Samples\Neuro\Levenberg\Classification\obj\x86\Release\Classification.exe</Path>
+      <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
+      <Instrument>true</Instrument>
+      <Sample>true</Sample>
+      <ExternalWebsite>false</ExternalWebsite>
+      <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
+      <IsLocalJavascript>false</IsLocalJavascript>
+      <LaunchProject>true</LaunchProject>
+      <OverrideProjectSettings>false</OverrideProjectSettings>
+      <LaunchMethod>Executable</LaunchMethod>
+      <ExecutablePath>D:\Projects\Accord.NET\Samples\Neuro\Levenberg\Classification\bin\Release\Classification.exe</ExecutablePath>
+      <StartupDirectory>D:\Projects\Accord.NET\Samples\Neuro\Levenberg\Classification\bin\Release\</StartupDirectory>
+      <Arguments />
+      <NetAppHost>IIS</NetAppHost>
+      <NetBrowser>InternetExplorer</NetBrowser>
+      <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+      <JScriptProfilingEnabled>false</JScriptProfilingEnabled>
+      <PreinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PreinstrumentEvent>
+      <PostinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PostinstrumentEvent>
+      <ProjRef>{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5}|..\Samples\Neuro\Levenberg\Classification\Classification.csproj</ProjRef>
+      <ProjPath>D:\Projects\Accord.NET\Samples\Neuro\Levenberg\Classification\Classification.csproj</ProjPath>
+      <ProjName>Classification</ProjName>
+    </ProjBinary>
+  </Binaries>
+  <Reports>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228.vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228(1).vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228(2).vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228(3).vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228(4).vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228(6).vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228(7).vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228(9).vsp</Path>
+    </Report>
+    <Report>
+      <Path>D:\Projects\Accord.NET\Sources\Classification111228(10).vsp</Path>
+    </Report>
+  </Reports>
+  <Launches>
+    <ProjBinary>
+      <Path>:PB:{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5}|..\Samples\Neuro\Levenberg\Classification\Classification.csproj</Path>
+    </ProjBinary>
+  </Launches>
+  <RuntimeMarks>
+    <MarkName>Mark One</MarkName>
+    <MarkName>Mark Two</MarkName>
+    <MarkName>Mark Three</MarkName>
+    <MarkName>Mark Four</MarkName>
+    <MarkName>Mark Five</MarkName>
+    <MarkName>Mark Six</MarkName>
+    <MarkName>Mark Seven</MarkName>
+    <MarkName>Mark Eight</MarkName>
+    <MarkName>Mark Nine</MarkName>
+    <MarkName>Mark Ten</MarkName>
+  </RuntimeMarks>
+</VSPerformanceSession>

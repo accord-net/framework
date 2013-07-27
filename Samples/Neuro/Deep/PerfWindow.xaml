@@ -1,0 +1,71 @@
+﻿<Controls:MetroWindow x:Class="DeepLearning.PerfWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Performance Measures" Height="441" Width="880"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:sy="clr-namespace:System;assembly=System"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        SaveWindowPosition="True"
+        mc:Ignorable="d" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:vm="clr-namespace:DeepLearning.ViewModel"
+        xmlns:my="clr-namespace:DeepLearning.Converters"
+        xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid d:DataContext="{d:DesignInstance vm:PerfViewModel,IsDesignTimeCreatable=True}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="560*" />
+            <ColumnDefinition Width="298" />
+        </Grid.ColumnDefinitions>
+        <DataGrid AutoGenerateColumns="True" HorizontalAlignment="Stretch" Name="gridConfusionMatrix" 
+                  VerticalAlignment="Stretch" ItemsSource="{Binding Path=ConfusionView}" FontSize="10" GridLinesVisibility="None" Margin="6">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Block.TextAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.CellStyle>
+            <DataGrid.RowHeaderStyle>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="Content" Value="{Binding Header}" />
+                </Style>
+            </DataGrid.RowHeaderStyle>
+
+        </DataGrid>
+        <xctk:PropertyGrid ShowTitle="False" ShowSortOptions="False"
+                           ShowSearchBox="False" ShowAdvancedOptions="False" ShowSummary="False" 
+                           DataContext="{Binding}" SelectedObject="{Binding Path=ConfusionMatrix}"
+                           AutoGenerateProperties="False" IsCategorized="False" Grid.Column="1" Margin="6">
+            <xctk:PropertyGrid.PropertyDefinitions>
+                <xctk:PropertyDefinition Name="Kappa" />
+                <xctk:PropertyDefinition Name="ChanceAgreement" />
+                <xctk:PropertyDefinition Name="OverallAgreement" />
+                <xctk:PropertyDefinition Name="ChiSquare" />
+                <xctk:PropertyDefinition Name="Cramer"/>
+                <xctk:PropertyDefinition Name="GeometricAgreement"/>
+                <xctk:PropertyDefinition Name="Max"/>
+                <xctk:PropertyDefinition Name="Min"/>
+                <xctk:PropertyDefinition Name="Pearson"/>
+                <xctk:PropertyDefinition Name="Phi"/>
+                <xctk:PropertyDefinition Name="Sakoda"/>
+                <xctk:PropertyDefinition Name="Samples"/>
+                <xctk:PropertyDefinition Name="StandardError"/>
+                <xctk:PropertyDefinition Name="StandardErrorUnderNull"/>
+                <xctk:PropertyDefinition Name="Tau"/>
+                <xctk:PropertyDefinition Name="Tschuprow"/>
+                <xctk:PropertyDefinition Name="Variance"/>
+                <xctk:PropertyDefinition Name="VarianceUnderNull" />
+            </xctk:PropertyGrid.PropertyDefinitions>
+        </xctk:PropertyGrid>
+    </Grid>
+</Controls:MetroWindow>

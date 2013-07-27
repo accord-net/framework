@@ -1,0 +1,10 @@
+Accord.NET samples building instructions
+==========================================
+
+For now, in order to build the Accord.NET sample applications you
+should preferably open the main solution file (Accord.NET.sln)
+located in the Sources directory and run the selected application
+from there. This allows for easier debugging of the Framework.
+
+If you wish to build samples separately, please correct the references
+in their respective solutions.
