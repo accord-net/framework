@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<!--
+     The contents of this file and description tries to retain 
+     most of the style from the original AForge.NET definitions.
+-->
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Neuro</id>
+    <version>$version$</version>
+    <title>Accord.Neuro</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Contains neural learning algorithms such as Levenberg-Marquardt, Parallel Resilient Backpropagation, initialization procedures such as Nguyen-Widrow and other neural network related methods. This package is part of the Accord.NET Framework.</description>
+    <summary>Accord.NET Neuro Library from the Accord.NET Framework</summary>
+    <tags>accord.net aforge.net framework artificial neural networks levenberd-marquardt nguyen-widrow</tags>
+    <dependencies>
+      <dependency id="Accord"       version="2.10.0" />
+      <dependency id="Accord.Math"  version="2.10.0" />
+      <dependency id="AForge"       version="2.2.5" />
+      <dependency id="AForge.Math"  version="2.2.5" />
+      <dependency id="AForge.Neuro" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\Accord.Neuro.dll" target="lib\Accord.Neuro.dll" />
+    <file src="..\..\Release\Accord.Neuro.xml" target="lib\Accord.Neuro.xml" />
+  </files>
+</package>

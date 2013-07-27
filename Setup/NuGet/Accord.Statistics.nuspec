@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!--
+     The contents of this file and description tries to retain 
+     most of the style from the original AForge.NET definitions.
+-->
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Statistics</id>
+    <version>$version$</version>
+    <title>Accord.Statistics</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Contains probability distributions, statistical models and methods such as Linear and Logistic regression, Hidden Markov Models, (Hidden) Conditional Random Fields, Principal Component Analysis, Partial Least Squares, Discriminant Analysis, Kernel methods and functions and many other related techniques. This package is part of the Accord.NET Framework.</description>
+    <summary>Accord.NET Statistics Library from the Accord.NET Framework</summary>
+    <tags>accord.net aforge.net framework statistics kernel methods pca kpca least squares markov models conditional random fields hmm crf hcrf</tags>
+    <dependencies>
+      <dependency id="Accord"      version="2.10.0" />
+      <dependency id="Accord.Math" version="2.10.0" />
+      <dependency id="AForge"      version="2.2.5" />
+      <dependency id="AForge.Math" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\Accord.Statistics.dll" target="lib\Accord.Statistics.dll" />
+    <file src="..\..\Release\Accord.Statistics.xml" target="lib\Accord.Statistics.xml" />
+  </files>
+</package>

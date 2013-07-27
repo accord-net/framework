@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!--
+     The contents of this file and description tries to retain 
+     most of the style from the original AForge.NET definitions.
+-->
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord</id>
+    <version>$version$</version>
+    <title>Accord (core library)</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>The core of the Accord.NET Framework. Contains basic classes such as general exceptions and extensions used by other framework libraries. Accord.NET is an extension framework for AForge.NET.</description>
+    <summary>Accord.NET Framework core library.</summary>
+    <tags>accord.net aforge.net framework</tags>
+  </metadata>
+  <files>
+    <file src="..\..\Release\Accord.dll" target="lib\Accord.dll" />
+    <file src="..\..\Release\Accord.xml" target="lib\Accord.xml" />
+  </files>
+</package>

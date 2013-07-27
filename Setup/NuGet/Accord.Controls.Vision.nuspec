@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<!--
+     The contents of this file and description tries to retain 
+     most of the style from the original AForge.NET definitions.
+-->
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Controls.Vision</id>
+    <version>$version$</version>
+    <title>Accord.Controls.Vision</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Windows Forms components and controls to track head, face and hand movements and other computer vision related tasks. This package is part of the Accord.NET Framework.</description>
+    <summary>Accord.NET Vision Controls Library from the Accord.NET Framework</summary>
+    <tags>accord.net aforge.net framework computer vision object detection tracking</tags>
+    <dependencies>
+      <dependency id="Accord"                  version="2.10.0" />
+      <dependency id="Accord.Controls.Imaging" version="2.10.0" />
+      <dependency id="Accord.Imaging"          version="2.10.0" />
+      <dependency id="Accord.Math"             version="2.10.0" />
+      <dependency id="Accord.Statistics"       version="2.10.0" />
+      <dependency id="Accord.Vision"           version="2.10.0" />
+      <dependency id="AForge"                  version="2.2.5" />
+      <dependency id="AForge.Imaging"          version="2.2.5" />
+      <dependency id="AForge.Math"             version="2.2.5" />
+      <dependency id="AForge.Video"            version="2.2.5" />
+      <dependency id="AForge.Video.DirectShow" version="2.2.5" />
+      <dependency id="AForge.Vision"           version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\Accord.Controls.Vision.dll" target="lib\Accord.Controls.Vision.dll" />
+    <file src="..\..\Release\Accord.Controls.Vision.xml" target="lib\Accord.Controls.Vision.xml" />
+  </files>
+</package>

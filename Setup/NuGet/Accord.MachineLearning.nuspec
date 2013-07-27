@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<!--
+     The contents of this file and description tries to retain 
+     most of the style from the original AForge.NET definitions.
+-->
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.MachineLearning</id>
+    <version>$version$</version>
+    <title>Accord.MachineLearning</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Contains Support Vector Machines, Decision Trees, Naive Bayesian models, K-means, Gaussian Mixture models and general algorithms such as Ransac, Cross-validation and Grid-Search for machine-learning applications. This package is part of the Accord.NET Framework.</description>
+    <summary>Accord.NET Machine Learning Library from the Accord.NET framework.</summary>
+    <tags>accord.net aforge.net aforge.net machine learning artificial intelligence</tags>
+    <dependencies>
+      <dependency id="Accord"            version="2.10.0" />
+      <dependency id="Accord.Math"       version="2.10.0" />
+      <dependency id="Accord.Statistics" version="2.10.0" />
+      <dependency id="AForge"            version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\Accord.MachineLearning.dll" target="lib\Accord.MachineLearning.dll" />
+    <file src="..\..\Release\Accord.MachineLearning.xml" target="lib\Accord.MachineLearning.xml" />
+  </files>
+</package>

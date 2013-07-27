@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<!--
+     The contents of this file and description tries to retain 
+     most of the style from the original AForge.NET definitions.
+-->
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Controls.Audio</id>
+    <version>$version$</version>
+    <title>Accord.Controls.Audio</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
+    <projectUrl>http://accord.googlecode.com</projectUrl>
+    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Windows Forms controls to display waveforms and audio-related information. This package is part of the Accord.NET Framework.</description>    
+    <summary>Accord.NET Audio Controls Library from the Accord.NET Framework</summary>
+    <tags>accord.net aforge.net framework winforms controls audio</tags>
+    <dependencies>
+      <dependency id="Accord"            version="2.10.0" />
+      <dependency id="Accord.Audio"      version="2.10.0" />
+      <dependency id="Accord.Math"       version="2.10.0" />
+      <dependency id="Accord.Statistics" version="2.10.0" />
+      <dependency id="AForge"            version="2.2.5" />
+      <dependency id="AForge.Controls"   version="2.2.5" />
+      <dependency id="AForge.Math"       version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\Accord.Controls.Audio.dll" target="lib\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\Accord.Controls.Audio.xml" target="lib\Accord.Controls.Audio.xml" />
+  </files>
+</package>

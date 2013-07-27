@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Accord.Setup</RootNamespace>
+    <AssemblyName>Accord.Setup</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>.\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="Archiver\Build %28v3.5%29.cmd" />
+    <None Include="Archiver\Build %28v4.0%29.cmd" />
+    <None Include="Archiver\Samples.cmd" />
+    <None Include="Build all.cmd" />
+    <None Include="Installer\Build.cmd" />
+    <None Include="NuGet\Accord.DirectSound.nuspec" />
+    <None Include="NuGet\Accord.Audio.nuspec" />
+    <None Include="NuGet\Accord.Controls.Audio.nuspec" />
+    <None Include="NuGet\Accord.Controls.Imaging.nuspec" />
+    <None Include="NuGet\Accord.Controls.nuspec" />
+    <None Include="NuGet\Accord.Controls.Vision.nuspec" />
+    <None Include="NuGet\Accord.Imaging.nuspec" />
+    <None Include="NuGet\Accord.MachineLearning.nuspec" />
+    <None Include="NuGet\Accord.Math.nuspec" />
+    <None Include="NuGet\Accord.Neuro.nuspec" />
+    <None Include="NuGet\Accord.nuspec" />
+    <None Include="NuGet\Accord.Statistics.nuspec" />
+    <None Include="NuGet\Accord.Vision.nuspec" />
+    <None Include="NuGet\Build.cmd" />
+    <None Include="NuGet\Push.cmd" />
+    <None Include="NuGet\Update.cmd" />
+    <None Include="NuGet\NuGet.exe" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Installer\Accord.iss" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>-->
+  <Target Name="AfterBuild">
+    <!-- Load up the information from the assembly -->
+    <GetAssemblyIdentity AssemblyFiles="$(OutputPath)$(AssemblyName).dll">
+      <Output TaskParameter="Assemblies" ItemName="OutputAssemblyInfo" />
+    </GetAssemblyIdentity>
+    <Message Text="Info: %(OutputAssemblyInfo.Version)" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
