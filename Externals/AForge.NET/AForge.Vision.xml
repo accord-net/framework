@@ -1,0 +1,1370 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AForge.Vision</name>
+    </assembly>
+    <members>
+        <member name="T:AForge.Vision.Motion.MotionAreaHighlighting">
+            <summary>
+            Motion processing algorithm, which highlights motion areas.
+            </summary>
+            
+            <remarks><para>The aim of this motion processing algorithm is to highlight
+            motion areas with grid pattern of the <see cref="P:AForge.Vision.Motion.MotionAreaHighlighting.HighlightColor">specified color</see>.
+            </para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // create motion detector
+            MotionDetector detector = new MotionDetector(
+                /* motion detection algorithm */,
+                new MotionAreaHighlighting( ) );
+            
+            // continuously feed video frames to motion detector
+            while ( ... )
+            {
+                // process new video frame
+                detector.ProcessFrame( videoFrame );
+            }
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+            <seealso cref="T:AForge.Vision.Motion.IMotionDetector"/>
+            
+        </member>
+        <member name="T:AForge.Vision.Motion.IMotionProcessing">
+             <summary>
+             Interface of motion processing algorithm.
+             </summary>
+            
+             <remarks><para>The interface specifies methods, which should be implemented
+             by all motion processng algorithms - algorithm which perform further post processing
+             of detected motion, which is done by motion detection algorithms (see <see cref="T:AForge.Vision.Motion.IMotionDetector"/>).
+             </para></remarks>
+             
+             <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+             <seealso cref="T:AForge.Vision.Motion.IMotionDetector"/>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.IMotionProcessing.ProcessFrame(AForge.Imaging.UnmanagedImage,AForge.Imaging.UnmanagedImage)">
+            <summary>
+            Process video and motion frames doing further post processing after
+            performed motion detection.
+            </summary>
+            
+            <param name="videoFrame">Original video frame.</param>
+            <param name="motionFrame">Motion frame provided by motion detection
+            algorithm (see <see cref="T:AForge.Vision.Motion.IMotionDetector"/>).</param>
+            
+            <remarks><para>The method does father post processing of detected motion.
+            Type of motion post processing is specified by specific implementation
+            of the <see cref="T:AForge.Vision.Motion.IMotionProcessing"/> interface - it may motion
+            area highlighting, motion objects counting, etc.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.IMotionProcessing.Reset">
+             <summary>
+             Reset internal state of motion processing algorithm.
+             </summary>
+             
+             <remarks><para>The method allows to reset internal state of motion processing
+             algorithm and prepare it for processing of next video stream or to restart
+             the algorithm.</para>
+             
+             <para><note>Some motion processing algorithms may not have any stored internal
+             states and may just process provided video frames without relying on any motion
+             history etc. In this case such algorithms provide empty implementation of this method.</note></para>
+             </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionAreaHighlighting.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.MotionAreaHighlighting"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionAreaHighlighting.#ctor(System.Drawing.Color)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.MotionAreaHighlighting"/> class.
+            </summary>
+            
+            <param name="highlightColor">Color used to highlight motion regions.</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionAreaHighlighting.ProcessFrame(AForge.Imaging.UnmanagedImage,AForge.Imaging.UnmanagedImage)">
+             <summary>
+             Process video and motion frames doing further post processing after
+             performed motion detection.
+             </summary>
+             
+             <param name="videoFrame">Original video frame.</param>
+             <param name="motionFrame">Motion frame provided by motion detection
+             algorithm (see <see cref="T:AForge.Vision.Motion.IMotionDetector"/>).</param>
+             
+             <remarks><para>Processes provided motion frame and highlights motion areas
+             on the original video frame with <see cref="P:AForge.Vision.Motion.MotionAreaHighlighting.HighlightColor">specified color</see>.</para>
+             </remarks>
+             
+             <exception cref="T:AForge.Imaging.InvalidImagePropertiesException">Motion frame is not 8 bpp image, but it must be so.</exception>
+             <exception cref="T:AForge.Imaging.UnsupportedImageFormatException">Video frame must be 8 bpp grayscale image or 24/32 bpp color image.</exception>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionAreaHighlighting.Reset">
+             <summary>
+             Reset internal state of motion processing algorithm.
+             </summary>
+             
+             <remarks><para>The method allows to reset internal state of motion processing
+             algorithm and prepare it for processing of next video stream or to restart
+             the algorithm.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.MotionAreaHighlighting.HighlightColor">
+            <summary>
+            Color used to highlight motion regions.
+            </summary>
+            
+            <remarks>
+            <para>Default value is set to <b>red</b> color.</para>
+            </remarks>
+            
+        </member>
+        <member name="T:AForge.Vision.Motion.IMotionDetector">
+             <summary>
+             Interface of motion detector algorithm.
+             </summary>
+             
+             <remarks><para>The interface specifies methods, which should be implemented
+             by all motion detection algorithms - algorithms which perform processing of video
+             frames in order to detect motion. Amount of detected motion may be checked using
+             <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionLevel"/> property. Also <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionFrame"/> property may
+             be used in order to see all the detected motion areas. For example, the <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionFrame"/> property
+             is used by motion processing algorithms for further motion post processing, like
+             highlighting motion areas, counting number of detected moving object, etc.
+             </para></remarks>
+             
+             <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+             <seealso cref="T:AForge.Vision.Motion.IMotionProcessing"/>
+            
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.IMotionDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)">
+            <summary>
+            Process new video frame.
+            </summary>
+            
+            <param name="videoFrame">Video frame to process (detect motion in).</param>
+            
+            <remarks><para>Processes new frame from video source and detects motion in it.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.IMotionDetector.Reset">
+            <summary>
+            Reset motion detector to initial state.
+            </summary>
+            
+            <remarks><para>Resets internal state and variables of motion detection algorithm.
+            Usually this is required to be done before processing new video source, but
+            may be also done at any time to restart motion detection algorithm.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.IMotionDetector.MotionLevel">
+            <summary>
+            Motion level value, [0, 1].
+            </summary>
+            
+            <remarks><para>Amount of changes in the last processed frame. For example, if value of
+            this property equals to 0.1, then it means that last processed frame has 10% of changes
+            (however it is up to specific implementation to decide how to compare specified frame).</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.IMotionDetector.MotionFrame">
+            <summary>
+            Motion frame containing detected areas of motion.
+            </summary>
+            
+            <remarks><para>Motion frame is a grayscale image, which shows areas of detected motion.
+            All black pixels in the motion frame correspond to areas, where no motion is
+            detected. But white pixels correspond to areas, where motion is detected.</para></remarks>
+            
+        </member>
+        <member name="T:AForge.Vision.Motion.BlobCountingObjectsProcessing">
+            <summary>
+            Motion processing algorithm, which counts separate moving objects and highlights them.
+            </summary>
+            
+            <remarks><para>The aim of this motion processing algorithm is to count separate objects
+            in the motion frame, which is provided by <see cref="T:AForge.Vision.Motion.IMotionDetector">motion detection algorithm</see>.
+            In the case if <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.HighlightMotionRegions"/> property is set to <see langword="true"/>,
+            found objects are also highlighted on the original video frame. The algorithm
+            counts and highlights only those objects, which size satisfies <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsWidth"/>
+            and <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsHeight"/> properties.</para>
+            
+            <para><note>The motion processing algorithm is supposed to be used only with motion detection
+            algorithms, which are based on finding difference with background frame
+            (see <see cref="T:AForge.Vision.Motion.SimpleBackgroundModelingDetector"/> and <see cref="T:AForge.Vision.Motion.CustomFrameDifferenceDetector"/>
+            as simple implementations) and allow extract moving objects clearly.</note></para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // create instance of motion detection algorithm
+            IMotionDetector motionDetector = new ... ;
+            // create instance of motion processing algorithm
+            BlobCountingObjectsProcessing motionProcessing = new BlobCountingObjectsProcessing( );
+            // create motion detector
+            MotionDetector detector = new MotionDetector( motionDetector, motionProcessing );
+            
+            // continuously feed video frames to motion detector
+            while ( ... )
+            {
+                // process new video frame and check motion level
+                if ( detector.ProcessFrame( videoFrame ) &gt; 0.02 )
+                {
+                    // check number of detected objects
+                    if ( motionProcessing.ObjectsCount &gt; 1 )
+                    {
+                        // ...
+                    }
+                }
+            }
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+            <seealso cref="T:AForge.Vision.Motion.IMotionDetector"/>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.BlobCountingObjectsProcessing"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.BlobCountingObjectsProcessing"/> class.
+            </summary>
+            
+            <param name="highlightMotionRegions">Highlight motion regions or not (see <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.HighlightMotionRegions"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.BlobCountingObjectsProcessing"/> class.
+            </summary>
+            
+            <param name="minWidth">Minimum width of acceptable object (see <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsWidth"/> property).</param>
+            <param name="minHeight">Minimum height of acceptable object (see <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsHeight"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.#ctor(System.Int32,System.Int32,System.Drawing.Color)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.BlobCountingObjectsProcessing"/> class.
+            </summary>
+            
+            <param name="minWidth">Minimum width of acceptable object (see <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsWidth"/> property).</param>
+            <param name="minHeight">Minimum height of acceptable object (see <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsHeight"/> property).</param>
+            <param name="highlightColor">Color used to highlight motion regions.</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.#ctor(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.BlobCountingObjectsProcessing"/> class.
+            </summary>
+            
+            <param name="minWidth">Minimum width of acceptable object (see <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsWidth"/> property).</param>
+            <param name="minHeight">Minimum height of acceptable object (see <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsHeight"/> property).</param>
+            <param name="highlightMotionRegions">Highlight motion regions or not (see <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.HighlightMotionRegions"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.ProcessFrame(AForge.Imaging.UnmanagedImage,AForge.Imaging.UnmanagedImage)">
+            <summary>
+            Process video and motion frames doing further post processing after
+            performed motion detection.
+            </summary>
+            
+            <param name="videoFrame">Original video frame.</param>
+            <param name="motionFrame">Motion frame provided by motion detection
+            algorithm (see <see cref="T:AForge.Vision.Motion.IMotionDetector"/>).</param>
+            
+            <remarks><para>Processes provided motion frame and counts number of separate
+            objects, which size satisfies <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsWidth"/> and <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsHeight"/>
+            properties. In the case if <see cref="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.HighlightMotionRegions"/> property is
+            set to <see langword="true"/>, the found object are also highlighted on the
+            original video frame.
+            </para></remarks>
+            
+            <exception cref="T:AForge.Imaging.InvalidImagePropertiesException">Motion frame is not 8 bpp image, but it must be so.</exception>
+            <exception cref="T:AForge.Imaging.UnsupportedImageFormatException">Video frame must be 8 bpp grayscale image or 24/32 bpp color image.</exception>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.Reset">
+             <summary>
+             Reset internal state of motion processing algorithm.
+             </summary>
+             
+             <remarks><para>The method allows to reset internal state of motion processing
+             algorithm and prepare it for processing of next video stream or to restart
+             the algorithm.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.HighlightMotionRegions">
+             <summary>
+             Highlight motion regions or not.
+             </summary>
+             
+             <remarks><para>The property specifies if detected moving objects should be highlighted
+             with rectangle or not.</para>
+             
+             <para>Default value is set to <see langword="true"/>.</para>
+            
+             <para><note>Turning the value on leads to additional processing time of video frame.</note></para>
+             </remarks>
+             
+        </member>
+        <member name="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.HighlightColor">
+            <summary>
+            Color used to highlight motion regions.
+            </summary>
+            
+            <remarks>
+            <para>Default value is set to <b>red</b> color.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsWidth">
+            <summary>
+            Minimum width of acceptable object.
+            </summary>
+            
+            <remarks><para>The property sets minimum width of an object to count and highlight. If
+            objects have smaller width, they are not counted and are not highlighted.</para>
+            
+            <para>Default value is set to <b>10</b>.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.MinObjectsHeight">
+            <summary>
+            Minimum height of acceptable object.
+            </summary>
+            
+            <remarks><para>The property sets minimum height of an object to count and highlight. If
+            objects have smaller height, they are not counted and are not highlighted.</para>
+            
+            <para>Default value is set to <b>10</b>.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.ObjectsCount">
+            <summary>
+            Number of detected objects.
+            </summary>
+            
+            <remarks><para>The property provides number of moving objects detected by
+            the last call of <see cref="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.ProcessFrame(AForge.Imaging.UnmanagedImage,AForge.Imaging.UnmanagedImage)"/> method.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.BlobCountingObjectsProcessing.ObjectRectangles">
+            <summary>
+            Rectangles of moving objects.
+            </summary>
+            
+            <remarks><para>The property provides array of moving objects' rectangles
+            detected by the last call of <see cref="M:AForge.Vision.Motion.BlobCountingObjectsProcessing.ProcessFrame(AForge.Imaging.UnmanagedImage,AForge.Imaging.UnmanagedImage)"/> method.</para></remarks>
+            
+        </member>
+        <member name="T:AForge.Vision.Motion.GridMotionAreaProcessing">
+            <summary>
+            Motion processing algorithm, which performs grid processing of motion frame.
+            </summary>
+            
+            <remarks><para>The aim of this motion processing algorithm is to do grid processing
+            of motion frame. This means that entire motion frame is divided by a grid into
+            certain amount of cells and the motion level is calculated for each cell. The
+            information about each cell's motion level may be retrieved using <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.MotionGrid"/>
+            property.</para>
+            
+            <para><para>In addition the algorithm can highlight those cells, which have motion
+            level above the specified threshold (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.MotionAmountToHighlight"/>
+            property). To enable this it is required to set <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.HighlightMotionGrid"/>
+            property to <see langword="true"/>.</para></para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // create instance of motion detection algorithm
+            IMotionDetector motionDetector = new ... ;
+            // create instance of motion processing algorithm
+            GridMotionAreaProcessing motionProcessing = new GridMotionAreaProcessing( 16, 16 );
+            // create motion detector
+            MotionDetector detector = new MotionDetector( motionDetector, motionProcessing );
+            
+            // continuously feed video frames to motion detector
+            while ( ... )
+            {
+                // process new video frame
+                detector.ProcessFrame( videoFrame );
+                
+                // check motion level in 5th row 8th column
+                if ( motionProcessing.MotionGrid[5, 8] &gt; 0.15 )
+                {
+                    // ...
+                }
+            }
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+            <seealso cref="T:AForge.Vision.Motion.IMotionDetector"/>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.GridMotionAreaProcessing.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.GridMotionAreaProcessing"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.GridMotionAreaProcessing.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.GridMotionAreaProcessing"/> class.
+            </summary>
+            
+            <param name="gridWidth">Width of motion grid (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridWidth"/> property).</param>
+            <param name="gridHeight">Height of motion grid (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridHeight"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.GridMotionAreaProcessing.#ctor(System.Int32,System.Int32,System.Boolean)">
+             <summary>
+             Initializes a new instance of the <see cref="T:AForge.Vision.Motion.GridMotionAreaProcessing"/> class.
+             </summary>
+             
+             <param name="gridWidth">Width of motion grid (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridWidth"/> property).</param>
+             <param name="gridHeight">Height of motion grid (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridHeight"/> property).</param>
+             <param name="highlightMotionGrid">Highlight motion regions or not (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.HighlightMotionGrid"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.GridMotionAreaProcessing.#ctor(System.Int32,System.Int32,System.Boolean,System.Single)">
+             <summary>
+             Initializes a new instance of the <see cref="T:AForge.Vision.Motion.GridMotionAreaProcessing"/> class.
+             </summary>
+             
+             <param name="gridWidth">Width of motion grid (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridWidth"/> property).</param>
+             <param name="gridHeight">Height of motion grid (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridHeight"/> property).</param>
+             <param name="highlightMotionGrid">Highlight motion regions or not (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.HighlightMotionGrid"/> property).</param>
+             <param name="motionAmountToHighlight">Motion amount to highlight cell (see <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.MotionAmountToHighlight"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.GridMotionAreaProcessing.ProcessFrame(AForge.Imaging.UnmanagedImage,AForge.Imaging.UnmanagedImage)">
+             <summary>
+             Process video and motion frames doing further post processing after
+             performed motion detection.
+             </summary>
+             
+             <param name="videoFrame">Original video frame.</param>
+             <param name="motionFrame">Motion frame provided by motion detection
+             algorithm (see <see cref="T:AForge.Vision.Motion.IMotionDetector"/>).</param>
+             
+             <remarks><para>Processes provided motion frame and calculates motion level
+             for each grid's cell. In the case if <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.HighlightMotionGrid"/> property is
+             set to <see langword="true"/>, the cell with motion level above threshold are
+             highlighted.</para></remarks>
+            
+             <exception cref="T:AForge.Imaging.InvalidImagePropertiesException">Motion frame is not 8 bpp image, but it must be so.</exception>
+             <exception cref="T:AForge.Imaging.UnsupportedImageFormatException">Video frame must be 8 bpp grayscale image or 24/32 bpp color image.</exception>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.GridMotionAreaProcessing.Reset">
+             <summary>
+             Reset internal state of motion processing algorithm.
+             </summary>
+             
+             <remarks><para>The method allows to reset internal state of motion processing
+             algorithm and prepare it for processing of next video stream or to restart
+             the algorithm.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.GridMotionAreaProcessing.HighlightColor">
+            <summary>
+            Color used to highlight motion regions.
+            </summary>
+            
+            <remarks>
+            <para>Default value is set to <b>red</b> color.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.GridMotionAreaProcessing.HighlightMotionGrid">
+             <summary>
+             Highlight motion regions or not.
+             </summary>
+             
+             <remarks><para>The property specifies if motion grid should be highlighted -
+             if cell, which have motion level above the
+             <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.MotionAmountToHighlight">specified value</see>, should be highlighted.</para>
+             
+             <para>Default value is set to <see langword="true"/>.</para>
+            
+             <para><note>Turning the value on leads to additional processing time of video frame.</note></para>
+             </remarks>
+             
+        </member>
+        <member name="P:AForge.Vision.Motion.GridMotionAreaProcessing.MotionAmountToHighlight">
+            <summary>
+            Motion amount to highlight cell.
+            </summary>
+            
+            <remarks><para>The property specifies motion level threshold for highlighting grid's
+            cells. If motion level of a certain cell is higher than this value, then the cell
+            is highlighted.</para>
+            
+            <para>Default value is set to <b>0.15</b>.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.GridMotionAreaProcessing.MotionGrid">
+            <summary>
+            Motion levels of each grid's cell.
+            </summary>
+            
+            <remarks><para>The property represents an array of size
+            <see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridHeight"/>x<see cref="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridWidth"/>, which keeps motion level
+            of each grid's cell. If certain cell has motion level equal to 0.2, then it
+            means that this cell has 20% of changes.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridWidth">
+             <summary>
+             Width of motion grid, [2, 64].
+             </summary>
+             
+             <remarks><para>The property specifies motion grid's width - number of grid' columns.</para>
+            
+             <para>Default value is set to <b>16</b>.</para>
+             </remarks>
+             
+        </member>
+        <member name="P:AForge.Vision.Motion.GridMotionAreaProcessing.GridHeight">
+             <summary>
+             Height of motion grid, [2, 64].
+             </summary>
+             
+             <remarks><para>The property specifies motion grid's height - number of grid' rows.</para>
+            
+             <para>Default value is set to <b>16</b>.</para>
+             </remarks>
+             
+        </member>
+        <member name="T:AForge.Vision.Motion.MotionDetector">
+             <summary>
+             Motion detection wrapper class, which performs motion detection and processing.
+             </summary>
+            
+             <remarks><para>The class serves as a wrapper class for
+             <see cref="T:AForge.Vision.Motion.IMotionDetector">motion detection</see> and
+             <see cref="T:AForge.Vision.Motion.IMotionProcessing">motion processing</see> algorithms, allowing to call them with
+             single call. Unlike motion detection and motion processing interfaces, the class also
+             provides additional methods for convenience, so the algorithms could be applied not
+             only to <see cref="T:AForge.Imaging.UnmanagedImage"/>, but to .NET's <see cref="T:System.Drawing.Bitmap"/> class
+             as well.</para>
+             
+             <para>In addition to wrapping of motion detection and processing algorthms, the class provides
+             some additional functionality. Using <see cref="P:AForge.Vision.Motion.MotionDetector.MotionZones"/> property it is possible to specify
+             set of rectangular zones to observe - only motion in these zones is counted and post procesed.</para>
+             
+             <para>Sample usage:</para>
+             <code>
+             // create motion detector
+             MotionDetector detector = new MotionDetector(
+                 new SimpleBackgroundModelingDetector( ),
+                 new MotionAreaHighlighting( ) );
+             
+             // continuously feed video frames to motion detector
+             while ( ... )
+             {
+                 // process new video frame and check motion level
+                 if ( detector.ProcessFrame( videoFrame ) &gt; 0.02 )
+                 {
+                     // ring alarm or do somethng else
+                 }
+             }
+             </code>
+             </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionDetector.#ctor(AForge.Vision.Motion.IMotionDetector)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.MotionDetector"/> class.
+            </summary>
+            
+            <param name="detector">Motion detection algorithm to apply to each video frame.</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionDetector.#ctor(AForge.Vision.Motion.IMotionDetector,AForge.Vision.Motion.IMotionProcessing)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.MotionDetector"/> class.
+            </summary>
+            
+            <param name="detector">Motion detection algorithm to apply to each video frame.</param>
+            <param name="processor">Motion processing algorithm to apply to each video frame after
+            motion detection is done.</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionDetector.ProcessFrame(System.Drawing.Bitmap)">
+            <summary>
+            Process new video frame.
+            </summary>
+            
+            <param name="videoFrame">Video frame to process (detect motion in).</param>
+            
+            <returns>Returns amount of motion, which is provided <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionLevel"/>
+            property of the <see cref="P:AForge.Vision.Motion.MotionDetector.MotionDetectionAlgorithm">motion detection algorithm in use</see>.</returns>
+            
+            <remarks><para>See <see cref="M:AForge.Vision.Motion.MotionDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)"/> for additional details.</para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionDetector.ProcessFrame(System.Drawing.Imaging.BitmapData)">
+             <summary>
+             Process new video frame.
+             </summary>
+             
+             <param name="videoFrame">Video frame to process (detect motion in).</param>
+             
+             <returns>Returns amount of motion, which is provided <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionLevel"/>
+             property of the <see cref="P:AForge.Vision.Motion.MotionDetector.MotionDetectionAlgorithm">motion detection algorithm in use</see>.</returns>
+             
+             <remarks><para>See <see cref="M:AForge.Vision.Motion.MotionDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)"/> for additional details.</para>
+             </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)">
+            <summary>
+            Process new video frame.
+            </summary>
+            
+            <param name="videoFrame">Video frame to process (detect motion in).</param>
+            
+            <returns>Returns amount of motion, which is provided <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionLevel"/>
+            property of the <see cref="P:AForge.Vision.Motion.MotionDetector.MotionDetectionAlgorithm">motion detection algorithm in use</see>.</returns>
+            
+            <remarks><para>The method first of all applies motion detection algorithm to the specified video
+            frame to calculate <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionLevel">motion level</see> and
+            <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionFrame">motion frame</see>. After this it applies motion processing algorithm
+            (if it was set) to do further post processing, like highlighting motion areas, counting moving
+            objects, etc.</para>
+            
+            <para><note>In the case if <see cref="P:AForge.Vision.Motion.MotionDetector.MotionZones"/> property is set, this method will perform
+            motion filtering right after motion algorithm is done and before passing motion frame to motion
+            processing algorithm. The method does filtering right on the motion frame, which is produced
+            by motion detection algorithm. At the same time the method recalculates motion level and returns
+            new value, which takes motion zones into account (but the new value is not set back to motion detection
+            algorithm' <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionLevel"/> property).
+            </note></para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionDetector.Reset">
+            <summary>
+            Reset motion detector to initial state.
+            </summary>
+            
+            <remarks><para>The method resets motion detection and motion processing algotithms by calling
+            their <see cref="M:AForge.Vision.Motion.IMotionDetector.Reset"/> and <see cref="M:AForge.Vision.Motion.IMotionProcessing.Reset"/> methods.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.MotionDetector.MotionDetectionAlgorithm">
+             <summary>
+             Motion detection algorithm to apply to each video frame.
+             </summary>
+            
+             <remarks><para>The property sets motion detection algorithm, which is used by
+             <see cref="M:AForge.Vision.Motion.MotionDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)"/> method in order to calculate
+             <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionLevel">motion level</see> and
+             <see cref="P:AForge.Vision.Motion.IMotionDetector.MotionFrame">motion frame</see>.
+             </para></remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.MotionDetector.MotionProcessingAlgorithm">
+            <summary>
+            Motion processing algorithm to apply to each video frame after
+            motion detection is done.
+            </summary>
+            
+            <remarks><para>The property sets motion processing algorithm, which is used by
+            <see cref="M:AForge.Vision.Motion.MotionDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)"/> method after motion detection in order to do further
+            post processing of motion frames. The aim of further post processing depends on
+            actual implementation of the specified motion processing algorithm - it can be
+            highlighting of motion area, objects counting, etc.
+            </para></remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.MotionDetector.MotionZones">
+            <summary>
+            Set of zones to detect motion in.
+            </summary>
+            
+            <remarks><para>The property keeps array of rectangular zones, which are observed for motion detection.
+            Motion outside of these zones is ignored.</para>
+            
+            <para>In the case if this property is set, the <see cref="M:AForge.Vision.Motion.MotionDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)"/> method
+            will filter out all motion witch was detected by motion detection algorithm, but is not
+            located in the specified zones.</para>
+            </remarks>
+            
+        </member>
+        <member name="T:AForge.Vision.Motion.TwoFramesDifferenceDetector">
+            <summary>
+            Motion detector based on two continues frames difference.
+            </summary>
+            
+            <remarks><para>The class implements the simplest motion detection algorithm, which is
+            based on difference of two continues frames. The <see cref="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.MotionFrame">difference frame</see>
+            is thresholded and the <see cref="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.MotionLevel">amount of difference pixels</see> is calculated.
+            To suppress stand-alone noisy pixels erosion morphological operator may be applied, which
+            is controlled by <see cref="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.SuppressNoise"/> property.</para>
+            
+            <para>Although the class may be used on its own to perform motion detection, it is preferred
+            to use it in conjunction with <see cref="T:AForge.Vision.Motion.MotionDetector"/> class, which provides additional
+            features and allows to use moton post processing algorithms.</para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // create motion detector
+            MotionDetector detector = new MotionDetector(
+                new TwoFramesDifferenceDetector( ),
+                new MotionAreaHighlighting( ) );
+            
+            // continuously feed video frames to motion detector
+            while ( ... )
+            {
+                // process new video frame and check motion level
+                if ( detector.ProcessFrame( videoFrame ) &gt; 0.02 )
+                {
+                    // ring alarm or do somethng else
+                }
+            }
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.TwoFramesDifferenceDetector.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.TwoFramesDifferenceDetector"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.TwoFramesDifferenceDetector.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.TwoFramesDifferenceDetector"/> class.
+            </summary>
+            
+            <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.SuppressNoise"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.TwoFramesDifferenceDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)">
+            <summary>
+            Process new video frame.
+            </summary>
+            
+            <param name="videoFrame">Video frame to process (detect motion in).</param>
+            
+            <remarks><para>Processes new frame from video source and detects motion in it.</para>
+            
+            <para>Check <see cref="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.MotionLevel"/> property to get information about amount of motion
+            (changes) in the processed frame.</para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.TwoFramesDifferenceDetector.Reset">
+            <summary>
+            Reset motion detector to initial state.
+            </summary>
+            
+            <remarks><para>Resets internal state and variables of motion detection algorithm.
+            Usually this is required to be done before processing new video source, but
+            may be also done at any time to restart motion detection algorithm.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.DifferenceThreshold">
+            <summary>
+            Difference threshold value, [1, 255].
+            </summary>
+            
+            <remarks><para>The value specifies the amount off difference between pixels, which is treated
+            as motion pixel.</para>
+            
+            <para>Default value is set to <b>15</b>.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.MotionLevel">
+            <summary>
+            Motion level value, [0, 1].
+            </summary>
+            
+            <remarks><para>Amount of changes in the last processed frame. For example, if value of
+            this property equals to 0.1, then it means that last processed frame has 10% difference
+            with previous frame.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.MotionFrame">
+             <summary>
+             Motion frame containing detected areas of motion.
+             </summary>
+             
+             <remarks><para>Motion frame is a grayscale image, which shows areas of detected motion.
+             All black pixels in the motion frame correspond to areas, where no motion is
+             detected. But white pixels correspond to areas, where motion is detected.</para>
+             
+             <para><note>The property is set to <see langword="null"/> after processing of the first
+             video frame by the algorithm.</note></para>
+             </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.TwoFramesDifferenceDetector.SuppressNoise">
+            <summary>
+            Suppress noise in video frames or not.
+            </summary>
+            
+            <remarks><para>The value specifies if additional filtering should be
+            done to suppress standalone noisy pixels by applying 3x3 erosion image processing
+            filter.</para>
+            
+            <para>Default value is set to <see langword="true"/>.</para>
+            
+            <para><note>Turning the value on leads to more processing time of video frame.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="T:AForge.Vision.Motion.MotionBorderHighlighting">
+            <summary>
+            Motion processing algorithm, which highlights border of motion areas.
+            </summary>
+            
+            <remarks><para>The aim of this motion processing algorithm is to highlight
+            borders of motion areas with the <see cref="P:AForge.Vision.Motion.MotionBorderHighlighting.HighlightColor">specified color</see>.
+            </para>
+            
+            <para><note>The motion processing algorithm is supposed to be used only with motion detection
+            algorithms, which are based on finding difference with background frame
+            (see <see cref="T:AForge.Vision.Motion.SimpleBackgroundModelingDetector"/> and <see cref="T:AForge.Vision.Motion.CustomFrameDifferenceDetector"/>
+            as simple implementations) and allow extract moving objects clearly.</note></para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // create motion detector
+            MotionDetector detector = new MotionDetector(
+                /* motion detection algorithm */,
+                new MotionBorderHighlighting( ) );
+            
+            // continuously feed video frames to motion detector
+            while ( ... )
+            {
+                // process new video frame
+                detector.ProcessFrame( videoFrame );
+            }
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+            <seealso cref="T:AForge.Vision.Motion.IMotionDetector"/>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionBorderHighlighting.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.MotionBorderHighlighting"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionBorderHighlighting.#ctor(System.Drawing.Color)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.MotionBorderHighlighting"/> class.
+            </summary>
+            
+            <param name="highlightColor">Color used to highlight motion regions.</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionBorderHighlighting.ProcessFrame(AForge.Imaging.UnmanagedImage,AForge.Imaging.UnmanagedImage)">
+             <summary>
+             Process video and motion frames doing further post processing after
+             performed motion detection.
+             </summary>
+             
+             <param name="videoFrame">Original video frame.</param>
+             <param name="motionFrame">Motion frame provided by motion detection
+             algorithm (see <see cref="T:AForge.Vision.Motion.IMotionDetector"/>).</param>
+             
+             <remarks><para>Processes provided motion frame and highlights borders of motion areas
+             on the original video frame with <see cref="P:AForge.Vision.Motion.MotionBorderHighlighting.HighlightColor">specified color</see>.</para>
+             </remarks>
+            
+             <exception cref="T:AForge.Imaging.InvalidImagePropertiesException">Motion frame is not 8 bpp image, but it must be so.</exception>
+             <exception cref="T:AForge.Imaging.UnsupportedImageFormatException">Video frame must be 8 bpp grayscale image or 24/32 bpp color image.</exception>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.MotionBorderHighlighting.Reset">
+             <summary>
+             Reset internal state of motion processing algorithm.
+             </summary>
+             
+             <remarks><para>The method allows to reset internal state of motion processing
+             algorithm and prepare it for processing of next video stream or to restart
+             the algorithm.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.MotionBorderHighlighting.HighlightColor">
+            <summary>
+            Color used to highlight motion regions.
+            </summary>
+            
+            <remarks>
+            <para>Default value is set to <b>red</b> color.</para>
+            </remarks>
+            
+        </member>
+        <member name="T:AForge.Vision.Motion.CustomFrameDifferenceDetector">
+            <summary>
+            Motion detector based on difference with predefined background frame.
+            </summary>
+            
+            <remarks><para>The class implements motion detection algorithm, which is based on
+            difference of current video frame with predefined background frame. The <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.MotionFrame">difference frame</see>
+            is thresholded and the <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.MotionLevel">amount of difference pixels</see> is calculated.
+            To suppress stand-alone noisy pixels erosion morphological operator may be applied, which
+            is controlled by <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.SuppressNoise"/> property.</para>
+            
+            <para><note>In the case if precise motion area's borders are required (for example,
+            for further motion post processing), then <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.KeepObjectsEdges"/> property
+            may be used to restore borders after noise suppression.</note></para>
+            
+            <para><note>In the case if custom background frame is not specified by using
+            <see cref="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.SetBackgroundFrame(System.Drawing.Bitmap)"/> method, the algorithm takes first video frame
+            as a background frame and calculates difference of further video frames with it.</note></para>
+            
+            <para>Unlike <see cref="T:AForge.Vision.Motion.TwoFramesDifferenceDetector"/> motion detection algorithm, this algorithm
+            allows to identify quite clearly all objects, which are not part of the background (scene) -
+            most likely moving objects.</para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // create motion detector
+            MotionDetector detector = new MotionDetector(
+                new CustomFrameDifferenceDetector( ),
+                new MotionAreaHighlighting( ) );
+            
+            // continuously feed video frames to motion detector
+            while ( ... )
+            {
+                // process new video frame and check motion level
+                if ( detector.ProcessFrame( videoFrame ) &gt; 0.02 )
+                {
+                    // ring alarm or do somethng else
+                }
+            }
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.CustomFrameDifferenceDetector"/> class.
+            </summary>
+        </member>
+        <member name="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.CustomFrameDifferenceDetector"/> class.
+            </summary>
+            
+            <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.SuppressNoise"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.CustomFrameDifferenceDetector"/> class.
+            </summary>
+            
+            <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.SuppressNoise"/> property).</param>
+            <param name="keepObjectEdges">Restore objects edges after noise suppression or not (see <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.KeepObjectsEdges"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)">
+            <summary>
+            Process new video frame.
+            </summary>
+            
+            <param name="videoFrame">Video frame to process (detect motion in).</param>
+            
+            <remarks><para>Processes new frame from video source and detects motion in it.</para>
+            
+            <para>Check <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.MotionLevel"/> property to get information about amount of motion
+            (changes) in the processed frame.</para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.Reset">
+            <summary>
+            Reset motion detector to initial state.
+            </summary>
+            
+            <remarks><para>Resets internal state and variables of motion detection algorithm.
+            Usually this is required to be done before processing new video source, but
+            may be also done at any time to restart motion detection algorithm.</para>
+            
+            <para><note>In the case if custom background frame was set using
+            <see cref="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.SetBackgroundFrame(System.Drawing.Bitmap)"/> method, this method does not reset it.
+            The method resets only automatically generated background frame.
+            </note></para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.SetBackgroundFrame(System.Drawing.Bitmap)">
+            <summary>
+            Set background frame.
+            </summary>
+            
+            <param name="backgroundFrame">Background frame to set.</param>
+            
+            <remarks><para>The method sets background frame, which will be used to calculate
+            difference with.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.SetBackgroundFrame(System.Drawing.Imaging.BitmapData)">
+            <summary>
+            Set background frame.
+            </summary>
+            
+            <param name="backgroundFrame">Background frame to set.</param>
+            
+            <remarks><para>The method sets background frame, which will be used to calculate
+            difference with.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.SetBackgroundFrame(AForge.Imaging.UnmanagedImage)">
+            <summary>
+            Set background frame.
+            </summary>
+            
+            <param name="backgroundFrame">Background frame to set.</param>
+            
+            <remarks><para>The method sets background frame, which will be used to calculate
+            difference with.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.DifferenceThreshold">
+            <summary>
+            Difference threshold value, [1, 255].
+            </summary>
+            
+            <remarks><para>The value specifies the amount off difference between pixels, which is treated
+            as motion pixel.</para>
+            
+            <para>Default value is set to <b>15</b>.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.MotionLevel">
+            <summary>
+            Motion level value, [0, 1].
+            </summary>
+            
+            <remarks><para>Amount of changes in the last processed frame. For example, if value of
+            this property equals to 0.1, then it means that last processed frame has 10% difference
+            with defined background frame.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.MotionFrame">
+             <summary>
+             Motion frame containing detected areas of motion.
+             </summary>
+             
+             <remarks><para>Motion frame is a grayscale image, which shows areas of detected motion.
+             All black pixels in the motion frame correspond to areas, where no motion is
+             detected. But white pixels correspond to areas, where motion is detected.</para>
+             
+             <para><note>The property is set to <see langword="null"/> after processing of the first
+             video frame by the algorithm in the case if custom background frame was not set manually
+             by using <see cref="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.SetBackgroundFrame(System.Drawing.Bitmap)"/> method (it will be not <see langword="null"/>
+             after second call in this case). If correct custom background
+             was set then the property should bet set to estimated motion frame after
+             <see cref="M:AForge.Vision.Motion.CustomFrameDifferenceDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)"/> method call.</note></para>
+             </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.SuppressNoise">
+            <summary>
+            Suppress noise in video frames or not.
+            </summary>
+            
+            <remarks><para>The value specifies if additional filtering should be
+            done to suppress standalone noisy pixels by applying 3x3 erosion image processing
+            filter. See <see cref="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.KeepObjectsEdges"/> property, if it is required to restore
+            edges of objects, which are not noise.</para>
+            
+            <para>Default value is set to <see langword="true"/>.</para>
+            
+            <para><note>Turning the value on leads to more processing time of video frame.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.CustomFrameDifferenceDetector.KeepObjectsEdges">
+            <summary>
+            Restore objects edges after noise suppression or not.
+            </summary>
+            
+            <remarks><para>The value specifies if additional filtering should be done
+            to restore objects' edges after noise suppression by applying 3x3 dilatation
+            image processing filter.</para>
+            
+            <para>Default value is set to <see langword="false"/>.</para>
+            
+            <para><note>Turning the value on leads to more processing time of video frame.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="T:AForge.Vision.Motion.SimpleBackgroundModelingDetector">
+            <summary>
+            Motion detector based on simple background modeling.
+            </summary>
+            
+            <remarks><para>The class implements motion detection algorithm, which is based on
+            difference of current video frame with modeled background frame.
+            The <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MotionFrame">difference frame</see> is thresholded and the
+            <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MotionLevel">amount of difference pixels</see> is calculated.
+            To suppress stand-alone noisy pixels erosion morphological operator may be applied, which
+            is controlled by <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.SuppressNoise"/> property.</para>
+            
+            <para><note>In the case if precise motion area's borders are required (for example,
+            for further motion post processing), then <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.KeepObjectsEdges"/> property
+            may be used to restore borders after noise suppression.</note></para>
+            
+            <para>As the first approximation of background frame, the first frame of video stream is taken.
+            During further video processing the background frame is constantly updated, so it
+            changes in the direction to decrease difference with current video frame (the background
+            frame is moved towards current frame). See <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.FramesPerBackgroundUpdate"/>
+            <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MillisecondsPerBackgroundUpdate"/> properties, which control the rate of
+            background frame update.</para>
+            
+            <para>Unlike <see cref="T:AForge.Vision.Motion.TwoFramesDifferenceDetector"/> motion detection algorithm, this algorithm
+            allows to identify quite clearly all objects, which are not part of the background (scene) -
+            most likely moving objects. And unlike <see cref="T:AForge.Vision.Motion.CustomFrameDifferenceDetector"/> motion
+            detection algorithm, this algorithm includes background adaptation feature, which allows it
+            to update its modeled background frame in order to take scene changes into account.</para>
+            
+            <para><note>Because of the adaptation feature of the algorithm, it may adopt
+            to background changes, what <see cref="T:AForge.Vision.Motion.CustomFrameDifferenceDetector"/> algorithm can not do.
+            However, if moving object stays on the scene for a while (so algorithm adopts to it and does
+            not treat it as a new moving object any more) and then starts to move again, the algorithm may
+            find two moving objects - the true one, which is really moving, and the false one, which does not (the
+            place, where the object stayed for a while).</note></para>
+            
+            <para><note>The algorithm is not applicable to such cases, when moving object resides
+            in camera's view most of the time (laptops camera monitoring a person sitting in front of it,
+            for example). The algorithm is mostly supposed for cases, when camera monitors some sort
+            of static scene, where moving objects appear from time to time - street, road, corridor, etc.
+            </note></para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // create motion detector
+            MotionDetector detector = new MotionDetector(
+                new SimpleBackgroundModelingDetector( ),
+                new MotionAreaHighlighting( ) );
+            
+            // continuously feed video frames to motion detector
+            while ( ... )
+            {
+                // process new video frame and check motion level
+                if ( detector.ProcessFrame( videoFrame ) &gt; 0.02 )
+                {
+                    // ring alarm or do somethng else
+                }
+            }
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Vision.Motion.MotionDetector"/>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.SimpleBackgroundModelingDetector.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.SimpleBackgroundModelingDetector"/> class.
+            </summary>
+        </member>
+        <member name="M:AForge.Vision.Motion.SimpleBackgroundModelingDetector.#ctor(System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.SimpleBackgroundModelingDetector"/> class.
+            </summary>
+            
+            <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.SuppressNoise"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.SimpleBackgroundModelingDetector.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Vision.Motion.SimpleBackgroundModelingDetector"/> class.
+            </summary>
+            
+            <param name="suppressNoise">Suppress noise in video frames or not (see <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.SuppressNoise"/> property).</param>
+            <param name="keepObjectEdges">Restore objects edges after noise suppression or not (see <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.KeepObjectsEdges"/> property).</param>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.SimpleBackgroundModelingDetector.ProcessFrame(AForge.Imaging.UnmanagedImage)">
+             <summary>
+             Process new video frame.
+             </summary>
+             
+             <param name="videoFrame">Video frame to process (detect motion in).</param>
+             
+             <remarks><para>Processes new frame from video source and detects motion in it.</para>
+             
+             <para>Check <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MotionLevel"/> property to get information about amount of motion
+             (changes) in the processed frame.</para>
+             </remarks>
+            
+        </member>
+        <member name="M:AForge.Vision.Motion.SimpleBackgroundModelingDetector.Reset">
+            <summary>
+            Reset motion detector to initial state.
+            </summary>
+            
+            <remarks><para>Resets internal state and variables of motion detection algorithm.
+            Usually this is required to be done before processing new video source, but
+            may be also done at any time to restart motion detection algorithm.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.DifferenceThreshold">
+            <summary>
+            Difference threshold value, [1, 255].
+            </summary>
+            
+            <remarks><para>The value specifies the amount off difference between pixels, which is treated
+            as motion pixel.</para>
+            
+            <para>Default value is set to <b>15</b>.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MotionLevel">
+            <summary>
+            Motion level value, [0, 1].
+            </summary>
+            
+            <remarks><para>Amount of changes in the last processed frame. For example, if value of
+            this property equals to 0.1, then it means that last processed frame has 10% difference
+            with modeled background frame.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MotionFrame">
+             <summary>
+             Motion frame containing detected areas of motion.
+             </summary>
+             
+             <remarks><para>Motion frame is a grayscale image, which shows areas of detected motion.
+             All black pixels in the motion frame correspond to areas, where no motion is
+             detected. But white pixels correspond to areas, where motion is detected.</para>
+             
+             <para><note>The property is set to <see langword="null"/> after processing of the first
+             video frame by the algorithm.</note></para>
+             </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.SuppressNoise">
+            <summary>
+            Suppress noise in video frames or not.
+            </summary>
+            
+            <remarks><para>The value specifies if additional filtering should be
+            done to suppress standalone noisy pixels by applying 3x3 erosion image processing
+            filter. See <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.KeepObjectsEdges"/> property, if it is required to restore
+            edges of objects, which are not noise.</para>
+            
+            <para>Default value is set to <see langword="true"/>.</para>
+            
+            <para><note>Turning the value on leads to more processing time of video frame.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.KeepObjectsEdges">
+            <summary>
+            Restore objects edges after noise suppression or not.
+            </summary>
+            
+            <remarks><para>The value specifies if additional filtering should be done
+            to restore objects' edges after noise suppression by applying 3x3 dilatation
+            image processing filter.</para>
+            
+            <para>Default value is set to <see langword="false"/>.</para>
+            
+            <para><note>Turning the value on leads to more processing time of video frame.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.FramesPerBackgroundUpdate">
+            <summary>
+            Frames per background update, [1, 50].
+            </summary>
+            
+            <remarks><para>The value controls the speed of modeled background adaptation to
+            scene changes. After each specified amount of frames the background frame is updated
+            in the direction to decrease difference with current processing frame.</para>
+            
+            <para>Default value is set to <b>2</b>.</para>
+            
+            <para><note>The property has effect only in the case if <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MillisecondsPerBackgroundUpdate"/>
+            property is set to <b>0</b>. Otherwise it does not have effect and background
+            update is managed according to the <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MillisecondsPerBackgroundUpdate"/>
+            property settings.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.MillisecondsPerBackgroundUpdate">
+            <summary>
+            Milliseconds per background update, [0, 5000].
+            </summary>
+            
+            <remarks><para>The value represents alternate way of controlling the speed of modeled
+            background adaptation to scene changes. The value sets number of milliseconds, which
+            should elapse between two consequent video frames to result in background update
+            for one intensity level. For example, if this value is set to 100 milliseconds and
+            the amount of time elapsed between two last video frames equals to 350, then background
+            frame will be update for 3 intensity levels in the direction to decrease difference
+            with current video frame (the remained 50 milliseconds will be added to time difference
+            between two next consequent frames, so the accuracy is preserved).</para>
+            
+            <para>Unlike background update method controlled using <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.FramesPerBackgroundUpdate"/>
+            method, the method guided by this property is not affected by changes
+            in frame rates. If, for some reasons, a video source starts to provide delays between
+            frames (frame rate drops down), the amount of background update still stays consistent.
+            When background update is controlled by this property, it is always possible to estimate
+            amount of time required to change, for example, absolutely black background (0 intensity
+            values) into absolutely white background (255 intensity values). If value of this
+            property is set to 100, then it will take approximately 25.5 seconds for such update
+            regardless of frame rate.</para>
+            
+            <para><note>Background update controlled by this property is slightly slower then
+            background update controlled by <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.FramesPerBackgroundUpdate"/> property,
+            so it has a bit greater impact on performance.</note></para>
+            
+            <para><note>If this property is set to 0, then corresponding background updating
+            method is not used (turned off), but background update guided by
+            <see cref="P:AForge.Vision.Motion.SimpleBackgroundModelingDetector.FramesPerBackgroundUpdate"/> property is used.</note></para>
+            
+            <para>Default value is set to <b>0</b>.</para>
+            </remarks>
+            
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,1331 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AForge.Robotics.Surveyor</name>
+    </assembly>
+    <members>
+        <member name="T:AForge.Robotics.Surveyor.SVS">
+            <summary>
+            Manipulation of Surveyor SVS (Stereo Vision System) board.
+            </summary>
+            
+            <remarks>
+            <para>The class allows to manipulate with <a href="http://www.surveyor.com/stereo/stereo_info.html">Surveyor SVS</a>
+            board (stereo vision system) - getting video from both cameras, manipulating motors and servos,
+            reading ultrasonic modules' values, sending direct commands, etc.</para>
+            
+            <para><img src="img/robotics/svs.jpg" width="320" height="189"/></para>
+            
+            <para>This class essentially creates to instances of <see cref="T:AForge.Robotics.Surveyor.SRV1"/> class to communicate
+            with both SVS's cameras (ports 10001 and 10002 are used) and directs all calls through them.</para>
+            
+            <para>Sample usage:</para>
+            <code>
+            SVS svs = new SVS( );
+            // connect to SVS board
+            svs.Connect( "169.254.0.10" );
+            // stop motors
+            svs.StopMotors( );
+            // set video resolution and quality
+            svs.SetQuality( 7 );
+            svs.SetResolution( SRV1.VideoResolution.Small );
+            // get version string
+            string version = svs.GetVersion( );
+            
+            // get left camera
+            SRV1Camera camera = svs.GetCamera( SVS.Camera.Left );
+            
+            // set NewFrame event handler
+            camera.NewFrame += new NewFrameEventHandler( video_NewFrame );
+            // start the video source
+            camera.Start( );
+            // ...
+            
+            private void video_NewFrame( object sender, NewFrameEventArgs eventArgs )
+            {
+                // get new frame
+                Bitmap bitmap = eventArgs.Frame;
+                // process the frame
+            }
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Robotics.Surveyor.SRV1Camera"/>
+            <seealso cref="T:AForge.Robotics.Surveyor.SRV1"/>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.#ctor">
+             <summary>
+             Initializes a new instance of the <see cref="T:AForge.Robotics.Surveyor.SVS"/> class.
+             </summary>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.Connect(System.String)">
+            <summary>
+            Connect to SVS board.
+            </summary>
+            
+            <param name="ipAddress">IP address of SVS board.</param>
+            
+            <remarks><para>The method establishes connection to SVS board. If it succeeds then
+            other methods can be used to manipulate the board.</para>
+            
+            <para><note>The method calls <see cref="M:AForge.Robotics.Surveyor.SVS.Disconnect"/> before making any connection
+            attempts to make sure previous connection is closed.</note></para>
+            </remarks>
+            
+            <exception cref="T:AForge.ConnectionFailedException">Failed connecting to SVS.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.Disconnect">
+            <summary>
+            Disconnect from SVS device.
+            </summary>
+            
+            <remarks><para>The method disconnects from SVS board making all other methods
+            unavailable (except <see cref="M:AForge.Robotics.Surveyor.SVS.Connect(System.String)"/> method). In the case if user
+            obtained instance of left or right camera using <see cref="M:AForge.Robotics.Surveyor.SVS.GetCamera(AForge.Robotics.Surveyor.SVS.Camera)"/>
+            method, the video will be stopped automatically (and those <see cref="T:AForge.Robotics.Surveyor.SRV1Camera"/>
+            instances should be discarded).
+            </para></remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.GetCamera(AForge.Robotics.Surveyor.SVS.Camera)">
+            <summary>
+            Get SVS's camera.
+            </summary>
+            
+            <param name="camera">SVS camera to get.</param>
+            
+            <returns>Returns <see cref="T:AForge.Robotics.Surveyor.SRV1Camera"/> object, which is connected to SVS's Blackfin camera.
+            Use <see cref="M:AForge.Robotics.Surveyor.SRV1Camera.Start"/> method to start the camera and start receiving video
+            frames from it.</returns>
+            
+            <remarks><para>The method provides an instance of <see cref="T:AForge.Robotics.Surveyor.SRV1Camera"/>, which can be used
+            for receiving continuous video frames from the SVS board.
+            In the case if only one image is required, the <see cref="M:AForge.Robotics.Surveyor.SVS.GetImage(AForge.Robotics.Surveyor.SVS.Camera)"/> method can be used.</para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // get SRV-1 camera
+            SRV1Camera camera = svs.GetCamera( SVS.Camera.Left );
+            // set NewFrame event handler
+            camera.NewFrame += new NewFrameEventHandler( video_NewFrame );
+            // start the video source
+            camera.Start( );
+            // ...
+            
+            private void video_NewFrame( object sender, NewFrameEventArgs eventArgs )
+            {
+                // get new frame
+                Bitmap bitmap = eventArgs.Frame;
+                // process the frame
+            }
+            </code>
+            </remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.GetImage(AForge.Robotics.Surveyor.SVS.Camera)">
+             <summary>
+             Get single image from the SVS board.
+             </summary>
+             
+             <param name="camera">Camera to get image from.</param>
+             
+             <returns>Returns image received from the specified camera of the SVS board or
+             <see langword="null"/> if failed decoding provided response.</returns>
+             
+             <remarks><para>The method provides single video frame retrieved from the specified SVS's
+             camera. However in many cases it is required to receive video frames one after another, so
+             the <see cref="M:AForge.Robotics.Surveyor.SVS.GetCamera(AForge.Robotics.Surveyor.SVS.Camera)"/> method is more preferred for continuous video frames.</para></remarks>
+            
+             <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+             this method.</exception>
+             <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+             
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.GetDirectAccessToSRV1(AForge.Robotics.Surveyor.SVS.Camera)">
+             <summary>
+             Get direct access to one of the SVS's SRV-1 Blackfin cameras.
+             </summary>
+             
+             <param name="camera">SRV-1 Blackfin to get direct access to.</param>
+             
+             <returns>Returns <see cref="T:AForge.Robotics.Surveyor.SRV1"/> object connected to the requested
+             SRV-1 Blackfin camera.</returns>
+             
+             <remarks><para>The method provides direct access to one of the SVS's SRV-1
+             Blackfin cameras, so it could be possible to send some direct commands to it
+             using <see cref="M:AForge.Robotics.Surveyor.SRV1.Send(System.Byte[])"/> and <see cref="M:AForge.Robotics.Surveyor.SRV1.SendAndReceive(System.Byte[],System.Byte[])"/> methods.</para></remarks>
+             
+             <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+             this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.GetVersion">
+            <summary>
+            Get SVS board's firmware version string.
+            </summary>
+            
+            <returns>Returns SVS's version string.</returns>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.GetRunningTime">
+            <summary>
+            Get SVS's board's running time.
+            </summary>
+            
+            <returns>Returns SVS boards running time in milliseconds.</returns>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            <exception cref="T:System.ApplicationException">Failed parsing response from SVS.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.RunMotors(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Run motors connected to the SVS board.
+            </summary>
+            
+            <param name="leftSpeed">Left motor's speed, [-127, 127].</param>
+            <param name="rightSpeed">Right motor's speed, [-127, 127].</param>
+            <param name="duration">Time duration to run motors measured in number
+            of 10 milliseconds (0 for infinity), [0, 255].</param>
+            
+            <remarks><para>The method sets specified speed to both motors connected to
+            the SVS board. The maximum absolute speed equals to 127, but the sign specifies
+            direction of motor's rotation (forward or backward).
+            </para></remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.StopMotors">
+            <summary>
+            Stop both motors.
+            </summary>
+            
+            <remarks><para>The method stops both motors connected to the SVS board by calling
+            <see cref="M:AForge.Robotics.Surveyor.SVS.RunMotors(System.Int32,System.Int32,System.Int32)"/> method specifying 0 for motors' speed.</para></remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.EnableFailsafeMode(System.Int32,System.Int32)">
+            <summary>
+            Enables fail safe mode - setting motors' speed after timeout.
+            </summary>
+            
+            <param name="leftSpeed">Left motor's speed, [-127, 127].</param>
+            <param name="rightSpeed">Right motor's speed, [-127, 127].</param>
+            
+            <remarks><para>In the case if fail safe mode is enabled and no commands are received
+            by SVS robot withing 2 seconds, motors' speed will be set to the specified values. The command
+            is very useful to instruct robot to stop if no other commands were sent
+            within 2 last seconds (probably lost connection).</para></remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.DisableFailsafeMode">
+            <summary>
+            Disable fail safe mode.
+            </summary>
+            
+            <remarks><para>The method disable fail safe mode, which was set using
+            <see cref="M:AForge.Robotics.Surveyor.SVS.EnableFailsafeMode(System.Int32,System.Int32)"/> method.</para></remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.ControlMotors(AForge.Robotics.Surveyor.SRV1.MotorCommand)">
+            <summary>
+            Control motors connected to SVS board using predefined commands.
+            </summary>
+            
+            <param name="command">Motor command to send to the SVS board.</param>
+            
+            <remarks><para><note>Controlling SVS motors with this method is only available
+            after at least one direct motor command is sent, which is done using <see cref="M:AForge.Robotics.Surveyor.SVS.StopMotors"/> or
+            <see cref="M:AForge.Robotics.Surveyor.SVS.RunMotors(System.Int32,System.Int32,System.Int32)"/> methods.</note></para></remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.ControlServos(AForge.Robotics.Surveyor.SVS.ServosBank,System.Int32,System.Int32)">
+            <summary>
+            Direct servos control of the SVS board.
+            </summary>
+            
+            <param name="servosBank">SVS's servo bank to control.</param>
+            <param name="leftServo">Left servo setting, [0, 100].</param>
+            <param name="rightServo">Right servo setting, [0, 100].</param>
+            
+            <remarks><para>The method performs servos control of the SVS board.
+            For <see cref="F:AForge.Robotics.Surveyor.SVS.ServosBank.Bank1"/> and <see cref="F:AForge.Robotics.Surveyor.SVS.ServosBank.Bank3"/>
+            banks it calls <see cref="M:AForge.Robotics.Surveyor.SRV1.ControlServos(System.Int32,System.Int32)"/> method for the corresponding
+            SRV-1 Blackfin camera. In the case of <see cref="F:AForge.Robotics.Surveyor.SVS.ServosBank.Bank0"/> or <see cref="F:AForge.Robotics.Surveyor.SVS.ServosBank.Bank2"/>,
+            the method sends 'Sab' SRV-1 command (see <a href="http://www.surveyor.com/SRV_protocol.html">SRV-1
+            Control Protocol</a>) to the appropriate SRV-1 Blackfin camera.</para>
+            </remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.UltrasonicPing(AForge.Robotics.Surveyor.SVS.Camera)">
+            <summary>
+            Ping ultrasonic ranging modules.
+            </summary>
+            
+            <param name="camera">SRV-1 Blackfin camera to check ultrasonic modules values.</param>
+            
+            <returns>Returns array of ranges (distances) obtained from ultrasonic sensors. The ranges
+            are measured in inches.</returns>
+            
+            <remarks><para>The method calls <see cref="M:AForge.Robotics.Surveyor.SRV1.UltrasonicPing"/> for the specified
+            SRV-1 Blackfin camera.</para></remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            <exception cref="T:System.ApplicationException">Failed parsing response from SVS.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.I2CReadByte(AForge.Robotics.Surveyor.SVS.Camera,System.Byte,System.Byte)">
+            <summary>
+            Read byte from I2C device.
+            </summary>
+            
+            <param name="camera">SRV-1 Blackfin camera to access I2C device on.</param>
+            <param name="deviceID">I2C device ID (7 bit notation).</param>
+            <param name="register">I2C device register to read.</param>
+            
+            <returns>Returns byte read from the specified register of the specified I2C device.</returns>
+            
+            <para><note>The IC2 device ID should be specified in 7 bit notation. This means that low bit of the ID
+            is not used for specifying read/write mode as in 8 bit notation. For example, if I2C device IDs are 0x44 for reading
+            and 0x45 for writing in 8 bit notation, then it equals to 0x22 device ID in 7 bit notation.
+            </note></para>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            <exception cref="T:System.ApplicationException">Failed parsing response from SRV-1.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.I2CReadWord(AForge.Robotics.Surveyor.SVS.Camera,System.Byte,System.Byte)">
+             <summary>
+             Read word from I2C device.
+             </summary>
+             
+             <param name="camera">SRV-1 Blackfin camera to access I2C device on.</param>
+             <param name="deviceID">I2C device ID (7 bit notation).</param>
+             <param name="register">I2C device register to read.</param>
+             
+             <returns>Returns word read from the specified register of the specified I2C device.</returns>
+             
+             <para><note>The IC2 device ID should be specified in 7 bit notation. This means that low bit of the ID
+             is not used for specifying read/write mode as in 8 bit notation. For example, if I2C device IDs are 0x44 for reading
+             and 0x45 for writing in 8 bit notation, then it equals to 0x22 device ID in 7 bit notation.
+             </note></para>
+            
+             <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+             this method.</exception>
+             <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+             <exception cref="T:System.ApplicationException">Failed parsing response from SRV-1.</exception>
+             
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.I2CWriteByte(AForge.Robotics.Surveyor.SVS.Camera,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Write byte to I2C device.
+            </summary>
+            
+            <param name="camera">SRV-1 Blackfin camera to access I2C device on.</param>
+            <param name="deviceID">I2C device ID (7 bit notation).</param>
+            <param name="register">I2C device register to write to.</param>
+            <param name="byteToWrite">Byte to write to the specified register of the specified device.</param>
+            
+            <para><note>The IC2 device ID should be specified in 7 bit notation. This means that low bit of the ID
+            is not used for specifying read/write mode as in 8 bit notation. For example, if I2C device IDs are 0x44 for reading
+            and 0x45 for writing in 8 bit notation, then it equals to 0x22 device ID in 7 bit notation.
+            </note></para>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.I2CWriteWord(AForge.Robotics.Surveyor.SVS.Camera,System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Write two bytes to I2C device.
+            </summary>
+            
+            <param name="camera">SRV-1 Blackfin camera to access I2C device on.</param>
+            <param name="deviceID">I2C device ID (7 bit notation).</param>
+            <param name="register">I2C device register to write to.</param>
+            <param name="firstByteToWrite">First byte to write to the specified register of the specified device.</param>
+            <param name="secondByteToWrite">Second byte to write to the specified register of the specified device.</param>
+            
+            <para><note>The IC2 device ID should be specified in 7 bit notation. This means that low bit of the ID
+            is not used for specifying read/write mode as in 8 bit notation. For example, if I2C device IDs are 0x44 for reading
+            and 0x45 for writing in 8 bit notation, then it equals to 0x22 device ID in 7 bit notation.
+            </note></para>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.SetQuality(System.Int32)">
+             <summary>
+             Set video quality for both cameras.
+             </summary>
+             
+             <param name="quality">Video quality to set, [1, 8].</param>
+            
+             <remarks><para>The method sets video quality for both SVS cameras, which is specified in [1, 8] range - 1 is
+             the highest quality level, 8 is the lowest quality level.</para>
+             
+             <para><note>Setting higher quality level and <see cref="M:AForge.Robotics.Surveyor.SVS.SetResolution(AForge.Robotics.Surveyor.SRV1.VideoResolution)">resolution</see>
+             may increase delays for other requests sent to SVS. So if
+             robot is used not only for video, but also for controlling servos/motors, and higher
+             response level is required, then do not set very high quality and resolution.
+             </note></para>
+             </remarks>
+             
+             <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+             this method.</exception>
+             <exception cref="T:System.ArgumentOutOfRangeException">Invalid quality level was specified.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.SetResolution(AForge.Robotics.Surveyor.SRV1.VideoResolution)">
+            <summary>
+            Set video resolution for both cameras.
+            </summary>
+            
+            <param name="resolution">Video resolution to set.</param>
+            
+            <remarks>
+            <para><note>Setting higher <see cref="M:AForge.Robotics.Surveyor.SVS.SetQuality(System.Int32)">quality level</see> and resolution
+            may increase delays for other requests sent to SVS. So if
+            robot is used not only for video, but also for controlling servos/motors, and higher
+            response level is required, then do not set very high quality and resolution.
+            </note></para>
+            </remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SVS.FlipVideo(System.Boolean)">
+            <summary>
+            Flip video capture for both cameras or not (for use with upside-down camera).
+            </summary>
+            
+            <param name="isFlipped">Specifies if video should be flipped (<see langword="true"/>),
+            or not (<see langword="false"/>).</param>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SVS. Connect to SVS board before using
+            this method.</exception>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SVS.HostAddress">
+             <summary>
+             SVS's host address.
+             </summary>
+             
+             <remarks><para>The property keeps SVS's IP address if the class is connected
+             to SVS board, otherwise it equals to <see langword="null."/>.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SVS.IsConnected">
+            <summary>
+            Connection state.
+            </summary>
+            
+            <remarks><para>The property equals to <see langword="true"/> if the class is connected
+            to SVS board, otherwise it equals to <see langword="false"/>.</para>
+            
+            <para><note>The property is not updated by the class, when connection was lost or
+            communication failure was detected (which results into <see cref="T:AForge.ConnectionLostException"/>
+            exception). The property only shows status of <see cref="M:AForge.Robotics.Surveyor.SVS.Connect(System.String)"/> method.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="T:AForge.Robotics.Surveyor.SVS.Camera">
+            <summary>
+            Enumeration of SVS's Blackfin cameras.
+            </summary>
+            
+            <remarks><para>Since SVS board consists of two SRV-1 Blackfin cameras, the enumeration
+            is used by different methods to specify which one to access.</para></remarks>
+            
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SVS.Camera.Left">
+            <summary>
+            Left camera (default port number is 10000).
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SVS.Camera.Right">
+            <summary>
+            Right camera (default port number is 10001).
+            </summary>
+        </member>
+        <member name="T:AForge.Robotics.Surveyor.SVS.ServosBank">
+            <summary>
+            Enumeration of SVS's servos' banks.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SVS.ServosBank.Bank0">
+            <summary>
+            First bank of the first (<see cref="F:AForge.Robotics.Surveyor.SVS.Camera.Left"/>) SRV-1 Blackfin camera,
+            timers 2 and 3 (marked as TMR2-1 and TMR3-1 on the SVS board). Note: these
+            timers on SVS board are supposed for controlling motors by default
+            (see <see cref="M:AForge.Robotics.Surveyor.SVS.RunMotors(System.Int32,System.Int32,System.Int32)"/> and <see cref="M:AForge.Robotics.Surveyor.SVS.ControlMotors(AForge.Robotics.Surveyor.SRV1.MotorCommand)"/>), so use 0th
+            servos bank only when you've done proper configuration changes on SVS side.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SVS.ServosBank.Bank1">
+            <summary>
+            Second bank of the first (<see cref="F:AForge.Robotics.Surveyor.SVS.Camera.Left"/>) SRV-1 Blackfin camera,
+            timers 6 and 7 (marked as TMR6-1 and TMR7-1 on the SVS board).
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SVS.ServosBank.Bank2">
+            <summary>
+            First bank of the second (<see cref="F:AForge.Robotics.Surveyor.SVS.Camera.Right"/>) SRV-1 Blackfin camera,
+            timers 2 and 3 (marked as TMR2-2 and TMR3-2 on the SVS board).
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SVS.ServosBank.Bank3">
+            <summary>
+            Second bank of the second (<see cref="F:AForge.Robotics.Surveyor.SVS.Camera.Right"/>) SRV-1 Blackfin camera,
+            timers 6 and 7 (marked as TMR6-2 and TMR7-2 on the SVS board).
+            </summary>
+        </member>
+        <member name="T:AForge.Robotics.Surveyor.SRV1">
+             <summary>
+             Manipulation of Surveyor SRV-1 Blackfin robot/camera.
+             </summary>
+            
+             <remarks>
+             <para>The class allows to manipulate with <a href="http://www.surveyor.com/SRV_info.html">Surveyor SRV-1 Blackfin Robot</a>
+             - getting video from its camera, manipulating motors and servos,
+             reading ultrasonic modules' values, sending direct commands, etc.</para>
+             
+             <para><img src="img/robotics/srv1-robot.jpg" width="240" height="216"/></para>
+             
+             <para>Sample usage:</para>
+             <code>
+             SRV1 srv = new SRV1( );
+             // connect to SRV-1 robot
+             srv.Connect( "169.254.0.10", 10001 );
+             // stop motors
+             srv.StopMotors( );
+             // set video resolution and quality
+             srv.SetQuality( 7 );
+             srv.SetResolution( SRV1.VideoResolution.Small );
+             // get version string
+             string version = srv.GetVersion( );
+             
+             // get robot's camera
+             SRV1Camera camera = srv.GetCamera( );
+             
+             // set NewFrame event handler
+             camera.NewFrame += new NewFrameEventHandler( video_NewFrame );
+             // start the video source
+             camera.Start( );
+             // ...
+             
+             private void video_NewFrame( object sender, NewFrameEventArgs eventArgs )
+             {
+                 // get new frame
+                 Bitmap bitmap = eventArgs.Frame;
+                 // process the frame
+             }
+             </code>
+             </remarks>
+             
+             <seealso cref="T:AForge.Robotics.Surveyor.SRV1Camera"/>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Robotics.Surveyor.SRV1"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.Connect(System.String,System.Int32)">
+            <summary>
+            Connect to SRV-1 Blackfin robot/camera.
+            </summary>
+            
+            <param name="ip">IP address of SRV-1 robot.</param>
+            <param name="port">Port number to connect to.</param>
+            
+            <remarks><para>The method establishes connection to SRV-1 Blackfin robot/camera.
+            If it succeeds then other methods can be used to manipulate the robot.</para>
+            
+            <para><note>The method calls <see cref="M:AForge.Robotics.Surveyor.SRV1.Disconnect"/> before making any connection
+            attempts to make sure previous connection is closed.</note></para>
+            </remarks>
+            
+            <exception cref="T:AForge.ConnectionFailedException">Failed connecting to SRV-1.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.Disconnect">
+            <summary>
+            Disconnect from SRV-1 Blackfin robot.
+            </summary>
+            
+            <remarks><para>The method disconnects from SRV-1 robot making all other methods
+            unavailable (except <see cref="M:AForge.Robotics.Surveyor.SRV1.Connect(System.String,System.Int32)"/> method). In the case if user
+            obtained instance of camera using <see cref="M:AForge.Robotics.Surveyor.SRV1.GetCamera"/> method, the video will
+            be stopped automatically (and those <see cref="T:AForge.Robotics.Surveyor.SRV1Camera"/> instances should be discarded).
+            </para></remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.GetCamera">
+            <summary>
+            Get camera object for the SRV-1 Blackfin robot/camera.
+            </summary>
+            
+            <returns>Returns <see cref="T:AForge.Robotics.Surveyor.SRV1Camera"/> object, which is connected to SRV1 Blackfin camera.
+            Use <see cref="M:AForge.Robotics.Surveyor.SRV1Camera.Start"/> method to start the camera and start receiving video
+            frames it.</returns>
+            
+            <remarks><para>The method provides an instance of <see cref="T:AForge.Robotics.Surveyor.SRV1Camera"/>, which can be used
+            for receiving continuous video frames from the SRV-1 Blackfin camera.
+            In the case if only one image is required, the <see cref="M:AForge.Robotics.Surveyor.SRV1.GetImage"/> method can be used.</para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // get SRV-1 camera
+            SRV1Camera camera = srv.GetCamera( );
+            // set NewFrame event handler
+            camera.NewFrame += new NewFrameEventHandler( video_NewFrame );
+            // start the video source
+            camera.Start( );
+            // ...
+            
+            private void video_NewFrame( object sender, NewFrameEventArgs eventArgs )
+            {
+                // get new frame
+                Bitmap bitmap = eventArgs.Frame;
+                // process the frame
+            }
+            </code>
+            </remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 robot/camera
+            before using this method.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.Send(System.Byte[])">
+            <summary>
+            Enqueue communication request.
+            </summary>
+            
+            <param name="request">Array of bytes (command) to send to SRV-1 Blackfin robot/camera.</param>
+            
+            <remarks><para>The method puts specified command into communication queue and leaves
+            immediately. Once internal communication thread becomes free from sending/receiving previous
+            commands/replies, it will send the queued command.</para>
+            
+            <para>The method is useful for those SRV-1 commands, which does not assume any response data
+            in the command's reply.</para>
+            
+            <para><note>Since the method only queues a communication request, it does not provide any status
+            of request's delivery and it does not generate any exceptions on failure.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.SendAndReceive(System.Byte[],System.Byte[])">
+            <summary>
+            Enqueue communication request and wait for reply.
+            </summary>
+            
+            <param name="request">Array of bytes (command) to send to SRV-1 Blackfin robot/camera.</param>
+            <param name="responseBuffer">Buffer to read response into.</param>
+            
+            <returns>Returns total bytes read into the response buffer.</returns>
+            
+            <remarks><para>The method puts specified command into communication queue and waits until
+            the command is sent to SRV-1 Blackfin robot and reply is received.</para>
+            
+            <para><note>If SRV-1 responds with more data than response buffer can fit, then
+            the response buffer will take all the data it can store, but the rest of response
+            will be discarded. The only exception is image request - if response buffer is too
+            small to fit image response, then <see cref="T:System.IndexOutOfRangeException"/> exception
+            is thrown. It is user's responsibility to provide response buffer of the correct
+            size. Check definition of the <a href="http://www.surveyor.com/SRV_protocol.html">SRV-1
+            Control Protocol</a> for information about supported commands and responses.</note></para>
+            </remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure.</exception>
+            <exception cref="T:System.IndexOutOfRangeException">Response buffer is too small.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.GetImage">
+            <summary>
+            Get single image from the SRV-1 Blackfin camera.
+            </summary>
+            
+            <returns>Returns image received from the SRV-1 Blackfin camera or <see langword="null"/>
+            if failed decoding provided response.</returns>
+            
+            <remarks><para>The method provides single video frame retrieved from the SRV-1 Blackfin
+            camera. However in many cases it is required to receive video frames one after another, so
+            the <see cref="M:AForge.Robotics.Surveyor.SRV1.GetCamera"/> method is more preferred for continuous video frames.</para></remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.GetVersion">
+            <summary>
+            Get SRV-1 firmware version string.
+            </summary>
+            
+            <returns>Returns SRV-1 version string.</returns>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.GetRunningTime">
+            <summary>
+            Get SRV-1 running time.
+            </summary>
+            
+            <returns>Returns SRV-1 running time in milliseconds.</returns>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            <exception cref="T:System.ApplicationException">Failed parsing response from SRV-1.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.RunMotors(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Run motors connected to SRV-1 robot.
+            </summary>
+            
+            <param name="leftSpeed">Left motor's speed, [-127, 127].</param>
+            <param name="rightSpeed">Right motor's speed, [-127, 127].</param>
+            <param name="duration">Time duration to run motors measured in number
+            of 10 milliseconds (0 for infinity), [0, 255].</param>
+            
+            <remarks><para>The method provides direct access to motors setting specified,
+            speed to both motors connected to the SRV-1 robot. The maximum absolute speed
+            equals to 127, but the sign specifies direction of motor's rotation (forward or backward).
+            </para>
+            
+            <para><note>The method sends 'Mabc' SRV-1 command (see <a href="http://www.surveyor.com/SRV_protocol.html">SRV-1
+            Control Protocol</a>), which uses 2<sup>nd</sup> and 3<sup>rd</sup> timers for
+            controlling motors/servos.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.StopMotors">
+            <summary>
+            Stop both motors.
+            </summary>
+            
+            <remarks><para>The method stops both motors connected to the SRV-1 robot by calling
+            <see cref="M:AForge.Robotics.Surveyor.SRV1.RunMotors(System.Int32,System.Int32,System.Int32)"/> method specifying 0 for motors' speed.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.EnableFailsafeMode(System.Int32,System.Int32)">
+             <summary>
+             Enables fail safe mode - setting motors' speed after timeout.
+             </summary>
+             
+             <param name="leftSpeed">Left motor's speed, [-127, 127].</param>
+             <param name="rightSpeed">Right motor's speed, [-127, 127].</param>
+             
+             <remarks><para>In the case if fail safe mode is enabled and no commands are received
+             by SRV-1 robot withing 2 seconds, motors' speed will be set to the specified values. The command
+             is very useful to instruct robot to stop if no other commands were sent
+             within 2 last seconds (probably lost connection).</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.DisableFailsafeMode">
+            <summary>
+            Disable fail safe mode.
+            </summary>
+            
+            <remarks><para>The method disable fail safe mode, which was set using
+            <see cref="M:AForge.Robotics.Surveyor.SRV1.EnableFailsafeMode(System.Int32,System.Int32)"/> method.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.ControlServos(System.Int32,System.Int32)">
+            <summary>
+            Direct servos control of SRV-1 robot.
+            </summary>
+            
+            <param name="leftServo">Left servo setting, [0, 100].</param>
+            <param name="rightServo">Right servo setting, [0, 100].</param>
+            
+            <remarks><para>Servo settings represent timing pulse widths ranging
+            from 1ms to 2ms. 0 corresponds to a 1ms pulse, 100 corresponds to a 2ms pulse,
+            and 50 is midrange with a 1.5ms pulse.</para>
+            
+            <para><note>The method sends 'sab' SRV-1 command (see <a href="http://www.surveyor.com/SRV_protocol.html">SRV-1
+            Control Protocol</a>), which controls 2<sup>nd</sup> bank of servos
+            using 6<sup>th</sup> and 7<sup>th</sup> timers.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.ControlMotors(AForge.Robotics.Surveyor.SRV1.MotorCommand)">
+            <summary>
+            Control SRV-1 robot's motors using predefined commands.
+            </summary>
+            
+            <param name="command">Motor command to send to the SRV-1 Blackfin robot.</param>
+            
+            <remarks><para><note>Controlling SRV-1 motors with this method is only available
+            after at least one direct motor command is sent, which is done using <see cref="M:AForge.Robotics.Surveyor.SRV1.StopMotors"/> or
+            <see cref="M:AForge.Robotics.Surveyor.SRV1.RunMotors(System.Int32,System.Int32,System.Int32)"/> methods.</note></para></remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.SetQuality(System.Int32)">
+             <summary>
+             Set video quality.
+             </summary>
+             
+             <param name="quality">Video quality to set, [1, 8].</param>
+            
+             <remarks><para>The method sets video quality, which is specified in [1, 8] range - 1 is
+             the highest quality level, 8 is the lowest quality level.</para>
+             
+             <para><note>Setting higher quality level and <see cref="M:AForge.Robotics.Surveyor.SRV1.SetResolution(AForge.Robotics.Surveyor.SRV1.VideoResolution)">resolution</see>
+             may increase delays for other requests sent to SRV-1. So if
+             robot is used not only for video, but also for controlling servos/motors, and higher
+             response level is required, then do not set very high quality and resolution.
+             </note></para>
+             </remarks>
+             
+             <exception cref="T:System.ArgumentOutOfRangeException">Invalid quality level was specified.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.SetResolution(AForge.Robotics.Surveyor.SRV1.VideoResolution)">
+             <summary>
+             Set video resolution.
+             </summary>
+             
+             <param name="resolution">Video resolution to set.</param>
+             
+             <remarks>
+             <para><note>Setting higher <see cref="M:AForge.Robotics.Surveyor.SRV1.SetQuality(System.Int32)">quality level</see> and resolution
+             may increase delays for other requests sent to SRV-1. So if
+             robot is used not only for video, but also for controlling servos/motors, and higher
+             response level is required, then do not set very high quality and resolution.
+             </note></para>
+             </remarks>
+             
+             <exception cref="T:System.ArgumentOutOfRangeException">Invalid resolution was specified.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.FlipVideo(System.Boolean)">
+            <summary>
+            Flip video capture or not (for use with upside-down camera).
+            </summary>
+            
+            <param name="isFlipped">Specifies if video should be flipped (<see langword="true"/>),
+            or not (<see langword="false"/>).</param>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.UltrasonicPing">
+            <summary>
+            Ping ultrasonic ranging modules.
+            </summary>
+            
+            <returns>Returns array of ranges (distances) obtained from ultrasonic sensors. The ranges
+            are measured in inches.</returns>
+            
+            <remarks><para>The method sends 'p' SRV-1 command (see <a href="http://www.surveyor.com/SRV_protocol.html">SRV-1
+            Control Protocol</a>), which gets values from ultrasonic ranging modules attached to
+            pins 27, 28, 29, 30 with trigger on pin 18. Supports Maxbotics EZ0 and EZ1 ultrasonic modules.
+            </para></remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            <exception cref="T:System.ApplicationException">Failed parsing response from SRV-1.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.I2CReadByte(System.Byte,System.Byte)">
+            <summary>
+            Read byte from I2C device.
+            </summary>
+            
+            <param name="deviceID">I2C device ID (7 bit notation).</param>
+            <param name="register">I2C device register to read.</param>
+            
+            <returns>Returns byte read from the specified register of the specified I2C device.</returns>
+            
+            <para><note>The IC2 device ID should be specified in 7 bit notation. This means that low bit of the ID
+            is not used for specifying read/write mode as in 8 bit notation. For example, if I2C device IDs are 0x44 for reading
+            and 0x45 for writing in 8 bit notation, then it equals to 0x22 device ID in 7 bit notation.
+            </note></para>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            <exception cref="T:System.ApplicationException">Failed parsing response from SRV-1.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.I2CReadWord(System.Byte,System.Byte)">
+            <summary>
+            Read word from I2C device.
+            </summary>
+            
+            <param name="deviceID">I2C device ID (7 bit notation).</param>
+            <param name="register">I2C device register to read.</param>
+            
+            <returns>Returns word read from the specified register of the specified I2C device.</returns>
+            
+            <para><note>The IC2 device ID should be specified in 7 bit notation. This means that low bit of the ID
+            is not used for specifying read/write mode as in 8 bit notation. For example, if I2C device IDs are 0x44 for reading
+            and 0x45 for writing in 8 bit notation, then it equals to 0x22 device ID in 7 bit notation.
+            </note></para>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            <exception cref="T:System.ApplicationException">Failed parsing response from SRV-1.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.I2CWriteByte(System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Write byte to I2C device.
+            </summary>
+            
+            <param name="deviceID">I2C device ID (7 bit notation).</param>
+            <param name="register">I2C device register to write to.</param>
+            <param name="byteToWrite">Byte to write to the specified register of the specified device.</param>
+            
+            <para><note>The IC2 device ID should be specified in 7 bit notation. This means that low bit of the ID
+            is not used for specifying read/write mode as in 8 bit notation. For example, if I2C device IDs are 0x44 for reading
+            and 0x45 for writing in 8 bit notation, then it equals to 0x22 device ID in 7 bit notation.
+            </note></para>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1.I2CWriteWord(System.Byte,System.Byte,System.Byte,System.Byte)">
+            <summary>
+            Write two bytes to I2C device.
+            </summary>
+            
+            <param name="deviceID">I2C device ID (7 bit notation).</param>
+            <param name="register">I2C device register to write to.</param>
+            <param name="firstByteToWrite">First byte to write to the specified register of the specified device.</param>
+            <param name="secondByteToWrite">Second byte to write to the specified register of the specified device.</param>
+            
+            <para><note>The IC2 device ID should be specified in 7 bit notation. This means that low bit of the ID
+            is not used for specifying read/write mode as in 8 bit notation. For example, if I2C device IDs are 0x44 for reading
+            and 0x45 for writing in 8 bit notation, then it equals to 0x22 device ID in 7 bit notation.
+            </note></para>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connect to SRV-1 before using
+            this method.</exception>
+            <exception cref="T:AForge.ConnectionLostException">Connection lost or communicaton failure. Try to reconnect.</exception>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SRV1.HostAddress">
+             <summary>
+             SRV-1 host address.
+             </summary>
+             
+             <remarks><para>The property keeps SRV-1 IP address if the class is connected
+             to SRV-1 Blackfin robot/camera, otherwise it equals to <see langword="null."/>.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SRV1.Port">
+             <summary>
+             SRV-1 port number.
+             </summary>
+             
+             <remarks><para>The property keeps SRV-1 port number if the class is connected
+             to SRV-1 Blackfin robot/camera, otherwise it equals to 0.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SRV1.IsConnected">
+            <summary>
+            Connection state.
+            </summary>
+            
+            <remarks><para>The property equals to <see langword="true"/> if the class is connected
+            to SRV-1 Blackfin robot/camera, otherwise it equals to <see langword="false"/>.</para>
+            
+            <para><note>The property is not updated by the class, when connection was lost or
+            communication failure was detected (which results into <see cref="T:AForge.ConnectionLostException"/>
+            exception). The property only shows status of <see cref="M:AForge.Robotics.Surveyor.SRV1.Connect(System.String,System.Int32)"/> method.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="T:AForge.Robotics.Surveyor.SRV1.MotorCommand">
+            <summary>
+            Enumeration of predefined motors' commands.
+            </summary>
+            
+            <remarks><para>This enumeration defines set of motors' commands, which can
+            be executed using <see cref="M:AForge.Robotics.Surveyor.SRV1.ControlMotors(AForge.Robotics.Surveyor.SRV1.MotorCommand)"/> method.</para>
+            
+            <para><note>Controlling SRV-1 motors with these commands is only possible
+            after at least one direct motor command is sent, which is done using <see cref="M:AForge.Robotics.Surveyor.SRV1.StopMotors"/> or
+            <see cref="M:AForge.Robotics.Surveyor.SRV1.RunMotors(System.Int32,System.Int32,System.Int32)"/> methods.</note></para>
+            
+            <para><note>The <b>IncreaseSpeed</b> and <b>DecreaseSpeed</b> commands do not have any effect
+            unless another driving command is sent. In other words, these do not increase/decrease speed of
+            current operation, but affect speed of all following commands.</note></para>
+            
+            <para><note>The <b>RotateLeft</b> and <b>RotateRight</b> commands may be useful only for the original
+            <a href="http://www.surveyor.com/SRV_info.html">Surveyor SRV-1 Blackfin Robot</a>.
+            For most of other robots, which may have different motors and moving base, these commands
+            will not be accurate – will not rotate for 20 degrees.
+            </note></para>
+            </remarks>
+            
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DriveForward">
+            <summary>
+            Robot drive forward.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DriveBack">
+            <summary>
+            Robot drive back.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DriveLeft">
+            <summary>
+            Robot drive left.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DriveRight">
+            <summary>
+            Robot drive right.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DriftLeft">
+            <summary>
+            Robot drift left.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DriftRight">
+            <summary>
+            Robot drift right.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.Stop">
+            <summary>
+            Robot stop.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DriveBackRight">
+            <summary>
+            Robot drive back and right.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DriveBackLeft">
+            <summary>
+            Robot drive back and left.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.RotateLeft">
+            <summary>
+            Robot rotate left 20 degrees.
+            </summary>
+            
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.RotateRight">
+            <summary>
+            Robot rotate right 20 degrees.
+            </summary>
+            
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.IncreaseSpeed">
+             <summary>
+             Increase motors' speed.
+             </summary>
+            
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.MotorCommand.DecreaseSpeed">
+            <summary>
+            Decrease motors' speed.
+            </summary>
+            
+        </member>
+        <member name="T:AForge.Robotics.Surveyor.SRV1.VideoResolution">
+            <summary>
+            Enumeration of Surveyor SRV-1 Blackfin cameras resolutions.
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.VideoResolution.Tiny">
+            <summary>
+            160x120
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.VideoResolution.Small">
+            <summary>
+            320x240
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.VideoResolution.Medium">
+            <summary>
+            640x480
+            </summary>
+        </member>
+        <member name="F:AForge.Robotics.Surveyor.SRV1.VideoResolution.Large">
+            <summary>
+            1280x1024
+            </summary>
+        </member>
+        <member name="T:AForge.Robotics.Surveyor.SRV1Camera">
+            <summary>
+            Provides access to video stream from Surveyor SRV-1 Blackfin camera.
+            </summary>
+            
+            <remarks><para>The class allows to continuously receive video frames from
+            Surveyor SRV-1 Blackfin camera. It creates a background thread and periodically requests
+            new video frames from SRV-1 robot/camera, which are provided to user through <see cref="E:AForge.Robotics.Surveyor.SRV1Camera.NewFrame"/>
+            event. The video frame rate can be configured using <see cref="P:AForge.Robotics.Surveyor.SRV1Camera.FrameInterval"/>
+            property, which sets time interval between frames.</para>
+            
+            <para>In order to get instance of this class, use <see cref="M:AForge.Robotics.Surveyor.SRV1.GetCamera"/>
+            or <see cref="M:AForge.Robotics.Surveyor.SVS.GetCamera(AForge.Robotics.Surveyor.SVS.Camera)"/> methods.</para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // get SRV-1 camera
+            SRV1Camera camera = srv.GetCamera( );
+            // in the case you work with Surveyor SVS board
+            // the next line can be use
+            // SRV1Camera camera = svs.GetCamera( SVS.Camera.Left );
+            
+            // set NewFrame event handler
+            camera.NewFrame += new NewFrameEventHandler( video_NewFrame );
+            // start the video source
+            camera.Start( );
+            // ...
+            
+            private void video_NewFrame( object sender, NewFrameEventArgs eventArgs )
+            {
+                // get new frame
+                Bitmap bitmap = eventArgs.Frame;
+                // process the frame
+            }
+            </code>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.Start">
+            <summary>
+            Start video source.
+            </summary>
+            
+            <remarks>Starts video source and return execution to caller. Video source
+            object creates background thread and notifies about new frames with the
+            help of <see cref="E:AForge.Robotics.Surveyor.SRV1Camera.NewFrame"/> event.</remarks>
+            
+            <exception cref="T:AForge.NotConnectedException">Not connected to SRV-1. Connection to SRV-1
+            was closed using <see cref="M:AForge.Robotics.Surveyor.SRV1.Disconnect"/> method. New <see cref="T:AForge.Robotics.Surveyor.SRV1Camera"/>
+            instance must be obtained using <see cref="M:AForge.Robotics.Surveyor.SRV1.GetCamera"/> or
+            <see cref="M:AForge.Robotics.Surveyor.SVS.GetCamera(AForge.Robotics.Surveyor.SVS.Camera)"/> methods.
+            </exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.SignalToStop">
+            <summary>
+            Signal video source to stop its work.
+            </summary>
+            
+            <remarks>Signals video source to stop its background thread, stop to
+            provide new frames and free resources.</remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.WaitForStop">
+            <summary>
+            Wait for video source has stopped.
+            </summary>
+            
+            <remarks>Waits for video source stopping after it was signalled to stop using
+            <see cref="M:AForge.Robotics.Surveyor.SRV1Camera.SignalToStop"/> method.</remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.Stop">
+            <summary>
+            Stop video source.
+            </summary>
+            
+            <remarks><para>Stops video source aborting its thread.</para>
+            
+            <para><note>Since the method aborts background thread, its usage is highly not preferred
+            and should be done only if there are no other options. The correct way of stopping camera
+            is <see cref="M:AForge.Robotics.Surveyor.SRV1Camera.SignalToStop">signaling it to stop</see> and then
+            <see cref="M:AForge.Robotics.Surveyor.SRV1Camera.WaitForStop">waiting</see> for background thread's completion.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.Free">
+            <summary>
+            Free resource.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.SetQuality(System.Int32)">
+             <summary>
+             Set video quality.
+             </summary>
+             
+             <param name="quality">Video quality to set, [1, 8].</param>
+            
+             <remarks><para>The method sets video quality, which is specified in [1, 8] range - 1 is
+             the highest quality level, 8 is the lowest quality level.</para>
+             
+             <para><note>Setting higher quality level and <see cref="M:AForge.Robotics.Surveyor.SRV1Camera.SetResolution(AForge.Robotics.Surveyor.SRV1.VideoResolution)">resolution</see>
+             may increase delays for other requests processed by <see cref="T:AForge.Robotics.Surveyor.SRV1"/> class. So if
+             robot is used not only for video, but also for controlling servos/motors, and higher
+             response level is required, then do not set very high quality and resolution.
+             </note></para>
+             </remarks>
+             
+             <exception cref="T:System.ArgumentOutOfRangeException">Invalid quality level was specified.</exception>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.SetResolution(AForge.Robotics.Surveyor.SRV1.VideoResolution)">
+            <summary>
+            Set video resolution.
+            </summary>
+            
+            <param name="resolution">Video resolution to set.</param>
+            
+            <remarks>
+            <para><note>Setting higher <see cref="M:AForge.Robotics.Surveyor.SRV1Camera.SetQuality(System.Int32)">quality level</see> and resolution
+            may increase delays for other requests processed by <see cref="T:AForge.Robotics.Surveyor.SRV1"/> class. So if
+            robot is used not only for video, but also for controlling servos/motors, and higher
+            response level is required, then do not set very high quality and resolution.
+            </note></para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.FlipVideo(System.Boolean)">
+            <summary>
+            Flip video capture or not (for use with upside-down camera).
+            </summary>
+            
+            <param name="isFlipped">Specifies if video should be flipped (<see langword="true"/>),
+            or not (<see langword="false"/>).</param>
+            
+        </member>
+        <member name="M:AForge.Robotics.Surveyor.SRV1Camera.WorkerThread">
+            <summary>
+            Worker thread.
+            </summary>
+            
+        </member>
+        <member name="E:AForge.Robotics.Surveyor.SRV1Camera.NewFrame">
+            <summary>
+            New frame event.
+            </summary>
+            
+            <remarks><para>Notifies clients about new available frame from video source.</para>
+            
+            <para><note>Since video source may have multiple clients, each client is responsible for
+            making a copy (cloning) of the passed video frame, because the video source disposes its
+            own original copy after notifying of clients.</note></para>
+            </remarks>
+            
+        </member>
+        <member name="E:AForge.Robotics.Surveyor.SRV1Camera.VideoSourceError">
+            <summary>
+            Video source error event.
+            </summary>
+            
+            <remarks>This event is used to notify clients about any type of errors occurred in
+            video source object, for example internal exceptions.</remarks>
+            
+        </member>
+        <member name="E:AForge.Robotics.Surveyor.SRV1Camera.PlayingFinished">
+            <summary>
+            Video playing finished event.
+            </summary>
+            
+            <remarks><para>This event is used to notify clients that the video playing has finished.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SRV1Camera.FrameInterval">
+            <summary>
+            Frame interval.
+            </summary>
+            
+            <remarks><para>The property sets the interval in milliseconds betwen frames. If the property is
+            set to 100, then the desired frame rate will be 10 frames per second.</para>
+            
+            <para>Default value is set to <b>0</b> - get new frames as fast as possible.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SRV1Camera.Source">
+            <summary>
+            Video source string.
+            </summary>
+            
+            <remarks>
+            <para>The property keeps connection string, which was used to connect to SRV-1 Blackfin camera.</para>
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SRV1Camera.FramesReceived">
+            <summary>
+            Received frames count.
+            </summary>
+            
+            <remarks>Number of frames the video source provided from the moment of the last
+            access to the property.
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SRV1Camera.BytesReceived">
+            <summary>
+            Received bytes count.
+            </summary>
+            
+            <remarks>Number of bytes the video source provided from the moment of the last
+            access to the property.
+            </remarks>
+            
+        </member>
+        <member name="P:AForge.Robotics.Surveyor.SRV1Camera.IsRunning">
+            <summary>
+            State of the video source.
+            </summary>
+            
+            <remarks>Current state of video source object - running or not.</remarks>
+            
+        </member>
+    </members>
+</doc>

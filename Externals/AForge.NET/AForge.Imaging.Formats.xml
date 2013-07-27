@@ -1,0 +1,576 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AForge.Imaging.Formats</name>
+    </assembly>
+    <members>
+        <member name="T:AForge.Imaging.Formats.ImageDecoder">
+            <summary>
+            Image decoder to decode different custom image file formats.
+            </summary>
+            
+            <remarks><para>The class represent a help class, which simplifies decoding of image
+            files finding appropriate image decoder automatically (using list of registered
+            image decoders). Instead of using required image decoder directly, users may use this
+            class, which will find required decoder by file's extension.</para>
+            
+            <para>By default the class registers on its own all decoders, which are available in
+            AForge.Imaging.Formats library. If user has implementation of his own image decoders, he
+            needs to register them using <see cref="M:AForge.Imaging.Formats.ImageDecoder.RegisterDecoder(System.String,AForge.Imaging.Formats.IImageDecoder)"/> method to be able to use them through
+            the <see cref="T:AForge.Imaging.Formats.ImageDecoder"/> class.</para>
+            
+            <para><note>If the class can not find appropriate decode in the list of registered
+            decoders, it passes file to .NET's image decoder for decoding.</note></para>
+            
+            <para>Sample usage:</para>
+            <code>
+            // sample file name
+            string fileName = "myFile.pnm";
+            // decode image file
+            Bitmap = ImageDecoder.DecodeFromFile( fileName );
+            </code>
+            </remarks>
+            
+            <seealso cref="T:AForge.Imaging.Formats.PNMCodec"/>
+            <seealso cref="T:AForge.Imaging.Formats.FITSCodec"/>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.ImageDecoder.RegisterDecoder(System.String,AForge.Imaging.Formats.IImageDecoder)">
+            <summary>
+            Register image decoder for a specified file extension.
+            </summary>
+            
+            <param name="fileExtension">File extension to register decoder for ("bmp", for example).</param>
+            <param name="decoder">Image decoder to use for the specified file extension.</param>
+            
+            <remarks><para>The method allows to register image decoder object, which should be used
+            to decode images from files with the specified extension.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.ImageDecoder.DecodeFromFile(System.String)">
+            <summary>
+            Decode first frame for the specified file.
+            </summary>
+            
+            <param name="fileName">File name to read image from.</param>
+            
+            <returns>Return decoded image. In the case if file format support multiple
+            frames, the method return the first frame.</returns>
+            
+            <remarks><para>The method uses table of registered image decoders to find the one,
+            which should be used for the specified file. If there is not appropriate decoder
+            found, the method uses default .NET's image decoding routine (see
+            <see cref="M:System.Drawing.Image.FromFile(System.String)"/>).</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.ImageDecoder.DecodeFromFile(System.String,AForge.Imaging.Formats.ImageInfo@)">
+            <summary>
+            Decode first frame for the specified file.
+            </summary>
+            
+            <param name="fileName">File name to read image from.</param>
+            <param name="imageInfo">Information about the decoded image.</param>
+            
+            <returns>Return decoded image. In the case if file format support multiple
+            frames, the method return the first frame.</returns>
+            
+            <remarks><para>The method uses table of registered image decoders to find the one,
+            which should be used for the specified file. If there is not appropriate decoder
+            found, the method uses default .NET's image decoding routine (see
+            <see cref="M:System.Drawing.Image.FromFile(System.String)"/>).</para></remarks>
+            
+        </member>
+        <member name="T:AForge.Imaging.Formats.PNMImageInfo">
+            <summary>
+            Information about PNM image's frame.
+            </summary>
+        </member>
+        <member name="T:AForge.Imaging.Formats.ImageInfo">
+            <summary>
+            Information about image's frame.
+            </summary>
+            
+            <remarks><para>This is a base class, which keeps basic information about image, like its width,
+            height, etc. Classes, which inherit from this, may define more properties describing certain
+            image formats.</para></remarks>
+            
+        </member>
+        <member name="F:AForge.Imaging.Formats.ImageInfo.width">
+            <summary>
+            Image's width.
+            </summary>
+        </member>
+        <member name="F:AForge.Imaging.Formats.ImageInfo.height">
+            <summary>
+            Image's height.
+            </summary>
+        </member>
+        <member name="F:AForge.Imaging.Formats.ImageInfo.bitsPerPixel">
+            <summary>
+            Number of bits per image's pixel.
+            </summary>
+        </member>
+        <member name="F:AForge.Imaging.Formats.ImageInfo.frameIndex">
+            <summary>
+            Frame's index.
+            </summary>
+        </member>
+        <member name="F:AForge.Imaging.Formats.ImageInfo.totalFrames">
+            <summary>
+             Total frames in the image.
+            </summary>
+        </member>
+        <member name="M:AForge.Imaging.Formats.ImageInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Imaging.Formats.ImageInfo"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.ImageInfo.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Imaging.Formats.ImageInfo"/> class.
+            </summary>
+            
+            <param name="width">Image's width.</param>
+            <param name="height">Image's height.</param>
+            <param name="bitsPerPixel">Number of bits per image's pixel.</param>
+            <param name="frameIndex">Frame's index.</param>
+            <param name="totalFrames">Total frames in the image.</param>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.ImageInfo.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance. 
+            </summary>
+            
+            <returns>A new object that is a copy of this instance.</returns>
+            
+        </member>
+        <member name="P:AForge.Imaging.Formats.ImageInfo.Width">
+            <summary>
+            Image's width.
+            </summary>
+        </member>
+        <member name="P:AForge.Imaging.Formats.ImageInfo.Height">
+            <summary>
+            Image's height.
+            </summary>
+        </member>
+        <member name="P:AForge.Imaging.Formats.ImageInfo.BitsPerPixel">
+            <summary>
+            Number of bits per image's pixel.
+            </summary>
+        </member>
+        <member name="P:AForge.Imaging.Formats.ImageInfo.FrameIndex">
+            <summary>
+            Frame's index.
+            </summary>
+            
+            <remarks><para>Some image formats support storing multiple frames in one image file.
+            The property specifies index of a particular frame.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Imaging.Formats.ImageInfo.TotalFrames">
+            <summary>
+            Total frames in the image.
+            </summary>
+            
+            <remarks><para>Some image formats support storing multiple frames in one image file.
+            The property specifies total number of frames in image file.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.PNMImageInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Imaging.Formats.PNMImageInfo"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.PNMImageInfo.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Imaging.Formats.PNMImageInfo"/> class.
+            </summary>
+            
+            <param name="width">Image's width.</param>
+            <param name="height">Image's height.</param>
+            <param name="bitsPerPixel">Number of bits per image's pixel.</param>
+            <param name="frameIndex">Frame's index.</param>
+            <param name="totalFrames">Total frames in the image.</param>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.PNMImageInfo.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance. 
+            </summary>
+            
+            <returns>A new object that is a copy of this instance.</returns>
+            
+        </member>
+        <member name="P:AForge.Imaging.Formats.PNMImageInfo.Version">
+            <summary>
+            PNM file version (format), [1, 6].
+            </summary>
+        </member>
+        <member name="P:AForge.Imaging.Formats.PNMImageInfo.MaxDataValue">
+            <summary>
+            Maximum pixel's value in source PNM image.
+            </summary>
+            
+            <remarks><para>The value is used to scale image's data converting them
+            from original data range to the range of
+            <see cref="P:AForge.Imaging.Formats.ImageInfo.BitsPerPixel">supported bits per pixel</see> format.</para></remarks>
+            
+        </member>
+        <member name="T:AForge.Imaging.Formats.PNMCodec">
+            <summary>
+            PNM image format decoder.
+            </summary>
+            
+            <remarks><para>The PNM (an acronym derived from "Portable Any Map") format is an
+            abstraction of the PBM, PGM and PPM formats. I.e. the name "PNM" refers collectively
+            to PBM (binary images), PGM (grayscale images) and PPM (color image) image formats.</para>
+            
+            <para>Image in PNM format can be found in different scientific databases and laboratories,
+            for example <i>Yale Face Database</i> and <i>AT&amp;T Face Database</i>.</para>
+            
+            <para><note>Only PNM images of P5 (binary encoded PGM) and P6 (binary encoded PPM) formats
+            are supported at this point.</note></para>
+            
+            <para><note>The maximum supported pixel value is 255 at this point.</note></para>
+            
+            <para><note>The class supports only one-frame PNM images. As it is specified in format
+            specification, the multi-frame PNM images has appeared starting from 2000.</note></para>
+            
+            </remarks>
+            
+        </member>
+        <member name="T:AForge.Imaging.Formats.IImageDecoder">
+            <summary>
+            Image decoder interface, which specifies set of methods, which should be
+            implemented by image decoders for different file formats.
+            </summary>
+            
+            <remarks><para>The interface specifies set of methods, which are suitable not
+            only for simple one-frame image formats. The interface also defines methods
+            to work with image formats designed to store multiple frames and image formats
+            which provide different type of image description (like acquisition
+            parameters, etc).
+            </para></remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.IImageDecoder.DecodeSingleFrame(System.IO.Stream)">
+            <summary>
+            Decode first frame of image from the specified stream.
+            </summary>
+            
+            <param name="stream">Source stream, which contains encoded image.</param>
+            
+            <returns>Returns decoded image frame.</returns>
+            
+            <remarks>
+            <para>For one-frame image formats the method is supposed to decode single
+            available frame. For multi-frame image formats the first frame should be
+            decoded.</para>
+            
+            <para>Implementations of this method may throw
+            <see cref="T:System.FormatException"/> exception to report about unrecognized image
+            format, <see cref="T:System.ArgumentException"/> exception to report about incorrectly
+            formatted image or <see cref="T:System.NotSupportedException"/> exception to report if
+            certain formats are not supported.</para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.IImageDecoder.Open(System.IO.Stream)">
+            <summary>
+            Open specified stream.
+            </summary>
+            
+            <param name="stream">Stream to open.</param>
+            
+            <returns>Returns number of images found in the specified stream.</returns>
+            
+            <remarks><para>Implementation of this method is supposed to read image's header,
+            checking for correct image format and reading its atributes.</para>
+            
+            <para>Implementations of this method may throw
+            <see cref="T:System.FormatException"/> exception to report about unrecognized image
+            format, <see cref="T:System.ArgumentException"/> exception to report about incorrectly
+            formatted image or <see cref="T:System.NotSupportedException"/> exception to report if
+            certain formats are not supported.</para>
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.IImageDecoder.DecodeFrame(System.Int32,AForge.Imaging.Formats.ImageInfo@)">
+            <summary>
+            Decode specified frame.
+            </summary>
+            
+            <param name="frameIndex">Image frame to decode.</param>
+            <param name="imageInfo">Receives information about decoded frame.</param>
+            
+            <returns>Returns decoded frame.</returns>
+            
+            <remarks>Implementations of this method may throw
+            <see cref="T:System.NullReferenceException"/> exception in the case if no image
+            stream was opened previously, <see cref="T:System.ArgumentOutOfRangeException"/> in the
+            case if stream does not contain frame with specified index or  <see cref="T:System.ArgumentException"/>
+            exception to report about incorrectly formatted image.
+            </remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.IImageDecoder.Close">
+            <summary>
+            Close decoding of previously opened stream.
+            </summary>
+            
+            <remarks><para>Implementations of this method don't close stream itself, but just close
+            decoding cleaning all associated data with it.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.PNMCodec.DecodeSingleFrame(System.IO.Stream)">
+            <summary>
+            Decode first frame of PNM image.
+            </summary>
+            
+            <param name="stream">Source stream, which contains encoded image.</param>
+            
+            <returns>Returns decoded image frame.</returns>
+            
+            <exception cref="T:System.FormatException">Not a PNM image format.</exception>
+            <exception cref="T:System.NotSupportedException">Format of the PNM image is not supported.</exception>
+            <exception cref="T:System.ArgumentException">The stream contains invalid (broken) PNM image.</exception>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.PNMCodec.Open(System.IO.Stream)">
+             <summary>
+             Open specified stream.
+             </summary>
+             
+             <param name="stream">Stream to open.</param>
+             
+             <returns>Returns number of images found in the specified stream.</returns>
+             
+             <exception cref="T:System.FormatException">Not a PNM image format.</exception>
+             <exception cref="T:System.NotSupportedException">Format of the PNM image is not supported.</exception>
+             <exception cref="T:System.ArgumentException">The stream contains invalid (broken) PNM image.</exception>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.PNMCodec.DecodeFrame(System.Int32,AForge.Imaging.Formats.ImageInfo@)">
+            <summary>
+            Decode specified frame.
+            </summary>
+            
+            <param name="frameIndex">Image frame to decode.</param>
+            <param name="imageInfo">Receives information about decoded frame.</param>
+            
+            <returns>Returns decoded frame.</returns>
+            
+            <exception cref="T:System.NullReferenceException">No image stream was opened previously.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Stream does not contain frame with specified index.</exception>
+            <exception cref="T:System.ArgumentException">The stream contains invalid (broken) PNM image.</exception>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.PNMCodec.Close">
+            <summary>
+            Close decoding of previously opened stream.
+            </summary>
+            
+            <remarks><para>The method does not close stream itself, but just closes
+            decoding cleaning all associated data with it.</para></remarks>
+            
+        </member>
+        <member name="T:AForge.Imaging.Formats.FITSImageInfo">
+            <summary>
+            Information about FITS image's frame.
+            </summary>
+        </member>
+        <member name="M:AForge.Imaging.Formats.FITSImageInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Imaging.Formats.FITSImageInfo"/> class.
+            </summary>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.FITSImageInfo.#ctor(System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AForge.Imaging.Formats.FITSImageInfo"/> class.
+            </summary>
+            
+            <param name="width">Image's width.</param>
+            <param name="height">Image's height.</param>
+            <param name="bitsPerPixel">Number of bits per image's pixel.</param>
+            <param name="frameIndex">Frame's index.</param>
+            <param name="totalFrames">Total frames in the image.</param>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.FITSImageInfo.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance. 
+            </summary>
+            
+            <returns>A new object that is a copy of this instance.</returns>
+            
+        </member>
+        <member name="P:AForge.Imaging.Formats.FITSImageInfo.OriginalBitsPerPixl">
+            <summary>
+            Original bits per pixel.
+            </summary>
+            
+            <remarks><para>The property specifies original number of bits per image's pixel. For
+            FITS images the value may be equal to 8, 16, 32, -32 (32 bit image with float data
+            type for pixel encoding), -64 (64 bit image with double data type for pixel encoding).
+            </para></remarks>
+            
+        </member>
+        <member name="P:AForge.Imaging.Formats.FITSImageInfo.MinDataValue">
+            <summary>
+            Minimum data value found during parsing FITS image.
+            </summary>
+            
+            <remarks><para>Minimum and maximum data values are used to scale image's data converting
+            them from <see cref="P:AForge.Imaging.Formats.FITSImageInfo.OriginalBitsPerPixl">original bits per pixel</see> format to
+            <see cref="P:AForge.Imaging.Formats.ImageInfo.BitsPerPixel">supported bits per pixel</see> format.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Imaging.Formats.FITSImageInfo.MaxDataValue">
+            <summary>
+            Maximum data value found during parsing FITS image.
+            </summary>
+            
+            <remarks><para>Minimum and maximum data values are used to scale image's data converting
+            them from <see cref="P:AForge.Imaging.Formats.FITSImageInfo.OriginalBitsPerPixl">original bits per pixel</see> format to
+            <see cref="P:AForge.Imaging.Formats.ImageInfo.BitsPerPixel">supported bits per pixel</see> format.</para></remarks>
+            
+        </member>
+        <member name="P:AForge.Imaging.Formats.FITSImageInfo.Telescope">
+            <summary>
+            Telescope used for object's observation.
+            </summary>
+        </member>
+        <member name="P:AForge.Imaging.Formats.FITSImageInfo.Object">
+            <summary>
+            Object acquired during observation.
+            </summary>
+        </member>
+        <member name="P:AForge.Imaging.Formats.FITSImageInfo.Observer">
+            <summary>
+            Observer doing object's acquiring.
+            </summary>
+        </member>
+        <member name="P:AForge.Imaging.Formats.FITSImageInfo.Instrument">
+            <summary>
+            Instrument used for observation.
+            </summary>
+        </member>
+        <member name="T:AForge.Imaging.Formats.FITSCodec">
+             <summary>
+             FITS image format decoder.
+             </summary>
+            
+             <remarks><para>The FITS (an acronym derived from "Flexible Image Transport System") format
+             is an astronomical image and table format created and supported by NASA. FITS is the most
+             commonly used in astronomy and is designed specifically for scientific data. Different astronomical
+             organizations keep their images acquired using telescopes and other equipment in FITS format.</para>
+             
+             <para><note>The class extracts image frames only from the main data section of FITS file.
+             2D (single frame) and 3D (series of frames) data structures are supported.</note></para>
+             
+             <para><note>During image reading/parsing, its data are scaled using minimum and maximum values of
+             the source image data. FITS tags are not used for this purpose - data are scaled from the
+             [min, max] range found to the range of supported image format ([0, 255] for 8 bpp grayscale
+             or [0, 65535] for 16 bpp grayscale image).</note></para>
+             </remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.FITSCodec.DecodeSingleFrame(System.IO.Stream)">
+            <summary>
+            Decode first frame of FITS image.
+            </summary>
+            
+            <param name="stream">Source stream, which contains encoded image.</param>
+            
+            <returns>Returns decoded image frame.</returns>
+            
+            <exception cref="T:System.FormatException">Not a FITS image format.</exception>
+            <exception cref="T:System.NotSupportedException">Format of the FITS image is not supported.</exception>
+            <exception cref="T:System.ArgumentException">The stream contains invalid (broken) FITS image.</exception>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.FITSCodec.Open(System.IO.Stream)">
+            <summary>
+            Open specified stream.
+            </summary>
+            
+            <param name="stream">Stream to open.</param>
+            
+            <returns>Returns number of images found in the specified stream.</returns>
+            
+            <exception cref="T:System.FormatException">Not a FITS image format.</exception>
+            <exception cref="T:System.NotSupportedException">Format of the FITS image is not supported.</exception>
+            <exception cref="T:System.ArgumentException">The stream contains invalid (broken) FITS image.</exception>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.FITSCodec.DecodeFrame(System.Int32,AForge.Imaging.Formats.ImageInfo@)">
+            <summary>
+            Decode specified frame.
+            </summary>
+            
+            <param name="frameIndex">Image frame to decode.</param>
+            <param name="imageInfo">Receives information about decoded frame.</param>
+            
+            <returns>Returns decoded frame.</returns>
+            
+            <exception cref="T:System.NullReferenceException">No image stream was opened previously.</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">Stream does not contain frame with specified index.</exception>
+            <exception cref="T:System.ArgumentException">The stream contains invalid (broken) FITS image.</exception>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.FITSCodec.Close">
+            <summary>
+            Close decoding of previously opened stream.
+            </summary>
+            
+            <remarks><para>The method does not close stream itself, but just closes
+            decoding cleaning all associated data with it.</para></remarks>
+            
+        </member>
+        <member name="T:AForge.Imaging.Formats.Tools">
+            <summary>
+            Set of tools used internally in AForge.Imaging.Formats library.
+            </summary>
+        </member>
+        <member name="M:AForge.Imaging.Formats.Tools.CreateGrayscaleImage(System.Int32,System.Int32)">
+            <summary>
+            Create and initialize new grayscale image.
+            </summary>
+            
+            <param name="width">Image width.</param>
+            <param name="height">Image height.</param>
+            
+            <returns>Returns new created grayscale image.</returns>
+            
+            <remarks><para>AForge.Imaging.Image.CreateGrayscaleImage() function
+            could be used instead, which does the some. But it was not used to get
+            rid of dependency on AForge.Imaing library.</para></remarks>
+            
+        </member>
+        <member name="M:AForge.Imaging.Formats.Tools.ReadStream(System.IO.Stream,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Read specified amount of bytes from the specified stream.
+            </summary>
+            
+            <param name="stream">Source sream to read data from.</param>
+            <param name="buffer">Buffer to read data into.</param>
+            <param name="offset">Offset in buffer to put data into.</param>
+            <param name="count">Number of bytes to read.</param>
+            
+            <returns>Returns total number of bytes read. It may be smaller than requested amount only
+            in the case if end of stream was reached.</returns>
+            
+            <remarks><para>This tool function guarantees that requested number of bytes
+            was read from the source stream (.NET streams don't guarantee this and may return less bytes
+            than it was requested). Only in the case if end of stream was reached, the function
+            may return with less bytes read.</para>
+            </remarks>
+            
+        </member>
+    </members>
+</doc>
