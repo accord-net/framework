@@ -49,6 +49,5 @@
  -----------------------------------
 
 1) Check the reference manual at: http://accord-net.github.io/docs/Index.html
-
 2) Visit the discussion group at: https://groups.google.com/forum/#!forum/accord-net
 
