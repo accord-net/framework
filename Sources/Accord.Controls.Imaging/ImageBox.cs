@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Controls.Imaging
+namespace Accord.Controls
 {
     using System.Drawing;
     using System.Windows.Forms;

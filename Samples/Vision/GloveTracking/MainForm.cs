@@ -24,13 +24,6 @@
 //   http://www.aforgenet.com/framework/
 //
 
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Threading;
-using System.Windows.Forms;
 using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Math.Geometry;
@@ -42,6 +35,13 @@ using AForge.Math.Geometry;
 using AForge.Video;
 using AForge.Video.DirectShow;
 using AForge.Video.VFW;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Linq;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace GloveTracking
 {
@@ -116,9 +116,9 @@ namespace GloveTracking
 
             form.Description = "Enter URL of an updating JPEG from a web camera:";
             form.URLs = new string[]
-				{
-					"http://195.243.185.195/axis-cgi/jpg/image.cgi?camera=1"
-				};
+                {
+                    "http://195.243.185.195/axis-cgi/jpg/image.cgi?camera=1"
+                };
 
             if (form.ShowDialog(this) == DialogResult.OK)
             {
@@ -137,10 +137,10 @@ namespace GloveTracking
 
             form.Description = "Enter URL of an MJPEG video stream:";
             form.URLs = new string[]
-				{
-					"http://195.243.185.195/axis-cgi/mjpg/video.cgi?camera=3",
-					"http://195.243.185.195/axis-cgi/mjpg/video.cgi?camera=4",
-				};
+                {
+                    "http://195.243.185.195/axis-cgi/mjpg/video.cgi?camera=3",
+                    "http://195.243.185.195/axis-cgi/mjpg/video.cgi?camera=4",
+                };
 
             if (form.ShowDialog(this) == DialogResult.OK)
             {

@@ -19,26 +19,24 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord;
+using Accord.Controls;
+using Accord.MachineLearning;
+using Accord.MachineLearning.VectorMachines;
+using Accord.MachineLearning.VectorMachines.Learning;
+using Accord.Math;
+using Accord.Statistics.Analysis;
+using Accord.Statistics.Formats;
+using Accord.Statistics.Kernels;
+using AForge;
+using Components;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
-using Accord.Controls;
-using Accord.MachineLearning.VectorMachines;
-using Accord.MachineLearning.VectorMachines.Learning;
-using Accord.Math;
-using Accord.Statistics.Analysis;
-using Accord.Statistics.Kernels;
-using Components;
 using ZedGraph;
-using Accord.Statistics.Formats;
-using Accord.MachineLearning;
-using AForge;
-using Accord;
-
 
 namespace SVMs
 {

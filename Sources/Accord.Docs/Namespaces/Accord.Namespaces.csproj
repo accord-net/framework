@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4ED2AB06-991F-44FF-AC01-53394B222AF7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Namespaces</RootNamespace>
+    <AssemblyName>Namespaces</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Namespaces.XML</DocumentationFile>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accord.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Audio.Formats\Accord.Audio.Formats.csproj">
+      <Project>{ec70c2a7-2b49-40d3-ae82-4c2f6e1724af}</Project>
+      <Name>Accord.Audio.Formats</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Audio\Accord.Audio.csproj">
+      <Project>{e7b65f08-82f1-438f-847a-2aac2bec9ac0}</Project>
+      <Name>Accord.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Audition\Accord.Audition.csproj">
+      <Project>{cdbefb1a-10bc-49ec-9833-d2cf6d4f6131}</Project>
+      <Name>Accord.Audition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls.Audio\Accord.Controls.Audio.csproj">
+      <Project>{e0b826ac-2a51-41ec-9f09-561ca14a82bb}</Project>
+      <Name>Accord.Controls.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
+      <Project>{e1089999-eaed-4e55-ac47-b6a196df84fc}</Project>
+      <Name>Accord.Controls.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
+      <Project>{0ab27a20-925c-4556-9fa4-6e2c109e448e}</Project>
+      <Name>Accord.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls.Vision\Accord.Controls.Vision.csproj">
+      <Project>{6158e759-fe2b-4308-ba29-11c9e4a07812}</Project>
+      <Name>Accord.Controls.Vision</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
+      <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+      <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.DirectSound\Accord.DirectSound.csproj">
+      <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
+      <Name>Accord.DirectSound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Imaging\Accord.Imaging.csproj">
+      <Project>{4959a83d-f78f-439e-80a5-41583eceaac6}</Project>
+      <Name>Accord.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.MachineLearning.GPL\Accord.MachineLearning %28GPL%29.csproj">
+      <Project>{6dd1a48c-d7a8-4b39-9c06-5a71feec70b9}</Project>
+      <Name>Accord.MachineLearning %28GPL%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj">
+      <Project>{7ab4bbcc-6222-423d-9ff9-ba9cb7c09199}</Project>
+      <Name>Accord.MachineLearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
+      <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
+      <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Neuro\Accord.Neuro.csproj">
+      <Project>{179f3045-8757-4f4b-9508-f48327ba11e3}</Project>
+      <Name>Accord.Neuro</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
+      <Name>Accord.Statistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Vision\Accord.Vision.csproj">
+      <Project>{c70a159d-74a4-405f-9a7f-c17acf451cca}</Project>
+      <Name>Accord.Vision</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -19,22 +19,21 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms;
 using Accord.Math;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Formats;
 using AForge.Neuro;
-using ZedGraph;
+using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
-
+using System.Drawing;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
+using ZedGraph;
 
 namespace Classification
 {

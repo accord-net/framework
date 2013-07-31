@@ -34,7 +34,11 @@ namespace Accord.Math
     /// 
     /// 
     /// <remarks>
-    /// 
+    ///   The matrix class is a static class containing several extension methods.
+    ///   To use this class, import the <see cref="Accord.Math"/> and use the
+    ///   standard .NET's matrices and jagged arrays. When you call the dot (.)
+    ///   operator on those classes, the extension methods offered by this class
+    ///   should become available through IntelliSense auto-complete.
     /// </remarks>
     /// 
     /// <example>
@@ -55,7 +59,7 @@ namespace Accord.Math
     ///     top of your .cs (or equivalent) source code file: </para>
     ///     
     ///   <code>
-    ///     using namespace Accord.Math;
+    ///     using Accord.Math;
     ///   </code>
     ///   
     ///   <para>
@@ -226,6 +230,13 @@ namespace Accord.Math
     ///   all members available on this class or (preferably) use IntelliSense to
     ///   navigate through all possible options when trying to perform an operation.</para>
     /// </example>
+    /// 
+    /// <seealso cref="Accord.Math.DefaultMatrixFormatProvider"/>
+    /// <seealso cref="Accord.Math.DefaultArrayFormatProvider"/>
+    /// <seealso cref="Accord.Math.OctaveMatrixFormatProvider"/>
+    /// <seealso cref="Accord.Math.OctaveArrayFormatProvider"/>
+    /// <seealso cref="Accord.Math.CSharpMatrixFormatProvider"/>
+    /// <seealso cref="Accord.Math.CSharpArrayFormatProvider"/>
     /// 
     public static partial class Matrix
     {

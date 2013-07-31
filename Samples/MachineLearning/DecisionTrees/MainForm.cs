@@ -19,20 +19,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.MachineLearning.DecisionTrees;
+using Accord.MachineLearning.DecisionTrees.Learning;
+using Accord.Math;
+using Accord.Statistics.Analysis;
+using Accord.Statistics.Formats;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Accord.MachineLearning;
-using Accord.MachineLearning.DecisionTrees;
-using Accord.MachineLearning.DecisionTrees.Learning;
-using Accord.Math;
-using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
 using ZedGraph;
-
 
 namespace DecisionTrees
 {

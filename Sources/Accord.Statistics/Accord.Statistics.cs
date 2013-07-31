@@ -1,4 +1,4 @@
-﻿// Accord Control Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord.googlecode.com
 //
@@ -20,28 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Controls
+namespace Accord.Statistics
 {
-    partial class AngleBox
+    using System.Runtime.CompilerServices;
+    using Accord.Math.Decompositions;
+    using Accord.Math.Optimization;
+
+    /// <summary>
+    ///  Statistics, including probability distributions, regression 
+    ///  models and hypothesis testing.
+    /// </summary>
+    /// 
+    [CompilerGenerated]
+    class NamespaceDoc
     {
-        /// <summary> 
-        /// Required designer variable.
-        /// </summary>
-        private System.ComponentModel.IContainer components = null;
-
-
-        #region Component Designer generated code
-
-        /// <summary> 
-        /// Required method for Designer support - do not modify 
-        /// the contents of this method with the code editor.
-        /// </summary>
-        private void InitializeComponent()
-        {
-            components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        }
-
-        #endregion
     }
 }

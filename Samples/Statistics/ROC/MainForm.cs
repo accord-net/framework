@@ -19,21 +19,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
-
-
-using Accord.Statistics.Analysis;
 using Accord.Controls;
-
-using ZedGraph;
+using Accord.Statistics.Analysis;
 using Accord.Statistics.Formats;
+using System;
+using System.Data;
+using System.IO;
+using System.Windows.Forms;
 
 namespace ReceiverOperating
 {

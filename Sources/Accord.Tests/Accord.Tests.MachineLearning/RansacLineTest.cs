@@ -35,6 +35,7 @@ namespace Accord.Tests.MachineLearning
     using AForge.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Controls.Imaging;
+    using Accord.Controls;
 
     [TestClass()]
     public class RansacLineTest

@@ -33,6 +33,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System;
 using System.Drawing.Imaging;
+using Accord.Controls;
 
 namespace Accord.Tests.Imaging
 {

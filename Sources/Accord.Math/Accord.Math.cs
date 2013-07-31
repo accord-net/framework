@@ -22,18 +22,25 @@
 
 namespace Accord.Math
 {
-    using System.Runtime.CompilerServices;
+    using Accord.Math.Comparers;
+    using Accord.Math.ComplexExtensions;
     using Accord.Math.Decompositions;
+    using Accord.Math.Differentiation;
+    using Accord.Math.Environments;
+    using Accord.Math.Geometry;
+    using Accord.Math.Kinematics;
     using Accord.Math.Optimization;
+    using Accord.Math.Wavelets;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
-    ///   Mathematics, including matrix algebra and optimization.
+    ///   Mathematics, including matrix algebra and numeric optimization.
     /// </summary>
     /// 
     /// <remarks>
     /// <para>
-    ///   Contains a <see cref="Matrix">matrix extension library</see>, along
-    ///   with a suite of numerical 
+    ///   This namespace contains a <see cref="Matrix">matrix extension library</see>,
+    ///   along with a suite of numerical 
     ///   <see cref="Accord.Math.Decompositions">matrix decomposition methods</see>, 
     ///   <see cref="Accord.Math.Optimization">optimization algorithms</see> for 
     ///   <see cref="AugmentedLagrangianSolver">constrained</see> and
@@ -52,8 +59,17 @@ namespace Accord.Math
     ///   Please note that class diagrams dedicated for matrix decompositions
     ///   are also available at <see cref="Accord.Math.Decompositions"/> page.
     /// </para>
-    /// 
     /// </remarks>
+    /// 
+    /// <seealso cref="Accord.Math.Comparers"/>
+    /// <seealso cref="Accord.Math.ComplexExtensions"/>
+    /// <seealso cref="Accord.Math.Decompositions"/>
+    /// <seealso cref="Accord.Math.Differentiation"/>
+    /// <seealso cref="Accord.Math.Environments"/>
+    /// <seealso cref="Accord.Math.Geometry"/>
+    /// <seealso cref="Accord.Math.Kinematics"/>
+    /// <seealso cref="Accord.Math.Optimization"/>
+    /// <seealso cref="Accord.Math.Wavelets"/>
     /// 
     [CompilerGenerated]
     class NamespaceDoc

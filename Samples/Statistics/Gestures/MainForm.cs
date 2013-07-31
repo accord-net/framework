@@ -19,24 +19,21 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Statistics.Distributions.Fitting;
+using Accord.Statistics.Distributions.Multivariate;
+using Accord.Statistics.Models.Fields;
+using Accord.Statistics.Models.Fields.Functions;
+using Accord.Statistics.Models.Fields.Learning;
+using Accord.Statistics.Models.Markov;
+using Accord.Statistics.Models.Markov.Learning;
+using Accord.Statistics.Models.Markov.Topology;
+using Gestures.Native;
 using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-
-using Accord.Statistics.Distributions.Fitting;
-using Accord.Statistics.Distributions.Multivariate;
-
-using Accord.Statistics.Models.Fields;
-using Accord.Statistics.Models.Fields.Functions;
-using Accord.Statistics.Models.Fields.Learning;
-
-using Accord.Statistics.Models.Markov;
-using Accord.Statistics.Models.Markov.Learning;
-using Accord.Statistics.Models.Markov.Topology;
-using Gestures.Native;
 
 namespace Gestures
 {

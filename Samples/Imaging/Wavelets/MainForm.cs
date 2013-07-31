@@ -19,11 +19,11 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Imaging.Filters;
+using Accord.Math.Wavelets;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Accord.Imaging.Filters;
-using Accord.Math.Wavelets;
 
 namespace Wavelets
 {

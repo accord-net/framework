@@ -19,15 +19,15 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Controls;
+using Accord.Statistics.Filters;
+using Accord.Statistics.Formats;
+using Components;
 using System;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
-using Accord.Controls;
-using Accord.Statistics.Filters;
-using Accord.Statistics.Formats;
-using Components;
 
 namespace DataProcessing
 {

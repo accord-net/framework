@@ -100,6 +100,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accord.Statistics.cs" />
     <Compile Include="Analysis\Base\IAnalysis.cs" />
     <Compile Include="Analysis\Base\IProjectionAnalysis.cs" />
     <Compile Include="Analysis\Base\IMultivariateRegressionAnalysis.cs" />

@@ -24,23 +24,16 @@
 //   http://www.aforgenet.com/framework/
 //
 
-using System;
-using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
-
-using System.IO;
-using System.Threading;
-
-using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
-using AForge.Controls;
-
 using Accord.Neuro;
 using Accord.Neuro.Learning;
+using AForge;
+using AForge.Controls;
+using AForge.Neuro;
+using System;
+using System.Drawing;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Approximation
 {

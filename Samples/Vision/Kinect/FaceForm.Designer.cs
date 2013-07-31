@@ -35,7 +35,7 @@
             this.tbVertical = new System.Windows.Forms.TrackBar();
             this.tbHorizontal = new System.Windows.Forms.TrackBar();
             this.faceController = new Accord.Controls.Vision.FaceController();
-            this.pointBox1 = new Accord.Controls.Imaging.PointBox();
+            this.pointBox1 = new Accord.Controls.PointBox();
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tbVertical)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbHorizontal)).BeginInit();
@@ -167,7 +167,7 @@
         private System.Windows.Forms.Button btnHorizontalMin;
         private System.Windows.Forms.TrackBar tbVertical;
         private System.Windows.Forms.TrackBar tbHorizontal;
-        private Accord.Controls.Imaging.PointBox pointBox1;
+        private Accord.Controls.PointBox pointBox1;
         private System.Windows.Forms.Button button2;
         public Accord.Controls.Vision.FaceController faceController;
     }

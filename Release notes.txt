@@ -1,13 +1,13 @@
 Accord.NET Framework 2.10.0 release notes
 -----------------------------------------
-xx.07.2013.    
+05.08.2013.    
 
 Version updates and fixes:
 
 * General
   - This release aimed to provide improvements to the documentation. 
     Most of the Univariate Distributions now include proper examples
-	for all main functions and measures in their summary page.
+    for all main functions and measures in their summary page.
 
 * Accord.Imaging
   - Adding Haralick's set of textural features;
@@ -27,7 +27,7 @@ Version updates and fixes:
   - Adding Support information for all distributions;
   - Adding default support computing the true Median and Quantile 
     functions (inverse cumulative distribution function) for all 
-	univariate continuous distributions;
+    univariate continuous distributions;
   - Improving ToString methods for linear/polynomial regressions;
   - Updating all regression methods to use SVD by default;
   - Correcting Wishart and Inverse Wishart distributions.

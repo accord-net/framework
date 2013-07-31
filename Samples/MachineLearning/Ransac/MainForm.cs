@@ -19,17 +19,17 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.MachineLearning;
+using Accord.Math;
+using Accord.Statistics.Formats;
+using Accord.Statistics.Models.Regression.Linear;
+using Components;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Accord.MachineLearning;
-using Accord.Math;
-using Accord.Statistics.Formats;
-using Accord.Statistics.Models.Regression.Linear;
-using Components;
 using ZedGraph;
 
 namespace Ransac

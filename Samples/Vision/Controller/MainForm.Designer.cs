@@ -42,7 +42,7 @@
             this.btnAngleMax = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.angleBox1 = new Accord.Controls.Imaging.AngleBox();
+            this.angleBox1 = new Accord.Controls.AngleBox();
             this.controller = new Accord.Controls.Vision.HeadController();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -347,7 +347,7 @@
         private System.Windows.Forms.Button btnScaleMax;
         private System.Windows.Forms.Button btnVerticalMin;
         private System.Windows.Forms.Button btnVerticalMax;
-        private Accord.Controls.Imaging.AngleBox angleBox1;
+        private Accord.Controls.AngleBox angleBox1;
         private System.Windows.Forms.Button btnAngleMin;
         private System.Windows.Forms.Button btnAngleMax;
         private System.Windows.Forms.StatusStrip statusStrip1;

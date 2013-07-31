@@ -96,6 +96,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Accord.Math.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Comparers\ArrayComparer`1.cs" />
     <Compile Include="Comparers\ElementComparer.cs" />
@@ -115,7 +116,6 @@
     <Compile Include="Kinematics\DenavitHartenbergNode.cs" />
     <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
     <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
-    <Compile Include="NamespaceDoc.cs" />
     <Compile Include="Optimization\BinarySearch.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
     <Compile Include="Transforms\SineTransform.cs" />

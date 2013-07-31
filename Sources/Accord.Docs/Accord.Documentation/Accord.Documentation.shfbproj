@@ -50,12 +50,14 @@
       <DocumentationSource sourceFile="..\..\..\Release\Accord.Vision.dll" />
       <DocumentationSource sourceFile="..\..\..\Release\Accord.Vision.xml" />
       <DocumentationSource sourceFile="..\..\..\Release\Accord.xml" />
+      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.dll" />
+      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" />
     </DocumentationSources>
-    <CopyrightText>&amp;lt%3ba href=&amp;quot%3bhttp://accord.googlecode.com&amp;quot%3b target=&amp;quot%3b_blank&amp;quot%3b&amp;gt%3bAccord.NET Framework&amp;lt%3b/a&amp;gt%3b &amp;#169%3b 2009-2013. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
+    <CopyrightText>&amp;lt%3ba href=&amp;quot%3bhttp://accord-net.github.io/&amp;quot%3b target=&amp;quot%3b_blank&amp;quot%3b&amp;gt%3bAccord.NET Framework&amp;lt%3b/a&amp;gt%3b &amp;#169%3b 2009-2013. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="(global)" isDocumented="False">&lt;b&gt;Accord.NET Framework&lt;/b&gt;</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="(global)" isDocumented="True">&lt;b&gt;Accord.NET Framework&lt;/b&gt;</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Audio" isDocumented="True">Process, transforms, filters and handle audio signals for machine learning and statistical applications.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Audio.ComplexFilters" isDocumented="True">Contains frequency-domain signal filters.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Audio.Filters" isDocumented="True">Contains time-domain signal processing filters.</NamespaceSummaryItem>
@@ -75,7 +77,7 @@
 <NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines.Learning" isDocumented="True">Contains algorithms for training Support Vector Machines (SVMs).</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Neuro" isDocumented="True">Neural learning algorithms such as Levenberg-Marquardt, Parallel Resilient Backpropagation, initialization procedures such as Nguyen-Widrow and other neural network related methods.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Neuro.Learning" isDocumented="True">Contains neural network learning algorithms such as the Levenberg-Marquardt (LM) with Bayesian Regularization and the Resilient Backpropagation (RProp) for multi-layer networks. This namespace extends the AForge.Neuro namespace of the AForge.NET project.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics" isDocumented="True">Probability distributions, statistical models and methods such as Linear and Logistic regression, Hidden Markov Models, (Hidden) Conditional Random Fields, Principal Component Analysis, Partial Least Squares, Discriminant Analysis, Kernel methods and functions and many other related techniques.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Accord.Statistics" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Statistics.Analysis" isDocumented="True">Contains many statistical analysis, such as PCA, LDA, KPCA, KDA, PLS, IDA, Logistic Regression and Stepwise Logistic Regression Analyses. Also contains performance assessment analysis such as contingency tables and ROC curves.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Distributions" isDocumented="True">Contains more than 30+ statistical distributions, with support for most probability distribution measures and fitting (estimation) methods.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Filters" isDocumented="True">Contains data processing filters, such as data normalization, discretization, equalization, selection and projection filters.</NamespaceSummaryItem>
@@ -99,7 +101,7 @@
 <NamespaceSummaryItem name="Accord.Vision" isDocumented="True">Real-time face detection and tracking, as well as general methods for detecting, tracking and transforming objects in image streams. Contains cascade definitions, Camshift and Dynamic Template Matching trackers.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Vision.Detection" isDocumented="True">Contains object detectors such as the Viola-Jones (Haar feature) method. The Haar cascades are completely compatible with OpenCV generated definitions and the assembly comes with direct support for bundled definitions for face and nose templates.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Vision.Tracking" isDocumented="True">Contains classes for object tracking. Include the Camshift algorithm, color segmentation-based trackers and dynamic template matching trackers.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord" isDocumented="True">Contains common classes, such as exceptions, events and framework infrastructure classes.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Accord" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Controls.Imaging" isDocumented="True">Windows Forms controls to show and handle images. Contains a convenient ImageBox? control which mimics the traditional MessageBox behavior for quickly displaying or inspecting images.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Models.Fields" isDocumented="True">Contains classes related to Conditional Random Fields, Hidden Conditional Random Fields and their learning algorithms.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Models.Markov" isDocumented="True">Contains classes related to Hidden Markov Models and their learning algorithms. Offers support for both discrete and continuous-density models, as well as Markov classifiers and threshold models for sequence rejection.</NamespaceSummaryItem>
@@ -144,7 +146,81 @@
 <NamespaceSummaryItem name="Accord.Neuro.Neurons" isDocumented="True">Contains different kinds of artificial neurons.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Neuro.Visualization" isDocumented="True">Contains methods to visualize information drawn from neural networks.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Testing.Power" isDocumented="True">Contains methods for power analysis of several related hypothesis tests, including support for automatic sample size estimation.</NamespaceSummaryItem></NamespaceSummaries>
-    <ProjectSummary>Accord.NET provides statistical analysis, machine learning, image processing and computer vision methods for .NET applications. The Accord.NET Framework extends the popular AForge.NET with new features, adding to a more complete environment for scientific computing in .NET.</ProjectSummary>
+    <ProjectSummary>&amp;lt%3bpara&amp;gt%3b
+  Accord.NET provides statistical analysis, machine learning, image processing and computer vision methods for .NET applications. The Accord.NET Framework extends the popular AForge.NET with new features, adding to a more complete environment for scientific computing in .NET. &amp;lt%3b/para&amp;gt%3b
+
+
+&amp;lt%3bpara&amp;gt%3b
+  The framework is divided in libraries, available through an executable installer, standalone compressed archives and NuGet packages. Those libraries are divided among three main functionalities, listed below:&amp;lt%3b/para&amp;gt%3b
+
+&amp;lt%3bpara&amp;gt%3b
+       &amp;lt%3bh2&amp;gt%3bScientific computing&amp;lt%3b/h2&amp;gt%3b
+       &amp;lt%3blist type=&amp;quot%3bbullet&amp;quot%3b&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Math&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Contains a matrix extension library, along with a suite of
+             numerical matrix decomposition methods, numerical optimization algorithms
+             for constrained and unconstrained problems, special functions and other 
+             tools for scientific applications.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Statistics&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Contains probability distributions, hypothesis testing, statistical models and methods such as Linear and Logistic regression, Hidden Markov Models, %28Hidden%29 Conditional Random Fields, Principal Component Analysis, Partial Least Squares, Discriminant Analysis, Kernel methods and many other related techniques.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.MachineLearning&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Support Vector Machines, Decision Trees, Naive Bayesian models, K-means, Gaussian Mixture models and general algorithms such as Ransac, Cross-validation and Grid-Search for machine-learning applications. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Neuro&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Neural learning algorithms such as Levenberg-Marquardt, Parallel Resilient Backpropagation, the Nguyen-Widrow initialization algorithm, Deep Belief Networks and Restrictured Boltzmann Machines, and many other neural network related items. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3b/list&amp;gt%3b&amp;lt%3b/para&amp;gt%3b  
+       
+&amp;lt%3bpara&amp;gt%3b
+       &amp;lt%3bh2&amp;gt%3bSignal and image processing&amp;lt%3b/h2&amp;gt%3b
+       &amp;lt%3blist type=&amp;quot%3bbullet&amp;quot%3b&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Imaging&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Contains interest point detectors %28such as Harris, SURF, FAST and FREAK%29, image filters, image matching and 
+             image stitching methods, as well as feature extractors such as Histograms of Oriented Gradients and Haralick&amp;#39%3bs textural feature descriptors. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Audio&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Contains methods to process, transforms, filters and handle audio signals for machine learning and statistical applications. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Vision&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+            Real-time face detection and tracking, as well as general methods for detecting, tracking and transforming objects in image streams. Contains cascade definitions, Camshift and Dynamic Template Matching trackers.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+     &amp;lt%3b/list&amp;gt%3b&amp;lt%3b/para&amp;gt%3b
+            
+&amp;lt%3bpara&amp;gt%3b
+       &amp;lt%3bh2&amp;gt%3bSupport libraries&amp;lt%3b/h2&amp;gt%3b
+       &amp;lt%3blist type=&amp;quot%3bbullet&amp;quot%3b&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Controls&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Histograms, scatterplots and tabular data viewers for scientific applications.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Controls.Imaging&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Windows Forms controls to show and handle images. Contains a convenient ImageBox control which mimics the traditional MessageBox for quickly displaying or inspecting images.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Controls.Audio&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Windows Forms controls to display waveforms and audio-related information. &amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+       &amp;lt%3bitem&amp;gt%3b&amp;lt%3bterm&amp;gt%3b
+             &amp;lt%3bsee cref=&amp;quot%3bN:Accord.Controls.Vision&amp;quot%3b/&amp;gt%3b&amp;lt%3b/term&amp;gt%3b
+          &amp;lt%3bdescription&amp;gt%3b
+             Windows Forms components and controls to track head, face and hand movements and other computer vision related tasks.&amp;lt%3b/description&amp;gt%3b&amp;lt%3b/item&amp;gt%3b
+     &amp;lt%3b/list&amp;gt%3b&amp;lt%3b/para&amp;gt%3b
+
+&amp;lt%3bpara&amp;gt%3b
+  &amp;lt%3b/para&amp;gt%3b
+
+&amp;lt%3bpara&amp;gt%3b
+  A complete listing of the framework&amp;#39%3bs namespaces is presented below. Please click on any of the namespace names for more details.&amp;lt%3b/para&amp;gt%3b</ProjectSummary>
     <HelpTitle>Accord.NET Framework</HelpTitle>
     <FooterText>
     </FooterText>
@@ -237,11 +313,11 @@
     <PresentationStyle>VS2010</PresentationStyle>
     <SyntaxFilters>CSharp</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
-    <HelpFileVersion>2.8.0.0</HelpFileVersion>
+    <HelpFileVersion>2.10.0.0</HelpFileVersion>
     <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, SealedProtected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
-    <CollectionTocStyle>Hierarchical</CollectionTocStyle>
+    <CollectionTocStyle>Flat</CollectionTocStyle>
     <MSHelp2SdkLinkType>Msdn</MSHelp2SdkLinkType>
     <IncludeStopWordList>True</IncludeStopWordList>
     <SdkLinkTarget>Blank</SdkLinkTarget>
@@ -255,7 +331,7 @@
         </configuration>
       </PlugInConfig>
     </PlugInConfigurations>
-    <HeaderText>&amp;lt%3ba href=&amp;quot%3bhttp://accord.googlecode.com/svn/docs/Index.html&amp;quot%3b target=&amp;quot%3b_top&amp;quot%3b&amp;gt%3bShow table of contents %28goes to the online documentation index%29.&amp;lt%3b/a&amp;gt%3b&amp;lt%3bbr /&amp;gt%3b</HeaderText>
+    <HeaderText>&amp;lt%3ba href=&amp;quot%3bhttp://accord-net.github.io/docs/Index.html&amp;quot%3b target=&amp;quot%3b_top&amp;quot%3b&amp;gt%3bShow table of contents %28goes to the online documentation index%29.&amp;lt%3b/a&amp;gt%3b&amp;lt%3bbr /&amp;gt%3b</HeaderText>
     <HelpAttributes />
     <IndentHtml>True</IndentHtml>
     <TransformComponentArguments>
@@ -611,53 +687,83 @@
     <Reference Include="Accord.Vision">
       <HintPath>..\..\..\Release\Accord.Vision.dll</HintPath>
     </Reference>
-    <Reference Include="AForge">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.dll</HintPath>
+    <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Controls">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Controls.dll</HintPath>
+    <Reference Include="AForge.Controls, Version=2.2.5.0, Culture=neutral, PublicKeyToken=a8ac264d1dc6b9d9">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Controls.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Fuzzy">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Fuzzy.dll</HintPath>
+    <Reference Include="AForge.Fuzzy, Version=2.2.4.0, Culture=neutral, PublicKeyToken=cb12670d0eae17c9">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Fuzzy.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Genetic">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Genetic.dll</HintPath>
+    <Reference Include="AForge.Genetic, Version=2.2.4.0, Culture=neutral, PublicKeyToken=4336634eeb41b69b">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Genetic.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Imaging">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Imaging.dll</HintPath>
+    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Imaging.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Imaging.Formats">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Imaging.Formats.dll</HintPath>
+    <Reference Include="AForge.Imaging.Formats, Version=2.2.4.0, Culture=neutral, PublicKeyToken=8065ed5a639199a0">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Imaging.Formats.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.MachineLearning">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.MachineLearning.dll</HintPath>
+    <Reference Include="AForge.MachineLearning, Version=2.2.4.0, Culture=neutral, PublicKeyToken=b3f1bdd78212f4e4">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.MachineLearning.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Math.dll</HintPath>
+    <Reference Include="AForge.Math, Version=2.2.5.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Neuro">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Neuro.dll</HintPath>
+    <Reference Include="AForge.Neuro, Version=2.2.5.0, Culture=neutral, PublicKeyToken=2094f4ea39731d4f">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Neuro.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Robotics.Lego">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Robotics.Lego.dll</HintPath>
+    <Reference Include="AForge.Video, Version=2.2.5.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Video.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Robotics.Surveyor">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Robotics.Surveyor.dll</HintPath>
+    <Reference Include="AForge.Video.DirectShow, Version=2.2.5.0, Culture=neutral, PublicKeyToken=61ea4348d43881b7">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Video.DirectShow.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Robotics.TeRK">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Robotics.TeRK.dll</HintPath>
+    <Reference Include="AForge.Video.FFMPEG, Version=2.2.5.0, Culture=neutral, PublicKeyToken=03563089b1be05dd">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Video.FFMPEG.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Video">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Video.dll</HintPath>
+    <Reference Include="AForge.Video.Kinect, Version=2.2.4.0, Culture=neutral, PublicKeyToken=96a9a097745e71d9">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Video.Kinect.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Video.DirectShow">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Video.DirectShow.dll</HintPath>
+    <Reference Include="AForge.Video.VFW, Version=2.2.4.0, Culture=neutral, PublicKeyToken=a82f807c999637c8">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Video.VFW.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Video.VFW">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Video.VFW.dll</HintPath>
+    <Reference Include="AForge.Vision, Version=2.2.5.0, Culture=neutral, PublicKeyToken=b612fa915eefaa06">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Vision.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="AForge.Vision">
-      <HintPath>C:\Program Files (x86)\AForge.NET\Framework\Release\AForge.Vision.dll</HintPath>
+    <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <Name>System</Name>
+      <AssemblyName>System.dll</AssemblyName>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <Name>System.Core</Name>
+      <AssemblyName>System.Core.dll</AssemblyName>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>System.Drawing</Name>
+      <AssemblyName>System.Drawing.dll</AssemblyName>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -728,6 +834,9 @@
     <Content Include="resources\Accord.NET (icon).ico">
       <ExcludeFromToc>True</ExcludeFromToc>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ContentLayout Include="Layout.content" />
   </ItemGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />

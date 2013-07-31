@@ -19,13 +19,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System;
-using System.Windows.Forms;
+using Accord.Audio;
 using Accord.Audio.Formats;
 using Accord.DirectSound;
 using Accord.Math;
 using Accord.Statistics.Analysis;
-using Accord.Audio;
+using System;
+using System.Windows.Forms;
 
 namespace ICA
 {

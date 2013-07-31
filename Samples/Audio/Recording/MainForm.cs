@@ -19,15 +19,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Audio;
+using Accord.Audio.Formats;
+using Accord.DirectSound;
 using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using Accord.Audio;
-using Accord.Audio.Formats;
-using Accord.DirectSound;
-using AForge;
-
 
 namespace Recording
 {

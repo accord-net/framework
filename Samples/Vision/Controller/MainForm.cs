@@ -19,12 +19,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Controls.Vision;
+using AForge.Video.DirectShow;
 using System;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using Accord.Controls.Vision;
-using AForge.Video.DirectShow;
 
 namespace Controller
 {

@@ -19,13 +19,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 using Accord.Imaging.Filters;
 using Accord.Vision.Detection;
 using Accord.Vision.Detection.Cascades;
+using System;
 using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace FaceDetection
 {

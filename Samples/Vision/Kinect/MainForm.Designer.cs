@@ -61,7 +61,7 @@
             this.pbRightHand = new AForge.Controls.PictureBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.angleBox1 = new Accord.Controls.Imaging.AngleBox();
+            this.angleBox1 = new Accord.Controls.AngleBox();
             this.controller = new Accord.Controls.Vision.HeadController();
             ((System.ComponentModel.ISupportInitialize)(this.tbHorizontal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbVertical)).BeginInit();
@@ -468,7 +468,7 @@
         private System.Windows.Forms.Button btnScaleMax;
         private System.Windows.Forms.Button btnVerticalMin;
         private System.Windows.Forms.Button btnVerticalMax;
-        private Accord.Controls.Imaging.AngleBox angleBox1;
+        private Accord.Controls.AngleBox angleBox1;
         private System.Windows.Forms.Button btnAngleMin;
         private System.Windows.Forms.Button btnAngleMax;
         private System.Windows.Forms.StatusStrip statusStrip1;

@@ -19,12 +19,11 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Imaging;
+using AForge.Imaging.Filters;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Accord.Imaging;
-using AForge.Imaging.Filters;
-using Accord.Imaging.Filters;
 
 namespace Fast
 {

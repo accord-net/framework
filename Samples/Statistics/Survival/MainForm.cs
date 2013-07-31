@@ -19,15 +19,15 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Math;
+using Accord.Statistics.Analysis;
+using Accord.Statistics.Formats;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Accord.Math;
-using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
 
 namespace Survival
 {

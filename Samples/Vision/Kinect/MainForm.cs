@@ -22,21 +22,18 @@
 // under the Apache 2 License. See libfreenect.txt in this folder for more details.
 //
 
-using System;
-using System.ComponentModel;
-using System.Windows.Forms;
 using Accord.Controls.Vision;
-using AForge.Video.DirectShow;
-using AForge.Imaging;
-using AForge.Video.Kinect;
-using AForge.Imaging.Filters;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Collections.Generic;
-using AForge;
-using Accord.Math;
 using Accord.Imaging.Filters;
-using Accord.Controls.Imaging;
+using Accord.Math;
+using AForge;
+using AForge.Imaging;
+using AForge.Imaging.Filters;
+using AForge.Video.Kinect;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace KinectController
 {

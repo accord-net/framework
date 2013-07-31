@@ -24,65 +24,58 @@
 //   http://www.aforgenet.com/framework/
 //
 
+using Accord.Neuro.Learning;
+using AForge;
+using AForge.Controls;
+using AForge.Neuro;
 using System;
 using System.Drawing;
-using System.Collections;
-using System.ComponentModel;
-using System.Windows.Forms;
-using System.Data;
-using System.Threading;
 using System.IO;
-
-using AForge;
-using AForge.Neuro;
-using AForge.Neuro.Learning;
-using AForge.Controls;
-
-using Accord.Neuro;
-using Accord.Neuro.Learning;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace TimeSeries
 {
-	/// <summary>
-	/// Summary description for Form1.
-	/// </summary>
-	public class MainForm : System.Windows.Forms.Form
-	{
-		private System.Windows.Forms.GroupBox groupBox1;
-		private System.Windows.Forms.ListView dataList;
-		private System.Windows.Forms.ColumnHeader yColumnHeader;
-		private System.Windows.Forms.ColumnHeader estimatedYColumnHeader;
-		private System.Windows.Forms.Button loadDataButton;
-		private System.Windows.Forms.GroupBox groupBox2;
-		private AForge.Controls.Chart chart;
+    /// <summary>
+    /// Summary description for Form1.
+    /// </summary>
+    public class MainForm : System.Windows.Forms.Form
+    {
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ListView dataList;
+        private System.Windows.Forms.ColumnHeader yColumnHeader;
+        private System.Windows.Forms.ColumnHeader estimatedYColumnHeader;
+        private System.Windows.Forms.Button loadDataButton;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private AForge.Controls.Chart chart;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-		private System.Windows.Forms.Button stopButton;
-		private System.Windows.Forms.Button startButton;
-		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.TextBox currentPredictionErrorBox;
-		private System.Windows.Forms.Label label13;
-		private System.Windows.Forms.TextBox currentLearningErrorBox;
-		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.TextBox currentIterationBox;
-		private System.Windows.Forms.Label label11;
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.Container components = null;
+        private System.Windows.Forms.Button stopButton;
+        private System.Windows.Forms.Button startButton;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TextBox currentPredictionErrorBox;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox currentLearningErrorBox;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox currentIterationBox;
+        private System.Windows.Forms.Label label11;
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.Container components = null;
 
-		private double[]	data = null;
-		private double[,]	dataToShow = null;
+        private double[]	data = null;
+        private double[,]	dataToShow = null;
 
-		private double		initialStep = 0.0125;
-		private double		sigmoidAlphaValue = 2.0;
-		private int			windowSize = 5;
-		private int			predictionSize = 1;
-		private int			iterations = 500;
+        private double		initialStep = 0.0125;
+        private double		sigmoidAlphaValue = 2.0;
+        private int			windowSize = 5;
+        private int			predictionSize = 1;
+        private int			iterations = 500;
 
-		private Thread workerThread = null;
+        private Thread workerThread = null;
         private volatile bool needToStop = false;
 
-		private double[,]	windowDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
+        private double[,]	windowDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
         private Label label5;
         private Label label9;
         private Label label10;
@@ -97,50 +90,50 @@ namespace TimeSeries
         private Label label2;
         private TextBox alphaBox;
         private GroupBox groupBox3;
-		private double[,]	predictionDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
+        private double[,]	predictionDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
 
-		// Constructor
-		public MainForm( )
-		{
-			//
-			// Required for Windows Form Designer support
-			//
-			InitializeComponent();
+        // Constructor
+        public MainForm( )
+        {
+            //
+            // Required for Windows Form Designer support
+            //
+            InitializeComponent();
 
-			// initializa chart control
-			chart.AddDataSeries( "data", Color.Red, Chart.SeriesType.Dots, 5 );
-			chart.AddDataSeries( "solution", Color.Blue, Chart.SeriesType.Line, 1 );
-			chart.AddDataSeries( "window", Color.LightGray, Chart.SeriesType.Line, 1, false );
-			chart.AddDataSeries( "prediction", Color.Gray, Chart.SeriesType.Line, 1, false );
+            // initializa chart control
+            chart.AddDataSeries( "data", Color.Red, Chart.SeriesType.Dots, 5 );
+            chart.AddDataSeries( "solution", Color.Blue, Chart.SeriesType.Line, 1 );
+            chart.AddDataSeries( "window", Color.LightGray, Chart.SeriesType.Line, 1, false );
+            chart.AddDataSeries( "prediction", Color.Gray, Chart.SeriesType.Line, 1, false );
 
-			// update controls
-			UpdateSettings( );
+            // update controls
+            UpdateSettings( );
 
             openFileDialog.InitialDirectory = Path.Combine(Application.StartupPath, "Data Samples");
-		}
+        }
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		protected override void Dispose( bool disposing )
-		{
-			if( disposing )
-			{
-				if (components != null) 
-				{
-					components.Dispose();
-				}
-			}
-			base.Dispose( disposing );
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose( bool disposing )
+        {
+            if( disposing )
+            {
+                if (components != null) 
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose( disposing );
+        }
 
-		#region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        #region Windows Form Designer generated code
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataList = new System.Windows.Forms.ListView();
@@ -478,17 +471,17 @@ namespace TimeSeries
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
-		}
-		#endregion
+        }
+        #endregion
 
-		/// <summary>
-		/// The main entry point for the application.
-		/// </summary>
-		[STAThread]
-		static void Main( ) 
-		{
-			Application.Run( new MainForm( ) );
-		}
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main( ) 
+        {
+            Application.Run( new MainForm( ) );
+        }
 
         // Delegates to enable async calls for setting controls properties
         private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);

@@ -7,6 +7,7 @@
 cd Archiver
 cmd /c "Build (v4.0).cmd"
 cmd /c "Build (v3.5).cmd"
+cmd /c "Samples.cmd"
 cd ..
 
 echo.
