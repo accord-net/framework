@@ -8,4 +8,4 @@
 // "In Project Suppression File".
 // You do not need to add suppressions to this file manually.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase", Scope = "member", Target = "Accord.Controls.Imaging.ImageBox.#OnPreviewKeyDown(System.Windows.Forms.PreviewKeyDownEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2123:OverrideLinkDemandsShouldBeIdenticalToBase", Scope = "member", Target = "Accord.Controls.ImageBox.#OnPreviewKeyDown(System.Windows.Forms.PreviewKeyDownEventArgs)")]

@@ -1,1 +1,15 @@
-/.svn
+bin
+obj
+
+*.user
+*.pidb
+*.suo
+*.vsp
+
+/Setup/Accord.Setup.dll
+/Setup/Accord.Setup.pdb
+
+/Sources/Accord.Music
+/Sources/TestResults
+*.sdf
+*.shfbproj_*
