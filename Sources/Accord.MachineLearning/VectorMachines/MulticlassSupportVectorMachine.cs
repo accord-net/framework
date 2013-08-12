@@ -31,6 +31,7 @@ namespace Accord.MachineLearning.VectorMachines
     using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Kernels;
+    using System.IO.Compression;
 
     /// <summary>
     ///   Decision strategies for <see cref="MulticlassSupportVectorMachine">
@@ -1011,6 +1012,37 @@ namespace Accord.MachineLearning.VectorMachines
         }
 
         /// <summary>
+        ///   Saves the machine to a zipped stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream to which the machine is to be serialized.</param>
+        /// 
+        private void SaveCompressed(Stream stream)
+        {
+            using (var compressionStream = new GZipStream(stream, CompressionMode.Compress))
+            {
+                Save(compressionStream);
+            }
+        }
+
+        /// <summary>
+        ///   Saves the machine to a zipped file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file to which the machine is to be serialized.</param>
+        /// 
+        public void SaveCompressed(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                using (var compressionStream = new GZipStream(fs, CompressionMode.Compress))
+                {
+                    Save(compressionStream);
+                }
+            }
+        }
+
+        /// <summary>
         ///   Loads a machine from a stream.
         /// </summary>
         /// 
@@ -1020,8 +1052,28 @@ namespace Accord.MachineLearning.VectorMachines
         /// 
         public static MulticlassSupportVectorMachine Load(Stream stream)
         {
+            object data = null;
             BinaryFormatter b = new BinaryFormatter();
-            return (MulticlassSupportVectorMachine)b.Deserialize(stream);
+            byte[] buffer = new byte[2];
+
+            // Read first two bytes to test for compressed stream.
+            stream.Read(buffer, 0, 2);
+
+            // Reset stream position.
+            stream.Seek(0, SeekOrigin.Begin);
+
+            // Test for compression.
+            if ((buffer[0] == 0x1f) && (buffer[1] == 0x8b))
+            {
+                // Compressed stream.
+                data = LoadCompressed(stream);
+            }
+            else
+            {
+                data = b.Deserialize(stream);
+            }
+
+            return (MulticlassSupportVectorMachine)data;
         }
 
         /// <summary>
@@ -1037,6 +1089,24 @@ namespace Accord.MachineLearning.VectorMachines
             using (FileStream fs = new FileStream(path, FileMode.Open))
             {
                 return Load(fs);
+            }
+        }
+
+        /// <summary>
+        ///   Loads a machine from a zipped stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream from which the machine is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized machine.</returns>
+        /// 
+        private static MulticlassSupportVectorMachine LoadCompressed(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+
+            using (var compressionStream = new GZipStream(stream, CompressionMode.Decompress))
+            {
+                return (MulticlassSupportVectorMachine)b.Deserialize(compressionStream);
             }
         }
 
