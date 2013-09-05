@@ -130,13 +130,17 @@ namespace Accord.Math.Optimization
     public class AugmentedLagrangianSolver
     {
 
-        BroydenFletcherGoldfarbShanno dualSolver;
+        IGradientOptimizationMethod dualSolver;
 
         NonlinearConstraint[] lesserThanConstraints;
         NonlinearConstraint[] greaterThanConstraints;
         NonlinearConstraint[] equalityConstraints;
 
+
         private double rho;
+        private double rhoMax = 1e+1;
+        private double rhoMin = 1e-6;
+
         private double[] lambda; // equality multipliers
         private double[] mu;     // "lesser than"  inequality multipliers
         private double[] nu;     // "greater than" inequality multipliers
@@ -243,7 +247,29 @@ namespace Accord.Math.Optimization
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
         /// <param name="constraints">The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
         /// 
-        public AugmentedLagrangianSolver(int numberOfVariables, IEnumerable<NonlinearConstraint> constraints)
+        public AugmentedLagrangianSolver(int numberOfVariables,
+            IEnumerable<NonlinearConstraint> constraints)
+        {
+            var innerSolver = new BroydenFletcherGoldfarbShanno(numberOfVariables);
+            init(numberOfVariables, constraints, innerSolver);
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the Augmented Lagrangian algorithm.
+        /// </summary>
+        /// 
+        /// <param name="innerSolver">The <see cref="IGradientOptimizationMethod">unconstrained optimization
+        ///   method</see> used internally to solve the dual of this optimization problem.</param>
+        /// <param name="constraints">The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        /// 
+        public AugmentedLagrangianSolver(IGradientOptimizationMethod innerSolver,
+            IEnumerable<NonlinearConstraint> constraints)
+        {
+            int numberOfVariables = innerSolver.Parameters;
+            init(numberOfVariables, constraints, innerSolver);
+        }
+
+        private void init(int numberOfVariables, IEnumerable<NonlinearConstraint> constraints, IGradientOptimizationMethod innerSolver)
         {
             this.numberOfVariables = numberOfVariables;
 
@@ -275,12 +301,12 @@ namespace Accord.Math.Optimization
 
             this.Solution = new double[numberOfVariables];
 
-            dualSolver = new BroydenFletcherGoldfarbShanno(numberOfVariables);
+            this.dualSolver = innerSolver;
             dualSolver.Function = objectiveFunction;
             dualSolver.Gradient = objectiveGradient;
 
-            //for (int i = 0; i < Solution.Length; i++)
-            //    Solution[i] = Accord.Math.Tools.Random.NextDouble() * 2 - 1;
+            for (int i = 0; i < Solution.Length; i++)
+                Solution[i] = Accord.Math.Tools.Random.NextDouble() * 2 - 1;
         }
 
         /// <summary>
@@ -301,7 +327,9 @@ namespace Accord.Math.Optimization
             this.Function = function.Function;
             this.Gradient = function.Gradient;
 
-            return minimize();
+            minimize();
+
+            return Function(Solution);
         }
 
         /// <summary>
@@ -318,7 +346,9 @@ namespace Accord.Math.Optimization
             this.Function = function;
             this.Gradient = gradient;
 
-            return minimize();
+            minimize();
+
+            return Function(Solution);
         }
 
         /// <summary>
@@ -332,14 +362,16 @@ namespace Accord.Math.Optimization
         public double Maximize(NonlinearObjectiveFunction function)
         {
             if (function.NumberOfVariables != numberOfVariables)
-                throw new ArgumentOutOfRangeException("function", 
-                    "Incorrect number of variables in the objective function. "+
+                throw new ArgumentOutOfRangeException("function",
+                    "Incorrect number of variables in the objective function. " +
                     "The number of variables must match the number of variables set in the solver.");
 
             this.Function = x => -function.Function(x);
             this.Gradient = x => function.Gradient(x).Multiply(-1);
 
-            return minimize();
+            minimize();
+
+            return -Function(Solution);
         }
 
         /// <summary>
@@ -356,7 +388,9 @@ namespace Accord.Math.Optimization
             this.Function = x => -function(x);
             this.Gradient = x => gradient(x).Multiply(-1);
 
-            return minimize();
+            minimize();
+
+            return -Function(Solution);
         }
 
         // Augmented Lagrangian objective
@@ -515,7 +549,7 @@ namespace Accord.Math.Optimization
 
                 // Evaluate function
                 functionEvaluations++;
-                currentValue = Function(currentSolution);
+                currentValue = dualSolver.Function(currentSolution);
 
                 bool feasible = true;
 
@@ -552,7 +586,26 @@ namespace Accord.Math.Optimization
                 minValue = currentValue;
                 minPenalty = penalty;
                 minFeasible = feasible;
-                rho = Math.Max(1e-6, Math.Min(10, 2 * Math.Abs(minValue) / con2));
+
+
+                double num = 2.0 * Math.Abs(minValue);
+            
+                if (num < 1e-300)
+                    rho = rhoMin;
+
+                else if (con2 < 1e-300) 
+                    rho = rhoMax;
+
+                else
+                {
+                    rho = num / con2;
+                    if (rho < rhoMin)
+                        rho = rhoMin;
+                    else if (rho > rhoMax)
+                        rho = rhoMax;
+                }
+
+                System.Diagnostics.Debug.Assert(!Double.IsNaN(rho));
             }
 
 
@@ -577,7 +630,7 @@ namespace Accord.Math.Optimization
 
                 // Evaluate function
                 functionEvaluations++;
-                currentValue = Function(currentSolution);
+                currentValue = dualSolver.Function(currentSolution);
 
                 ICM = 0;
                 penalty = 0;

@@ -90,6 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Beat\EnergyBeatDetector.cs" />
     <Compile Include="Beat\IBeatDetector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

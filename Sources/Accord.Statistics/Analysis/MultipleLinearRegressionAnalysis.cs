@@ -53,7 +53,7 @@ namespace Accord.Statistics.Analysis
     ///   <list type="bullet">
     ///     <item><description>
     ///       Wikipedia contributors. "Linear regression." Wikipedia, The Free Encyclopedia, 4 Nov. 2012.
-    ///       Available on: http://en.wikipedia.org/wiki/Linear_regression </description></item>
+    ///       Available at: http://en.wikipedia.org/wiki/Linear_regression </description></item>
     ///  </list></para>  
     /// </remarks>
     /// 

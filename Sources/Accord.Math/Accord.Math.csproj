@@ -96,6 +96,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Accord.Math.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Comparers\ArrayComparer`1.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Decompositions\GramSchmidtOrthogonalization.cs" />
     <Compile Include="Environments\REnvironment.cs" />
     <Compile Include="Functions\Gabor.cs" />
+    <Compile Include="Geometry\Circle.cs" />
     <Compile Include="Geometry\Plane.cs" />
     <Compile Include="Geometry\Point3.cs" />
     <Compile Include="Kinematics\DenavitHartenbergMatrix.cs" />
@@ -117,6 +121,8 @@
     <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
     <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
     <Compile Include="Optimization\BinarySearch.cs" />
+    <Compile Include="Optimization\Constrained\LinearConstraintCollection.cs" />
+    <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
     <Compile Include="Transforms\SineTransform.cs" />
     <Compile Include="Transforms\CosineTransform.cs" />

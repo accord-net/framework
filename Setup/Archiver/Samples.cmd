@@ -42,7 +42,7 @@ echo  - WinRAR Command: %rar%
 echo  - WinRAR Options: "%opts%"
 echo.
 
-pause
+timeout /T 10
 
 echo.
 echo.
@@ -100,4 +100,4 @@ echo All sample applications have finished processing.
 echo ---------------------------------------------------------
 echo.
 
-pause
+timeout /T 10

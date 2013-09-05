@@ -107,6 +107,12 @@
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.3.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -142,8 +148,8 @@
     <Compile Include="BagOfWordsTest.cs" />
     <Compile Include="Boosting\AdaBoostTest.cs" />
     <Compile Include="BootstrapTest.cs" />
-    <Compile Include="DecisionTrees\ReducedErrorPrunningTest.cs" />
-    <Compile Include="DecisionTrees\ErrorBasedPrunningTest.cs" />
+    <Compile Include="DecisionTrees\ReducedErrorPruningTest.cs" />
+    <Compile Include="DecisionTrees\ErrorBasedPruningTest.cs" />
     <Compile Include="MeanShiftTest.cs" />
     <Compile Include="KDTreeTest.cs" />
     <Compile Include="RansacLineTest.cs" />
@@ -234,6 +240,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\iris.scale.txt" />
+    <None Include="Accord.snk" />
     <None Include="Resources\noise-line.png" />
     <None Include="Resources\CircleWithWeights.xls" />
     <None Include="Resources\nursery.data">

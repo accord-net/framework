@@ -130,6 +130,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="GroupMatching.cs" />
     <Compile Include="Detection\Haar Cascade\Default\FaceHaarCascade.cs" />
     <Compile Include="Detection\Haar Cascade\Default\NoseHaarCascade.cs" />

@@ -25,10 +25,21 @@ namespace Accord.Statistics.Models.Markov.Learning
     using System;
 
     /// <summary>
-    ///   Common interface for supervised learning algorithms for hidden
-    ///   Markov models such as the <see cref="MaximumLikelihoodLearning">
+    ///   Common interface for supervised learning algorithms for <see cref="HiddenMarkovModel">
+    ///   hidden Markov models</see> such as the <see cref="MaximumLikelihoodLearning">
     ///   Maximum Likelihood (MLE)</see> learning algorithm.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   In the context of <see cref="HiddenMarkovModel">hidden Markov models</see>, 
+    ///   supervised algorithms are algorithms which consider that both the sequence
+    ///   of observations and the sequence of states are visible (or known) during
+    ///   training. This is in contrast with <see cref="IUnsupervisedLearning">
+    ///   unsupervised learning algorithms</see> such as the <see cref="BaumWelchLearning">
+    ///   Baum-Welch</see>, which consider that the sequence of states is hidden.
+    /// </para>
+    /// </remarks>
     ///
     /// <see cref="MaximumLikelihoodLearning"/>
     /// <see cref="MaximumLikelihoodLearning{TDistribution}"/>

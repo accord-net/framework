@@ -101,6 +101,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Boosting\AdaBoost.cs" />
     <Compile Include="BagOfWords.cs" />
     <Compile Include="Bayes\NaiveBayes`1.cs" />
@@ -117,8 +120,9 @@
     <Compile Include="DecisionTrees\ComparisonKind.cs" />
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
     <Compile Include="DecisionTrees\DecisionTreeWriter.cs" />
-    <Compile Include="DecisionTrees\Prunning\ReducedErrorPrunning.cs" />
-    <Compile Include="DecisionTrees\Prunning\ErrorBasedPrunning.cs" />
+    <Compile Include="DecisionTrees\Pruning\ReducedErrorPruning.cs" />
+    <Compile Include="DecisionTrees\Pruning\ErrorBasedPruning.cs" />
+    <Compile Include="Geometry\RansacCircle.cs" />
     <Compile Include="MinimumMeanDistanceClassifier.cs" />
     <Compile Include="KNearestNeighbors`1.cs" />
     <Compile Include="GlobalSuppressions.cs" />

@@ -81,7 +81,7 @@ namespace Accord.Tests.Imaging
 
 
         // Load some test images
-        Bitmap[] images =
+        static Bitmap[] images =
         {
             Properties.Resources.flower01,
             Properties.Resources.flower02,

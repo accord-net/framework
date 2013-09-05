@@ -34,7 +34,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov.Topology;
     
     [TestClass()]
-    public class RunningMarkovClassifierTest
+    public class GenericRunningMarkovClassifierTest
     {
 
 
@@ -87,14 +87,14 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void PushTest()
         {
-            double[][] sequences;
+            int[][] sequences;
             
             var classifier = createClassifier(out sequences);
-            var running = new RunningMarkovClassifier<NormalDistribution>(classifier);
+            var running = new RunningMarkovClassifier(classifier);
 
             for (int i = 0; i < sequences.Length; i++)
             {
-                double[] sequence = sequences[i];
+                int[] sequence = sequences[i];
 
                 running.Clear();
                 for (int j = 0; j < sequence.Length; j++)
@@ -112,29 +112,64 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        private static HiddenMarkovClassifier<NormalDistribution> createClassifier(out double[][] sequences)
+        [TestMethod()]
+        public void PushTest2()
         {
-            sequences = new double[][] 
+            int[][] sequences;
+
+            var classifier = createClassifier(out sequences, rejection: true);
+            var running = new RunningMarkovClassifier(classifier);
+
+            for (int i = 0; i < sequences.Length; i++)
             {
-                new double[] { 0,1,2,3,4 }, 
-                new double[] { 4,3,2,1,0 }, 
+                int[] sequence = sequences[i];
+
+                running.Clear();
+                for (int j = 0; j < sequence.Length; j++)
+                    running.Push(sequence[j]);
+
+                double actualLikelihood;
+                int actual = running.Classification;
+
+                if (actual > -1)
+                    actualLikelihood = Math.Exp(running.Responses[actual]) /
+                        (running.Responses.Exp().Sum() + Math.Exp(running.Threshold));
+                else
+                    actualLikelihood = Math.Exp(running.Threshold) /
+                        (running.Responses.Exp().Sum() + Math.Exp(running.Threshold));
+
+                double expectedLikelihood;
+                int expected = classifier.Compute(sequence, out expectedLikelihood);
+
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(expectedLikelihood, actualLikelihood, 1e-8);
+            }
+        }
+
+        private static HiddenMarkovClassifier createClassifier(
+            out int[][] sequences, bool rejection = false)
+        {
+            sequences = new int[][] 
+            {
+                new int[] { 0,1,2,3,4 }, 
+                new int[] { 4,3,2,1,0 }, 
             };
 
             int[] labels = { 0, 1 };
 
-            NormalDistribution density = new NormalDistribution();
-            HiddenMarkovClassifier<NormalDistribution>  classifier =
-                new HiddenMarkovClassifier<NormalDistribution>(2, new Ergodic(2), density);
+            HiddenMarkovClassifier classifier =
+                new HiddenMarkovClassifier(2, new Ergodic(2), symbols: 5);
 
-            var teacher = new HiddenMarkovClassifierLearning<NormalDistribution>(classifier,
+            var teacher = new HiddenMarkovClassifierLearning(classifier,
 
-                modelIndex => new BaumWelchLearning<NormalDistribution>(classifier.Models[modelIndex])
+                modelIndex => new BaumWelchLearning(classifier.Models[modelIndex])
                 {
                     Tolerance = 0.0001,
                     Iterations = 0
                 }
             );
 
+            teacher.Rejection = rejection;
             teacher.Run(sequences, labels);
 
             return classifier;

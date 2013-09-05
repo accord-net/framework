@@ -22,7 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using Accord.MachineLearning.DecisionTrees.Prunning;
+    using Accord.MachineLearning.DecisionTrees.Pruning;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Accord.MachineLearning.DecisionTrees;
@@ -34,7 +34,7 @@ namespace Accord.Tests.MachineLearning
     
     
     [TestClass()]
-    public class ErrorBasedPrunningTest
+    public class ErrorBasedpruningTest
     {
 
 
@@ -90,15 +90,15 @@ namespace Accord.Tests.MachineLearning
             int[] outputs;
 
             int training = 6000;
-            DecisionTree tree = ReducedErrorPrunningTest.createNurseryExample(out inputs, out outputs, training);
+            DecisionTree tree = ReducedErrorPruningTest.createNurseryExample(out inputs, out outputs, training);
 
             int nodeCount = 0;
             foreach (var node in tree)
                 nodeCount++;
 
-            var prunningInputs = inputs.Submatrix(training, inputs.Length - 1);
-            var prunningOutputs = outputs.Submatrix(training, inputs.Length - 1);
-            ErrorBasedPrunning prune = new ErrorBasedPrunning(tree, prunningInputs, prunningOutputs);
+            var pruningInputs = inputs.Submatrix(training, inputs.Length - 1);
+            var pruningOutputs = outputs.Submatrix(training, inputs.Length - 1);
+            ErrorBasedPruning prune = new ErrorBasedPruning(tree, pruningInputs, pruningOutputs);
 
             prune.Threshold = 0.1;
 
@@ -117,5 +117,6 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(447, nodeCount);
             Assert.AreEqual(193, nodeCount2);
         }
+
     }
 }

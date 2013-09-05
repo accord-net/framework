@@ -22,7 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using Accord.MachineLearning.DecisionTrees.Prunning;
+    using Accord.MachineLearning.DecisionTrees.Pruning;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Accord.MachineLearning.DecisionTrees;
@@ -34,7 +34,7 @@ namespace Accord.Tests.MachineLearning
 
 
     [TestClass()]
-    public class ReducedErrorPrunningTest
+    public class ReducedErrorPruningTest
     {
 
 
@@ -96,9 +96,9 @@ namespace Accord.Tests.MachineLearning
             foreach (var node in tree)
                 nodeCount++;
 
-            var prunningInputs = inputs.Submatrix(training, inputs.Length - 1);
-            var prunningOutputs = outputs.Submatrix(training, inputs.Length - 1);
-            var prune = new ReducedErrorPrunning(tree, prunningInputs, prunningOutputs);
+            var pruningInputs = inputs.Submatrix(training, inputs.Length - 1);
+            var pruningOutputs = outputs.Submatrix(training, inputs.Length - 1);
+            var prune = new ReducedErrorPruning(tree, pruningInputs, pruningOutputs);
 
             double lastError, error = Double.PositiveInfinity;
             do

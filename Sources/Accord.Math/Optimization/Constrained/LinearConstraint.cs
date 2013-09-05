@@ -156,6 +156,11 @@ namespace Accord.Math.Optimization
         /// <param name="function">The objective function to which this constraint refers to.</param>
         /// <param name="constraint">A <see cref="System.String"/> specifying this constraint, such as "ax + b = c".</param>
         /// 
+        /// <remarks>
+        ///   The constraint string is always parsed using <see cref="System.Globalization.CultureInfo.InvariantCulture"/>.
+        ///   This means numbers should be written using the English format, using the dot (.) as the decimal separator.
+        /// </remarks>
+        /// 
         public LinearConstraint(IObjectiveFunction function, string constraint)
         {
             parseString(function, constraint);
@@ -211,7 +216,7 @@ namespace Accord.Math.Optimization
             lhs = sides[0];
             rhs = sides[2];
 
-            double value = Double.Parse(rhs);
+            double value = Double.Parse(rhs, System.Globalization.CultureInfo.InvariantCulture);
 
             MatchCollection matches = r.Matches(lhs, 0);
 
@@ -225,7 +230,7 @@ namespace Accord.Math.Optimization
                 MatchCollection coeff = number.Matches(term);
 
                 foreach (Match c in coeff)
-                    scalar *= Double.Parse(c.Value);
+                    scalar *= Double.Parse(c.Value, System.Globalization.CultureInfo.InvariantCulture);
 
                 // Extract symbols
                 MatchCollection symbols = symbol.Matches(term);

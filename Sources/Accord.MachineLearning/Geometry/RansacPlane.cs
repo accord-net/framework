@@ -105,12 +105,14 @@ namespace Accord.MachineLearning.Geometry
         }
 
 
-
         /// <summary>
-        ///   Matches two sets of points using RANSAC.
+        ///   Produces a robust estimation of the plane
+        ///   passing through the given (noisy) points.
         /// </summary>
         /// 
-        /// <returns>The fundamental matrix relating x1 and x2.</returns>
+        /// <param name="points">A set of (possibly noisy) points.</param>
+        /// 
+        /// <returns>The plane passing through the points.</returns>
         /// 
         public Plane Estimate(Point3[] points)
         {

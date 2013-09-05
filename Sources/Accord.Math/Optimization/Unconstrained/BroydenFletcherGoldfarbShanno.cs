@@ -115,7 +115,7 @@ namespace Accord.Math.Optimization
     /// </code>
     /// </example>
     /// 
-    public class BroydenFletcherGoldfarbShanno : IOptimizationMethod
+    public class BroydenFletcherGoldfarbShanno : IGradientOptimizationMethod
     {
         // those values need not be modified
         private const double ftol = 0.0001;

@@ -311,7 +311,6 @@ namespace Accord.Math.Optimization
 
 
 
-
         /// <summary>
         ///   Constructs a new <see cref="GoldfarbIdnaniQuadraticSolver"/> class.
         /// </summary>
@@ -320,12 +319,23 @@ namespace Accord.Math.Optimization
         /// <param name="constraints">The problem's constraints.</param>
         /// 
         public GoldfarbIdnaniQuadraticSolver(int numberOfVariables, IEnumerable<LinearConstraint> constraints)
+            : this(numberOfVariables, new LinearConstraintCollection(constraints))
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="GoldfarbIdnaniQuadraticSolver"/> class.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables.</param>
+        /// <param name="constraints">The problem's constraints.</param>
+        /// 
+        public GoldfarbIdnaniQuadraticSolver(int numberOfVariables, LinearConstraintCollection constraints)
         {
             int equalities;
 
             // Create the constraint matrix A from the specified constraint list
-            double[,] A = createConstraintMatrix(numberOfVariables, constraints.ToArray(),
-                out constraintValues, out equalities);
+            double[,] A = constraints.CreateMatrix(numberOfVariables, out constraintValues, out equalities);
 
             System.Diagnostics.Debug.Assert(A.GetLength(1) == numberOfVariables);
 
@@ -346,7 +356,8 @@ namespace Accord.Math.Optimization
             double[] constraintValues, int numberOfEqualities = 0)
         {
             if (numberOfVariables != constraintMatrix.GetLength(1))
-                throw new ArgumentException("The number of columns in the constraint matrix A should equal the number of variables in the problem.", "constraintMatrix");
+                throw new ArgumentException("The number of columns in the constraint matrix A " 
+                    + "should equal the number of variables in the problem.", "constraintMatrix");
 
             initialize(numberOfVariables, constraintMatrix, constraintValues, numberOfEqualities);
         }
@@ -388,7 +399,9 @@ namespace Accord.Math.Optimization
             if (function == null)
                 throw new ArgumentNullException("function");
 
-            return Maximize(function.GetQuadraticTermsMatrix(), function.GetLinearTermsVector());
+            double[,] Q = function.GetQuadraticTermsMatrix();
+            double[] d = function.GetLinearTermsVector();
+            return Maximize(Q, d);
         }
 
         /// <summary>
@@ -403,7 +416,9 @@ namespace Accord.Math.Optimization
             if (function == null)
                 throw new ArgumentNullException("function");
 
-            return Minimize(function.GetQuadraticTermsMatrix(), function.GetLinearTermsVector());
+            double[,] Q = function.GetQuadraticTermsMatrix();
+            double[] d = function.GetLinearTermsVector();
+            return Minimize(Q, d);
         }
 
         /// <summary>
@@ -416,8 +431,11 @@ namespace Accord.Math.Optimization
         /// 
         public double Minimize(double[,] hessian, double[] linearTerms)
         {
-            if (hessian == null) throw new ArgumentNullException("hessian");
-            if (linearTerms == null) throw new ArgumentNullException("linearTerms");
+            if (hessian == null)
+                throw new ArgumentNullException("hessian");
+
+            if (linearTerms == null)
+                throw new ArgumentNullException("linearTerms");
 
             if (hessian.GetLength(0) != NumberOfVariables || hessian.GetLength(1) != NumberOfVariables)
                 throw new ArgumentException("The number of rows and columns of the quadratic terms matrix D should equal the number of variables in the problem.");
@@ -444,8 +462,11 @@ namespace Accord.Math.Optimization
         /// 
         public double Maximize(double[,] hessian, double[] linearTerms)
         {
-            if (hessian == null) throw new ArgumentNullException("hessian");
-            if (linearTerms == null) throw new ArgumentNullException("linearTerms");
+            if (hessian == null)
+                throw new ArgumentNullException("hessian");
+
+            if (linearTerms == null)
+                throw new ArgumentNullException("linearTerms");
 
             if (hessian.GetLength(0) != NumberOfVariables || hessian.GetLength(1) != NumberOfVariables)
                 throw new ArgumentException("The number of rows and columns of the quadratic terms matrix D should equal the number of variables in the problem.");
@@ -476,8 +497,12 @@ namespace Accord.Math.Optimization
 
             if (ierr != 0)
             {
-                if (ierr == 1) throw new ConvergenceException("No possible solution.");
-                if (ierr == 2) throw new NonPositiveDefiniteMatrixException();
+                if (ierr == 1)
+                    throw new ConvergenceException("No possible solution.");
+
+                if (ierr == 2)
+                    throw new NonPositiveDefiniteMatrixException();
+
                 throw new InvalidOperationException("Unexpected error.");
             }
 
@@ -488,52 +513,6 @@ namespace Accord.Math.Optimization
                 Lagrangian[ActiveConstraints[i]] = iwuv[i];
         }
 
-        private static double[,] createConstraintMatrix(int numberOfVariables,
-            LinearConstraint[] constraintArray, out double[] b, out int equalities)
-        {
-            // First of all, separate the equality constraints from the inequalities.
-            constraintArray.StableSort((c1, c2) => c1.ShouldBe.CompareTo(c2.ShouldBe));
-
-            int numberOfConstraints = constraintArray.Length;
-            double[,] A = new double[numberOfConstraints, numberOfVariables];
-            b = new double[numberOfConstraints];
-            equalities = 0;
-
-            for (int i = 0; i < constraintArray.Length; i++)
-            {
-                LinearConstraint constraint = constraintArray[i];
-
-                if (constraint.NumberOfVariables > numberOfVariables)
-                    throw new ArgumentException("The number of variables in the constraint exceeds the number of variables for the problem.");
-
-                for (int j = 0; j < constraint.VariablesAtIndices.Length; j++)
-                {
-                    int k = constraint.VariablesAtIndices[j];
-
-                    if (k >= numberOfVariables)
-                        throw new ArgumentException("The constraint refers to a variable index which is not present on the objective function.");
-
-                    if (constraint.ShouldBe == ConstraintType.GreaterThanOrEqualTo ||
-                        constraint.ShouldBe == ConstraintType.EqualTo)
-                    {
-                        A[i, k] = constraint.CombinedAs[j];
-                        b[i] = constraint.Value;
-                    }
-                    else if (constraint.ShouldBe == ConstraintType.LesserThanOrEqualTo)
-                    {
-                        A[i, k] = -constraint.CombinedAs[j];
-                        b[i] = -constraint.Value;
-                    }
-                    else
-                        throw new ArgumentException("The provided constraint type is not supported.");
-                }
-
-                if (constraint.ShouldBe == ConstraintType.EqualTo)
-                    equalities++;
-            }
-
-            return A;
-        }
 
 
         //
@@ -1242,7 +1221,8 @@ namespace Accord.Math.Optimization
                 s = a[j, j] - s;
 
                 // Use a tolerance for positive-definiteness
-                if (s <= 1e-14 * Math.Abs(a[j, j])) return false;
+                if (s <= 1e-14 * Math.Abs(a[j, j]))
+                    return false;
 
                 a[j, j] = Math.Sqrt(s);
             }

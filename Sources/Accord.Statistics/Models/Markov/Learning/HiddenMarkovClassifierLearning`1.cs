@@ -30,7 +30,8 @@ namespace Accord.Statistics.Models.Markov.Learning
     using Accord.Statistics.Models.Markov.Topology;
 
     /// <summary>
-    ///   Arbitrary-density hidden Markov Sequence Classifier learning algorithm.
+    ///   Learning algorithm for <see cref="HiddenMarkovClassifier{TDistribution}">
+    ///   arbitrary-density generative hidden Markov sequence classifiers</see>.
     /// </summary>
     /// 
     /// <remarks>
@@ -39,9 +40,32 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   classifiers based on arbitrary-density hidden Markov models</see>. The learning
     ///   algorithm uses a gerative approach. It works by training each model in the gerative
     ///   classifier separately.</para>
+    ///   
     /// <para>
-    ///   For the discrete version of this learning algorithm, please see its non-generic
-    ///   conterpart <see cref="HiddenMarkovClassifierLearning"/>.</para>
+    ///   This can teach models that use any <see cref="IDistribution">probability
+    ///   distribution</see>. Such <see cref="HiddenMarkovModel{T}">arbitrary-density models
+    ///   </see> can be used for any kind of observation values or vectors. When 
+    ///   
+    /// 
+    ///   be used whenever the sequence of observations is discrete or can be represented
+    ///   by discrete symbols, such as class labels, integers, and so on. If you need
+    ///   to classify sequences of other entities, such as real numbers, vectors (i.e.
+    ///   multivariate observations), then you can use 
+    ///   <see cref="HiddenMarkovClassifierLearning{TDistribution}">generic-density
+    ///   hidden Markov models</see>. Those models can be modeled after any kind of
+    ///   <see cref="IDistribution">probability distribution</see> implementing
+    ///   the <see cref="IDistribution"/> interface.</para>
+    ///   
+    /// <para>
+    ///   For a more thorough explanation on <see cref="HiddenMarkovModel">hidden Markov models</see>
+    ///   with practical examples on gesture recognition, please see 
+    ///   <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko">
+    ///   Sequence Classifiers in C#, Part I: Hidden Markov Models</a> [1].</para>
+    ///     
+    /// <para>
+    ///   [1]: <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko"> 
+    ///           http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko </a>
+    /// </para>
     /// </remarks>
     /// 
     /// <example>

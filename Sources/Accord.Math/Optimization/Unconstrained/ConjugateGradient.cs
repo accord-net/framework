@@ -100,7 +100,7 @@ namespace Accord.Math.Optimization
     ///    </list></para>
     /// </remarks>
     /// 
-    public class ConjugateGradient : IOptimizationMethod
+    public class ConjugateGradient : IGradientOptimizationMethod
     {
 
         private int numberOfVariables;

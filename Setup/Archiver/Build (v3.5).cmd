@@ -25,7 +25,7 @@ echo  - WinRAR Command: %rar%
 echo  - WinRAR Options: "%opts%"
 echo.
 
-pause
+timeout /T 10
 
 
 echo.
@@ -52,4 +52,4 @@ echo commands for errors and check packages in output folder.
 echo ---------------------------------------------------------
 echo.
 
-pause
+timeout /T 10

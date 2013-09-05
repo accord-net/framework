@@ -735,7 +735,7 @@ namespace Accord.Tests.Statistics
             teacher.Rejection = rejection;
 
             // Run the learning algorithm
-            double error = teacher.Run(inputs, outputs);
+            double logLikelihood = teacher.Run(inputs, outputs);
 
             hmm.Sensitivity = sensitivity;
 

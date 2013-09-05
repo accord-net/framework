@@ -100,11 +100,21 @@
     <Compile Include="Exceptions\NonSymmetricMatrixException.cs" />
     <Compile Include="Exceptions\SingularMatrixException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\VersionInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VersionInfo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Structures\ReadOnlyDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
     <None Include="Accord.Core.cd" />
+    <None Include="Properties\VersionInfo.tt">
+      <SubType>Code</SubType>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VersionInfo.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
@@ -125,6 +135,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -24,21 +24,42 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using Accord.Math;
+    using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
+    using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
-    ///   Baum-Welch learning algorithm for discrete-density Hidden Markov Models.
+    ///   Baum-Welch learning algorithm for <see cref="HiddenMarkovModel">
+    ///   discrete-density Hidden Markov Models</see>.
     /// </summary>
     /// 
     /// <remarks>
     ///   <para>
-    ///   The Baum-Welch algorithm is a kind of Expectation-Maximization algorithm.
-    ///   For discrete models, it estimates the matrix of state transition probabilities
-    ///   A, the matrix of symbol emission probabilities B and the vector of initial
-    ///   state probabilities pi. For increased accuracy, all computations are performed
-    ///   using log-probabilities.</para>
+    ///   The Baum-Welch algorithm is an <see cref="IUnsupervisedLearning">unsupervised algorithm</see>
+    ///   used to learn a single hidden Markov model object from a set of observation sequences. It works
+    ///   by using a variant of the <see cref="Mixture{T}.Fit(double[], double[], MixtureOptions)">
+    ///   Expectation-Maximization</see> algorithm to search a set of model parameters (i.e. the matrix
+    ///   of <see cref="IHiddenMarkovModel.Transitions">transition probabilities A</see>, the matrix 
+    ///   of <see cref="HiddenMarkovModel.Emissions">emission probabilities B</see>, and the
+    ///   <see cref="IHiddenMarkovModel.Probabilities">initial probability vector π</see>) that 
+    ///   would result in a model having a high likelihood of being able 
+    ///   to <see cref="HiddenMarkovModel.Generate(int)">generate</see> a set of training 
+    ///   sequences given to this algorithm.</para>
+    ///   
+    ///   <para>
+    ///   For increased accuracy, this class performs all computations using log-probabilities.</para>
+    ///     
+    ///   <para>
+    ///   For a more thorough explanation on <see cref="HiddenMarkovModel">hidden Markov models</see>
+    ///   with practical examples on gesture recognition, please see 
+    ///   <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko">
+    ///   Sequence Classifiers in C#, Part I: Hidden Markov Models</a> [1].</para>
+    ///     
+    /// <para>
+    ///   [1]: <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko"> 
+    ///           http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko </a>
+    /// </para>
     /// </remarks>
     /// 
     /// <example>
@@ -132,6 +153,26 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public double Run(params int[][] observations)
         {
+            if (observations == null)
+                throw new ArgumentNullException("observations");
+
+            for (int i = 0; i < observations.Length; i++)
+            {
+                for (int j = 0; j < observations[i].Length; j++)
+                {
+                    int symbol = observations[i][j];
+
+                    if (symbol < 0 || symbol >= model.Symbols)
+                    {
+                        string message = "Observation sequences should only contain symbols that are " +
+                        "greater than or equal to 0, and lesser than the number of symbols passed to " +
+                        "the HiddenMarkovModel. This model is expecting at most {0} symbols.";
+
+                        throw new ArgumentOutOfRangeException("observations", String.Format(message, model.Symbols));
+                    }
+                }
+            }
+
             this.discreteObservations = observations;
 
             return base.Run(discreteObservations);
@@ -245,7 +286,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             var sequence = discreteObservations[index];
             int T = sequence.Length;
             var logKsi = LogKsi[index];
-            var w = LogWeights[index]; 
+            var w = LogWeights[index];
 
 
             for (int t = 0; t < T - 1; t++)

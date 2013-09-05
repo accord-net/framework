@@ -32,10 +32,17 @@ namespace Accord.Imaging.Converters
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
     ///   This class can convert double and float arrays to either Grayscale
     ///   or color Bitmap images. Color images should be represented as an
     ///   array of pixel values for the final image. The actual dimensions
-    ///   of the image should be specified in the class constructor.
+    ///   of the image should be specified in the class constructor.</para>
+    ///   
+    /// <para>
+    ///   When this class is converting from <see cref="T:byte[]"/> or
+    ///   <see cref="T:System.Drawing.Color[]"/>, the values of the <see cref="Max"/>
+    ///   and <see cref="Min"/> properties are ignored and no scaling operation
+    ///   is performed.</para>
     /// </remarks>
     /// 
     /// <example>
@@ -82,7 +89,13 @@ namespace Accord.Imaging.Converters
         IConverter<float[], Bitmap>,
         IConverter<float[], UnmanagedImage>,
         IConverter<float[][], Bitmap>,
-        IConverter<float[][], UnmanagedImage>
+        IConverter<float[][], UnmanagedImage>,
+        IConverter<byte[], Bitmap>,
+        IConverter<byte[], UnmanagedImage>,
+        IConverter<byte[][], Bitmap>,
+        IConverter<byte[][], UnmanagedImage>,
+        IConverter<Color[], Bitmap>,
+        IConverter<Color[], UnmanagedImage>
     {
 
         /// <summary>
@@ -224,6 +237,42 @@ namespace Accord.Imaging.Converters
 
         /// <summary>
         ///   Converts an image from one representation to another.
+        ///   For byte transformations, the Min and Max properties
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(byte[] input, out Bitmap output)
+        {
+            output = AForge.Imaging.Image.CreateGrayscaleImage(Width, Height);
+
+            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
+                ImageLockMode.WriteOnly, output.PixelFormat);
+
+            int offset = data.Stride - Width;
+            int src = 0;
+
+            unsafe
+            {
+                byte* dst = (byte*)data.Scan0.ToPointer();
+
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++, src++, dst++)
+                    {
+                        *dst = input[src];
+                    }
+                    dst += offset;
+                }
+            }
+
+            output.UnlockBits(data);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
         /// </summary>
         /// 
         /// <param name="input">The input image to be converted.</param>
@@ -244,6 +293,22 @@ namespace Accord.Imaging.Converters
         /// <param name="output">The converted image.</param>
         /// 
         public void Convert(float[] input, out UnmanagedImage output)
+        {
+            Bitmap bitmap;
+            Convert(input, out bitmap);
+            output = UnmanagedImage.FromManagedImage(bitmap);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        ///   For byte transformations, the Min and Max properties
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(byte[] input, out UnmanagedImage output)
         {
             Bitmap bitmap;
             Convert(input, out bitmap);
@@ -375,6 +440,111 @@ namespace Accord.Imaging.Converters
 
         /// <summary>
         ///   Converts an image from one representation to another.
+        ///   For byte transformations, the Min and Max properties
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(byte[][] input, out Bitmap output)
+        {
+            PixelFormat format;
+            int channels = input[0].Length;
+
+            switch (channels)
+            {
+                case 1:
+                    format = PixelFormat.Format8bppIndexed;
+                    break;
+
+                case 3:
+                    format = PixelFormat.Format24bppRgb;
+                    break;
+
+                case 4:
+                    format = PixelFormat.Format32bppArgb;
+                    break;
+
+                default:
+                    throw new ArgumentException("Unsupported image pixel format.", "input");
+            }
+
+
+            output = new Bitmap(Width, Height, format);
+
+            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
+                ImageLockMode.WriteOnly, format);
+
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(format) / 8;
+            int offset = data.Stride - Width * pixelSize;
+            int src = 0;
+
+            unsafe
+            {
+                byte* dst = (byte*)data.Scan0.ToPointer();
+
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++, src++)
+                    {
+                        for (int c = channels - 1; c >= 0; c--, dst++)
+                        {
+                            *dst = input[src][c];
+                        }
+                    }
+                    dst += offset;
+                }
+            }
+
+            output.UnlockBits(data);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        ///   For byte transformations, the Min and Max properties are ignored. The 
+        ///   resulting image from upon calling this method will always be <see cref=
+        ///   "PixelFormat.Format32bppArgb">32-bit ARGB</see>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Color[] input, out Bitmap output)
+        {
+            PixelFormat format = PixelFormat.Format32bppArgb;
+            output = new Bitmap(Width, Height, format);
+
+            BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
+                ImageLockMode.WriteOnly, format);
+
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(format) / 8;
+            int offset = data.Stride - Width * pixelSize;
+            int src = 0;
+
+            unsafe
+            {
+                byte* dst = (byte*)data.Scan0.ToPointer();
+
+                for (int y = 0; y < Height; y++)
+                {
+                    for (int x = 0; x < Width; x++, src++, dst += pixelSize)
+                    {
+                        dst[RGB.A] = input[src].A;
+                        dst[RGB.R] = input[src].R;
+                        dst[RGB.G] = input[src].G;
+                        dst[RGB.B] = input[src].B;
+                    }
+
+                    dst += offset;
+                }
+            }
+
+            output.UnlockBits(data);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
         /// </summary>
         /// 
         /// <param name="input">The input image to be converted.</param>
@@ -395,6 +565,36 @@ namespace Accord.Imaging.Converters
         /// <param name="output">The converted image.</param>
         /// 
         public void Convert(float[][] input, out UnmanagedImage output)
+        {
+            Bitmap bitmap;
+            Convert(input, out bitmap);
+            output = UnmanagedImage.FromManagedImage(bitmap);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        ///   For byte transformations, the Min and Max properties
+        ///   are ignored.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(byte[][] input, out UnmanagedImage output)
+        {
+            Bitmap bitmap;
+            Convert(input, out bitmap);
+            output = UnmanagedImage.FromManagedImage(bitmap);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(Color[] input, out UnmanagedImage output)
         {
             Bitmap bitmap;
             Convert(input, out bitmap);

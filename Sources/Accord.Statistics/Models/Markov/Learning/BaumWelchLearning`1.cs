@@ -24,21 +24,45 @@ namespace Accord.Statistics.Models.Markov.Learning
 {
     using System;
     using Accord.Math;
+    using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Distributions.Multivariate;
 
     /// <summary>
-    ///   Baum-Welch learning algorithm for arbitrary-density Hidden Markov Models.
+    ///   Baum-Welch learning algorithm for <see cref="HiddenMarkovModel{TDistribution}">
+    ///   arbitrary-density (generic) Hidden Markov Models</see>.
     /// </summary>
     /// 
     /// <remarks>
     ///   <para>
-    ///   The Baum-Welch algorithm is a kind of Expectation-Maximization algorithm.
-    ///   For continuous models, it estimates the matrix of state transition probabilities
-    ///   A and the vector of initial state probabilities pi. For the state emission 
-    ///   densities, it weights each observation and lets the estimation algorithms
-    ///   for each of the densities to fit the distributions to the observations.</para>
+    ///   The Baum-Welch algorithm is an <see cref="IUnsupervisedLearning">unsupervised algorithm</see>
+    ///   used to learn a single hidden Markov model object from a set of observation sequences. It works
+    ///   by using a variant of the <see cref="Mixture{T}.Fit(double[], double[], MixtureOptions)">
+    ///   Expectation-Maximization</see> algorithm to search a set of model parameters (i.e. the matrix
+    ///   of <see cref="IHiddenMarkovModel.Transitions">transition probabilities <c>A</c>
+    ///   </see>, the vector of <see cref="HiddenMarkovModel{T}.Emissions">state probability distributions
+    ///   <c>B</c></see>, and the <see cref="IHiddenMarkovModel.Probabilities">initial probability
+    ///   vector <c>π</c></see>) that would result in a model having a high likelihood of being able 
+    ///   to <see cref="HiddenMarkovModel{TDistribution}.Generate(int)">generate</see> a set of training 
+    ///   sequences given to this algorithm.</para>
+    ///   
+    ///   <para>
+    ///   For increased accuracy, this class performs all computations using log-probabilities.</para>
+    ///     
+    ///   <para>
+    ///   For a more thorough explanation on <see cref="HiddenMarkovModel">hidden Markov models</see>
+    ///   with practical examples on gesture recognition, please see 
+    ///   <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko">
+    ///   Sequence Classifiers in C#, Part I: Hidden Markov Models</a> [1].</para>
+    ///     
+    /// <para>
+    ///   [1]: <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko"> 
+    ///           http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko </a>
+    /// </para>
     /// </remarks>
+    /// 
     /// 
     /// <example>
     /// <para>
@@ -59,7 +83,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// 
     ///             
     ///   // Specify a initial normal distribution for the samples.
-    ///   NormalDistribution density = NormalDistribution();
+    ///   NormalDistribution density = new NormalDistribution();
     /// 
     ///   // Creates a continuous hidden Markov Model with two states organized in a forward
     ///   //  topology and an underlying univariate Normal distribution as probability density.
@@ -76,12 +100,23 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   // Fit the model
     ///   double likelihood = teacher.Run(sequences);
     /// 
-    ///   // See the likelihood of the sequences learned
-    ///   double l1 = model.Evaluate(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // 0.87
-    ///   double l2 = model.Evaluate(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // 1.00
-    /// 
-    ///   // See the probability of an unrelated sequence
-    ///   double l3 = model.Evaluate(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // 0.00
+    ///   // See the log-probability of the sequences learned
+    ///   double a1 = model.Evaluate(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // -0.12799388666109757
+    ///   double a2 = model.Evaluate(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // 0.01171157434400194
+    ///
+    ///   // See the log-probability of an unrelated sequence
+    ///   double a3 = model.Evaluate(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // -298.7465244473417
+    ///
+    ///   // We can transform the log-probabilities to actual probabilities:
+    ///   double likelihood = Math.Exp(logLikelihood);
+    ///   a1 = Math.Exp(a1); // 0.879
+    ///   a2 = Math.Exp(a2); // 1.011
+    ///   a3 = Math.Exp(a3); // 0.000
+    ///   
+    ///   // We can also ask the model to decode one of the sequences. After
+    ///   // this step the state variable will contain: { 0, 1, 0, 1, 0, 1 }
+    ///   
+    ///   int[] states = model.Decode(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
     /// </code>
     /// 
     /// <para>
@@ -269,6 +304,9 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///         InnerOptions = new NormalOptions()
     ///         {
     ///             Regularization = 1e-5 // specify a regularization constant
+    ///             
+    ///             // Please note that specifying a regularization constant avoids getting the exception
+    ///             // "Variance is zero. Try specifying a regularization constant in the fitting options."
     ///         }
     ///     }
     /// };
@@ -283,7 +321,51 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// // We can see that the likelihood of an unrelated sequence is much smaller:
     /// double a3 = Math.Exp(model.Evaluate(new double[] { 8, 2, 6, 4, 1 })); // 1.5063654166181737E-44
     /// </code>
+    /// 
+    /// 
+    /// <para>
+    ///   When using Normal distributions, it is often the case we might find problems
+    ///   which are difficult to solve. Some problems may include constant variables or
+    ///   other numerical difficulties preventing a the proper estimation of a Normal 
+    ///   distribution from the data. </para>
+    ///   
+    /// <para> 
+    ///   A sign of those difficulties arises when the learning algorithm throws the exception
+    ///   <c>"Variance is zero. Try specifying a regularization constant in the fitting options"</c> 
+    ///   for univariate distributions (e.g. <see cref="NormalDistribution"/> or a <see
+    ///   cref="NonPositiveDefiniteMatrixException"/> informing that the <c>"Covariance matrix
+    ///   is not positive definite. Try specifying a regularization constant in the fitting options"</c>
+    ///   for multivariate distributions like the <see cref="MultivariateNormalDistribution"/>.
+    ///   In both cases, this is an indication that the variables being learned can not be suitably 
+    ///   modeled by Normal distributions. To avoid numerical difficulties when estimating those
+    ///   probabilities, a small regularization constant can be added to the variances or to the
+    ///   covariance matrices until they become greater than zero or positive definite.</para>
+    /// 
+    /// <para>
+    ///   To specify a regularization constant as given in the above message, we 
+    ///   can indicate a fitting options object for the model distribution using:
+    /// </para>
+    /// 
+    /// <code>
+    /// var teacher = new BaumWelchLearning&lt;NormalDistribution>(model)
+    /// {
+    ///     Tolerance = 0.0001,
+    ///     Iterations = 0,
+    /// 
+    ///     FittingOptions = new NormalOptions()
+    ///     {
+    ///         Regularization = 1e-5 // specify a regularization constant
+    ///     }
+    /// };
+    /// </code>
+    /// 
+    /// <para>
+    ///   Typically, any small value would suffice as a regularization constant,
+    ///   though smaller values may lead to longer fitting times. Too high values,
+    ///   on the other hand, would lead to decreased accuracy.</para>
     /// </example>
+    /// 
+    /// 
     /// 
     /// <seealso cref="HiddenMarkovModel"/>
     /// <seealso cref="HiddenMarkovModel{TDistribution}"/>

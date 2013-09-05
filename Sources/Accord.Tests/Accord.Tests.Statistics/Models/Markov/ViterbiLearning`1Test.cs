@@ -603,9 +603,9 @@ namespace Accord.Tests.Statistics
                 FittingOptions = new NormalOptions() { Regularization = 0.0001 }
             };
 
-            double error = learning.Run(observations);
+            double logLikelihood = learning.Run(observations);
 
-            Assert.IsFalse(Double.IsNaN(error));
+            Assert.IsFalse(Double.IsNaN(logLikelihood));
 
             foreach (double value in model.Transitions)
                 Assert.IsFalse(Double.IsNaN(value));

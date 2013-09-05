@@ -1,4 +1,4 @@
-﻿// Accord (Experimental) Audio Library
+﻿// Accord Audio Library
 // The Accord.NET Framework
 // http://accord.googlecode.com
 //

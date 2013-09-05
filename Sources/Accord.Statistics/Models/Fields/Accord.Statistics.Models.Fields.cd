@@ -369,7 +369,6 @@
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Property Name="Factors" />
-      <Property Name="Weights" />
       <Property Name="Features" />
     </ShowAsCollectionAssociation>
   </Interface>

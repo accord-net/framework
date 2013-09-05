@@ -313,6 +313,9 @@ namespace Accord.Statistics.Models.Markov
         }
 
 
+
+        #region Load & Save methods
+
         /// <summary>
         ///   Saves the classifier to a stream.
         /// </summary>
@@ -368,6 +371,8 @@ namespace Accord.Statistics.Models.Markov
                 return Load(fs);
             }
         }
+
+        #endregion
 
     }
 }

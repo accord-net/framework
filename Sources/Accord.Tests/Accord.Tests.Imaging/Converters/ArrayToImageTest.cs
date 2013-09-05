@@ -162,7 +162,69 @@ namespace Accord.Tests.Imaging
 
             // Show the image on screen
             image = new ResizeNearestNeighbor(320, 320).Apply(image);
-           // ImageBox.Show(image, PictureBoxSizeMode.Zoom);
+            // ImageBox.Show(image, PictureBoxSizeMode.Zoom);
+
+            Assert.AreEqual(0, conv.Min);
+            Assert.AreEqual(1, conv.Max);
+            Assert.AreEqual(320, image.Height);
+            Assert.AreEqual(320, image.Width);
+        }
+
+        [TestMethod()]
+        public void ConvertTest3()
+        {
+            // Create an array representation 
+            // of a 4x4 image with a inner 2x2
+            // square drawn in the middle
+
+            byte[] pixels = 
+            {
+                 0,   0,   0,   0, 
+                 0, 255, 255,   0, 
+                 0, 255, 255,   0, 
+                 0,   0,   0,   0, 
+            };
+
+            // Create the converter to create a Bitmap from the array
+            ArrayToImage conv = new ArrayToImage(width: 4, height: 4);
+
+            // Declare an image and store the pixels on it
+            Bitmap image; conv.Convert(pixels, out image);
+
+            // Show the image on screen
+            image = new ResizeNearestNeighbor(320, 320).Apply(image);
+            // Accord.Controls.ImageBox.Show(image, PictureBoxSizeMode.Zoom);
+
+            Assert.AreEqual(0, conv.Min);
+            Assert.AreEqual(1, conv.Max);
+            Assert.AreEqual(320, image.Height);
+            Assert.AreEqual(320, image.Width);
+        }
+
+        [TestMethod()]
+        public void ConvertTest4()
+        {
+            // Create an array representation 
+            // of a 4x4 image with a inner 2x2
+            // square drawn in the middle
+
+            Color[] pixels = 
+            {
+                 Color.Black, Color.Black,       Color.Black, Color.Black, 
+                 Color.Black, Color.Transparent, Color.Red,   Color.Black, 
+                 Color.Black, Color.Green,       Color.Blue,  Color.Black, 
+                 Color.Black, Color.Black,       Color.Black,  Color.Black, 
+            };
+
+            // Create the converter to create a Bitmap from the array
+            ArrayToImage conv = new ArrayToImage(width: 4, height: 4);
+
+            // Declare an image and store the pixels on it
+            Bitmap image; conv.Convert(pixels, out image);
+
+            // Show the image on screen
+            image = new ResizeNearestNeighbor(320, 320).Apply(image);
+            // Accord.Controls.ImageBox.Show(image, PictureBoxSizeMode.Zoom);
 
             Assert.AreEqual(0, conv.Min);
             Assert.AreEqual(1, conv.Max);

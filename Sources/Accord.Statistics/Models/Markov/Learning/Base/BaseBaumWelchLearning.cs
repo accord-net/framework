@@ -40,9 +40,15 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   be overriden by inheriting classes to specify how those probabilities
     ///   should be computed for the density being modeled.</para>
     ///   
+    /// <para>
+    ///   For the actual Baum-Welch classes, please refer to <see cref="BaumWelchLearning"/>
+    ///   or <see cref="BaumWelchLearning{T}"/>. For other kinds of algorithms, please
+    ///   see <see cref="ViterbiLearning"/> and <see cref="MaximumLikelihoodLearning"/>
+    ///   and their generic counter-parts.</para>
+    /// </remarks>
+    /// 
     /// <seealso cref="BaumWelchLearning"/>
     /// <seealso cref="BaumWelchLearning{T}"/>
-    /// </remarks>
     /// 
     public abstract class BaseBaumWelchLearning : IConvergenceLearning
     {

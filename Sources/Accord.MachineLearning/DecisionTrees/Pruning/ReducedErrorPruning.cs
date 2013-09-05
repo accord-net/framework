@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.MachineLearning.DecisionTrees.Prunning
+namespace Accord.MachineLearning.DecisionTrees.Pruning
 {
     using System;
     using System.Collections.Generic;
@@ -31,10 +31,10 @@ namespace Accord.MachineLearning.DecisionTrees.Prunning
     using Accord.MachineLearning.Structures;
 
     /// <summary>
-    ///   Reduced error prunning.
+    ///   Reduced error pruning.
     /// </summary>
     /// 
-    public class ReducedErrorPrunning
+    public class ReducedErrorPruning
     {
 
         DecisionTree tree;
@@ -59,14 +59,14 @@ namespace Accord.MachineLearning.DecisionTrees.Prunning
         
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="ReducedErrorPrunning"/> class.
+        ///   Initializes a new instance of the <see cref="ReducedErrorPruning"/> class.
         /// </summary>
         /// 
         /// <param name="tree">The tree to be prunned.</param>
-        /// <param name="inputs">The prunning set inputs.</param>
-        /// <param name="outputs">The prunning set outputs.</param>
+        /// <param name="inputs">The pruning set inputs.</param>
+        /// <param name="outputs">The pruning set outputs.</param>
         /// 
-        public ReducedErrorPrunning(DecisionTree tree, double[][] inputs, int[] outputs)
+        public ReducedErrorPruning(DecisionTree tree, double[][] inputs, int[] outputs)
         {
             this.tree = tree;
             this.inputs = inputs;
@@ -83,7 +83,7 @@ namespace Accord.MachineLearning.DecisionTrees.Prunning
 
 
         /// <summary>
-        ///   Computes one pass of the prunning algorithm.
+        ///   Computes one pass of the pruning algorithm.
         /// </summary>
         /// 
         public double Run()

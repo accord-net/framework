@@ -29,6 +29,8 @@ namespace Accord.Statistics.Models.Markov
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
     ///   Arbitrary-density Hidden Markov Model.
@@ -40,6 +42,12 @@ namespace Accord.Statistics.Models.Markov
     ///   data. They are especially known for their application in temporal pattern recognition
     ///   such as speech, handwriting, gesture recognition, part-of-speech tagging, musical
     ///   score following, partial discharges and bioinformatics.</para>
+    ///   
+    /// <para>
+    ///   This page refers to the arbitrary-density (continuous emission distributions) version
+    ///   of the model. For discrete distributions, please see <see cref="HiddenMarkovModel"/>.
+    /// </para>
+    /// 
     /// <para>
     ///   Dynamical systems of discrete nature assumed to be governed by a Markov chain emits
     ///   a sequence of observable outputs. Under the Markov assumption, it is also assumed that
@@ -76,12 +84,23 @@ namespace Accord.Statistics.Models.Markov
     ///   discrete distribution</see> is used as the underlying probability density function, the
     ///   model becomes equivalent to the <see cref="HiddenMarkovModel">discrete Hidden Markov Model</see>.
     ///  </para>
+    ///  
+    /// <para>
+    ///   For a more thorough explanation on some fundamentals on how Hidden Markov Models work,
+    ///   please see the <see cref="HiddenMarkovModel"/> documentation page. To learn a Markov
+    ///   model, you can find a list of both <see cref="ISupervisedLearning">supervised</see> and
+    ///   <see cref="IUnsupervisedLearning">unsupervised</see> learning algorithms in the
+    ///   <see cref="Accord.Statistics.Models.Markov.Learning"/> namespace.</para>
     ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
-    ///       http://en.wikipedia.org/wiki/Hidden_Markov_model </description></item>
+    ///       Wikipedia contributors. "Linear regression." Wikipedia, the Free Encyclopedia.
+    ///       Available at: http://en.wikipedia.org/wiki/Hidden_Markov_model </description></item>
+    ///     <item><description>
+    ///       Bishop, Christopher M.; Pattern Recognition and Machine Learning. 
+    ///       Springer; 1st ed. 2006.</description></item>
     ///   </list></para>
     /// </remarks>
     /// 
@@ -136,8 +155,11 @@ namespace Accord.Statistics.Models.Markov
     ///   // log-likelihood will be -4.3095199438871337
     /// </code>
     /// </example>
-    ///
+    /// 
+    /// <seealso cref="BaumWelchLearning{T}">Baum-Welch, one of the most famous 
+    ///   learning algorithms for Hidden Markov Models.</seealso>
     /// <seealso cref="HiddenMarkovModel">Discrete-density Hidden Markov Model</seealso>
+    /// <seealso cref="Accord.Statistics.Models.Markov.Learning"/>
     /// 
     [Serializable]
     public class HiddenMarkovModel<TDistribution> : BaseHiddenMarkovModel, IHiddenMarkovModel, ICloneable
@@ -958,5 +980,69 @@ namespace Accord.Statistics.Models.Markov
 
             return new HiddenMarkovModel<TDistribution>(A, B, pi, logarithm: true);
         }
+
+
+
+
+        #region Load & Save methods
+
+        /// <summary>
+        ///   Saves the hidden Markov model to a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream to which the model is to be serialized.</param>
+        /// 
+        public void Save(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+            b.Serialize(stream, this);
+        }
+
+        /// <summary>
+        ///   Saves the hidden Markov model to a stream.
+        /// </summary>
+        /// 
+        /// <param name="path">The stream to which the model is to be serialized.</param>
+        /// 
+        public void Save(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                Save(fs);
+            }
+        }
+
+        /// <summary>
+        ///   Loads a hidden Markov model from a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream from which the model is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized model.</returns>
+        /// 
+        public static HiddenMarkovModel<TDistribution> Load(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+            return (HiddenMarkovModel<TDistribution>)b.Deserialize(stream);
+        }
+
+        /// <summary>
+        ///   Loads a hidden Markov model from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file from which the model is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized model.</returns>
+        /// 
+        public static HiddenMarkovModel<TDistribution> Load(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Open))
+            {
+                return Load(fs);
+            }
+        }
+
+        #endregion
+
     }
 }

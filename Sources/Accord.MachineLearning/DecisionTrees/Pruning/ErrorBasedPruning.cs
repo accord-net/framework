@@ -20,14 +20,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.MachineLearning.DecisionTrees.Prunning
+namespace Accord.MachineLearning.DecisionTrees.Pruning
 {
     using System;
     using System.Collections.Generic;
     using Accord.Math;
 
     /// <summary>
-    ///   Error-based prunning.
+    ///   Error-based pruning.
     /// </summary>
     /// 
     /// <remarks>
@@ -42,7 +42,59 @@ namespace Accord.MachineLearning.DecisionTrees.Prunning
     /// </para>  
     /// </remarks>
     /// 
-    public class ErrorBasedPrunning
+    /// <example>
+    /// <code>
+    /// // Suppose you have the following input and output data
+    /// // and would like to learn the relationship between the
+    /// // inputs and outputs by using a Decision Tree:
+    /// 
+    /// double[][] inputs = ...
+    /// int[] output = ...
+    /// 
+    /// // To prune a decision tree, we need to split your data into
+    /// // training and pruning groups. Let's say we have 100 samples,
+    /// // and would like to reserve 50 samples for training, and 50
+    /// // for pruning:
+    /// 
+    /// // Gather the first half for the training set
+    /// var trainingInputs = inputs.Submatrix(0, 49);
+    /// var trainingOutput = output.Submatrix(0, 49);
+    /// 
+    /// // Gather the second hand data for pruning
+    /// var pruningInputs = inputs.Submatrix(50, 99);
+    /// var pruningOutput = output.Submatrix(50, 99);
+    /// 
+    /// 
+    /// // Create the decision tree
+    /// DecisionTree tree = new DecisionTree( ... );
+    /// 
+    /// // Learn our tree using the training data
+    /// C45Learning c45 = new C45Learning(tree);
+    /// double error = c45.Run(trainingInputs, trainingOutput);
+    /// 
+    ///             
+    /// // Now we can attempt to prune the tree using the pruning groups
+    /// ErrorBasedPruning prune = new ErrorBasedPruning(tree, pruningInputs, pruningOutput);
+    /// 
+    /// // Gain threshold
+    /// prune.Threshold = 0.1;
+    /// 
+    /// double lastError;
+    /// double error = Double.PositiveInfinity;
+    /// 
+    /// do
+    /// {
+    ///     // Now we can start pruning the tree as 
+    ///     // long as the error doesn't increase
+    /// 
+    ///     lastError = error;
+    ///     error = prune.Run();
+    /// 
+    /// } while (error &lt; lastError);
+    /// </code>
+    /// </example>
+    /// 
+    public class ErrorBasedPruning
     {
 
         DecisionTree tree;
@@ -54,14 +106,14 @@ namespace Accord.MachineLearning.DecisionTrees.Prunning
         Dictionary<DecisionNode, List<int>> subsets;
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="ErrorBasedPrunning"/> class.
+        ///   Initializes a new instance of the <see cref="ErrorBasedPruning"/> class.
         /// </summary>
         /// 
         /// <param name="tree">The tree to be prunned.</param>
-        /// <param name="inputs">The prunning set inputs.</param>
-        /// <param name="outputs">The prunning set outputs.</param>
+        /// <param name="inputs">The pruning set inputs.</param>
+        /// <param name="outputs">The pruning set outputs.</param>
         /// 
-        public ErrorBasedPrunning(DecisionTree tree, double[][] inputs, int[] outputs)
+        public ErrorBasedPruning(DecisionTree tree, double[][] inputs, int[] outputs)
         {
             this.tree = tree;
             this.inputs = inputs;
@@ -74,7 +126,7 @@ namespace Accord.MachineLearning.DecisionTrees.Prunning
             //
             createCache(tree.Root);
 
-            // Compute the entire prunning set and track the path
+            // Compute the entire pruning set and track the path
             // taken by each observation during the reasoning.
             //
             trackDecisions(tree.Root, inputs);
@@ -92,7 +144,7 @@ namespace Accord.MachineLearning.DecisionTrees.Prunning
         }
 
         /// <summary>
-        ///   Computes one pass of the prunning algorithm.
+        ///   Computes one pass of the pruning algorithm.
         /// </summary>
         /// 
         public double Run()

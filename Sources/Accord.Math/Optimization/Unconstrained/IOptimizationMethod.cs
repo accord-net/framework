@@ -22,11 +22,16 @@
 
 namespace Accord.Math.Optimization
 {
+    using System;
+
     /// <summary>
     ///   Common interface for function optimization methods.
     /// </summary>
     /// 
     /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="ConjugateGradient"/>
+    /// <seealso cref="ResilientBackpropagation"/>
+    /// <seealso cref="GoldfarbIdnaniQuadraticSolver"/>
     /// 
     public interface IOptimizationMethod
     {
@@ -45,5 +50,45 @@ namespace Accord.Math.Optimization
         /// </summary>
         double[] Solution { get; }
 
+    }
+
+    /// <summary>
+    ///   Common interface for function optimization methods which depend on
+    ///   having both an objective function and a gradient function definition
+    ///   available.
+    /// </summary>
+    /// 
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="ConjugateGradient"/>
+    /// <seealso cref="ResilientBackpropagation"/>
+    /// 
+    public interface IGradientOptimizationMethod : IOptimizationMethod
+    {
+        /// <summary>
+        ///   Gets or sets the function to be optimized.
+        /// </summary>
+        /// 
+        /// <value>The function to be optimized.</value>
+        /// 
+        Func<double[], double> Function { get; set; }
+
+        /// <summary>
+        ///   Gets or sets a function returning the gradient
+        ///   vector of the function to be optimized for a
+        ///   given value of its free parameters.
+        /// </summary>
+        /// 
+        /// <value>The gradient function.</value>
+        /// 
+        Func<double[], double[]> Gradient { get; set; }
+
+        /// <summary>
+        ///   Gets the number of variables (free parameters)
+        ///   in the optimization problem.
+        /// </summary>
+        /// 
+        /// <value>The number of parameters.</value>
+        /// 
+        int Parameters { get; }
     }
 }

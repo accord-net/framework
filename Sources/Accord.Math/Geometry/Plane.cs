@@ -26,7 +26,7 @@ namespace Accord.Math
     using AForge.Math;
 
     /// <summary>
-    ///   3D Plane structure with normal vector and distance from origin.
+    ///   3D Plane class with normal vector and distance from origin.
     /// </summary>
     /// 
     [Serializable]

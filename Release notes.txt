@@ -1,6 +1,6 @@
 Accord.NET Framework 2.10.0 release notes
 -----------------------------------------
-05.08.2013.    
+07.09.2013.    
 
 Version updates and fixes:
 
@@ -18,6 +18,7 @@ Version updates and fixes:
   - Adding Gray-Level Co-occurrence Matrices (GLCM);
   - Adding Gray-Level Run-length Matrices (GLRLM);
   - Adding Gray-Level Difference Method (GLDM);
+  - Adding byte and color conversions in the ArrayToImage converter;
   - Updating IFeaturePoint's to include better conversion operators.
 
 * Accord.Statistics
@@ -25,6 +26,7 @@ Version updates and fixes:
   - Adding Von-Mises cumulative distribution function;
   - Adding Poisson inverse cumulative distribution function;
   - Adding Support information for all distributions;
+  - Adding support for threshold models in Markov running filters;
   - Adding default support computing the true Median and Quantile 
     functions (inverse cumulative distribution function) for all 
     univariate continuous distributions;
@@ -34,7 +36,7 @@ Version updates and fixes:
 
 * Accord.MachineLearning
   - Adding simple Minimum (Mean) Distance Classifier;
-  - Adding RANSAC methods for plane and line fitting;
+  - Adding RANSAC methods for plane, circle and line fitting;
   - Adding options to trade speed vs. accuracy in Mean-Shift; 
   - Updating Bag-of-Words to support any feature point type;
   - Fixing Grid-Search issue when one of the models returns NaN;
@@ -51,6 +53,8 @@ Version updates and fixes:
   - Adding missing Gamma.Inverse special function;
   - Adding Mixture Distribution's Distribution functions;
   - Adding dedicated class for Gram-Schmidt Orthogonalization;
+  - Adding general purpose Resilient Backpropagation algorithm; 
+  - Fixing precision-loss issue in the Augmented Lagrangian Solver;
   - Updating FiniteDifferences to support configurable step sizes;
   - Updating Matrix.Range methods to require a dimension parameter;
   - Moving matrix formatters from Accord.Math.Formats to 
@@ -76,7 +80,7 @@ Version updates and fixes:
 
 * Accord.MachineLearning
   - Adding Least-Squares Support Vector Machines (LS-SVMs);
-  - Adding support for Decision Tree prunning (experimental);
+  - Adding support for Decision Tree pruning (experimental);
   - Adding Hybrid Markov Models (experimental, use with care);
   - Adding Load and Save methods to Bag-of-Words;
   - Adding initial support for Boosting (AdaBoost);

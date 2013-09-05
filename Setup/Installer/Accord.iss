@@ -1,7 +1,7 @@
 ; Accord.NET setup project
 
-#define VERSION "2.10.0"
-
+#define VERSION GetStringFileInfo("..\..\Release\Accord.dll", "ProductVersion")
+#pragma message "Creating package for Accord.NET " + VERSION
 [Setup]
 AppName=Accord.NET Framework
 AppVersion={#VERSION}

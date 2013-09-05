@@ -142,8 +142,11 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected double Run<T>(T[] inputs, int[] outputs)
         {
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null) 
+                throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
                 throw new DimensionMismatchException("outputs",

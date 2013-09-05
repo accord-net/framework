@@ -739,17 +739,24 @@ namespace Accord.Tests.Statistics
             // Fit the model
             double logLikelihood = teacher.Run(sequences);
 
-            // See the probability of the sequences learned
-            double a1 = model.Evaluate(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // 0.87
-            double a2 = model.Evaluate(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // 1.00
+            // See the log-probability of the sequences learned
+            double a1 = model.Evaluate(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // -0.12799388666109757
+            double a2 = model.Evaluate(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // 0.01171157434400194
 
             // See the probability of an unrelated sequence
-            double a3 = model.Evaluate(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // 0.00
+            double a3 = model.Evaluate(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // -298.7465244473417
 
             double likelihood = Math.Exp(logLikelihood);
-            a1 = Math.Exp(a1);
-            a2 = Math.Exp(a2);
-            a3 = Math.Exp(a3);
+            a1 = Math.Exp(a1); // 0.879
+            a2 = Math.Exp(a2); // 1.011
+            a3 = Math.Exp(a3); // 0.000
+
+            // We can also ask the model to decode one of the sequences. After
+            // this step the resulting sequence will be: { 0, 1, 0, 1, 0, 1 }
+            //
+            int[] states = model.Decode(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
+
+            Assert.IsTrue(states.IsEqual(0, 1, 0, 1, 0, 1));
 
             Assert.AreEqual(1.1341500279562791, likelihood, 1e-10);
             Assert.AreEqual(0.8798587580029778, a1, 1e-10);
@@ -1002,9 +1009,9 @@ namespace Accord.Tests.Statistics
                 FittingOptions = new NormalOptions() { Regularization = 0.0001 }
             };
 
-            double error = learning.Run(observations);
+            double logLikelihood = learning.Run(observations);
 
-            Assert.IsFalse(Double.IsNaN(error));
+            Assert.IsFalse(Double.IsNaN(logLikelihood));
 
             foreach (double value in model.Transitions)
                 Assert.IsFalse(Double.IsNaN(value));

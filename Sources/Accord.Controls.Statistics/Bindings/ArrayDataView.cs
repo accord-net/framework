@@ -572,7 +572,7 @@ namespace Accord.Controls
         ///   Multidimensional arrays do not support Array copying.
         /// </summary>
         /// 
-        public void CopyTo(System.Array array, int index)
+        public void CopyTo(Array array, int index)
         {
         }
 

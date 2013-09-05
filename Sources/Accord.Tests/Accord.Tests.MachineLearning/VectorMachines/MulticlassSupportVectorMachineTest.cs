@@ -188,7 +188,7 @@ namespace Accord.Tests.MachineLearning
             }
 
             for (int i = 0; i < evals.Length; i++)
-                Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i]);
+                Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i], 1);
         }
 
         [TestMethod()]

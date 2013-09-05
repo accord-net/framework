@@ -106,6 +106,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="BagOfVisualWords.cs" />
     <Compile Include="Contour\BorderFollowing.cs" />
     <Compile Include="Contour\IContourExtractionAlgorithm.cs" />
@@ -203,6 +206,7 @@
     <None Include="Accord.Imaging.cd" />
     <None Include="Accord.snk" />
     <None Include="Converters\Accord.Imaging.Converters.cd" />
+    <None Include="Filters\Accord.Imaging.Filters.cd" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
