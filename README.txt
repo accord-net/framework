@@ -7,8 +7,10 @@
   methods and techniques to .NET. The project extends the popular AForge.NET 
   Framework providing a more complete scientific computing environment.
  
-  This GitHub repository is a placeholder for the official project page at
-  Google Code. A possibly project migration to GitHub is being evaluated.
+  This GitHub repository will be the future official home of the project as soon
+  as the release 2.10 is completed. For the time being, commits are being simply
+  replicated from the Google Code repository; but the plan is to do the inverse
+  and later keep the Subversion repository just as a replication of Git.
 
     - http://code.google.com/p/accord/
 
