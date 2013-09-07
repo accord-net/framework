@@ -114,11 +114,11 @@ namespace Accord.MachineLearning.Bayes
     /// 
     /// <para>
     ///   Now that we already have our learning input/ouput pairs, we should specify our
-    ///   decision tree. We will be trying to build a tree to predict the last column, entitled
+    ///   Bayes model. We will be trying to build a model to predict the last column, entitled
     ///   “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
     ///   “Wind” as predictors (variables which will we will use for our decision). Since those
-    ///   are categorical, we must specify, at the moment of creation of our tree, the
-    ///   number of each possible symbol for those variables.
+    ///   are categorical, we must specify, at the moment of creation of our Bayes model, the
+    ///   number of each possible symbols for those variables.
     /// </para>
     /// 
     /// <code>
@@ -143,6 +143,17 @@ namespace Accord.MachineLearning.Bayes
     /// <para>Now that we have created and estimated our classifier, we 
     /// can query the classifier for new input samples through the <see
     /// cref="NaiveBayes.Compute(int[])"/> method.</para>
+    /// 
+    /// <code>
+    /// // We will be computing the label for a sunny, cool, humid and windy day:
+    /// int[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong");
+    /// 
+    /// // Now, we can feed this instance to our model
+    /// int output = model.Compute(instance, out logLikelihood);
+    /// 
+    /// // Finally, the result can be translated back to one of the codewords using
+    /// string result = codebook.Translate("PlayTennis", output); // result is "No"
+    /// </code>
     /// </example>
     /// 
     /// <seealso cref="NaiveBayes{T}"/>

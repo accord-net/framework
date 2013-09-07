@@ -60,6 +60,9 @@ Version updates and fixes:
   - Moving matrix formatters from Accord.Math.Formats to 
     Accord.Math in order to improve their discoverability.
 
+* Accord.Vision
+  - Moving the GroupMatching algorithms to Accord.Vision.
+
 * Sample applications
   - Adding sample application for Denavit-Hartenberg joint models;
   - Adding sample application for Eigenfaces, PCA for images;

@@ -104,6 +104,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.MachineLearning.cs" />
     <Compile Include="Boosting\AdaBoost.cs" />
     <Compile Include="BagOfWords.cs" />
     <Compile Include="Bayes\NaiveBayes`1.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Clustering\GaussianMixtureModel.cs" />
     <Compile Include="Bayes\NaiveBayes.cs" />
     <Compile Include="KNearestNeighbors.cs" />
+    <Compile Include="Performance\SplitSet\SplitSetValidation.cs" />
     <Compile Include="Performance\SplitSet\SplitSetStatistics`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetResult`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetValidation`1.cs" />

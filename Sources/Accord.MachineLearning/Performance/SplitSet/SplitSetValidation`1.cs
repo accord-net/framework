@@ -47,6 +47,10 @@ namespace Accord.MachineLearning
     /// 
     /// <typeparam name="TModel">The type of the model being analysed.</typeparam>
     /// 
+    /// <seealso cref="Bootstrap"/>
+    /// <seealso cref="CrossValidation{T}"/>
+    /// <seealso cref="SplitSetValidation"/>
+    /// 
     [Serializable]
     public class SplitSetValidation<TModel> where TModel : class
     {

@@ -23,7 +23,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Vision.Detection
+namespace Accord.Vision
 {
     using System;
     using System.Collections.Generic;

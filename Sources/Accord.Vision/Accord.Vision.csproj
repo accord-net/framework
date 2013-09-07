@@ -133,6 +133,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Accord.Vision.cs" />
     <Compile Include="GroupMatching.cs" />
     <Compile Include="Detection\Haar Cascade\Default\FaceHaarCascade.cs" />
     <Compile Include="Detection\Haar Cascade\Default\NoseHaarCascade.cs" />

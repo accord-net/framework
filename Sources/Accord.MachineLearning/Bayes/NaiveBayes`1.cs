@@ -60,7 +60,7 @@ namespace Accord.MachineLearning.Bayes
     ///   example by Tom Mitchell (1998). In Mitchell's example, one would like to infer if a person
     ///   would play tennis or not based solely on four input variables. The original variables were
     ///   categorical, but in this example, two of them will be categorical and two will be continuous.
-    ///   Rhe rows, or instances presented below represent days on which the behavior of the person
+    ///   The rows, or instances presented below represent days on which the behavior of the person
     ///   has been registered and annotated, pretty much building our set of observation instances for
     ///   learning:</para>
     /// 
@@ -117,7 +117,7 @@ namespace Accord.MachineLearning.Bayes
     /// 
     /// <para>
     ///   Now that we already have our learning input/ouput pairs, we should specify our
-    ///   decision tree. We will be trying to build a tree to predict the last column, entitled
+    ///   Bayes model. We will be trying to build a model to predict the last column, entitled
     ///   “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
     ///   “Wind” as predictors (variables which will we will use for our decision).
     /// </para>
@@ -136,15 +136,26 @@ namespace Accord.MachineLearning.Bayes
     ///   int classCount = codebook["PlayTennis"].Symbols; // 2 possible values (yes, no)
     ///
     ///   // Create a new Naive Bayes classifiers for the two classes
-    ///   var target = new NaiveBayes&lt;IUnivariateDistribution>(classCount, inputCount, priors);
+    ///   var model = new NaiveBayes&lt;IUnivariateDistribution>(classCount, inputCount, priors);
     ///
     ///   // Compute the Naive Bayes model
-    ///   target.Estimate(inputs, outputs);
+    ///   model.Estimate(inputs, outputs);
     /// </code>
     /// 
     /// <para>Now that we have created and estimated our classifier, we 
     /// can query the classifier for new input samples through the <see
     /// cref="NaiveBayes{T}.Compute(double[])"/> method.</para>
+    /// 
+    /// <code>
+    /// // We will be computing the output label for a sunny, cool, humid and windy day:
+    /// double[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong").ToDouble();
+    /// 
+    /// // Now, we can feed this instance to our model
+    /// int output = model.Compute(instance, out logLikelihood);
+    /// 
+    /// // Finally, the result can be translated back to one of the codewords using
+    /// string result = codebook.Translate("PlayTennis", output); // result is "No"
+    /// </code>
     /// </example>
     /// 
     /// <seealso cref="NaiveBayes"/>

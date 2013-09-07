@@ -112,6 +112,7 @@
     <Compile Include="BagOfVisualWords.cs" />
     <Compile Include="Contour\BorderFollowing.cs" />
     <Compile Include="Contour\IContourExtractionAlgorithm.cs" />
+    <Compile Include="Converters\Accord.Imaging.Converters.cs" />
     <Compile Include="Converters\ArrayToImage.cs" />
     <Compile Include="Converters\Base\IConverter.cs" />
     <Compile Include="Converters\MatrixToImage.cs" />

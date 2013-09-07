@@ -132,6 +132,10 @@ namespace Accord.MachineLearning
     ///   </code>
     /// </example>
     /// 
+    /// <seealso cref="Bootstrap"/>
+    /// <seealso cref="CrossValidation{T}"/>
+    /// <seealso cref="SplitSetValidation{T}"/>
+    /// 
     [Serializable]
     public class CrossValidation : CrossValidation<object>
     {
