@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -53,39 +53,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
-        /// <summary>
-        ///A test for Histogram Constructor
-        ///</summary>
         [TestMethod()]
         public void HistogramConstructorTest()
         {
@@ -95,9 +63,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.Bins.Count);
         }
 
-        /// <summary>
-        ///A test for Compute
-        ///</summary>
         [TestMethod()]
         public void ComputeTest1()
         {
@@ -119,9 +84,6 @@ namespace Accord.Tests.Statistics
 
         }
 
-        /// <summary>
-        ///A test for Compute
-        ///</summary>
         [TestMethod()]
         public void ComputeTest2()
         {
@@ -137,9 +99,6 @@ namespace Accord.Tests.Statistics
 
 
 
-        /// <summary>
-        ///A test for Compute
-        ///</summary>
         [TestMethod()]
         public void ComputeTest3()
         {
@@ -211,9 +170,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(values.Length, sum);
         }
 
-        /// <summary>
-        ///A test for Compute
-        ///</summary>
         [TestMethod()]
         public void ComputeTest4()
         {
@@ -284,9 +240,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(values.Length, sum);
         }
 
-        /// <summary>
-        ///A test for Compute
-        ///</summary>
         [TestMethod()]
         public void ComputeTest5()
         {
@@ -363,9 +316,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(values.Length, sum);
         }
 
-        /// <summary>
-        ///A test for Histogram Constructor
-        ///</summary>
         [TestMethod()]
         public void ComputeTest6()
         {

@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -49,35 +49,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -108,9 +79,9 @@ namespace Accord.Tests.Statistics
 
             OneWayAnova anova = new OneWayAnova(samples);
 
-            // After the anova object has been created, one can display its findings
+            // After the Anova object has been created, one can display its findings
             // in the form of a standard ANOVA table by binding anova.Table to a 
-            // DataGridView or any other display object supporting databinding. To
+            // DataGridView or any other display object supporting data binding. To
             // illustrate, we could use Accord.NET's DataGridBox to inspect the
             // table's contents.
 
@@ -121,7 +92,7 @@ namespace Accord.Tests.Statistics
             // thus reject the null hypothesis, concluding there is a strong
             // evidence that the three groups are indeed different. Assuming the
             // experiment was correctly controlled, this would be an indication
-            // that the fertilizant does indeed affect plant growth.
+            // that the fertilizer does indeed affect plant growth.
 
             // [1] http://en.wikipedia.org/wiki/F_test
 

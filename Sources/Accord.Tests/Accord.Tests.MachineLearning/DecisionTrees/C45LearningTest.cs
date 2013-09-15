@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -50,35 +50,6 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         public static void CreateMitchellExample(out DecisionTree tree, out double[][] inputs, out int[] outputs)
@@ -174,7 +145,7 @@ namespace Accord.Tests.MachineLearning
         [TestMethod()]
         public void LargeRunTest()
         {
-            // This example uses the Nursery Database available from the Universiry of
+            // This example uses the Nursery Database available from the University of
             // California Irvine repository of machine learning databases, available at
             //
             //   http://archive.ics.uci.edu/ml/machine-learning-databases/nursery/nursery.names
@@ -212,7 +183,7 @@ namespace Accord.Tests.MachineLearning
             string outputColumn = "output";
 
 
-            // Let's populate a datatable with this information.
+            // Let's populate a data table with this information.
             //
             DataTable table = new DataTable("Nursery");
             table.Columns.Add(inputColumns);
@@ -225,7 +196,7 @@ namespace Accord.Tests.MachineLearning
                 table.Rows.Add(line.Split(','));
 
 
-            // Now, we have to convert the textual, categoric data found
+            // Now, we have to convert the textual, categorical data found
             // in the table to a more manageable discrete representation.
             //
             // For this, we will create a codebook to translate text to

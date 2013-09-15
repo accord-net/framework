@@ -163,7 +163,7 @@
     <Compile Include="GaussianMixtureModelTest.cs" />
     <Compile Include="GridsearchTest.cs" />
     <Compile Include="DecisionTrees\ID3LearningTest.cs" />
-    <Compile Include="Kernels\DynamicalTimeWarpingTest.cs" />
+    <Compile Include="Kernels\DynamicTimeWarpingTest.cs" />
     <Compile Include="KMeansTest.cs" />
     <Compile Include="KModesTest.cs" />
     <Compile Include="KNearestNeighborTest.cs" />

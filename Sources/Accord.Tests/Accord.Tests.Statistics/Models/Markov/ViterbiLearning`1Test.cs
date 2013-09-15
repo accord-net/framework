@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -52,35 +52,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -228,7 +199,7 @@ namespace Accord.Tests.Statistics
             // Continuous Markov Models can operate using any
             // probability distribution, including discrete ones. 
 
-            // In the follwing example, we will try to create a
+            // In the following example, we will try to create a
             // Continuous Hidden Markov Model using a discrete
             // distribution to detect if a given sequence starts
             // with a zero and has any number of ones after that.
@@ -272,7 +243,7 @@ namespace Accord.Tests.Statistics
             double l3 = hmm.Evaluate(new double[] { 1, 1 });       // 0.186
             double l4 = hmm.Evaluate(new double[] { 1, 0, 0, 0 }); // 0.003
 
-            // Sequences which contains few errors have higher probabability
+            // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
             double l5 = hmm.Evaluate(new double[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }); // 0.033
@@ -423,8 +394,8 @@ namespace Accord.Tests.Statistics
 
 
             // See the probability of the sequences learned
-            double a1 = model.Evaluate(new double[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }); // exp(a1) = inf
-            double a2 = model.Evaluate(new double[] { 1, 2, 1, 2, 1 });             // exp(a2) = inf
+            double a1 = model.Evaluate(new double[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }); // exp(a1) = infinity
+            double a2 = model.Evaluate(new double[] { 1, 2, 1, 2, 1 });             // exp(a2) = infinity
 
             // See the probability of an unrelated sequence
             double a3 = model.Evaluate(new double[] { 1, 2, 3, 2, 1, 2, 1 });          // exp(a3) = 0

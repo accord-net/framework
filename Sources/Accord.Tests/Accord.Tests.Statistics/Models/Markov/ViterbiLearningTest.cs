@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -49,35 +49,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -230,7 +201,7 @@ namespace Accord.Tests.Statistics
             double l3; hmm.Decode(new int[] { 1, 1 }, out l3);        // 0.0864
             double l4; hmm.Decode(new int[] { 1, 0, 0, 0 }, out l4);  // 0.0004
 
-            // Sequences which contains few errors have higher probabability
+            // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
             double l5; hmm.Decode(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }, out l5); // 0.0154
@@ -291,7 +262,7 @@ namespace Accord.Tests.Statistics
             double l3 = hmm.Evaluate(new int[] { 1, 1 });       // 0.186
             double l4 = hmm.Evaluate(new int[] { 1, 0, 0, 0 }); // 0.003
 
-            // Sequences which contains few errors have higher probabability
+            // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
             double l5 = hmm.Evaluate(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }); // 0.033

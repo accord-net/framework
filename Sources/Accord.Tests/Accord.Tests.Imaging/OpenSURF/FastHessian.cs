@@ -10,7 +10,7 @@ namespace OpenSURFcs
     {
 
         /// <summary>
-        /// Reponse Layer 
+        /// Response Layer 
         /// </summary>
         private class ResponseLayer
         {
@@ -108,7 +108,7 @@ namespace OpenSURFcs
             // filter index map
             int[,] filter_map = { { 0, 1, 2, 3 }, { 1, 3, 4, 5 }, { 3, 5, 6, 7 }, { 5, 7, 8, 9 }, { 7, 9, 10, 11 } };
 
-            // Clear the vector of exisiting ipts
+            // Clear the vector of existing ipts
             if (ipts == null) ipts = new List<IPoint>();
             else ipts.Clear();
 
@@ -143,8 +143,9 @@ namespace OpenSURFcs
 
 
         /// <summary>
-        /// Build map of DoH responses
+        ///   Build map of DoH responses
         /// </summary>
+        /// 
         void buildResponseMap()
         {
             // Calculate responses for the first 4 octaves:
@@ -154,8 +155,9 @@ namespace OpenSURFcs
             // Oct4: 51, 99, 147,195
             // Oct5: 99, 195,291,387
 
-            // Deallocate memory and clear any existing response layers
-            if (responseMap == null) responseMap = new List<ResponseLayer>();
+            // Release memory and clear any existing response layers
+            if (responseMap == null) 
+                responseMap = new List<ResponseLayer>();
             else responseMap.Clear();
 
             // Get image attributes
@@ -163,7 +165,7 @@ namespace OpenSURFcs
             int h = (img.Height / init_sample);
             int s = (init_sample);
 
-            // Calculate approximated determinant of hessian values
+            // Calculate approximated determinant of Hessian values
             if (octaves >= 1)
             {
                 responseMap.Add(new ResponseLayer(w, h, s, 9));
@@ -214,7 +216,7 @@ namespace OpenSURFcs
             int b = (rl.filter - 1) / 2;             // border for this filter
             int l = rl.filter / 3;                   // lobe for this filter (filter size / 3)
             int w = rl.filter;                       // filter size
-            float inverse_area = 1f / (w * w);       // normalisation factor
+            float inverse_area = 1f / (w * w);       // normalization factor
             float Dxx, Dyy, Dxy;
 
             for (int r, c, ar = 0, index = 0; ar < rl.height; ++ar)
@@ -235,12 +237,12 @@ namespace OpenSURFcs
                           - img.BoxIntegral(r - l, c - l, l, l)
                           - img.BoxIntegral(r + 1, c + 1, l, l);
 
-                    // Normalise the filter responses with respect to their size
+                    // Normalize the filter responses with respect to their size
                     Dxx *= inverse_area;
                     Dyy *= inverse_area;
                     Dxy *= inverse_area;
 
-                    // Get the determinant of hessian response & laplacian sign
+                    // Get the determinant of Hessian response & Laplacian sign
                     rl.responses[index] = (Dxx * Dyy - 0.81f * Dxy * Dxy);
                     rl.laplacian[index] = (byte)(Dxx + Dyy >= 0 ? 1 : 0);
                 }
@@ -249,14 +251,17 @@ namespace OpenSURFcs
 
 
         /// <summary>
-        /// Test whether the point r,c in the middle layer is extremum in 3x3x3 neighbourhood
+        ///   Test whether the point (r,c) in the middle layer
+        ///   is a local maximum in the <c>3x3x3</c> neighborhood.
         /// </summary>
-        /// <param name="r">Row to be tested</param>
-        /// <param name="c">Column to be tested</param>
-        /// <param name="t">Top ReponseLayer</param>
-        /// <param name="m">Middle ReponseLayer</param>
-        /// <param name="b">Bottome ReponseLayer</param>
-        /// <returns></returns>
+        /// 
+        /// <param name="r">The row to be tested.</param>
+        /// <param name="c">The column to be tested.</param>
+        /// 
+        /// <param name="t">Top response layer.</param>
+        /// <param name="m">Middle response layer.</param>
+        /// <param name="b">Bottom response layer.</param>
+        /// 
         bool isExtremum(int r, int c, ResponseLayer t, ResponseLayer m, ResponseLayer b)
         {
             // bounds check
@@ -288,13 +293,16 @@ namespace OpenSURFcs
 
 
         /// <summary>
-        /// Interpolate scale-space extrema to subpixel accuracy to form an image feature
+        ///   Interpolate scale-space maximum points to subpixel accuracy to form an image feature.
         /// </summary>
-        /// <param name="r"></param>
-        /// <param name="c"></param>
-        /// <param name="t"></param>
-        /// <param name="m"></param>
-        /// <param name="b"></param>
+        /// 
+        /// <param name="r">The row to be tested.</param>
+        /// <param name="c">The column to be tested.</param>
+        /// 
+        /// <param name="t">Top response layer.</param>
+        /// <param name="m">Middle response layer.</param>
+        /// <param name="b">Bottom response layer.</param>
+        /// 
         void interpolateExtremum(int r, int c, ResponseLayer t, ResponseLayer m, ResponseLayer b)
         {
             var D = BuildDerivative(r, c, t, m, b);

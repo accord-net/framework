@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -50,35 +50,6 @@ namespace Accord.Tests.Neuro
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -189,8 +160,8 @@ namespace Accord.Tests.Neuro
             // create teacher
             LevenbergMarquardtLearning teacher = new LevenbergMarquardtLearning(
                 network, // the neural network
-                false,   // whether or not to use bayesian regularization
-                JacobianMethod.ByBackpropagation // jacobian calculation method
+                false,   // whether or not to use Bayesian regularization
+                JacobianMethod.ByBackpropagation // Jacobian calculation method
                 );
 
 
@@ -524,11 +495,8 @@ namespace Accord.Tests.Neuro
             teacher1.RunEpoch(input, output);
             teacher2.RunEpoch(input, output);
 
-            PrivateObject privateTeacher1 = new PrivateObject(teacher1);
-            PrivateObject privateTeacher2 = new PrivateObject(teacher2);
-
-            var hessian1 = (float[][])privateTeacher1.GetField("hessian");
-            var hessian2 = (float[][])privateTeacher2.GetField("hessian");
+            var hessian1 = teacher1.Hessian;
+            var hessian2 = teacher1.Hessian;
 
             for (int i = 0; i < hessian1.Length; i++)
             {
@@ -547,8 +515,8 @@ namespace Accord.Tests.Neuro
             Assert.IsTrue(hessian1.IsUpperTriangular());
             Assert.IsTrue(hessian2.IsUpperTriangular());
 
-            var gradient1 = (float[])privateTeacher1.GetField("gradient");
-            var gradient2 = (float[])privateTeacher2.GetField("gradient");
+            var gradient1 = teacher1.Gradient;
+            var gradient2 = teacher2.Gradient;
 
             for (int i = 0; i < gradient1.Length; i++)
             {

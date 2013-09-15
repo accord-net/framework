@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -47,35 +47,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
         [TestMethod()]
         public void GradientTest()
@@ -206,7 +177,7 @@ namespace Accord.Tests.Statistics
         {
             // Suppose we have the following data about some patients.
             // The first variable is continuous and represent patient
-            // age. The second variable is dicotomic and give whether
+            // age. The second variable is dichotomic and give whether
             // they smoke or not (This is completely fictional data).
             double[][] input =
             {
@@ -262,7 +233,7 @@ namespace Accord.Tests.Statistics
 
             // For the age variable, we have that individuals with
             //   higher age have 1.021 greater odds of getting lung
-            //   cancer controlling for cigarrete smoking.
+            //   cancer controlling for cigarette smoking.
             double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
 
             // For the smoking/non smoking category variable, however, we
@@ -285,7 +256,7 @@ namespace Accord.Tests.Statistics
         {
             // Suppose we have the following data about some patients.
             // The first variable is continuous and represent patient
-            // age. The second variable is dicotomic and give whether
+            // age. The second variable is dichotomic and give whether
             // they smoke or not (This is completely fictional data).
             double[][] input =
             {
@@ -346,7 +317,7 @@ namespace Accord.Tests.Statistics
 
             // For the age variable, we have that individuals with
             //   higher age have 1.021 greater odds of getting lung
-            //   cancer controlling for cigarrete smoking.
+            //   cancer controlling for cigarette smoking.
             double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
 
             // For the smoking/non smoking category variable, however, we

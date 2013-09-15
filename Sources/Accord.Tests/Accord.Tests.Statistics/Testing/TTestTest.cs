@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -47,35 +47,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -120,7 +91,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant); // null should be rejected
 
             // Null hypothesis: value is greater than hypothesis
-            // Alternative:     value is smaller than sypothesis
+            // Alternative:     value is smaller than hypothesis
 
             // If the null hypothesis states that the population parameter is 
             // greater than zero (or a constant), the z-score that rejects the
@@ -164,7 +135,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(true, test.Significant);
 
             // Now, we would like to test if the sample mean is
-            // significantly greater than the hypothetised zero.
+            // significantly greater than the hypothesized zero.
 
             // Create a T-Test to check this hypothesis
             TTest greater = new TTest(sample, hypothesizedMean,
@@ -174,7 +145,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(true, greater.Significant);
 
             // Now, we would like to test if the sample mean is
-            // significantly smaller than the hypothetised zero.
+            // significantly smaller than the hypothesized zero.
 
             // Create a T-Test to check this hypothesis
             TTest smaller = new TTest(sample, hypothesizedMean,

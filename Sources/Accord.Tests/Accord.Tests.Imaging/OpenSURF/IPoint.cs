@@ -31,12 +31,12 @@ namespace OpenSURFcs
     public float response;
 
     /// <summary>
-    /// Orientation measured anti-clockwise from +ve x-axis
+    /// Orientation measured anti-clockwise from the x-axis
     /// </summary>
     public float orientation;
 
     /// <summary>
-    /// Sign of laplacian for fast matching purposes
+    /// Sign of Laplacian for fast matching purposes
     /// </summary>
     public int laplacian;
 

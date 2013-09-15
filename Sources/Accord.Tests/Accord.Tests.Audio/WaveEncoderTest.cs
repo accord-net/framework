@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -46,35 +46,6 @@ namespace Accord.Tests.Audio
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -116,10 +87,10 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(sizeof(short) * 352800, sourceDecoder.Bytes);
 
 
-            // Create a encoder for the destinoation stream
+            // Create a encoder for the destination stream
             WaveEncoder encoder = new WaveEncoder(destinationStream);
 
-            // Encode the signal to the destionation stream
+            // Encode the signal to the destination stream
             encoder.Encode(sourceSignal);
 
             Assert.AreEqual(2, encoder.Channels);
@@ -145,7 +116,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(32, destDecoder.BitsPerSample);
 
 
-            // Decode the destionation stream
+            // Decode the destination stream
             Signal destSignal = destDecoder.Decode();
 
             // Assert that the signal which has been saved to the destination

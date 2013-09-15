@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -51,36 +51,6 @@ namespace Accord.Tests.Statistics
                 testContextInstance = value;
             }
         }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
 
@@ -268,23 +238,26 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(3, coef.Length);
             Assert.AreEqual(8.7405051051757816, coef[0]);
-            Assert.AreEqual(1.1198079243314365, coef[1]);
-            Assert.AreEqual(-19.604474518407862, coef[2]);
+            Assert.AreEqual(1.1198079243314365, coef[1], 1e-10);
+            Assert.AreEqual(-19.604474518407862, coef[2], 1e-10);
+            Assert.IsFalse(coef.HasNaN());
 
-            Assert.AreEqual(2.375916659234715, stde[0]);
-            Assert.AreEqual(1.7268508921418664, stde[1]);
-            Assert.AreEqual(30.989640986710953, stde[2]);
+            Assert.AreEqual(2.375916659234715, stde[0], 1e-10);
+            Assert.AreEqual(1.7268508921418664, stde[1], 1e-10);
+            Assert.AreEqual(30.989640986710953, stde[2], 1e-10);
+            Assert.IsFalse(coef.HasNaN());
 
-            Assert.AreEqual(0.62879941171298959, rsquared);
+            Assert.AreEqual(0.62879941171298936, rsquared);
 
             Assert.AreEqual(0.99999999999999822, ztest.PValue);
             Assert.AreEqual(0.018986050133298293, ftest.PValue, 1e-10);
 
             Assert.AreEqual(0.0062299844256985537, ttest0.PValue);
-            Assert.AreEqual(0.53484850318449118, ttest1.PValue);
+            Assert.AreEqual(0.53484850318449118, ttest1.PValue, 1e-14);
+            Assert.IsFalse(Double.IsNaN(ttest1.PValue));
 
-            Assert.AreEqual(3.2616314640800592, ci.Min);
-            Assert.AreEqual(14.219378746271504, ci.Max);
+            Assert.AreEqual(3.2616314640800566, ci.Min);
+            Assert.AreEqual(14.219378746271506, ci.Max);
         }
 
     }

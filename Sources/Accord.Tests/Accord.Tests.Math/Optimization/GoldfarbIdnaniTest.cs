@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -49,35 +49,6 @@ namespace Accord.Tests.Math
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -431,7 +402,7 @@ namespace Accord.Tests.Math
             };
 
             // Equalities must always come first, and in this case
-            // we have to specify how many of the contraints are
+            // we have to specify how many of the constraints are
             // actually equalities:
 
             int numberOfEqualities = 1;
@@ -503,7 +474,7 @@ namespace Accord.Tests.Math
             //
 
             // In this example we will be using some symbolic processing. 
-            // The following variables could be inicialized to any value.
+            // The following variables could be initialized to any value.
             double x = 0, y = 0;
 
             // Create our objective function using a lambda expression

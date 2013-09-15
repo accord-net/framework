@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -52,35 +52,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -244,7 +215,7 @@ namespace Accord.Tests.Statistics
         public void DecodeTest()
         {
 
-            // Create the transation matrix A
+            // Create the transition matrix A
             double[,] transitions = 
             {  
                 { 0.7, 0.3 },
@@ -268,14 +239,14 @@ namespace Accord.Tests.Statistics
             var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution>(transitions, emissions, initial);
 
             // After that, one could, for example, query the probability
-            // of a sequence ocurring. We will consider the sequence
+            // of a sequence occurring. We will consider the sequence
             double[] sequence = new double[] { 0, 1, 2 };
 
             // And now we will evaluate its likelihood
             double logLikelihood = hmm.Evaluate(sequence);
 
             // At this point, the log-likelihood of the sequence
-            // ocurring within the model is -3.3928721329161653.
+            // occurring within the model is -3.3928721329161653.
 
             // We can also get the Viterbi path of the sequence
             int[] path = hmm.Decode(sequence, out logLikelihood);
@@ -640,7 +611,7 @@ namespace Accord.Tests.Statistics
             // Continuous Markov Models can operate using any
             // probability distribution, including discrete ones. 
 
-            // In the follwing example, we will try to create a
+            // In the following example, we will try to create a
             // Continuous Hidden Markov Model using a discrete
             // distribution to detect if a given sequence starts
             // with a zero and has any number of ones after that.
@@ -679,7 +650,7 @@ namespace Accord.Tests.Statistics
             double l3 = Math.Exp(hmm.Evaluate(new double[] { 1, 1 }));       // 0.000
             double l4 = Math.Exp(hmm.Evaluate(new double[] { 1, 0, 0, 0 })); // 0.000
 
-            // Sequences which contains few errors have higher probabability
+            // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
             double l5 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 })); // 0.034
@@ -829,8 +800,8 @@ namespace Accord.Tests.Statistics
 
 
             // See the probability of the sequences learned
-            double a1 = model.Evaluate(new double[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }); // exp(a1) = inf
-            double a2 = model.Evaluate(new double[] { 1, 2, 1, 2, 1 });             // exp(a2) = inf
+            double a1 = model.Evaluate(new double[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }); // exp(a1) = infinity
+            double a2 = model.Evaluate(new double[] { 1, 2, 1, 2, 1 });             // exp(a2) = infinity
 
             // See the probability of an unrelated sequence
             double a3 = model.Evaluate(new double[] { 1, 2, 3, 2, 1, 2, 1 });          // exp(a3) = 0
@@ -866,7 +837,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest9()
         {
-            // Include this example in the documentattion
+            // Include this example in the documentation
             var observations = new double[][][]
             {
                 #region example
@@ -1112,7 +1083,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            // Now we can begin specifing a initial Gaussian mixture distribution. It is
+            // Now we can begin specifying a initial Gaussian mixture distribution. It is
             // better to add some different initial parameters to the mixture components:
             var density = new Mixture<NormalDistribution>(
                 new NormalDistribution(mean: 2, stdDev: 1.0), // 1st component in the mixture
@@ -1187,7 +1158,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            // Now we can begin specifing a initial Gaussian mixture distribution. It is
+            // Now we can begin specifying a initial Gaussian mixture distribution. It is
             // better to add some different initial parameters to the mixture components:
             var density = new Mixture<NormalDistribution>(
                 new NormalDistribution(mean: 2, stdDev: 1.0), // 1st component in the mixture

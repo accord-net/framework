@@ -1,6 +1,6 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -49,35 +49,6 @@ namespace Accord.Tests.Math
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -117,8 +88,8 @@ namespace Accord.Tests.Math
 
             double[] query = new double[] { 5, 3 };
 
-            // Locate all nearby points within an euclidean distance of 1.5
-            // (answer should be be a single point located at position (5,4))
+            // Locate all nearby points within an Euclidean distance of 1.5
+            // (answer should be a single point located at position (5,4))
             KDTreeNodeCollection<int> result = tree.Nearest(query, radius: 1.5); 
             
             // We can also use alternate distance functions

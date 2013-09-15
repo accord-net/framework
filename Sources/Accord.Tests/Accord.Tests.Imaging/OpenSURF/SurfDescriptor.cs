@@ -83,7 +83,7 @@ namespace OpenSURFcs
             int Y = (int)Math.Round(ip.y, 0);
             int S = (int)Math.Round(ip.scale, 0);
 
-            // calculate haar responses for points within radius of 6*scale
+            // calculate Haar responses for points within radius of 6*scale
             for (int i = -6; i <= 6; ++i)
             {
                 for (int j = -6; j <= 6; ++j)
@@ -153,7 +153,7 @@ namespace OpenSURFcs
             float dx_yn, mdx_yn, dy_xn, mdy_xn;
             float gauss_s1 = 0f, gauss_s2 = 0f;
             float rx = 0f, ry = 0f, rrx = 0f, rry = 0f, len = 0f;
-            float cx = -0.5f, cy = 0f; //Subregion centers for the 4x4 gaussian weighting
+            float cx = -0.5f, cy = 0f; // Subregion centers for the 4x4 Gaussian weighting
 
             // Get rounded InterestPoint data
             int X = (int)Math.Round(ip.x, 0);
@@ -211,12 +211,12 @@ namespace OpenSURFcs
                             sample_x = (int)Math.Round(X + (-l * S * si + k * S * co), 0);
                             sample_y = (int)Math.Round(Y + (l * S * co + k * S * si), 0);
 
-                            //Get the gaussian weighted x and y responses
+                            //Get the Gaussian weighted x and y responses
                             gauss_s1 = Gaussian(xs - sample_x, ys - sample_y, 2.5f * S);
                             rx = (float)img.HaarX(sample_y, sample_x, 2 * S);
                             ry = (float)img.HaarY(sample_y, sample_x, 2 * S);
 
-                            //Get the gaussian weighted x and y responses on rotated axis
+                            //Get the Gaussian weighted x and y responses on rotated axis
                             rrx = gauss_s1 * (-rx * si + ry * co);
                             rry = gauss_s1 * (rx * co + ry * si);
 
@@ -316,7 +316,7 @@ namespace OpenSURFcs
 
 
         /// <summary>
-        /// Get the value of the gaussian with std dev sigma
+        /// Get the value of the Gaussian with std dev sigma
         /// at the point (x,y)
         /// </summary>
         /// <param name="x"></param>
@@ -331,7 +331,7 @@ namespace OpenSURFcs
 
 
         /// <summary>
-        /// Get the value of the gaussian with std dev sigma
+        /// Get the value of the Gaussian with std dev sigma
         /// at the point (x,y)
         /// </summary>
         /// <param name="x"></param>
