@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -283,7 +283,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the the dependent variables' values
+        ///   Gets the dependent variables' values
         ///   for each of the source input points.
         /// </summary>
         /// 
@@ -322,7 +322,7 @@ namespace Accord.Statistics.Analysis
 
         /// <summary>
         ///   Gets information about the factors discovered during the analysis in a
-        ///   object-oriented structure which can be databound directly to many controls.
+        ///   object-oriented structure which can be data-bound directly to many controls.
         /// </summary>
         /// 
         public PartialLeastSquaresFactorCollection Factors
@@ -476,7 +476,7 @@ namespace Accord.Statistics.Analysis
             {
                 throw new DimensionMismatchException("data",
                     "The data matrix should have a number of columns less than or equal to"
-                    + " the number of rows in the loadings matrix for the input varaibles.");
+                    + " the number of rows in the loadings matrix for the input variables.");
             }
 
             double[,] result = new double[rows, dimensions];
@@ -738,7 +738,7 @@ namespace Accord.Statistics.Analysis
                     for (int i = 0; i < rows; i++)
                         p[j] += E[i, j] * t[i];
 
-                // Perform deflaction of X and Y
+                // Perform deflation of X and Y
                 for (int i = 0; i < t.Length; i++)
                 {
                     // Deflate X as X = X - t*p';
@@ -882,7 +882,7 @@ namespace Accord.Statistics.Analysis
                 // Step 1. Obtain the dominant eigenvector w of C'C. However, we
                 //   can avoid computing the matrix multiplication by using the
                 //   singular value decomposition instead, which is also more
-                //   stable. The ﬁrst weight vector w is the left singular vector
+                //   stable. The first weight vector w is the left singular vector
                 //   of C=X'Y [Abdi, 2007].
 
                 var svd = new SingularValueDecomposition(covariance,

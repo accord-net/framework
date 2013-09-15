@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -71,7 +71,8 @@ namespace Accord.Audio
         /// 
         public static double[] GetMagnitudeSpectrum(Complex[] fft)
         {
-            if (fft == null) throw new ArgumentNullException("fft");
+            if (fft == null) 
+                throw new ArgumentNullException("fft");
 
             // assumes fft is symmetric
 

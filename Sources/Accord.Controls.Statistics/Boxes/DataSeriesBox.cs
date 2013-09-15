@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Controls Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -92,7 +92,7 @@ namespace Accord.Controls
 
 
         /// <summary>
-        ///   Displays a scatterplot with the specified data.
+        ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
         /// <param name="title">The title for the data.</param>

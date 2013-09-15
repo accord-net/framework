@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -47,7 +47,7 @@ namespace Accord.MachineLearning
     public delegate BootstrapValues BootstrapFittingFunction(int[] trainingSamples, int[] validationSamples);
 
     /// <summary>
-    ///   Boostrap method for generalization
+    ///   Bootstrap method for generalization
     ///   performance measurements.
     /// </summary>
     /// 
@@ -89,7 +89,7 @@ namespace Accord.MachineLearning
     /// var bootstrap = new Bootstrap(size: data.Length, subsamples: 50);
     /// 
     /// // Define a fitting function using Support Vector Machines. The objective of this
-    /// // function is to learn a SVM in the subset of the data dicted by the bootstrap.
+    /// // function is to learn a SVM in the subset of the data indicated by the bootstrap.
     /// 
     /// bootstrap.Fitting = delegate(int[] indicesTrain, int[] indicesValidation)
     /// {

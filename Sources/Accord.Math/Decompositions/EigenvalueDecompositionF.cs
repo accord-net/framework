@@ -1,6 +1,6 @@
 // Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -31,14 +31,14 @@ namespace Accord.Math.Decompositions
     using Accord.Math;
 
     /// <summary>
-    ///     Determines the eigenvalues and eigenvectors of a real square matrix.
+    ///     Determines the Eigenvalues and eigenvectors of a real square matrix.
     /// </summary>
     /// <remarks>
     ///   <para>
-    ///     In the mathematical discipline of linear algebra, eigendecomposition
+    ///     In the mathematical discipline of linear algebra, Eigendecomposition
     ///     or sometimes spectral decomposition is the factorization of a matrix
     ///     into a canonical form, whereby the matrix is represented in terms of
-    ///     its eigenvalues and eigenvectors.</para>
+    ///     its Eigenvalues and eigenvectors.</para>
     ///   <para>
     ///     If <c>A</c> is symmetric, then <c>A = V * D * V'</c> and <c>A = V * V'</c>
     ///     where the eigenvalue matrix <c>D</c> is diagonal and the eigenvector matrix <c>V</c> is orthogonal.
@@ -91,7 +91,7 @@ namespace Accord.Math.Decompositions
         /// <param name="inPlace">
         ///   Pass <see langword="true"/> to perform the decomposition in place. The matrix
         ///   <paramref name="value"/> will be destroyed in the process, resulting in less
-        ///   memory comsumption.</param>
+        ///   memory consumption.</param>
         public EigenvalueDecompositionF(Single[,] value, bool assumeSymmetric, bool inPlace)
         {
             if (value == null)

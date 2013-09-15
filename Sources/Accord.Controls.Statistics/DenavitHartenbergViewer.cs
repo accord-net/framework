@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Rémy Dispagne, 2013
 // cramer at libertysurf.fr

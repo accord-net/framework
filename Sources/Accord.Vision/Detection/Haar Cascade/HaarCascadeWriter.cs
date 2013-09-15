@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework (LGPL)
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -69,7 +69,7 @@ namespace Accord.Vision.Detection
             writer.WriteLine("//");
             writer.WriteLine("// Accord Vision Library");
             writer.WriteLine("// The Accord.NET Framework");
-            writer.WriteLine("// http://accord.googlecode.com");
+            writer.WriteLine("// http://accord-framework.net");
             writer.WriteLine("//");
             writer.WriteLine();
             writer.WriteLine("namespace HaarCascades");
@@ -151,7 +151,7 @@ namespace Accord.Vision.Detection
             if (node.Feature.Tilted)
                 writer.Write("true, ");
 
-            // Write haar-like rectangular features
+            // Write Haar-like rectangular features
             for (int k = 0; k < node.Feature.Rectangles.Length; k++)
             {
                 writeRectangle(node.Feature.Rectangles[k]);

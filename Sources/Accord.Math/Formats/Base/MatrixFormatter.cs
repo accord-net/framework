@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -47,8 +47,8 @@ namespace Accord.Math
         ///   format information about the current instance.</param>
         /// <returns>
         ///   The string representation of the value of <paramref name="arg"/>,
-        ///   formatted as specified by <paramref name="format"/> and <paramref
-        ///   name="formatProvider"/>.
+        ///   formatted as specified by <paramref name="format"/> and
+        ///   <paramref name="formatProvider"/>.
         /// </returns>
         /// 
         public string Format(string format, object arg, IFormatProvider formatProvider)

@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -94,7 +94,7 @@ namespace Accord.DirectSound
         // received frames count
         private int framesReceived;
 
-        // recieved byte count
+        // received byte count
         private int bytesReceived;
 
         // specifies desired capture frame size
@@ -340,7 +340,7 @@ namespace Accord.DirectSound
         ///   Wait for audio source has stopped.
         /// </summary>
         /// 
-        /// <remarks>Waits for source stopping after it was signalled to stop using
+        /// <remarks>Waits for source stopping after it was signaled to stop using
         /// <see cref="SignalToStop"/> method.</remarks>
         /// 
         public void WaitForStop()

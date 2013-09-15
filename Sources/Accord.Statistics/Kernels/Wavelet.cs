@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -36,7 +36,7 @@ namespace Accord.Statistics.Kernels
     /// <para>
     ///   The Wavelet kernel uses a mother wavelet function together with dilation
     ///   and translation constants to produce such representations and build a
-    ///   inner product which can be used by kernel methods. The default wavalet
+    ///   inner product which can be used by kernel methods. The default wavelet
     ///   used by this class is the mother function <c>h(x) = cos(1.75x)*exp(-x²/2)</c>.</para>
     ///     
     /// <para>

@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -62,7 +62,7 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
         ///   Initializes a new instance of the <see cref="ReducedErrorPruning"/> class.
         /// </summary>
         /// 
-        /// <param name="tree">The tree to be prunned.</param>
+        /// <param name="tree">The tree to be pruned.</param>
         /// <param name="inputs">The pruning set inputs.</param>
         /// <param name="outputs">The pruning set outputs.</param>
         /// 

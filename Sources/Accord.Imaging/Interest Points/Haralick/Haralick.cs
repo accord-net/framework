@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -135,7 +135,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Gets the set of local binary patterns computed for each
-        ///   cell in the last call to to <see cref="ProcessImage(Bitmap)"/>.
+        ///   cell in the last call to <see cref="ProcessImage(Bitmap)"/>.
         /// </summary>
         /// 
         public HaralickDescriptorDictionary[,] Descriptors { get { return features; } }

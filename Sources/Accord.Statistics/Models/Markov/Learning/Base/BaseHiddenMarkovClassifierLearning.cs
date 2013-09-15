@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -103,7 +103,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 
         /// <summary>
         ///   Gets or sets a value indicating whether the class priors
-        ///   should be estimated from the data, as in an empirical bayes method.
+        ///   should be estimated from the data, as in an empirical Bayes method.
         /// </summary>
         /// 
         public bool Empirical { get; set; }

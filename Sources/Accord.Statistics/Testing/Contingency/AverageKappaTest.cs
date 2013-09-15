@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -53,14 +53,14 @@ namespace Accord.Statistics.Testing
 
         /// <summary>
         ///   Gets the overall Kappa value
-        ///   for the many contigency tables.
+        ///   for the many contingency tables.
         /// </summary>
         /// 
         public double OverallKappa { get; private set; }
 
         /// <summary>
         ///   Gets the overall Kappa variance
-        ///   for the many contigency tables.
+        ///   for the many contingency tables.
         /// </summary>
         /// 
         public double OverallVariance { get; private set; }

@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -70,7 +70,7 @@ namespace Accord.MachineLearning.Bayes
     ///   data.Columns.Add("Day", "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
     ///
     ///   // We will set Temperature and Humidity to be continuous
-    ///   data.Columns["Temperature"].DataType = typeof(double); // (degrees celsius)
+    ///   data.Columns["Temperature"].DataType = typeof(double); // (degrees Celsius)
     ///   data.Columns["Humidity"].DataType    = typeof(double); // (water percentage)
     /// 
     ///   data.Rows.Add(   "D1",   "Sunny",      38.0,         96.0,    "Weak",     "No"  );
@@ -127,7 +127,7 @@ namespace Accord.MachineLearning.Bayes
     ///   IUnivariateDistribution[] priors =
     ///   {
     ///       new GeneralDiscreteDistribution(codebook["Outlook"].Symbols),   // 3 possible values (Sunny, overcast, rain)
-    ///       new NormalDistribution(),                                       // Continuous value (celsius)
+    ///       new NormalDistribution(),                                       // Continuous value (Celsius)
     ///       new NormalDistribution(),                                       // Continuous value (percentage)
     ///       new GeneralDiscreteDistribution(codebook["Wind"].Symbols)       // 2 possible values (Weak, strong)
     ///   };
@@ -342,8 +342,8 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <value>A TDistribution[,] array in with each row corresponds to a 
         /// class, each column corresponds to an input variable. Each element
-        /// of this double[,] array is a a probability distribution modelling
-        /// the occurance of the input variable in the corresponding class.</value>
+        /// of this double[,] array is a probability distribution modeling
+        /// the occurrence of the input variable in the corresponding class.</value>
         /// 
         public TDistribution[,] Distributions
         {
@@ -404,7 +404,7 @@ namespace Accord.MachineLearning.Bayes
         /// <param name="inputs">The input values.</param>
         /// <param name="outputs">The output values.</param>
         /// 
-        /// <returns>The percentual error of the prediction.</returns>
+        /// <returns>The percentage error of the prediction.</returns>
         /// 
         public double Error(double[][] inputs, int[] outputs)
         {

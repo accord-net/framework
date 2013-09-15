@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -441,7 +441,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Estimates unit roundoff in quantities of size x.
+        ///   Estimates unit round-off in quantities of size x.
         /// </summary>
         /// <remarks>
         ///   This is a port of the epslon function from EISPACK.

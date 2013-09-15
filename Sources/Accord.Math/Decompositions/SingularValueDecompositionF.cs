@@ -1,6 +1,6 @@
 // Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -223,7 +223,7 @@ namespace Accord.Math.Decompositions
         /// <param name="inPlace">
         ///   Pass <see langword="true"/> to perform the decomposition in place. The matrix
         ///   <paramref name="value"/> will be destroyed in the process, resulting in less
-        ///   memory comsumption.</param>
+        ///   memory consumption.</param>
         public unsafe SingularValueDecompositionF(Single[,] value, bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose, bool inPlace)
         {
             if (value == null)
@@ -552,11 +552,11 @@ namespace Accord.Math.Decompositions
 
                     // This section of the program inspects for
                     // negligible elements in the s and e arrays.  On
-                    // completion the variables kase and k are set as follows.
+                    // completion the variables case and k are set as follows.
 
-                    // kase = 1     if s(p) and e[k-1] are negligible and k<p
-                    // kase = 2     if s(k) is negligible and k<p
-                    // kase = 3     if e[k-1] is negligible, k<p, and
+                    // case = 1     if s(p) and e[k-1] are negligible and k<p
+                    // case = 2     if s(k) is negligible and k<p
+                    // case = 3     if e[k-1] is negligible, k<p, and
                     //              s(k), ..., s(p) are not negligible (qr step).
                     // kase = 4     if e(p-1) is negligible (convergence).
 
@@ -607,7 +607,7 @@ namespace Accord.Math.Decompositions
 
                     k++;
 
-                    // Perform the task indicated by kase.
+                    // Perform the task indicated by case.
                     switch (kase)
                     {
                         // Deflate negligible s(p).

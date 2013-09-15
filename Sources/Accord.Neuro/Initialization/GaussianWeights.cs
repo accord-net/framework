@@ -1,6 +1,6 @@
 ﻿// Accord Neural Net Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -35,14 +35,14 @@ namespace Accord.Neuro
         private GaussianGenerator random;
 
         /// <summary>
-        ///   Gets ors sets whether the initializer
+        ///   Gets ors sets whether the initialization
         ///   should update neurons thresholds (biases)
         /// </summary>
         /// 
         public bool UpdateThresholds { get; set; }
 
         /// <summary>
-        ///   Constructs a new Gaussian Weight Initializer.
+        ///   Constructs a new Gaussian Weight initialization.
         /// </summary>
         /// 
         /// <param name="network">The activation network whose weights will be initialized.</param>

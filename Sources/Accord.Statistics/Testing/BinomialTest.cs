@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -98,7 +98,7 @@ namespace Accord.Statistics.Testing
         /// </summary>
         /// 
         /// <param name="trials">The experimental trials.</param>
-        /// <param name="hypothesizedProbability">The hypothesized occurence probability.</param>
+        /// <param name="hypothesizedProbability">The hypothesized occurrence probability.</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
         /// 
         public BinomialTest(bool[] trials, double hypothesizedProbability = 0.5,
@@ -124,7 +124,7 @@ namespace Accord.Statistics.Testing
         /// 
         /// <param name="successes">The number of successes in the trials.</param>
         /// <param name="trials">The total number of experimental trials.</param>
-        /// <param name="hypothesizedProbability">The hypothesized occurence probability.</param>
+        /// <param name="hypothesizedProbability">The hypothesized occurrence probability.</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
         /// 
         public BinomialTest(int successes, int trials, double hypothesizedProbability = 0.5,

@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -41,7 +41,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   Often, the Maximum Likelihood Estimate can be used to give a starting
     ///   point to a unsupervised algorithm, making possible to use semi-supervised
     ///   techniques with HMMs. It is possible, for example, to use MLE to guess
-    ///   initial values for an HMM given a small set of manually labelled labels,
+    ///   initial values for an HMM given a small set of manually labeled labels,
     ///   and then further estimate this model using the <see cref="ViterbiLearning">
     ///   Viterbi learning algorithm</see>.</para>
     /// </remarks>
@@ -56,7 +56,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// </para>
     /// <code>
     /// // Those are the observation sequences. Each sequence contains a variable number
-    /// // of observation (athought in this example they have all the same length, this
+    /// // of observation (although in this example they have all the same length, this
     /// // is just a coincidence and not something required).
     /// 
     /// int[][] observations = 
@@ -180,7 +180,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             int[,] transitions = new int[states, states];
             int[,] emissions = new int[states, symbols];
 
-            // 1. Count first state occurances
+            // 1. Count first state occurrences
             for (int i = 0; i < paths.Length; i++)
                 initial[paths[i][0]]++;
 

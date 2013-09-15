@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -37,7 +37,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   can be written for each kind of hidden Markov model emission density
     ///   (either discrete or continuous). The methods <see cref="UpdateEmissions"/>,
     ///   <see cref="ComputeForwardBackward"/> and <see cref="ComputeKsi"/> should
-    ///   be overriden by inheriting classes to specify how those probabilities
+    ///   be overridden by inheriting classes to specify how those probabilities
     ///   should be computed for the density being modeled.</para>
     ///   
     /// <para>

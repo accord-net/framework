@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -26,7 +26,7 @@ namespace Accord.Math
     using System.Globalization;
 
     /// <summary>
-    ///   Base class for IMatrixFormatProvider implementors.
+    ///   Base class for IMatrixFormatProvider implementers.
     /// </summary>
     /// 
     public abstract class MatrixFormatProviderBase : IMatrixFormatProvider

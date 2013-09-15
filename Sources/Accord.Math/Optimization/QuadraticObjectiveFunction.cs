@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -29,7 +29,7 @@ namespace Accord.Math.Optimization
     using System.Text;
 
     /// <summary>
-    ///   Quadractic objective function.
+    ///   Quadratic objective function.
     /// </summary>
     /// 
     public class QuadraticObjectiveFunction : IObjectiveFunction
@@ -92,7 +92,7 @@ namespace Accord.Math.Optimization
 
             if (hessian.GetLength(0) != linearTerms.Length)
                 throw new DimensionMismatchException("linearTerms", 
-                    "The vector of linear terms must have the same length as the hessian matrix side.");
+                    "The vector of linear terms must have the same length as the Hessian matrix side.");
 
             if (variables.Length != linearTerms.Length)
                 throw new DimensionMismatchException("variables",

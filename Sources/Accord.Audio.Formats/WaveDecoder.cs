@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -379,7 +379,7 @@ namespace Accord.Audio.Formats
         /// <param name="buffer">
         ///    When this method returns, this parameter contains the specified byte array with the values between index and (index + count -1) replaced by the 8 bit frames read from the current source.
         /// </param>
-        /// <param name="count">The ammount of frames to read.</param>
+        /// <param name="count">The amount of frames to read.</param>
         /// <returns>The number of reads performed on the stream.</returns>
         private int read(float[] buffer, int count)
         {
@@ -402,7 +402,7 @@ namespace Accord.Audio.Formats
         /// <param name="buffer">
         ///    When this method returns, this parameter contains the specified byte array with the values between index and (index + count -1) replaced by the 8 bit frames read from the current source.
         /// </param>
-        /// <param name="count">The ammount of frames to read.</param>
+        /// <param name="count">The amount of frames to read.</param>
         /// <returns>The number of reads performed on the stream.</returns>
         private int read(short[] buffer, int count)
         {
@@ -425,7 +425,7 @@ namespace Accord.Audio.Formats
         /// <param name="buffer">
         ///    When this method returns, this parameter contains the specified byte array with the values between index and (index + count -1) replaced by the 8 bit frames read from the current source.
         /// </param>
-        /// <param name="count">The ammount of frames to read.</param>
+        /// <param name="count">The amount of frames to read.</param>
         /// <returns>The number of reads performed on the stream.</returns>
         private int read(int[] buffer, int count)
         {
@@ -448,7 +448,7 @@ namespace Accord.Audio.Formats
         /// <param name="buffer">
         ///    When this method returns, this parameter contains the specified byte array with the values between index and (index + count -1) replaced by the 8 bit frames read from the current source.
         /// </param>
-        /// <param name="count">The ammount of frames to read.</param>
+        /// <param name="count">The amount of frames to read.</param>
         /// <returns>The number of reads performed on the stream.</returns>
         private int read(byte[] buffer, int count)
         {

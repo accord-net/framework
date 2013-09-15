@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -61,7 +61,7 @@ namespace Accord.MachineLearning.Structures
     ///       Wikipedia, The Free Encyclopedia. K-d tree. Available on:
     ///       http://en.wikipedia.org/wiki/K-d_tree </description></item>
     ///     <item><description>
-    ///       Moore, Andrew W. "An intoductory tutorial on kd-trees." (1991).
+    ///       Moore, Andrew W. "An introductory tutorial on KD-trees." (1991).
     ///       Available at: http://www.autonlab.org/autonweb/14665/version/2/part/5/data/moore-tutorial.pdf </description></item>
     ///   </list></para>
     /// </remarks>
@@ -102,7 +102,7 @@ namespace Accord.MachineLearning.Structures
     /// 
     /// double[] query = new double[] { 5, 3 };
     /// 
-    /// // Locate all nearby points within an euclidean distance of 1.5
+    /// // Locate all nearby points within an Euclidean distance of 1.5
     /// // (answer should be be a single point located at position (5,4))
     /// KDTreeNodeCollection&lt;int> result = tree.Nearest(query, radius: 1.5); 
     ///             

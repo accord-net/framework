@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -867,7 +867,7 @@ namespace Accord.Math
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
 
-            if (symmetric) // Use faster robust cholesky decomposition
+            if (symmetric) // Use faster robust Cholesky decomposition
                 return new CholeskyDecomposition(matrix, true, true).Determinant;
 
             return new LuDecomposition(matrix).Determinant;

@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -55,7 +55,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   // Creates a distribution with n = 16 and success probability 0.12
     ///   var bin = new BinomialDistribution(trials: 16, probability: 0.12);
     ///   
-    ///   // Common masures
+    ///   // Common measures
     ///   double mean = bin.Mean;     // 1.92
     ///   double median = bin.Median; // 2
     ///   double var = bin.Variance;  // 1.6896

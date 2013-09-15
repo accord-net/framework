@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © 1995, 1996, 1997, 1998
 // Berwin A. Turlach <bturlach@stats.adelaide.edu.au>
@@ -81,7 +81,7 @@ namespace Accord.Math.Optimization
     /// //
     ///
     /// // In this example we will be using some symbolic processing. 
-    /// // The following variables could be inicialized to any value.
+    /// // The following variables could be initialized to any value.
     /// double x = 0, y = 0;
     ///
     /// // Create our objective function using a lambda expression
@@ -172,7 +172,7 @@ namespace Accord.Math.Optimization
     /// };
     ///
     /// // Equalities must always come first, and in this case
-    /// // we have to specify how many of the contraints are
+    /// // we have to specify how many of the constraints are
     /// // actually equalities:
     ///
     /// int numberOfEqualities = 1;
@@ -239,7 +239,7 @@ namespace Accord.Math.Optimization
         public int NumberOfVariables { get; private set; }
 
         /// <summary>
-        ///   Gets the total number of contraints in the problem.
+        ///   Gets the total number of constraints in the problem.
         /// </summary>
         /// 
         public int NumberOfConstraints { get; private set; }
@@ -425,7 +425,7 @@ namespace Accord.Math.Optimization
         ///   Minimizes the function.
         /// </summary>
         /// 
-        /// <param name="hessian">The hessian matrix <c>D</c> for the quadratic terms.</param>
+        /// <param name="hessian">The Hessian matrix <c>D</c> for the quadratic terms.</param>
         /// <param name="linearTerms">The vector of linear terms <c>d</c>.</param>
         /// <returns>The minimum value at the solution found.</returns>
         /// 
@@ -456,7 +456,7 @@ namespace Accord.Math.Optimization
         ///   Maximizes the function.
         /// </summary>
         /// 
-        /// <param name="hessian">The hessian matrix <c>D</c> for the quadratic terms.</param>
+        /// <param name="hessian">The Hessian matrix <c>D</c> for the quadratic terms.</param>
         /// <param name="linearTerms">The vector of linear terms <c>d</c>.</param>
         /// <returns>The maximum value at the solution found.</returns>
         /// 
@@ -506,7 +506,7 @@ namespace Accord.Math.Optimization
                 throw new InvalidOperationException("Unexpected error.");
             }
 
-            // Extract lagrange multipliers from the work vector
+            // Extract Lagrange multipliers from the work vector
             ActiveConstraints = activeConstraints.Submatrix(numberOfActiveConstraints);
 
             for (int i = 0; i < ActiveConstraints.Length; i++)
@@ -915,7 +915,7 @@ namespace Accord.Math.Optimization
 
                 iwuv[nact] += tt;
 
-                // if it was a full step, then we check wheter further constraints are 
+                // if it was a full step, then we check whether further constraints are 
                 // violated otherwise we can drop the current constraint and iterate once 
                 // more 
 

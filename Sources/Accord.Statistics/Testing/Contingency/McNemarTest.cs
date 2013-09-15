@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -26,7 +26,7 @@ namespace Accord.Statistics.Testing
     using Accord.Statistics.Analysis;
 
     /// <summary>
-    ///   McNemar test of homogeneity for <c>2 x 2</c> contigency tables.
+    ///   McNemar test of homogeneity for <c>2 x 2</c> contingency tables.
     /// </summary>
     /// 
     /// <remarks>

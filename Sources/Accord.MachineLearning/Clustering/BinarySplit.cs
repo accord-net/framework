@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -136,7 +136,7 @@ namespace Accord.MachineLearning
                 clusters[choosen] = splits.Item1;
                 clusters[current] = splits.Item2;
 
-                // 5. Replace choosen centroid and add a new one
+                // 5. Replace chosen centroid and add a new one
                 centroids[choosen] = kmeans.Clusters.Centroids[0];
                 centroids[current] = kmeans.Clusters.Centroids[1];
 

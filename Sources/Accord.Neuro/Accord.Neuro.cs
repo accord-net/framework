@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -37,7 +37,7 @@ namespace Accord.Neuro
     /// <para>
     ///   This namespace has a special focus on Neural Networks and related techniques. 
     ///   It contains several learning algorithms, such as the <see cref="LevenbergMarquardtLearning">
-    ///   Levenberg-Marquart (LM) with Bayesian Regularization</see>, and the much faster
+    ///   Levenberg-Marquardt (LM) with Bayesian Regularization</see>, and the much faster
     ///   <see cref="ParallelResilientBackpropagationLearning">Parallel Resilient 
     ///   Backpropagation</see> algorithm. One of the newest additions to the framework
     ///   also include the <see cref="DeepBeliefNetwork">Deep-Belief Network</see> and

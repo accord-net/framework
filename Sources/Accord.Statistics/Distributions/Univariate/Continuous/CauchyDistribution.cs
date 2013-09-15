@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -117,7 +117,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///       EstimateScale = false
     ///   };
     /// 
-    ///   // Create an initial dsitribution with a pre-defined scale
+    ///   // Create an initial distribution with a pre-defined scale
     ///   CauchyDistribution cauchy = new CauchyDistribution(location: 0, scale: 4.2);
     ///
     ///   // Fit to the observations

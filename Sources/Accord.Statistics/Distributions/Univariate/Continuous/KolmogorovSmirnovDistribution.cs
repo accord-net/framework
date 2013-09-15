@@ -1,13 +1,13 @@
 ﻿﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
 //
 // Copyright © Richard Simard, 2010
 // Copyright © Pierre L'Ecuyer, 2010
-// This source code is based on the original work by Simar and Ecuyer, 
+// This source code is based on the original work by Simard and Ecuyer, 
 // redistributed under the LGPL with permission of the original authors.
 //
 //    This library is free software; you can redistribute it and/or
@@ -53,7 +53,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///      <item><term>1/n > x >= 1-1/n</term><description>Uses the Ruben-Gambino formula.</description></item>
     ///      <item><term>1/n &lt; nx² &lt; 0.754693</term><description>Uses the Durbin matrix algorithm.</description></item>
     ///      <item><term>0.754693 &lt;= nx² &lt; 4</term><description>Uses the Pomeranz algorithm.</description></item>
-    ///      <item><term>4 &lt;= nx² &lt; 18</term><description>Uses the complementary distribuction function.</description></item>
+    ///      <item><term>4 &lt;= nx² &lt; 18</term><description>Uses the complementary distribution function.</description></item>
     ///      <item><term>nx² >= 18</term><description>Returns the constant 1.</description></item></list>
     ///      
     ///   <list type="table">
@@ -362,7 +362,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///      <item><term>1/n > x >= 1-1/n</term><description>Uses the Ruben-Gambino formula.</description></item>
         ///      <item><term>1/n &lt; nx² &lt; 0.754693</term><description>Uses the Durbin matrix algorithm.</description></item>
         ///      <item><term>0.754693 &lt;= nx² &lt; 4</term><description>Uses the Pomeranz algorithm.</description></item>
-        ///      <item><term>4 &lt;= nx² &lt; 18</term><description>Uses the complementary distribuction function.</description></item>
+        ///      <item><term>4 &lt;= nx² &lt; 18</term><description>Uses the complementary distribution function.</description></item>
         ///      <item><term>nx² >= 18</term><description>Returns the constant 1.</description></item></list>
         ///      
         ///   <list type="table">
@@ -406,7 +406,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 return 1.0 - 2.0 * Math.Pow(1.0 - x, n);
 
             // This is not a special case. Continue processing to
-            //  select the most adequade method for the given inputs
+            //  select the most adequate method for the given inputs
 
             if (n <= 140)
             {
@@ -494,7 +494,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 return 2.0 * Math.Pow(1.0 - x, n);
 
             // This is not a special case. Continue processing to
-            //  select the most adequade method for the given inputs
+            //  select the most adequate method for the given inputs
 
             if (n <= 140)
             {
@@ -829,7 +829,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <remarks>
         /// <para>
         ///   The method presented by Marsaglia (2003), as stated in the paper, is based
-        ///   on a sucession of developments starting with Kolmogorov and culminating in
+        ///   on a succession of developments starting with Kolmogorov and culminating in
         ///   a masterful treatment by Durbin (1972). Durbin's monograph summarized and 
         ///   extended many previous works published in the years 1933-73.</para>
         /// <para>

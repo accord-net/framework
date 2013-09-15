@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Christopher Evans, 2009-2011
 // http://www.chrisevansdev.com/
@@ -64,7 +64,7 @@ namespace Accord.Imaging
         /// <param name="y">The y-coordinate of the point in the image.</param>
         /// <param name="scale">The point's scale.</param>
         /// <param name="laplacian">The point's laplacian value.</param>
-        /// <param name="orientation">The point's origentation angle.</param>
+        /// <param name="orientation">The point's orientation angle.</param>
         /// <param name="response">The point's response value.</param>
         /// 
         public SpeededUpRobustFeaturePoint(double x, double y, double scale, int laplacian,
@@ -85,9 +85,9 @@ namespace Accord.Imaging
         /// <param name="x">The x-coordinate of the point in the image.</param>
         /// <param name="y">The y-coordinate of the point in the image.</param>
         /// <param name="scale">The point's scale.</param>
-        /// <param name="laplacian">The point's laplacian value.</param>
+        /// <param name="laplacian">The point's Laplacian value.</param>
         /// <param name="descriptor">The SURF point descriptor.</param>
-        /// <param name="orientation">The point's origentation angle.</param>
+        /// <param name="orientation">The point's orientation angle.</param>
         /// <param name="response">The point's response value.</param>
         /// 
         public SpeededUpRobustFeaturePoint(double x, double y, double scale, int laplacian,
@@ -129,7 +129,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Gets or sets the orientation of this point
-        ///   measured anti-clockwise from +ve x-axis.
+        ///   measured anti-clockwise from the x-axis.
         /// </summary>
         /// 
         public double Orientation { get; set; }

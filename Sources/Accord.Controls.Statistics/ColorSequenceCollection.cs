@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Controls Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -27,21 +27,25 @@ namespace Accord.Controls
     using System.Drawing;
 
     /// <summary>
-    ///   Colour sequence for displaying categorical images.
+    ///   Color sequence for displaying categorical images.
     /// </summary>
     /// 
-    ///<remarks>
+    /// <remarks>
+    /// <para>
     ///   References:
-    ///   C.A. Glasbey, G.W.A.M. van der Heijden, V.F.K. Toh, A.J. Gray. (2007).
-    ///   Colour displays for categorical images, Color Research and Application, 32, 304-309
-    ///   Available in: http://www.bioss.ac.uk/staff/chris/colorpaper.pdf
-    ///</remarks>
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       C.A. Glasbey, G.W.A.M. van der Heijden, V.F.K. Toh, A.J. Gray. (2007).
+    ///   Color displays for categorical images, Color Research and Application, 32, 304-309
+    ///   Available in: http://www.bioss.ac.uk/staff/chris/colorpaper.pdf </description></item>
+    ///  </list></para>  
+    /// </remarks>
     ///
     public class ColorSequenceCollection : IEnumerable<Color>
     {
         /// <summary>
         ///   Gets a list of the first 32 perceptually distinct
-        ///   colors as detected in the investivation by [Glabey et al].
+        ///   colors as detected in the investigation by [Glasbey et al].
         /// </summary>
         /// 
         private static readonly Color[] Colors = 
@@ -151,7 +155,7 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Returns an enumerator that iterates through the collor collection.
+        ///   Returns an enumerator that iterates through the color collection.
         /// </summary>
         /// <returns>
         ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
@@ -164,7 +168,7 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Returns an enumerator that iterates through the collor collection.
+        ///   Returns an enumerator that iterates through the color collection.
         /// </summary>
         /// <returns>
         ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.

@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Darko Jurić, 2013
 // https://code.google.com/p/accord/issues/detail?id=27
@@ -30,7 +30,8 @@ namespace Accord.MachineLearning.Boosting.Learners
     using Accord.Math;
 
     /// <summary>
-    ///   Simple classfier that produces margine that is perpendicualr to one of dimensions.
+    ///   Simple classifier that based on decision margins that
+    ///   are perpendicular to one of the space dimensions.
     /// </summary>
     /// 
     public class DecisionStump : IWeakClassifier

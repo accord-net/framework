@@ -199,7 +199,7 @@ Version updates and fixes:
   - Adding Gaussian, Epanechnikov, Uniform density kernels;
   - Adding Bartlett's and Levene's tests for variances;
   - Adding hypothesis tests for comparing ROC curves;
-  - Adding support for scatterplot generation directly from ROC curves;
+  - Adding support for scatter plot generation directly from ROC curves;
   - Adding running Markov models and running Markov classifier filters;
   - Adding stochastic gradient descent learning for logistic regression models;
   - Updating Two-Sample Kolmogorov to work with number of samples in double-precision;
@@ -287,7 +287,7 @@ Version updates and fixes:
   - Adding standalone Standard Error computation for ROC curves. 
 
 * Accord.MachineLearning
-  - Redesigning clustering framework to accomodate the
+  - Redesigning clustering framework to accommodate the
     Binary-Split algorithm, K-Means, K-Modes and GMMs;
   - Adding support for cancellation in SVM learning;
   - Adding support for different class weights in SMO;
@@ -344,7 +344,7 @@ Version updates and fixes:
   - Renaming IMultipleRegressionAnalysis interface to the
     more adequate name IMultivariateRegressionAnalysis;
   - Renaming ConfusionMatrix.Observations to .Samples to  
-    mantain consistency with the GeneralConfusionMatrix.
+    maintain consistency with the GeneralConfusionMatrix.
 
 * Accord.MachineLearning
   - Adding Bootstrap for generalization performance estimation;
@@ -364,7 +364,7 @@ Version updates and fixes:
     displaying tabular data; and DataSeriesBox to display series data in the
     same way as Windows.Forms's MessageBox can be used to display text data;
   - Adding extension method for enabling DataGridViewColumns nested properties;
-  - Adding ImageBox overloads to work with images represented in matricial form.
+  - Adding ImageBox overloads to work with images represented in matrix form.
 
 * Accord.Imaging
   - Adding the Bag of Visual Words (BoW) feature extractor;
@@ -588,7 +588,7 @@ Accord.Imaging
   - Adding Conditional Random Fields (CRFs);
   - Adding Hidden Conditional Random Fields (HCRFs);
   - Adding Stochastic Gradient Descent (SGD) learning for HCRFs;
-  - Adding Conjugate Gradient and QuasiNewton (LBFGS) learning for HCRFs;
+  - Adding Conjugate Gradient and QuasiNewton (L-BFGS) learning for HCRFs;
   - Renaming SequenceClassifiers to HiddenMarkovClassifiers;
   - Adding class priors to HiddenMarkovClassifiers;
   - Adding InverseGaussian, Nakagami, Rayleigh and Weibull distributions;
@@ -655,10 +655,10 @@ Version updates and fixes:
   - Renaming Multivariate distributions to make a better distinction from univariate ones;
   - Renaming UniformDistribution to ContinuousUniformDistribution;
   - Updating univariate Normal to use log computations instead;
-  - Adding initial class for Scatterplot.
+  - Adding initial class for Scatter plots.
 
 * Accord.Math
-  - Adding Kronocker product to Matrix class.
+  - Adding Kronecker product to Matrix class.
 
 * Accord.Controls
   - Introducing ScatterplotView.
@@ -737,7 +737,7 @@ Version updates and fixes:
   - Adding Block Matching Tracker for template-based tracking;
   - Adding steady detection in Camshift and HaarObjectDetector;
   - Adding new classes for default Face and Nose Haar cascades;
-  - Adding support for hardcoded code generation in Haar cascades;
+  - Adding support for hard-coded code generation in Haar cascades;
   - Adding Axis orientation support for TrackingObject;
   - Updating TrackingObject to use integer coordinates;
   - Updating all Haar related classes to implement the ICloneable interface;
@@ -914,7 +914,7 @@ Version updates and fixes:
   - Adding a Sparse Linear Kernel to operate on sparse vectors directly;
   - Adding support for different weights in the Additive combination kernel;
   - Adding support for setting the Gamma parameter in the Gaussian kernel;
-  - Moving nested clases in StepwiseLogisticRegression to separate locations;
+  - Moving nested classes in StepwiseLogisticRegression to separate locations;
   - Correcting error calculation in Multiple Linear Regression.
 
 * Accord.Imaging
@@ -958,7 +958,7 @@ Version updates and fixes:
     decomposition to solve for vectors;
   - Updating Matrix.Divide to use the LU and QR decompositions;
   - Correcting a bug in the Submatrix method for vectors;
-  - Reworking some of the matrix formattings architecture.
+  - Reworking some of the matrix formatting architecture.
 
 * Accord.MachineLearning
   - Adding Gaussian Mixture Models;
@@ -1007,7 +1007,7 @@ Accord.NET Framework 2.1.2 release notes
 Version updates and fixes:
  
 * Accord.Math
-  - Adding formating and parsing extension methods for matrices;
+  - Adding formatting and parsing extension methods for matrices;
   - Fixing an infinite-loop condition in SVD, also updating the
     inverse and solve methods to use optimized matrix multiplication;
 
@@ -1102,7 +1102,7 @@ Version updates and fixes:
 
 * Accord.MachineLearning
   - Added support for Multiclass (Kernel) Support Vector Machines;
-  - Added a Gridsearch class for parameter tuning;
+  - Added a Grid Search class for parameter tuning;
   - Added a Crossvalidation class for model measurement;
   - Sequential Minimal Optimization now works with common (linear) machines;
 
@@ -1214,7 +1214,7 @@ Initial release.
   - Support Vector Machines (SVM)
   - Kernel Support Vector Machines (kSVM)
   - Sequential Minimal Optimization Learning (SMO)
-  - Sequential Minimal Optimization for Regression (SMOR)
+  - Sequential Minimal Optimization for Regression (SMOr)
   - Multipurpose RANSAC for robust model estimation
 
 * Accord.Imaging

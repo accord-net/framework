@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -105,10 +105,10 @@ namespace Accord.Vision
 
             int[] neighborCount;
 
-            // Average the rectangles contained in each labelled group
+            // Average the rectangles contained in each labeled group
             T[] output = Average(labels, shapes, out neighborCount);
 
-            // Check supression
+            // Check suppression
             if (minNeighbors > 0)
             {
                 filter.Clear();
@@ -215,7 +215,7 @@ namespace Accord.Vision
         }
 
         /// <summary>
-        ///   When overriden in a child class, should compute
+        ///   When overridden in a child class, should compute
         ///   whether two given shapes are near. Definition of
         ///   near is up to the implementation.
         /// </summary>
@@ -225,7 +225,7 @@ namespace Accord.Vision
         protected abstract bool Near(T shape1, T shape2);
 
         /// <summary>
-        ///   When overriden in a child class, should compute
+        ///   When overridden in a child class, should compute
         ///   an average of the shapes given as parameters.
         /// </summary>
         /// 

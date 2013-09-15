@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Diego Catalano, 2013
 // diego.catalano at live.com
@@ -53,7 +53,7 @@ namespace Accord.Imaging.Filters
     /// 
     /// <example>
     /// <code>
-    /// Bitmap image = ... // lena's picture
+    /// Bitmap image = ... // Lena's picture
     /// 
     /// // Create a new Kirsch's edge detector:
     /// var kirsch = new KirschEdgeDetector();

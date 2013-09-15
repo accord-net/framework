@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -181,7 +181,7 @@ namespace Accord.Imaging
 
                 for (int k = points.Count - 1; k >= 0; k--)
                 {
-                    // equivalent to the formule when the scale is normalized with 
+                    // equivalent to the formulae when the scale is normalized with 
                     // a constant size of keypoints[k].size = 3 * SMALLEST_KP_SIZE
 
                     scaleIndex[k] = scale;

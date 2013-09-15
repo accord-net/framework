@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -37,7 +37,7 @@ namespace Accord.MachineLearning.DecisionTrees
     {
         /// <summary>
         ///   Gets or sets the index of the attribute to be
-        ///   used in this stage of the decisioning process.
+        ///   used in this stage of the decision process.
         /// </summary>
         /// 
         public int AttributeIndex { get; set; }
@@ -55,7 +55,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// <param name="attributeIndex">Index of the attribute to be processed.</param>
         /// 
         /// <param name="nodes">The children nodes. Each child node should be
-        /// responsable for a possible value of a discrete attribute, or for
+        /// responsible for a possible value of a discrete attribute, or for
         /// a region of a continuous-valued attribute.</param>
         /// 
         public DecisionBranchNodeCollection(int attributeIndex, DecisionNode[] nodes)

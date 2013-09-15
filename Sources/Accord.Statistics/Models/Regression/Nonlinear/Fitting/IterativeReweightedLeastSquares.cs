@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -69,7 +69,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///   <code>
     ///    // Suppose we have the following data about some patients.
     ///    // The first variable is continuous and represent patient
-    ///    // age. The second variable is dicotomic and give whether
+    ///    // age. The second variable is dichotomic and give whether
     ///    // they smoke or not (This is completely fictional data).
     ///    double[][] input =
     ///    {
@@ -99,7 +99,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///    LogisticRegression regression = new LogisticRegression(inputs: 2);
     ///
     ///    // Next, we are going to estimate this model. For this, we
-    ///    // will use the Iteravely reweighted least squares method.
+    ///    // will use the Iteratively Reweighted Least Squares method.
     ///    var teacher = new IterativeReweightedLeastSquares(regression);
     ///
     ///    // Now, we will iteratively estimate our model. The Run method returns
@@ -121,7 +121,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///
     ///    // For the age variable, we have that individuals with
     ///    //   higher age have 1.021 greater odds of getting lung
-    ///    //   cancer controlling for cigarrete smoking.
+    ///    //   cancer controlling for cigarette smoking.
     ///    double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
     ///
     ///    // For the smoking/non smoking category variable, however, we
@@ -320,8 +320,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
             }
 
 
-            // Decompose to solve the linear system. Usually the hessian will
-            // be invertible and LU will succeed. However, sometimes the hessian
+            // Decompose to solve the linear system. Usually the Hessian will
+            // be invertible and LU will succeed. However, sometimes the Hessian
             // may be singular and a Singular Value Decomposition may be needed.
 
             // The SVD is very stable, but is quite expensive, being on average

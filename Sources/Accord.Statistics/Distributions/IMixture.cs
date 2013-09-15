@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -24,7 +24,7 @@ namespace Accord.Statistics.Distributions
 {
 
     /// <summary>
-    ///   Common interface for mixture distributinos.
+    ///   Common interface for mixture distributions.
     /// </summary>
     /// 
     /// <typeparam name="TDistribution">

@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework (LGPL) 
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -375,14 +375,14 @@ namespace Accord.Vision.Detection
         }
 
         /// <summary>
-        ///   Gets or sets the minimum threshold used to supress rectangles which
+        ///   Gets or sets the minimum threshold used to suppress rectangles which
         ///   have not been detected sufficient number of times. This property only
         ///   has effect when <see cref="SearchMode"/> is set to <see cref="ObjectDetectorSearchMode.Average"/>.
         /// </summary>
         /// 
         /// <remarks>
         /// <para>
-        ///   The value of this property represets the minimum amount of detections
+        ///   The value of this property represents the minimum amount of detections
         ///   made inside a region to report this region as an actual detection. For
         ///   example, setting this property to two will discard all regions which 
         ///   had not achieved at least two detected rectangles within it.</para>

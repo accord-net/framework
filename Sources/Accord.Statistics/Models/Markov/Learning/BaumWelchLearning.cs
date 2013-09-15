@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -96,7 +96,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   double l3 = hmm.Evaluate(new int[] { 1, 1 });       // 0.000
     ///   double l4 = hmm.Evaluate(new int[] { 1, 0, 0, 0 }); // 0.000
     ///   
-    ///   // Sequences which contains few errors have higher probabability
+    ///   // Sequences which contains few errors have higher probability
     ///   //  than the ones which do not start with zero. This shows some
     ///   //  of the temporal elasticity and error tolerance of the HMMs.
     ///   double l5 = hmm.Evaluate(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }); // 0.034

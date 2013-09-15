@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -127,7 +127,7 @@ namespace Accord.Statistics.Models.Regression
 
         /// <summary>
         ///   Gets the standard errors associated with each
-        ///   cofficient during the model estimation phase.
+        ///   coefficient during the model estimation phase.
         /// </summary>
         /// 
         public double[][] StandardErrors
@@ -276,7 +276,7 @@ namespace Accord.Statistics.Models.Regression
         ///   Gets the Odds Ratio for a given coefficient.
         /// </summary>
         /// <remarks>
-        ///   The odds ratio can be computed raising euler's number
+        ///   The odds ratio can be computed raising Euler's number
         ///   (e ~~ 2.71) to the power of the associated coefficient.
         /// </remarks>
         /// 

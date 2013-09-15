@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -51,7 +51,7 @@ namespace Accord.Statistics.Analysis
     ///       Heiko Hoffmann, Unsupervised Learning of Visuomotor Associations (Kernel PCA topic).
     ///       PhD thesis. 2005. Available on: http://www.heikohoffmann.de/htmlthesis/hoffmann_diss.html </a></description></item>
     ///     <item><description><a href="http://www.hpl.hp.com/conferences/icml2003/papers/345.pdf">
-    ///       James T. Kwok, Ivor W. Tsang. The Pre-Image Problem in Kernel Methods. 2003. Avaiable on:
+    ///       James T. Kwok, Ivor W. Tsang. The Pre-Image Problem in Kernel Methods. 2003. Available on:
     ///       http://www.hpl.hp.com/conferences/icml2003/papers/345.pdf </a></description></item>
     ///    </list></para>
     /// </remarks>
@@ -168,7 +168,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets or sets whether the points should be centured in feature space.
+        ///   Gets or sets whether the points should be centered in feature space.
         /// </summary>
         /// 
         public bool Center

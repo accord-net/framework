@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -90,7 +90,7 @@ namespace Accord.Statistics.Running
         }
 
         /// <summary>
-        ///   Registers the occurance of a value.
+        ///   Registers the occurrence of a value.
         /// </summary>
         /// 
         /// <param name="value">The value to be registered.</param>
@@ -101,7 +101,7 @@ namespace Accord.Statistics.Running
         }
 
         /// <summary>
-        ///   Registers the occurance of a value.
+        ///   Registers the occurrence of a value.
         /// </summary>
         /// 
         /// <param name="value">The value to be registered.</param>
@@ -141,7 +141,7 @@ namespace Accord.Statistics.Running
         /// </summary>
         /// 
         /// <param name="logLikelihood">
-        ///   The next log-likelihood if the occurance of 
+        ///   The next log-likelihood if the occurrence of 
         ///   <paramref name="value"/> is registered.
         /// </param>
         /// <param name="value">The value to be checked.</param>
@@ -157,7 +157,7 @@ namespace Accord.Statistics.Running
         /// </summary>
         /// 
         /// <param name="logLikelihood">
-        ///   The next log-likelihood if the occurance of 
+        ///   The next log-likelihood if the occurrence of 
         ///   <paramref name="value"/> is registered.
         /// </param>
         /// <param name="value">The value to be checked.</param>

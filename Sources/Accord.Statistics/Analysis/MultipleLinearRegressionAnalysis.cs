@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -186,7 +186,7 @@ namespace Accord.Statistics.Analysis
 
 
         /// <summary>
-        ///   Gets the the dependent variable value
+        ///   Gets the dependent variable value
         ///   for each of the source input points.
         /// </summary>
         /// 
@@ -622,7 +622,7 @@ namespace Accord.Statistics.Analysis
         public FTest FTest { get { return Analysis.ftests[index]; } }
 
         /// <summary>
-        ///   Gets the confidence interval (CI) for the current coefficient.
+        ///   Gets the confidence interval (C.I.) for the current coefficient.
         /// </summary>
         /// 
         [Browsable(false)]

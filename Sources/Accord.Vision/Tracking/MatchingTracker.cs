@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -72,7 +72,7 @@ namespace Accord.Vision.Tracking
         }
 
         /// <summary>
-        ///   Gets or sets the similarty threshold to 
+        ///   Gets or sets the similarity threshold to 
         ///   determine when the object has been lost.
         /// </summary>
         /// 

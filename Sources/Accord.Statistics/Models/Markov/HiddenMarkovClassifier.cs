@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -114,7 +114,7 @@ namespace Accord.Statistics.Models.Markov
             : base(classes)
         {
             if (topology.Length != classes)
-                throw new ArgumentException("The number of topology especifications should equal the number of classes", "classes");
+                throw new ArgumentException("The number of topology specifications should equal the number of classes", "classes");
 
             for (int i = 0; i < classes; i++)
                 Models[i] = new HiddenMarkovModel(topology[i], symbols);
@@ -134,7 +134,7 @@ namespace Accord.Statistics.Models.Markov
             : base(classes)
         {
             if (topology.Length != classes)
-                throw new ArgumentException("The number of topology especifications should equal the number of classes", "classes");
+                throw new ArgumentException("The number of topology specifications should equal the number of classes", "classes");
 
             for (int i = 0; i < classes; i++)
                 Models[i] = new HiddenMarkovModel(topology[i], symbols) { Tag = names[i] };

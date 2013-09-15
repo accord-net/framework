@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -513,7 +513,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///  Prevalence of outcome occurance.
+        ///  Prevalence of outcome occurrence.
         /// </summary>
         /// 
         public double Prevalence
@@ -581,7 +581,7 @@ namespace Accord.Statistics.Analysis
         ///   The rate of false alarms in a test.</para>
         /// <para>
         ///   The False Positive Rate can be calculated as
-        ///   <c>FPR = FP / (FP + TN)</c> or <c>FPR = (1-specifity)</c>.
+        ///   <c>FPR = FP / (FP + TN)</c> or <c>FPR = (1-specificity)</c>.
         /// </para>
         /// </remarks>
         /// 

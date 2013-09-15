@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -40,7 +40,7 @@ namespace Accord.Vision
     ///   namespace also offers diverse <see cref="Accord.Vision.Detection.Cascades">cascade 
     ///   definitions</see> which can be used to track different parts of the human body. Custom
     ///   cascades <see cref="HaarCascade.FromXml(string)">can also be loaded from OpenCV-compatible
-    ///   XML cascade definition files</see>, and should work seamlessy even when containing
+    ///   XML cascade definition files</see>, and should work seamlessly even when containing
     ///   tilted cascade features, or multi-node (tree nodes) cascade definitions.</para>
     ///   
     /// <para>

@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -71,7 +71,7 @@ namespace Accord.Statistics.Testing
 
 
         /// <summary>
-        ///   Constructss a Chi-Square Test.
+        ///   Constructs a Chi-Square Test.
         /// </summary>
         /// 
         /// <param name="statistic">The test statistic.</param>

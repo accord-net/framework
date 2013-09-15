@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -380,8 +380,8 @@ namespace Accord.Statistics.Models.Fields.Functions
             this.Features = factorFeatures.ToArray();
 
 
-            // First features and params are always belonging to edges
-            Factors = new[] 
+
+            Factors = new[] // First features and parameters are always belonging to edges
             {
                 new MarkovMultivariateNormalFactor(this, model.States, 0, Dimensions,
                   edgeIndex: 0, edgeCount: edgeParams.Count,      // 1. edges

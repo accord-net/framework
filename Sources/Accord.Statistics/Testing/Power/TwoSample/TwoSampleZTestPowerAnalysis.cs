@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -166,7 +166,7 @@ namespace Accord.Statistics.Testing.Power
         ///   required power level for the given effect size.
         /// </summary>
         /// 
-        /// <param name="sampleSize1">The number of observations in the fisrt sample.</param>
+        /// <param name="sampleSize1">The number of observations in the first sample.</param>
         /// <param name="sampleSize2">The number of observations in the second sample.</param>
         /// <param name="power">The desired power level. Default is 0.8.</param>
         /// <param name="alpha">The desired significance level. Default is 0.05.</param>

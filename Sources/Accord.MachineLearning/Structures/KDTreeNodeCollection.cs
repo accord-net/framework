@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -282,7 +282,7 @@ namespace Accord.MachineLearning.Structures
         ///   Removes the first occurrence of a specific object from the collection.
         /// </summary>
         /// 
-        /// <param name="item">The object to remove from the collecion. The value can be null for reference types.</param>
+        /// <param name="item">The object to remove from the collection. The value can be null for reference types.</param>
         /// 
         /// <returns>
         ///   <c>true</c> if item is successfully removed; otherwise, <c>false</c>. 

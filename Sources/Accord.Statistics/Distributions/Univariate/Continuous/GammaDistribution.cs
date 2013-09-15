@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -62,7 +62,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///    distribution or a Poisson distribution – or for that matter, the β of the gamma
     ///    distribution itself. (The closely related inverse gamma distribution is used as
     ///    a conjugate prior for scale parameters, such as the variance of a normal distribution.)
-    ///    In order to create a Gamma distribution using the Bayesian parametrization, you
+    ///    In order to create a Gamma distribution using the Bayesian parameterization, you
     ///    can use <see cref="GammaDistribution.FromBayesian"/>.</para>
     /// <para>
     ///    If k is an integer, then the distribution represents an Erlang distribution; i.e.,
@@ -145,13 +145,13 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Constructs a Gamma distribution using α and β parametrization.
+        ///   Constructs a Gamma distribution using α and β parameterization.
         /// </summary>
         /// 
         /// <param name="alpha">The shape parameter α = k.</param>
         /// <param name="beta">The inverse scale parameter β = 1/θ.</param>
         /// 
-        /// <returns>A Gamma distribution constructed with the given parametrization.</returns>
+        /// <returns>A Gamma distribution constructed with the given parameterization.</returns>
         /// 
         public static GammaDistribution FromBayesian(double alpha, double beta)
         {
@@ -159,13 +159,13 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Constructs a Gamma distribution using k and μ parametrization.
+        ///   Constructs a Gamma distribution using k and μ parameterization.
         /// </summary>
         /// 
         /// <param name="alpha">The shape parameter α = k.</param>
         /// <param name="mean">The mean parameter μ = k/β.</param>
         /// 
-        /// <returns>A Gamma distribution constructed with the given parametrization.</returns>
+        /// <returns>A Gamma distribution constructed with the given parameterization.</returns>
         /// 
         public static GammaDistribution FromMean(double alpha, double mean)
         {

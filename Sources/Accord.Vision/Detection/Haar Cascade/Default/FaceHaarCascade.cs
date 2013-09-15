@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework (LGPL)
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -31,7 +31,7 @@ namespace Accord.Vision.Detection.Cascades
     /// </summary>
     /// 
     /// <remarks>
-    ///   The definition was originally based on a hardcoded partial transcription of
+    ///   The definition was originally based on a hard coded partial transcription of
     ///   OpenCV's <i>haarcascade_frontalface_alt.xml</i> by Mario Klingemann. This
     ///   class, however, has been re-created using <see cref="HaarCascadeWriter"/>.
     /// </remarks>
@@ -41,7 +41,7 @@ namespace Accord.Vision.Detection.Cascades
     {
 
         /// <summary>
-        ///   Hardcoded partial transcription of <i>haarcascade_frontalface_alt.xml</i>
+        ///   Hard-coded partial transcription of <i>haarcascade_frontalface_alt.xml</i>
         ///   based on code by Mario Klingemann.
         /// </summary>
         /// 

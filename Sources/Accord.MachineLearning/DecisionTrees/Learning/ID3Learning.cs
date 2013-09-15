@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -29,7 +29,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     using Parallel = System.Threading.Tasks.Parallel;
 
     /// <summary>
-    ///   ID3 (Iterative Dichotomiser 3) learning algorithm
+    ///   ID3 (Iterative Dichotomizer 3) learning algorithm
     ///   for <see cref="DecisionTree">Decision Trees</see>.
     /// </summary>
     /// 
@@ -43,7 +43,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     ///     <item><description>
     ///       Mitchell, T. M. Machine Learning. McGraw-Hill, 1997. pp. 55-58. </description></item>
     ///     <item><description><a href="http://en.wikipedia.org/wiki/ID3_algorithm">
-    ///       Wikipedia, the free enclyclopedia. ID3 algorithm. Available on 
+    ///       Wikipedia, the free encyclopedia. ID3 algorithm. Available on 
     ///       http://en.wikipedia.org/wiki/ID3_algorithm </a></description></item>
     ///   </list>
     /// </para>   
@@ -244,7 +244,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// <param name="inputs">The input points.</param>
         /// <param name="outputs">The corresponding output labels.</param>
         /// 
-        /// <returns>The percentual error of the prediction.</returns>
+        /// <returns>The percentage error of the prediction.</returns>
         /// 
         public double ComputeError(int[][] inputs, int[] outputs)
         {
@@ -320,7 +320,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             attributes[maxGainAttribute] = true;
 
-            // Now, create next nodes and pass those partitions as their responsabilities.
+            // Now, create next nodes and pass those partitions as their responsibilities.
             DecisionNode[] children = new DecisionNode[maxGainPartition.Length];
 
             for (int i = 0; i < children.Length; i++)
@@ -363,7 +363,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 // according to the attribute values
                 partitions[i] = input.Find(x => x[attributeIndex] == value);
 
-                // For each of the instances under responsability
+                // For each of the instances under responsibility
                 // of this node, check which have the same value
                 int[] outputSubset = output.Submatrix(partitions[i]);
 

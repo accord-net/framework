@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -48,7 +48,7 @@ namespace Accord.Math.Optimization
     ///   
     /// <para>
     ///   The framework implementation of this method is based on the original FORTRAN source code
-    ///   by Jorge Nocedal (see references below). The original FORTRAN source code of LBFGS (for
+    ///   by Jorge Nocedal (see references below). The original FORTRAN source code of L-BFGS (for
     ///   unconstrained problems) is available at http://www.netlib.org/opt/lbfgs_um.shar and had
     ///   been made available under the public domain. </para>
     /// 
@@ -478,7 +478,7 @@ namespace Accord.Math.Optimization
                 double* rho = &w[n];                   // Stores the scalars rho.
                 double* alpha = &w[n + m];             // Stores the alphas in computation of H*g.
                 double* steps = &w[n + 2 * m];         // Stores the last M search steps.
-                double* delta = &w[n + 2 * m + n * m]; // Stores the last M gradient diferences.
+                double* delta = &w[n + 2 * m + n * m]; // Stores the last M gradient differences.
 
 
                 // Initialize work vector
@@ -907,7 +907,7 @@ namespace Accord.Math.Optimization
                 // in the direction of the step or if the minimum of the cubic
                 // is beyond stp. Otherwise the cubic step is defined to be
                 // either stpmin or stpmax. The quadratic (secant) step is also
-                // computed and if the minimum is bracketed then the the step
+                // computed and if the minimum is bracketed then the step
                 // closest to stx is taken, else the step farthest away is taken.
 
                 info = 3;

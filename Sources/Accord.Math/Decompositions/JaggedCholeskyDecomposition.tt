@@ -2,7 +2,7 @@
 <#@ parameter type="System.String" name="T" #>
 // Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -581,7 +581,7 @@ namespace Accord.Math.Decompositions
         ///
         /// <param name="destroy">True to conserve memory by reusing the
         ///    same space used to hold the decomposition, thus destroying
-        ///    it in the proccess. Pass false otherwise.</param>
+        ///    it in the process. Pass false otherwise.</param>
         /// <param name="result">The array to hold the result of the 
         ///    computation. Should be of same length as the the diagonal
         ///    of the original matrix.</param>
@@ -655,7 +655,7 @@ namespace Accord.Math.Decompositions
         ///
         /// <param name="destroy">True to conserve memory by reusing the
         ///    same space used to hold the decomposition, thus destroying
-        ///    it in the proccess. Pass false otherwise.</param>
+        ///    it in the process. Pass false otherwise.</param>
         /// 
         public <#=T#> InverseTrace(bool destroy = false)
         {

@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework (LGPL)
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -31,7 +31,7 @@ namespace Accord.Vision.Detection.Cascades
     using System.CodeDom.Compiler;
 
     /// <summary>
-    ///   Automatic transcription of haar cascade definitions 
+    ///   Automatic transcription of Haar cascade definitions 
     ///   for facial features by Modesto Castrillon-Santana.
     /// </summary>
     /// 

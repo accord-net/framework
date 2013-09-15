@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -181,7 +181,7 @@ namespace Accord.MachineLearning
                 values[i] = ranges[i].GetParameters();
 
 
-            // Generate the cartesian product between all parameters
+            // Generate the Cartesian product between all parameters
             GridSearchParameter[][] grid = Matrix.CartesianProduct(values);
 
 

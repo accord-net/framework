@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -314,7 +314,7 @@ namespace Accord.Statistics.Analysis
 
         /// <summary>
         ///   Gets the time passed until the event
-        ///   ocurred or until the observation was
+        ///   occurred or until the observation was
         ///   censored.
         /// </summary>
         /// 
@@ -324,7 +324,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets wether the event of
+        ///   Gets whether the event of
         ///   interest happened or not.
         /// </summary>
         /// 
@@ -334,7 +334,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the the dependent variable value
+        ///   Gets the dependent variable value
         ///   for each of the source input points.
         /// </summary>
         /// 
@@ -419,7 +419,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the name of event occurence variable in the model.
+        ///   Gets the name of event occurrence variable in the model.
         /// </summary>
         /// 
         public String EventName
@@ -686,7 +686,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the 95% confidence interval (CI) for the current coefficient.
+        ///   Gets the 95% confidence interval (C.I.) for the current coefficient.
         /// </summary>
         /// 
         [Browsable(false)]

@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -59,6 +59,117 @@ namespace Accord.Statistics.Kernels
     ///   </list></para>
     /// 
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following example demonstrates how to create and learn a Support Vector
+    ///   Machine (SVM) to recognize sequences using the Dynamic Time Warping kernel.</para>
+    ///   
+    /// <code>
+    /// // Suppose you have sequences of multivariate observations, and that
+    /// // those sequences could be of arbitrary length. On the other hand, 
+    /// // each observation have a fixed, delimited number of dimensions.
+    /// 
+    /// // In this example, we have sequences of 3-dimensional observations. 
+    /// // Each sequence can have an arbitrary length, but each observation
+    /// // will always have length 3:
+    /// 
+    /// double[][][] sequences =
+    /// {
+    ///     new double[][] // first sequence
+    ///     {
+    ///         new double[] { 1, 1, 1 }, // first observation of the first sequence
+    ///         new double[] { 1, 2, 1 }, // second observation of the first sequence
+    ///         new double[] { 1, 4, 2 }, // third observation of the first sequence
+    ///         new double[] { 2, 2, 2 }, // fourth observation of the first sequence
+    ///     },
+    ///
+    ///     new double[][] // second sequence (note that this sequence has a different length)
+    ///     {
+    ///         new double[] { 1, 1, 1 }, // first observation of the second sequence
+    ///         new double[] { 1, 5, 6 }, // second observation of the second sequence
+    ///         new double[] { 2, 7, 1 }, // third observation of the second sequence
+    ///     },
+    /// 
+    ///     new double[][] // third sequence 
+    ///     {
+    ///         new double[] { 8, 2, 1 }, // first observation of the third sequence
+    ///     },
+    /// 
+    ///     new double[][] // fourth sequence 
+    ///     {
+    ///         new double[] { 8, 2, 5 }, // first observation of the fourth sequence
+    ///         new double[] { 1, 5, 4 }, // second observation of the fourth sequence
+    ///     }
+    /// };
+    /// 
+    /// // Now, we will also have different class labels associated which each 
+    /// // sequence. We will assign -1 to sequences whose observations start 
+    /// // with { 1, 1, 1 } and +1 to those that do not:
+    /// 
+    /// int[] outputs =
+    /// {
+    ///     -1,-1,  // First two sequences are of class -1 (those start with {1,1,1})
+    ///         1, 1,  // Last two sequences are of class +1  (don't start with {1,1,1})
+    /// };
+    /// 
+    /// // At this point, we will have to "flat" out the input sequences from double[][][]
+    /// // to a double[][] so they can be properly understood by the SVMs. The problem is 
+    /// // that, normally, SVMs usually expect the data to be comprised of fixed-length 
+    /// // input vectors and associated class labels. But in this case, we will be feeding
+    /// // them arbitrary-length sequences of input vectors and class labels associated with
+    /// // each sequence, instead of each vector.
+    /// 
+    /// double[][] inputs = new double[sequences.Length][];
+    /// for (int i = 0; i &lt; sequences.Length; i++)
+    ///     inputs[i] = Matrix.Concatenate(sequences[i]);
+    /// 
+    /// 
+    /// // Now we have to setup the Dynamic Time Warping kernel. We will have to
+    /// // inform the length of the fixed-length observations contained in each
+    /// // arbitrary-length sequence:
+    /// // 
+    /// DynamicTimeWarping kernel = new DynamicTimeWarping(length: 3);
+    /// 
+    /// // Now we can create the machine. When using variable-length
+    /// // kernels, we will need to pass zero as the input length:
+    /// var svm = new KernelSupportVectorMachine(kernel, inputs: 0);
+    /// 
+    /// 
+    /// // Create the Sequential Minimal Optimization learning algorithm
+    /// var smo = new SequentialMinimalOptimization(svm, inputs, outputs)
+    /// {
+    ///     Complexity = 1.5
+    /// };
+    /// 
+    /// // And start learning it!
+    /// double error = smo.Run(); // error will be 0.0
+    /// 
+    /// 
+    /// // At this point, we should have obtained an useful machine. Let's
+    /// // see if it can understand a few examples it hasn't seem before:
+    /// 
+    /// double[][] a = 
+    /// { 
+    ///     new double[] { 1, 1, 1 },
+    ///     new double[] { 7, 2, 5 },
+    ///     new double[] { 2, 5, 1 },
+    /// };
+    /// 
+    /// double[][] b =
+    /// {
+    ///     new double[] { 7, 5, 2 },
+    ///     new double[] { 4, 2, 5 },
+    ///     new double[] { 1, 1, 1 },
+    /// };
+    /// 
+    /// // Following the aforementioned logic, sequence (a) should be
+    /// // classified as -1, and sequence (b) should be classified as +1.
+    /// 
+    /// int resultA = System.Math.Sign(svm.Compute(Matrix.Concatenate(a))); // -1
+    /// int resultB = System.Math.Sign(svm.Compute(Matrix.Concatenate(b))); // +1
+    /// </code>
+    /// </example>
     /// 
     [Serializable]
     public class DynamicTimeWarping : IKernel, ICloneable, IDisposable
@@ -338,7 +449,7 @@ namespace Accord.Statistics.Kernels
         }
 
 
-         /// <summary>
+        /// <summary>
         ///   Performs application-defined tasks associated with freeing, 
         ///   releasing, or resetting unmanaged resources.
         /// </summary>

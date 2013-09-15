@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Diego Catalano, 2013
 // diego.catalano at live.com
@@ -39,7 +39,7 @@ namespace Accord.Imaging
     /// <remarks>
     /// <para>
     ///   Haralick's texture features are based on measures derived from
-    ///   <see cref="GrayLevelCooccurrenceMatrix">Gray-level Cooccurrence 
+    ///   <see cref="GrayLevelCooccurrenceMatrix">Gray-level Co-occurrence 
     ///   matrices (GLCM)</see>.</para>
     /// <para>
     ///   Whether considering the intensity or grayscale values of the image 
@@ -53,7 +53,7 @@ namespace Accord.Imaging
     /// <para>
     ///   This class encompasses most of the features derived on Haralick's original
     ///   paper. All features are lazy-evaluated until needed; but may also be
-    ///   combined in a singlea feature vector by calling <see cref="GetVector(int)"/>.</para>
+    ///   combined in a single feature vector by calling <see cref="GetVector(int)"/>.</para>
     ///   
     /// <para>
     ///   References:
@@ -65,8 +65,8 @@ namespace Accord.Imaging
     ///       Robert M Haralick, K Shanmugam, Its'hak Dinstein; "Textural 
     ///       Features for Image Classification". IEEE Transactions on Systems, Man,
     ///       and Cybernetics. SMC-3 (6): 610–621, 1973. Available at:
-    ///       <a href="http://www.makseq.com/materials/lib/Articles-Books/Filters/Texture/Co-occurence/haralick73.pdf">
-    ///       http://www.makseq.com/materials/lib/Articles-Books/Filters/Texture/Co-occurence/haralick73.pdf </a>
+    ///       <a href="http://www.makseq.com/materials/lib/Articles-Books/Filters/Texture/Co-occurrence/haralick73.pdf">
+    ///       http://www.makseq.com/materials/lib/Articles-Books/Filters/Texture/Co-occurrence/haralick73.pdf </a>
     ///       </description></item>
     ///   </list></para>
     /// </remarks>
@@ -98,7 +98,7 @@ namespace Accord.Imaging
         double[] xydiff; // p_x-y
 
         double? angular;       // f1: energy / angular second moment
-        double? contrast;      // f2: constrast
+        double? contrast;      // f2: contrast
         double? correlation;   // f3: correlation
         double? variance;      // f4: sum of squares: variance
         double? inverse;       // f5: inverse difference moment
@@ -125,7 +125,7 @@ namespace Accord.Imaging
         ///   Initializes a new instance of the <see cref="HaralickDescriptor"/> class.
         /// </summary>
         /// 
-        /// <param name="cooccurrenceMatrix">The cooccurrence matrix to compute features from.</param>
+        /// <param name="cooccurrenceMatrix">The co-occurrence matrix to compute features from.</param>
         /// 
         public HaralickDescriptor(double[,] cooccurrenceMatrix)
         {
@@ -144,7 +144,7 @@ namespace Accord.Imaging
         /// <summary>
         ///   Gets the number of gray levels in the 
         ///   original image. This is the number of
-        ///   dimensions of the cooccurrence matrix.
+        ///   dimensions of the co-occurrence matrix.
         /// </summary>
         /// 
         public int GrayLevels { get { return size; } }

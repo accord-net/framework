@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -107,7 +107,7 @@ namespace Accord.Audio
             metronome = new Timer();
             timeSpan = new List<TimeSpan>();
 
-            // set timeup as 2 seconds
+            // set interval as 2 seconds
             timeUp.Interval = 2000;
             timeUp.Elapsed += timeUp_Elapsed;
         }

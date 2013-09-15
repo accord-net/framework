@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -216,7 +216,7 @@ namespace Accord.Math
                     }
                 }
 
-                // Continue swaping in the boundary
+                // Continue swapping in the boundary
                 t = matrix[p, 0];
                 matrix[p, 0] = matrix[p + n, 0];
                 matrix[p + n, 0] = t;
@@ -578,7 +578,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a bidimensional mesh matrix.
+        ///   Creates a bi-dimensional mesh matrix.
         /// </summary>
         /// 
         public static double[][] Mesh(DoubleRange rowRange, DoubleRange colRange,
@@ -964,7 +964,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Merges a series of vectors into a a single vector. This
+        ///   Merges a series of vectors into a single vector. This
         ///   operation can be reverted using <see cref="Split"/>.
         /// </summary>
         /// 

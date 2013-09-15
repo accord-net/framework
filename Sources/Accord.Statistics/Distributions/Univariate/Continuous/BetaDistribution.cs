@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -35,7 +35,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   The beta distribution is a family of continuous probability distributions
     ///   defined on the interval (0, 1) parameterized by two positive shape parameters,
     ///   typically denoted by α and β. The beta distribution can be suited to the 
-    ///   statistical modelling of proportions in applications where values of proportions
+    ///   statistical modeling of proportions in applications where values of proportions
     ///   equal to 0 or 1 do not occur. One theoretical case where the beta distribution 
     ///   arises is as the distribution of the ratio formed by one random variable having
     ///   a Gamma distribution divided by the sum of it and another independent random 

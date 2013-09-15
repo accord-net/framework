@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -210,7 +210,7 @@ namespace Accord.Imaging
             // matrix considering all inliers
             F = fundamental(inliers);
 
-            // Denormalise
+            // Denormalize
             F = T2.Transpose().Multiply(F.Multiply(T1));
 
             return F;

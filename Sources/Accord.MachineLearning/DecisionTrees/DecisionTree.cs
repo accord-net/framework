@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -82,7 +82,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// </summary>
         /// 
         /// <param name="attributes">An array specifying the attributes to be processed by this tree.</param>
-        /// <param name="outputClasses">The number of possible output classes for the given atributes.</param>
+        /// <param name="outputClasses">The number of possible output classes for the given attributes.</param>
         /// 
         public DecisionTree(IList<DecisionVariable> attributes, int outputClasses)
         {
@@ -159,13 +159,13 @@ namespace Accord.MachineLearning.DecisionTrees
                 if (current.IsLeaf)
                 {
                     // This is a leaf node. The decision
-                    // proccess thus should stop here.
+                    // process thus should stop here.
 
                     return (current.Output.HasValue) ? current.Output.Value : -1;
                 }
 
                 // This node is not a leaf. Continue the
-                // decisioning proccess following the childs
+                // decision process following the children
 
                 // Get the next attribute to guide reasoning
                 int attribute = current.Branches.AttributeIndex;

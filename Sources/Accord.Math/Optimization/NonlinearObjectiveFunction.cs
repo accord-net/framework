@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -29,7 +29,7 @@ namespace Accord.Math.Optimization
     using System.Text;
 
     /// <summary>
-    ///   Quadractic objective function.
+    ///   Quadratic objective function.
     /// </summary>
     /// 
     public class NonlinearObjectiveFunction : IObjectiveFunction
@@ -111,7 +111,7 @@ namespace Accord.Math.Optimization
         /// <param name="function">A <see cref="Expression{T}"/> containing 
         ///   the function in the form of a lambda expression.</param>
         /// <param name="gradient">A <see cref="Expression{T}"/> containing 
-        ///   the the gradient of the <paramref name="function">objective function</paramref>.</param>
+        ///   the gradient of the <paramref name="function">objective function</paramref>.</param>
         /// 
         public NonlinearObjectiveFunction(
             Expression<Func<double>> function,

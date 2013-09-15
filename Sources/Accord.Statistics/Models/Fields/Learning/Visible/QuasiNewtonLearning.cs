@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -84,7 +84,7 @@ namespace Accord.Statistics.Models.Fields.Learning
             }
             catch (LineSearchFailedException)
             {
-                // TODO: Restructure LBFGS to avoid exceptions.
+                // TODO: Restructure L-BFGS to avoid exceptions.
             }
 
             model.Function.Weights = lbfgs.Solution;

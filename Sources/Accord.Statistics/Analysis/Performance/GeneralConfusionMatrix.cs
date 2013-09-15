@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -592,7 +592,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <remarks>
         ///   The overall agreement is the sum of the diagonal elements
-        ///   of the contigency table divided by the number of samples.
+        ///   of the contingency table divided by the number of samples.
         /// </remarks>
         /// 
         [DisplayName("Overall Agreement")]

@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -59,13 +59,13 @@ namespace Accord.Statistics.Testing
     ///   This example has been gathered from the Wikipedia's page about
     ///   the Z-Test, available from: http://en.wikipedia.org/wiki/Z-test </para>
     /// <para>
-    ///   Suppose there is a text comprehension test being run accross
+    ///   Suppose there is a text comprehension test being run across
     ///   a given demographic region. The mean score of the population
     ///   from this entire region are around 100 points, with a standard
     ///   deviation of 12 points.</para>
     /// <para>There is a local school, however, whose 55 students attained
     ///   an average score in the test of only about 96 points. Would 
-    ///   their scores be surprinsingly that low, or could this event
+    ///   their scores be surprisingly that low, or could this event
     ///   have happened due to chance?</para>
     ///   
     /// <code>

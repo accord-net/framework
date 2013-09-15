@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -253,14 +253,14 @@ namespace Accord.MachineLearning.Bayes
         }
 
         /// <summary>
-        ///   Gets the tables of log-probabilities for the frequence of
-        ///   occurance of each symbol for each class and input.
+        ///   Gets the tables of log-probabilities for the frequency of
+        ///   occurrence of each symbol for each class and input.
         /// </summary>
         /// 
         /// <value>A double[,] array in with each row corresponds to a 
         /// class, each column corresponds to an input variable. Each
         /// element of this double[,] array is a frequency table containing
-        /// the frequence of each symbol for the corresponding variable as
+        /// the frequency of each symbol for the corresponding variable as
         /// a double[] array.</value>
         /// 
         public double[,][] Distributions
@@ -313,7 +313,7 @@ namespace Accord.MachineLearning.Bayes
                 // For each variable (col)
                 for (int j = 0; j < symbols.Length; j++)
                 {
-                    // Count value occurances and store
+                    // Count value occurrences and store
                     // frequencies to form probabilities
                     double[] frequencies = new double[symbols[j]];
 

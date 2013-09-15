@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -38,8 +38,8 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <para>
     ///   This class acts as a teacher for <see cref="HiddenMarkovClassifier{TDistribution}">
     ///   classifiers based on arbitrary-density hidden Markov models</see>. The learning
-    ///   algorithm uses a gerative approach. It works by training each model in the gerative
-    ///   classifier separately.</para>
+    ///   algorithm uses a generative approach. It works by training each model in the
+    ///   generative classifier separately.</para>
     ///   
     /// <para>
     ///   This can teach models that use any <see cref="IDistribution">probability

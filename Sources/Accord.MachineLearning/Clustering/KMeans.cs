@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -67,7 +67,7 @@ namespace Accord.MachineLearning
     ///   </list></para>
     /// 
     /// <para>
-    ///   This particular implementation uses the squared euclidean distance
+    ///   This particular implementation uses the squared Euclidean distance
     ///   as a similarity measure in order to form clusters. </para>
     ///   
     /// <para>
@@ -122,7 +122,7 @@ namespace Accord.MachineLearning
     ///  // Load a test image (shown below)
     ///  Bitmap image = ...
     ///  
-    ///  // Create conversors
+    ///  // Create converters
     ///  ImageToArray imageToArray = new ImageToArray(min: -1, max: +1);
     ///  ArrayToImage arrayToImage = new ArrayToImage(image.Width, image.Height, min: -1, max: +1);
     ///  
@@ -131,7 +131,7 @@ namespace Accord.MachineLearning
     ///  
     ///  
     ///  // Create a K-Means algorithm using given k and a
-    ///  //  square euclidean distance as distance metric.
+    ///  //  square Euclidean distance as distance metric.
     ///  KMeans kmeans = new KMeans(k, Distance.SquareEuclidean);
     ///  
     ///  // Compute the K-Means algorithm until the difference in

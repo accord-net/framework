@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -115,7 +115,7 @@ namespace Accord.Statistics.Models.Markov
     ///   those automatically using <see cref="BaumWelchLearning{TDistribution}"/>.</para>
     /// 
     /// <code>
-    ///   // Create the transation matrix A
+    ///   // Create the transition matrix A
     ///   double[,] transitions = 
     ///   {  
     ///       { 0.7, 0.3 },
@@ -139,14 +139,14 @@ namespace Accord.Statistics.Models.Markov
     ///   var hmm = new HiddenMarkovModel&lt;GeneralDiscreteDistribution>(transitions, emissions, initial);
     ///   
     ///   // After that, one could, for example, query the probability
-    ///   // of a sequence ocurring. We will consider the sequence
+    ///   // of a sequence occurring. We will consider the sequence
     ///   double[] sequence = new double[] { 0, 1, 2 };
     ///   
     ///   // And now we will evaluate its likelihood
     ///   double logLikelihood = hmm.Evaluate(sequence);
     ///   
     ///   // At this point, the log-likelihood of the sequence
-    ///   // ocurring within the model is -3.3928721329161653.
+    ///   // occurring within the model is -3.3928721329161653.
     ///   
     ///   // We can also get the Viterbi path of the sequence
     ///   int[] path = hmm.Decode(sequence, out logLikelihood);
@@ -193,7 +193,7 @@ namespace Accord.Statistics.Models.Markov
         /// </param>
         /// <param name="emissions">
         ///   The initial emission probability distribution to be used by each of the states. This
-        ///   initial probability distribution will be cloned accross all states.
+        ///   initial probability distribution will be cloned across all states.
         /// </param>
         /// 
         public HiddenMarkovModel(ITopology topology, TDistribution emissions)

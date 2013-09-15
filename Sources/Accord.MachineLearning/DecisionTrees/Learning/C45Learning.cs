@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -50,7 +50,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     ///     <item><description>
     ///       Mitchell, T. M. Machine Learning. McGraw-Hill, 1997. pp. 55-58. </description></item>
     ///     <item><description><a href="http://en.wikipedia.org/wiki/ID3_algorithm">
-    ///       Wikipedia, the free enclyclopedia. ID3 algorithm. Available on 
+    ///       Wikipedia, the free encyclopedia. ID3 algorithm. Available on 
     ///       http://en.wikipedia.org/wiki/ID3_algorithm </a></description></item>
     ///   </list>
     /// </para>   
@@ -60,7 +60,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// 
     /// <example>
     /// <code>
-    /// // This example uses the Nursery Database available from the Universiry of
+    /// // This example uses the Nursery Database available from the University of
     /// // California Irvine repository of machine learning databases, available at
     /// //
     /// //   http://archive.ics.uci.edu/ml/machine-learning-databases/nursery/nursery.names
@@ -98,7 +98,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// string outputColumn = "output";
     ///             
     /// 
-    /// // Let's populate a datatable with this information.
+    /// // Let's populate a data table with this information.
     /// //
     /// DataTable table = new DataTable("Nursery");
     /// table.Columns.Add(inputColumns);
@@ -111,7 +111,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     ///     table.Rows.Add(line.Split(','));
     /// 
     /// 
-    /// // Now, we have to convert the textual, categoric data found
+    /// // Now, we have to convert the textual, categorical data found
     /// // in the table to a more manageable discrete representation.
     /// //
     /// // For this, we will create a codebook to translate text to
@@ -269,7 +269,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// <param name="inputs">The input points.</param>
         /// <param name="outputs">The corresponding output labels.</param>
         /// 
-        /// <returns>The percentual error of the prediction.</returns>
+        /// <returns>The percentage error of the prediction.</returns>
         /// 
         public double ComputeError(double[][] inputs, int[] outputs)
         {
@@ -351,7 +351,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             double[][] inputSubset;
             int[] outputSubset;
 
-            // Now, create next nodes and pass those partitions as their responsabilities. 
+            // Now, create next nodes and pass those partitions as their responsibilities. 
             if (tree.Attributes[maxGainAttribute].Nature == DecisionVariableKind.Discrete)
             {
                 // This is a discrete nature attribute. We will branch at each
@@ -470,7 +470,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 // according to the attribute values
                 partitions[i] = input.Find(x => x[attributeIndex] == value);
 
-                // For each of the instances under responsability
+                // For each of the instances under responsibility
                 // of this node, check which have the same value
                 int[] outputSubset = output.Submatrix(partitions[i]);
 

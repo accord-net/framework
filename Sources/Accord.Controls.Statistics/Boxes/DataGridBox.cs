@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Controls Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -29,8 +29,8 @@ namespace Accord.Controls
     using System.Drawing;
 
     /// <summary>
-    ///   Scatterplot Box for quickly displaying a form with a scatterplot on it
-    ///   in the same spirit as System.Windows.Forms.MessageBox.
+    ///   Data Grid Box for quickly displaying a form with a DataGridView
+    ///   on it in the same spirit as System.Windows.Forms.MessageBox.
     /// </summary>
     /// 
     /// <example>

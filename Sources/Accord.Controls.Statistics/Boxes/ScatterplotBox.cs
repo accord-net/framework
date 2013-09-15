@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Controls Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -30,7 +30,7 @@ namespace Accord.Controls
     using AForge;
 
     /// <summary>
-    ///   Scatterplot Box for quickly displaying a form with a scatterplot on it
+    ///   Scatter plot Box for quickly displaying a form with a scatter plot on it
     ///   in the same spirit as System.Windows.Forms.MessageBox.
     /// </summary>
     /// 
@@ -59,7 +59,7 @@ namespace Accord.Controls
         ///   control used to display data in this box.
         /// </summary>
         /// 
-        /// <value>The scatterplot view control.</value>
+        /// <value>The scatter plot view control.</value>
         /// 
         public ScatterplotView ScatterplotView
         {
@@ -67,7 +67,7 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Sets the size of the symbols in the scatterplot.
+        ///   Sets the size of the symbols in the scatter plot.
         /// </summary>
         /// 
         /// <param name="size">The desired symbol size.</param>
@@ -91,7 +91,7 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Sets size of the scatterplot window.
+        ///   Sets size of the scatter plot window.
         /// </summary>
         /// 
         /// <param name="width">The desired width.</param>
@@ -117,7 +117,7 @@ namespace Accord.Controls
 
         /// <summary>
         ///   Sets whether to show lines connecting
-        ///   sequential points in the scatterplot.
+        ///   sequential points in the scatter plot.
         /// </summary>
         /// 
         public ScatterplotBox SetLinesVisible(bool visible)
@@ -159,7 +159,7 @@ namespace Accord.Controls
 
 
         /// <summary>
-        ///   Displays a scatterplot with the specified data.
+        ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
         /// <param name="x">The x-values for the data.</param>
@@ -172,11 +172,11 @@ namespace Accord.Controls
         /// 
         public static ScatterplotBox Show(double[] x, double[] y, int[] z = null, bool nonBlocking = false)
         {
-            return Show("Scatterplot", x, y, z, nonBlocking);
+            return Show("Scatter Plot", x, y, z, nonBlocking);
         }
 
         /// <summary>
-        ///   Displays a scatterplot with the specified data.
+        ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
         /// <param name="title">The title for the plot window.</param>
@@ -198,7 +198,7 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Displays a scatterplot with the specified data.
+        ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
@@ -210,11 +210,11 @@ namespace Accord.Controls
         /// 
         public static ScatterplotBox Show(double[,] x, int[] z = null, bool nonBlocking = false)
         {
-            return Show("Scatterplot", x, z, nonBlocking);
+            return Show("Scatter Plot", x, z, nonBlocking);
         }
 
         /// <summary>
-        ///   Displays a scatterplot with the specified data.
+        ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
         /// <param name="title">The title for the plot window.</param>
@@ -235,7 +235,7 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Displays a scatterplot with the specified data.
+        ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
@@ -251,7 +251,7 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Displays a scatterplot with the specified data.
+        ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
         /// <param name="title">The title for the plot window.</param>
@@ -272,10 +272,10 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Displays a scatterplot.
+        ///   Displays a scatter plot.
         /// </summary>
         /// 
-        /// <param name="scatterplot">The scatterplot to show.</param>
+        /// <param name="scatterplot">The scatter plot to show.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default

@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -34,12 +34,12 @@ namespace Accord.Statistics
     /// 
     /// <remarks>
     /// <para>
-    ///   One of the most proeminent features on this namespace is the great number
+    ///   One of the most prominent features on this namespace is the great number
     ///   of <see cref="Accord.Statistics.Distributions">probability distributions
     ///   </see>, <see cref="Accord.Statistics.Kernels">kernel functions</see>, and
     ///   <see cref="Accord.Statistics.Testing">hypothesis tests</see> available
     ///   to build your statistics processing applications. A great number of <see
-    ///   cref="Accord.Statistics.Analysis">statistical analysisi</see>, including
+    ///   cref="Accord.Statistics.Analysis">statistical analysis</see>, including
     ///   classical and <c>kernel</c>-based ones are also available to help analyze, 
     ///   process and simplify your data.</para>
     ///   

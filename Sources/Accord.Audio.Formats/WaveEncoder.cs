@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -36,10 +36,10 @@ namespace Accord.Audio.Formats
     /// // Create a stream to hold our encoded audio
     /// MemoryStream destinationStream = new MemoryStream();
     /// 
-    /// // Create a encoder for the destinoation stream
+    /// // Create a encoder for the destination stream
     /// WaveEncoder encoder = new WaveEncoder(destinationStream);
     /// 
-    /// // Encode the signal to the destionation stream
+    /// // Encode the signal to the destination stream
     /// encoder.Encode(sourceSignal);
     /// </code>
     /// </example>

@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -214,7 +214,7 @@ namespace Accord.Imaging
             // Compute the final homography considering all inliers
             H = homography(inliers);
 
-            // Denormalise
+            // Denormalize
             H = T2.Inverse() * (H * T1);
 
             return H;
@@ -268,7 +268,7 @@ namespace Accord.Imaging
             PointF[] x1 = this.pointSet1.Submatrix(points);
             PointF[] x2 = this.pointSet2.Submatrix(points);
 
-            // If any three of the four points in each set is colinear,
+            // If any three of the four points in each set is collinear,
             //  the resulting homography matrix will be degenerate.
 
             return Tools.Collinear(x1[0], x1[1], x1[2]) ||

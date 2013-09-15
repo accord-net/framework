@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -528,7 +528,13 @@ namespace Accord.Math
         /// </summary>
         public static T[] GetColumn<T>(this T[,] m, int index)
         {
-            T[] column = new T[m.GetLength(0)];
+            int rows = m.GetLength(0);
+            int cols = m.GetLength(1);
+
+            if (index >= cols)
+                throw new ArgumentOutOfRangeException("index");
+
+            T[] column = new T[rows];
 
             for (int i = 0; i < column.Length; i++)
                 column[i] = m[i, index];
@@ -1176,7 +1182,7 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the maximum values accross one dimension of a matrix.
+        ///   Gets the maximum values across one dimension of a matrix.
         /// </summary>
         public static T[] Max<T>(this T[,] matrix, int dimension) where T : IComparable
         {
@@ -1185,7 +1191,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the maximum values accross one dimension of a matrix.
+        ///   Gets the maximum values across one dimension of a matrix.
         /// </summary>
         public static T[] Max<T>(this T[,] matrix, int dimension, out int[] imax) where T : IComparable
         {
@@ -1242,7 +1248,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the minimum values accross one dimension of a matrix.
+        ///   Gets the minimum values across one dimension of a matrix.
         /// </summary>
         public static T[] Min<T>(this T[,] matrix, int dimension, out int[] imin) where T : IComparable
         {
@@ -1292,7 +1298,7 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Gets the maximum values accross one dimension of a matrix.
+        ///   Gets the maximum values across one dimension of a matrix.
         /// </summary>
         public static T[] Max<T>(this T[][] matrix, int dimension) where T : IComparable
         {
@@ -1301,7 +1307,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the maximum values accross one dimension of a matrix.
+        ///   Gets the maximum values across one dimension of a matrix.
         /// </summary>
         public static T[] Max<T>(this T[][] matrix, int dimension, out int[] imax) where T : IComparable
         {
@@ -1453,7 +1459,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the range of the values accross a matrix.
+        ///   Gets the range of the values across a matrix.
         /// </summary>
         /// 
         public static IntRange Range(this int[,] value)
@@ -1474,7 +1480,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the range of the values accross a matrix.
+        ///   Gets the range of the values across a matrix.
         /// </summary>
         /// 
         public static DoubleRange Range(this double[,] value)
@@ -1495,7 +1501,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the range of the values accross the columns of a matrix.
+        ///   Gets the range of the values across the columns of a matrix.
         /// </summary>
         /// 
         public static DoubleRange[] Range(this double[,] value, int dimension)
@@ -1551,7 +1557,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the range of the values accross the columns of a matrix.
+        ///   Gets the range of the values across the columns of a matrix.
         /// </summary>
         public static DoubleRange[] Range(this double[][] value)
         {

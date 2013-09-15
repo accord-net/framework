@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -31,7 +31,7 @@ namespace Accord.Statistics.Links
     /// </summary>
     /// 
     /// <remarks>
-    ///   The logit link function is associated with the
+    ///   The Logit link function is associated with the
     ///   <see cref="BinomialDistribution">Binomial</see> and
     ///   <see cref="MultinomialDistribution">Multinomial</see> distributions.
     /// </remarks>

@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Christopher Evans, 2009-2011
 // http://www.chrisevansdev.com/
@@ -236,7 +236,7 @@ namespace Accord.Imaging
             double length = 0;
 
             double cx = -0.5; // Subregion centers for the
-            double cy = +0.0; // 4x4 gaussian weighting.
+            double cy = +0.0; // 4x4 Gaussian weighting.
 
             if (!this.invariant)
             {
@@ -284,12 +284,12 @@ namespace Accord.Imaging
                             int sample_x = (int)System.Math.Round(x + (-l * scale * sin + k * scale * cos), 0);
                             int sample_y = (int)System.Math.Round(y + (+l * scale * cos + k * scale * sin), 0);
 
-                            // Get the gaussian weighted x and y responses
+                            // Get the Gaussian weighted x and y responses
                             double gauss_s1 = gaussian(xs - sample_x, ys - sample_y, 2.5f * scale);
                             double rx = haarX(sample_y, sample_x, 2 * scale);
                             double ry = haarY(sample_y, sample_x, 2 * scale);
 
-                            // Get the gaussian weighted x and y responses on rotated axis
+                            // Get the Gaussian weighted x and y responses on rotated axis
                             double rrx = gauss_s1 * (-rx * sin + ry * cos);
                             double rry = gauss_s1 * (rx * cos + ry * sin);
 
@@ -394,7 +394,7 @@ namespace Accord.Imaging
         #region Gaussian calculation
 
         /// <summary>
-        ///   Get the value of the gaussian with std dev sigma at the point (x,y)
+        ///   Get the value of the Gaussian with std dev sigma at the point (x,y)
         /// </summary>
         /// 
         private static double gaussian(int x, int y, double sigma)
@@ -403,7 +403,7 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Get the value of the gaussian with std dev sigma at the point (x,y)
+        ///   Get the value of the Gaussian with std dev sigma at the point (x,y)
         /// </summary>
         private static double gaussian(double x, double y, double sigma)
         {

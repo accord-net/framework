@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -79,7 +79,7 @@ namespace Accord.Imaging
     ///   the ID3 algorithm.
     /// </para>
     /// 
-    /// <para>This detector has been shown to exibit a high degree of repeatability.</para>
+    /// <para>This detector has been shown to exhibit a high degree of repeatability.</para>
     ///
     /// <para>
     ///   The code is roughly based on the 9 valued FAST corner detection
@@ -423,7 +423,7 @@ namespace Accord.Imaging
                     if (corners[point_below].Y < pos.Y + 1)
                         point_below = row_start[pos.Y + 1];
 
-                    // Make point below point to one of the pixels belowthe current point, if it exists.
+                    // Make point below point to one of the pixels below the current point, if it exists.
                     for (; point_below < n && corners[point_below].Y == pos.Y + 1 && corners[point_below].X < pos.X - 1; point_below++) ;
 
                     for (int j = point_below; j < n && corners[j].Y == pos.Y + 1 && corners[j].X <= pos.X + 1; j++)

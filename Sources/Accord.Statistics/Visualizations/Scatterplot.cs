@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -30,7 +30,7 @@ namespace Accord.Statistics.Visualizations
     using AForge;
 
     /// <summary>
-    ///   Scatterplot.
+    ///   Scatter Plot.
     /// </summary>
     /// 
     [Serializable]
@@ -44,7 +44,7 @@ namespace Accord.Statistics.Visualizations
         private string labelTitle = "Label";
 
         /// <summary>
-        ///   Gets the title of the scatterplot.
+        ///   Gets the title of the scatter plot.
         /// </summary>
         /// 
         public string Title
@@ -104,7 +104,7 @@ namespace Accord.Statistics.Visualizations
 
         /// <summary>
         ///   Gets an integer array containing the integer labels
-        ///   associated with each of the classes in the scatterplot.
+        ///   associated with each of the classes in the scatter plot.
         /// </summary>
         /// 
         internal int[] LabelValues { get; private set; }
@@ -117,12 +117,12 @@ namespace Accord.Statistics.Visualizations
 
         /// <summary>
         ///   Gets a collection containing information about
-        ///   each of the classes presented in the scatterplot.
+        ///   each of the classes presented in the scatter plot.
         /// </summary>
         public ReadOnlyCollection<ScatterplotClassValueCollection> Classes { get; private set; }
 
         /// <summary>
-        ///   Constructs an empty Scatterplot.
+        ///   Constructs an empty Scatter plot.
         /// </summary>
         /// 
         public Scatterplot()
@@ -130,10 +130,10 @@ namespace Accord.Statistics.Visualizations
         }
 
         /// <summary>
-        ///   Constructs an empty Scatterplot with given title. 
+        ///   Constructs an empty Scatter plot with given title. 
         /// </summary>
         /// 
-        /// <param name="title">Scatterplot title.</param>
+        /// <param name="title">Scatter plot title.</param>
         /// 
         public Scatterplot(String title)
         {
@@ -141,11 +141,11 @@ namespace Accord.Statistics.Visualizations
         }
 
         /// <summary>
-        ///   Constructs an empty Scatterplot with
+        ///   Constructs an empty scatter plot with
         ///   given title and axis names.
         /// </summary>
         /// 
-        /// <param name="title">Scatterplot title.</param>
+        /// <param name="title">Scatter Plot title.</param>
         /// <param name="xAxisTitle">Title for the x-axis.</param>
         /// <param name="yAxisTitle">Title for the y-axis.</param>
         /// 
@@ -157,11 +157,11 @@ namespace Accord.Statistics.Visualizations
         }
 
         /// <summary>
-        ///   Constructs an empty Scatterplot with
+        ///   Constructs an empty Scatter Plot with
         ///   given title and axis names.
         /// </summary>
         /// 
-        /// <param name="title">Scatterplot title.</param>
+        /// <param name="title">Scatter Plot title.</param>
         /// <param name="xAxisTitle">Title for the x-axis.</param>
         /// <param name="yAxisTitle">Title for the y-axis.</param>
         /// <param name="labelTitle">Title for the labels.</param>
@@ -200,7 +200,7 @@ namespace Accord.Statistics.Visualizations
         }
 
         /// <summary>
-        ///   Computes the scatterplot.
+        ///   Computes the scatter plot.
         /// </summary>
         /// 
         /// <param name="x">Array of X values.</param>
@@ -224,7 +224,7 @@ namespace Accord.Statistics.Visualizations
         }
 
         /// <summary>
-        ///   Computes the scatterplot.
+        ///   Computes the scatter plot.
         /// </summary>
         /// 
         /// <param name="data">Array of { x,y } values.</param>
@@ -252,7 +252,7 @@ namespace Accord.Statistics.Visualizations
         }
 
         /// <summary>
-        ///   Computes the scatterplot.
+        ///   Computes the scatter plot.
         /// </summary>
         /// 
         /// <param name="data">Array of { x,y } values.</param>
@@ -283,7 +283,7 @@ namespace Accord.Statistics.Visualizations
     }
 
     /// <summary>
-    ///   Scatterplot class.
+    ///   Scatter Plot class.
     /// </summary>
     /// 
     [Serializable]

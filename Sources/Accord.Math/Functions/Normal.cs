@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -257,7 +257,7 @@ namespace Accord.Math
         /// 
         /// <remarks>
         /// <para>
-        ///   The following formula provide probabilites with an absolute error
+        ///   The following formula provide probabilities with an absolute error
         ///   less than 8e-16.</para>
         /// <para>
         ///   References:

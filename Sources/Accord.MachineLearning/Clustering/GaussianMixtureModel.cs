@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -124,7 +124,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="mixture">
-        ///   The initial solution as a mixture of normals distribution.</param>
+        ///   The initial solution as a mixture of normal distributions.</param>
         ///   
         public GaussianMixtureModel(Mixture<NormalDistribution> mixture)
         {
@@ -142,7 +142,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="mixture">
-        ///   The initial solution as a mixture of normals distribution.</param>
+        ///   The initial solution as a mixture of normal distributions.</param>
         ///   
         public GaussianMixtureModel(MultivariateMixture<MultivariateNormalDistribution> mixture)
         {
@@ -168,7 +168,7 @@ namespace Accord.MachineLearning
 
         /// <summary>
         ///   Initializes the model with initial values obtained 
-        ///   throught a run of the K-Means clustering algorithm.
+        ///   through a run of the K-Means clustering algorithm.
         /// </summary>
         /// 
         public double Initialize(double[][] data, double threshold)
@@ -189,7 +189,7 @@ namespace Accord.MachineLearning
 
         /// <summary>
         ///   Initializes the model with initial values obtained 
-        ///   throught a run of the K-Means clustering algorithm.
+        ///   through a run of the K-Means clustering algorithm.
         /// </summary>
         /// 
         public void Initialize(KMeans kmeans)

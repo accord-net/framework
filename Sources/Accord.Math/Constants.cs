@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -65,11 +65,11 @@ namespace Accord.Math
         /// <summary>Euler-Mascheroni constant.</summary>
         public const double EulerGamma = 0.5772156649015328606065120;
 
-        /// <summary>Double-precision machine roundoff error.</summary>
+        /// <summary>Double-precision machine round-off error.</summary>
         /// <remarks>This value is actually different from Double.Epsilon.</remarks>
         public const double DoubleEpsilon = 1.11022302462515654042E-16;
 
-        /// <summary>Single-precision machine roundoff error.</summary>
+        /// <summary>Single-precision machine round-off error.</summary>
         /// <remarks>This value is actually different from Single.Epsilon.</remarks>
         public const float SingleEpsilon = 1.1920929E-07f;
 

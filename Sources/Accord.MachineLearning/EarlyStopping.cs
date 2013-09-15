@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -63,7 +63,7 @@ namespace Accord.MachineLearning
     /// </summary>
     /// 
     /// <remarks>
-    ///   The early stopping training procedure monitorates a validation set
+    ///   The early stopping training procedure monitors a validation set
     ///   during training to determine when a learning algorithm has stopped
     ///   learning and started to overfit data. This class keeps an history
     ///   of training and validation errors and will keep the best model found

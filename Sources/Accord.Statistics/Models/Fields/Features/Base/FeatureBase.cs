@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -93,30 +93,30 @@ namespace Accord.Statistics.Models.Fields.Features
         public abstract double Compute(int previousState, int currentState, T[] observations, int observationIndex, int outputClass);
 
         /// <summary>
-        ///   Computes the probability of occurance of this 
+        ///   Computes the probability of occurrence of this 
         ///   feature given a sequence of observations.
         /// </summary>
         /// 
         /// <param name="fwd">The matrix of forward state probabilities.</param>
-        /// <param name="bwd">The matrix of backward state probabilties.</param>
+        /// <param name="bwd">The matrix of backward state probabilities.</param>
         /// <param name="x">The observation sequence.</param>
         /// <param name="y">The output class label for the sequence.</param>
         /// 
-        /// <returns>The probability of occurance of this feature.</returns>
+        /// <returns>The probability of occurrence of this feature.</returns>
         /// 
         public abstract double Marginal(double[,] fwd, double[,] bwd, T[] x, int y);
 
         /// <summary>
-        ///   Computes the log-probability of occurance of this 
+        ///   Computes the log-probability of occurrence of this 
         ///   feature given a sequence of observations.
         /// </summary>
         /// 
         /// <param name="lnFwd">The matrix of forward state log-probabilities.</param>
-        /// <param name="lnBwd">The matrix of backward state log-probabilties.</param>
+        /// <param name="lnBwd">The matrix of backward state log-probabilities.</param>
         /// <param name="x">The observation sequence.</param>
         /// <param name="y">The output class label for the sequence.</param>
         /// 
-        /// <returns>The probability of occurance of this feature.</returns>
+        /// <returns>The probability of occurrence of this feature.</returns>
         /// 
         public abstract double LogMarginal(double[,] lnFwd, double[,] lnBwd, T[] x, int y);
 

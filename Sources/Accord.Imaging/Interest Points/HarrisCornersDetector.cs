@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -38,7 +38,7 @@ namespace Accord.Imaging
     public enum HarrisCornerMeasure
     {
         /// <summary>
-        ///   Original Harris's measure. Requires the setting of
+        ///   Original Harris' measure. Requires the setting of
         ///   a parameter k (default is 0.04), which may be a
         ///   bit arbitrary and introduce more parameters to tune.
         /// </summary>

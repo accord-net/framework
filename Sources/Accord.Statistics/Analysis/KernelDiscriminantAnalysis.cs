@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -62,7 +62,7 @@ namespace Accord.Statistics.Analysis
     /// <example>
     /// <para>
     ///   The following example creates an analysis for a set of 
-    ///   data specifiied as a jagged (double[][]) array. However,
+    ///   data specified as a jagged (double[][]) array. However,
     ///   the same can also be accomplished using multidimensional
     ///   double[,] arrays.</para>
     ///   

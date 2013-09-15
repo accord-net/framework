@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -102,7 +102,7 @@ namespace Accord.Math.Differentiation
             this.stepSize = new double[variables];
 
             // Create interpolation coefficient table
-            // for interpolated numerical differentation
+            // for interpolated numerical differentiation
             this.coef = createInterpolationCoefficients(3);
         }
 

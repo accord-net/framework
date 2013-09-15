@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -244,7 +244,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets a matrix containing the unmixing coefficients for
+        ///   Gets a matrix containing the demixing coefficients for
         ///   the original source data being analyzed. Each column
         ///   corresponds to an independent component.
         /// </summary>
@@ -258,6 +258,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the whitening matrix used to transform
         ///   the original data to have unit variance.
         /// </summary>
+        /// 
         public double[,] WhiteningMatrix
         {
             get { return whiteningMatrix; }
@@ -485,8 +486,8 @@ namespace Accord.Statistics.Analysis
             //   Algorithms for Independent Component Analysis.
 
             // There are two ways to apply the fixed-unit algorithm to compute the whole
-            // ICA iteration. The more simpler is to perform a deflaction as in the Gram-
-            // Schmidt orthogonalization proccess [Hyvärinen]. In this scheme, independent
+            // ICA iteration. The more simpler is to perform a deflation as in the Gram-
+            // Schmidt orthogonalization process [Hyvärinen]. In this scheme, independent
             // components are estimated one-by-one. See referenced paper for details.
 
             int n = X.GetLength(0);
@@ -503,7 +504,7 @@ namespace Accord.Statistics.Analysis
             for (int i = 0; i < components; i++)
             {
                 // Will compute each of the basis vectors
-                //  invidually and sequentially, re-using
+                //  individually and sequentially, re-using
                 //  previous computations to form basis W. 
                 //  
 
@@ -518,7 +519,7 @@ namespace Accord.Statistics.Analysis
 
                 do // until convergence
                 {
-                    // Start with deflaction
+                    // Start with deflation
                     for (int u = 0; u < i; u++)
                     {
                         double proj = 0;
@@ -613,7 +614,7 @@ namespace Accord.Statistics.Analysis
 
             // There are two ways to apply the fixed-unit algorithm to compute the whole
             // ICA iteration. The second approach is to perform orthogonalization at once
-            // using an eigendecomposition [Hyvärinen]. The eigendecompsition can in turn
+            // using an Eigendecomposition [Hyvärinen]. The Eigendecomposition can in turn
             // be converted to a more stable singular value decomposition and be used to 
             // create a projection basis in the same way as in Principal Component Analysis.
 
@@ -633,7 +634,7 @@ namespace Accord.Statistics.Analysis
             do // until convergence
             {
 
-                // [Hyvärinen, 1997]'s paper suggests the use of the eigendecomposition
+                // [Hyvärinen, 1997]'s paper suggests the use of the Eigendecomposition
                 //   to orthogonalize W (after equation 10). However, [E, D] = eig(W'W)
                 //   can be replaced by [U, S] = svd(W), which is more stable and avoids
                 //   computing W'W. Since the singular values are already the square roots
@@ -978,7 +979,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the unmixing vector for the current independent component.
+        ///   Gets the demixing vector for the current independent component.
         /// </summary>
         /// 
         public double[] DemixingVector
@@ -1120,8 +1121,8 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         /// <remarks>
-        ///   According to Hyvärinen, the Logcosh constrast function
-        ///   is a good general-purpose constrast function.
+        ///   According to Hyvärinen, the Logcosh contrast function
+        ///   is a good general-purpose contrast function.
         /// </remarks>
         /// 
         /// <seealso cref="IndependentComponentAnalysis"/>
@@ -1220,7 +1221,7 @@ namespace Accord.Statistics.Analysis
             {
                 for (int j = 0; j < x.Length; j++)
                 {
-                    // Kurtosis constrast function and its derivative, as given
+                    // Kurtosis contrast function and its derivative, as given
                     //  in original Hyvärinen's paper. See main references for the
                     //  Independent Component Analysis class for details.
 

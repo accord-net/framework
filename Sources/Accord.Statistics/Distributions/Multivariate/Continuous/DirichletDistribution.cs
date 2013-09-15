@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -32,8 +32,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// <remarks>
     /// <para>
     ///   The Dirichlet distribution, often denoted Dir(α), is a family of continuous 
-    ///   multivariate probability distributions parametrized by a vector α of positive
-    ///   reals. It is the multivariate generalization of the beta distribution.</para>
+    ///   multivariate probability distributions parameterized by a vector α of positive
+    ///   real numbers. It is the multivariate generalization of the beta distribution.</para>
     /// <para>
     ///   Dirichlet distributions are very often used as prior distributions in Bayesian
     ///   statistics, and in fact the Dirichlet distribution is the conjugate prior of the

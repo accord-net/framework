@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -185,7 +185,7 @@ namespace Accord.Imaging
             }
 
 
-            // 2. Begining on the first point, starting from left
+            // 2. Beginning on the first point, starting from left
             //    neighbor and going into counter-clockwise direction,
             //    find a neighbor pixel which is black.
 

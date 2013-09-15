@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -27,7 +27,7 @@ namespace Accord.Statistics.Testing
     using Accord.Statistics.Analysis;
 
     /// <summary>
-    ///   Stuart-Maxwell test of homogeneity for <c>K x K</c> contigency tables.
+    ///   Stuart-Maxwell test of homogeneity for <c>K x K</c> contingency tables.
     /// </summary>
     /// 
     /// <remarks>

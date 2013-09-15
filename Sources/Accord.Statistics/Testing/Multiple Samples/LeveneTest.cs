@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -129,7 +129,7 @@ namespace Accord.Statistics.Testing
                     break;
             }
 
-            // Compute absolute centred samples
+            // Compute absolute centered samples
             var z = new double[samples.Length][];
             for (int i = 0; i < z.Length; i++)
             {
@@ -138,7 +138,7 @@ namespace Accord.Statistics.Testing
                     z[i][j] = Math.Abs(samples[i][j] - means[i]);
             }
 
-            // Compute means for the centred samples
+            // Compute means for the centered samples
             var newMeans = new double[samples.Length];
             for (int i = 0; i < newMeans.Length; i++)
                 newMeans[i] = Accord.Statistics.Tools.Mean(z[i]);

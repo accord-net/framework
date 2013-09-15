@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -66,7 +66,7 @@ namespace Accord.Math.Comparers
         /// <param name="obj">The instance.</param>
         /// 
         /// <returns>
-        ///   A hash code for the instance instance, suitable for use 
+        ///   A hash code for the instance, suitable for use 
         ///   in hashing algorithms and data structures like a hash table. 
         /// </returns>
         /// 

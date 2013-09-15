@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -61,7 +61,7 @@ namespace Accord.Statistics.Formats
     ///   </code>
     ///   
     ///   <para>Additionally, it is also possible to read each sample
-    ///   individually and sequencially. For this, we can use a while
+    ///   individually and sequentially. For this, we can use a while
     ///   loop until we reach the end of the stream.</para>
     ///   
     ///   <code>

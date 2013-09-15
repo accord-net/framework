@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -104,7 +104,7 @@ namespace Accord.Statistics.Moving
         }
 
         /// <summary>
-        ///   Registers the occurance of a value.
+        ///   Registers the occurrence of a value.
         /// </summary>
         /// 
         /// <param name="value">The value to be registered.</param>

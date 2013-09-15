@@ -1,12 +1,12 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
 //
 // This file was contributed to the project by Diego Catalano, based
-// on the Matlab implementation by Juan Manuel Perez Rua, distributed
+// on the MATLAB implementation by Juan Manuel Perez Rua, distributed
 // under the BSD license. The original license terms are given below:
 //
 //   Copyright © Juan Manuel Perez Rua, 2012
@@ -48,9 +48,9 @@ namespace Accord.Imaging.Filters
     /// <remarks>
     /// <para>
     ///   The grey world normalization makes the assumption that changes in the 
-    ///   lighting spectrum can be modelled by three constant factors applied to
+    ///   lighting spectrum can be modeled by three constant factors applied to
     ///   the red, green and blue channels of color[2]. More specifically, a change
-    ///   in illuminated color can be modelled as a scaling α, β and γ in the R, 
+    ///   in illuminated color can be modeled as a scaling α, β and γ in the R, 
     ///   G and B color channels and as such the grey world algorithm is invariant
     ///   to illumination color variations.</para>
     ///   

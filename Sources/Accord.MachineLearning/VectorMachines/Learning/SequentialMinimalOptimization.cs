@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -46,7 +46,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <summary>
         ///   Always select the worst violation pair
         ///   to be optimized first, as suggested in
-        ///   Keerthy et al's algorithm 2.
+        ///   Keerthi et al's algorithm 2.
         /// </summary>
         /// 
         WorstPair
@@ -404,7 +404,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Gets or sets the <see cref="SelectionStrategy">pair selection 
-        ///   streategy</see> to be used during optimization.
+        ///   strategy</see> to be used during optimization.
         /// </summary>
         /// 
         public SelectionStrategy Strategy
@@ -606,7 +606,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             this.errors[i_upper] = -1;
 
 
-            // Prepare indice sets
+            // Prepare indices sets
             activeExamples.Clear();
             nonBoundExamples.Clear();
             atBoundsExamples.Clear();
@@ -750,7 +750,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
             else
             {
-                // Store Support Vectors in the SV Machine. Only vectors which have lagrange multipliers
+                // Store Support Vectors in the SV Machine. Only vectors which have Lagrange multipliers
                 // greater than zero will be stored as only those are actually required during evaluation.
 
                 int activeCount = activeExamples.Count;
@@ -994,7 +994,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             else
             {
                 // Under unusual circumstances, eta could be zero. 
-                // In this case, compute the objetive function as 
+                // In this case, compute the objective function as 
                 // suggested in "A Practical SMO Algorithm" by J.
                 // Dong, A. Krzyzak and C. Y. Suen.
 
@@ -1059,7 +1059,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             errors[i2] += t1 * k12 + t2 * k22;
 
 
-            // Update lagrange multipliers
+            // Update Lagrange multipliers
             alpha[i1] = a1;
             alpha[i2] = a2;
 

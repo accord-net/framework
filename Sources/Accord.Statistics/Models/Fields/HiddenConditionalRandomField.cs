@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -83,7 +83,7 @@ namespace Accord.Statistics.Models.Fields
             // Compute log-likelihoods for all possible outputs
             logLikelihoods = computeLogLikelihood(observations);
 
-            // The logLikelihoods array now stores the unnormalized
+            // The logLikelihoods array now stores the unormalized
             // log-likelihoods for each of the possible outputs. We
             // should now normalize them.
 
@@ -229,7 +229,7 @@ namespace Accord.Statistics.Models.Fields
             // Compute log-likelihoods for all possible outputs
             logLikelihoods = computeLogLikelihood(observations);
 
-            // The logLikelihoods array now stores the unnormalized
+            // The logLikelihoods array now stores the unormalized
             // log-likelihoods for each of the possible outputs. We
             // should now normalize the one we are interested.
 

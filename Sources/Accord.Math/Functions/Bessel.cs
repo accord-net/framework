@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -88,8 +88,8 @@ namespace Accord.Math
     ///   (e.g., see FM synthesis, Kaiser window, or Bessel filter).</para>
     /// 
     /// <para>
-    ///   This class offers implementations of Bessels first and second kind
-    ///   functions, with special cases for zero and for arbitrary<c>n</c>.
+    ///   This class offers implementations of Bessel's first and second kind
+    ///   functions, with special cases for zero and for arbitrary <c>n</c>.
     /// </para>
     /// 
     /// <para>

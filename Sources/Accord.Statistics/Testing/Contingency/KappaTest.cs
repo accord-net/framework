@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -34,7 +34,7 @@ namespace Accord.Statistics.Testing
     /// <para>
     ///   The Kappa test tries to assert whether the Kappa measure of a
     ///   a contingency table, is significantly different from another 
-    ///   hypothetized value. </para>
+    ///   hypothesized value. </para>
     ///   
     /// <para>
     ///   The computations used by the test are the same found in the 1969 paper by
@@ -187,7 +187,7 @@ namespace Accord.Statistics.Testing
 
         /// <summary>
         ///   Compute Cohen's Kappa variance using the large sample approximation
-        ///   given by Colgaton, which is common in the remote sensing literature.
+        ///   given by Congalton, which is common in the remote sensing literature.
         /// </summary>
         /// 
         /// <param name="matrix">A <see cref="GeneralConfusionMatrix"/> representing the ratings.</param>
@@ -202,7 +202,7 @@ namespace Accord.Statistics.Testing
 
         /// <summary>
         ///   Compute Cohen's Kappa variance using the large sample approximation
-        ///   given by Colgaton, which is common in the remote sensing literature.
+        ///   given by Congalton, which is common in the remote sensing literature.
         /// </summary>
         /// 
         /// <param name="matrix">A <see cref="GeneralConfusionMatrix"/> representing the ratings.</param>

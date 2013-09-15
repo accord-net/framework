@@ -1,6 +1,6 @@
 // Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -543,7 +543,7 @@ namespace Accord.Math.Decompositions
                 else
                     C[k][k] = (1 / L[k][k]) * ((1 / L[k][k]) - sum);
 
-                // Compute restant (eq 2.8.14)
+                // Compute remaining (eq 2.8.14)
                 for (int i = k - 1; i >= 0; i--)
                 {
                     double sum1 = 0;
@@ -579,9 +579,9 @@ namespace Accord.Math.Decompositions
         ///
         /// <param name="destroy">True to conserve memory by reusing the
         ///    same space used to hold the decomposition, thus destroying
-        ///    it in the proccess. Pass false otherwise.</param>
+        ///    it in the process. Pass false otherwise.</param>
         /// <param name="result">The array to hold the result of the 
-        ///    computation. Should be of same length as the the diagonal
+        ///    computation. Should be of same length as the diagonal
         ///    of the original matrix.</param>
         /// 
         public void InverseDiagonal(double[] result, bool destroy = false)
@@ -653,7 +653,7 @@ namespace Accord.Math.Decompositions
         ///
         /// <param name="destroy">True to conserve memory by reusing the
         ///    same space used to hold the decomposition, thus destroying
-        ///    it in the proccess. Pass false otherwise.</param>
+        ///    it in the process. Pass false otherwise.</param>
         /// 
         public double InverseTrace(bool destroy = false)
         {

@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -34,7 +34,7 @@ namespace Accord.Statistics.Kernels
     ///   Sigmoid kernel of the form k(x,z) = tanh(a * x'z + c). Sigmoid kernels are only
     ///   conditionally positive definite for some values of a and c, and therefore may not
     ///   induce a reproducing kernel Hilbert space. However, they have been successfully 
-    ///   used in practice (Scholkopf and Smola, 2002).
+    ///   used in practice (Schölkopf and Smola, 2002).
     /// </remarks>
     /// 
     [Serializable]

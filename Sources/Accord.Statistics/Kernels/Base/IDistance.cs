@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -29,7 +29,7 @@ namespace Accord.Statistics.Kernels
     /// <remarks>
     ///   Kernels which implement this interface can be used to solve the pre-
     ///   image problem in <see cref="Accord.Statistics.Analysis.KernelPrincipalComponentAnalysis">Kernel
-    ///   Principal Component Analyis</see> and other methods based in Multi-
+    ///   Principal Component Analysis</see> and other methods based in Multi-
     ///   Dimensional Scaling.
     /// </remarks>
     ///

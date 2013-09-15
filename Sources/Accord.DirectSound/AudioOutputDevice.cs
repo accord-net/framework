@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -31,12 +31,12 @@ namespace Accord.DirectSound
 
 
     /// <summary>
-    ///   Audio output device for local audio playback (i.e. a soundcard port).
+    ///   Audio output device for local audio playback (i.e. a sound card port).
     /// </summary>
     /// 
     /// <remarks>
     ///   <para>This <see cref="IAudioOutput">audio output</see> sends audio data
-    ///   to a local output device such as a soundcard. The audio is reproduced
+    ///   to a local output device such as a sound card. The audio is reproduced
     ///   using DirectSound through SlimDX.</para>
     ///   
     ///   <para>For instructions on how to list output devices, please see
@@ -463,7 +463,7 @@ namespace Accord.DirectSound
         ///   Wait for audio output has stopped.
         /// </summary>
         /// 
-        /// <remarks>Waits for output stopping after it was signalled to stop using
+        /// <remarks>Waits for output stopping after it was signaled to stop using
         /// <see cref="SignalToStop"/> method.</remarks>
         /// 
         public void WaitForStop()

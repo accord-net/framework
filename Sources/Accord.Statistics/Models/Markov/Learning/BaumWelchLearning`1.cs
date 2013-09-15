@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -128,7 +128,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   // Arbitrary-density Markov Models can operate using any
     ///   // probability distribution, including discrete ones. 
     ///   
-    ///   // In the follwing example, we will try to create a
+    ///   // In the following example, we will try to create a
     ///   // Discrete Hidden Markov Model using a discrete
     ///   // distribution to detect if a given sequence starts
     ///   // with a zero and has any number of ones after that.
@@ -171,7 +171,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   double l3 = hmm.Evaluate(new double[] { 1, 1 });       // 0.000
     ///   double l4 = hmm.Evaluate(new double[] { 1, 0, 0, 0 }); // 0.000
     ///   
-    ///   // Sequences which contains few errors have higher probabability
+    ///   // Sequences which contains few errors have higher probability
     ///   //  than the ones which do not start with zero. This shows some
     ///   //  of the temporal elasticity and error tolerance of the HMMs.
     ///   double l5 = hmm.Evaluate(new double[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }); // 0.034
@@ -272,7 +272,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// };
     /// 
     /// 
-    /// // Now we can begin specifing a initial Gaussian mixture distribution. It is
+    /// // Now we can begin specifying a initial Gaussian mixture distribution. It is
     /// // better to add some different initial parameters to the mixture components:
     /// var density = new Mixture&lt;NormalDistribution>(
     ///     new NormalDistribution(mean: 2, stdDev: 1.0), // 1st component in the mixture

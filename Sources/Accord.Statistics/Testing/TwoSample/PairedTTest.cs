@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -70,7 +70,7 @@ namespace Accord.Statistics.Testing
     ///         /* Patient 9.*/ {     6,         5     },
     /// };
     /// 
-    /// // Extect the before and after columns
+    /// // Extract the before and after columns
     /// double[] before = patients.GetColumn(0);
     /// double[] after = patients.GetColumn(1);
     /// 

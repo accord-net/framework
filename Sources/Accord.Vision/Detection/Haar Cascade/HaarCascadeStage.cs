@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework (LGPL)
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -33,7 +33,7 @@ namespace Accord.Vision.Detection
     /// 
     /// <remarks>
     ///   A Haar Cascade Classifier is composed of several stages. Each stage
-    ///   contains a set of classifier trees used in the decisioning process.
+    ///   contains a set of classifier trees used in the decision process.
     /// </remarks>
     /// 
     [Serializable]

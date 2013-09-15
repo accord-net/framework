@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -69,7 +69,7 @@ namespace Accord.Math
     ///   
     ///   <para>
     ///     Let's start by declaring a matrix, or otherwise specifying matrices
-    ///     from other sources. The most straighforward way to declare a matrix
+    ///     from other sources. The most straightforward way to declare a matrix
     ///     in Accord.NET is simply using: </para>
     ///     
     /// <code>
@@ -1548,7 +1548,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Vectorial product.
+        ///   Vector product.
         /// </summary>
         /// 
         /// <remarks>
@@ -1569,7 +1569,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Vectorial product.
+        ///   Vector product.
         /// </summary>
         /// 
         public static float[] VectorProduct(float[] a, float[] b)
@@ -1583,12 +1583,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Computes the cartesian product of many sets.
+        ///   Computes the Cartesian product of many sets.
         /// </summary>
         /// 
         /// <remarks>
         ///   References:
-        ///   - http://blogs.msdn.com/b/ericlippert/archive/2010/06/28/computing-a-cartesian-product-with-linq.aspx 
+        ///   - http://blogs.msdn.com/b/ericlippert/archive/2010/06/28/computing-a-Cartesian-product-with-linq.aspx 
         /// </remarks>
         /// 
         public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(this IEnumerable<IEnumerable<T>> sequences)
@@ -1602,7 +1602,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Computes the cartesian product of many sets.
+        ///   Computes the Cartesian product of many sets.
         /// </summary>
         /// 
         public static T[][] CartesianProduct<T>(params T[][] sequences)
@@ -1617,7 +1617,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Computes the cartesian product of two sets.
+        ///   Computes the Cartesian product of two sets.
         /// </summary>
         /// 
         public static T[][] CartesianProduct<T>(this T[] sequence1, T[] sequence2)

@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -97,7 +97,7 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        ///   Gets or sets the maximum number of occurrances of a word which
+        ///   Gets or sets the maximum number of occurrences of a word which
         ///   should be registered in the feature vector. Default is 1 (if a
         ///   word occurs, corresponding feature is set to 1).
         /// </summary>

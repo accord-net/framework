@@ -1,12 +1,12 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
 //
 // This file was contributed to the project by Diego Catalano, based
-// on the Matlab implementation by Juan Manuel Perez Rua, distributed
+// on the MATLAB implementation by Juan Manuel Perez Rua, distributed
 // under the BSD license. The original license terms are given below:
 //
 //   Copyright © Juan Manuel Perez Rua, 2012

@@ -1,6 +1,6 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -252,7 +252,7 @@ namespace Accord.Vision.Tracking
         }
 
         /// <summary>
-        ///   If using HSL mode, specifies the operational lighness range for the tracker.
+        ///   If using HSL mode, specifies the operational lightness range for the tracker.
         /// </summary>
         /// 
         public DoubleRange HslLightnessRange
@@ -345,7 +345,7 @@ namespace Accord.Vision.Tracking
 
         #region Backprojection generation
         /// <summary>
-        ///   Generates a image of the histogram backprojection
+        ///   Generates a image of the histogram back projection
         /// </summary>
         public Bitmap GetBackprojection()
         {
@@ -593,7 +593,7 @@ namespace Accord.Vision.Tracking
             searchWindow.X = Math.Max(0, Math.Min(searchWindow.X, width));
             searchWindow.Y = Math.Max(0, Math.Min(searchWindow.Y, height));
 
-            return new CentralMoments(moments); // moments to be used by camshift
+            return new CentralMoments(moments); // moments to be used by Camshift
         }
 
 

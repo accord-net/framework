@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -26,7 +26,7 @@ namespace Accord.Math
     using System.Collections.Generic;
 
     /// <summary>
-    ///   Static class for combinatoric functions.
+    ///   Static class for combinatorics functions.
     /// </summary>
     /// 
     public static class Combinatorics

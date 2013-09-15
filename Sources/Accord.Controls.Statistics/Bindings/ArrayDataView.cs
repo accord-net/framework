@@ -1,6 +1,6 @@
 // Accord Control Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -93,7 +93,7 @@ namespace Accord.Controls
         public ArrayDataView(Array array)
         {
             if (array.Rank > 2)
-                throw new ArgumentException("Supports only up to two dimentional arrays", "array");
+                throw new ArgumentException("Supports only up to two dimensional arrays", "array");
 
             this.data = array;
 
@@ -172,7 +172,7 @@ namespace Accord.Controls
         /// 
         /// <param name="array">Array of data.</param>
         /// <param name="columnNames">Collection of column names.</param>
-        /// <param name="rowNames">Collecion of row names.</param>
+        /// <param name="rowNames">Collection of row names.</param>
         /// 
         public ArrayDataView(Array array, object[] columnNames, object[] rowNames)
             : this(array)

@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -293,7 +293,7 @@ namespace Accord.Audio
         ///   Wait for audio source has stopped.
         /// </summary>
         /// 
-        /// <remarks>Waits for source stopping after it was signalled to stop using
+        /// <remarks>Waits for source stopping after it was signaled to stop using
         /// <see cref="SignalToStop"/> method.</remarks>
         /// 
         public void WaitForStop()

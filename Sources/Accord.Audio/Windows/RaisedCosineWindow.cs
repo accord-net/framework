@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -71,10 +71,6 @@ namespace Accord.Audio.Windows
 
             for (int i = 0; i < length; i++)
                 this[i] = (float)(beta - (alpha * System.Math.Cos((2 * System.Math.PI * i) / (length - 1))));
-
-            // Half hanning window?
-            // window[i] = System.Math.Cos(System.Math.PI * i / length);
-            // window[i] = window[i] * window[i];
         }
 
 

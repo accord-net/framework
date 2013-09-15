@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -29,7 +29,7 @@ namespace Accord.MachineLearning
     ///   validation analysis.
     /// </summary>
     /// 
-    /// <typeparam name="TModel">The type of the model being analysed.</typeparam>
+    /// <typeparam name="TModel">The type of the model being analyzed.</typeparam>
     /// 
     public class SplitSetResult<TModel> where TModel : class
     {

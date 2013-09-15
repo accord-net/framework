@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -55,7 +55,7 @@ namespace Accord.Statistics.Models.Regression
     ///   <code>
     ///    // Suppose we have the following data about some patients.
     ///    // The first variable is continuous and represent patient
-    ///    // age. The second variable is dicotomic and give whether
+    ///    // age. The second variable is dichotomic and give whether
     ///    // they smoke or not (This is completely fictional data).
     ///    double[][] input =
     ///    {
@@ -80,12 +80,12 @@ namespace Accord.Statistics.Models.Regression
     ///    };
     ///
     ///
-    ///    // To verify this hypothesis, we are going to create a glm
+    ///    // To verify this hypothesis, we are going to create a GLM
     ///    // regression model for those two inputs (age and smoking).
     ///    var regression = new GeneralizedLinearRegression(new ProbitLinkFunction(), inputs: 2);
     ///
     ///    // Next, we are going to estimate this model. For this, we
-    ///    // will use the Iteravely reweighted least squares method.
+    ///    // will use the Iteratively Reweighted Least Squares method.
     ///    var teacher = new IterativeReweightedLeastSquares(regression);
     ///
     ///    // Now, we will iteratively estimate our model. The Run method returns
@@ -178,7 +178,7 @@ namespace Accord.Statistics.Models.Regression
 
         /// <summary>
         ///   Gets the standard errors associated with each
-        ///   cofficient during the model estimation phase.
+        ///   coefficient during the model estimation phase.
         /// </summary>
         /// 
         public double[] StandardErrors

@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -73,7 +73,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   function from a set of hazard values at the given time instants.</para>
     /// <code>
     /// 
-    ///   // Consider the following observations, ocurring at the given timesteps
+    ///   // Consider the following observations, occurring at the given time steps
     ///   double[] times = { 11, 10, 9, 8, 6, 5, 4, 2 };
     ///   double[] values = { 0.22, 0.67, 1.00, 0.18, 1.00, 1.00, 1.00, 0.55 };
     ///   
@@ -322,7 +322,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </returns>
         /// 
         /// <remarks>
-        ///   In the Emprical Hazard Distribution, the PDF is defined
+        ///   In the Empirical Hazard Distribution, the PDF is defined
         ///   as the product of the hazard function h(x) and survival 
         ///   function CDF(x), as PDF(x) = h(x) * CDF(x).
         /// </remarks>
@@ -391,7 +391,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Creates a new Empirical Hazard Distribution froms the hazard values.
+        ///   Creates a new Empirical Hazard Distribution from the hazard values.
         /// </summary>
         /// 
         /// <param name="time">The time steps.</param>
@@ -405,7 +405,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Creates a new Empirical Hazard Distribution froms the survival values.
+        ///   Creates a new Empirical Hazard Distribution from the survival values.
         /// </summary>
         /// 
         /// <param name="time">The time steps.</param>

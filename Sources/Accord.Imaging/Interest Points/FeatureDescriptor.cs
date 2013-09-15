@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Diego Catalano, 2013
 // diego.catalano at live.com
@@ -46,7 +46,7 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="FeatureDescriptor"/> struct.
+        ///   Initializes a new instance of the <see cref="FeatureDescriptor"/> structure.
         /// </summary>
         /// 
         /// <param name="value">The feature vector.</param>

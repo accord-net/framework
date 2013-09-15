@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -121,7 +121,7 @@ namespace Accord.Statistics.Filters
 
                 else
                 {
-                    // Yes, we must balance the occurences in a data column
+                    // Yes, we must balance the occurrences in a data column
                     groupIndices = balancedGroups(data);
                 }
             }

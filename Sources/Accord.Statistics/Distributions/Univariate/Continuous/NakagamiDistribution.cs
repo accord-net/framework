@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -33,7 +33,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     /// <remarks>
     /// <para>
-    ///   The Nakagami distribution has been used in the modelling of wireless
+    ///   The Nakagami distribution has been used in the modeling of wireless
     ///   signal attenuation while traversing multiple paths. </para>
     ///   
     /// <para>    
@@ -44,7 +44,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///       http://en.wikipedia.org/wiki/Nakagami_distribution </a></description></item>
     ///     <item><description>
     ///       Laurenson, Dave (1994). "Nakagami Distribution". Indoor Radio Channel Propagation
-    ///       Modelling by Ray Tracing Techniques. </description></item>
+    ///       Modeling by Ray Tracing Techniques. </description></item>
     ///     <item><description>  
     ///       R. Kolar, R. Jirik, J. Jan (2004) "Estimator Comparison of the Nakagami-m Parameter
     ///       and Its Application in Echocardiography", Radioengineering, 13 (1), 8–12 </description></item>

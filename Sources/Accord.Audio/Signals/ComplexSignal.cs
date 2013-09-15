@@ -1,6 +1,6 @@
 ﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -61,7 +61,7 @@ namespace Accord.Audio
     ///   A complex discrete-time signal is any complex-valued function
     ///   of integers. This class is used to keep audio signals represented 
     ///   in complex numbers so they are suitable to be converted to and
-    ///   from the frequency domain in either analytic or fourier transformed
+    ///   from the frequency domain in either analytic or Fourier transformed
     ///   forms.</para>
     /// 
     /// <para>    
@@ -78,7 +78,7 @@ namespace Accord.Audio
     /// ComplexSignal complexSignal = ComplexSignal.FromSignal( signal );
     /// // do forward Fourier transformation
     /// complexSignal.ForwardFourierTransform( );
-    /// // generate spectogram
+    /// // generate spectrogram
     /// complexSignal.ToBitmap(512,512);
     /// </code>
     /// </remarks>
@@ -223,7 +223,7 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Applies forward hilbert transformation to the complex signal.
+        ///   Applies forward Hilbert transformation to the complex signal.
         /// </summary>
         public void ForwardHilbertTransform()
         {
@@ -240,7 +240,7 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///  Applies backward hilbert transformation to the complex signal.
+        ///  Applies backward Hilbert transformation to the complex signal.
         /// </summary>
         public void BackwardHilbertTransform()
         {

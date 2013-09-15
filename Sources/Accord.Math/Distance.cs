@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -76,7 +76,7 @@ namespace Accord.Math
         /// <param name="x">A point in space.</param>
         /// <param name="y">A point in space.</param>
         /// 
-        /// <returns>The manhattan distance between x and y.</returns>
+        /// <returns>The Manhattan distance between x and y.</returns>
         /// 
         public static double Manhattan(this double[] x, double[] y)
         {
@@ -93,7 +93,7 @@ namespace Accord.Math
         /// <param name="x">A point in space.</param>
         /// <param name="y">A point in space.</param>
         /// 
-        /// <returns>The manhattan distance between x and y.</returns>
+        /// <returns>The Manhattan distance between x and y.</returns>
         /// 
         public static double Manhattan(this int[] x, int[] y)
         {
@@ -110,7 +110,7 @@ namespace Accord.Math
         /// <param name="x">A point in space.</param>
         /// <param name="y">A point in space.</param>
         /// 
-        /// <returns>The chebyshev distance between x and y.</returns>
+        /// <returns>The Chebyshev distance between x and y.</returns>
         /// 
         public static double Chebyshev(double[] x, double[] y)
         {
@@ -211,7 +211,7 @@ namespace Accord.Math
         /// 
         /// <param name="histogram1">A normalized histogram.</param>
         /// <param name="histogram2">A normalized histogram.</param>
-        /// <returns>The Bhattacharya distance between the two histograms.</returns>
+        /// <returns>The Bhattacharyya distance between the two histograms.</returns>
         /// 
         public static double Bhattacharyya(double[] histogram1, double[] histogram2)
         {
@@ -221,7 +221,7 @@ namespace Accord.Math
             for (int i = 0; i < bins; i++)
                 b += System.Math.Sqrt(histogram1[i]) * System.Math.Sqrt(histogram2[i]);
 
-            // bhattacharyya distance between the two distributions
+            // Bhattacharyya distance between the two distributions
             return System.Math.Sqrt(1.0 - b);
         }
 
@@ -229,7 +229,7 @@ namespace Accord.Math
         ///   Bhattacharyya distance between two matrices.
         /// </summary>
         /// 
-        /// <returns>The Bhattacharia distance between the two matrices.</returns>
+        /// <returns>The Bhattacharyya distance between the two matrices.</returns>
         /// 
         public static double Bhattacharyya(double[,] x, double[,] y)
         {
@@ -243,14 +243,14 @@ namespace Accord.Math
 
 
         /// <summary>
-        ///   Bhattacharyya distance between two gaussian distributions.
+        ///   Bhattacharyya distance between two Gaussian distributions.
         /// </summary>
         /// 
         /// <param name="meanX">Mean for the first distribution.</param>
         /// <param name="covX">Covariance matrix for the first distribution.</param>
         /// <param name="meanY">Mean for the second distribution.</param>
         /// <param name="covY">Covariance matrix for the second distribution.</param>
-        /// <returns>The Bhattacharia distance between the two distributions.</returns>
+        /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
         public static double Bhattacharyya(double[] meanX, double[,] covX, double[] meanY, double[,] covY)
         {
@@ -325,7 +325,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Hamming distance between two boolean vectors.
+        ///   Hamming distance between two Boolean vectors.
         /// </summary>
         /// 
         public static double Hamming(bool[] x, bool[] y)

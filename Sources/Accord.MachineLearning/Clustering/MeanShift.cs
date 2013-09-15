@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -110,12 +110,12 @@ namespace Accord.MachineLearning
     /// <code>
     /// 
     ///  int pixelSize = 3;   // RGB color pixel
-    ///  double sigma = 0.06; // kernel bandwith
+    ///  double sigma = 0.06; // kernel bandwidth
     /// 
     ///  // Load a test image (shown below)
     ///  Bitmap image = ...
     /// 
-    ///  // Create conversors
+    ///  // Create converters
     ///  ImageToArray imageToArray = new ImageToArray(min: -1, max: +1);
     ///  ArrayToImage arrayToImage = new ArrayToImage(image.Width, image.Height, min: -1, max: +1);
     /// 
@@ -180,7 +180,7 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        ///   Gets or sets the bandwith (radius, or smoothness)
+        ///   Gets or sets the bandwidth (radius, or smoothness)
         ///   parameter to be used in the mean-shift algorithm.
         /// </summary>
         /// 
@@ -421,7 +421,7 @@ namespace Accord.MachineLearning
                 // Create bins as suggested by (Conrad Lee, 2011):
                 //
                 // The dictionary holds the positions of the bins as keys and the
-                // number of occurences of a given point as the value associated 
+                // number of occurrences of a given point as the value associated 
                 // with this key. The comparer tells the dictionary how to compare
                 // integer vectors on an element-by-element basis.
 

@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -37,7 +37,7 @@ namespace Accord.Statistics.Analysis
     {
 
         /// <summary>
-        ///   Gets the the dependent variables' values
+        ///   Gets the dependent variables' values
         ///   for each of the source input points.
         /// </summary>
         /// 

@@ -1,6 +1,6 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -56,7 +56,7 @@ namespace Accord.MachineLearning.DecisionTrees
             writer.WriteLine("//");
             writer.WriteLine("// Accord Machine Learning Library");
             writer.WriteLine("// The Accord.NET Framework");
-            writer.WriteLine("// http://accord.googlecode.com");
+            writer.WriteLine("// http://accord-framework.net");
             writer.WriteLine("//");
             writer.WriteLine();
             writer.WriteLine("namespace DecisionTrees");

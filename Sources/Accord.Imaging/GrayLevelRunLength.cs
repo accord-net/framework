@@ -1,6 +1,6 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Diego Catalano, 2013
 // diego.catalano at live.com
@@ -52,7 +52,7 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Gets or sets the direction at which the cooccurrence should be found.
+        ///   Gets or sets the direction at which the co-occurrence should be found.
         /// </summary>
         /// 
         public CooccurrenceDegree Degree
@@ -76,7 +76,7 @@ namespace Accord.Imaging
         ///   Initializes a new instance of the <see cref="GrayLevelDifferenceMethod"/> class.
         /// </summary>
         /// 
-        /// <param name="degree">The direction at which the cooccurrence should be found.</param>
+        /// <param name="degree">The direction at which the co-occurrence should be found.</param>
         /// 
         public GrayLevelRunLengthMatrix(CooccurrenceDegree degree)
         {
@@ -87,7 +87,7 @@ namespace Accord.Imaging
         ///   Initializes a new instance of the <see cref="GrayLevelDifferenceMethod"/> class.
         /// </summary>
         /// 
-        /// <param name="degree">The direction at which the cooccurrence should be found.</param>
+        /// <param name="degree">The direction at which the co-occurrence should be found.</param>
         /// <param name="autoGray">Whether the maximum value of gray should be
         ///   automatically computed from the image. Default is true.</param>
         /// 

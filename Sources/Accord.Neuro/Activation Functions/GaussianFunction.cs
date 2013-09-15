@@ -1,6 +1,6 @@
 ﻿// Accord Neural Net Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -96,7 +96,7 @@ namespace Accord.Neuro.ActivationFunctions
 
         /// <summary>
         ///   Gets or sets the class-wide  
-        ///   gaussian random generator.
+        ///   Gaussian random generator.
         /// </summary>
         /// 
         public static StandardGenerator Random

@@ -1,6 +1,6 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Steven G. Johnson, 2008
 // stevenj@alum.mit.edu
@@ -10,7 +10,7 @@
 //
 //
 // The source code presented in this file has been adapted from the
-// augmented lagrangian method implementation presented in the NLopt
+// Augmented Lagrangian method implementation presented in the NLopt
 // Numerical Optimization Library. This file is thus licensed under
 // the same MIT license as the original. Details are given below.
 //
@@ -42,7 +42,7 @@ namespace Accord.Math.Optimization
     using System.Collections.Generic;
 
     /// <summary>
-    ///   Augmented Lagrangiam method for constrained non-linear optimization.
+    ///   Augmented Lagrangian method for constrained non-linear optimization.
     /// </summary>
     /// 
     /// <remarks>
@@ -76,7 +76,7 @@ namespace Accord.Math.Optimization
     /// //
     ///
     /// // In this example we will be using some symbolic processing. 
-    /// // The following variables could be inicialized to any value.
+    /// // The following variables could be initialized to any value.
     ///
     /// double x = 0, y = 0;
     ///
@@ -103,7 +103,7 @@ namespace Accord.Math.Optimization
     /// // Add the non-negativity constraint for x
     /// constraints.Add(new NonlinearConstraint(f,
     ///
-    ///     // 1st contraint: x should be greater than or equal to 0
+    ///     // 1st constraint: x should be greater than or equal to 0
     ///     function: () => x, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0,
     ///
     ///     gradient: () => new[] { 1.0, 0.0 }
