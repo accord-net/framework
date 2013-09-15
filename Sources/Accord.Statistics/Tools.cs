@@ -1,6 +1,6 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -218,7 +218,7 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">A double array containing the vector members.</param>
-        /// <param name="inPlace">Wether to perform operations in place, overwriting the original vector.</param>
+        /// <param name="inPlace">Whether to perform operations in place, overwriting the original vector.</param>
         /// <param name="percent">The percentage of observations to drop from the sample.</param>
         /// 
         /// <returns>The mean of the given data.</returns>
@@ -285,8 +285,30 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">A double array containing the vector members.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   standard deviation, false for the sample standard deviation.</param>
+        ///   Pass true to compute the standard deviation using the sample variance.
+        ///   Pass false to compute it using the population variance. See remarks
+        ///   for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the standard deviation σ using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true will
+        ///     thus compute σ using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
         ///   
         /// <returns>The standard deviation of the given data.</returns>
         /// 
@@ -315,8 +337,30 @@ namespace Accord.Statistics
         /// <param name="values">A double array containing the vector members.</param>
         /// <param name="mean">The mean of the vector, if already known.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   standard deviation, false for the sample standard deviation.</param>
+        ///   Pass true to compute the standard deviation using the sample variance.
+        ///   Pass false to compute it using the population variance. See remarks
+        ///   for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the standard deviation σ using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true will
+        ///     thus compute σ using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
         ///   
         /// <returns>The standard deviation of the given data.</returns>
         /// 
@@ -513,9 +557,30 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">A double precision number array containing the vector members.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   variance, false for the sample variance.</param>
-        ///
+        ///   Pass true to compute the sample variance; or pass false to compute 
+        ///   the population variance. See remarks for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the variance σ² using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true 
+        ///     will thus compute σ² using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
+        /// 
         /// <returns>The variance of the given data.</returns>
         /// 
         public static double Variance(this double[] values, bool unbiased)
@@ -528,6 +593,7 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">An integer number array containing the vector members.</param>
+        /// 
         /// <returns>The variance of the given data.</returns>
         /// 
         public static double Variance(this int[] values)
@@ -540,10 +606,32 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">An integer number array containing the vector members.</param>
+        /// 
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   variance, false for the sample variance.</param>
-        ///
+        ///   Pass true to compute the sample variance; or pass false to compute 
+        ///   the population variance. See remarks for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the variance σ² using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true 
+        ///     will thus compute σ² using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
+        /// 
         /// <returns>The variance of the given data.</returns>
         /// 
         public static double Variance(this int[] values, bool unbiased)
@@ -583,8 +671,30 @@ namespace Accord.Statistics
         /// <param name="values">A number array containing the vector members.</param>
         /// <param name="mean">The mean of the array, if already known.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   variance, false for the sample variance.</param>
+        ///   Pass true to compute the sample variance; or pass false to compute 
+        ///   the population variance. See remarks for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the variance σ² using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true 
+        ///     will thus compute σ² using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
+        /// 
         ///   
         /// <returns>The variance of the given data.</returns>
         /// 
@@ -617,8 +727,30 @@ namespace Accord.Statistics
         /// <param name="values">A number array containing the vector members.</param>
         /// <param name="mean">The mean of the array, if already known.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   variance, false for the sample variance.</param>
+        ///   Pass true to compute the sample variance; or pass false to compute 
+        ///   the population variance. See remarks for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the variance σ² using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true 
+        ///     will thus compute σ² using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
+        /// 
         ///   
         /// <returns>The variance of the given data.</returns>
         /// 
@@ -671,7 +803,9 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="samples">The grouped samples.</param>
-        /// <param name="unbiased">True to obtain an unbiased estimate; false otherwise. Default is true.</param>
+        /// <param name="unbiased">
+        ///   True to compute a pooled standard deviation using unbiased estimates
+        ///   of the population variance; false otherwise. Default is true.</param>
         /// 
         public static double PooledStandardDeviation(bool unbiased, params double[][] samples)
         {
@@ -695,7 +829,9 @@ namespace Accord.Statistics
         /// 
         /// <param name="sizes">The number of samples used to compute the <paramref name="variances"/>.</param>
         /// <param name="variances">The unbiased variances for the samples.</param>
-        /// <param name="unbiased">True to obtain an unbiased estimate; false otherwise. Default is true.</param>
+        /// <param name="unbiased">
+        ///   True to compute a pooled standard deviation using unbiased estimates
+        ///   of the population variance; false otherwise. Default is true.</param>
         /// 
         public static double PooledStandardDeviation(int[] sizes, double[] variances, bool unbiased = true)
         {
@@ -717,8 +853,11 @@ namespace Accord.Statistics
         ///   Computes the pooled variance of the given values.
         /// </summary>
         /// 
+        /// <param name="unbiased">
+        ///   True to obtain an unbiased estimate of the population
+        ///   variance; false otherwise. Default is true.</param>
+        /// 
         /// <param name="samples">The grouped samples.</param>
-        /// <param name="unbiased">True to obtain an unbiased estimate; false otherwise. Default is true.</param>
         /// 
         public static double PooledVariance(bool unbiased, params double[][] samples)
         {
@@ -754,7 +893,9 @@ namespace Accord.Statistics
         /// 
         /// <param name="sizes">The number of samples used to compute the <paramref name="variances"/>.</param>
         /// <param name="variances">The unbiased variances for the samples.</param>
-        /// <param name="unbiased">True to obtain an unbiased estimate; false otherwise. Default is true.</param>
+        /// <param name="unbiased">
+        ///   True to obtain an unbiased estimate of the population
+        ///   variance; false otherwise. Default is true.</param>
         /// 
         public static double PooledVariance(int[] sizes, double[] variances, bool unbiased = true)
         {
@@ -923,14 +1064,35 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Computes the Covariance between two values arrays.
+        ///   Computes the Covariance between two arrays of values.
         /// </summary>
         /// 
         /// <param name="vector1">A number array containing the first vector elements.</param>
         /// <param name="vector2">A number array containing the second vector elements.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   variance, false for the sample variance.</param>
+        ///   Pass true to compute the sample variance; or pass false to compute 
+        ///   the population variance. See remarks for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the variance σ² using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true 
+        ///     will thus compute σ² using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
         /// 
         /// <returns>The variance of the given data.</returns>
         /// 
@@ -940,7 +1102,7 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Computes the Covariance between two values arrays.
+        ///   Computes the Covariance between two arrays of values.
         /// </summary>
         /// 
         /// <param name="vector1">A number array containing the first vector elements.</param>
@@ -948,8 +1110,29 @@ namespace Accord.Statistics
         /// <param name="mean1">The mean value of <paramref name="vector1"/>, if known.</param>
         /// <param name="mean2">The mean value of <paramref name="vector2"/>, if known.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   variance, false for the sample variance.</param>
+        ///   Pass true to compute the sample variance; or pass false to compute 
+        ///   the population variance. See remarks for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the variance σ² using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true 
+        ///     will thus compute σ² using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
         /// 
         /// <returns>The variance of the given data.</returns>
         /// 
@@ -995,10 +1178,11 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="values">A number array containing the vector values.</param>
+        /// 
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   skewness, false for the sample skewness. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   skewness, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         ///   
         /// <returns>The skewness of the given data.</returns>
         /// 
@@ -1024,8 +1208,8 @@ namespace Accord.Statistics
         /// <param name="mean">The values' mean, if already known.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   skewness, false for the sample skewness. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   skewness, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The skewness of the given data.</returns>
         /// 
@@ -1072,8 +1256,8 @@ namespace Accord.Statistics
         /// <param name="values">A number array containing the vector values.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   kurtosis, false for the sample kurtosis. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   kurtosis, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The kurtosis of the given data.</returns>
         /// 
@@ -1095,8 +1279,8 @@ namespace Accord.Statistics
         /// <param name="mean">The values' mean, if already known.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   kurtosis, false for the sample kurtosis. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   kurtosis, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The kurtosis of the given data.</returns>
         /// 
@@ -1393,7 +1577,7 @@ namespace Accord.Statistics
         /// <param name="matrix">A matrix whose variances will be calculated.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
         /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
-        /// <param name="means">The mean vector containing already calculated means for each column of the matix.</param>
+        /// <param name="means">The mean vector containing already calculated means for each column of the matrix.</param>
         /// <returns>Returns a vector containing the variances of the given matrix.</returns>
         /// 
         public static double[] WeightedVariance(this double[][] matrix, double[] weights, double[] means)
@@ -1500,7 +1684,7 @@ namespace Accord.Statistics
 
             if (dimension == -1)
             {
-                // Compute accross all dimensions
+                // Compute across all dimensions
                 mean = new double[1];
                 double N = rows * cols;
 
@@ -1652,7 +1836,7 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose means will be calculated.</param>
-        /// <param name="sums">The sum vector containing already calculated sums for each column of the matix.</param>
+        /// <param name="sums">The sum vector containing already calculated sums for each column of the matrix.</param>
         /// 
         /// <returns>Returns a vector containing the means of the given matrix.</returns>
         /// 
@@ -1688,7 +1872,7 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose deviations will be calculated.</param>
-        /// <param name="means">The mean vector containing already calculated means for each column of the matix.</param>
+        /// <param name="means">The mean vector containing already calculated means for each column of the matrix.</param>
         /// 
         /// <returns>Returns a vector containing the standard deviations of the given matrix.</returns>
         /// 
@@ -1702,11 +1886,32 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose deviations will be calculated.</param>
-        /// <param name="means">The mean vector containing already calculated means for each column of the matix.</param>
+        /// <param name="means">The mean vector containing already calculated means for each column of the matrix.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population standard
-        ///   deviation, false for the sample deviation. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   Pass true to compute the standard deviation using the sample variance.
+        ///   Pass false to compute it using the population variance. See remarks
+        ///   for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the standard deviation σ using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true will
+        ///     thus compute σ using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
         ///   
         /// <returns>Returns a vector containing the standard deviations of the given matrix.</returns>
         /// 
@@ -1721,9 +1926,30 @@ namespace Accord.Statistics
         /// 
         /// <param name="matrix">A matrix whose deviations will be calculated.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population standard
-        ///   deviation, false for the sample deviation. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   Pass true to compute the standard deviation using the sample variance.
+        ///   Pass false to compute it using the population variance. See remarks
+        ///   for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the standard deviation σ using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true will
+        ///     thus compute σ using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
         /// 
         /// <returns>Returns a vector containing the standard deviations of the given matrix.</returns>
         /// 
@@ -1734,8 +1960,11 @@ namespace Accord.Statistics
 
 
         /// <summary>
-        ///   Centers an observation, subtracting the empirical mean from the variable.
+        ///   Centers an observation, subtracting the empirical 
+        ///   mean from each element in the observation vector.
         /// </summary>
+        /// 
+        /// <param name="observation">An array of double precision floating-point numbers.</param>
         /// 
         public static void Center(double[] observation)
         {
@@ -1743,13 +1972,17 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Centers an observation, subtracting the empirical mean from the variable.
+        ///   Centers an observation, subtracting the empirical 
+        ///   mean from each element in the observation vector.
         /// </summary>
         /// 
-        public static void Center(double[] observation, double mean)
+        /// <param name="values">An array of double precision floating-point numbers.</param>
+        /// <param name="mean">The mean of the <paramref name="values"/>, if already known.</param>
+        /// 
+        public static void Center(double[] values, double mean)
         {
-            for (int i = 0; i < observation.Length; i++)
-                observation[i] -= mean;
+            for (int i = 0; i < values.Length; i++)
+                values[i] -= mean;
         }
 
 
@@ -1757,7 +1990,7 @@ namespace Accord.Statistics
         ///   Calculates the matrix Variance vector.
         /// </summary>
         /// 
-        /// <param name="matrix">A matrix whose variancees will be calculated.</param>
+        /// <param name="matrix">A matrix whose variances will be calculated.</param>
         /// 
         /// <returns>Returns a vector containing the variances of the given matrix.</returns>
         /// 
@@ -1771,7 +2004,8 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose variances will be calculated.</param>
-        /// <param name="means">The mean vector containing already calculated means for each column of the matix.</param>
+        /// <param name="means">The mean vector containing already
+        /// calculated means for each column of the matrix.</param>
         /// 
         /// <returns>Returns a vector containing the variances of the given matrix.</returns>
         /// 
@@ -1823,11 +2057,31 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A matrix whose variances will be calculated.</param>
-        /// <param name="means">The mean vector containing already calculated means for each column of the matix.</param>
+        /// <param name="means">The mean vector containing already calculated means for each column of the matrix.</param>
         /// <param name="unbiased">
-        ///   True to compute the unbiased estimate of the population
-        ///   variance, false for the sample variance. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   Pass true to compute the sample variance; or pass false to compute 
+        ///   the population variance. See remarks for more details.</param>
+        /// <remarks>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>true</c> will make this method 
+        ///     compute the variance σ² using the sample variance, which is an unbiased 
+        ///     estimator of the true population variance. Setting this parameter to true 
+        ///     will thus compute σ² using the following formula:</para>
+        ///     <code>
+        ///                           N
+        ///        σ² = 1 / (N - 1)  ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        ///   <para>
+        ///     Setting <paramref name="unbiased"/> to <c>false</c> will assume the given values
+        ///     already represent the whole population, and will compute the population variance
+        ///     using the formula: </para>
+        ///     <code>
+        ///                           N
+        ///        σ² =   (1 / N)    ∑   (x_i − μ)²
+        ///                           i=1
+        ///     </code>
+        /// </remarks>
         ///   
         /// <returns>Returns a vector containing the variances of the given matrix.</returns>
         /// 
@@ -2126,8 +2380,8 @@ namespace Accord.Statistics
         /// <param name="matrix">A number matrix containing the matrix values.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   skewness, false for the sample skewness. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   skewness, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The skewness of the given data.</returns>
         /// 
@@ -2150,11 +2404,11 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number array containing the vector values.</param>
-        /// <param name="means">The values' mean, if already known.</param>
+        /// <param name="means">The mean value for the given values, if already known.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   skewness, false for the sample skewness. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   skewness, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The skewness of the given data.</returns>
         /// 
@@ -2211,8 +2465,8 @@ namespace Accord.Statistics
         /// <param name="matrix">A number matrix containing the matrix values.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   skewness, false for the sample skewness. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   skewness, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The skewness of the given data.</returns>
         /// 
@@ -2238,8 +2492,8 @@ namespace Accord.Statistics
         /// <param name="means">The column means, if known.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   skewness, false for the sample skewness. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   skewness, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The skewness of the given data.</returns>
         /// 
@@ -2293,8 +2547,8 @@ namespace Accord.Statistics
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   kurtosis, false for the sample kurtosis. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   kurtosis, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The kurtosis vector of the given data.</returns>
         /// 
@@ -2313,11 +2567,11 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   kurtosis, false for the sample kurtosis. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   kurtosis, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The sample kurtosis vector of the given data.</returns>
         /// 
@@ -2377,8 +2631,8 @@ namespace Accord.Statistics
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   kurtosis, false for the sample kurtosis. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   kurtosis, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         /// 
         /// <returns>The kurtosis vector of the given data.</returns>
         /// 
@@ -2397,11 +2651,11 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="unbiased">
         ///   True to compute the unbiased estimate of the population
-        ///   kurtosis, false for the sample kurtosis. Default is true
-        ///   (compute the unbiased estimator).</param>
+        ///   kurtosis, false otherwise. Default is true (compute the 
+        ///   unbiased estimator).</param>
         ///   
         /// <returns>The kurtosis vector of the given data.</returns>
         /// 
@@ -2539,7 +2793,7 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
@@ -2560,7 +2814,7 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
@@ -2580,7 +2834,7 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="divisor">A real number to divide each member of the matrix.</param>
         /// 
         /// <returns>The covariance matrix.</returns>
@@ -2601,7 +2855,7 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
@@ -2624,7 +2878,7 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="divisor">A real number to divide each member of the matrix.</param>
         /// <param name="dimension">
         ///   Pass 0 if the mean vector is a row vector, 1 otherwise. Default value is 0.
@@ -2741,7 +2995,7 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
@@ -2762,7 +3016,7 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// 
         /// <returns>The covariance matrix.</returns>
         /// 
@@ -2780,7 +3034,7 @@ namespace Accord.Statistics
         ///   sample Covariance matrix.
         /// </remarks>
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="divisor">A real number to divide each member of the matrix.</param>
         /// <returns>The covariance matrix.</returns>
         public static double[,] Scatter(this double[][] matrix, double[] means, double divisor)
@@ -2822,7 +3076,7 @@ namespace Accord.Statistics
         /// </remarks>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
@@ -2843,7 +3097,7 @@ namespace Accord.Statistics
         ///   sample Covariance matrix.
         /// </remarks>
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="divisor">A real number to divide each member of the matrix.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
@@ -2927,7 +3181,7 @@ namespace Accord.Statistics
         ///   as the covariance matrix of the standardized random variables.
         /// </remarks>
         /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
         /// <returns>The correlation matrix.</returns>
         public static double[,] Correlation(double[,] matrix, double[] means, double[] standardDeviations)
@@ -2971,7 +3225,7 @@ namespace Accord.Statistics
         ///   Generates the Standard Scores, also known as Z-Scores, from the given data.
         /// </summary>
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
         /// <returns>The Z-Scores for the matrix.</returns>
         public static double[,] ZScores(double[,] matrix, double[] means, double[] standardDeviations)
@@ -2995,7 +3249,7 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
         /// 
         /// <returns>The Z-Scores for the matrix.</returns>
@@ -3023,7 +3277,7 @@ namespace Accord.Statistics
         /// </summary>   
         /// 
         /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
         /// 
         public static double[,] Center(this double[,] matrix, double[] means, bool inPlace = false)
@@ -3055,7 +3309,7 @@ namespace Accord.Statistics
         /// <summary>Centers column data, subtracting the empirical mean from each variable.</summary>
         /// 
         /// <param name="matrix">A matrix where each column represent a variable and each row represent a observation.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
         /// 
         public static double[][] Center(this double[][] matrix, double[] means, bool inPlace = false)
@@ -3079,6 +3333,42 @@ namespace Accord.Statistics
             return result;
         }
 
+
+        /// <summary>
+        ///   Standardizes column data, removing the empirical standard deviation from each variable.
+        /// </summary>
+        /// 
+        /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
+        /// 
+        /// <param name="values">An array of double precision floating-point numbers.</param>
+        /// <param name="inPlace">True to perform the operation in place, 
+        ///   altering the original input matrix.</param>
+        /// 
+        public static double[] Standardize(this double[] values, bool inPlace = false)
+        {
+            return Standardize(values, StandardDeviation(values), inPlace);
+        }
+
+        /// <summary>
+        ///   Standardizes column data, removing the empirical standard deviation from each variable.
+        /// </summary>
+        /// 
+        /// <remarks>This method does not remove the empirical mean prior to execution.</remarks>
+        /// 
+        /// <param name="values">An array of double precision floating-point numbers.</param>
+        /// <param name="standardDeviation">The standard deviation of the given 
+        /// <paramref name="values"/>, if already known.</param>
+        /// <param name="inPlace">True to perform the operation in place, altering the original input matrix.</param>
+        /// 
+        public static double[] Standardize(this double[] values, double standardDeviation, bool inPlace = false)
+        {
+
+            double[] result = inPlace ? values: new double[values.Length];
+            for (int i = 0; i < values.Length; i++)
+                result[i] = values[i] / standardDeviation;
+
+            return result;
+        }
 
         /// <summary>
         ///   Standardizes column data, removing the empirical standard deviation from each variable.
@@ -3255,7 +3545,7 @@ namespace Accord.Statistics
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
         /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <returns>The covariance matrix.</returns>
         public static double[,] WeightedCovariance(double[][] matrix, double[] weights, double[] means)
         {
@@ -3298,7 +3588,7 @@ namespace Accord.Statistics
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
         /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
@@ -3323,7 +3613,7 @@ namespace Accord.Statistics
         /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
         /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
-        /// <param name="means">The values' mean vector, if already known.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="divisor">A real number to divide each member of the matrix.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
@@ -3392,9 +3682,9 @@ namespace Accord.Statistics
         /// <summary>
         ///   Calculates the prevalence of a class.
         /// </summary>
-        /// <param name="positives">An array of counts detailing the occurence of the first class.</param>
-        /// <param name="negatives">An array of counts detailing the occurence of the second class.</param>
-        /// <returns>An array containing the proportion of the first class over the total of occurances.</returns>
+        /// <param name="positives">An array of counts detailing the occurrence of the first class.</param>
+        /// <param name="negatives">An array of counts detailing the occurrence of the second class.</param>
+        /// <returns>An array containing the proportion of the first class over the total of occurrences.</returns>
         public static double[] Proportions(int[] positives, int[] negatives)
         {
             double[] r = new double[positives.Length];
@@ -3407,9 +3697,9 @@ namespace Accord.Statistics
         ///   Calculates the prevalence of a class.
         /// </summary>
         /// <param name="data">A matrix containing counted, grouped data.</param>
-        /// <param name="positiveColumn">The index for the column which contains counts for occurence of the first class.</param>
-        /// <param name="negativeColumn">The index for the column which contains counts for occurence of the second class.</param>
-        /// <returns>An array containing the proportion of the first class over the total of occurances.</returns>
+        /// <param name="positiveColumn">The index for the column which contains counts for occurrence of the first class.</param>
+        /// <param name="negativeColumn">The index for the column which contains counts for occurrence of the second class.</param>
+        /// <returns>An array containing the proportion of the first class over the total of occurrences.</returns>
         public static double[] Proportions(int[][] data, int positiveColumn, int negativeColumn)
         {
             double[] r = new double[data.Length];
@@ -3419,14 +3709,14 @@ namespace Accord.Statistics
         }
 
         /// <summary>
-        ///   Groups the occurances contained in data matrix of binary (dichotomous) data.
+        ///   Groups the occurrences contained in data matrix of binary (dichotomous) data.
         /// </summary>
         /// <param name="data">A data matrix containing at least a column of binary data.</param>
         /// <param name="labelColumn">Index of the column which contains the group label name.</param>
         /// <param name="dataColumn">Index of the column which contains the binary [0,1] data.</param>
         /// <returns>
-        ///    A matrix containing the group label in the first column, the number of occurances of the first class
-        ///    in the second column and the number of occurances of the second class in the third column.
+        ///    A matrix containing the group label in the first column, the number of occurrences of the first class
+        ///    in the second column and the number of occurrences of the second class in the third column.
         /// </returns>
         public static int[][] Group(int[][] data, int labelColumn, int dataColumn)
         {
@@ -3463,10 +3753,10 @@ namespace Accord.Statistics
         /// </summary>
         /// <param name="data">The group labels.</param>
         /// <param name="positives">
-        ///   An array containing he occurence of the positive class
+        ///   An array containing he occurrence of the positive class
         ///   for each of the groups.</param>
         /// <param name="negatives">
-        ///   An array containing he occurence of the negative class
+        ///   An array containing he occurrence of the negative class
         ///   for each of the groups.</param>
         /// <returns>A full sized observation matrix.</returns>
         public static int[][] Expand(int[] data, int[] positives, int[] negatives)
@@ -3493,9 +3783,9 @@ namespace Accord.Statistics
         /// <param name="labelColumn">Index of the column which contains the labels
         /// in the grouped data matrix. </param>
         /// <param name="positiveColumn">Index of the column which contains
-        ///   the occurances for the first class.</param>
+        ///   the occurrences for the first class.</param>
         /// <param name="negativeColumn">Index of the column which contains
-        ///   the occurances for the second class.</param>
+        ///   the occurrences for the second class.</param>
         ///   
         /// <returns>A full sized observation matrix.</returns>
         /// 
