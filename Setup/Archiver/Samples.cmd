@@ -67,7 +67,7 @@ for /r %sampleDir% %%f in (*.csproj) do (
    for %%c in ("A=a" "B=b" "C=c" "D=d" "E=e" "F=f" "G=g" "H=h" "I=i" "J=j" "K=k" "L=l" "M=m" "N=n" "O=o" "P=p" "Q=q" "R=r" "S=s" "T=t" "U=u" "V=v" "W=w" "X=x" "Y=y" "Z=z") do set fileName=!fileName:%%~c!
    
    :: Create the binary package
-   set binFileName=!fileName!-bin.zip
+   set binFileName=!fileName!.zip
    
    :: Get the binary files folder
    set binFolder=!cur!%sampleBin%
@@ -80,7 +80,7 @@ for /r %sampleDir% %%f in (*.csproj) do (
    popd
    
    :: Create the sources package
-   set srcFileName=!fileName!-src.zip
+   set srcFileName=!fileName!.zip
    
    :: Get the binary files folder
    set srcFolder=!cur!
@@ -89,7 +89,7 @@ for /r %sampleDir% %%f in (*.csproj) do (
    echo - Processing !srcFileName!
    pushd .
    cd !srcFolder!   
-   %rar% %opts% -r %outputDir%\!srcFileName! *.* -x*\.svn* -x*\obj -x*\bin -x*.suo -x*.user -x"*\bin\x86\Release 3.5"
+   %rar% %opts% -apsources -r %outputDir%\!srcFileName! *.* -x*\.svn* -x*\obj -x*\bin -x*.suo -x*.user -x"*\bin\x86\Release 3.5"
    popd
 )
 
