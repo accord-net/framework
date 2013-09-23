@@ -297,7 +297,7 @@ namespace Accord.Tests.MachineLearning
             double error = smo.Run();
 
             Assert.AreEqual(0, error);
-         }
+        }
 
         [TestMethod()]
         public void SequentialMinimalOptimizationConstructorTest()
@@ -442,6 +442,64 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(50, matrix.FalsePositives);
                 Assert.AreEqual(50, matrix.TruePositives);
                 Assert.AreEqual(0, matrix.TrueNegatives);
+            }
+        }
+
+        [TestMethod()]
+        public void CompactTest()
+        {
+
+            double[][] inputs =
+            {
+                new double[] { -1, -1 },
+                new double[] { -1,  1 },
+                new double[] {  1, -1 },
+                new double[] {  1,  1 }
+            };
+
+            int[] xor =
+            {
+                -1,
+                 1,
+                 1,
+                -1
+            };
+
+            {
+                var machine = new KernelSupportVectorMachine(new Polynomial(2), inputs[0].Length);
+                var learn = new SequentialMinimalOptimization(machine, inputs, xor);
+
+                learn.Compact = false;
+                double error = learn.Run();
+                Assert.AreEqual(0, error);
+            }
+
+            {
+                var machine = new KernelSupportVectorMachine(new Polynomial(2), inputs[0].Length);
+                var learn = new SequentialMinimalOptimization(machine, inputs, xor);
+
+                bool thrown = false;
+                try { learn.Compact = true; }
+                catch { thrown = true; }
+                Assert.IsTrue(thrown);
+            }
+
+            {
+                var machine = new KernelSupportVectorMachine(new Linear(), inputs[0].Length);
+                var learn = new SequentialMinimalOptimization(machine, inputs, xor);
+
+                learn.Compact = false;
+                double error = learn.Run();
+                Assert.AreEqual(0.5, error);
+            }
+
+            {
+                var machine = new KernelSupportVectorMachine(new Linear(), inputs[0].Length);
+                var learn = new SequentialMinimalOptimization(machine, inputs, xor);
+
+                learn.Compact = false;
+                double error = learn.Run();
+                Assert.AreEqual(0.5, error);
             }
         }
 

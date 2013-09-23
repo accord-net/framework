@@ -447,7 +447,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             get { return isCompact; }
             set
             {
-                if (!isLinear)
+                if (!isLinear && value)
                     throw new InvalidOperationException("Only linear machines can be created in compact form.");
                 isCompact = value;
             }
