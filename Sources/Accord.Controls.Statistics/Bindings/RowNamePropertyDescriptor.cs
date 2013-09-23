@@ -96,7 +96,7 @@ namespace Accord.Controls
         {
             try
             {
-                return ((ArrayRowView)component).GetName();
+                return ((ArrayRowView)component).Name;
             }
             catch (ArgumentException e)
             {
