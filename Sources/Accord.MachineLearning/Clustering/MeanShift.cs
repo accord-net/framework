@@ -369,8 +369,11 @@ namespace Accord.MachineLearning
         private void computeMeanShift(double[] x, double[] shift)
         {
             // Get points near the current point
-            KDTreeNodeCollection<int> neighbors =
-                tree.Nearest(x, Bandwidth * 3, maximum);
+            ICollection<KDTreeNodeDistance<int>> neighbors;
+
+            if (maximum > 0)
+                neighbors = tree.Nearest(x, Bandwidth * 3, maximum);
+            else neighbors = tree.Nearest(x, Bandwidth * 3);
 
             double sum = 0;
             Array.Clear(shift, 0, shift.Length);

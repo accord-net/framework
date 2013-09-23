@@ -90,7 +90,7 @@ namespace Accord.Tests.Math
 
             // Locate all nearby points within an Euclidean distance of 1.5
             // (answer should be a single point located at position (5,4))
-            KDTreeNodeCollection<int> result = tree.Nearest(query, radius: 1.5); 
+            List<KDTreeNodeDistance<int>> result = tree.Nearest(query, radius: 1.5); 
             
             // We can also use alternate distance functions
             tree.Distance = Accord.Math.Distance.Manhattan;
@@ -107,8 +107,8 @@ namespace Accord.Tests.Math
             Assert.AreEqual("(5,4)", result[0].Node.ToString());
 
             Assert.AreEqual(3, neighbors.Count);
-            Assert.AreEqual("(5,4)", neighbors[1].Node.ToString());
-            Assert.AreEqual("(7,2)", neighbors[2].Node.ToString());
+            Assert.AreEqual("(5,4)", neighbors[2].Node.ToString());
+            Assert.AreEqual("(7,2)", neighbors[1].Node.ToString());
             Assert.AreEqual("(2,3)", neighbors[0].Node.ToString());
 
             Assert.AreEqual(7, tree.Root.Position[0]);
@@ -196,6 +196,51 @@ namespace Accord.Tests.Math
             }
 
             var result = tree.Nearest(new double[] { 3, 3 }, 1.0);
+
+            double[][] expected =
+            {
+                                        new double[] { 2, 3 },
+                new double[] { 3, 2 },  new double[] { 3, 3 }, new double[] { 3, 4 }, 
+                                        new double[] { 4, 3 }, 
+            };
+
+            Assert.AreEqual(expected.Length, result.Count);
+
+            double[][] actual = (from node in result select node.Node.Position).ToArray();
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.IsTrue(actual.Contains(expected[i], new CustomComparer<double[]>((a, b) => a.IsEqual(b) ? 0 : 1)));
+            }
+        }
+
+        [TestMethod()]
+        public void NearestTest3()
+        {
+            double[][] points =
+            {
+                new double[] { 1, 1 }, new double[] { 1, 2 }, new double[] { 1, 3 }, new double[] { 1, 4 }, new double[] { 1, 5 }, 
+                new double[] { 2, 1 }, new double[] { 2, 2 }, new double[] { 2, 3 }, new double[] { 2, 4 }, new double[] { 2, 5 }, 
+                new double[] { 3, 1 }, new double[] { 3, 2 }, new double[] { 3, 3 }, new double[] { 3, 4 }, new double[] { 3, 5 }, 
+                new double[] { 4, 1 }, new double[] { 4, 2 }, new double[] { 4, 3 }, new double[] { 4, 4 }, new double[] { 4, 5 }, 
+                new double[] { 5, 1 }, new double[] { 5, 2 }, new double[] { 5, 3 }, new double[] { 5, 4 }, new double[] { 5, 5 }, 
+            };
+
+            var tree = KDTree.FromData<int>(points);
+
+            tree.Distance = Accord.Math.Distance.Manhattan;
+
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                var retrieval = tree.Nearest(points[i], 1);
+
+                Assert.AreEqual(1, retrieval.Count);
+                Assert.AreEqual(points[i][0], retrieval[0].Node.Position[0]);
+                Assert.AreEqual(points[i][1], retrieval[0].Node.Position[1]);
+            }
+
+            KDTreeNodeCollection<int> result = tree.Nearest(new double[] { 3, 3 }, 5);
 
             double[][] expected =
             {

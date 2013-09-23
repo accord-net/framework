@@ -25,13 +25,14 @@ namespace Accord.MachineLearning.Structures
     using System;
 
     /// <summary>
-    ///   K-d tree node-distance pair.
+    ///   <see cref="KDTree{T}">K-d tree</see> node-distance pair.
     /// </summary>
     /// 
     /// <typeparam name="T">The type of the value being stored, if any.</typeparam>
     /// 
     [Serializable]
-    public class KDTreeNodeDistance<T>
+    public struct KDTreeNodeDistance<T> : IComparable,
+        IComparable<KDTreeNodeDistance<T>>, IEquatable<KDTreeNodeDistance<T>>
     {
         private KDTreeNode<T> node;
         private double distance;
@@ -68,13 +69,16 @@ namespace Accord.MachineLearning.Structures
         }
 
         /// <summary>
-        ///   Determines whether the specified <see cref="System.Object"/> is equal to this instance.
+        ///   Determines whether the specified <see cref="System.Object"/>
+        ///   is equal to this instance.
         /// </summary>
         /// 
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// <param name="obj">The <see cref="System.Object"/> to compare
+        ///   with this instance.</param>
         /// 
         /// <returns>
-        ///   <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+        ///   <c>true</c> if the specified <see cref="System.Object"/> is 
+        ///   equal to this instance; otherwise, <c>false</c>.
         /// </returns>
         /// 
         public override bool Equals(object obj)
@@ -84,10 +88,8 @@ namespace Accord.MachineLearning.Structures
                 var b = (KDTreeNodeDistance<T>)obj;
                 return this.node == b.node && this.distance == b.distance;
             }
-            else
-            {
-                return false;
-            }
+
+            return false;
         }
 
         /// <summary>
@@ -95,7 +97,8 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <returns>
-        ///   A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        ///   A hash code for this instance, suitable for use in hashing
+        ///   algorithms and data structures like a hash table. 
         /// </returns>
         /// 
         public override int GetHashCode()
@@ -110,9 +113,9 @@ namespace Accord.MachineLearning.Structures
         ///   Implements the equality operator.
         /// </summary>
         /// 
-        public static bool operator==(KDTreeNodeDistance<T> a, KDTreeNodeDistance<T> b)
+        public static bool operator ==(KDTreeNodeDistance<T> a, KDTreeNodeDistance<T> b)
         {
-            return a.node == b.node && a.Distance == b.distance;
+            return a.node == b.node && a.distance == b.distance;
         }
 
         /// <summary>
@@ -121,8 +124,65 @@ namespace Accord.MachineLearning.Structures
         /// 
         public static bool operator !=(KDTreeNodeDistance<T> a, KDTreeNodeDistance<T> b)
         {
-            return !(a == b);
+            return a.node != b.node || a.distance != b.distance;
         }
-        
+
+        /// <summary>
+        ///   Implements the lesser than operator.
+        /// </summary>
+        /// 
+        public static bool operator <(KDTreeNodeDistance<T> a, KDTreeNodeDistance<T> b)
+        {
+            return a.distance < b.distance;
+        }
+
+        /// <summary>
+        ///   Implements the greater than operator.
+        /// </summary>
+        /// 
+        public static bool operator >(KDTreeNodeDistance<T> a, KDTreeNodeDistance<T> b)
+        {
+            return a.distance > b.distance;
+        }
+
+        /// <summary>
+        ///   Determines whether the specified <see cref="KDTreeNodeDistance{T}"/>
+        ///   is equal to this instance.
+        /// </summary>
+        /// 
+        /// <param name="other">The <see cref="KDTreeNodeDistance{T}"/> to compare
+        ///   with this instance.</param>
+        /// 
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="KDTreeNodeDistance{T}"/> is 
+        ///   equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        /// 
+        public bool Equals(KDTreeNodeDistance<T> other)
+        {
+            return distance == other.distance && node == other.node;
+        }
+
+        /// <summary>
+        ///   Compares this instance to another node, returning an integer
+        ///   indicating whether this instance has a distance that is less
+        ///   than, equal to, or greater than the other node's distance.
+        /// </summary>
+        /// 
+        public int CompareTo(KDTreeNodeDistance<T> other)
+        {
+            return distance.CompareTo(other.distance);
+        }
+
+        /// <summary>
+        ///   Compares this instance to another node, returning an integer
+        ///   indicating whether this instance has a distance that is less
+        ///   than, equal to, or greater than the other node's distance.
+        /// </summary>
+        /// 
+        public int CompareTo(object obj)
+        {
+            return distance.CompareTo((KDTreeNodeDistance<T>)obj);
+        }
     }
 }

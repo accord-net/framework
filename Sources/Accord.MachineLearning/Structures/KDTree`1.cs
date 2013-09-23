@@ -61,13 +61,13 @@ namespace Accord.MachineLearning.Structures
     ///       Wikipedia, The Free Encyclopedia. K-d tree. Available on:
     ///       http://en.wikipedia.org/wiki/K-d_tree </description></item>
     ///     <item><description>
-    ///       Moore, Andrew W. "An introductory tutorial on KD-trees." (1991).
+    ///       Moore, Andrew W. "An intoductory tutorial on kd-trees." (1991).
     ///       Available at: http://www.autonlab.org/autonweb/14665/version/2/part/5/data/moore-tutorial.pdf </description></item>
     ///   </list></para>
     /// </remarks>
     /// 
     /// <example>
-    /// <code>
+    /// <code lang="cs">
     /// // This is the same example found in Wikipedia page on
     /// // k-d trees: http://en.wikipedia.org/wiki/K-d_tree
     /// 
@@ -102,7 +102,7 @@ namespace Accord.MachineLearning.Structures
     /// 
     /// double[] query = new double[] { 5, 3 };
     /// 
-    /// // Locate all nearby points within an Euclidean distance of 1.5
+    /// // Locate all nearby points within an euclidean distance of 1.5
     /// // (answer should be be a single point located at position (5,4))
     /// KDTreeNodeCollection&lt;int> result = tree.Nearest(query, radius: 1.5); 
     ///             
@@ -112,6 +112,52 @@ namespace Accord.MachineLearning.Structures
     /// // And also query for a fixed number of neighbor points
     /// // (answer should be the points at (5,4), (7,2), (2,3))
     /// KDTreeNodeCollection&lt;int> neighbors = tree.Nearest(query, neighbors: 3);
+    /// </code>
+    /// <code lang="vb">
+    /// ' This is the same example found in Wikipedia page on
+    /// ' k-d trees: http://en.wikipedia.org/wiki/K-d_tree
+    /// 
+    /// ' Suppose we have the following set of points:
+    /// 
+    /// Dim points =
+    /// {
+    ///     New Double() {2, 3},
+    ///     New Double() {5, 4},
+    ///     New Double() {9, 6},
+    ///     New Double() {4, 7},
+    ///     New Double() {8, 1},
+    ///     New Double() {7, 2}
+    /// }
+    /// 
+    /// ' To create a tree from a set of points, we use
+    /// Dim tree = KDTree.FromData(Of Integer)(points)
+    /// 
+    /// ' Now we can manually navigate the tree
+    /// Dim node = tree.Root.Left.Right
+    /// 
+    /// ' Or traverse it automatically
+    /// For Each n As KDTreeNode(Of Integer) In tree
+    ///     Dim location = n.Position
+    ///     Console.WriteLine(location.Length)
+    /// Next
+    /// 
+    /// ' Given a query point, we can also query for other
+    /// ' points which are near this point within a radius
+    /// '
+    /// Dim query = New Double() {5, 3}
+    /// 
+    /// ' Locate all nearby points within an Euclidean distance of 1.5
+    /// ' (answer should be a single point located at position (5,4))
+    /// '
+    /// Dim result = tree.Nearest(query, radius:=1.5)
+    /// 
+    /// ' We can also use alternate distance functions
+    /// tree.Distance = Function(a, b) Accord.Math.Distance.Manhattan(a, b)
+    /// 
+    /// ' And also query for a fixed number of neighbor points
+    /// ' (answer should be the points at (5,4), (7,2), (2,3))
+    /// '
+    /// Dim neighbors = tree.Nearest(query, neighbors:=3)
     /// </code>
     /// </example>
     /// 
@@ -219,7 +265,10 @@ namespace Accord.MachineLearning.Structures
         public KDTreeNodeCollection<T> Nearest(double[] position, double radius, int maximum)
         {
             var list = new KDTreeNodeCollection<T>(maximum);
-            if (root != null) find(root, position, radius, list);
+
+            if (root != null)
+                find(root, position, radius, list);
+
             return list;
         }
 
@@ -232,10 +281,13 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <returns>A list of neighbor points, ordered by distance.</returns>
         /// 
-        public KDTreeNodeCollection<T> Nearest(double[] position, double radius)
+        public KDTreeNodeList<T> Nearest(double[] position, double radius)
         {
-            var list = new KDTreeNodeCollection<T>();
-            if (root != null) find(root, position, radius, list);
+            var list = new KDTreeNodeList<T>();
+
+            if (root != null)
+                find(root, position, radius, list);
+
             return list;
         }
 
@@ -251,7 +303,10 @@ namespace Accord.MachineLearning.Structures
         public KDTreeNodeCollection<T> Nearest(double[] position, int neighbors)
         {
             var list = new KDTreeNodeCollection<T>(size: neighbors);
-            if (root != null) find(root, position, neighbors, list);
+
+            if (root != null)
+                find(root, position, neighbors, list);
+
             return list;
         }
 
@@ -275,10 +330,15 @@ namespace Accord.MachineLearning.Structures
         internal static KDTree<T> FromData(double[][] points, T[] values, Func<double[], double[], double> distance)
         {
             // Initial argument checks for creating the tree
-            if (points == null) throw new ArgumentNullException("points");
-            if (distance == null) throw new ArgumentNullException("distance");
+            if (points == null)
+                throw new ArgumentNullException("points");
+
+            if (distance == null)
+                throw new ArgumentNullException("distance");
+
             if (values != null && points.Length != values.Length)
                 throw new DimensionMismatchException("values");
+
 
             int dimensions = points[0].Length;
 
@@ -307,7 +367,8 @@ namespace Accord.MachineLearning.Structures
 
 
         #region Recursive methods
-        private void find(KDTreeNode<T> current, double[] position, double radius, KDTreeNodeCollection<T> list)
+        private void find(KDTreeNode<T> current, double[] position,
+            double radius, ICollection<KDTreeNodeDistance<T>> list)
         {
             // Check if the distance of the point from this
             // node is within the desired radius, and if it
@@ -316,7 +377,7 @@ namespace Accord.MachineLearning.Structures
             double d = distance(position, current.Position);
 
             if (d <= radius)
-                list.TryAdd(current, d);
+                list.Add(new KDTreeNodeDistance<T>(current, d));
 
             // Prepare for recursion. The following null checks
             // will be used to avoid function calls if possible
@@ -351,8 +412,8 @@ namespace Accord.MachineLearning.Structures
 
             if (current.IsLeaf)
             {
-                // Base: node is a leaf
-                list.TryAdd(current, d);
+                // Base: node is leaf
+                list.Add(current, d);
             }
             else
             {
@@ -370,10 +431,10 @@ namespace Accord.MachineLearning.Structures
                     if (current.Left != null)
                         find(current.Left, position, neighbors, list);
 
-                    list.TryAdd(current, d);
+                    list.Add(current, d);
 
                     if (current.Right != null)
-                        if (Math.Abs(value - median) <= list.Farthest.Distance)
+                        if (Math.Abs(value - median) <= list.Distance.Max)
                             find(current.Right, position, neighbors, list);
                 }
                 else
@@ -381,10 +442,10 @@ namespace Accord.MachineLearning.Structures
                     if (current.Right != null)
                         find(current.Right, position, neighbors, list);
 
-                    list.TryAdd(current, d);
+                    list.Add(current, d);
 
                     if (current.Left != null)
-                        if (Math.Abs(value - median) <= list.Farthest.Distance)
+                        if (Math.Abs(value - median) <= list.Distance.Max)
                             find(current.Left, position, neighbors, list);
                 }
             }

@@ -25,10 +25,15 @@ namespace Accord.MachineLearning.Structures
     using System;
 
     /// <summary>
-    ///   Convenience class for k-dimensional tree static
-    ///   methods. Please specify a generic parameter to
-    ///   create a new tree from scratch.
+    ///   Convenience class for k-dimensional tree static methods. To 
+    ///   create a new KDTree, specify the generic parameter as in
+    ///   <see cref="KDTree{T}"/>.
     /// </summary>
+    /// 
+    /// <remarks>
+    ///   Please check the documentation page for <see cref="KDTree{T}"/>
+    ///   for examples, usage and actual remarks about kd-trees.
+    /// </remarks>
     /// 
     /// <seealso cref="KDTree{T}"/>
     /// 

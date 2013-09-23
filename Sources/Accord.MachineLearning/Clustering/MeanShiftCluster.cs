@@ -127,9 +127,11 @@ namespace Accord.MachineLearning
         /// 
         public int Nearest(double[] point)
         {
-            var result = tree.Nearest(point, 1);
+            KDTreeNodeCollection<int> result = tree.Nearest(point, 1);
+
             if (result.Count > 0)
-                return result.Nearest.Node.Value;
+                return result.Nearest.Value;
+
             return -1;
         }
 
