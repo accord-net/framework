@@ -108,7 +108,8 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="HiddenMarkovModel{TDistribution}"/>
     /// <seealso cref="BaumWelchLearning{TDistribution}"/>
     /// 
-    public class BaumWelchLearning : BaseBaumWelchLearning, IUnsupervisedLearning, IConvergenceLearning
+    public class BaumWelchLearning : BaseBaumWelchLearning, IUnsupervisedLearning, 
+        IConvergenceLearning, IUnsupervisedLearning<int[]>
     {
 
         private HiddenMarkovModel model;

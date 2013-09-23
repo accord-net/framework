@@ -108,5 +108,28 @@ namespace Accord.Statistics.Models.Markov
                     "double[] (for univariate observation) or double[][] (for " +
                     "multivariate observation).", "observations");
         }
+
+        internal static void checkArgs(int[][] observations, int symbols)
+        {
+            if (observations == null)
+                throw new ArgumentNullException("observations");
+
+            for (int i = 0; i < observations.Length; i++)
+            {
+                for (int j = 0; j < observations[i].Length; j++)
+                {
+                    int symbol = observations[i][j];
+
+                    if (symbol < 0 || symbol >= symbols)
+                    {
+                        string message = "Observation sequences should only contain symbols that are " +
+                        "greater than or equal to 0, and lesser than the number of symbols passed to " +
+                        "the HiddenMarkovModel. This model is expecting at most {0} symbols.";
+
+                        throw new ArgumentOutOfRangeException("observations", String.Format(message, symbols));
+                    }
+                }
+            }
+        }
     }
 }
