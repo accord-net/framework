@@ -399,9 +399,7 @@ namespace Accord.Tests.Statistics
             };
 
             for (int i = 0; i < actual.Length; i++)
-            {
-                Assert.AreEqual(expected[i], actual[i]);
-            }
+                Assert.AreEqual(expected[i], actual[i], 0.025);
         }
     }
 }

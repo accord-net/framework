@@ -1559,26 +1559,54 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values across the columns of a matrix.
         /// </summary>
-        public static DoubleRange[] Range(this double[][] value)
+        /// 
+        public static DoubleRange[] Range(this double[][] value, int dimension)
         {
+            int rows = value.Length;
             int cols = value[0].Length;
-            DoubleRange[] ranges = new DoubleRange[cols];
+            DoubleRange[] ranges;
 
-            for (int j = 0; j < ranges.Length; j++)
+            if (dimension == 0)
             {
-                double max = value[0][j];
-                double min = value[0][j];
+                ranges = new DoubleRange[cols];
 
-                for (int i = 0; i < value.Length; i++)
+                for (int j = 0; j < ranges.Length; j++)
                 {
-                    if (value[i][j] > max)
-                        max = value[i][j];
+                    double max = value[0][j];
+                    double min = value[0][j];
 
-                    if (value[i][j] < min)
-                        min = value[i][j];
+                    for (int i = 0; i < rows; i++)
+                    {
+                        if (value[i][j] > max)
+                            max = value[i][j];
+
+                        if (value[i][j] < min)
+                            min = value[i][j];
+                    }
+
+                    ranges[j] = new DoubleRange(min, max);
                 }
+            }
+            else
+            {
+                ranges = new DoubleRange[rows];
 
-                ranges[j] = new DoubleRange(min, max);
+                for (int j = 0; j < ranges.Length; j++)
+                {
+                    double max = value[j][0];
+                    double min = value[j][0];
+
+                    for (int i = 0; i < cols; i++)
+                    {
+                        if (value[j][i] > max)
+                            max = value[j][i];
+
+                        if (value[j][i] < min)
+                            min = value[j][i];
+                    }
+
+                    ranges[j] = new DoubleRange(min, max);
+                }
             }
 
             return ranges;

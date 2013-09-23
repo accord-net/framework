@@ -158,6 +158,7 @@
     <Compile Include="Ransac.cs" />
     <Compile Include="Geometry\RansacLine.cs" />
     <Compile Include="Geometry\RansacPlane.cs" />
+    <Compile Include="Structures\KDTreeNodeList.cs" />
     <Compile Include="Structures\KDTreeTraversal.cs" />
     <Compile Include="Structures\KDTreeNodeDistance.cs" />
     <Compile Include="Structures\KDTree`1.cs" />

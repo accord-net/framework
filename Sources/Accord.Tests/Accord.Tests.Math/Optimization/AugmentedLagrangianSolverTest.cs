@@ -54,6 +54,8 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void AugmentedLagrangianSolverConstructorTest1()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // min 100(y-x*x)²+(1-x)²
             //
             // s.t.  x <= 0
