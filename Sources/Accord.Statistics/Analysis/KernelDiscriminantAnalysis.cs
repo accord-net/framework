@@ -403,7 +403,8 @@ namespace Accord.Statistics.Analysis
                 throw new InvalidOperationException("The analysis must have been computed first.");
 
             if (data.GetLength(1) != Source.GetLength(1))
-                throw new DimensionMismatchException("data", "The input data should have the same number of columns as the original data.");
+                throw new DimensionMismatchException("data", 
+                    "The input data should have the same number of columns as the original data.");
 
             if (dimensions < 0 || dimensions > Discriminants.Count)
             {
@@ -454,7 +455,8 @@ namespace Accord.Statistics.Analysis
 
             for (int i = 0; i < data.Length; i++)
                 if (data[i].Length != Source.GetLength(1))
-                    throw new DimensionMismatchException("data", "The input data should have the same number of columns as the original data.");
+                    throw new DimensionMismatchException("data", 
+                        "The input data should have the same number of columns as the original data.");
 
             if (dimensions < 0 || dimensions > Discriminants.Count)
             {

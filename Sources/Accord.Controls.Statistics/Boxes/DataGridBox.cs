@@ -215,7 +215,8 @@ namespace Accord.Controls
         /// 
         /// <returns>The Data Grid Box being shown.</returns>
         /// 
-        public static DataGridBox Show(Array array, String title = null, object[] rowNames = null, object[] colNames = null, bool nonBlocking = false)
+        public static DataGridBox Show(Array array, String title = null, 
+            object[] rowNames = null, object[] colNames = null, bool nonBlocking = false)
         {
             return show(new ArrayDataView(array, rowNames, colNames), title, nonBlocking);
         }

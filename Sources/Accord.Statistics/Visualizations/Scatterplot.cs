@@ -37,7 +37,7 @@ namespace Accord.Statistics.Visualizations
     public class Scatterplot
     {
 
-        private string title = "Scatterplot";
+        private string title = "Scatter plot";
 
         private string xAxisTitle = "X";
         private string yAxisTitle = "Y";

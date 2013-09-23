@@ -30,7 +30,6 @@ namespace Accord.Controls
     using Accord.Math;
     using Accord.Statistics.Visualizations;
     using ZedGraph;
-    using System.Threading;
 
     /// <summary>
     ///   Scatter plot visualization control.
@@ -108,6 +107,7 @@ namespace Accord.Controls
         ///   Gets the underlying scatter plot being shown by this control.
         /// </summary>
         /// 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Scatterplot Scatterplot
         {
             get { return scatterplot; }
@@ -132,6 +132,7 @@ namespace Accord.Controls
         /// </summary>
         /// 
         [DefaultValue(null)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public object DataSource
         {
             get { return dataSource; }

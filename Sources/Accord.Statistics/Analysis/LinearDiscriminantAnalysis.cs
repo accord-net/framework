@@ -936,7 +936,7 @@ namespace Accord.Statistics.Analysis
     /// </summary>
     /// 
     [Serializable]
-    public class Discriminant
+    public class Discriminant : IAnalysisComponent
     {
         private LinearDiscriminantAnalysis analysis;
         private int index;

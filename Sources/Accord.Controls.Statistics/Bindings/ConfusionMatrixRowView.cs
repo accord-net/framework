@@ -60,7 +60,8 @@ namespace Accord.Controls
         {
             get
             {
-                if (RowIndex == -1) return Owner.RowNames[Owner.Matrix.Classes];
+                if (RowIndex == -1) 
+                    return Owner.RowNames[Owner.Matrix.Classes];
                 return Owner.RowNames[RowIndex];
             }
         }

@@ -1169,7 +1169,7 @@ namespace Accord.Statistics.Analysis
     /// </summary>
     /// 
     [Serializable]
-    public class PartialLeastSquaresFactor
+    public sealed class PartialLeastSquaresFactor : IAnalysisComponent
     {
 
         private int index;
@@ -1273,6 +1273,24 @@ namespace Accord.Statistics.Analysis
         public double[] VariableImportance
         {
             get { return this.analysis.Importance.GetColumn(index); }
+        }
+
+        /// <summary>
+        ///   Gets the proportion, or amount of information explained by this component.
+        /// </summary>
+        /// 
+        double IAnalysisComponent.Proportion
+        {
+            get { return DependentProportion; }
+        }
+
+        /// <summary>
+        ///   Gets the cumulative proportion of all discriminants until this component.
+        /// </summary>
+        /// 
+        double IAnalysisComponent.CumulativeProportion
+        {
+            get { return DependentCumulativeProportion; }
         }
     }
 
