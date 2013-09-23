@@ -22,10 +22,10 @@
 
 namespace Accord.Statistics.Models.Regression
 {
-    using Accord.Statistics.Links;
-    using Accord.Statistics.Testing;
     using System;
     using System.Linq;
+    using Accord.Statistics.Links;
+    using Accord.Statistics.Testing;
 
     /// <summary>
     ///   Generalized Linear Model Regression.

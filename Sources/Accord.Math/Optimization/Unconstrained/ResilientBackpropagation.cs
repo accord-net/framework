@@ -193,9 +193,20 @@ namespace Accord.Math.Optimization
 
             // Initialize steps
             Reset(initialStep);
+
+            for (int i = 0; i < solution.Length; i++)
+                solution[i] = Accord.Math.Tools.Random.NextDouble() * 2.0 - 1.0;
         }
 
 
+        /// <summary>
+        ///   Optimizes the defined function.
+        /// </summary>
+        /// 
+        public double Minimize()
+        {
+            return Minimize(Solution);
+        }
 
         /// <summary>
         ///   Optimizes the defined function.

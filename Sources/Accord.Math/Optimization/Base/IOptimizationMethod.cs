@@ -1,4 +1,4 @@
-﻿// Accord Statistics Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -20,26 +20,35 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Statistics.Models.Regression.Fitting
+namespace Accord.Math.Optimization
 {
+    using System;
 
     /// <summary>
-    ///   Common interface for regression fitting methods.
+    ///   Common interface for function optimization methods.
     /// </summary>
     /// 
-    interface IRegressionFitting
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="ConjugateGradient"/>
+    /// <seealso cref="ResilientBackpropagation"/>
+    /// <seealso cref="GoldfarbIdnaniQuadraticSolver"/>
+    /// 
+    public interface IOptimizationMethod
     {
 
         /// <summary>
-        ///   Runs the fitting algorithm.
+        ///   Optimizes the defined function. 
         /// </summary>
         /// 
-        /// <param name="inputs">The input training data.</param>
-        /// <param name="outputs">The output associated with each of the outputs.</param>
+        /// <param name="values">The initial guess values for the parameters.</param>
         /// 
-        /// <returns>The sum of squared errors after the learning.</returns>
-        /// 
-        double Run(double[][] inputs, double[] outputs);
+        double Minimize(double[] values);
+
+        /// <summary>
+        ///   Gets the solution found, the values of the parameters which
+        ///   optimizes the function.
+        /// </summary>
+        double[] Solution { get; }
 
     }
 }

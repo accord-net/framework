@@ -120,8 +120,12 @@
     <Compile Include="Kinematics\DenavitHartenbergNode.cs" />
     <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
     <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
+    <Compile Include="Optimization\Base\IGradientOptimizationMethod.cs" />
+    <Compile Include="Optimization\Base\ILeastSquaresMethod.cs" />
     <Compile Include="Optimization\BinarySearch.cs" />
     <Compile Include="Optimization\Constrained\LinearConstraintCollection.cs" />
+    <Compile Include="Optimization\Unconstrained\Least Squares\GaussNewton.cs" />
+    <Compile Include="Optimization\Unconstrained\Least Squares\LevenbergMarquardt.cs" />
     <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
     <Compile Include="Transforms\SineTransform.cs" />
@@ -239,7 +243,7 @@
     <Compile Include="Optimization\Constrained\LinearConstraint.cs" />
     <Compile Include="Optimization\IObjectiveFunction.cs" />
     <Compile Include="Optimization\QuadraticObjectiveFunction.cs" />
-    <Compile Include="Optimization\Unconstrained\IOptimizationMethod.cs" />
+    <Compile Include="Optimization\Base\IOptimizationMethod.cs" />
     <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.cs" />
     <Compile Include="Optimization\Unconstrained\LineSearchFailedException.cs" />
     <Compile Include="Optimization\Unconstrained\OptimizationProgressEventHandler.cs" />

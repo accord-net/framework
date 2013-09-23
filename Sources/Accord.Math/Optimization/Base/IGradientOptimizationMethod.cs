@@ -25,34 +25,6 @@ namespace Accord.Math.Optimization
     using System;
 
     /// <summary>
-    ///   Common interface for function optimization methods.
-    /// </summary>
-    /// 
-    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
-    /// <seealso cref="ConjugateGradient"/>
-    /// <seealso cref="ResilientBackpropagation"/>
-    /// <seealso cref="GoldfarbIdnaniQuadraticSolver"/>
-    /// 
-    public interface IOptimizationMethod
-    {
-
-        /// <summary>
-        ///   Optimizes the defined function. 
-        /// </summary>
-        /// 
-        /// <param name="values">The initial guess values for the parameters.</param>
-        /// 
-        double Minimize(double[] values);
-
-        /// <summary>
-        ///   Gets the solution found, the values of the parameters which
-        ///   optimizes the function.
-        /// </summary>
-        double[] Solution { get; }
-
-    }
-
-    /// <summary>
     ///   Common interface for function optimization methods which depend on
     ///   having both an objective function and a gradient function definition
     ///   available.
