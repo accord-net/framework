@@ -23,9 +23,9 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
+    using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
-    using Accord.Math;
 
     /// <summary>
     ///   Estimators for Hazard distribution functions.
@@ -192,9 +192,12 @@ namespace Accord.Statistics.Distributions.Univariate
                     // http://www.stat.nuk.edu.tw/wongkf_html/survival02.pdf
 
                     double v = 0;
+                    double m = Mean;
+
                     for (int i = 0; i < Times.Length; i++)
                         v += Times[i] * ComplementaryDistributionFunction(Times[i]);
-                    variance = v - Mean * Mean;
+                    
+                    this.variance = v - m * m;
                 }
 
                 return variance.Value;

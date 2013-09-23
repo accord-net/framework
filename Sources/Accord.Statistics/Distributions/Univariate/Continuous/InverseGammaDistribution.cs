@@ -99,8 +99,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public InverseGammaDistribution(double shape, double scale)
         {
-            if (shape <= 0) throw new ArgumentOutOfRangeException("shape");
-            if (scale <= 0) throw new ArgumentOutOfRangeException("scale");
+            if (shape <= 0)
+                throw new ArgumentOutOfRangeException("shape");
+
+            if (scale <= 0) 
+                throw new ArgumentOutOfRangeException("scale");
 
             this.a = shape;
             this.b = scale;

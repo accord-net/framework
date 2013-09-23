@@ -106,8 +106,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public FDistribution(int degrees1, int degrees2)
         {
-            if (degrees1 <= 0) throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
-            if (degrees2 <= 0) throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
+            if (degrees1 <= 0) 
+                throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
+
+            if (degrees2 <= 0) 
+                throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
 
             this.d1 = degrees1;
             this.d2 = degrees2;

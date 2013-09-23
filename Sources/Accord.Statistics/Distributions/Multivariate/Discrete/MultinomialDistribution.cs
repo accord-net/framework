@@ -23,9 +23,9 @@
 namespace Accord.Statistics.Distributions.Multivariate
 {
     using System;
+    using System.Globalization;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using System.Globalization;
 
     /// <summary>
     ///   Multinomial probability distribution.

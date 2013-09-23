@@ -23,10 +23,10 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
+    using System.Linq;
+    using System.Text;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using System.Text;
-    using System.Linq;
     using AForge;
 
     /// <summary>
@@ -468,9 +468,10 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (mean == null)
                 {
-                    mean = 0.0;
+                    double mu = 0.0;
                     for (int i = 0; i < coefficients.Length; i++)
-                        mean += coefficients[i] * components[i].Mean;
+                        mu += coefficients[i] * components[i].Mean;
+                    this.mean = mu;
                 }
 
                 return mean.Value;
@@ -494,6 +495,7 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (variance == null)
                 {
+                    double mu = Mean;
                     double var = 0.0;
                     for (int i = 0; i < coefficients.Length; i++)
                     {
@@ -503,7 +505,7 @@ namespace Accord.Statistics.Distributions.Univariate
                         var += w * (v + m * m);
                     }
 
-                    variance = var - mean * mean;
+                    this.variance = var - mu * mu;
                 }
 
                 return variance.Value;

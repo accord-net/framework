@@ -100,6 +100,22 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void ConstructorTest2()
+        {
+            double[] probabilities = { 0.25, 0.25, 0.50 };
+
+            var dist = new GeneralDiscreteDistribution(probabilities);
+
+            double var = dist.Variance;  // 0.6875
+            double median = dist.Median; // 1.00
+            double mean = dist.Mean;     // 1.25
+            
+            Assert.AreEqual(1.25, mean);
+            Assert.AreEqual(1.00, median);
+            Assert.AreEqual(0.6875, var);
+        }
+
+        [TestMethod()]
         public void FitTest()
         {
             GeneralDiscreteDistribution target = new GeneralDiscreteDistribution(4);

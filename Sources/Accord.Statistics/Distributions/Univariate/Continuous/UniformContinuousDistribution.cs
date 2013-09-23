@@ -196,8 +196,10 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             if (x < a)
                 return 0;
+
             if (x >= b)
                 return 1;
+
             return (x - a) / (b - a);
         }
 

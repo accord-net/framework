@@ -175,13 +175,17 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double test = (numberOfTrials+1) * probability;
+                double test = (numberOfTrials + 1) * probability;
+
                 if (test <= 0 || (int)test != test)
                     return Math.Floor(test);
+
                 if (test <= numberOfTrials)
                     return test; // TODO: should return test and test - 1 (multimodal)
+
                 if (test == numberOfTrials + 1)
                     return numberOfTrials;
+
                 return Double.NaN;
             }
         }

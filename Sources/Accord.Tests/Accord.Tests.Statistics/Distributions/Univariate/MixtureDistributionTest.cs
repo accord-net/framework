@@ -121,6 +121,23 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void ConstructorTest2()
+        {
+            // Create a new mixture containing two Normal distributions
+            Mixture<NormalDistribution> mix = new Mixture<NormalDistribution>(
+                new NormalDistribution(2, 1), new NormalDistribution(5, 1));
+
+            // Compute in reverse order
+            double var = mix.Variance; // 3.25
+            double median = mix.Median;   // 3.4999998506015895
+            double mean = mix.Mean;     // 3.5
+
+            Assert.AreEqual(3.5, mean);
+            Assert.AreEqual(3.4999998506015895, median);
+            Assert.AreEqual(3.25, var);
+        }
+
+        [TestMethod()]
         public void FitTest()
         {
             double[] coefficients = { 0.50, 0.50 };

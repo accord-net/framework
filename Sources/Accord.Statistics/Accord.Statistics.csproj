@@ -104,6 +104,7 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="Accord.Statistics.cs" />
+    <Compile Include="Analysis\Base\IAnalysisComponent.cs" />
     <Compile Include="Analysis\Base\IAnalysis.cs" />
     <Compile Include="Analysis\Base\IProjectionAnalysis.cs" />
     <Compile Include="Analysis\Base\IMultivariateRegressionAnalysis.cs" />
@@ -271,9 +272,12 @@
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovModel.cs" />
+    <Compile Include="Models\Markov\Learning\MultipleBaumWelchLearning.cs" />
     <Compile Include="Models\Markov\MarkovHelperMethods.cs" />
+    <Compile Include="Models\Regression\Nonlinear\Fitting\NonlinearLeastSquares.cs" />
     <Compile Include="Models\Regression\Nonlinear\GeneralizedLinearRegression.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\LogisticGradientDescent.cs" />
+    <Compile Include="Models\Regression\Nonlinear\NonlinearRegression.cs" />
     <Compile Include="Models\Survival\ProportionalHazards.cs" />
     <Compile Include="Models\Fields\ConditionalRandomField.cs" />
     <Compile Include="Models\Fields\Features\Base\IFeature.cs">

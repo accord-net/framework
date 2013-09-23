@@ -100,7 +100,8 @@ namespace Accord.Statistics.Distributions.Multivariate
         public DirichletDistribution(int dimension, double concentration)
             : base(dimension)
         {
-            if (concentration <= 0) throw new ArgumentOutOfRangeException("concentration",
+            if (concentration <= 0) 
+                throw new ArgumentOutOfRangeException("concentration",
                 "Concentration parameter must be higher than 0.");
 
             this.alphas = new double[dimension];

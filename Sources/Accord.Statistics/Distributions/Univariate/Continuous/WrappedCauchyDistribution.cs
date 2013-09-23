@@ -24,8 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Statistics.Distributions.Fitting;
-    using AForge.Math;
     using AForge;
+    using AForge.Math;
 
     /// <summary>
     ///   Wrapped Cauchy Distribution.

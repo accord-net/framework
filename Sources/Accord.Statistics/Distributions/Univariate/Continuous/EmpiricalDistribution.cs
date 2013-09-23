@@ -186,7 +186,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (variance == null)
-                    variance = Statistics.Tools.Variance(samples);
+                    variance = Statistics.Tools.Variance(samples, Mean);
                 return variance.Value;
             }
         }
@@ -213,15 +213,16 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                if (entropy == null)
+                if (!entropy.HasValue)
                 {
-                    entropy = 0;
+                    double h = 0;
                     for (int i = 0; i < samples.Length; i++)
                     {
                         double p = ProbabilityDensityFunction(samples[i]);
-
-                        entropy += p * Math.Log(p);
+                        h += p * Math.Log(p);
                     }
+
+                    this.entropy = h;
                 }
                 return entropy.Value;
             }
@@ -246,8 +247,13 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double DistributionFunction(double x)
         {
             int sum = 0;
+
             for (int i = 0; i < samples.Length; i++)
-                if (samples[i] <= x) sum++;
+            {
+                if (samples[i] <= x)
+                    sum++;
+            }
+
             return sum / (double)samples.Length;
         }
 

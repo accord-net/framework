@@ -144,8 +144,13 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 double median;
-                if (complement > probability) median = 0;
-                else if (complement < probability) median = 1;
+
+                if (complement > probability)
+                    median = 0;
+
+                else if (complement < probability) 
+                    median = 1;
+
                 else median = 0.5;
 
                 System.Diagnostics.Debug.Assert(median == base.Median);
@@ -168,8 +173,10 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (complement > probability)
                     return 0;
+
                 if (complement < probability)
                     return 1;
+
                 return 0; // TODO: should return both 0 and 1
             }
         }

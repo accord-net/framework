@@ -23,10 +23,8 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics.Testing;
     using Accord.Math;
+    using Accord.Statistics.Testing;
     using AForge;
 
     /// <summary>

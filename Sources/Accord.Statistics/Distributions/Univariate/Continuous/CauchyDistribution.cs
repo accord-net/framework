@@ -23,10 +23,10 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
+    using Accord.Math;
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
-    using Accord.Math;
 
     /// <summary>
     ///   Cauchy-Lorentz distribution.

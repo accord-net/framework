@@ -98,8 +98,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public InverseGaussianDistribution(double mean, double shape)
         {
-            if (mean <= 0) throw new ArgumentOutOfRangeException("mean");
-            if (shape <= 0) throw new ArgumentOutOfRangeException("shape");
+            if (mean <= 0)
+                throw new ArgumentOutOfRangeException("mean");
+
+            if (shape <= 0) 
+                throw new ArgumentOutOfRangeException("shape");
 
             init(mean, shape);
         }

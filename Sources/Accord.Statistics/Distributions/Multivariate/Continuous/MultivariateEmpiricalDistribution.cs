@@ -24,8 +24,8 @@ namespace Accord.Statistics.Distributions.Multivariate
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions.DensityKernels;
     using Accord.Math.Decompositions;
+    using Accord.Statistics.Distributions.DensityKernels;
 
     /// <summary>
     ///   Multivariate empirical distribution.
@@ -281,7 +281,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             get
             {
                 if (variance == null)
-                    variance = Accord.Statistics.Tools.Variance(samples);
+                    variance = Accord.Statistics.Tools.Variance(samples, Mean);
                 return variance;
             }
         }
@@ -299,7 +299,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             get
             {
                 if (covariance == null)
-                    covariance = Accord.Statistics.Tools.Covariance(samples);
+                    covariance = Accord.Statistics.Tools.Covariance(samples, Mean);
                 return covariance;
             }
         }
