@@ -59,6 +59,7 @@ namespace Accord.Imaging
     ///   Fast Retina Keypoint (FREAK) detector.
     /// </summary>
     /// 
+    [Serializable]
     public class FastRetinaKeypointDetector : IFeatureDetector<FastRetinaKeypoint, byte[]>
     {
 

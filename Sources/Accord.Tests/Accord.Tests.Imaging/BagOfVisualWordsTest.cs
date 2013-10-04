@@ -29,6 +29,7 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.MachineLearning;
 
     [TestClass()]
     public class BagOfVisualWordsTest
@@ -188,6 +189,41 @@ namespace Accord.Tests.Imaging
             fmt.Serialize(stream, bow);
             stream.Seek(0, SeekOrigin.Begin);
             bow = (BagOfVisualWords)fmt.Deserialize(stream);
+
+            double[][] actual = new double[expected.Length][];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = bow.GetFeatureVector(images[i]);
+
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [TestMethod()]
+        public void SerializeTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            FastCornersDetector fast = new FastCornersDetector();
+
+            FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
+
+            var kmodes = new KModes<byte[]>(5, Distance.BitwiseHamming);
+
+            var bow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(freak, kmodes);
+
+            bow.Compute(images);
+
+
+
+            double[][] expected = new double[images.Length][];
+            for (int i = 0; i < expected.Length; i++)
+                expected[i] = bow.GetFeatureVector(images[i]);
+
+            MemoryStream stream = new MemoryStream();
+            BinaryFormatter fmt = new BinaryFormatter();
+            fmt.Serialize(stream, bow);
+            stream.Seek(0, SeekOrigin.Begin);
+            bow = (BagOfVisualWords<FastRetinaKeypoint, byte[]>)fmt.Deserialize(stream);
 
             double[][] actual = new double[expected.Length][];
             for (int i = 0; i < actual.Length; i++)

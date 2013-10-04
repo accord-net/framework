@@ -258,5 +258,19 @@ namespace Accord.Imaging
             b.Serialize(stream, this);
         }
 
+        /// <summary>
+        ///   Saves the bag of words to a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file to which the bow is to be serialized.</param>
+        /// 
+        public void Save(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                Save(fs);
+            }
+        }
+
     }
 }

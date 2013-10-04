@@ -56,6 +56,7 @@
 
 namespace Accord.Imaging
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
@@ -136,6 +137,7 @@ namespace Accord.Imaging
     /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
     /// <seealso cref="FastRetinaKeypointDetector"/>
     /// 
+    [Serializable]
     [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode")]
     public class FastCornersDetector : ICornersDetector
     {
