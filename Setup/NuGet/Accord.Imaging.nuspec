@@ -20,10 +20,10 @@
     <summary>Accord.NET Framework Imaging library</summary>
     <tags>accord.net aforge.net framework image processing computer vision</tags>
     <dependencies>
-      <dependency id="Accord"                 version="2.10.0" />
-      <dependency id="Accord.Math"            version="2.10.0" />
-      <dependency id="Accord.MachineLearning" version="2.10.0" /> 
-      <dependency id="Accord.Statistics"      version="2.10.0" />
+      <dependency id="Accord"                 version="2.11.0" />
+      <dependency id="Accord.Math"            version="2.11.0" />
+      <dependency id="Accord.MachineLearning" version="2.11.0" /> 
+      <dependency id="Accord.Statistics"      version="2.11.0" />
       <dependency id="AForge"                 version="2.2.5" />
       <dependency id="AForge.Imaging"         version="2.2.5" />
       <dependency id="AForge.Math"            version="2.2.5" />

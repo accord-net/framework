@@ -76,7 +76,7 @@ for /r %sampleDir% %%f in (*.csproj) do (
    echo - Processing !binFileName!
    pushd .
    cd !binFolder!
-   %rar% %opts% -r %outputDir%\!binFileName! *.* -x*.pdb -x*.xml
+   %rar% %opts% -r "%outputDir%\!binFileName!" *.* -x*.pdb -x*.xml
    popd
    
    :: Create the sources package
@@ -89,7 +89,7 @@ for /r %sampleDir% %%f in (*.csproj) do (
    echo - Processing !srcFileName!
    pushd .
    cd !srcFolder!   
-   %rar% %opts% -apsources -r %outputDir%\!srcFileName! *.* -x*\.svn* -x*\obj -x*\bin -x*.suo -x*.user -x"*\bin\x86\Release 3.5"
+   %rar% %opts% -apsources -r "%outputDir%\!srcFileName!" *.* -x*\.svn* -x*\obj -x*\bin -x*.suo -x*.user -x"*\bin\x86\Release 3.5"
    popd
 )
 
