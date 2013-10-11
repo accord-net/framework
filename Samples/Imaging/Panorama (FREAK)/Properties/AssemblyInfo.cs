@@ -1,12 +1,11 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Panorama")]
-[assembly: AssemblyDescription("Panorama Sample Application")]
+[assembly: AssemblyTitle("Image stitching (FREAK)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Accord.NET")]
 [assembly: AssemblyProduct("Accord.NET Framework")]
@@ -14,13 +13,14 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
+[assembly: AssemblyDescription(
+@"The Image Stitching (panorama) sample application demonstrates how to perform automatic image stitching by interest point matching using the Accord.NET Framework. The actual stitching uses many parts of the framework, such as the FREAK interest point detector, RANSAC, homography estimation and the linear gradient image blending.")]
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("fb8be126-8a5f-4f22-9979-d644cc59c91d")]
+
+
+// This sets the default COM visibility of types in the assembly to invisible.
+// If you need to expose a type to COM, use [ComVisible(true)] on that type.
+[assembly: ComVisible(false)]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -30,4 +30,3 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]

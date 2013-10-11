@@ -1,26 +1,28 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TestDenavitHartenberg")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Denavit-Hartenberg model for kinematic chains")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Intelligence Artificielle Corp.")]
-[assembly: AssemblyProduct("TestDenavitHartenberg")]
-[assembly: AssemblyCopyright("Copyright © Intelligence Artificielle Corp. 2013")]
+[assembly: AssemblyCompany("Accord.NET")]
+[assembly: AssemblyProduct("Accord.NET Framework")]
+[assembly: AssemblyCopyright("Copyright © Rémy Dispagne, César Souza; 2009-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
+[assembly: AssemblyDescription(
+@"This sample application shows how to use Denavit-Hartenberg equations to model kinematic chains. All animations performed by the application have been specified in terms of simple joint movements, and the interaction between the joints to result in the specified animation have been automatically computed by the framework.
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3cb02536-85fc-45b6-9b83-ee7aa5313266")]
+This application originated in a code contribution by Remi Dispagne.")]
+
+
+
+// This sets the default COM visibility of types in the assembly to invisible.
+// If you need to expose a type to COM, use [ComVisible(true)] on that type.
+[assembly: ComVisible(false)]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,8 +31,4 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]

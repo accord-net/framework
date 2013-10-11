@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tbHorizontal = new System.Windows.Forms.TrackBar();
             this.tbVertical = new System.Windows.Forms.TrackBar();
             this.tbScale = new System.Windows.Forms.TrackBar();
@@ -254,7 +255,6 @@
             this.saveImagesToolStripMenuItem.Name = "saveImagesToolStripMenuItem";
             this.saveImagesToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
             this.saveImagesToolStripMenuItem.Text = "Save images";
-            this.saveImagesToolStripMenuItem.Click += new System.EventHandler(this.saveImagesToolStripMenuItem_Click);
             // 
             // showToolStripMenuItem
             // 
@@ -297,8 +297,9 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // videoSourcePlayer1
             // 
@@ -364,7 +365,6 @@
             // 
             this.timer1.Enabled = true;
             this.timer1.Interval = 2000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // pictureBox2
             // 
@@ -434,10 +434,11 @@
             this.Controls.Add(this.tbScale);
             this.Controls.Add(this.tbVertical);
             this.Controls.Add(this.tbHorizontal);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(415, 430);
             this.Name = "MainForm";
-            this.Text = "Head-based Controller";
+            this.Text = "Dynamic virtual wall for hand segmentation (Kinect)";
             ((System.ComponentModel.ISupportInitialize)(this.tbHorizontal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbVertical)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tbScale)).EndInit();

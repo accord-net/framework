@@ -1,5 +1,5 @@
 ﻿// Accord.NET Sample Applications
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © César Souza, 2009-2013
 // cesarsouza at gmail.com
@@ -22,6 +22,11 @@
 // under the Apache 2 License. See libfreenect.txt in this folder for more details.
 //
 
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Windows.Forms;
 using Accord.Controls.Vision;
 using Accord.Imaging.Filters;
 using Accord.Math;
@@ -29,11 +34,6 @@ using AForge;
 using AForge.Imaging;
 using AForge.Imaging.Filters;
 using AForge.Video.Kinect;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace KinectController
 {
@@ -331,17 +331,12 @@ namespace KinectController
             return b.X.CompareTo(a.X);
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-          
+            new AboutBox().ShowDialog(this);
         }
-
-        private void saveImagesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-           
-        }
-
-
 
     }
 }

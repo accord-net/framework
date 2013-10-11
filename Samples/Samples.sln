@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Neuro", "Neuro", "{BE29F5CB-80FB-4CF1-9135-800534B264D3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Levenberg", "Levenberg", "{84B1B638-CAFD-46B9-A78D-3507781EA105}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Statistics", "Statistics", "{473A7C08-02A2-473A-BEC6-891F035674FD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Audio", "Audio", "{8F933DFE-A911-4BCD-A4B9-BC7D2F431709}"
@@ -17,93 +15,79 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Math", "Math", "{831639B8-4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vision", "Vision", "{F697B4C2-4712-4596-814B-245E2500AE51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeatDetector", "Audio\TempoDetector\BeatDetector.csproj", "{01BA7F4B-6C29-48D1-ADB5-087B8DCF8AC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Beat detection", "Audio\Beat detection\Beat detection.csproj", "{01BA7F4B-6C29-48D1-ADB5-087B8DCF8AC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PCA", "Statistics\PCA\PCA.csproj", "{BCFE9369-F0AF-4DD3-9133-0C60D21F94D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis (PCA)", "Statistics\Analysis (PCA)\Analysis (PCA).csproj", "{BCFE9369-F0AF-4DD3-9133-0C60D21F94D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Approximation", "Neuro\Levenberg\Approximation\Approximation.csproj", "{1A7BCB9F-5DD2-4C16-9969-88C31720865F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Performance (ROC)", "Statistics\Performance (ROC)\Performance (ROC).csproj", "{8E3093E1-9B62-4F62-A236-CD6EB40F9CC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSeries", "Neuro\Levenberg\TimeSeries\TimeSeries.csproj", "{2DEF9F9D-DED2-4572-881D-6E018AEE957F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regression (Linear, Logit)", "Statistics\Regression (Linear and Logistic)\Regression (Linear, Logit).csproj", "{E6DD6D23-3FFC-4DF8-B2F8-CDA5BF77348D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XORProblem", "Neuro\Levenberg\XORProblem\XORProblem.csproj", "{527BB23D-A674-4147-B58D-DCC894737140}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis (KPCA)", "Statistics\Analysis (KPCA)\Analysis (KPCA).csproj", "{F9975B01-F137-4FB4-855A-D62782AD8E4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ROC", "Statistics\ROC\ROC.csproj", "{8E3093E1-9B62-4F62-A236-CD6EB40F9CC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis (LDA)", "Statistics\Analysis (LDA)\Analysis (LDA).csproj", "{3EC64359-C4AB-44C2-BCC0-8617380DB67A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regression", "Statistics\Regression\Regression.csproj", "{E6DD6D23-3FFC-4DF8-B2F8-CDA5BF77348D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis (KDA)", "Statistics\Analysis (KDA)\Analysis (KDA).csproj", "{A5152775-5252-45B2-B091-69C70280C73C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPCA", "Statistics\KPCA\KPCA.csproj", "{F9975B01-F137-4FB4-855A-D62782AD8E4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sequences (HMM)", "Statistics\Sequences (HMM)\Sequences (HMM).csproj", "{E6CEA943-9111-4CCD-97BD-A63F7DDABBAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDA", "Statistics\LDA\LDA.csproj", "{3EC64359-C4AB-44C2-BCC0-8617380DB67A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tabular Filters", "Statistics\Tabular filters\Tabular Filters.csproj", "{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KDA", "Statistics\KDA\KDA.csproj", "{A5152775-5252-45B2-B091-69C70280C73C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification (SVMs)", "MachineLearning\Classification (SVMs)\Classification (SVMs).csproj", "{503EF9C0-CE83-40BE-98B2-3481D9FE3B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HMM", "Statistics\HMM\HMM.csproj", "{E6CEA943-9111-4CCD-97BD-A63F7DDABBAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis (PLS)", "Statistics\Analysis (PLS)\Analysis (PLS).csproj", "{3929B83A-B1A6-4620-9139-B5DEEEF3DCE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters", "Statistics\Filters\Filters.csproj", "{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handwriting (KDA)", "Statistics\Handwriting (KDA)\Handwriting (KDA).csproj", "{ECD64A23-8504-4A68-829D-FB1B6C726C85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVMs", "MachineLearning\SupportVectorMachine\SVMs.csproj", "{503EF9C0-CE83-40BE-98B2-3481D9FE3B0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corners (Harris)", "Imaging\Corners (Harris)\Corners (Harris).csproj", "{316F5B16-E308-4ABE-B95D-EF64FFAEF028}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLS", "Statistics\PLS\PLS.csproj", "{3929B83A-B1A6-4620-9139-B5DEEEF3DCE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fitting (RANSAC)", "MachineLearning\Fitting (RANSAC)\Fitting (RANSAC).csproj", "{2DE60006-663C-40DB-B7CD-A38644D7BC94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handwriting (KDA)", "Statistics\Handwriting\Handwriting (KDA).csproj", "{ECD64A23-8504-4A68-829D-FB1B6C726C85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panorama (Harris)", "Imaging\Panorama (Harris)\Panorama (Harris).csproj", "{AEA25552-0508-4D42-AFBA-95DBB0BFBA67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Harris", "Imaging\Harris\Harris.csproj", "{316F5B16-E308-4ABE-B95D-EF64FFAEF028}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ransac", "MachineLearning\Ransac\Ransac.csproj", "{2DE60006-663C-40DB-B7CD-A38644D7BC94}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panorama", "Imaging\Panorama\Panorama.csproj", "{AEA25552-0508-4D42-AFBA-95DBB0BFBA67}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fourier", "Audio\Fourier\Fourier.csproj", "{18DDB224-5488-4833-A4F0-AA98F37F9864}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fourier (FFT)", "Audio\Fourier (FFT)\Fourier (FFT).csproj", "{18DDB224-5488-4833-A4F0-AA98F37F9864}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wavelets", "Imaging\Wavelets\Wavelets.csproj", "{4D100C6D-963E-4AE7-AEAF-91040D4F0332}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceDetection", "Vision\FaceDetection\FaceDetection.csproj", "{EF3F6EA1-38F2-4C3C-8079-C06B8B5DDCC0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Face detection (Viola-Jones)", "Vision\Face detection (Viola-Jones)\Face detection (Viola-Jones).csproj", "{EF3F6EA1-38F2-4C3C-8079-C06B8B5DDCC0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceTracking", "Vision\FaceTracking\FaceTracking.csproj", "{03CCCD6C-CA56-4CAE-A0A5-1C9660D9424B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Face tracking (Camshift)", "Vision\Face tracking (Camshift)\Face tracking (Camshift).csproj", "{03CCCD6C-CA56-4CAE-A0A5-1C9660D9424B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handwriting (SVM)", "MachineLearning\Handwriting\Handwriting (SVM).csproj", "{C13A769D-B0EF-42F8-83CA-4431252DD316}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Handwriting (SVM)", "MachineLearning\Handwriting (SVMs)\Handwriting (SVM).csproj", "{C13A769D-B0EF-42F8-83CA-4431252DD316}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Operations", "Math\MatrixOperations\Operations.csproj", "{DB8C60E0-D225-4DBB-917A-12EA86506A13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrices", "Math\Matrices\Matrices.csproj", "{DB8C60E0-D225-4DBB-917A-12EA86506A13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gaussian Mixtures", "MachineLearning\GMM\Gaussian Mixtures.csproj", "{6EE43C30-5232-4B18-802B-7D536EA4DCCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering (GMMs)", "MachineLearning\Clustering (GMM)\Clustering (GMMs).csproj", "{6EE43C30-5232-4B18-802B-7D536EA4DCCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering", "MachineLearning\KMeans\Clustering.csproj", "{8433F722-C197-4BCD-9E5D-08A6B2FAF23A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering (K-Means)", "MachineLearning\Clustering (K-Means)\Clustering (K-Means).csproj", "{8433F722-C197-4BCD-9E5D-08A6B2FAF23A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestures (HMM)", "Statistics\Gestures\Gestures (HMM).csproj", "{36BA745B-850A-4C3C-88F5-125B0171B187}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestures (HMM)", "Statistics\Gestures (HMMs)\Gestures (HMM).csproj", "{36BA745B-850A-4C3C-88F5-125B0171B187}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICA", "Statistics\ICA\ICA.csproj", "{A37A4E8F-3F41-497A-B5C0-E92ABFF9067F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sound demixing (ICA)", "Statistics\Sound demixing (ICA)\Sound demixing (ICA).csproj", "{A37A4E8F-3F41-497A-B5C0-E92ABFF9067F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SURF", "Imaging\SURF\SURF.csproj", "{936F3B12-2B1A-468E-9830-51EC9EFB127E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corners (SURF)", "Imaging\Corners (SURF)\Corners (SURF).csproj", "{936F3B12-2B1A-468E-9830-51EC9EFB127E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FAST", "Imaging\FAST\FAST.csproj", "{F7750412-9EA2-4FCF-A268-AC927188A009}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corners (FAST)", "Imaging\Corners (FAST)\Corners (FAST).csproj", "{F7750412-9EA2-4FCF-A268-AC927188A009}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GloveTracking", "Vision\GloveTracking\GloveTracking.csproj", "{09D9131B-3277-476F-8500-311E69B58AFB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gloves (color tracking)", "Vision\Gloves (Color tracking)\Gloves (color tracking).csproj", "{09D9131B-3277-476F-8500-311E69B58AFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller", "Vision\Controller\Controller.csproj", "{95BDACEA-E8DB-4A87-9472-A37F0879179F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller (interface control)", "Vision\Controller (interface control)\Controller (interface control).csproj", "{95BDACEA-E8DB-4A87-9472-A37F0879179F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinect", "Vision\Kinect\Kinect.csproj", "{99C1ED90-C4CD-4730-B05C-B99EED60EDD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dynamic Virtual Wall (Kinect)", "Vision\Kinect\Dynamic Virtual Wall (Kinect).csproj", "{99C1ED90-C4CD-4730-B05C-B99EED60EDD1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decision Trees", "MachineLearning\DecisionTrees\Decision Trees.csproj", "{67D5F5DD-95D8-4DF3-B4F4-B43A2FCFE02F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decision Trees", "MachineLearning\Decision Trees\Decision Trees.csproj", "{67D5F5DD-95D8-4DF3-B4F4-B43A2FCFE02F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bayes", "MachineLearning\Bayes\Bayes.csproj", "{79DAA213-B774-444D-85B1-7AA727C036E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naive Bayes", "MachineLearning\Naive Bayes\Naive Bayes.csproj", "{79DAA213-B774-444D-85B1-7AA727C036E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification", "Neuro\Levenberg\Classification\Classification.csproj", "{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification (ANNs)", "Neuro\Classification (ANN)\Classification (ANNs).csproj", "{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resilient", "Resilient", "{90A5A53F-C5C2-4370-B751-9569FF50DF19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recorder", "Audio\Recorder\Recorder.csproj", "{A3C56C4A-57FC-48A4-A45A-DA12304D06A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Approximation", "Neuro\Resilient\Approximation\Approximation.csproj", "{41B33248-828B-4D62-83A0-2FFFE89582B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quadratic Programing (QP)", "Math\Solver (Goldfarb-Idnani)\Quadratic Programing (QP).csproj", "{38C27270-D29A-48B0-BF49-B90C049C42E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeSeries", "Neuro\Resilient\TimeSeries\TimeSeries.csproj", "{37D91547-640C-4822-893A-0E700964302E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification (BoW)", "Imaging\Classification (BoW)\Classification (BoW).csproj", "{F6CFAC9E-A9AF-4DDF-9405-B4B3578E5154}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XORProblem", "Neuro\Resilient\XORProblem\XORProblem.csproj", "{47627FA3-2AAF-46E5-B39E-A9A860B0D3DE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recording", "Audio\Recording\Recording.csproj", "{A3C56C4A-57FC-48A4-A45A-DA12304D06A9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solver", "Math\Solver\Solver.csproj", "{38C27270-D29A-48B0-BF49-B90C049C42E1}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification", "Imaging\Classification\Classification.csproj", "{F6CFAC9E-A9AF-4DDF-9405-B4B3578E5154}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survival", "Statistics\Survival\Survival.csproj", "{3AFDA17A-E489-49A7-827F-18DE4CDC7812}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Survival (Cox)", "Statistics\Survival (Cox)\Survival (Cox).csproj", "{3AFDA17A-E489-49A7-827F-18DE4CDC7812}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panorama (SURF)", "Imaging\Panorama (SURF)\Panorama (SURF).csproj", "{27305F98-F71E-4FF4-8759-F13D58555200}"
 EndProject
@@ -111,9 +95,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panorama (FREAK)", "Imaging
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinematics", "Math\Kinematics\Kinematics.csproj", "{3B1150A4-A32C-4B2F-8BC1-14FDB5C4FDEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestures (SVM)", "MachineLearning\Gestures\Gestures (SVM).csproj", "{7F23856B-B95C-42B3-B6AF-663FA35324D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestures (SVM-DTW)", "MachineLearning\Gestures (SVMs)\Gestures (SVM-DTW).csproj", "{7F23856B-B95C-42B3-B6AF-663FA35324D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eigenhands", "Statistics\Eigenhands\Eigenhands.csproj", "{AC9EF5B1-166E-41E8-A62E-9A614703AB3B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eigenfaces (PCA)", "Statistics\Eigenfaces (PCA)\Eigenfaces (PCA).csproj", "{AC9EF5B1-166E-41E8-A62E-9A614703AB3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Regression (SVMs)", "MachineLearning\Regression (SVMs)\Regression (SVMs).csproj", "{9C863BCC-46C3-4B54-9B92-B4CC32812C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Levenberg-Marquardt", "Neuro\Levenberg-Marquardt\Levenberg-Marquardt.csproj", "{1A7BCB9F-5DD2-4C16-9969-88C31720865F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resilient Backpropagation", "Neuro\Resilient Backpropagation\Resilient Backpropagation.csproj", "{41B33248-828B-4D62-83A0-2FFFE89582B0}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -132,18 +122,6 @@ Global
 		{BCFE9369-F0AF-4DD3-9133-0C60D21F94D6}.Debug|x86.Build.0 = Debug|x86
 		{BCFE9369-F0AF-4DD3-9133-0C60D21F94D6}.Release|x86.ActiveCfg = Release|x86
 		{BCFE9369-F0AF-4DD3-9133-0C60D21F94D6}.Release|x86.Build.0 = Release|x86
-		{1A7BCB9F-5DD2-4C16-9969-88C31720865F}.Debug|x86.ActiveCfg = Debug|x86
-		{1A7BCB9F-5DD2-4C16-9969-88C31720865F}.Debug|x86.Build.0 = Debug|x86
-		{1A7BCB9F-5DD2-4C16-9969-88C31720865F}.Release|x86.ActiveCfg = Release|x86
-		{1A7BCB9F-5DD2-4C16-9969-88C31720865F}.Release|x86.Build.0 = Release|x86
-		{2DEF9F9D-DED2-4572-881D-6E018AEE957F}.Debug|x86.ActiveCfg = Debug|x86
-		{2DEF9F9D-DED2-4572-881D-6E018AEE957F}.Debug|x86.Build.0 = Debug|x86
-		{2DEF9F9D-DED2-4572-881D-6E018AEE957F}.Release|x86.ActiveCfg = Release|x86
-		{2DEF9F9D-DED2-4572-881D-6E018AEE957F}.Release|x86.Build.0 = Release|x86
-		{527BB23D-A674-4147-B58D-DCC894737140}.Debug|x86.ActiveCfg = Debug|x86
-		{527BB23D-A674-4147-B58D-DCC894737140}.Debug|x86.Build.0 = Debug|x86
-		{527BB23D-A674-4147-B58D-DCC894737140}.Release|x86.ActiveCfg = Release|x86
-		{527BB23D-A674-4147-B58D-DCC894737140}.Release|x86.Build.0 = Release|x86
 		{8E3093E1-9B62-4F62-A236-CD6EB40F9CC4}.Debug|x86.ActiveCfg = Debug|x86
 		{8E3093E1-9B62-4F62-A236-CD6EB40F9CC4}.Debug|x86.Build.0 = Debug|x86
 		{8E3093E1-9B62-4F62-A236-CD6EB40F9CC4}.Release|x86.ActiveCfg = Release|x86
@@ -268,18 +246,6 @@ Global
 		{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5}.Debug|x86.Build.0 = Debug|x86
 		{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5}.Release|x86.ActiveCfg = Release|x86
 		{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5}.Release|x86.Build.0 = Release|x86
-		{41B33248-828B-4D62-83A0-2FFFE89582B0}.Debug|x86.ActiveCfg = Debug|x86
-		{41B33248-828B-4D62-83A0-2FFFE89582B0}.Debug|x86.Build.0 = Debug|x86
-		{41B33248-828B-4D62-83A0-2FFFE89582B0}.Release|x86.ActiveCfg = Release|x86
-		{41B33248-828B-4D62-83A0-2FFFE89582B0}.Release|x86.Build.0 = Release|x86
-		{37D91547-640C-4822-893A-0E700964302E}.Debug|x86.ActiveCfg = Debug|x86
-		{37D91547-640C-4822-893A-0E700964302E}.Debug|x86.Build.0 = Debug|x86
-		{37D91547-640C-4822-893A-0E700964302E}.Release|x86.ActiveCfg = Release|x86
-		{37D91547-640C-4822-893A-0E700964302E}.Release|x86.Build.0 = Release|x86
-		{47627FA3-2AAF-46E5-B39E-A9A860B0D3DE}.Debug|x86.ActiveCfg = Debug|x86
-		{47627FA3-2AAF-46E5-B39E-A9A860B0D3DE}.Debug|x86.Build.0 = Debug|x86
-		{47627FA3-2AAF-46E5-B39E-A9A860B0D3DE}.Release|x86.ActiveCfg = Release|x86
-		{47627FA3-2AAF-46E5-B39E-A9A860B0D3DE}.Release|x86.Build.0 = Release|x86
 		{A3C56C4A-57FC-48A4-A45A-DA12304D06A9}.Debug|x86.ActiveCfg = Debug|x86
 		{A3C56C4A-57FC-48A4-A45A-DA12304D06A9}.Debug|x86.Build.0 = Debug|x86
 		{A3C56C4A-57FC-48A4-A45A-DA12304D06A9}.Release|x86.ActiveCfg = Release|x86
@@ -316,17 +282,26 @@ Global
 		{AC9EF5B1-166E-41E8-A62E-9A614703AB3B}.Debug|x86.Build.0 = Debug|x86
 		{AC9EF5B1-166E-41E8-A62E-9A614703AB3B}.Release|x86.ActiveCfg = Release|x86
 		{AC9EF5B1-166E-41E8-A62E-9A614703AB3B}.Release|x86.Build.0 = Release|x86
+		{9C863BCC-46C3-4B54-9B92-B4CC32812C76}.Debug|x86.ActiveCfg = Debug|x86
+		{9C863BCC-46C3-4B54-9B92-B4CC32812C76}.Debug|x86.Build.0 = Debug|x86
+		{9C863BCC-46C3-4B54-9B92-B4CC32812C76}.Release|x86.ActiveCfg = Release|x86
+		{9C863BCC-46C3-4B54-9B92-B4CC32812C76}.Release|x86.Build.0 = Release|x86
+		{1A7BCB9F-5DD2-4C16-9969-88C31720865F}.Debug|x86.ActiveCfg = Debug|x86
+		{1A7BCB9F-5DD2-4C16-9969-88C31720865F}.Debug|x86.Build.0 = Debug|x86
+		{1A7BCB9F-5DD2-4C16-9969-88C31720865F}.Release|x86.ActiveCfg = Release|x86
+		{1A7BCB9F-5DD2-4C16-9969-88C31720865F}.Release|x86.Build.0 = Release|x86
+		{41B33248-828B-4D62-83A0-2FFFE89582B0}.Debug|x86.ActiveCfg = Debug|x86
+		{41B33248-828B-4D62-83A0-2FFFE89582B0}.Debug|x86.Build.0 = Debug|x86
+		{41B33248-828B-4D62-83A0-2FFFE89582B0}.Release|x86.ActiveCfg = Release|x86
+		{41B33248-828B-4D62-83A0-2FFFE89582B0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{84B1B638-CAFD-46B9-A78D-3507781EA105} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{6EC8C18C-65ED-4C93-A8E2-7FB5324EF3C5} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
-		{90A5A53F-C5C2-4370-B751-9569FF50DF19} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
-		{1A7BCB9F-5DD2-4C16-9969-88C31720865F} = {84B1B638-CAFD-46B9-A78D-3507781EA105}
-		{2DEF9F9D-DED2-4572-881D-6E018AEE957F} = {84B1B638-CAFD-46B9-A78D-3507781EA105}
-		{527BB23D-A674-4147-B58D-DCC894737140} = {84B1B638-CAFD-46B9-A78D-3507781EA105}
+		{1A7BCB9F-5DD2-4C16-9969-88C31720865F} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
+		{41B33248-828B-4D62-83A0-2FFFE89582B0} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{BCFE9369-F0AF-4DD3-9133-0C60D21F94D6} = {473A7C08-02A2-473A-BEC6-891F035674FD}
 		{8E3093E1-9B62-4F62-A236-CD6EB40F9CC4} = {473A7C08-02A2-473A-BEC6-891F035674FD}
 		{E6DD6D23-3FFC-4DF8-B2F8-CDA5BF77348D} = {473A7C08-02A2-473A-BEC6-891F035674FD}
@@ -352,6 +327,7 @@ Global
 		{67D5F5DD-95D8-4DF3-B4F4-B43A2FCFE02F} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
 		{79DAA213-B774-444D-85B1-7AA727C036E7} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
 		{7F23856B-B95C-42B3-B6AF-663FA35324D6} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
+		{9C863BCC-46C3-4B54-9B92-B4CC32812C76} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
 		{316F5B16-E308-4ABE-B95D-EF64FFAEF028} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
 		{AEA25552-0508-4D42-AFBA-95DBB0BFBA67} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
 		{4D100C6D-963E-4AE7-AEAF-91040D4F0332} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
@@ -368,8 +344,5 @@ Global
 		{09D9131B-3277-476F-8500-311E69B58AFB} = {F697B4C2-4712-4596-814B-245E2500AE51}
 		{95BDACEA-E8DB-4A87-9472-A37F0879179F} = {F697B4C2-4712-4596-814B-245E2500AE51}
 		{99C1ED90-C4CD-4730-B05C-B99EED60EDD1} = {F697B4C2-4712-4596-814B-245E2500AE51}
-		{41B33248-828B-4D62-83A0-2FFFE89582B0} = {90A5A53F-C5C2-4370-B751-9569FF50DF19}
-		{37D91547-640C-4822-893A-0E700964302E} = {90A5A53F-C5C2-4370-B751-9569FF50DF19}
-		{47627FA3-2AAF-46E5-B39E-A9A860B0D3DE} = {90A5A53F-C5C2-4370-B751-9569FF50DF19}
 	EndGlobalSection
 EndGlobal
