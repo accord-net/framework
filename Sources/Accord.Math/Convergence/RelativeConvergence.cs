@@ -1,4 +1,4 @@
-﻿// Accord Statistics Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -60,12 +60,15 @@ namespace Accord.Math
     /// </code>
     /// </example>
     /// 
-    public class RelativeConvergence
+    public class RelativeConvergence : ISingleValueConvergence
     {
 
         private double tolerance = 0;
         private int maxIterations = 100;
         private double newValue;
+
+        private int checks;
+        private int maxChecks = 1;
 
 
         /// <summary>
@@ -129,6 +132,27 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Initializes a new instance of the <see cref="RelativeConvergence"/> class.
+        /// </summary>
+        /// 
+        /// <param name="iterations">The maximum number of iterations which should be
+        ///   performed by the iterative algorithm. Setting to zero indicates there
+        ///   is no maximum number of iterations. Default is 0.</param>
+        /// <param name="tolerance">The maximum relative change in the watched value
+        ///   after an iteration of the algorithm used to detect convergence.
+        ///   Default is 0.</param>
+        /// <param name="checks">The minimum number of convergence checks that the
+        ///   iterative algorithm should pass before convergence can be declared
+        ///   reached.</param>
+        /// 
+        public RelativeConvergence(int iterations, double tolerance, int checks)
+        {
+            this.Iterations = iterations;
+            this.tolerance = tolerance;
+            this.maxChecks = checks;
+        }
+
+        /// <summary>
         ///   Gets or sets the watched value before the iteration.
         /// </summary>
         /// 
@@ -163,42 +187,52 @@ namespace Accord.Math
         {
             get
             {
-                // Update and verify stop criteria
-                if (tolerance > 0)
-                {
-                    // Stopping criteria is likelihood convergence
-                    double delta = Math.Abs(OldValue - NewValue);
+                bool converged = checkConvergence();
 
-                    if (delta <= tolerance * OldValue)
-                        return true;
+                checks = converged ? checks + 1 : 0;
 
-                    if (maxIterations > 0)
-                    {
-                        // Maximum iterations should also be respected
-                        if (CurrentIteration >= maxIterations)
-                            return true;
-                    }
-                }
-                else
+                return checks >= maxChecks;
+            }
+        }
+
+        private bool checkConvergence()
+        {
+            // Update and verify stop criteria
+            if (tolerance > 0)
+            {
+                // Stopping criteria is likelihood convergence
+                double delta = Math.Abs(OldValue - NewValue);
+
+                if (delta <= tolerance * OldValue)
+                    return true;
+
+                if (maxIterations > 0)
                 {
-                    // Stopping criteria is number of iterations
+                    // Maximum iterations should also be respected
                     if (CurrentIteration >= maxIterations)
                         return true;
                 }
-
-                // Check if we have reached an invalid or perfectly separable answer
-                if (Double.IsNaN(NewValue) || Double.IsInfinity(NewValue))
-                {
-                    return true;
-                }
-
-                return false;
             }
+            else
+            {
+                // Stopping criteria is number of iterations
+                if (CurrentIteration >= maxIterations)
+                    return true;
+            }
+
+            // Check if we have reached an invalid or perfectly separable answer
+            if (Double.IsNaN(NewValue) || Double.IsInfinity(NewValue))
+            {
+                return true;
+            }
+
+            return false;
         }
 
 
         /// <summary>
-        ///   Clears this instance.
+        ///   Resets this instance, reverting all iteration statistics
+        ///   statistics (number of iterations, last error) back to zero.
         /// </summary>
         /// 
         public void Clear()
@@ -206,6 +240,7 @@ namespace Accord.Math
             CurrentIteration = 0;
             NewValue = 0;
             OldValue = 0;
+            checks = 0;
         }
     }
 }
