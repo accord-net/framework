@@ -1,3 +1,51 @@
+Accord.NET Framework 2.11.0 release notes
+-----------------------------------------
+20.10.2013.    
+
+Version updates and fixes:
+
+* General
+  - The general focus for this release was to improve the documentation, 
+    re-organize the sample applications and provide standard bug-fixing.
+
+* Accord.Controls
+  - Fixing ArrayDataView to show jagged arrays in DataGridViews;
+  - Adding a ComponentView control to display analysis information.
+
+* Accord.Imaging
+  - Adding a Save overload to BagOfVisualWords (Google Code #74);
+  - Marking FAST and FREAK as Serializable (Google Code #75).
+
+* Accord.Statistics
+  - Improving documentation for the 'unbiased' parameter (Google Code #66);
+  - Removing the DEBUG flag from the Statistics assembly (Google Code #78);
+  - Adding NonlinearRegression models and least-squares learning algorithms;
+  - Adding a option to force the use of SVD when fitting linear regressions;
+  - Adding a option to disable normalization when creating Cox's models;
+  - Adding MultipleBaumWelchLearning to test random weight initializations;
+  - Updating HCRF learning algorithms to use relative convergence by default.
+
+* Accord.MachineLearning
+  - Correcting the score generation on k-NN classifier (Google Code #68);
+  - Fixing the Compact property of the SequentialMinimalOptimization class;
+  - Correcting the KD-Tree implementation to correctly identify all neighbor
+    points when querying for a finite number of neighbors (Google Code #71).
+
+* Accord.Math
+  - Adding the Gauss-Newton and Levenberg-Marquardt Least-Squares algorithms;
+  - Updating Absolute and Relative Convergence to implement a common interface;
+  - Adding a configurable minimum convergence checks in relative convergence.
+
+* Sample applications
+  - Reorganizing all sample applications, adding more relevant information
+    to their description and improving their documentation.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.5. May work with newer versions.
+
+
+
+
 Accord.NET Framework 2.10.0 release notes
 -----------------------------------------
 07.09.2013.    
@@ -69,6 +117,9 @@ Version updates and fixes:
   - Adding sample application for mouse gesture classification 
     using Dynamic Time Warping Kernel Support Vector Machines. 
   
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.5. May work with newer versions.
+
 
 
 
@@ -119,6 +170,7 @@ Version updates and fixes:
   
 * AForge Compatibility
   - Compiled against AForge.NET Framework 2.2.4. May work with newer versions.
+
 
 
 
