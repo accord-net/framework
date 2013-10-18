@@ -635,15 +635,19 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                double s = System.Math.Sqrt(
-                    (truePositives + falsePositives) *
-                    (truePositives + falseNegatives) *
-                    (trueNegatives + falsePositives) *
-                    (trueNegatives + falseNegatives));
+                double tp = truePositives;
+                double tn = trueNegatives;
+                double fp = falsePositives;
+                double fn = falseNegatives;
 
-                if (s != 0.0)
-                    return (truePositives * trueNegatives) / s;
-                else return 0.0;
+                double den = System.Math.Sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn));
+
+                if (den == 0.0)
+                    return 0;
+
+                double num = (tp * tn) - (fp * fn);
+
+                return num / den;
             }
         }
 

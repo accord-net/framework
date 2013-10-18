@@ -344,7 +344,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(0.7, matrix.Specificity);
 
                 Assert.AreEqual(0.38461538461538458, matrix.FScore);
-                Assert.AreEqual(0.27950849718747373, matrix.MatthewsCorrelationCoefficient);
+                Assert.AreEqual(0.11180339887498948, matrix.MatthewsCorrelationCoefficient);
             }
         }
 
