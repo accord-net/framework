@@ -7,11 +7,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Accord.MachineLearning.GPL")]
 [assembly: AssemblyDescription("Accord.NET - Machine Learning Library (GPL)")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Accord.NET")]
-[assembly: AssemblyProduct("Accord.NET Framework")]
-[assembly: AssemblyCopyright("Copyright © César Souza, 2009-2013")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // This sets the default COM visibility of types in the assembly to invisible.
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.

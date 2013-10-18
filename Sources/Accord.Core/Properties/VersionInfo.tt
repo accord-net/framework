@@ -12,10 +12,11 @@ using System.Reflection;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("2.10.0.0")]
-[assembly: AssemblyInformationalVersion("2.10.0")]
-[assembly: AssemblyFileVersion("2.10.0.<#= this.build #>")]
+[assembly: AssemblyVersion("<#= this.version #>")]
+[assembly: AssemblyInformationalVersion("<#= this.version #>")]
+[assembly: AssemblyFileVersion("<#= this.version #>.<#= this.build #>")]
 <#+
+    string version = "2.11.0";
     int build = (int)(DateTime.UtcNow - new DateTime(2001, 1, 1)).TotalDays;
     int revision = (int)(DateTime.UtcNow.TimeOfDay.TotalSeconds / 2);
 #>
