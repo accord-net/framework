@@ -290,7 +290,7 @@ namespace Accord.Controls.Vision
             detector.SearchMode = ObjectDetectorSearchMode.Single;
             detector.ScalingMode = ObjectDetectorScalingMode.SmallerToGreater;
             detector.MinSize = new Size(2, 5);
-            detector.MaxSize = new Size(15, 18);
+            //detector.MaxSize = new Size(15, 18);
         }
 
 
