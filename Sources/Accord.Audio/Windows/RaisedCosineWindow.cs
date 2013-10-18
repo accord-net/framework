@@ -55,6 +55,7 @@ namespace Accord.Audio.Windows
         /// <summary>
         ///   Constructs a new Raised Cosine Window
         /// </summary>
+        /// 
         public RaisedCosineWindow(double alpha, int length)
             : this(alpha, length,0)
         {
@@ -63,6 +64,7 @@ namespace Accord.Audio.Windows
         /// <summary>
         ///   Constructs a new Raised Cosine Window
         /// </summary>
+        /// 
         public RaisedCosineWindow(double alpha, int length, int sampleRate)
             : base(length, sampleRate)
         {
@@ -77,6 +79,7 @@ namespace Accord.Audio.Windows
         /// <summary>
         ///   Creates a new Hamming Window.
         /// </summary>
+        /// 
         public static RaisedCosineWindow Hamming(int length)
         {
             return new RaisedCosineWindow(0.46, length);
@@ -85,6 +88,7 @@ namespace Accord.Audio.Windows
         /// <summary>
         ///   Creates a new Hann Window.
         /// </summary>
+        /// 
         public static RaisedCosineWindow Hann(int length)
         {
             return new RaisedCosineWindow(0.5, length);
@@ -93,6 +97,7 @@ namespace Accord.Audio.Windows
         /// <summary>
         ///   Creates a new Hann Window.
         /// </summary>
+        /// 
         public static RaisedCosineWindow Hann(double length, int sampleRate)
         {
             return new RaisedCosineWindow(0.5, length, sampleRate);
@@ -101,13 +106,13 @@ namespace Accord.Audio.Windows
         /// <summary>
         ///   Creates a new Rectangular Window.
         /// </summary>
-        /// <param name="length"></param>
-        /// <returns></returns>
+        /// 
+        /// <param name="length">The size of the window.</param>
+        /// 
         public static RaisedCosineWindow Rectangular(int length)
         {
             return new RaisedCosineWindow(0, length);
         }
-
 
     }
 }
