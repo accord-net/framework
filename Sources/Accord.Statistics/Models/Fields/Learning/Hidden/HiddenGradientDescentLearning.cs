@@ -41,7 +41,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         IConvergenceLearning, IDisposable
     {
         private double learningRate = 100;
-        private AbsoluteConvergence convergence;
+        private ISingleValueConvergence convergence;
 
         //private double decay = 0.9;
         //private double tau = 0.5;
@@ -124,7 +124,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         {
             Model = model;
 
-            convergence = new AbsoluteConvergence();
+            convergence = new RelativeConvergence();
 
             calculator = new ForwardBackwardGradient<T>(model);
             gradient = new double[Model.Function.Weights.Length];

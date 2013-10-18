@@ -60,6 +60,8 @@ namespace Accord.Math.Optimization
         private int blocks = 1;
         private int outputCount = 1;
 
+        JaggedCholeskyDecomposition decomposition;
+
 
         /// <summary>
         ///   Gets or sets a parameterized model function mapping input vectors
@@ -186,6 +188,16 @@ namespace Accord.Math.Optimization
         public double[][] Hessian
         {
             get { return hessian; }
+        }
+
+
+        /// <summary>
+        ///   Gets standard error for each parameter in the solution.
+        /// </summary>
+        /// 
+        public double[] StandardErrors
+        {
+            get { return decomposition.InverseDiagonal().Sqrt(); }
         }
 
 
@@ -345,7 +357,7 @@ namespace Accord.Math.Optimization
 
                 // Decompose to solve the linear system. The Cholesky decomposition
                 // is done in place, occupying the Hessian's lower-triangular part.
-                var decomposition = new JaggedCholeskyDecomposition(hessian, robust: true, inPlace: true);
+                decomposition = new JaggedCholeskyDecomposition(hessian, robust: true, inPlace: true);
 
 
                 // Check if the decomposition exists

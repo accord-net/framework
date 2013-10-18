@@ -154,14 +154,14 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        ///   Gets the <see cref="ISolverMatrixDecomposition{T}">matrix decomposition</see>
-        ///   used to solve the local linear least squares problem in the last iteration.
+        ///   Gets standard error for each parameter in the solution.
         /// </summary>
         /// 
-        public SingularValueDecomposition Decomposition
+        public double[] StandardErrors
         {
-            get { return decomposition; }
+            get { return decomposition.Inverse().Diagonal().Sqrt(); }
         }
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="GaussNewton"/> class.

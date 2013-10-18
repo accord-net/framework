@@ -181,6 +181,7 @@ namespace Accord.Statistics.Models.Regression
         {
             var clone = new NonlinearRegression(Coefficients.Length, function, gradient);
             clone.coefficients = (double[])this.coefficients.Clone();
+            clone.standardErrors = (double[])this.standardErrors.Clone();
             return clone;
         }
     }

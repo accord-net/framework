@@ -39,7 +39,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     {
 
         private ForwardBackwardGradient<T> calculator;
-        private AbsoluteConvergence convergence;
+        private ISingleValueConvergence convergence;
 
         private double initialStep = 0.0125;
         private double deltaMax = 50.0;
@@ -171,7 +171,7 @@ namespace Accord.Statistics.Models.Fields.Learning
             Model = model;
 
             calculator = new ForwardBackwardGradient<T>(model);
-            convergence = new AbsoluteConvergence();
+            convergence = new RelativeConvergence(iterations: 100, tolerance: 0, checks: 3);
 
             int parameters = Model.Function.Weights.Length;
             gradient = new double[parameters];

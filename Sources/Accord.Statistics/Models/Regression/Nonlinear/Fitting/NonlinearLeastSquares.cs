@@ -32,7 +32,23 @@ namespace Accord.Statistics.Models.Regression.Fitting
     public class NonlinearLeastSquares : IRegressionFitting
     {
         private ILeastSquaresMethod solver;
+        private NonlinearRegression regression;
+        private bool computeStandardErrors = true;
 
+
+        /// <summary>
+        ///   Gets or sets a value indicating whether standard
+        ///   errors should be computed in the next iteration.
+        /// </summary>
+        /// <value>
+        /// 	<c>true</c> to compute standard errors; otherwise, <c>false</c>.
+        /// </value>
+        /// 
+        public bool ComputeStandardErrors
+        {
+            get { return computeStandardErrors; }
+            set { computeStandardErrors = value; }
+        }
 
         /// <summary>
         ///   Gets the <see cref="ILeastSquaresMethod">Least-Squares</see>
@@ -75,11 +91,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
             if (regression.Gradient == null)
                 throw new ArgumentException("The regression must have a gradient function defined.", "regression");
 
-
             this.solver = algorithm;
             this.solver.Solution = regression.Coefficients;
             this.solver.Function = new LeastSquaresFunction(regression.Function);
             this.solver.Gradient = new LeastSquaresGradientFunction(regression.Gradient);
+            this.regression = regression;
         }
 
 
@@ -97,7 +113,16 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public double Run(double[][] inputs, double[] outputs)
         {
-            return solver.Minimize(inputs, outputs);
+            double error = solver.Minimize(inputs, outputs);
+
+            if (computeStandardErrors)
+            {
+                double[] errors = solver.StandardErrors;
+                for (int i = 0; i < errors.Length; i++)
+                    regression.StandardErrors[i] = solver.StandardErrors[i];
+            }
+
+            return error;
         }
 
     }

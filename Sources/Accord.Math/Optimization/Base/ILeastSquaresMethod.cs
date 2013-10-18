@@ -58,6 +58,7 @@ namespace Accord.Math.Optimization
     /// 
     public delegate void LeastSquaresGradientFunction(double[] parameters, double[] input, double[] result);
 
+
     /// <summary>
     ///   Common interface for Least Squares algorithms, i.e. algorithms
     ///   that can be used to solve Least Squares optimization problems.
@@ -110,5 +111,12 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         double[] Solution { get; set; }
+
+        /// <summary>
+        ///   Gets standard error for each parameter in the solution.
+        /// </summary>
+        /// 
+        double[] StandardErrors { get; }
+
     }
 }
