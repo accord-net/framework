@@ -108,6 +108,10 @@ namespace Accord.MachineLearning
     ///   // As result, the first two observations should belong to the
     ///   // same cluster (thus having the same label). The same should
     ///   // happen to the next four observations and to the last three.
+    ///   
+    ///   // In order to classify new, unobserved instances, you can
+    ///   // use the kmeans.Clusters.Nearest method, as shown below:
+    ///   int c = kmeans.Clusters.Nearest(new double[] { 4, 1, 9) });
     ///   </code>
     ///   
     /// <para>
@@ -160,6 +164,7 @@ namespace Accord.MachineLearning
     /// 
     /// <seealso cref="KModes{T}"/>
     /// <seealso cref="MeanShift"/>
+    /// <seealso cref="GaussianMixtureModel"/>
     ///
     [Serializable]
     public class KMeans : IClusteringAlgorithm<double[]>
@@ -225,8 +230,10 @@ namespace Accord.MachineLearning
         /// 
         public KMeans(int k, Func<double[], double[], double> distance)
         {
-            if (k <= 0) throw new ArgumentOutOfRangeException("k");
-            if (distance == null) throw new ArgumentNullException("distance");
+            if (k <= 0) 
+                throw new ArgumentOutOfRangeException("k");
+            if (distance == null)
+                throw new ArgumentNullException("distance");
 
             // Create the object-oriented structure to hold
             //  information about the k-means' clusters.
@@ -243,7 +250,8 @@ namespace Accord.MachineLearning
         /// 
         public void Randomize(double[][] points, bool useSeeding = true)
         {
-            if (points == null) throw new ArgumentNullException("points");
+            if (points == null) 
+                throw new ArgumentNullException("points");
 
             double[][] centroids = clusters.Centroids;
 

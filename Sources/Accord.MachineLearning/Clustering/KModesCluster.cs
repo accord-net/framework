@@ -270,6 +270,9 @@ namespace Accord.MachineLearning
     ///   k-Modes' cluster.
     /// </summary>
     /// 
+    /// <seealso cref="KModes{T}"/>
+    /// <seealso cref="KModesClusterCollection{T}"/>
+    /// 
     [Serializable]
     public class KModesCluster<TData>
         where TData : ICloneable

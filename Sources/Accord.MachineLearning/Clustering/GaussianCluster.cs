@@ -32,6 +32,15 @@ namespace Accord.MachineLearning
     ///   Gaussian Mixture Model cluster.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   This class contains information about a Gaussian cluster found
+    ///   during a <see cref="GaussianMixtureModel"/> estimation. Clusters
+    ///   are often contained within a <see cref="GaussianClusterCollection"/>.
+    /// </remarks>
+    /// 
+    /// <seealso cref="GaussianMixtureModel"/>
+    /// <seealso cref="GaussianClusterCollection"/>
+    /// 
     [Serializable]
     public class GaussianCluster
     {
@@ -148,6 +157,19 @@ namespace Accord.MachineLearning
     /// <summary>
     ///   Gaussian Mixture Model Cluster Collection.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   This class contains information about all <see cref="GaussianCluster">
+    ///   Gaussian clusters</see> found during a <see cref="GaussianMixtureModel"/> 
+    ///   estimation. </para>
+    /// <para>
+    ///   Given a new sample, this class can be used to find the nearest cluster related
+    ///   to this sample through the <see cref="Nearest(double[])"/> method. </para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="GaussianMixtureModel"/>
+    /// <seealso cref="GaussianCluster"/>
     /// 
     [Serializable]
     public class GaussianClusterCollection : ReadOnlyCollection<GaussianCluster>, IClusterCollection<double[]>

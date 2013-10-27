@@ -51,8 +51,8 @@ namespace Accord.MachineLearning
     ///   // Compute the model (estimate)
     ///   gmm.Compute(samples, 0.0001);
     ///   
-    ///   // Classify a single sample
-    ///   int c = gmm.Nearest(sample);
+    ///   // Get classification for a new sample
+    ///   int c = gmm.Gaussians.Nearest(sample);
     ///   </code>
     /// </example>
     /// 
@@ -487,6 +487,15 @@ namespace Accord.MachineLearning
     /// <summary>
     ///   Options for Gaussian Mixture Model fitting.
     /// </summary>
+    /// 
+    /// <remarks>
+    ///   This class provides different options that can be passed to a 
+    ///   <see cref="GaussianMixtureModel"/> object when calling its
+    ///   <see cref="GaussianMixtureModel.Compute(double[][], GaussianMixtureModelOptions)"/>
+    ///   method.
+    /// </remarks>
+    /// 
+    /// <seealso cref="GaussianMixtureModel"/>
     /// 
     public class GaussianMixtureModelOptions
     {

@@ -30,6 +30,39 @@ namespace Accord.MachineLearning
     ///   Binary split clustering algorithm.
     /// </summary>
     /// 
+    /// <example>
+    ///   How to perform clustering with Binary Split.
+    ///   
+    ///   <code>
+    ///   // Declare some observations
+    ///   double[][] observations = 
+    ///   {
+    ///       new double[] { -5, -2, -1 },
+    ///       new double[] { -5, -5, -6 },
+    ///       new double[] {  2,  1,  1 },
+    ///       new double[] {  1,  1,  2 },
+    ///       new double[] {  1,  2,  2 },
+    ///       new double[] {  3,  1,  2 },
+    ///       new double[] { 11,  5,  4 },
+    ///       new double[] { 15,  5,  6 },
+    ///       new double[] { 10,  5,  6 },
+    ///   };
+    ///  
+    ///   // Create a new binary split with 3 clusters 
+    ///   BinarySplit binarySplit = new BinarySplit(3);
+    ///  
+    ///   // Compute the algorithm, retrieving an integer array
+    ///   //  containing the labels for each of the observations
+    ///   int[] labels = binarySplit.Compute(observations);
+    ///   
+    ///   // In order to classify new, unobserved instances, you can
+    ///   // use the binarySplit.Clusters.Nearest method, as shown below:
+    ///   int c = binarySplit.Clusters.Nearest(new double[] { 4, 1, 9) });
+    ///   </code>
+    /// </example>
+    /// 
+    /// <seealso cref="KMeans"/>
+    /// 
     [Serializable]
     public class BinarySplit : IClusteringAlgorithm<double[]>
     {
@@ -85,8 +118,10 @@ namespace Accord.MachineLearning
         /// 
         public BinarySplit(int k, Func<double[], double[], double> distance)
         {
-            if (k <= 0) throw new ArgumentOutOfRangeException("k");
-            if (distance == null) throw new ArgumentNullException("distance");
+            if (k <= 0)
+                throw new ArgumentOutOfRangeException("k");
+            if (distance == null) 
+                throw new ArgumentNullException("distance");
 
             // Create the object-oriented structure to hold
             //  information about the k-means' clusters.
@@ -102,6 +137,16 @@ namespace Accord.MachineLearning
         public BinarySplit(int k)
             : this(k, Accord.Math.Distance.SquareEuclidean) { }
 
+        /// <summary>
+        ///   Divides the input data into K clusters. 
+        /// </summary>     
+        /// 
+        /// <param name="points">The data where to compute the algorithm.</param>
+        /// 
+        public int[] Compute(double[][] points)
+        {
+            return Compute(points, 1e-5);
+        }
 
         /// <summary>
         ///   Divides the input data into K clusters. 
@@ -130,7 +175,7 @@ namespace Accord.MachineLearning
                 // 3. Choose cluster with largest distortion
                 int choosen; distortions.Max(current, out choosen);
 
-                // 4. Split cluster into two subclusters
+                // 4. Split cluster into two sub-clusters
                 var splits = split(clusters[choosen], kmeans, threshold);
 
                 clusters[choosen] = splits.Item1;
@@ -159,6 +204,8 @@ namespace Accord.MachineLearning
         {
             get { return clusters; }
         }
+
+
 
         private static Tuple<double[][], double[][]> split(double[][] cluster,
             KMeans kmeans, double threshold)

@@ -157,6 +157,9 @@ namespace Accord.MachineLearning
     ///   Mean shift cluster.
     /// </summary>
     /// 
+    /// <seealso cref="MeanShift"/>
+    /// <seealso cref="MeanShiftClusterCollection"/>
+    /// 
     [Serializable]
     public class MeanShiftCluster
     {

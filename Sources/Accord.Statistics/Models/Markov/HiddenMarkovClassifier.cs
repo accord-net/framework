@@ -47,6 +47,12 @@ namespace Accord.Statistics.Models.Markov
     ///   <see cref="HiddenMarkovClassifier{TDistribution}"/></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   Examples are available at the respective learning algorithm pages. For 
+    ///   example, see <see cref="HiddenMarkovClassifierLearning"/>. </para>
+    /// </example>
+    /// 
     /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
     /// <seealso cref="HiddenMarkovClassifierLearning"/>
     /// 

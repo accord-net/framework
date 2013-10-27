@@ -39,6 +39,7 @@ namespace Accord.MachineLearning
     ///   the algorithm can be used with arbitrary (generic) data structures.
     /// </remarks>
     /// 
+    /// <seealso cref="KModes"/>
     /// <seealso cref="KMeans"/>
     /// <seealso cref="MeanShift"/>
     /// 
@@ -89,8 +90,10 @@ namespace Accord.MachineLearning
         /// 
         public KModes(int k, Func<TData, TData, double> distance)
         {
-            if (k <= 0) throw new ArgumentOutOfRangeException("k");
-            if (distance == null) throw new ArgumentNullException("distance");
+            if (k <= 0) 
+                throw new ArgumentOutOfRangeException("k");
+            if (distance == null) 
+                throw new ArgumentNullException("distance");
 
             // Create the object-oriented structure to hold
             //  information about the k-means' clusters.
@@ -106,7 +109,8 @@ namespace Accord.MachineLearning
         /// 
         public void Randomize(TData[] data)
         {
-            if (data == null) throw new ArgumentNullException("data");
+            if (data == null) 
+                throw new ArgumentNullException("data");
 
             // pick K unique random indexes in the range 0..n-1
             int[] idx = Accord.Statistics.Tools.RandomSample(data.Length, K);
@@ -277,8 +281,22 @@ namespace Accord.MachineLearning
     }
 
     /// <summary>
-    ///   K-Modes algorithm.
+    ///   k-Modes algorithm.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   The k-Modes algorithm is a variant of the k-Means which instead of 
+    ///   locating means attempts to locate the modes of a set of points. As
+    ///   the algorithm does not require explicit numeric manipulation of the
+    ///   input points (such as addition and division to compute the means),
+    ///   the algorithm can be used with arbitrary (generic) data structures.</para>
+    /// <para>
+    ///   This is the specialized, non-generic version of the K-Models algorithm
+    ///   that is set to work on <see cref="T:System.Int32"/> arrays.</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="KModes{T}"/>
     /// 
     [Serializable]
     public class KModes : KModes<int[]>
