@@ -14,7 +14,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: AssemblyDescription(
-@"The FAST sample application demonstrates how to perform corners detection using the FAST corners detector. As the name implies, the FAST detector is one of the fastest corners detectors available in the framework.")]
+@"The Harris sample application demonstrates how to perform corners detection using Harris' operator. The current implementation supports both Harris and Nobel corner measures. Harris can be enabled by ticking the checkbox next
+to the 'k' parameter, which is only needed for Harris. The Nobel measure does not require setting any parameters.")]
 
 
 

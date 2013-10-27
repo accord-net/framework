@@ -148,9 +148,10 @@
     <Compile Include="BagOfWordsTest.cs" />
     <Compile Include="Boosting\AdaBoostTest.cs" />
     <Compile Include="BootstrapTest.cs" />
+    <Compile Include="Clustering\BinarySplitTest.cs" />
     <Compile Include="DecisionTrees\ReducedErrorPruningTest.cs" />
     <Compile Include="DecisionTrees\ErrorBasedPruningTest.cs" />
-    <Compile Include="MeanShiftTest.cs" />
+    <Compile Include="Clustering\MeanShiftTest.cs" />
     <Compile Include="KDTreeTest.cs" />
     <Compile Include="RansacLineTest.cs" />
     <Compile Include="RansacPlaneTest.cs" />
@@ -160,12 +161,12 @@
     <Compile Include="Bayes\NaiveBayes`1Test.cs" />
     <Compile Include="CrossvalidationTest.cs" />
     <Compile Include="DecisionTrees\DecisionTreeTest.cs" />
-    <Compile Include="GaussianMixtureModelTest.cs" />
+    <Compile Include="Clustering\GaussianMixtureModelTest.cs" />
     <Compile Include="GridsearchTest.cs" />
     <Compile Include="DecisionTrees\ID3LearningTest.cs" />
     <Compile Include="Kernels\DynamicTimeWarpingTest.cs" />
-    <Compile Include="KMeansTest.cs" />
-    <Compile Include="KModesTest.cs" />
+    <Compile Include="Clustering\KMeansTest.cs" />
+    <Compile Include="Clustering\KModesTest.cs" />
     <Compile Include="KNearestNeighborTest.cs" />
     <Compile Include="VectorMachines\LeastSquaresLearningTest.cs" />
     <Compile Include="VectorMachines\SupportVectorReductionTest.cs" />
