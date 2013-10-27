@@ -77,6 +77,7 @@ namespace Accord.Statistics.Analysis
     /// </example>
     /// 
     /// <seealso cref="Statistics.Tools"/>
+    /// <seealso cref="DescriptiveMeasures"/>
     ///
     [Serializable]
     public class DescriptiveAnalysis : IMultivariateAnalysis
@@ -144,9 +145,11 @@ namespace Accord.Statistics.Analysis
         public DescriptiveAnalysis(double[,] data, string[] columnNames)
         {
             // Initial argument checking
-            if (data == null) throw new ArgumentNullException("data");
+            if (data == null)
+                throw new ArgumentNullException("data");
 
-            if (columnNames == null) throw new ArgumentNullException("columnNames");
+            if (columnNames == null)
+                throw new ArgumentNullException("columnNames");
 
             Compute(data, columnNames);
         }
@@ -172,9 +175,11 @@ namespace Accord.Statistics.Analysis
         public DescriptiveAnalysis(double[][] data, string[] columnNames)
         {
             // Initial argument checking
-            if (data == null) throw new ArgumentNullException("data");
+            if (data == null) 
+                throw new ArgumentNullException("data");
 
-            if (columnNames == null) throw new ArgumentNullException("columnNames");
+            if (columnNames == null) 
+                throw new ArgumentNullException("columnNames");
 
             Compute(data.ToMatrix(), columnNames);
         }
@@ -184,7 +189,7 @@ namespace Accord.Statistics.Analysis
             if (columnNames == null)
             {
                 // Generate column names as Column 1, Column 2, ...
-                columnNames = new string[data.GetLength(0)];
+                columnNames = new string[data.GetLength(1)];
                 for (int i = 0; i < columnNames.Length; i++)
                     columnNames[i] = "Column " + i;
             }
@@ -425,6 +430,8 @@ namespace Accord.Statistics.Analysis
     ///   Descriptive measures for a variable.
     /// </summary>
     /// 
+    /// <seealso cref="DescriptiveAnalysis"/>
+    /// 
     [Serializable]
     public class DescriptiveMeasures
     {
@@ -587,6 +594,9 @@ namespace Accord.Statistics.Analysis
     /// <summary>
     ///   Collection of descriptive measures.
     /// </summary>
+    /// 
+    /// <seealso cref="DescriptiveMeasures"/>
+    /// <seealso cref="DescriptiveAnalysis"/>
     /// 
     [Serializable]
     public class DescriptiveMeasureCollection : System.Collections.ObjectModel.ReadOnlyCollection<DescriptiveMeasures>

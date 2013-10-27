@@ -139,6 +139,41 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(target.Variances.IsEqual(new double[] { 7, 16, 7 }));
         }
+
+        [TestMethod()]
+        public void DescriptiveAnalysisConstructorTest4()
+        {
+            double[][] data =
+            {
+                new double[] { 1, 52, 5 },
+                new double[] { 2, 12, 5 },
+                new double[] { 1, 65, 5 },
+                new double[] { 1, 25, 5 },
+                new double[] { 2, 62, 5 },
+            };
+
+            // Create the analysis
+            DescriptiveAnalysis analysis = new DescriptiveAnalysis(data);
+
+            analysis.Compute();
+
+            double[] means = analysis.Means;
+            double[] modes = analysis.Modes;
+
+            Assert.AreEqual(3, means.Length);
+            Assert.AreEqual(1.4, means[0]);
+            Assert.AreEqual(43.2, means[1]);
+            Assert.AreEqual(5.0, means[2]);
+
+            Assert.AreEqual(1.0, modes[0]);
+            Assert.AreEqual(52.0, modes[1]);
+            Assert.AreEqual(5.0, modes[2]);
+
+            Assert.AreEqual(3, analysis.ColumnNames.Length);
+            Assert.AreEqual("Column 0", analysis.ColumnNames[0]);
+            Assert.AreEqual("Column 1", analysis.ColumnNames[1]);
+            Assert.AreEqual("Column 2", analysis.ColumnNames[2]);
+        }
    
     }
 }
