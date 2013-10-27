@@ -43,9 +43,21 @@ namespace Accord.Statistics.Models.Markov.Learning
     {
 
         private HiddenMarkovModel template;
+        private ITopology topology;
+
+
+#if !NET35
         private double bestLikelihood;
 
-        private ITopology topology;
+        /// <summary>
+        ///   inner class to hold information about a inner model.
+        /// </summary>
+        private class Candidate
+        {
+            public HiddenMarkovModel Model { get; set; }
+            public double LogLikelihood { get; set; }
+        }
+#endif
 
 
         /// <summary>
@@ -103,8 +115,6 @@ namespace Accord.Statistics.Models.Markov.Learning
         public int Iterations { get; set; }
 
 
-
-
         /// <summary>
         ///   Creates a new instance of the Baum-Welch learning algorithm.
         /// </summary>
@@ -122,9 +132,6 @@ namespace Accord.Statistics.Models.Markov.Learning
         }
 
 
-
-
-
         /// <summary>
         ///   Runs the learning algorithm.
         /// </summary>
@@ -137,6 +144,11 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public double Run(params int[][] observations)
         {
+#if NET35
+            throw new NotSupportedException("This class requires .NET 4.0 or newer.");
+        }
+#else
+
             // MarkovHelperMethods.checkArgs(observations, template.Symbols);
 
             // The following is a parallel map-reduce algorithm. It starts by
@@ -169,6 +181,8 @@ namespace Accord.Statistics.Models.Markov.Learning
             //
 
             int symbols = template.Symbols;
+
+            bestLikelihood = 0;
 
             Parallel.For(0, Trials,
 
@@ -220,13 +234,15 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             return bestLikelihood;
         }
-
+        
         private static void copy(HiddenMarkovModel from, HiddenMarkovModel to)
         {
             Array.Copy(from.Transitions, to.Transitions, to.Transitions.Length);
             Array.Copy(from.Emissions, to.Emissions, to.Emissions.Length);
             Array.Copy(from.Probabilities, to.Probabilities, to.Probabilities.Length);
         }
+#endif
+
 
         /// <summary>
         ///   Runs the learning algorithm.
@@ -237,16 +253,6 @@ namespace Accord.Statistics.Models.Markov.Learning
         double IUnsupervisedLearning.Run(Array[] observations)
         {
             return Run(observations as int[][]);
-        }
-
-
-        /// <summary>
-        ///   inner class to hold information about a inner model.
-        /// </summary>
-        private class Candidate
-        {
-            public HiddenMarkovModel Model { get; set; }
-            public double LogLikelihood { get; set; }
         }
 
     }
