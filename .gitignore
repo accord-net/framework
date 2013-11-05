@@ -15,3 +15,5 @@ obj
 *.shfbproj_*
 /Release (3.5)
 /Release
+
+/Debug
