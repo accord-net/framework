@@ -25,6 +25,7 @@ namespace Accord.Statistics.Analysis
     using System;
     using Accord.Math;
     using AForge;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///   Descriptive statistics analysis.
@@ -97,6 +98,7 @@ namespace Accord.Statistics.Analysis
         private string[] columnNames;
 
         private DoubleRange[] ranges;
+        private DoubleRange[] confidence;
 
         private double[] kurtosis;
         private Double[] skewness;
@@ -108,7 +110,9 @@ namespace Accord.Statistics.Analysis
 
         private double[,] zScores;
         private double[,] dScores;
+
         private double[,] sourceMatrix;
+        private double[][] sourceArray;
 
         private DescriptiveMeasureCollection measuresCollection;
 
@@ -121,7 +125,14 @@ namespace Accord.Statistics.Analysis
         /// 
         public DescriptiveAnalysis(double[] data)
         {
-            Compute(Matrix.ColumnVector(data), null);
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            double[,] matrix = new double[data.Length, 1];
+
+            System.Buffer.BlockCopy(data, 0, matrix, 0, data.Length * sizeof(double));
+
+            init(matrix, null, null);
         }
 
         /// <summary>
@@ -132,7 +143,10 @@ namespace Accord.Statistics.Analysis
         /// 
         public DescriptiveAnalysis(double[,] data)
         {
-            Compute(data, null);
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            init(data, null, null);
         }
 
         /// <summary>
@@ -144,14 +158,13 @@ namespace Accord.Statistics.Analysis
         /// 
         public DescriptiveAnalysis(double[,] data, string[] columnNames)
         {
-            // Initial argument checking
             if (data == null)
                 throw new ArgumentNullException("data");
 
             if (columnNames == null)
                 throw new ArgumentNullException("columnNames");
 
-            Compute(data, columnNames);
+            init(data, null, columnNames);
         }
 
         /// <summary>
@@ -162,7 +175,11 @@ namespace Accord.Statistics.Analysis
         /// 
         public DescriptiveAnalysis(double[][] data)
         {
-            Compute(data.ToMatrix(), null);
+            // Initial argument checking
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            init(null, data, null);
         }
 
         /// <summary>
@@ -175,30 +192,32 @@ namespace Accord.Statistics.Analysis
         public DescriptiveAnalysis(double[][] data, string[] columnNames)
         {
             // Initial argument checking
-            if (data == null) 
+            if (data == null)
                 throw new ArgumentNullException("data");
 
-            if (columnNames == null) 
+            if (columnNames == null)
                 throw new ArgumentNullException("columnNames");
 
-            Compute(data.ToMatrix(), columnNames);
+            init(null, data, columnNames);
         }
 
-        private void Compute(double[,] data, string[] columnNames)
+        private void init(double[,] matrix, double[][] array, string[] columnNames)
         {
-            if (columnNames == null)
-            {
-                // Generate column names as Column 1, Column 2, ...
-                columnNames = new string[data.GetLength(1)];
-                for (int i = 0; i < columnNames.Length; i++)
-                    columnNames[i] = "Column " + i;
-            }
-
-            this.sourceMatrix = data;
+            this.sourceMatrix = matrix;
+            this.sourceArray = array;
             this.columnNames = columnNames;
 
-            this.samples = data.GetLength(0);
-            this.variables = data.GetLength(1);
+            if (matrix != null)
+            {
+                this.samples = matrix.GetLength(0);
+                this.variables = matrix.GetLength(1);
+            }
+            else
+            {
+                this.samples = array.Length;
+                this.variables = array[0].Length;
+            }
+
 
 
             // Create object-oriented structure to access data
@@ -215,30 +234,50 @@ namespace Accord.Statistics.Analysis
         /// 
         public void Compute()
         {
-            // Run analysis
-            this.sums = Accord.Math.Matrix.Sum(sourceMatrix);
-            this.means = Statistics.Tools.Mean(sourceMatrix, sums);
-            this.standardDeviations = Statistics.Tools.StandardDeviation(sourceMatrix, means);
-            this.ranges = Matrix.Range(sourceMatrix, 0);
-            this.kurtosis = Statistics.Tools.Kurtosis(sourceMatrix, means);
-            this.skewness = Statistics.Tools.Skewness(sourceMatrix, means);
-            this.medians = Statistics.Tools.Median(sourceMatrix);
-            this.modes = Statistics.Tools.Mode(sourceMatrix);
-            this.variances = Statistics.Tools.Variance(sourceMatrix, means);
-            this.standardErrors = Statistics.Tools.StandardError(samples, standardDeviations);
-            this.distinct = Statistics.Tools.DistinctCount(sourceMatrix);
+            // Clear analysis
+            reset();
 
-            // Mean centered data
-            this.dScores = Statistics.Tools.Center(sourceMatrix, means, inPlace: false);
+            this.sums = Sums;
+            this.means = Means;
+            this.standardDeviations = StandardDeviations;
+            this.ranges = Ranges;
+            this.kurtosis = Kurtosis;
+            this.skewness = Skewness;
+            this.medians = Medians;
+            this.modes = Modes;
+            this.variances = Variances;
+            this.standardErrors = StandardErrors;
+            this.distinct = Distinct;
 
             // Mean centered and standardized data
-            this.zScores = Statistics.Tools.Standardize(dScores, standardDeviations, inPlace: false);
+            this.dScores = DeviationScores;
+            this.zScores = StandardScores;
 
             // Covariance and correlation
-            this.covarianceMatrix = Statistics.Tools.Covariance(sourceMatrix, means);
-            this.correlationMatrix = Statistics.Tools.Covariance(zScores);
+            this.covarianceMatrix = CovarianceMatrix;
+            this.correlationMatrix = CorrelationMatrix;
+
+            this.confidence = Confidence;
         }
 
+        private void reset()
+        {
+            this.sums = null;
+            this.means = null;
+            this.standardDeviations = null;
+            this.ranges = null;
+            this.kurtosis = null;
+            this.skewness = null;
+            this.medians = null;
+            this.modes = null;
+            this.variances = null;
+            this.standardErrors = null;
+            this.distinct = null;
+            this.dScores = null;
+            this.zScores = null;
+            this.covarianceMatrix = null;
+            this.correlationMatrix = null;
+        }
 
         #region Properties
 
@@ -248,7 +287,26 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[,] Source
         {
-            get { return this.sourceMatrix; }
+            get
+            {
+                if (this.sourceMatrix == null)
+                    sourceMatrix = sourceArray.ToMatrix();
+                return sourceMatrix;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the source matrix from which the analysis was run.
+        /// </summary>
+        /// 
+        public double[][] Array
+        {
+            get
+            {
+                if (this.sourceArray == null)
+                    sourceArray = sourceMatrix.ToArray();
+                return sourceArray;
+            }
         }
 
         /// <summary>
@@ -257,7 +315,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public String[] ColumnNames
         {
-            get { return this.columnNames; }
+            get
+            {
+                if (columnNames == null)
+                {
+                    columnNames = new string[variables];
+                    for (int i = 0; i < columnNames.Length; i++)
+                        columnNames[i] = "Column " + i;
+                }
+
+                return this.columnNames;
+            }
         }
 
         /// <summary>
@@ -266,7 +334,12 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[,] DeviationScores
         {
-            get { return this.dScores; }
+            get
+            {
+                if (this.dScores == null)
+                    this.dScores = Statistics.Tools.Center(Source, Means, inPlace: false);
+                return this.dScores;
+            }
         }
 
         /// <summary>
@@ -275,7 +348,12 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[,] StandardScores
         {
-            get { return this.zScores; }
+            get
+            {
+                if (this.zScores == null)
+                    this.zScores = Statistics.Tools.Standardize(DeviationScores, StandardDeviations, inPlace: false);
+                return this.zScores;
+            }
         }
 
         /// <summary>
@@ -284,7 +362,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[,] CovarianceMatrix
         {
-            get { return covarianceMatrix; }
+            get
+            {
+                if (covarianceMatrix == null)
+                {
+                    if (sourceMatrix != null)
+                        covarianceMatrix = Statistics.Tools.Covariance(sourceMatrix, Means);
+                    else covarianceMatrix = Statistics.Tools.Covariance(sourceArray, Means);
+                }
+
+                return covarianceMatrix;
+            }
         }
 
         /// <summary>
@@ -293,7 +381,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[,] CorrelationMatrix
         {
-            get { return correlationMatrix; }
+            get
+            {
+                if (correlationMatrix == null)
+                {
+                    if (sourceMatrix != null)
+                        correlationMatrix = Statistics.Tools.Correlation(sourceMatrix, Means, StandardDeviations);
+                    else correlationMatrix = Statistics.Tools.Correlation(sourceArray, Means, StandardDeviations);
+                }
+
+                return correlationMatrix;
+            }
         }
 
         /// <summary>
@@ -302,7 +400,16 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Means
         {
-            get { return means; }
+            get
+            {
+                if (means == null)
+                {
+                    if (sourceMatrix != null)
+                        means = Statistics.Tools.Mean(sourceMatrix, Sums);
+                    else means = Statistics.Tools.Mean(sourceArray, Sums);
+                }
+                return means;
+            }
         }
 
         /// <summary>
@@ -311,7 +418,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] StandardDeviations
         {
-            get { return standardDeviations; }
+            get
+            {
+                if (standardDeviations == null)
+                {
+                    if (sourceMatrix != null)
+                        standardDeviations = Statistics.Tools.StandardDeviation(sourceMatrix, Means);
+                    else standardDeviations = Statistics.Tools.StandardDeviation(sourceArray, Means);
+                }
+
+                return standardDeviations;
+            }
         }
 
         /// <summary>
@@ -320,7 +437,32 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] StandardErrors
         {
-            get { return standardErrors; }
+            get
+            {
+                if (standardErrors == null)
+                    standardErrors = Statistics.Tools.StandardError(samples, StandardDeviations);
+
+                return standardErrors;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the 95% confidence intervals for the <see cref="Means"/>.
+        /// </summary>
+        /// 
+        public DoubleRange[] Confidence
+        {
+            get
+            {
+                if (confidence == null)
+                {
+                    confidence = new DoubleRange[variables];
+                    for (int i = 0; i < confidence.Length; i++)
+                        confidence[i] = GetConfidenceInterval(i);
+                }
+
+                return confidence;
+            }
         }
 
         /// <summary>
@@ -329,7 +471,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Modes
         {
-            get { return modes; }
+            get
+            {
+                if (modes == null)
+                {
+                    if (sourceMatrix != null)
+                        modes = Statistics.Tools.Mode(sourceMatrix);
+                    else modes = Statistics.Tools.Mode(sourceArray);
+                }
+
+                return modes;
+            }
         }
 
         /// <summary>
@@ -338,7 +490,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Medians
         {
-            get { return medians; }
+            get
+            {
+                if (medians == null)
+                {
+                    if (sourceMatrix != null)
+                        medians = Statistics.Tools.Median(sourceMatrix);
+                    else medians = Statistics.Tools.Median(sourceArray);
+                }
+
+                return medians;
+            }
         }
 
         /// <summary>
@@ -347,7 +509,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Variances
         {
-            get { return variances; }
+            get
+            {
+                if (variances == null)
+                {
+                    if (sourceMatrix != null)
+                        variances = Statistics.Tools.Variance(sourceMatrix, Means);
+                    else variances = Statistics.Tools.Variance(sourceArray, Means);
+                }
+
+                return variances;
+            }
         }
 
         /// <summary>
@@ -356,7 +528,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public int[] Distinct
         {
-            get { return distinct; }
+            get
+            {
+                if (distinct == null)
+                {
+                    if (sourceMatrix != null)
+                        distinct = Statistics.Tools.DistinctCount(sourceMatrix);
+                    else distinct = Statistics.Tools.DistinctCount(sourceArray);
+                }
+
+                return distinct;
+            }
         }
 
         /// <summary>
@@ -365,7 +547,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public DoubleRange[] Ranges
         {
-            get { return ranges; }
+            get
+            {
+                if (ranges == null)
+                {
+                    if (sourceMatrix != null)
+                        this.ranges = Matrix.Range(sourceMatrix, 0);
+                    else this.ranges = Matrix.Range(sourceArray, 0);
+                }
+
+                return ranges;
+            }
         }
 
         /// <summary>
@@ -374,7 +566,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Sums
         {
-            get { return sums; }
+            get
+            {
+                if (sums == null)
+                {
+                    if (sourceMatrix != null)
+                        this.sums = Accord.Math.Matrix.Sum(sourceMatrix);
+                    else this.sums = Accord.Math.Matrix.Sum(sourceArray);
+                }
+
+                return sums;
+            }
         }
 
         /// <summary>
@@ -383,7 +585,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Skewness
         {
-            get { return skewness; }
+            get
+            {
+                if (skewness == null)
+                {
+                    if (sourceMatrix != null)
+                        this.skewness = Statistics.Tools.Skewness(sourceMatrix);
+                    else this.skewness = Statistics.Tools.Skewness(sourceArray);
+                }
+
+                return skewness;
+            }
         }
 
         /// <summary>
@@ -392,7 +604,17 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Kurtosis
         {
-            get { return kurtosis; }
+            get
+            {
+                if (kurtosis == null)
+                {
+                    if (sourceMatrix != null)
+                        this.kurtosis = Statistics.Tools.Kurtosis(sourceMatrix);
+                    else this.kurtosis = Statistics.Tools.Kurtosis(sourceArray);
+                }
+
+                return kurtosis;
+            }
         }
 
         /// <summary>
@@ -421,8 +643,30 @@ namespace Accord.Statistics.Analysis
         {
             get { return measuresCollection; }
         }
+
         #endregion
 
+
+        /// <summary>
+        ///   Gets a confidence interval for the <see cref="Means"/>
+        ///   within the given confidence level percentage.
+        /// </summary>
+        /// 
+        /// <param name="percent">The confidence level. Default is 0.95.</param>
+        /// <param name="index">The index of the data column whose confidence
+        ///   interval should be calculated.</param>
+        /// 
+        /// <returns>A confidence interval for the estimated value.</returns>
+        /// 
+        public DoubleRange GetConfidenceInterval(int index, double percent = 0.95)
+        {
+            double z = NormalDistribution.Standard
+                .InverseDistributionFunction(0.5 + percent / 2.0);
+
+            return new DoubleRange(
+                Means[index] - z * StandardErrors[index],
+                Means[index] + z * StandardErrors[index]);
+        }
 
     }
 
@@ -461,6 +705,15 @@ namespace Accord.Statistics.Analysis
         public string Name
         {
             get { return analysis.ColumnNames[index]; }
+        }
+
+        /// <summary>
+        ///   Gets the variable's total sum.
+        /// </summary>
+        /// 
+        public double Sum
+        {
+            get { return analysis.Sums[index]; }
         }
 
         /// <summary>
@@ -578,6 +831,15 @@ namespace Accord.Statistics.Analysis
         public int Count
         {
             get { return analysis.Samples; }
+        }
+
+        /// <summary>
+        ///   Gets the 95% confidence interval around the <see cref="Mean"/>.
+        /// </summary>
+        /// 
+        public DoubleRange Confidence
+        {
+            get { return analysis.Confidence[index]; }
         }
 
         /// <summary>
