@@ -41,6 +41,11 @@
 //   moshier@na-net.ornl.gov
 //
 
+// Contains functions from the TVPACK Fortran routines,
+// Copyright (C) 2013, Alan Genz, under the BSD license.
+// See functions below for more details.
+
+
 namespace Accord.Math
 {
     using System;
@@ -84,6 +89,7 @@ namespace Accord.Math
         /// <summary>
         ///   Normal cumulative distribution function.
         /// </summary>
+        /// 
         /// <returns>
         ///   The area under the Gaussian p.d.f. integrated
         ///   from minus infinity to the given value.
@@ -352,6 +358,222 @@ namespace Accord.Math
             sum *= Math.Exp(-0.5 * x * x - 0.91893853320467274178);
 
             return (x >= 0) ? sum : (1.0 - sum);
+        }
+
+        /// <summary>
+        ///   Bivariate normal cumulative distribution function.
+        /// </summary>
+        /// 
+        /// <param name="x">The value of the first variate.</param>
+        /// <param name="y">The value of the second variate.</param>
+        /// <param name="rho">The correlation coefficient between x and y. This can be computed
+        /// from a covariance matrix C as  <code>rho = C_12 / (sqrt(C_11) * sqrt(C_22))</code>.</param>
+        /// <returns></returns>
+        /// 
+        public static double Bivariate(double x, double y, double rho)
+        {
+            return BVND(-x, -y, rho);
+        }
+
+        /// <summary>
+        ///   Complemented bivariate normal cumulative distribution function.
+        /// </summary>
+        /// 
+        /// <param name="x">The value of the first variate.</param>
+        /// <param name="y">The value of the second variate.</param>
+        /// <param name="rho">The correlation coefficient between x and y. This can be computed
+        /// from a covariance matrix C as  <code>rho = C_12 / (sqrt(C_11) * sqrt(C_22))</code>.</param>
+        /// <returns></returns>
+        /// 
+        public static double BivariateComplemented(double x, double y, double rho)
+        {
+            return BVND(x, y, rho);
+        }
+
+
+        /// <summary>
+        ///   A function for computing bivariate normal probabilities. 
+        ///   BVND calculates the probability that X > DH and Y > DK.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para>
+        ///   This method is based on the work done by Alan Genz, Department of 
+        ///   Mathematics, Washington State University. Pullman, WA 99164-3113
+        ///   Email: alangenz@wsu.edu. This work was shared under a 3-clause BSD
+        ///   license. Please see source file for more details and the actual
+        ///   license text.</para>
+        ///   
+        /// <para>
+        ///   This function is based on the method described by Drezner, Z and G.O.
+        ///   Wesolowsky, (1989), On the computation of the bivariate normal integral,
+        ///   Journal of Statist. Comput. Simul. 35, pp. 101-107, with major modifications
+        ///   for double precision, and for |R| close to 1.</para>
+        /// </remarks>
+        /// 
+        private static double BVND(double DH, double DK, double R)
+        {
+            // Copyright (C) 2013, Alan Genz,  All rights reserved.               
+            // 
+            //  Redistribution and use in source and binary forms, with or without
+            //  modification, are permitted provided the following conditions are met:
+            //    1. Redistributions of source code must retain the above copyright
+            //       notice, this list of conditions and the following disclaimer.
+            //    2. Redistributions in binary form must reproduce the above copyright
+            //       notice, this list of conditions and the following disclaimer in 
+            //       the documentation and/or other materials provided with the 
+            //       distribution.
+            //    3. The contributor name(s) may not be used to endorse or promote 
+            //       products derived from this software without specific prior 
+            //       written permission.
+            //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+            //  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+            //  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+            //  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE 
+            //  COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, 
+            //  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+            //  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS 
+            //  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
+            //  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
+            //  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF USE
+            //  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+            double TWOPI = 2.0 * Math.PI;
+
+            double[] x;
+            double[] w;
+
+            if (Math.Abs(R) < 0.3)
+            {
+                // Gauss Legendre Points and Weights N =  6
+                x = new double[] { -0.9324695142031522, -0.6612093864662647, -0.2386191860831970 };
+                w = new double[] { 0.1713244923791705, 0.3607615730481384, 0.4679139345726904 };
+            }
+            else if (Math.Abs(R) < 0.75)
+            {
+                // Gauss Legendre Points and Weights N =  12
+                x = new double[]
+                {
+                    -0.9815606342467191, -0.9041172563704750, -0.7699026741943050,
+                    -0.5873179542866171, -0.3678314989981802, -0.1252334085114692
+                };
+
+                w = new double[] 
+                { 
+                    0.04717533638651177, 0.1069393259953183, 0.1600783285433464, 
+                    0.2031674267230659,  0.2334925365383547, 0.2491470458134029,
+                };
+            }
+            else
+            {
+                // Gauss Legendre Points and Weights N =  20
+                x = new double[] 
+                {
+                    -0.9931285991850949, -0.9639719272779138,
+                    -0.9122344282513259, -0.8391169718222188,
+                    -0.7463319064601508, -0.6360536807265150,
+                    -0.5108670019508271, -0.3737060887154196,
+                    -0.2277858511416451, -0.07652652113349733
+                };
+
+                w = new double[] 
+                {
+                    0.01761400713915212, 0.04060142980038694, 
+                    0.06267204833410906, 0.08327674157670475,
+                    0.1019301198172404,  0.1181945319615184, 
+                    0.1316886384491766,  0.1420961093183821,
+                    0.1491729864726037,  0.1527533871307259
+                };
+            }
+
+            double H = DH;
+            double K = DK;
+            double HK = H * K;
+            double BVN = 0;
+
+            if (Math.Abs(R) < 0.925)
+            {
+                if (Math.Abs(R) > 0)
+                {
+                    double HS = (H * H + K * K) / 2;
+                    double ASR = Math.Asin(R);
+
+                    for (int I = 0; I < x.Length; I++)
+                    {
+                        for (int IS = -1; IS <= 1; IS += 2)
+                        {
+                            double SN = Math.Sin(ASR * (IS * x[I] + 1) / 2);
+                            BVN = BVN + w[I] * Math.Exp((SN * HK - HS) / (1 - SN * SN));
+                        }
+                    }
+                    BVN = BVN * ASR / (2 * TWOPI);
+                }
+
+                return BVN + Normal.Function(-H) * Normal.Function(-K);
+            }
+
+
+            if (R < 0)
+            {
+                K = -K;
+                HK = -HK;
+            }
+
+            if (Math.Abs(R) < 1)
+            {
+                double AS = (1 - R) * (1 + R);
+                double A = Math.Sqrt(AS);
+                double BS = (H - K);
+                BS = BS * BS;
+                double C = (4 - HK) / 8;
+                double D = (12 - HK) / 16;
+                double ASR = -(BS / AS + HK) / 2;
+
+                if (ASR > -100)
+                    BVN = A * Math.Exp(ASR) * (1 - C * (BS - AS) * (1 - D * BS / 5) / 3 + C * D * AS * AS / 5);
+
+                if (-HK < 100)
+                {
+                    double B = Math.Sqrt(BS);
+                    BVN = BVN - Math.Exp(-HK / 2) * Math.Sqrt(TWOPI) * Normal.Function(-B / A) * B
+                              * (1 - C * BS * (1 - D * BS / 5) / 3);
+                }
+
+                A = A / 2;
+
+                for (int I = 0; I < x.Length; I++)
+                {
+                    for (int IS = -1; IS <= 1; IS += 2)
+                    {
+                        double XS = (A * (IS * x[I] + 1));
+                        XS = XS * XS;
+                        double RS = Math.Sqrt(1 - XS);
+                        ASR = -(BS / XS + HK) / 2;
+
+                        if (ASR > -100)
+                        {
+                            BVN = BVN + A * w[I] * Math.Exp(ASR)
+                                * (Math.Exp(-HK * XS / (2 * (1 + RS) * (1 + RS))) / RS
+                                - (1 + C * XS * (1 + D * XS)));
+                        }
+                    }
+                }
+
+                BVN = -BVN / TWOPI;
+            }
+
+            if (R > 0)
+                return BVN + Normal.Function(-Math.Max(H, K));
+
+            BVN = -BVN;
+
+            if (K <= H)
+                return BVN;
+
+            if (H < 0)
+                return BVN + Normal.Function(K) - Normal.Function(H);
+
+            return BVN + Normal.Function(-H) - Normal.Function(-K);
         }
 
     }

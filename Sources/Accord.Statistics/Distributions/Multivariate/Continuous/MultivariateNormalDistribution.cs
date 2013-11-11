@@ -90,6 +90,9 @@ namespace Accord.Statistics.Distributions.Multivariate
     ///   double pdf3 = dist.ProbabilityDensityFunction(new double[] { 3, 7 }); // 0.000000000036520107734505265
     ///   double lpdf = dist.LogProbabilityDensityFunction(new double[] { 3, 7 }); // -24.033158110192296
     ///   
+    ///   // Cumulative distribution function (for up to two dimensions)
+    ///   double cdf = dist.DistributionFunction(new double[] { 3, 5 }); // 0.033944035782101548
+    ///   
     ///   // Generate samples from this distribution:
     ///   double[][] sample = dist.Generate(1000000);
     /// </code>
@@ -211,11 +214,11 @@ namespace Accord.Statistics.Distributions.Multivariate
             int cols = covariance.GetLength(1);
 
             if (rows != cols)
-                throw new DimensionMismatchException("covariance", 
+                throw new DimensionMismatchException("covariance",
                     "Covariance matrix should be square.");
 
             if (mean.Length != rows)
-                throw new DimensionMismatchException("covariance", 
+                throw new DimensionMismatchException("covariance",
                     "Covariance matrix should have the same dimensions as mean vector's length.");
 
             CholeskyDecomposition chol = new CholeskyDecomposition(covariance,
@@ -315,11 +318,68 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
-        ///   This method is not supported.
+        ///   Computes the cumulative distribution function for distributions
+        ///   up to two dimensions. For more than two dimensions, this method
+        ///   is not supported.
         /// </summary>
         /// 
         public override double DistributionFunction(params double[] x)
         {
+            if (Dimension == 1)
+            {
+                double stdDev = Math.Sqrt(Covariance[0, 0]);
+                double z = (x[0] - mean[0]) / stdDev;
+
+                return Normal.Function(z);
+            }
+
+            if (Dimension == 2)
+            {
+                double sigma1 = Math.Sqrt(Covariance[0, 0]);
+                double sigma2 = Math.Sqrt(Covariance[1, 1]);
+                double rho = Covariance[0, 1] / (sigma1 * sigma2);
+
+                double z = (x[0] - mean[0]) / sigma1;
+                double w = (x[1] - mean[1]) / sigma2;
+                return Normal.Bivariate(z, w, rho);
+            }
+
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Complementary Cumulative Distribution Function (CCDF) is
+        ///   the complement of the Cumulative Distribution Function, or 1
+        ///   minus the CDF.
+        /// </remarks>
+        /// 
+        public override double ComplementaryDistributionFunction(params double[] x)
+        {
+            if (Dimension == 1)
+            {
+                double stdDev = Math.Sqrt(Covariance[0, 0]);
+                double z = (x[0] - mean[0]) / stdDev;
+
+                return Normal.Complemented(z);
+            }
+
+            if (Dimension == 2)
+            {
+                double sigma1 = Math.Sqrt(Covariance[0, 0]);
+                double sigma2 = Math.Sqrt(Covariance[1, 1]);
+                double rho = Covariance[0, 1] / (sigma1 * sigma2);
+
+                double z = (x[0] - mean[0]) / sigma1;
+                double w = (x[1] - mean[1]) / sigma2;
+                return Normal.BivariateComplemented(z, w, rho);
+            }
+
             throw new NotSupportedException();
         }
 
@@ -465,7 +525,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                     sum += weights[i];
                 }
 
-                if (Math.Abs(sum - 1.0) > 1e-10)
+                if (Math.Abs(sum - 1.0) > 1e-6)
                     throw new ArgumentException("Weights do not sum to one.", "weights");
 #endif
                 // Compute weighted mean vector
@@ -661,5 +721,44 @@ namespace Accord.Statistics.Distributions.Multivariate
             return data;
         }
 
+        /// <summary>
+        ///   Creates a new univariate Normal distribution.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean value for the distribution.</param>
+        /// <param name="stdDev">The standard deviation for the distribution.</param>
+        /// 
+        /// <returns>A <see cref="MultivariateNormalDistribution"/> object that
+        /// actually represents a <see cref="Accord.Statistics.Distributions.Univariate.NormalDistribution"/>.</returns>
+        /// 
+        public static MultivariateNormalDistribution Univariate(double mean, double stdDev)
+        {
+            return new MultivariateNormalDistribution(new[] { mean }, new[,] { { stdDev * stdDev } });
+        }
+
+        /// <summary>
+        ///   Creates a new bivariate Normal distribution.
+        /// </summary>
+        /// 
+        /// <param name="mean1">The mean value for the first variate in the distribution.</param>
+        /// <param name="mean2">The mean value for the second variate in the distribution.</param>
+        /// <param name="stdDev1">The standard deviation for the first variate.</param>
+        /// <param name="stdDev2">The standard deviation for the second variate.</param>
+        /// <param name="rho">The correlation coefficient between the two distributions.</param>
+        /// 
+        /// <returns>A bi-dimensional <see cref="MultivariateNormalDistribution"/>.</returns>
+        /// 
+        public static MultivariateNormalDistribution Bivariate(double mean1, double mean2, double stdDev1, double stdDev2, double rho)
+        {
+            double[] mean = { mean1, mean2 };
+
+            double[,] covariance = 
+            { 
+                { stdDev1 * stdDev1, stdDev1 * stdDev2 * rho },
+                { stdDev1 * stdDev2 * rho, stdDev2 * stdDev2 },
+            };
+
+            return new MultivariateNormalDistribution(mean, covariance);
+        }
     }
 }
