@@ -24,9 +24,8 @@ namespace Accord.Math
 {
     using System;
     using System.Collections.Generic;
-    using AForge;
-    using System.Collections;
     using Accord.Math.Comparers;
+    using AForge;
 
     /// <summary>
     ///   Set of mathematical tools.
@@ -241,12 +240,31 @@ namespace Accord.Math
 
         /// <summary>
         ///   Gets the proper modulus operation for
-        ///   a integer x and modulo m.
+        ///   an integer value x and modulo m.
         /// </summary>
+        /// 
         public static int Mod(int x, int m)
         {
-            if (m < 0) m = -m;
+            if (m < 0)
+                m = -m;
+
             int r = x % m;
+
+            return r < 0 ? r + m : r;
+        }
+
+        /// <summary>
+        ///   Gets the proper modulus operation for
+        ///   a real value x and modulo m.
+        /// </summary>
+        /// 
+        public static double Mod(double x, double m)
+        {
+            if (m < 0)
+                m = -m;
+
+            double r = x % m;
+
             return r < 0 ? r + m : r;
         }
 

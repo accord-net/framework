@@ -206,6 +206,15 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Gets the Modulo-m distance between two real values a and b.
+        /// </summary>
+        /// 
+        public static double Modular(double a, double b, double modulo)
+        {
+            return System.Math.Min(Tools.Mod(a - b, modulo), Tools.Mod(b - a, modulo));
+        }
+
+        /// <summary>
         ///   Bhattacharyya distance between two normalized histograms.
         /// </summary>
         /// 
