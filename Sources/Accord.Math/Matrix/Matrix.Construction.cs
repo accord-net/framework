@@ -374,7 +374,8 @@ namespace Accord.Math
         /// </summary>
         public static T[,] RowVector<T>(params T[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
+            if (values == null)
+                throw new ArgumentNullException("values");
 
             T[,] matrix = new T[1, values.Length];
 
@@ -389,7 +390,8 @@ namespace Accord.Math
         /// </summary>
         public static T[,] ColumnVector<T>(params T[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
+            if (values == null) 
+                throw new ArgumentNullException("values");
 
             T[,] matrix = new T[values.Length, 1];
 

@@ -1662,6 +1662,36 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Retrieves a list of the distinct values for each matrix column.
+        /// </summary>
+        /// 
+        /// <param name="values">The matrix.</param>
+        /// 
+        /// <returns>An array containing arrays of distinct values for
+        /// each column in the <paramref name="values"/>.</returns>
+        /// 
+        public static T[][] Distinct<T>(this T[][] values)
+        {
+            int rows = values.Length;
+            int cols = values[0].Length;
+
+            var sets = new HashSet<T>[cols];
+
+            for (int i = 0; i < sets.Length; i++)
+                sets[i] = new HashSet<T>();
+
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    sets[j].Add(values[i][j]);
+
+            T[][] result = new T[cols][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = sets[i].ToArray();
+
+            return result;
+        }
+
+        /// <summary>
         ///   Retrieves only distinct values contained in an array.
         /// </summary>
         /// 
