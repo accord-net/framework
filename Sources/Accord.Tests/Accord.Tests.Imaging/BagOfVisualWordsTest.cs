@@ -22,14 +22,14 @@
 
 namespace Accord.Tests.Imaging
 {
-    using Accord.Imaging;
-    using Accord.Math;
-    using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Drawing;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Imaging;
     using Accord.MachineLearning;
+    using Accord.Math;
+    using AForge.Imaging;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class BagOfVisualWordsTest
@@ -159,14 +159,16 @@ namespace Accord.Tests.Imaging
 
             double[][] expected = 
             {
-                new double[] { 26, 58, 102, 24, 53, 22, 47, 29, 42, 3 },
-                new double[] { 61, 135, 90, 101, 28, 48, 26, 105, 71, 62 },
-                new double[] { 47, 36, 138, 56, 61, 22, 71, 30, 55, 33 },
+                new double[] { 102, 58, 42, 24, 47, 53, 29, 26, 3, 22 },
+                new double[] { 90, 135, 71, 101, 26, 28, 105, 61, 62, 48 },
+                new double[] { 138, 36, 55, 56, 71, 61, 30, 47, 33, 22 } 
             };
 
             double[][] actual = new double[expected.Length][];
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = bow.GetFeatureVector(images[i]);
+
+            // string str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
 
             Assert.IsTrue(expected.IsEqual(actual));
         }

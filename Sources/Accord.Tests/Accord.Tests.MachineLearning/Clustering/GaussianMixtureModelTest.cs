@@ -29,6 +29,8 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Formats;
     using System.Data;
     using Accord.Tests.MachineLearning.Properties;
+    using System;
+    using Accord.Statistics.Distributions.Fitting;
 
     [TestClass()]
     public class GaussianMixtureModelTest
@@ -89,7 +91,7 @@ namespace Accord.Tests.MachineLearning
                 sample = samples[i];
                 c = gmm.Gaussians.Nearest(sample);
 
-                Assert.AreEqual(c, i >= 5 ? 1 : 0);
+                Assert.AreEqual(c, i < 5 ? 1 : 0);
             }
         }
 
@@ -173,7 +175,7 @@ namespace Accord.Tests.MachineLearning
                 new double[] { 8 }, new double[] { 6 } // (14 points)
             };
 
-            // And those are their respective unormalized weights:
+            // And those are their respective unnormalized weights:
             double[] weights = { 10, 1, 1, 2, 2, 1, 1, 1, 8, 1, 2, 5, 1, 1 }; // (14 weights)
 
             // with weights
@@ -190,11 +192,11 @@ namespace Accord.Tests.MachineLearning
                 });
 
 
-                Assert.AreEqual(6.420790676635443, gmm.Gaussians[0].Mean[0]);
-                Assert.AreEqual(0.290536871335858, gmm.Gaussians[1].Mean[0]);
+                Assert.AreEqual(6.420790676635443, gmm.Gaussians[1].Mean[0]);
+                Assert.AreEqual(0.290536871335858, gmm.Gaussians[0].Mean[0]);
 
-                Assert.AreEqual(0.32294476897888613, gmm.Gaussians[0].Proportion);
-                Assert.AreEqual(0.67705523102111387, gmm.Gaussians[1].Proportion);
+                Assert.AreEqual(0.32294476897888613, gmm.Gaussians[1].Proportion);
+                Assert.AreEqual(0.67705523102111387, gmm.Gaussians[0].Proportion);
             }
 
             // without weights
@@ -207,11 +209,11 @@ namespace Accord.Tests.MachineLearning
 
                 gmm.Compute(points);
 
-                Assert.AreEqual(6.5149525060859865, gmm.Gaussians[0].Mean[0]);
-                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[1].Mean[0]);
+                Assert.AreEqual(6.5149525060859865, gmm.Gaussians[1].Mean[0]);
+                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[0].Mean[0]);
 
-                Assert.AreEqual(0.42235760973845654, gmm.Gaussians[0].Proportion);
-                Assert.AreEqual(0.57764239026154351, gmm.Gaussians[1].Proportion);
+                Assert.AreEqual(0.42235760973845654, gmm.Gaussians[1].Proportion);
+                Assert.AreEqual(0.57764239026154351, gmm.Gaussians[0].Proportion);
             }
         }
 
@@ -237,11 +239,14 @@ namespace Accord.Tests.MachineLearning
                 Weights = weights
             });
 
-            Assert.AreEqual(-0.010550720353814949, gmm.Gaussians[0].Mean[0]);
-            Assert.AreEqual(0.40799698773355553, gmm.Gaussians[0].Mean[1]);
+            Assert.AreEqual(-0.010550720353814949, gmm.Gaussians[1].Mean[0], 1e-4);
+            Assert.AreEqual(0.40799698773355553, gmm.Gaussians[1].Mean[1], 1e-3);
 
-            Assert.AreEqual(0.011896812071918696, gmm.Gaussians[1].Mean[0]);
-            Assert.AreEqual(-0.40400708592859663, gmm.Gaussians[1].Mean[1]);
+            Assert.AreEqual(0.011896812071918696, gmm.Gaussians[0].Mean[0], 1e-4);
+            Assert.AreEqual(-0.40400708592859663, gmm.Gaussians[0].Mean[1], 1e-3);
+
+            Assert.IsFalse(gmm.Gaussians[0].Mean.HasNaN());
+            Assert.IsFalse(gmm.Gaussians[1].Mean.HasNaN());
         }
 
         [TestMethod]
@@ -260,5 +265,55 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+        [Ignore, TestMethod()]
+        public void HighSampleTest()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            Func<double> r = () => Tools.Random.NextDouble();
+            Func<double> b = () => Tools.Random.NextDouble() > 0.3 ? 1 : -1;
+
+            // Test Samples
+
+            int thousand = 1000;
+            int million = thousand * thousand;
+            double[][] samples = new double[5 * million][];
+
+            Func<int, double[]> expand = (int label) =>
+                {
+                    var d = new double[10];
+                    d[label] = 1;
+                    return d;
+                };
+
+            for (int j = 0; j < samples.Length; j++)
+            {
+                if (j % 10 > 8)
+                    samples[j] = new double[] { r() }.Concatenate(expand(Tools.Random.Next() % 10));
+                else samples[j] = new double[] { r() * j }.Concatenate(expand(j % 10));
+            }
+
+
+            // Create a new Gaussian Mixture Model with 2 components
+            GaussianMixtureModel gmm = new GaussianMixtureModel(5);
+
+            // Compute the model
+            double result = gmm.Compute(samples, new GaussianMixtureModelOptions()
+                {
+                    NormalOptions = new NormalOptions()
+                    {
+                        Regularization = 1e-5,
+                    }
+                });
+
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                var sample = samples[i];
+                int c = gmm.Gaussians.Nearest(sample);
+
+                Assert.AreEqual(c, (i % 10) >= 5 ? 1 : 0);
+            }
+        }
     }
 }

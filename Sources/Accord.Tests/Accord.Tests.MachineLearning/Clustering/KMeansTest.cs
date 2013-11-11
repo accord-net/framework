@@ -25,7 +25,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning;
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    
+
     [TestClass()]
     public class KMeansTest
     {
@@ -130,7 +130,7 @@ namespace Accord.Tests.MachineLearning
             kmeans.Randomize(observations);
 
             // Save the first initialization
-            double[][] initial = kmeans.Clusters.Centroids;
+            double[][] initial = kmeans.Clusters.Centroids.MemberwiseClone();
 
             // Compute the first K-Means
             kmeans.Compute(observations, out error);

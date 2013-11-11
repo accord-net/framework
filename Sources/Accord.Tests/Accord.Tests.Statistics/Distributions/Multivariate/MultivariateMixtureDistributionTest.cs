@@ -105,7 +105,8 @@ namespace Accord.Tests.Statistics
 
             double actual = mixture.LogProbabilityDensityFunction(x);
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
+            Assert.IsFalse(double.IsNaN(actual));
         }
 
         [TestMethod()]

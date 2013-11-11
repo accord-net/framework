@@ -1855,6 +1855,29 @@ namespace Accord.Statistics
         }
 
         /// <summary>
+        ///   Calculates the matrix Mean vector.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix whose means will be calculated.</param>
+        /// <param name="sums">The sum vector containing already calculated sums for each column of the matrix.</param>
+        /// 
+        /// <returns>Returns a vector containing the means of the given matrix.</returns>
+        /// 
+        public static double[] Mean(double[][] matrix, double[] sums)
+        {
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            double[] mean = new double[cols];
+            double N = rows;
+
+            for (int j = 0; j < sums.Length; j++)
+                mean[j] = sums[j] / N;
+
+            return mean;
+        }
+
+        /// <summary>
         ///   Calculates the matrix Standard Deviations vector.
         /// </summary>
         /// 
@@ -3176,14 +3199,18 @@ namespace Accord.Statistics
         /// <summary>
         ///   Calculates the correlation matrix for a matrix of samples.
         /// </summary>
+        /// 
         /// <remarks>
         ///   In statistics and probability theory, the correlation matrix is the same
         ///   as the covariance matrix of the standardized random variables.
         /// </remarks>
+        /// 
         /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
         /// <param name="means">The mean value of the given values, if already known.</param>
         /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
+        /// 
         /// <returns>The correlation matrix.</returns>
+        /// 
         public static double[,] Correlation(double[,] matrix, double[] means, double[] standardDeviations)
         {
             double[,] scores = ZScores(matrix, means, standardDeviations);
@@ -3200,6 +3227,46 @@ namespace Accord.Statistics
                     double c = 0.0;
                     for (int k = 0; k < rows; k++)
                         c += scores[k, j] * scores[k, i];
+                    c /= N - 1.0;
+                    cor[i, j] = c;
+                    cor[j, i] = c;
+                }
+            }
+
+            return cor;
+        }
+
+        /// <summary>
+        ///   Calculates the correlation matrix for a matrix of samples.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In statistics and probability theory, the correlation matrix is the same
+        ///   as the covariance matrix of the standardized random variables.
+        /// </remarks>
+        /// 
+        /// <param name="matrix">A multi-dimensional array containing the matrix values.</param>
+        /// <param name="means">The mean value of the given values, if already known.</param>
+        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
+        /// 
+        /// <returns>The correlation matrix.</returns>
+        /// 
+        public static double[,] Correlation(double[][] matrix, double[] means, double[] standardDeviations)
+        {
+            double[][] scores = ZScores(matrix, means, standardDeviations);
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            double N = rows;
+            double[,] cor = new double[cols, cols];
+            for (int i = 0; i < cols; i++)
+            {
+                for (int j = i; j < cols; j++)
+                {
+                    double c = 0.0;
+                    for (int k = 0; k < scores.Length; k++)
+                        c += scores[k][j] * scores[k][i];
                     c /= N - 1.0;
                     cor[i, j] = c;
                     cor[j, i] = c;
@@ -4096,6 +4163,22 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         public static int[] DistinctCount(double[,] sourceMatrix)
+        {
+            double[][] distinct = sourceMatrix.Distinct();
+
+            int[] counts = new int[distinct.Length];
+            for (int i = 0; i < counts.Length; i++)
+                counts[i] = distinct[i].Length;
+
+            return counts;
+        }
+
+        /// <summary>
+        ///   Gets the number of distinct values 
+        ///   present in each column of a matrix.
+        /// </summary>
+        /// 
+        public static int[] DistinctCount(double[][] sourceMatrix)
         {
             double[][] distinct = sourceMatrix.Distinct();
 

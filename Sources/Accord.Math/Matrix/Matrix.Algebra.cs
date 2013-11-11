@@ -1126,6 +1126,22 @@ namespace Accord.Math
         /// 
         /// <param name="matrix">The matrix <c>A</c>.</param>
         /// <param name="x">The scalar <c>x</c>.</param>
+        /// <returns>The product <c>A*x</c> of the multiplication of the
+        ///   given matrix <c>A</c> and scalar <c>x</c>.</returns>
+        /// 
+        public static float[,] Multiply(this float[,] matrix, float x)
+        {
+            float[,] result = new float[matrix.GetLength(0), matrix.GetLength(1)];
+            Multiply(matrix, x, result);
+            return result;
+        }
+
+        /// <summary>
+        ///   Multiplies a matrix <c>A</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
         /// <param name="result">The matrix <c>R</c> to store the product <c>R=A*x</c>
         ///   of the multiplication of the given matrix <c>A</c> and scalar <c>x</c>.</param>
         /// 
@@ -1138,6 +1154,29 @@ namespace Accord.Math
             fixed (double* ptrA = matrix, ptrR = result)
             {
                 double* pa = ptrA, pr = ptrR;
+                for (int i = 0; i < length; i++, pa++, pr++)
+                    *pr = *pa * x;
+            }
+        }
+
+        /// <summary>
+        ///   Multiplies a matrix <c>A</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product <c>R=A*x</c>
+        ///   of the multiplication of the given matrix <c>A</c> and scalar <c>x</c>.</param>
+        /// 
+        public unsafe static void Multiply(this float[,] matrix, float x, float[,] result)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            int length = matrix.Length;
+
+            fixed (float* ptrA = matrix, ptrR = result)
+            {
+                float* pa = ptrA, pr = ptrR;
                 for (int i = 0; i < length; i++, pa++, pr++)
                     *pr = *pa * x;
             }
@@ -1162,6 +1201,24 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Multiplies a vector <c>v</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// <param name="vector">The vector <c>v</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <returns>The product <c>v*x</c> of the multiplication of the 
+        ///   given vector <c>v</c> and scalar <c>x</c>.</returns>
+        /// 
+        public static float[] Multiply(this float[] vector, float x)
+        {
+            float[] r = new float[vector.Length];
+
+            for (int i = 0; i < vector.Length; i++)
+                r[i] = vector[i] * x;
+
+            return r;
+        }
+
+        /// <summary>
         ///   Multiplies a scalar <c>x</c> by a matrix <c>A</c>.
         /// </summary>
         /// <param name="x">The scalar <c>x</c>.</param>
@@ -1170,6 +1227,19 @@ namespace Accord.Math
         ///   given scalar <c>x</c> and matrix <c>A</c>.</returns>
         /// 
         public static double[,] Multiply(this double x, double[,] matrix)
+        {
+            return matrix.Multiply(x);
+        }
+
+        /// <summary>
+        ///   Multiplies a scalar <c>x</c> by a matrix <c>A</c>.
+        /// </summary>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <returns>The product <c>x*A</c> of the multiplication of the
+        ///   given scalar <c>x</c> and matrix <c>A</c>.</returns>
+        /// 
+        public static float[,] Multiply(this float x, float[,] matrix)
         {
             return matrix.Multiply(x);
         }
@@ -1195,7 +1265,33 @@ namespace Accord.Math
         /// <returns>The product <c>x*v</c> of the multiplication of the 
         ///   given scalar <c>x</c> and vector <c>v</c>.</returns>
         /// 
+        public static float[] Multiply(this float x, float[] vector)
+        {
+            return vector.Multiply(x);
+        }
+
+        /// <summary>
+        ///   Multiplies a scalar <c>x</c> by a vector <c>v</c>.
+        /// </summary>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="vector">The vector <c>v</c>.</param>
+        /// <returns>The product <c>x*v</c> of the multiplication of the 
+        ///   given scalar <c>x</c> and vector <c>v</c>.</returns>
+        /// 
         public static double[] Multiply(this int x, double[] vector)
+        {
+            return vector.Multiply(x);
+        }
+
+        /// <summary>
+        ///   Multiplies a scalar <c>x</c> by a vector <c>v</c>.
+        /// </summary>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="vector">The vector <c>v</c>.</param>
+        /// <returns>The product <c>x*v</c> of the multiplication of the 
+        ///   given scalar <c>x</c> and vector <c>v</c>.</returns>
+        /// 
+        public static float[] Multiply(this int x, float[] vector)
         {
             return vector.Multiply(x);
         }

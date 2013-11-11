@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics;
     using System.Globalization;
+    using Accord.Statistics.Distributions.Univariate;
 
     [TestClass()]
     public class MultivariateNormalDistributionTest
@@ -82,6 +83,9 @@ namespace Accord.Tests.Statistics
             double pdf3 = dist.ProbabilityDensityFunction(new double[] { 3, 7 }); // 0.000000000036520107734505265
             double lpdf = dist.LogProbabilityDensityFunction(new double[] { 3, 7 }); // -24.033158110192296
 
+            // Cumulative distribution function (for up to two dimensions)
+            double cdf = dist.DistributionFunction(new double[] { 3, 5 }); // 0.033944035782101548
+
 
             Assert.AreEqual(4, mean[0]);
             Assert.AreEqual(2, mean[1]);
@@ -97,6 +101,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.35588127170858852, pdf2);
             Assert.AreEqual(0.000000000036520107734505265, pdf3);
             Assert.AreEqual(-24.033158110192296, lpdf);
+            Assert.AreEqual(0.033944035782101548, cdf);
         }
 
         [TestMethod()]
@@ -181,6 +186,70 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
+        [TestMethod()]
+        public void CumulativeFunctionTest1()
+        {
+            // Comparison against dmvnorm from the mvtnorm R package
+
+            double[] mean = { 1, -1 };
+
+            double[,] covariance = 
+            {
+                { 0.9, 0.4 },
+                { 0.4, 0.3 },
+            };
+
+            var target = new MultivariateNormalDistribution(mean, covariance);
+
+            double[] x = { 1.2, -0.8 };
+
+            // dmvnorm(x=c(1.2, -0.8), mean=c(1, -1), sigma=matrix(c(0.9, 0.4, 0.4, 0.3), 2, 2))
+            double pdf = target.ProbabilityDensityFunction(x);
+
+            // pmvnorm(upper=c(1.2, -0.8), mean=c(1, -1), sigma=matrix(c(0.9, 0.4, 0.4, 0.3), 2, 2))
+            double cdf = target.DistributionFunction(x);
+
+            // pmvnorm(lower=c(1.2, -0.8), mean=c(1, -1), sigma=matrix(c(0.9, 0.4, 0.4, 0.3), 2, 2))
+            double ccdf = target.ComplementaryDistributionFunction(x);
+
+            Assert.AreEqual(0.44620942136345987, pdf);
+            Assert.AreEqual(0.5049523013014460826, cdf, 1e-10);
+            Assert.AreEqual(0.27896707550525140507, ccdf, 1e-10);
+        }
+
+        [TestMethod()]
+        public void CumulativeFunctionTest2()
+        {
+            double[] mean = { 4.2 };
+
+            double[,] covariance = { { 1.4 } };
+
+            var baseline = new NormalDistribution(4.2, System.Math.Sqrt(covariance[0, 0]));
+            var target = new MultivariateNormalDistribution(mean, covariance);
+
+            for (int i = 0; i < 10; i++)
+            {
+                double x = (i - 2) / 10.0;
+
+                {
+                    double actual = target.ProbabilityDensityFunction(x);
+                    double expected = baseline.ProbabilityDensityFunction(x);
+                    Assert.AreEqual(expected, actual, 1e-10);
+                }
+
+                {
+                    double actual = target.DistributionFunction(x);
+                    double expected = baseline.DistributionFunction(x);
+                    Assert.AreEqual(expected, actual);
+                }
+
+                {
+                    double actual = target.ComplementaryDistributionFunction(x);
+                    double expected = baseline.ComplementaryDistributionFunction(x);
+                    Assert.AreEqual(expected, actual);
+                }
+            }
+        }
 
         [TestMethod()]
         public void ConstructorTest()
@@ -319,7 +388,7 @@ namespace Accord.Tests.Statistics
 
             double[][] sample = new double[1000000][];
             for (int i = 0; i < sample.Length; i++)
-                sample[i] = normal.Generate();    
+                sample[i] = normal.Generate();
 
             double[] mean = sample.Mean();
             double[,] cov = sample.Covariance();
