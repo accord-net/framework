@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Mixture of multivariate probability distributions.
@@ -234,10 +235,12 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   
         public override double LogProbabilityDensityFunction(params double[] x)
         {
-            double r = 0.0;
+            double[] logCoefficients = Matrix.Log(coefficients);
+
+            double log = Double.NegativeInfinity;
             for (int i = 0; i < components.Length; i++)
-                r += coefficients[i] * components[i].ProbabilityFunction(x);
-            return Math.Log(r);
+                log = Special.LogSum(log, logCoefficients[i] + components[i].LogProbabilityFunction(x));
+            return log;
         }
 
         /// <summary>
@@ -292,7 +295,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (weights != null)
                 for (int i = 0; i < weights.Length; i++)
                     if (Double.IsNaN(weights[i]) || Double.IsInfinity(weights[i]))
-                        throw new ArgumentException("Invalid numbers in the weight vector.","weights");
+                        throw new ArgumentException("Invalid numbers in the weight vector.", "weights");
 #endif
 
             if (options != null)
@@ -346,36 +349,58 @@ namespace Accord.Statistics.Distributions.Multivariate
                 //    responsibilities using the current parameter values.
                 Array.Clear(norms, 0, norms.Length);
 
-                for (int k = 0; k < gamma.Length; k++)
-                    for (int i = 0; i < observations.Length; i++)
-                        norms[i] += gamma[k][i] = pi[k] * pdf[k].ProbabilityFunction(observations[i]);
+                Parallel.For(0, gamma.Length, k =>
+                {
+                    double[] gammak = gamma[k];
 
-                for (int k = 0; k < gamma.Length; k++)
-                    for (int i = 0; i < weights.Length; i++)
-                        if (norms[i] != 0) gamma[k][i] *= weights[i] / norms[i];
+                    for (int i = 0; i < observations.Length; i++)
+                    {
+                        double partial = pi[k] * pdf[k].ProbabilityFunction(observations[i]);
+                        gammak[i] = partial;
+
+                        lock (observations[i])
+                            norms[i] += partial;
+                    }
+                });
 
                 // 3. Maximization: Re-estimate the distribution parameters
                 //    using the previously computed responsibilities
-                for (int k = 0; k < gamma.Length; k++)
+                try
                 {
-                    double sum = gamma[k].Sum();
-
-                    if (sum == 0)
+                    Parallel.For(0, gamma.Length, k =>
                     {
-                        pi[k] = 0.0;
-                        continue;
-                    }
+                        double[] gammak = gamma[k];
 
-                    System.Diagnostics.Debug.Assert(sum != 0);
-                    System.Diagnostics.Debug.Assert(weightSum != 0);
-                    System.Diagnostics.Debug.Assert(!gamma[k].HasNaN());
+                        double sum = 0;
+                        for (int i = 0; i < weights.Length; i++)
+                        {
+                            if (norms[i] != 0)
+                                sum += gammak[i] *= weights[i] / norms[i];
+                        }
 
-                    for (int i = 0; i < gamma[k].Length; i++)
-                        gamma[k][i] /= sum;
+                        if (sum == 0)
+                        {
+                            pi[k] = 0.0;
+                            return;
+                        }
 
-                    pi[k] = sum / weightSum;
-                    pdf[k].Fit(observations, gamma[k], innerOptions);
+                        System.Diagnostics.Debug.Assert(sum != 0);
+                        System.Diagnostics.Debug.Assert(weightSum != 0);
+                        System.Diagnostics.Debug.Assert(!gammak.HasNaN());
+
+                        for (int i = 0; i < gammak.Length; i++)
+                            gammak[i] /= sum;
+
+                        pi[k] = sum / weightSum;
+                        pdf[k].Fit(observations, gammak, innerOptions);
+                    });
                 }
+                catch (AggregateException e)
+                {
+                    if (e.InnerException is NonPositiveDefiniteMatrixException)
+                        throw e.InnerException;
+                }
+
 
                 // 4. Evaluate the log-likelihood and check for convergence
                 double newLikelihood = logLikelihood(pi, pdf, observations, weights);
@@ -427,7 +452,9 @@ namespace Accord.Statistics.Distributions.Multivariate
         private static double logLikelihood(double[] pi, T[] pdf, double[][] observations, double[] weigths)
         {
             double logLikelihood = 0.0;
+            double[] logCoefficients = pi.Log();
 
+#if NET35
             for (int i = 0; i < observations.Length; i++)
             {
                 double[] x = observations[i];
@@ -441,6 +468,39 @@ namespace Accord.Statistics.Distributions.Multivariate
 
                 if (sum > 0) logLikelihood += Math.Log(sum) * w;
             }
+#else
+            object syncObj = new object();
+
+            Parallel.For(0, observations.Length,
+
+                () => 0.0,
+
+                (i, status, partial) =>
+                {
+                    double[] x = observations[i];
+                    double w = weigths[i];
+
+                    if (w == 0)
+                        return partial;
+
+                    double sum = Double.NegativeInfinity;
+                    for (int j = 0; j < pi.Length; j++)
+                        sum = Special.LogSum(sum, logCoefficients[j] + pdf[j].LogProbabilityFunction(x));
+
+                    if (sum > Double.NegativeInfinity)
+                        return partial + sum * w;
+                    return partial;
+                },
+
+                (partial) =>
+                {
+                    lock (syncObj)
+                    {
+                        logLikelihood += partial;
+                    }
+                }
+            );
+#endif
 
             return logLikelihood;
         }
