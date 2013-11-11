@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: AssemblyInformationalVersion("<#= this.version #>")]
 [assembly: AssemblyFileVersion("<#= this.version #>.<#= this.build #>")]
 <#+
-    string version = "2.11.0";
+    string version = "2.11.1";
     int build = (int)(DateTime.UtcNow - new DateTime(2001, 1, 1)).TotalDays;
     int revision = (int)(DateTime.UtcNow.TimeOfDay.TotalSeconds / 2);
 #>
