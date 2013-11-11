@@ -365,6 +365,7 @@ namespace Accord.MachineLearning
             {
                 Threshold = options.Threshold,
                 InnerOptions = options.NormalOptions,
+                Iterations = options.Iterations
             };
 
             // Check if we have weighted samples
@@ -508,6 +509,14 @@ namespace Accord.MachineLearning
         /// <value>The convergence threshold.</value>
         /// 
         public double Threshold { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations
+        ///   to be performed by the Expectation-Maximization
+        ///   algorithm. Default is zero (iterate until convergence).
+        /// </summary>
+        /// 
+        public int Iterations { get; set; }
 
         /// <summary>
         ///   Gets or sets the sample weights. If set to null,
