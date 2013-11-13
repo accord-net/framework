@@ -272,7 +272,7 @@ namespace Accord.Statistics.Testing
                 if (values[i] == (int)x)
                 {
                     v = i;
-                    while (probabilities[i] == probabilities[v]) v++;
+                    while (v < probabilities.Length && probabilities[i] == probabilities[v]) v++;
                 }
             }
 

@@ -24,8 +24,8 @@ namespace Accord.Statistics.Analysis
 {
     using System;
     using Accord.Math;
-    using AForge;
     using Accord.Statistics.Distributions.Univariate;
+    using AForge;
 
     /// <summary>
     ///   Descriptive statistics analysis.
