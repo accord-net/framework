@@ -3430,7 +3430,7 @@ namespace Accord.Statistics
         public static double[] Standardize(this double[] values, double standardDeviation, bool inPlace = false)
         {
 
-            double[] result = inPlace ? values: new double[values.Length];
+            double[] result = inPlace ? values : new double[values.Length];
             for (int i = 0; i < values.Length; i++)
                 result[i] = values[i] / standardDeviation;
 
@@ -3558,8 +3558,12 @@ namespace Accord.Statistics
         public static double[] WeightedMean(double[][] matrix, double[] weights, int dimension = 0)
         {
             int rows = matrix.Length;
-            if (rows == 0) return new double[0];
+
+            if (rows == 0)
+                return new double[0];
+
             int cols = matrix[0].Length;
+
             double[] mean;
 
             if (dimension == 0)
@@ -3597,9 +3601,91 @@ namespace Accord.Statistics
                 throw new ArgumentException("Invalid dimension.", "dimension");
             }
 
+            double weightSum = weights.Sum();
+
+            if (weightSum != 0)
+                for (int i = 0; i < mean.Length; i++)
+                    mean[i] /= weightSum;
+
             return mean;
         }
 
+        /// <summary>
+        ///   Calculates the weighted matrix Mean vector.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix whose means will be calculated.</param>
+        /// <param name="weights">A vector containing the importance of each sample in the matrix.</param>
+        /// 
+        /// <returns>Returns a vector containing the means of the given matrix.</returns>
+        /// 
+        public static double[] WeightedMean(this double[,] matrix, double[] weights)
+        {
+            return WeightedMean(matrix, weights, 0);
+        }
+
+        /// <summary>
+        ///   Calculates the weighted matrix Mean vector.
+        /// </summary>
+        /// <param name="matrix">A matrix whose means will be calculated.</param>
+        /// <param name="weights">A vector containing the importance of each sample in the matrix.</param>
+        /// <param name="dimension">
+        ///   The dimension along which the means will be calculated. Pass
+        ///   0 to compute a row vector containing the mean of each column,
+        ///   or 1 to compute a column vector containing the mean of each row.
+        ///   Default value is 0.
+        /// </param>
+        /// <returns>Returns a vector containing the means of the given matrix.</returns>
+        /// 
+        public static double[] WeightedMean(double[,] matrix, double[] weights, int dimension = 0)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            double[] mean;
+
+            if (dimension == 0)
+            {
+                mean = new double[cols];
+
+                // for each row
+                for (int i = 0; i < rows; i++)
+                {
+                    double w = weights[i];
+
+                    // for each column
+                    for (int j = 0; j < cols; j++)
+                        mean[j] += matrix[i, j] * w;
+                }
+            }
+            else if (dimension == 1)
+            {
+                mean = new double[rows];
+
+                // for each row
+                for (int j = 0; j < rows; j++)
+                {
+                    double w = weights[j];
+
+                    // for each column
+                    for (int i = 0; i < cols; i++)
+                        mean[j] += matrix[j, i] * w;
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Invalid dimension.", "dimension");
+            }
+
+
+            double weightSum = weights.Sum();
+
+            if (weightSum != 0)
+                for (int i = 0; i < mean.Length; i++)
+                    mean[i] /= weightSum;
+
+            return mean;
+        }
 
         /// <summary>
         ///   Calculates the scatter matrix of a sample matrix.

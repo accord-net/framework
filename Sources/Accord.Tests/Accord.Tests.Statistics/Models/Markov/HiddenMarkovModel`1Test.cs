@@ -1249,7 +1249,7 @@ namespace Accord.Tests.Statistics
             double logLikelihood = teacher.Run(sequences);
             double likelihood = Math.Exp(logLikelihood);
 
-            Assert.AreEqual(47.434837528491286, logLikelihood, 1e-15);
+            Assert.AreEqual(5.2175219394269385, logLikelihood, 1e-15);
             Assert.IsFalse(double.IsNaN(logLikelihood));
 
             Assert.AreEqual(0.0001, (teacher.FittingOptions as NormalOptions).Regularization);

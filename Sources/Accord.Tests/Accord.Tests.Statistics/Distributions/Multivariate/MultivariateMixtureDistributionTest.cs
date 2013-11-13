@@ -286,10 +286,10 @@ namespace Accord.Tests.Statistics
             double mean10 = mixture.Components[1].Mean[0];
             double mean11 = mixture.Components[1].Mean[1];
 
-            Assert.AreEqual(-0.11704994950834195, mean00);
-            Assert.AreEqual(0.11603470123007256, mean01);
-            Assert.AreEqual(0.11814483652855159, mean10);
-            Assert.AreEqual(-0.12029275652994373, mean11);
+            Assert.AreEqual(-0.11704994950834195, mean00, 1e-10);
+            Assert.AreEqual(0.11603470123007256, mean01, 1e-10);
+            Assert.AreEqual(0.11814483652855159, mean10, 1e-10);
+            Assert.AreEqual(-0.12029275652994373, mean11, 1e-10);
         }
 
     }
