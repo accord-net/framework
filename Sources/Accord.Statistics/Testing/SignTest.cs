@@ -71,8 +71,10 @@ namespace Accord.Statistics.Testing
             {
                 double d = sample[i] - hypothesizedMedian;
 
-                if (d > 0) positive++;
-                else if (d < 0) negative++;
+                if (d > 0)
+                    positive++;
+                else if (d < 0)
+                    negative++;
             }
 
 

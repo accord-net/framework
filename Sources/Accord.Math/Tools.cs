@@ -552,6 +552,36 @@ namespace Accord.Math
                 keys[i] = new KeyValuePair<int, T>(i, values[i]);
             Array.Sort(keys, values, new StableComparer<T>(comparison));
         }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
+        public static void StableSort<T>(this T[] values)
+            where T : IComparable<T>
+        {
+            var keys = new KeyValuePair<int, T>[values.Length];
+            for (var i = 0; i < values.Length; i++)
+                keys[i] = new KeyValuePair<int, T>(i, values[i]);
+            Array.Sort(keys, values, new StableComparer<T>((a,b) => a.CompareTo(b)));
+        }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
+        public static void StableSort<T>(this T[] values, out int[] order)
+            where T : IComparable<T>
+        {
+            var keys = new KeyValuePair<int, T>[values.Length];
+            for (var i = 0; i < values.Length; i++)
+                keys[i] = new KeyValuePair<int, T>(i, values[i]);
+            Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
+
+            order = new int[values.Length];
+            for (int i = 0; i < keys.Length; i++)
+                order[i] = keys[i].Key;
+        }
     }
 
 

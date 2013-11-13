@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Math;
 
     /// <summary>
     ///   Binomial test.
@@ -237,32 +238,46 @@ namespace Accord.Statistics.Testing
         /// 
         private double wilsonSterne(double x)
         {
+            double mean = StatisticDistribution.Mean;
+
+            if (x == mean)
+                return 1;
+
+
             int trials = StatisticDistribution.NumberOfTrials;
 
             // Construct a map of values and point probabilities
-            int[] values = new int[trials];
-            for (int i = 0; i < values.Length; i++)
-                values[i] = i;
-
             double[] probabilities = new double[trials];
+
+
             for (int i = 0; i < probabilities.Length; i++)
                 probabilities[i] = StatisticDistribution.ProbabilityMassFunction(i);
 
-            // Build the ordered Wilson-Sterne table
-            Array.Sort(probabilities, values);
 
-            // Now, compute the cumulative distribution
+            int[] values;
+
+            // Build the ordered Wilson-Sterne table
+            probabilities.StableSort(out values);
+
+
+            // Now, compute the cumulative probability
             double[] cumulative = new double[trials];
             cumulative[0] = probabilities[0];
             for (int i = 1; i < cumulative.Length; i++)
                 cumulative[i] += cumulative[i - 1] + probabilities[i];
 
-            int v = 0; // Locate the desired value
+            int v = 0;
             for (int i = 0; i < values.Length; i++)
-                if (values[i] == (int)x) v = i;
+            {
+                if (values[i] == (int)x)
+                {
+                    v = i;
+                    while (probabilities[i] == probabilities[v]) v++;
+                }
+            }
 
-            // Report the p-value
-            return cumulative[v];
+
+            return cumulative[v - 1];
         }
 
     }

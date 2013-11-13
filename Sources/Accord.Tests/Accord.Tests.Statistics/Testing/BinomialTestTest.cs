@@ -102,13 +102,39 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void BinomialTestConstructorTest3()
         {
+            // Tested against GNU R
             BinomialTest target = new BinomialTest(5, 18);
 
             Assert.AreEqual(OneSampleHypothesis.ValueIsDifferentFromHypothesis, target.Hypothesis);
             Assert.AreEqual(DistributionTail.TwoTail, target.Tail);
 
-            Assert.AreEqual(0.09625, target.PValue, 1e-4);
+            Assert.AreEqual(0.096248626708984375, target.PValue, 1e-4);
             Assert.IsFalse(target.Significant);
+        }
+
+        [TestMethod()]
+        public void BinomialTestConstructorTest8()
+        {
+            // Example from Jeffrey S. Simonoff, Analyzing Categorical Data, pg 64
+            // Preview available: http://books.google.com.br/books?id=G8w_rifweAoC
+
+            BinomialTest target = new BinomialTest(8, 10, hypothesizedProbability: 0.4);
+
+            Assert.AreEqual(OneSampleHypothesis.ValueIsDifferentFromHypothesis, target.Hypothesis);
+            Assert.AreEqual(DistributionTail.TwoTail, target.Tail);
+
+            Assert.AreEqual(0.018236313600000005, target.PValue, 1e-4);
+            Assert.IsTrue(target.Significant);
+
+
+            target = new BinomialTest(7, 10, hypothesizedProbability: 0.4);
+            Assert.AreEqual(0.1010144256, target.PValue, 1e-4);
+            Assert.IsFalse(target.Significant);
+
+
+            target = new BinomialTest(9, 10, hypothesizedProbability: 0.4);
+            Assert.AreEqual(0.0015728640000000009, target.PValue, 1e-4);
+            Assert.IsTrue(target.Significant);
         }
 
         [TestMethod()]
@@ -134,10 +160,15 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void BinomialTestConstructorTest7()
         {
+            // Wolfram Alpha reports 0.063564300537
+            // http://www.wolframalpha.com/input/?i=test+for+binomial+parameter+p0%3D0.5%2C+samples%3D18%2C+successes%3D5
+
+            // GNU R reports 0.096248626708
+
             double[] expected =
             {
                 0.00000000000, 0.02819385651, 0.382725376073,
-                1.00000000000, 0.34347252004, 0.096252441406, 
+                1.00000000000, 0.34347252004, 0.096248626708, 
                 0.00707077678, 0.00026908252, 0.000002519659,
                 0.00000000052, 0.00000000000 
             };
