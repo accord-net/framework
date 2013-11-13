@@ -52,6 +52,14 @@ namespace Accord.Statistics.Distributions.Fitting
         public bool Diagonal { get; set; }
 
         /// <summary>
+        ///   Gets or sets whether the estimation function should
+        ///   allow non-positive definite covariance matrices by
+        ///   using the Singular Value Decomposition Function.
+        /// </summary>
+        /// 
+        public bool Robust { get; set; }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="NormalOptions"/> class.
         /// </summary>
         /// 

@@ -69,6 +69,11 @@ namespace Accord.Math.Decompositions
         private const Double eps = 2 * Constants.DoubleEpsilon;
         private const Double tiny = Constants.DoubleSmall;
 
+        double? determinant;
+        double? lndeterminant;
+        double? pseudoDeterminant;
+        double? lnpseudoDeterminant;
+
         /// <summary>
         ///   Returns the condition number <c>max(S) / min(S)</c>.
         /// </summary>
@@ -97,11 +102,11 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-		///   Returns the effective numerical matrix rank.
-		/// </summary>
-		///
+        ///   Returns the effective numerical matrix rank.
+        /// </summary>
+        ///
         /// <value>Number of non-negligible singular values.</value>
-		///
+        ///
         public int Rank
         {
             get
@@ -116,19 +121,19 @@ namespace Accord.Math.Decompositions
             }
         }
 
-		/// <summary>
-		///   Gets whether the decomposed matrix is singular.
-		/// </summary>
-		///
-		public bool IsSingular
+        /// <summary>
+        ///   Gets whether the decomposed matrix is singular.
+        /// </summary>
+        ///
+        public bool IsSingular
         {
             get { return Rank < Math.Min(m, n); }
         }
 
         /// <summary>
-		///   Gets the one-dimensional array of singular values.
-		/// </summary>        
-		///
+        ///   Gets the one-dimensional array of singular values.
+        /// </summary>        
+        ///
         public Double[] Diagonal
         {
             get { return this.s; }
@@ -158,6 +163,86 @@ namespace Accord.Math.Decompositions
             get { return si; }
         }
 
+        /// <summary>
+        ///   Returns the absolute value of the matrix determinant.
+        /// </summary>
+        ///
+        public double AbsoluteDeterminant
+        {
+            get
+            {
+                if (!determinant.HasValue)
+                {
+                    double det = 1;
+                    for (int i = 0; i < s.Length; i++)
+                        det *= s[i];
+                    determinant = det;
+                }
+
+                return determinant.Value;
+            }
+        }
+
+        /// <summary>
+        ///   Returns the log of the absolute value for the matrix determinant.
+        /// </summary>
+        ///
+        public double LogDeterminant
+        {
+            get
+            {
+                if (!lndeterminant.HasValue)
+                {
+                    double det = 0;
+                    for (int i = 0; i < s.Length; i++)
+                        det += Math.Log(s[i]);
+                    lndeterminant = det;
+                }
+
+                return lndeterminant.Value;
+            }
+        }
+
+
+        /// <summary>
+        ///   Returns the pseudo-determinant for the matrix.
+        /// </summary>
+        ///
+        public double PseudoDeterminant
+        {
+            get
+            {
+                if (!pseudoDeterminant.HasValue)
+                {
+                    double det = 1;
+                    for (int i = 0; i < s.Length; i++)
+                        if (s[i] != 0) det *= s[i];
+                    pseudoDeterminant = det;
+                }
+
+                return pseudoDeterminant.Value;
+            }
+        }
+
+        /// <summary>
+        ///   Returns the log of the pseudo-determinant for the matrix.
+        /// </summary>
+        ///
+        public double LogPseudoDeterminant
+        {
+            get
+            {
+                if (!lnpseudoDeterminant.HasValue)
+                {
+                    double det = 0;
+                    for (int i = 0; i < s.Length; i++)
+                        if (s[i] != 0) det += Math.Log(s[i]);
+                    lnpseudoDeterminant = det;
+                }
+
+                return lnpseudoDeterminant.Value;
+            }
+        }
 
 
         /// <summary>Constructs a new singular value decomposition.</summary>
@@ -235,11 +320,11 @@ namespace Accord.Math.Decompositions
             m = value.GetLength(0); // rows
             n = value.GetLength(1); // cols
 
-			if (m == 0 || n == 0)
-			{
-			   throw new ArgumentException("Matrix does not have any rows or columns.", "value");
-			}
-			    
+            if (m == 0 || n == 0)
+            {
+                throw new ArgumentException("Matrix does not have any rows or columns.", "value");
+            }
+
 
 
             if (m < n) // Check if we are violating JAMA's assumption

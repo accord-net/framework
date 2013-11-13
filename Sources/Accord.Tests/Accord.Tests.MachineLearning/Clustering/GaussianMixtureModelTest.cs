@@ -192,8 +192,8 @@ namespace Accord.Tests.MachineLearning
                 });
 
 
-                Assert.AreEqual(6.420790676635443, gmm.Gaussians[1].Mean[0]);
-                Assert.AreEqual(0.290536871335858, gmm.Gaussians[0].Mean[0]);
+                Assert.AreEqual(6.420790676635443, gmm.Gaussians[1].Mean[0], 1e-10);
+                Assert.AreEqual(0.290536871335858, gmm.Gaussians[0].Mean[0], 1e-10);
 
                 Assert.AreEqual(0.32294476897888613, gmm.Gaussians[1].Proportion);
                 Assert.AreEqual(0.67705523102111387, gmm.Gaussians[0].Proportion);
@@ -209,8 +209,8 @@ namespace Accord.Tests.MachineLearning
 
                 gmm.Compute(points);
 
-                Assert.AreEqual(6.5149525060859865, gmm.Gaussians[1].Mean[0]);
-                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[0].Mean[0]);
+                Assert.AreEqual(6.5149525060859865, gmm.Gaussians[1].Mean[0], 1e-10);
+                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[0].Mean[0], 1e-10);
 
                 Assert.AreEqual(0.42235760973845654, gmm.Gaussians[1].Proportion);
                 Assert.AreEqual(0.57764239026154351, gmm.Gaussians[0].Proportion);

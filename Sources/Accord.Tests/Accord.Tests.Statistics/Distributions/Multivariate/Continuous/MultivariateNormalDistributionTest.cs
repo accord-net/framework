@@ -22,13 +22,12 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Distributions.Multivariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics;
-    using System.Globalization;
+    using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class MultivariateNormalDistributionTest
@@ -352,6 +351,36 @@ namespace Accord.Tests.Statistics
 
             // No exception thrown
             target.Fit(observations, options);
+        }
+
+        [TestMethod()]
+        public void FitTest3()
+        {
+            double[][] observations = 
+            {
+                new double[] { 1, 2 },
+                new double[] { 2, 4 },
+                new double[] { 3, 6 },
+                new double[] { 4, 8 }
+            };
+
+
+            var target = new MultivariateNormalDistribution(2);
+
+            NormalOptions options = new NormalOptions()
+            {
+                Robust = true
+            };
+
+            target.Fit(observations, options);
+
+            double pdf = target.ProbabilityDensityFunction(4, 2);
+            double cdf = target.DistributionFunction(4, 2);
+            bool psd = target.Covariance.IsPositiveDefinite();
+
+            Assert.AreEqual(0.043239154739844896, pdf);
+            Assert.AreEqual(0.12263905840338646, cdf);
+            Assert.IsFalse(psd);
         }
 
         [TestMethod()]
