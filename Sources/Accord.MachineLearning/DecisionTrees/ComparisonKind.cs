@@ -22,6 +22,8 @@
 
 namespace Accord.MachineLearning.DecisionTrees
 {
+    using System;
+
 
     /// <summary>
     ///   Numeric comparison category.
@@ -69,5 +71,36 @@ namespace Accord.MachineLearning.DecisionTrees
         ///   The node compares for less-than or equality.
         /// </summary>
         LessThanOrEqual
+    }
+
+    public static class ComparisonExtensions
+    {
+
+        public static string ToString(this ComparisonKind comparison)
+        {
+            switch (comparison)
+            {
+                case ComparisonKind.Equal:
+                    return "==";
+
+                case ComparisonKind.GreaterThan:
+                    return ">";
+
+                case ComparisonKind.GreaterThanOrEqual:
+                    return ">=";
+
+                case ComparisonKind.LessThan:
+                    return "<";
+
+                case ComparisonKind.LessThanOrEqual:
+                    return "<=";
+
+                case ComparisonKind.NotEqual:
+                    return "!=";
+
+                default:
+                    throw new InvalidOperationException("Unexpected node comparison type.");
+            }
+        }
     }
 }

@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.DecisionTrees
     using Accord.Statistics.Filters;
     using System;
     using System.Runtime.Serialization;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   Decision Tree (DT) Node.
@@ -113,7 +114,7 @@ namespace Accord.MachineLearning.DecisionTrees
         {
             Owner = owner;
             Comparison = ComparisonKind.None;
-            Branches = new DecisionBranchNodeCollection();
+            Branches = new DecisionBranchNodeCollection(this);
         }
 
         /// <summary>
@@ -177,6 +178,12 @@ namespace Accord.MachineLearning.DecisionTrees
             }
         }
 
+        public DecisionRule ToRule()
+        {
+            return DecisionRule.FromNode(this);
+        }
+
+
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
@@ -214,31 +221,7 @@ namespace Accord.MachineLearning.DecisionTrees
             if (String.IsNullOrEmpty(name))
                 name = "x" + Parent.Branches.AttributeIndex;
 
-            String op;
-
-            switch (Comparison)
-            {
-                case ComparisonKind.Equal:
-                    op = "=="; break;
-
-                case ComparisonKind.GreaterThan:
-                    op = ">"; break;
-
-                case ComparisonKind.GreaterThanOrEqual:
-                    op = ">="; break;
-
-                case ComparisonKind.LessThan:
-                    op = "<"; break;
-
-                case ComparisonKind.LessThanOrEqual:
-                    op = "<="; break;
-
-                case ComparisonKind.NotEqual:
-                    op = "!="; break;
-
-                default:
-                    return "Unexpected comparison type.";
-            }
+            String op = ComparisonExtensions.ToString(Comparison);
 
             String value;
             if (codebook != null && Value.HasValue && codebook.Columns.Contains(name))
@@ -251,11 +234,16 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 
 
+
+
+
         [OnDeserialized]
         private void OnDeserialized(StreamingContext context)
         {
             if (Branches != null)
             {
+                Branches.Owner = this;
+
                 foreach (DecisionNode node in Branches)
                 {
                     node.Parent = this;

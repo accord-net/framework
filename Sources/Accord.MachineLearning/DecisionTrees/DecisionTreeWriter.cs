@@ -23,9 +23,6 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using System;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Text;
     using System.IO;
 
     /// <summary>
@@ -100,7 +97,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 for (int i = 0; i < node.Branches.Count; i++)
                 {
                     DecisionNode child = node.Branches[i];
-                    string cmp = getComparisonString(child.Comparison);
+                    string cmp = ComparisonExtensions.ToString(child.Comparison);
 
                     if (i == 0)
                         writer.Write(indent + "if ");
@@ -124,32 +121,5 @@ namespace Accord.MachineLearning.DecisionTrees
             }
         }
 
-
-        private static string getComparisonString(ComparisonKind comparison)
-        {
-            switch (comparison)
-            {
-                case ComparisonKind.Equal:
-                    return "==";
-
-                case ComparisonKind.GreaterThan:
-                    return ">";
-
-                case ComparisonKind.GreaterThanOrEqual:
-                    return ">=";
-
-                case ComparisonKind.LessThan:
-                    return "<";
-
-                case ComparisonKind.LessThanOrEqual:
-                    return "<=";
-
-                case ComparisonKind.NotEqual:
-                    return "!=";
-
-                default:
-                    throw new InvalidOperationException("Unexpected node comparison type.");
-            }
-        }
     }
 }

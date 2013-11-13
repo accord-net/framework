@@ -20,19 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System;
+
 namespace Accord.Tests.MachineLearning
 {
-    using Accord.MachineLearning.DecisionTrees;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using Accord.Statistics.Filters;
-    using Accord.Math;
     using System.Data;
+    using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
-    using System.Reflection;
-    using System.Reflection.Emit;
-    using System.IO;
+    using Accord.Math;
+    using Accord.Statistics.Filters;
     using AForge;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
+    using System.Text;
 
     [TestClass()]
     public class ID3LearningTest
@@ -453,7 +453,7 @@ namespace Accord.Tests.MachineLearning
 
             DecisionVariable[] vars = new DecisionVariable[10];
             for (int i = 0; i < vars.Length; i++)
-                vars[i] = new DecisionVariable(i.ToString(), new IntRange(0,10));
+                vars[i] = new DecisionVariable(i.ToString(), new IntRange(0, 10));
 
             DecisionTree tree = new DecisionTree(vars, 2);
 
@@ -465,7 +465,106 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(11, tree.Root.Branches.Count);
             for (int i = 0; i < tree.Root.Branches.Count; i++)
-                Assert.IsTrue(tree.Root.Branches[i].IsLeaf);    
+                Assert.IsTrue(tree.Root.Branches[i].IsLeaf);
+        }
+
+
+
+        [TestMethod]
+        public void LargeSampleTest1()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
+            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("Weekday",   10), 
+                new DecisionVariable("Route",     10), 
+                new DecisionVariable("Driver",    10), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, 2);
+            ID3Learning id3Learning = new ID3Learning(tree);
+
+            double error = id3Learning.Run(dataSamples, target);
+
+            Assert.IsTrue(error < 0.2);
+
+            var code = tree.ToCode("MyTree");
+
+
+            Assert.IsNotNull(code);
+            Assert.IsTrue(code.Length > 0);
+        }
+
+        [TestMethod]
+        public void LargeSampleTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
+            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("Weekday",   10), 
+                new DecisionVariable("Route",     10), 
+                new DecisionVariable("Driver",    10), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, 2);
+            ID3Learning id3Learning = new ID3Learning(tree)
+            {
+                Rejection = false
+            };
+
+            double error = id3Learning.Run(dataSamples, target);
+
+            foreach (var node in tree)
+            {
+                if (node.IsLeaf)
+                    Assert.IsNotNull(node.Output);
+            }
+
+            Assert.IsTrue(error < 0.15);
+
+            List<DecisionRule> rules = tree.ToRules();
+
+            Assert.AreEqual(829, rules.Count);
+        }
+
+        [TestMethod]
+        public void LargeSampleTest3()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
+            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("Weekday",   10), 
+                new DecisionVariable("Route",     10), 
+                new DecisionVariable("Driver",    8), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, 2);
+            ID3Learning id3Learning = new ID3Learning(tree);
+
+            bool thrown = false;
+
+            try
+            {
+                id3Learning.Run(dataSamples, target);
+            }
+            catch (Exception)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
         }
     }
 }
