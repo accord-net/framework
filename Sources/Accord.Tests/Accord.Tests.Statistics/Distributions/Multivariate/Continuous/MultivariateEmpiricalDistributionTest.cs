@@ -261,7 +261,7 @@ namespace Accord.Tests.Statistics
             target.Fit(observations, weigths);
 
             Assert.IsTrue(Matrix.IsEqual(mean, target.Mean));
-            Assert.IsTrue(Matrix.IsEqual(cov, target.Covariance));
+            Assert.IsTrue(Matrix.IsEqual(cov, target.Covariance, 1e-10));
         }
 
         [TestMethod()]

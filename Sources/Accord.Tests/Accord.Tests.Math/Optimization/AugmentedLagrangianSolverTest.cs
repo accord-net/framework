@@ -442,7 +442,7 @@ namespace Accord.Tests.Math
 
             double maxValue = solver.Maximize(objective);
 
-            Assert.AreEqual(6, maxValue, 1e-4);
+            Assert.AreEqual(6, maxValue, 1e-3);
             Assert.AreEqual(-3, solver.Solution[0], 1e-4);
             Assert.AreEqual(4, solver.Solution[1], 1e-4);
         }

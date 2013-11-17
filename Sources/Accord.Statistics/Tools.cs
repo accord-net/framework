@@ -3702,11 +3702,7 @@ namespace Accord.Statistics
         /// <returns>The covariance matrix.</returns>
         public static double[,] WeightedCovariance(double[][] matrix, double[] weights, double[] means)
         {
-            double sw = 1.0;
-            for (int i = 0; i < weights.Length; i++)
-                sw -= weights[i] * weights[i];
-
-            return WeightedScatter(matrix, weights, means, sw, 0);
+            return Tools.WeightedCovariance(matrix, weights, means, dimension: 0);
         }
 
         /// <summary>
@@ -3748,11 +3744,15 @@ namespace Accord.Statistics
         /// <returns>The covariance matrix.</returns>
         public static double[,] WeightedCovariance(double[][] matrix, double[] weights, double[] means, int dimension)
         {
-            double sw = 0;
+            double s1 = 0, s2 = 0;
             for (int i = 0; i < weights.Length; i++)
-                sw += weights[i] * weights[i];
+            {
+                s1 += weights[i];
+                s2 += weights[i] * weights[i];
+            }
 
-            return WeightedScatter(matrix, weights, means, 1.0 - sw, dimension);
+            double factor = s1 / (s1 * s1 - s2);
+            return WeightedScatter(matrix, weights, means, factor, dimension);
         }
 
         /// <summary>
@@ -3772,10 +3772,11 @@ namespace Accord.Statistics
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
         /// <returns>The covariance matrix.</returns>
-        public static double[,] WeightedScatter(double[][] matrix, double[] weights, double[] means, double divisor, int dimension)
+        public static double[,] WeightedScatter(double[][] matrix, double[] weights, double[] means, double factor, int dimension)
         {
             int rows = matrix.Length;
-            if (rows == 0) return new double[0, 0];
+            if (rows == 0) 
+                return new double[0, 0];
             int cols = matrix[0].Length;
 
             double[,] cov;
@@ -3793,9 +3794,8 @@ namespace Accord.Statistics
                         double s = 0.0;
                         for (int k = 0; k < rows; k++)
                             s += weights[k] * (matrix[k][j] - means[j]) * (matrix[k][i] - means[i]);
-                        s /= divisor;
-                        cov[i, j] = s;
-                        cov[j, i] = s;
+                        cov[i, j] = s * factor;
+                        cov[j, i] = s * factor;
                     }
                 }
             }
@@ -3812,9 +3812,8 @@ namespace Accord.Statistics
                         double s = 0.0;
                         for (int k = 0; k < cols; k++)
                             s += weights[k] * (matrix[j][k] - means[j]) * (matrix[i][k] - means[i]);
-                        s /= divisor;
-                        cov[i, j] = s;
-                        cov[j, i] = s;
+                        cov[i, j] = s * factor;
+                        cov[j, i] = s * factor;
                     }
                 }
             }

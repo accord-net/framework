@@ -1059,7 +1059,7 @@ namespace Accord.Tests.Statistics
                 new double[] { 1, 0 }})); // 2.10 x 10^(-89)
 
             Assert.AreEqual(0.00020825319093038984, a1);
-            Assert.AreEqual(0.000037671116792519834, a2);
+            Assert.AreEqual(0.000037671116792519834, a2, 1e-15);
             Assert.AreEqual(2.1031924118199194E-89, a3);
         }
 
