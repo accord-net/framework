@@ -25,6 +25,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Analysis;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
+    using Accord.Statistics.Testing;
 
 
     [TestClass()]
@@ -287,6 +288,25 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.20, matrix.PositivePredictiveValue);
             Assert.AreEqual(0.90, matrix.NegativePredictiveValue);
 
+        }
+
+        [TestMethod()]
+        public void ChiSquareTest()
+        {
+            ConfusionMatrix target = new ConfusionMatrix(6, 2, 6, 18);
+            double[,] expected = target.Expected;
+
+            Assert.AreEqual(3, target.Expected[0, 0]);
+            Assert.AreEqual(5, target.Expected[0, 1]);
+            Assert.AreEqual(9, target.Expected[1, 0]);
+            Assert.AreEqual(15, target.Expected[1, 1]);
+
+            Assert.AreEqual(6.4, target.ChiSquare, 1e-5);
+
+            ChiSquareTest test = new ChiSquareTest(target);
+            Assert.AreEqual(target.ChiSquare, test.Statistic);
+            Assert.AreEqual(1, test.DegreesOfFreedom);
+            Assert.IsTrue(test.Significant);
         }
 
         [TestMethod]

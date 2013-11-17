@@ -347,6 +347,56 @@ namespace Accord.Math
             return false;
         }
 
+        /// <summary>
+        ///   Returns a value indicating whether the specified
+        ///   matrix contains a infinity value.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// 
+        /// <returns>True if the matrix contains infinity values, false otherwise.</returns>
+        /// 
+        public static bool HasInfinity(this double[,] matrix)
+        {
+            foreach (var e in matrix)
+                if (Double.IsInfinity(e)) return true;
+            return false;
+        }
+
+        /// <summary>
+        ///   Returns a value indicating whether the specified
+        ///   matrix contains a infinity value.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// 
+        /// <returns>True if the matrix contains a infinity value, false otherwise.</returns>
+        /// 
+        public static bool HasInfinity(this double[] matrix)
+        {
+            foreach (var e in matrix)
+                if (Double.IsInfinity(e)) return true;
+            return false;
+        }
+
+        /// <summary>
+        ///   Returns a value indicating whether the specified
+        ///   matrix contains a infinity value.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// 
+        /// <returns>True if the matrix contains a infinity value, false otherwise.</returns>
+        /// 
+        public static bool HasInfinity(this double[][] matrix)
+        {
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    if (Double.IsInfinity(matrix[i][j]))
+                        return true;
+            return false;
+        }
+
         #endregion
 
 

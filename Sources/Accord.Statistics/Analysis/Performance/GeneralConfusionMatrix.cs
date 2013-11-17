@@ -637,6 +637,23 @@ namespace Accord.Statistics.Analysis
             }
         }
 
+        public double[,] Expected
+        {
+            get
+            {
+                var row = RowTotals;
+                var col = ColumnTotals;
+
+                var expected = new double[Classes, Classes];
+
+                for (int i = 0; i < row.Length; i++)
+                    for (int j = 0; j < col.Length; j++)
+                        expected[i, j] = col[j] * row[j] / (double)Samples;
+
+                return expected;
+            }
+        }
+
         /// <summary>
         ///   Combines several confusion matrices into one single matrix.
         /// </summary>

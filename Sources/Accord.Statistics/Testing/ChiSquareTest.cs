@@ -24,6 +24,7 @@ namespace Accord.Statistics.Testing
 {
     using System;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Analysis;
 
     /// <summary>
     ///   Two-Sample (Goodness-of-fit) Chi-Square Test (Upper Tail)
@@ -118,6 +119,50 @@ namespace Accord.Statistics.Testing
         /// <summary>
         ///   Constructs a Chi-Square Test.
         /// </summary>
+        /// 
+        public ChiSquareTest(ConfusionMatrix matrix, bool yatesCorrection = false)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+
+            int[] row = matrix.RowTotals;
+            int[] col = matrix.ColumnTotals;
+            int[,] values = matrix.Matrix;
+            int samples = matrix.Samples;
+
+            double chiSquare = compute(values, row, col, samples, yatesCorrection);
+
+            Compute(chiSquare, degreesOfFreedom: 1);
+        }
+
+        /// <summary>
+        ///   Constructs a Chi-Square Test.
+        /// </summary>
+        /// 
+        public ChiSquareTest(GeneralConfusionMatrix matrix, bool yatesCorrection = false)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+
+            int df = (matrix.Classes - 1) * (matrix.Classes - 1);
+
+            int[] row = matrix.RowTotals;
+            int[] col = matrix.ColumnTotals;
+            int[,] values = matrix.Matrix;
+            int samples = matrix.Samples;
+
+            double chiSquare = compute(values, row, col, samples, yatesCorrection);
+
+            Compute(chiSquare, degreesOfFreedom: df);
+        }
+
+
+
+        /// <summary>
+        ///   Constructs a Chi-Square Test.
+        /// </summary>
         protected ChiSquareTest() { }
 
         /// <summary>
@@ -157,6 +202,39 @@ namespace Accord.Statistics.Testing
         public override double PValueToStatistic(double p)
         {
             throw new NotSupportedException();
+        }
+
+
+
+
+
+
+
+        private static double compute(int[,] values, int[] row, int[] col, int samples, bool yatesCorrection)
+        {
+            // X² = sum(o - e)²
+            //          -----
+            //            e
+
+            double x = 0;
+
+            for (int i = 0; i < row.Length; i++)
+            {
+                for (int j = 0; j < col.Length; j++)
+                {
+                    double e = (row[i] * col[j]) / (double)samples;
+                    double o = values[i, j];
+
+                    double u = o - e;
+
+                    if (yatesCorrection)
+                        u = Math.Abs(u) - 0.5;
+
+                    x += (u * u) / e;
+                }
+            }
+
+            return x;
         }
     }
 }
