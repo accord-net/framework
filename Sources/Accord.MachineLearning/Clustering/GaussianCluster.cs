@@ -27,6 +27,7 @@ namespace Accord.MachineLearning
     using System.Collections.ObjectModel;
     using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Gaussian Mixture Model cluster.
@@ -287,8 +288,11 @@ namespace Accord.MachineLearning
         public int[] Nearest(double[][] points)
         {
             int[] labels = new int[points.Length];
-            for (int i = 0; i < points.Length; i++)
+
+            Parallel.For(0, points.Length, i =>
+            {
                 labels[i] = Nearest(points[i]);
+            });
 
             return labels;
         }
