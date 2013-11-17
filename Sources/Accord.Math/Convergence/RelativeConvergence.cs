@@ -203,7 +203,7 @@ namespace Accord.Math
                 // Stopping criteria is likelihood convergence
                 double delta = Math.Abs(OldValue - NewValue);
 
-                if (delta <= tolerance * OldValue)
+                if (delta <= tolerance * Math.Abs(OldValue))
                     return true;
 
                 if (maxIterations > 0)
