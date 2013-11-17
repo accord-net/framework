@@ -120,10 +120,13 @@
     <Compile Include="Clustering\MeanShift.cs" />
     <Compile Include="DecisionTrees\ComparisonKind.cs" />
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
-    <Compile Include="DecisionTrees\DecisionRule.cs" />
+    <Compile Include="DecisionTrees\Rules\Antecedents.cs" />
+    <Compile Include="DecisionTrees\Rules\DecisionList.cs" />
+    <Compile Include="DecisionTrees\Rules\DecisionRule.cs" />
     <Compile Include="DecisionTrees\DecisionTreeWriter.cs" />
     <Compile Include="DecisionTrees\Pruning\ReducedErrorPruning.cs" />
     <Compile Include="DecisionTrees\Pruning\ErrorBasedPruning.cs" />
+    <Compile Include="DecisionTrees\Rules\RuleSimplification.cs" />
     <Compile Include="Geometry\RansacCircle.cs" />
     <Compile Include="MinimumMeanDistanceClassifier.cs" />
     <Compile Include="KNearestNeighbors`1.cs" />

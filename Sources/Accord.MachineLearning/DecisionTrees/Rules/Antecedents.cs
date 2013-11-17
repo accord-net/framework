@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.MachineLearning.DecisionTrees
+namespace Accord.MachineLearning.DecisionTrees.Rules
 {
     using System;
     using System.Collections.Generic;
@@ -28,78 +28,16 @@ namespace Accord.MachineLearning.DecisionTrees
     using System.Text;
     using Accord.Statistics.Filters;
 
-    public class DecisionRule
-    {
-        public List<DecisionExpression> Expressions { get; private set; }
-        public double Output { get; private set; }
-
-        public DecisionRule(List<DecisionExpression> expressions, double output)
-        {
-            this.Expressions = expressions;
-            this.Output = output;
-        }
-
-        public bool Match(double[] input)
-        {
-            foreach (var expr in Expressions)
-            {
-                if (!expr.Match(input))
-                    return false;
-            }
-
-            return true;
-        }
-
-     
-
-        public static DecisionRule FromNode(DecisionNode node)
-        {
-            if (node == null)
-                throw new ArgumentNullException("node");
-
-            if (!node.IsLeaf || node.IsRoot || !node.Value.HasValue)
-                throw new InvalidOperationException("Only leaf nodes that have a parent can be converted to rules.");
-
-            var expressions = new List<DecisionExpression>();
-
-            DecisionNode current = node;
-            DecisionTree owner = current.Owner;
-            double output = current.Output.Value;
-
-            while (current.Parent != null)
-            {
-                int index = current.Parent.Branches.AttributeIndex;
-                DecisionVariable variable = owner.Attributes[index];
-                ComparisonKind comparison = current.Comparison;
-                double value = current.Value.Value;
-
-                expressions.Add(new DecisionExpression(variable, index, comparison, value));
-
-                current = current.Parent;
-            }
-
-            return new DecisionRule(expressions, output);
-        }
-
-
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = 0; i < Expressions.Count - 1; i++)
-                sb.AppendFormat("({0}) && ", Expressions[i]);
-
-            sb.AppendFormat("({0}) == {1}", Expressions.Last(), Output);
-
-            return sb.ToString();
-        }
-    }
-
     public class DecisionExpression
     {
-        DecisionVariable Variable { get; set; }
+        public DecisionRule Owner { get; private set; }
+
+        public DecisionVariable Variable { get { return Owner.Variables[Index]; } }
+
         int Index { get; set; }
+
         ComparisonKind Comparison { get; set; }
+
         double Value { get; set; }
 
         public bool Match(double[] input)
@@ -131,9 +69,9 @@ namespace Accord.MachineLearning.DecisionTrees
             }
         }
 
-        public DecisionExpression(DecisionVariable variable, int index, ComparisonKind comparison, double value)
+        public DecisionExpression(DecisionRule owner, int index, ComparisonKind comparison, double value)
         {
-            this.Variable = variable;
+            this.Owner = owner;
             this.Index = index;
             this.Comparison = comparison;
             this.Value = value;

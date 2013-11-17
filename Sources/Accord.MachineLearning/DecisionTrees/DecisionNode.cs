@@ -178,11 +178,6 @@ namespace Accord.MachineLearning.DecisionTrees
             }
         }
 
-        public DecisionRule ToRule()
-        {
-            return DecisionRule.FromNode(this);
-        }
-
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.

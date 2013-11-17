@@ -330,18 +330,7 @@ namespace Accord.MachineLearning.DecisionTrees
 #endif
 
 
-        public List<DecisionRule> ToRules()
-        {
-            var rules = new List<DecisionRule>();
-
-            foreach (var node in this)
-            {
-                if (node.IsLeaf && !node.IsRoot && node.Output.HasValue)
-                    rules.Add(node.ToRule());
-            }
-
-            return rules;
-        }
+     
 
         /// <summary>
         ///   Generates a C# class implementing the decision tree.
