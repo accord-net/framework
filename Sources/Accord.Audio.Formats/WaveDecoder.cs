@@ -216,7 +216,7 @@ namespace Accord.Audio.Formats
             this.numberOfSamples = numberOfFrames * Channels;
             this.duration = (int)(numberOfFrames / (double)sampleRate * 1000.0);
             this.bitsPerSample = stream.Format.BitsPerSample;
-            this.averageBitsPerSecond = stream.Format.AverageBytesPerSecond;
+            this.averageBitsPerSecond = stream.Format.AverageBytesPerSecond / 8;
 
             return numberOfFrames;
         }
