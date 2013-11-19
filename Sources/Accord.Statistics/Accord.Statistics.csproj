@@ -127,6 +127,7 @@
     <Compile Include="Analysis\StepwiseLogisticRegressionAnalysis.cs" />
     <Compile Include="Circular.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
+    <Compile Include="Distributions\Fitting\ExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\IndependentOptions.cs" />
     <Compile Include="Distributions\Fitting\HiddenMarkovOptions.cs" />
     <Compile Include="Distributions\Fitting\SurvivalOptions.cs" />

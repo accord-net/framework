@@ -65,7 +65,9 @@ namespace Accord.MachineLearning
         {
             get
             {
-                if (owner.model == null) return null;
+                if (owner.model == null) 
+                    return null;
+
                 return owner.model.Components[index].Mean;
             }
         }
@@ -78,7 +80,9 @@ namespace Accord.MachineLearning
         {
             get
             {
-                if (owner.model == null) return null;
+                if (owner.model == null)
+                    return null;
+
                 return owner.model.Components[index].Covariance;
             }
         }
@@ -91,7 +95,9 @@ namespace Accord.MachineLearning
         {
             get
             {
-                if (owner.model == null) return 0;
+                if (owner.model == null)
+                    return 0;
+
                 return owner.model.Coefficients[index];
             }
         }
@@ -111,7 +117,9 @@ namespace Accord.MachineLearning
         /// 
         public double LogLikelihood(double[] x)
         {
-            if (owner.model == null) return 0;
+            if (owner.model == null)
+                return 0;
+
             return owner.model.LogProbabilityDensityFunction(index, x);
         }
 
@@ -123,6 +131,7 @@ namespace Accord.MachineLearning
         {
             if (owner.model == null)
                 throw new InvalidOperationException("The model has not been initialized.");
+
             return (MultivariateNormalDistribution)owner.model.Components[index].Clone();
         }
 

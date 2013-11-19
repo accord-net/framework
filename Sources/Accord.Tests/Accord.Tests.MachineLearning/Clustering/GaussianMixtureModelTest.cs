@@ -158,7 +158,15 @@ namespace Accord.Tests.MachineLearning
 
             double[][] B = Matrix.Random(56, 12).ToArray();
 
-            var result = gmm.Compute(B);
+            Accord.Math.Tools.SetupGenerator(0);
+
+            var result = gmm.Compute(B, new GaussianMixtureModelOptions()
+                {
+                    NormalOptions = new NormalOptions
+                    {
+                        Robust = true
+                    }
+                });
         }
 
         [TestMethod]
@@ -195,8 +203,9 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(6.420790676635443, gmm.Gaussians[1].Mean[0], 1e-10);
                 Assert.AreEqual(0.290536871335858, gmm.Gaussians[0].Mean[0], 1e-10);
 
-                Assert.AreEqual(0.32294476897888613, gmm.Gaussians[1].Proportion);
-                Assert.AreEqual(0.67705523102111387, gmm.Gaussians[0].Proportion);
+                Assert.AreEqual(0.32294476897888613, gmm.Gaussians[1].Proportion, 1e-6);
+                Assert.AreEqual(0.67705523102111387, gmm.Gaussians[0].Proportion, 1e-6);
+                Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
             }
 
             // without weights
@@ -210,10 +219,11 @@ namespace Accord.Tests.MachineLearning
                 gmm.Compute(points);
 
                 Assert.AreEqual(6.5149525060859865, gmm.Gaussians[1].Mean[0], 1e-10);
-                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[0].Mean[0], 1e-10);
+                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[0].Mean[0], 1e-6);
 
-                Assert.AreEqual(0.42235760973845654, gmm.Gaussians[1].Proportion);
-                Assert.AreEqual(0.57764239026154351, gmm.Gaussians[0].Proportion);
+                Assert.AreEqual(0.42235760973845654, gmm.Gaussians[1].Proportion, 1e-6);
+                Assert.AreEqual(0.57764239026154351, gmm.Gaussians[0].Proportion, 1e-6);
+                Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
             }
         }
 
@@ -243,11 +253,15 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.40799698773355553, gmm.Gaussians[1].Mean[1], 1e-3);
 
             Assert.AreEqual(0.011896812071918696, gmm.Gaussians[0].Mean[0], 1e-4);
-            Assert.AreEqual(-0.40400708592859663, gmm.Gaussians[0].Mean[1], 1e-3);
+            Assert.AreEqual(-0.40400708592859663, gmm.Gaussians[0].Mean[1], 1e-4);
+
+            Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
 
             Assert.IsFalse(gmm.Gaussians[0].Mean.HasNaN());
             Assert.IsFalse(gmm.Gaussians[1].Mean.HasNaN());
         }
+
+       
 
         [TestMethod]
         public void HighDimensionalTest()

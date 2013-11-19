@@ -349,9 +349,6 @@ namespace Accord.MachineLearning
                 throw new ArgumentNullException("data");
             }
 
-            int components = this.clusters.Count;
-
-
             if (model == null)
             {
                 // TODO: Perform K-Means multiple times to avoid
@@ -364,20 +361,11 @@ namespace Accord.MachineLearning
             {
                 Threshold = options.Threshold,
                 InnerOptions = options.NormalOptions,
-                Iterations = options.Iterations
+                Iterations = options.Iterations,
             };
 
             // Check if we have weighted samples
             double[] weights = options.Weights;
-            if (weights != null)
-            {
-                // Normalize if necessary
-                double sum = weights.Sum();
-                if (sum != 1)
-                    weights.Divide(sum, inPlace: true);
-
-                System.Diagnostics.Debug.Assert(weights.Sum() - 1 < 1e-5);
-            }
 
             // Fit a multivariate Gaussian distribution
             model.Fit(data, weights, mixtureOptions);

@@ -613,7 +613,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public double[] Predict<TMultivariate>(double[][] observations,
             out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             if (!multivariate)
                 throw new ArgumentException("Model is univariate.", "observations");
@@ -629,7 +629,7 @@ namespace Accord.Statistics.Models.Markov
         /// </summary>
         /// 
         public double[] Predict<TMultivariate>(double[][] observations, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             if (!multivariate)
                 throw new ArgumentException("Model is univariate.", "observations");
@@ -647,7 +647,7 @@ namespace Accord.Statistics.Models.Markov
         /// </summary>
         /// 
         public double Predict<TUnivariate>(double[] observations, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             if (multivariate)
                 throw new ArgumentException("Model is multivariate.", "observations");
@@ -667,7 +667,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public double Predict<TUnivariate>(double[] observations,
             out double probability, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             if (multivariate)
                 throw new ArgumentException("Model is multivariate.", "observations");
@@ -830,7 +830,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         private double[][] predict<TMultivariate>(double[][] observations,
             out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             // Matrix to store the probabilities in assuming the next
             // observations (prediction) will belong to each state.
@@ -853,7 +853,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         private double[] predict<TUnivariate>(double[] observations,
             out double logLikelihood, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             // Convert to multivariate observations
             double[][] obs = MarkovHelperMethods.convertNoCheck(observations, dimension);
