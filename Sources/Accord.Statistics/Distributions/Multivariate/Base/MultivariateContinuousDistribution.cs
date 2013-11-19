@@ -60,7 +60,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// 
     [Serializable]
     public abstract class MultivariateContinuousDistribution : DistributionBase,
-        IDistribution, IMultivariateDistribution
+        IMultivariateDistribution, IMultivariateDistribution<double[]>
     {
 
         private int dimension;
@@ -152,7 +152,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        double IDistribution.ProbabilityFunction(params double[] x)
+        double IDistribution.ProbabilityFunction(double[] x)
         {
             return ProbabilityDensityFunction(x);
         }
@@ -172,7 +172,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The logarithm of the probability of <c>x</c>
         ///   occurring in the current distribution.</returns>
         ///   
-        double IDistribution.LogProbabilityFunction(params double[] x)
+        double IDistribution.LogProbabilityFunction(double[] x)
         {
             return LogProbabilityDensityFunction(x);
         }
@@ -438,6 +438,18 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </returns>
         /// 
         public abstract object Clone();
+
+
+
+        double IDistribution<double[]>.ProbabilityFunction(double[] x)
+        {
+            return ProbabilityDensityFunction(x);
+        }
+
+        double IDistribution<double[]>.LogProbabilityFunction(double[] x)
+        {
+            return LogProbabilityDensityFunction(x);
+        }
 
     }
 

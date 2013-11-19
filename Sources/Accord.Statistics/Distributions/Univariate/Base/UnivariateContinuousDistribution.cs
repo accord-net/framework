@@ -65,7 +65,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public abstract class UnivariateContinuousDistribution : DistributionBase,
-        IDistribution, IUnivariateDistribution
+        IDistribution, IUnivariateDistribution, IUnivariateDistribution<double>
     {
 
         private double? median;
@@ -180,7 +180,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        double IDistribution.DistributionFunction(params double[] x)
+        double IDistribution.DistributionFunction(double[] x)
         {
             return DistributionFunction(x[0]);
         }
@@ -197,7 +197,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        double IDistribution.ComplementaryDistributionFunction(params double[] x)
+        double IDistribution.ComplementaryDistributionFunction(double[] x)
         {
             return ComplementaryDistributionFunction(x[0]);
         }
@@ -222,7 +222,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        double IDistribution.ProbabilityFunction(params double[] x)
+        double IDistribution.ProbabilityFunction(double[] x)
         {
             return ProbabilityDensityFunction(x[0]);
         }
@@ -272,7 +272,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The logarithm of the probability of <c>x</c> 
         ///   occurring in the current distribution.</returns>
         ///   
-        double IDistribution.LogProbabilityFunction(params double[] x)
+        double IDistribution.LogProbabilityFunction(double[] x)
         {
             return LogProbabilityDensityFunction(x[0]);
         }
@@ -750,6 +750,19 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </returns>
         /// 
         public abstract object Clone();
+
+
+       
+        double IDistribution<double>.ProbabilityFunction(double x)
+        {
+            return ProbabilityDensityFunction(x);
+        }
+
+        double IDistribution<double>.LogProbabilityFunction(double x)
+        {
+            return LogProbabilityDensityFunction(x);
+        }
+
 
     }
 

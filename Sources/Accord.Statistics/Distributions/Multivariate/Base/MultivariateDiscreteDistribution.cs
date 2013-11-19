@@ -59,7 +59,9 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// </remarks>
     /// 
     [Serializable]
-    public abstract class MultivariateDiscreteDistribution : DistributionBase, IDistribution, IMultivariateDistribution
+    public abstract class MultivariateDiscreteDistribution : DistributionBase,
+        IMultivariateDistribution, IMultivariateDistribution<int[]>,
+        IDistribution<double[]>
     {
 
         private int dimension;
@@ -152,7 +154,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        double IDistribution.DistributionFunction(params double[] x)
+        double IDistribution.DistributionFunction(double[] x)
         {
             return DistributionFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
         }
@@ -177,7 +179,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        double IDistribution.ProbabilityFunction(params double[] x)
+        double IDistribution.ProbabilityFunction(double[] x)
         {
             return ProbabilityMassFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
         }
@@ -202,7 +204,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   occurring in the current distribution.
         /// </returns>
         ///   
-        double IDistribution.LogProbabilityFunction(params double[] x)
+        double IDistribution.LogProbabilityFunction(double[] x)
         {
             return LogProbabilityMassFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
         }
@@ -219,7 +221,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   minus the CDF.
         /// </remarks>
         /// 
-        double IDistribution.ComplementaryDistributionFunction(params double[] x)
+        double IDistribution.ComplementaryDistributionFunction(double[] x)
         {
             return ComplementaryDistributionFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
         }
@@ -523,6 +525,39 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public abstract object Clone();
 
-    }
 
+      
+        double IDistribution<int[]>.ProbabilityFunction(int[] x)
+        {
+            return ProbabilityMassFunction(x);
+        }
+
+        double IDistribution<int[]>.LogProbabilityFunction(int[] x)
+        {
+            return LogProbabilityMassFunction(x);
+        }
+
+
+
+        double IDistribution<double[]>.DistributionFunction(double[] x)
+        {
+            return (this as IDistribution).DistributionFunction(x);
+        }
+
+        double IDistribution<double[]>.ProbabilityFunction(double[] x)
+        {
+            return (this as IDistribution).ProbabilityFunction(x);
+        }
+
+        double IDistribution<double[]>.LogProbabilityFunction(double[] x)
+        {
+            return (this as IDistribution).LogProbabilityFunction(x);
+        }
+
+        double IDistribution<double[]>.ComplementaryDistributionFunction(double[] x)
+        {
+            return (this as IDistribution).ComplementaryDistributionFunction(x);
+        }
+
+    }
 }

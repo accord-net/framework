@@ -101,4 +101,60 @@ namespace Accord.Statistics.Distributions
 
     }
 
+    public interface IMultivariateDistribution<in TObservation> : IDistribution<TObservation>
+    {
+
+        /// <summary>
+        ///   Gets the number of variables for the distribution.
+        /// </summary>
+        /// 
+        int Dimension { get; }
+
+        /// <summary>
+        ///   Gets the Mean vector for the distribution.
+        /// </summary>
+        /// 
+        /// <value>An array of double-precision values containing
+        /// the mean values for this distribution.</value>
+        /// 
+        double[] Mean { get; }
+
+        /// <summary>
+        ///   Gets the Median vector for the distribution.
+        /// </summary>
+        ///
+        /// <value>An array of double-precision values containing
+        /// the median values for this distribution.</value>
+        /// 
+        double[] Median { get; }
+
+        /// <summary>
+        ///   Gets the Mode vector for the distribution.
+        /// </summary>
+        /// 
+        /// <value>An array of double-precision values containing
+        /// the mode values for this distribution.</value>
+        /// 
+        double[] Mode { get; }
+
+        /// <summary>
+        ///   Gets the Variance vector for the distribution.
+        /// </summary>
+        /// 
+        /// <value>An array of double-precision values containing
+        /// the variance values for this distribution.</value>
+        /// 
+        double[] Variance { get; }
+
+        /// <summary>
+        ///   Gets the Variance-Covariance matrix for the distribution.
+        /// </summary>
+        /// 
+        /// <value>An multidimensional array of double-precision values
+        /// containing the covariance values for this distribution.</value>
+        /// 
+        double[,] Covariance { get; }
+
+    }
+
 }
