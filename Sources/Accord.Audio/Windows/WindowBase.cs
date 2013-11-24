@@ -94,26 +94,25 @@ namespace Accord.Audio.Windows
         ///   Splits a signal using the window.
         /// </summary>
         /// 
-        public virtual Signal Apply(Signal signal, int sampleIndex)
+        public unsafe virtual Signal Apply(Signal signal, int sampleIndex)
         {
             int channels = signal.Channels;
             int samples = signal.Length;
 
-            Signal result = new Signal(channels, samples, signal.SampleRate, signal.SampleFormat);
+            int minLength = System.Math.Min(signal.Length, Length);
+
+            Signal result = new Signal(channels, Length, signal.SampleRate, signal.SampleFormat);
 
             if (signal.SampleFormat == SampleFormat.Format32BitIeeeFloat)
             {
-                unsafe
+                for (int c = 0; c < channels; c++)
                 {
-                    for (int c = 0; c < channels; c++)
-                    {
-                        float* dst = (float*)result.Data.ToPointer() + c;
-                        float* src = (float*)signal.Data.ToPointer() + c + c * sampleIndex;
+                    float* dst = (float*)result.Data.ToPointer() + c;
+                    float* src = (float*)signal.Data.ToPointer() + c + c * sampleIndex;
 
-                        for (int i = 0; i < this.Length; i++, dst += channels, src += channels)
-                        {
-                            *dst = window[i] * (*src);
-                        }
+                    for (int i = 0; i < minLength; i++, dst += channels, src += channels)
+                    {
+                        *dst = window[i] * (*src);
                     }
                 }
             }
