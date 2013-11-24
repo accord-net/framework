@@ -26,20 +26,63 @@ namespace Accord.Statistics.Distributions.Fitting
     using Accord.Math;
     using System.Threading.Tasks;
 
+    /// <summary>
+    ///   Expectation Maximization algorithm for mixture model fitting.
+    /// </summary>
+    /// 
+    /// <typeparam name="TObservation">The type of the observations being fitted.</typeparam>
+    /// 
+    /// <remarks>
+    ///   <para>
+    ///   This class implements a generic version of the Expectation-Maximization algorithm
+    ///   which can be used with both univariate or multivariate distribution types.</para>
+    /// </remarks>
+    /// 
     public class ExpectationMaximization<TObservation>
     {
 
+        /// <summary>
+        ///   Gets or sets the fitting options to be used 
+        ///   when any of the component distributions need
+        ///   to be estimated from the data.
+        /// </summary>
+        /// 
         public IFittingOptions InnerOptions { get; set; }
 
+        /// <summary>
+        ///   Gets or sets convergence properties for
+        ///   the expectation-maximization algorithm.
+        /// </summary>
+        /// 
         public ISingleValueConvergence Convergence { get; set; }
 
-
+        /// <summary>
+        ///   Gets the current coefficient values.
+        /// </summary>
+        /// 
         public double[] Coefficients { get; private set; }
+
+        /// <summary>
+        ///   Gets the current component distribution values.
+        /// </summary>
+        /// 
         public IFittableDistribution<TObservation>[] Distributions { get; private set; }
 
-
+        /// <summary>
+        ///   Gets the responsibility of each input vector when estimating 
+        ///   each of the component distributions, in the last iteration.
+        /// </summary>
+        /// 
         public double[][] Gamma { get; private set; }
 
+
+        /// <summary>
+        ///   Creates a new <see cref="ExpectationMaximization&lt;TObservation, TOptions&gt;"/> algorithm.
+        /// </summary>
+        /// 
+        /// <param name="coefficients">The initial coefficient values.</param>
+        /// <param name="distributions">The initial component distributions.</param>
+        /// 
         public ExpectationMaximization(double[] coefficients,
             IFittableDistribution<TObservation>[] distributions)
         {
@@ -49,8 +92,37 @@ namespace Accord.Statistics.Distributions.Fitting
             Gamma = new double[coefficients.Length][];
         }
 
+        /// <summary>
+        ///   Estimates a mixture distribution for the given observations
+        ///   using the Expectation-Maximization algorithm.
+        /// </summary>
+        /// 
+        /// <param name="observations">The observations from the mixture distribution.</param>
+        /// 
+        /// <returns>The log-likelihood of the estimated mixture model.</returns>
+        /// 
+        public double Compute(TObservation[] observations)
+        {
+            return compute(observations, null);
+        }
 
+        /// <summary>
+        ///   Estimates a mixture distribution for the given observations
+        ///   using the Expectation-Maximization algorithm, assuming different
+        ///   weights for each observation.
+        /// </summary>
+        /// 
+        /// <param name="observations">The observations from the mixture distribution.</param>
+        /// <param name="weights">The weight of each observation.</param>
+        /// 
+        /// <returns>The log-likelihood of the estimated mixture model.</returns>
+        /// 
         public double Compute(TObservation[] observations, double[] weights)
+        {
+            return compute(observations, weights);
+        }
+
+        private double compute(TObservation[] observations, double[] weights)
         {
             // Estimation parameters
 
@@ -65,8 +137,6 @@ namespace Accord.Statistics.Distributions.Fitting
             //    and evaluate the initial value of the log-likelihood
 
             int N = observations.Length;
-            int K = components.Length;
-
 
             // Initialize responsibilities
             double[] norms = new double[N];
@@ -86,14 +156,14 @@ namespace Accord.Statistics.Distributions.Fitting
             // Start
             do
             {
-
                 // 2. Expectation: Evaluate the component distributions 
                 //    responsibilities using the current parameter values.
 
                 Parallel.For(0, Gamma.Length, k =>
                 {
+                    double[] gammak = Gamma[k];
                     for (int i = 0; i < observations.Length; i++)
-                        Gamma[k][i] = pi[k] * pdf[k].ProbabilityFunction(observations[i]);
+                        gammak[i] = pi[k] * pdf[k].ProbabilityFunction(observations[i]);
                 });
 
                 Parallel.For(0, norms.Length, i =>
@@ -104,45 +174,40 @@ namespace Accord.Statistics.Distributions.Fitting
                     norms[i] = sum;
                 });
 
-                if (weights == null)
-                {
-                    Parallel.For(0, Gamma.Length, k =>
-                    {
-                        for (int i = 0; i < norms.Length; i++)
-                            if (norms[i] != 0)
-                                Gamma[k][i] /= norms[i];
-                    });
-                }
-                else
-                {
-                    Parallel.For(0, Gamma.Length, k =>
-                    {
-                        for (int i = 0; i < norms.Length; i++)
-                            if (norms[i] != 0)
-                                Gamma[k][i] *= weights[i] / norms[i];
-                    });
-                }
 
-                // 3. Maximization: Re-estimate the distribution parameters
-                //    using the previously computed responsibilities
                 try
                 {
                     Parallel.For(0, Gamma.Length, k =>
                     {
-                        double sum = Gamma[k].Sum();
+                        double[] gammak = Gamma[k];
+
+                        for (int i = 0; i < gammak.Length; i++)
+                            gammak[i] = (norms[i] != 0) ? gammak[i] / norms[i] : 0;
+
+                        if (weights != null)
+                        {
+                            for (int i = 0; i < weights.Length; i++)
+                                gammak[i] *= weights[i];
+                        }
+
+                        double sum = gammak.Sum();
+
+                        if (Double.IsInfinity(sum) || Double.IsNaN(sum))
+                            sum = 0;
+
+
+                        // 3. Maximization: Re-estimate the distribution parameters
+                        //    using the previously computed responsibilities
 
                         pi[k] = sum;
 
                         if (sum == 0)
                             return;
 
-                        System.Diagnostics.Debug.Assert(sum != 0);
-                        System.Diagnostics.Debug.Assert(!Gamma[k].HasNaN());
+                        for (int i = 0; i < gammak.Length; i++)
+                            gammak[i] /= sum;
 
-                        for (int i = 0; i < Gamma[k].Length; i++)
-                            Gamma[k][i] /= sum;
-
-                        pdf[k].Fit(observations, Gamma[k], InnerOptions);
+                        pdf[k].Fit(observations, gammak, InnerOptions);
                     });
                 }
                 catch (AggregateException ex)
@@ -225,7 +290,7 @@ namespace Accord.Statistics.Distributions.Fitting
                 {
                     var x = observations[i];
 
-                    double w = 1.0 / observations.Length;
+                    double w = 1.0;
 
                     if (weights != null)
                     {
@@ -255,8 +320,14 @@ namespace Accord.Statistics.Distributions.Fitting
             );
 #endif
 
+            System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
+            
             if (weights != null)
+            {
+                System.Diagnostics.Debug.Assert(weightSum != 0);
+
                 return logLikelihood / weightSum;
+            }
 
             return logLikelihood;
         }

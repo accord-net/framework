@@ -637,7 +637,13 @@ namespace Accord.Statistics.Analysis
             }
         }
 
-        public double[,] Expected
+        /// <summary>
+        ///   Expected values, or values that could
+        ///   have been generated just by chance.
+        /// </summary>
+        /// 
+        [DisplayName("Expected values")]
+        public double[,] ExpectedValues
         {
             get
             {

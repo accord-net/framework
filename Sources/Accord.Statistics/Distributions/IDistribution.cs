@@ -197,6 +197,21 @@ namespace Accord.Statistics.Distributions
 
     }
 
+    /// <summary>
+    ///   Common interface for probability distributions.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   <para>
+    ///   This interface is implemented by all generic probability distributions in the framework, including
+    ///   <see cref="IUnivariateDistribution{T}"/>s and <see cref="IMultivariateDistribution{T}"/>s. This
+    ///   includes
+    ///   <see cref="Accord.Statistics.Distributions.Univariate.UnivariateDiscreteDistribution{T}"/>,
+    ///   <see cref="Accord.Statistics.Distributions.Univariate.UnivariateContinuousDistribution{T}"/>,
+    ///   <see cref="Accord.Statistics.Distributions.Multivariate.MultivariateDiscreteDistribution{T}"/>, and
+    ///   <see cref="Accord.Statistics.Distributions.Multivariate.MultivariateContinuousDistribution{T}"/></para>
+    /// </remarks>
+    /// 
     public interface IDistribution<in TObservation> : IDistribution
     {
         /// <summary>

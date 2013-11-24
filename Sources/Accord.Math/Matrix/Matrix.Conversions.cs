@@ -363,6 +363,19 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a double vector into a single vector.
+        /// </summary>
+        /// <param name="vector">The vector to be converted.</param>
+        /// 
+        public static float[] ToSingle(this double[] vector)
+        {
+            float[] result = new float[vector.Length];
+            for (int i = 0; i < vector.Length; i++)
+                result[i] = (float)vector[i];
+            return result;
+        }
+
+        /// <summary>
         ///   Converts the values of a vector using the given converter expression.
         /// </summary>
         /// <typeparam name="TInput">The type of the input.</typeparam>

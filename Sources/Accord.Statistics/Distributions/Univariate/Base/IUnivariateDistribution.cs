@@ -220,6 +220,27 @@ namespace Accord.Statistics.Distributions
         
     }
 
+    /// <summary>
+    ///   Common interface for univariate probability distributions.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   <para>
+    ///   This interface is implemented by both univariate <see cref="UnivariateDiscreteDistribution">
+    ///   Discrete Distributions</see> and <see cref="UnivariateContinuousDistribution">Continuous 
+    ///   Distributions</see>. However, unlike <see cref="IUnivariateDistribution"/>, this interface
+    ///   has a generic parameter that allows to define the type of the distribution values (i.e.
+    ///   <see cref="T:double"/>).</para>
+    ///   
+    ///   <para>
+    ///   For Multivariate distributions, see <see cref="IMultivariateDistribution{T}"/>.</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="NormalDistribution"/>
+    /// <seealso cref="GammaDistribution"/>
+    /// <seealso cref="UniformContinuousDistribution"/>
+    /// <seealso cref="UniformDiscreteDistribution"/>
+    /// 
     public interface IUnivariateDistribution<TObservation> : IDistribution<TObservation>
     {
 
@@ -287,7 +308,7 @@ namespace Accord.Statistics.Distributions
         /// <param name="p">A probability value between 0 and 1.</param>
         /// 
         /// <returns>A sample which could original the given probability 
-        ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
+        ///   value when applied in the <see cref="IDistribution<T>.DistributionFunction"/>.</returns>
         /// 
         TObservation InverseDistributionFunction(double p);
 

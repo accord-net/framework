@@ -56,7 +56,6 @@ namespace Accord.Statistics.Distributions
     /// </summary>
     /// 
     /// <typeparam name="TObservations">The type of the observations, such as <see cref="System.Double"/>.</typeparam>
-    /// <typeparam name="TOptions">The type of the options specifying object.</typeparam>
     /// 
     public interface IFittableDistribution<in TObservations> : IDistribution<TObservations>
     {

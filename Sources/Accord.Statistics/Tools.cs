@@ -3767,12 +3767,15 @@ namespace Accord.Statistics
         /// <param name="weights">An unit vector containing the importance of each sample
         /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
         /// <param name="means">The mean value of the given values, if already known.</param>
-        /// <param name="divisor">A real number to divide each member of the matrix.</param>
+        /// <param name="factor">A real number to multiply each member of the matrix.</param>
         /// <param name="dimension">
         ///   Pass 0 to if mean vector is a row vector, 1 otherwise. Default value is 0.
         /// </param>
+        /// 
         /// <returns>The covariance matrix.</returns>
-        public static double[,] WeightedScatter(double[][] matrix, double[] weights, double[] means, double factor, int dimension)
+        /// 
+        public static double[,] WeightedScatter(double[][] matrix, double[] weights,
+            double[] means, double factor, int dimension)
         {
             int rows = matrix.Length;
             if (rows == 0) 

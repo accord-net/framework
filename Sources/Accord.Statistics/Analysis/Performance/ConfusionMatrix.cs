@@ -857,7 +857,13 @@ namespace Accord.Statistics.Analysis
             get { return 2.0 * (Precision * Recall) / (Precision + Recall); }
         }
 
-        public double[,] Expected
+        /// <summary>
+        ///   Expected values, or values that could
+        ///   have been generated just by chance.
+        /// </summary>
+        /// 
+        [DisplayName("Expected Values")]
+        public double[,] ExpectedValues
         {
             get
             {

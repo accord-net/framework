@@ -101,6 +101,27 @@ namespace Accord.Statistics.Distributions
 
     }
 
+    /// <summary>
+    ///   Common interface for multivariate probability distributions.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   <para>
+    ///   This interface is implemented by both multivariate <see cref="MultivariateDiscreteDistribution">
+    ///   Discrete Distributions</see> and <see cref="MultivariateContinuousDistribution">Continuous 
+    ///   Distributions</see>.  However, unlike <see cref="IMultivariateDistribution"/>, this interface
+    ///   has a generic parameter that allows to define the type of the distribution values (i.e.
+    ///   <see cref="T:double"/>).</para>
+    ///   
+    ///   <para>
+    ///   For Univariate distributions, see <see cref="IUnivariateDistribution"/>.</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="MultivariateNormalDistribution"/>
+    /// <seealso cref="DirichletDistribution"/>
+    /// <seealso cref="MultivariateEmpiricalDistribution"/>
+    /// <seealso cref="WishartDistribution"/>
+    /// 
     public interface IMultivariateDistribution<in TObservation> : IDistribution<TObservation>
     {
 
