@@ -428,6 +428,36 @@ namespace Accord.Audio
         }
 
         /// <summary>
+        ///   Copies this signal to a given array.
+        /// </summary>
+        /// 
+        public void CopyTo(double[] array)
+        {
+            if (format == Audio.SampleFormat.Format64BitIeeeFloat)
+            {
+                Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
+            }
+            else if (format == Audio.SampleFormat.Format32BitIeeeFloat)
+            {
+                float[] source = new float[Samples];
+                Buffer.BlockCopy(rawData, 0, source, 0, rawData.Length);
+                for (int i = 0; i < source.Length; i++)
+                    array[i] = source[i];
+            }
+            else if (format == Audio.SampleFormat.Format16Bit)
+            {
+                short[] source = new short[Samples];
+                Buffer.BlockCopy(rawData, 0, source, 0, rawData.Length);
+                SampleConverter.Convert(source, array);
+            }
+
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
+
+        /// <summary>
         ///   Converts this signal into a array of floating-point samples.
         /// </summary>
         /// 
@@ -440,6 +470,18 @@ namespace Accord.Audio
             return array;
         }
 
+        /// <summary>
+        ///   Converts this signal into a array of floating-point samples.
+        /// </summary>
+        /// 
+        /// <returns>An array of single-precision floating-point samples.</returns>
+        /// 
+        public double[] ToDouble()
+        {
+            double[] array = new double[Samples];
+            CopyTo(array);
+            return array;
+        }
 
 
         #region Static auxiliary methods

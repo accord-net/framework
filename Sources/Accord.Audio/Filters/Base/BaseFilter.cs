@@ -34,17 +34,21 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Format translations dictionary.
         /// </summary>
+        /// 
         /// <value>The format translations.</value>
+        /// 
         /// <remarks>
         ///   The dictionary defines which sample formats are supported for
         ///   source signals and which sample format will be used for resulting signal.
         /// </remarks>
+        /// 
         public abstract Dictionary<SampleFormat, SampleFormat> FormatTranslations { get; }
 
 
         /// <summary>
         ///   Applies the filter to a signal.
         /// </summary>
+        /// 
         public Signal Apply(Signal signal)
         {
             // check pixel format of the source signal
@@ -61,7 +65,7 @@ namespace Accord.Audio.Filters
             SampleFormat dstSampleFormat = FormatTranslations[signal.SampleFormat];
 
             // create new signal of required format
-            Signal dstSignal = new Signal(channels, samples, rate, dstSampleFormat);
+            Signal dstSignal = NewSignal(channels, samples, rate, dstSampleFormat);
 
             // process the filter
             ProcessFilter(signal, dstSignal);
@@ -71,8 +75,20 @@ namespace Accord.Audio.Filters
         }
 
         /// <summary>
+        ///   Creates a new signal from the given signal parameters. This
+        ///   method can be overridden on child classes to modify how
+        ///   output signals are created.
+        /// </summary>
+        /// 
+        protected virtual Signal NewSignal(int channels, int samples, int rate, SampleFormat dstSampleFormat)
+        {
+            return new Signal(channels, samples, rate, dstSampleFormat);
+        }
+
+        /// <summary>
         ///   Applies the filter to a windowed signal.
         /// </summary>
+        /// 
         public Signal[] Apply(params Signal[] signal)
         {
             Signal[] s = new Signal[signal.Length];
@@ -84,6 +100,7 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Processes the filter.
         /// </summary>
+        /// 
         protected abstract void ProcessFilter(Signal sourceData, Signal destinationData);
 
         // Check pixel format of the source signal

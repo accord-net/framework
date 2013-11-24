@@ -96,5 +96,32 @@ namespace Accord.Audio.Windows
             return signal.Split(RaisedCosineWindow.Rectangular(windowSize), step);
         }
 
+        /// <summary>
+        ///   Splits a signal using a window
+        /// </summary>
+        /// 
+        public static Signal[] Split(this Signal signal, IWindow window, int step)
+        {
+            int n = (int)System.Math.Floor(signal.Length / (double)step);
+
+            Signal[] windows = new Signal[n];
+
+            for (int i = 0; i < windows.Length; i++)
+            {
+                windows[i] = window.Apply(signal, i * step);
+            }
+
+            return windows;
+        }
+
+        /// <summary>
+        ///   Splits a signal using a window
+        /// </summary>
+        /// 
+        public static Signal[] Split(this Signal signal, int windowSize, int step)
+        {
+            return signal.Split(RaisedCosineWindow.Rectangular(windowSize), step);
+        }
+
     }
 }
