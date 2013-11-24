@@ -294,12 +294,12 @@ namespace Accord.Tests.Statistics
         public void ChiSquareTest()
         {
             ConfusionMatrix target = new ConfusionMatrix(6, 2, 6, 18);
-            double[,] expected = target.Expected;
+            double[,] expected = target.ExpectedValues;
 
-            Assert.AreEqual(3, target.Expected[0, 0]);
-            Assert.AreEqual(5, target.Expected[0, 1]);
-            Assert.AreEqual(9, target.Expected[1, 0]);
-            Assert.AreEqual(15, target.Expected[1, 1]);
+            Assert.AreEqual(3, target.ExpectedValues[0, 0]);
+            Assert.AreEqual(5, target.ExpectedValues[0, 1]);
+            Assert.AreEqual(9, target.ExpectedValues[1, 0]);
+            Assert.AreEqual(15, target.ExpectedValues[1, 1]);
 
             Assert.AreEqual(6.4, target.ChiSquare, 1e-5);
 

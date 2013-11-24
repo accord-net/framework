@@ -170,6 +170,42 @@ namespace Accord.Tests.MachineLearning
         }
 
         [TestMethod]
+        public void GaussianMixtureModelTest7()
+        {
+            double[][] values =
+            {
+                new double[] {0},
+                new double[] {1},
+                new double[] {2},
+                new double[] {3},
+                new double[] {4},
+                new double[] {5},
+                new double[] {6},
+                new double[] {7},
+                new double[] {8},
+                new double[] {9},
+                new double[] {10},
+                new double[] {11},
+                new double[] {12}
+            };
+
+            double[] weights =
+            {
+                1, 3, 5, 4, 3, 5, 10, 17, 12, 6, 3, 1, 0
+            };
+
+            GaussianMixtureModel gmm = new GaussianMixtureModel(2);
+
+            gmm.Compute(values, new GaussianMixtureModelOptions()
+            {
+                Weights = weights
+            });
+
+            int[] classifications = gmm.Gaussians.Nearest(values);
+        }
+
+
+        [TestMethod]
         public void GaussianMixtureModelTest4()
         {
 

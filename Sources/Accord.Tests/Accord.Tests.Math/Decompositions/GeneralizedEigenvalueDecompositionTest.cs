@@ -20,29 +20,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Math.Decompositions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accord.Math;
-
 namespace Accord.Tests.Math
 {
+    using Accord.Math.Decompositions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Math;
 
-
-    /// <summary>
-    ///This is a test class for GeneralizedEigenvalueDecompositionTest and is intended
-    ///to contain all GeneralizedEigenvalueDecompositionTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class GeneralizedEigenvalueDecompositionTest
     {
 
-
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -60,6 +49,9 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void GeneralizedEigenvalueDecompositionConstructorTest()
         {
+            // Suppose we have the following 
+            // matrices A and B shown below:
+
             double[,] A = 
             {
                 { 1, 2, 3},
@@ -74,7 +66,25 @@ namespace Accord.Tests.Math
                 { 1, 1, 5}
             };
 
-            GeneralizedEigenvalueDecomposition gevd = new GeneralizedEigenvalueDecomposition(A, B);
+            // Now, suppose we would like to find values for λ 
+            // that are solutions for the equation det(A - λB) = 0
+
+            // For this, we can use a Generalized Eigendecomposition
+            var gevd = new GeneralizedEigenvalueDecomposition(A, B);
+
+            // Now, if A and B are Hermitian and B is positive
+            // -definite, then the eigenvalues λ will be real:
+            double[] lambda = gevd.RealEigenvalues;
+
+            // Check if they are indeed a solution:
+            for (int i = 0; i < lambda.Length; i++)
+            {
+                // Compute the determinant equation show above
+                double det = Matrix.Determinant(A.Subtract(lambda[i].Multiply(B))); // almost zero
+
+                Assert.IsTrue(det < 1e-6);
+            }
+
 
             double[,] expectedVectors =
             {               
