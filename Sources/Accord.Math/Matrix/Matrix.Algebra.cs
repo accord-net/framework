@@ -1961,12 +1961,64 @@ namespace Accord.Math
 
             int min = Math.Min(rows, cols);
 
-            double[,] r = inPlace ? matrix : new double[rows, cols];
+            double[,] r = inPlace ? matrix : (double[,])matrix.Clone();
 
             for (int i = 0; i < min; i++)
-                r[i, i] += matrix[i, i] + scalar;
+                r[i, i] = matrix[i, i] + scalar;
 
             return r;
+        }
+
+        /// <summary>
+        ///   Adds a scalar to the diagonal of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="scalar">A scalar.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original matrix; false to return a new matrix.</param>
+        /// 
+        public static double[][] AddToDiagonal(this double[][] matrix, double scalar, bool inPlace = false)
+        {
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            int min = Math.Min(rows, cols);
+
+            double[][] r = inPlace ? matrix : matrix.MemberwiseClone();
+
+            for (int i = 0; i < min; i++)
+                r[i][i] = matrix[i][i] + scalar;
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Subtracts a scalar from the diagonal of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="scalar">A scalar.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original matrix; false to return a new matrix.</param>
+        /// 
+        public static double[][] SubtractFromDiagonal(this double[][] matrix, double scalar, bool inPlace = false)
+        {
+            return AddToDiagonal(matrix, -scalar, inPlace);
+        }
+
+        /// <summary>
+        ///   Subtracts a scalar from the diagonal of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="scalar">A scalar.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original matrix; false to return a new matrix.</param>
+        /// 
+        public static double[,] SubtractFromDiagonal(this double[,] matrix, double scalar, bool inPlace = false)
+        {
+            return AddToDiagonal(matrix, -scalar, inPlace);
         }
 
         /// <summary>

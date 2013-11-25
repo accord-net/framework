@@ -462,6 +462,49 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
+        [TestMethod()]
+        public void AddToDiagTest1()
+        {
+            double[,] a = 
+            {
+                { 2, 5, -1 },
+                { 5, 0,  2 },
+            };
+
+            double[,] expected =
+            {
+                {  3, 5, -1 },
+                {  5, 1,  2 },
+            };
+
+            var actual = Matrix.AddToDiagonal(a, 1.0);
+            Assert.IsTrue(expected.IsEqual(actual));
+
+            actual = Matrix.SubtractFromDiagonal(actual, 1.0);
+            Assert.IsTrue(actual.IsEqual(a));
+        }
+
+        [TestMethod()]
+        public void AddToDiagTest2()
+        {
+            double[][] a = 
+            {
+                new double[] { 2, 5, -1 },
+                new double[] { 5, 0,  2 },
+            };
+
+            double[][] expected =
+            {
+                new double[] {  3, 5, -1 },
+                new double[] {  5, 1,  2 },
+            };
+
+            var actual = Matrix.AddToDiagonal(a, 1.0);
+            Assert.IsTrue(expected.IsEqual(actual));
+
+            actual = Matrix.SubtractFromDiagonal(actual, 1.0);
+            Assert.IsTrue(actual.IsEqual(a));
+        }
 
         [TestMethod()]
         public void ElementwiseMultiplyTest4()
@@ -2266,6 +2309,150 @@ namespace Accord.Tests.Math
 
             actual = Matrix.InsertRow(I, row, 3);
             Assert.IsTrue(actual.IsEqual(expected));
+        }
+
+        [TestMethod()]
+        public void InsertRowTest2()
+        {
+            double[,] a =
+            { 
+               { 100.00, 27.56, 33.89},
+               { 27.56, 100.00, 24.76},
+               { 33.89, 24.76, 100.00} 
+             };
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+
+            double[,] b = a.InsertColumn(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+            Assert.AreEqual(4, b.GetLength(0));
+            Assert.AreEqual(4, b.GetLength(1));
+            Assert.IsTrue(b.GetRow(3).IsEqual(0, 0, 0, 100));
+
+            double[,] c = a.InsertRow(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+            Assert.AreEqual(4, c.GetLength(0));
+            Assert.AreEqual(4, c.GetLength(1));
+            Assert.IsTrue(c.GetColumn(3).IsEqual(0, 0, 0, 100));
+
+            a = a.InsertColumn(new double[] { 1, 2, 3 })
+                 .InsertRow(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(4, a.GetLength(0));
+            Assert.AreEqual(4, a.GetLength(1));
+            Assert.IsTrue(a.GetRow(3).IsEqual(1, 2, 3, 100));
+            Assert.IsTrue(a.GetColumn(3).IsEqual(1, 2, 3, 100));
+        }
+
+        [TestMethod()]
+        public void InsertRowTest5()
+        {
+            double[][] a =
+            { 
+               new double[] { 100.00, 27.56, 33.89},
+               new double[] { 27.56, 100.00, 24.76},
+               new double[] { 33.89, 24.76, 100.00} 
+             };
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+
+            double[][] b = a.InsertColumn(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+            Assert.AreEqual(4, b.Length);
+            Assert.AreEqual(4, b[0].Length);
+
+            double[][] c = a.InsertRow(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+            Assert.AreEqual(4, b.Length);
+            Assert.AreEqual(4, b[0].Length);
+            Assert.IsTrue(c.GetColumn(3).IsEqual(0, 0, 0, 100));
+
+            a = a.InsertColumn(new double[] { 1, 2, 3 })
+                 .InsertRow(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(4, a.Length);
+            Assert.AreEqual(4, a[0].Length);
+            Assert.IsTrue(a.GetRow(3).IsEqual(1, 2, 3, 100));
+            Assert.IsTrue(a.GetColumn(3).IsEqual(1, 2, 3, 100));
+        }
+
+
+        [TestMethod()]
+        public void InsertRowTest3()
+        {
+            double[,] a =
+            { 
+               { 100.00, 27.56, 33.89},
+               { 27.56, 100.00, 24.76},
+               { 33.89, 24.76, 100.00} 
+             };
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+
+            double[,] b = a.InsertColumn(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+            Assert.AreEqual(3, b.GetLength(0));
+            Assert.AreEqual(4, b.GetLength(1));
+
+            double[,] c = a.InsertRow(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+            Assert.AreEqual(4, c.GetLength(0));
+            Assert.AreEqual(3, c.GetLength(1));
+
+            a = a.InsertColumn(new double[] { 1, 2, 3 })
+                 .InsertRow(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(4, a.GetLength(0));
+            Assert.AreEqual(4, a.GetLength(1));
+        }
+
+        [TestMethod()]
+        public void InsertRowTest4()
+        {
+            double[][] a =
+            { 
+               new double[] { 100.00, 27.56, 33.89},
+               new double[] { 27.56, 100.00, 24.76},
+               new double[] { 33.89, 24.76, 100.00} 
+             };
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+
+            double[][] b = a.InsertColumn(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+            Assert.AreEqual(3, b.Length);
+            Assert.AreEqual(4, b[0].Length);
+
+            double[][] c = a.InsertRow(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+            Assert.AreEqual(4, c.Length);
+            Assert.AreEqual(3, c[0].Length);
+
+            a = a.InsertColumn(new double[] { 1, 2, 3 })
+                 .InsertRow(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(4, a.Length);
+            Assert.AreEqual(4, a[0].Length);
         }
 
         [TestMethod()]
