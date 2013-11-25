@@ -187,6 +187,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
         }
 
+        /// <summary>
+        ///   Gets or sets whether all nodes are obligated to
+        ///   provide a true decision value. If set to false,
+        ///   some leaf nodes may contain <c>null</c>.
+        /// </summary>
+        /// 
         public bool Rejection { get; set; }
 
         /// <summary>
@@ -245,7 +251,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             return ComputeError(inputs, outputs);
         }
 
-  
+
 
         /// <summary>
         ///   Computes the prediction error for the tree
@@ -427,21 +433,20 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             if (inputs.Length != outputs.Length)
                 throw new DimensionMismatchException("outputs",
-                                                     "The number of input vectors and output labels does not match.");
+                    "The number of input vectors and output labels does not match.");
 
             if (inputs.Length == 0)
                 throw new ArgumentOutOfRangeException("inputs",
-                                                      "Training algorithm needs at least one training vector.");
+                    "Training algorithm needs at least one training vector.");
 
             for (int i = 0; i < inputs.Length; i++)
             {
                 if (inputs[i].Length != tree.InputCount)
                 {
                     throw new DimensionMismatchException("inputs",
-                                                         "The size of the input vector at index " + i
-                                                         + " does not match the expected number of inputs of the tree."
-                                                         + " All input vectors for this tree must have length " +
-                                                         tree.InputCount);
+                        "The size of the input vector at index " + i
+                        + " does not match the expected number of inputs of the tree."
+                        + " All input vectors for this tree must have length " + tree.InputCount);
                 }
 
                 for (int j = 0; j < inputs[i].Length; j++)
@@ -452,11 +457,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                     if (inputs[i][j] < min || inputs[i][j] > max)
                     {
                         throw new ArgumentOutOfRangeException("inputs",
-                                                              "The input vector at position " + i +
-                                                              " contains an invalid entry at column "
-                                                              + j +
-                                                              ". The value must be between the bounds specified by the decision tree " +
-                                                              "attribute variables.");
+                            "The input vector at position " + i + " contains an invalid entry at column "
+                            + j + ". The value must be between the bounds specified by the decision tree " +
+                            "attribute variables.");
                     }
                 }
             }
@@ -466,9 +469,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 if (outputs[i] < 0 || outputs[i] >= tree.OutputClasses)
                 {
                     throw new ArgumentOutOfRangeException("outputs",
-                                                          "The output label at index " + i +
-                                                          " should be equal to or higher than zero," +
-                                                          "and should be lesser than the number of output classes expected by the tree.");
+                        "The output label at index " + i +
+                        " should be equal to or higher than zero," +
+                        "and should be lesser than the number of output classes expected by the tree.");
                 }
             }
         }

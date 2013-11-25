@@ -33,6 +33,10 @@ namespace Accord.Controls
     using ZedGraph;
     using Accord.Audio.Filters;
 
+    /// <summary>
+    ///   Wavechart Box.
+    /// </summary>
+    /// 
     public partial class WavechartBox : Form
     {
 
@@ -95,6 +99,7 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="signal">The signal object to display.</param>
+        /// <param name="channel">The channel to be displayed.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default

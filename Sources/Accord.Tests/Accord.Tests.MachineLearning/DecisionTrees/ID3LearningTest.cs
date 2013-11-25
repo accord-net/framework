@@ -20,10 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System;
-
 namespace Accord.Tests.MachineLearning
 {
+    using System;
     using System.Data;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
@@ -31,8 +30,6 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections.Generic;
-    using System.Text;
 
     [TestClass()]
     public class ID3LearningTest
@@ -479,9 +476,9 @@ namespace Accord.Tests.MachineLearning
             int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
             DecisionVariable[] features =
             {
-                new DecisionVariable("Weekday",   10), 
-                new DecisionVariable("Route",     10), 
-                new DecisionVariable("Driver",    10), 
+                new DecisionVariable("Outlook",      10), 
+                new DecisionVariable("Temperature",  10), 
+                new DecisionVariable("Humidity",     10), 
             };
 
 
@@ -508,9 +505,9 @@ namespace Accord.Tests.MachineLearning
             int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
             DecisionVariable[] features =
             {
-                new DecisionVariable("Weekday",   10), 
-                new DecisionVariable("Route",     10), 
-                new DecisionVariable("Driver",    10), 
+                new DecisionVariable("Outlook",      10), 
+                new DecisionVariable("Temperature",  10), 
+                new DecisionVariable("Humidity",     10), 
             };
 
 
@@ -529,42 +526,7 @@ namespace Accord.Tests.MachineLearning
             }
 
             Assert.IsTrue(error < 0.15);
-
-            List<DecisionRule> rules = tree.ToRules();
-
-            Assert.AreEqual(829, rules.Count);
         }
 
-        [TestMethod]
-        public void LargeSampleTest3()
-        {
-            Accord.Math.Tools.SetupGenerator(0);
-
-            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
-            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
-            DecisionVariable[] features =
-            {
-                new DecisionVariable("Weekday",   10), 
-                new DecisionVariable("Route",     10), 
-                new DecisionVariable("Driver",    8), 
-            };
-
-
-            DecisionTree tree = new DecisionTree(features, 2);
-            ID3Learning id3Learning = new ID3Learning(tree);
-
-            bool thrown = false;
-
-            try
-            {
-                id3Learning.Run(dataSamples, target);
-            }
-            catch (Exception)
-            {
-                thrown = true;
-            }
-
-            Assert.IsTrue(thrown);
-        }
     }
 }

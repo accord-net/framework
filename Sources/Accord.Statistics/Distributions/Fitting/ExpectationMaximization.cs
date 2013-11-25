@@ -77,7 +77,7 @@ namespace Accord.Statistics.Distributions.Fitting
 
 
         /// <summary>
-        ///   Creates a new <see cref="ExpectationMaximization&lt;TObservation, TOptions&gt;"/> algorithm.
+        ///   Creates a new <see cref="ExpectationMaximization{TObservation}"/> algorithm.
         /// </summary>
         /// 
         /// <param name="coefficients">The initial coefficient values.</param>
@@ -247,7 +247,7 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   for a given set of observations.
         /// </summary>
         /// 
-        public static double LogLikelihood(double[] pi, IDistribution<TObservation>[] pdf,
+        internal static double LogLikelihood(double[] pi, IDistribution<TObservation>[] pdf,
             TObservation[] observations)
         {
             return LogLikelihood(pi, pdf, observations, null, 0);
@@ -258,7 +258,7 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   for a given set of observations.
         /// </summary>
         /// 
-        public static double LogLikelihood(double[] pi, IDistribution<TObservation>[] pdf,
+        internal static double LogLikelihood(double[] pi, IDistribution<TObservation>[] pdf,
             TObservation[] observations, double[] weights, double weightSum)
         {
             double logLikelihood = 0.0;

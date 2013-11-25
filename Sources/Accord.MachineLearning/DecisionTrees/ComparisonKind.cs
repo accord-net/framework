@@ -73,9 +73,23 @@ namespace Accord.MachineLearning.DecisionTrees
         LessThanOrEqual
     }
 
+    /// <summary>
+    ///   Extension methods for <see cref="ComparisonKind"/> enumeration values.
+    /// </summary>
+    /// 
     public static class ComparisonExtensions
     {
 
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <param name="comparison">The comparison type.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
         public static string ToString(this ComparisonKind comparison)
         {
             switch (comparison)

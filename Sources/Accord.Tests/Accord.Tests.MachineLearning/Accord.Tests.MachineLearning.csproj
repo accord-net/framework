@@ -152,6 +152,9 @@
     <Compile Include="DecisionTrees\ReducedErrorPruningTest.cs" />
     <Compile Include="DecisionTrees\ErrorBasedPruningTest.cs" />
     <Compile Include="Clustering\MeanShiftTest.cs" />
+    <Compile Include="DecisionTrees\SimplificationTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="KDTreeTest.cs" />
     <Compile Include="RansacLineTest.cs" />
     <Compile Include="RansacPlaneTest.cs" />

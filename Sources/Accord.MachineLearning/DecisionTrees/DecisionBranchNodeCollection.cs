@@ -78,9 +78,16 @@ namespace Accord.MachineLearning.DecisionTrees
         ///   Initializes a new instance of the <see cref="DecisionBranchNodeCollection"/> class.
         /// </summary>
         /// 
-        [Obsolete]
+        [Obsolete("Please specify an owner instead.")]
         public DecisionBranchNodeCollection() { }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="DecisionBranchNodeCollection"/> class.
+        /// </summary>
+        /// 
+        /// <param name="owner">The <see cref="DecisionNode"/> to whom
+        ///   this <see cref="DecisionBranchNodeCollection"/> belongs.</param>
+        /// 
         public DecisionBranchNodeCollection(DecisionNode owner)
         {
             this.owner = owner;
@@ -96,7 +103,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// responsible for a possible value of a discrete attribute, or for
         /// a region of a continuous-valued attribute.</param>
         /// 
-        [Obsolete]
+        [Obsolete("Please specify an owner instead.")]
         public DecisionBranchNodeCollection(int attributeIndex, DecisionNode[] nodes)
             : base(nodes)
         {

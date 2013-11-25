@@ -30,6 +30,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using Accord.Tests.MachineLearning.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.MachineLearning.DecisionTrees.Rules;
 
     [TestClass()]
     public class C45LearningTest
@@ -419,6 +420,36 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(2, tree.Root.Branches.Count);
             Assert.IsTrue(tree.Root.Branches[0].IsLeaf);
             Assert.IsTrue(tree.Root.Branches[1].IsLeaf);
+        }
+
+        [TestMethod]
+        public void LargeSampleTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            double[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToArray();
+            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("Outlook", DecisionVariableKind.Continuous), 
+                new DecisionVariable("Temperature", DecisionVariableKind.Continuous), 
+                new DecisionVariable("Humidity", DecisionVariableKind.Continuous), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, 2);
+            C45Learning teacher = new C45Learning(tree);
+
+            double error = teacher.Run(dataSamples, target);
+
+            foreach (var node in tree)
+            {
+                if (node.IsLeaf)
+                    Assert.IsNotNull(node.Output);
+            }
+
+            Assert.IsTrue(error < 0.50);
         }
     }
 }

@@ -146,9 +146,11 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public int Compute(double[] input, DecisionNode subtree)
         {
-            if (subtree == null) throw new ArgumentNullException("subtree");
-            if (subtree.Owner != this) throw new ArgumentException(
-                "The node does not belong to this tree.", "subtree");
+            if (subtree == null) 
+                throw new ArgumentNullException("subtree");
+
+            if (subtree.Owner != this) 
+                throw new ArgumentException("The node does not belong to this tree.", "subtree");
 
             DecisionNode current = subtree;
 
@@ -190,7 +192,8 @@ namespace Accord.MachineLearning.DecisionTrees
             }
 
             // Normal execution should not reach here.
-            throw new InvalidOperationException("The tree is degenerated.");
+            throw new InvalidOperationException("The tree is degenerated. This is often a sign that "
+                + "the tree is expecting discrete inputs, but it was given only real values.");
         }
 
 
