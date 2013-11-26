@@ -1796,6 +1796,27 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="values">The array.</param>
+        /// <param name="allowNulls">Whether to allow null values in 
+        ///   the method's output. Default is true.</param>
+        /// 
+        /// <returns>An array containing only the distinct values in <paramref name="values"/>.</returns>
+        /// 
+        public static T[] Distinct<T>(this T[] values, bool allowNulls)
+            where T : class
+        {
+            var set = new HashSet<T>(values);
+
+            if (!allowNulls)
+                set.Remove(null);
+
+            return set.ToArray();
+        }
+
+        /// <summary>
+        ///   Retrieves only distinct values contained in an array.
+        /// </summary>
+        /// 
+        /// <param name="values">The array.</param>
         /// <param name="property">The property of the object used to determine distinct instances.</param>
         /// 
         /// <returns>An array containing only the distinct values in <paramref name="values"/>.</returns>

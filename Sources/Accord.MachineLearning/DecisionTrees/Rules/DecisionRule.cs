@@ -26,15 +26,16 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Accord.Statistics.Filters;
 
     /// <summary>
     ///   Decision Rule.
     /// </summary>
     /// 
-    public class DecisionRule : ICloneable, IEnumerable<Antecedent>,
-        IEquatable<DecisionRule>, IComparable, IComparable<DecisionRule>
+    public class DecisionRule : ICloneable, IEnumerable<Antecedent>, IEquatable<DecisionRule>
     {
-        private SortedSet<Antecedent> expressions;
+
+        private HashSet<Antecedent> expressions;
         private DecisionVariableCollection variables;
         private double output;
 
@@ -60,18 +61,33 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         public double Output { get { return output; } }
 
 
-
-
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="DecisionRule"/> class.
+        /// </summary>
+        /// 
+        /// /// <param name="variables">The decision variables handled by this decision rule.</param>
+        /// <param name="output">The output value, given after all antecedents are met.</param>
+        /// <param name="antecedents">The antecedent conditions that lead to the <paramref name="output"/>.</param>
+        /// 
+        public DecisionRule(IList<DecisionVariable> variables,
+            double output, params Antecedent[] antecedents)
+            : this(variables, output, (IEnumerable<Antecedent>)antecedents)
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="DecisionRule"/> class.
         /// </summary>
         /// 
-        /// <param name="output">The output.</param>
+        /// <param name="variables">The decision variables handled by this decision rule.</param>
+        /// <param name="output">The output value, given after all antecedents are met.</param>
+        /// <param name="antecedents">The antecedent conditions that lead to the <paramref name="output"/>.</param>
         /// 
-        public DecisionRule(double output)
+        public DecisionRule(IList<DecisionVariable> variables,
+            double output, IEnumerable<Antecedent> antecedents)
         {
-            this.expressions = new SortedSet<Antecedent>();
+            this.variables = new DecisionVariableCollection(variables);
+            this.expressions = new HashSet<Antecedent>(antecedents);
             this.output = output;
         }
 
@@ -79,12 +95,12 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   Initializes a new instance of the <see cref="DecisionRule"/> class.
         /// </summary>
         /// 
-        /// <param name="expressions">The antecedent expressions.</param>
-        /// <param name="output">The output.</param>
+        /// <param name="output">The output value, given after all antecedents are met.</param>
+        /// <param name="antecedents">The antecedent conditions that lead to the <paramref name="output"/>.</param>
         /// 
-        public DecisionRule(IEnumerable<Antecedent> expressions, double output)
+        public DecisionRule(double output, params Antecedent[] antecedents)
         {
-            this.expressions = new SortedSet<Antecedent>(expressions);
+            this.expressions = new HashSet<Antecedent>(antecedents);
             this.output = output;
         }
 
@@ -142,8 +158,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             DecisionTree owner = current.Owner;
             double output = current.Output.Value;
 
-            DecisionRule rule = new DecisionRule(output);
-            rule.variables = node.Owner.Attributes;
+            var antecedents = new List<Antecedent>();
 
             while (current.Parent != null)
             {
@@ -151,14 +166,12 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
                 ComparisonKind comparison = current.Comparison;
                 double value = current.Value.Value;
 
-                Antecedent expression = new Antecedent(rule, index, comparison, value);
-
-                rule.Antecedents.Add(expression);
+                antecedents.Add(new Antecedent(index, comparison, value));
 
                 current = current.Parent;
             }
 
-            return rule;
+            return new DecisionRule(node.Owner.Attributes, output, antecedents);
         }
 
         /// <summary>
@@ -188,17 +201,23 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-
-            var expr = expressions.ToArray();
-
-            for (int i = 0; i < expr.Length - 1; i++)
-                sb.AppendFormat("({0}) && ", expr[i]);
-
-            sb.AppendFormat("({0}) := {1}", expr[expr.Length - 1], Output);
-
-            return sb.ToString();
+            return toString(null);
         }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public string ToString(Codification codebook)
+        {
+            return toString(codebook);
+        }
+
+       
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -210,7 +229,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public object Clone()
         {
-            return new DecisionRule(Antecedents, Output);
+            return new DecisionRule(variables, output, Antecedents);
         }
 
         /// <summary>
@@ -241,43 +260,92 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return expressions.GetEnumerator();
         }
 
+        /// <summary>
+        ///   Returns a hash code for this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A hash code for this instance, suitable for use in hashing
+        ///   algorithms and data structures like a hash table. 
+        /// </returns>
+        /// 
         public override int GetHashCode()
         {
-            return this.Output.GetHashCode() +
-                13 * this.Variables.GetHashCode();
+            return this.Output.GetHashCode();
         }
 
+        /// <summary>
+        ///   Determines whether the specified <see cref="System
+        ///   .Object"/> is equal to this instance.
+        /// </summary>
+        /// 
+        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
+        /// 
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="System.Object"/>
+        ///   is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        /// 
         public override bool Equals(object obj)
         {
             return Equals(obj as DecisionRule);
         }
 
+        /// <summary>
+        ///   Determines whether the specified <see cref="DecisionRule"/> is equal to this instance.
+        /// </summary>
+        /// 
+        /// <param name="other">The <see cref="DecisionRule"/> to compare with this instance.</param>
+        /// 
+        /// <returns>
+        ///   <c>true</c> if the specified <see cref="DecisionRule"/>
+        ///   is equal to this instance; otherwise, <c>false</c>.
+        /// </returns>
+        /// 
         public bool Equals(DecisionRule other)
         {
             if (other == null)
                 return false;
 
-            return this.Antecedents.SetEquals(other.Antecedents) &&
-                this.Output == other.Output &&
-                this.Variables == other.Variables;
+            bool s = this.Antecedents.SetEquals(other.Antecedents);
+            bool o = this.Output == other.output;
+
+            return s && o;
         }
 
-        public int CompareTo(object obj)
+
+
+        private string toString(Codification codebook)
         {
-            return CompareTo(obj as DecisionRule);
+            StringBuilder sb = new StringBuilder();
+
+            var expr = expressions.ToArray();
+
+            for (int i = 0; i < expr.Length - 1; i++)
+                sb.AppendFormat("({0}) && ", toString(expr[i], codebook));
+
+            sb.AppendFormat("({0}) := {1}", toString(expr[expr.Length - 1], codebook), Output);
+
+            return sb.ToString();
         }
 
-        public int CompareTo(DecisionRule other)
+        private string toString(Antecedent antecedent, Codification codebook)
         {
-            if (other == null)
-                throw new ArgumentNullException("other");
+            int index = antecedent.Index;
+            String name = Variables[index].Name;
 
-            int count = Count.CompareTo(other.Count);
+            if (String.IsNullOrEmpty(name))
+                name = "x[" + index + "]";
 
-            if (count != 0)
-                return count;
+            String op = ComparisonExtensions.ToString(antecedent.Comparison);
 
-            return Output.CompareTo(other.Output);
+            String value;
+            if (codebook != null && codebook.Columns.Contains(name))
+                value = codebook.Translate(name, (int)antecedent.Value);
+
+            else value = antecedent.Value.ToString();
+
+            return String.Format("{0} {1} {2}", name, op, value);
         }
     }
 

@@ -71,7 +71,7 @@ namespace Accord.Tests.MachineLearning
 
             double newError = simpl.Compute(inputs, outputs);
 
-            Assert.AreEqual(0, newError);
+            Assert.AreEqual(0.067515432098765427, newError);
         }
 
         [TestMethod]
@@ -92,7 +92,7 @@ namespace Accord.Tests.MachineLearning
 
             DecisionVariable[] vars = new DecisionVariable[10];
             for (int i = 0; i < vars.Length; i++)
-                vars[i] = new DecisionVariable(i.ToString(), 10);
+                vars[i] = new DecisionVariable("x" + i, 10);
 
             DecisionTree tree = new DecisionTree(vars, 2);
 
@@ -114,6 +114,7 @@ namespace Accord.Tests.MachineLearning
 
             double newError = simpl.Compute(samples.ToDouble(), outputs);
 
+            Assert.AreEqual(0.097, newError);
         }
 
         [TestMethod()]
@@ -162,12 +163,9 @@ namespace Accord.Tests.MachineLearning
             };
 
             Assert.IsTrue(Simplification.CanEliminate(actual, expected, 0.05));
-            Assert.IsTrue(Simplification.CanEliminate(actual, actual, 0.05));
-            Assert.IsTrue(Simplification.CanEliminate(expected, expected, 0.05));
+            Assert.IsFalse(Simplification.CanEliminate(expected, expected, 0.05));
+            Assert.IsFalse(Simplification.CanEliminate(actual, actual, 0.05));
         }
-
-
-
 
 
 

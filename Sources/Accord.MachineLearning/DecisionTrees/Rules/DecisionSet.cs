@@ -31,8 +31,13 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     public class DecisionSet : IEnumerable<DecisionRule>
     {
 
-        List<DecisionRule> rules;
+        HashSet<DecisionRule> rules;
 
+        /// <summary>
+        ///   Gets the number of possible output 
+        ///   classes covered by this decision set.
+        /// </summary>
+        /// 
         public int OutputClasses { get; private set; }
 
 
@@ -42,7 +47,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public DecisionSet()
         {
-            this.rules = new List<DecisionRule>();
+            this.rules = new HashSet<DecisionRule>();
         }
 
         /// <summary>
@@ -53,7 +58,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public DecisionSet(IEnumerable<DecisionRule> rules)
         {
-            this.rules = new List<DecisionRule>(rules);
+            this.rules = new HashSet<DecisionRule>(rules);
         }
 
         /// <summary>
@@ -106,7 +111,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
 
         /// <summary>
-        ///   Adds a new DecisionRule to the set.
+        ///   Adds a new <see cref="DecisionRule"/> to the set.
         /// </summary>
         /// 
         /// <param name="item">The <see cref="DecisionRule"/> to be added.</param>
@@ -114,6 +119,18 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         public void Add(DecisionRule item)
         {
             rules.Add(item);
+        }
+
+        /// <summary>
+        ///   Adds a collection of new <see cref="DecisionRule"/>s to the set.
+        /// </summary>
+        /// 
+        /// <param name="items">The collection of <see cref="DecisionRule"/>s to be added.</param>
+        /// 
+        public void AddRange(IEnumerable<DecisionRule> items)
+        {
+            foreach (var rule in items)
+                rules.Add(rule);
         }
 
         /// <summary>

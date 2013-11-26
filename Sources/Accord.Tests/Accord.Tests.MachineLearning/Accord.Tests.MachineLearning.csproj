@@ -149,6 +149,7 @@
     <Compile Include="Boosting\AdaBoostTest.cs" />
     <Compile Include="BootstrapTest.cs" />
     <Compile Include="Clustering\BinarySplitTest.cs" />
+    <Compile Include="DecisionTrees\DecisionRuleTest.cs" />
     <Compile Include="DecisionTrees\ReducedErrorPruningTest.cs" />
     <Compile Include="DecisionTrees\ErrorBasedPruningTest.cs" />
     <Compile Include="Clustering\MeanShiftTest.cs" />

@@ -29,41 +29,31 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     ///   Antecedent expression for <see cref="DecisionRule"/>s.
     /// </summary>
     /// 
-    public class Antecedent : IEquatable<Antecedent>, IComparable<Antecedent>, IComparable
+    public struct Antecedent : IEquatable<Antecedent>
     {
-        /// <summary>
-        ///   Gets the <see cref="DecisionRule"/> that contains this antecedent.
-        /// </summary>
-        /// 
-        public DecisionRule Owner { get; private set; }
+        private int index;
+        private ComparisonKind comparison;
+        private double value;
 
         /// <summary>
         ///   Gets the index of the variable used as the
         ///   left hand side term of this expression.
         /// </summary>
         /// 
-        public int Index { get; private set; }
+        public int Index { get { return index; } }
 
         /// <summary>
         ///   Gets the comparison being made between the variable
         ///   value at <see cref="Index"/> and <see cref="Value"/>.
         /// </summary>
         /// 
-        public ComparisonKind Comparison { get; private set; }
+        public ComparisonKind Comparison { get { return comparison; } }
 
         /// <summary>
         ///   Gets the right hand side of this expression.
         /// </summary>
         /// 
-        public double Value { get; private set; }
-
-
-        /// <summary>
-        ///   Gets the <see cref="DecisionVariable"/> being
-        ///   handled by this <see cref="Antecedent"/>.
-        /// </summary>
-        /// 
-        public DecisionVariable Variable { get { return Owner.Variables[Index]; } }
+        public double Value { get { return value; } }
 
 
 
@@ -71,24 +61,16 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   Creates a new instance of the <see cref="Antecedent"/> class.
         /// </summary>
         /// 
-        /// <param name="owner">The <see cref="DecisionRule"/> to whom this antecedent will belong.</param>
         /// <param name="index">The variable index.</param>
         /// <param name="comparison">The comparison to be made using the value at 
         ///   <paramref name="index"/> and <paramref name="value"/>.</param>
         /// <param name="value">The value to be compared against.</param>
         /// 
-        public Antecedent(DecisionRule owner, int index, ComparisonKind comparison, double value)
+        public Antecedent(int index, ComparisonKind comparison, double value)
         {
-            if (owner == null)
-                throw new ArgumentNullException("owner");
-
-            if (index < 0 || index >= owner.Variables.Count)
-                throw new ArgumentOutOfRangeException("index");
-
-            this.Owner = owner;
-            this.Index = index;
-            this.Comparison = comparison;
-            this.Value = value;
+            this.index = index;
+            this.comparison = comparison;
+            this.value = value;
         }
 
 
@@ -176,7 +158,10 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public override bool Equals(object obj)
         {
-            return this.Equals(obj as Antecedent);
+            if (!(obj is Antecedent))
+                return false;
+
+            return this.Equals((Antecedent)obj);
         }
 
         /// <summary>
@@ -196,39 +181,6 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         }
 
         /// <summary>
-        ///   Compares the current instance with another object of 
-        ///   the same type and returns an integer that indicates
-        ///   whether the current instance precedes, follows, or 
-        ///   occurs in the same position in the sort order as the
-        ///   other object.
-        /// </summary>
-        /// 
-        /// <param name="other">An object to compare with this instance.</param>
-        /// 
-        public int CompareTo(Antecedent other)
-        {
-            return Index.CompareTo(other.Index);
-        }
-
-        /// <summary>
-        ///   Compares the current instance with another object of 
-        ///   the same type and returns an integer that indicates
-        ///   whether the current instance precedes, follows, or 
-        ///   occurs in the same position in the sort order as the
-        ///   other object.
-        /// </summary>
-        /// 
-        /// <param name="obj">An object to compare with this instance.</param>
-        /// 
-        /// <exception cref="T:System.ArgumentException">
-        ///   <paramref name="obj"/> is not the same type as this instance. </exception>
-        ///   
-        public int CompareTo(object obj)
-        {
-            return CompareTo(obj as Antecedent);
-        }
-
-        /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// 
@@ -238,40 +190,10 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public override string ToString()
         {
-            return toString(null);
+            string op = ComparisonExtensions.ToString(Comparison);
+            return String.Format("x[{0}] {1} {2}", Index, op, Value);
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(Codification codebook)
-        {
-            return toString(codebook);
-        }
-
-
-        /// <summary>
-        ///   Implements the operator &gt;.
-        /// </summary>
-        /// 
-        public static bool operator >(Antecedent a, Antecedent b)
-        {
-            return a.Index > b.Index;
-        }
-
-        /// <summary>
-        ///   Implements the operator &lt;.
-        /// </summary>
-        /// 
-        public static bool operator <(Antecedent a, Antecedent b)
-        {
-            return a.Index < b.Index;
-        }
 
         /// <summary>
         ///   Implements the operator ==.
@@ -301,25 +223,6 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
                 return !a.Equals(b);
 
             return !b.Equals(a);
-        }
-
-
-        private string toString(Codification codebook)
-        {
-            String name = Variable.Name;
-
-            if (String.IsNullOrEmpty(name))
-                name = "x" + Index;
-
-            String op = ComparisonExtensions.ToString(Comparison);
-
-            String value;
-            if (codebook != null && codebook.Columns.Contains(name))
-                value = codebook.Translate(name, (int)Value);
-
-            else value = Value.ToString();
-
-            return String.Format("{0} {1} {2}", name, op, value);
         }
 
     }

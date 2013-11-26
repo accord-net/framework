@@ -181,6 +181,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void GenerateTest2()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             InverseGaussianDistribution target = new InverseGaussianDistribution(5, 2);
 
             double[] samples = target.Generate(1000000);
