@@ -44,7 +44,7 @@ namespace Accord.Controls.Vision
     /// </summary>
     /// 
     public class HeadController : Component,
-        IDisposable, IBindableComponent, INotifyPropertyChanged, IVideoSource
+        IBindableComponent, INotifyPropertyChanged, IVideoSource
     {
 
         private IntRange xaxisRange;
@@ -274,12 +274,14 @@ namespace Accord.Controls.Vision
                 if (this.synchronizingObject == null && base.DesignMode)
                 {
                     IDesignerHost designerHost = (IDesignerHost)this.GetService(typeof(IDesignerHost));
+
                     if (designerHost != null)
                     {
-                        object rootComponent = designerHost.RootComponent;
-                        if (rootComponent != null && rootComponent is ISynchronizeInvoke)
+                        var rootComponent = designerHost.RootComponent as ISynchronizeInvoke;
+
+                        if (rootComponent != null)
                         {
-                            this.synchronizingObject = (ISynchronizeInvoke)rootComponent;
+                            this.synchronizingObject = rootComponent;
                         }
                     }
                 }
@@ -907,6 +909,21 @@ namespace Accord.Controls.Vision
         public event NewFrameEventHandler NewFrame;
 
         #endregion
+
+
+        /// <summary>
+        ///   Releases the unmanaged resources used by the 
+        ///   <see cref="T:System.ComponentModel.Component"/> 
+        ///   and optionally releases the managed resources.
+        /// </summary>
+        /// 
+        /// <param name="disposing">true to release both managed and unmanaged 
+        ///   resources; false to release only unmanaged resources.</param>
+        ///   
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
 
     }
 }
