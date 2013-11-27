@@ -121,6 +121,7 @@
     <Compile Include="Kinematics\DenavitHartenbergNode.cs" />
     <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
     <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
+    <Compile Include="Matrix\Matrix.Submatrix.cs" />
     <Compile Include="Optimization\Base\IGradientOptimizationMethod.cs" />
     <Compile Include="Optimization\Base\ILeastSquaresMethod.cs" />
     <Compile Include="Optimization\BinarySearch.cs" />

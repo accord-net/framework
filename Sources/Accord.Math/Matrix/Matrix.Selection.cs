@@ -76,449 +76,6 @@ namespace Accord.Math
 
         #endregion
 
-        #region Submatrix
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="startRow">Start row index</param>
-        /// <param name="endRow">End row index</param>
-        /// <param name="startColumn">Start column index</param>
-        /// <param name="endColumn">End column index</param>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[,] Submatrix<T>(this T[,] data, int startRow, int endRow, int startColumn, int endColumn)
-        {
-            int rows = data.GetLength(0);
-            int cols = data.GetLength(1);
-
-            if ((startRow > endRow) || (startColumn > endColumn) || (startRow < 0) ||
-                (startRow >= rows) || (endRow < 0) || (endRow >= rows) ||
-                (startColumn < 0) || (startColumn >= cols) || (endColumn < 0) ||
-                (endColumn >= cols))
-            {
-                throw new ArgumentException("Argument out of range.");
-            }
-
-            T[,] X = new T[endRow - startRow + 1, endColumn - startColumn + 1];
-            for (int i = startRow; i <= endRow; i++)
-                for (int j = startColumn; j <= endColumn; j++)
-                    X[i - startRow, j - startColumn] = data[i, j];
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="startRow">Start row index</param>
-        /// <param name="endRow">End row index</param>
-        /// <param name="startColumn">Start column index</param>
-        /// <param name="endColumn">End column index</param>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[][] Submatrix<T>(this T[][] data, int startRow, int endRow, int startColumn, int endColumn)
-        {
-            int rows = data.Length;
-            int cols = data[0].Length;
-
-            if ((startRow > endRow) || (startColumn > endColumn) || (startRow < 0) ||
-                (startRow >= rows) || (endRow < 0) || (endRow >= rows) ||
-                (startColumn < 0) || (startColumn >= cols) || (endColumn < 0) ||
-                (endColumn >= cols))
-            {
-                throw new ArgumentException("Argument out of range.");
-            }
-
-            T[][] X = new T[endRow - startRow + 1][];
-            for (int i = startRow; i <= endRow; i++)
-            {
-                X[i] = new T[endColumn - startColumn + 1];
-                for (int j = startColumn; j <= endColumn; j++)
-                    X[i - startRow][j - startColumn] = data[i][j];
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="rowIndexes">Array of row indices. Pass null to select all indices.</param>
-        /// <param name="columnIndexes">Array of column indices. Pass null to select all indices.</param>
-        /// 
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[,] Submatrix<T>(this T[,] data, int[] rowIndexes, int[] columnIndexes)
-        {
-            if (rowIndexes == null)
-                rowIndexes = Indices(0, data.GetLength(0));
-
-            if (columnIndexes == null)
-                columnIndexes = Indices(0, data.GetLength(1));
-
-
-            T[,] X = new T[rowIndexes.Length, columnIndexes.Length];
-
-            for (int i = 0; i < rowIndexes.Length; i++)
-            {
-                for (int j = 0; j < columnIndexes.Length; j++)
-                {
-                    if ((rowIndexes[i] < 0) || (rowIndexes[i] >= data.GetLength(0)) ||
-                        (columnIndexes[j] < 0) || (columnIndexes[j] >= data.GetLength(1)))
-                    {
-                        throw new ArgumentException("Argument out of range.");
-                    }
-
-                    X[i, j] = data[rowIndexes[i], columnIndexes[j]];
-                }
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="rowIndexes">Array of row indices. Pass null to select all indices.</param>
-        /// <param name="columnIndexes">Array of column indices. Pass null to select all indices.</param>
-        /// 
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[][] Submatrix<T>(this T[][] data, int[] rowIndexes, int[] columnIndexes)
-        {
-            if (rowIndexes == null)
-                rowIndexes = Indices(0, data.Length);
-
-            if (columnIndexes == null)
-                columnIndexes = Indices(0, data[0].Length);
-
-
-            T[][] X = new T[rowIndexes.Length][];
-
-            for (int i = 0; i < rowIndexes.Length; i++)
-            {
-                X[i] = new T[columnIndexes.Length];
-
-                for (int j = 0; j < columnIndexes.Length; j++)
-                {
-                    if ((rowIndexes[i] < 0) || (rowIndexes[i] >= data.Length) ||
-                        (columnIndexes[j] < 0) || (columnIndexes[j] >= data[i].Length))
-                    {
-                        throw new ArgumentException("Argument out of range.");
-                    }
-
-                    X[i][j] = data[rowIndexes[i]][columnIndexes[j]];
-                }
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="rowIndexes">Array of row indices</param>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        public static T[,] Submatrix<T>(this T[,] data, int[] rowIndexes)
-        {
-            T[,] X = new T[rowIndexes.Length, data.GetLength(1)];
-
-            for (int i = 0; i < rowIndexes.Length; i++)
-            {
-                for (int j = 0; j < data.GetLength(1); j++)
-                {
-                    if ((rowIndexes[i] < 0) || (rowIndexes[i] >= data.GetLength(0)))
-                        throw new ArgumentException("Argument out of range.");
-
-                    X[i, j] = data[rowIndexes[i], j];
-                }
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns a subvector extracted from the current vector.</summary>
-        /// <param name="data">The vector to return the subvector from.</param>
-        /// <param name="indexes">Array of indices.</param>
-        /// 
-        public static T[] Submatrix<T>(this T[] data, int[] indexes)
-        {
-            T[] X = new T[indexes.Length];
-
-            for (int i = 0; i < indexes.Length; i++)
-                X[i] = data[indexes[i]];
-
-            return X;
-        }
-
-        /// <summary>Returns a subvector extracted from the current vector.</summary>
-        /// <param name="data">The vector to return the subvector from.</param>
-        /// <param name="indexes">Array of indices.</param>
-        /// 
-        public static List<T> Submatrix<T>(this List<T> data, int[] indexes)
-        {
-            T[] X = new T[indexes.Length];
-
-            for (int i = 0; i < indexes.Length; i++)
-                X[i] = data[indexes[i]];
-
-            return X.ToList();
-        }
-
-        /// <summary>Returns a subvector extracted from the current vector.</summary>
-        /// <param name="data">The vector to return the subvector from.</param>
-        /// <param name="indexes">Array of indices.</param>
-        /// <param name="transpose">True to return a transposed matrix; false otherwise.</param>
-        /// 
-        public static T[][] Submatrix<T>(this T[][] data, int[] indexes, bool transpose = false)
-        {
-            T[][] X;
-
-            if (transpose)
-            {
-                X = new T[data[0].Length][];
-
-                for (int j = 0; j < X.Length; j++)
-                {
-                    X[j] = new T[indexes.Length];
-                    for (int i = 0; i < indexes.Length; i++)
-                        X[j][i] = data[indexes[i]][j];
-                }
-            }
-            else
-            {
-                X = new T[indexes.Length][];
-
-                for (int i = 0; i < indexes.Length; i++)
-                    X[i] = data[indexes[i]];
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The vector to return the subvector from.</param>
-        /// <param name="startRow">Starting index.</param>
-        /// <param name="endRow">End index.</param>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        public static T[] Submatrix<T>(this T[] data, int startRow, int endRow)
-        {
-            if (startRow < 0)
-                throw new ArgumentOutOfRangeException("startRow");
-            if (endRow >= data.Length)
-                throw new ArgumentOutOfRangeException("endRow");
-
-            T[] X = new T[endRow - startRow + 1];
-
-            for (int i = startRow; i <= endRow; i++)
-                X[i - startRow] = data[i];
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[] Submatrix<T>(this T[] data, int first)
-        {
-            if (first < 0 || first > data.Length)
-                throw new ArgumentOutOfRangeException("first");
-
-            if (first == 0)
-                return new T[0];
-
-            return Submatrix<T>(data, 0, first - 1);
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="startRow">Starting row index</param>
-        /// <param name="endRow">End row index</param>
-        /// <param name="columnIndexes">Array of column indices</param>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[,] Submatrix<T>(this T[,] data, int startRow, int endRow, int[] columnIndexes)
-        {
-            if ((startRow > endRow) || (startRow < 0) || (startRow >= data.GetLength(0))
-                || (endRow < 0) || (endRow >= data.GetLength(0)))
-            {
-                throw new ArgumentException("Argument out of range.");
-            }
-
-            if (columnIndexes == null)
-                columnIndexes = Indices(0, data.GetLength(1));
-
-            T[,] X = new T[endRow - startRow + 1, columnIndexes.Length];
-
-            for (int i = startRow; i <= endRow; i++)
-            {
-                for (int j = 0; j < columnIndexes.Length; j++)
-                {
-                    if ((columnIndexes[j] < 0) || (columnIndexes[j] >= data.GetLength(1)))
-                    {
-                        throw new ArgumentException("Argument out of range.");
-                    }
-
-                    X[i - startRow, j] = data[i, columnIndexes[j]];
-                }
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="rowIndexes">Array of row indices</param>
-        /// <param name="startColumn">Start column index</param>
-        /// <param name="endColumn">End column index</param>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[,] Submatrix<T>(this T[,] data, int[] rowIndexes, int startColumn, int endColumn)
-        {
-            if ((startColumn > endColumn) || (startColumn < 0) || (startColumn >= data.GetLength(1)) || (endColumn < 0)
-                || (endColumn >= data.GetLength(1)))
-            {
-                throw new ArgumentException("Argument out of range.");
-            }
-
-            if (rowIndexes == null)
-            {
-                if (startColumn == 0 && endColumn == data.GetLength(1) - 1)
-                    return data;
-
-                rowIndexes = Indices(0, data.GetLength(0));
-            }
-
-            T[,] X = new T[rowIndexes.Length, endColumn - startColumn + 1];
-
-            for (int i = 0; i < rowIndexes.Length; i++)
-            {
-                for (int j = startColumn; j <= endColumn; j++)
-                {
-                    if ((rowIndexes[i] < 0) || (rowIndexes[i] >= data.GetLength(0)))
-                    {
-                        throw new ArgumentException("Argument out of range.");
-                    }
-
-                    X[i, j - startColumn] = data[rowIndexes[i], j];
-                }
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="rowIndexes">Array of row indices</param>
-        /// <param name="j0">Start column index</param>
-        /// <param name="j1">End column index</param>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[][] Submatrix<T>(this T[][] data, int[] rowIndexes, int j0, int j1)
-        {
-            if ((j0 > j1) || (j0 < 0) || (j0 >= data[0].Length) ||
-                (j1 < 0) || (j1 >= data[0].Length))
-            {
-                throw new ArgumentException("Argument out of range.");
-            }
-
-            if (rowIndexes == null)
-                rowIndexes = Indices(0, data.GetLength(0));
-
-            T[][] X = new T[rowIndexes.Length][];
-
-            for (int i = 0; i < rowIndexes.Length; i++)
-            {
-                X[i] = new T[j1 - j0 + 1];
-
-                for (int j = j0; j <= j1; j++)
-                {
-                    if ((rowIndexes[i] < 0) || (rowIndexes[i] >= data.GetLength(0)))
-                    {
-                        throw new ArgumentException("Argument out of range.");
-                    }
-
-                    X[i][j - j0] = data[rowIndexes[i]][j];
-                }
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns a sub matrix extracted from the current matrix.</summary>
-        /// <param name="data">The matrix to return the submatrix from.</param>
-        /// <param name="i0">Starting row index</param>
-        /// <param name="i1">End row index</param>
-        /// <param name="columnIndexes">Array of column indices</param>
-        /// <remarks>
-        ///   Routine adapted from Lutz Roeder's Mapack for .NET, September 2000.
-        /// </remarks>
-        /// 
-        public static T[][] Submatrix<T>(this T[][] data, int i0, int i1, int[] columnIndexes)
-        {
-            if ((i0 > i1) || (i0 < 0) || (i0 >= data.Length)
-                || (i1 < 0) || (i1 >= data.Length))
-            {
-                throw new ArgumentException("Argument out of range");
-            }
-
-            if (columnIndexes == null)
-                columnIndexes = Indices(0, data[0].Length);
-
-            T[][] X = new T[i1 - i0 + 1][];
-
-            for (int i = i0; i <= i1; i++)
-            {
-                X[i] = new T[columnIndexes.Length];
-
-                for (int j = 0; j < columnIndexes.Length; j++)
-                {
-                    if ((columnIndexes[j] < 0) || (columnIndexes[j] >= data[i].Length))
-                    {
-                        throw new ArgumentException("Argument out of range.");
-                    }
-
-                    X[i - i0][j] = data[i][columnIndexes[j]];
-                }
-            }
-
-            return X;
-        }
-
-        /// <summary>Returns subgroups extracted from the given vector.</summary>
-        /// <param name="values">The vector to extract the groups from.</param>
-        /// <param name="groups">The vector of indices for the groups.</param>
-        /// 
-        public static T[][] Subgroups<T>(this T[] values, int[] groups)
-        {
-            int distinct = groups.Distinct().Length;
-
-            T[][] result = new T[distinct][];
-            for (int i = 0; i < distinct; i++)
-            {
-                int[] idx = groups.Find(x => x == i);
-                result[i] = values.Submatrix(idx);
-            }
-
-            return result;
-        }
-        #endregion
 
 
         #region Row and column getters and setters
@@ -1256,6 +813,75 @@ namespace Accord.Math
                     if (matrix[i, j].CompareTo(min) < 0)
                     {
                         min = matrix[i, j];
+                        imin = Tuple.Create(i, j);
+                    }
+                }
+            }
+
+            return min;
+        }
+
+
+        /// <summary>
+        ///   Gets the maximum value of a matrix.
+        /// </summary>
+        /// 
+        public static T Max<T>(this T[][] matrix) where T : IComparable
+        {
+            Tuple<int, int> imax;
+            return Max(matrix, out imax);
+        }
+
+        /// <summary>
+        ///   Gets the maximum value of a matrix.
+        /// </summary>
+        /// 
+        public static T Max<T>(this T[][] matrix, out Tuple<int, int> imax) where T : IComparable
+        {
+            T max = matrix[0][0];
+            imax = Tuple.Create(0, 0);
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    if (matrix[i][j].CompareTo(max) > 0)
+                    {
+                        max = matrix[i][j];
+                        imax = Tuple.Create(i, j);
+                    }
+                }
+            }
+
+            return max;
+        }
+
+        /// <summary>
+        ///   Gets the minimum value of a matrix.
+        /// </summary>
+        /// 
+        public static T Min<T>(this T[][] matrix) where T : IComparable
+        {
+            Tuple<int, int> imin;
+            return Min(matrix, out imin);
+        }
+
+        /// <summary>
+        ///   Gets the minimum value of a matrix.
+        /// </summary>
+        /// 
+        public static T Min<T>(this T[][] matrix, out Tuple<int, int> imin) where T : IComparable
+        {
+            T min = matrix[0][0];
+            imin = Tuple.Create(0, 0);
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    if (matrix[i][j].CompareTo(min) < 0)
+                    {
+                        min = matrix[i][j];
                         imin = Tuple.Create(i, j);
                     }
                 }
