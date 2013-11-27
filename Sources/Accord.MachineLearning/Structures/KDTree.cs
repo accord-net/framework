@@ -37,8 +37,70 @@ namespace Accord.MachineLearning.Structures
     /// 
     /// <seealso cref="KDTree{T}"/>
     /// 
-    public static class KDTree
+    public class KDTree : KDTree<Object>
     {
+
+        /// <summary>
+        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        /// </summary>
+        /// 
+        /// <param name="dimensions">The number of dimensions in the tree.</param>
+        /// 
+        public KDTree(int dimensions)
+            : base(dimensions)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        /// </summary>
+        /// 
+        /// <param name="dimension">The number of dimensions in the tree.</param>
+        /// <param name="root">The root node, if already existent.</param>
+        /// 
+        public KDTree(int dimension, KDTreeNode root) 
+            : base(dimension, root)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        /// </summary>
+        /// 
+        /// <param name="dimension">The number of dimensions in the tree.</param>
+        /// <param name="root">The root node, if already existent.</param>
+        /// 
+        public KDTree(int dimension, KDTreeNode<Object> root)
+            : base(dimension, root)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        /// </summary>
+        /// 
+        /// <param name="dimension">The number of dimensions in the tree.</param>
+        /// <param name="root">The root node, if already existent.</param>
+        /// <param name="count">The number of elements in the root node.</param>
+        /// 
+        public KDTree(int dimension, KDTreeNode root, int count)
+            : base(dimension, root, count)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="KDTree&lt;Object&gt;"/>.
+        /// </summary>
+        /// 
+        /// <param name="dimension">The number of dimensions in the tree.</param>
+        /// <param name="root">The root node, if already existent.</param>
+        /// <param name="count">The number of elements in the root node.</param>
+        /// 
+        public KDTree(int dimension, KDTreeNode<Object> root, int count)
+            : base(dimension, root, count)
+        {
+        }
+
 
         /// <summary>
         ///   Creates a new k-dimensional tree from the given points.
@@ -52,7 +114,32 @@ namespace Accord.MachineLearning.Structures
         /// 
         public static KDTree<T> FromData<T>(double[][] points)
         {
-            return KDTree<T>.FromData(points);
+            if (points == null)
+                throw new ArgumentNullException("points");
+
+            if (points.Length == 0)
+                throw new ArgumentException("Insufficient points for creating a tree.");
+
+            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points), points.Length);
+        }
+
+        /// <summary>
+        ///   Creates a new k-dimensional tree from the given points.
+        /// </summary>
+        /// 
+        /// <param name="points">The points to be added to the tree.</param>
+        /// 
+        /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
+        /// 
+        public static KDTree FromData(double[][] points)
+        {
+            if (points == null)
+                throw new ArgumentNullException("points");
+
+            if (points.Length == 0)
+                throw new ArgumentException("Insufficient points for creating a tree.");
+
+            return new KDTree(points[0].Length, CreateRoot(points), points.Length);
         }
 
         /// <summary>
@@ -68,23 +155,39 @@ namespace Accord.MachineLearning.Structures
         /// 
         public static KDTree<T> FromData<T>(double[][] points, T[] values)
         {
-            return KDTree<T>.FromData(points, values);
+            if (points == null)
+                throw new ArgumentNullException("points");
+
+            if (points.Length == 0)
+                throw new ArgumentException("Insufficient points for creating a tree.");
+
+            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, values), points.Length);
         }
 
         /// <summary>
         ///   Creates a new k-dimensional tree from the given points.
         /// </summary>
         /// 
-        /// <typeparam name="T">The type of the value to be stored.</typeparam>
-        /// 
         /// <param name="points">The points to be added to the tree.</param>
         /// <param name="distance">The distance function to use.</param>
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree<T> FromData<T>(double[][] points, Func<double[], double[], double> distance)
+        public static KDTree FromData(double[][] points, Func<double[], double[], double> distance)
         {
-            return KDTree<T>.FromData(points, distance);
+            if (points == null)
+                throw new ArgumentNullException("points");
+
+            if (distance == null)
+                throw new ArgumentNullException("distance");
+
+            if (points.Length == 0)
+                throw new ArgumentException("Insufficient points for creating a tree.");
+
+            return new KDTree(points[0].Length, CreateRoot(points), points.Length)
+            {
+                Distance = distance,
+            };
         }
 
         /// <summary>
@@ -101,7 +204,38 @@ namespace Accord.MachineLearning.Structures
         /// 
         public static KDTree<T> FromData<T>(double[][] points, T[] values, Func<double[], double[], double> distance)
         {
-            return KDTree<T>.FromData(points, values, distance);
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            if (distance == null)
+                throw new ArgumentNullException("distance");
+
+            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, values), points.Length)
+            {
+                Distance = distance,
+            };
+        }
+
+        /// <summary>
+        ///   Creates a new k-dimensional tree from the given points.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the value to be stored.</typeparam>
+        /// 
+        /// <param name="points">The points to be added to the tree.</param>
+        /// <param name="distance">The distance function to use.</param>
+        /// 
+        /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
+        /// 
+        public static KDTree<T> FromData<T>(double[][] points, Func<double[], double[], double> distance)
+        {
+            if (distance == null)
+                throw new ArgumentNullException("distance");
+
+            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points), points.Length)
+            {
+                Distance = distance
+            };
         }
 
     }
