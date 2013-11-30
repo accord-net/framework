@@ -186,6 +186,15 @@ namespace Accord.MachineLearning
     {
         GaussianMixtureModel owner;
 
+        public double[][] Means { get { return owner.model.Components.Apply(x => x.Mean); } }
+
+        public double[][] Variance { get { return owner.model.Components.Apply(x => x.Variance); } }
+
+        public double[][,] Covariance { get { return owner.model.Components.Apply(x => x.Covariance); } }
+
+        public double[] Coefficients { get { return owner.model.Coefficients; } }
+
+
         /// <summary>
         ///   Initializes a new instance of the <see cref="GaussianClusterCollection"/> class.
         /// </summary>

@@ -567,10 +567,62 @@ namespace Accord.Math
         /// 
         public static T[][] Subgroups<T>(this T[] values, int[] groups)
         {
-            int distinct = groups.Distinct().Length;
+            if (values == null)
+                throw new ArgumentNullException("values");
 
-            T[][] result = new T[distinct][];
-            for (int i = 0; i < distinct; i++)
+            if (groups == null)
+                throw new ArgumentNullException("groups");
+
+            if (values.Length != groups.Length)
+                throw new DimensionMismatchException("groups",
+                    "The vector of group labels should have the same length as the values vector.");
+
+            int[] distinct = groups.Distinct();
+
+            T[][] result = new T[distinct.Length][];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                int[] idx = groups.Find(x => x == distinct[i]);
+                result[i] = values.Submatrix(idx);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Returns subgroups extracted from the given vector.
+        /// </summary>
+        /// 
+        /// <param name="values">The vector to extract the groups from.</param>
+        /// <param name="groups">The vector of indices for the groups.</param>
+        /// 
+        public static T[][] Subgroups<T>(this T[] values, int[] groups, int classes)
+        {
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            if (groups == null)
+                throw new ArgumentNullException("groups");
+
+            if (values.Length != groups.Length)
+                throw new DimensionMismatchException("groups", 
+                    "The vector of group labels should have the same length as the values vector.");
+
+            if (classes <= 0)
+                throw new ArgumentOutOfRangeException("classes", 
+                    "The number of classes must be a positive number.");
+
+            for (int i = 0; i < groups.Length; i++)
+            {
+                if (groups[i] < 0 || groups[i] >= classes)
+                    throw new ArgumentException("The group labels should be between"
+                        + " 0 and the total number of classes", "groups");
+            }
+
+            T[][] result = new T[classes][];
+
+            for (int i = 0; i < result.Length; i++)
             {
                 int[] idx = groups.Find(x => x == i);
                 result[i] = values.Submatrix(idx);

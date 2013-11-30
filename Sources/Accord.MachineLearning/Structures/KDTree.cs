@@ -83,8 +83,8 @@ namespace Accord.MachineLearning.Structures
         /// <param name="root">The root node, if already existent.</param>
         /// <param name="count">The number of elements in the root node.</param>
         /// 
-        public KDTree(int dimension, KDTreeNode root, int count)
-            : base(dimension, root, count)
+        public KDTree(int dimension, KDTreeNode root, int count, int leaves)
+            : base(dimension, root, count, leaves)
         {
         }
 
@@ -96,8 +96,8 @@ namespace Accord.MachineLearning.Structures
         /// <param name="root">The root node, if already existent.</param>
         /// <param name="count">The number of elements in the root node.</param>
         /// 
-        public KDTree(int dimension, KDTreeNode<Object> root, int count)
-            : base(dimension, root, count)
+        public KDTree(int dimension, KDTreeNode<Object> root, int count, int leaves)
+            : base(dimension, root, count, leaves)
         {
         }
 
@@ -120,7 +120,9 @@ namespace Accord.MachineLearning.Structures
             if (points.Length == 0)
                 throw new ArgumentException("Insufficient points for creating a tree.");
 
-            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points), points.Length);
+            int leaves;
+
+            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, out leaves), points.Length, leaves);
         }
 
         /// <summary>
@@ -139,7 +141,9 @@ namespace Accord.MachineLearning.Structures
             if (points.Length == 0)
                 throw new ArgumentException("Insufficient points for creating a tree.");
 
-            return new KDTree(points[0].Length, CreateRoot(points), points.Length);
+            int leaves;
+
+            return new KDTree(points[0].Length, CreateRoot(points, out leaves), points.Length, leaves);
         }
 
         /// <summary>
@@ -161,7 +165,9 @@ namespace Accord.MachineLearning.Structures
             if (points.Length == 0)
                 throw new ArgumentException("Insufficient points for creating a tree.");
 
-            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, values), points.Length);
+            int leaves;
+
+            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, values, out leaves), points.Length, leaves);
         }
 
         /// <summary>
@@ -184,7 +190,9 @@ namespace Accord.MachineLearning.Structures
             if (points.Length == 0)
                 throw new ArgumentException("Insufficient points for creating a tree.");
 
-            return new KDTree(points[0].Length, CreateRoot(points), points.Length)
+            int leaves;
+
+            return new KDTree(points[0].Length, CreateRoot(points, out leaves), points.Length, leaves)
             {
                 Distance = distance,
             };
@@ -210,7 +218,9 @@ namespace Accord.MachineLearning.Structures
             if (distance == null)
                 throw new ArgumentNullException("distance");
 
-            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, values), points.Length)
+            int leaves;
+
+            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, values, out leaves), points.Length, leaves)
             {
                 Distance = distance,
             };
@@ -232,7 +242,9 @@ namespace Accord.MachineLearning.Structures
             if (distance == null)
                 throw new ArgumentNullException("distance");
 
-            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points), points.Length)
+            int leaves;
+
+            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, out leaves), points.Length, leaves)
             {
                 Distance = distance
             };

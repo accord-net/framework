@@ -23,14 +23,13 @@
 namespace Accord.Tests.MachineLearning
 {
     using System.Data;
+    using System.Text;
     using Accord;
+    using Accord.MachineLearning;
     using Accord.MachineLearning.Bayes;
-    using System.Linq;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.MachineLearning;
-    using System.Text;
 
     [TestClass()]
     public class NaiveBayesTest
