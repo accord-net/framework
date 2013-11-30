@@ -1673,35 +1673,62 @@ namespace Accord.Math
         ///   Transforms a jagged array matrix into a single vector.
         /// </summary>
         /// <param name="array">A jagged array.</param>
+        /// 
+        public static T[] Reshape<T>(this T[][] array)
+        {
+            return Reshape(array, 0);
+        }
+
+        /// <summary>
+        ///   Transforms a jagged array matrix into a single vector.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged array.</param>
         /// <param name="dimension">The direction to perform copying. Pass
         /// 0 to perform a row-wise copy. Pass 1 to perform a column-wise
-        /// copy.</param>
+        /// copy. Default is 0.</param>
         /// 
         public static T[] Reshape<T>(this T[][] array, int dimension)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            if (dimension < 0) throw new ArgumentOutOfRangeException("dimension", dimension,
+            if (array == null)
+                throw new ArgumentNullException("array");
+
+            if (dimension < 0)
+                throw new ArgumentOutOfRangeException("dimension", dimension,
                 "Vector's dimension must be a positive integer.");
 
             if (dimension != 0 && dimension != 1)
                 throw new ArgumentOutOfRangeException("dimension");
 
-            int rows = array.Length;
-            int cols = array[0].Length;
+            int count = 0;
+            for (int i = 0; i < array.Length; i++)
+                count += array[i].Length;
 
-            T[] result = new T[rows * cols];
+            T[] result = new T[count];
 
             if (dimension == 1)
             {
-                for (int j = 0, k = 0; j < rows; j++)
-                    for (int i = 0; i < cols; i++)
+                for (int j = 0, k = 0; j < array.Length; j++)
+                    for (int i = 0; i < array[j].Length; i++)
                         result[k++] = array[j][i];
             }
             else
             {
-                for (int i = 0, k = 0; i < cols; i++)
-                    for (int j = 0; j < rows; j++)
-                        result[k++] = array[j][i];
+                int maxCols = 0;
+                for (int i = 0; i < array.Length; i++)
+                {
+                    if (array[i].Length > maxCols)
+                        maxCols = array[i].Length;
+                }
+
+                for (int i = 0, k = 0; i < maxCols; i++)
+                {
+                    for (int j = 0; j < array.Length; j++)
+                    {
+                        if (i < array[j].Length)
+                            result[k++] = array[j][i];
+                    }
+                }
             }
 
             return result;
@@ -1712,8 +1739,10 @@ namespace Accord.Math
         /// <summary>
         ///   Convolves an array with the given kernel.
         /// </summary>
+        /// 
         /// <param name="a">A floating number array.</param>
         /// <param name="kernel">A convolution kernel.</param>
+        /// 
         public static double[] Convolve(this double[] a, double[] kernel)
         {
             return Convolve(a, kernel, false);
@@ -1722,11 +1751,13 @@ namespace Accord.Math
         /// <summary>
         /// Convolves an array with the given kernel.
         /// </summary>
+        /// 
         /// <param name="a">A floating number array.</param>
         /// <param name="kernel">A convolution kernel.</param>
         /// <param name="trim">
         ///   If <c>true</c> the resulting array will be trimmed to
         ///   have the same length as the input array. Default is false.</param>
+        ///   
         public static double[] Convolve(this double[] a, double[] kernel, bool trim)
         {
             double[] result;

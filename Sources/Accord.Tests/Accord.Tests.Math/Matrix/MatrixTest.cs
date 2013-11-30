@@ -2130,46 +2130,6 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod()]
-        public void ReshapeTest()
-        {
-            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            int rows = 3;
-            int cols = 3;
-
-            int[,] expected = 
-            {
-                { 1, 4, 7 },
-                { 2, 5, 8 },
-                { 3, 6, 9 },
-            };
-
-            int[,] actual = Matrix.Reshape(array, rows, cols);
-
-            Assert.IsTrue(Matrix.IsEqual(expected, actual));
-
-        }
-
-        [TestMethod()]
-        public void ReshapeTest1()
-        {
-            double[,] array = 
-            {
-                { 1, 2, 3},
-                { 4, 5, 6},
-            };
-
-            int dimension = 1;
-            double[] expected = { 1, 2, 3, 4, 5, 6 };
-            double[] actual = Matrix.Reshape(array, dimension);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual));
-
-            dimension = 0;
-            expected = new double[] { 1, 4, 2, 5, 3, 6 };
-            actual = Matrix.Reshape(array, dimension);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual));
-        }
-
-        [TestMethod()]
         public void MagicTest()
         {
             var actual = Matrix.Magic(3);
@@ -2763,29 +2723,6 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expectedA.IsEqual(a));
             Assert.IsTrue(expectedB.IsEqual(b));
             Assert.IsTrue(expectedC.IsEqual(c));
-        }
-
-        [TestMethod()]
-        public void ReshapeTest2()
-        {
-            double[][] array = 
-            {
-                new double[] { 1, 2, 3 },
-                new double[] { 4, 5, 6 }
-            };
-
-            {
-                double[] expected = { 1, 2, 3, 4, 5, 6 };
-                double[] actual = Matrix.Reshape(array, 1);
-                Assert.IsTrue(expected.IsEqual(actual));
-            }
-
-            {
-                double[] expected = { 1, 4, 2, 5, 3, 6 };
-                double[] actual = Matrix.Reshape(array, 0);
-                Assert.IsTrue(expected.IsEqual(actual));
-            }
-
         }
 
 
