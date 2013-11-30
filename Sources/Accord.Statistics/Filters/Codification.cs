@@ -332,7 +332,7 @@ namespace Accord.Statistics.Filters
         ///   into their integer (codeword) representation.
         /// </summary>
         /// 
-        /// <param name="columnNames">The names of the variable's data column.</param>
+        /// <param name="columnName">The variable name.</param>
         /// <param name="values">The values to be translated.</param>
         /// 
         /// <returns>An array of integers in which each integer
@@ -355,7 +355,7 @@ namespace Accord.Statistics.Filters
         ///   into their integer (codeword) representation.
         /// </summary>
         /// 
-        /// <param name="columnNames">The names of the variable's data column.</param>
+        /// <param name="columnName">The variable name.</param>
         /// <param name="values">The values to be translated.</param>
         /// 
         /// <returns>An array of integers in which each integer
@@ -384,7 +384,7 @@ namespace Accord.Statistics.Filters
         ///   value.
         /// </summary>
         /// 
-        /// <param name="columnName">The name of the variable's data column.</param>
+        /// <param name="columnName">The variable name.</param>
         /// <param name="codeword">The codeword to be translated.</param>
         /// 
         /// <returns>The original meaning of the given codeword.</returns>
@@ -408,7 +408,7 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         /// <param name="columnName">The name of the variable's data column.</param>
-        /// <param name="codeword">The codeword to be translated.</param>
+        /// <param name="codewords">The codewords to be translated.</param>
         /// 
         /// <returns>The original meaning of the given codeword.</returns>
         /// 
@@ -529,18 +529,37 @@ namespace Accord.Statistics.Filters
                 parseColumn(data, column);
         }
 
+        /// <summary>
+        ///   Auto detects the filter options by analyzing a set of string labels.
+        /// </summary>
+        /// 
+        /// <param name="columnName">The variable name.</param>
+        /// <param name="values">A set of values that this variable can assume.</param>
+        /// 
         public void Detect(string columnName, string[][] values)
         {
             parseColumn(columnName, values.Reshape(0));
         }
 
+        /// <summary>
+        ///   Auto detects the filter options by analyzing a set of string labels.
+        /// </summary>
+        /// 
+        /// <param name="columnNames">The variable names.</param>
+        /// <param name="values">A set of values that those variable can assume.
+        ///   The first element of the array is assumed to be related to the first
+        ///   <paramref name="columnNames">column name</paramref> parameter.</param>
+        /// 
         public void Detect(string[] columnNames, string[][] values)
         {
             for (int i = 0; i < columnNames.Length; i++)
                 parseColumn(columnNames[i], values[i]);
         }
 
-        public void parseColumn(string name, string[] values)
+
+
+
+        private void parseColumn(string name, string[] values)
         {
             string[] distinct = values.Distinct();
 

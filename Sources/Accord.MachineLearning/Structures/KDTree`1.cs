@@ -215,6 +215,12 @@ namespace Accord.MachineLearning.Structures
             get { return count; }
         }
 
+        /// <summary>
+        ///   Gets the number of leaves contained in this
+        ///   tree. This can be used to calibrate approximate
+        ///   nearest searchers.
+        /// </summary>
+        /// 
         public int Leaves
         {
             get { return leaves; }
@@ -261,6 +267,7 @@ namespace Accord.MachineLearning.Structures
         /// <param name="dimension">The number of dimensions in the tree.</param>
         /// <param name="root">The root node, if already existent.</param>
         /// <param name="count">The number of elements in the root node.</param>
+        /// <param name="leaves">The number of leaves linked through the root node.</param>
         /// 
         public KDTree(int dimension, KDTreeNode<T> root, int count, int leaves)
             : this(dimension)
@@ -361,6 +368,8 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <param name="position">The queried point.</param>
+        /// <param name="distance">The distance from the <paramref name="position"/>
+        ///   to its nearest neighbor found in the tree.</param>
         /// 
         /// <returns>A list of neighbor points, ordered by distance.</returns>
         /// 
@@ -380,6 +389,8 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <param name="position">The queried point.</param>
         /// <param name="neighbors">The number of neighbors to retrieve.</param>
+        /// <param name="percentage">The maximum percentage of leaf nodes that
+        /// can be visited before the search finishes with an approximate answer.</param>
         /// 
         /// <returns>A list of neighbor points, ordered by distance.</returns>
         /// 
@@ -403,6 +414,8 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <param name="position">The queried point.</param>
+        /// <param name="percentage">The maximum percentage of leaf nodes that
+        /// can be visited before the search finishes with an approximate answer.</param>
         /// 
         /// <returns>A list of neighbor points, ordered by distance.</returns>
         /// 
@@ -419,6 +432,8 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <param name="position">The queried point.</param>
         /// <param name="neighbors">The number of neighbors to retrieve.</param>
+        /// <param name="maxLeaves">The maximum number of leaf nodes that can
+        /// be visited before the search finishes with an approximate answer.</param>
         /// 
         /// <returns>A list of neighbor points, ordered by distance.</returns>
         /// 
@@ -440,6 +455,8 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <param name="position">The queried point.</param>
+        /// <param name="maxLeaves">The maximum number of leaf nodes that can
+        /// be visited before the search finishes with an approximate answer.</param>
         /// 
         /// <returns>A list of neighbor points, ordered by distance.</returns>
         /// 
@@ -460,6 +477,7 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <param name="points">The data points to be inserted in the tree.</param>
+        /// <param name="leaves">Return the number of leaves in the root subtree.</param>
         /// 
         /// <returns>The root node for a new <see cref="KDTree{T}"/>
         ///   contained the given <paramref name="points"/>.</returns>
@@ -476,6 +494,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <param name="points">The data points to be inserted in the tree.</param>
         /// <param name="values">The values associated with each point.</param>
+        /// <param name="leaves">Return the number of leaves in the root subtree.</param>
         /// 
         /// <returns>The root node for a new <see cref="KDTree{T}"/>
         ///   contained the given <paramref name="points"/>.</returns>

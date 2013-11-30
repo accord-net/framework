@@ -82,6 +82,7 @@ namespace Accord.MachineLearning.Structures
         /// <param name="dimension">The number of dimensions in the tree.</param>
         /// <param name="root">The root node, if already existent.</param>
         /// <param name="count">The number of elements in the root node.</param>
+        /// <param name="leaves">The number of leaves linked through the root node.</param>
         /// 
         public KDTree(int dimension, KDTreeNode root, int count, int leaves)
             : base(dimension, root, count, leaves)
@@ -95,6 +96,7 @@ namespace Accord.MachineLearning.Structures
         /// <param name="dimension">The number of dimensions in the tree.</param>
         /// <param name="root">The root node, if already existent.</param>
         /// <param name="count">The number of elements in the root node.</param>
+        /// <param name="leaves">The number of leaves linked through the root node.</param>
         /// 
         public KDTree(int dimension, KDTreeNode<Object> root, int count, int leaves)
             : base(dimension, root, count, leaves)

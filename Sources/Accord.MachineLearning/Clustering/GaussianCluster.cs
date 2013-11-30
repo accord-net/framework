@@ -186,12 +186,28 @@ namespace Accord.MachineLearning
     {
         GaussianMixtureModel owner;
 
+        /// <summary>
+        ///   Gets the mean vectors for the clusters.
+        /// </summary>
+        /// 
         public double[][] Means { get { return owner.model.Components.Apply(x => x.Mean); } }
 
+        /// <summary>
+        ///   Gets the variance for each of the clusters.
+        /// </summary>
+        /// 
         public double[][] Variance { get { return owner.model.Components.Apply(x => x.Variance); } }
 
+        /// <summary>
+        ///   Gets the covariance matrices for each of the clusters.
+        /// </summary>
+        /// 
         public double[][,] Covariance { get { return owner.model.Components.Apply(x => x.Covariance); } }
 
+        /// <summary>
+        ///   Gets the mixture coefficients for each cluster.
+        /// </summary>
+        /// 
         public double[] Coefficients { get { return owner.model.Coefficients; } }
 
 

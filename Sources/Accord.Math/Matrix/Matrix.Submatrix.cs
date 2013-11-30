@@ -591,11 +591,16 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns subgroups extracted from the given vector.
+        ///   Returns subgroups extracted from the given vector, assuming that
+        ///   the groups should have been labels from 0 until the given number
+        ///   of <paramref name="classes"/>.
         /// </summary>
         /// 
         /// <param name="values">The vector to extract the groups from.</param>
         /// <param name="groups">The vector of indices for the groups.</param>
+        /// <param name="classes">The number of classes in the groups. Specifying this
+        ///   parameter will make the method assume the groups should be containing
+        ///   integer labels ranging from 0 until the number of classes.</param>
         /// 
         public static T[][] Subgroups<T>(this T[] values, int[] groups, int classes)
         {
