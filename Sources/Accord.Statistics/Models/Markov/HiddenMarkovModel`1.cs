@@ -23,14 +23,14 @@
 namespace Accord.Statistics.Models.Markov
 {
     using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
     ///   Arbitrary-density Hidden Markov Model.
@@ -628,7 +628,8 @@ namespace Accord.Statistics.Models.Markov
         ///   Predicts the next observation occurring after a given observation sequence.
         /// </summary>
         /// 
-        public double[] Predict<TMultivariate>(double[][] observations, out MultivariateMixture<TMultivariate> probabilities)
+        public double[] Predict<TMultivariate>(double[][] observations, 
+            out MultivariateMixture<TMultivariate> probabilities)
             where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             if (!multivariate)

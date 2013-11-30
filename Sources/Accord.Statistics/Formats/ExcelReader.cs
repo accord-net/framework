@@ -49,6 +49,35 @@ namespace Accord.Statistics.Formats
     /// </para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <code>
+    /// // Create a new reader, opening a given path
+    /// ExcelReader reader = new ExcelReader(path);
+    /// 
+    /// // Afterwards, we can query the file for all
+    /// // worksheets within the specified workbook:
+    /// string[] sheets = reader.GetWorksheetList();
+    /// 
+    /// // Finally, we can request an specific sheet:
+    /// DataTable table = reader.GetWorksheet(sheets[1]);
+    /// 
+    /// // Now, we have loaded the Excel file into a DataTable. We
+    /// // can go further and transform it into a matrix to start
+    /// // running other algorithms on it: 
+    /// 
+    /// double[,] matrix = table.ToMatrix();
+    /// 
+    /// // We can also do it retrieving the name for each column:
+    /// string[] columnNames; matrix = table.ToMatrix(out columnNames);
+    /// 
+    /// // Or we can extract specific columns into single arrays:
+    /// double[] column = table.Columns[0].ToArray();
+    /// 
+    /// // PS: you might need to import the Accord.Math namespace in
+    /// //   order to be able to call the ToMatrix extension methods. 
+    /// </code>
+    /// </example>
+    /// 
     public class ExcelReader
     {
 
