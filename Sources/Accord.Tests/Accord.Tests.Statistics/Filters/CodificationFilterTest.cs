@@ -230,5 +230,33 @@ namespace Accord.Tests.Statistics
 
         }
 
+        [TestMethod()]
+        public void ApplyTest3()
+        {
+
+            string[] names = { "child", "adult", "elder" };
+
+            Codification codebook = new Codification("Label", names);
+
+
+            // After that, we can use the codebook to "translate"
+            // the text labels into discrete symbols, such as:
+
+            int a = codebook.Translate("Label", "child"); // returns 0
+            int b = codebook.Translate("Label", "adult"); // returns 1
+            int c = codebook.Translate("Label", "elder"); // returns 2
+
+            // We can also do the reverse:
+            string labela = codebook.Translate("Label", 0); // returns "child"
+            string labelb = codebook.Translate("Label", 1); // returns "adult"
+            string labelc = codebook.Translate("Label", 2); // returns "elder"
+
+            Assert.AreEqual(0, a);
+            Assert.AreEqual(1, b);
+            Assert.AreEqual(2, c);
+            Assert.AreEqual("child", labela);
+            Assert.AreEqual("adult", labelb);
+            Assert.AreEqual("elder", labelc);
+        }
     }
 }
