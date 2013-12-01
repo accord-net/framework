@@ -72,7 +72,7 @@ namespace Accord.Tests.Statistics
             IKernel kernel = new Linear();
 
             // Create analysis
-            KernelPrincipalComponentAnalysis target = new KernelPrincipalComponentAnalysis(data, kernel, AnalysisMethod.Center);
+            var target = new KernelPrincipalComponentAnalysis(data, kernel, AnalysisMethod.Center);
 
             // Compute
             target.Compute();

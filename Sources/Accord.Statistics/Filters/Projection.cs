@@ -32,6 +32,34 @@ namespace Accord.Statistics.Filters
     ///   Relational-algebra projection filter.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   This filter is able to selectively remove columns from tables, and keep
+    ///   only the columns of interest.
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <code>
+    /// // Show the start data
+    /// DataGridBox.Show(table);
+    /// </code>
+    /// 
+    /// <img src="..\images\filters\input-table.png" /> 
+    /// 
+    /// <code>
+    /// // Create a new data projection (column) filter
+    /// var filter = new Projection("Floors", "Finished");
+    /// 
+    /// // Apply the filter and get the result
+    /// DataTable result = filter.Apply(table);
+    /// 
+    /// // Show it
+    /// DataGridBox.Show(result);
+    /// </code>
+    /// 
+    /// <img src="..\images\filters\output-projection.png" /> 
+    /// 
+    /// </example>
+    /// 
     [Serializable]
     public class Projection : IFilter
     {

@@ -103,6 +103,46 @@ namespace Accord.Statistics.Analysis
     ///  </list></para>  
     /// </remarks>
     /// 
+    /// <example>
+    /// <code>
+    /// // Let's create a random dataset containing
+    /// // 5000 samples of two dimensional samples.
+    /// //
+    /// double[,] source = Matrix.Random(5000, 2);
+    /// 
+    /// // Now, we will mix the samples the dimensions of the samples.
+    /// // A small amount of the second column will be applied to the
+    /// // first, and vice-versa. 
+    /// //
+    /// double[,] mix =
+    /// {
+    ///     {  0.25, 0.25 },
+    ///     { -0.25, 0.75 },    
+    /// };
+    /// 
+    /// // mix the source data
+    /// double[,] input = source.Multiply(mix);
+    /// 
+    /// // Now, we can use ICA to identify any linear mixing between the variables, such
+    /// // as the matrix multiplication we did above. After it has identified it, we will
+    /// // be able to revert the process, retrieving our original samples again
+    ///             
+    /// // Create a new Independent Component Analysis
+    /// var ica = new IndependentComponentAnalysis(input);
+    /// 
+    /// 
+    /// // Compute it 
+    /// ica.Compute();
+    /// 
+    /// // Now, we can retrieve the mixing and demixing matrices that were 
+    /// // used to alter the data. Note that the analysis was able to detect
+    /// // this information automatically:
+    /// 
+    /// double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+    /// double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+    /// </code>
+    /// </example>
+    /// 
     [Serializable]
     public class IndependentComponentAnalysis : IMultivariateAnalysis
     {
@@ -136,22 +176,62 @@ namespace Accord.Statistics.Analysis
 
 
         #region Constructors
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// 
         public IndependentComponentAnalysis(double[,] data)
-            : this(data, AnalysisMethod.Center, IndependentComponentAlgorithm.Parallel) { }
-
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
-        public IndependentComponentAnalysis(double[,] data, IndependentComponentAlgorithm algorithm)
-            : this(data, AnalysisMethod.Center, algorithm) { }
-
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
-        public IndependentComponentAnalysis(double[,] data, AnalysisMethod method)
-            : this(data, method, IndependentComponentAlgorithm.Parallel) { }
-
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
-        public IndependentComponentAnalysis(double[,] data, AnalysisMethod method, IndependentComponentAlgorithm algorithm)
+            : this(data, AnalysisMethod.Center, IndependentComponentAlgorithm.Parallel)
         {
-            if (data == null) throw new ArgumentNullException("data");
+        }
+
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
+        ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
+        ///   
+        public IndependentComponentAnalysis(double[,] data, IndependentComponentAlgorithm algorithm)
+            : this(data, AnalysisMethod.Center, algorithm)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// <param name="method">The analysis method to perform. Default is
+        ///   <see cref="AnalysisMethod.Center"/>.</param>
+        /// 
+        public IndependentComponentAnalysis(double[,] data, AnalysisMethod method)
+            : this(data, method, IndependentComponentAlgorithm.Parallel)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// <param name="method">The analysis method to perform. Default is
+        ///   <see cref="AnalysisMethod.Center"/>.</param>
+        /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
+        ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
+        ///   
+        public IndependentComponentAnalysis(double[,] data, AnalysisMethod method,
+            IndependentComponentAlgorithm algorithm)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
 
             this.sourceMatrix = data;
             this.algorithm = algorithm;
@@ -162,11 +242,22 @@ namespace Accord.Statistics.Analysis
             this.columnStdDev = Accord.Statistics.Tools.StandardDeviation(sourceMatrix, columnMeans);
         }
 
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// <param name="method">The analysis method to perform. Default is
+        ///   <see cref="AnalysisMethod.Center"/>.</param>
+        /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
+        ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
+        ///   
         public IndependentComponentAnalysis(double[][] data, AnalysisMethod method = AnalysisMethod.Center,
           IndependentComponentAlgorithm algorithm = IndependentComponentAlgorithm.Parallel)
         {
-            if (data == null) throw new ArgumentNullException("data");
+            if (data == null)
+                throw new ArgumentNullException("data");
 
             this.sourceMatrix = data.ToMatrix();
             this.algorithm = algorithm;
@@ -365,29 +456,38 @@ namespace Accord.Statistics.Analysis
             {
                 revertMatrix = deflation(whiten, components, initial);
             }
-            else
+            else // if (algorithm == IndependentComponentAlgorithm.Parallel)
             {
                 revertMatrix = parallel(whiten, components, initial);
             }
 
+            
 
             // Combine the rotation and demixing matrices
             revertMatrix = whiteningMatrix.MultiplyByTranspose(revertMatrix);
-
-            // TODO: Normalize the reversion matrix
+            normalize(revertMatrix);
 
             // Compute the original source mixing matrix
             mixingMatrix = Matrix.PseudoInverse(revertMatrix);
+            normalize(mixingMatrix);
 
             // Demix the data into independent components
             resultMatrix = matrix.Multiply(revertMatrix);
 
-
+            
             // Creates the object-oriented structure to hold the principal components
-            IndependentComponent[] array = new IndependentComponent[components];
+            var array = new IndependentComponent[components];
             for (int i = 0; i < array.Length; i++)
                 array[i] = new IndependentComponent(this, i);
             this.componentCollection = new IndependentComponentCollection(array);
+        }
+
+        private static void normalize(double[,] matrix)
+        {
+            double sum = 0;
+            foreach (double v in matrix)
+                sum += v;
+            matrix.Divide(sum, inPlace: true);
         }
 
         /// <summary>

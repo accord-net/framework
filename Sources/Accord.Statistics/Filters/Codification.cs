@@ -48,6 +48,33 @@ namespace Accord.Statistics.Filters
     ///   to create mappings between text labels and discrete symbols.</para>
     ///   
     /// <code>
+    /// // Show the start data
+    /// DataGridBox.Show(table);
+    /// </code>
+    /// 
+    /// <img src="..\images\filters\input-table.png" /> 
+    /// 
+    /// <code>
+    /// // Create a new data projection (column) filter
+    /// var filter = new Codification(table, "Category");
+    /// 
+    /// // Apply the filter and get the result
+    /// DataTable result = filter.Apply(table);
+    /// 
+    /// // Show it
+    /// DataGridBox.Show(result);
+    /// </code>
+    /// 
+    /// <img src="..\images\filters\output-codification.png" /> 
+    /// 
+    /// 
+    /// <para>
+    ///   The following more elaborated examples show how to
+    ///   use the <see cref="Codification"/> filter without
+    ///   necessarily handling <see cref="System.Data.DataTable">
+    ///   DataTable</see>s.</para>
+    ///   
+    /// <code>
     ///   // Suppose we have a data table relating the age of
     ///   // a person and its categorical classification, as 
     ///   // in "child", "adult" or "elder".
@@ -372,7 +399,7 @@ namespace Accord.Statistics.Filters
             {
                 result[i] = new int[values[i].Length];
                 for (int j = 0; j < result[i].Length; j++)
-                    result[i][j] = options.Mapping[values[i][j]];    
+                    result[i][j] = options.Mapping[values[i][j]];
             }
 
             return result;

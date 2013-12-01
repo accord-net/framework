@@ -1110,12 +1110,38 @@ namespace Accord.Math
         /// 
         /// <param name="matrix">The matrix <c>A</c>.</param>
         /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        ///   overwriting the original matrix; false to return a new matrix.</param>
+        /// 
+        /// <returns>The product <c>A*x</c> of the multiplication of the
+        ///   given matrix <c>A</c> and scalar <c>x</c>.</returns>
+        /// 
+        public static double[,] Multiply(this double[,] matrix, double x, bool inPlace = false)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            double[,] result = inPlace ? matrix : new double[rows, cols];
+            Multiply(matrix, x, result);
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Multiplies a matrix <c>A</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
         /// <returns>The product <c>A*x</c> of the multiplication of the
         ///   given matrix <c>A</c> and scalar <c>x</c>.</returns>
         /// 
         public static double[,] Multiply(this double[,] matrix, double x)
         {
-            double[,] result = new double[matrix.GetLength(0), matrix.GetLength(1)];
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            double[,] result = new double[rows, cols];
             Multiply(matrix, x, result);
             return result;
         }

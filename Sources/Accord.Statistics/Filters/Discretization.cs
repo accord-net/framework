@@ -29,6 +29,33 @@ namespace Accord.Statistics.Filters
     ///   Value discretization preprocessing filter.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   This filter converts double or decimal values with an fractional
+    ///   part to the nearest possible integer according to a given threshold
+    ///   and a rounding rule.</remarks>
+    /// 
+    /// <example>
+    /// <code>
+    /// // Show the start data
+    /// DataGridBox.Show(table);
+    /// </code>
+    /// 
+    /// <img src="..\images\filters\input-table.png" /> 
+    /// 
+    /// <code>
+    /// // Create a new data projection (column) filter
+    /// var filter = new Discretization("Cost (M)");
+    /// 
+    /// // Apply the filter and get the result
+    /// DataTable result = filter.Apply(table);
+    /// 
+    /// // Show it
+    /// DataGridBox.Show(result);
+    /// </code>
+    /// 
+    /// <img src="..\images\filters\output-discretization.png" /> 
+    /// </example>
+    /// 
     [Serializable]
     public class Discretization : BaseFilter<Discretization.Options>, IAutoConfigurableFilter
     {
@@ -65,7 +92,14 @@ namespace Accord.Statistics.Filters
             {
                 foreach (DataRow row in result.Rows)
                 {
-                    double value = (double)row[options.ColumnName];
+                    object obj = row[options.ColumnName];
+
+                    double value;
+
+                    String strValue = obj as String;
+                    if (strValue != null)
+                        value = Double.Parse(strValue);
+                    else value = (double)obj;
 
                     double x = options.Symmetric ? System.Math.Abs(value) : value;
 
