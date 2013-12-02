@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Distributions.DensityKernels;
+    using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
     ///   Multivariate empirical distribution.
@@ -61,7 +62,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     ///       http://www.buch-kromann.dk/tine/nonpar/Nonparametric_Density_Estimation_multidim.pdf </description></item>
     ///     <item><description>
     ///       W. Härdle, M. Müller, S. Sperlich, A. Werwatz; Nonparametric and Semiparametric Models, 2004. Available
-    ///       in http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/ebooks/html/spm/spmhtmlnode18.html </description></item>
+    ///       in http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/ebooks/html/spm/spmhtmlnode18.html 
+    ///       </description></item>
     ///  </list></para>  
     /// </remarks>
     /// 
@@ -106,7 +108,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// <seealso cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution"/>
     /// 
     [Serializable]
-    public class MultivariateEmpiricalDistribution : MultivariateContinuousDistribution
+    public class MultivariateEmpiricalDistribution : MultivariateContinuousDistribution,
+        IFittableDistribution<double[], MultivariateEmpiricalOptions>
     {
 
         // Distribution parameters
@@ -328,36 +331,38 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   
         public override void Fit(double[][] observations, double[] weights, Fitting.IFittingOptions options)
         {
+            Fit(observations, weights, options as EmpiricalOptions);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against.</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///
+        public void Fit(double[][] observations, double[] weights = null, MultivariateEmpiricalOptions options = null)
+        {
             if (weights != null)
                 throw new ArgumentException("This distribution does not support weighted samples.");
 
             if (options != null)
                 throw new ArgumentException("This method does not accept fitting options.");
 
-            initialize(null, (double[][])observations.Clone(), null);
+            double[,] smoothing = null;
+
+            if (options != null)
+                smoothing = options.SmoothingRule(observations);
+
+            initialize(null, (double[][])observations.Clone(), smoothing);
         }
 
         private void initialize(IDensityKernel kernel, double[][] observations, double[,] smoothing)
         {
             if (smoothing == null)
-            {
-                // Silverman's rule
-                //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
-
-                double[] sigma = Statistics.Tools.StandardDeviation(observations);
-
-                double d = sigma.Length;
-                double n = observations.Length;
-
-
-                smoothing = new double[sigma.Length, sigma.Length];
-                for (int i = 0; i < sigma.Length; i++)
-                {
-                    double a = Math.Pow(4 / (d + 2), 1 / (d + 4));
-                    double b = Math.Pow(n, -1 / (d + 4));
-                    smoothing[i, i] = a * b * sigma[i];
-                }
-            }
+                smoothing = SilvermanRule(observations);
 
             if (kernel == null)
                 kernel = new GaussianKernel(Dimension);
@@ -389,6 +394,44 @@ namespace Accord.Statistics.Distributions.Multivariate
             var e = new MultivariateEmpiricalDistribution(Dimension);
             e.initialize(kernel, samples.MemberwiseClone(), (double[,])smoothing.Clone());
             return e;
+        }
+
+
+        /// <summary>
+        ///   Gets the Silverman's rule. estimative of the smoothing parameter.
+        ///   This is the default smoothing rule applied used when estimating 
+        ///   <see cref="MultivariateEmpiricalDistribution"/>s.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method is described on Wikipedia, at
+        ///   http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations for the empirical distribution.</param>
+        /// 
+        /// <returns>An estimative of the smoothing parameter.</returns>
+        /// 
+        public static double[,] SilvermanRule(double[][] observations)
+        {
+            // Silverman's rule
+            //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
+
+            double[] sigma = Statistics.Tools.StandardDeviation(observations);
+
+            double d = sigma.Length;
+            double n = observations.Length;
+
+
+            var smoothing = new double[sigma.Length, sigma.Length];
+            for (int i = 0; i < sigma.Length; i++)
+            {
+                double a = Math.Pow(4 / (d + 2), 1 / (d + 4));
+                double b = Math.Pow(n, -1 / (d + 4));
+                smoothing[i, i] = a * b * sigma[i];
+            }
+
+            return smoothing;
         }
 
     }
