@@ -32,6 +32,7 @@ namespace Accord.Math.Decompositions
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
     /// </summary>
+	///
     /// <remarks>
     ///  <para>
     ///      For an m-by-n matrix <c>A</c> with <c>m >= n</c>, the singular value decomposition
@@ -69,10 +70,10 @@ namespace Accord.Math.Decompositions
         private const Double eps = 2 * Constants.DoubleEpsilon;
         private const Double tiny = Constants.DoubleSmall;
 
-        double? determinant;
-        double? lndeterminant;
-        double? pseudoDeterminant;
-        double? lnpseudoDeterminant;
+		Double? determinant;
+        Double? lndeterminant;
+        Double? pseudoDeterminant;
+        Double? lnpseudoDeterminant;
 
         /// <summary>
         ///   Returns the condition number <c>max(S) / min(S)</c>.
@@ -102,11 +103,11 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   Returns the effective numerical matrix rank.
-        /// </summary>
-        ///
+		///   Returns the effective numerical matrix rank.
+		/// </summary>
+		///
         /// <value>Number of non-negligible singular values.</value>
-        ///
+		///
         public int Rank
         {
             get
@@ -121,59 +122,71 @@ namespace Accord.Math.Decompositions
             }
         }
 
-        /// <summary>
-        ///   Gets whether the decomposed matrix is singular.
-        /// </summary>
-        ///
-        public bool IsSingular
+		/// <summary>
+		///   Gets whether the decomposed matrix is singular.
+		/// </summary>
+		///
+		public bool IsSingular
         {
             get { return Rank < Math.Min(m, n); }
         }
 
         /// <summary>
-        ///   Gets the one-dimensional array of singular values.
-        /// </summary>        
-        ///
+		///   Gets the one-dimensional array of singular values.
+		/// </summary>        
+		///
         public Double[] Diagonal
         {
             get { return this.s; }
         }
 
-        /// <summary>Returns the block diagonal matrix of singular values.</summary>        
+        /// <summary>
+		///  Returns the block diagonal matrix of singular values.
+		/// </summary>        
+		///
         public Double[,] DiagonalMatrix
         {
             get { return Matrix.Diagonal(s); }
         }
 
-        /// <summary>Returns the V matrix of Singular Vectors.</summary>        
+        /// <summary>
+		///   Returns the V matrix of Singular Vectors.
+		/// </summary>        
+		///
         public Double[,] RightSingularVectors
         {
             get { return v; }
         }
 
-        /// <summary>Returns the U matrix of Singular Vectors.</summary>        
+        /// <summary>
+		///   Returns the U matrix of Singular Vectors.
+		/// </summary>        
+		///
         public Double[,] LeftSingularVectors
         {
             get { return u; }
         }
 
-        /// <summary>Returns the ordering in which the singular values have been sorted.</summary>
+        /// <summary>
+		///   Returns the ordering in which the singular values have been sorted.
+		/// </summary>
+		///
         public int[] Ordering
         {
             get { return si; }
         }
 
-        /// <summary>
+		/// <summary>
         ///   Returns the absolute value of the matrix determinant.
         /// </summary>
         ///
-        public double AbsoluteDeterminant
+        public Double AbsoluteDeterminant
         {
             get
             {
                 if (!determinant.HasValue)
                 {
-                    double det = 1;
+                    Double det = 1;
                     for (int i = 0; i < s.Length; i++)
                         det *= s[i];
                     determinant = det;
@@ -187,7 +200,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the log of the absolute value for the matrix determinant.
         /// </summary>
         ///
-        public double LogDeterminant
+        public Double LogDeterminant
         {
             get
             {
@@ -196,7 +209,7 @@ namespace Accord.Math.Decompositions
                     double det = 0;
                     for (int i = 0; i < s.Length; i++)
                         det += Math.Log(s[i]);
-                    lndeterminant = det;
+                    lndeterminant = (Double)det;
                 }
 
                 return lndeterminant.Value;
@@ -208,13 +221,13 @@ namespace Accord.Math.Decompositions
         ///   Returns the pseudo-determinant for the matrix.
         /// </summary>
         ///
-        public double PseudoDeterminant
+        public Double PseudoDeterminant
         {
             get
             {
                 if (!pseudoDeterminant.HasValue)
                 {
-                    double det = 1;
+                    Double det = 1;
                     for (int i = 0; i < s.Length; i++)
                         if (s[i] != 0) det *= s[i];
                     pseudoDeterminant = det;
@@ -228,7 +241,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the log of the pseudo-determinant for the matrix.
         /// </summary>
         ///
-        public double LogPseudoDeterminant
+        public Double LogPseudoDeterminant
         {
             get
             {
@@ -237,7 +250,7 @@ namespace Accord.Math.Decompositions
                     double det = 0;
                     for (int i = 0; i < s.Length; i++)
                         if (s[i] != 0) det += Math.Log(s[i]);
-                    lnpseudoDeterminant = det;
+                    lnpseudoDeterminant = (Double)det;
                 }
 
                 return lnpseudoDeterminant.Value;
@@ -245,16 +258,23 @@ namespace Accord.Math.Decompositions
         }
 
 
-        /// <summary>Constructs a new singular value decomposition.</summary>
+        /// <summary>
+		///   Constructs a new singular value decomposition.
+		/// </summary>
+		///
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
+		///
         public SingularValueDecomposition(Double[,] value)
             : this(value, true, true)
         {
         }
 
 
-        /// <summary>Constructs a new singular value decomposition.</summary>
+        /// <summary>
+        ///     Constructs a new singular value decomposition.
+        /// </summary>
+        /// 
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         /// <param name="computeLeftSingularVectors">
@@ -265,12 +285,17 @@ namespace Accord.Math.Decompositions
         ///   Pass <see langword="true"/> if the right singular vector matrix V
         ///   should be computed. Pass <see langword="false"/> otherwise. Default
         ///   is <see langword="true"/>.</param>
-        public SingularValueDecomposition(Double[,] value, bool computeLeftSingularVectors, bool computeRightSingularVectors)
+        /// 
+        public SingularValueDecomposition(Double[,] value,
+		    bool computeLeftSingularVectors, bool computeRightSingularVectors)
             : this(value, computeLeftSingularVectors, computeRightSingularVectors, false)
         {
         }
 
-        /// <summary>Constructs a new singular value decomposition.</summary>
+        /// <summary>
+        ///   Constructs a new singular value decomposition.
+        /// </summary>
+        /// 
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         /// <param name="computeLeftSingularVectors">
@@ -285,12 +310,17 @@ namespace Accord.Math.Decompositions
         ///   Pass <see langword="true"/> to automatically transpose the value matrix in
         ///   case JAMA's assumptions about the dimensionality of the matrix are violated.
         ///   Pass <see langword="false"/> otherwise. Default is <see langword="false"/>.</param>
-        public SingularValueDecomposition(Double[,] value, bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose)
+        /// 
+        public SingularValueDecomposition(Double[,] value, 
+            bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose)
             : this(value, computeLeftSingularVectors, computeRightSingularVectors, autoTranspose, false)
         {
         }
 
-        /// <summary>Constructs a new singular value decomposition.</summary>
+        /// <summary>
+        ///   Constructs a new singular value decomposition.
+        /// </summary>
+        /// 
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         /// <param name="computeLeftSingularVectors">
@@ -308,8 +338,10 @@ namespace Accord.Math.Decompositions
         /// <param name="inPlace">
         ///   Pass <see langword="true"/> to perform the decomposition in place. The matrix
         ///   <paramref name="value"/> will be destroyed in the process, resulting in less
-        ///   memory consumption.</param>
-        public unsafe SingularValueDecomposition(Double[,] value, bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose, bool inPlace)
+        ///   memory comsumption.</param>
+        /// 
+        public unsafe SingularValueDecomposition(Double[,] value,
+		   bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose, bool inPlace)
         {
             if (value == null)
             {
@@ -320,11 +352,11 @@ namespace Accord.Math.Decompositions
             m = value.GetLength(0); // rows
             n = value.GetLength(1); // cols
 
-            if (m == 0 || n == 0)
-            {
-                throw new ArgumentException("Matrix does not have any rows or columns.", "value");
-            }
-
+			if (m == 0 || n == 0)
+			{
+			   throw new ArgumentException("Matrix does not have any rows or columns.", "value");
+			}
+			    
 
 
             if (m < n) // Check if we are violating JAMA's assumption
@@ -637,13 +669,13 @@ namespace Accord.Math.Decompositions
 
                     // This section of the program inspects for
                     // negligible elements in the s and e arrays.  On
-                    // completion the variables case and k are set as follows.
+                    // completion the variables kase and k are set as follows.
 
-                    // case = 1     if s(p) and e[k-1] are negligible and k<p
-                    // case = 2     if s(k) is negligible and k<p
-                    // case = 3     if e[k-1] is negligible, k<p, and
+                    // kase = 1     if s(p) and e[k-1] are negligible and k<p
+                    // kase = 2     if s(k) is negligible and k<p
+                    // kase = 3     if e[k-1] is negligible, k<p, and
                     //              s(k), ..., s(p) are not negligible (qr step).
-                    // case = 4     if e(p-1) is negligible (convergence).
+                    // kase = 4     if e(p-1) is negligible (convergence).
 
                     for (k = p - 2; k >= -1; k--)
                     {
@@ -692,7 +724,7 @@ namespace Accord.Math.Decompositions
 
                     k++;
 
-                    // Perform the task indicated by case.
+                    // Perform the task indicated by kase.
                     switch (kase)
                     {
                         // Deflate negligible s(p).

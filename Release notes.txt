@@ -1,3 +1,61 @@
+Accord.NET Framework 2.12b1 release notes
+-----------------------------------------
+06.12.2013.    
+
+Version updates and fixes:
+
+* General
+  - The general focus for this release was again to improve 
+    the documentation and provide standard bug-fixing;
+  - The project now also provides Debug binaries which be used
+    to provide more detailed information when debugging applications.
+
+* Accord.Controls
+  - Adding a WavechartBox control to display wavecharts with ease, in 
+    the same way as MessageBox can display text messages on screen.
+
+* Accord.Audio
+  - Correcting WaveDecoder.AverageBytesPerSecond (Google Code #80);
+  - Correcting the creation of base audio windows;
+  - Adding the ExtractChannel filter for extracting single channels
+    from multiple-channel audio signals.
+
+* Accord.Statistics
+  - Adding generic base classes for probability distributions;
+  - Adding support for computing the cumulative multivariate normal 
+    distribution function for specifically one and two dimensions;
+  - Correcting behavior of the Binomial test under .NET 4.5;
+  - Updating DescriptiveAnalysis to provide sums and confidence intervals;
+  - Updating ChiSquareTest to accept ConfusionMatrices as input;
+  - Unifying Univariate and Multivariate mixture distribution fitting
+    through Expectation-Maximization into a single and generic class;
+  - Updating the WeightedMean method to accept unnormalized weights;
+  - Updating the Codification filter to work without DataTables;
+  - Adding fitting options for empirical distributions (Google Code #66);
+  - Adding options to robustly fit Multivariate Normal Distributions using 
+    the Singular Value Decomposition, avoiding non-positive definite issues. 
+
+* Accord.MachineLearning
+  - GaussianMixtureModel now accepts a maximum number of iterations;
+  - Updating the KDTree class to provide a non-generic version when there 
+    is no interest in the kind of values stored as information in the nodes;
+  - Adding specialized methods for when only the closest neighbor is needed
+    in a KDTree. Also adding options to provide only an approximate answer;
+  - Updating the K-Means algorithm to fully support parallel processing;
+  - Adding support for generating decision rules from Decision Trees.
+
+* Accord.Math
+  - Correcting InsertColumn and InsertRow implementations;
+  - Improving Submatrix creation to avoid extra memory allocations when desired;
+  - Reshape method for jagged arrays can now work with non-rectangular arrays;
+  - Correcting relative convergence issues with negative watched interest values;
+  - Adding Modulo and Modular distance for double-precision floating point inputs.
+
+* AForge Compatibility
+  - Compiled against AForge.NET Framework 2.2.5. May work with newer versions.
+
+
+
 Accord.NET Framework 2.11.0 release notes
 -----------------------------------------
 27.10.2013.    
