@@ -25,8 +25,6 @@ namespace Accord.Math.Optimization
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    using System.Text.RegularExpressions;
-    using System.Text;
 
     /// <summary>
     ///   Quadratic objective function.
@@ -36,7 +34,10 @@ namespace Accord.Math.Optimization
     {
 
         private Dictionary<string, int> variables;
+        private readonly ReadOnlyDictionary<string, int> readOnlyVariables;
+
         private Dictionary<int, string> indices;
+        private ReadOnlyDictionary<int, string> readOnlyIndices;
 
         /// <summary>
         ///   Gets input variable's labels for the function.
@@ -44,7 +45,7 @@ namespace Accord.Math.Optimization
         /// 
         public IDictionary<string, int> Variables
         {
-            get { return new ReadOnlyDictionary<string, int>(variables); }
+            get { return readOnlyVariables; }
         }
 
         /// <summary>
@@ -53,7 +54,7 @@ namespace Accord.Math.Optimization
         /// 
         public IDictionary<int, string> Indices
         {
-            get { return new ReadOnlyDictionary<int, string>(indices); }
+            get { return readOnlyIndices; }
         }
 
         /// <summary>
@@ -94,7 +95,11 @@ namespace Accord.Math.Optimization
             this.Gradient = gradient;
 
             variables = new Dictionary<string, int>();
+            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
+
             indices = new Dictionary<int, string>();
+            readOnlyIndices = new ReadOnlyDictionary<int, string>(indices);
+
             for (int i = 0; i < numberOfVariables; i++)
             {
                 string name = "x" + i;
@@ -118,7 +123,10 @@ namespace Accord.Math.Optimization
             Expression<Func<double[]>> gradient = null)
         {
             variables = new Dictionary<string, int>();
+            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
+
             indices = new Dictionary<int, string>();
+            readOnlyIndices = new ReadOnlyDictionary<int, string>(indices);
 
             SortedSet<string> list = new SortedSet<string>();
             ExpressionParser.Parse(list, function.Body);
