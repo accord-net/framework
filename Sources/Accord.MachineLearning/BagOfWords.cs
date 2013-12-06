@@ -67,7 +67,10 @@ namespace Accord.MachineLearning
     {
 
         private Dictionary<string, int> stringToCode;
+        private ReadOnlyDictionary<string, int> readOnlyStringToCode;
+
         private Dictionary<int, string> codeToString;
+        private ReadOnlyDictionary<int, string> readOnlyCodeToString;
 
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace Accord.MachineLearning
         /// 
         public ReadOnlyDictionary<string, int> StringToCode
         {
-            get { return new ReadOnlyDictionary<string, int>(stringToCode); }
+            get { return readOnlyStringToCode; }
         }
 
         /// <summary>
@@ -93,7 +96,7 @@ namespace Accord.MachineLearning
         /// 
         public ReadOnlyDictionary<int, string> CodeToString
         {
-            get { return new ReadOnlyDictionary<int, string>(codeToString); }
+            get { return readOnlyCodeToString; }
         }
 
         /// <summary>
@@ -144,7 +147,10 @@ namespace Accord.MachineLearning
         private void initialize(string[][] texts)
         {
             stringToCode = new Dictionary<string, int>();
+            readOnlyStringToCode = new ReadOnlyDictionary<string, int>(stringToCode);
+
             codeToString = new Dictionary<int, string>();
+            readOnlyCodeToString = new ReadOnlyDictionary<int, string>(codeToString);
 
             MaximumOccurance = 1;
 
