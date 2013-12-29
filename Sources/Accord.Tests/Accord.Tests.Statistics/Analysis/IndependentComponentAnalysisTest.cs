@@ -25,6 +25,8 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     [TestClass()]
     public class IndependentComponentAnalysisTest
@@ -264,6 +266,62 @@ namespace Accord.Tests.Statistics
             var actual = ica.Separate(X.ToSingle().ToArray(true));
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
+        }
+
+        [TestMethod()]
+        public void SerializeTest()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            double[,] source = Matrix.Random(5000, 2);
+
+            double[,] mix =
+            {
+                {  0.25, 0.25 },
+                { -0.25, 0.75 },    
+            };
+
+            double[,] input = source.Multiply(mix);
+
+            var ica = new IndependentComponentAnalysis(input);
+
+            ica.Compute();
+
+            MemoryStream stream = new MemoryStream();
+
+            {
+                BinaryFormatter b = new BinaryFormatter();
+                b.Serialize(stream, ica);
+            }
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            {
+                BinaryFormatter b = new BinaryFormatter();
+                ica = (IndependentComponentAnalysis)b.Deserialize(stream);
+            }
+
+
+            Assert.AreEqual(IndependentComponentAlgorithm.Parallel, ica.Algorithm);
+
+            double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+
+            double[,] result = ica.Result;
+
+            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, 0.008));
+
+            double[,] expected =
+            {
+                { 0.75, -0.25 },        
+                { 0.25,  0.25 },
+            };
+
+            revertMatrix = revertMatrix.Divide(revertMatrix.Sum().Sum());
+            Assert.IsTrue(expected.IsEqual(revertMatrix, 0.008));
+
+
         }
 
     }

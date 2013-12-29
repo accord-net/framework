@@ -110,6 +110,10 @@
     <Compile Include="Analysis\Base\IMultivariateRegressionAnalysis.cs" />
     <Compile Include="Analysis\Base\IRegressionAnalysis.cs" />
     <Compile Include="Analysis\Base\IDiscriminantAnalysis.cs" />
+    <Compile Include="Analysis\Contrast Functions\Exponential.cs" />
+    <Compile Include="Analysis\Contrast Functions\IContrastFunction.cs" />
+    <Compile Include="Analysis\Contrast Functions\Kurtosis.cs" />
+    <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
