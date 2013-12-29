@@ -29,6 +29,7 @@ namespace Accord.Tests.Math
     using System.Data;
     using AForge;
     using System.Linq;
+    using Accord.Math.Decompositions;
 
     [TestClass()]
     public partial class MatrixTest
@@ -1261,6 +1262,41 @@ namespace Accord.Tests.Math
         #endregion
 
         #region Inverse, division and solving
+        [TestMethod()]
+        public void InverseTest2x2()
+        {
+            double[,] value = 
+            { 
+                { 3.0, 1.0 },
+                { 2.0, 2.0 }  
+            };
+
+            double[,] expected = new SingularValueDecomposition(value).Inverse();
+
+            double[,] actual = Matrix.Inverse(value);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
+        }
+
+        [TestMethod()]
+        public void InverseTest3x3()
+        {
+            double[,] value = 
+            { 
+                { 6.0, 1.0, 2.0 },
+                { 0.0, 8.0, 1.0 },  
+                { 2.0, 4.0, 5.0 }  
+            };
+
+            Assert.IsFalse(value.IsSingular());
+
+            double[,] expected = new SingularValueDecomposition(value).Inverse();
+
+            double[,] actual = Matrix.Inverse(value);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
+        }
+
         [TestMethod()]
         public void PseudoInverse()
         {
