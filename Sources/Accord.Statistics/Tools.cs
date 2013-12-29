@@ -1464,20 +1464,19 @@ namespace Accord.Statistics
         /// 
         public static double WeightedMean(this double[] values, double[] weights)
         {
+            if (values.Length != weights.Length)
+                throw new DimensionMismatchException("weights",
+                    "The values and weight vectors must have the same length");
+
             double sum = 0.0;
-
             for (int i = 0; i < values.Length; i++)
-                sum += values[i] * weights[i];
+                sum += weights[i] * values[i];
 
-            /*
-                // For non-unit weights
-                double w = 0.0;
-                for (int i = 0; i < weights.Length; i++)
-                    w += weights[i];
-                return sum / w;
-            */
+            double w = 0.0;
+            for (int i = 0; i < weights.Length; i++)
+                w += weights[i];
 
-            return sum;
+            return sum / w;
         }
 
         /// <summary>
@@ -1539,6 +1538,10 @@ namespace Accord.Statistics
         /// 
         public static double WeightedVariance(double[] values, double[] weights, double mean)
         {
+            if (values.Length != weights.Length)
+                throw new DimensionMismatchException("weights", 
+                    "The values and weight vectors must have the same length");
+
             // http://en.wikipedia.org/wiki/Weighted_variance#Weighted_sample_variance
             // http://www.gnu.org/software/gsl/manual/html_node/Weighted-Samples.html
 
@@ -1568,7 +1571,7 @@ namespace Accord.Statistics
         /// <returns>Returns a vector containing the variances of the given matrix.</returns>
         public static double[] WeightedVariance(this double[][] matrix, double[] weights)
         {
-            return WeightedVariance(matrix, Mean(matrix), weights);
+            return WeightedVariance(matrix, weights, WeightedMean(matrix, weights));
         }
 
         /// <summary>
@@ -1583,7 +1586,14 @@ namespace Accord.Statistics
         public static double[] WeightedVariance(this double[][] matrix, double[] weights, double[] means)
         {
             int rows = matrix.Length;
-            if (rows == 0) return new double[0];
+
+            if (rows != weights.Length)
+                throw new DimensionMismatchException("weights",
+                    "The values and weight vectors must have the same length");
+
+            if (rows == 0) 
+                return new double[0];
+
             int cols = matrix[0].Length;
             double N = rows;
 
@@ -1598,6 +1608,63 @@ namespace Accord.Statistics
                 for (int i = 0; i < matrix.Length; i++)
                 {
                     double z = matrix[i][j] - means[j];
+                    double w = weights[i];
+
+                    sum += w * (z * z);
+
+                    b += w;
+                    a += w * w;
+                }
+
+                variance[j] = sum * (b / (b * b - a));
+            }
+
+            return variance;
+        }
+
+        /// <summary>
+        ///   Calculates the matrix Variance vector.
+        /// </summary>
+        /// <param name="matrix">A matrix whose variances will be calculated.</param>
+        /// <param name="weights">An unit vector containing the importance of each sample
+        /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
+        /// <returns>Returns a vector containing the variances of the given matrix.</returns>
+        public static double[] WeightedVariance(this double[,] matrix, double[] weights)
+        {
+            return WeightedVariance(matrix, weights, WeightedMean(matrix, weights));
+        }
+
+        /// <summary>
+        ///   Calculates the matrix Variance vector.
+        /// </summary>
+        /// <param name="matrix">A matrix whose variances will be calculated.</param>
+        /// <param name="weights">An unit vector containing the importance of each sample
+        /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
+        /// <param name="means">The mean vector containing already calculated means for each column of the matrix.</param>
+        /// <returns>Returns a vector containing the variances of the given matrix.</returns>
+        /// 
+        public static double[] WeightedVariance(this double[,] matrix, double[] weights, double[] means)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            if (rows != weights.Length)
+                throw new DimensionMismatchException("weights",
+                    "The values and weight vectors must have the same length.");
+
+            double N = rows;
+
+            double[] variance = new double[cols];
+
+            // for each column (for each variable)
+            for (int j = 0; j < variance.Length; j++)
+            {
+                double sum = 0.0;
+                double a = 0.0, b = 0.0;
+
+                for (int i = 0; i < rows; i++)
+                {
+                    double z = matrix[i, j] - means[j];
                     double w = weights[i];
 
                     sum += w * (z * z);
@@ -3570,6 +3637,12 @@ namespace Accord.Statistics
             {
                 mean = new double[cols];
 
+                if (rows != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The number of rows and weights must match.");
+                }
+
                 // for each row
                 for (int i = 0; i < rows; i++)
                 {
@@ -3584,6 +3657,12 @@ namespace Accord.Statistics
             else if (dimension == 1)
             {
                 mean = new double[rows];
+
+                if (cols != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The number of columns and weights must match.");
+                }
 
                 // for each row
                 for (int j = 0; j < rows; j++)
@@ -3648,6 +3727,12 @@ namespace Accord.Statistics
             {
                 mean = new double[cols];
 
+                if (rows != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The number of rows and weights must match.");
+                }
+
                 // for each row
                 for (int i = 0; i < rows; i++)
                 {
@@ -3661,6 +3746,12 @@ namespace Accord.Statistics
             else if (dimension == 1)
             {
                 mean = new double[rows];
+
+                if (cols != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The number of columns and weights must match.");
+                }
 
                 // for each row
                 for (int j = 0; j < rows; j++)
@@ -3786,8 +3877,17 @@ namespace Accord.Statistics
 
             if (dimension == 0)
             {
-                if (means.Length != cols) throw new ArgumentException(
-                    "Length of the mean vector should equal the number of columns", "means");
+                if (means.Length != cols)
+                {
+                    throw new DimensionMismatchException("means",
+                        "Length of the mean vector should equal the number of columns.");
+                }
+
+                if (rows != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The number of rows and weights must match.");
+                }
 
                 cov = new double[cols, cols];
                 for (int i = 0; i < cols; i++)
@@ -3804,8 +3904,17 @@ namespace Accord.Statistics
             }
             else if (dimension == 1)
             {
-                if (means.Length != rows) throw new ArgumentException(
-                    "Length of the mean vector should equal the number of rows", "means");
+                if (means.Length != rows)
+                {
+                    throw new DimensionMismatchException("means",
+                        "Length of the mean vector should equal the number of rows.");
+                }
+
+                if (cols != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The number of columns and weights must match.");
+                }
 
                 cov = new double[rows, rows];
                 for (int i = 0; i < rows; i++)

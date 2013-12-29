@@ -419,7 +419,59 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 0.0001);
         }
 
+        [TestMethod()]
+        public void VarianceTest7()
+        {
+            double[][] matrix = new double[,]
+            {
+                { 4.0, 2.0, 0.60 },
+                { 4.2, 2.1, 0.59 },
+                { 3.9, 2.0, 0.58 },
+                { 4.3, 2.1, 0.62 },
+                { 4.1, 2.2, 0.63 }
+            }.ToArray();
 
+            double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
+
+            double[] expected = 
+            { 
+                Tools.WeightedVariance(matrix.GetColumn(0), weights),
+                Tools.WeightedVariance(matrix.GetColumn(1), weights),
+                Tools.WeightedVariance(matrix.GetColumn(2), weights),
+            };
+
+
+            double[] actual = Tools.WeightedVariance(matrix, weights);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+        }
+
+        [TestMethod()]
+        public void VarianceTest8()
+        {
+            double[,] matrix = 
+            {
+                { 4.0, 2.0, 0.60 },
+                { 4.2, 2.1, 0.59 },
+                { 3.9, 2.0, 0.58 },
+                { 4.3, 2.1, 0.62 },
+                { 4.1, 2.2, 0.63 }
+            };
+
+            double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
+
+            double[] expected = 
+            { 
+                Tools.WeightedVariance(matrix.GetColumn(0), weights),
+                Tools.WeightedVariance(matrix.GetColumn(1), weights),
+                Tools.WeightedVariance(matrix.GetColumn(2), weights),
+            };
+
+
+            double[] actual = Tools.WeightedVariance(matrix, weights);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+        }
 
         [TestMethod()]
         public void CorrelationTest()
