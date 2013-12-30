@@ -416,6 +416,30 @@ namespace Accord.MachineLearning.Structures
         /// <param name="position">The queried point.</param>
         /// <param name="percentage">The maximum percentage of leaf nodes that
         /// can be visited before the search finishes with an approximate answer.</param>
+        /// <param name="distance">The distance between the query point and its nearest neighbor.</param>
+        /// 
+        /// <returns>A list of neighbor points, ordered by distance.</returns>
+        /// 
+        public KDTreeNode<T> ApproximateNearest(double[] position, double percentage, out double distance)
+        {
+            KDTreeNode<T> result = root;
+            distance = Distance(root.Position, position);
+
+            int maxLeaves = (int)(leaves * percentage);
+
+            int visited = 0;
+            approximateNearest(root, position, ref result, ref distance, maxLeaves, ref visited);
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Retrieves a fixed point of nearest points to a given point.
+        /// </summary>
+        /// 
+        /// <param name="position">The queried point.</param>
+        /// <param name="percentage">The maximum percentage of leaf nodes that
+        /// can be visited before the search finishes with an approximate answer.</param>
         /// 
         /// <returns>A list of neighbor points, ordered by distance.</returns>
         /// 
@@ -478,13 +502,17 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <param name="points">The data points to be inserted in the tree.</param>
         /// <param name="leaves">Return the number of leaves in the root subtree.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
         /// 
         /// <returns>The root node for a new <see cref="KDTree{T}"/>
         ///   contained the given <paramref name="points"/>.</returns>
         /// 
-        protected static KDTreeNode<T> CreateRoot(double[][] points, out int leaves)
+        protected static KDTreeNode<T> CreateRoot(double[][] points, bool inPlace, out int leaves)
         {
-            return CreateRoot(points, null, out leaves);
+            return CreateRoot(points, null, inPlace, out leaves);
         }
 
         /// <summary>
@@ -495,11 +523,15 @@ namespace Accord.MachineLearning.Structures
         /// <param name="points">The data points to be inserted in the tree.</param>
         /// <param name="values">The values associated with each point.</param>
         /// <param name="leaves">Return the number of leaves in the root subtree.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
         /// 
         /// <returns>The root node for a new <see cref="KDTree{T}"/>
         ///   contained the given <paramref name="points"/>.</returns>
         /// 
-        protected static KDTreeNode<T> CreateRoot(double[][] points, T[] values, out int leaves)
+        protected static KDTreeNode<T> CreateRoot(double[][] points, T[] values, bool inPlace, out int leaves)
         {
             // Initial argument checks for creating the tree
             if (points == null)
@@ -508,6 +540,13 @@ namespace Accord.MachineLearning.Structures
             if (values != null && points.Length != values.Length)
                 throw new DimensionMismatchException("values");
 
+            if (!inPlace)
+            {
+                points = (double[][])points.Clone();
+
+                if (values != null)
+                    values = (T[])values.Clone();
+            }
 
             leaves = 0;
 
@@ -517,15 +556,8 @@ namespace Accord.MachineLearning.Structures
             // elements at specified positions when sorting
             ElementComparer comparer = new ElementComparer();
 
-            // Since all sorting will be done in-place, we
-            // will register the original order of values
-            int[] idx = Matrix.Indices(0, points.Length);
-
             // Call the recursive algorithm to operate on the whole array (from 0 to points.Length)
-            KDTreeNode<T> root = create(points, idx, values, 0, dimensions, 0, points.Length, comparer, ref leaves);
-
-            // Restore the original ordering
-            Array.Sort(idx, points);
+            KDTreeNode<T> root = create(points, values, 0, dimensions, 0, points.Length, comparer, ref leaves);
 
             // Create and return the newly formed tree
             return root;
@@ -734,6 +766,79 @@ namespace Accord.MachineLearning.Structures
             return false;
         }
 
+        private bool approximateNearest(KDTreeNode<T> current, double[] position,
+           ref KDTreeNode<T> match, ref double minDistance, int maxLeaves, ref int visited)
+        {
+            // Compute distance from this node to the point
+            double d = distance(position, current.Position);
+
+            if (current.IsLeaf)
+            {
+                // Base: node is leaf
+                if (d < minDistance)
+                {
+                    minDistance = d;
+                    match = current;
+                }
+
+                visited++;
+
+                if (visited > maxLeaves)
+                    return true;
+            }
+            else
+            {
+                // Check for leafs on the opposite sides of 
+                // the subtrees to nearest possible neighbors.
+
+                // Prepare for recursion. The following null checks
+                // will be used to avoid function calls if possible
+
+                double value = position[current.Axis];
+                double median = current.Position[current.Axis];
+
+                if (value < median)
+                {
+                    if (current.Left != null)
+                        if (approximateNearest(current.Left, position,
+                            ref match, ref minDistance, maxLeaves, ref visited))
+                            return true;
+
+                    if (d < minDistance)
+                    {
+                        minDistance = d;
+                        match = current;
+                    }
+
+                    if (current.Right != null)
+                        if (Math.Abs(value - median) <= minDistance)
+                            if (approximateNearest(current.Right, position, 
+                                ref match, ref minDistance, maxLeaves, ref visited))
+                                return true;
+                }
+                else
+                {
+                    if (current.Right != null)
+                        approximateNearest(current.Right, position,
+                            ref match, ref minDistance, maxLeaves, ref visited);
+
+                    if (d < minDistance)
+                    {
+                        minDistance = d;
+                        match = current;
+                    }
+
+                    if (current.Left != null)
+                        if (Math.Abs(value - median) <= minDistance)
+                            if (approximateNearest(current.Left, position,
+                                ref match, ref minDistance, maxLeaves, ref visited))
+                                return true;
+                }
+            }
+
+            return false;
+        }
+
 
         private void insert(ref KDTreeNode<T> node, double[] position, T value, int depth)
         {
@@ -767,7 +872,7 @@ namespace Accord.MachineLearning.Structures
         }
 
 
-        private static KDTreeNode<T> create(double[][] points, int[] idx, T[] values,
+        private static KDTreeNode<T> create(double[][] points, T[] values,
            int depth, int k, int start, int length, ElementComparer comparer, ref int leaves)
         {
             if (length <= 0)
@@ -775,7 +880,7 @@ namespace Accord.MachineLearning.Structures
 
             // We will be doing sorting in place
             int axis = comparer.Index = depth % k;
-            Array.Sort(points, idx, start, length, comparer);
+            Array.Sort(points, values, start, length, comparer);
 
             // Middle of the input section
             int half = start + length / 2;
@@ -790,13 +895,13 @@ namespace Accord.MachineLearning.Structures
 
             // The median will be located halfway in the sorted array
             var median = points[half];
-            var value = values != null ? values[idx[half]] : default(T);
+            var value = values != null ? values[half] : default(T);
 
             depth++;
 
             // Continue with the recursion, passing the appropriate left and right array sections
-            KDTreeNode<T> left = create(points, idx, values, depth, k, leftStart, leftLength, comparer, ref leaves);
-            KDTreeNode<T> right = create(points, idx, values, depth, k, rightStart, rightLength, comparer, ref leaves);
+            KDTreeNode<T> left = create(points, values, depth, k, leftStart, leftLength, comparer, ref leaves);
+            KDTreeNode<T> right = create(points, values, depth, k, rightStart, rightLength, comparer, ref leaves);
 
             if (left == null && right == null)
                 leaves++;

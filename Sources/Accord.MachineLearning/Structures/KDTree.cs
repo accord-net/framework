@@ -111,10 +111,14 @@ namespace Accord.MachineLearning.Structures
         /// <typeparam name="T">The type of the value to be stored.</typeparam>
         /// 
         /// <param name="points">The points to be added to the tree.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree<T> FromData<T>(double[][] points)
+        public static KDTree<T> FromData<T>(double[][] points, bool inPlace = false)
         {
             if (points == null)
                 throw new ArgumentNullException("points");
@@ -124,7 +128,9 @@ namespace Accord.MachineLearning.Structures
 
             int leaves;
 
-            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, out leaves), points.Length, leaves);
+            var root = KDTree<T>.CreateRoot(points, inPlace, out leaves);
+
+            return new KDTree<T>(points[0].Length, root, points.Length, leaves);
         }
 
         /// <summary>
@@ -132,10 +138,14 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <param name="points">The points to be added to the tree.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree FromData(double[][] points)
+        public static KDTree FromData(double[][] points, bool inPlace = false)
         {
             if (points == null)
                 throw new ArgumentNullException("points");
@@ -145,7 +155,9 @@ namespace Accord.MachineLearning.Structures
 
             int leaves;
 
-            return new KDTree(points[0].Length, CreateRoot(points, out leaves), points.Length, leaves);
+            var root = CreateRoot(points, inPlace, out leaves);
+
+            return new KDTree(points[0].Length, root, points.Length, leaves);
         }
 
         /// <summary>
@@ -156,10 +168,14 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <param name="points">The points to be added to the tree.</param>
         /// <param name="values">The corresponding values at each data point.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree<T> FromData<T>(double[][] points, T[] values)
+        public static KDTree<T> FromData<T>(double[][] points, T[] values, bool inPlace = false)
         {
             if (points == null)
                 throw new ArgumentNullException("points");
@@ -169,7 +185,9 @@ namespace Accord.MachineLearning.Structures
 
             int leaves;
 
-            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, values, out leaves), points.Length, leaves);
+            var root = KDTree<T>.CreateRoot(points, values, inPlace, out leaves);
+            
+            return new KDTree<T>(points[0].Length, root, points.Length, leaves);
         }
 
         /// <summary>
@@ -178,10 +196,15 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <param name="points">The points to be added to the tree.</param>
         /// <param name="distance">The distance function to use.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree FromData(double[][] points, Func<double[], double[], double> distance)
+        public static KDTree FromData(double[][] points, Func<double[], double[], double> distance,
+            bool inPlace = false)
         {
             if (points == null)
                 throw new ArgumentNullException("points");
@@ -194,7 +217,9 @@ namespace Accord.MachineLearning.Structures
 
             int leaves;
 
-            return new KDTree(points[0].Length, CreateRoot(points, out leaves), points.Length, leaves)
+            var root = CreateRoot(points, inPlace, out leaves);
+
+            return new KDTree(points[0].Length, root, points.Length, leaves)
             {
                 Distance = distance,
             };
@@ -209,10 +234,15 @@ namespace Accord.MachineLearning.Structures
         /// <param name="points">The points to be added to the tree.</param>
         /// <param name="values">The corresponding values at each data point.</param>
         /// <param name="distance">The distance function to use.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree<T> FromData<T>(double[][] points, T[] values, Func<double[], double[], double> distance)
+        public static KDTree<T> FromData<T>(double[][] points, T[] values, 
+            Func<double[], double[], double> distance, bool inPlace = false)
         {
             if (values == null)
                 throw new ArgumentNullException("values");
@@ -222,7 +252,9 @@ namespace Accord.MachineLearning.Structures
 
             int leaves;
 
-            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, values, out leaves), points.Length, leaves)
+            var root = KDTree<T>.CreateRoot(points, values, inPlace, out leaves);
+
+            return new KDTree<T>(points[0].Length, root, points.Length, leaves)
             {
                 Distance = distance,
             };
@@ -236,17 +268,24 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <param name="points">The points to be added to the tree.</param>
         /// <param name="distance">The distance function to use.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
         /// 
         /// <returns>A <see cref="KDTree{T}"/> populated with the given data points.</returns>
         /// 
-        public static KDTree<T> FromData<T>(double[][] points, Func<double[], double[], double> distance)
+        public static KDTree<T> FromData<T>(double[][] points, Func<double[], double[], double> distance, 
+            bool inPlace = false)
         {
             if (distance == null)
                 throw new ArgumentNullException("distance");
 
             int leaves;
 
-            return new KDTree<T>(points[0].Length, KDTree<T>.CreateRoot(points, out leaves), points.Length, leaves)
+            var root = KDTree<T>.CreateRoot(points, inPlace, out leaves);
+
+            return new KDTree<T>(points[0].Length, root, points.Length, leaves)
             {
                 Distance = distance
             };
