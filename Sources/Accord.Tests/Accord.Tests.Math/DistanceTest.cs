@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Math.Decompositions;
+
 namespace Accord.Tests.Math
 {
     using Accord.Math;
@@ -88,18 +90,178 @@ namespace Accord.Tests.Math
                 { 0.576716, 1.185771, 0.398922 }
             };
 
-            double[] x = new double[] { 2, 4, 1 };
-            double[] y = new double[] { 0, 0, 0 };
+            double[] x, y;
+            double actual, expected;
 
-            double expected = 2.07735368677415;
-            double actual = Distance.Mahalanobis(x, y, cov.Inverse());
+            x = new double[] { 2, 4, 1 };
+            y = new double[] { 0, 0, 0 };
 
+            expected = 2.07735368677415;
+            actual = Distance.Mahalanobis(x, y, cov.Inverse());
+            Assert.AreEqual(expected, actual, 1e-10);
+
+
+            x = new double[] { 7, 5, 1 };
+            y = new double[] { 1, 0.52, -79 };
+
+            expected = 277.8828871106366;
+            actual = Distance.Mahalanobis(x, y, cov.Inverse());
             Assert.AreEqual(expected, actual, 0.0000000000001);
         }
 
-        /// <summary>
-        ///  Manhattan Distance test
-        /// </summary>
+        [TestMethod()]
+        public void MahalanobisTest3()
+        {
+            // Example from Statistical Distance Calculator
+            // http://maplepark.com/~drf5n/cgi-bin/dist.cgi
+
+            double[,] cov = 
+            {
+                { 1.030303, 2.132728, 0.576716 },
+                { 2.132728, 4.510515, 1.185771 },
+                { 0.576716, 1.185771, 0.398922 }
+            };
+
+            
+
+            double[] x, y;
+            double actual, expected;
+
+            var svd = new SingularValueDecomposition(cov, true, true, true);
+
+            var inv = cov.Inverse();
+            var pinv = svd.Inverse();
+            Assert.IsTrue(inv.IsEqual(pinv, 1e-6));
+
+            x = new double[] { 2, 4, 1 };
+            y = new double[] { 0, 0, 0 };
+
+            {
+                var bla = cov.Solve(x);
+                var blo = svd.Solve(x);
+                var ble = inv.Multiply(x);
+                var bli = pinv.Multiply(x);
+
+                Assert.IsTrue(bla.IsEqual(blo, 1e-6));
+                Assert.IsTrue(bla.IsEqual(ble, 1e-6));
+                Assert.IsTrue(bla.IsEqual(bli, 1e-6));
+            }
+
+            expected = 2.0773536867741504;
+            actual = Distance.Mahalanobis(x, y, inv);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+            actual = Distance.Mahalanobis(x, y, svd);
+            Assert.AreEqual(expected, actual, 1e-6);
+
+
+            x = new double[] { 7, 5, 1 };
+            y = new double[] { 1, 0.52, -79 };
+
+            expected = 277.8828871106366;
+            actual = Distance.Mahalanobis(x, y, inv);
+            Assert.AreEqual(expected, actual, 1e-5);
+            actual = Distance.Mahalanobis(x, y, svd);
+            Assert.AreEqual(expected, actual, 1e-5);
+        }
+
+        [TestMethod()]
+        public void MahalanobisTest4()
+        {
+            double[] x, y;
+            double expected, actual;
+
+            x = new double[] { 2, 4, 1 };
+            y = new double[] { 0, 0, 0 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, Matrix.Identity(3));
+            Assert.AreEqual(expected, actual);
+
+            x = new double[] { 0.1, 0.12, -1 };
+            y = new double[] { 195, 0, 2912 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, Matrix.Identity(3));
+            Assert.AreEqual(expected, actual);
+
+            x = new double[] { -2, -4, -1 };
+            y = new double[] { -2, -4, -1 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, Matrix.Identity(3));
+            Assert.AreEqual(expected, actual);
+
+            x = new double[] { 2, 4, 1 };
+            y = new double[] { 0, -7.2, 4.6 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, Matrix.Identity(3));
+            Assert.AreEqual(expected, actual);
+
+            x = new double[] { -2, 4, 1 };
+            y = new double[] { 0, -0.1, 4.2 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, Matrix.Identity(3));
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void MahalanobisTest5()
+        {
+            double[] x, y;
+            double expected, actual;
+
+            x = new double[] { 2, 4, 1 };
+            y = new double[] { 0, 0, 0 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, new SingularValueDecomposition(Matrix.Identity(3)));
+            Assert.AreEqual(expected, actual);
+
+            x = new double[] { 0.1, 0.12, -1 };
+            y = new double[] { 195, 0, 2912 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, new SingularValueDecomposition(Matrix.Identity(3)));
+            Assert.AreEqual(expected, actual);
+
+            x = new double[] { -2, -4, -1 };
+            y = new double[] { -2, -4, -1 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, new SingularValueDecomposition(Matrix.Identity(3)));
+            Assert.AreEqual(expected, actual);
+
+            x = new double[] { 2, 4, 1 };
+            y = new double[] { 0, -7.2, 4.6 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, new SingularValueDecomposition(Matrix.Identity(3)));
+            Assert.AreEqual(expected, actual);
+
+            x = new double[] { -2, 4, 1 };
+            y = new double[] { 0, -0.1, 4.2 };
+            expected = Distance.Euclidean(x, y);
+            actual = Distance.Mahalanobis(x, y, new SingularValueDecomposition(Matrix.Identity(3)));
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void MahalanobisTest6()
+        {
+            double[] x = { -1, 0, 0 };
+            double[] y = {  0, 0, 0 };
+
+            double[,] covX = 
+            {
+                { 2, 3, 0 },
+                { 3, 1, 0 },
+                { 0, 0, 0 } 
+            };
+
+            var pinv = covX.PseudoInverse();
+
+            // Run actual test
+            double expected = 0.14285714285714282;
+            double actual = Distance.SquareMahalanobis(x, y, pinv);
+
+            Assert.AreEqual(expected, actual, 1e-6);
+            Assert.IsFalse(Double.IsNaN(actual));
+        }
+
         [TestMethod()]
         public void ManhattanTest()
         {
@@ -110,9 +272,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///  Euclidean distance test
-        ///</summary>
+
         [TestMethod()]
         public void EuclideanTest()
         {
@@ -123,9 +283,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///   Modular distance test
-        /// </summary>
+
         [TestMethod()]
         public void ModularTest()
         {
@@ -138,9 +296,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Bhattacharyya
-        ///</summary>
+
         [TestMethod()]
         public void BhattacharyyaTest()
         {
@@ -159,9 +315,10 @@ namespace Accord.Tests.Math
             };
 
 
-            double expected = 0.450958210666019;
+            double expected = 0.45095821066601938;
             double actual = Distance.Bhattacharyya(X, Y);
             Assert.AreEqual(expected, actual, 1e-10);
+            Assert.IsFalse(Double.IsNaN(actual));
         }
 
         [TestMethod()]
@@ -173,6 +330,72 @@ namespace Accord.Tests.Math
             double expected = 0.468184902444219;
             double actual = Distance.Bhattacharyya(histogram1, histogram2);
 
+            Assert.AreEqual(expected, actual, 1e-10);
+            Assert.IsFalse(Double.IsNaN(actual));
+        }
+
+        [TestMethod()]
+        public void BhattacharyyaTest2()
+        {
+            double[] x = { 2, 0, 0 };
+            double[] y = { 1, 0, 0 };
+
+            double[,] covX = 
+            {
+                { 2, 3, 0 },
+                { 3, 0, 0 },
+                { 0, 0, 0 }
+            };
+
+            double[,] covY = 
+            {
+                { 2, 1, 0 },
+                { 1, 0, 0 },
+                { 0, 0, 0 }
+            };
+
+            // Run actual test
+            double expected = 0.1438410362258904;
+            double actual = Distance.Bhattacharyya(x, covX, y, covY);
+
+            Assert.AreEqual(expected, actual, 1e-6);
+            Assert.IsFalse(Double.IsNaN(actual));
+        }
+
+        [TestMethod()]
+        public void BhattacharyyaTest3()
+        {
+            double[] x = { 2, 1, 0 };
+            double[] y = { 1, 1, 0 };
+
+            double[,] covX = 
+            {
+                { 2, 1, 0 },
+                { 3, 1, 0 },
+                { 0, 0, 0 } 
+            };
+
+            // Run actual test
+            double expected = 0.125;
+            double actual = Distance.Bhattacharyya(x, covX, y, covX);
+
+            Assert.AreEqual(expected, actual, 1e-6);
+            Assert.IsFalse(Double.IsNaN(actual));
+        }
+
+        [TestMethod()]
+        public void BhattacharyyaTest4()
+        {
+            double[,] X = 
+            {
+                { 0.20, 0.52 },
+                { 1.52, 2.53 },
+                { 7.21, 0.92 },
+            };
+
+
+            double expected = 0.0;
+            double actual = Distance.Bhattacharyya(X, X);
             Assert.AreEqual(expected, actual, 1e-10);
             Assert.IsFalse(Double.IsNaN(actual));
         }
