@@ -74,19 +74,29 @@ namespace Accord.Tests.MachineLearning
             // Compute the model (estimate)
             int[] labels = meanShift.Compute(samples);
 
+            int a = 0;
+            int b = 1;
+
+            if (0.2358896594197982.IsRelativelyEqual(meanShift.Clusters.Modes[1][0], 1e-10))
+            {
+                a = 1;
+                b = 0;
+            }
+
             for (int i = 0; i < 5; i++)
-                Assert.AreEqual(1, labels[i]);
+                Assert.AreEqual(a, labels[i]);
+
             for (int i = 5; i < samples.Length; i++)
-                Assert.AreEqual(0, labels[i]);
+                Assert.AreEqual(b, labels[i]);
+
+            Assert.AreEqual(0.2358896594197982, meanShift.Clusters.Modes[a][0], 1e-10);
+            Assert.AreEqual(1.0010865560750339, meanShift.Clusters.Modes[a][1], 1e-10);
+
+            Assert.AreEqual(6.7284908155626031, meanShift.Clusters.Modes[b][0], 1e-10);
+            Assert.AreEqual(1.2713970467590967, meanShift.Clusters.Modes[b][1], 1e-10);
 
             Assert.AreEqual(2, meanShift.Clusters.Count);
             Assert.AreEqual(2, meanShift.Clusters.Modes.Length);
-
-            Assert.AreEqual(0.2358896594197982, meanShift.Clusters.Modes[1][0], 1e-10);
-            Assert.AreEqual(1.0010865560750339, meanShift.Clusters.Modes[1][1], 1e-10);
-
-            Assert.AreEqual(6.7284908155626031, meanShift.Clusters.Modes[0][0], 1e-10);
-            Assert.AreEqual(1.2713970467590967, meanShift.Clusters.Modes[0][1], 1e-10);
         }
 
         [TestMethod()]

@@ -26,6 +26,7 @@ namespace Accord.Tests.Imaging
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Imaging;
+    using System.Linq;
     using Accord.MachineLearning;
     using Accord.Math;
     using AForge.Imaging;
@@ -170,7 +171,13 @@ namespace Accord.Tests.Imaging
 
             // string str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
 
-            Assert.IsTrue(expected.IsEqual(actual));
+            for (int i = 0; i < actual.Length; i++)
+            {
+                for (int j = 0; j < actual[i].Length; j++)
+                {
+                    Assert.IsTrue(expected[i].Contains(actual[i][j]));
+                }
+            }
         }
 
         [TestMethod()]
