@@ -26,10 +26,6 @@ namespace Accord.Tests.Math
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
 
-    /// <summary>
-    ///This is a test class for CholeskyDecompositionTest and is intended
-    ///to contain all CholeskyDecompositionTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class CholeskyDecompositionTest
     {
@@ -37,10 +33,6 @@ namespace Accord.Tests.Math
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get

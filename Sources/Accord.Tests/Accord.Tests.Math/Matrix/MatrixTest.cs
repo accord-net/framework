@@ -1538,6 +1538,79 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod()]
+        public void DeterminantTest2()
+        {
+            double[,] m =
+            {
+                { 3.000, 1.000, 0.000, 2.000 },
+                { 4.000, 1.000, 2.000, 4.000 },
+                { 1.000, 1.000, 0.000, 1.000 },
+                { 0.000, 1.000, 2.000, 0.000 }
+            };
+
+            double expected = 8;
+
+            double det;
+            det = Matrix.Determinant(m);
+            Assert.AreEqual(expected, det);
+
+            det = Matrix.LogDeterminant(m);
+            Assert.AreEqual(Math.Log(expected), det, 1e-10);
+            Assert.IsFalse(Double.IsNaN(det));
+
+            det = Matrix.PseudoDeterminant(m);
+            Assert.AreEqual(expected, det, 1e-10);
+            Assert.IsFalse(Double.IsNaN(det));
+        }
+
+        [TestMethod()]
+        public void DeterminantTest3()
+        {
+            double[,] m =
+            {
+                { 0.000, 4.000, 0.000, 2.000 },
+                { 4.000, 1.000, 2.000, 4.000 },
+                { 0.000, 2.000, 1.000, 1.000 },
+                { 2.000, 4.000, 1.000, 1.000 }
+            };
+
+            Assert.IsTrue(m.IsSymmetric());
+
+            double expected = 44;
+
+            bool thrown = false;
+
+            try
+            {
+                Matrix.Determinant(m, symmetric: true);
+            }
+            catch (Exception)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+
+            thrown = false;
+
+            try
+            {
+                Matrix.LogDeterminant(m, symmetric: true);
+            }
+            catch (Exception)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+
+            double det = Matrix.PseudoDeterminant(m);
+            Assert.AreEqual(expected, det, 1e-10);
+            Assert.IsFalse(Double.IsNaN(det));
+        }
+
+
+        [TestMethod()]
         public void PositiveDefiniteTest()
         {
             double[,] m =

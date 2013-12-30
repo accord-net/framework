@@ -809,7 +809,8 @@ namespace Accord.Math
         /// 
         public static int Trace(this int[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
 
@@ -831,7 +832,8 @@ namespace Accord.Math
         /// 
         public static float Trace(this float[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
 
@@ -853,7 +855,8 @@ namespace Accord.Math
         /// 
         public static float Trace(this float[][] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             float trace = 0.0f;
             for (int i = 0; i < matrix.Length; i++)
@@ -871,7 +874,8 @@ namespace Accord.Math
         /// 
         public static T[] Diagonal<T>(this T[][] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             T[] r = new T[matrix.Length];
             for (int i = 0; i < r.Length; i++)
@@ -890,9 +894,10 @@ namespace Accord.Math
         /// 
         public static T[] Diagonal<T>(this T[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
-            T[] r = new T[matrix.GetLength(0)];
+            var r = new T[matrix.GetLength(0)];
             for (int i = 0; i < r.Length; i++)
                 r[i] = matrix[i, i];
 
@@ -915,13 +920,90 @@ namespace Accord.Math
         /// 
         public static double Determinant(this double[,] matrix, bool symmetric)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             if (symmetric) // Use faster robust Cholesky decomposition
-                return new CholeskyDecomposition(matrix, true, true).Determinant;
+            {
+                var chol = new CholeskyDecomposition(matrix, robust: true, lowerTriangular: true);
+
+                if (!chol.PositiveDefinite)
+                {
+                    throw new ArgumentException("The matrix could not be decomposed using " +
+                        " a robust Cholesky decomposition. Please specify symmetric as false " +
+                        " and provide a full matrix to be decomposed.", "matrix");
+                }
+
+                return chol.Determinant;
+            }
 
             return new LuDecomposition(matrix).Determinant;
         }
+
+        /// <summary>
+        ///   Gets the log-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double LogDeterminant(this double[,] matrix)
+        {
+            // Assume the most general case
+            return LogDeterminant(matrix, false);
+        }
+
+        /// <summary>
+        ///   Gets the log-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double LogDeterminant(this double[,] matrix, bool symmetric)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            if (symmetric) // Use faster robust Cholesky decomposition
+            {
+                var chol = new CholeskyDecomposition(matrix, robust: true, lowerTriangular: true);
+
+                if (!chol.PositiveDefinite)
+                {
+                    throw new ArgumentException("The matrix could not be decomposed using " +
+                        " a robust Cholesky decomposition. Please specify symmetric as false " +
+                        " and provide a full matrix to be decomposed.", "matrix");
+                }
+
+                return chol.LogDeterminant;
+            }
+
+            return new LuDecomposition(matrix).LogDeterminant;
+        }
+
+        /// <summary>
+        ///   Gets the pseudo-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double PseudoDeterminant(this double[,] matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            return new SingularValueDecomposition(matrix,
+                computeLeftSingularVectors: false, computeRightSingularVectors: false,
+                autoTranspose: true, inPlace: false).PseudoDeterminant;
+        }
+
+        /// <summary>
+        ///   Gets the log of the pseudo-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double LogPseudoDeterminant(this double[,] matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            return new SingularValueDecomposition(matrix,
+                computeLeftSingularVectors: false, computeRightSingularVectors: false,
+                autoTranspose: true, inPlace: false).LogPseudoDeterminant;
+        }
+
 
 
         /// <summary>
