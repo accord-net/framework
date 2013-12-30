@@ -437,15 +437,6 @@ namespace Accord.MachineLearning
                         centroids[i][j] = newCentroids[i][j];
             }
 
-            // Reorder clusters from larger to smaller
-            int[] reordering = Matrix.Indices(0, k);
-
-            Array.Sort(count, reordering, new GeneralComparer(ComparerDirection.Descending));
-            centroids.Swap(reordering);
-
-            for (int i = 0; i < labels.Length; i++)
-                labels[i] = reordering[labels[i]];
-
             
 
             for (int i = 0; i < centroids.Length; i++)
