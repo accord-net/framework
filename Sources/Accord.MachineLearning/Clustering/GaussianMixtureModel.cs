@@ -207,7 +207,7 @@ namespace Accord.MachineLearning
                 double[] mean = kmeans.Clusters.Centroids[i];
                 double[,] covariance = kmeans.Clusters.Covariances[i];
 
-                if (!covariance.IsPositiveDefinite())
+                if (covariance == null || !covariance.IsPositiveDefinite())
                     covariance = Matrix.Identity(kmeans.Dimension);
 
                 distributions[i] = new MultivariateNormalDistribution(mean, covariance);
@@ -362,6 +362,7 @@ namespace Accord.MachineLearning
                 Threshold = options.Threshold,
                 InnerOptions = options.NormalOptions,
                 Iterations = options.Iterations,
+                Logarithm = options.Logarithm
             };
 
             // Check if we have weighted samples
@@ -393,7 +394,7 @@ namespace Accord.MachineLearning
         /// for the algorithm. Default is 1e-5.</param>
         /// 
         /// <returns>
-        ///   The labelings for the input data.
+        ///   The labellings for the input data.
         /// </returns>
         /// 
         int[] IClusteringAlgorithm<double[]>.Compute(double[][] data, double threshold)
@@ -504,6 +505,13 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         public int Iterations { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether to make computations using the log
+        ///   -domain. This might improve accuracy on large datasets.
+        /// </summary>
+        /// 
+        public bool Logarithm { get; set; }
 
         /// <summary>
         ///   Gets or sets the sample weights. If set to null,

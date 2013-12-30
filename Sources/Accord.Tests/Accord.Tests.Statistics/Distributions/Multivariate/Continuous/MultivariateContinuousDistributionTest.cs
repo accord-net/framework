@@ -412,7 +412,7 @@ namespace Accord.Tests.Statistics
         [DeploymentItem("Accord.Statistics.dll")]
         public void FitTest()
         {
-            IDistribution target = CreateMultivariateContinuousDistribution(); // TODO: Initialize to an appropriate value
+            IDistribution target = CreateMultivariateContinuousDistribution(); 
             
             double[][] observations = 
             {

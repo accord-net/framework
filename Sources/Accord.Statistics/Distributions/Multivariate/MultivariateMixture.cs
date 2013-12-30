@@ -302,18 +302,42 @@ namespace Accord.Statistics.Distributions.Multivariate
             for (int i = 0; i < components.Length; i++)
                 pdf[i] = (IFittableDistribution<double[]>)components[i];
 
+            bool log = (options != null && options.Logarithm);
 
-            var em = new ExpectationMaximization<double[]>(coefficients, pdf);
-
-
-            if (options != null)
+            if (log)
             {
-                em.InnerOptions = options.InnerOptions;
-                em.Convergence.Iterations = options.Iterations;
-                em.Convergence.Tolerance = options.Threshold;
-            }
+                if (weights != null)
+                {
+                    throw new ArgumentException("The model fitting algorithm does not"
+                    + " currently support different weights when the logarithm option"
+                    + " is enabled. To avoid this exception, pass 'null' as the second"
+                    + " parameter's value when calling this method.");
+                }
 
-            em.Compute(observations, weights);
+                var em = new LogExpectationMaximization<double[]>(coefficients, pdf);
+
+                if (options != null)
+                {
+                    em.InnerOptions = options.InnerOptions;
+                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.Tolerance = options.Threshold;
+                }
+
+                em.Compute(observations);
+            }
+            else
+            {
+                var em = new ExpectationMaximization<double[]>(coefficients, pdf);
+
+                if (options != null)
+                {
+                    em.InnerOptions = options.InnerOptions;
+                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.Tolerance = options.Threshold;
+                }
+
+                em.Compute(observations, weights);
+            }
 
             for (int i = 0; i < components.Length; i++)
                 cache[i] = components[i] = (T)pdf[i];

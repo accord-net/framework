@@ -86,12 +86,24 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(2, gmm.Gaussians.Count);
 
+            int first = 0;
+
             for (int i = 0; i < samples.Length; i++)
             {
                 sample = samples[i];
                 c = gmm.Gaussians.Nearest(sample);
 
-                Assert.AreEqual(c, i < 5 ? 1 : 0);
+                if (i == 0)
+                    first = c;
+
+                if (i < 5)
+                {
+                    Assert.AreEqual(c, first);
+                }
+                else
+                {
+                    Assert.AreNotEqual(c, first);
+                }
             }
         }
 
@@ -236,11 +248,20 @@ namespace Accord.Tests.MachineLearning
                 });
 
 
-                Assert.AreEqual(6.420790676635443, gmm.Gaussians[1].Mean[0], 1e-10);
-                Assert.AreEqual(0.290536871335858, gmm.Gaussians[0].Mean[0], 1e-10);
+                int a = 0;
+                int b = 1;
 
-                Assert.AreEqual(0.32294476897888613, gmm.Gaussians[1].Proportion, 1e-6);
-                Assert.AreEqual(0.67705523102111387, gmm.Gaussians[0].Proportion, 1e-6);
+                if (gmm.Gaussians[1].Mean[0].IsRelativelyEqual(6.420790676635443, 1e-10))
+                {
+                    a = 1;
+                    b = 0;
+                }
+
+                Assert.AreEqual(6.420790676635443, gmm.Gaussians[a].Mean[0], 1e-10);
+                Assert.AreEqual(0.290536871335858, gmm.Gaussians[b].Mean[0], 1e-10);
+
+                Assert.AreEqual(0.32294476897888613, gmm.Gaussians[a].Proportion, 1e-6);
+                Assert.AreEqual(0.67705523102111387, gmm.Gaussians[b].Proportion, 1e-6);
                 Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
             }
 
@@ -254,11 +275,20 @@ namespace Accord.Tests.MachineLearning
 
                 gmm.Compute(points);
 
-                Assert.AreEqual(6.5149525060859865, gmm.Gaussians[1].Mean[0], 1e-10);
-                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[0].Mean[0], 1e-6);
+                int a = 0;
+                int b = 1;
 
-                Assert.AreEqual(0.42235760973845654, gmm.Gaussians[1].Proportion, 1e-6);
-                Assert.AreEqual(0.57764239026154351, gmm.Gaussians[0].Proportion, 1e-6);
+                if (6.5149525060859865.IsRelativelyEqual(gmm.Gaussians[1].Mean[0], 1e-10))
+                {
+                    a = 1;
+                    b = 0;
+                }
+
+                Assert.AreEqual(6.5149525060859865, gmm.Gaussians[a].Mean[0], 1e-10);
+                Assert.AreEqual(1.4191977895308987, gmm.Gaussians[b].Mean[0], 1e-6);
+
+                Assert.AreEqual(0.42235760973845654, gmm.Gaussians[a].Proportion, 1e-6);
+                Assert.AreEqual(0.57764239026154351, gmm.Gaussians[b].Proportion, 1e-6);
                 Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
             }
         }
@@ -285,11 +315,20 @@ namespace Accord.Tests.MachineLearning
                 Weights = weights
             });
 
-            Assert.AreEqual(-0.010550720353814949, gmm.Gaussians[1].Mean[0], 1e-4);
-            Assert.AreEqual(0.40799698773355553, gmm.Gaussians[1].Mean[1], 1e-3);
+            int a = 0;
+            int b = 1;
 
-            Assert.AreEqual(0.011896812071918696, gmm.Gaussians[0].Mean[0], 1e-4);
-            Assert.AreEqual(-0.40400708592859663, gmm.Gaussians[0].Mean[1], 1e-4);
+            if ((-0.010550720353814949).IsRelativelyEqual(gmm.Gaussians[1].Mean[0], 1e-4))
+            {
+                a = 1;
+                b = 0;
+            }
+
+            Assert.AreEqual(-0.010550720353814949, gmm.Gaussians[a].Mean[0], 1e-4);
+            Assert.AreEqual(0.40799698773355553, gmm.Gaussians[a].Mean[1], 1e-3);
+
+            Assert.AreEqual(0.011896812071918696, gmm.Gaussians[b].Mean[0], 1e-4);
+            Assert.AreEqual(-0.40400708592859663, gmm.Gaussians[b].Mean[1], 1e-4);
 
             Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
 

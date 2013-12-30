@@ -61,6 +61,13 @@ namespace Accord.Statistics.Distributions.Fitting
         public IFittingOptions InnerOptions { get; set; }
 
         /// <summary>
+        ///   Gets or sets whether to make computations using the log
+        ///   -domain. This might improve accuracy on large datasets.
+        /// </summary>
+        /// 
+        public bool Logarithm { get; set; }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="MixtureOptions"/> class.
         /// </summary>
         /// 

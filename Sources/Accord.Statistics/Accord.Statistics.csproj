@@ -131,6 +131,7 @@
     <Compile Include="Analysis\StepwiseLogisticRegressionAnalysis.cs" />
     <Compile Include="Circular.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
+    <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />
     <Compile Include="Distributions\Fitting\EmpiricalOptions.cs" />
     <Compile Include="Distributions\Fitting\ExpectationMaximization.cs" />
