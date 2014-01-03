@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -169,6 +169,8 @@ namespace Accord.MachineLearning.Structures
 
         private int count;
         private int dimensions;
+        private int leaves;
+
         private KDTreeNode<T> root;
         private Func<double[], double[], double> distance;
 
@@ -213,6 +215,17 @@ namespace Accord.MachineLearning.Structures
             get { return count; }
         }
 
+        /// <summary>
+        ///   Gets the number of leaves contained in this
+        ///   tree. This can be used to calibrate approximate
+        ///   nearest searchers.
+        /// </summary>
+        /// 
+        public int Leaves
+        {
+            get { return leaves; }
+        }
+
 
         /// <summary>
         ///   Creates a new <see cref="KDTree&lt;T&gt;"/>.
@@ -237,6 +250,31 @@ namespace Accord.MachineLearning.Structures
             : this(dimension)
         {
             this.root = root;
+
+            foreach (var node in this)
+            {
+                count++;
+
+                if (node.IsLeaf)
+                    leaves++;
+            }
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="KDTree&lt;T&gt;"/>.
+        /// </summary>
+        /// 
+        /// <param name="dimension">The number of dimensions in the tree.</param>
+        /// <param name="root">The root node, if already existent.</param>
+        /// <param name="count">The number of elements in the root node.</param>
+        /// <param name="leaves">The number of leaves linked through the root node.</param>
+        /// 
+        public KDTree(int dimension, KDTreeNode<T> root, int count, int leaves)
+            : this(dimension)
+        {
+            this.root = root;
+            this.count = count;
+            this.leaves = leaves;
         }
 
 
@@ -250,6 +288,7 @@ namespace Accord.MachineLearning.Structures
         public void Add(double[] position, T value)
         {
             insert(ref root, position, value, 0);
+            count++;
         }
 
         /// <summary>
@@ -267,7 +306,7 @@ namespace Accord.MachineLearning.Structures
             var list = new KDTreeNodeCollection<T>(maximum);
 
             if (root != null)
-                find(root, position, radius, list);
+                nearest(root, position, radius, list);
 
             return list;
         }
@@ -286,7 +325,7 @@ namespace Accord.MachineLearning.Structures
             var list = new KDTreeNodeList<T>();
 
             if (root != null)
-                find(root, position, radius, list);
+                nearest(root, position, radius, list);
 
             return list;
         }
@@ -305,40 +344,211 @@ namespace Accord.MachineLearning.Structures
             var list = new KDTreeNodeCollection<T>(size: neighbors);
 
             if (root != null)
-                find(root, position, neighbors, list);
+                nearest(root, position, list);
 
             return list;
         }
 
+        /// <summary>
+        ///   Retrieves a fixed point of nearest points to a given point.
+        /// </summary>
+        /// 
+        /// <param name="position">The queried point.</param>
+        /// 
+        /// <returns>A list of neighbor points, ordered by distance.</returns>
+        /// 
+        public KDTreeNode<T> Nearest(double[] position)
+        {
+            double distance;
+            return Nearest(position, out distance);
+        }
+
+        /// <summary>
+        ///   Retrieves a fixed point of nearest points to a given point.
+        /// </summary>
+        /// 
+        /// <param name="position">The queried point.</param>
+        /// <param name="distance">The distance from the <paramref name="position"/>
+        ///   to its nearest neighbor found in the tree.</param>
+        /// 
+        /// <returns>A list of neighbor points, ordered by distance.</returns>
+        /// 
+        public KDTreeNode<T> Nearest(double[] position, out double distance)
+        {
+            KDTreeNode<T> result = root;
+            distance = Distance(root.Position, position);
+
+            nearest(root, position, ref result, ref distance);
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Retrieves a fixed point of nearest points to a given point.
+        /// </summary>
+        /// 
+        /// <param name="position">The queried point.</param>
+        /// <param name="neighbors">The number of neighbors to retrieve.</param>
+        /// <param name="percentage">The maximum percentage of leaf nodes that
+        /// can be visited before the search finishes with an approximate answer.</param>
+        /// 
+        /// <returns>A list of neighbor points, ordered by distance.</returns>
+        /// 
+        public KDTreeNodeCollection<T> ApproximateNearest(double[] position, int neighbors, double percentage)
+        {
+            int maxLeaves = (int)(leaves * percentage);
+
+            var list = new KDTreeNodeCollection<T>(size: neighbors);
+
+            if (root != null)
+            {
+                int visited = 0;
+                approximate(root, position, list, maxLeaves, ref visited);
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        ///   Retrieves a fixed point of nearest points to a given point.
+        /// </summary>
+        /// 
+        /// <param name="position">The queried point.</param>
+        /// <param name="percentage">The maximum percentage of leaf nodes that
+        /// can be visited before the search finishes with an approximate answer.</param>
+        /// <param name="distance">The distance between the query point and its nearest neighbor.</param>
+        /// 
+        /// <returns>A list of neighbor points, ordered by distance.</returns>
+        /// 
+        public KDTreeNode<T> ApproximateNearest(double[] position, double percentage, out double distance)
+        {
+            KDTreeNode<T> result = root;
+            distance = Distance(root.Position, position);
+
+            int maxLeaves = (int)(leaves * percentage);
+
+            int visited = 0;
+            approximateNearest(root, position, ref result, ref distance, maxLeaves, ref visited);
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Retrieves a fixed point of nearest points to a given point.
+        /// </summary>
+        /// 
+        /// <param name="position">The queried point.</param>
+        /// <param name="percentage">The maximum percentage of leaf nodes that
+        /// can be visited before the search finishes with an approximate answer.</param>
+        /// 
+        /// <returns>A list of neighbor points, ordered by distance.</returns>
+        /// 
+        public KDTreeNode<T> ApproximateNearest(double[] position, double percentage)
+        {
+            var list = ApproximateNearest(position, neighbors: 1, percentage: percentage);
+
+            return list.Nearest;
+        }
+
+        /// <summary>
+        ///   Retrieves a fixed point of nearest points to a given point.
+        /// </summary>
+        /// 
+        /// <param name="position">The queried point.</param>
+        /// <param name="neighbors">The number of neighbors to retrieve.</param>
+        /// <param name="maxLeaves">The maximum number of leaf nodes that can
+        /// be visited before the search finishes with an approximate answer.</param>
+        /// 
+        /// <returns>A list of neighbor points, ordered by distance.</returns>
+        /// 
+        public KDTreeNodeCollection<T> ApproximateNearest(double[] position, int neighbors, int maxLeaves)
+        {
+            var list = new KDTreeNodeCollection<T>(size: neighbors);
+
+            if (root != null)
+            {
+                int visited = 0;
+                approximate(root, position, list, maxLeaves, ref visited);
+            }
+
+            return list;
+        }
+
+        /// <summary>
+        ///   Retrieves a fixed point of nearest points to a given point.
+        /// </summary>
+        /// 
+        /// <param name="position">The queried point.</param>
+        /// <param name="maxLeaves">The maximum number of leaf nodes that can
+        /// be visited before the search finishes with an approximate answer.</param>
+        /// 
+        /// <returns>A list of neighbor points, ordered by distance.</returns>
+        /// 
+        public KDTreeNode<T> ApproximateNearest(double[] position, int maxLeaves)
+        {
+            var list = ApproximateNearest(position, neighbors: 1, maxLeaves: maxLeaves);
+
+            return list.Nearest;
+        }
+
+
+
 
         #region internal methods
-        internal static KDTree<T> FromData(double[][] points)
+        /// <summary>
+        ///   Creates the root node for a new <see cref="KDTree{T}"/> given
+        ///   a set of data points and their respective stored values.
+        /// </summary>
+        /// 
+        /// <param name="points">The data points to be inserted in the tree.</param>
+        /// <param name="leaves">Return the number of leaves in the root subtree.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
+        /// 
+        /// <returns>The root node for a new <see cref="KDTree{T}"/>
+        ///   contained the given <paramref name="points"/>.</returns>
+        /// 
+        protected static KDTreeNode<T> CreateRoot(double[][] points, bool inPlace, out int leaves)
         {
-            return KDTree<T>.FromData(points, null, Accord.Math.Distance.Euclidean);
+            return CreateRoot(points, null, inPlace, out leaves);
         }
 
-        internal static KDTree<T> FromData(double[][] points, T[] values)
-        {
-            return KDTree<T>.FromData(points, values, Accord.Math.Distance.Euclidean);
-        }
-
-        internal static KDTree<T> FromData(double[][] points, Func<double[], double[], double> distance)
-        {
-            return KDTree<T>.FromData(points, null, distance);
-        }
-
-        internal static KDTree<T> FromData(double[][] points, T[] values, Func<double[], double[], double> distance)
+        /// <summary>
+        ///   Creates the root node for a new <see cref="KDTree{T}"/> given
+        ///   a set of data points and their respective stored values.
+        /// </summary>
+        /// 
+        /// <param name="points">The data points to be inserted in the tree.</param>
+        /// <param name="values">The values associated with each point.</param>
+        /// <param name="leaves">Return the number of leaves in the root subtree.</param>
+        /// <param name="inPlace">Whether the given <paramref name="points"/> vector
+        ///   can be ordered in place. Passing true will change the original order of
+        ///   the vector. If set to false, all operations will be performed on an extra
+        ///   copy of the vector.</param>
+        /// 
+        /// <returns>The root node for a new <see cref="KDTree{T}"/>
+        ///   contained the given <paramref name="points"/>.</returns>
+        /// 
+        protected static KDTreeNode<T> CreateRoot(double[][] points, T[] values, bool inPlace, out int leaves)
         {
             // Initial argument checks for creating the tree
             if (points == null)
                 throw new ArgumentNullException("points");
 
-            if (distance == null)
-                throw new ArgumentNullException("distance");
-
             if (values != null && points.Length != values.Length)
                 throw new DimensionMismatchException("values");
 
+            if (!inPlace)
+            {
+                points = (double[][])points.Clone();
+
+                if (values != null)
+                    values = (T[])values.Clone();
+            }
+
+            leaves = 0;
 
             int dimensions = points[0].Length;
 
@@ -346,28 +556,17 @@ namespace Accord.MachineLearning.Structures
             // elements at specified positions when sorting
             ElementComparer comparer = new ElementComparer();
 
-            // Since all sorting will be done in-place, we
-            // will register the original order of values
-            int[] idx = Matrix.Indices(0, points.Length);
-
             // Call the recursive algorithm to operate on the whole array (from 0 to points.Length)
-            KDTreeNode<T> root = create(points, idx, values, 0, dimensions, 0, points.Length, comparer);
-
-            // Restore the original ordering
-            Array.Sort(idx, points);
+            KDTreeNode<T> root = create(points, values, 0, dimensions, 0, points.Length, comparer, ref leaves);
 
             // Create and return the newly formed tree
-            KDTree<T> tree = new KDTree<T>(dimensions);
-            tree.root = root;
-            tree.count = points.Length;
-            tree.distance = distance;
-            return tree;
+            return root;
         }
         #endregion
 
 
         #region Recursive methods
-        private void find(KDTreeNode<T> current, double[] position,
+        private void nearest(KDTreeNode<T> current, double[] position,
             double radius, ICollection<KDTreeNodeDistance<T>> list)
         {
             // Check if the distance of the point from this
@@ -388,24 +587,24 @@ namespace Accord.MachineLearning.Structures
             if (value < median)
             {
                 if (current.Left != null)
-                    find(current.Left, position, radius, list);
+                    nearest(current.Left, position, radius, list);
 
                 if (current.Right != null)
                     if (Math.Abs(value - median) <= radius)
-                        find(current.Right, position, radius, list);
+                        nearest(current.Right, position, radius, list);
             }
             else
             {
                 if (current.Right != null)
-                    find(current.Right, position, radius, list);
+                    nearest(current.Right, position, radius, list);
 
                 if (current.Left != null)
                     if (Math.Abs(value - median) <= radius)
-                        find(current.Left, position, radius, list);
+                        nearest(current.Left, position, radius, list);
             }
         }
 
-        private void find(KDTreeNode<T> current, double[] position, int neighbors, KDTreeNodeCollection<T> list)
+        private void nearest(KDTreeNode<T> current, double[] position, KDTreeNodeCollection<T> list)
         {
             // Compute distance from this node to the point
             double d = distance(position, current.Position);
@@ -418,7 +617,7 @@ namespace Accord.MachineLearning.Structures
             else
             {
                 // Check for leafs on the opposite sides of 
-                // the subtrees to find possible neighbors.
+                // the subtrees to nearest possible neighbors.
 
                 // Prepare for recursion. The following null checks
                 // will be used to avoid function calls if possible
@@ -429,26 +628,215 @@ namespace Accord.MachineLearning.Structures
                 if (value < median)
                 {
                     if (current.Left != null)
-                        find(current.Left, position, neighbors, list);
+                        nearest(current.Left, position, list);
 
                     list.Add(current, d);
 
                     if (current.Right != null)
                         if (Math.Abs(value - median) <= list.Distance.Max)
-                            find(current.Right, position, neighbors, list);
+                            nearest(current.Right, position, list);
                 }
                 else
                 {
                     if (current.Right != null)
-                        find(current.Right, position, neighbors, list);
+                        nearest(current.Right, position, list);
 
                     list.Add(current, d);
 
                     if (current.Left != null)
                         if (Math.Abs(value - median) <= list.Distance.Max)
-                            find(current.Left, position, neighbors, list);
+                            nearest(current.Left, position, list);
                 }
             }
+        }
+
+        private void nearest(KDTreeNode<T> current, double[] position, ref KDTreeNode<T> match, ref double minDistance)
+        {
+            // Compute distance from this node to the point
+            double d = distance(position, current.Position);
+
+            if (current.IsLeaf)
+            {
+                // Base: node is leaf
+                if (d < minDistance)
+                {
+                    minDistance = d;
+                    match = current;
+                }
+            }
+            else
+            {
+                // Check for leafs on the opposite sides of 
+                // the subtrees to nearest possible neighbors.
+
+                // Prepare for recursion. The following null checks
+                // will be used to avoid function calls if possible
+
+                double value = position[current.Axis];
+                double median = current.Position[current.Axis];
+
+                if (value < median)
+                {
+                    if (current.Left != null)
+                        nearest(current.Left, position, ref match, ref minDistance);
+
+                    if (d < minDistance)
+                    {
+                        minDistance = d;
+                        match = current;
+                    }
+
+                    if (current.Right != null)
+                        if (Math.Abs(value - median) <= minDistance)
+                            nearest(current.Right, position, ref match, ref minDistance);
+                }
+                else
+                {
+                    if (current.Right != null)
+                        nearest(current.Right, position, ref match, ref minDistance);
+
+                    if (d < minDistance)
+                    {
+                        minDistance = d;
+                        match = current;
+                    }
+
+                    if (current.Left != null)
+                        if (Math.Abs(value - median) <= minDistance)
+                            nearest(current.Left, position, ref match, ref minDistance);
+                }
+            }
+        }
+
+
+        private bool approximate(KDTreeNode<T> current, double[] position,
+            KDTreeNodeCollection<T> list, int maxLeaves, ref int visited)
+        {
+            // Compute distance from this node to the point
+            double d = distance(position, current.Position);
+
+            if (current.IsLeaf)
+            {
+                // Base: node is leaf
+                list.Add(current, d);
+
+                visited++;
+
+                if (visited > maxLeaves)
+                    return true;
+            }
+            else
+            {
+                // Check for leafs on the opposite sides of 
+                // the subtrees to nearest possible neighbors.
+
+                // Prepare for recursion. The following null checks
+                // will be used to avoid function calls if possible
+
+                double value = position[current.Axis];
+                double median = current.Position[current.Axis];
+
+                if (value < median)
+                {
+                    if (current.Left != null)
+                        if (approximate(current.Left, position, list, maxLeaves, ref visited))
+                            return true;
+
+                    list.Add(current, d);
+
+                    if (current.Right != null)
+                        if (Math.Abs(value - median) <= list.Distance.Max)
+                            if (approximate(current.Right, position, list, maxLeaves, ref visited))
+                                return true;
+                }
+                else
+                {
+                    if (current.Right != null)
+                        approximate(current.Right, position, list, maxLeaves, ref visited);
+
+                    list.Add(current, d);
+
+                    if (current.Left != null)
+                        if (Math.Abs(value - median) <= list.Distance.Max)
+                            if (approximate(current.Left, position, list, maxLeaves, ref visited))
+                                return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool approximateNearest(KDTreeNode<T> current, double[] position,
+           ref KDTreeNode<T> match, ref double minDistance, int maxLeaves, ref int visited)
+        {
+            // Compute distance from this node to the point
+            double d = distance(position, current.Position);
+
+            if (current.IsLeaf)
+            {
+                // Base: node is leaf
+                if (d < minDistance)
+                {
+                    minDistance = d;
+                    match = current;
+                }
+
+                visited++;
+
+                if (visited > maxLeaves)
+                    return true;
+            }
+            else
+            {
+                // Check for leafs on the opposite sides of 
+                // the subtrees to nearest possible neighbors.
+
+                // Prepare for recursion. The following null checks
+                // will be used to avoid function calls if possible
+
+                double value = position[current.Axis];
+                double median = current.Position[current.Axis];
+
+                if (value < median)
+                {
+                    if (current.Left != null)
+                        if (approximateNearest(current.Left, position,
+                            ref match, ref minDistance, maxLeaves, ref visited))
+                            return true;
+
+                    if (d < minDistance)
+                    {
+                        minDistance = d;
+                        match = current;
+                    }
+
+                    if (current.Right != null)
+                        if (Math.Abs(value - median) <= minDistance)
+                            if (approximateNearest(current.Right, position, 
+                                ref match, ref minDistance, maxLeaves, ref visited))
+                                return true;
+                }
+                else
+                {
+                    if (current.Right != null)
+                        approximateNearest(current.Right, position,
+                            ref match, ref minDistance, maxLeaves, ref visited);
+
+                    if (d < minDistance)
+                    {
+                        minDistance = d;
+                        match = current;
+                    }
+
+                    if (current.Left != null)
+                        if (Math.Abs(value - median) <= minDistance)
+                            if (approximateNearest(current.Left, position,
+                                ref match, ref minDistance, maxLeaves, ref visited))
+                                return true;
+                }
+            }
+
+            return false;
         }
 
 
@@ -468,9 +856,6 @@ namespace Accord.MachineLearning.Structures
             {
                 // Recursive case: keep looking for a position to insert
 
-                int newIndex = depth % dimensions; // with this, each depth of 
-                // the tree will operate on one of the dimensions of the data
-
                 if (position[node.Axis] < node.Position[node.Axis])
                 {
                     KDTreeNode<T> child = node.Left;
@@ -487,15 +872,15 @@ namespace Accord.MachineLearning.Structures
         }
 
 
-        private static KDTreeNode<T> create(double[][] points, int[] idx, T[] values,
-           int depth, int k, int start, int length, ElementComparer comparer)
+        private static KDTreeNode<T> create(double[][] points, T[] values,
+           int depth, int k, int start, int length, ElementComparer comparer, ref int leaves)
         {
             if (length <= 0)
                 return null;
 
             // We will be doing sorting in place
             int axis = comparer.Index = depth % k;
-            Array.Sort(points, idx, start, length, comparer);
+            Array.Sort(points, values, start, length, comparer);
 
             // Middle of the input section
             int half = start + length / 2;
@@ -510,13 +895,16 @@ namespace Accord.MachineLearning.Structures
 
             // The median will be located halfway in the sorted array
             var median = points[half];
-            var value = values != null ? values[idx[half]] : default(T);
+            var value = values != null ? values[half] : default(T);
 
             depth++;
 
             // Continue with the recursion, passing the appropriate left and right array sections
-            KDTreeNode<T> left = create(points, idx, values, depth, k, leftStart, leftLength, comparer);
-            KDTreeNode<T> right = create(points, idx, values, depth, k, rightStart, rightLength, comparer);
+            KDTreeNode<T> left = create(points, values, depth, k, leftStart, leftLength, comparer, ref leaves);
+            KDTreeNode<T> right = create(points, values, depth, k, rightStart, rightLength, comparer, ref leaves);
+
+            if (left == null && right == null)
+                leaves++;
 
             // Backtrack and create
             return new KDTreeNode<T>()
@@ -542,7 +930,8 @@ namespace Accord.MachineLearning.Structures
 
         /// <summary>
         ///   Copies the entire tree to a compatible one-dimensional <see cref="System.Array"/>, starting
-        ///   at the specified <paramref name="arrayIndex">index</paramref> of the <paramref name="array">target array</paramref>.
+        ///   at the specified <paramref name="arrayIndex">index</paramref> of the <paramref name="array">
+        ///   target array</paramref>.
         /// </summary>
         /// 
         /// <param name="array">The one-dimensional <see cref="System.Array"/> that is the destination of the
@@ -562,7 +951,8 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <returns>
-        ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        ///   An <see cref="T:System.Collections.IEnumerator"/> object 
+        ///   that can be used to iterate through the collection.
         /// </returns>
         /// 
         public IEnumerator<KDTreeNode<T>> GetEnumerator()

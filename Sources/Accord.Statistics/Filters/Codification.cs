@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Statistics.Filters
     using System.Collections.Generic;
     using System.Data;
     using System.ComponentModel;
+    using Accord.Math;
 
     /// <summary>
     ///   Codification Filter class.
@@ -45,6 +46,33 @@ namespace Accord.Statistics.Filters
     ///   of text labels. Since most machine learning and statistics algorithms
     ///   expect their data to be numeric, the codification filter can be used
     ///   to create mappings between text labels and discrete symbols.</para>
+    ///   
+    /// <code>
+    /// // Show the start data
+    /// DataGridBox.Show(table);
+    /// </code>
+    /// 
+    /// <img src="..\images\filters\input-table.png" /> 
+    /// 
+    /// <code>
+    /// // Create a new data projection (column) filter
+    /// var filter = new Codification(table, "Category");
+    /// 
+    /// // Apply the filter and get the result
+    /// DataTable result = filter.Apply(table);
+    /// 
+    /// // Show it
+    /// DataGridBox.Show(result);
+    /// </code>
+    /// 
+    /// <img src="..\images\filters\output-codification.png" /> 
+    /// 
+    /// 
+    /// <para>
+    ///   The following more elaborated examples show how to
+    ///   use the <see cref="Codification"/> filter without
+    ///   necessarily handling <see cref="System.Data.DataTable">
+    ///   DataTable</see>s.</para>
     ///   
     /// <code>
     ///   // Suppose we have a data table relating the age of
@@ -198,7 +226,33 @@ namespace Accord.Statistics.Filters
             this.Detect(data, columns);
         }
 
- 
+        /// <summary>
+        ///   Creates a new Codification Filter.
+        /// </summary>
+        /// 
+        public Codification(string columnName, params string[] values)
+        {
+            parseColumn(columnName, values);
+        }
+
+        /// <summary>
+        ///   Creates a new Codification Filter.
+        /// </summary>
+        /// 
+        public Codification(string[] columnNames, string[][] values)
+        {
+            Detect(columnNames, values);
+        }
+
+        /// <summary>
+        ///   Creates a new Codification Filter.
+        /// </summary>
+        /// 
+        public Codification(string columnName, string[][] values)
+        {
+            Detect(columnName, values);
+        }
+
 
         /// <summary>
         ///   Translates a value of a given variable
@@ -301,12 +355,63 @@ namespace Accord.Statistics.Filters
         }
 
         /// <summary>
+        ///   Translates a value of the given variables
+        ///   into their integer (codeword) representation.
+        /// </summary>
+        /// 
+        /// <param name="columnName">The variable name.</param>
+        /// <param name="values">The values to be translated.</param>
+        /// 
+        /// <returns>An array of integers in which each integer
+        /// uniquely identifies the given value for the given 
+        /// variables.</returns>
+        /// 
+        public int[] Translate(string columnName, string[] values)
+        {
+            int[] result = new int[values.Length];
+
+            Options options = this.Columns[columnName];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = options.Mapping[values[i]];
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Translates a value of the given variables
+        ///   into their integer (codeword) representation.
+        /// </summary>
+        /// 
+        /// <param name="columnName">The variable name.</param>
+        /// <param name="values">The values to be translated.</param>
+        /// 
+        /// <returns>An array of integers in which each integer
+        /// uniquely identifies the given value for the given 
+        /// variables.</returns>
+        /// 
+        public int[][] Translate(string columnName, string[][] values)
+        {
+            int[][] result = new int[values.Length][];
+
+            Options options = this.Columns[columnName];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = new int[values[i].Length];
+                for (int j = 0; j < result[i].Length; j++)
+                    result[i][j] = options.Mapping[values[i][j]];
+            }
+
+            return result;
+        }
+
+        /// <summary>
         ///   Translates an integer (codeword) representation of
         ///   the value of a given variable into its original
         ///   value.
         /// </summary>
         /// 
-        /// <param name="columnName">The name of the variable's data column.</param>
+        /// <param name="columnName">The variable name.</param>
         /// <param name="codeword">The codeword to be translated.</param>
         /// 
         /// <returns>The original meaning of the given codeword.</returns>
@@ -321,6 +426,26 @@ namespace Accord.Statistics.Filters
             }
 
             return null;
+        }
+
+        /// <summary>
+        ///   Translates an integer (codeword) representation of
+        ///   the value of a given variable into its original
+        ///   value.
+        /// </summary>
+        /// 
+        /// <param name="columnName">The name of the variable's data column.</param>
+        /// <param name="codewords">The codewords to be translated.</param>
+        /// 
+        /// <returns>The original meaning of the given codeword.</returns>
+        /// 
+        public string[] Translate(string columnName, int[] codewords)
+        {
+            string[] result = new string[codewords.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Translate(columnName, codewords[i]);
+
+            return result;
         }
 
         /// <summary>
@@ -429,6 +554,47 @@ namespace Accord.Statistics.Filters
         {
             foreach (DataColumn column in data.Columns)
                 parseColumn(data, column);
+        }
+
+        /// <summary>
+        ///   Auto detects the filter options by analyzing a set of string labels.
+        /// </summary>
+        /// 
+        /// <param name="columnName">The variable name.</param>
+        /// <param name="values">A set of values that this variable can assume.</param>
+        /// 
+        public void Detect(string columnName, string[][] values)
+        {
+            parseColumn(columnName, values.Reshape(0));
+        }
+
+        /// <summary>
+        ///   Auto detects the filter options by analyzing a set of string labels.
+        /// </summary>
+        /// 
+        /// <param name="columnNames">The variable names.</param>
+        /// <param name="values">A set of values that those variable can assume.
+        ///   The first element of the array is assumed to be related to the first
+        ///   <paramref name="columnNames">column name</paramref> parameter.</param>
+        /// 
+        public void Detect(string[] columnNames, string[][] values)
+        {
+            for (int i = 0; i < columnNames.Length; i++)
+                parseColumn(columnNames[i], values[i]);
+        }
+
+
+
+
+        private void parseColumn(string name, string[] values)
+        {
+            string[] distinct = values.Distinct();
+
+            var map = new Dictionary<string, int>();
+            Columns.Add(new Options(name, map));
+
+            for (int j = 0; j < distinct.Length; j++)
+                map.Add(distinct[j], j);
         }
 
         private void parseColumn(DataTable data, DataColumn column)

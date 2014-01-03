@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,7 +25,10 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Data;
-    
+    using Accord;
+    using Accord.Math;
+    using Accord.Controls;
+
     [TestClass()]
     public class ProjectionFilterTest
     {
@@ -45,30 +48,43 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        public static DataTable CreateTable()
+        {
+            DataTable table = new DataTable("Buildings");
+            table.Columns.Add("Id", "Floors", "Finished", "Category", "Cost (M)");
+
+            table.Rows.Add(0, 19, false, "A", 212.522);
+            table.Rows.Add(1, 5, false, "B", 4.124);
+            table.Rows.Add(2, 7, true, "B", 2.683);
+            table.Rows.Add(3, 5, true, "A", 3.021);
+            table.Rows.Add(4, 2, false, "C", 2.151);
+
+            return table;
+        }
 
 
         [TestMethod()]
         public void ApplyTest()
         {
-            DataTable table = new DataTable("myData");
-            table.Columns.Add("Double", typeof(double));
-            table.Columns.Add("Integer", typeof(int));
-            table.Columns.Add("Boolean", typeof(bool));
+            DataTable table = CreateTable();
 
-            table.Rows.Add(4.20, 42, true);
-            table.Rows.Add(-3.14, -17, false);
-            table.Rows.Add(21.00, 0, false);
+            // Show the start data
+            // DataGridBox.Show(table);
 
-            Projection target = new Projection("Integer", "Boolean");
-            
-            DataTable actual = target.Apply(table);
+            // Create a new data projection (column) filter
+            var filter = new Projection("Floors", "Finished");
 
+            // Apply the filter and get the result
+            DataTable result = filter.Apply(table);
 
-            Assert.AreEqual(2, actual.Columns.Count);
-            Assert.AreEqual(3, actual.Rows.Count);
+            // Show it
+            // DataGridBox.Show(result);
 
-            Assert.AreEqual("Integer", actual.Columns[0].ColumnName);
-            Assert.AreEqual("Boolean", actual.Columns[1].ColumnName);
+            Assert.AreEqual(2, result.Columns.Count);
+            Assert.AreEqual(5, result.Rows.Count);
+
+            Assert.AreEqual("Floors", result.Columns[0].ColumnName);
+            Assert.AreEqual("Finished", result.Columns[1].ColumnName);
         }
     }
 }

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,6 +22,8 @@
 
 namespace Accord.MachineLearning.DecisionTrees
 {
+    using System;
+
 
     /// <summary>
     ///   Numeric comparison category.
@@ -69,5 +71,50 @@ namespace Accord.MachineLearning.DecisionTrees
         ///   The node compares for less-than or equality.
         /// </summary>
         LessThanOrEqual
+    }
+
+    /// <summary>
+    ///   Extension methods for <see cref="ComparisonKind"/> enumeration values.
+    /// </summary>
+    /// 
+    public static class ComparisonExtensions
+    {
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <param name="comparison">The comparison type.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public static string ToString(this ComparisonKind comparison)
+        {
+            switch (comparison)
+            {
+                case ComparisonKind.Equal:
+                    return "==";
+
+                case ComparisonKind.GreaterThan:
+                    return ">";
+
+                case ComparisonKind.GreaterThanOrEqual:
+                    return ">=";
+
+                case ComparisonKind.LessThan:
+                    return "<";
+
+                case ComparisonKind.LessThanOrEqual:
+                    return "<=";
+
+                case ComparisonKind.NotEqual:
+                    return "!=";
+
+                default:
+                    throw new InvalidOperationException("Unexpected node comparison type.");
+            }
+        }
     }
 }

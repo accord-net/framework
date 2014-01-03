@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -187,6 +187,13 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
         }
 
+        /// <summary>
+        ///   Gets or sets whether all nodes are obligated to
+        ///   provide a true decision value. If set to false,
+        ///   some leaf nodes may contain <c>null</c>.
+        /// </summary>
+        /// 
+        public bool Rejection { get; set; }
 
         /// <summary>
         ///   Creates a new ID3 learning algorithm.
@@ -196,11 +203,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public ID3Learning(DecisionTree tree)
         {
+            // Initial argument checking
+            if (tree == null)
+                throw new ArgumentNullException("tree");
+
             this.tree = tree;
             this.inputRanges = new IntRange[tree.InputCount];
             this.outputClasses = tree.OutputClasses;
             this.attributes = new bool[tree.InputCount];
             this.maxHeight = attributes.Length;
+            this.Rejection = true;
 
             for (int i = 0; i < tree.Attributes.Count; i++)
                 if (tree.Attributes[i].Nature != DecisionVariableKind.Discrete)
@@ -223,6 +235,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public double Run(int[][] inputs, int[] outputs)
         {
+            // Initial argument check
+            checkArgs(inputs, outputs);
+
             // Reset the usage of all attributes
             for (int i = 0; i < attributes.Length; i++)
                 attributes[i] = false;
@@ -235,6 +250,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // Return the classification error
             return ComputeError(inputs, outputs);
         }
+
+
 
         /// <summary>
         ///   Computes the prediction error for the tree
@@ -277,7 +294,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    the target attributes in the examples.
             int predictors = attributes.Count(x => x == false);
 
-            if (predictors < attributes.Length - maxHeight)
+            if (predictors <= attributes.Length - maxHeight)
             {
                 root.Output = Statistics.Tools.Mode(output);
                 return;
@@ -335,6 +352,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 int[] outputSubset = output.Submatrix(maxGainPartition[i]);
 
                 split(children[i], inputSubset, outputSubset); // recursion
+
+                if (children[i].IsLeaf)
+                {
+                    // If the resulting node is a leaf, and it has not
+                    // been assigned a value because there were no available
+                    // output samples in this category, we will be assigning
+                    // the most common label for the current node to it.
+                    if (!Rejection && !children[i].Output.HasValue)
+                        children[i].Output = Statistics.Tools.Mode(output);
+                }
             }
 
 
@@ -389,6 +416,64 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             double splitInfo = Measures.SplitInformation(output.Length, partitions);
 
             return infoGain == 0 ? 0 : infoGain / splitInfo;
+        }
+
+
+
+
+
+
+        private void checkArgs(int[][] inputs, int[] outputs)
+        {
+            if (inputs == null)
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null)
+                throw new ArgumentNullException("outputs");
+
+            if (inputs.Length != outputs.Length)
+                throw new DimensionMismatchException("outputs",
+                    "The number of input vectors and output labels does not match.");
+
+            if (inputs.Length == 0)
+                throw new ArgumentOutOfRangeException("inputs",
+                    "Training algorithm needs at least one training vector.");
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                if (inputs[i].Length != tree.InputCount)
+                {
+                    throw new DimensionMismatchException("inputs",
+                        "The size of the input vector at index " + i
+                        + " does not match the expected number of inputs of the tree."
+                        + " All input vectors for this tree must have length " + tree.InputCount);
+                }
+
+                for (int j = 0; j < inputs[i].Length; j++)
+                {
+                    int min = (int)tree.Attributes[j].Range.Min;
+                    int max = (int)tree.Attributes[j].Range.Max;
+
+                    if (inputs[i][j] < min || inputs[i][j] > max)
+                    {
+                        throw new ArgumentOutOfRangeException("inputs",
+                            "The input vector at position " + i + " contains an invalid entry at column "
+                            + j + ". The value must be between the bounds specified by the decision tree " +
+                            "attribute variables.");
+                    }
+                }
+            }
+
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                if (outputs[i] < 0 || outputs[i] >= tree.OutputClasses)
+                {
+                    throw new ArgumentOutOfRangeException("outputs",
+                        "The output label at index " + i +
+                        " should be equal to or higher than zero," +
+                        "and should be lesser than the number of output classes expected by the tree.");
+                }
+            }
         }
     }
 }

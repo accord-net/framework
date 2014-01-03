@@ -33,7 +33,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -110,6 +110,10 @@
     <Compile Include="Analysis\Base\IMultivariateRegressionAnalysis.cs" />
     <Compile Include="Analysis\Base\IRegressionAnalysis.cs" />
     <Compile Include="Analysis\Base\IDiscriminantAnalysis.cs" />
+    <Compile Include="Analysis\Contrast Functions\Exponential.cs" />
+    <Compile Include="Analysis\Contrast Functions\IContrastFunction.cs" />
+    <Compile Include="Analysis\Contrast Functions\Kurtosis.cs" />
+    <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
@@ -127,6 +131,10 @@
     <Compile Include="Analysis\StepwiseLogisticRegressionAnalysis.cs" />
     <Compile Include="Circular.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
+    <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
+    <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />
+    <Compile Include="Distributions\Fitting\EmpiricalOptions.cs" />
+    <Compile Include="Distributions\Fitting\ExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\IndependentOptions.cs" />
     <Compile Include="Distributions\Fitting\HiddenMarkovOptions.cs" />
     <Compile Include="Distributions\Fitting\SurvivalOptions.cs" />
@@ -269,6 +277,7 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
+    <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovModel.cs" />

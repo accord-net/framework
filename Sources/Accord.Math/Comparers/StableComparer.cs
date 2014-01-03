@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,12 +34,14 @@ namespace Accord.Math.Comparers
     /// <remarks>
     ///   This class helps sort the elements of an array without swapping
     ///   elements which are already in order. This comprises a <c>stable</c>
-    ///   sorting algorithm. This class is used by the <see cref="Tools.StableSort"/>
-    ///   method to produce a stable sort of its given arguments.
+    ///   sorting algorithm. This class is used by the <see cref="Accord.Math
+    ///   .Tools.StableSort{T}(T[], out int[])"/> method to produce a stable sort
+    ///   of its given arguments.
     /// </remarks>
     /// 
     /// <example>
-    ///   In order to use this class, please use <see cref="Tools.StableSort"/>.
+    ///   In order to use this class, please use <see cref="Tools.StableSort{T}(T[],
+    ///   out int[])"/>.
     /// </example>
     /// 
     /// <seealso cref="ElementComparer{T}"/>

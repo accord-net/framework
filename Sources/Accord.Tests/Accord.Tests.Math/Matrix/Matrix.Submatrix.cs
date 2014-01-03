@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -165,6 +165,8 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void SubgroupTest1()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             double[] value = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
 
             int[] idx = Accord.Statistics.Tools.RandomGroups(value.Length, 4);
@@ -173,9 +175,9 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual(4, groups.Length);
             Assert.AreEqual(3, groups[0].Length);
-            Assert.AreEqual(3, groups[1].Length);
+            Assert.AreEqual(4, groups[1].Length);
             Assert.AreEqual(3, groups[2].Length);
-            Assert.AreEqual(4, groups[3].Length);
+            Assert.AreEqual(3, groups[3].Length);
 
             for (int i = 0; i < groups.Length; i++)
             {
@@ -196,6 +198,56 @@ namespace Accord.Tests.Math
                 }
             }
 
+        }
+
+        [TestMethod()]
+        public void SubgroupTest2()
+        {
+            double[] value = { 1, 2, 3, 4, 5, 6, 7 };
+            int[] idx = { 0, 0, 0, 5, 5, 5, 5 };
+
+
+            double[][] groups = value.Subgroups(idx);
+
+            Assert.AreEqual(2, groups.Length);
+            Assert.AreEqual(3, groups[0].Length);
+            Assert.AreEqual(4, groups[1].Length);
+
+            Assert.AreEqual(groups[0][0], 1);
+            Assert.AreEqual(groups[0][1], 2);
+            Assert.AreEqual(groups[0][2], 3);
+
+            Assert.AreEqual(groups[1][0], 4);
+            Assert.AreEqual(groups[1][1], 5);
+            Assert.AreEqual(groups[1][2], 6);
+            Assert.AreEqual(groups[1][3], 7);
+        }
+
+        [TestMethod()]
+        public void SubgroupTest3()
+        {
+            double[] value = { 1, 2, 3, 4, 5, 6, 7 };
+            int[] idx = { 0, 0, 0, 4, 4, 4, 4 };
+
+
+            double[][] groups = value.Subgroups(idx, 5);
+
+            Assert.AreEqual(5, groups.Length);
+
+            Assert.AreEqual(3, groups[0].Length);
+            Assert.AreEqual(0, groups[1].Length);
+            Assert.AreEqual(0, groups[2].Length);
+            Assert.AreEqual(0, groups[3].Length);
+            Assert.AreEqual(4, groups[4].Length);
+
+            Assert.AreEqual(groups[0][0], 1);
+            Assert.AreEqual(groups[0][1], 2);
+            Assert.AreEqual(groups[0][2], 3);
+
+            Assert.AreEqual(groups[4][0], 4);
+            Assert.AreEqual(groups[4][1], 5);
+            Assert.AreEqual(groups[4][2], 6);
+            Assert.AreEqual(groups[4][3], 7);
         }
     }
 }

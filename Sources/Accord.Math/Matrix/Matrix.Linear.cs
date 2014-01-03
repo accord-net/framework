@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -215,16 +215,21 @@ namespace Accord.Math
             if (rows != cols)
                 throw new ArgumentException("Matrix must be square", "matrix");
 
-            if (rows == 3 && rows == 3)
+            if (rows == 3)
             {
                 // Special case for 3x3 matrices
                 double a = matrix[0, 0], b = matrix[0, 1], c = matrix[0, 2];
                 double d = matrix[1, 0], e = matrix[1, 1], f = matrix[1, 2];
                 double g = matrix[2, 0], h = matrix[2, 1], i = matrix[2, 2];
 
-                double m = 1.0 / (a * (e * i - f * h) -
-                                  b * (d * i - f * g) +
-                                  c * (d * h - e * g));
+                double den = a * (e * i - f * h) -
+                             b * (d * i - f * g) +
+                             c * (d * h - e * g);
+
+                if (den == 0)
+                    throw new SingularMatrixException();
+
+                double m = 1.0 / den;
 
                 double[,] inv = (inPlace) ? matrix : new double[3, 3];
                 inv[0, 0] = m * (e * i - f * h);
@@ -236,22 +241,29 @@ namespace Accord.Math
                 inv[2, 0] = m * (d * h - e * g);
                 inv[2, 1] = m * (b * g - a * h);
                 inv[2, 2] = m * (a * e - b * d);
+
                 return inv;
             }
 
-            if (rows == 2 && cols == 2)
+            if (rows == 2)
             {
                 // Special case for 2x2 matrices
                 double a = matrix[0, 0], b = matrix[0, 1];
                 double c = matrix[1, 0], d = matrix[1, 1];
 
-                double m = 1.0 / (a * d - b * c);
+                double den = a * d - b * c;
+
+                if (den == 0)
+                    throw new SingularMatrixException();
+
+                double m = 1.0 / den;
 
                 double[,] inv = (inPlace) ? matrix : new double[2, 2];
                 inv[0, 0] = +m * d;
                 inv[0, 1] = -m * b;
                 inv[1, 0] = -m * c;
                 inv[1, 1] = +m * a;
+
                 return inv;
             }
 

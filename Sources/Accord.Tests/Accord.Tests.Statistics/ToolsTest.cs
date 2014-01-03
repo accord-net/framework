@@ -5,7 +5,7 @@ using System;
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -342,6 +342,71 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void CovarianceTest5()
+        {
+            double[][] matrix = new double[,]
+            {
+                { 4.0, 2.0, 0.60 },
+                { 4.2, 2.1, 0.59 },
+                { 3.9, 2.0, 0.58 },
+                { 4.3, 2.1, 0.62 },
+                { 4.1, 2.2, 0.63 }
+            }.ToArray();
+
+
+            double[,] expected = new double[,]
+            {
+                { 0.02500, 0.00750, 0.00175 },
+                { 0.00750, 0.00700, 0.00135 },
+                { 0.00175, 0.00135, 0.00043 },
+            };
+
+            double[] weights = { 1, 1, 1, 1, 1 };
+
+            double[] mean = Tools.WeightedMean(matrix, weights, 0);
+            double[,] actual = Tools.WeightedCovariance(matrix, weights, mean);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
+
+            matrix = matrix.Transpose();
+
+            mean = Tools.WeightedMean(matrix, weights, 1);
+            actual = Tools.WeightedCovariance(matrix, weights, mean, 1);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
+        }
+
+        [TestMethod()]
+        public void CovarianceTest6()
+        {
+            double[][] matrix = new double[,]
+            {
+                { 4.0, 2.0, 0.60 },
+                { 4.2, 2.1, 0.59 },
+                { 3.9, 2.0, 0.58 },
+                { 4.3, 2.1, 0.62 },
+                { 4.1, 2.2, 0.63 }
+            }.ToArray();
+
+
+            double[,] expected = new double[,]
+            {
+                { 0.02500, 0.00750, 0.00175 },
+                { 0.00750, 0.00700, 0.00135 },
+                { 0.00175, 0.00135, 0.00043 },
+            };
+
+            double[] weights = { 1, 1, 1, 1, 1 };
+
+            double[,] actual = Tools.WeightedCovariance(matrix, weights, 0);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
+
+            matrix = matrix.Transpose();
+
+            actual = Tools.WeightedCovariance(matrix, weights, 1);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
+        }
+
+
+        [TestMethod()]
         public void CovarianceTest4()
         {
             double[] u = { -2, 1, 5 };
@@ -354,7 +419,59 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 0.0001);
         }
 
+        [TestMethod()]
+        public void VarianceTest7()
+        {
+            double[][] matrix = new double[,]
+            {
+                { 4.0, 2.0, 0.60 },
+                { 4.2, 2.1, 0.59 },
+                { 3.9, 2.0, 0.58 },
+                { 4.3, 2.1, 0.62 },
+                { 4.1, 2.2, 0.63 }
+            }.ToArray();
 
+            double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
+
+            double[] expected = 
+            { 
+                Tools.WeightedVariance(matrix.GetColumn(0), weights),
+                Tools.WeightedVariance(matrix.GetColumn(1), weights),
+                Tools.WeightedVariance(matrix.GetColumn(2), weights),
+            };
+
+
+            double[] actual = Tools.WeightedVariance(matrix, weights);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+        }
+
+        [TestMethod()]
+        public void VarianceTest8()
+        {
+            double[,] matrix = 
+            {
+                { 4.0, 2.0, 0.60 },
+                { 4.2, 2.1, 0.59 },
+                { 3.9, 2.0, 0.58 },
+                { 4.3, 2.1, 0.62 },
+                { 4.1, 2.2, 0.63 }
+            };
+
+            double[] weights = { 0.9, 0.9, 0.9, 0.9, 0.9 };
+
+            double[] expected = 
+            { 
+                Tools.WeightedVariance(matrix.GetColumn(0), weights),
+                Tools.WeightedVariance(matrix.GetColumn(1), weights),
+                Tools.WeightedVariance(matrix.GetColumn(2), weights),
+            };
+
+
+            double[] actual = Tools.WeightedVariance(matrix, weights);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
+        }
 
         [TestMethod()]
         public void CorrelationTest()

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -104,74 +104,16 @@ namespace Accord.Tests.MachineLearning
         }
 
         [TestMethod()]
-        public void KMeansConstructorTest2()
-        {
-
-            Accord.Math.Tools.SetupGenerator(0);
-
-
-            // Declare some observations
-            double[][] observations = 
-            {
-                new double[] { -5, -2, -1 },
-                new double[] { -5, -5, -6 },
-                new double[] {  2,  1,  1 },
-                new double[] {  1,  1,  2 },
-                new double[] {  1,  2,  2 },
-                new double[] {  3,  1,  2 },
-                new double[] { 11,  5,  4 },
-                new double[] { 15,  5,  6 },
-                new double[] { 10,  5,  6 },
-            };
-
-            double error, e;
-
-            // Create a new algorithm
-            KMeans kmeans = new KMeans(3);
-            kmeans.Randomize(observations);
-
-            // Save the first initialization
-            double[][] initial = kmeans.Clusters.Centroids;
-
-            // Compute the first K-Means
-            kmeans.Compute(observations, out error);
-
-            // Create more K-Means algorithms 
-            //  with the same initializations
-            for (int i = 0; i < 1000; i++)
-            {
-                kmeans = new KMeans(3);
-                kmeans.Clusters.Centroids = initial;
-                kmeans.Compute(observations, out e);
-
-                Assert.AreEqual(error, e);
-            }
-
-            // Create more K-Means algorithms 
-            //  without the same initialization
-            bool differ = false;
-            for (int i = 0; i < 1000; i++)
-            {
-                kmeans = new KMeans(3);
-                kmeans.Compute(observations, out e);
-
-                if (error != e) differ = true;
-            }
-
-            Assert.IsTrue(differ);
-        }
-
-        [TestMethod()]
-        public void KMeansConstructorTest3()
+        public void BinarySplitConstructorTest3()
         {
             // Create a new algorithm
-            KMeans kmeans = new KMeans(3);
-            Assert.IsNotNull(kmeans.Clusters);
-            Assert.IsNotNull(kmeans.Distance);
-            Assert.IsNotNull(kmeans.Clusters.Centroids);
-            Assert.IsNotNull(kmeans.Clusters.Count);
-            Assert.IsNotNull(kmeans.Clusters.Covariances);
-            Assert.IsNotNull(kmeans.Clusters.Proportions);
+            BinarySplit binarySplit = new BinarySplit(3);
+            Assert.IsNotNull(binarySplit.Clusters);
+            Assert.IsNotNull(binarySplit.Distance);
+            Assert.IsNotNull(binarySplit.Clusters.Centroids);
+            Assert.IsNotNull(binarySplit.Clusters.Count);
+            Assert.IsNotNull(binarySplit.Clusters.Covariances);
+            Assert.IsNotNull(binarySplit.Clusters.Proportions);
         }
     }
 }

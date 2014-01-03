@@ -12,7 +12,7 @@ echo.
 :: Settings for complete and (libs-only) package creation
 :: ---------------------------------------------------------
 
-set version=2.11.0
+set version=2.12.0
 set rar="C:\Program Files\WinRAR\rar"
 set libsname="Accord.NET Framework-%version%-(v3.5 only).rar"
 set opts=a -m5 -s

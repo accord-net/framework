@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ namespace Accord.MachineLearning
     using System.Collections.ObjectModel;
     using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Gaussian Mixture Model cluster.
@@ -64,7 +65,9 @@ namespace Accord.MachineLearning
         {
             get
             {
-                if (owner.model == null) return null;
+                if (owner.model == null) 
+                    return null;
+
                 return owner.model.Components[index].Mean;
             }
         }
@@ -77,7 +80,9 @@ namespace Accord.MachineLearning
         {
             get
             {
-                if (owner.model == null) return null;
+                if (owner.model == null)
+                    return null;
+
                 return owner.model.Components[index].Covariance;
             }
         }
@@ -90,7 +95,9 @@ namespace Accord.MachineLearning
         {
             get
             {
-                if (owner.model == null) return 0;
+                if (owner.model == null)
+                    return 0;
+
                 return owner.model.Coefficients[index];
             }
         }
@@ -110,7 +117,9 @@ namespace Accord.MachineLearning
         /// 
         public double LogLikelihood(double[] x)
         {
-            if (owner.model == null) return 0;
+            if (owner.model == null)
+                return 0;
+
             return owner.model.LogProbabilityDensityFunction(index, x);
         }
 
@@ -122,6 +131,7 @@ namespace Accord.MachineLearning
         {
             if (owner.model == null)
                 throw new InvalidOperationException("The model has not been initialized.");
+
             return (MultivariateNormalDistribution)owner.model.Components[index].Clone();
         }
 
@@ -175,6 +185,31 @@ namespace Accord.MachineLearning
     public class GaussianClusterCollection : ReadOnlyCollection<GaussianCluster>, IClusterCollection<double[]>
     {
         GaussianMixtureModel owner;
+
+        /// <summary>
+        ///   Gets the mean vectors for the clusters.
+        /// </summary>
+        /// 
+        public double[][] Means { get { return owner.model.Components.Apply(x => x.Mean); } }
+
+        /// <summary>
+        ///   Gets the variance for each of the clusters.
+        /// </summary>
+        /// 
+        public double[][] Variance { get { return owner.model.Components.Apply(x => x.Variance); } }
+
+        /// <summary>
+        ///   Gets the covariance matrices for each of the clusters.
+        /// </summary>
+        /// 
+        public double[][,] Covariance { get { return owner.model.Components.Apply(x => x.Covariance); } }
+
+        /// <summary>
+        ///   Gets the mixture coefficients for each cluster.
+        /// </summary>
+        /// 
+        public double[] Coefficients { get { return owner.model.Coefficients; } }
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="GaussianClusterCollection"/> class.
@@ -287,8 +322,11 @@ namespace Accord.MachineLearning
         public int[] Nearest(double[][] points)
         {
             int[] labels = new int[points.Length];
-            for (int i = 0; i < points.Length; i++)
+
+            Parallel.For(0, points.Length, i =>
+            {
                 labels[i] = Nearest(points[i]);
+            });
 
             return labels;
         }

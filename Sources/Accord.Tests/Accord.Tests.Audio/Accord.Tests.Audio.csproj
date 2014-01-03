@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComplexSignalTest.cs" />
+    <Compile Include="Filters\ExtractChannelTest.cs" />
     <Compile Include="WaveEncoderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -165,6 +166,14 @@
     <ProjectReference Include="..\..\Accord.Audio\Accord.Audio.csproj">
       <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
       <Name>Accord.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls.Audio\Accord.Controls.Audio.csproj">
+      <Project>{E0B826AC-2A51-41EC-9F09-561CA14A82BB}</Project>
+      <Name>Accord.Controls.Audio</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
+      <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
+      <Name>Accord.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.DirectSound\Accord.DirectSound.csproj">
       <Project>{456DB2E8-745A-4F87-A2BD-C43CF8677770}</Project>

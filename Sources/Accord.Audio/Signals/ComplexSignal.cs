@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -104,6 +104,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Constructs a new Complex Signal
         /// </summary>
+        /// 
         public ComplexSignal(byte[] data, int channels, int length, int sampleRate)
             : this(data, channels, length, sampleRate, ComplexSignalStatus.Normal)
         {
@@ -112,6 +113,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Constructs a new Complex Signal
         /// </summary>
+        /// 
         public ComplexSignal(byte[] data, int channels, int length, int sampleRate, ComplexSignalStatus status)
             : base(data, channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
@@ -121,6 +123,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Constructs a new Complex Signal
         /// </summary>
+        /// 
         public ComplexSignal(int channels, int length, int sampleRate)
             : base(channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
@@ -131,6 +134,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Converts the complex signal to a float array.
         /// </summary>
+        /// 
         public Complex[,] ToArray()
         {
             Complex[,] array = new Complex[Length, Channels];
@@ -141,6 +145,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Extracts a channel from the signal.
         /// </summary>
+        /// 
         public Complex[] GetChannel(int channel)
         {
             Complex[] array = new Complex[Length];
@@ -165,6 +170,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Copies an array of samples to a signal's channel.
         /// </summary>
+        /// 
         private void SetChannel(int channel, Complex[] samples)
         {
             int channels = Channels;

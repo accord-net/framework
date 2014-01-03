@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void SignTestConstructorTest()
         {
-            // Example from http://probabilityandstats.wordpress.com/2010/02/28/the-sign-test-more-examples/
+            // Example from http://www.unm.edu/~marcusj/1Samplesign.pdf
 
             double[] sample = 
             {
@@ -39,6 +39,9 @@ namespace Accord.Tests.Statistics
             };
 
             SignTest target = new SignTest(sample, hypothesizedMedian: 30);
+
+            // Wolfram Alpha gives 0.02896
+            // GNU R gives 0.04329
 
             Assert.AreEqual(OneSampleHypothesis.ValueIsDifferentFromHypothesis, target.Hypothesis);
             Assert.AreEqual(0.043285, target.PValue, 1e-4);

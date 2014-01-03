@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,7 @@
 using Accord.Statistics.Formats;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Data;
+using Accord.Math;
 
 namespace Accord.Tests.Statistics
 {
@@ -48,6 +49,40 @@ namespace Accord.Tests.Statistics
         }
 
 
+        [TestMethod()]
+        public void ExcelReaderConstructorTest()
+        {
+            string path = @"..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\sample.xls";
+
+            // Create a new reader, opening a given path
+            ExcelReader reader = new ExcelReader(path);
+
+            // Afterwards, we can query the file for all
+            // worksheets within the specified workbook:
+            string[] sheets = reader.GetWorksheetList();
+
+            // Finally, we can request an specific sheet:
+            DataTable table = reader.GetWorksheet(sheets[1]);
+
+            // Now, we have loaded the Excel file into a DataTable. We
+            // can go further and transform it into a matrix to start
+            // running other algorithms on it: 
+
+            double[,] matrix = table.ToMatrix();
+
+            // We can also do it retrieving the name for each column:
+            string[] columnNames; matrix = table.ToMatrix(out columnNames);
+
+            // Or we can extract specific columns into single arrays:
+            double[] column = table.Columns[0].ToArray();
+
+            // PS: you might need to import the Accord.Math namespace in
+            //   order to be able to call the ToMatrix extension methods. 
+
+            Assert.AreEqual(6, matrix.Length);
+            Assert.AreEqual(3, columnNames.Length);
+            Assert.AreEqual(2, column.Length);
+        }
 
         [TestMethod()]
         public void ConstructorExcel8Test()

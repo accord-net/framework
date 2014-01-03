@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,6 +24,7 @@ namespace Accord.Math
 {
     using System;
     using System.Collections;
+    using Accord.Math.Decompositions;
 
     /// <summary>
     ///   Static class Distance. Defines a set of extension methods defining distance measures.
@@ -49,8 +50,41 @@ namespace Accord.Math
             for (int i = 0; i < x.Length; i++)
                 d[i] = x[i] - y[i];
 
-            return d.InnerProduct(precision.Multiply(d));
+            double[] z = precision.Multiply(d);
+
+            double r = 0.0;
+            for (int i = 0; i < d.Length; i++)
+                r += d[i] * z[i];
+            return Math.Abs(r);
         }
+
+        /// <summary>
+        ///   Gets the Square Mahalanobis distance between two points.
+        /// </summary>
+        /// 
+        /// <param name="x">A point in space.</param>
+        /// <param name="y">A point in space.</param>
+        /// <param name="covariance">
+        ///   The <see cref="SingularValueDecomposition"/> of the covariance 
+        ///   matrix of the distribution for the two points x and y.
+        /// </param>
+        /// 
+        /// <returns>The Square Mahalanobis distance between x and y.</returns>
+        /// 
+        public static double SquareMahalanobis(this double[] x, double[] y, SingularValueDecomposition covariance)
+        {
+            double[] d = new double[x.Length];
+            for (int i = 0; i < x.Length; i++)
+                d[i] = x[i] - y[i];
+
+            double[] z = covariance.Solve(d);
+
+            double r = 0.0;
+            for (int i = 0; i < d.Length; i++)
+                r += d[i] * z[i];
+            return Math.Abs(r);
+        }
+
 
         /// <summary>
         ///   Gets the Mahalanobis distance between two points.
@@ -67,6 +101,24 @@ namespace Accord.Math
         public static double Mahalanobis(this double[] x, double[] y, double[,] precision)
         {
             return System.Math.Sqrt(SquareMahalanobis(x, y, precision));
+        }
+
+        /// <summary>
+        ///   Gets the Mahalanobis distance between two points.
+        /// </summary>
+        /// 
+        /// <param name="x">A point in space.</param>
+        /// <param name="y">A point in space.</param>
+        /// <param name="covariance">
+        ///   The <see cref="SingularValueDecomposition"/> of the covariance 
+        ///   matrix of the distribution for the two points x and y.
+        /// </param>
+        /// 
+        /// <returns>The Mahalanobis distance between x and y.</returns>
+        /// 
+        public static double Mahalanobis(this double[] x, double[] y, SingularValueDecomposition covariance)
+        {
+            return System.Math.Sqrt(SquareMahalanobis(x, y, covariance));
         }
 
         /// <summary>
@@ -197,10 +249,19 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Gets the Modulo-m distance between two integers a and b.
+        ///   Gets the Modulo-m distance between two integers <c>a</c> and <c>b</c>.
         /// </summary>
         /// 
         public static int Modular(int a, int b, int modulo)
+        {
+            return System.Math.Min(Tools.Mod(a - b, modulo), Tools.Mod(b - a, modulo));
+        }
+
+        /// <summary>
+        ///   Gets the Modulo-m distance between two real values <c>a</c> and <c>b</c>.
+        /// </summary>
+        /// 
+        public static double Modular(double a, double b, double modulo)
         {
             return System.Math.Min(Tools.Mod(a - b, modulo), Tools.Mod(b - a, modulo));
         }
@@ -229,6 +290,9 @@ namespace Accord.Math
         ///   Bhattacharyya distance between two matrices.
         /// </summary>
         /// 
+        /// <param name="x">The first matrix <c>x</c>.</param>
+        /// <param name="y">The first matrix <c>y</c>.</param>
+        /// 
         /// <returns>The Bhattacharyya distance between the two matrices.</returns>
         /// 
         public static double Bhattacharyya(double[,] x, double[,] y)
@@ -250,24 +314,56 @@ namespace Accord.Math
         /// <param name="covX">Covariance matrix for the first distribution.</param>
         /// <param name="meanY">Mean for the second distribution.</param>
         /// <param name="covY">Covariance matrix for the second distribution.</param>
+        /// 
         /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
         public static double Bhattacharyya(double[] meanX, double[,] covX, double[] meanY, double[,] covY)
         {
-            int n = covX.GetLength(0);
+            int n = meanX.Length;
+
+            double lnDetX = covX.LogPseudoDeterminant();
+            double lnDetY = covY.LogPseudoDeterminant();
+
+            return Bhattacharyya(meanX, covX, lnDetX, meanY, covY, lnDetY);
+        }
+
+        /// <summary>
+        ///   Bhattacharyya distance between two Gaussian distributions.
+        /// </summary>
+        /// 
+        /// <param name="meanX">Mean for the first distribution.</param>
+        /// <param name="covX">Covariance matrix for the first distribution.</param>
+        /// <param name="meanY">Mean for the second distribution.</param>
+        /// <param name="covY">Covariance matrix for the second distribution.</param>
+        /// <param name="lnDetCovX">The logarithm of the determinant for 
+        ///   the covariance matrix of the first distribution.</param>
+        /// <param name="lnDetCovY">The logarithm of the determinant for 
+        ///   the covariance matrix of the second distribution.</param>
+        /// 
+        /// <returns>The Bhattacharyya distance between the two distributions.</returns>
+        /// 
+        public static double Bhattacharyya(
+            double[] meanX, double[,] covX, double lnDetCovX,
+            double[] meanY, double[,] covY, double lnDetCovY)
+        {
+            int n = meanX.Length;
 
             // P = (covX + covY) / 2
-            double[,] P = new double[n, n];
+            var P = new double[n, n];
             for (int i = 0; i < n; i++)
-                for (int j = 0; j < n - i; j++)
-                    P[j, i] = P[i, j] = (covX[i, j] + covY[i, j]) / 2.0;
+                for (int j = 0; j < n; j++)
+                    P[i, j] = (covX[i, j] + covY[i, j]) / 2.0;
 
-            double detP = P.Determinant(true);
-            double detP1 = covX.Determinant(true);
-            double detP2 = covY.Determinant(true);
+            var svd = new SingularValueDecomposition(P);
+            
+            double detP = svd.LogPseudoDeterminant;
 
-            return (1.0 / 8.0) * SquareMahalanobis(meanY, meanX, Matrix.Inverse(P))
-                + (0.5) * System.Math.Log(detP / System.Math.Sqrt(detP1 * detP2));
+            double mahalanobis = SquareMahalanobis(meanY, meanX, svd);
+
+            double a = (1.0 / 8.0) * mahalanobis;
+            double b = (0.5) * (detP - 0.5 * (lnDetCovX + lnDetCovY));
+
+            return a + b;
         }
 
 
@@ -275,8 +371,8 @@ namespace Accord.Math
         ///   Levenshtein distance between two strings.
         /// </summary>
         /// 
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">The first string <c>x</c>.</param>
+        /// <param name="y">The first string <c>y</c>.</param>
         /// 
         /// <remarks>
         ///   Based on the standard implementation available on Wikibooks:

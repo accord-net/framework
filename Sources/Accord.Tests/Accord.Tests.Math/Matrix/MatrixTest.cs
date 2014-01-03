@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@ namespace Accord.Tests.Math
     using System.Data;
     using AForge;
     using System.Linq;
+    using Accord.Math.Decompositions;
 
     [TestClass()]
     public partial class MatrixTest
@@ -462,6 +463,49 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
+        [TestMethod()]
+        public void AddToDiagTest1()
+        {
+            double[,] a = 
+            {
+                { 2, 5, -1 },
+                { 5, 0,  2 },
+            };
+
+            double[,] expected =
+            {
+                {  3, 5, -1 },
+                {  5, 1,  2 },
+            };
+
+            var actual = Matrix.AddToDiagonal(a, 1.0);
+            Assert.IsTrue(expected.IsEqual(actual));
+
+            actual = Matrix.SubtractFromDiagonal(actual, 1.0);
+            Assert.IsTrue(actual.IsEqual(a));
+        }
+
+        [TestMethod()]
+        public void AddToDiagTest2()
+        {
+            double[][] a = 
+            {
+                new double[] { 2, 5, -1 },
+                new double[] { 5, 0,  2 },
+            };
+
+            double[][] expected =
+            {
+                new double[] {  3, 5, -1 },
+                new double[] {  5, 1,  2 },
+            };
+
+            var actual = Matrix.AddToDiagonal(a, 1.0);
+            Assert.IsTrue(expected.IsEqual(actual));
+
+            actual = Matrix.SubtractFromDiagonal(actual, 1.0);
+            Assert.IsTrue(actual.IsEqual(a));
+        }
 
         [TestMethod()]
         public void ElementwiseMultiplyTest4()
@@ -1219,6 +1263,41 @@ namespace Accord.Tests.Math
 
         #region Inverse, division and solving
         [TestMethod()]
+        public void InverseTest2x2()
+        {
+            double[,] value = 
+            { 
+                { 3.0, 1.0 },
+                { 2.0, 2.0 }  
+            };
+
+            double[,] expected = new SingularValueDecomposition(value).Inverse();
+
+            double[,] actual = Matrix.Inverse(value);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
+        }
+
+        [TestMethod()]
+        public void InverseTest3x3()
+        {
+            double[,] value = 
+            { 
+                { 6.0, 1.0, 2.0 },
+                { 0.0, 8.0, 1.0 },  
+                { 2.0, 4.0, 5.0 }  
+            };
+
+            Assert.IsFalse(value.IsSingular());
+
+            double[,] expected = new SingularValueDecomposition(value).Inverse();
+
+            double[,] actual = Matrix.Inverse(value);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6));
+        }
+
+        [TestMethod()]
         public void PseudoInverse()
         {
             double[,] value = new double[,]
@@ -1457,6 +1536,79 @@ namespace Accord.Tests.Math
             double actual = Matrix.Determinant(m);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod()]
+        public void DeterminantTest2()
+        {
+            double[,] m =
+            {
+                { 3.000, 1.000, 0.000, 2.000 },
+                { 4.000, 1.000, 2.000, 4.000 },
+                { 1.000, 1.000, 0.000, 1.000 },
+                { 0.000, 1.000, 2.000, 0.000 }
+            };
+
+            double expected = 8;
+
+            double det;
+            det = Matrix.Determinant(m);
+            Assert.AreEqual(expected, det);
+
+            det = Matrix.LogDeterminant(m);
+            Assert.AreEqual(Math.Log(expected), det, 1e-10);
+            Assert.IsFalse(Double.IsNaN(det));
+
+            det = Matrix.PseudoDeterminant(m);
+            Assert.AreEqual(expected, det, 1e-10);
+            Assert.IsFalse(Double.IsNaN(det));
+        }
+
+        [TestMethod()]
+        public void DeterminantTest3()
+        {
+            double[,] m =
+            {
+                { 0.000, 4.000, 0.000, 2.000 },
+                { 4.000, 1.000, 2.000, 4.000 },
+                { 0.000, 2.000, 1.000, 1.000 },
+                { 2.000, 4.000, 1.000, 1.000 }
+            };
+
+            Assert.IsTrue(m.IsSymmetric());
+
+            double expected = 44;
+
+            bool thrown = false;
+
+            try
+            {
+                Matrix.Determinant(m, symmetric: true);
+            }
+            catch (Exception)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+
+            thrown = false;
+
+            try
+            {
+                Matrix.LogDeterminant(m, symmetric: true);
+            }
+            catch (Exception)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+
+            double det = Matrix.PseudoDeterminant(m);
+            Assert.AreEqual(expected, det, 1e-10);
+            Assert.IsFalse(Double.IsNaN(det));
+        }
+
 
         [TestMethod()]
         public void PositiveDefiniteTest()
@@ -2087,46 +2239,6 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod()]
-        public void ReshapeTest()
-        {
-            int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            int rows = 3;
-            int cols = 3;
-
-            int[,] expected = 
-            {
-                { 1, 4, 7 },
-                { 2, 5, 8 },
-                { 3, 6, 9 },
-            };
-
-            int[,] actual = Matrix.Reshape(array, rows, cols);
-
-            Assert.IsTrue(Matrix.IsEqual(expected, actual));
-
-        }
-
-        [TestMethod()]
-        public void ReshapeTest1()
-        {
-            double[,] array = 
-            {
-                { 1, 2, 3},
-                { 4, 5, 6},
-            };
-
-            int dimension = 1;
-            double[] expected = { 1, 2, 3, 4, 5, 6 };
-            double[] actual = Matrix.Reshape(array, dimension);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual));
-
-            dimension = 0;
-            expected = new double[] { 1, 4, 2, 5, 3, 6 };
-            actual = Matrix.Reshape(array, dimension);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual));
-        }
-
-        [TestMethod()]
         public void MagicTest()
         {
             var actual = Matrix.Magic(3);
@@ -2266,6 +2378,150 @@ namespace Accord.Tests.Math
 
             actual = Matrix.InsertRow(I, row, 3);
             Assert.IsTrue(actual.IsEqual(expected));
+        }
+
+        [TestMethod()]
+        public void InsertRowTest2()
+        {
+            double[,] a =
+            { 
+               { 100.00, 27.56, 33.89},
+               { 27.56, 100.00, 24.76},
+               { 33.89, 24.76, 100.00} 
+             };
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+
+            double[,] b = a.InsertColumn(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+            Assert.AreEqual(4, b.GetLength(0));
+            Assert.AreEqual(4, b.GetLength(1));
+            Assert.IsTrue(b.GetRow(3).IsEqual(0, 0, 0, 100));
+
+            double[,] c = a.InsertRow(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+            Assert.AreEqual(4, c.GetLength(0));
+            Assert.AreEqual(4, c.GetLength(1));
+            Assert.IsTrue(c.GetColumn(3).IsEqual(0, 0, 0, 100));
+
+            a = a.InsertColumn(new double[] { 1, 2, 3 })
+                 .InsertRow(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(4, a.GetLength(0));
+            Assert.AreEqual(4, a.GetLength(1));
+            Assert.IsTrue(a.GetRow(3).IsEqual(1, 2, 3, 100));
+            Assert.IsTrue(a.GetColumn(3).IsEqual(1, 2, 3, 100));
+        }
+
+        [TestMethod()]
+        public void InsertRowTest5()
+        {
+            double[][] a =
+            { 
+               new double[] { 100.00, 27.56, 33.89},
+               new double[] { 27.56, 100.00, 24.76},
+               new double[] { 33.89, 24.76, 100.00} 
+             };
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+
+            double[][] b = a.InsertColumn(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+            Assert.AreEqual(4, b.Length);
+            Assert.AreEqual(4, b[0].Length);
+
+            double[][] c = a.InsertRow(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+            Assert.AreEqual(4, b.Length);
+            Assert.AreEqual(4, b[0].Length);
+            Assert.IsTrue(c.GetColumn(3).IsEqual(0, 0, 0, 100));
+
+            a = a.InsertColumn(new double[] { 1, 2, 3 })
+                 .InsertRow(new double[] { 1, 2, 3, 100 });
+
+            Assert.AreEqual(4, a.Length);
+            Assert.AreEqual(4, a[0].Length);
+            Assert.IsTrue(a.GetRow(3).IsEqual(1, 2, 3, 100));
+            Assert.IsTrue(a.GetColumn(3).IsEqual(1, 2, 3, 100));
+        }
+
+
+        [TestMethod()]
+        public void InsertRowTest3()
+        {
+            double[,] a =
+            { 
+               { 100.00, 27.56, 33.89},
+               { 27.56, 100.00, 24.76},
+               { 33.89, 24.76, 100.00} 
+             };
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+
+            double[,] b = a.InsertColumn(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+            Assert.AreEqual(3, b.GetLength(0));
+            Assert.AreEqual(4, b.GetLength(1));
+
+            double[,] c = a.InsertRow(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(3, a.GetLength(0));
+            Assert.AreEqual(3, a.GetLength(1));
+            Assert.AreEqual(4, c.GetLength(0));
+            Assert.AreEqual(3, c.GetLength(1));
+
+            a = a.InsertColumn(new double[] { 1, 2, 3 })
+                 .InsertRow(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(4, a.GetLength(0));
+            Assert.AreEqual(4, a.GetLength(1));
+        }
+
+        [TestMethod()]
+        public void InsertRowTest4()
+        {
+            double[][] a =
+            { 
+               new double[] { 100.00, 27.56, 33.89},
+               new double[] { 27.56, 100.00, 24.76},
+               new double[] { 33.89, 24.76, 100.00} 
+             };
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+
+            double[][] b = a.InsertColumn(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+            Assert.AreEqual(3, b.Length);
+            Assert.AreEqual(4, b[0].Length);
+
+            double[][] c = a.InsertRow(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(3, a.Length);
+            Assert.AreEqual(3, a[0].Length);
+            Assert.AreEqual(4, c.Length);
+            Assert.AreEqual(3, c[0].Length);
+
+            a = a.InsertColumn(new double[] { 1, 2, 3 })
+                 .InsertRow(new double[] { 1, 2, 3 });
+
+            Assert.AreEqual(4, a.Length);
+            Assert.AreEqual(4, a[0].Length);
         }
 
         [TestMethod()]
@@ -2576,29 +2832,6 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expectedA.IsEqual(a));
             Assert.IsTrue(expectedB.IsEqual(b));
             Assert.IsTrue(expectedC.IsEqual(c));
-        }
-
-        [TestMethod()]
-        public void ReshapeTest2()
-        {
-            double[][] array = 
-            {
-                new double[] { 1, 2, 3 },
-                new double[] { 4, 5, 6 }
-            };
-
-            {
-                double[] expected = { 1, 2, 3, 4, 5, 6 };
-                double[] actual = Matrix.Reshape(array, 1);
-                Assert.IsTrue(expected.IsEqual(actual));
-            }
-
-            {
-                double[] expected = { 1, 4, 2, 5, 3, 6 };
-                double[] actual = Matrix.Reshape(array, 0);
-                Assert.IsTrue(expected.IsEqual(actual));
-            }
-
         }
 
 

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 // Copyright © Antonino Porcino, 2010
@@ -28,6 +28,9 @@ namespace Accord.MachineLearning
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Threading.Tasks;
+    using System.Threading;
+    using Accord.Math.Comparers;
 
     /// <summary>
     ///   k-Means clustering algorithm.
@@ -230,7 +233,7 @@ namespace Accord.MachineLearning
         /// 
         public KMeans(int k, Func<double[], double[], double> distance)
         {
-            if (k <= 0) 
+            if (k <= 0)
                 throw new ArgumentOutOfRangeException("k");
             if (distance == null)
                 throw new ArgumentNullException("distance");
@@ -250,7 +253,7 @@ namespace Accord.MachineLearning
         /// 
         public void Randomize(double[][] points, bool useSeeding = true)
         {
-            if (points == null) 
+            if (points == null)
                 throw new ArgumentNullException("points");
 
             double[][] centroids = clusters.Centroids;
@@ -368,8 +371,9 @@ namespace Accord.MachineLearning
             for (int i = 0; i < newCentroids.Length; i++)
                 newCentroids[i] = new double[cols];
 
-            double[][,] covariances = clusters.Covariances;
-            double[] proportions = clusters.Proportions;
+            Object[] syncObjects = new Object[k];
+            for (int i = 0; i < syncObjects.Length; i++)
+                syncObjects[i] = new Object();
 
 
             bool shouldStop = false;
@@ -386,7 +390,7 @@ namespace Accord.MachineLearning
                 // information into the newClusters variable.
 
                 // For each point in the data set,
-                for (int i = 0; i < data.Length; i++)
+                Parallel.For(0, data.Length, i =>
                 {
                     // Get the point
                     double[] point = data[i];
@@ -395,12 +399,18 @@ namespace Accord.MachineLearning
                     int c = labels[i] = Clusters.Nearest(point);
 
                     // Increase the cluster's sample counter
-                    count[c]++;
+                    Interlocked.Increment(ref count[c]);
 
-                    // Accumulate in the corresponding centroid
-                    for (int j = 0; j < point.Length; j++)
-                        newCentroids[c][j] += point[j];
-                }
+                    // Get the closest cluster centroid
+                    double[] centroid = newCentroids[c];
+
+                    lock (syncObjects[c])
+                    {
+                        // Accumulate in the cluster centroid
+                        for (int j = 0; j < point.Length; j++)
+                            centroid[j] += point[j];
+                    }
+                });
 
                 // Next we will compute each cluster's new centroid
                 //  by dividing the accumulated sums by the number of
@@ -427,6 +437,14 @@ namespace Accord.MachineLearning
                         centroids[i][j] = newCentroids[i][j];
             }
 
+            
+
+            for (int i = 0; i < centroids.Length; i++)
+            {
+                // Compute the proportion of samples in the cluster
+                clusters.Proportions[i] = count[i] / (double)data.Length;
+            }
+
 
             if (computeInformation)
             {
@@ -439,20 +457,16 @@ namespace Accord.MachineLearning
                     if (sub.Length > 0)
                     {
                         // Compute the current cluster variance
-                        covariances[i] = Statistics.Tools.Covariance(sub, centroids[i]);
+                        clusters.Covariances[i] = Statistics.Tools.Covariance(sub, centroids[i]);
                     }
                     else
                     {
                         // The cluster doesn't have any samples
-                        covariances[i] = new double[cols, cols];
+                        clusters.Covariances[i] = new double[cols, cols];
                     }
-
-                    // Compute the proportion of samples in the cluster
-                    proportions[i] = (double)sub.Length / data.Length;
                 }
             }
 
-            clusters.Centroids = centroids;
 
             // Return the classification result
             return labels;

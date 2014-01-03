@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -103,6 +103,46 @@ namespace Accord.Statistics.Analysis
     ///  </list></para>  
     /// </remarks>
     /// 
+    /// <example>
+    /// <code>
+    /// // Let's create a random dataset containing
+    /// // 5000 samples of two dimensional samples.
+    /// //
+    /// double[,] source = Matrix.Random(5000, 2);
+    /// 
+    /// // Now, we will mix the samples the dimensions of the samples.
+    /// // A small amount of the second column will be applied to the
+    /// // first, and vice-versa. 
+    /// //
+    /// double[,] mix =
+    /// {
+    ///     {  0.25, 0.25 },
+    ///     { -0.25, 0.75 },    
+    /// };
+    /// 
+    /// // mix the source data
+    /// double[,] input = source.Multiply(mix);
+    /// 
+    /// // Now, we can use ICA to identify any linear mixing between the variables, such
+    /// // as the matrix multiplication we did above. After it has identified it, we will
+    /// // be able to revert the process, retrieving our original samples again
+    ///             
+    /// // Create a new Independent Component Analysis
+    /// var ica = new IndependentComponentAnalysis(input);
+    /// 
+    /// 
+    /// // Compute it 
+    /// ica.Compute();
+    /// 
+    /// // Now, we can retrieve the mixing and demixing matrices that were 
+    /// // used to alter the data. Note that the analysis was able to detect
+    /// // this information automatically:
+    /// 
+    /// double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+    /// double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+    /// </code>
+    /// </example>
+    /// 
     [Serializable]
     public class IndependentComponentAnalysis : IMultivariateAnalysis
     {
@@ -136,22 +176,62 @@ namespace Accord.Statistics.Analysis
 
 
         #region Constructors
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// 
         public IndependentComponentAnalysis(double[,] data)
-            : this(data, AnalysisMethod.Center, IndependentComponentAlgorithm.Parallel) { }
-
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
-        public IndependentComponentAnalysis(double[,] data, IndependentComponentAlgorithm algorithm)
-            : this(data, AnalysisMethod.Center, algorithm) { }
-
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
-        public IndependentComponentAnalysis(double[,] data, AnalysisMethod method)
-            : this(data, method, IndependentComponentAlgorithm.Parallel) { }
-
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
-        public IndependentComponentAnalysis(double[,] data, AnalysisMethod method, IndependentComponentAlgorithm algorithm)
+            : this(data, AnalysisMethod.Center, IndependentComponentAlgorithm.Parallel)
         {
-            if (data == null) throw new ArgumentNullException("data");
+        }
+
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
+        ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
+        ///   
+        public IndependentComponentAnalysis(double[,] data, IndependentComponentAlgorithm algorithm)
+            : this(data, AnalysisMethod.Center, algorithm)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// <param name="method">The analysis method to perform. Default is
+        ///   <see cref="AnalysisMethod.Center"/>.</param>
+        /// 
+        public IndependentComponentAnalysis(double[,] data, AnalysisMethod method)
+            : this(data, method, IndependentComponentAlgorithm.Parallel)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// <param name="method">The analysis method to perform. Default is
+        ///   <see cref="AnalysisMethod.Center"/>.</param>
+        /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
+        ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
+        ///   
+        public IndependentComponentAnalysis(double[,] data, AnalysisMethod method,
+            IndependentComponentAlgorithm algorithm)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
 
             this.sourceMatrix = data;
             this.algorithm = algorithm;
@@ -162,11 +242,22 @@ namespace Accord.Statistics.Analysis
             this.columnStdDev = Accord.Statistics.Tools.StandardDeviation(sourceMatrix, columnMeans);
         }
 
-        /// <summary>Constructs a new Independent Component Analysis.</summary>
+        /// <summary>
+        ///   Constructs a new Independent Component Analysis.
+        /// </summary>
+        /// 
+        /// <param name="data">The source data to perform analysis. The matrix should contain
+        ///   variables as columns and observations of each variable as rows.</param>
+        /// <param name="method">The analysis method to perform. Default is
+        ///   <see cref="AnalysisMethod.Center"/>.</param>
+        /// <param name="algorithm">The FastICA algorithm to be used in the analysis. Default
+        ///   is <see cref="IndependentComponentAlgorithm.Parallel"/>.</param>
+        ///   
         public IndependentComponentAnalysis(double[][] data, AnalysisMethod method = AnalysisMethod.Center,
           IndependentComponentAlgorithm algorithm = IndependentComponentAlgorithm.Parallel)
         {
-            if (data == null) throw new ArgumentNullException("data");
+            if (data == null)
+                throw new ArgumentNullException("data");
 
             this.sourceMatrix = data.ToMatrix();
             this.algorithm = algorithm;
@@ -365,29 +456,38 @@ namespace Accord.Statistics.Analysis
             {
                 revertMatrix = deflation(whiten, components, initial);
             }
-            else
+            else // if (algorithm == IndependentComponentAlgorithm.Parallel)
             {
                 revertMatrix = parallel(whiten, components, initial);
             }
 
+            
 
             // Combine the rotation and demixing matrices
             revertMatrix = whiteningMatrix.MultiplyByTranspose(revertMatrix);
-
-            // TODO: Normalize the reversion matrix
+            normalize(revertMatrix);
 
             // Compute the original source mixing matrix
             mixingMatrix = Matrix.PseudoInverse(revertMatrix);
+            normalize(mixingMatrix);
 
             // Demix the data into independent components
             resultMatrix = matrix.Multiply(revertMatrix);
 
-
+            
             // Creates the object-oriented structure to hold the principal components
-            IndependentComponent[] array = new IndependentComponent[components];
+            var array = new IndependentComponent[components];
             for (int i = 0; i < array.Length; i++)
                 array[i] = new IndependentComponent(this, i);
             this.componentCollection = new IndependentComponentCollection(array);
+        }
+
+        private static void normalize(double[,] matrix)
+        {
+            double sum = 0;
+            foreach (double v in matrix)
+                sum += v;
+            matrix.Divide(sum, inPlace: true);
         }
 
         /// <summary>
@@ -1009,231 +1109,6 @@ namespace Accord.Statistics.Analysis
         internal IndependentComponentCollection(IndependentComponent[] components)
             : base(components)
         {
-        }
-    }
-    #endregion
-
-
-
-    #region Contrast functions
-    namespace ContrastFunctions
-    {
-        /// <summary>
-        ///   Common interface for contrast functions.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   Contrast functions are used as objective functions in
-        ///   neg-entropy calculations.
-        /// </remarks>
-        /// 
-        /// <seealso cref="IndependentComponentAnalysis"/>
-        ///
-        public interface IContrastFunction
-        {
-            /// <summary>
-            ///   Contrast function.
-            /// </summary>
-            /// 
-            /// <param name="x">The vector of observations.</param>
-            /// <param name="output">At method's return, this parameter
-            ///   should contain the evaluation of function over the vector
-            ///   of observations <paramref name="x"/>.</param>
-            /// <param name="derivative">At method's return, this parameter
-            ///   should contain the evaluation of function derivative over 
-            ///   the vector of observations <paramref name="x"/>.</param>
-            ///   
-            void Evaluate(double[] x, double[] output, double[] derivative);
-        }
-
-        /// <summary>
-        ///   Exponential contrast function.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   According to Hyvärinen, the Exponential contrast function may be
-        ///   used when the independent components are highly super-Gaussian or
-        ///   when robustness is very important.
-        /// </remarks>
-        ///
-        /// <seealso cref="IndependentComponentAnalysis"/>
-        ///
-        public class Exponential : IContrastFunction
-        {
-            double alpha = 1;
-
-            /// <summary>
-            ///   Initializes a new instance of the <see cref="Exponential"/> class.
-            /// </summary>
-            /// <param name="alpha">The exponential alpha constant. Default is 1.</param>
-            /// 
-            public Exponential(double alpha)
-            {
-                this.alpha = alpha;
-            }
-
-            /// <summary>
-            ///   Gets the exponential alpha constant.
-            /// </summary>
-            /// 
-            public double Alpha { get { return alpha; } }
-
-            /// <summary>
-            ///   Initializes a new instance of the <see cref="Exponential"/> class.
-            /// </summary>
-            /// 
-            public Exponential() { }
-
-            /// <summary>
-            ///   Contrast function.
-            /// </summary>
-            /// 
-            /// <param name="x">The vector of observations.</param>
-            /// <param name="output">At method's return, this parameter
-            /// should contain the evaluation of function over the vector
-            /// of observations <paramref name="x"/>.</param>
-            /// <param name="derivative">At method's return, this parameter
-            /// should contain the evaluation of function derivative over
-            /// the vector of observations <paramref name="x"/>.</param>
-            /// 
-            public void Evaluate(double[] x, double[] output, double[] derivative)
-            {
-                // Exponential contrast function and its derivative, as given
-                //  in original Hyvärinen's paper. See main references for the
-                //  Independent Component Analysis class for details.
-
-                for (int j = 0; j < x.Length; j++)
-                {
-                    double w = x[j];
-                    double e = System.Math.Exp(-alpha * (w * w) / 2.0);
-
-                    // g(w*x) = wx * exp(-(wx^2)/2)
-                    output[j] = w * e;
-
-                    // g'(w*x) = (1 - wx^2) * exp(-(wx^2)/2)
-                    derivative[j] = (1.0 - alpha * w * w) * e;
-                }
-            }
-        }
-
-        /// <summary>
-        ///   Log-cosh (Hyperbolic Tangent) contrast function.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   According to Hyvärinen, the Logcosh contrast function
-        ///   is a good general-purpose contrast function.
-        /// </remarks>
-        /// 
-        /// <seealso cref="IndependentComponentAnalysis"/>
-        /// 
-        public class Logcosh : IContrastFunction
-        {
-            double alpha = 1;
-
-            /// <summary>
-            ///   Initializes a new instance of the <see cref="Logcosh"/> class.
-            /// </summary>
-            /// 
-            public Logcosh() { }
-
-            /// <summary>
-            ///   Initializes a new instance of the <see cref="Logcosh"/> class.
-            /// </summary>
-            /// 
-            /// <param name="alpha">The log-cosh alpha constant. Default is 1.</param>
-            /// 
-            public Logcosh(double alpha)
-            {
-                this.alpha = alpha;
-            }
-
-            /// <summary>
-            ///   Gets the exponential log-cosh constant.
-            /// </summary>
-            /// 
-            public double Alpha { get { return alpha; } }
-
-            /// <summary>
-            ///   Contrast function.
-            /// </summary>
-            /// 
-            /// <param name="x">The vector of observations.</param>
-            /// <param name="output">At method's return, this parameter
-            /// should contain the evaluation of function over the vector
-            /// of observations <paramref name="x"/>.</param>
-            /// <param name="derivative">At method's return, this parameter
-            /// should contain the evaluation of function derivative over
-            /// the vector of observations <paramref name="x"/>.</param>
-            /// 
-            public void Evaluate(double[] x, double[] output, double[] derivative)
-            {
-                // Log-cosh contrast function and its derivative, as given
-                //  in original Hyvärinen's paper. See main references for the
-                //  Independent Component Analysis class for details.
-
-                for (int j = 0; j < x.Length; j++)
-                {
-                    double f;
-
-                    // g(w*x)
-                    f = output[j] = System.Math.Tanh(alpha * x[j]);
-
-                    // g'(w*x)
-                    derivative[j] = alpha * (1.0 - f * f);
-                }
-            }
-        }
-
-        /// <summary>
-        ///   Kurtosis contrast function.
-        /// </summary>
-        /// <remarks>
-        ///   According to using to Hyvärinen, the kurtosis contrast function is
-        ///   justified on statistical grounds only for estimating sub-Gaussian
-        ///   independent components when there are no outliers.
-        /// </remarks>
-        ///
-        /// <seealso cref="IndependentComponentAnalysis"/>
-        ///
-        public class Kurtosis : IContrastFunction
-        {
-
-            /// <summary>
-            ///   Initializes a new instance of the <see cref="Kurtosis"/> class.
-            /// </summary>
-            /// 
-            public Kurtosis() { }
-
-            /// <summary>
-            ///   Contrast function.
-            /// </summary>
-            /// 
-            /// <param name="x">The vector of observations.</param>
-            /// <param name="output">At method's return, this parameter
-            /// should contain the evaluation of function over the vector
-            /// of observations <paramref name="x"/>.</param>
-            /// <param name="derivative">At method's return, this parameter
-            /// should contain the evaluation of function derivative over
-            /// the vector of observations <paramref name="x"/>.</param>
-            /// 
-            public void Evaluate(double[] x, double[] output, double[] derivative)
-            {
-                for (int j = 0; j < x.Length; j++)
-                {
-                    // Kurtosis contrast function and its derivative, as given
-                    //  in original Hyvärinen's paper. See main references for the
-                    //  Independent Component Analysis class for details.
-
-                    double v = x[j];
-
-                    // g(w*x)
-                    output[j] = v * v * v;
-
-                    // g'(w*x)
-                    derivative[j] = (1.0 / 3.0) * v * v;
-                }
-            }
         }
     }
     #endregion

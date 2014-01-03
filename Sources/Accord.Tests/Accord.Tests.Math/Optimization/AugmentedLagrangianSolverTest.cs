@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -442,9 +442,9 @@ namespace Accord.Tests.Math
 
             double maxValue = solver.Maximize(objective);
 
-            Assert.AreEqual(6, maxValue, 1e-4);
-            Assert.AreEqual(-3, solver.Solution[0], 1e-4);
-            Assert.AreEqual(4, solver.Solution[1], 1e-4);
+            Assert.AreEqual(6, maxValue, 0.01);
+            Assert.AreEqual(-3, solver.Solution[0], 0.01);
+            Assert.AreEqual(4, solver.Solution[1], 0.01);
         }
 
         [TestMethod()]

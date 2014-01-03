@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -149,6 +149,53 @@ namespace Accord.MachineLearning.Structures
             }
 
             // The value is even farther
+            return false; // discard it
+        }
+
+        /// <summary>
+        ///   Attempts to add a value to the collection. If the list is full
+        ///   and the value is more distant than the farthest node in the
+        ///   collection, the value will not be added.
+        /// </summary>
+        /// 
+        /// <param name="value">The node to be added.</param>
+        /// <param name="distance">The node distance.</param>
+        /// 
+        /// <returns>Returns true if the node has been added; false otherwise.</returns>
+        /// 
+        public bool AddFarthest(KDTreeNode<T> value, double distance)
+        {
+            // The list does have a limit. We have to check if the list
+            // is already full or not, to see if we can discard or keep
+            // the point
+
+            if (count < Capacity)
+            {
+                // The list still has room for new elements. 
+                // Just add the value at the right position.
+
+                add(distance, value);
+
+                return true; // a value has been added
+            }
+
+            // The list is at its maximum capacity. Check if the value
+            // to be added is farther than the current nearest point.
+
+            if (distance > range.Min)
+            {
+                // Yes, it is farther. Remove the previous nearest point
+                // and insert this new one at an appropriate position to
+                // keep the list ordered.
+
+                RemoveNearest();
+
+                add(distance, value);
+
+                return true; // a value has been added
+            }
+
+            // The value is even closer
             return false; // discard it
         }
 

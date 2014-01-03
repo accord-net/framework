@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -290,8 +290,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(mean1, gmm.Gaussians[0].Mean[0]);
             Assert.AreEqual(mean2, gmm.Gaussians[1].Mean[0]);
 
-            Assert.AreEqual(mean1, 1.4112610766836404);
-            Assert.AreEqual(mean2, 6.5330177004151082);
+            Assert.AreEqual(mean1, 1.4112610766836404, 1e-15);
+            Assert.AreEqual(mean2, 6.5330177004151082, 1e-14);
 
             Assert.AreEqual(mixture.Coefficients[0], gmm.Gaussians[0].Proportion);
             Assert.AreEqual(mixture.Coefficients[1], gmm.Gaussians[1].Proportion);

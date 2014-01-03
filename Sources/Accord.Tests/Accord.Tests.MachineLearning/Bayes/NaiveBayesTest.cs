@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,14 +23,13 @@
 namespace Accord.Tests.MachineLearning
 {
     using System.Data;
+    using System.Text;
     using Accord;
+    using Accord.MachineLearning;
     using Accord.MachineLearning.Bayes;
-    using System.Linq;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.MachineLearning;
-    using System.Text;
 
     [TestClass()]
     public class NaiveBayesTest

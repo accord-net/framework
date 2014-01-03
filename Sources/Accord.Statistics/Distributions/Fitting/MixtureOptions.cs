@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -59,6 +59,13 @@ namespace Accord.Statistics.Distributions.Fitting
         /// <value>The fitting options for inner distributions.</value>
         /// 
         public IFittingOptions InnerOptions { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether to make computations using the log
+        ///   -domain. This might improve accuracy on large datasets.
+        /// </summary>
+        /// 
+        public bool Logarithm { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="MixtureOptions"/> class.

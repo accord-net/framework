@@ -20,8 +20,8 @@
     <summary>Accord.NET Audio Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework computer audition audio processing</tags>
     <dependencies>
-      <dependency id="Accord"      version="2.11.0" />
-      <dependency id="Accord.Math" version="2.11.0" />
+      <dependency id="Accord"      version="2.12.0" />
+      <dependency id="Accord.Math" version="2.12.0" />
       <dependency id="AForge"      version="2.2.5" />
       <dependency id="AForge.Math" version="2.2.5" />
     </dependencies>

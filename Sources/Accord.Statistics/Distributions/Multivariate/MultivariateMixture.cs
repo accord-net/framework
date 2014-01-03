@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Mixture of multivariate probability distributions.
@@ -56,7 +57,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     public class MultivariateMixture<T> : MultivariateContinuousDistribution, IMixture<T>,
         IFittableDistribution<double[], MixtureOptions>,
         ISampleableDistribution<double[]>
-        where T : IMultivariateDistribution
+        where T : IMultivariateDistribution<double[]>
     {
 
         // distribution parameters
@@ -67,6 +68,10 @@ namespace Accord.Statistics.Distributions.Multivariate
         double[] mean;
         double[,] covariance;
         double[] variance;
+
+
+        // cache
+        IDistribution<double[]>[] cache;
 
 
         /// <summary>
@@ -81,7 +86,17 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (components == null)
                 throw new ArgumentNullException("components");
 
-            this.initialize(null, components);
+            this.components = components;
+
+            this.coefficients = new double[components.Length];
+            for (int i = 0; i < coefficients.Length; i++)
+                coefficients[i] = 1.0 / coefficients.Length;
+
+            this.cache = new IDistribution<double[]>[coefficients.Length];
+            for (int i = 0; i < cache.Length; i++)
+                cache[i] = components[i];
+
+            this.initialize();
         }
 
         /// <summary>
@@ -105,22 +120,20 @@ namespace Accord.Statistics.Distributions.Multivariate
                     "The coefficient and component arrays should have the same length.",
                     "components");
 
-            this.initialize(coefficients, components);
+
+            this.components = components;
+            this.coefficients = coefficients;
+
+            this.cache = new IDistribution<double[]>[coefficients.Length];
+            for (int i = 0; i < cache.Length; i++)
+                cache[i] = components[i];
+
+            this.initialize();
         }
 
 
-        private void initialize(double[] coef, T[] comp)
+        private void initialize()
         {
-            if (coef == null)
-            {
-                coef = new double[comp.Length];
-                for (int i = 0; i < coef.Length; i++)
-                    coef[i] = 1.0 / coef.Length;
-            }
-
-            this.coefficients = coef;
-            this.components = comp;
-
             this.mean = null;
             this.covariance = null;
             this.variance = null;
@@ -234,10 +247,12 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   
         public override double LogProbabilityDensityFunction(params double[] x)
         {
-            double r = 0.0;
+            double[] logCoefficients = Matrix.Log(coefficients);
+
+            double log = Double.NegativeInfinity;
             for (int i = 0; i < components.Length; i++)
-                r += coefficients[i] * components[i].ProbabilityFunction(x);
-            return Math.Log(r);
+                log = Special.LogSum(log, logCoefficients[i] + components[i].LogProbabilityFunction(x));
+            return log;
         }
 
         /// <summary>
@@ -283,116 +298,51 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public void Fit(double[][] observations, double[] weights, MixtureOptions options)
         {
-            // Estimation parameters
-            int maxIterations = 0;
-            double threshold = 1e-3;
-            IFittingOptions innerOptions = null;
-
-#if DEBUG
-            if (weights != null)
-                for (int i = 0; i < weights.Length; i++)
-                    if (Double.IsNaN(weights[i]) || Double.IsInfinity(weights[i]))
-                        throw new ArgumentException("Invalid numbers in the weight vector.","weights");
-#endif
-
-            if (options != null)
-            {
-                // Process optional arguments
-                threshold = options.Threshold;
-                innerOptions = options.InnerOptions;
-                maxIterations = options.Iterations;
-            }
-
-
-            // 1. Initialize means, covariances and mixing coefficients
-            //    and evaluate the initial value of the log-likelihood
-
-            int N = observations.Length;
-            int K = components.Length;
-
-            double weightSum;
-            if (weights == null)
-            {
-                weights = new double[observations.Length];
-                for (int i = 0; i < weights.Length; i++)
-                    weights[i] = 1.0 / weights.Length;
-                weightSum = 1.0;
-            }
-            else weightSum = weights.Sum();
-
-            // Initialize responsibilities
-            double[] norms = new double[N];
-            double[][] gamma = new double[K][];
-            for (int k = 0; k < gamma.Length; k++)
-                gamma[k] = new double[N];
-
-            // Clone the current distribution values
-            double[] pi = (double[])coefficients.Clone();
-            T[] pdf = new T[components.Length];
+            var pdf = new IFittableDistribution<double[]>[coefficients.Length];
             for (int i = 0; i < components.Length; i++)
-                pdf[i] = (T)components[i].Clone();
+                pdf[i] = (IFittableDistribution<double[]>)components[i];
 
-            // Prepare the iteration
-            double likelihood = logLikelihood(pi, pdf, observations, weights);
-            bool converged = false;
-            int iteration = 0;
+            bool log = (options != null && options.Logarithm);
 
-            // Start
-            while (!converged)
+            if (log)
             {
-                iteration++;
-
-                // 2. Expectation: Evaluate the component distributions 
-                //    responsibilities using the current parameter values.
-                Array.Clear(norms, 0, norms.Length);
-
-                for (int k = 0; k < gamma.Length; k++)
-                    for (int i = 0; i < observations.Length; i++)
-                        norms[i] += gamma[k][i] = pi[k] * pdf[k].ProbabilityFunction(observations[i]);
-
-                for (int k = 0; k < gamma.Length; k++)
-                    for (int i = 0; i < weights.Length; i++)
-                        if (norms[i] != 0) gamma[k][i] *= weights[i] / norms[i];
-
-                // 3. Maximization: Re-estimate the distribution parameters
-                //    using the previously computed responsibilities
-                for (int k = 0; k < gamma.Length; k++)
+                if (weights != null)
                 {
-                    double sum = gamma[k].Sum();
-
-                    if (sum == 0)
-                    {
-                        pi[k] = 0.0;
-                        continue;
-                    }
-
-                    System.Diagnostics.Debug.Assert(sum != 0);
-                    System.Diagnostics.Debug.Assert(weightSum != 0);
-                    System.Diagnostics.Debug.Assert(!gamma[k].HasNaN());
-
-                    for (int i = 0; i < gamma[k].Length; i++)
-                        gamma[k][i] /= sum;
-
-                    pi[k] = sum / weightSum;
-                    pdf[k].Fit(observations, gamma[k], innerOptions);
+                    throw new ArgumentException("The model fitting algorithm does not"
+                    + " currently support different weights when the logarithm option"
+                    + " is enabled. To avoid this exception, pass 'null' as the second"
+                    + " parameter's value when calling this method.");
                 }
 
-                // 4. Evaluate the log-likelihood and check for convergence
-                double newLikelihood = logLikelihood(pi, pdf, observations, weights);
+                var em = new LogExpectationMaximization<double[]>(coefficients, pdf);
 
-                if (Double.IsNaN(newLikelihood) || Double.IsInfinity(newLikelihood))
-                    throw new ConvergenceException("Fitting did not converge.");
+                if (options != null)
+                {
+                    em.InnerOptions = options.InnerOptions;
+                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.Tolerance = options.Threshold;
+                }
 
-                if ((maxIterations > 0 && iteration >= maxIterations) ||
-                    Math.Abs(likelihood - newLikelihood) < threshold * Math.Abs(likelihood))
-                    converged = true;
+                em.Compute(observations);
+            }
+            else
+            {
+                var em = new ExpectationMaximization<double[]>(coefficients, pdf);
 
+                if (options != null)
+                {
+                    em.InnerOptions = options.InnerOptions;
+                    em.Convergence.Iterations = options.Iterations;
+                    em.Convergence.Tolerance = options.Threshold;
+                }
 
-                likelihood = newLikelihood;
+                em.Compute(observations, weights);
             }
 
-            // Become the newly fitted distribution.
-            this.initialize(pi, pdf);
+            for (int i = 0; i < components.Length; i++)
+                cache[i] = components[i] = (T)pdf[i];
+
+            this.initialize();
         }
 
         /// <summary>
@@ -402,7 +352,8 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public double LogLikelihood(double[][] observations, double[] weights)
         {
-            return logLikelihood(coefficients, components, observations, weights);
+            return ExpectationMaximization<double[]>.LogLikelihood(coefficients, cache, 
+                observations, weights, weights.Sum());
         }
 
         /// <summary>
@@ -412,38 +363,10 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public double LogLikelihood(double[][] observations)
         {
-            double[] weights = new double[observations.Length];
-            for (int i = 0; i < weights.Length; i++)
-                weights[i] = 1.0 / weights.Length;
-
-            return logLikelihood(coefficients, components, observations, weights);
+            return ExpectationMaximization<double[]>.LogLikelihood(coefficients, cache, observations);
         }
 
-        /// <summary>
-        ///   Computes the log-likelihood of the distribution
-        ///   for a given set of observations.
-        /// </summary>
-        /// 
-        private static double logLikelihood(double[] pi, T[] pdf, double[][] observations, double[] weigths)
-        {
-            double logLikelihood = 0.0;
 
-            for (int i = 0; i < observations.Length; i++)
-            {
-                double[] x = observations[i];
-                double w = weigths[i];
-
-                if (w == 0) continue;
-
-                double sum = 0.0;
-                for (int j = 0; j < pi.Length; j++)
-                    sum += pi[j] * pdf[j].ProbabilityFunction(x);
-
-                if (sum > 0) logLikelihood += Math.Log(sum) * w;
-            }
-
-            return logLikelihood;
-        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.

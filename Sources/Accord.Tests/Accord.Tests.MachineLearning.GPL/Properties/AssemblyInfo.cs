@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Accord.Tests.MachineLearning.GPL")]
-[assembly: AssemblyCopyright("Copyright © César Souza, 2009-2013")]
+[assembly: AssemblyCopyright("Copyright © César Souza, 2009-2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

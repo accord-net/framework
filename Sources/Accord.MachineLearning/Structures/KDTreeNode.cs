@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,9 +23,22 @@
 namespace Accord.MachineLearning.Structures
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
+
+    /// <summary>
+    ///   K-dimensional tree node.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   This class provides a shorthand notation for 
+    ///   the actual <see cref="KDTreeNode{T}"/> type.
+    /// </remarks>
+    /// 
+    [Serializable]
+    public class KDTreeNode : KDTreeNode<Object>
+    {
+      
+    }
 
     /// <summary>
     ///   K-dimensional tree node.
@@ -87,7 +100,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         public override string ToString()
         {
-            if (Position == null) 
+            if (Position == null)
                 return "(null)";
 
             StringBuilder sb = new StringBuilder();

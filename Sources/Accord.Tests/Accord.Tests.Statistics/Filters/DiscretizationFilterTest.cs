@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,19 +20,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Filters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data;
-using System;
-
 namespace Accord.Tests.Statistics
 {
-    
-    
-    /// <summary>
-    ///This is a test class for DiscretizationFilterTest and is intended
-    ///to contain all DiscretizationFilterTest Unit Tests
-    ///</summary>
+    using Accord.Statistics.Filters;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Data;
+    using System;
+    using Accord.Controls;
+
     [TestClass()]
     public class DiscretizationFilterTest
     {
@@ -40,10 +35,6 @@ namespace Accord.Tests.Statistics
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -56,13 +47,36 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        [TestMethod()]
+        public void ApplyTest1()
+        {
+            DataTable table = ProjectionFilterTest.CreateTable();
 
+            // Show the start data
+            // DataGridBox.Show(table);
+
+            // Create a new data projection (column) filter
+            var filter = new Discretization("Cost (M)");
+
+            // Apply the filter and get the result
+            DataTable result = filter.Apply(table);
+
+            // Show it
+            // DataGridBox.Show(result);
+
+            Assert.AreEqual(5, result.Columns.Count);
+            Assert.AreEqual(5, result.Rows.Count);
+
+            Assert.AreEqual("213", result.Rows[0]["Cost (M)"]);
+            Assert.AreEqual("4", result.Rows[1]["Cost (M)"]);
+            Assert.AreEqual("3", result.Rows[2]["Cost (M)"]);
+            Assert.AreEqual("3", result.Rows[3]["Cost (M)"]);
+            Assert.AreEqual("2", result.Rows[4]["Cost (M)"]);
+        }
 
         [TestMethod()]
         public void ApplyTest()
         {
-            
-
             DataTable input = new DataTable("Sample data");
             input.Columns.Add("x", typeof(double));
             input.Columns.Add("y", typeof(double));
@@ -75,7 +89,7 @@ namespace Accord.Tests.Statistics
 
 
             // Create a discretization filter to operate on the first 2 columns
-            Discretization target = new Discretization("x","y");
+            Discretization target = new Discretization("x", "y");
             target.Columns["y"].Threshold = 0.8;
 
             DataTable expected = new DataTable("Sample data");
@@ -93,19 +107,19 @@ namespace Accord.Tests.Statistics
 
             for (int i = 0; i < actual.Rows.Count; i++)
             {
-                    double ex = (double)expected.Rows[i][0];
-                    double ey = (double)expected.Rows[i][1];
-                    double ez = (double)expected.Rows[i][2];
+                double ex = (double)expected.Rows[i][0];
+                double ey = (double)expected.Rows[i][1];
+                double ez = (double)expected.Rows[i][2];
 
-                    double ax = (double)actual.Rows[i][0];
-                    double ay = (double)actual.Rows[i][1];
-                    double az = (double)actual.Rows[i][2];
+                double ax = (double)actual.Rows[i][0];
+                double ay = (double)actual.Rows[i][1];
+                double az = (double)actual.Rows[i][2];
 
-                    Assert.AreEqual(ex, ax);
-                    Assert.AreEqual(ey, ay);
-                    Assert.AreEqual(ez, az);
+                Assert.AreEqual(ex, ax);
+                Assert.AreEqual(ey, ay);
+                Assert.AreEqual(ez, az);
             }
-            
+
         }
     }
 }

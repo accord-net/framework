@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -72,7 +72,7 @@ namespace Accord.Tests.Statistics
             IKernel kernel = new Linear();
 
             // Create analysis
-            KernelPrincipalComponentAnalysis target = new KernelPrincipalComponentAnalysis(data, kernel, AnalysisMethod.Center);
+            var target = new KernelPrincipalComponentAnalysis(data, kernel, AnalysisMethod.Center);
 
             // Compute
             target.Compute();

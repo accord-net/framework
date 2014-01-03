@@ -20,7 +20,7 @@
     <summary>Accord.Math library from the Accord.NET framework</summary>
     <tags>accord.net aforge.net framework math decompositions lu qr constrained optimization differentiation numerical matrix algebra</tags>
     <dependencies>
-      <dependency id="Accord"      version="2.11.0" />
+      <dependency id="Accord"      version="2.12.0" />
       <dependency id="AForge"      version="2.2.5" />
       <dependency id="AForge.Math" version="2.2.5" />
     </dependencies>

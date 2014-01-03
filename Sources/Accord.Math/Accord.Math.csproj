@@ -33,7 +33,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -121,6 +121,7 @@
     <Compile Include="Kinematics\DenavitHartenbergNode.cs" />
     <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
     <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
+    <Compile Include="Matrix\Matrix.Submatrix.cs" />
     <Compile Include="Optimization\Base\IGradientOptimizationMethod.cs" />
     <Compile Include="Optimization\Base\ILeastSquaresMethod.cs" />
     <Compile Include="Optimization\BinarySearch.cs" />

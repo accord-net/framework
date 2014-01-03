@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,6 +29,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Data;
+    using Accord.Controls;
 
     [TestClass()]
     public class CodificationFilterTest
@@ -49,7 +50,32 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        [TestMethod()]
+        public void ApplyTest1()
+        {
+            DataTable table = ProjectionFilterTest.CreateTable();
 
+            // Show the start data
+            //DataGridBox.Show(table);
+
+            // Create a new data projection (column) filter
+            var filter = new Codification(table, "Category");
+
+            // Apply the filter and get the result
+            DataTable result = filter.Apply(table);
+
+            // Show it
+            //DataGridBox.Show(result);
+
+            Assert.AreEqual(5, result.Columns.Count);
+            Assert.AreEqual(5, result.Rows.Count);
+
+            Assert.AreEqual(0, result.Rows[0]["Category"]);
+            Assert.AreEqual(1, result.Rows[1]["Category"]);
+            Assert.AreEqual(1, result.Rows[2]["Category"]);
+            Assert.AreEqual(0, result.Rows[3]["Category"]);
+            Assert.AreEqual(2, result.Rows[4]["Category"]);
+        }
 
         [TestMethod()]
         public void ApplyTest()
@@ -230,5 +256,33 @@ namespace Accord.Tests.Statistics
 
         }
 
+        [TestMethod()]
+        public void ApplyTest3()
+        {
+
+            string[] names = { "child", "adult", "elder" };
+
+            Codification codebook = new Codification("Label", names);
+
+
+            // After that, we can use the codebook to "translate"
+            // the text labels into discrete symbols, such as:
+
+            int a = codebook.Translate("Label", "child"); // returns 0
+            int b = codebook.Translate("Label", "adult"); // returns 1
+            int c = codebook.Translate("Label", "elder"); // returns 2
+
+            // We can also do the reverse:
+            string labela = codebook.Translate("Label", 0); // returns "child"
+            string labelb = codebook.Translate("Label", 1); // returns "adult"
+            string labelc = codebook.Translate("Label", 2); // returns "elder"
+
+            Assert.AreEqual(0, a);
+            Assert.AreEqual(1, b);
+            Assert.AreEqual(2, c);
+            Assert.AreEqual("child", labela);
+            Assert.AreEqual("adult", labelb);
+            Assert.AreEqual("elder", labelc);
+        }
     }
 }

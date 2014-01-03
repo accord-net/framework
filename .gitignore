@@ -13,5 +13,12 @@ obj
 /Sources/TestResults
 *.sdf
 *.shfbproj_*
+
 /Release (3.5)
 /Release
+/Debug
+
+bin
+obj
+
+/Docs

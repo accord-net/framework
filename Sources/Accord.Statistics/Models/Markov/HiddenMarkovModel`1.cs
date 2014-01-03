@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,14 +23,14 @@
 namespace Accord.Statistics.Models.Markov
 {
     using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
     ///   Arbitrary-density Hidden Markov Model.
@@ -613,7 +613,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public double[] Predict<TMultivariate>(double[][] observations,
             out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             if (!multivariate)
                 throw new ArgumentException("Model is univariate.", "observations");
@@ -628,8 +628,9 @@ namespace Accord.Statistics.Models.Markov
         ///   Predicts the next observation occurring after a given observation sequence.
         /// </summary>
         /// 
-        public double[] Predict<TMultivariate>(double[][] observations, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+        public double[] Predict<TMultivariate>(double[][] observations, 
+            out MultivariateMixture<TMultivariate> probabilities)
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             if (!multivariate)
                 throw new ArgumentException("Model is univariate.", "observations");
@@ -647,7 +648,7 @@ namespace Accord.Statistics.Models.Markov
         /// </summary>
         /// 
         public double Predict<TUnivariate>(double[] observations, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             if (multivariate)
                 throw new ArgumentException("Model is multivariate.", "observations");
@@ -667,7 +668,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public double Predict<TUnivariate>(double[] observations,
             out double probability, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             if (multivariate)
                 throw new ArgumentException("Model is multivariate.", "observations");
@@ -830,7 +831,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         private double[][] predict<TMultivariate>(double[][] observations,
             out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             // Matrix to store the probabilities in assuming the next
             // observations (prediction) will belong to each state.
@@ -853,7 +854,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         private double[] predict<TUnivariate>(double[] observations,
             out double logLikelihood, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             // Convert to multivariate observations
             double[][] obs = MarkovHelperMethods.convertNoCheck(observations, dimension);
