@@ -5,7 +5,7 @@
 // Copyright © 1995, 1996, 1997, 1998
 // Berwin A. Turlach <bturlach@stats.adelaide.edu.au>
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or

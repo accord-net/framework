@@ -1,8 +1,12 @@
-Accord.NET Framework 2.12b1 release notes
+Accord.NET Framework 2.12.0 release notes
 -----------------------------------------
-06.12.2013.    
+04.01.2014.    
 
 Version updates and fixes:
+  - GC-83: Error in Accord.Statistics.Tools;
+  - GC-81: Redundant condition check in specialized Inverse method;
+  - GC-82: Serializable annotation is needed on class contrast functions;
+  - GC-66: Adding fitting options for empirical distributions.
 
 * General
   - The general focus for this release was again to improve 

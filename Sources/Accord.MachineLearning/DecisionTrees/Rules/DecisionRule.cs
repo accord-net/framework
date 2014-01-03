@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -51,7 +51,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   must be fulfilled in order for this rule to be applicable.
         /// </summary>
         /// 
-        public ISet<Antecedent> Antecedents { get { return expressions; } }
+        public ISet<Antecedent> Antecedents { get { return (ISet<Antecedent>)expressions; } }
 
         /// <summary>
         ///   Gets the output of this decision rule, given when all

@@ -2,7 +2,7 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -241,6 +241,22 @@ namespace Accord.Statistics.Distributions.Fitting
 
             object syncObj = new object();
 
+            
+#if NET35
+            for (int i = 0; i < observations.Length; i++)
+            {
+                var x = observations[i];
+
+                double sum = 0.0;
+
+                for (int k = 0; k < lnpi.Length; k++)
+                        sum = Special.LogSum(sum, lnpi[k] + pdf[k].LogProbabilityFunction(x));
+
+                if (sum > 0) 
+                    logLikelihood += Math.Log(sum);
+            }
+#else
+
             Parallel.For(0, observations.Length,
 
                 () => 0.0,
@@ -263,6 +279,7 @@ namespace Accord.Statistics.Distributions.Fitting
                     }
                 }
             );
+#endif
 
             System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
             
