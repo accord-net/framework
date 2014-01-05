@@ -238,10 +238,7 @@ namespace Accord.Statistics.Distributions.Fitting
             TObservation[] observations)
         {
             double logLikelihood = 0.0;
-
-            object syncObj = new object();
-
-            
+           
 #if NET35
             for (int i = 0; i < observations.Length; i++)
             {
@@ -256,6 +253,7 @@ namespace Accord.Statistics.Distributions.Fitting
                     logLikelihood += Math.Log(sum);
             }
 #else
+            object syncObj = new object();
 
             Parallel.For(0, observations.Length,
 

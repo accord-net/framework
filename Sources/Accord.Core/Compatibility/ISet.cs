@@ -27,15 +27,32 @@ namespace System.Collections.Generic
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Runtime.Serialization;
 
     /// <summary>
     ///   Minimum ISet implementation for .NET 3.5 to
     ///   make Accord.NET work. This is not a complete implementation.
     /// </summary>
     /// 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]       [Serializable]
     public class ISet<T> : HashSet<T>
     {
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ISet&lt;T&gt;"/> class.
+        /// </summary>
+        /// 
+        public ISet()
+            : base() { }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ISet&lt;T&gt;"/> class.
+        /// </summary>
+        /// 
+        /// <param name="info">The info.</param>
+        /// <param name="context">The context.</param>
+        /// 
+        protected ISet(SerializationInfo info, StreamingContext context)
+            : base(info, context) { }
     }
 }
 #endif

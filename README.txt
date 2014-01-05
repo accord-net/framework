@@ -1,5 +1,5 @@
  The Accord.NET Framework 
- http://accord-net.github.io
+ http://accord-framework.net
 
 
   The Accord.NET Framework provides machine learning, mathematics, statistics,
@@ -7,10 +7,10 @@
   methods and techniques to .NET. The project extends the popular AForge.NET 
   Framework providing a more complete scientific computing environment.
  
-  This GitHub repository will be the future official home of the project as soon
-  as the release 2.10 is completed. For the time being, commits are being simply
-  replicated from the Google Code repository; but the plan is to do the inverse
-  and later keep the Subversion repository just as a replication of Git.
+  This GitHub repository is the official home of the project after release 2.10
+  was finished. New releases will only be made available on this repository, but
+  the code will also bt replicated in the Google Code repository for those who 
+  still would like to use the SVN repository instead.
 
     - http://code.google.com/p/accord/
 
@@ -23,10 +23,10 @@
    https://code.google.com/p/aforge/downloads/list
 
 2) Download the Accord.NET Framework from
-   https://code.google.com/p/accord/downloads/list
+   https://github.com/accord-net/framework/releases
 
 3) Install both frameworks as described in the Getting Started Guide
-   https://code.google.com/p/accord/wiki/GettingStarted?tm=6
+   http://accord-framework.net/get-started.html
    
    
 4) If you used the automated installers, the framework binaries
@@ -41,15 +41,15 @@
    
    You can open the Samples.sln solution on Visual Studio to check
    the sample applications for examples. Complete documentation is
-   also available online   
+   also available online at
    
-     http://accord-net.github.io/docs/Index.html
+     http://accord-framework.net/docs/Index.html
 	 
 	 
 	 
  Obtaining support and documentation
  -----------------------------------
 
-1) Check the reference manual at: http://accord-net.github.io/docs/Index.html
+1) Check the reference manual at: http://accord-framework.net/docs/Index.html
 2) Visit the discussion group at: https://groups.google.com/forum/#!forum/accord-net
 
