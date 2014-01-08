@@ -53,34 +53,75 @@ namespace Accord.Math
         ///
         public static int[][] TruthTable(int symbols, int length)
         {
-            int size = (int)Math.Pow(symbols, length);
+            int[] sym = new int[length];
+            for (int i = 0; i < sym.Length; i++)
+                sym[i] = symbols;
+
+            return TruthTable(sym);
+        }
+
+        /// <summary>
+        ///   Generates all possible ordered permutations
+        ///   with repetitions allowed (a truth table).
+        /// </summary>
+        /// 
+        /// <param name="symbols">The number of each symbol.</param>
+        ///
+        public static int[][] TruthTable(int[] symbols)
+        {
+            int size = 1;
+            for (int i = 0; i < symbols.Length; i++)
+                size *= symbols[i];
 
             int[][] sequences = new int[size][];
-            for (int i = 0; i < sequences.Length; i++)
-                sequences[i] = new int[length];
+            sequences[0] = new int[symbols.Length];
 
-            // For each column
-            for (int col = 0; col < length; col++)
+            for (int i = 1; i < sequences.Length; i++)
             {
-                int row = 0;
+                var row = sequences[i] = (int[])sequences[i - 1].Clone();
 
-                // We will write the symbol 2^(l-i) times
-                int p = (int)Math.Pow(symbols, length - col - 1);
-                int q = (int)Math.Pow(symbols, col);
-
-                // For each repeating block
-                for (int r = 0; r < q; r++)
+                for (int j = symbols.Length - 1; j >= 0; j--)
                 {
-                    // For each symbol to be written
-                    for (int j = 0; j < symbols; j++)
+                    if (row[j] < symbols[j] - 1)
                     {
-                        for (int k = 0; k < p; k++)
-                            sequences[row++][col] = j;
+                        row[j]++;
+                        break;
                     }
+
+                    row[j] = 0;
                 }
             }
 
             return sequences;
+        }
+
+        public static IEnumerable<int[]> Sequences(int[] symbols)
+        {
+            var current = new int[symbols.Length];
+
+            while (true)
+            {
+                yield return current;
+
+                bool match = true;
+                for (int i = 0; i < current.Length && match; i++)
+                    if (current[i] != symbols[i] - 1)
+                        match = false;
+
+                if (match)
+                    break;
+
+                for (int j = symbols.Length - 1; j >= 0; j--)
+                {
+                    if (current[j] < symbols[j] - 1)
+                    {
+                        current[j]++;
+                        break;
+                    }
+
+                    current[j] = 0;
+                }
+            }
         }
 
         /// <summary>
@@ -139,9 +180,9 @@ namespace Accord.Math
                     else break;
                 }
 
-                c[j] = x;                 
+                c[j] = x;
                 j--;
-            } while (j < t);        
+            } while (j < t);
 
         }
 
