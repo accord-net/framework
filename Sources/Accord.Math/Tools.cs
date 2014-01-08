@@ -35,7 +35,7 @@ namespace Accord.Math
     {
 
         #region Framework-wide random number generator
-        private static Random random = new Random();
+        private static Random random = new ThreadSafeRandom();
 
         /// <summary>
         ///   Gets a reference to the random number generator used
@@ -48,7 +48,7 @@ namespace Accord.Math
         /// </summary>
         public static void SetupGenerator(int seed)
         {
-            random = new Random(seed);
+            random = new ThreadSafeRandom(seed);
         }
         #endregion
 
