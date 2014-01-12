@@ -50,7 +50,6 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-
         [TestMethod()]
         public void LearnTest()
         {

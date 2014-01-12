@@ -633,7 +633,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 {
                     // loop I over all training examples
                     for (int i = 0; i < samples; i++)
-                        if (examineExample(i)) numChanged++;
+                        if (examineExample(i))
+                            numChanged++;
 
                     wholeSetChecks++;
                 }
@@ -648,7 +649,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             {
                                 if (alpha[i] != 0 && alpha[i] != c)
                                 {
-                                    if (examineExample(i)) numChanged++;
+                                    if (examineExample(i)) 
+                                        numChanged++;
 
                                     if (b_upper > b_lower - 2.0 * tolerance)
                                     {
@@ -673,7 +675,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                                         if (alpha[i] == negativeCost) continue;
                                     }
 
-                                    if (examineExample(i)) numChanged++;
+                                    if (examineExample(i))
+                                        numChanged++;
 
                                     if (b_upper > b_lower - 2.0 * tolerance)
                                     {
@@ -920,7 +923,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             else if (y == -1 && a == 0)
                 return 4; // I4
 
-            return 0; // I0
+            return 0; // I0 (not at bounds)
         }
 
         /// <summary>
@@ -929,7 +932,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         private bool takeStep(int i1, int i2)
         {
-            if (i1 == i2) return false;
+            if (i1 == i2) 
+                return false;
 
             double[] p1 = inputs[i1]; // Input point at index i1
             double alph1 = alpha[i1]; // Lagrange multiplier for p1
@@ -969,7 +973,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 H = Math.Min(c2, alph2 + alph1);
             }
 
-            if (L == H) return false;
+            if (L == H) 
+                return false;
 
 
             double k11 = kernelCache.GetOrCompute(i1);

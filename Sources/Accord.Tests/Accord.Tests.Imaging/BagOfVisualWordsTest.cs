@@ -81,17 +81,27 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(723, points[4].Count);
             Assert.AreEqual(1263, points[5].Count);
 
-            Assert.AreEqual(388.043776954555, points[0][0].X);
-            Assert.AreEqual(105.99327164889745, points[0][0].Y);
+            double tol = 1e-7;
+            Assert.AreEqual(388.043776954555, points[0][0].X, tol);
+            Assert.AreEqual(105.99327164889745, points[0][0].Y, tol);
 
-            Assert.AreEqual(335.64548481033881, points[3][7].X);
-            Assert.AreEqual(152.14505651866821, points[2][3].Y);
+            Assert.AreEqual(335.64548481033881, points[3][7].X, tol);
+            Assert.AreEqual(152.14505651866821, points[2][3].Y, tol);
 
-            Assert.AreEqual(573.691355494602, points[2][52].X);
-            Assert.AreEqual(153.6650841848263, points[1][11].Y);
+            Assert.AreEqual(573.691355494602, points[2][52].X, tol);
+            Assert.AreEqual(153.6650841848263, points[1][11].Y, tol);
 
-            Assert.AreEqual(573.03087205188058, points[0][42].X);
-            Assert.AreEqual(374.27580307739436, points[4][125].Y);
+            Assert.AreEqual(573.03087205188058, points[0][42].X, tol);
+            Assert.AreEqual(374.27580307739436, points[4][125].Y, tol);
+
+            foreach (var point in points)
+            {
+                foreach (var p in point)
+                {
+                    Assert.IsFalse(double.IsNaN(p.X));
+                    Assert.IsFalse(double.IsNaN(p.Y));
+                }
+            }
         }
 
         [TestMethod()]
