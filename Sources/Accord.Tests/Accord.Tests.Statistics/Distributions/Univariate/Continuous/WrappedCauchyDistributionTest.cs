@@ -65,9 +65,12 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0.42, mean);
             Assert.AreEqual(0.950212931632136, var);
-            Assert.AreEqual(0.1758330112785475, pdf);
-            Assert.AreEqual(-1.7382205338929015, lpdf);
+            Assert.AreEqual(0.1758330112785475, pdf, 1e-10);
+            Assert.AreEqual(-1.7382205338929015, lpdf, 1e-10);
             Assert.AreEqual("WrappedCauchy(x; μ = 0.42, γ = 3)", str);
+
+            Assert.IsFalse(Double.IsNaN(pdf));
+            Assert.IsFalse(Double.IsNaN(lpdf));
         }
 
     }

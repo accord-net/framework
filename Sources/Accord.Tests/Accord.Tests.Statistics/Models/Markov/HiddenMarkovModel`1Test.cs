@@ -20,8 +20,10 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+
 namespace Accord.Tests.Statistics
 {
+    using System.Collections.Generic;
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions;
@@ -837,7 +839,6 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest9()
         {
-            // Include this example in the documentation
             var observations = new double[][][]
             {
                 #region example
@@ -1212,6 +1213,138 @@ namespace Accord.Tests.Statistics
 
             Assert.IsFalse(Double.IsNaN(a1));
             Assert.IsFalse(Double.IsNaN(a3));
+        }
+
+        [TestMethod()]
+        public void LearnTest13()
+        {
+            var observations = new double[][][]
+            {
+                new double[][]
+                {
+                    new double[] { 2, 0 },
+                    new double[] { 5, 0 },
+                    new double[] { 10, 0 },
+                },
+                new double[][]
+                {
+                    new double[] { 2, 0 },
+                    new double[] { 5, 0 },
+                    new double[] { 10, 0 },
+                },
+                new double[][]
+                {
+                    new double[] { 2, 0 },
+                    new double[] { 5, 0 },
+                    new double[] { 10, 0 },
+                },
+                new double[][]
+                {
+                    new double[] { 2, 0 },
+                    new double[] { 5, 0 },
+                    new double[] { 10, 0 },
+                },
+            };
+
+            checkDegenerate(observations, 10);
+
+            observations = new double[][][]
+            {
+                new double[][]
+                {
+                    new double[] { 2, 1 },
+                    new double[] { 5, 2 },
+                    new double[] { 10, 3 },
+                },
+                new double[][]
+                {
+                    new double[] { 2, 1 },
+                    new double[] { 5, 2 },
+                    new double[] { 10, 3 },
+                },
+                new double[][]
+                {
+                    new double[] { 2, 1 },
+                    new double[] { 5, 2 },
+                    new double[] { 10, 3 },
+                },
+                new double[][]
+                {
+                    new double[] { 2, 1 },
+                    new double[] { 5, 2 },
+                    new double[] { 10, 3 },
+                },
+            };
+
+            checkDegenerate(observations, 3);
+        }
+
+        [TestMethod()]
+        public void BigSampleLearnTest13()
+        {
+            var list = new List<double[][]>();
+
+            for (int i = 0; i < 1000000; i++)
+            {
+                list.Add(new double[][]
+                {
+                    new double[] { 2, 1 },
+                    new double[] { 5, 2 },
+                    new double[] { 10, 3 },
+                });
+            }
+
+            checkDegenerate(list.ToArray(), 3);
+        }
+
+
+
+        private static void checkDegenerate(double[][][] observations, int states)
+        {
+            bool thrown = false;
+            try
+            {
+                var density = new MultivariateNormalDistribution(2);
+                var model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Forward(states), density);
+
+                var learning = new BaumWelchLearning<MultivariateNormalDistribution>(model)
+                {
+                    Tolerance = 0.0001,
+                    Iterations = 0,
+                };
+
+                double logLikelihood = learning.Run(observations);
+
+                Assert.AreEqual(0, logLikelihood);
+            }
+            catch (NonPositiveDefiniteMatrixException)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+
+            {
+                var density = new MultivariateNormalDistribution(2);
+                var model = new HiddenMarkovModel<MultivariateNormalDistribution>(new Forward(states), density);
+
+                var learning = new BaumWelchLearning<MultivariateNormalDistribution>(model)
+                {
+                    Tolerance = 0.0001,
+                    Iterations = 0,
+                    FittingOptions = new NormalOptions() { Robust = true }
+                };
+
+                double logLikelihood = learning.Run(observations);
+
+                Assert.IsFalse(Double.IsNaN(logLikelihood));
+
+                foreach (double value in model.Transitions)
+                    Assert.IsFalse(Double.IsNaN(value));
+
+                foreach (double value in model.Probabilities)
+                    Assert.IsFalse(Double.IsNaN(value));
+            }
         }
 
         [TestMethod()]

@@ -245,6 +245,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             // Initialize the model log-likelihoods
             double newLogLikelihood = Double.NegativeInfinity;
             double oldLogLikelihood = Double.NegativeInfinity;
+            convergence.NewValue = Double.NegativeInfinity;
 
 
             do // Until convergence or max iterations is reached
@@ -274,6 +275,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                             logGamma[t, k] = lnFwd[t, k] + lnBwd[t, k] + w;
                             lnsum = Special.LogSum(lnsum, logGamma[t, k]);
                         }
+
+                        System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                         // Normalize if different from zero
                         if (lnsum != Double.NegativeInfinity)
@@ -334,6 +337,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                             }
 
                             logA[i, j] = (lnnum == lnden) ? 0 : lnnum - lnden;
+
+                            System.Diagnostics.Debug.Assert(!Double.IsNaN(logA[i, j]));
                         }
                     }
 

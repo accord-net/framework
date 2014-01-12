@@ -49,6 +49,46 @@ namespace Accord.Tests.Statistics
         }
 
 
+        [TestMethod()]
+        public void ConstructorTest1()
+        {
+
+            NormalDistribution normal = new NormalDistribution(4.2, 1.2);
+            MultivariateNormalDistribution target = new MultivariateNormalDistribution(new[] { 4.2 }, new[,] { { 1.2 * 1.2 } });
+
+            double[] mean = target.Mean;
+            double[] median = target.Median;
+            double[] var = target.Variance;
+            double[,] cov = target.Covariance;
+
+            double apdf1 = target.ProbabilityDensityFunction(new double[] { 2 });
+            double apdf2 = target.ProbabilityDensityFunction(new double[] { 4 });
+            double apdf3 = target.ProbabilityDensityFunction(new double[] { 3 });
+            double alpdf = target.LogProbabilityDensityFunction(new double[] { 3 });
+            double acdf = target.DistributionFunction(new double[] { 3 });
+            double accdf = target.ComplementaryDistributionFunction(new double[] { 3 });
+
+            double epdf1 = target.ProbabilityDensityFunction(new double[] { 2 });
+            double epdf2 = target.ProbabilityDensityFunction(new double[] { 4 });
+            double epdf3 = target.ProbabilityDensityFunction(new double[] { 3 });
+            double elpdf = target.LogProbabilityDensityFunction(new double[] { 3 });
+            double ecdf = target.DistributionFunction(new double[] { 3 });
+            double eccdf = target.ComplementaryDistributionFunction(new double[] { 3 });
+
+
+            Assert.AreEqual(normal.Mean, target.Mean[0]);
+            Assert.AreEqual(normal.Median, target.Median[0]);
+            Assert.AreEqual(normal.Variance, target.Variance[0]);
+            Assert.AreEqual(normal.Variance, target.Covariance[0, 0]);
+
+            Assert.AreEqual(epdf1, apdf1);
+            Assert.AreEqual(epdf2, apdf2);
+            Assert.AreEqual(epdf3, apdf3);
+            Assert.AreEqual(elpdf, alpdf);
+            Assert.AreEqual(ecdf, acdf);
+            Assert.AreEqual(eccdf, accdf);
+            Assert.AreEqual(1.0 - ecdf, eccdf);
+        }
 
         [TestMethod()]
         public void ConstructorTest4()
@@ -77,13 +117,17 @@ namespace Accord.Tests.Statistics
             double[,] cov = dist.Covariance; // { { 0.3, 0.1 }, { 0.1, 0.7 } }
 
             // Probability mass functions
-            double pdf1 = dist.ProbabilityDensityFunction(new double[] { 2, 5 }); // 0.000000018917884164743237
-            double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 }); // 0.35588127170858852
-            double pdf3 = dist.ProbabilityDensityFunction(new double[] { 3, 7 }); // 0.000000000036520107734505265
-            double lpdf = dist.LogProbabilityDensityFunction(new double[] { 3, 7 }); // -24.033158110192296
+            double pdf1 = dist.ProbabilityDensityFunction(new double[] { 2, 5 }); 
+            double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 }); 
+            double pdf3 = dist.ProbabilityDensityFunction(new double[] { 3, 7 }); 
+            double lpdf = dist.LogProbabilityDensityFunction(new double[] { 3, 7 });
 
             // Cumulative distribution function (for up to two dimensions)
-            double cdf = dist.DistributionFunction(new double[] { 3, 5 }); // 0.033944035782101548
+
+            // compared against R package mnormt: install.packages("mnormt")
+            // pmnorm(c(3,5), mean=c(4,2), varcov=matrix(c(0.3,0.1,0.1,0.7), 2,2))
+            double cdf = dist.DistributionFunction(new double[] { 3, 5 });
+            double ccdf = dist.ComplementaryDistributionFunction(new double[] { 3, 5 }); 
 
 
             Assert.AreEqual(4, mean[0]);
@@ -317,14 +361,27 @@ namespace Accord.Tests.Statistics
             double[] mean = Accord.Statistics.Tools.Mean(observations);
             double[,] cov = Accord.Statistics.Tools.Covariance(observations);
 
-            var target = new MultivariateNormalDistribution(2);
+            {
+                var target = new MultivariateNormalDistribution(2);
 
-            double[] weigths = { 0.25, 0.25, 0.25, 0.25 };
+                double[] weigths = { 0.25, 0.25, 0.25, 0.25 };
 
-            target.Fit(observations, weigths);
+                target.Fit(observations, weigths);
 
-            Assert.IsTrue(Matrix.IsEqual(mean, target.Mean));
-            Assert.IsTrue(Matrix.IsEqual(cov, target.Covariance, 1e-10));
+                Assert.IsTrue(Matrix.IsEqual(mean, target.Mean));
+                Assert.IsTrue(Matrix.IsEqual(cov, target.Covariance, 1e-10));
+            }
+
+            {
+                var target = new MultivariateNormalDistribution(2);
+
+                double[] weigths = { 1, 1, 1, 1 };
+
+                target.Fit(observations, weigths);
+
+                Assert.IsTrue(Matrix.IsEqual(mean, target.Mean));
+                Assert.IsTrue(Matrix.IsEqual(cov, target.Covariance, 1e-10));
+            }
         }
 
         [TestMethod()]
@@ -351,6 +408,113 @@ namespace Accord.Tests.Statistics
 
             // No exception thrown
             target.Fit(observations, options);
+        }
+
+        [TestMethod()]
+        public void FitTest4()
+        {
+            double[][] observations = 
+            {
+                new double[] { 1, 2 },
+                new double[] { 1, 2 },
+                new double[] { 1, 2 },
+                new double[] { 1, 2 }
+            };
+
+
+            var target = new MultivariateNormalDistribution(2);
+
+            bool thrown = false;
+            try { target.Fit(observations); }
+            catch (NonPositiveDefiniteMatrixException) { thrown = true; }
+
+            Assert.IsTrue(thrown);
+
+            NormalOptions options = new NormalOptions() { Robust = true };
+
+            // No exception thrown
+            target.Fit(observations, options);
+
+            checkDegenerate(target);
+        }
+
+        private static void checkDegenerate(MultivariateNormalDistribution target)
+        {
+            Assert.AreEqual(1, target.Mean[0]);
+            Assert.AreEqual(2, target.Mean[1]);
+            Assert.AreEqual(0, target.Covariance[0, 0]);
+            Assert.AreEqual(0, target.Covariance[0, 1]);
+            Assert.AreEqual(0, target.Covariance[1, 0]);
+            Assert.AreEqual(0, target.Covariance[1, 1]);
+
+
+            // Common measures
+            double[] mean = target.Mean; // { 1, 2 }
+            double[] median = target.Median; // { 4, 2 }
+            double[] var = target.Variance; // { 0.0, 0.0 } (diagonal from cov)
+            double[,] cov = target.Covariance; // { { 0.0, 0.0 }, { 0.0, 0.0 } }
+
+            // Probability mass functions
+            double pdf1 = target.ProbabilityDensityFunction(new double[] {1, 2});
+            double pdf2 = target.ProbabilityDensityFunction(new double[] {4, 2});
+            double pdf3 = target.ProbabilityDensityFunction(new double[] {3, 7});
+            double lpdf = target.LogProbabilityDensityFunction(new double[] {3, 7});
+
+            // Cumulative distribution function (for up to two dimensions)
+            double cdf1 = target.DistributionFunction(new double[] {1, 2});
+            double cdf2 = target.DistributionFunction(new double[] {3, 5});
+
+            double ccdf1 = target.ComplementaryDistributionFunction(new double[] {1, 2});
+            double ccdf2 = target.ComplementaryDistributionFunction(new double[] {3, 5});
+
+
+            Assert.AreEqual(1, mean[0]);
+            Assert.AreEqual(2, mean[1]);
+            Assert.AreEqual(1, median[0]);
+            Assert.AreEqual(2, median[1]);
+            Assert.AreEqual(0.0, var[0]);
+            Assert.AreEqual(0.0, var[1]);
+            Assert.AreEqual(0.0, cov[0, 0]);
+            Assert.AreEqual(0.0, cov[0, 1]);
+            Assert.AreEqual(0.0, cov[1, 0]);
+            Assert.AreEqual(0.0, cov[1, 1]);
+            Assert.AreEqual(0.15915494309189532, pdf1);
+            Assert.AreEqual(0.15915494309189532, pdf2);
+            Assert.AreEqual(0.15915494309189532, pdf3);
+            Assert.AreEqual(-1.8378770664093456, lpdf);
+            Assert.AreEqual(1.0, cdf1);
+            Assert.AreEqual(0.0, cdf2);
+            Assert.AreEqual(0.0, ccdf1);
+            Assert.AreEqual(1.0, ccdf2);
+        }
+
+        [TestMethod()]
+        public void FitTest5()
+        {
+            double[][] observations = 
+            {
+                new double[] { 1, 2 },
+                new double[] { 1, 2 },
+                new double[] { 0, 1 },
+                new double[] { 5, 7 }
+            };
+
+            double[] weights = { 1, 1, 0, 0 };
+
+            var target = new MultivariateNormalDistribution(2);
+
+            bool thrown = false;
+            try { target.Fit(observations, weights); }
+            catch (NonPositiveDefiniteMatrixException) { thrown = true; }
+
+            Assert.IsTrue(thrown);
+
+            NormalOptions options = new NormalOptions() { Robust = true };
+
+            // No exception thrown
+            target.Fit(observations, weights, options);
+
+            checkDegenerate(target);
         }
 
         [TestMethod()]

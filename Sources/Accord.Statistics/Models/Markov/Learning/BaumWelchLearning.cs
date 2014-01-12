@@ -265,6 +265,8 @@ namespace Accord.Statistics.Models.Markov.Learning
 
                     // TODO: avoid locking a parameter in zero.
                     B[i, j] = lnnum - lnden;
+
+                    System.Diagnostics.Debug.Assert(!Double.IsNaN(B[i, j]));
                 }
             }
         }
@@ -303,6 +305,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                         lnsum = Special.LogSum(lnsum, logKsi[t][i, j]);
                     }
                 }
+
+                System.Diagnostics.Debug.Assert(!Double.IsNaN(lnsum));
 
                 for (int i = 0; i < states; i++)
                     for (int j = 0; j < states; j++)

@@ -299,6 +299,10 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (Dimension == 1)
             {
                 double stdDev = Math.Sqrt(Covariance[0, 0]);
+
+                if (stdDev == 0)
+                    return (x[0] == mean[0]) ? 1 : 0;
+
                 double z = (x[0] - mean[0]) / stdDev;
 
                 return Normal.Function(z);
@@ -309,6 +313,9 @@ namespace Accord.Statistics.Distributions.Multivariate
                 double sigma1 = Math.Sqrt(Covariance[0, 0]);
                 double sigma2 = Math.Sqrt(Covariance[1, 1]);
                 double rho = Covariance[0, 1] / (sigma1 * sigma2);
+
+                if (Double.IsNaN(rho))
+                    return (x.IsEqual(mean)) ? 1 : 0;
 
                 double z = (x[0] - mean[0]) / sigma1;
                 double w = (x[1] - mean[1]) / sigma2;
@@ -338,6 +345,9 @@ namespace Accord.Statistics.Distributions.Multivariate
                 double stdDev = Math.Sqrt(Covariance[0, 0]);
                 double z = (x[0] - mean[0]) / stdDev;
 
+                if (stdDev == 0)
+                    return (x[0] == mean[0]) ? 0 : 1;
+
                 return Normal.Complemented(z);
             }
 
@@ -346,6 +356,9 @@ namespace Accord.Statistics.Distributions.Multivariate
                 double sigma1 = Math.Sqrt(Covariance[0, 0]);
                 double sigma2 = Math.Sqrt(Covariance[1, 1]);
                 double rho = Covariance[0, 1] / (sigma1 * sigma2);
+
+                if (Double.IsNaN(rho))
+                    return (x.IsEqual(mean)) ? 0 : 1;
 
                 double z = (x[0] - mean[0]) / sigma1;
                 double w = (x[1] - mean[1]) / sigma2;
