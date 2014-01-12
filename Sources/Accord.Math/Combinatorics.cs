@@ -38,6 +38,33 @@ namespace Accord.Math
         /// 
         /// <param name="length">The length of the sequence to generate.</param>
         ///
+        /// <example>
+        /// <para>
+        ///   Suppose we would like to generate a truth table for a binary
+        ///   problem. In this case, we are only interested in two symbols:
+        ///   0 and 1. Let's then generate the table for three binary values</para>
+        /// 
+        /// <code>
+        /// int length = 3;  // The number of variables; or number 
+        ///                  // of columns in the generated table.
+        /// 
+        /// // Generate the table using Combinatorics.TruthTable(3)
+        /// int[][] table = Combinatorics.TruthTable(length);
+        /// 
+        /// // The generated table will be:
+        /// {
+        ///     new int[] { 0, 0, 0 },
+        ///     new int[] { 0, 0, 1 },
+        ///     new int[] { 0, 1, 0 },
+        ///     new int[] { 0, 1, 1 },
+        ///     new int[] { 1, 0, 0 },
+        ///     new int[] { 1, 0, 1 },
+        ///     new int[] { 1, 1, 0 },
+        ///     new int[] { 1, 1, 1 },
+        /// };
+        /// </code>
+        /// </example>
+        /// 
         public static int[][] TruthTable(int length)
         {
             return TruthTable(2, length);
@@ -51,6 +78,34 @@ namespace Accord.Math
         /// <param name="symbols">The number of symbols.</param>
         /// <param name="length">The length of the sequence to generate.</param>
         ///
+        /// <example>
+        /// <para>
+        ///   Suppose we would like to generate a truth table for a binary
+        ///   problem. In this case, we are only interested in two symbols:
+        ///   0 and 1. Let's then generate the table for three binary values</para>
+        /// 
+        /// <code>
+        /// int symbols = 2; // Binary variables: either 0 or 1
+        /// int length = 3;  // The number of variables; or number 
+        ///                  // of columns in the generated table.
+        /// 
+        /// // Generate the table using Combinatorics.TruthTable(2,3)
+        /// int[][] table = Combinatorics.TruthTable(symbols, length);
+        /// 
+        /// // The generated table will be:
+        /// {
+        ///     new int[] { 0, 0, 0 },
+        ///     new int[] { 0, 0, 1 },
+        ///     new int[] { 0, 1, 0 },
+        ///     new int[] { 0, 1, 1 },
+        ///     new int[] { 1, 0, 0 },
+        ///     new int[] { 1, 0, 1 },
+        ///     new int[] { 1, 1, 0 },
+        ///     new int[] { 1, 1, 1 },
+        /// };
+        /// </code>
+        /// </example>
+        /// 
         public static int[][] TruthTable(int symbols, int length)
         {
             int[] sym = new int[length];
@@ -65,7 +120,40 @@ namespace Accord.Math
         ///   with repetitions allowed (a truth table).
         /// </summary>
         /// 
-        /// <param name="symbols">The number of each symbol.</param>
+        /// <param name="symbols">The number of symbols for each variable.</param>
+        /// 
+        /// <example>
+        /// <para>
+        ///   Suppose we would like to generate a truth table (i.e. all possible
+        ///   combinations of a set of discrete symbols) for variables that contain
+        ///   different numbers symbols. Let's say, for example, that the first 
+        ///   variable may contain symbols 0 and 1, the second could contain either
+        ///   0, 1, or 2, and the last one again could contain only 0 and 1. Thus
+        ///   we can generate the truth table in the following way: </para>
+        /// 
+        /// <code>
+        /// // Number of symbols for each variable
+        /// int[] symbols = { 2, 3, 2 };
+        /// 
+        /// // Generate the truth table for the given symbols
+        /// int[][] table = Combinatorics.TruthTable(symbols);
+        /// 
+        /// // The generated table will be:
+        /// {
+        ///     new int[] { 0, 0, 0 },
+        ///     new int[] { 0, 0, 1 },
+        ///     new int[] { 0, 1, 0 },
+        ///     new int[] { 0, 1, 1 },
+        ///     new int[] { 0, 2, 0 },
+        ///     new int[] { 0, 2, 1 },
+        ///     new int[] { 1, 0, 0 },
+        ///     new int[] { 1, 0, 1 },
+        ///     new int[] { 1, 1, 0 },
+        ///     new int[] { 1, 1, 1 },
+        ///     new int[] { 1, 2, 0 },
+        ///     new int[] { 1, 2, 1 },
+        /// };
+        /// </code></example>
         ///
         public static int[][] TruthTable(int[] symbols)
         {
@@ -95,6 +183,88 @@ namespace Accord.Math
             return sequences;
         }
 
+        /// <summary>
+        ///   Provides a way to enumerate all possible ordered permutations
+        ///   with repetitions allowed (i.e. a truth table), without using
+        ///   many memory allocations.
+        /// </summary>
+        /// 
+        /// <param name="symbols">The number of symbols.</param>
+        /// <param name="length">The length of the sequence to generate.</param>
+        /// 
+        /// <example>
+        /// <para>
+        ///   Suppose we would like to generate the same sequences shown
+        ///   in the <see cref="Combinatorics.TruthTable(int,int)"/>example,
+        ///   however, without explicitly storing all possible combinations
+        ///   in an array. In order to iterate over all possible combinations
+        ///   efficiently, we can use:
+        /// </para>
+        /// 
+        /// <code>
+        /// int symbols = 2; // Binary variables: either 0 or 1
+        /// int length = 3;  // The number of variables; or number 
+        ///                  // of columns in the generated table.
+        /// 
+        /// foreach (int[] row in Combinatorics.Sequences(symbols, length))
+        /// {
+        ///     // The following sequences will be generated in order:
+        ///     //
+        ///     //   new int[] { 0, 0, 0 },
+        ///     //   new int[] { 0, 0, 1 },
+        ///     //   new int[] { 0, 1, 0 },
+        ///     //   new int[] { 0, 1, 1 },
+        ///     //   new int[] { 1, 0, 0 },
+        ///     //   new int[] { 1, 0, 1 },
+        ///     //   new int[] { 1, 1, 0 },
+        ///     //   new int[] { 1, 1, 1 },
+        /// }
+        /// </code>
+        /// </example>
+        /// 
+        public static IEnumerable<int[]> Sequences(int symbols, int length)
+        {
+            int[] sym = new int[length];
+            for (int i = 0; i < sym.Length; i++)
+                sym[i] = symbols;
+
+            return Sequences(sym);
+        }
+
+        /// <summary>
+        ///   Provides a way to enumerate all possible ordered permutations
+        ///   with repetitions allowed (i.e. a truth table), without using
+        ///   many memory allocations.
+        /// </summary>
+        /// 
+        /// <param name="symbols">The number of symbols for each variable.</param>
+        /// 
+        /// <example>
+        /// <para>
+        ///   Suppose we would like to generate the same sequences shown
+        ///   in the <see cref="Combinatorics.TruthTable(int,int)"/>example,
+        ///   however, without explicitly storing all possible combinations
+        ///   in an array. In order to iterate over all possible combinations
+        ///   efficiently, we can use:
+        /// </para>
+        /// 
+        /// <code>
+        /// foreach (int[] row in Combinatorics.Sequences(new[] { 2, 2 }))
+        /// {
+        ///     // The following sequences will be generated in order:
+        ///     //
+        ///     //   new int[] { 0, 0, 0 },
+        ///     //   new int[] { 0, 0, 1 },
+        ///     //   new int[] { 0, 1, 0 },
+        ///     //   new int[] { 0, 1, 1 },
+        ///     //   new int[] { 1, 0, 0 },
+        ///     //   new int[] { 1, 0, 1 },
+        ///     //   new int[] { 1, 1, 0 },
+        ///     //   new int[] { 1, 1, 1 },
+        /// }
+        /// </code>
+        /// </example>
+        /// 
         public static IEnumerable<int[]> Sequences(int[] symbols)
         {
             var current = new int[symbols.Length];
@@ -125,9 +295,31 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Enumerates all possible value combinations
-        ///   of a given size for an array.
+        ///   Enumerates all possible value combinations for a given array.
         /// </summary>
+        /// 
+        /// <param name="values">The array whose combinations need to be generated.</param>
+        /// <param name="k">The length of the combinations to be generated.</param>
+        /// 
+        /// <example>
+        /// <code>
+        ///   // Let's say we would like to generate all possible combinations
+        ///   // of the elements (1, 2, 3). In order to enumerate all those
+        ///   // combinations, we can use:
+        /// 
+        ///   int[] values = { 1, 2, 3 };
+        ///   
+        ///   foreach (int[] combination in Combinatorics.Combinations(values))
+        ///   {
+        ///       // The combinations will be generated in the following order:
+        ///       //
+        ///       //   { 1, 2 };
+        ///       //   { 1, 3 };
+        ///       //   { 2, 3 };
+        ///       //
+        ///   }
+        /// </code>
+        /// </example>
         /// 
         public static IEnumerable<T[]> Combinations<T>(T[] values, int k)
         {
@@ -187,9 +379,32 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Enumerates all possible value permutations for
-        ///   a given array.
+        ///   Enumerates all possible value permutations for a given array.
         /// </summary>
+        /// 
+        /// <param name="values">The array whose permutations need to be generated</param>.
+        /// 
+        /// <example>
+        /// <code>
+        ///   // Let's say we would like to generate all possible permutations
+        ///   // of the elements (1, 2, 3). In order to enumerate all those
+        ///   // permutations, we can use:
+        /// 
+        ///   int[] values = { 1, 2, 3 };
+        ///   
+        ///   foreach (int[] permutation in Combinatorics.Permutations(values))
+        ///   {
+        ///       // The permutations will be generated in the following order:
+        ///       //
+        ///       //   { 1, 3, 2 };
+        ///       //   { 2, 1, 3 };
+        ///       //   { 2, 3, 1 };
+        ///       //   { 3, 1, 2 };
+        ///       //   { 3, 2, 1 };
+        ///       //
+        ///   }
+        /// </code>
+        /// </example>
         /// 
         public static IEnumerable<T[]> Permutations<T>(T[] values)
         {

@@ -71,17 +71,56 @@ namespace Accord.Audio
     ///       Wikipedia, The Free Encyclopedia. Analytics Signal. Available on:
     ///       http://en.wikipedia.org/wiki/Analytic_signal </a></description></item>
     ///   </list></para>
+    /// </remarks>
     /// 
-    /// <para>Sample usage:</para>
+    /// <example>
+    /// <para>
+    ///   If your signal has a length that is a power of two, you can use the
+    ///   following code directly to create your audio signal and obtain its
+    ///   spectrogram:</para>
+    /// 
     /// <code>
-    /// // create complex audio signal
+    /// // Create complex audio signal
     /// ComplexSignal complexSignal = ComplexSignal.FromSignal( signal );
-    /// // do forward Fourier transformation
+    /// 
+    /// // Do forward Fourier transformation
     /// complexSignal.ForwardFourierTransform( );
-    /// // generate spectrogram
+    /// 
+    /// // Generate spectrogram
     /// complexSignal.ToBitmap(512,512);
     /// </code>
-    /// </remarks>
+    /// 
+    /// <para> 
+    ///   However, if your signal is too lengthy, or if your signal is not yet in a power of
+    ///   two size, you can use a temporal window to slice your signal into smaller cuts, as
+    ///   shown below. In the example, an audio file is being read and its contents are being
+    ///   decoded and stored into a Signal object. Afterwards, an audio window is being used
+    ///   to cut the signal into smaller, power-of-two size signals which can then be transformed
+    ///   into the frequency (Fourier) domain.</para>
+    /// 
+    /// <code>
+    /// string fileName = "audio.wav";
+    /// 
+    /// WaveDecoder sourceDecoder = new WaveDecoder(fileName);
+    /// 
+    /// // Decode the file and store into a signal
+    /// Signal sourceSignal = sourceDecoder.Decode();
+    /// 
+    /// // Create Hamming window so that signal will fit into power of 2:           
+    /// RaisedCosineWindow window = RaisedCosineWindow.Hamming(1024);
+    /// 
+    /// // Splits the source signal by walking each 512 samples, then creating 
+    /// // a 1024 sample window. Note that this will result in overlapped windows.
+    /// Signal[] windows = sourceSignal.Split(window, 512);
+    /// 
+    /// // You might need to import Accord.Math in order to call this:
+    /// ComplexSignal[] complex = windows.Apply(ComplexSignal.FromSignal);
+    /// 
+    /// // Forward to the Fourier domain
+    /// complex.ForwardFourierTransform();
+    /// </code>
+    /// </example>
+    /// 
     /// 
     public class ComplexSignal : Signal
     {
