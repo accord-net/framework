@@ -371,7 +371,47 @@ namespace Accord.MachineLearning
             for (int i = 0; i < newCentroids.Length; i++)
                 newCentroids[i] = new double[cols];
 
-            Object[] syncObjects = new Object[k];
+            PerformClustering(data, threshold, newCentroids, count, labels, centroids);
+
+
+            for (int i = 0; i < centroids.Length; i++)
+            {
+                // Compute the proportion of samples in the cluster
+                clusters.Proportions[i] = count[i] / (double)data.Length;
+            }
+
+
+            if (computeInformation)
+            {
+                // Compute cluster information (optional)
+                for (int i = 0; i < centroids.Length; i++)
+                {
+                    // Extract the data for the current cluster
+                    double[][] sub = data.Submatrix(labels.Find(x => x == i));
+
+                    if (sub.Length > 0)
+                    {
+                        // Compute the current cluster variance
+                        clusters.Covariances[i] = Statistics.Tools.Covariance(sub, centroids[i]);
+                    }
+                    else
+                    {
+                        // The cluster doesn't have any samples
+                        clusters.Covariances[i] = new double[cols, cols];
+                    }
+                }
+            }
+
+
+            // Return the classification result
+            return labels;
+        }
+
+        protected virtual void PerformClustering(double[][] data, double threshold, 
+            double[][] newCentroids, int[] count,
+            int[] labels, double[][] centroids)
+        {
+            Object[] syncObjects = new Object[K];
             for (int i = 0; i < syncObjects.Length; i++)
                 syncObjects[i] = new Object();
 
@@ -436,40 +476,6 @@ namespace Accord.MachineLearning
                     for (int j = 0; j < centroids[i].Length; j++)
                         centroids[i][j] = newCentroids[i][j];
             }
-
-            
-
-            for (int i = 0; i < centroids.Length; i++)
-            {
-                // Compute the proportion of samples in the cluster
-                clusters.Proportions[i] = count[i] / (double)data.Length;
-            }
-
-
-            if (computeInformation)
-            {
-                // Compute cluster information (optional)
-                for (int i = 0; i < centroids.Length; i++)
-                {
-                    // Extract the data for the current cluster
-                    double[][] sub = data.Submatrix(labels.Find(x => x == i));
-
-                    if (sub.Length > 0)
-                    {
-                        // Compute the current cluster variance
-                        clusters.Covariances[i] = Statistics.Tools.Covariance(sub, centroids[i]);
-                    }
-                    else
-                    {
-                        // The cluster doesn't have any samples
-                        clusters.Covariances[i] = new double[cols, cols];
-                    }
-                }
-            }
-
-
-            // Return the classification result
-            return labels;
         }
 
         /// <summary>
