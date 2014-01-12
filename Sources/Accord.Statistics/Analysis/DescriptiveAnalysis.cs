@@ -99,6 +99,7 @@ namespace Accord.Statistics.Analysis
 
         private DoubleRange[] ranges;
         private DoubleRange[] confidence;
+        private DoubleRange[] deviance;
 
         private double[] kurtosis;
         private Double[] skewness;
@@ -258,6 +259,7 @@ namespace Accord.Statistics.Analysis
             this.correlationMatrix = CorrelationMatrix;
 
             this.confidence = Confidence;
+            this.deviance = Deviance;
         }
 
         private void reset()
@@ -277,6 +279,7 @@ namespace Accord.Statistics.Analysis
             this.zScores = null;
             this.covarianceMatrix = null;
             this.correlationMatrix = null;
+            this.deviance = null;
         }
 
         #region Properties
@@ -462,6 +465,25 @@ namespace Accord.Statistics.Analysis
                 }
 
                 return confidence;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the 95% confidence intervals for the <see cref="Means"/>.
+        /// </summary>
+        /// 
+        public DoubleRange[] Deviance
+        {
+            get
+            {
+                if (deviance == null)
+                {
+                    deviance = new DoubleRange[variables];
+                    for (int i = 0; i < deviance.Length; i++)
+                        deviance[i] = GetDevianceInterval(i);
+                }
+
+                return deviance;
             }
         }
 
@@ -668,6 +690,29 @@ namespace Accord.Statistics.Analysis
                 Means[index] + z * StandardErrors[index]);
         }
 
+        /// <summary>
+        ///   Gets a deviance interval for the <see cref="Means"/>
+        ///   within the given confidence level percentage (i.e. uses
+        ///   the standard deviation rather than the standard error to
+        ///   compute the range interval for the variable).
+        /// </summary>
+        /// 
+        /// <param name="percent">The confidence level. Default is 0.95.</param>
+        /// <param name="index">The index of the data column whose confidence
+        ///   interval should be calculated.</param>
+        /// 
+        /// <returns>A confidence interval for the estimated value.</returns>
+        /// 
+        public DoubleRange GetDevianceInterval(int index, double percent = 0.95)
+        {
+            double z = NormalDistribution.Standard
+                .InverseDistributionFunction(0.5 + percent / 2.0);
+
+            return new DoubleRange(
+                Means[index] - z * StandardDeviations[index],
+                Means[index] + z * StandardDeviations[index]);
+        }
+
     }
 
     /// <summary>
@@ -840,6 +885,15 @@ namespace Accord.Statistics.Analysis
         public DoubleRange Confidence
         {
             get { return analysis.Confidence[index]; }
+        }
+
+        /// <summary>
+        ///   Gets the 95% deviance interval around the <see cref="Mean"/>.
+        /// </summary>
+        /// 
+        public DoubleRange Deviance
+        {
+            get { return analysis.Deviance[index]; }
         }
 
         /// <summary>
