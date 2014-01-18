@@ -407,6 +407,12 @@ namespace Accord.MachineLearning
             return labels;
         }
 
+        /// <summary>
+        ///   Performs the actual clustering, given a set of data points and
+        ///   a convergence threshold. The remaining parameters must be set
+        ///   before returning the method.
+        /// </summary>
+        /// 
         protected virtual void PerformClustering(double[][] data, double threshold, 
             double[][] newCentroids, int[] count,
             int[] labels, double[][] centroids)

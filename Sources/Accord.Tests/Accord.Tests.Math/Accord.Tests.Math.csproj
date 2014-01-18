@@ -128,6 +128,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -186,6 +187,10 @@
     <Compile Include="ToolsTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
+      <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
+      <Name>Accord.Controls</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>

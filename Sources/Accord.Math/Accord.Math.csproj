@@ -114,6 +114,7 @@
     <Compile Include="Environments\REnvironment.cs" />
     <Compile Include="Functions\Gabor.cs" />
     <Compile Include="Geometry\Circle.cs" />
+    <Compile Include="Geometry\DiscreteCurveEvolution.cs" />
     <Compile Include="Geometry\Plane.cs" />
     <Compile Include="Geometry\Point3.cs" />
     <Compile Include="Kinematics\DenavitHartenbergMatrix.cs" />

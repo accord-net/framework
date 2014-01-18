@@ -582,7 +582,40 @@ namespace Accord.Math
             for (int i = 0; i < keys.Length; i++)
                 order[i] = keys[i].Key;
         }
+
+        /// <summary>
+        ///   Interpolates data using a piece-wise linear function.
+        /// </summary>
+        /// 
+        /// <param name="value">The value to be calculated.</param>
+        /// <param name="x">The input data points <c>x</c>. Those values need to be sorted.</param>
+        /// <param name="y">The output data points <c>y</c>.</param>
+        /// <param name="lower">
+        ///   The value to be returned for values before the first point in <paramref name="x"/>.</param>
+        /// <param name="upper">
+        ///   The value to be returned for values after the last point in <paramref name="x"/>.</param>
+        ///   
+        /// <returns>Computes the output for f(value) by using a piecewise linear
+        ///   interpolation of the data points <paramref name="x"/> and <paramref name="y"/>.</returns>
+        /// 
+        public static double Interpolate1D(double value, double[] x, double[] y, double lower, double upper)
+        {
+            for (int i = 0; i < x.Length; i++)
+            {
+                if (value < x[i])
+                {
+                    if (i == 0)
+                        return lower;
+
+                    int start = i - 1;
+                    int next = i;
+
+                    double m = (value - x[start]) / (x[next] - x[start]);
+                    return y[start] + (y[next] - y[start]) * m;
+                }
+            }
+
+            return upper;
+        }
     }
-
-
 }

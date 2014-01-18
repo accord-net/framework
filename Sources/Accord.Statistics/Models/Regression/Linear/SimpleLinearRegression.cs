@@ -262,6 +262,24 @@ namespace Accord.Statistics.Models.Regression.Linear
             return String.Format("y(x) = {0}x + {1}", a, b);
         }
 
+        /// <summary>
+        ///   Creates a new linear regression directly from data points.
+        /// </summary>
+        /// 
+        /// <param name="x">The input vectors <c>x</c>.</param>
+        /// <param name="y">The output vectors <c>y</c>.</param>
+        /// 
+        /// <returns>A linear regression f(x) that most approximates y.</returns>
+        /// 
+        public static SimpleLinearRegression FromData(double[] x, double[] y)
+        {
+            SimpleLinearRegression regression = new SimpleLinearRegression();
+
+            regression.Regress(x, y);
+
+            return regression;
+        }
+
 
         #region ILinearRegression Members
         /// <summary>

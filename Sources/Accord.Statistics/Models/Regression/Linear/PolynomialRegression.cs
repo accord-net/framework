@@ -259,6 +259,24 @@ namespace Accord.Statistics.Models.Regression.Linear
             return sb.ToString();
         }
 
+        /// <summary>
+        ///   Creates a new polynomial regression directly from data points.
+        /// </summary>
+        /// 
+        /// <param name="degree">The polynomial degree to use.</param>
+        /// <param name="x">The input vectors <c>x</c>.</param>
+        /// <param name="y">The output vectors <c>y</c>.</param>
+        /// 
+        /// <returns>A polynomial regression f(x) that most approximates y.</returns>
+        /// 
+        public static PolynomialRegression FromData(int degree, double[] x, double[] y)
+        {
+            PolynomialRegression regression = new PolynomialRegression(degree);
+
+            regression.Regress(x, y);
+
+            return regression;
+        }
 
         #region ILinearRegression Members
         /// <summary>

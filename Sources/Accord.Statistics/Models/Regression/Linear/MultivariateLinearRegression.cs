@@ -433,6 +433,24 @@ namespace Accord.Statistics.Models.Regression.Linear
             return output;
         }
 
+        /// <summary>
+        ///   Creates a new linear regression directly from data points.
+        /// </summary>
+        /// 
+        /// <param name="x">The input vectors <c>x</c>.</param>
+        /// <param name="y">The output vectors <c>y</c>.</param>
+        /// 
+        /// <returns>A linear regression f(x) that most approximates y.</returns>
+        /// 
+        public static MultivariateLinearRegression FromData(double[][] x, double[][] y)
+        {
+            var regression = new MultivariateLinearRegression(x[0].Length, y[0].Length);
+
+            regression.Regress(x, y);
+
+            return regression;
+        }
+
 
         #region ILinearRegression Members
         /// <summary>

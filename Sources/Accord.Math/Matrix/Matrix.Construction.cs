@@ -592,6 +592,22 @@ namespace Accord.Math
 
             return list.ToArray();
         }
+
+        /// <summary>
+        ///   Creates a vector with the given dimension and starting values.
+        /// </summary>
+        /// 
+        public static double[] Vector(double a, double b, int points)
+        {
+            double[] list = new double[points];
+
+            double increment = (b - a) / points;
+
+            for (int i = 0; i < list.Length; i++)
+                list[i] = increment * i;
+
+            return list;
+        }
         #endregion
 
         #region Special vectors
