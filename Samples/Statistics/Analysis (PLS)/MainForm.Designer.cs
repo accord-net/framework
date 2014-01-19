@@ -1465,8 +1465,7 @@ namespace Analysis.PLS
             // 
             // btnSampleRunAnalysis
             // 
-            this.btnSampleRunAnalysis.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.btnSampleRunAnalysis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSampleRunAnalysis.Location = new System.Drawing.Point(6, 379);
             this.btnSampleRunAnalysis.Name = "btnSampleRunAnalysis";
