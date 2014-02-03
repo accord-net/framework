@@ -363,6 +363,41 @@ namespace Accord.Math
             return false;
         }
 
+
+        /// <summary>
+        ///   Returns a value indicating whether the specified
+        ///   matrix contains a value within a given tolerance.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// 
+        /// <returns>True if the matrix contains the value, false otherwise.</returns>
+        /// 
+        public static bool Has(this double[,] matrix, double value, double tolerance = 0.0)
+        {
+            foreach (var e in matrix)
+                if (Math.Abs(e - value) <= Math.Abs(e) * tolerance)
+                    return true;
+            return false;
+        }
+
+        /// <summary>
+        ///   Returns a value indicating whether the specified
+        ///   matrix contains a value within a given tolerance.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// 
+        /// <returns>True if the matrix contains the value, false otherwise.</returns>
+        /// 
+        public static bool Has(this float[,] matrix, float value, double tolerance = 0.0)
+        {
+            foreach (var e in matrix)
+                if (Math.Abs(e - value) <= Math.Abs(e) * tolerance)
+                    return true;
+            return false;
+        }
+
         /// <summary>
         ///   Returns a value indicating whether the specified
         ///   matrix contains a infinity value.

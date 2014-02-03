@@ -151,7 +151,7 @@ namespace Accord.Math.Decompositions
                     for (int j = i; j < r; j++)
                     {
                         double s = 0.0;
-                        for (int l = 0; l < r; l++)
+                        for (int l = 0; l < m; l++)
                             s += W[l, i] * W[l, j];
                         Z[i, j] = Z[j, i] = s;
                     }
@@ -182,7 +182,7 @@ namespace Accord.Math.Decompositions
                         Z[i, j] = Z[j, i] = s;
                     }
 
-                    for (int i = 0; i < r; i++)
+                    for (int i = 0; i < m; i++)
                     {
                         double d = 0.0;
                         for (int l = 0; l < r; l++)
