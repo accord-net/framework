@@ -23,11 +23,11 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
-    using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions;
-    using AForge;
     using System.Globalization;
+    using Accord.Math;
+    using Accord.Statistics.Distributions;
+    using Accord.Statistics.Distributions.Fitting;
+    using AForge;
 
     /// <summary>
     ///   Univariate general discrete distribution, also referred as the
@@ -494,15 +494,16 @@ namespace Accord.Statistics.Distributions.Univariate
             if (weights == null)
             {
                 for (int i = 0; i < observations.Length; i++)
-                    p[(int)observations[i]]++;
+                    p[(int)observations[i] - start]++;
             }
             else
             {
                 if (observations.Length != weights.Length)
-                    throw new ArgumentException("The weight vector should have the same size as the observations", "weights");
+                    throw new ArgumentException("The weight vector should have the same size as the observations",
+                        "weights");
 
                 for (int i = 0; i < observations.Length; i++)
-                    p[(int)observations[i]] += weights[i] * observations.Length;
+                    p[(int)observations[i] - start] += weights[i] * observations.Length;
             }
 
             if (useLaplace)

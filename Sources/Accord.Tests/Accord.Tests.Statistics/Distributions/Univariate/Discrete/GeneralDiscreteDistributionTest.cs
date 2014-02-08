@@ -155,6 +155,46 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual2));
         }
 
+        [TestMethod()]
+        public void FitTest3()
+        {
+            GeneralDiscreteDistribution target = new GeneralDiscreteDistribution(-1, 4);
+            double[] values = { 0.00, 1.00, 2.00, 3.00 };
+            double[] weights = { 0.25, 0.25, 0.25, 0.25 };
+
+            target.Fit(values.Subtract(1), weights);
+
+            double[] expected = { 0.25, 0.25, 0.25, 0.25 };
+            double[] actual = target.Frequencies;
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+        }
+
+        [TestMethod()]
+        public void FitTest4()
+        {
+            double[] expected = { 0.50, 0.00, 0.25, 0.25 };
+
+            GeneralDiscreteDistribution target;
+
+            double[] values = { 0.00, 2.00, 3.00 };
+            double[] weights = { 0.50, 0.25, 0.25 };
+            target = new GeneralDiscreteDistribution(-1, 4);
+            target.Fit(values.Subtract(1), weights);
+            double[] actual = target.Frequencies;
+
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+
+            // --
+
+            double[] values2 = { 0.00, 0.00, 2.00, 3.00 };
+            double[] weights2 = { 0.25, 0.25, 0.25, 0.25 };
+            target = new GeneralDiscreteDistribution(-1, 4);
+            target.Fit(values2.Subtract(1), weights2);
+            double[] actual2 = target.Frequencies;
+            Assert.IsTrue(Matrix.IsEqual(expected, actual2));
+        }
+
 
         [TestMethod()]
         public void DistributionFunctionTest()
