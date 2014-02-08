@@ -25,6 +25,7 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Math;
 
     [TestClass()]
     public class PolynomialTest
@@ -74,9 +75,9 @@ namespace Accord.Tests.Statistics
             x = new double[] { 9.4, 22.1 };
             y = new double[] { -6.21, 4 };
 
-            expected = 571.2821;
+            expected = 192981940.60611719;
             actual = target.Distance(x, y);
-            Assert.AreEqual(expected, actual, 0.0001);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
@@ -106,7 +107,7 @@ namespace Accord.Tests.Statistics
             x = new double[] { 9.4, 22.1 };
             y = new double[] { -6.21, 4 };
 
-            expected = 27070.26085757601;
+            expected = System.Math.Pow(x.InnerProduct(y), 3);
             actual = target.Function(x, y);
             Assert.AreEqual(expected, actual, 0.0001);
         }
@@ -151,5 +152,52 @@ namespace Accord.Tests.Statistics
                     Assert.AreEqual(expected[i, j], actual[i, j], 1e-2);
         }
 
+        [TestMethod()]
+        public void ExpandDistanceTest()
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                Polynomial kernel = new Polynomial(i, 0);
+
+                var x = new double[] { 0.5, 2.0 };
+                var y = new double[] { 1.3, -0.2 };
+
+                var phi_x = kernel.Expand(x);
+                var phi_y = kernel.Expand(y);
+
+                double phi_d = Distance.SquareEuclidean(phi_x, phi_y);
+                double d = kernel.Distance(x, y);
+
+                Assert.AreEqual(phi_d, d, 1e-4);
+                Assert.IsFalse(double.IsNaN(phi_d));
+                Assert.IsFalse(double.IsNaN(d));
+            }
+        }
+
+        [TestMethod()]
+        public void ExpandReverseDistanceTest()
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                Polynomial kernel = new Polynomial(i, 0);
+
+                var x = new double[] { 0.5, 2.0 };
+                var y = new double[] { 1.3, -0.2 };
+
+                var phi_x = kernel.Expand(x);
+                var phi_y = kernel.Expand(y);
+
+                int expected_size = (int)System.Math.Pow(x.Length, i);
+                Assert.AreEqual(phi_x.Length, phi_y.Length);
+                Assert.AreEqual(phi_x.Length, expected_size);
+
+                double d = Distance.SquareEuclidean(x, y);
+                double phi_d = kernel.ReverseDistance(phi_x, phi_y);
+
+                Assert.AreEqual(phi_d, d);
+                Assert.IsFalse(double.IsNaN(phi_d));
+                Assert.IsFalse(double.IsNaN(d));
+            }
+        }
     }
 }

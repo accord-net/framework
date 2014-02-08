@@ -22,13 +22,10 @@
 
 namespace Accord.Statistics.Kernels
 {
-    /// <summary>
-    ///   Kernel space distance interface for kernel functions.
-    /// </summary>
-    /// 
-    /// <seealso cref="IKernel"/>
-    ///
-    public interface IDistance
+    using System;
+
+    [Serializable]
+    public abstract class KernelBase : IDistance, IKernel
     {
 
         /// <summary>
@@ -39,9 +36,27 @@ namespace Accord.Statistics.Kernels
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// 
-        /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
+        /// </returns>
         /// 
-        double Distance(double[] x, double[] y);
+        public virtual double Distance(double[] x, double[] y)
+        {
+            return Function(x, x) + Function(y, y) - 2 * Function(x, y);
+        }
 
+
+        /// <summary>
+        ///   The kernel function.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>
+        ///   Dot product in feature (kernel) space.
+        /// </returns>
+        /// 
+        public abstract double Function(double[] x, double[] y);
     }
 }

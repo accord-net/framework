@@ -44,7 +44,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class BSpline : IKernel, ICloneable
+    public sealed class BSpline : KernelBase, IKernel, ICloneable
     {
         private int order;
 
@@ -75,7 +75,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double k = 1.0;
             int n = 2 * order + 1;

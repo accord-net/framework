@@ -29,7 +29,8 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Linear : IKernel, IDistance, ICloneable
+    public sealed class Linear : KernelBase, IKernel, IDistance,
+        ICloneable, IReverseDistance, IExpandable
     {
         private double constant;
 
@@ -48,7 +49,8 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Linear Kernel.
         /// </summary>
         /// 
-        public Linear() : this(1) { }
+        public Linear()
+            : this(1) { }
 
         /// <summary>
         ///   Gets or sets the kernel's intercept term.
@@ -66,9 +68,10 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double sum = constant;
             for (int i = 0; i < x.Length; i++)
@@ -78,18 +81,58 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
-        ///   Computes the distance in input space
+        ///   Computes the squared distance in input space
         ///   between two points given in feature space.
         /// </summary>
         /// 
         /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
         /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
-        /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
-        public double Distance(double[] x, double[] y)
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// 
+        public override double Distance(double[] x, double[] y)
         {
-            return Function(x, x) + Function(y, y) - 2.0 * Function(x, y);
+            if (x == y)
+                return 0.0;
+
+            double sum = 0;
+            for (int i = 0; i < x.Length; i++)
+            {
+                double u = x[i] - y[i];
+                sum += u * u;
+            }
+
+            return sum;
         }
+
+        /// <summary>
+        ///   Computes the squared distance in input space
+        ///   between two points given in feature space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in input space.
+        /// </returns>
+        /// 
+        public double ReverseDistance(double[] x, double[] y)
+        {
+            double sumx = constant;
+            double sumy = constant;
+            double sum = constant;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                sumx += x[i] * x[i];
+                sumy += y[i] * y[i];
+                sum += x[i] * y[i];
+            }
+
+            return sumx + sumy - 2.0 * sum;
+        }
+
 
 
         /// <summary>
@@ -105,5 +148,17 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
+
+        public double[] Expand(double[] input)
+        {
+            double[] feature = new double[input.Length + 1];
+
+            for (int i = 0; i < input.Length; i++)
+                feature[i] = input[i];
+
+            feature[input.Length] = constant;
+
+            return feature;
+        }
     }
 }

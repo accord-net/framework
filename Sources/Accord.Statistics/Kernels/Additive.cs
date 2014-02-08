@@ -29,7 +29,7 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Additive : IKernel
+    public sealed class Additive : KernelBase, IKernel
     {
         private IKernel[] kernels;
         private double[] weights;
@@ -97,13 +97,11 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double sum = 0.0;
             for (int i = 0; i < kernels.Length; i++)
-            {
                 sum += weights[i] * kernels[i].Function(x, y);
-            }
 
             return sum;
         }

@@ -24,6 +24,7 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Math;
 
     [TestClass()]
     public class LaplacianTest
@@ -61,6 +62,22 @@ namespace Accord.Tests.Statistics
 
             // For the same input, product should be 1
             Assert.AreEqual(1.0, target.Function(x, x));
+        }
+
+        [TestMethod]
+        public void LaplacianReverseDistanceTest()
+        {
+            var laplacian = new Laplacian(4.2);
+
+            var x = new double[] { 0.2, 0.5 };
+            var y = new double[] { 0.3, -0.7 };
+
+            double expected = Distance.Euclidean(x, y);
+
+            double df = laplacian.Distance(x, y);
+            double actual = laplacian.ReverseDistance(df);
+
+            Assert.AreEqual(expected, actual, 1e-10);
         }
     }
 }

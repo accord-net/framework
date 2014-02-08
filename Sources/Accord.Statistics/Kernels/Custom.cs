@@ -29,9 +29,9 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Custom : IKernel
+    public sealed class Custom : KernelBase, IKernel
     {
-        private Func<double[],double[],double> func;
+        private Func<double[], double[], double> func;
 
         /// <summary>
         ///   Constructs a new Custom kernel.
@@ -50,7 +50,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             return func(x, y);
         }

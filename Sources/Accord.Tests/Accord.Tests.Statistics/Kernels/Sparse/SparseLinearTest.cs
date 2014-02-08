@@ -20,17 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Kernels.Sparse;
-using Accord.Statistics.Kernels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Accord.Tests.Statistics
 {
+    using Accord.Statistics.Kernels.Sparse;
+    using Accord.Statistics.Kernels;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
-    /// <summary>
-    ///This is a test class for SparseLinearTest and is intended
-    ///to contain all SparseLinearTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class SparseLinearTest
     {
@@ -38,10 +33,6 @@ namespace Accord.Tests.Statistics
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -74,15 +65,15 @@ namespace Accord.Tests.Statistics
 
             expected = dense.Function(dx, dy);
             actual = target.Function(sx, sy);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = dense.Function(dx, dz);
             actual = target.Function(sx, sz);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = dense.Function(dy, dz);
             actual = target.Function(sy, sz);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
 
         [TestMethod()]

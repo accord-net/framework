@@ -23,25 +23,32 @@
 namespace Accord.Statistics.Kernels
 {
     /// <summary>
-    ///   Kernel space distance interface for kernel functions.
+    ///   Input space distance interface for kernel functions.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   Kernels which implement this interface can be used to solve the pre-image
+    ///   problem in <see cref="Accord.Statistics.Analysis.KernelPrincipalComponentAnalysis">
+    ///   Kernel Principal Component Analysis</see> and other methods based in Multi-
+    ///   Dimensional Scaling.
+    /// </remarks>
+    ///
     /// <seealso cref="IKernel"/>
     ///
-    public interface IDistance
+    public interface IReverseDistance
     {
 
         /// <summary>
-        ///   Computes the squared distance in feature space
-        ///   between two points given in input space.
+        ///   Computes the squared distance in input space
+        ///   between two points given in feature space.
         /// </summary>
         /// 
-        /// <param name="x">Vector <c>x</c> in input space.</param>
-        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
         /// 
-        /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
-        double Distance(double[] x, double[] y);
+        double ReverseDistance(double[] x, double[] y);
 
     }
 }

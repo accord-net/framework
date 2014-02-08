@@ -35,7 +35,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class SparseSigmoid : IKernel
+    public sealed class SparseSigmoid : KernelBase, IKernel
     {
         private double gamma;
         private double constant;
@@ -86,32 +86,9 @@ namespace Accord.Statistics.Kernels.Sparse
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
-            double sum = 0.0;
-
-            int i = 0, j = 0;
-            double posx, posy;
-
-            while (i < x.Length && j < y.Length)
-            {
-                posx = x[i]; posy = y[j];
-
-                if (posx == posy)
-                {
-                    sum += x[i + 1] * y[j + 1];
-
-                    i += 2; j += 2;
-                }
-                else if (posx < posy)
-                {
-                    i += 2;
-                }
-                else if (posx > posy)
-                {
-                    j += 2;
-                }
-            }
+            double sum = SparseLinear.Product(x,y);
 
             return System.Math.Tanh(Gamma * sum + Constant);
         }

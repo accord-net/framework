@@ -30,7 +30,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </summary>
     /// 
     [Serializable]
-    public sealed class SparseLaplacian : IKernel
+    public sealed class SparseLaplacian : KernelBase, IKernel, IDistance
     {
         private double sigma;
         private double gamma;
@@ -39,7 +39,8 @@ namespace Accord.Statistics.Kernels.Sparse
         ///   Constructs a new Laplacian Kernel
         /// </summary>
         /// 
-        public SparseLaplacian() : this(1) { }
+        public SparseLaplacian() 
+            : this(1) { }
 
         /// <summary>
         ///   Constructs a new Laplacian Kernel
@@ -91,36 +92,38 @@ namespace Accord.Statistics.Kernels.Sparse
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             // Optimization in case x and y are
             // exactly the same object reference.
-            if (x == y) return 1.0;
 
-            double norm = 0.0, d;
+            if (x == y) 
+                return 1.0;
+
+            double norm = 0.0;
 
             int i = 0, j = 0;
-            double posx, posy;
 
             while (i < x.Length || j < y.Length)
             {
-                posx = x[i]; posy = y[j];
+                double posx = x[i];
+                double posy = y[j];
 
                 if (posx == posy)
                 {
-                    d = x[i + 1] - y[j + 1];
+                    double d = x[i + 1] - y[j + 1];
                     norm += d * d;
                     i += 2; j += 2;
                 }
                 else if (posx < posy)
                 {
-                    d = x[j + 1];
+                    double d = x[j + 1];
                     norm += d * d;
                     i += 2;
                 }
                 else if (posx > posy)
                 {
-                    d = y[i + 1];
+                    double d = y[i + 1];
                     norm += d * d;
                     j += 2;
                 }
@@ -141,34 +144,35 @@ namespace Accord.Statistics.Kernels.Sparse
         /// 
         /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
-        public double Distance(double[] x, double[] y)
+        public override double Distance(double[] x, double[] y)
         {
-            if (x == y) return 0.0;
+            if (x == y) 
+                return 0.0;
 
-            double norm = 0.0, d;
+            double norm = 0.0;
 
             int i = 0, j = 0;
-            double posx, posy;
 
             while (i < x.Length || j < y.Length)
             {
-                posx = x[i]; posy = y[j];
+                double posx = x[i];
+                double posy = y[j];
 
                 if (posx == posy)
                 {
-                    d = x[i + 1] - y[j + 1];
+                    double d = x[i + 1] - y[j + 1];
                     norm += d * d;
                     i += 2; j += 2;
                 }
                 else if (posx < posy)
                 {
-                    d = x[j + 1];
+                    double d = x[j + 1];
                     norm += d * d;
                     i += 2;
                 }
                 else if (posx > posy)
                 {
-                    d = y[i + 1];
+                    double d = y[i + 1];
                     norm += d * d;
                     j += 2;
                 }
@@ -176,8 +180,7 @@ namespace Accord.Statistics.Kernels.Sparse
 
             norm = Math.Sqrt(norm);
 
-            // TODO: Verify the use of log1p instead
-            return (1.0 / -gamma) * Math.Log(1.0 - 0.5 * norm);
+            return 2 - 2 * Math.Exp(-gamma * norm);
         }
 
 

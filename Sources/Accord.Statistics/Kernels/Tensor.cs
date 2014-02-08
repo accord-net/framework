@@ -29,7 +29,7 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Tensor : IKernel
+    public sealed class Tensor : KernelBase, IKernel
     {
         private IKernel[] kernels;
 
@@ -52,7 +52,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double product = 1.0;
 

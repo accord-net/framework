@@ -22,26 +22,13 @@
 
 namespace Accord.Statistics.Kernels
 {
-    /// <summary>
-    ///   Kernel space distance interface for kernel functions.
-    /// </summary>
-    /// 
-    /// <seealso cref="IKernel"/>
-    ///
-    public interface IDistance
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    public interface IExpandable
     {
-
-        /// <summary>
-        ///   Computes the squared distance in feature space
-        ///   between two points given in input space.
-        /// </summary>
-        /// 
-        /// <param name="x">Vector <c>x</c> in input space.</param>
-        /// <param name="y">Vector <c>y</c> in input space.</param>
-        /// 
-        /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
-        /// 
-        double Distance(double[] x, double[] y);
-
+        double[] Expand(double[] input);
     }
 }

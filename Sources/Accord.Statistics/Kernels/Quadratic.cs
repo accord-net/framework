@@ -29,7 +29,8 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Quadratic : IKernel, IDistance, ICloneable
+    public sealed class Quadratic : KernelBase, IKernel,
+        IDistance, IReverseDistance, ICloneable, IExpandable
     {
         private double constant;
 
@@ -48,7 +49,8 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Quadratic kernel.
         /// </summary>
         /// 
-        public Quadratic() : this(1.0) { }
+        public Quadratic() 
+            : this(1.0) { }
 
 
         /// <summary>
@@ -70,13 +72,40 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double sum = constant;
             for (int i = 0; i < x.Length; i++)
                 sum += x[i] * y[i];
 
             return sum * sum;
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in input space
+        ///   between two points given in feature space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// 
+        /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// 
+        public override double Distance(double[] x, double[] y)
+        {
+            if (x == y)
+                return 0.0;
+
+            double sumx = 0, sumy = 0, sum = 0;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                sumx += x[i] * x[i];
+                sumy += y[i] * y[i];
+                sum += x[i] * y[i];
+            }
+
+            return sumx * sumx + sumy * sumy - 2 * sum * sum;
         }
 
         /// <summary>
@@ -88,10 +117,21 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
         /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
-        public double Distance(double[] x, double[] y)
+        public double ReverseDistance(double[] x, double[] y)
         {
-            return Math.Sqrt(Function(x, x)) + Math.Sqrt(Function(y, y))
-                - 2.0 * Math.Sqrt(Function(x, y));
+            double sumx = constant;
+            double sumy = constant;
+            double sum = constant;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                sumx += x[i] * x[i];
+                sumy += y[i] * y[i];
+                sum += x[i] * y[i];
+            }
+
+
+           return Math.Sqrt(sumx) + Math.Sqrt(sumy) - 2.0 * Math.Sqrt(sum);
         }
 
         /// <summary>
@@ -105,6 +145,26 @@ namespace Accord.Statistics.Kernels
         public object Clone()
         {
             return MemberwiseClone();
+        }
+
+        public double[] Expand(double[] input)
+        {
+            if (constant != 0)
+                throw new NotSupportedException();
+
+            int n = input.Length;
+
+            double[] features = new double[n * n];
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    features[i * n + j] = input[i] * input[j];
+                }
+            }
+
+            return features;
         }
     }
 }

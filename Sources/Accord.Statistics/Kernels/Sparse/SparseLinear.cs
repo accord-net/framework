@@ -33,7 +33,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class SparseLinear : IKernel
+    public sealed class SparseLinear : KernelBase, IKernel
     {
         private double constant;
 
@@ -52,7 +52,8 @@ namespace Accord.Statistics.Kernels.Sparse
         ///   Constructs a new Linear Kernel.
         /// </summary>
         /// 
-        public SparseLinear() : this(1) { }
+        public SparseLinear()
+            : this(1) { }
 
         /// <summary>
         ///   Gets or sets the kernel's intercept term.
@@ -72,16 +73,47 @@ namespace Accord.Statistics.Kernels.Sparse
         /// <param name="y">Sparse vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
-            double sum = constant;
+            if (x == y)
+                return 1.0;
+
+            return Product(x, y) + constant;
+        }
+
+       
+
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// 
+        public override double Distance(double[] x, double[] y)
+        {
+            if (x == y)
+                return 0;
+
+            return SquaredEuclidean(x,y);
+        }
+
+
+
+
+
+        public static double Product(double[] x, double[] y)
+        {
+            double sum = 0;
 
             int i = 0, j = 0;
-            double posx, posy;
 
             while (i < x.Length && j < y.Length)
             {
-                posx = x[i]; posy = y[j];
+                double posx = x[i];
+                double posy = y[j];
 
                 if (posx == posy)
                 {
@@ -102,18 +134,40 @@ namespace Accord.Statistics.Kernels.Sparse
             return sum;
         }
 
-        /// <summary>
-        ///   Computes the distance in input space
-        ///   between two points given in feature space.
-        /// </summary>
-        /// 
-        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
-        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
-        /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
-        /// 
-        public double Distance(double[] x, double[] y)
+        public static double SquaredEuclidean(double[] x, double[] y)
         {
-            return Function(x, x) + Function(y, y) - 2.0 * Function(x, y);
+            double sum = 0;
+
+            int i = 0, j = 0;
+
+            while (i < x.Length && j < y.Length)
+            {
+                double posx = x[i];
+                double posy = y[j];
+
+                if (posx == posy)
+                {
+                    double d = x[i + 1] - y[j + 1];
+
+                    sum += d * d;
+
+                    i += 2; j += 2;
+                }
+                else if (posx < posy)
+                {
+                    double d = x[j + 1];
+                    sum += d * d;
+                    i += 2;
+                }
+                else if (posx > posy)
+                {
+                    double d = y[j + 1];
+                    sum += d * d;
+                    j += 2;
+                }
+            }
+
+            return sum;
         }
 
     }

@@ -25,54 +25,33 @@ namespace Accord.Statistics.Kernels
     using System;
 
     /// <summary>
-    ///   Bessel Kernel.
+    ///   Normalized Kernel.
     /// </summary>
     /// 
-    /// <remarks>
-    ///   The Bessel kernel is well known in the theory of function spaces of fractional smoothness. 
-    /// </remarks>
-    /// 
     [Serializable]
-    public sealed class Bessel : KernelBase, IKernel, ICloneable
+    public sealed class Normalized<T> : KernelBase, IKernel, ICloneable where T : IKernel
     {
-        private int order;
-        private double sigma;
+        private T kernel;
 
-        /// <summary>
-        ///   Gets or sets the order of the Bessel function.
-        /// </summary>
-        /// 
-        public int Order
+        public T Kernel
         {
-            get { return order; }
-            set { order = value; }
+            get { return kernel; }
+            set { kernel = value; }
         }
 
         /// <summary>
-        ///   Gets or sets the sigma constant for this kernel.
+        ///   Constructs a new Cauchy Kernel.
         /// </summary>
         /// 
-        public double Sigma
-        {
-            get { return sigma; }
-            set { sigma = value; }
-        }
-
-        /// <summary>
-        ///   Constructs a new Bessel Kernel.
-        /// </summary>
-        /// 
-        /// <param name="order">The order for the Bessel function.</param>
         /// <param name="sigma">The value for sigma.</param>
         /// 
-        public Bessel(int order, double sigma)
+        public Normalized(T kernel)
         {
-            this.order = order;
-            this.sigma = sigma;
+            this.kernel = kernel;
         }
 
         /// <summary>
-        ///   Bessel Kernel Function
+        ///   Normalized Kernel Function
         /// </summary>
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
@@ -81,17 +60,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public override double Function(double[] x, double[] y)
         {
-            double norm = 0.0;
-
-            for (int k = 0; k < x.Length; k++)
-            {
-                double d = x[k] - y[k];
-                norm += d * d;
-            }
-            norm = System.Math.Sqrt(norm);
-
-            return Accord.Math.Bessel.J(order, sigma * norm) /
-                System.Math.Pow(norm, -norm * order);
+            return kernel.Function(x, y) / Math.Sqrt(kernel.Function(x, x) * kernel.Function(y, y));
         }
 
         /// <summary>
@@ -106,6 +75,5 @@ namespace Accord.Statistics.Kernels
         {
             return MemberwiseClone();
         }
-
     }
 }

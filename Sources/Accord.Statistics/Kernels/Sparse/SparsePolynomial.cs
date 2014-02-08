@@ -29,7 +29,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </summary>
     /// 
     [Serializable]
-    public sealed class SparsePolynomial : IKernel
+    public sealed class SparsePolynomial : KernelBase, IKernel
     {
         private int degree;
         private double constant;
@@ -86,51 +86,12 @@ namespace Accord.Statistics.Kernels.Sparse
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
-            double sum = constant;
-
-            int i = 0, j = 0;
-            double posx, posy;
-
-            while (i < x.Length && j < y.Length)
-            {
-                posx = x[i]; posy = y[j];
-
-                if (posx == posy)
-                {
-                    sum += x[i + 1] * y[j + 1];
-
-                    i += 2; j += 2;
-                }
-                else if (posx < posy)
-                {
-                    i += 2;
-                }
-                else if (posx > posy)
-                {
-                    j += 2;
-                }
-            }
+            double sum = SparseLinear.Product(x,y) + constant;
 
             return Math.Pow(sum, Degree);
         }
 
-        /// <summary>
-        ///   Computes the distance in input space
-        ///   between two points given in feature space.
-        /// </summary>
-        /// 
-        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
-        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
-        /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
-        /// 
-        public double Distance(double[] x, double[] y)
-        {
-            double q = 1.0 / degree;
-
-            return Math.Pow(Function(x, x), q) + Math.Pow(Function(y, y), q)
-                - 2.0 * Math.Pow(Function(x, y), q);
-        }
     }
 }

@@ -30,7 +30,8 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Laplacian : IKernel, IDistance, ICloneable, IEstimable
+    public sealed class Laplacian : KernelBase, IKernel, 
+        IDistance, ICloneable, IEstimable, IReverseDistance
     {
         private double sigma;
         private double gamma;
@@ -91,16 +92,18 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             // Optimization in case x and y are
             // exactly the same object reference.
-            if (x == y) return 1.0;
 
-            double norm = 0.0, d;
+            if (x == y) 
+                return 1.0;
+
+            double norm = 0.0;
             for (int i = 0; i < x.Length; i++)
             {
-                d = x[i] - y[i];
+                double d = x[i] - y[i];
                 norm += d * d;
             }
 
@@ -110,30 +113,72 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
-        ///   Computes the distance in input space
+        ///   Computes the squared distance in input space
         ///   between two points given in feature space.
         /// </summary>
         /// 
         /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
         /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
-        /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
-        public double Distance(double[] x, double[] y)
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// 
+        public override double Distance(double[] x, double[] y)
         {
-            if (x == y) return 0.0;
+            if (x == y)
+                return 0.0;
 
-            double norm = 0.0, d;
+            double norm = 0.0;
             for (int i = 0; i < x.Length; i++)
             {
-                d = x[i] - y[i];
+                double d = x[i] - y[i];
                 norm += d * d;
             }
 
             norm = Math.Sqrt(norm);
 
-            // TODO: Verify the use of log1p instead
+            return 2 - 2 * Math.Exp(-gamma * norm);
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in input space
+        ///   between two points given in feature space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in input space.
+        /// </returns>
+        /// 
+        public double ReverseDistance(double[] x, double[] y)
+        {
+            if (x == y) 
+                return 0.0;
+
+            double norm = 0.0;
+            for (int i = 0; i < x.Length; i++)
+            {
+                double d = x[i] - y[i];
+                norm += d * d;
+            }
+
             return (1.0 / -gamma) * Math.Log(1.0 - 0.5 * norm);
         }
+
+        /// <summary>
+        ///   Computes the distance in input space given
+        ///   a distance computed in feature space.
+        /// </summary>
+        /// 
+        /// <param name="df">Distance in feature space.</param>
+        /// <returns>Distance in input space.</returns>
+        /// 
+        public double ReverseDistance(double df)
+        {
+            return (1.0 / -gamma) * Math.Log(1.0 - 0.5 * df);
+        }
+
 
         /// <summary>
         ///   Estimate appropriate values for sigma given a data set.
@@ -209,6 +254,7 @@ namespace Accord.Statistics.Kernels
             var l = Estimate(inputs);
             this.Sigma = l.Sigma;
         }
+
 
     }
 }

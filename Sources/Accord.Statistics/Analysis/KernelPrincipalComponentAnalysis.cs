@@ -117,16 +117,18 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         /// <param name="data">The source data to perform analysis. The matrix should contain
-        /// variables as columns and observations of each variable as rows.</param>
+        ///   variables as columns and observations of each variable as rows.</param>
         /// <param name="kernel">The kernel to be used in the analysis.</param>
         /// <param name="method">The analysis method to perform.</param>
-        /// <param name="centerInFeatureSpace">True to center the data in feature space, false otherwise. Default is true.</param>
+        /// <param name="centerInFeatureSpace">True to center the data in feature space,
+        ///   false otherwise. Default is true.</param>
         /// 
         public KernelPrincipalComponentAnalysis(double[,] data, IKernel kernel,
             AnalysisMethod method, bool centerInFeatureSpace)
             : base(data, method)
         {
-            if (kernel == null) throw new ArgumentNullException("kernel");
+            if (kernel == null) 
+                throw new ArgumentNullException("kernel");
 
             this.kernel = kernel;
             this.centerFeatureSpace = centerInFeatureSpace;
@@ -137,10 +139,11 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         /// <param name="data">The source data to perform analysis. The matrix should contain
-        /// variables as columns and observations of each variable as rows.</param>
+        ///   variables as columns and observations of each variable as rows.</param>
         /// <param name="kernel">The kernel to be used in the analysis.</param>
         /// <param name="method">The analysis method to perform.</param>
-        /// <param name="centerInFeatureSpace">True to center the data in feature space, false otherwise. Default is true.</param>
+        /// <param name="centerInFeatureSpace">True to center the data in feature space,
+        ///   false otherwise. Default is true.</param>
         /// 
         public KernelPrincipalComponentAnalysis(double[][] data, IKernel kernel,
             AnalysisMethod method, bool centerInFeatureSpace)
@@ -402,7 +405,8 @@ namespace Accord.Statistics.Analysis
                 throw new InvalidOperationException("The analysis must have been computed first.");
 
             if (data.GetLength(1) != Source.GetLength(1))
-                throw new DimensionMismatchException("data", "The input data should have the same number of columns as the original data.");
+                throw new DimensionMismatchException("data", 
+                    "The input data should have the same number of columns as the original data.");
 
             if (dimensions < 0 || dimensions > Components.Count)
             {
@@ -490,10 +494,11 @@ namespace Accord.Statistics.Analysis
 
             // Verify if the current kernel supports
             // distance calculation in feature space.
-            IDistance distance = kernel as IDistance;
+            IReverseDistance distance = kernel as IReverseDistance;
 
             if (distance == null)
-                throw new NotSupportedException("Current kernel does not support distance calculation in feature space.");
+                throw new NotSupportedException(
+                    "Current kernel does not support distance calculation in feature space.");
 
 
             int rows = data.GetLength(0);
@@ -519,7 +524,7 @@ namespace Accord.Statistics.Analysis
                 for (int i = 0; i < X.GetLength(0); i++)
                 {
                     inx[i] = i;
-                    d2[i] = distance.Distance(y, Result.GetRow(i).Submatrix(y.Length));
+                    d2[i] = distance.ReverseDistance(y, Result.GetRow(i).Submatrix(y.Length));
                 }
 
                 // 2.2 Order them

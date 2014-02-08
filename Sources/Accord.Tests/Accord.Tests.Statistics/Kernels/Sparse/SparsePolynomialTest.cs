@@ -65,15 +65,15 @@ namespace Accord.Tests.Statistics
 
             expected = dense.Function(dx, dy);
             actual = target.Function(sx, sy);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = dense.Function(dx, dz);
             actual = target.Function(sx, sz);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = dense.Function(dy, dz);
             actual = target.Function(sy, sz);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
 
         [TestMethod()]
@@ -94,15 +94,15 @@ namespace Accord.Tests.Statistics
 
             expected = dense.Distance(dx, dy);
             actual = target.Distance(sx, sy);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = dense.Distance(dx, dz);
             actual = target.Distance(sx, sz);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
 
             expected = dense.Distance(dy, dz);
             actual = target.Distance(sy, sz);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
     }
 }

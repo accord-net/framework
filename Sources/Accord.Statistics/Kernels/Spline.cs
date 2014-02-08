@@ -34,7 +34,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Spline : IKernel, ICloneable
+    public sealed class Spline : KernelBase, IKernel, ICloneable
     {
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double k = 1;
             for (int i = 0; i < x.Length; i++)

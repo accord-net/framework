@@ -38,7 +38,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Dirichlet : IKernel, ICloneable
+    public sealed class Dirichlet : KernelBase, IKernel, ICloneable
     {
         private int N;
 
@@ -70,7 +70,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             // Optimization in case x and y are
             // exactly the same object reference.

@@ -38,7 +38,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Sigmoid : IKernel, ICloneable, IEstimable
+    public sealed class Sigmoid : KernelBase, IKernel, ICloneable, IEstimable
     {
         private double alpha;
         private double constant;
@@ -191,7 +191,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double sum = 0.0;
             for (int i = 0; i < x.Length; i++)

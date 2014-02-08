@@ -20,16 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Kernels.Sparse;
-using Accord.Statistics.Kernels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Accord.Tests.Statistics
 {
+    using Accord.Statistics.Kernels.Sparse;
+    using Accord.Statistics.Kernels;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
-    /// <summary>
-    ///This is a test class for SparseLinearTest and is intended
-    ///to contain all SparseLinearTest Unit Tests
     ///</summary>
     [TestClass()]
     public class SparseGaussianTest
@@ -38,10 +34,6 @@ namespace Accord.Tests.Statistics
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get

@@ -50,7 +50,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Wavelet : IKernel, ICloneable
+    public sealed class Wavelet : KernelBase, IKernel, ICloneable
     {
         // Default wavelet mother function : h(x) = cos(1.75x)*exp(-x²/2)
         private Func<double, double> h = (x => Math.Cos(1.75 * x) * Math.Exp(-(x * x) / 2.0));
@@ -163,7 +163,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double prod = 1.0;
 
@@ -178,9 +178,7 @@ namespace Accord.Statistics.Kernels
             else
             {
                 for (int i = 0; i < x.Length; i++)
-                {
                     prod *= h((x[i] - y[i]) / dilation);
-                }
             }
 
             return prod;

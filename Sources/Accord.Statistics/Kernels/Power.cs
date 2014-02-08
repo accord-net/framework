@@ -35,7 +35,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Power : IKernel, ICloneable
+    public sealed class Power : KernelBase, IKernel, ICloneable
     {
         private double degree;
 
@@ -79,7 +79,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             // Optimization in case x and y are
             // exactly the same object reference.

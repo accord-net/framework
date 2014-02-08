@@ -45,7 +45,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class SparseGaussian : IKernel
+    public sealed class SparseGaussian : KernelBase, IKernel, IDistance, IReverseDistance
     {
         private double sigma;
         private double gamma;
@@ -100,40 +100,15 @@ namespace Accord.Statistics.Kernels.Sparse
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             // Optimization in case x and y are
             // exactly the same object reference.
-            if (x == y) return 1.0;
 
-            double norm = 0.0, d;
+            if (x == y) 
+                return 1.0;
 
-            int i = 0, j = 0;
-            double posx, posy;
-
-            while (i < x.Length || j < y.Length)
-            {
-                posx = x[i]; posy = y[j];
-
-                if (posx == posy)
-                {
-                    d = x[i + 1] - y[j + 1];
-                    norm += d * d;
-                    i += 2; j += 2;
-                }
-                else if (posx < posy)
-                {
-                    d = x[j + 1];
-                    norm += d * d;
-                    i += 2;
-                }
-                else if (posx > posy)
-                {
-                    d = y[i + 1];
-                    norm += d * d;
-                    j += 2;
-                }
-            }
+            double norm = SparseLinear.SquaredEuclidean(x, y);
 
             return Math.Exp(-gamma * norm);
         }
@@ -150,43 +125,37 @@ namespace Accord.Statistics.Kernels.Sparse
         ///   Distance between <c>x</c> and <c>y</c> in input space.
         /// </returns>
         /// 
-        public double Distance(double[] x, double[] y)
+        public override double Distance(double[] x, double[] y)
         {
-            if (x == y) return 0.0;
+            if (x == y) 
+                return 0.0;
 
-            double norm = 0.0, d;
+            double norm = SparseLinear.SquaredEuclidean(x, y);
 
-            int i = 0, j = 0;
-            double posx, posy;
-
-            while (i < x.Length || j < y.Length)
-            {
-                posx = x[i]; posy = y[j];
-
-                if (posx == posy)
-                {
-                    d = x[i + 1] - y[j + 1];
-                    norm += d * d;
-                    i += 2; j += 2;
-                }
-                else if (posx < posy)
-                {
-                    d = x[j + 1];
-                    norm += d * d;
-                    i += 2;
-                }
-                else if (posx > posy)
-                {
-                    d = y[i + 1];
-                    norm += d * d;
-                    j += 2;
-                }
-            }
-
-            // TODO: Verify the use of log1p instead
-            return (1.0 / -gamma) * Math.Log(1.0 - 0.5 * norm);
+            return 2 - 2 * Math.Exp(-gamma * norm);
         }
 
+        /// <summary>
+        ///   Computes the squared distance in input space
+        ///   between two points given in feature space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in input space.
+        /// </returns>
+        /// 
+        public double ReverseDistance(double[] x, double[] y)
+        {
+            if (x == y)
+                return 0.0;
+
+            double norm = SparseLinear.SquaredEuclidean(x, y);
+
+            return -(1.0 / gamma) * Math.Log(1.0 - 0.5 * norm);
+        }
 
         /// <summary>
         ///   Estimate appropriate values for sigma given a data set.

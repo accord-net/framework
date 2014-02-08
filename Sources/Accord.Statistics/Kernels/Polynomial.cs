@@ -29,7 +29,8 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Polynomial : IKernel, IDistance, ICloneable
+    public sealed class Polynomial : KernelBase, IKernel,
+        IDistance, IReverseDistance, ICloneable, IExpandable
     {
         private int degree;
         private double constant;
@@ -53,7 +54,8 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="degree">The polynomial degree for this kernel.</param>
         /// 
-        public Polynomial(int degree) : this(degree, 1.0) { }
+        public Polynomial(int degree) 
+            : this(degree, 1.0) { }
 
         /// <summary>
         ///   Gets or sets the kernel's polynomial degree.
@@ -84,7 +86,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double sum = constant;
             for (int i = 0; i < x.Length; i++)
@@ -102,12 +104,52 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
         /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
-        public double Distance(double[] x, double[] y)
+        public override double Distance(double[] x, double[] y)
         {
+            if (x == y)
+                return 0.0;
+
+            double sumx = constant;
+            double sumy = constant;
+            double sum = constant;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                sumx += x[i] * x[i];
+                sumy += y[i] * y[i];
+                sum += x[i] * y[i];
+            }
+
+            int d = degree;
+
+            return Math.Pow(sumx, d) + Math.Pow(sumy, d) - 2 * Math.Pow(sum, d);
+        }
+
+        /// <summary>
+        ///   Computes the distance in input space
+        ///   between two points given in feature space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
+        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// 
+        public double ReverseDistance(double[] x, double[] y)
+        {
+            double sumx = constant;
+            double sumy = constant;
+            double sum = constant;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                sumx += x[i] * x[i];
+                sumy += y[i] * y[i];
+                sum += x[i] * y[i];
+            }
+
             double q = 1.0 / degree;
 
-            return Math.Pow(Function(x, x), q) + Math.Pow(Function(y, y), q)
-                - 2.0 * Math.Pow(Function(x, y), q);
+            return Math.Pow(sumx, q) + Math.Pow(sumy, q) - 2.0 * Math.Pow(sum, q);
         }
 
         /// <summary>
@@ -121,6 +163,43 @@ namespace Accord.Statistics.Kernels
         public object Clone()
         {
             return MemberwiseClone();
+        }
+
+        public double[] Expand(double[] input)
+        {
+            if (constant != 0)
+                throw new NotSupportedException();
+
+            if (degree <= 0 || degree >= 4)
+                throw new NotSupportedException();
+
+            int n = input.Length;
+            int m = (int)Math.Pow(n, degree);
+
+            double[] features = new double[m];
+
+            switch (degree)
+            {
+                case 1:
+                    for (int i = 0; i < n; i++)
+                        features[i] = input[i];
+                    break;
+
+                case 2:
+                    for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
+                            features[i * n + j] = input[i] * input[j];
+                    break;
+
+                case 3:
+                    for (int i = 0; i < n; i++)
+                        for (int j = 0; j < n; j++)
+                            for (int k = 0; k < n; k++)
+                                features[i * n * n + j * n + k] = input[i] * input[j] * input[k];
+                    break;
+            }
+
+            return features;
         }
     }
 }

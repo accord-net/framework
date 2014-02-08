@@ -29,7 +29,7 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     [Serializable]
-    public sealed class Precomputed : IKernel, ICloneable
+    public sealed class Precomputed : KernelBase, IKernel, ICloneable
     {
         private double[,] matrix;
 
@@ -60,7 +60,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">An array containing a first element with the index for input vector <c>y</c>.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             int i = (int)x[0];
             int j = (int)y[0];

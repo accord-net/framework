@@ -34,7 +34,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Log : IKernel, ICloneable
+    public sealed class Log : KernelBase, IKernel, ICloneable
     {
         private double degree;
 
@@ -78,7 +78,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             double norm = 0.0, d;
 

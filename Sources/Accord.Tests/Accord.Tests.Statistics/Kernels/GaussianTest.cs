@@ -76,7 +76,7 @@ namespace Accord.Tests.Statistics
         [TestMethod]
         public void GaussianDistanceTest()
         {
-            IDistance gaussian = new Gaussian(1);
+            var gaussian = new Gaussian(1);
 
             double[] x = { 1, 1 };
             double[] y = { 1, 1 };
@@ -93,7 +93,7 @@ namespace Accord.Tests.Statistics
             y = new double[] { 0.3, -0.7 };
 
             actual = gaussian.Distance(x, y);
-            expected = 341.46531595796711;
+            expected = Accord.Statistics.Tools.Distance(gaussian, x, y);
 
             Assert.AreEqual(expected, actual, 1e-10);
         }
@@ -208,5 +208,21 @@ namespace Accord.Tests.Statistics
                     Assert.AreEqual(expected[i, j], actual[i, j], 1e-6);
         }
 
+
+        [TestMethod]
+        public void GaussianReverseDistanceTest()
+        {
+            var gaussian = new Gaussian(4.2);
+
+            var x = new double[] { 0.2, 0.5 };
+            var y = new double[] { 0.3, -0.7 };
+
+            double expected = Distance.SquareEuclidean(x, y);
+
+            double df = gaussian.Distance(x, y);
+            double actual = gaussian.ReverseDistance(df);
+
+            Assert.AreEqual(expected, actual, 1e-10);
+        }
     }
 }

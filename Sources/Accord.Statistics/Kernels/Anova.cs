@@ -37,7 +37,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Anova : IKernel
+    public sealed class Anova : KernelBase, IKernel
     {
 
         private int n; // input vector length
@@ -67,7 +67,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             // Evaluate the kernel by dynamic programming
             for (int k = 0; k < p; k++)

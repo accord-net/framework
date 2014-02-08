@@ -172,7 +172,7 @@ namespace Accord.Statistics.Kernels
     /// </example>
     /// 
     [Serializable]
-    public class DynamicTimeWarping : IKernel, ICloneable, IDisposable
+    public class DynamicTimeWarping : KernelBase, IKernel, ICloneable, IDisposable
     {
         private double alpha = 1.0; // spherical projection distance
         private int length = 1;     // length of the feature vectors
@@ -279,7 +279,7 @@ namespace Accord.Statistics.Kernels
         /// <param name="y">Vector <c>y</c> in input space.</param>
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public double Function(double[] x, double[] y)
+        public override double Function(double[] x, double[] y)
         {
             if (x == y) return 1.0;
 
