@@ -32,7 +32,7 @@ namespace Accord.Statistics.Testing
     /// 
     /// <remarks>
     /// <para>
-    ///   A chi-square test (also chi-squared or χ2  test) is any statistical
+    ///   A chi-square test (also chi-squared or χ² test) is any statistical
     ///   hypothesis test in which the sampling distribution of the test statistic
     ///   is a <see cref="ChiSquareDistribution">chi-square distribution</see> when
     ///   the null hypothesis is true, or any in which this is asymptotically true,
@@ -55,6 +55,54 @@ namespace Accord.Statistics.Testing
     ///        http://www2.lv.psu.edu/jxm57/irp/chisquar.html </a></description></item>
     ///   </list></para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   The following example has been based on the example section
+    ///   of the <a href="http://en.wikipedia.org/wiki/Pearson's_chi-squared_test#Goodness_of_fit">
+    ///   Pearson's chi-squared test</a> article on Wikipedia.</para>
+    ///   
+    /// <code>
+    /// // Suppose we would like to test the hypothesis that a random sample of 
+    /// // 100 people has been drawn from a population in which men and women are
+    /// // equal in frequency. 
+    /// 
+    /// // Under this hypothesis, the observed number of men and women would be 
+    /// // compared to the theoretical frequencies of 50 men and 50 women. So,
+    /// // after drawing our sample, we found out that there were 44 men and 56
+    /// // women in the sample:
+    /// 
+    /// //                     man  woman
+    /// double[] observed = {  44,   56  };
+    /// double[] expected = {  50,   50  };
+    /// 
+    /// // If the null hypothesis is true (i.e., men and women are chosen with 
+    /// // equal probability), the test statistic will be drawn from a chi-squared
+    /// // distribution with one degree of freedom. If the male frequency is known, 
+    /// // then the female frequency is determined.
+    /// //
+    /// int degreesOfFreedom = 1;
+    /// 
+    /// // So now we have:
+    /// //
+    /// var chi = new ChiSquareTest(expected, observed, degreesOfFreedom);
+    /// 
+    /// 
+    /// // The chi-squared distribution for 1 degree of freedom shows that the 
+    /// // probability of observing this difference (or a more extreme difference 
+    /// // than this) if men and women are equally numerous in the population is 
+    /// // approximately 0.23. 
+    ///             
+    /// double pvalue = chi.PValue; // 0.23
+    ///             
+    /// // This probability is higher than conventional criteria for statistical
+    /// // significance (0.001 or 0.05), so normally we would not reject the null
+    /// // hypothesis that the number of men in the population is the same as the
+    /// // number of women.
+    /// 
+    /// bool significant = chi.Significant; // false
+    /// </code>
+    /// </example>
     /// 
     [Serializable]
     public class ChiSquareTest : HypothesisTest<ChiSquareDistribution>

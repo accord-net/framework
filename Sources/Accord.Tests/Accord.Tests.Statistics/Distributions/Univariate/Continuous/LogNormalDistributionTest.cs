@@ -237,6 +237,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void GenerateTest()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             LognormalDistribution target = new LognormalDistribution(2, 5);
 
             double[] samples = target.Generate(1000000);

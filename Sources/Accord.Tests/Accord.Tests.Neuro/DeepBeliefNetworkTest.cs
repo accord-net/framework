@@ -28,6 +28,10 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Learning;
     using Accord.Neuro.Layers;
+    using AForge.Neuro.Learning;
+    using Accord.Math;
+    using System.Linq;
+    using Accord.Neuro;
 
     [TestClass()]
     public class DeepBeliefNetworkTest
@@ -205,5 +209,95 @@ namespace Accord.Tests.Neuro
 
             return network;
         }
+
+
+        [TestMethod()]
+        public void ExampleTest1()
+        {
+            // We'll use a simple XOR function as input. 
+
+            double[][] inputs =
+            { 
+                new double[] { 0, 0 }, // 0 xor 0
+                new double[] { 0, 1 }, // 0 xor 1
+                new double[] { 1, 0 }, // 1 xor 0
+                new double[] { 1, 1 }, // 1 xor 1
+            };
+
+            // XOR output, corresponding to the input.
+            double[][] outputs = 
+            {
+                new double[] { 0 }, // 0 xor 0 = 0
+                new double[] { 1 }, // 0 xor 1 = 1
+                new double[] { 1 }, // 1 xor 0 = 1
+                new double[] { 0 }, // 1 xor 1 = 0
+            };
+
+            // Setup the deep belief network (2 inputs, 3 hidden, 1 output)
+            DeepBeliefNetwork network = new DeepBeliefNetwork(2, 3, 1);
+
+            // Initialize the network with Gaussian weights
+            new GaussianWeights(network, 0.1).Randomize();
+
+            // Update the visible layer with the new weights
+            network.UpdateVisibleWeights();
+
+
+            // Setup the learning algorithm.
+            DeepBeliefNetworkLearning teacher = new DeepBeliefNetworkLearning(network)
+            {
+                Algorithm = (h, v, i) => new ContrastiveDivergenceLearning(h, v)
+                {
+                    LearningRate = 0.1,
+                    Momentum = 0.5,
+                    Decay = 0.001,
+                }
+            };
+
+
+
+            // Unsupervised learning on each hidden layer, except for the output.
+            for (int i = 0; i < network.Layers.Length - 1; i++)
+            {
+                teacher.LayerIndex = i;
+
+                // Compute the learning data with should be used
+                var layerInput = teacher.GetLayerInput(inputs);
+
+                // Train the layer iteratively
+                for (int j = 0; j < 5000; j++)
+                    teacher.RunEpoch(layerInput);
+            }
+
+
+
+            // Supervised learning on entire network, to provide output classification.
+            var backpropagation = new BackPropagationLearning(network)
+            {
+                LearningRate = 0.1,
+                Momentum = 0.5
+            };
+
+            // Run supervised learning.
+            for (int i = 0; i < 5000; i++)
+                backpropagation.RunEpoch(inputs, outputs);
+
+
+            // Test the resulting accuracy.
+            int correct = 0;
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double[] outputValues = network.Compute(inputs[i]);
+                double outputResult = outputValues.First() >= 0.5 ? 1 : 0;
+
+                if (outputResult == outputs[i].First())
+                {
+                    correct++;
+                }
+            }
+
+            Assert.AreEqual(4, correct);
+        }
+
     }
 }

@@ -1280,6 +1280,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        [Ignore]
         public void BigSampleLearnTest13()
         {
             var list = new List<double[][]>();

@@ -370,6 +370,9 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// <param name="value">The value to search for in the matrix.</param>
+        /// <param name="tolerance">The relative tolerance that a value must be in
+        ///   order to be considered equal to the value being searched.</param>
         /// 
         /// <returns>True if the matrix contains the value, false otherwise.</returns>
         /// 
@@ -386,7 +389,10 @@ namespace Accord.Math
         ///   matrix contains a value within a given tolerance.
         /// </summary>
         /// 
-        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// <param name="matrix">A single-precision multidimensional matrix.</param>
+        /// <param name="value">The value to search for in the matrix.</param>
+        /// <param name="tolerance">The relative tolerance that a value must be in
+        ///   order to be considered equal to the value being searched.</param>
         /// 
         /// <returns>True if the matrix contains the value, false otherwise.</returns>
         /// 
@@ -1915,7 +1921,8 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a memberwise copy of a jagged matrix.
+        ///   Creates a memberwise copy of a jagged matrix. Matrix elements
+        ///   themselves are copied only in a shallowed manner (i.e. not cloned).
         /// </summary>
         /// 
         public static T[][] MemberwiseClone<T>(this T[][] a)
@@ -1924,6 +1931,16 @@ namespace Accord.Math
             for (int i = 0; i < a.Length; i++)
                 clone[i] = (T[])a[i].Clone();
             return clone;
+        }
+
+        /// <summary>
+        ///   Creates a memberwise copy of a multidimensional matrix. Matrix elements
+        ///   themselves are copied only in a shallowed manner (i.e. not cloned).
+        /// </summary>
+        /// 
+        public static T[,] MemberwiseClone<T>(this T[,] a)
+        {
+            return (T[,])a.Clone();
         }
 
     }

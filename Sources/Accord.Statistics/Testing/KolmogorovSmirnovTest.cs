@@ -63,6 +63,68 @@ namespace Accord.Statistics.Testing
     ///   </list></para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    ///   In this first example, suppose we got a new sample, and we would 
+    ///   like to test whether this sample has been originated from a uniform
+    ///   continuous distribution.</para>
+    /// 
+    /// <code>
+    /// double[] sample = 
+    /// { 
+    ///     0.621, 0.503, 0.203, 0.477, 0.710, 0.581, 0.329, 0.480, 0.554, 0.382
+    /// };
+    /// 
+    /// // First, we create the distribution we would like to test against:
+    /// //
+    /// var distribution = UniformContinuousDistribution.Standard;
+    /// 
+    /// // Now we can define our hypothesis. The null hypothesis is that the sample
+    /// // comes from a standard uniform distribution, while the alternate is that
+    /// // the sample is not from a standard uniform distribution.
+    /// //
+    /// var kstest = new KolmogorovSmirnovTest(sample, distribution);
+    /// 
+    /// double statistic = kstest.Statistic; // 0.29
+    /// double pvalue = kstest.PValue;       // 0.3067
+    /// 
+    /// bool significant = kstest.Significant; // false
+    /// </code>
+    /// <para>
+    ///   Since the null hypothesis could not be rejected, then the sample
+    ///   can perhaps be from a uniform distribution. However, please note
+    ///   that this doesn't means that the sample *is* from the uniform, it
+    ///   only means that we could not rule out the possibility.</para>
+    ///   
+    /// <para>
+    ///  Before we could not rule out the possibility that the sample came from
+    ///  a uniform distribution, which means the sample was not very far from
+    ///  uniform. This would be an indicative that it would be far from what
+    ///  would be expected from a Normal distribution:</para>
+    ///  
+    /// <code>
+    /// // First, we create the distribution we would like to test against:
+    /// //
+    /// NormalDistribution distribution = NormalDistribution.Standard;
+    /// 
+    /// // Now we can define our hypothesis. The null hypothesis is that the sample
+    /// // comes from a standard Normal distribution, while the alternate is that
+    /// // the sample is not from a standard Normal distribution.
+    /// //
+    /// var kstest = new KolmogorovSmirnovTest(sample, distribution);
+    /// 
+    /// double statistic = kstest.Statistic; // 0.580432
+    /// double pvalue = kstest.PValue;       // 0.000999
+    /// 
+    /// bool significant = kstest.Significant; // true
+    /// </code>
+    /// 
+    /// <para>
+    ///   Since the test says that the null hypothesis should be rejected, then
+    ///   this can be regarded as a strong indicative that the sample does not
+    ///   comes from a Normal distribution, just as we expected.</para>
+    /// </example>
+    /// 
     [Serializable]
     public class KolmogorovSmirnovTest : HypothesisTest<KolmogorovSmirnovDistribution>,
         IHypothesisTest<KolmogorovSmirnovDistribution>

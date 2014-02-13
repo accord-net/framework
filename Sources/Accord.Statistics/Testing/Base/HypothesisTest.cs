@@ -67,6 +67,7 @@ namespace Accord.Statistics.Testing
         /// <summary>
         ///   Gets the P-value associated with this test.
         /// </summary>
+        /// 
         /// <remarks>
         /// <para>
         ///   In statistical hypothesis testing, the p-value is the probability of
