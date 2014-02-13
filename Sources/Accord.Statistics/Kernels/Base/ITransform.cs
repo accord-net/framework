@@ -20,39 +20,28 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Statistics.Filters
+namespace Accord.Statistics.Kernels
 {
-    using System;
-    using System.Collections.ObjectModel;
-    using System.Data;
 
     /// <summary>
-    ///   Sample processing filter interface.
+    ///   Common interface for kernel functions that can explicitly 
+    ///   project input points into the kernel feature space.
     /// </summary>
     /// 
-    /// <remarks>The interface defines the set of methods which should be
-    /// provided by all table processing filters. Methods of this interface should
-    /// keep the source table unchanged and return the result of data processing
-    /// filter as new data table.</remarks>
-    /// 
-    public interface IFilter
+    /// <seealso cref="IKernel"/>
+    ///
+    public interface ITransform
     {
-
         /// <summary>
-        ///   Applies the filter to a <see cref="System.Data.DataTable"/>.
+        ///   Projects an input point into feature space.
         /// </summary>
         /// 
-        /// <param name="data">Source table to apply filter to.</param>
+        /// <param name="input">The input point to be projected into feature space.</param>
         /// 
-        /// <returns>Returns filter's result obtained by applying the filter to
-        /// the source table.</returns>
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
         /// 
-        /// <remarks>The method keeps the source table unchanged and returns the
-        /// the result of the table processing filter as new data table.</remarks> 
-        ///
-        DataTable Apply(DataTable data);
-
+        double[] Transform(double[] input);
     }
-
-
 }

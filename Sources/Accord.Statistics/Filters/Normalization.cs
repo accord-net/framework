@@ -26,6 +26,7 @@ namespace Accord.Statistics.Filters
     using System;
     using System.Data;
     using System.ComponentModel;
+    using Accord.Math;
 
     /// <summary>
     ///   Data normalization preprocessing filter.
@@ -151,6 +152,51 @@ namespace Accord.Statistics.Filters
         }
 
         /// <summary>
+        ///   Applies the Filter to a <see cref="System.Data.DataTable"/>.
+        /// </summary>
+        /// 
+        /// <param name="data">The source <see cref="System.Data.DataTable"/>.</param>
+        /// 
+        /// <returns>The processed <see cref="System.Data.DataTable"/>.</returns>
+        /// 
+        public double[][] Apply(double[][] data)
+        {
+            // Initial argument checking
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            if (Active)
+            {
+                double[][] newData = data.MemberwiseClone();
+
+                // Scale each value from the original ranges to destination ranges
+                foreach (Options column in this.Columns)
+                {
+                    string name = column.ColumnName;
+
+                    int index = (column.Tag != null) ?
+                        (int)column.Tag : int.Parse(name);
+
+                    double mean = column.Mean;
+                    double stdDev = column.StandardDeviation;
+
+                    if (column.Standardize)
+                    {
+                        for (int i = 0; i < data.Length; i++)
+                            newData[i][index] = (data[i][index] - mean) / stdDev; 
+                    }
+                    else
+                    {
+                        for (int i = 0; i < data.Length; i++)
+                            newData[i][index] = (data[i][index] - mean);
+                    }
+                }
+            }
+
+            return data;
+        }
+
+        /// <summary>
         ///   Auto detects the filter options by analyzing a given <see cref="System.Data.DataTable"/>.
         /// </summary>     
         /// 
@@ -175,6 +221,31 @@ namespace Accord.Statistics.Filters
                     Columns[name].Mean = mean;
                     Columns[name].StandardDeviation = sdev;
                 }
+            }
+        }
+
+        /// <summary>
+        ///   Auto detects the filter options by analyzing a given matrix.
+        /// </summary>     
+        /// 
+        public void Detect(double[][] data)
+        {
+            int rows = data.Length;
+            int cols = data[0].Length;
+
+            double[] means = data.Mean();
+            double[] stdDev = data.StandardDeviation(means);
+
+            for (int i = 0; i < cols; i++)
+            {
+                string name = i.ToString();
+
+                if (!Columns.Contains(name))
+                    Columns.Add(new Options(name));
+
+                Columns[name].Tag = i;
+                Columns[name].Mean = means[i];
+                Columns[name].StandardDeviation = stdDev[i];
             }
         }
 

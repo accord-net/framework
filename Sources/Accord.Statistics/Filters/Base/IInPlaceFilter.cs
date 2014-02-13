@@ -27,32 +27,23 @@ namespace Accord.Statistics.Filters
     using System.Data;
 
     /// <summary>
-    ///   Sample processing filter interface.
+    ///   Data processing interface for in-place filters.
     /// </summary>
     /// 
-    /// <remarks>The interface defines the set of methods which should be
-    /// provided by all table processing filters. Methods of this interface should
-    /// keep the source table unchanged and return the result of data processing
-    /// filter as new data table.</remarks>
-    /// 
-    public interface IFilter
+    public interface IInPlaceFilter
     {
 
         /// <summary>
-        ///   Applies the filter to a <see cref="System.Data.DataTable"/>.
+        ///   Applies the filter to a <see cref="System.Data.DataTable"/>,
+        ///   modifying the table in place.
         /// </summary>
         /// 
         /// <param name="data">Source table to apply filter to.</param>
         /// 
-        /// <returns>Returns filter's result obtained by applying the filter to
-        /// the source table.</returns>
-        /// 
-        /// <remarks>The method keeps the source table unchanged and returns the
-        /// the result of the table processing filter as new data table.</remarks> 
+        /// <remarks>The method modifies the source table in place.</remarks> 
         ///
-        DataTable Apply(DataTable data);
+        void ApplyInPlace(DataTable data);
 
     }
-
 
 }

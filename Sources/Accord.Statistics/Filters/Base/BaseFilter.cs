@@ -127,6 +127,12 @@ namespace Accord.Statistics.Filters
         public String ColumnName { get; set; }
 
         /// <summary>
+        ///   Gets or sets a user-determined object associated with this column.
+        /// </summary>
+        /// 
+        public object Tag { get; set; }
+
+        /// <summary>
         ///   Constructs the base class for Column Options.
         /// </summary>
         /// 
