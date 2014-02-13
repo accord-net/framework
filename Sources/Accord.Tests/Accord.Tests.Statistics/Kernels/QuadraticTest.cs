@@ -63,7 +63,7 @@ namespace Accord.Tests.Statistics
             x = new double[] { 0.5, 2.0 };
             y = new double[] { 1.3, -0.2 };
 
-            expected = 20.9304;
+            expected = 31.8904;
             actual = target.Distance(x, y);
 
             Assert.AreEqual(expected, actual);
@@ -74,7 +74,7 @@ namespace Accord.Tests.Statistics
             x = new double[] { 9.4, 22.1 };
             y = new double[] { -6.21, 4 };
 
-            expected = 333837.7525568101;
+            expected = 337265.44515681011;
             actual = target.Distance(x, y);
             Assert.AreEqual(expected, actual);
         }
@@ -119,8 +119,8 @@ namespace Accord.Tests.Statistics
             var x = new double[] { 0.5, 2.0 };
             var y = new double[] { 1.3, -0.2 };
 
-            var phi_x = kernel.Expand(x);
-            var phi_y = kernel.Expand(y);
+            var phi_x = kernel.Transform(x);
+            var phi_y = kernel.Transform(y);
 
             double phi_d = Distance.SquareEuclidean(phi_x, phi_y);
             double d = kernel.Distance(x, y);
@@ -136,13 +136,58 @@ namespace Accord.Tests.Statistics
             var x = new double[] { 0.5, 2.0 };
             var y = new double[] { 1.3, -0.2 };
 
-            var phi_x = kernel.Expand(x);
-            var phi_y = kernel.Expand(y);
+            var phi_x = kernel.Transform(x);
+            var phi_y = kernel.Transform(y);
 
             double d = Distance.SquareEuclidean(x, y);
             double phi_d = kernel.ReverseDistance(phi_x, phi_y);
 
             Assert.AreEqual(phi_d, d);
+        }
+
+        [TestMethod()]
+        public void ExpandDistanceWithConstantTest()
+        {
+            Quadratic kernel = new Quadratic(4.2);
+
+            var x = new double[] { 0.5, 2.0 };
+            var y = new double[] { 1.3, -0.2 };
+
+            var phi_x = kernel.Transform(x);
+            var phi_y = kernel.Transform(y);
+
+            double d1 = Distance.SquareEuclidean(phi_x, phi_y);
+            double d2 = kernel.Distance(x, y);
+            double d3 = Accord.Statistics.Tools.Distance(kernel, x, y);
+
+            Assert.AreEqual(66.9624, d1);
+            Assert.AreEqual(66.9624, d2, 1e-10);
+            Assert.AreEqual(66.9624, d3, 1e-10);
+
+            Assert.IsFalse(double.IsNaN(d1));
+            Assert.IsFalse(double.IsNaN(d2));
+            Assert.IsFalse(double.IsNaN(d3));
+        }
+
+        [TestMethod()]
+        public void ExpandReverseDistanceWithConstantTest()
+        {
+            Quadratic kernel = new Quadratic(4.2);
+
+            var x = new double[] { 0.5, 2.0 };
+            var y = new double[] { 1.3, -0.2 };
+
+            var phi_x = kernel.Transform(x);
+            var phi_y = kernel.Transform(y);
+
+            double d = Distance.SquareEuclidean(x, y);
+            double phi_d = kernel.ReverseDistance(phi_x, phi_y);
+
+            Assert.AreEqual(5.48, phi_d, 1e-10);
+            Assert.AreEqual(5.48, d);
+
+            Assert.IsFalse(double.IsNaN(phi_d));
+            Assert.IsFalse(double.IsNaN(d));
         }
     }
 }

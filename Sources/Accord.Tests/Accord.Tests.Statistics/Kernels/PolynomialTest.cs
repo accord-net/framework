@@ -162,15 +162,18 @@ namespace Accord.Tests.Statistics
                 var x = new double[] { 0.5, 2.0 };
                 var y = new double[] { 1.3, -0.2 };
 
-                var phi_x = kernel.Expand(x);
-                var phi_y = kernel.Expand(y);
+                var phi_x = kernel.Transform(x);
+                var phi_y = kernel.Transform(y);
 
-                double phi_d = Distance.SquareEuclidean(phi_x, phi_y);
-                double d = kernel.Distance(x, y);
+                double d1 = Distance.SquareEuclidean(phi_x, phi_y);
+                double d2 = kernel.Distance(x, y);
+                double d3 = Accord.Statistics.Tools.Distance(kernel, x, y);
 
-                Assert.AreEqual(phi_d, d, 1e-4);
-                Assert.IsFalse(double.IsNaN(phi_d));
-                Assert.IsFalse(double.IsNaN(d));
+                Assert.AreEqual(d1, d2, 1e-4);
+                Assert.AreEqual(d1, d3, 1e-4);
+                Assert.IsFalse(double.IsNaN(d1));
+                Assert.IsFalse(double.IsNaN(d2));
+                Assert.IsFalse(double.IsNaN(d3));
             }
         }
 
@@ -184,8 +187,8 @@ namespace Accord.Tests.Statistics
                 var x = new double[] { 0.5, 2.0 };
                 var y = new double[] { 1.3, -0.2 };
 
-                var phi_x = kernel.Expand(x);
-                var phi_y = kernel.Expand(y);
+                var phi_x = kernel.Transform(x);
+                var phi_y = kernel.Transform(y);
 
                 int expected_size = (int)System.Math.Pow(x.Length, i);
                 Assert.AreEqual(phi_x.Length, phi_y.Length);

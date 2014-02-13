@@ -27,6 +27,7 @@ namespace Accord.Statistics
     using Accord.Math;
     using Accord.Math.Decompositions;
     using AForge;
+    using Accord.Statistics.Kernels;
 
     /// <summary>
     ///   Set of statistics functions.
@@ -4412,6 +4413,27 @@ namespace Accord.Statistics
 
             return psd;
         }
+
+
+        /// <summary>
+        ///   Computes the kernel distance for a kernel function even if it doesn't
+        ///   implement the <see cref="IDistance"/> interface. Can be used to check
+        ///   the proper implementation of the distance function.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel function whose distance needs to be evaluated.</param>
+        /// <param name="x">An input point <c>x</c> given in input space.</param>
+        /// <param name="y">An input point <c>y</c> given in input space.</param>
+        /// 
+        /// <returns>
+        ///   The distance between <paramref name="x"/> and <paramref name="y"/> in kernel (feature) space.
+        /// </returns>
+        /// 
+        public static double Distance(IKernel kernel, double[] x, double[] y)
+        {
+            return kernel.Function(x, x) + kernel.Function(y, y) - 2 * kernel.Function(x, y);
+        }
+
     }
 }
 

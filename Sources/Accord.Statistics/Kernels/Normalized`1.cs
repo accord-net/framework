@@ -28,11 +28,23 @@ namespace Accord.Statistics.Kernels
     ///   Normalized Kernel.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   This kernel definition can be used to provide normalized versions
+    ///   of other kernel classes, such as the <see cref="Polynomial"/>. A
+    ///   normalized kernel will always produce distances between -1 and 1.
+    /// </remarks>
+    /// 
     [Serializable]
     public sealed class Normalized<T> : KernelBase, IKernel, ICloneable where T : IKernel
     {
         private T kernel;
 
+
+        /// <summary>
+        ///   Gets or sets the inner kernel function 
+        ///   whose results should be normalized.
+        /// </summary>
+        /// 
         public T Kernel
         {
             get { return kernel; }
@@ -43,7 +55,7 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Cauchy Kernel.
         /// </summary>
         /// 
-        /// <param name="sigma">The value for sigma.</param>
+        /// <param name="kernel">The kernel function to be normalized.</param>
         /// 
         public Normalized(T kernel)
         {

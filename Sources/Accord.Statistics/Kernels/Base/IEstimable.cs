@@ -28,6 +28,9 @@ namespace Accord.Statistics.Kernels
     ///   with support for automatic parameter estimation.
     /// </summary>
     /// 
+    /// 
+    /// <seealso cref="IKernel"/>
+    ///
     public interface IEstimable
     {
         /// <summary>

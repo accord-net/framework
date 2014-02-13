@@ -207,6 +207,9 @@
     <Compile Include="Distributions\Univariate\Continuous\VonMisesDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WeibullDistribution.cs" />
     <Compile Include="Filters\Base\BaseFilter.cs" />
+    <Compile Include="Filters\Base\IInPlaceFilter.cs" />
+    <Compile Include="Filters\Base\IAutoConfigurableColumn.cs" />
+    <Compile Include="Filters\Base\IAutoConfigurableFilter.cs" />
     <Compile Include="Filters\Branching.cs" />
     <Compile Include="Filters\Identification.cs" />
     <Compile Include="Filters\Randomization.cs" />
@@ -229,12 +232,16 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />
+    <Compile Include="Kernels\Base\IDistance.cs" />
     <Compile Include="Kernels\Base\IEstimable.cs" />
+    <Compile Include="Kernels\Base\ITransform.cs" />
+    <Compile Include="Kernels\Base\KernelBase.cs" />
     <Compile Include="Kernels\Bessel.cs" />
     <Compile Include="Kernels\BSpline.cs" />
     <Compile Include="Kernels\Cauchy.cs" />
     <Compile Include="Kernels\ChiSquare.cs" />
     <Compile Include="Kernels\Circular.cs" />
+    <Compile Include="Kernels\Normalized`1.cs" />
     <Compile Include="Kernels\InverseMultiquadric.cs" />
     <Compile Include="Kernels\Structures\KernelFunctionCache.cs" />
     <Compile Include="Kernels\Quadratic.cs" />
@@ -246,7 +253,7 @@
     <Compile Include="Kernels\Gaussian.cs" />
     <Compile Include="Kernels\HistogramIntersection.cs" />
     <Compile Include="Kernels\Hypersecant.cs" />
-    <Compile Include="Kernels\Base\IDistance.cs" />
+    <Compile Include="Kernels\Base\IReverseDistance.cs" />
     <Compile Include="Kernels\Base\IKernel.cs" />
     <Compile Include="Kernels\Laplacian.cs" />
     <Compile Include="Kernels\Linear.cs" />
@@ -278,6 +285,7 @@
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
+    <Compile Include="Running\IRunning`1.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovModel.cs" />
@@ -373,6 +381,9 @@
     <Compile Include="Models\Regression\Nonlinear\LogisticRegression.cs" />
     <Compile Include="Models\Regression\Linear\PolynomialRegression.cs" />
     <Compile Include="Models\Survival\Fitting\PartialNewtonRaphson.cs" />
+    <Compile Include="Running\KalmanFilter2D.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Running\Markov\IRunningMarkovStatistics.cs" />
     <Compile Include="Running\Markov\RunningMarkovClassifier.cs" />
     <Compile Include="Running\Markov\RunningMarkovClassifier`1.cs" />

@@ -30,7 +30,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public sealed class Linear : KernelBase, IKernel, IDistance,
-        ICloneable, IReverseDistance, IExpandable
+        ICloneable, IReverseDistance, ITransform
     {
         private double constant;
 
@@ -149,8 +149,21 @@ namespace Accord.Statistics.Kernels
         }
 
 
-        public double[] Expand(double[] input)
+        /// <summary>
+        ///   Projects an input point into feature space.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point to be projected into feature space.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
+        /// 
+        public double[] Transform(double[] input)
         {
+            if (constant == 0)
+                return input;
+
             double[] feature = new double[input.Length + 1];
 
             for (int i = 0; i < input.Length; i++)

@@ -30,7 +30,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public sealed class Polynomial : KernelBase, IKernel,
-        IDistance, IReverseDistance, ICloneable, IExpandable
+        IDistance, IReverseDistance, ICloneable, ITransform
     {
         private int degree;
         private double constant;
@@ -165,13 +165,27 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
-        public double[] Expand(double[] input)
+        /// <summary>
+        ///   Projects an input point into feature space.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point to be projected into feature space.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
+        /// 
+        public double[] Transform(double[] input)
         {
             if (constant != 0)
-                throw new NotSupportedException();
+                throw new NotSupportedException(
+                    "The explicit feature-space projection function is only available "
+                    + "for homogeneous kernels (i.e. with the constant term set to zero).");
 
             if (degree <= 0 || degree >= 4)
-                throw new NotSupportedException();
+                throw new NotSupportedException(
+                    "The explicit feature-space projection function is only available "
+                    + "for degrees higher than zero and equal to or lesser than 4.");
 
             int n = input.Length;
             int m = (int)Math.Pow(n, degree);

@@ -154,8 +154,8 @@ namespace Accord.Tests.Statistics
             var x = new double[] { 0.5, 2.0 };
             var y = new double[] { 1.3, -0.2 };
 
-            var phi_x = kernel.Expand(x);
-            var phi_y = kernel.Expand(y);
+            var phi_x = kernel.Transform(x);
+            var phi_y = kernel.Transform(y);
 
             double phi_d = Distance.SquareEuclidean(phi_x, phi_y);
             double d = kernel.Distance(x, y);
@@ -171,8 +171,8 @@ namespace Accord.Tests.Statistics
             var x = new double[] { 0.5, 2.0 };
             var y = new double[] { 1.3, -0.2 };
 
-            var phi_x = kernel.Expand(x);
-            var phi_y = kernel.Expand(y);
+            var phi_x = kernel.Transform(x);
+            var phi_y = kernel.Transform(y);
 
             double d = Distance.SquareEuclidean(x, y);
             double phi_d = kernel.ReverseDistance(phi_x, phi_y);

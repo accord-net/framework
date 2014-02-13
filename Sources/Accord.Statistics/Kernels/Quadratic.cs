@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Math;
 
     /// <summary>
     ///   Quadratic Kernel.
@@ -30,7 +31,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public sealed class Quadratic : KernelBase, IKernel,
-        IDistance, IReverseDistance, ICloneable, IExpandable
+        IDistance, IReverseDistance, ICloneable, ITransform
     {
         private double constant;
 
@@ -49,7 +50,7 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Quadratic kernel.
         /// </summary>
         /// 
-        public Quadratic() 
+        public Quadratic()
             : this(1.0) { }
 
 
@@ -96,7 +97,7 @@ namespace Accord.Statistics.Kernels
             if (x == y)
                 return 0.0;
 
-            double sumx = 0, sumy = 0, sum = 0;
+            double sumx = constant, sumy = constant, sum = constant;
 
             for (int i = 0; i < x.Length; i++)
             {
@@ -119,9 +120,9 @@ namespace Accord.Statistics.Kernels
         /// 
         public double ReverseDistance(double[] x, double[] y)
         {
-            double sumx = constant;
-            double sumy = constant;
-            double sum = constant;
+            double sumx = 0;
+            double sumy = 0;
+            double sum = 0;
 
             for (int i = 0; i < x.Length; i++)
             {
@@ -131,7 +132,7 @@ namespace Accord.Statistics.Kernels
             }
 
 
-           return Math.Sqrt(sumx) + Math.Sqrt(sumy) - 2.0 * Math.Sqrt(sum);
+            return Math.Sqrt(sumx) + Math.Sqrt(sumy) - 2.0 * Math.Sqrt(sum);
         }
 
         /// <summary>
@@ -147,21 +148,40 @@ namespace Accord.Statistics.Kernels
             return MemberwiseClone();
         }
 
-        public double[] Expand(double[] input)
+        /// <summary>
+        ///   Projects an input point into feature space.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point to be projected into feature space.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
+        /// 
+        public double[] Transform(double[] input)
         {
-            if (constant != 0)
-                throw new NotSupportedException();
-
             int n = input.Length;
+            int m = (n * (n + 1)) / 2;
 
-            double[] features = new double[n * n];
+            double[] features = (constant == 0) ?
+                new double[m] : new double[m + n + 1];
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < input.Length; i++)
+                features[i] = input[i] * input[i];
+
+            int c = input.Length;
+            for (int i = 0; i < input.Length; i++)
+                for (int j = i + 1; j < input.Length; j++)
+                    features[c++] = Constants.Sqrt2 * input[i] * input[j];
+
+            if (constant != 0)
             {
-                for (int j = 0; j < n; j++)
-                {
-                    features[i * n + j] = input[i] * input[j];
-                }
+                double sqrt2c = Math.Sqrt(2 * constant);
+
+                for (int i = 0; i < input.Length; i++)
+                    features[m + i] = input[i] * sqrt2c;
+
+                features[features.Length - 1] = constant;
             }
 
             return features;

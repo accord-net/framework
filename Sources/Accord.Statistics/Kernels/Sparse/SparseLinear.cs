@@ -103,7 +103,15 @@ namespace Accord.Statistics.Kernels.Sparse
 
 
 
-
+        /// <summary>
+        ///   Computes the product of two vectors given in sparse representation.
+        /// </summary>
+        /// 
+        /// <param name="x">The first vector <c>x</c>.</param>
+        /// <param name="y">The second vector <c>y</c>.</param>
+        /// 
+        /// <returns>The inner product <c>x * y</c> between the given vectors.</returns>
+        /// 
         public static double Product(double[] x, double[] y)
         {
             double sum = 0;
@@ -134,6 +142,17 @@ namespace Accord.Statistics.Kernels.Sparse
             return sum;
         }
 
+        /// <summary>
+        ///   Computes the squared Euclidean distance of two vectors given in sparse representation.
+        /// </summary>
+        /// 
+        /// <param name="x">The first vector <c>x</c>.</param>
+        /// <param name="y">The second vector <c>y</c>.</param>
+        /// 
+        /// <returns>
+        ///   The squared Euclidean distance <c>d² = |x - y|²</c> between the given vectors.
+        /// </returns>
+        /// 
         public static double SquaredEuclidean(double[] x, double[] y)
         {
             double sum = 0;

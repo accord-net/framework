@@ -24,6 +24,12 @@ namespace Accord.Statistics.Kernels
 {
     using System;
 
+    /// <summary>
+    ///   Base class for kernel functions. This class provides automatic
+    ///   distance calculations for classes that do not provide optimized
+    ///   implementations.
+    /// </summary>
+    /// 
     [Serializable]
     public abstract class KernelBase : IDistance, IKernel
     {
