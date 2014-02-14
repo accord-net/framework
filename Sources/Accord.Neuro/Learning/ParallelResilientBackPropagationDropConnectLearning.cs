@@ -177,7 +177,7 @@ namespace Accord.Neuro.Learning
         public double DropConnectHiddenThreshold { get; set; }
         /// <summary>
         /// DropConnect weight threshold. A weight must exceed this value in order to be considered for resetting. This value must be satisifed, along with the random number threshold.
-        /// Default: 0.80
+        /// Default: 0
         /// </summary>
         public double DropConnectWeightThreshold { get; set; }
         /// <summary>
@@ -196,7 +196,6 @@ namespace Accord.Neuro.Learning
             this.network = network;
             DropConnectVisibleThreshold = 0.80; // 20%.
             DropConnectHiddenThreshold = 0.50; // 50%.
-            DropConnectWeightThreshold = 0.80;
             DropConnectResetMethod = (neuron) => { return 0; };
 
             networkOutputs = new ThreadLocal<double[][]>(() => new double[network.Layers.Length][]);
