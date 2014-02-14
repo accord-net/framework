@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,18 +35,63 @@ namespace Accord.MachineLearning.DecisionTrees
     [Serializable]
     public class DecisionBranchNodeCollection : Collection<DecisionNode>
     {
+
+        [NonSerialized]
+        private DecisionNode owner;
+
         /// <summary>
         ///   Gets or sets the index of the attribute to be
-        ///   used in this stage of the decisioning process.
+        ///   used in this stage of the decision process.
         /// </summary>
         /// 
         public int AttributeIndex { get; set; }
 
         /// <summary>
+        ///   Gets the attribute that is being used in
+        ///   this stage of the decision process, given
+        ///   by the current <see cref="AttributeIndex"/>
+        /// </summary>
+        /// 
+        public DecisionVariable Attribute
+        {
+            get
+            {
+                // TODO: Remove the obsolete attribute and make owner mandatory.
+                if (owner == null)
+                    return null;
+
+                return owner.Owner.Attributes[AttributeIndex];
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets the decision node that contains this collection.
+        /// </summary>
+        /// 
+        public DecisionNode Owner
+        {
+            get { return owner; }
+            set { owner = value; }
+        }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="DecisionBranchNodeCollection"/> class.
         /// </summary>
         /// 
+        [Obsolete("Please specify an owner instead.")]
         public DecisionBranchNodeCollection() { }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="DecisionBranchNodeCollection"/> class.
+        /// </summary>
+        /// 
+        /// <param name="owner">The <see cref="DecisionNode"/> to whom
+        ///   this <see cref="DecisionBranchNodeCollection"/> belongs.</param>
+        /// 
+        public DecisionBranchNodeCollection(DecisionNode owner)
+        {
+            this.owner = owner;
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="DecisionBranchNodeCollection"/> class.
@@ -55,9 +100,10 @@ namespace Accord.MachineLearning.DecisionTrees
         /// <param name="attributeIndex">Index of the attribute to be processed.</param>
         /// 
         /// <param name="nodes">The children nodes. Each child node should be
-        /// responsable for a possible value of a discrete attribute, or for
+        /// responsible for a possible value of a discrete attribute, or for
         /// a region of a continuous-valued attribute.</param>
         /// 
+        [Obsolete("Please specify an owner instead.")]
         public DecisionBranchNodeCollection(int attributeIndex, DecisionNode[] nodes)
             : base(nodes)
         {
@@ -67,6 +113,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 throw new ArgumentException("Node collection is empty.", "nodes");
 
             this.AttributeIndex = attributeIndex;
+            this.owner = nodes[0].Parent;
         }
 
         /// <summary>

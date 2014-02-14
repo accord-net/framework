@@ -73,6 +73,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <OutputPath>..\..\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
     <OutputPath>..\..\Release (3.5)\</OutputPath>
@@ -104,9 +105,6 @@
       <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SlimDX">
-      <HintPath>..\..\Externals\SlimDX\net40\x86\SlimDX.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -116,6 +114,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="AudioSourceMixer.cs" />
     <Compile Include="Events\AudioOutputErrorEventArgs.cs" />
     <Compile Include="Events\PlayFrameEventArgs.cs" />
@@ -123,7 +124,6 @@
     <Compile Include="Events\NewFrameEventArgs.cs" />
     <Compile Include="Exceptions\AudioException.cs" />
     <Compile Include="Exceptions\UnsupportedSampleFormatException.cs" />
-    <Compile Include="Extensions.cs" />
     <Compile Include="Filters\Base\BaseFilter.cs" />
     <Compile Include="Exceptions\InvalidSignalPropertiesException.cs" />
     <Compile Include="Events\AudioSourceErrorEventArgs.cs">
@@ -135,6 +135,7 @@
     <Compile Include="ComplexFilters\Base\IComplexFilter.cs" />
     <Compile Include="ComplexFilters\IComplexFilterBank.cs" />
     <Compile Include="Filters\EnvelopeFilter.cs" />
+    <Compile Include="Filters\ExtractChannel.cs" />
     <Compile Include="Filters\HighPassFilter.cs" />
     <Compile Include="Filters\LowPassFilter.cs" />
     <Compile Include="Filters\WaveRectifier.cs" />

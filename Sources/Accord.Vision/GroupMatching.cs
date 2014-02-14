@@ -1,8 +1,8 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 // This code has been submitted as an user contribution by darko.juric2
@@ -23,7 +23,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Vision.Detection
+namespace Accord.Vision
 {
     using System;
     using System.Collections.Generic;

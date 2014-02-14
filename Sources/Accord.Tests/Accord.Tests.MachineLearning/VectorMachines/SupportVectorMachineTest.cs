@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,35 +50,6 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -373,7 +344,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(0.7, matrix.Specificity);
 
                 Assert.AreEqual(0.38461538461538458, matrix.FScore);
-                Assert.AreEqual(0.27950849718747373, matrix.MatthewsCorrelationCoefficient);
+                Assert.AreEqual(0.11180339887498948, matrix.MatthewsCorrelationCoefficient);
             }
         }
 

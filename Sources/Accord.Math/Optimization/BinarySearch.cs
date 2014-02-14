@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -66,7 +66,7 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///   Construts a new Binary search algorithm.
+        ///   Constructs a new Binary search algorithm.
         /// </summary>
         /// 
         /// <param name="function">The function to be searched.</param>

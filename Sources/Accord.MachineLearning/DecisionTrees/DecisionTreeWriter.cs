@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,9 +23,6 @@
 namespace Accord.MachineLearning.DecisionTrees
 {
     using System;
-    using System.Linq.Expressions;
-    using System.Reflection;
-    using System.Text;
     using System.IO;
 
     /// <summary>
@@ -56,7 +53,7 @@ namespace Accord.MachineLearning.DecisionTrees
             writer.WriteLine("//");
             writer.WriteLine("// Accord Machine Learning Library");
             writer.WriteLine("// The Accord.NET Framework");
-            writer.WriteLine("// http://accord.googlecode.com");
+            writer.WriteLine("// http://accord-framework.net");
             writer.WriteLine("//");
             writer.WriteLine();
             writer.WriteLine("namespace DecisionTrees");
@@ -100,7 +97,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 for (int i = 0; i < node.Branches.Count; i++)
                 {
                     DecisionNode child = node.Branches[i];
-                    string cmp = getComparisonString(child.Comparison);
+                    string cmp = ComparisonExtensions.ToString(child.Comparison);
 
                     if (i == 0)
                         writer.Write(indent + "if ");
@@ -124,32 +121,5 @@ namespace Accord.MachineLearning.DecisionTrees
             }
         }
 
-
-        private static string getComparisonString(ComparisonKind comparison)
-        {
-            switch (comparison)
-            {
-                case ComparisonKind.Equal:
-                    return "==";
-
-                case ComparisonKind.GreaterThan:
-                    return ">";
-
-                case ComparisonKind.GreaterThanOrEqual:
-                    return ">=";
-
-                case ComparisonKind.LessThan:
-                    return "<";
-
-                case ComparisonKind.LessThanOrEqual:
-                    return "<=";
-
-                case ComparisonKind.NotEqual:
-                    return "!=";
-
-                default:
-                    throw new InvalidOperationException("Unexpected node comparison type.");
-            }
-        }
     }
 }

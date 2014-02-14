@@ -1,8 +1,8 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 // Copyright © Diego Catalano, 2013
@@ -99,7 +99,7 @@ namespace Accord.Imaging.Filters
         private double lambda = 4.0; // wavelength
         private double theta = 0.6;  // orientation
         private double psi = 1.0;    // phase offset
-        private double sigma = 2.0;  // gaussian variance
+        private double sigma = 2.0;  // Gaussian variance
         private double gamma = 0.3;  // aspect ratio
 
         bool recompute = true;

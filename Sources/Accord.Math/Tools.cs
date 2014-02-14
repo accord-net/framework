@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,9 +24,8 @@ namespace Accord.Math
 {
     using System;
     using System.Collections.Generic;
-    using AForge;
-    using System.Collections;
     using Accord.Math.Comparers;
+    using AForge;
 
     /// <summary>
     ///   Set of mathematical tools.
@@ -241,12 +240,31 @@ namespace Accord.Math
 
         /// <summary>
         ///   Gets the proper modulus operation for
-        ///   a integer x and modulo m.
+        ///   an integer value x and modulo m.
         /// </summary>
+        /// 
         public static int Mod(int x, int m)
         {
-            if (m < 0) m = -m;
+            if (m < 0)
+                m = -m;
+
             int r = x % m;
+
+            return r < 0 ? r + m : r;
+        }
+
+        /// <summary>
+        ///   Gets the proper modulus operation for
+        ///   a real value x and modulo m.
+        /// </summary>
+        /// 
+        public static double Mod(double x, double m)
+        {
+            if (m < 0)
+                m = -m;
+
+            double r = x % m;
+
             return r < 0 ? r + m : r;
         }
 
@@ -533,6 +551,36 @@ namespace Accord.Math
             for (var i = 0; i < values.Length; i++)
                 keys[i] = new KeyValuePair<int, T>(i, values[i]);
             Array.Sort(keys, values, new StableComparer<T>(comparison));
+        }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
+        public static void StableSort<T>(this T[] values)
+            where T : IComparable<T>
+        {
+            var keys = new KeyValuePair<int, T>[values.Length];
+            for (var i = 0; i < values.Length; i++)
+                keys[i] = new KeyValuePair<int, T>(i, values[i]);
+            Array.Sort(keys, values, new StableComparer<T>((a,b) => a.CompareTo(b)));
+        }
+
+        /// <summary>
+        ///   Sorts the elements of an entire one-dimensional array using the given comparison.
+        /// </summary>
+        /// 
+        public static void StableSort<T>(this T[] values, out int[] order)
+            where T : IComparable<T>
+        {
+            var keys = new KeyValuePair<int, T>[values.Length];
+            for (var i = 0; i < values.Length; i++)
+                keys[i] = new KeyValuePair<int, T>(i, values[i]);
+            Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
+
+            order = new int[values.Length];
+            for (int i = 0; i < keys.Length; i++)
+                order[i] = keys[i].Key;
         }
     }
 

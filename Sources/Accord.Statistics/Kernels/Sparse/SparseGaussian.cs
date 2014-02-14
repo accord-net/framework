@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -194,7 +194,7 @@ namespace Accord.Statistics.Kernels.Sparse
         /// 
         /// <remarks>
         ///   This method uses a simple heuristic to obtain appropriate values
-        ///   for sigma in a radial basis function kernel. The heristic is shown
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
         ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
         ///   recognition using SVMs: which kernel should I use?", 2002.
         /// </remarks>

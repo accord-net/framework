@@ -1,8 +1,8 @@
 // Accord Control Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -93,7 +93,7 @@ namespace Accord.Controls
         public ArrayDataView(Array array)
         {
             if (array.Rank > 2)
-                throw new ArgumentException("Supports only up to two dimentional arrays", "array");
+                throw new ArgumentException("Supports only up to two dimensional arrays", "array");
 
             this.data = array;
 
@@ -102,18 +102,46 @@ namespace Accord.Controls
                 rowCount = array.GetLength(0);
                 colCount = array.GetLength(1);
                 type = ArrayDataType.Multidimensional;
-
-                rows = new ArrayRowView[rowCount];
-
-                for (int i = 0; i < rows.Length; i++)
-                    rows[i] = new ArrayRowView(this, i);
             }
             else
             {
-                rowCount = 1;
-                colCount = array.GetLength(0);
-                rows = new ArrayRowView[] { new ArrayRowView(this, 0) };
-                type = ArrayDataType.Simple;
+                if (array.GetValue(0) is Array)
+                {
+                    Array row = array.GetValue(0) as Array;
+
+                    rowCount = array.GetLength(0);
+                    colCount = row.GetLength(0);
+                    type = ArrayDataType.Jagged;
+                }
+                else
+                {
+                    rowCount = 1;
+                    colCount = array.GetLength(0);
+                    type = ArrayDataType.Simple;
+                }
+            }
+
+            rows = new ArrayRowView[rowCount];
+            for (int i = 0; i < rows.Length; i++)
+                rows[i] = new ArrayRowView(this, i);
+        }
+
+        /// <summary>
+        ///   Initializes a new ArrayDataView from array with custom column names.
+        /// </summary>
+        /// 
+        /// <param name="array">array of data.</param>
+        /// <param name="columnNames">collection of column names.</param>
+        /// 
+        public ArrayDataView(Array array, string[] columnNames)
+            : this(array)
+        {
+            if (columnNames != null)
+            {
+                if (columnNames.Length != colCount)
+                    throw new ArgumentException("Column names must correspond to array columns.", "columnNames");
+
+                this.columnNames = columnNames;
             }
         }
 
@@ -127,42 +155,14 @@ namespace Accord.Controls
         public ArrayDataView(Array array, object[] columnNames)
             : this(array)
         {
-            if (array.Rank == 2)
+            if (columnNames != null)
             {
-                if (columnNames.Length != array.GetLength(1))
-                    throw new ArgumentException("column names must correspond to array columns.", "columnNames");
+                if (columnNames.Length != colCount)
+                    throw new ArgumentException("Column names must correspond to array columns.", "columnNames");
 
-                rowCount = array.GetLength(0);
-                colCount = array.GetLength(1);
-                type = ArrayDataType.Multidimensional;
-            }
-            else
-            {
-                if (array.GetValue(0) is Array)
-                {
-                    Array row = array.GetValue(0) as Array;
-                    if (columnNames.Length != row.GetLength(0))
-                        throw new ArgumentException("column names must correspond to array columns.", "columnNames");
-
-                    rowCount = array.GetLength(0);
-                    colCount = row.GetLength(0);
-                    type = ArrayDataType.Jagged;
-                }
-                else
-                {
-                    if (columnNames.Length != array.GetLength(0))
-                        throw new ArgumentException("column names must correspond to array columns.", "columnNames");
-
-                    rowCount = 1;
-                    colCount = array.GetLength(0);
-                    type = ArrayDataType.Simple;
-                }
-            }
-
-            this.columnNames = new string[columnNames.Length];
-            for (int i = 0; i < columnNames.Length; i++)
-            {
-                this.columnNames[i] = columnNames[i].ToString();
+                this.columnNames = new string[columnNames.Length];
+                for (int i = 0; i < columnNames.Length; i++)
+                    this.columnNames[i] = columnNames[i].ToString();
             }
         }
 
@@ -172,63 +172,35 @@ namespace Accord.Controls
         /// 
         /// <param name="array">Array of data.</param>
         /// <param name="columnNames">Collection of column names.</param>
-        /// <param name="rowNames">Collecion of row names.</param>
+        /// <param name="rowNames">Collection of row names.</param>
         /// 
-        public ArrayDataView(Array array, object[] columnNames, object[] rowNames)
-            : this(array)
+        public ArrayDataView(Array array, string[] columnNames, string[] rowNames)
+            : this(array, columnNames)
         {
-            if (array.Rank == 2)
-            {
-                rowCount = array.GetLength(0);
-                colCount = array.GetLength(1);
-
-                if (columnNames != null && columnNames.Length != colCount)
-                    throw new ArgumentException("Column names must correspond to array columns.", "columnNames");
-
-                if (rowNames != null && rowNames.Length != rowCount) 
-                    throw new ArgumentException("Row names must correspond to array rows.", "rowNames");
-
-
-                type = ArrayDataType.Multidimensional;
-            }
-            else
-            {
-                if (array.GetValue(0) is Array)
-                {
-                    Array row = array.GetValue(0) as Array;
-
-                    if (columnNames.Length != row.GetLength(0))
-                        throw new ArgumentException("column names must correspond to array columns.", "columnNames");
-
-                    if (rowNames.Length != array.GetLength(0))
-                        throw new ArgumentException("Row names must correspond to array rows.", "rowNames");
-
-                    rowCount = array.GetLength(0);
-                    colCount = row.GetLength(0);
-                    type = ArrayDataType.Jagged;
-                }
-                else
-                {
-                    if (columnNames.Length != array.GetLength(0))
-                        throw new ArgumentException("column names must correspond to array columns.", "columnNames");
-                    if (rowNames.Length != 1)
-                        throw new ArgumentException("Row names must correspond to array rows.", "rowNames");
-
-                    rowCount = 1;
-                    colCount = array.GetLength(0);
-                    type = ArrayDataType.Simple;
-                }
-            }
-
-            if (columnNames != null)
-            {
-                this.columnNames = new string[columnNames.Length];
-                for (int i = 0; i < columnNames.Length; i++)
-                    this.columnNames[i] = columnNames[i].ToString();
-            }
-
             if (rowNames != null)
             {
+                if (rowNames.Length != rowCount)
+                    throw new ArgumentException("Row names must correspond to array rows.", "rowNames");
+                this.rowNames = rowNames;
+            }
+        }
+
+        /// <summary>
+        ///   Initializes a new ArrayDataView from array with custom column names.
+        /// </summary>
+        /// 
+        /// <param name="array">Array of data.</param>
+        /// <param name="columnNames">Collection of column names.</param>
+        /// <param name="rowNames">Collection of row names.</param>
+        /// 
+        public ArrayDataView(Array array, object[] columnNames, object[] rowNames)
+            : this(array, columnNames)
+        {
+            if (rowNames != null)
+            {
+                if (rowNames.Length != rowCount)
+                    throw new ArgumentException("Row names must correspond to array rows.", "rowNames");
+
                 this.rowNames = new string[rowNames.Length];
                 for (int i = 0; i < rowNames.Length; i++)
                     this.rowNames[i] = rowNames[i].ToString();
@@ -251,11 +223,7 @@ namespace Accord.Controls
             {
                 if (columnNames == null)
                 {
-                    if (ArrayData.Rank == 2)
-                        columnNames = new string[ArrayData.GetLength(1)];
-                    else
-                        columnNames = new string[ArrayData.GetLength(0)];
-
+                    columnNames = new string[colCount];
                     for (int i = 0; i < columnNames.Length; i++)
                         columnNames[i] = i.ToString(CultureInfo.CurrentCulture);
                 }
@@ -572,7 +540,7 @@ namespace Accord.Controls
         ///   Multidimensional arrays do not support Array copying.
         /// </summary>
         /// 
-        public void CopyTo(System.Array array, int index)
+        public void CopyTo(Array array, int index)
         {
         }
 

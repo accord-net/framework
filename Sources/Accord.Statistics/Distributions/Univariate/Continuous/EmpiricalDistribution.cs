@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using AForge;
+    using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
     ///   Empirical distribution.
@@ -98,7 +99,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// <seealso cref="EmpiricalHazardDistribution"/>
     /// 
     [Serializable]
-    public class EmpiricalDistribution : UnivariateContinuousDistribution
+    public class EmpiricalDistribution : UnivariateContinuousDistribution,
+        IFittableDistribution<double, EmpiricalOptions>
     {
 
         // Distribution parameters
@@ -186,7 +188,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (variance == null)
-                    variance = Statistics.Tools.Variance(samples);
+                    variance = Statistics.Tools.Variance(samples, Mean);
                 return variance.Value;
             }
         }
@@ -213,15 +215,16 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                if (entropy == null)
+                if (!entropy.HasValue)
                 {
-                    entropy = 0;
+                    double h = 0;
                     for (int i = 0; i < samples.Length; i++)
                     {
                         double p = ProbabilityDensityFunction(samples[i]);
-
-                        entropy += p * Math.Log(p);
+                        h += p * Math.Log(p);
                     }
+
+                    this.entropy = h;
                 }
                 return entropy.Value;
             }
@@ -246,8 +249,13 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double DistributionFunction(double x)
         {
             int sum = 0;
+
             for (int i = 0; i < samples.Length; i++)
-                if (samples[i] <= x) sum++;
+            {
+                if (samples[i] <= x)
+                    sum++;
+            }
+
             return sum / (double)samples.Length;
         }
 
@@ -340,14 +348,23 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
-        /// <remarks>
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
+        public override void Fit(double[] observations, double[] weights, IFittingOptions options)
+        {
+            Fit(observations, weights, options as EmpiricalOptions);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
         /// 
-        public override void Fit(double[] observations, double[] weights, Fitting.IFittingOptions options)
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(double[] observations, double[] weights = null, EmpiricalOptions options = null)
         {
             if (weights != null)
                 throw new ArgumentException("This distribution does not support weighted samples.");
@@ -355,9 +372,13 @@ namespace Accord.Statistics.Distributions.Univariate
             if (options != null)
                 throw new ArgumentException("This method does not accept fitting options.");
 
-            initialize((double[])observations.Clone(), null);
-        }
+            double? smoothing = null;
 
+            if (options != null)
+                smoothing = options.SmoothingRule(observations);
+
+            initialize((double[])observations.Clone(), smoothing);
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -383,13 +404,7 @@ namespace Accord.Statistics.Distributions.Univariate
         private void initialize(double[] observations, double? smoothing)
         {
             if (smoothing == null)
-            {
-                // Practical estimation of the bandwidth as suggested in Wikipedia
-                //  - http://en.wikipedia.org/wiki/Kernel_density_estimation
-
-                double sigma = Statistics.Tools.StandardDeviation(observations);
-                smoothing = sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);
-            }
+                smoothing = SmoothingRule(observations);
 
             this.samples = observations;
             this.smoothing = smoothing.Value;
@@ -409,6 +424,25 @@ namespace Accord.Statistics.Distributions.Univariate
         public override string ToString()
         {
             return String.Format("Fn(x; S)");
+        }
+
+
+        /// <summary>
+        ///   Gets the default estimative of the smoothing parameter.
+        /// </summary>
+        /// <remarks>
+        ///   This method is based on the practical estimation of the bandwidth as
+        ///   suggested in Wikipedia: http://en.wikipedia.org/wiki/Kernel_density_estimation
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations for the empirical distribution.</param>
+        /// 
+        /// <returns>An estimative of the smoothing parameter.</returns>
+        /// 
+        public static double SmoothingRule(double[] observations)
+        {
+            double sigma = Statistics.Tools.StandardDeviation(observations);
+            return sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);
         }
 
     }

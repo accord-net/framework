@@ -1,11 +1,11 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Diego Catalano, 2013
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,31 +29,31 @@ namespace Accord.Imaging
     using System.Drawing;
 
     /// <summary>
-    ///   Cooccurrence Degree.
+    ///   Co-occurrence Degree.
     /// </summary>
     /// 
     public enum CooccurrenceDegree
     {
         /// <summary>
-        ///   Find cooccurrences at 0° degrees.
+        ///   Find co-occurrences at 0° degrees.
         /// </summary>
         /// 
         Degree0,
 
         /// <summary>
-        ///   Find cooccurrences at 45° degrees.
+        ///   Find co-occurrences at 45° degrees.
         /// </summary>
         /// 
         Degree45,
 
         /// <summary>
-        ///   Find cooccurrences at 90° degrees.
+        ///   Find co-occurrences at 90° degrees.
         /// </summary>
         /// 
         Degree90,
 
         /// <summary>
-        ///   Find cooccurrences at 135° degrees.
+        ///   Find co-occurrences at 135° degrees.
         /// </summary>
         /// 
         Degree135
@@ -61,7 +61,7 @@ namespace Accord.Imaging
 
 
     /// <summary>
-    ///   Gray-Level Coocurrence Matrix (GLCM).
+    ///   Gray-Level Co-occurrence Matrix (GLCM).
     /// </summary>
     /// 
     public class GrayLevelCooccurrenceMatrix
@@ -102,7 +102,7 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Gets or sets the direction at which the cooccurrence should be found.
+        ///   Gets or sets the direction at which the co-occurrence should be found.
         /// </summary>
         /// 
         public CooccurrenceDegree Degree
@@ -154,7 +154,7 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="distance">The distance at which the texture should be analyzed.</param>
-        /// <param name="degree">The direction to look for cooccurrences.</param>
+        /// <param name="degree">The direction to look for co-occurrences.</param>
         /// 
         public GrayLevelCooccurrenceMatrix(int distance, CooccurrenceDegree degree)
         {
@@ -167,7 +167,7 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         /// <param name="distance">The distance at which the texture should be analyzed.</param>
-        /// <param name="degree">The direction to look for cooccurrences.</param>
+        /// <param name="degree">The direction to look for co-occurrences.</param>
         /// <param name="autoGray">Whether the maximum value of gray should be
         ///   automatically computed from the image. Default is true.</param>
         /// <param name="normalize">Whether the produced GLCM should be normalized,
@@ -183,7 +183,7 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Computes the Gray-level Cooccurrence Matrix (GLCM) 
+        ///   Computes the Gray-level Co-occurrence Matrix (GLCM) 
         ///   for the given source image.
         /// </summary>
         /// 
@@ -198,7 +198,7 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        ///   Computes the Gray-level Cooccurrence Matrix for the given matrix.
+        ///   Computes the Gray-level Co-occurrence Matrix for the given matrix.
         /// </summary>
         /// 
         /// <param name="source">The source image.</param>

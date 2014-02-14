@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -69,7 +69,7 @@ namespace Accord.Math
     ///   
     ///   <para>
     ///     Let's start by declaring a matrix, or otherwise specifying matrices
-    ///     from other sources. The most straighforward way to declare a matrix
+    ///     from other sources. The most straightforward way to declare a matrix
     ///     in Accord.NET is simply using: </para>
     ///     
     /// <code>
@@ -1110,12 +1110,54 @@ namespace Accord.Math
         /// 
         /// <param name="matrix">The matrix <c>A</c>.</param>
         /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        ///   overwriting the original matrix; false to return a new matrix.</param>
+        /// 
+        /// <returns>The product <c>A*x</c> of the multiplication of the
+        ///   given matrix <c>A</c> and scalar <c>x</c>.</returns>
+        /// 
+        public static double[,] Multiply(this double[,] matrix, double x, bool inPlace = false)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            double[,] result = inPlace ? matrix : new double[rows, cols];
+            Multiply(matrix, x, result);
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Multiplies a matrix <c>A</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
         /// <returns>The product <c>A*x</c> of the multiplication of the
         ///   given matrix <c>A</c> and scalar <c>x</c>.</returns>
         /// 
         public static double[,] Multiply(this double[,] matrix, double x)
         {
-            double[,] result = new double[matrix.GetLength(0), matrix.GetLength(1)];
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            double[,] result = new double[rows, cols];
+            Multiply(matrix, x, result);
+            return result;
+        }
+
+        /// <summary>
+        ///   Multiplies a matrix <c>A</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <returns>The product <c>A*x</c> of the multiplication of the
+        ///   given matrix <c>A</c> and scalar <c>x</c>.</returns>
+        /// 
+        public static float[,] Multiply(this float[,] matrix, float x)
+        {
+            float[,] result = new float[matrix.GetLength(0), matrix.GetLength(1)];
             Multiply(matrix, x, result);
             return result;
         }
@@ -1144,6 +1186,29 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Multiplies a matrix <c>A</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product <c>R=A*x</c>
+        ///   of the multiplication of the given matrix <c>A</c> and scalar <c>x</c>.</param>
+        /// 
+        public unsafe static void Multiply(this float[,] matrix, float x, float[,] result)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            int length = matrix.Length;
+
+            fixed (float* ptrA = matrix, ptrR = result)
+            {
+                float* pa = ptrA, pr = ptrR;
+                for (int i = 0; i < length; i++, pa++, pr++)
+                    *pr = *pa * x;
+            }
+        }
+
+        /// <summary>
         ///   Multiplies a vector <c>v</c> by a scalar <c>x</c>.
         /// </summary>
         /// <param name="vector">The vector <c>v</c>.</param>
@@ -1162,6 +1227,24 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Multiplies a vector <c>v</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// <param name="vector">The vector <c>v</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <returns>The product <c>v*x</c> of the multiplication of the 
+        ///   given vector <c>v</c> and scalar <c>x</c>.</returns>
+        /// 
+        public static float[] Multiply(this float[] vector, float x)
+        {
+            float[] r = new float[vector.Length];
+
+            for (int i = 0; i < vector.Length; i++)
+                r[i] = vector[i] * x;
+
+            return r;
+        }
+
+        /// <summary>
         ///   Multiplies a scalar <c>x</c> by a matrix <c>A</c>.
         /// </summary>
         /// <param name="x">The scalar <c>x</c>.</param>
@@ -1170,6 +1253,19 @@ namespace Accord.Math
         ///   given scalar <c>x</c> and matrix <c>A</c>.</returns>
         /// 
         public static double[,] Multiply(this double x, double[,] matrix)
+        {
+            return matrix.Multiply(x);
+        }
+
+        /// <summary>
+        ///   Multiplies a scalar <c>x</c> by a matrix <c>A</c>.
+        /// </summary>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <returns>The product <c>x*A</c> of the multiplication of the
+        ///   given scalar <c>x</c> and matrix <c>A</c>.</returns>
+        /// 
+        public static float[,] Multiply(this float x, float[,] matrix)
         {
             return matrix.Multiply(x);
         }
@@ -1195,7 +1291,33 @@ namespace Accord.Math
         /// <returns>The product <c>x*v</c> of the multiplication of the 
         ///   given scalar <c>x</c> and vector <c>v</c>.</returns>
         /// 
+        public static float[] Multiply(this float x, float[] vector)
+        {
+            return vector.Multiply(x);
+        }
+
+        /// <summary>
+        ///   Multiplies a scalar <c>x</c> by a vector <c>v</c>.
+        /// </summary>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="vector">The vector <c>v</c>.</param>
+        /// <returns>The product <c>x*v</c> of the multiplication of the 
+        ///   given scalar <c>x</c> and vector <c>v</c>.</returns>
+        /// 
         public static double[] Multiply(this int x, double[] vector)
+        {
+            return vector.Multiply(x);
+        }
+
+        /// <summary>
+        ///   Multiplies a scalar <c>x</c> by a vector <c>v</c>.
+        /// </summary>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="vector">The vector <c>v</c>.</param>
+        /// <returns>The product <c>x*v</c> of the multiplication of the 
+        ///   given scalar <c>x</c> and vector <c>v</c>.</returns>
+        /// 
+        public static float[] Multiply(this int x, float[] vector)
         {
             return vector.Multiply(x);
         }
@@ -1548,7 +1670,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Vectorial product.
+        ///   Vector product.
         /// </summary>
         /// 
         /// <remarks>
@@ -1569,7 +1691,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Vectorial product.
+        ///   Vector product.
         /// </summary>
         /// 
         public static float[] VectorProduct(float[] a, float[] b)
@@ -1583,12 +1705,12 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Computes the cartesian product of many sets.
+        ///   Computes the Cartesian product of many sets.
         /// </summary>
         /// 
         /// <remarks>
         ///   References:
-        ///   - http://blogs.msdn.com/b/ericlippert/archive/2010/06/28/computing-a-cartesian-product-with-linq.aspx 
+        ///   - http://blogs.msdn.com/b/ericlippert/archive/2010/06/28/computing-a-Cartesian-product-with-linq.aspx 
         /// </remarks>
         /// 
         public static IEnumerable<IEnumerable<T>> CartesianProduct<T>(this IEnumerable<IEnumerable<T>> sequences)
@@ -1602,7 +1724,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Computes the cartesian product of many sets.
+        ///   Computes the Cartesian product of many sets.
         /// </summary>
         /// 
         public static T[][] CartesianProduct<T>(params T[][] sequences)
@@ -1617,7 +1739,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Computes the cartesian product of two sets.
+        ///   Computes the Cartesian product of two sets.
         /// </summary>
         /// 
         public static T[][] CartesianProduct<T>(this T[] sequence1, T[] sequence2)
@@ -1865,12 +1987,64 @@ namespace Accord.Math
 
             int min = Math.Min(rows, cols);
 
-            double[,] r = inPlace ? matrix : new double[rows, cols];
+            double[,] r = inPlace ? matrix : (double[,])matrix.Clone();
 
             for (int i = 0; i < min; i++)
-                r[i, i] += matrix[i, i] + scalar;
+                r[i, i] = matrix[i, i] + scalar;
 
             return r;
+        }
+
+        /// <summary>
+        ///   Adds a scalar to the diagonal of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="scalar">A scalar.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original matrix; false to return a new matrix.</param>
+        /// 
+        public static double[][] AddToDiagonal(this double[][] matrix, double scalar, bool inPlace = false)
+        {
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+
+            int min = Math.Min(rows, cols);
+
+            double[][] r = inPlace ? matrix : matrix.MemberwiseClone();
+
+            for (int i = 0; i < min; i++)
+                r[i][i] = matrix[i][i] + scalar;
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Subtracts a scalar from the diagonal of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="scalar">A scalar.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original matrix; false to return a new matrix.</param>
+        /// 
+        public static double[][] SubtractFromDiagonal(this double[][] matrix, double scalar, bool inPlace = false)
+        {
+            return AddToDiagonal(matrix, -scalar, inPlace);
+        }
+
+        /// <summary>
+        ///   Subtracts a scalar from the diagonal of a matrix.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A matrix.</param>
+        /// <param name="scalar">A scalar.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original matrix; false to return a new matrix.</param>
+        /// 
+        public static double[,] SubtractFromDiagonal(this double[,] matrix, double scalar, bool inPlace = false)
+        {
+            return AddToDiagonal(matrix, -scalar, inPlace);
         }
 
         /// <summary>

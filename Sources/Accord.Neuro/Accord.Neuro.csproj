@@ -39,7 +39,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -62,7 +62,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
     <OutputPath>..\..\Release (3.5)\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NET35</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -103,6 +103,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Accord.Neuro.cs" />
     <Compile Include="Activation Functions\GaussianFunction.cs" />
     <Compile Include="Activation Functions\IStochasticFunction.cs" />
     <Compile Include="Activation Functions\LinearFunction.cs" />

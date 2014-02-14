@@ -17,14 +17,14 @@
 // Copyright © Sylvain Roy, 2002
 // sro33 at student.canterbury.ac.nz
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //   Portions of this file have been based on the GPL code by Sylvain
 //   Roy in SMOreg.java, a part of the Weka software package. It is,
 //   thus, available under the same GPL license. This file is not linked
 //   against the rest of the Accord.NET Framework and can only be used
-//   in GPL aplications. Please see the GPL license for more details.
+//   in GPL applications. Please see the GPL license for more details.
 //
 
 namespace Accord.MachineLearning.VectorMachines.Learning
@@ -45,15 +45,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   a series of smallest possible QP problems, which are then solved analytically.</para>
     /// <para>
     ///   This class incorporates modifications in the original SMO algorithm to solve
-    ///   regression problems as suggested by Alex J. Smola and Bernhard Scholkopf and
+    ///   regression problems as suggested by Alex J. Smola and Bernhard Schölkopf and
     ///   further modifications for better performance by Shevade et al.</para> 
     ///   
     /// <para>
     ///   Portions of this implementation has been based on the GPL code by Sylvain Roy in SMOreg.java, a 
     ///   part of the Weka software package. It is, thus, available under the same GPL license. This file is
-    ///   not linked against the rest of the Accord.NET Framework and can only be used in GPL aplications.
+    ///   not linked against the rest of the Accord.NET Framework and can only be used in GPL applications.
     ///   This class is only available in the special Accord.MachineLearning.GPL assembly, which has to be
-    ///   explictly selected in the framework installation. Before linking against this assembly, please
+    ///   explicitly selected in the framework installation. Before linking against this assembly, please
     ///   read the <a href="http://www.gnu.org/copyleft/gpl.html">GPL license</a> for more details. This
     ///   assembly also should have been distributed with a copy of the GNU GPLv3 alongside with it.
     /// </para>
@@ -62,7 +62,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
-    ///      A. J. Smola and B. Scholkopf. A Tutorial on Support Vector Regression. NeuroCOLT2
+    ///      A. J. Smola and B. Schölkopf. A Tutorial on Support Vector Regression. NeuroCOLT2
     ///      Technical Report Series, 1998. Available on: <a href="http://www.kernel-machines.org/publications/SmoSch98c">
     ///      http://www.kernel-machines.org/publications/SmoSch98c </a></description></item>
     ///     <item><description>
@@ -72,7 +72,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///     <item><description>
     ///      G. W. Flake, S. Lawrence. Efficient SVM Regression Training with SMO.
     ///      Available on: <a href="http://www.keerthis.com/smoreg_ieee_shevade_00.pdf">
-    ///      http://www.keerthis.com/smoreg_ieee_shevade_00.pdf </a></description></item>
+    ///      http://www.keerthis.com/smoreg_ieee_Shevade_00.pdf </a></description></item>
     ///   </list></para>
     /// </remarks>
     /// 
@@ -351,7 +351,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
 
 
-            // Store Support Vectors in the SV Machine. Only vectors which have lagrange multipliers
+            // Store Support Vectors in the SV Machine. Only vectors which have Lagrange multipliers
             // greater than zero will be stored as only those are actually required during evaluation.
             List<int> indices = new List<int>();
             for (int i = 0; i < N; i++)
@@ -625,7 +625,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                          && (alpha1a > 0 || (alpha1b == 0 && delta > 0))
                          && (alpha2a > 0 || (alpha2b == 0 && delta < 0)))
                 {
-                    // Compute L and H (wrt alpha1, alpha2)
+                    // Compute L and H (w.r.t. alpha1, alpha2)
                     L = Math.Max(0, gamma - this.c);
                     H = Math.Min(this.c, gamma);
 
@@ -667,7 +667,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                          && (alpha1a > 0 || (alpha1b == 0 && delta > 2 * epsilon))
                          && (alpha2b > 0 || (alpha2a == 0 && delta > 2 * epsilon)))
                 {
-                    // Compute L and H  (wrt alpha1, alpha2*)
+                    // Compute L and H  (w.r.t. alpha1, alpha2*)
                     L = Math.Max(0, -gamma);
                     H = Math.Min(this.c, -gamma + this.c);
 
@@ -708,7 +708,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                       && (alpha1b > 0 || (alpha1a == 0 && delta < -2 * epsilon))
                       && (alpha2a > 0 || (alpha2b == 0 && delta < -2 * epsilon)))
                 {
-                    // Compute L and H (wrt alpha1*, alpha2)
+                    // Compute L and H (w.r.t. alpha1*, alpha2)
                     L = Math.Max(0, gamma);
                     H = Math.Min(this.c, this.c + gamma);
 
@@ -749,7 +749,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                       && (alpha1b > 0 || (alpha1a == 0 && delta < 0))
                       && (alpha2b > 0 || (alpha2a == 0 && delta > 0)))
                 {
-                    // Compute L and H (wrt alpha1*, alpha2*)
+                    // Compute L and H (w.r.t. alpha1*, alpha2*)
                     L = Math.Max(0, -gamma - this.c);
                     H = Math.Min(this.c, -gamma);
 

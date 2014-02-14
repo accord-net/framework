@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,14 +23,13 @@
 namespace Accord.Tests.MachineLearning
 {
     using System.Data;
+    using System.Text;
     using Accord;
+    using Accord.MachineLearning;
     using Accord.MachineLearning.Bayes;
-    using System.Linq;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.MachineLearning;
-    using System.Text;
 
     [TestClass()]
     public class NaiveBayesTest
@@ -50,35 +49,6 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -219,7 +189,7 @@ namespace Accord.Tests.MachineLearning
             // Create a new Bag-of-Words for the texts
             BagOfWords bow = new BagOfWords(spamTokens, loremTokens)
             {
-                // Limit the maximum number of occurences in 
+                // Limit the maximum number of occurrences in 
                 // the feature vector to a single instance
                 MaximumOccurance = 1
             };
@@ -242,7 +212,7 @@ namespace Accord.Tests.MachineLearning
                 1, // lorem
             };
 
-            // Create the naïve bayes model
+            // Create the naïve Bayes model
             NaiveBayes bayes = new NaiveBayes(2, symbols);
 
             for (int i = 0; i < bayes.ClassCount; i++)

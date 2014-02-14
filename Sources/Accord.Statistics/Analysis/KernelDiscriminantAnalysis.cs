@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -62,7 +62,7 @@ namespace Accord.Statistics.Analysis
     /// <example>
     /// <para>
     ///   The following example creates an analysis for a set of 
-    ///   data specifiied as a jagged (double[][]) array. However,
+    ///   data specified as a jagged (double[][]) array. However,
     ///   the same can also be accomplished using multidimensional
     ///   double[,] arrays.</para>
     ///   
@@ -403,7 +403,8 @@ namespace Accord.Statistics.Analysis
                 throw new InvalidOperationException("The analysis must have been computed first.");
 
             if (data.GetLength(1) != Source.GetLength(1))
-                throw new DimensionMismatchException("data", "The input data should have the same number of columns as the original data.");
+                throw new DimensionMismatchException("data", 
+                    "The input data should have the same number of columns as the original data.");
 
             if (dimensions < 0 || dimensions > Discriminants.Count)
             {
@@ -454,7 +455,8 @@ namespace Accord.Statistics.Analysis
 
             for (int i = 0; i < data.Length; i++)
                 if (data[i].Length != Source.GetLength(1))
-                    throw new DimensionMismatchException("data", "The input data should have the same number of columns as the original data.");
+                    throw new DimensionMismatchException("data", 
+                        "The input data should have the same number of columns as the original data.");
 
             if (dimensions < 0 || dimensions > Discriminants.Count)
             {

@@ -1,8 +1,8 @@
-﻿// Accord (Experimental) Audio Library
+﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,7 +30,7 @@ namespace Accord.Audio
     /// </summary>
     /// 
     /// <remarks>This interface is implemented by objects which
-    /// can reproduce sounds. Examples are soundcard outputs, wave
+    /// can reproduce sounds. Examples are sound card outputs, wave
     /// file encoders/writers and special purpose encoders.</remarks>
     /// 
     /// <seealso cref="IAudioSource"/>
@@ -104,7 +104,7 @@ namespace Accord.Audio
         ///   Wait until audio output has stopped.
         /// </summary>
         /// 
-        /// <remarks>Waits for audio output stopping after it was signalled to stop using
+        /// <remarks>Waits for audio output stopping after it was signaled to stop using
         /// <see cref="SignalToStop"/> method.</remarks>
         /// 
         void WaitForStop();

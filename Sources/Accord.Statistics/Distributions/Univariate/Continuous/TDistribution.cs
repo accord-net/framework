@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -58,7 +58,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   behavior of certain types of ratios of random quantities, in which variation in
     ///   the denominator is amplified and may produce outlying values when the denominator
     ///   of the ratio falls close to zero. The Student's t-distribution is a special case 
-    ///   of the generalised hyperbolic distribution.</para>
+    ///   of the generalized hyperbolic distribution.</para>
     ///   
     /// <para>    
     ///   References:

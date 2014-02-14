@@ -20,9 +20,9 @@
     <summary>Accord.NET Machine Learning Library from the Accord.NET framework.</summary>
     <tags>accord.net aforge.net aforge.net machine learning artificial intelligence</tags>
     <dependencies>
-      <dependency id="Accord"            version="2.10.0" />
-      <dependency id="Accord.Math"       version="2.10.0" />
-      <dependency id="Accord.Statistics" version="2.10.0" />
+      <dependency id="Accord"            version="2.12.0" />
+      <dependency id="Accord.Math"       version="2.12.0" />
+      <dependency id="Accord.Statistics" version="2.12.0" />
       <dependency id="AForge"            version="2.2.5" />
     </dependencies>
   </metadata>

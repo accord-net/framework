@@ -77,7 +77,7 @@ namespace OpenSURFcs
         }
 
         /// <summary>
-        /// Get Haar Wavelet X repsonse
+        /// Get Haar Wavelet X response
         /// </summary>
         /// <param name="row"></param>
         /// <param name="column"></param>
@@ -90,7 +90,7 @@ namespace OpenSURFcs
         }
 
         /// <summary>
-        /// Get Haar Wavelet Y repsonse
+        /// Get Haar Wavelet Y response
         /// </summary>
         /// <param name="row"></param>
         /// <param name="column"></param>

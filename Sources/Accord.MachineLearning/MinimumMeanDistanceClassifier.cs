@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -33,7 +33,7 @@ namespace Accord.MachineLearning
     ///   This is one of the simplest possible pattern recognition classifiers. 
     ///   This classifier works by comparing a new input vector against the mean
     ///   value of the other classes. The class which is closer to this new input 
-    ///   vector is considered the winner, and the vector will be classifed as 
+    ///   vector is considered the winner, and the vector will be classified as 
     ///   having the same label as this class.
     /// </remarks>
     /// 
@@ -106,7 +106,7 @@ namespace Accord.MachineLearning
         ///   Computes the label for the given input.
         /// </summary>
         /// 
-        /// <param name="input">A input input.</param>
+        /// <param name="input">The input value.</param>
         /// <param name="distances">The distances from <paramref name="input"/> to the class means.</param>
         /// 
         /// <returns>The output label assigned to this point.</returns>
@@ -128,7 +128,7 @@ namespace Accord.MachineLearning
         ///   Computes the label for the given input.
         /// </summary>
         /// 
-        /// <param name="input">A input input.</param>
+        /// <param name="input">A input.</param>
         /// 
         /// <returns>The output label assigned to this point.</returns>
         /// 

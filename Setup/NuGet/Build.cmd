@@ -11,7 +11,7 @@ echo.
 timeout /T 5
 
 :: Set version info
-set version=2.10.0.0
+set version=2.12.0.0
 set output=..\bin\nupkg
 
 :: Create output directory

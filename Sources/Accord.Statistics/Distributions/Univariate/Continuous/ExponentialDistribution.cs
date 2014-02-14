@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,8 +23,8 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
-    using Accord.Statistics.Distributions.Fitting;
     using Accord.Math;
+    using Accord.Statistics.Distributions.Fitting;
     using AForge;
 
     /// <summary>
@@ -68,7 +68,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   double median = exp.Median; // 1.6503504299046317
     ///   double var = exp.Variance;  // 5.6689342403628125
     ///   
-    ///   // Cumulative distribution funcions
+    ///   // Cumulative distribution functions
     ///   double cdf  = exp.DistributionFunction(x: 0.27);          // 0.10720652870550407
     ///   double ccdf = exp.ComplementaryDistributionFunction(x: 0.27); // 0.89279347129449593
     ///   double icdf = exp.InverseDistributionFunction(p: cdf);        // 0.27

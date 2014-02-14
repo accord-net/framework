@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -53,7 +53,7 @@ namespace Accord.Statistics.Analysis
     ///   <list type="bullet">
     ///     <item><description>
     ///       Wikipedia contributors. "Linear regression." Wikipedia, The Free Encyclopedia, 4 Nov. 2012.
-    ///       Available on: http://en.wikipedia.org/wiki/Linear_regression </description></item>
+    ///       Available at: http://en.wikipedia.org/wiki/Linear_regression </description></item>
     ///  </list></para>  
     /// </remarks>
     /// 
@@ -186,7 +186,7 @@ namespace Accord.Statistics.Analysis
 
 
         /// <summary>
-        ///   Gets the the dependent variable value
+        ///   Gets the dependent variable value
         ///   for each of the source input points.
         /// </summary>
         /// 
@@ -622,7 +622,7 @@ namespace Accord.Statistics.Analysis
         public FTest FTest { get { return Analysis.ftests[index]; } }
 
         /// <summary>
-        ///   Gets the confidence interval (CI) for the current coefficient.
+        ///   Gets the confidence interval (C.I.) for the current coefficient.
         /// </summary>
         /// 
         [Browsable(false)]

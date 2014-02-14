@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="inputs">The input training data.</param>
         /// <param name="outputs">The output associated with each of the outputs.</param>
         /// 
-        /// <returns>The error.</returns>
+        /// <returns>The sum of squared errors after the learning.</returns>
         /// 
         double Run(double[][] inputs, double[] outputs);
 

@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ namespace Accord.MachineLearning.Structures
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using AForge;
 
     /// <summary>
     ///   Collection of k-dimensional tree nodes.
@@ -43,12 +44,12 @@ namespace Accord.MachineLearning.Structures
     [Serializable]
     public class KDTreeNodeCollection<T> : ICollection<KDTreeNodeDistance<T>>
     {
-        private LinkedList<KDTreeNodeDistance<T>> list;
+        SortedSet<double> distances;
+        Dictionary<double, List<KDTreeNode<T>>> positions;
 
-        [NonSerialized]
-        private LinkedListNode<KDTreeNodeDistance<T>> farthest;
-        [NonSerialized]
-        private LinkedListNode<KDTreeNodeDistance<T>> nearest;
+        DoubleRange range;
+        int count;
+
 
         /// <summary>
         ///   Gets or sets the maximum number of elements on this 
@@ -56,41 +57,37 @@ namespace Accord.MachineLearning.Structures
         ///   this instance has no upper limit of elements.
         /// </summary>
         /// 
-        public int Maximum { get; private set; }
+        public int Capacity { get; private set; }
+
+        /// <summary>
+        ///   Gets the current distance limits for nodes contained
+        ///   at this collection, such as the maximum and minimum
+        ///   distances.
+        /// </summary>
+        /// 
+        public DoubleRange Distance
+        {
+            get { return range; }
+        }
 
         /// <summary>
         ///   Gets the farthest node in the collection (with greatest distance).
         /// </summary>
         /// 
-        public KDTreeNodeDistance<T> Farthest
+        public KDTreeNode<T> Farthest
         {
-            get { return (farthest == null) ? (KDTreeNodeDistance<T>)null : farthest.Value; }
+            get { return positions[range.Max][0]; }
         }
 
         /// <summary>
         ///   Gets the nearest node in the collection (with smallest distance).
         /// </summary>
         /// 
-        public KDTreeNodeDistance<T> Nearest
+        public KDTreeNode<T> Nearest
         {
-            get { return (nearest == null) ? (KDTreeNodeDistance<T>)null : nearest.Value; }
+            get { return positions[range.Min][0]; }
         }
 
-        /// <summary>
-        ///   Gets whether this collection has any upper limit
-        ///   on the number of elements it can contain.
-        /// </summary>
-        /// 
-        public bool HasMaximumSize { get { return Maximum > 0; } }
-
-        /// <summary>
-        ///   Creates a new <see cref="KDTreeNodeCollection&lt;T&gt;"/>.
-        /// </summary>
-        /// 
-        public KDTreeNodeCollection()
-        {
-            list = new LinkedList<KDTreeNodeDistance<T>>();
-        }
 
         /// <summary>
         ///   Creates a new <see cref="KDTreeNodeCollection&lt;T&gt;"/> with a maximum size.
@@ -99,9 +96,13 @@ namespace Accord.MachineLearning.Structures
         /// <param name="size">The maximum number of elements allowed in this collection.</param>
         /// 
         public KDTreeNodeCollection(int size)
-            : this()
         {
-            Maximum = size;
+            if (size <= 0)
+                throw new ArgumentOutOfRangeException("size");
+
+            Capacity = size;
+            distances = new SortedSet<double>();
+            positions = new Dictionary<double, List<KDTreeNode<T>>>();
         }
 
         /// <summary>
@@ -115,70 +116,163 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <returns>Returns true if the node has been added; false otherwise.</returns>
         /// 
-        public bool TryAdd(KDTreeNode<T> value, double distance)
+        public bool Add(KDTreeNode<T> value, double distance)
         {
-            // Check if the list has a maximum number of
-            // neighbors, and if it has, if it is full
-            if (HasMaximumSize && list.Count == Maximum)
-            {
-                // List is already full. Check if the value
-                // to be added is closer than the current
-                // farthest point.
+            // The list does have a limit. We have to check if the list
+            // is already full or not, to see if we can discard or keep
+            // the point
 
-                if (distance < farthest.Value.Distance)
-                {
-                    // Yes, it is closer. Remove the previous
-                    // farthest point and replace with this
-                    list.Remove(farthest);
-
-                    // Insert at the right place
-                    var node = list.AddLast(new KDTreeNodeDistance<T>(value, distance));
-
-                    farthest = node;
-
-                    if (distance < nearest.Value.Distance)
-                        nearest = farthest;
-
-                    return true; // a value has been added
-                }
-                else
-                {
-                    // The value is even farther
-                    return false; // discard it
-                }
-            }
-            else
+            if (count < Capacity)
             {
                 // The list still has room for new elements. 
                 // Just add the value at the right position.
 
-                var node = list.AddLast(new KDTreeNodeDistance<T>(value, distance));
-
-                // Update node information
-                if (farthest == null || distance > farthest.Value.Distance) farthest = node;
-                if (nearest == null || distance < nearest.Value.Distance) nearest = node;
+                add(distance, value);
 
                 return true; // a value has been added
             }
+
+            // The list is at its maximum capacity. Check if the value
+            // to be added is closer than the current farthest point.
+
+            if (distance < range.Max)
+            {
+                // Yes, it is closer. Remove the previous farthest point
+                // and insert this new one at an appropriate position to
+                // keep the list ordered.
+
+                RemoveFarthest();
+
+                add(distance, value);
+
+                return true; // a value has been added
+            }
+
+            // The value is even farther
+            return false; // discard it
         }
 
         /// <summary>
-        ///   Gets the <see cref="Accord.MachineLearning.Structures.KDTreeNodeDistance&lt;T&gt;"/> at the specified index.
+        ///   Attempts to add a value to the collection. If the list is full
+        ///   and the value is more distant than the farthest node in the
+        ///   collection, the value will not be added.
         /// </summary>
         /// 
-        public KDTreeNodeDistance<T> this[int index]
+        /// <param name="value">The node to be added.</param>
+        /// <param name="distance">The node distance.</param>
+        /// 
+        /// <returns>Returns true if the node has been added; false otherwise.</returns>
+        /// 
+        public bool AddFarthest(KDTreeNode<T> value, double distance)
         {
-            get { return list.ElementAt(index); }
+            // The list does have a limit. We have to check if the list
+            // is already full or not, to see if we can discard or keep
+            // the point
+
+            if (count < Capacity)
+            {
+                // The list still has room for new elements. 
+                // Just add the value at the right position.
+
+                add(distance, value);
+
+                return true; // a value has been added
+            }
+
+            // The list is at its maximum capacity. Check if the value
+            // to be added is farther than the current nearest point.
+
+            if (distance > range.Min)
+            {
+                // Yes, it is farther. Remove the previous nearest point
+                // and insert this new one at an appropriate position to
+                // keep the list ordered.
+
+                RemoveNearest();
+
+                add(distance, value);
+
+                return true; // a value has been added
+            }
+
+            // The value is even closer
+            return false; // discard it
         }
+
+        /// <summary>
+        ///   Adds the specified item to the collection.
+        /// </summary>
+        /// 
+        /// <param name="distance">The distance from the node to the query point.</param>
+        /// <param name="item">The item to be added.</param>
+        /// 
+        private void add(double distance, KDTreeNode<T> item)
+        {
+            List<KDTreeNode<T>> position;
+
+            if (!positions.TryGetValue(distance, out position))
+                positions.Add(distance, position = new List<KDTreeNode<T>>());
+
+            position.Add(item);
+            distances.Add(distance);
+
+            if (count == 0)
+                range.Max = range.Min = distance;
+
+            else
+            {
+                if (distance > range.Max)
+                    range.Max = distance;
+                if (distance < range.Min)
+                    range.Min = distance;
+            }
+
+
+            count++;
+        }
+
+
         /// <summary>
         ///   Removes all elements from this collection.
         /// </summary>
         /// 
         public void Clear()
         {
-            list.Clear();
-            farthest = null;
-            nearest = null;
+            distances.Clear();
+            positions.Clear();
+
+            count = 0;
+            range.Max = 0;
+            range.Min = 0;
+        }
+
+
+        /// <summary>
+        ///   Gets the list of <see cref="KDTreeNode{T}"/> that holds the
+        ///   objects laying out at the specified distance, if there is any.
+        /// </summary>
+        /// 
+        public List<KDTreeNode<T>> this[double distance]
+        {
+            get
+            {
+                List<KDTreeNode<T>> position;
+                if (!positions.TryGetValue(distance, out position))
+                    return null;
+
+                return position;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the <see cref="Accord.MachineLearning.Structures.KDTreeNodeDistance{T}"/>
+        ///   at the specified index. Note: this method will iterate over the entire collection
+        ///   until the given position is found.
+        /// </summary>
+        /// 
+        public KDTreeNodeDistance<T> this[int index]
+        {
+            get { return this.ElementAt(index); }
         }
 
         /// <summary>
@@ -187,7 +281,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         public int Count
         {
-            get { return list.Count; }
+            get { return count; }
         }
 
         /// <summary>
@@ -209,12 +303,20 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <returns>
-        ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        ///   An <see cref="T:System.Collections.IEnumerator"/> object 
+        ///   that can be used to iterate through the collection.
         /// </returns>
         /// 
         public IEnumerator<KDTreeNodeDistance<T>> GetEnumerator()
         {
-            return list.GetEnumerator();
+            foreach (var position in positions)
+            {
+                double distance = position.Key;
+                foreach (var node in position.Value)
+                    yield return new KDTreeNodeDistance<T>(node, distance);
+            }
+
+            yield break;
         }
 
         /// <summary>
@@ -222,30 +324,16 @@ namespace Accord.MachineLearning.Structures
         /// </summary>
         /// 
         /// <returns>
-        ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        ///   An <see cref="T:System.Collections.IEnumerator"/> object that
+        ///   can be used to iterate through the collection.
         /// </returns>
         /// 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return list.GetEnumerator();
+            return positions.GetEnumerator();
         }
 
-        /// <summary>
-        ///   Adds the specified item to the collection.
-        /// </summary>
-        /// 
-        /// <param name="item">The item to be added.</param>
-        /// 
-        public void Add(KDTreeNodeDistance<T> item)
-        {
-            var node = list.AddLast(item);
 
-            // Update node information
-            if (farthest == null || item.Distance > farthest.Value.Distance)
-                farthest = node;
-            if (nearest == null || item.Distance < nearest.Value.Distance)
-                nearest = node;
-        }
 
 
         /// <summary>
@@ -261,12 +349,17 @@ namespace Accord.MachineLearning.Structures
         /// 
         public bool Contains(KDTreeNodeDistance<T> item)
         {
-            return list.Contains(item);
+            List<KDTreeNode<T>> position;
+            if (positions.TryGetValue(item.Distance, out position))
+                return position.Contains(item.Node);
+
+            return false;
         }
 
         /// <summary>
         ///   Copies the entire collection to a compatible one-dimensional <see cref="System.Array"/>, starting
-        ///   at the specified <paramref name="arrayIndex">index</paramref> of the <paramref name="array">target array</paramref>.
+        ///   at the specified <paramref name="arrayIndex">index</paramref> of the <paramref name="array">target
+        ///   array</paramref>.
         /// </summary>
         /// 
         /// <param name="array">The one-dimensional <see cref="System.Array"/> that is the destination of the
@@ -275,14 +368,29 @@ namespace Accord.MachineLearning.Structures
         /// 
         public void CopyTo(KDTreeNodeDistance<T>[] array, int arrayIndex)
         {
-            list.CopyTo(array, arrayIndex);
+            int index = arrayIndex;
+
+            foreach (var pair in this)
+                array[index++] = pair;
+        }
+
+        /// <summary>
+        ///   Adds the specified item to this collection.
+        /// </summary>
+        /// 
+        /// <param name="item">The item.</param>
+        /// 
+        public void Add(KDTreeNodeDistance<T> item)
+        {
+            Add(item.Node, item.Distance);
         }
 
         /// <summary>
         ///   Removes the first occurrence of a specific object from the collection.
         /// </summary>
         /// 
-        /// <param name="item">The object to remove from the collecion. The value can be null for reference types.</param>
+        /// <param name="item">The object to remove from the collection. 
+        /// The value can be null for reference types.</param>
         /// 
         /// <returns>
         ///   <c>true</c> if item is successfully removed; otherwise, <c>false</c>. 
@@ -290,19 +398,57 @@ namespace Accord.MachineLearning.Structures
         /// 
         public bool Remove(KDTreeNodeDistance<T> item)
         {
-            var node = list.Find(item);
+            List<KDTreeNode<T>> position;
+            if (!positions.TryGetValue(item.Distance, out position))
+                return false;
 
-            if (node != null)
+            if (!position.Remove(item.Node))
+                return false;
+
+            range.Max = distances.Max;
+            range.Min = distances.Min;
+            count--;
+
+            return true;
+        }
+
+        /// <summary>
+        ///   Removes the farthest tree node from this collection.
+        /// </summary>
+        /// 
+        public void RemoveFarthest()
+        {
+            List<KDTreeNode<T>> position = positions[range.Max];
+
+            position.RemoveAt(0);
+
+            if (position.Count() == 0)
             {
-                list.Remove(node);
-
-                // Update node information
-                if (farthest == node) farthest = null;
-                if (nearest == node) nearest = null;
-                return true;
+                distances.Remove(range.Max);
+                range.Max = distances.Max;
             }
 
-            return false;
+            count--;
         }
+
+        /// <summary>
+        ///   Removes the nearest tree node from this collection.
+        /// </summary>
+        /// 
+        public void RemoveNearest()
+        {
+            List<KDTreeNode<T>> position = positions[range.Min];
+
+            position.RemoveAt(0);
+
+            if (position.Count() == 0)
+            {
+                distances.Remove(range.Min);
+                range.Min = distances.Min;
+            }
+
+            count--;
+        }
+
     }
 }

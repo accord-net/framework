@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   of a variable distributed according to the gamma distribution. Perhaps the chief use
     ///   of the inverse gamma distribution is in Bayesian statistics, where it serves as the 
     ///   conjugate prior of the variance of a normal distribution. However, it is common among
-    ///   Bayesians to consider an alternative parametrization of the normal distribution in 
+    ///   Bayesians to consider an alternative parameterization of the normal distribution in 
     ///   terms of the precision, defined as the reciprocal of the variance, which allows the
     ///   gamma distribution to be used directly as a conjugate prior.</para>
     ///   
@@ -99,8 +99,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public InverseGammaDistribution(double shape, double scale)
         {
-            if (shape <= 0) throw new ArgumentOutOfRangeException("shape");
-            if (scale <= 0) throw new ArgumentOutOfRangeException("scale");
+            if (shape <= 0)
+                throw new ArgumentOutOfRangeException("shape");
+
+            if (scale <= 0) 
+                throw new ArgumentOutOfRangeException("scale");
 
             this.a = shape;
             this.b = scale;

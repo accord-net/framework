@@ -39,7 +39,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -60,7 +60,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
     <OutputPath>..\..\Release (3.5)\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NET35</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -109,6 +109,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Bindings\ArrayDataView.cs" />
     <Compile Include="Bindings\ArrayPropertyDescriptor.cs" />
     <Compile Include="Bindings\ArrayRowView.cs" />
@@ -139,6 +142,12 @@
       <DependentUpon>NumericCollectionEditorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Views\ComponentView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ComponentView.Designer.cs">
+      <DependentUpon>ComponentView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\DecisionTreeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -179,6 +188,9 @@
     <EmbeddedResource Include="Editors\NumericCollectionEditorForm.resx">
       <DependentUpon>NumericCollectionEditorForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ComponentView.resx">
+      <DependentUpon>ComponentView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\DecisionTreeView.resx">
       <DependentUpon>DecisionTreeView.cs</DependentUpon>
     </EmbeddedResource>
@@ -197,6 +209,7 @@
     <ProjectReference Include="..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Imaging\Accord.Imaging.csproj">
       <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>

@@ -1,8 +1,8 @@
 ﻿// Accord Vision Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 // This code has been submitted as an user contribution by darko.juric2
@@ -23,12 +23,11 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Vision.Detection
+namespace Accord.Vision
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
-
 
     /// <summary>
     ///   Group matching algorithm for detection region averaging.
@@ -106,10 +105,10 @@ namespace Accord.Vision.Detection
 
             int[] neighborCount;
 
-            // Average the rectangles contained in each labelled group
+            // Average the rectangles contained in each labeled group
             T[] output = Average(labels, shapes, out neighborCount);
 
-            // Check supression
+            // Check suppression
             if (minNeighbors > 0)
             {
                 filter.Clear();
@@ -216,7 +215,7 @@ namespace Accord.Vision.Detection
         }
 
         /// <summary>
-        ///   When overriden in a child class, should compute
+        ///   When overridden in a child class, should compute
         ///   whether two given shapes are near. Definition of
         ///   near is up to the implementation.
         /// </summary>
@@ -226,7 +225,7 @@ namespace Accord.Vision.Detection
         protected abstract bool Near(T shape1, T shape2);
 
         /// <summary>
-        ///   When overriden in a child class, should compute
+        ///   When overridden in a child class, should compute
         ///   an average of the shapes given as parameters.
         /// </summary>
         /// 

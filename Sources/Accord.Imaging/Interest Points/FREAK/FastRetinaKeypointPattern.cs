@@ -1,8 +1,8 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 // Copyright (c) 2011-2012 LTS2, EPFL
@@ -47,7 +47,7 @@ namespace Accord.Imaging
         public const int Scales = 64;
 
         /// <summary>
-        ///   Pattern orientation resulution.
+        ///   Pattern orientation resolution.
         /// </summary>
         /// 
         public const int Orientations = 256;
@@ -105,7 +105,7 @@ namespace Accord.Imaging
 
             double[] radius = 
             {
-                bigR, bigR - 6 * unitSpace, // radii of the concentric cirles (from outer to inner)
+                bigR, bigR - 6 * unitSpace, // radii of the concentric circles (from outer to inner)
                 bigR - 11 * unitSpace, bigR - 15 * unitSpace,
                 bigR - 18 * unitSpace, bigR - 20 * unitSpace,
                 smallR, 0.0
@@ -115,7 +115,7 @@ namespace Accord.Imaging
             {         
                 radius[0]/2.0, radius[1]/2.0, 
                 radius[2]/2.0, radius[3]/2.0,  // sigma of the pattern points (each group of 6 
-                radius[4]/2.0, radius[5]/2.0,  //  points on a concentric cirle has same sigma)
+                radius[4]/2.0, radius[5]/2.0,  //  points on a concentric circle has same sigma)
                 radius[6]/2.0, radius[6]/2.0
             };
 

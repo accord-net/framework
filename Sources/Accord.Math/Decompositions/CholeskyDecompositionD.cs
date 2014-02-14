@@ -1,8 +1,8 @@
 // Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -296,7 +296,7 @@ namespace Accord.Math.Decompositions
 
                     // Use a tolerance for positive-definiteness
                     this.positiveDefinite &= (d > (decimal)1e-14 * Math.Abs(a[j, j]));
-					
+
                     Lrowj[j] = (decimal)System.Math.Sqrt((double)System.Math.Max(d, 0));
 
                     for (int k = j + 1; k < n; k++)
@@ -319,7 +319,10 @@ namespace Accord.Math.Decompositions
             this.symmetric = true;
 
             decimal d = D[0] = v[0] = a[0, 0];
-            if (d == 0) throw new ArithmeticException("The matrix does not have a LU decomposition");
+
+            if (d == 0) 
+                this.positiveDefinite = false;
+
             for (int j = 1; j < n; j++)
                 L[j, 0] = a[j, 0] / d;
 
@@ -333,8 +336,7 @@ namespace Accord.Math.Decompositions
                 }
 
                 d = D[j] = v[j] = a[j, j] - d;
-                if (d == 0) throw new ArithmeticException("The matrix does not have a LU decomposition");
-				
+
                 // Use a tolerance for positive-definiteness
                 this.positiveDefinite &= (d > (decimal)1e-14 * Math.Abs(a[j, j]));
 

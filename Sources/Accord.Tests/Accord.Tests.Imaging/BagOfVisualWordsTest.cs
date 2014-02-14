@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,13 +22,15 @@
 
 namespace Accord.Tests.Imaging
 {
-    using Accord.Imaging;
-    using Accord.Math;
-    using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Drawing;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Imaging;
+    using System.Linq;
+    using Accord.MachineLearning;
+    using Accord.Math;
+    using AForge.Imaging;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class BagOfVisualWordsTest
@@ -49,39 +51,10 @@ namespace Accord.Tests.Imaging
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         // Load some test images
-        Bitmap[] images =
+        static Bitmap[] images =
         {
             Properties.Resources.flower01,
             Properties.Resources.flower02,
@@ -187,16 +160,24 @@ namespace Accord.Tests.Imaging
 
             double[][] expected = 
             {
-                new double[] { 26, 58, 102, 24, 53, 22, 47, 29, 42, 3 },
-                new double[] { 61, 135, 90, 101, 28, 48, 26, 105, 71, 62 },
-                new double[] { 47, 36, 138, 56, 61, 22, 71, 30, 55, 33 },
+                new double[] { 102, 58, 42, 24, 47, 53, 29, 26, 3, 22 },
+                new double[] { 90, 135, 71, 101, 26, 28, 105, 61, 62, 48 },
+                new double[] { 138, 36, 55, 56, 71, 61, 30, 47, 33, 22 } 
             };
 
             double[][] actual = new double[expected.Length][];
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = bow.GetFeatureVector(images[i]);
 
-            Assert.IsTrue(expected.IsEqual(actual));
+            // string str = actual.ToString(CSharpJaggedMatrixFormatProvider.InvariantCulture);
+
+            for (int i = 0; i < actual.Length; i++)
+            {
+                for (int j = 0; j < actual[i].Length; j++)
+                {
+                    Assert.IsTrue(expected[i].Contains(actual[i][j]));
+                }
+            }
         }
 
         [TestMethod()]
@@ -217,6 +198,41 @@ namespace Accord.Tests.Imaging
             fmt.Serialize(stream, bow);
             stream.Seek(0, SeekOrigin.Begin);
             bow = (BagOfVisualWords)fmt.Deserialize(stream);
+
+            double[][] actual = new double[expected.Length][];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = bow.GetFeatureVector(images[i]);
+
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [TestMethod()]
+        public void SerializeTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            FastCornersDetector fast = new FastCornersDetector();
+
+            FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
+
+            var kmodes = new KModes<byte[]>(5, Distance.BitwiseHamming);
+
+            var bow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(freak, kmodes);
+
+            bow.Compute(images);
+
+
+
+            double[][] expected = new double[images.Length][];
+            for (int i = 0; i < expected.Length; i++)
+                expected[i] = bow.GetFeatureVector(images[i]);
+
+            MemoryStream stream = new MemoryStream();
+            BinaryFormatter fmt = new BinaryFormatter();
+            fmt.Serialize(stream, bow);
+            stream.Seek(0, SeekOrigin.Begin);
+            bow = (BagOfVisualWords<FastRetinaKeypoint, byte[]>)fmt.Deserialize(stream);
 
             double[][] actual = new double[expected.Length][];
             for (int i = 0; i < actual.Length; i++)

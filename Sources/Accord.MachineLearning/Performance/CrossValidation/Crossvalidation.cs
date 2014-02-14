@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -90,7 +90,7 @@ namespace Accord.MachineLearning
     ///   var crossvalidation = new CrossValidation(size: data.Length, folds: 3);
     ///
     ///   // Define a fitting function using Support Vector Machines. The objective of this
-    ///   // function is to learn a SVM in the subset of the data dicted by cross-validation.
+    ///   // function is to learn a SVM in the subset of the data indicated by cross-validation.
     ///
     ///   crossvalidation.Fitting = delegate(int k, int[] indicesTrain, int[] indicesValidation)
     ///   {
@@ -132,6 +132,10 @@ namespace Accord.MachineLearning
     ///   </code>
     /// </example>
     /// 
+    /// <seealso cref="Bootstrap"/>
+    /// <seealso cref="CrossValidation{T}"/>
+    /// <seealso cref="SplitSetValidation{T}"/>
+    /// 
     [Serializable]
     public class CrossValidation : CrossValidation<object>
     {
@@ -157,7 +161,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="indices">An already created set of fold indices for each sample in a dataset.</param>
-        /// <param name="folds">The total number of folds referenced in the <paramref name="indices"/> param.</param>
+        /// <param name="folds">The total number of folds referenced in the <paramref name="indices"/> parameter.</param>
         /// 
         public CrossValidation(int[] indices, int folds) : base(indices, folds) { }
 

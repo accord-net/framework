@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -328,8 +328,8 @@ namespace Accord.Statistics.Models.Fields.Functions
             this.Weights = factorParams.ToArray();
 
 
-            // First features and params are always belonging to edges
-            this.Factors = new[] 
+
+            this.Factors = new[] // First features and parameters always belong to edges
             { 
                 new MarkovDiscreteFactor(this, states, 0, symbols,
                   edgeIndex: 0, edgeCount: edgeParams.Count,                    // 1. edges

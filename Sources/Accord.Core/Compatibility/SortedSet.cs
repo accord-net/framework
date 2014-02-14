@@ -1,8 +1,8 @@
 ﻿// Accord Core Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@
 //
 
 #if NET35
-namespace Accord
+namespace System.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -33,16 +33,26 @@ namespace Accord
     ///   make Accord.NET work. This is not a complete implementation.
     /// </summary>
     /// 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
-    internal class SortedSet<T> : SortedList<T, int>, IEnumerable<T>
+    [Serializable, System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix")]
+    internal class SortedSet<T> : IEnumerable<T>
     {
+
+        private SortedList<T, int> list;
+
+
+        public T Max { get; set; }
+
+        public T Min { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="SortedSet&lt;T&gt;"/> class.
         /// </summary>
         /// 
         public SortedSet()
-            : base() { }
+        {
+            list = new SortedList<T, int>();
+        }
 
         /// <summary>
         ///   Determines whether the set contains the specified value.
@@ -56,7 +66,7 @@ namespace Accord
         /// 
         public bool Contains(T value)
         {
-            return base.ContainsKey(value);
+            return list.ContainsKey(value);
         }
 
         /// <summary>
@@ -67,20 +77,50 @@ namespace Accord
         /// 
         public void Add(T value)
         {
-            if (!ContainsKey(value))
-                base.Add(value, 0);
+            if (!list.ContainsKey(value))
+                list.Add(value, 0);
+
+            Min = list.Keys[0];
+            Max = list.Keys[list.Count - 1];
+        }
+
+        public void Remove(T value)
+        {
+            if (list.Remove(value))
+            {
+                if (list.Count > 0)
+                {
+                    Min = list.Keys[0];
+                    Max = list.Keys[list.Count - 1];
+                }
+                else
+                {
+                    Min = default(T);
+                    Max = default(T);
+                }
+            }
+        }
+
+        public void Clear()
+        {
+            list.Clear();
+            Min = default(T);
+            Max = default(T);
         }
 
         /// <summary>
         ///   Gets the enumerator.
         /// </summary>
         /// 
-        public new IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
-            SortedList<T, int> b = this;
-
-            foreach (var item in b)
+            foreach (var item in list)
                 yield return item.Key;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

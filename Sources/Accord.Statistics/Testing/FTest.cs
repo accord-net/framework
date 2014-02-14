@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -41,7 +41,7 @@ namespace Accord.Statistics.Testing
     ///   References:
     ///   <list type="bullet">
     ///     <item><description><a href="http://en.wikipedia.org/wiki/F-test">
-    ///        Wikipedia, The Free Encyclopedia. F-Test Test. Available on:
+    ///        Wikipedia, The Free Encyclopedia. F-Test. Available on:
     ///        http://en.wikipedia.org/wiki/F-test </a></description></item>
     ///   </list></para>
     /// </remarks>

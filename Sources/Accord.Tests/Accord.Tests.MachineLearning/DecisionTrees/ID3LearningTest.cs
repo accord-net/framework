@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,17 +22,14 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using Accord.MachineLearning.DecisionTrees;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using Accord.Statistics.Filters;
-    using Accord.Math;
     using System.Data;
+    using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
-    using System.Reflection;
-    using System.Reflection.Emit;
-    using System.IO;
+    using Accord.Math;
+    using Accord.Statistics.Filters;
     using AForge;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class ID3LearningTest
@@ -53,35 +50,6 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         public static void CreateMitchellExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
@@ -482,7 +450,7 @@ namespace Accord.Tests.MachineLearning
 
             DecisionVariable[] vars = new DecisionVariable[10];
             for (int i = 0; i < vars.Length; i++)
-                vars[i] = new DecisionVariable(i.ToString(), new IntRange(0,10));
+                vars[i] = new DecisionVariable(i.ToString(), new IntRange(0, 10));
 
             DecisionTree tree = new DecisionTree(vars, 2);
 
@@ -494,7 +462,71 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(11, tree.Root.Branches.Count);
             for (int i = 0; i < tree.Root.Branches.Count; i++)
-                Assert.IsTrue(tree.Root.Branches[i].IsLeaf);    
+                Assert.IsTrue(tree.Root.Branches[i].IsLeaf);
         }
+
+
+
+        [TestMethod]
+        public void LargeSampleTest1()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
+            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("Outlook",      10), 
+                new DecisionVariable("Temperature",  10), 
+                new DecisionVariable("Humidity",     10), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, 2);
+            ID3Learning id3Learning = new ID3Learning(tree);
+
+            double error = id3Learning.Run(dataSamples, target);
+
+            Assert.IsTrue(error < 0.2);
+
+            var code = tree.ToCode("MyTree");
+
+
+            Assert.IsNotNull(code);
+            Assert.IsTrue(code.Length > 0);
+        }
+
+        [TestMethod]
+        public void LargeSampleTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
+            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("Outlook",      10), 
+                new DecisionVariable("Temperature",  10), 
+                new DecisionVariable("Humidity",     10), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, 2);
+            ID3Learning id3Learning = new ID3Learning(tree)
+            {
+                Rejection = false
+            };
+
+            double error = id3Learning.Run(dataSamples, target);
+
+            foreach (var node in tree)
+            {
+                if (node.IsLeaf)
+                    Assert.IsNotNull(node.Output);
+            }
+
+            Assert.IsTrue(error < 0.15);
+        }
+
     }
 }

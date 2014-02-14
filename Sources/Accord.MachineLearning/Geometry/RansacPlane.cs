@@ -1,8 +1,8 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -105,12 +105,14 @@ namespace Accord.MachineLearning.Geometry
         }
 
 
-
         /// <summary>
-        ///   Matches two sets of points using RANSAC.
+        ///   Produces a robust estimation of the plane
+        ///   passing through the given (noisy) points.
         /// </summary>
         /// 
-        /// <returns>The fundamental matrix relating x1 and x2.</returns>
+        /// <param name="points">A set of (possibly noisy) points.</param>
+        /// 
+        /// <returns>The plane passing through the points.</returns>
         /// 
         public Plane Estimate(Point3[] points)
         {

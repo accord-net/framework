@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -123,7 +123,7 @@ namespace Accord.MachineLearning.DecisionTrees
                     childExpression[i] = create(node.Branches[i]);
                 }
 
-                // Create expression for elses
+                // Create expression for else expressions
                 ConstructorInfo ex = typeof(ArgumentException).GetConstructor(new[] { typeof(string), typeof(string) });
 
                 var lastElse = Expression.IfThenElse(comparisons[comparisons.Length - 1],

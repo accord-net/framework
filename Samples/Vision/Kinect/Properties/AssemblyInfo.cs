@@ -1,12 +1,11 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Kinect")]
-[assembly: AssemblyDescription("Kinect Sample Application")]
+[assembly: AssemblyTitle("Dynamic Virtual Wall generation using Kinect")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Accord.NET")]
 [assembly: AssemblyProduct("Accord.NET Framework")]
@@ -14,13 +13,14 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Setting ComVisible to false makes the types in this assembly not visible 
-// to COM components.  If you need to access a type in this assembly from 
-// COM, set the ComVisible attribute to true on that type.
-[assembly: ComVisible(false)]
+[assembly: AssemblyDescription(
+@"This sample application shows how create a Dynamic Virtual Wall using Microsoft's Kinect.")]
 
-// The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2bb3ef26-f75c-4c52-bcc0-95acba6b773a")]
+
+
+// This sets the default COM visibility of types in the assembly to invisible.
+// If you need to expose a type to COM, use [ComVisible(true)] on that type.
+[assembly: ComVisible(false)]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -30,4 +30,3 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]

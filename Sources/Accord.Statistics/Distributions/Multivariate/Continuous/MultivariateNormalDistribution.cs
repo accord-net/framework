@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -25,8 +25,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     using System;
     using Accord.Math;
     using Accord.Math.Decompositions;
-    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions;
+    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using AForge.Math.Random;
 
@@ -89,6 +89,9 @@ namespace Accord.Statistics.Distributions.Multivariate
     ///   double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 }); // 0.35588127170858852
     ///   double pdf3 = dist.ProbabilityDensityFunction(new double[] { 3, 7 }); // 0.000000000036520107734505265
     ///   double lpdf = dist.LogProbabilityDensityFunction(new double[] { 3, 7 }); // -24.033158110192296
+    ///   
+    ///   // Cumulative distribution function (for up to two dimensions)
+    ///   double cdf = dist.DistributionFunction(new double[] { 3, 5 }); // 0.033944035782101548
     ///   
     ///   // Generate samples from this distribution:
     ///   double[][] sample = dist.Generate(1000000);
@@ -161,6 +164,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         private double[,] covariance;
 
         private CholeskyDecomposition chol;
+        private SingularValueDecomposition svd;
         private double lnconstant;
 
         // Derived measures
@@ -192,7 +196,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 double[,] cov = Matrix.Identity(dimension);
                 CholeskyDecomposition chol = new CholeskyDecomposition(cov,
                     robust: false, lowerTriangular: true);
-                initialize(mean, cov, chol);
+                initialize(mean, cov, chol, svd: null);
             }
         }
 
@@ -211,11 +215,11 @@ namespace Accord.Statistics.Distributions.Multivariate
             int cols = covariance.GetLength(1);
 
             if (rows != cols)
-                throw new DimensionMismatchException("covariance", 
+                throw new DimensionMismatchException("covariance",
                     "Covariance matrix should be square.");
 
             if (mean.Length != rows)
-                throw new DimensionMismatchException("covariance", 
+                throw new DimensionMismatchException("covariance",
                     "Covariance matrix should have the same dimensions as mean vector's length.");
 
             CholeskyDecomposition chol = new CholeskyDecomposition(covariance,
@@ -225,55 +229,25 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite." +
                     " If are trying to estimate a distribution from data, please try using the Estimate method.");
 
-            initialize(mean, covariance, chol);
+            initialize(mean, covariance, chol, svd: null);
         }
 
-        private void initialize(double[] m, double[,] cov, CholeskyDecomposition cd)
+        private void initialize(double[] m, double[,] cov, CholeskyDecomposition cd, SingularValueDecomposition svd)
         {
             int k = m.Length;
 
             this.mean = m;
             this.covariance = cov;
             this.chol = cd;
+            this.svd = svd;
 
-
-            // Original code:
-            //   double det = chol.Determinant;
-            //   double detSqrt = System.Math.Sqrt(System.Math.Abs(det));
-            //   constant = 1.0 / (System.Math.Pow(2.0 * System.Math.PI, k / 2.0) * detSqrt);
-
+            double lndet;
 
             // Transforming to log operations, we have:
-            double lndet = cd.LogDeterminant;
 
-            // Let lndet = log( abs(det) )
-            //
-            //    detSqrt = sqrt(abs(det)) = sqrt(abs(exp(log(det))) 
-            //            = sqrt(exp(log(abs(det))) = sqrt(exp(lndet)
-            //
-            //    log(detSqrt) = log(sqrt(exp(lndet)) = (1/2)*log(exp(lndet)) 
-            //                 = lndet/2.
-            //
-            //
-            // Let lndetsqrt = log(detsqrt) = lndet/2
-            //
-            //     constant      =       1 / ( ((2PI)^(k/2)) * detSqrt)
-            //
-            //     log(constant) =  log( 1 / ( ((2PI)^(k/2)) * detSqrt) ) 
-            //                   =  log(1)-log(((2PI)^(k/2)) * detSqrt) )
-            //                   =    0   -log(((2PI)^(k/2)) * detSqrt) )
-            //                   = -log(       ((2PI)^(k/2)) * detSqrt) )
-            //                   = -log(       ((2PI)^(k/2)) * exp(log(detSqrt))))
-            //                   = -log(       ((2PI)^(k/2)) * exp(lndetsqrt)))
-            //                   = -log(       ((2PI)^(k/2)) * exp(lndet/2)))
-            //                   = -log(       ((2PI)^(k/2))) - log(exp(lndet/2)))
-            //                   = -log(       ((2PI)^(k/2))) - lndet/2)
-            //                   = -log(         2PI) * (k/2) - lndet/2)
-            //                   =(-log(         2PI) *  k    - lndet  ) / 2
-            //                   =-(log(         2PI) *  k    + lndet  ) / 2
-            //                   =-(log(         2PI) *  k    + lndet  ) / 2
-            //                   =-(     LN2PI        *  k    + lndet  ) / 2
-            //
+            if (cd != null)
+                lndet = cd.LogDeterminant;
+            else lndet = svd.LogPseudoDeterminant;
 
             // So the log(constant) could be computed as:
             lnconstant = -(Constants.Log2PI * k + lndet) * 0.5;
@@ -315,12 +289,71 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
-        ///   This method is not supported.
+        ///   Computes the cumulative distribution function for distributions
+        ///   up to two dimensions. For more than two dimensions, this method
+        ///   is not supported.
         /// </summary>
         /// 
         public override double DistributionFunction(params double[] x)
         {
-            throw new NotSupportedException();
+            if (Dimension == 1)
+            {
+                double stdDev = Math.Sqrt(Covariance[0, 0]);
+                double z = (x[0] - mean[0]) / stdDev;
+
+                return Normal.Function(z);
+            }
+
+            if (Dimension == 2)
+            {
+                double sigma1 = Math.Sqrt(Covariance[0, 0]);
+                double sigma2 = Math.Sqrt(Covariance[1, 1]);
+                double rho = Covariance[0, 1] / (sigma1 * sigma2);
+
+                double z = (x[0] - mean[0]) / sigma1;
+                double w = (x[1] - mean[1]) / sigma2;
+                return Normal.Bivariate(z, w, rho);
+            }
+
+            throw new NotSupportedException("The cumulative distribution "
+                + "function is only available for up to two dimensions.");
+        }
+
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Complementary Cumulative Distribution Function (CCDF) is
+        ///   the complement of the Cumulative Distribution Function, or 1
+        ///   minus the CDF.
+        /// </remarks>
+        /// 
+        public override double ComplementaryDistributionFunction(params double[] x)
+        {
+            if (Dimension == 1)
+            {
+                double stdDev = Math.Sqrt(Covariance[0, 0]);
+                double z = (x[0] - mean[0]) / stdDev;
+
+                return Normal.Complemented(z);
+            }
+
+            if (Dimension == 2)
+            {
+                double sigma1 = Math.Sqrt(Covariance[0, 0]);
+                double sigma2 = Math.Sqrt(Covariance[1, 1]);
+                double rho = Covariance[0, 1] / (sigma1 * sigma2);
+
+                double z = (x[0] - mean[0]) / sigma1;
+                double w = (x[1] - mean[1]) / sigma2;
+                return Normal.BivariateComplemented(z, w, rho);
+            }
+
+            throw new NotSupportedException("The cumulative distribution "
+                + "function is only available for up to two dimensions.");
         }
 
         /// <summary>
@@ -352,23 +385,11 @@ namespace Accord.Statistics.Distributions.Multivariate
             for (int i = 0; i < x.Length; i++)
                 z[i] = x[i] - mean[i];
 
-            double[] a = chol.Solve(z);
+            double[] a = (chol == null) ? svd.Solve(z) : chol.Solve(z);
 
             double b = 0;
             for (int i = 0; i < z.Length; i++)
                 b += a[i] * z[i];
-
-            // Original code:
-            // double r = constant * System.Math.Exp(-b/2);
-
-            // Let lnconstant = log( constant )
-            //
-            //     r = constant * exp( b/2 )
-            //
-            //     r = exp(log(constant) * exp( b/2 )
-            //     r = exp(lnconstant) * exp( b/2 )
-            //     r = exp( lnconstant + b/2 )
-            //
 
             double r = Math.Exp(lnconstant - b * 0.5);
 
@@ -399,7 +420,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             for (int i = 0; i < x.Length; i++)
                 z[i] = x[i] - mean[i];
 
-            double[] a = chol.Solve(z);
+            double[] a = (chol == null) ? svd.Solve(z) : chol.Solve(z);
 
             double b = 0;
             for (int i = 0; i < z.Length; i++)
@@ -457,16 +478,11 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (weights != null)
             {
 #if DEBUG
-                double sum = 0;
                 for (int i = 0; i < weights.Length; i++)
                 {
                     if (Double.IsNaN(weights[i]) || Double.IsInfinity(weights[i]))
                         throw new ArgumentException("Invalid numbers in the weight vector.", "weights");
-                    sum += weights[i];
                 }
-
-                if (Math.Abs(sum - 1.0) > 1e-10)
-                    throw new ArgumentException("Weights do not sum to one.", "weights");
 #endif
                 // Compute weighted mean vector
                 means = Statistics.Tools.WeightedMean(observations, weights);
@@ -487,31 +503,70 @@ namespace Accord.Statistics.Distributions.Multivariate
                 cov = Statistics.Tools.Covariance(observations, means);
             }
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(cov,
-                robust: false, lowerTriangular: true);
 
-            if (options != null)
+            CholeskyDecomposition chol = null;
+            SingularValueDecomposition svd = null;
+
+            if (options == null)
             {
-                // Parse optional estimation options
-                double regularization = options.Regularization;
+                // We don't have further options. Just attempt a standard
+                // fitting. If the matrix is not positive semi-definite, 
+                // throw an exception.
 
-                if (regularization > 0)
+                chol = new CholeskyDecomposition(cov,
+                    robust: false, lowerTriangular: true);
+
+                if (!chol.PositiveDefinite)
                 {
-                    int dimension = observations[0].Length;
+                    throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive "
+                        + "definite. Try specifying a regularization constant in the fitting options "
+                        + "(there is an example in the Multivariate Normal Distribution documentation).");
+                }
 
-                    while (!chol.PositiveDefinite)
+                // Become the newly fitted distribution.
+                initialize(means, cov, chol, svd: null);
+
+                return;
+            }
+
+            // We have options. In this case, we will either be using the SVD
+            // or we can add a regularization constant until the covariance
+            // matrix becomes positive semi-definite.
+
+            if (options.Robust)
+            {
+                svd = new SingularValueDecomposition(cov, true, true, true);
+
+                // No need to apply a regularization constant in this case
+                // Become the newly fitted distribution.
+                initialize(means, cov, null, svd);
+
+                return;
+            }
+
+
+            chol = new CholeskyDecomposition(cov,
+                     robust: false, lowerTriangular: true);
+
+            // Check if need to add a regularization constant
+            double regularization = options.Regularization;
+
+            if (regularization > 0)
+            {
+                int dimension = observations[0].Length;
+
+                while (!chol.PositiveDefinite)
+                {
+                    for (int i = 0; i < dimension; i++)
                     {
-                        for (int i = 0; i < dimension; i++)
-                        {
-                            for (int j = 0; j < dimension; j++)
-                                if (Double.IsNaN(cov[i, j]) || Double.IsInfinity(cov[i, j]))
-                                    cov[i, j] = 0.0;
+                        for (int j = 0; j < dimension; j++)
+                            if (Double.IsNaN(cov[i, j]) || Double.IsInfinity(cov[i, j]))
+                                cov[i, j] = 0.0;
 
-                            cov[i, i] += regularization;
-                        }
-
-                        chol = new CholeskyDecomposition(cov, false, true);
+                        cov[i, i] += regularization;
                     }
+
+                    chol = new CholeskyDecomposition(cov, false, true);
                 }
             }
 
@@ -523,7 +578,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             }
 
             // Become the newly fitted distribution.
-            initialize(means, cov, chol);
+            initialize(means, cov, chol, svd: null);
         }
 
         /// <summary>
@@ -593,7 +648,12 @@ namespace Accord.Statistics.Distributions.Multivariate
             clone.lnconstant = lnconstant;
             clone.covariance = (double[,])covariance.Clone();
             clone.mean = (double[])mean.Clone();
-            clone.chol = (CholeskyDecomposition)chol.Clone();
+
+            if (chol != null)
+                clone.chol = (CholeskyDecomposition)chol.Clone();
+
+            if (svd != null)
+                clone.svd = (SingularValueDecomposition)svd.Clone();
 
             return clone;
         }
@@ -625,6 +685,9 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public double[] Generate()
         {
+            if (chol == null)
+                throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
+
             var r = new StandardGenerator(Accord.Math.Tools.Random.Next());
             double[,] A = chol.LeftTriangularFactor;
 
@@ -645,6 +708,9 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public double[][] Generate(int samples)
         {
+            if (chol == null)
+                throw new NonPositiveDefiniteMatrixException("Covariance matrix is not positive definite.");
+
             var r = new StandardGenerator(Accord.Math.Tools.Random.Next());
             double[,] A = chol.LeftTriangularFactor;
 
@@ -661,5 +727,44 @@ namespace Accord.Statistics.Distributions.Multivariate
             return data;
         }
 
+        /// <summary>
+        ///   Creates a new univariate Normal distribution.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean value for the distribution.</param>
+        /// <param name="stdDev">The standard deviation for the distribution.</param>
+        /// 
+        /// <returns>A <see cref="MultivariateNormalDistribution"/> object that
+        /// actually represents a <see cref="Accord.Statistics.Distributions.Univariate.NormalDistribution"/>.</returns>
+        /// 
+        public static MultivariateNormalDistribution Univariate(double mean, double stdDev)
+        {
+            return new MultivariateNormalDistribution(new[] { mean }, new[,] { { stdDev * stdDev } });
+        }
+
+        /// <summary>
+        ///   Creates a new bivariate Normal distribution.
+        /// </summary>
+        /// 
+        /// <param name="mean1">The mean value for the first variate in the distribution.</param>
+        /// <param name="mean2">The mean value for the second variate in the distribution.</param>
+        /// <param name="stdDev1">The standard deviation for the first variate.</param>
+        /// <param name="stdDev2">The standard deviation for the second variate.</param>
+        /// <param name="rho">The correlation coefficient between the two distributions.</param>
+        /// 
+        /// <returns>A bi-dimensional <see cref="MultivariateNormalDistribution"/>.</returns>
+        /// 
+        public static MultivariateNormalDistribution Bivariate(double mean1, double mean2, double stdDev1, double stdDev2, double rho)
+        {
+            double[] mean = { mean1, mean2 };
+
+            double[,] covariance = 
+            { 
+                { stdDev1 * stdDev1, stdDev1 * stdDev2 * rho },
+                { stdDev1 * stdDev2 * rho, stdDev2 * stdDev2 },
+            };
+
+            return new MultivariateNormalDistribution(mean, covariance);
+        }
     }
 }

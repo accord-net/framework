@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@ namespace Accord.Math
     using System.Globalization;
 
     /// <summary>
-    ///   Base class for IMatrixFormatProvider implementors.
+    ///   Base class for IMatrixFormatProvider implementers.
     /// </summary>
     /// 
     public abstract class MatrixFormatProviderBase : IMatrixFormatProvider

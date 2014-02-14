@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,7 +50,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     ///     <item><description>
     ///       Mitchell, T. M. Machine Learning. McGraw-Hill, 1997. pp. 55-58. </description></item>
     ///     <item><description><a href="http://en.wikipedia.org/wiki/ID3_algorithm">
-    ///       Wikipedia, the free enclyclopedia. ID3 algorithm. Available on 
+    ///       Wikipedia, the free encyclopedia. ID3 algorithm. Available on 
     ///       http://en.wikipedia.org/wiki/ID3_algorithm </a></description></item>
     ///   </list>
     /// </para>   
@@ -60,7 +60,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// 
     /// <example>
     /// <code>
-    /// // This example uses the Nursery Database available from the Universiry of
+    /// // This example uses the Nursery Database available from the University of
     /// // California Irvine repository of machine learning databases, available at
     /// //
     /// //   http://archive.ics.uci.edu/ml/machine-learning-databases/nursery/nursery.names
@@ -98,7 +98,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// string outputColumn = "output";
     ///             
     /// 
-    /// // Let's populate a datatable with this information.
+    /// // Let's populate a data table with this information.
     /// //
     /// DataTable table = new DataTable("Nursery");
     /// table.Columns.Add(inputColumns);
@@ -111,7 +111,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     ///     table.Rows.Add(line.Split(','));
     /// 
     /// 
-    /// // Now, we have to convert the textual, categoric data found
+    /// // Now, we have to convert the textual, categorical data found
     /// // in the table to a more manageable discrete representation.
     /// //
     /// // For this, we will create a codebook to translate text to
@@ -197,6 +197,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public C45Learning(DecisionTree tree)
         {
+            // Initial argument checking
+            if (tree == null)
+                throw new ArgumentNullException("tree");
+
             this.tree = tree;
             this.attributes = new bool[tree.InputCount];
             this.inputRanges = new IntRange[tree.InputCount];
@@ -219,6 +223,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// 
         public double Run(double[][] inputs, int[] outputs)
         {
+            // Initial argument check
+            checkArgs(inputs, outputs);
+
             for (int i = 0; i < attributes.Length; i++)
                 attributes[i] = false;
 
@@ -269,7 +276,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         /// <param name="inputs">The input points.</param>
         /// <param name="outputs">The corresponding output labels.</param>
         /// 
-        /// <returns>The percentual error of the prediction.</returns>
+        /// <returns>The percentage error of the prediction.</returns>
         /// 
         public double ComputeError(double[][] inputs, int[] outputs)
         {
@@ -351,7 +358,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             double[][] inputSubset;
             int[] outputSubset;
 
-            // Now, create next nodes and pass those partitions as their responsabilities. 
+            // Now, create next nodes and pass those partitions as their responsibilities. 
             if (tree.Attributes[maxGainAttribute].Nature == DecisionVariableKind.Discrete)
             {
                 // This is a discrete nature attribute. We will branch at each
@@ -470,7 +477,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 // according to the attribute values
                 partitions[i] = input.Find(x => x[attributeIndex] == value);
 
-                // For each of the instances under responsability
+                // For each of the instances under responsibility
                 // of this node, check which have the same value
                 int[] outputSubset = output.Submatrix(partitions[i]);
 
@@ -534,5 +541,59 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             return bestGain;
         }
 
+
+        private void checkArgs(double[][] inputs, int[] outputs)
+        {
+            if (inputs == null)
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null)
+                throw new ArgumentNullException("outputs");
+
+            if (inputs.Length != outputs.Length)
+                throw new DimensionMismatchException("outputs",
+                                                     "The number of input vectors and output labels does not match.");
+
+            if (inputs.Length == 0)
+                throw new ArgumentOutOfRangeException("inputs",
+                                                      "Training algorithm needs at least one training vector.");
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                if (inputs[i].Length != tree.InputCount)
+                {
+                    throw new DimensionMismatchException("inputs", "The size of the input vector at index "
+                        + i + " does not match the expected number of inputs of the tree." 
+                        + " All input vectors for this tree must have length " + tree.InputCount);
+                }
+
+                for (int j = 0; j < inputs[i].Length; j++)
+                {
+                    if (tree.Attributes[j].Nature != DecisionVariableKind.Discrete)
+                        continue;
+
+                    int min = (int)tree.Attributes[j].Range.Min;
+                    int max = (int)tree.Attributes[j].Range.Max;
+
+                    if (inputs[i][j] < min || inputs[i][j] > max)
+                    {
+                        throw new ArgumentOutOfRangeException("inputs", "The input vector at position "
+                            + i + " contains an invalid entry at column " + j +
+                            ". The value must be between the bounds specified by the decision tree " +
+                            "attribute variables.");
+                    }
+                }
+            }
+
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                if (outputs[i] < 0 || outputs[i] >= tree.OutputClasses)
+                {
+                    throw new ArgumentOutOfRangeException("outputs",
+                      "The output label at index " + i + " should be equal to or higher than zero," +
+                      "and should be lesser than the number of output classes expected by the tree.");
+                }
+            }
+        }
     }
 }

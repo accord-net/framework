@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,9 @@ namespace Accord.Statistics.Distributions
 {
 
     /// <summary>
-    ///   Common interface for samplable distributions.
+    ///   Common interface for sampleable distributions (i.e. distributions that
+    ///   allow the generation of new samples through the <see cref="Generate()"/>
+    ///   method.
     /// </summary>
     /// 
     /// <typeparam name="TObservations">The type of the observations, such as <see cref="System.Double"/>.</typeparam>

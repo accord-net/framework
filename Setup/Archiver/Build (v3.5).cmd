@@ -12,7 +12,7 @@ echo.
 :: Settings for complete and (libs-only) package creation
 :: ---------------------------------------------------------
 
-set version=2.10.0
+set version=2.12.0
 set rar="C:\Program Files\WinRAR\rar"
 set libsname="Accord.NET Framework-%version%-(v3.5 only).rar"
 set opts=a -m5 -s
@@ -25,7 +25,7 @@ echo  - WinRAR Command: %rar%
 echo  - WinRAR Options: "%opts%"
 echo.
 
-pause
+timeout /T 10
 
 
 echo.
@@ -52,4 +52,4 @@ echo commands for errors and check packages in output folder.
 echo ---------------------------------------------------------
 echo.
 
-pause
+timeout /T 10

@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -36,8 +36,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   express their decisions in the form of a distance from support vectors in
     ///   feature space. In order to convert the SVM outputs into probabilities,
     ///   Platt (1999) proposed the calibration of the SVM outputs using a sigmoid
-    ///   (logit) link function. Later, Lin et al (2007) provided a corrected and
-    ///   improved version of Platt's probabilistic outputs. This clas implements
+    ///   (Logit) link function. Later, Lin et al (2007) provided a corrected and
+    ///   improved version of Platt's probabilistic outputs. This class implements
     ///   the later.</para>
     ///   
     ///   <para>This class is not an actual learning algorithm, but a calibrator.
@@ -314,7 +314,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             newLogLikelihood += (targets[i] - 1) * y + Special.Log1p(Math.Exp(y));
                     }
 
-                    // Check if a suficient decrease has been obtained
+                    // Check if a sufficient decrease has been obtained
                     if (newLogLikelihood < logLikelihood + 1e-4 * stepSize * gd)
                     {
                         // Yes, it has. Update parameters with the new values
@@ -323,8 +323,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     }
                     else
                     {
-                        // Decrese the step size until it can achieve
-                        // a suficient decrease or until it fails.
+                        // Decrease the step size until it can achieve
+                        // a sufficient decrease or until it fails.
                         stepSize /= 2.0;
                     }
 

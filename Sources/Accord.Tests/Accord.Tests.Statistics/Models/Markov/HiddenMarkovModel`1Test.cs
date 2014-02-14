@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -52,35 +52,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -244,7 +215,7 @@ namespace Accord.Tests.Statistics
         public void DecodeTest()
         {
 
-            // Create the transation matrix A
+            // Create the transition matrix A
             double[,] transitions = 
             {  
                 { 0.7, 0.3 },
@@ -268,14 +239,14 @@ namespace Accord.Tests.Statistics
             var hmm = new HiddenMarkovModel<GeneralDiscreteDistribution>(transitions, emissions, initial);
 
             // After that, one could, for example, query the probability
-            // of a sequence ocurring. We will consider the sequence
+            // of a sequence occurring. We will consider the sequence
             double[] sequence = new double[] { 0, 1, 2 };
 
             // And now we will evaluate its likelihood
             double logLikelihood = hmm.Evaluate(sequence);
 
             // At this point, the log-likelihood of the sequence
-            // ocurring within the model is -3.3928721329161653.
+            // occurring within the model is -3.3928721329161653.
 
             // We can also get the Viterbi path of the sequence
             int[] path = hmm.Decode(sequence, out logLikelihood);
@@ -640,7 +611,7 @@ namespace Accord.Tests.Statistics
             // Continuous Markov Models can operate using any
             // probability distribution, including discrete ones. 
 
-            // In the follwing example, we will try to create a
+            // In the following example, we will try to create a
             // Continuous Hidden Markov Model using a discrete
             // distribution to detect if a given sequence starts
             // with a zero and has any number of ones after that.
@@ -679,7 +650,7 @@ namespace Accord.Tests.Statistics
             double l3 = Math.Exp(hmm.Evaluate(new double[] { 1, 1 }));       // 0.000
             double l4 = Math.Exp(hmm.Evaluate(new double[] { 1, 0, 0, 0 })); // 0.000
 
-            // Sequences which contains few errors have higher probabability
+            // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
             double l5 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 })); // 0.034
@@ -739,17 +710,24 @@ namespace Accord.Tests.Statistics
             // Fit the model
             double logLikelihood = teacher.Run(sequences);
 
-            // See the probability of the sequences learned
-            double a1 = model.Evaluate(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // 0.87
-            double a2 = model.Evaluate(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // 1.00
+            // See the log-probability of the sequences learned
+            double a1 = model.Evaluate(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 }); // -0.12799388666109757
+            double a2 = model.Evaluate(new[] { 0.2, 6.2, 0.3, 6.3, 0.1, 5.0 }); // 0.01171157434400194
 
             // See the probability of an unrelated sequence
-            double a3 = model.Evaluate(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // 0.00
+            double a3 = model.Evaluate(new[] { 1.1, 2.2, 1.3, 3.2, 4.2, 1.0 }); // -298.7465244473417
 
             double likelihood = Math.Exp(logLikelihood);
-            a1 = Math.Exp(a1);
-            a2 = Math.Exp(a2);
-            a3 = Math.Exp(a3);
+            a1 = Math.Exp(a1); // 0.879
+            a2 = Math.Exp(a2); // 1.011
+            a3 = Math.Exp(a3); // 0.000
+
+            // We can also ask the model to decode one of the sequences. After
+            // this step the resulting sequence will be: { 0, 1, 0, 1, 0, 1 }
+            //
+            int[] states = model.Decode(new[] { 0.1, 5.2, 0.3, 6.7, 0.1, 6.0 });
+
+            Assert.IsTrue(states.IsEqual(0, 1, 0, 1, 0, 1));
 
             Assert.AreEqual(1.1341500279562791, likelihood, 1e-10);
             Assert.AreEqual(0.8798587580029778, a1, 1e-10);
@@ -822,8 +800,8 @@ namespace Accord.Tests.Statistics
 
 
             // See the probability of the sequences learned
-            double a1 = model.Evaluate(new double[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }); // exp(a1) = inf
-            double a2 = model.Evaluate(new double[] { 1, 2, 1, 2, 1 });             // exp(a2) = inf
+            double a1 = model.Evaluate(new double[] { 1, 2, 1, 2, 1, 2, 1, 2, 1 }); // exp(a1) = infinity
+            double a2 = model.Evaluate(new double[] { 1, 2, 1, 2, 1 });             // exp(a2) = infinity
 
             // See the probability of an unrelated sequence
             double a3 = model.Evaluate(new double[] { 1, 2, 3, 2, 1, 2, 1 });          // exp(a3) = 0
@@ -831,8 +809,8 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(double.PositiveInfinity, System.Math.Exp(likelihood));
-            Assert.AreEqual(302.59496915947972, a1);
-            Assert.AreEqual(168.26234890650207, a2);
+            Assert.AreEqual(3341.7098768473734, a1);
+            Assert.AreEqual(1856.5054871374298, a2);
             Assert.AreEqual(0.0, Math.Exp(a3));
             Assert.AreEqual(0.0, Math.Exp(a4));
 
@@ -859,7 +837,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest9()
         {
-            // Include this example in the documentattion
+            // Include this example in the documentation
             var observations = new double[][][]
             {
                 #region example
@@ -1002,9 +980,9 @@ namespace Accord.Tests.Statistics
                 FittingOptions = new NormalOptions() { Regularization = 0.0001 }
             };
 
-            double error = learning.Run(observations);
+            double logLikelihood = learning.Run(observations);
 
-            Assert.IsFalse(Double.IsNaN(error));
+            Assert.IsFalse(Double.IsNaN(logLikelihood));
 
             foreach (double value in model.Transitions)
                 Assert.IsFalse(Double.IsNaN(value));
@@ -1081,7 +1059,7 @@ namespace Accord.Tests.Statistics
                 new double[] { 1, 0 }})); // 2.10 x 10^(-89)
 
             Assert.AreEqual(0.00020825319093038984, a1);
-            Assert.AreEqual(0.000037671116792519834, a2);
+            Assert.AreEqual(0.000037671116792519834, a2, 1e-15);
             Assert.AreEqual(2.1031924118199194E-89, a3);
         }
 
@@ -1105,7 +1083,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            // Now we can begin specifing a initial Gaussian mixture distribution. It is
+            // Now we can begin specifying a initial Gaussian mixture distribution. It is
             // better to add some different initial parameters to the mixture components:
             var density = new Mixture<NormalDistribution>(
                 new NormalDistribution(mean: 2, stdDev: 1.0), // 1st component in the mixture
@@ -1151,9 +1129,9 @@ namespace Accord.Tests.Statistics
             // We can see that the likelihood of an unrelated sequence is much smaller:
             double a3 = Math.Exp(model.Evaluate(new double[] { 8, 2, 6, 4, 1 })); // 1.5063654166181737E-44
 
-            Assert.AreEqual(2.3413833128741038E+45, a1);
-            Assert.AreEqual(9.94607618459872E+19, a2);
-            Assert.AreEqual(1.5063654166181737E-44, a3);
+            Assert.IsTrue(a1 > 1e+6);
+            Assert.IsTrue(a2 > 1e+6);
+            Assert.IsTrue(a3 < 1e-6);
 
             Assert.IsFalse(Double.IsNaN(a1));
             Assert.IsFalse(Double.IsNaN(a2));
@@ -1180,7 +1158,7 @@ namespace Accord.Tests.Statistics
             };
 
 
-            // Now we can begin specifing a initial Gaussian mixture distribution. It is
+            // Now we can begin specifying a initial Gaussian mixture distribution. It is
             // better to add some different initial parameters to the mixture components:
             var density = new Mixture<NormalDistribution>(
                 new NormalDistribution(mean: 2, stdDev: 1.0), // 1st component in the mixture
@@ -1229,8 +1207,8 @@ namespace Accord.Tests.Statistics
             double a3 = Math.Exp(model.Evaluate(new double[] { 8, 2, 6, 4, 1 })); // 0.0
 
 
-            Assert.AreEqual(11729312967893.566, a1);
-            Assert.AreEqual(0.0, a3);
+            Assert.IsTrue(a1 > 1e+10);
+            Assert.IsTrue(a3 < 1e+10);
 
             Assert.IsFalse(Double.IsNaN(a1));
             Assert.IsFalse(Double.IsNaN(a3));
@@ -1271,7 +1249,7 @@ namespace Accord.Tests.Statistics
             double logLikelihood = teacher.Run(sequences);
             double likelihood = Math.Exp(logLikelihood);
 
-            Assert.AreEqual(47.434837528491286, logLikelihood, 1e-15);
+            Assert.AreEqual(5.2175219394269385, logLikelihood, 1e-15);
             Assert.IsFalse(double.IsNaN(logLikelihood));
 
             Assert.AreEqual(0.0001, (teacher.FittingOptions as NormalOptions).Regularization);

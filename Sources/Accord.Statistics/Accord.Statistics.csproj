@@ -33,7 +33,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -50,7 +50,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS</DefineConstants>
     <DocumentationFile>..\..\Release\Accord.Statistics.XML</DocumentationFile>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
@@ -61,7 +61,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
     <OutputPath>..\..\Release (3.5)\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NET35</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -100,12 +100,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Accord.Statistics.cs" />
+    <Compile Include="Analysis\Base\IAnalysisComponent.cs" />
     <Compile Include="Analysis\Base\IAnalysis.cs" />
     <Compile Include="Analysis\Base\IProjectionAnalysis.cs" />
     <Compile Include="Analysis\Base\IMultivariateRegressionAnalysis.cs" />
     <Compile Include="Analysis\Base\IRegressionAnalysis.cs" />
     <Compile Include="Analysis\Base\IDiscriminantAnalysis.cs" />
+    <Compile Include="Analysis\Contrast Functions\Exponential.cs" />
+    <Compile Include="Analysis\Contrast Functions\IContrastFunction.cs" />
+    <Compile Include="Analysis\Contrast Functions\Kurtosis.cs" />
+    <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
@@ -123,6 +131,10 @@
     <Compile Include="Analysis\StepwiseLogisticRegressionAnalysis.cs" />
     <Compile Include="Circular.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
+    <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
+    <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />
+    <Compile Include="Distributions\Fitting\EmpiricalOptions.cs" />
+    <Compile Include="Distributions\Fitting\ExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\IndependentOptions.cs" />
     <Compile Include="Distributions\Fitting\HiddenMarkovOptions.cs" />
     <Compile Include="Distributions\Fitting\SurvivalOptions.cs" />
@@ -265,12 +277,16 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
+    <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovModel.cs" />
+    <Compile Include="Models\Markov\Learning\MultipleBaumWelchLearning.cs" />
     <Compile Include="Models\Markov\MarkovHelperMethods.cs" />
+    <Compile Include="Models\Regression\Nonlinear\Fitting\NonlinearLeastSquares.cs" />
     <Compile Include="Models\Regression\Nonlinear\GeneralizedLinearRegression.cs" />
     <Compile Include="Models\Regression\Nonlinear\Fitting\LogisticGradientDescent.cs" />
+    <Compile Include="Models\Regression\Nonlinear\NonlinearRegression.cs" />
     <Compile Include="Models\Survival\ProportionalHazards.cs" />
     <Compile Include="Models\Fields\ConditionalRandomField.cs" />
     <Compile Include="Models\Fields\Features\Base\IFeature.cs">
@@ -438,7 +454,9 @@
     <None Include="Analysis\Accord.Statistics.Analysis.cd" />
     <None Include="Distributions\Accord.Statistics.Distributions.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
-    <None Include="Models\Accord.Statistics.Models.cd" />
+    <None Include="Models\Accord.Statistics.Models.cd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Models\Fields\Accord.Statistics.Models.Fields.cd">
       <SubType>Designer</SubType>
     </None>

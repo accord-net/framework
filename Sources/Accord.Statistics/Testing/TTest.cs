@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ namespace Accord.Statistics.Testing
     /// <remarks>
     ///  <para>
     ///   The one-sample t-test assesses whether the mean of a sample is
-    ///   statistically different from a hypothetized value.</para>
+    ///   statistically different from a hypothesized value.</para>
     ///   
     /// <para>
     ///   References:
@@ -76,7 +76,7 @@ namespace Accord.Statistics.Testing
     ///   test.Significant should be true
     ///
     ///   // Now, we would like to test if the sample mean is
-    ///   // significantly greater than the hypothetised zero.
+    ///   // significantly greater than the hypothesized zero.
     ///
     ///   // Create a T-Test to check this hypothesis
     ///   TTest greater = new TTest(sample, hypothesizedMean,
@@ -185,7 +185,7 @@ namespace Accord.Statistics.Testing
         /// 
         /// <param name="estimatedValue">The estimated value (θ).</param>
         /// <param name="standardError">The standard error of the estimation (SE).</param>
-        /// <param name="hypothesizedValue">The hypothetized value (θ').</param>
+        /// <param name="hypothesizedValue">The hypothesized value (θ').</param>
         /// <param name="degreesOfFreedom">The degrees of freedom for the test distribution.</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
         /// 

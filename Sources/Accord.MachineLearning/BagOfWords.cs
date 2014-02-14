@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -67,7 +67,10 @@ namespace Accord.MachineLearning
     {
 
         private Dictionary<string, int> stringToCode;
+        private ReadOnlyDictionary<string, int> readOnlyStringToCode;
+
         private Dictionary<int, string> codeToString;
+        private ReadOnlyDictionary<int, string> readOnlyCodeToString;
 
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace Accord.MachineLearning
         /// 
         public ReadOnlyDictionary<string, int> StringToCode
         {
-            get { return new ReadOnlyDictionary<string, int>(stringToCode); }
+            get { return readOnlyStringToCode; }
         }
 
         /// <summary>
@@ -93,11 +96,11 @@ namespace Accord.MachineLearning
         /// 
         public ReadOnlyDictionary<int, string> CodeToString
         {
-            get { return new ReadOnlyDictionary<int, string>(codeToString); }
+            get { return readOnlyCodeToString; }
         }
 
         /// <summary>
-        ///   Gets or sets the maximum number of occurrances of a word which
+        ///   Gets or sets the maximum number of occurrences of a word which
         ///   should be registered in the feature vector. Default is 1 (if a
         ///   word occurs, corresponding feature is set to 1).
         /// </summary>
@@ -144,7 +147,10 @@ namespace Accord.MachineLearning
         private void initialize(string[][] texts)
         {
             stringToCode = new Dictionary<string, int>();
+            readOnlyStringToCode = new ReadOnlyDictionary<string, int>(stringToCode);
+
             codeToString = new Dictionary<int, string>();
+            readOnlyCodeToString = new ReadOnlyDictionary<int, string>(codeToString);
 
             MaximumOccurance = 1;
 

@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ namespace Accord.MachineLearning
     ///   based on closest training examples in the feature space. It is amongst the simplest
     ///   of all machine learning algorithms: an object is classified by a majority vote of
     ///   its neighbors, with the object being assigned to the class most common amongst its 
-    ///   k nearest neighbors (k is a positive integer, typically small).</para>para>
+    ///   k nearest neighbors (k is a positive integer, typically small).</para>
     ///   
     /// <para>If k = 1, then the object is simply assigned to the class of its nearest neighbor.</para>
     /// 
@@ -278,7 +278,7 @@ namespace Accord.MachineLearning
         ///   Computes the most likely label of a new given point.
         /// </summary>
         /// 
-        /// <param name="input">A point to be classificated.</param>
+        /// <param name="input">A point to be classified.</param>
         /// 
         /// <returns>The most likely label for the given point.</returns>
         /// 
@@ -292,7 +292,7 @@ namespace Accord.MachineLearning
         ///   Computes the most likely label of a new given point.
         /// </summary>
         /// 
-        /// <param name="input">A point to be classificated.</param>
+        /// <param name="input">A point to be classified.</param>
         /// <param name="response">A value between 0 and 1 giving 
         /// the strength of the classification in relation to the
         /// other classes.</param>
@@ -312,7 +312,7 @@ namespace Accord.MachineLearning
         ///   Computes the most likely label of a new given point.
         /// </summary>
         /// 
-        /// <param name="input">A point to be classificated.</param>
+        /// <param name="input">A point to be classified.</param>
         /// <param name="scores">The distance score for each possible class.</param>
         /// 
         /// <returns>The most likely label for the given point.</returns>
@@ -334,7 +334,8 @@ namespace Accord.MachineLearning
                 int label = outputs[j];
                 double d = distances[i];
 
-                scores[label] += 1.0 / d;
+                // Convert to similarity measure
+                scores[label] += 1.0 / (1.0 + d);
             }
 
             // Get the maximum weighted score
@@ -364,7 +365,7 @@ namespace Accord.MachineLearning
 
             if (inputs.Length != outputs.Length)
                 throw new DimensionMismatchException("outputs",
-                    "The number of input vectors should match the number of correspoding output labels");
+                    "The number of input vectors should match the number of corresponding output labels");
 
             if (distance == null)
                 throw new ArgumentNullException("distance");

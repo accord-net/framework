@@ -1,8 +1,8 @@
 ﻿// Accord Core Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -38,6 +38,7 @@ namespace Accord
     /// <typeparam name="TKey">The types of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     /// 
+    [Serializable]
     public class ReadOnlyDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {
 

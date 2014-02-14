@@ -33,7 +33,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -102,6 +102,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="WavechartBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WavechartBox.Designer.cs">
+      <DependentUpon>WavechartBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wavechart.cs">
       <SubType>Component</SubType>
@@ -112,6 +121,10 @@
       <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
       <Name>Accord.Audio</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Controls.Statistics\Accord.Controls.csproj">
+      <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
+      <Name>Accord.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
@@ -143,5 +156,13 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="WavechartBox.resx">
+      <DependentUpon>WavechartBox.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
   </ItemGroup>
 </Project>

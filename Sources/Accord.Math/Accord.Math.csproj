@@ -33,7 +33,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -61,7 +61,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
     <OutputPath>..\..\Release (3.5)\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NET35</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -96,6 +96,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Accord.Math.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Comparers\ArrayComparer`1.cs" />
@@ -104,11 +107,13 @@
     <Compile Include="Comparers\GeneralComparer.cs" />
     <Compile Include="Comparers\StableComparer.cs" />
     <Compile Include="Convergence\AbsoluteConvergence.cs" />
+    <Compile Include="Convergence\Base\ISingleValueConvergence.cs" />
     <Compile Include="Convergence\RelativeConvergence.cs" />
     <Compile Include="Convergence\RelativeParameterConvergence.cs" />
     <Compile Include="Decompositions\GramSchmidtOrthogonalization.cs" />
     <Compile Include="Environments\REnvironment.cs" />
     <Compile Include="Functions\Gabor.cs" />
+    <Compile Include="Geometry\Circle.cs" />
     <Compile Include="Geometry\Plane.cs" />
     <Compile Include="Geometry\Point3.cs" />
     <Compile Include="Kinematics\DenavitHartenbergMatrix.cs" />
@@ -116,7 +121,14 @@
     <Compile Include="Kinematics\DenavitHartenbergNode.cs" />
     <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
     <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
+    <Compile Include="Matrix\Matrix.Submatrix.cs" />
+    <Compile Include="Optimization\Base\IGradientOptimizationMethod.cs" />
+    <Compile Include="Optimization\Base\ILeastSquaresMethod.cs" />
     <Compile Include="Optimization\BinarySearch.cs" />
+    <Compile Include="Optimization\Constrained\LinearConstraintCollection.cs" />
+    <Compile Include="Optimization\Unconstrained\Least Squares\GaussNewton.cs" />
+    <Compile Include="Optimization\Unconstrained\Least Squares\LevenbergMarquardt.cs" />
+    <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
     <Compile Include="Transforms\SineTransform.cs" />
     <Compile Include="Transforms\CosineTransform.cs" />
@@ -233,7 +245,7 @@
     <Compile Include="Optimization\Constrained\LinearConstraint.cs" />
     <Compile Include="Optimization\IObjectiveFunction.cs" />
     <Compile Include="Optimization\QuadraticObjectiveFunction.cs" />
-    <Compile Include="Optimization\Unconstrained\IOptimizationMethod.cs" />
+    <Compile Include="Optimization\Base\IOptimizationMethod.cs" />
     <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.cs" />
     <Compile Include="Optimization\Unconstrained\LineSearchFailedException.cs" />
     <Compile Include="Optimization\Unconstrained\OptimizationProgressEventHandler.cs" />

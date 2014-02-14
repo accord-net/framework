@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -156,6 +156,28 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         /// <param name="inputs">The input vectors to be used in the regression.</param>
         /// <param name="outputs">The output values for each input vector.</param>
+        /// <param name="robust">
+        ///    Set to <c>true</c> to force the use of the <see cref="SingularValueDecomposition"/>.
+        ///    This will avoid any rank exceptions, but might be more computing intensive.</param>
+        ///    
+        /// <returns>The Sum-Of-Squares error of the regression.</returns>
+        /// 
+        public virtual double Regress(double[][] inputs, double[] outputs, bool robust)
+        {
+            if (inputs.Length != outputs.Length)
+                throw new ArgumentException("Number of input and output samples does not match", "outputs");
+
+            double[,] design;
+            return regress(inputs, outputs, out design, true);
+        }
+
+        /// <summary>
+        ///   Performs the regression using the input vectors and output
+        ///   data, returning the sum of squared errors of the fit.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input vectors to be used in the regression.</param>
+        /// <param name="outputs">The output values for each input vector.</param>
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
         public virtual double Regress(double[][] inputs, double[] outputs)
@@ -164,7 +186,7 @@ namespace Accord.Statistics.Models.Regression.Linear
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
             double[,] design;
-            return regress(inputs, outputs, out design);
+            return regress(inputs, outputs, out design, true);
         }
 
         /// <summary>
@@ -175,17 +197,21 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// <param name="inputs">The input vectors to be used in the regression.</param>
         /// <param name="outputs">The output values for each input vector.</param>
         /// <param name="informationMatrix">Gets the Fisher's information matrix.</param>
+        /// <param name="robust">
+        ///    Set to <c>true</c> to force the use of the <see cref="SingularValueDecomposition"/>.
+        ///    This will avoid any rank exceptions, but might be more computing intensive.</param>
         /// 
         /// <returns>The Sum-Of-Squares error of the regression.</returns>
         /// 
-        public double Regress(double[][] inputs, double[] outputs, out double[,] informationMatrix)
+        public double Regress(double[][] inputs, double[] outputs, 
+            out double[,] informationMatrix, bool robust = true)
         {
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
             double[,] design;
 
-            double error = regress(inputs, outputs, out design);
+            double error = regress(inputs, outputs, out design, robust);
 
             double[,] cov = design.TransposeAndMultiply(design);
             informationMatrix = new SingularValueDecomposition(cov,
@@ -197,13 +223,24 @@ namespace Accord.Statistics.Models.Regression.Linear
         }
 
 
-        private double regress(double[][] inputs, double[] outputs, out double[,] designMatrix)
+        private double regress(double[][] inputs, double[] outputs, out double[,] designMatrix, bool robust)
         {
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("Number of input and output samples does not match", "outputs");
 
+            int parameters = Inputs;
             int rows = inputs.Length;   // number of instance points
             int cols = Inputs;          // dimension of each point
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                if (inputs[i].Length != parameters)
+                {
+                    throw new DimensionMismatchException("inputs", String.Format(
+                        "Input vectors should have length {0}. The row at index {1} of the" +
+                        " inputs matrix has length {2}.", parameters, i, inputs[i].Length));
+                }
+            }
 
             ISolverMatrixDecomposition<double> solver;
 
@@ -235,13 +272,7 @@ namespace Accord.Statistics.Models.Regression.Linear
             // Check if we have an overdetermined or underdetermined
             //  system to select an appropriate matrix solver method.
 
-            if (rows > cols)
-            {
-                // We have more equations than variables, an
-                // overdetermined system. Solve using the QR:
-                solver = new QrDecomposition(designMatrix);
-            }
-            else
+            if (robust || cols >= rows)
             {
                 // We have more variables than equations, an
                 // underdetermined system. Solve using a SVD:
@@ -249,6 +280,12 @@ namespace Accord.Statistics.Models.Regression.Linear
                     computeLeftSingularVectors: true,
                     computeRightSingularVectors: true,
                     autoTranspose: true);
+            }
+            else
+            {
+                // We have more equations than variables, an
+                // overdetermined system. Solve using the QR:
+                solver = new QrDecomposition(designMatrix);
             }
 
 
@@ -372,12 +409,17 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public double Compute(double[] input)
         {
+            if (input.Length != Inputs)
+                throw new DimensionMismatchException("input",
+                    String.Format("Input vectors should have length {0}.", Inputs));
+
             double output = 0.0;
 
             for (int i = 0; i < input.Length; i++)
                 output += coefficients[i] * input[i];
 
-            if (addIntercept) output += coefficients[input.Length];
+            if (addIntercept)
+                output += coefficients[input.Length];
 
             return output;
         }

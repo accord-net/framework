@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ namespace Accord.Statistics.Models.Regression
     /// <remarks>
     /// <para>
     ///   In statistics, logistic regression (sometimes called the logistic model or
-    ///   logit model) is used for prediction of the probability of occurrence of an
+    ///   Logit model) is used for prediction of the probability of occurrence of an
     ///   event by fitting data to a logistic curve. It is a generalized linear model
     ///   used for binomial regression.</para>
     /// <para>
@@ -70,7 +70,7 @@ namespace Accord.Statistics.Models.Regression
     ///   <code>
     ///    // Suppose we have the following data about some patients.
     ///    // The first variable is continuous and represent patient
-    ///    // age. The second variable is dicotomic and give whether
+    ///    // age. The second variable is dichotomic and give whether
     ///    // they smoke or not (This is completely fictional data).
     ///    double[][] input =
     ///    {
@@ -100,7 +100,7 @@ namespace Accord.Statistics.Models.Regression
     ///    LogisticRegression regression = new LogisticRegression(inputs: 2);
     ///
     ///    // Next, we are going to estimate this model. For this, we
-    ///    // will use the Iteravely reweighted least squares method.
+    ///    // will use the Iteratively Reweighted Least Squares method.
     ///    var teacher = new IterativeReweightedLeastSquares(regression);
     ///
     ///    // Now, we will iteratively estimate our model. The Run method returns
@@ -122,7 +122,7 @@ namespace Accord.Statistics.Models.Regression
     ///
     ///    // For the age variable, we have that individuals with
     ///    //   higher age have 1.021 greater odds of getting lung
-    ///    //   cancer controlling for cigarrete smoking.
+    ///    //   cancer controlling for cigarette smoking.
     ///    double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
     ///
     ///    // For the smoking/non smoking category variable, however, we
@@ -185,7 +185,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <remarks>
-        ///   The odds ratio can be computed raising euler's number
+        ///   The odds ratio can be computed raising Euler's number
         ///   (e ~~ 2.71) to the power of the associated coefficient.
         /// </remarks>
         /// 

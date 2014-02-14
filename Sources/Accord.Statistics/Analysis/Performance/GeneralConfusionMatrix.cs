@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -592,7 +592,7 @@ namespace Accord.Statistics.Analysis
         /// 
         /// <remarks>
         ///   The overall agreement is the sum of the diagonal elements
-        ///   of the contigency table divided by the number of samples.
+        ///   of the contingency table divided by the number of samples.
         /// </remarks>
         /// 
         [DisplayName("Overall Agreement")]
@@ -634,6 +634,29 @@ namespace Accord.Statistics.Analysis
                 for (int i = 0; i < classes; i++)
                     chance += RowTotals[i] * ColumnTotals[i];
                 return chance / (samples * samples);
+            }
+        }
+
+        /// <summary>
+        ///   Expected values, or values that could
+        ///   have been generated just by chance.
+        /// </summary>
+        /// 
+        [DisplayName("Expected values")]
+        public double[,] ExpectedValues
+        {
+            get
+            {
+                var row = RowTotals;
+                var col = ColumnTotals;
+
+                var expected = new double[Classes, Classes];
+
+                for (int i = 0; i < row.Length; i++)
+                    for (int j = 0; j < col.Length; j++)
+                        expected[i, j] = col[j] * row[j] / (double)Samples;
+
+                return expected;
             }
         }
 

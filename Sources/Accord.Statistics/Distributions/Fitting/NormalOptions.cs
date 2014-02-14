@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,6 +50,14 @@ namespace Accord.Statistics.Distributions.Fitting
         /// <value><c>true</c> to estimate a diagonal covariance matrix; otherwise, <c>false</c>.</value>
         /// 
         public bool Diagonal { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether the estimation function should
+        ///   allow non-positive definite covariance matrices by
+        ///   using the Singular Value Decomposition Function.
+        /// </summary>
+        /// 
+        public bool Robust { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="NormalOptions"/> class.

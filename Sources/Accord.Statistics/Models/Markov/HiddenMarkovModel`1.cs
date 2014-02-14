@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,6 +23,8 @@
 namespace Accord.Statistics.Models.Markov
 {
     using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Multivariate;
@@ -40,6 +42,12 @@ namespace Accord.Statistics.Models.Markov
     ///   data. They are especially known for their application in temporal pattern recognition
     ///   such as speech, handwriting, gesture recognition, part-of-speech tagging, musical
     ///   score following, partial discharges and bioinformatics.</para>
+    ///   
+    /// <para>
+    ///   This page refers to the arbitrary-density (continuous emission distributions) version
+    ///   of the model. For discrete distributions, please see <see cref="HiddenMarkovModel"/>.
+    /// </para>
+    /// 
     /// <para>
     ///   Dynamical systems of discrete nature assumed to be governed by a Markov chain emits
     ///   a sequence of observable outputs. Under the Markov assumption, it is also assumed that
@@ -76,12 +84,23 @@ namespace Accord.Statistics.Models.Markov
     ///   discrete distribution</see> is used as the underlying probability density function, the
     ///   model becomes equivalent to the <see cref="HiddenMarkovModel">discrete Hidden Markov Model</see>.
     ///  </para>
+    ///  
+    /// <para>
+    ///   For a more thorough explanation on some fundamentals on how Hidden Markov Models work,
+    ///   please see the <see cref="HiddenMarkovModel"/> documentation page. To learn a Markov
+    ///   model, you can find a list of both <see cref="ISupervisedLearning">supervised</see> and
+    ///   <see cref="IUnsupervisedLearning">unsupervised</see> learning algorithms in the
+    ///   <see cref="Accord.Statistics.Models.Markov.Learning"/> namespace.</para>
     ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
-    ///       http://en.wikipedia.org/wiki/Hidden_Markov_model </description></item>
+    ///       Wikipedia contributors. "Linear regression." Wikipedia, the Free Encyclopedia.
+    ///       Available at: http://en.wikipedia.org/wiki/Hidden_Markov_model </description></item>
+    ///     <item><description>
+    ///       Bishop, Christopher M.; Pattern Recognition and Machine Learning. 
+    ///       Springer; 1st ed. 2006.</description></item>
     ///   </list></para>
     /// </remarks>
     /// 
@@ -96,7 +115,7 @@ namespace Accord.Statistics.Models.Markov
     ///   those automatically using <see cref="BaumWelchLearning{TDistribution}"/>.</para>
     /// 
     /// <code>
-    ///   // Create the transation matrix A
+    ///   // Create the transition matrix A
     ///   double[,] transitions = 
     ///   {  
     ///       { 0.7, 0.3 },
@@ -120,14 +139,14 @@ namespace Accord.Statistics.Models.Markov
     ///   var hmm = new HiddenMarkovModel&lt;GeneralDiscreteDistribution>(transitions, emissions, initial);
     ///   
     ///   // After that, one could, for example, query the probability
-    ///   // of a sequence ocurring. We will consider the sequence
+    ///   // of a sequence occurring. We will consider the sequence
     ///   double[] sequence = new double[] { 0, 1, 2 };
     ///   
     ///   // And now we will evaluate its likelihood
     ///   double logLikelihood = hmm.Evaluate(sequence);
     ///   
     ///   // At this point, the log-likelihood of the sequence
-    ///   // ocurring within the model is -3.3928721329161653.
+    ///   // occurring within the model is -3.3928721329161653.
     ///   
     ///   // We can also get the Viterbi path of the sequence
     ///   int[] path = hmm.Decode(sequence, out logLikelihood);
@@ -136,8 +155,11 @@ namespace Accord.Statistics.Models.Markov
     ///   // log-likelihood will be -4.3095199438871337
     /// </code>
     /// </example>
-    ///
+    /// 
+    /// <seealso cref="BaumWelchLearning{T}">Baum-Welch, one of the most famous 
+    ///   learning algorithms for Hidden Markov Models.</seealso>
     /// <seealso cref="HiddenMarkovModel">Discrete-density Hidden Markov Model</seealso>
+    /// <seealso cref="Accord.Statistics.Models.Markov.Learning"/>
     /// 
     [Serializable]
     public class HiddenMarkovModel<TDistribution> : BaseHiddenMarkovModel, IHiddenMarkovModel, ICloneable
@@ -171,7 +193,7 @@ namespace Accord.Statistics.Models.Markov
         /// </param>
         /// <param name="emissions">
         ///   The initial emission probability distribution to be used by each of the states. This
-        ///   initial probability distribution will be cloned accross all states.
+        ///   initial probability distribution will be cloned across all states.
         /// </param>
         /// 
         public HiddenMarkovModel(ITopology topology, TDistribution emissions)
@@ -591,7 +613,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public double[] Predict<TMultivariate>(double[][] observations,
             out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             if (!multivariate)
                 throw new ArgumentException("Model is univariate.", "observations");
@@ -606,8 +628,9 @@ namespace Accord.Statistics.Models.Markov
         ///   Predicts the next observation occurring after a given observation sequence.
         /// </summary>
         /// 
-        public double[] Predict<TMultivariate>(double[][] observations, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+        public double[] Predict<TMultivariate>(double[][] observations, 
+            out MultivariateMixture<TMultivariate> probabilities)
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             if (!multivariate)
                 throw new ArgumentException("Model is univariate.", "observations");
@@ -625,7 +648,7 @@ namespace Accord.Statistics.Models.Markov
         /// </summary>
         /// 
         public double Predict<TUnivariate>(double[] observations, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             if (multivariate)
                 throw new ArgumentException("Model is multivariate.", "observations");
@@ -645,7 +668,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public double Predict<TUnivariate>(double[] observations,
             out double probability, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             if (multivariate)
                 throw new ArgumentException("Model is multivariate.", "observations");
@@ -808,7 +831,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         private double[][] predict<TMultivariate>(double[][] observations,
             out double logLikelihood, out MultivariateMixture<TMultivariate> probabilities)
-            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution
+            where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
             // Matrix to store the probabilities in assuming the next
             // observations (prediction) will belong to each state.
@@ -831,7 +854,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         private double[] predict<TUnivariate>(double[] observations,
             out double logLikelihood, out Mixture<TUnivariate> probabilities)
-            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution
+            where TUnivariate : DistributionBase, TDistribution, IUnivariateDistribution<double>
         {
             // Convert to multivariate observations
             double[][] obs = MarkovHelperMethods.convertNoCheck(observations, dimension);
@@ -958,5 +981,69 @@ namespace Accord.Statistics.Models.Markov
 
             return new HiddenMarkovModel<TDistribution>(A, B, pi, logarithm: true);
         }
+
+
+
+
+        #region Load & Save methods
+
+        /// <summary>
+        ///   Saves the hidden Markov model to a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream to which the model is to be serialized.</param>
+        /// 
+        public void Save(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+            b.Serialize(stream, this);
+        }
+
+        /// <summary>
+        ///   Saves the hidden Markov model to a stream.
+        /// </summary>
+        /// 
+        /// <param name="path">The stream to which the model is to be serialized.</param>
+        /// 
+        public void Save(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                Save(fs);
+            }
+        }
+
+        /// <summary>
+        ///   Loads a hidden Markov model from a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream from which the model is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized model.</returns>
+        /// 
+        public static HiddenMarkovModel<TDistribution> Load(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+            return (HiddenMarkovModel<TDistribution>)b.Deserialize(stream);
+        }
+
+        /// <summary>
+        ///   Loads a hidden Markov model from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file from which the model is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized model.</returns>
+        /// 
+        public static HiddenMarkovModel<TDistribution> Load(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Open))
+            {
+                return Load(fs);
+            }
+        }
+
+        #endregion
+
     }
 }

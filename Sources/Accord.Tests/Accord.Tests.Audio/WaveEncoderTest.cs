@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -46,35 +46,6 @@ namespace Accord.Tests.Audio
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -104,6 +75,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(4000, sourceDecoder.Duration);
             Assert.AreEqual(44100, sourceDecoder.SampleRate);
             Assert.AreEqual(16, sourceDecoder.BitsPerSample);
+            Assert.AreEqual(22050, sourceDecoder.AverageBitsPerSecond);
 
             // Decode the signal in the source stream
             Signal sourceSignal = sourceDecoder.Decode();
@@ -116,10 +88,10 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(sizeof(short) * 352800, sourceDecoder.Bytes);
 
 
-            // Create a encoder for the destinoation stream
+            // Create a encoder for the destination stream
             WaveEncoder encoder = new WaveEncoder(destinationStream);
 
-            // Encode the signal to the destionation stream
+            // Encode the signal to the destination stream
             encoder.Encode(sourceSignal);
 
             Assert.AreEqual(2, encoder.Channels);
@@ -143,9 +115,10 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(4000, destDecoder.Duration);
             Assert.AreEqual(44100, destDecoder.SampleRate);
             Assert.AreEqual(32, destDecoder.BitsPerSample);
+            Assert.AreEqual(22050, sourceDecoder.AverageBitsPerSecond);
 
 
-            // Decode the destionation stream
+            // Decode the destination stream
             Signal destSignal = destDecoder.Decode();
 
             // Assert that the signal which has been saved to the destination

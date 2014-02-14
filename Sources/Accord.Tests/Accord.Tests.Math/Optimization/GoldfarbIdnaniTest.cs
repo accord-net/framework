@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -49,35 +49,6 @@ namespace Accord.Tests.Math
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -431,7 +402,7 @@ namespace Accord.Tests.Math
             };
 
             // Equalities must always come first, and in this case
-            // we have to specify how many of the contraints are
+            // we have to specify how many of the constraints are
             // actually equalities:
 
             int numberOfEqualities = 1;
@@ -503,7 +474,7 @@ namespace Accord.Tests.Math
             //
 
             // In this example we will be using some symbolic processing. 
-            // The following variables could be inicialized to any value.
+            // The following variables could be initialized to any value.
             double x = 0, y = 0;
 
             // Create our objective function using a lambda expression
@@ -931,6 +902,61 @@ namespace Accord.Tests.Math
             Assert.AreEqual(5 / 8.0, solver.Solution[1]);
         }
 
+        [Ignore()] // TODO: Remove this tag
+        [TestMethod()]
+        public void GoldfarbIdnaniMinimizeTest1()
+        {
+            // This test reproduces Issue #33 at Google Code Tracker
+            // https://code.google.com/p/accord/issues/detail?id=33
+
+            // Create objective function using the
+            // Hessian Q and linear terms vector d.
+
+            double[,] Q =
+            {
+                { 0.12264004,  0.011579293, 0.103326825, 0.064073439 },
+                { 0.011579293, 0.033856,    0.014311947, 0.014732381 },
+                { 0.103326825, 0.014311947, 0.17715681,  0.067615114 },
+                { 0.064073439, 0.014732381, 0.067615114, 0.11539609 }
+            };
+
+            Assert.IsTrue(Q.IsPositiveDefinite());
+
+            double[] d = { 0, 0, 0, 0 };
+
+            var f = new QuadraticObjectiveFunction(Q, d, "a", "b", "c", "d");
+
+            // Now, create the constraints
+            var constraints = new LinearConstraintCollection();
+
+            constraints.Add(new LinearConstraint(f, "0.0732 * a + 0.0799 * b + 0.1926 * c + 0.0047 * d = 0.098"));
+            constraints.Add(new LinearConstraint(f, "a + b + c + d = 1"));
+            constraints.Add(new LinearConstraint(f, "a >= 0"));
+            constraints.Add(new LinearConstraint(f, "b >= 0"));
+            constraints.Add(new LinearConstraint(f, "c >= 0"));
+            constraints.Add(new LinearConstraint(f, "d >= 0"));
+            constraints.Add(new LinearConstraint(f, "a >= 0.5"));
+
+            double[] b;
+            int eq;
+            double[,] A = constraints.CreateMatrix(4, out b, out eq);
+
+            // Now we create the quadratic programming solver for 2 variables, using the constraints.
+            GoldfarbIdnaniQuadraticSolver solver = new GoldfarbIdnaniQuadraticSolver(4, constraints);
+
+            // And attempt to solve it.
+            double minValue = solver.Minimize(f);
+
+            double[] expected = { 0.5, 0.336259542, 0.163740458, 0 };
+            double[] actual = solver.Solution;
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                double e = expected[i];
+                double a = actual[i];
+                Assert.AreEqual(e, a);
+            }
+        }
 
     }
 }

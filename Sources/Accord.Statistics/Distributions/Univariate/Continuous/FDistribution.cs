@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -106,8 +106,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public FDistribution(int degrees1, int degrees2)
         {
-            if (degrees1 <= 0) throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
-            if (degrees2 <= 0) throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
+            if (degrees1 <= 0) 
+                throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
+
+            if (degrees2 <= 0) 
+                throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
 
             this.d1 = degrees1;
             this.d2 = degrees2;

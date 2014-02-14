@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -52,7 +52,7 @@ namespace Accord.Statistics.Models.Regression
 
         /// <summary>
         ///   Gets the standard errors associated with each
-        ///   cofficient during the model estimation phase.
+        ///   coefficient during the model estimation phase.
         /// </summary>
         /// 
         public double[] StandardErrors { get; private set; }
@@ -133,7 +133,7 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="input">The input vector.</param>
         /// <param name="time">The event time.</param>
         /// 
-        /// <returns>The probabilities of the event ocurring at 
+        /// <returns>The probabilities of the event occurring at 
         /// the given time for the given observation.</returns>
         /// 
         public double Compute(double[] input, double time)
@@ -158,7 +158,7 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="input">The input vector.</param>
         /// <param name="time">The event times.</param>
         /// 
-        /// <returns>The probabilities of the event ocurring at 
+        /// <returns>The probabilities of the event occurring at 
         /// the given times for the given observations.</returns>
         /// 
         public double[] Compute(double[][] input, double[] time)
@@ -362,7 +362,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <remarks>
-        ///   The hazard ratio can be computed raising euler's number
+        ///   The hazard ratio can be computed raising Euler's number
         ///   (e ~~ 2.71) to the power of the associated coefficient.
         /// </remarks>
         /// <param name="index">

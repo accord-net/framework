@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -46,14 +46,14 @@ namespace Accord.Statistics.Analysis
     ///   Significance tests are performed after each removal to track which of
     ///   the variables can be discarded safely without implying in degradation.
     ///   When no more variables can be removed from the model without causing
-    ///   a significative loss in the model likelihood, the method can stop.</para>  
+    ///   a significant loss in the model likelihood, the method can stop.</para>  
     /// </remarks>
     /// 
     /// <example>
     /// <code>
     /// // Suppose we have the following data about some patients.
     /// // The first variable is continuous and represent patient
-    /// // age. The second variable is dicotomic and give whether
+    /// // age. The second variable is dichotomic and give whether
     /// // they smoke or not (this is completely fictional data).
     /// 
     /// double[][] inputs =
@@ -242,7 +242,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the the dependent variable value
+        ///   Gets the dependent variable value
         ///   for each of the source input points.
         /// </summary>
         /// 
@@ -702,7 +702,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the 95% confidence interval (CI) for the current coefficient.
+        ///   Gets the 95% confidence interval (C.I.) for the current coefficient.
         /// </summary>
         /// 
         [Browsable(false)]

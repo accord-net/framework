@@ -1,8 +1,8 @@
 // Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 // Original work copyright © Lutz Roeder, 2000
@@ -32,6 +32,7 @@ namespace Accord.Math.Decompositions
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
     /// </summary>
+	///
     /// <remarks>
     ///  <para>
     ///      For an m-by-n matrix <c>A</c> with <c>m >= n</c>, the singular value decomposition
@@ -68,6 +69,11 @@ namespace Accord.Math.Decompositions
 
         private const Double eps = 2 * Constants.DoubleEpsilon;
         private const Double tiny = Constants.DoubleSmall;
+
+		Double? determinant;
+        Double? lndeterminant;
+        Double? pseudoDeterminant;
+        Double? lnpseudoDeterminant;
 
         /// <summary>
         ///   Returns the condition number <c>max(S) / min(S)</c>.
@@ -134,42 +140,141 @@ namespace Accord.Math.Decompositions
             get { return this.s; }
         }
 
-        /// <summary>Returns the block diagonal matrix of singular values.</summary>        
+        /// <summary>
+		///  Returns the block diagonal matrix of singular values.
+		/// </summary>        
+		///
         public Double[,] DiagonalMatrix
         {
             get { return Matrix.Diagonal(s); }
         }
 
-        /// <summary>Returns the V matrix of Singular Vectors.</summary>        
+        /// <summary>
+		///   Returns the V matrix of Singular Vectors.
+		/// </summary>        
+		///
         public Double[,] RightSingularVectors
         {
             get { return v; }
         }
 
-        /// <summary>Returns the U matrix of Singular Vectors.</summary>        
+        /// <summary>
+		///   Returns the U matrix of Singular Vectors.
+		/// </summary>        
+		///
         public Double[,] LeftSingularVectors
         {
             get { return u; }
         }
 
-        /// <summary>Returns the ordering in which the singular values have been sorted.</summary>
+        /// <summary>
+		///   Returns the ordering in which the singular values have been sorted.
+		/// </summary>
+		///
         public int[] Ordering
         {
             get { return si; }
         }
 
+		/// <summary>
+        ///   Returns the absolute value of the matrix determinant.
+        /// </summary>
+        ///
+        public Double AbsoluteDeterminant
+        {
+            get
+            {
+                if (!determinant.HasValue)
+                {
+                    Double det = 1;
+                    for (int i = 0; i < s.Length; i++)
+                        det *= s[i];
+                    determinant = det;
+                }
+
+                return determinant.Value;
+            }
+        }
+
+        /// <summary>
+        ///   Returns the log of the absolute value for the matrix determinant.
+        /// </summary>
+        ///
+        public Double LogDeterminant
+        {
+            get
+            {
+                if (!lndeterminant.HasValue)
+                {
+                    double det = 0;
+                    for (int i = 0; i < s.Length; i++)
+                        det += Math.Log(s[i]);
+                    lndeterminant = (Double)det;
+                }
+
+                return lndeterminant.Value;
+            }
+        }
 
 
-        /// <summary>Constructs a new singular value decomposition.</summary>
+        /// <summary>
+        ///   Returns the pseudo-determinant for the matrix.
+        /// </summary>
+        ///
+        public Double PseudoDeterminant
+        {
+            get
+            {
+                if (!pseudoDeterminant.HasValue)
+                {
+                    Double det = 1;
+                    for (int i = 0; i < s.Length; i++)
+                        if (s[i] != 0) det *= s[i];
+                    pseudoDeterminant = det;
+                }
+
+                return pseudoDeterminant.Value;
+            }
+        }
+
+        /// <summary>
+        ///   Returns the log of the pseudo-determinant for the matrix.
+        /// </summary>
+        ///
+        public Double LogPseudoDeterminant
+        {
+            get
+            {
+                if (!lnpseudoDeterminant.HasValue)
+                {
+                    double det = 0;
+                    for (int i = 0; i < s.Length; i++)
+                        if (s[i] != 0) det += Math.Log(s[i]);
+                    lnpseudoDeterminant = (Double)det;
+                }
+
+                return lnpseudoDeterminant.Value;
+            }
+        }
+
+
+        /// <summary>
+		///   Constructs a new singular value decomposition.
+		/// </summary>
+		///
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
+		///
         public SingularValueDecomposition(Double[,] value)
             : this(value, true, true)
         {
         }
 
 
-        /// <summary>Constructs a new singular value decomposition.</summary>
+        /// <summary>
+        ///     Constructs a new singular value decomposition.
+        /// </summary>
+        /// 
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         /// <param name="computeLeftSingularVectors">
@@ -180,12 +285,17 @@ namespace Accord.Math.Decompositions
         ///   Pass <see langword="true"/> if the right singular vector matrix V
         ///   should be computed. Pass <see langword="false"/> otherwise. Default
         ///   is <see langword="true"/>.</param>
-        public SingularValueDecomposition(Double[,] value, bool computeLeftSingularVectors, bool computeRightSingularVectors)
+        /// 
+        public SingularValueDecomposition(Double[,] value,
+		    bool computeLeftSingularVectors, bool computeRightSingularVectors)
             : this(value, computeLeftSingularVectors, computeRightSingularVectors, false)
         {
         }
 
-        /// <summary>Constructs a new singular value decomposition.</summary>
+        /// <summary>
+        ///   Constructs a new singular value decomposition.
+        /// </summary>
+        /// 
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         /// <param name="computeLeftSingularVectors">
@@ -200,12 +310,17 @@ namespace Accord.Math.Decompositions
         ///   Pass <see langword="true"/> to automatically transpose the value matrix in
         ///   case JAMA's assumptions about the dimensionality of the matrix are violated.
         ///   Pass <see langword="false"/> otherwise. Default is <see langword="false"/>.</param>
-        public SingularValueDecomposition(Double[,] value, bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose)
+        /// 
+        public SingularValueDecomposition(Double[,] value, 
+            bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose)
             : this(value, computeLeftSingularVectors, computeRightSingularVectors, autoTranspose, false)
         {
         }
 
-        /// <summary>Constructs a new singular value decomposition.</summary>
+        /// <summary>
+        ///   Constructs a new singular value decomposition.
+        /// </summary>
+        /// 
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         /// <param name="computeLeftSingularVectors">
@@ -224,7 +339,9 @@ namespace Accord.Math.Decompositions
         ///   Pass <see langword="true"/> to perform the decomposition in place. The matrix
         ///   <paramref name="value"/> will be destroyed in the process, resulting in less
         ///   memory comsumption.</param>
-        public unsafe SingularValueDecomposition(Double[,] value, bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose, bool inPlace)
+        /// 
+        public unsafe SingularValueDecomposition(Double[,] value,
+		   bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose, bool inPlace)
         {
             if (value == null)
             {

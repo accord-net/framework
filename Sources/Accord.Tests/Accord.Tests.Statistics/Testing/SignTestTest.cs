@@ -25,41 +25,12 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
         public void SignTestConstructorTest()
         {
-            // Example from http://probabilityandstats.wordpress.com/2010/02/28/the-sign-test-more-examples/
+            // Example from http://www.unm.edu/~marcusj/1Samplesign.pdf
 
             double[] sample = 
             {
@@ -68,6 +39,9 @@ namespace Accord.Tests.Statistics
             };
 
             SignTest target = new SignTest(sample, hypothesizedMedian: 30);
+
+            // Wolfram Alpha gives 0.02896
+            // GNU R gives 0.04329
 
             Assert.AreEqual(OneSampleHypothesis.ValueIsDifferentFromHypothesis, target.Hypothesis);
             Assert.AreEqual(0.043285, target.PValue, 1e-4);

@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -44,36 +44,6 @@ namespace Accord.Tests.Math
                 testContextInstance = value;
             }
         }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
 
@@ -129,6 +99,80 @@ namespace Accord.Tests.Math
             Assert.AreEqual(3.4845465199504055E-62, phic);
             Assert.AreEqual(0.99999999999999556, hphi);
             Assert.AreEqual(3.48454651995264E-62, hphic);
+        }
+
+
+        [TestMethod()]
+        public void BivariateFunctionTest()
+        {
+            {
+                double a = Normal.Bivariate(+0, +0, 0.0);
+                double b = Normal.Bivariate(-1, +0, 0.0);
+                double c = Normal.Bivariate(+0, -1, 0.0);
+                double d = Normal.Bivariate(-1, -1, 0.0);
+
+                Assert.AreEqual(a, 0.25);
+                Assert.AreEqual(b, 0.07932762696572859, 1e-10);
+                Assert.AreEqual(c, 0.07932762696572859, 1e-10);
+                Assert.AreEqual(d, 0.02517148960005514, 1e-10);
+            }
+
+            {
+                double a = Normal.Bivariate(0, 0, 0.0);
+                double b = Normal.Bivariate(1, 0, 0.0);
+                double c = Normal.Bivariate(0, 1, 0.0);
+                double d = Normal.Bivariate(1, 1, 0.0);
+
+                Assert.AreEqual(a, 0.25);
+                Assert.AreEqual(b, 0.4206723730342714, 1e-10);
+                Assert.AreEqual(c, 0.4206723730342714, 1e-10);
+                Assert.AreEqual(d, 0.707860981737141, 1e-10);
+            }
+
+            {
+                double a = Normal.Bivariate(+0, +0, 0.99);
+                double b = Normal.Bivariate(-1, +0, 0.99);
+                double c = Normal.Bivariate(+0, -1, 0.99);
+                double d = Normal.Bivariate(-1, -1, 0.99);
+
+                Assert.AreEqual(a, 0.477473293177794, 1e-6);
+                Assert.AreEqual(b, 0.1586552539314527, 1e-10);
+                Assert.AreEqual(c, 0.1586552539314527, 1e-10);
+                Assert.AreEqual(d, 0.1450035348479944, 1e-8);
+            }
+
+            {
+                double a = Normal.Bivariate(0, 0, 0.99);
+                double b = Normal.Bivariate(1, 0, 0.99);
+                double c = Normal.Bivariate(0, 1, 0.99);
+                double d = Normal.Bivariate(1, 1, 0.99);
+
+                Assert.AreEqual(a, 0.477473293177794, 1e-6);
+                Assert.AreEqual(b, 0.4999999999999956, 1e-10);
+                Assert.AreEqual(c, 0.4999999999999956, 1e-10);
+                Assert.AreEqual(d, 0.8276930269850803, 1e-8);
+            }
+
+            {
+                double a = Normal.Bivariate(0, 0, 0.42);
+                double b = Normal.Bivariate(0, 1, 0.42);
+                double c = Normal.Bivariate(1, 0, 0.42);
+                double d = Normal.Bivariate(1, 1, 0.42);
+
+                double e = Normal.Bivariate(-0, -1, 0.42);
+                double f = Normal.Bivariate(-1, -0, 0.42);
+                double g = Normal.Bivariate(-1, -1, 0.42);
+
+
+                Assert.AreEqual(a, 0.3189849652491711, 1e-10);
+                Assert.AreEqual(b, 0.4611405565191831, 1e-10);
+                Assert.AreEqual(c, 0.4611405565191831, 1e-10);
+                Assert.AreEqual(d, 0.7379699765574815, 1e-10);
+                Assert.AreEqual(e, 0.1197958104506402, 1e-10);
+                Assert.AreEqual(f, 0.1197958104506402, 1e-10);
+                Assert.AreEqual(g, 0.05528048442039563, 1e-10);
+            }
+
         }
 
     }

@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -42,13 +42,19 @@ namespace Accord.MachineLearning.VectorMachines
     ///   The transformation may be non-linear and the transformed space high dimensional; thus though
     ///   the classifier is a hyperplane in the high-dimensional feature space, it may be non-linear in
     ///   the original input space.</para> 
+    ///   
+    /// <para>
+    ///   The machines are also able to learn sequence classification problems in which the input vectors
+    ///   can have arbitrary length. For an example on how to do that, please see the documentation page 
+    ///   for the <see cref="DynamicTimeWarping">DynamicTimeWarping kernel</see>.</para>
+    ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description><a href="http://en.wikipedia.org/wiki/Support_vector_machine">
-    ///       http://en.wikipedia.org/wiki/Support_vector_machine</a></description></item>
+    ///       http://en.wikipedia.org/wiki/Support_vector_machine </a></description></item>
     ///     <item><description><a href="http://www.kernel-machines.org/">
-    ///       http://www.kernel-machines.org/</a></description></item>
+    ///       http://www.kernel-machines.org/ </a></description></item>
     ///   </list></para>  
     /// </remarks>
     /// 
@@ -86,6 +92,13 @@ namespace Accord.MachineLearning.VectorMachines
     ///   int decision = System.Math.Sign(svm.Compute(inputs[0]));
     ///   </code>
     /// </example>
+    /// 
+    /// <seealso cref="Accord.Statistics.Kernels"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
+    /// <seealso cref="MultilabelSupportVectorMachine"/>
+    /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimization"/>
     /// 
     [Serializable]
     public class KernelSupportVectorMachine : SupportVectorMachine

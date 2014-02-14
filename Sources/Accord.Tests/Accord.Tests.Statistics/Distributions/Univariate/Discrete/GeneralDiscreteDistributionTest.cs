@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -45,36 +45,6 @@ namespace Accord.Tests.Statistics
                 testContextInstance = value;
             }
         }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -127,6 +97,22 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, icdf2);
             Assert.AreEqual(2, icdf3);
             Assert.AreEqual("Categorical(x; p = { 0.25, 0.25, 0.5 })", str);
+        }
+
+        [TestMethod()]
+        public void ConstructorTest2()
+        {
+            double[] probabilities = { 0.25, 0.25, 0.50 };
+
+            var dist = new GeneralDiscreteDistribution(probabilities);
+
+            double var = dist.Variance;  // 0.6875
+            double median = dist.Median; // 1.00
+            double mean = dist.Mean;     // 1.25
+            
+            Assert.AreEqual(1.25, mean);
+            Assert.AreEqual(1.00, median);
+            Assert.AreEqual(0.6875, var);
         }
 
         [TestMethod()]

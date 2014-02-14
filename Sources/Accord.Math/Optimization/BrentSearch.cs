@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -83,7 +83,7 @@ namespace Accord.Math.Optimization
     {
 
         /// <summary>
-        ///   Gets or sets the tolerace margin when
+        ///   Gets or sets the tolerance margin when
         ///   looking for an answer. Default is 1e-6.
         /// </summary>
         /// 
@@ -126,7 +126,7 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///   Construts a new Brent search algorithm.
+        ///   Constructs a new Brent search algorithm.
         /// </summary>
         /// 
         /// <param name="function">The function to be searched.</param>
@@ -209,7 +209,7 @@ namespace Accord.Math.Optimization
         public static double Minimize(Func<double, double> function, 
             double lowerBound, double upperBound, double tol = 1e-6)
         {
-            double x, v, w; // Abscissae
+            double x, v, w; // Abscissas
             double fx;      // f(x)             
             double fv;      // f(v)
             double fw;      // f(w)
@@ -354,7 +354,7 @@ namespace Accord.Math.Optimization
         public static double FindRoot(Func<double, double> function,
             double lowerBound, double upperBound, double tol = 1e-6)
         {
-            double c;               // Abscissae
+            double c;               // Abscissas
             double fa;              // f(a)  
             double fb;              // f(b)
             double fc;              // f(c)
@@ -429,7 +429,7 @@ namespace Accord.Math.Optimization
                         new_step = p / q;
                     }
 
-                    // Otherwise if p/q is too large then the bissection
+                    // Otherwise if p/q is too large then the bisection
                     // procedure can reduce [b,c] to a further extent
                     // 
                 }

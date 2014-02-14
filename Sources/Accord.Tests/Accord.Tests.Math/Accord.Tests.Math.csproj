@@ -139,6 +139,7 @@
     <Compile Include="Comparers\CustomComparerTest.cs" />
     <Compile Include="Convergence\RelativeParameterConvergenceTest.cs" />
     <Compile Include="Convergence\RelativeConvergenceTest.cs" />
+    <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="REnvironmentTest.cs" />
     <Compile Include="CosineTransformTest.cs" />
     <Compile Include="Decompositions\GramSchmidtOrthogonalizationTest.cs" />

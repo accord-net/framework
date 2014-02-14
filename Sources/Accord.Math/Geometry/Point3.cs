@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ namespace Accord.Math
 
         /// <summary>
         ///   Creates a new <see cref="Point3"/> 
-        ///   struct from the given coordinates.
+        ///   structure from the given coordinates.
         /// </summary>
         /// 
         /// <param name="x">The x coordinate.</param>
@@ -51,7 +51,7 @@ namespace Accord.Math
 
         /// <summary>
         ///   Creates a new <see cref="Point3"/> 
-        ///   struct from the given coordinates.
+        ///   structure from the given coordinates.
         /// </summary>
         /// 
         /// <param name="coordinates">The point coordinates.</param>

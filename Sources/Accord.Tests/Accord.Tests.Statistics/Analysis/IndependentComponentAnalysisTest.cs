@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -22,10 +22,11 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math;
     using Accord.Statistics.Analysis;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math;
-    using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     [TestClass()]
     public class IndependentComponentAnalysisTest
@@ -45,35 +46,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -81,29 +53,48 @@ namespace Accord.Tests.Statistics
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            double[,] S = Matrix.Random(5000, 2);
+            // Let's create a random dataset containing
+            // 5000 samples of two dimensional samples.
+            //
+            double[,] source = Matrix.Random(5000, 2);
 
-            double[,] A =
+            // Now, we will mix the samples the dimensions of the samples.
+            // A small amount of the second column will be applied to the
+            // first, and vice-versa. 
+            //
+            double[,] mix =
             {
                 {  0.25, 0.25 },
                 { -0.25, 0.75 },    
             };
 
-            double[,] X = S.Multiply(A);
+            // mix the source data
+            double[,] input = source.Multiply(mix);
 
-            IndependentComponentAnalysis ica = new IndependentComponentAnalysis(X, IndependentComponentAlgorithm.Parallel);
+            // Now, we can use ICA to identify any linear mixing between the variables, such
+            // as the matrix multiplication we did above. After it has identified it, we will
+            // be able to revert the process, retrieving our original samples again
+            
+            // Create a new Independent Component Analysis
+            var ica = new IndependentComponentAnalysis(input);
 
             Assert.AreEqual(IndependentComponentAlgorithm.Parallel, ica.Algorithm);
 
-            ica.Compute(2);
+            // Compute it 
+            ica.Compute();
 
-            var result = ica.Result;
-            var mixingMatrix = ica.MixingMatrix;
-            var revertMatrix = ica.DemixingMatrix;
+            // Now, we can retrieve the mixing and demixing matrices that were 
+            // used to alter the data. Note that the analysis was able to detect
+            // this information automatically:
+
+            double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+
+            double[,] result = ica.Result;
 
             // Verify mixing matrix
             mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
-            Assert.IsTrue(A.IsEqual(mixingMatrix, 0.008));
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, 0.008));
 
 
             // Verify demixing matrix
@@ -275,6 +266,62 @@ namespace Accord.Tests.Statistics
             var actual = ica.Separate(X.ToSingle().ToArray(true));
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
+        }
+
+        [TestMethod()]
+        public void SerializeTest()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            double[,] source = Matrix.Random(5000, 2);
+
+            double[,] mix =
+            {
+                {  0.25, 0.25 },
+                { -0.25, 0.75 },    
+            };
+
+            double[,] input = source.Multiply(mix);
+
+            var ica = new IndependentComponentAnalysis(input);
+
+            ica.Compute();
+
+            MemoryStream stream = new MemoryStream();
+
+            {
+                BinaryFormatter b = new BinaryFormatter();
+                b.Serialize(stream, ica);
+            }
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            {
+                BinaryFormatter b = new BinaryFormatter();
+                ica = (IndependentComponentAnalysis)b.Deserialize(stream);
+            }
+
+
+            Assert.AreEqual(IndependentComponentAlgorithm.Parallel, ica.Algorithm);
+
+            double[,] mixingMatrix = ica.MixingMatrix; // same as the 'mix' matrix
+            double[,] revertMatrix = ica.DemixingMatrix; // inverse of the 'mix' matrix
+
+            double[,] result = ica.Result;
+
+            mixingMatrix = mixingMatrix.Divide(mixingMatrix.Sum().Sum());
+            Assert.IsTrue(mix.IsEqual(mixingMatrix, 0.008));
+
+            double[,] expected =
+            {
+                { 0.75, -0.25 },        
+                { 0.25,  0.25 },
+            };
+
+            revertMatrix = revertMatrix.Divide(revertMatrix.Sum().Sum());
+            Assert.IsTrue(expected.IsEqual(revertMatrix, 0.008));
+
+
         }
 
     }

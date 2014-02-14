@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -44,9 +44,15 @@ namespace Accord.Statistics.Models.Markov
     ///   <see cref="HiddenMarkovClassifierLearning{TDistribution}"/>.</para>
     ///   
     /// <para>
-    ///   For the discrete version of this classifier, please see its non-generic conterpart 
+    ///   For the discrete version of this classifier, please see its non-generic counterpart 
     ///   <see cref="HiddenMarkovClassifier"/>.</para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   Examples are available at the respective learning algorithm pages. For 
+    ///   example, see <see cref="HiddenMarkovClassifierLearning{TDistribution}"/>. </para>
+    /// </example>
     /// 
     /// <seealso cref="HiddenMarkovClassifierLearning{TDistribution}"/>
     /// <seealso cref="HiddenMarkovClassifier"/>
@@ -313,6 +319,9 @@ namespace Accord.Statistics.Models.Markov
         }
 
 
+
+        #region Load & Save methods
+
         /// <summary>
         ///   Saves the classifier to a stream.
         /// </summary>
@@ -368,6 +377,8 @@ namespace Accord.Statistics.Models.Markov
                 return Load(fs);
             }
         }
+
+        #endregion
 
     }
 }

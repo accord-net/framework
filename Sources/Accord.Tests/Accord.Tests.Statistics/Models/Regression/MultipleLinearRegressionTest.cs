@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -44,35 +44,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -233,7 +204,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void RegressTest5()
         {
-            int count= 1000;
+            int count = 1000;
             double[][] inputs = new double[count][];
             double[] output = new double[count];
 
@@ -247,7 +218,7 @@ namespace Accord.Tests.Statistics
 
             {
                 MultipleLinearRegression target = new MultipleLinearRegression(2, true);
-                
+
                 double error = target.Regress(inputs, output);
 
                 Assert.IsTrue(target.HasIntercept);
@@ -256,12 +227,47 @@ namespace Accord.Tests.Statistics
 
             {
                 MultipleLinearRegression target = new MultipleLinearRegression(2, false);
-                
+
                 double error = target.Regress(inputs, output);
 
                 Assert.IsFalse(target.HasIntercept);
                 Assert.AreEqual(0, error, 1e-10);
             }
+        }
+
+        [TestMethod()]
+        public void RegressTest6()
+        {
+            MultipleLinearRegression target = new MultipleLinearRegression(2, false);
+
+            double[][] inputs = 
+            {
+                new double[] { 0, 0 },
+                new double[] { 0, 0 },
+                new double[] { 0, 0 },
+                new double[] { 0, 0 },
+                new double[] { 0, 0 },
+            };
+
+            double[] outputs = { 20, 40, 30, 50, 60 };
+
+
+            double error = target.Regress(inputs, outputs);
+
+            double slope = target.Coefficients[0];
+            double intercept = target.Coefficients[1];
+
+            Assert.AreEqual(0, slope, 1e-5);
+            Assert.AreEqual(0, intercept, 1e-5);
+            Assert.AreEqual(9000, error);
+
+
+            double r = target.CoefficientOfDetermination(inputs, outputs);
+            Assert.AreEqual(-8, r, 1e-6);
+
+            string str = target.ToString(null, System.Globalization.CultureInfo.GetCultureInfo("pt-BR"));
+
+            Assert.AreEqual("y(x0, x1) = 0*x0 + 0*x1", str);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -48,35 +48,6 @@ namespace Accord.Tests.Imaging
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -162,7 +133,69 @@ namespace Accord.Tests.Imaging
 
             // Show the image on screen
             image = new ResizeNearestNeighbor(320, 320).Apply(image);
-           // ImageBox.Show(image, PictureBoxSizeMode.Zoom);
+            // ImageBox.Show(image, PictureBoxSizeMode.Zoom);
+
+            Assert.AreEqual(0, conv.Min);
+            Assert.AreEqual(1, conv.Max);
+            Assert.AreEqual(320, image.Height);
+            Assert.AreEqual(320, image.Width);
+        }
+
+        [TestMethod()]
+        public void ConvertTest3()
+        {
+            // Create an array representation 
+            // of a 4x4 image with a inner 2x2
+            // square drawn in the middle
+
+            byte[] pixels = 
+            {
+                 0,   0,   0,   0, 
+                 0, 255, 255,   0, 
+                 0, 255, 255,   0, 
+                 0,   0,   0,   0, 
+            };
+
+            // Create the converter to create a Bitmap from the array
+            ArrayToImage conv = new ArrayToImage(width: 4, height: 4);
+
+            // Declare an image and store the pixels on it
+            Bitmap image; conv.Convert(pixels, out image);
+
+            // Show the image on screen
+            image = new ResizeNearestNeighbor(320, 320).Apply(image);
+            // Accord.Controls.ImageBox.Show(image, PictureBoxSizeMode.Zoom);
+
+            Assert.AreEqual(0, conv.Min);
+            Assert.AreEqual(1, conv.Max);
+            Assert.AreEqual(320, image.Height);
+            Assert.AreEqual(320, image.Width);
+        }
+
+        [TestMethod()]
+        public void ConvertTest4()
+        {
+            // Create an array representation 
+            // of a 4x4 image with a inner 2x2
+            // square drawn in the middle
+
+            Color[] pixels = 
+            {
+                 Color.Black, Color.Black,       Color.Black, Color.Black, 
+                 Color.Black, Color.Transparent, Color.Red,   Color.Black, 
+                 Color.Black, Color.Green,       Color.Blue,  Color.Black, 
+                 Color.Black, Color.Black,       Color.Black,  Color.Black, 
+            };
+
+            // Create the converter to create a Bitmap from the array
+            ArrayToImage conv = new ArrayToImage(width: 4, height: 4);
+
+            // Declare an image and store the pixels on it
+            Bitmap image; conv.Convert(pixels, out image);
+
+            // Show the image on screen
+            image = new ResizeNearestNeighbor(320, 320).Apply(image);
+            // Accord.Controls.ImageBox.Show(image, PictureBoxSizeMode.Zoom);
 
             Assert.AreEqual(0, conv.Min);
             Assert.AreEqual(1, conv.Max);

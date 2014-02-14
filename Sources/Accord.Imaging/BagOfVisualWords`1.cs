@@ -1,8 +1,8 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -88,7 +88,7 @@ namespace Accord.Imaging
     ///   // Create an adapter to convert corners to visual features
     ///   CornerFeaturesDetector detector = new CornerFeaturesDetector(moravec);
     ///   
-    ///   // Create a bag-of-words (BoW) with the guven 
+    ///   // Create a bag-of-words (BoW) with the corners detector and number of words
     ///   var bow = new BagOfVisualWords&lt;CornerFeaturePoint>(detector, numberOfWords);
     ///   
     ///   // Create the BoW codebook using a set of training images

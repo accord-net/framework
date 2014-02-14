@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -46,7 +46,7 @@ namespace Accord.Math
         /// <param name="inPlace">
         ///   Pass <see langword="true"/> to perform the reduction in place. The matrix
         ///   <paramref name="value"/> will be destroyed in the process, resulting in less
-        ///   memory comsumption.</param>
+        ///   memory consumption.</param>
         ///   
         public ReducedRowEchelonForm(double[,] value, bool inPlace = false)
         {

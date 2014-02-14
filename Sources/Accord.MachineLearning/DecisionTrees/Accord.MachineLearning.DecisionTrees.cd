@@ -148,7 +148,7 @@
       <FileName>DecisionTrees\DecisionTreeWriter.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Accord.MachineLearning.DecisionTrees.Prunning.ErrorBasedPrunning">
+  <Class Name="Accord.MachineLearning.DecisionTrees.Pruning.ErrorBasedPruning">
     <Position X="3.75" Y="8" Width="2.5" />
     <Members>
       <Field Name="actual" Hidden="true" />
@@ -170,10 +170,10 @@
     </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAEAAAIAAAAgAAAIACAAAECEDABAgAgAARAAEo=</HashCode>
-      <FileName>DecisionTrees\Prunning\ErrorBasedPrunning.cs</FileName>
+      <FileName>DecisionTrees\Pruning\ErrorBasedPruning.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Accord.MachineLearning.DecisionTrees.Prunning.ReducedErrorPrunning">
+  <Class Name="Accord.MachineLearning.DecisionTrees.Pruning.ReducedErrorPruning">
     <Position X="6.75" Y="8" Width="2.25" />
     <Members>
       <Field Name="actual" Hidden="true" />
@@ -186,15 +186,15 @@
       <Field Name="tree" Hidden="true" />
     </Members>
     <NestedTypes>
-      <Class Name="Accord.MachineLearning.DecisionTrees.Prunning.ReducedErrorPrunning.NodeInfo" Collapsed="true">
+      <Class Name="Accord.MachineLearning.DecisionTrees.Pruning.ReducedErrorPruning.NodeInfo" Collapsed="true">
         <TypeIdentifier>
-          <NewMemberFileName>DecisionTrees\Prunning\ReducedErrorPrunning.cs</NewMemberFileName>
+          <NewMemberFileName>DecisionTrees\Pruning\ReducedErrorPruning.cs</NewMemberFileName>
         </TypeIdentifier>
       </Class>
     </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAQAEAAAIAAAAgAAAAAAAAAAAEBAAQAAAAAQAAAI=</HashCode>
-      <FileName>DecisionTrees\Prunning\ReducedErrorPrunning.cs</FileName>
+      <FileName>DecisionTrees\Pruning\ReducedErrorPruning.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="Accord.MachineLearning.DecisionTrees.ComparisonKind">

@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -20,29 +20,18 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Math.Decompositions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accord.Math;
-
 namespace Accord.Tests.Math
 {
+    using Accord.Math.Decompositions;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Math;
 
-
-    /// <summary>
-    ///This is a test class for GeneralizedEigenvalueDecompositionTest and is intended
-    ///to contain all GeneralizedEigenvalueDecompositionTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class GeneralizedEigenvalueDecompositionTest
     {
 
-
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -55,43 +44,14 @@ namespace Accord.Tests.Math
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
-        /// <summary>
-        ///A test for GeneralizedEigenvalueDecomposition Constructor
-        ///</summary>
         [TestMethod()]
         public void GeneralizedEigenvalueDecompositionConstructorTest()
         {
+            // Suppose we have the following 
+            // matrices A and B shown below:
+
             double[,] A = 
             {
                 { 1, 2, 3},
@@ -106,7 +66,25 @@ namespace Accord.Tests.Math
                 { 1, 1, 5}
             };
 
-            GeneralizedEigenvalueDecomposition gevd = new GeneralizedEigenvalueDecomposition(A, B);
+            // Now, suppose we would like to find values for λ 
+            // that are solutions for the equation det(A - λB) = 0
+
+            // For this, we can use a Generalized Eigendecomposition
+            var gevd = new GeneralizedEigenvalueDecomposition(A, B);
+
+            // Now, if A and B are Hermitian and B is positive
+            // -definite, then the eigenvalues λ will be real:
+            double[] lambda = gevd.RealEigenvalues;
+
+            // Check if they are indeed a solution:
+            for (int i = 0; i < lambda.Length; i++)
+            {
+                // Compute the determinant equation show above
+                double det = Matrix.Determinant(A.Subtract(lambda[i].Multiply(B))); // almost zero
+
+                Assert.IsTrue(det < 1e-6);
+            }
+
 
             double[,] expectedVectors =
             {               
@@ -127,9 +105,6 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(gevd.DiagonalMatrix, expectedValues, 0.00000000001));
         }
 
-        /// <summary>
-        ///A test for GeneralizedEigenvalueDecomposition Constructor
-        ///</summary>
         [TestMethod()]
         public void GeneralizedEigenvalueDecompositionConstructorTest2()
         {
@@ -145,9 +120,6 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(gevd.DiagonalMatrix, expectedValues));
         }
 
-        /// <summary>
-        ///A test for GeneralizedEigenvalueDecomposition Constructor
-        ///</summary>
         [TestMethod()]
         public void GeneralizedEigenvalueDecompositionConstructorTest3()
         {
@@ -189,9 +161,7 @@ namespace Accord.Tests.Math
                 Assert.IsTrue(Matrix.IsEqual(AV, BVD, 0.0000001));
             }
         }
-        /// <summary>
-        ///A test for GeneralizedEigenvalueDecomposition Constructor
-        ///</summary>
+
         [TestMethod()]
         public void GeneralizedEigenvalueDecompositionConstructorTest4()
         {

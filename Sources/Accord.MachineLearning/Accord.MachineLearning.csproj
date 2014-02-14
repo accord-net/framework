@@ -40,7 +40,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -63,7 +63,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
     <OutputPath>..\..\Release (3.5)\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NET35</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -101,6 +101,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="Accord.MachineLearning.cs" />
     <Compile Include="Boosting\AdaBoost.cs" />
     <Compile Include="BagOfWords.cs" />
     <Compile Include="Bayes\NaiveBayes`1.cs" />
@@ -116,9 +120,16 @@
     <Compile Include="Clustering\MeanShift.cs" />
     <Compile Include="DecisionTrees\ComparisonKind.cs" />
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
+    <Compile Include="DecisionTrees\Rules\Antecedent.cs" />
+    <Compile Include="DecisionTrees\Rules\DecisionSet.cs" />
+    <Compile Include="DecisionTrees\Rules\DecisionRule.cs" />
     <Compile Include="DecisionTrees\DecisionTreeWriter.cs" />
-    <Compile Include="DecisionTrees\Prunning\ReducedErrorPrunning.cs" />
-    <Compile Include="DecisionTrees\Prunning\ErrorBasedPrunning.cs" />
+    <Compile Include="DecisionTrees\Pruning\ReducedErrorPruning.cs" />
+    <Compile Include="DecisionTrees\Pruning\ErrorBasedPruning.cs" />
+    <Compile Include="DecisionTrees\Rules\Simplification.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Geometry\RansacCircle.cs" />
     <Compile Include="MinimumMeanDistanceClassifier.cs" />
     <Compile Include="KNearestNeighbors`1.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -144,6 +155,7 @@
     <Compile Include="Clustering\GaussianMixtureModel.cs" />
     <Compile Include="Bayes\NaiveBayes.cs" />
     <Compile Include="KNearestNeighbors.cs" />
+    <Compile Include="Performance\SplitSet\SplitSetValidation.cs" />
     <Compile Include="Performance\SplitSet\SplitSetStatistics`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetResult`1.cs" />
     <Compile Include="Performance\SplitSet\SplitSetValidation`1.cs" />
@@ -152,6 +164,7 @@
     <Compile Include="Ransac.cs" />
     <Compile Include="Geometry\RansacLine.cs" />
     <Compile Include="Geometry\RansacPlane.cs" />
+    <Compile Include="Structures\KDTreeNodeList.cs" />
     <Compile Include="Structures\KDTreeTraversal.cs" />
     <Compile Include="Structures\KDTreeNodeDistance.cs" />
     <Compile Include="Structures\KDTree`1.cs" />

@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -86,7 +86,7 @@ namespace Accord.Math.Environments
     ///   mat M = magic(3) * 5;
     ///   
     ///   // Compute the SVD
-    ///   ret [u, _, v] = svd(M); // the second argument is ommited
+    ///   ret [u, _, v] = svd(M); // the second argument is omitted
     /// </code>
     /// 
     /// <para>
@@ -212,7 +212,7 @@ namespace Accord.Math.Environments
         protected static double sin(double d) { return System.Math.Sin(d); }
         /// <summary>Cos.</summary>
         protected static double cos(double d) { return System.Math.Cos(d); }
-        /// <summary>Expential value.</summary>
+        /// <summary>Exponential value.</summary>
         protected static double exp(double d) { return System.Math.Exp(d); }
         /// <summary>Absolute value.</summary>
         protected static double abs(double d) { return System.Math.Abs(d); }
@@ -223,7 +223,7 @@ namespace Accord.Math.Environments
         protected static double[] sin(double[] d) { return Matrix.Apply(d, x => System.Math.Sin(x)); }
         /// <summary>Cos.</summary>
         protected static double[] cos(double[] d) { return Matrix.Apply(d, x => System.Math.Cos(x)); }
-        /// <summary>Expential value.</summary>
+        /// <summary>Exponential value.</summary>
         protected static double[] exp(double[] d) { return Matrix.Apply(d, x => System.Math.Exp(x)); }
         /// <summary>Absolute value.</summary>
         protected static double[] abs(double[] d) { return Matrix.Apply(d, x => System.Math.Abs(x)); }
@@ -234,7 +234,7 @@ namespace Accord.Math.Environments
         protected static mat sin(double[,] d) { return Matrix.Apply(d, x => System.Math.Sin(x)); }
         /// <summary>Cos.</summary>
         protected static mat cos(double[,] d) { return Matrix.Apply(d, x => System.Math.Cos(x)); }
-        /// <summary>Expential value.</summary>
+        /// <summary>Exponential value.</summary>
         protected static mat exp(double[,] d) { return Matrix.Apply(d, x => System.Math.Exp(x)); }
         /// <summary>Absolute value.</summary>
         protected static mat abs(double[,] d) { return Matrix.Apply(d, x => System.Math.Abs(x)); }

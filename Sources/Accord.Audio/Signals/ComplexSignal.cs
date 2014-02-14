@@ -1,8 +1,8 @@
-﻿// Accord (Experimental) Audio Library
+﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -61,7 +61,7 @@ namespace Accord.Audio
     ///   A complex discrete-time signal is any complex-valued function
     ///   of integers. This class is used to keep audio signals represented 
     ///   in complex numbers so they are suitable to be converted to and
-    ///   from the frequency domain in either analytic or fourier transformed
+    ///   from the frequency domain in either analytic or Fourier transformed
     ///   forms.</para>
     /// 
     /// <para>    
@@ -78,7 +78,7 @@ namespace Accord.Audio
     /// ComplexSignal complexSignal = ComplexSignal.FromSignal( signal );
     /// // do forward Fourier transformation
     /// complexSignal.ForwardFourierTransform( );
-    /// // generate spectogram
+    /// // generate spectrogram
     /// complexSignal.ToBitmap(512,512);
     /// </code>
     /// </remarks>
@@ -104,6 +104,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Constructs a new Complex Signal
         /// </summary>
+        /// 
         public ComplexSignal(byte[] data, int channels, int length, int sampleRate)
             : this(data, channels, length, sampleRate, ComplexSignalStatus.Normal)
         {
@@ -112,6 +113,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Constructs a new Complex Signal
         /// </summary>
+        /// 
         public ComplexSignal(byte[] data, int channels, int length, int sampleRate, ComplexSignalStatus status)
             : base(data, channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
@@ -121,6 +123,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Constructs a new Complex Signal
         /// </summary>
+        /// 
         public ComplexSignal(int channels, int length, int sampleRate)
             : base(channels, length, sampleRate, SampleFormat.Format128BitComplex)
         {
@@ -131,6 +134,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Converts the complex signal to a float array.
         /// </summary>
+        /// 
         public Complex[,] ToArray()
         {
             Complex[,] array = new Complex[Length, Channels];
@@ -141,6 +145,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Extracts a channel from the signal.
         /// </summary>
+        /// 
         public Complex[] GetChannel(int channel)
         {
             Complex[] array = new Complex[Length];
@@ -165,6 +170,7 @@ namespace Accord.Audio
         /// <summary>
         ///   Copies an array of samples to a signal's channel.
         /// </summary>
+        /// 
         private void SetChannel(int channel, Complex[] samples)
         {
             int channels = Channels;
@@ -223,7 +229,7 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Applies forward hilbert transformation to the complex signal.
+        ///   Applies forward Hilbert transformation to the complex signal.
         /// </summary>
         public void ForwardHilbertTransform()
         {
@@ -240,7 +246,7 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///  Applies backward hilbert transformation to the complex signal.
+        ///  Applies backward Hilbert transformation to the complex signal.
         /// </summary>
         public void BackwardHilbertTransform()
         {

@@ -1,8 +1,8 @@
 ﻿// Accord Control Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -42,7 +42,7 @@ namespace Accord.Controls.Vision
     /// </summary>
     /// 
     public class FaceController : Component,
-        IDisposable, IBindableComponent, INotifyPropertyChanged
+        IBindableComponent, INotifyPropertyChanged
     {
 
         private PointF rawPosition;
@@ -79,12 +79,14 @@ namespace Accord.Controls.Vision
                 if (this.synchronizingObject == null && base.DesignMode)
                 {
                     IDesignerHost designerHost = (IDesignerHost)this.GetService(typeof(IDesignerHost));
+
                     if (designerHost != null)
                     {
-                        object rootComponent = designerHost.RootComponent;
-                        if (rootComponent != null && rootComponent is ISynchronizeInvoke)
+                        var rootComponent = designerHost.RootComponent as ISynchronizeInvoke;
+
+                        if (rootComponent != null)
                         {
-                            this.synchronizingObject = (ISynchronizeInvoke)rootComponent;
+                            this.synchronizingObject = rootComponent;
                         }
                     }
                 }
@@ -290,7 +292,7 @@ namespace Accord.Controls.Vision
             detector.SearchMode = ObjectDetectorSearchMode.Single;
             detector.ScalingMode = ObjectDetectorScalingMode.SmallerToGreater;
             detector.MinSize = new Size(2, 5);
-            detector.MaxSize = new Size(15, 18);
+            //detector.MaxSize = new Size(15, 18);
         }
 
 
@@ -536,7 +538,8 @@ namespace Accord.Controls.Vision
         /// </summary>
         /// 
         /// <returns>
-        ///   The collection of <see cref="T:System.Windows.Forms.BindingManagerBase"/> objects for this <see cref="T:System.Windows.Forms.IBindableComponent"/>.
+        ///   The collection of <see cref="T:System.Windows.Forms.BindingManagerBase"/>
+        ///   objects for this <see cref="T:System.Windows.Forms.IBindableComponent"/>.
         /// </returns>
         /// 
         [Browsable(false)]
@@ -591,6 +594,19 @@ namespace Accord.Controls.Vision
         }
         #endregion
 
-    }
+        /// <summary>
+        ///   Releases the unmanaged resources used by the 
+        ///   <see cref="T:System.ComponentModel.Component"/> 
+        ///   and optionally releases the managed resources.
+        /// </summary>
+        /// 
+        /// <param name="disposing">true to release both managed and unmanaged 
+        ///   resources; false to release only unmanaged resources.</param>
+        ///   
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
 
+    }
 }

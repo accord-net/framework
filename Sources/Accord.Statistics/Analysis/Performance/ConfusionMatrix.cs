@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -80,6 +80,8 @@ namespace Accord.Statistics.Analysis
         private double? kappaVariance0;
         private double? kappaStdError0;
 
+        private double? chiSquare;
+
 
 
         /// <summary>
@@ -119,8 +121,10 @@ namespace Accord.Statistics.Analysis
         public ConfusionMatrix(bool[] predicted, bool[] expected)
         {
             // Initial argument checking
-            if (predicted == null) throw new ArgumentNullException("predicted");
-            if (expected == null) throw new ArgumentNullException("expected");
+            if (predicted == null)
+                throw new ArgumentNullException("predicted");
+            if (expected == null)
+                throw new ArgumentNullException("expected");
             if (predicted.Length != expected.Length)
                 throw new DimensionMismatchException("expected", "The size of the predicted and expected arrays must match.");
 
@@ -308,8 +312,8 @@ namespace Accord.Statistics.Analysis
             {
                 return new int[] 
                 {
-                    truePositives + falseNegatives,
-                    falsePositives + trueNegatives,
+                    truePositives + falseNegatives, // ActualPositives
+                    falsePositives + trueNegatives, // ActualNegatives
                 };
             }
         }
@@ -331,8 +335,8 @@ namespace Accord.Statistics.Analysis
             {
                 return new int[] 
                 {
-                    truePositives + falsePositives,
-                    falseNegatives + trueNegatives,
+                    truePositives + falsePositives, // PredictedPositives
+                    falseNegatives + trueNegatives, // PredictedNegatives
                 };
             }
         }
@@ -513,7 +517,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///  Prevalence of outcome occurance.
+        ///  Prevalence of outcome occurrence.
         /// </summary>
         /// 
         public double Prevalence
@@ -541,7 +545,10 @@ namespace Accord.Statistics.Analysis
             get
             {
                 double f = truePositives + FalsePositives;
-                if (f != 0) return truePositives / f;
+
+                if (f != 0)
+                    return truePositives / f;
+
                 return 1.0;
             }
         }
@@ -566,8 +573,11 @@ namespace Accord.Statistics.Analysis
             get
             {
                 double f = (trueNegatives + falseNegatives);
-                if (f != 0) return trueNegatives / f;
-                else return 1.0;
+
+                if (f != 0)
+                    return trueNegatives / f;
+
+                return 1.0;
             }
         }
 
@@ -581,7 +591,7 @@ namespace Accord.Statistics.Analysis
         ///   The rate of false alarms in a test.</para>
         /// <para>
         ///   The False Positive Rate can be calculated as
-        ///   <c>FPR = FP / (FP + TN)</c> or <c>FPR = (1-specifity)</c>.
+        ///   <c>FPR = FP / (FP + TN)</c> or <c>FPR = (1-specificity)</c>.
         /// </para>
         /// </remarks>
         /// 
@@ -616,8 +626,11 @@ namespace Accord.Statistics.Analysis
             get
             {
                 double d = falsePositives + truePositives;
-                if (d != 0.0) return falsePositives / d;
-                else return 1.0;
+
+                if (d != 0.0)
+                    return falsePositives / d;
+
+                return 1.0;
             }
         }
 
@@ -635,15 +648,19 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                double s = System.Math.Sqrt(
-                    (truePositives + falsePositives) *
-                    (truePositives + falseNegatives) *
-                    (trueNegatives + falsePositives) *
-                    (trueNegatives + falseNegatives));
+                double tp = truePositives;
+                double tn = trueNegatives;
+                double fp = falsePositives;
+                double fn = falseNegatives;
 
-                if (s != 0.0)
-                    return (truePositives * trueNegatives) / s;
-                else return 0.0;
+                double den = System.Math.Sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn));
+
+                if (den == 0.0)
+                    return 0;
+
+                double num = (tp * tn) - (fp * fn);
+
+                return num / den;
             }
         }
 
@@ -838,6 +855,62 @@ namespace Accord.Statistics.Analysis
         public double FScore
         {
             get { return 2.0 * (Precision * Recall) / (Precision + Recall); }
+        }
+
+        /// <summary>
+        ///   Expected values, or values that could
+        ///   have been generated just by chance.
+        /// </summary>
+        /// 
+        [DisplayName("Expected Values")]
+        public double[,] ExpectedValues
+        {
+            get
+            {
+                var row = RowTotals;
+                var col = ColumnTotals;
+
+                var expected = new double[2, 2];
+
+                for (int i = 0; i < row.Length; i++)
+                    for (int j = 0; j < col.Length; j++)
+                        expected[i, j] = (col[j] * row[i]) / (double)Samples;
+
+                return expected;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the Chi-Square statistic for the contingency table.
+        /// </summary>
+        /// 
+        [DisplayName("Chi-Square (χ²)")]
+        public double ChiSquare
+        {
+            get
+            {
+                if (chiSquare == null)
+                {
+                    var row = RowTotals;
+                    var col = ColumnTotals;
+
+                    double x = 0;
+                    for (int i = 0; i < row.Length; i++)
+                    {
+                        for (int j = 0; j < col.Length; j++)
+                        {
+                            double e = (row[i] * col[j]) / (double)Samples;
+                            double o = Matrix[i, j];
+
+                            x += ((o - e) * (o - e)) / e;
+                        }
+                    }
+
+                    chiSquare = x;
+                }
+
+                return chiSquare.Value;
+            }
         }
 
         /// <summary>

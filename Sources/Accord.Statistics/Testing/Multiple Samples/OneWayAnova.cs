@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -82,9 +82,9 @@ namespace Accord.Statistics.Testing
     /// </code>
     /// 
     /// <para>
-    /// After the anova object has been created, one can display its findings
+    /// After the Anova object has been created, one can display its findings
     /// in the form of a standard ANOVA table by binding anova.Table to a 
-    /// DataGridView or any other display object supporting databinding. To
+    /// DataGridView or any other display object supporting data binding. To
     /// illustrate, we could use Accord.NET's DataGridBox to inspect the
     /// table's contents.</para>
     /// 
@@ -102,7 +102,7 @@ namespace Accord.Statistics.Testing
     ///  thus reject the null hypothesis, concluding there is a strong
     ///  evidence that the three groups are indeed different. Assuming the
     ///  experiment was correctly controlled, this would be an indication
-    ///  that the fertilizant does indeed affect plant growth.</para>
+    ///  that the fertilizer does indeed affect plant growth.</para>
     /// 
     /// <para>
     ///   [1] http://en.wikipedia.org/wiki/F_test </para>

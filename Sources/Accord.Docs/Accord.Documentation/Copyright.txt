@@ -48,9 +48,9 @@ under the LGPL with permission of the original author.
 The Augmented Lagrangian Solver implementation is based on the NLopt Numerical Optimization Library, 
 copyright (c) 2008 Steven G. Johnson, distributed under the MIT license. Some image filters have been
 contributed by Diego Catalano, distributed under the LGPL license and included with permission of the
-original author. Mathematics module includes the Kinemactic joint models by Rémy Dispagne, licensed
+original author. Mathematics module includes the Kinematic joint models by Rémy Dispagne, licensed
 under the LGPL with permission of the original author. The Haar Object detector contains contributions
-from Darko Juric, added with permission of the original author.
+from Darko Juri??, added with permission of the original author.
 
 The Accord.Vision module includes definitions for Haar Cascades created by Modesto Castrillon-Santana,
 distributed under the LGPL with permission of the original author. The SURF interest points detector

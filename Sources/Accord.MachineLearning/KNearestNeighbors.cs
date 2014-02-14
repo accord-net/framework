@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -96,7 +96,7 @@ namespace Accord.MachineLearning
         ///   Computes the most likely label of a new given point.
         /// </summary>
         /// 
-        /// <param name="input">A point to be classificated.</param>
+        /// <param name="input">A point to be classified.</param>
         /// <param name="scores">The distance score for each possible class.</param>
         /// 
         /// <returns>The most likely label for the given point.</returns>
@@ -112,7 +112,8 @@ namespace Accord.MachineLearning
                 int label = point.Node.Value;
                 double d = point.Distance;
 
-                scores[label] += 1.0 / d;
+                // Convert to similarity measure
+                scores[label] += 1.0 / (1.0 + d);
             }
 
             // Get the maximum weighted score

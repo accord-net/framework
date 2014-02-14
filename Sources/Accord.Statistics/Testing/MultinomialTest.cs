@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -72,7 +72,7 @@ namespace Accord.Statistics.Testing
         ///   Creates a new Multinomial test.
         /// </summary>
         /// 
-        /// <param name="sampleCounts">The number of occurances for each category in the sample.</param>
+        /// <param name="sampleCounts">The number of occurrences for each category in the sample.</param>
         /// 
         public MultinomialTest(int[] sampleCounts)
         {
@@ -91,7 +91,7 @@ namespace Accord.Statistics.Testing
         ///   Creates a new Multinomial test.
         /// </summary>
         /// 
-        /// <param name="sampleCounts">The number of occurances for each category in the sample.</param>
+        /// <param name="sampleCounts">The number of occurrences for each category in the sample.</param>
         /// <param name="hypothesizedProportions">The hypothesized category proportions. Default is
         ///   to assume uniformly equal proportions.</param>
         /// 

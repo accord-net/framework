@@ -1,8 +1,8 @@
-﻿// Accord (Experimental) Audio Library
+﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -103,11 +103,13 @@ namespace Accord.Audio
 
         #region From UInt8 (byte) to Int16 (short)
         /// <summary>
-        ///   Converts a array of signed 8-bit int samples
-        ///   into a array of 32-bit float-point samples.
+        ///   Converts a matrix of unsigned 8-bit byte samples
+        ///   into a array of 16-bit short integer samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte[][] from, Int16[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -116,11 +118,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of signed 8-bit int samples
-        ///   into a array of 32-bit float-point samples.
+        ///   Converts an array of unsigned 8-bit byte samples
+        ///   into an array of 16-bit short integer samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte[] from, Int16[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -128,11 +132,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a signed 8-bit int sample
-        ///   into a 32-bit float-point sample.
+        ///   Converts a unsigned 8-bit byte sample
+        ///   into a 16-bit short integer sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte from, out Int16 to)
         {
             to = (Int16)((from - 128) << 8);
@@ -141,11 +147,13 @@ namespace Accord.Audio
 
         #region From UInt8 (byte) to Int32 (int)
         /// <summary>
-        ///   Converts a matrix of unsigned 8-bit int samples
-        ///   into a matrix of 32-bit float-point samples.
+        ///   Converts a matrix of unsigned 8-bit byte samples
+        ///   into a matrix of 32-bit integer samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte[][] from, int[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -154,11 +162,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of unsigned 8-bit int samples
-        ///   into a array of 32-bit float-point samples.
+        ///   Converts an array of unsigned 8-bit byte samples
+        ///   into an array of 32-bit integer samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte[] from, int[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -166,11 +176,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a unsigned 8-bit int sample
-        ///   into a 32-bit float-point sample.
+        ///   Converts a unsigned 8-bit byte sample
+        ///   into a 32-bit integer sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte from, out int to)
         {
             to = ((from - 128) << 24);
@@ -179,11 +191,13 @@ namespace Accord.Audio
 
         #region From UInt8 (byte) to Single (float)
         /// <summary>
-        ///   Converts a matrix of unsigned 8-bit int samples
-        ///   into a matrix of 32-bit float-point samples.
+        ///   Converts a matrix of unsigned 8-bit byte samples
+        ///   into a matrix of 32-bit floating-point samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte[][] from, float[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -192,11 +206,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of unsigned 8-bit int samples
-        ///   into a array of 32-bit float-point samples.
+        ///   Converts an array of unsigned 8-bit byte samples
+        ///   into an array of 32-bit floating point samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte[] from, float[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -204,11 +220,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a unsigned 8-bit int sample
-        ///   into a 32-bit float-point sample.
+        ///   Converts a unsigned 8-bit byte sample
+        ///   into a 32-bit floating point sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(byte from, out float to)
         {
             to = (from - 128) * const_1_div_128_;
@@ -222,11 +240,13 @@ namespace Accord.Audio
 
         #region From Int16 (short) to UInt8 (byte)
         /// <summary>
-        ///   Converts a matrix of signed 16-bit int samples
+        ///   Converts a matrix of signed 16-bit integer samples
         ///   into a matrix of 8-bit unsigned byte samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16[][] from, byte[][] to)
         {
             for (int j = 0; j < from.Length; j++)
@@ -235,11 +255,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of signed 16-bit int samples
+        ///   Converts a array of signed 16-bit integer samples
         ///   into a array of 8-bit unsigned byte samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16[] from, byte[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -247,11 +269,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a signed 16-bit int sample
+        ///   Converts a signed 16-bit integer sample
         ///   into a 8-bit unsigned byte sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16 from, out byte to)
         {
             to = (byte)(((from) >> 8) + 128);
@@ -260,11 +284,13 @@ namespace Accord.Audio
 
         #region From Int16 (short) to Int32 (int)
         /// <summary>
-        ///   Converts a matrix of signed 16-bit int samples
+        ///   Converts a matrix of signed 16-bit integer samples
         ///   into a matrix of 32-bit signed integer samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16[][] from, Int32[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -273,11 +299,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of signed 16-bit int samples
+        ///   Converts a array of signed 16-bit integer samples
         ///   into a array of 32-bit signed integer samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16[] from, Int32[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -285,11 +313,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a signed 16-bit int sample
+        ///   Converts a signed 16-bit integer sample
         ///   into a 32-bit signed integer sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16 from, out Int32 to)
         {
             to = (byte)(((from) >> 8) + 128);
@@ -298,11 +328,13 @@ namespace Accord.Audio
 
         #region From Int16 (short) to Single (float)
         /// <summary>
-        ///   Converts a matrix of signed 16-bit int samples
-        ///   into a matrix of 32-bit float-point samples.
+        ///   Converts a matrix of signed 16-bit integer samples
+        ///   into a matrix of 32-bit floating point samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16[][] from, float[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -311,11 +343,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of signed 16-bit int samples
-        ///   into a array of 32-bit float-point samples.
+        ///   Converts a array of signed 16-bit integer samples
+        ///   into a array of 32-bit floating point samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16[] from, float[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -323,14 +357,60 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a signed 16-bit int sample
-        ///   into a 32-bit float-point sample.
+        ///   Converts a signed 16-bit integer sample
+        ///   into a 32-bit floating point sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int16 from, out float to)
         {
             to = (float)(from * const_1_div_32768_);
+        }
+        #endregion
+
+        #region From Int16 (short) to Single (float)
+        /// <summary>
+        ///   Converts a matrix of signed 16-bit integer samples
+        ///   into a matrix of 64-bit floating point samples.
+        /// </summary>
+        /// 
+        /// <param name="from">The original sample.</param>
+        /// <param name="to">The resulting sample.</param>
+        /// 
+        public static void Convert(Int16[][] from, double[][] to)
+        {
+            for (int i = 0; i < from.Length; i++)
+                for (int j = 0; j < from[0].Length; j++)
+                    to[i][j] = (double)(from[i][j] * const_1_div_32768_);
+        }
+
+        /// <summary>
+        ///   Converts a array of signed 16-bit integer samples
+        ///   into a array of 64-bit floating point samples.
+        /// </summary>
+        /// 
+        /// <param name="from">The original sample.</param>
+        /// <param name="to">The resulting sample.</param>
+        /// 
+        public static void Convert(Int16[] from, double[] to)
+        {
+            for (int i = 0; i < from.Length; i++)
+                to[i] = (double)(from[i] * const_1_div_32768_);
+        }
+
+        /// <summary>
+        ///   Converts a signed 16-bit integer sample
+        ///   into a 64-bit floating point sample.
+        /// </summary>
+        /// 
+        /// <param name="from">The original sample.</param>
+        /// <param name="to">The resulting sample.</param>
+        /// 
+        public static void Convert(Int16 from, out double to)
+        {
+            to = (double)(from * const_1_div_32768_);
         }
         #endregion
 
@@ -341,11 +421,13 @@ namespace Accord.Audio
 
         #region From Int32 (int) To UInt8 (byte)
         /// <summary>
-        ///   Converts a matrix of signed 32-bit int samples
+        ///   Converts a matrix of signed 32-bit integer samples
         ///   into a matrix of 8-bit unsigned byte samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32[][] from, byte[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -354,11 +436,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of signed 32-bit int samples
+        ///   Converts a array of signed 32-bit integer samples
         ///   into a array of 8-bit unsigned byte samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32[] from, byte[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -366,11 +450,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a signed 32-bit int sample
+        ///   Converts a signed 32-bit integer sample
         ///   into a 8-bit unsigned byte sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32 from, out byte to)
         {
             to = (byte)((from >> 24) + 128);
@@ -379,11 +465,13 @@ namespace Accord.Audio
 
         #region From Int32 (int) to Int16 (short)
         /// <summary>
-        ///   Converts a matrix of signed 32-bit int samples
+        ///   Converts a matrix of signed 32-bit integer samples
         ///   into a matrix of 16-bit signed integer samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32[][] from, Int16[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -392,11 +480,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of signed 32-bit int samples
+        ///   Converts a array of signed 32-bit integer samples
         ///   into a array of 16-bit signed integer samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32[] from, Int16[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -404,11 +494,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a signed 32-bit int sample
+        ///   Converts a signed 32-bit integer sample
         ///   into a 16-bit signed integer sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32 from, out Int16 to)
         {
             to = (Int16)(from >> 16);
@@ -417,11 +509,13 @@ namespace Accord.Audio
 
         #region From Int32 (int) to Single (float)
         /// <summary>
-        ///   Converts a matrix of signed 32-bit int samples
+        ///   Converts a matrix of signed 32-bit integer samples
         ///   into a matrix of 32-bit float-point samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32[][] from, float[][] to)
         {
             for (int j = 0; j < from.Length; j++)
@@ -430,11 +524,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of signed 32-bit int samples
+        ///   Converts a array of signed 32-bit integer samples
         ///   into a array of 32-bit float-point samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32[] from, float[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -442,11 +538,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a signed 32-bit int sample
+        ///   Converts a signed 32-bit integer sample
         ///   into a 32-bit float-point sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32 from, out float to)
         {
             to = (float)((double)from * const_1_div_2147483648_);
@@ -463,8 +561,10 @@ namespace Accord.Audio
         ///   Converts a matrix of signed 32-bit float samples
         ///   into a matrix of 8-bit unsigned byte samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(float[][] from, byte[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -476,8 +576,10 @@ namespace Accord.Audio
         ///   Converts a array of signed 32-bit float samples
         ///   into a array of 8-bit unsigned byte samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(float[] from, byte[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -536,11 +638,13 @@ namespace Accord.Audio
 
         #region From Single (float) to Int32 (int)
         /// <summary>
-        ///   Converts a matrix of signed 32-bit int samples
-        ///   into a matrix of 32-bit float-point samples.
+        ///   Converts a matrix of signed 32-bit integer samples
+        ///   into a matrix of 32-bit floating point samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(float[][] from, Int32[][] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -549,11 +653,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a array of signed 32-bit int samples
-        ///   into a array of 32-bit float-point samples.
+        ///   Converts a array of signed 32-bit integer samples
+        ///   into a array of 32-bit floating point samples.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32[] from, Int32[] to)
         {
             for (int i = 0; i < from.Length; i++)
@@ -561,11 +667,13 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a signed 32-bit int sample
-        ///   into a 32-bit float-point sample.
+        ///   Converts a signed 32-bit integer sample
+        ///   into a 32-bit floating point sample.
         /// </summary>
+        /// 
         /// <param name="from">The original sample.</param>
         /// <param name="to">The resulting sample.</param>
+        /// 
         public static void Convert(Int32 from, out Int32 to)
         {
             to = (int)((double)from * 0x7FFFFFFF);

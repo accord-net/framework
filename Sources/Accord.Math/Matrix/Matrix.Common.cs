@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -343,6 +343,56 @@ namespace Accord.Math
             for (int i = 0; i < matrix.Length; i++)
                 for (int j = 0; j < matrix[i].Length; j++)
                     if (Double.IsNaN(matrix[i][j]))
+                        return true;
+            return false;
+        }
+
+        /// <summary>
+        ///   Returns a value indicating whether the specified
+        ///   matrix contains a infinity value.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// 
+        /// <returns>True if the matrix contains infinity values, false otherwise.</returns>
+        /// 
+        public static bool HasInfinity(this double[,] matrix)
+        {
+            foreach (var e in matrix)
+                if (Double.IsInfinity(e)) return true;
+            return false;
+        }
+
+        /// <summary>
+        ///   Returns a value indicating whether the specified
+        ///   matrix contains a infinity value.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// 
+        /// <returns>True if the matrix contains a infinity value, false otherwise.</returns>
+        /// 
+        public static bool HasInfinity(this double[] matrix)
+        {
+            foreach (var e in matrix)
+                if (Double.IsInfinity(e)) return true;
+            return false;
+        }
+
+        /// <summary>
+        ///   Returns a value indicating whether the specified
+        ///   matrix contains a infinity value.
+        /// </summary>
+        /// 
+        /// <param name="matrix">A double-precision multidimensional matrix.</param>
+        /// 
+        /// <returns>True if the matrix contains a infinity value, false otherwise.</returns>
+        /// 
+        public static bool HasInfinity(this double[][] matrix)
+        {
+            for (int i = 0; i < matrix.Length; i++)
+                for (int j = 0; j < matrix[i].Length; j++)
+                    if (Double.IsInfinity(matrix[i][j]))
                         return true;
             return false;
         }
@@ -759,7 +809,8 @@ namespace Accord.Math
         /// 
         public static int Trace(this int[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
 
@@ -781,7 +832,8 @@ namespace Accord.Math
         /// 
         public static float Trace(this float[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
 
@@ -803,7 +855,8 @@ namespace Accord.Math
         /// 
         public static float Trace(this float[][] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             float trace = 0.0f;
             for (int i = 0; i < matrix.Length; i++)
@@ -821,7 +874,8 @@ namespace Accord.Math
         /// 
         public static T[] Diagonal<T>(this T[][] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
             T[] r = new T[matrix.Length];
             for (int i = 0; i < r.Length; i++)
@@ -840,9 +894,10 @@ namespace Accord.Math
         /// 
         public static T[] Diagonal<T>(this T[,] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
-            T[] r = new T[matrix.GetLength(0)];
+            var r = new T[matrix.GetLength(0)];
             for (int i = 0; i < r.Length; i++)
                 r[i] = matrix[i, i];
 
@@ -865,13 +920,90 @@ namespace Accord.Math
         /// 
         public static double Determinant(this double[,] matrix, bool symmetric)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
-            if (symmetric) // Use faster robust cholesky decomposition
-                return new CholeskyDecomposition(matrix, true, true).Determinant;
+            if (symmetric) // Use faster robust Cholesky decomposition
+            {
+                var chol = new CholeskyDecomposition(matrix, robust: true, lowerTriangular: true);
+
+                if (!chol.PositiveDefinite)
+                {
+                    throw new ArgumentException("The matrix could not be decomposed using " +
+                        " a robust Cholesky decomposition. Please specify symmetric as false " +
+                        " and provide a full matrix to be decomposed.", "matrix");
+                }
+
+                return chol.Determinant;
+            }
 
             return new LuDecomposition(matrix).Determinant;
         }
+
+        /// <summary>
+        ///   Gets the log-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double LogDeterminant(this double[,] matrix)
+        {
+            // Assume the most general case
+            return LogDeterminant(matrix, false);
+        }
+
+        /// <summary>
+        ///   Gets the log-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double LogDeterminant(this double[,] matrix, bool symmetric)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            if (symmetric) // Use faster robust Cholesky decomposition
+            {
+                var chol = new CholeskyDecomposition(matrix, robust: true, lowerTriangular: true);
+
+                if (!chol.PositiveDefinite)
+                {
+                    throw new ArgumentException("The matrix could not be decomposed using " +
+                        " a robust Cholesky decomposition. Please specify symmetric as false " +
+                        " and provide a full matrix to be decomposed.", "matrix");
+                }
+
+                return chol.LogDeterminant;
+            }
+
+            return new LuDecomposition(matrix).LogDeterminant;
+        }
+
+        /// <summary>
+        ///   Gets the pseudo-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double PseudoDeterminant(this double[,] matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            return new SingularValueDecomposition(matrix,
+                computeLeftSingularVectors: false, computeRightSingularVectors: false,
+                autoTranspose: true, inPlace: false).PseudoDeterminant;
+        }
+
+        /// <summary>
+        ///   Gets the log of the pseudo-determinant of a matrix.
+        /// </summary>
+        /// 
+        public static double LogPseudoDeterminant(this double[,] matrix)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            return new SingularValueDecomposition(matrix,
+                computeLeftSingularVectors: false, computeRightSingularVectors: false,
+                autoTranspose: true, inPlace: false).LogPseudoDeterminant;
+        }
+
 
 
         /// <summary>
@@ -1623,35 +1755,62 @@ namespace Accord.Math
         ///   Transforms a jagged array matrix into a single vector.
         /// </summary>
         /// <param name="array">A jagged array.</param>
+        /// 
+        public static T[] Reshape<T>(this T[][] array)
+        {
+            return Reshape(array, 0);
+        }
+
+        /// <summary>
+        ///   Transforms a jagged array matrix into a single vector.
+        /// </summary>
+        /// 
+        /// <param name="array">A jagged array.</param>
         /// <param name="dimension">The direction to perform copying. Pass
         /// 0 to perform a row-wise copy. Pass 1 to perform a column-wise
-        /// copy.</param>
+        /// copy. Default is 0.</param>
         /// 
         public static T[] Reshape<T>(this T[][] array, int dimension)
         {
-            if (array == null) throw new ArgumentNullException("array");
-            if (dimension < 0) throw new ArgumentOutOfRangeException("dimension", dimension,
+            if (array == null)
+                throw new ArgumentNullException("array");
+
+            if (dimension < 0)
+                throw new ArgumentOutOfRangeException("dimension", dimension,
                 "Vector's dimension must be a positive integer.");
 
             if (dimension != 0 && dimension != 1)
                 throw new ArgumentOutOfRangeException("dimension");
 
-            int rows = array.Length;
-            int cols = array[0].Length;
+            int count = 0;
+            for (int i = 0; i < array.Length; i++)
+                count += array[i].Length;
 
-            T[] result = new T[rows * cols];
+            T[] result = new T[count];
 
             if (dimension == 1)
             {
-                for (int j = 0, k = 0; j < rows; j++)
-                    for (int i = 0; i < cols; i++)
+                for (int j = 0, k = 0; j < array.Length; j++)
+                    for (int i = 0; i < array[j].Length; i++)
                         result[k++] = array[j][i];
             }
             else
             {
-                for (int i = 0, k = 0; i < cols; i++)
-                    for (int j = 0; j < rows; j++)
-                        result[k++] = array[j][i];
+                int maxCols = 0;
+                for (int i = 0; i < array.Length; i++)
+                {
+                    if (array[i].Length > maxCols)
+                        maxCols = array[i].Length;
+                }
+
+                for (int i = 0, k = 0; i < maxCols; i++)
+                {
+                    for (int j = 0; j < array.Length; j++)
+                    {
+                        if (i < array[j].Length)
+                            result[k++] = array[j][i];
+                    }
+                }
             }
 
             return result;
@@ -1662,8 +1821,10 @@ namespace Accord.Math
         /// <summary>
         ///   Convolves an array with the given kernel.
         /// </summary>
+        /// 
         /// <param name="a">A floating number array.</param>
         /// <param name="kernel">A convolution kernel.</param>
+        /// 
         public static double[] Convolve(this double[] a, double[] kernel)
         {
             return Convolve(a, kernel, false);
@@ -1672,11 +1833,13 @@ namespace Accord.Math
         /// <summary>
         /// Convolves an array with the given kernel.
         /// </summary>
+        /// 
         /// <param name="a">A floating number array.</param>
         /// <param name="kernel">A convolution kernel.</param>
         /// <param name="trim">
         ///   If <c>true</c> the resulting array will be trimmed to
         ///   have the same length as the input array. Default is false.</param>
+        ///   
         public static double[] Convolve(this double[] a, double[] kernel, bool trim)
         {
             double[] result;

@@ -1,8 +1,8 @@
-﻿// Accord Statistics Library
+﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -70,7 +70,8 @@ namespace Accord.Math
 
         /// <summary>
         ///   Gets or sets the maximum change in the watched value
-        ///   after an iteration of the algorithm used to detect convergence.
+        ///   after an iteration of the algorithm used to detect 
+        ///   convergence. Default is 0.
         /// </summary>
         /// 
         public double Tolerance
@@ -87,7 +88,8 @@ namespace Accord.Math
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations
-        ///   performed by the iterative algorithm.
+        ///   performed by the iterative algorithm. Default 
+        ///   is 100.
         /// </summary>
         /// 
         public int Iterations

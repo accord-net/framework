@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -47,35 +47,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -315,15 +286,15 @@ namespace Accord.Tests.Statistics
             var roc = new ReceiverOperatingCharacteristic(outputs, predicted);
 
             roc.Compute(100); // Compute a ROC curve with 100 points
-/*
-            // Generate a connected scatterplot for the ROC curve and show it on-screen
-            ScatterplotBox.Show(roc.GetScatterplot(includeRandom: true), nonBlocking: true)
+            /*
+                        // Generate a connected scatter plot for the ROC curve and show it on-screen
+                        ScatterplotBox.Show(roc.GetScatterplot(includeRandom: true), nonBlocking: true)
 
-                .SetSymbolSize(0)      // do not display data points
-                .SetLinesVisible(true) // show lines connecting points
-                .SetScaleTight(true)   // tighten the scale to points
-                .WaitForClose();
-*/
+                            .SetSymbolSize(0)      // do not display data points
+                            .SetLinesVisible(true) // show lines connecting points
+                            .SetScaleTight(true)   // tighten the scale to points
+                            .WaitForClose();
+            */
 
             Assert.AreEqual(0.7890625, roc.Area);
             // Assert.AreEqual(0.1174774, roc.StandardError, 1e-6); HanleyMcNeil

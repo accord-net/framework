@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -195,5 +195,83 @@ namespace Accord.Statistics.Distributions
         /// 
         void Fit(Array observations, double[] weights, IFittingOptions options);
 
+    }
+
+    /// <summary>
+    ///   Common interface for probability distributions.
+    /// </summary>
+    /// 
+    /// <remarks>
+    ///   <para>
+    ///   This interface is implemented by all generic probability distributions in the framework, including
+    ///   <see cref="IUnivariateDistribution{T}"/>s and <see cref="IMultivariateDistribution{T}"/>s. </para>
+    /// </remarks>
+    /// 
+    public interface IDistribution<in TObservation> : IDistribution
+    {
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+        double DistributionFunction(TObservation x);
+
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range. For a 
+        ///   univariate distribution, this should be a single
+        ///   double value. For a multivariate distribution,
+        ///   this should be a double array.</param>
+        ///   
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.</returns>
+        ///   
+        double ProbabilityFunction(TObservation x);
+
+        /// <summary>
+        ///   Gets the log-probability density function (pdf)
+        ///   for this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">
+        ///   A single point in the distribution range. For a 
+        ///   univariate distribution, this should be a single
+        ///   double value. For a multivariate distribution,
+        ///   this should be a double array.</param>
+        ///   
+        /// <returns>
+        ///   The logarithm of the probability of <c>x</c>
+        ///   occurring in the current distribution.</returns>
+        ///   
+        double LogProbabilityFunction(TObservation x);
+
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Complementary Cumulative Distribution Function (CCDF) is
+        ///   the complement of the Cumulative Distribution Function, or 1
+        ///   minus the CDF.
+        /// </remarks>
+        /// 
+        double ComplementaryDistributionFunction(TObservation x);
     }
 }

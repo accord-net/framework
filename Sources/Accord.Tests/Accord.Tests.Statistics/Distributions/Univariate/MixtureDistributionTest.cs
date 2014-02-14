@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -47,36 +47,6 @@ namespace Accord.Tests.Statistics
                 testContextInstance = value;
             }
         }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
 
@@ -148,6 +118,23 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(expected.IsEqual(mixture.Coefficients));
             Assert.AreEqual(components, mixture.Components);
+        }
+
+        [TestMethod()]
+        public void ConstructorTest2()
+        {
+            // Create a new mixture containing two Normal distributions
+            Mixture<NormalDistribution> mix = new Mixture<NormalDistribution>(
+                new NormalDistribution(2, 1), new NormalDistribution(5, 1));
+
+            // Compute in reverse order
+            double var = mix.Variance; // 3.25
+            double median = mix.Median;   // 3.4999998506015895
+            double mean = mix.Mean;     // 3.5
+
+            Assert.AreEqual(3.5, mean);
+            Assert.AreEqual(3.4999998506015895, median);
+            Assert.AreEqual(3.25, var);
         }
 
         [TestMethod()]
@@ -283,7 +270,7 @@ namespace Accord.Tests.Statistics
 
             double[] points = { 0, 3, 1, 7, 3, 5, 1, 2, -1, 2, 7, 6, 8, 6 }; // (14 points)
 
-            // And those are their respective unnormalized weights:
+            // And those are their respective unormalized weights:
             double[] weights = { 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 2, 3, 1, 1 }; // (14 weights)
 
             // Let's normalize the weights so they sum up to one:
@@ -303,8 +290,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(mean1, gmm.Gaussians[0].Mean[0]);
             Assert.AreEqual(mean2, gmm.Gaussians[1].Mean[0]);
 
-            Assert.AreEqual(mean1, 1.4112610766836404);
-            Assert.AreEqual(mean2, 6.5330177004151082);
+            Assert.AreEqual(mean1, 1.4112610766836404, 1e-15);
+            Assert.AreEqual(mean2, 6.5330177004151082, 1e-14);
 
             Assert.AreEqual(mixture.Coefficients[0], gmm.Gaussians[0].Proportion);
             Assert.AreEqual(mixture.Coefficients[1], gmm.Gaussians[1].Proportion);

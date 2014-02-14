@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -93,7 +93,7 @@ namespace Accord.Statistics.Testing
         ///   Creates a new One-Sample Kolmogorov test.
         /// </summary>
         /// 
-        /// <param name="sample">The sample we would like to test as beloging to the <paramref name="hypothesizedDistribution"/>.</param>
+        /// <param name="sample">The sample we would like to test as belonging to the <paramref name="hypothesizedDistribution"/>.</param>
         /// <param name="hypothesizedDistribution">A fully specified distribution (which must NOT have been estimated from the data).</param>
         /// 
         public KolmogorovSmirnovTest(double[] sample, UnivariateContinuousDistribution hypothesizedDistribution)
@@ -103,7 +103,7 @@ namespace Accord.Statistics.Testing
         ///   Creates a new One-Sample Kolmogorov test.
         /// </summary>
         /// 
-        /// <param name="sample">The sample we would like to test as beloging to the <paramref name="hypothesizedDistribution"/>.</param>
+        /// <param name="sample">The sample we would like to test as belonging to the <paramref name="hypothesizedDistribution"/>.</param>
         /// <param name="hypothesizedDistribution">A fully specified distribution (which must NOT have been estimated from the data).</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
         /// 
@@ -126,7 +126,7 @@ namespace Accord.Statistics.Testing
             // Sort sample
             Array.Sort(Y);
 
-            // Create the thoretical and empirical distributions
+            // Create the theoretical and empirical distributions
             this.TheoreticalDistribution = hypothesizedDistribution;
             this.EmpiricalDistribution = new EmpiricalDistribution(Y, smoothing: 0);
 

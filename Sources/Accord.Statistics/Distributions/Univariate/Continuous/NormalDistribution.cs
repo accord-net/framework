@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,8 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions;
+    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using AForge;
 
@@ -60,7 +60,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   double variance = normal.Variance; // 3² = 9
     ///   
     ///   // Let's check what is the cumulative probability of
-    ///   // a value less than 3 ocurring in this distribution:
+    ///   // a value less than 3 occurring in this distribution:
     ///   double cdf = normal.DistributionFunction(3); // 0.63055
     /// 
     ///   // Finally, let's generate 1000 samples from this distribution
@@ -277,7 +277,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             /*
                 // For a normal distribution with zero variance, the cdf is the Heaviside
-                // step function (Wipedia, http://en.wikipedia.org/wiki/Normal_distribution)
+                // step function (Wikipedia, http://en.wikipedia.org/wiki/Normal_distribution)
                 return (x >= mean) ? 1.0 : 0.0;
             */
 

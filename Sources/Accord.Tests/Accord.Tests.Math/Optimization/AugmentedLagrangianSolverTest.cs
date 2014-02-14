@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -48,41 +48,14 @@ namespace Accord.Tests.Math
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
 
         [TestMethod()]
         public void AugmentedLagrangianSolverConstructorTest1()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // min 100(y-x*x)²+(1-x)²
             //
             // s.t.  x <= 0
@@ -357,7 +330,7 @@ namespace Accord.Tests.Math
             // Add the non-negativity constraint for x
             constraints.Add(new NonlinearConstraint(f,
 
-                // 1st contraint: x should be greater than or equal to 0
+                // 1st constraint: x should be greater than or equal to 0
                 function: () => x, shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0,
 
                 gradient: () => new[] { 1.0, 0.0 }
@@ -388,10 +361,11 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(solver.Solution[1]));
         }
 
-        [Ignore()]
         [TestMethod()]
         public void AugmentedLagrangianSolverConstructorTest6()
         {
+            // maximize 2x + 3y, s.t. 2x² + 2y² <= 50 and x+y = 1
+
             // Max x' * c
             //  x
 
@@ -433,7 +407,7 @@ namespace Accord.Tests.Math
                 function: (x) => x.Sum(),
                 gradient: (x) => new[] { 1.0, 1.0 },
                 shouldBe: ConstraintType.EqualTo, value: 1,
-                withinTolerance: 1e-3
+                withinTolerance: 1e-10
             ));
 
 
@@ -460,16 +434,83 @@ namespace Accord.Tests.Math
                 }
             }
 
+            // Create the solver algorithm
+            var inner = new ConjugateGradient(2);
+
+            AugmentedLagrangianSolver solver =
+                new AugmentedLagrangianSolver(inner, constraints);
+
+            double maxValue = solver.Maximize(objective);
+
+            Assert.AreEqual(6, maxValue, 0.01);
+            Assert.AreEqual(-3, solver.Solution[0], 0.01);
+            Assert.AreEqual(4, solver.Solution[1], 0.01);
+        }
+
+        [TestMethod()]
+        public void AugmentedLagrangianSolverConstructorTest7()
+        {
+            // maximize 2x + 3y, s.t. 2x² + 2y² <= 50
+
+            // Max x' * c
+            //  x
+
+            // s.t. x' * A * x <= k
+            //      x' * i     = 1
+            // lower_bound < x < upper_bound
+
+            double[] c = { 2, 3 };
+            double[,] A = { { 2, 0 }, { 0, 2 } };
+            double k = 50;
+
+            // Create the objective function
+            var objective = new NonlinearObjectiveFunction(2,
+                function: (x) => x.InnerProduct(c),
+                gradient: (x) => c
+            );
+
+            // Test objective
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    double expected = i * 2 + j * 3;
+                    double actual = objective.Function(new double[] { i, j });
+                    Assert.AreEqual(expected, actual);
+                }
+            }
+
+
+            // Create the optimization constraints
+            var constraints = new List<NonlinearConstraint>();
+
+            constraints.Add(new QuadraticConstraint(objective,
+                quadraticTerms: A,
+                shouldBe: ConstraintType.LesserThanOrEqualTo, value: k
+            ));
+
+
+            // Test first constraint
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    double expected = i * (2 * i + 0 * j) + j * (0 * i + 2 * j);
+                    double actual = constraints[0].Function(new double[] { i, j });
+                    Assert.AreEqual(expected, actual);
+                }
+            }
+
 
             // Create the solver algorithm
             AugmentedLagrangianSolver solver =
                 new AugmentedLagrangianSolver(2, constraints);
 
-            double minValue = solver.Maximize(objective);
+            double maxValue = solver.Maximize(objective);
 
-            Assert.AreEqual(7.42443, minValue, 1e-5);
-            Assert.AreEqual(-4.42433, solver.Solution[0], 1e-5);
-            Assert.AreEqual(5.42433, solver.Solution[1], 1e-5);
+            Assert.AreEqual(18.02, maxValue, 0.01);
+            Assert.AreEqual(2.77, solver.Solution[0], 1e-2);
+            Assert.AreEqual(4.16, solver.Solution[1], 1e-2);
         }
 #endif
 

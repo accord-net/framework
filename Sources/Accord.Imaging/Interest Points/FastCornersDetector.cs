@@ -1,8 +1,8 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -56,6 +56,7 @@
 
 namespace Accord.Imaging
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
@@ -79,7 +80,7 @@ namespace Accord.Imaging
     ///   the ID3 algorithm.
     /// </para>
     /// 
-    /// <para>This detector has been shown to exibit a high degree of repeatability.</para>
+    /// <para>This detector has been shown to exhibit a high degree of repeatability.</para>
     ///
     /// <para>
     ///   The code is roughly based on the 9 valued FAST corner detection
@@ -136,6 +137,7 @@ namespace Accord.Imaging
     /// <seealso cref="SpeededUpRobustFeaturesDetector"/>
     /// <seealso cref="FastRetinaKeypointDetector"/>
     /// 
+    [Serializable]
     [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode")]
     public class FastCornersDetector : ICornersDetector
     {
@@ -423,7 +425,7 @@ namespace Accord.Imaging
                     if (corners[point_below].Y < pos.Y + 1)
                         point_below = row_start[pos.Y + 1];
 
-                    // Make point below point to one of the pixels belowthe current point, if it exists.
+                    // Make point below point to one of the pixels below the current point, if it exists.
                     for (; point_below < n && corners[point_below].Y == pos.Y + 1 && corners[point_below].X < pos.X - 1; point_below++) ;
 
                     for (int j = point_below; j < n && corners[j].Y == pos.Y + 1 && corners[j].X <= pos.X + 1; j++)

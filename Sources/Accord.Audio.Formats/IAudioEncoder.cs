@@ -1,8 +1,8 @@
-﻿// Accord (Experimental) Audio Library
+﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -44,7 +44,7 @@ namespace Accord.Audio.Formats
         /// <returns>Returns number of frames found in the specified stream.</returns>
         /// 
         /// <remarks><para>Implementation of this method is supposed to read audio's header,
-        /// checking for correct audio format and reading its atributes.</para>
+        /// checking for correct audio format and reading its attributes.</para>
         /// 
         /// <para>Implementations of this method may throw
         /// <see cref="System.FormatException"/> exception to report about unrecognized audio

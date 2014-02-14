@@ -39,7 +39,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -58,7 +58,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
     <OutputPath>..\..\Release (3.5)\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NET35</DefineConstants>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -87,6 +87,8 @@
   <ItemGroup>
     <Compile Include="Compatibility\CancellationToken.cs" />
     <Compile Include="Compatibility\ConcurrentStack.cs" />
+    <Compile Include="Compatibility\AggregateException.cs" />
+    <Compile Include="Compatibility\ISet.cs" />
     <Compile Include="Compatibility\Lazy.cs" />
     <Compile Include="Compatibility\Parallel.cs" />
     <Compile Include="Compatibility\SortedSet.cs" />
@@ -100,11 +102,21 @@
     <Compile Include="Exceptions\NonSymmetricMatrixException.cs" />
     <Compile Include="Exceptions\SingularMatrixException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\VersionInfo.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VersionInfo.tt</DependentUpon>
+    </Compile>
     <Compile Include="Structures\ReadOnlyDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
     <None Include="Accord.Core.cd" />
+    <None Include="Properties\VersionInfo.tt">
+      <SubType>Code</SubType>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>VersionInfo.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />
@@ -125,6 +137,9 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -126,7 +126,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Constructs a Log-Normal (Gaulton) distribution
+        ///   Constructs a Log-Normal (Galton) distribution
         ///   with given mean and standard deviation.
         /// </summary>
         /// 
@@ -172,7 +172,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <remarks>
-        ///   The lognormal distribution's mean is 
+        ///   The Lognormal distribution's mean is 
         ///   defined as <c>exp(μ + σ²/2).</c>
         /// </remarks>
         /// 
@@ -192,7 +192,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <remarks>
-        ///   The lognormal distribution's variance is
+        ///   The Lognormal distribution's variance is
         ///   defined as <c>(exp(σ²) - 1) * exp(2*μ + σ²)</c>.
         /// </remarks>
         /// 

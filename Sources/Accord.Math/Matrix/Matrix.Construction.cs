@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,8 +23,8 @@ namespace Accord.Math
 {
     using System;
     using System.Collections.Generic;
-    using AForge.Math.Random;
     using AForge;
+    using AForge.Math.Random;
 
 
     public static partial class Matrix
@@ -34,10 +34,20 @@ namespace Accord.Math
         /// <summary>
         ///   Returns a matrix with all elements set to a given value.
         /// </summary>
+        /// 
         public static T[,] Create<T>(int rows, int cols, T value)
         {
-            if (rows < 0) throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
-            if (cols < 0) throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
+            if (rows < 0)
+            {
+                throw new ArgumentOutOfRangeException("rows", rows,
+                    "Number of rows must be a positive integer.");
+            }
+
+            if (cols < 0)
+            {
+                throw new ArgumentOutOfRangeException("cols", cols,
+                    "Number of columns must be a positive integer.");
+            }
 
             T[,] matrix = new T[rows, cols];
 
@@ -51,23 +61,113 @@ namespace Accord.Math
         /// <summary>
         ///   Returns a matrix with all elements set to a given value.
         /// </summary>
+        /// 
         public static T[,] Create<T>(int size, T value)
         {
-            if (size < 0) throw new ArgumentOutOfRangeException("size", size,
+            if (size < 0)
+            {
+                throw new ArgumentOutOfRangeException("size", size,
                 "Square matrix's size must be a positive integer.");
+            }
 
             return Create(size, size, value);
         }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+        public static T[,] Create<T>(int rows, int cols)
+        {
+            return Create(rows, cols, default(T));
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+        public static T[,] Create<T>(int size)
+        {
+            return Create(size, default(T));
+        }
+
+        /// <summary>
+        ///   Returns a matrix with all elements set to a given value.
+        /// </summary>
+        /// 
+        public static T[][] Jagged<T>(int rows, int cols, T value)
+        {
+            if (rows < 0)
+            {
+                throw new ArgumentOutOfRangeException("rows", rows,
+                    "Number of rows must be a positive integer.");
+            }
+
+            if (cols < 0)
+            {
+                throw new ArgumentOutOfRangeException("cols", cols,
+                    "Number of columns must be a positive integer.");
+            }
+
+            T[][] matrix = new T[rows][];
+
+            for (int i = 0; i < rows; i++)
+            {
+                var row = matrix[i] = new T[cols];
+                for (int j = 0; j < row.Length; j++)
+                    row[j] = value;
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Returns a matrix with all elements set to a given value.
+        /// </summary>
+        /// 
+        public static T[,] Jagged<T>(int size, T value)
+        {
+            if (size < 0)
+            {
+                throw new ArgumentOutOfRangeException("size", size,
+                "Square matrix's size must be a positive integer.");
+            }
+
+            return Create(size, size, value);
+        }
+
+        /// <summary>
+        ///   Returns a new jagged matrix.
+        /// </summary>
+        /// 
+        public static T[][] Jagged<T>(int rows, int cols)
+        {
+            return Jagged(rows, cols, default(T));
+        }
+
+        /// <summary>
+        ///   Returns a new jagged matrix.
+        /// </summary>
+        /// 
+        public static T[,] Jagged<T>(int size)
+        {
+            return Create(size, default(T));
+        }
         #endregion
+
 
         #region Diagonal matrices
         /// <summary>
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
+        /// 
         public static T[,] Diagonal<T>(int size, T value)
         {
-            if (size < 0) throw new ArgumentOutOfRangeException("size", size,
+            if (size < 0)
+            {
+                throw new ArgumentOutOfRangeException("size", size,
                 "Square matrix's size must be a positive integer.");
+            }
 
             T[,] matrix = new T[size, size];
 
@@ -80,10 +180,20 @@ namespace Accord.Math
         /// <summary>
         ///   Returns a matrix of the given size with value on its diagonal.
         /// </summary>
+        /// 
         public static T[,] Diagonal<T>(int rows, int cols, T value)
         {
-            if (rows < 0) throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
-            if (cols < 0) throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
+            if (rows < 0)
+            {
+                throw new ArgumentOutOfRangeException("rows", rows,
+                    "Number of rows must be a positive integer.");
+            }
+
+            if (cols < 0)
+            {
+                throw new ArgumentOutOfRangeException("cols", cols,
+                    "Number of columns must be a positive integer.");
+            }
 
             T[,] matrix = new T[rows, cols];
 
@@ -98,9 +208,11 @@ namespace Accord.Math
         /// <summary>
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
+        /// 
         public static T[,] Diagonal<T>(T[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
+            if (values == null) 
+                throw new ArgumentNullException("values");
 
             T[,] matrix = new T[values.Length, values.Length];
 
@@ -113,6 +225,7 @@ namespace Accord.Math
         /// <summary>
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
+        /// 
         public static T[,] Diagonal<T>(int size, T[] values)
         {
             return Diagonal(size, size, values);
@@ -121,11 +234,23 @@ namespace Accord.Math
         /// <summary>
         ///   Returns a matrix with a vector of values on its diagonal.
         /// </summary>
+        /// 
         public static T[,] Diagonal<T>(int rows, int cols, T[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
-            if (rows < 0) throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
-            if (cols < 0) throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
+            if (values == null) 
+                throw new ArgumentNullException("values");
+
+            if (rows < 0)
+            {
+                throw new ArgumentOutOfRangeException("rows", rows,
+                    "Number of rows must be a positive integer.");
+            }
+
+            if (cols < 0)
+            {
+                throw new ArgumentOutOfRangeException("cols", cols,
+                    "Number of columns must be a positive integer.");
+            }
 
             T[,] matrix = new T[rows, cols];
 
@@ -216,7 +341,7 @@ namespace Accord.Math
                     }
                 }
 
-                // Continue swaping in the boundary
+                // Continue swapping in the boundary
                 t = matrix[p, 0];
                 matrix[p, 0] = matrix[p + n, 0];
                 matrix[p + n, 0] = t;
@@ -372,9 +497,11 @@ namespace Accord.Math
         /// <summary>
         ///   Creates a matrix with a single row vector.
         /// </summary>
+        /// 
         public static T[,] RowVector<T>(params T[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
+            if (values == null)
+                throw new ArgumentNullException("values");
 
             T[,] matrix = new T[1, values.Length];
 
@@ -387,9 +514,11 @@ namespace Accord.Math
         /// <summary>
         ///   Creates a matrix with a single column vector.
         /// </summary>
+        /// 
         public static T[,] ColumnVector<T>(params T[] values)
         {
-            if (values == null) throw new ArgumentNullException("values");
+            if (values == null) 
+                throw new ArgumentNullException("values");
 
             T[,] matrix = new T[values.Length, 1];
 
@@ -578,7 +707,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Creates a bidimensional mesh matrix.
+        ///   Creates a bi-dimensional mesh matrix.
         /// </summary>
         /// 
         public static double[][] Mesh(DoubleRange rowRange, DoubleRange colRange,
@@ -964,7 +1093,7 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Merges a series of vectors into a a single vector. This
+        ///   Merges a series of vectors into a single vector. This
         ///   operation can be reverted using <see cref="Split"/>.
         /// </summary>
         /// 

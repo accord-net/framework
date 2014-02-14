@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -359,6 +359,19 @@ namespace Accord.Math
             double[] result = new double[vector.Length];
             for (int i = 0; i < vector.Length; i++)
                 result[i] = (double)vector[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a double vector into a single vector.
+        /// </summary>
+        /// <param name="vector">The vector to be converted.</param>
+        /// 
+        public static float[] ToSingle(this double[] vector)
+        {
+            float[] result = new float[vector.Length];
+            for (int i = 0; i < vector.Length; i++)
+                result[i] = (float)vector[i];
             return result;
         }
 

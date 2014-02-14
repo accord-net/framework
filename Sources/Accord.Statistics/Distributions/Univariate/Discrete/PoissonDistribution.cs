@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,6 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
-    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Poisson probability distribution.
@@ -151,7 +150,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                if (entropy == null)
+                if (!entropy.HasValue)
                 {
                     entropy = 0.5 * System.Math.Log(2.0 * System.Math.PI * lambda)
                         - 1 / (12 * lambda)

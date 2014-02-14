@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,25 +26,58 @@ namespace Accord.Statistics.Models.Markov.Learning
     using System.Threading;
     using System.Threading.Tasks;
     using Accord.Math;
+    using Accord.Statistics.Distributions;
     using Accord.Statistics.Models.Markov.Topology;
 
     /// <summary>
-    ///   Discrete-density hidden Markov Sequence Classifier learning algorithm.
+    ///   Learning algorithm for discrete-density <see cref="HiddenMarkovClassifier">
+    ///   generative hidden Markov sequence classifiers</see>.
     /// </summary>
     /// 
     /// <remarks>
     /// <para>
     ///   This class acts as a teacher for <see cref="HiddenMarkovClassifier">
     ///   classifiers based on discrete hidden Markov models</see>. The learning
-    ///   algorithm uses a gerative approach. It works by training each model in
-    ///   the gerative classifier separately.</para>
+    ///   algorithm uses a generative approach. It works by training each model in
+    ///   the generative classifier separately.</para>
+    ///   
     /// <para>
-    ///   For arbitrary density (e.g. continuous) models, please see the generic
-    ///   couterpart of the learning algorithm in 
-    ///   <see cref="HiddenMarkovClassifierLearning{TDistribution}"/>.</para>
+    ///   This class implements discrete classifiers only. Discrete classifiers can
+    ///   be used whenever the sequence of observations is discrete or can be represented
+    ///   by discrete symbols, such as class labels, integers, and so on. If you need
+    ///   to classify sequences of other entities, such as real numbers, vectors (i.e.
+    ///   multivariate observations), then you can use 
+    ///   <see cref="HiddenMarkovClassifierLearning{TDistribution}">generic-density
+    ///   hidden Markov models</see>. Those models can be modeled after any kind of
+    ///   <see cref="IDistribution">probability distribution</see> implementing
+    ///   the <see cref="IDistribution"/> interface.</para>
+    ///   
+    /// <para>
+    ///   For a more thorough explanation on <see cref="HiddenMarkovModel">hidden Markov models</see>
+    ///   with practical examples on gesture recognition, please see 
+    ///   <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko">
+    ///   Sequence Classifiers in C#, Part I: Hidden Markov Models</a> [1].</para>
+    ///     
+    /// <para>
+    ///   [1]: <a href="http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko"> 
+    ///           http://www.codeproject.com/Articles/541428/Sequence-Classifiers-in-Csharp-Part-I-Hidden-Marko </a>
+    /// </para>
     /// </remarks>
     /// 
     /// <example>
+    /// <para>
+    ///   The following example shows how to create a hidden Markov model sequence classifier
+    ///   to classify discrete sequences into two disjoint labels: labels for class 0 and 
+    ///   labels for class 1. The training data is separated in inputs and outputs. The
+    ///   inputs are the sequences we are trying to learn, and the outputs are the labels
+    ///   associated with each input sequence.</para>
+    ///   
+    /// <para>
+    ///   In this example we will be using the <see cref="BaumWelchLearning">Baum-Welch</see>
+    ///   algorithm to learn each model in our generative classifier; however, any other
+    ///   <see cref="IUnsupervisedLearning">unsupervised learning algorithm</see> could be used.
+    /// </para>
+    ///   
     ///   <code>
     ///   // Declare some testing data
     ///   int[][] inputs = new int[][]
@@ -146,6 +179,26 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         public double Run(int[][] inputs, int[] outputs)
         {
+            if (inputs == null)
+                throw new ArgumentNullException("inputs");
+
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                for (int j = 0; j < inputs[i].Length; j++)
+                {
+                    int symbol = inputs[i][j];
+
+                    if (symbol < 0 || symbol >= Classifier.Symbols)
+                    {
+                        string message = "Observation sequences should only contain symbols that are " +
+                        "greater than or equal to 0, and lesser than the number of symbols passed to " +
+                        "the HiddenMarkovClassifier. This classifier is expecting at most {0} symbols.";
+
+                        throw new ArgumentOutOfRangeException("inputs", String.Format(message, Classifier.Symbols));
+                    }
+                }
+            }
+
             return base.Run<int[]>(inputs, outputs);
         }
 

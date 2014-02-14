@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -173,7 +173,7 @@ namespace Accord.Statistics.Kernels
         /// <summary>
         ///   Attempts to retrieve the value of the kernel function
         ///   from the diagonal of the kernel matrix. If the value
-        ///   is not available, it is immediatelly computed and inserted
+        ///   is not available, it is immediately computed and inserted
         ///   in the cache.
         /// </summary>
         /// 
@@ -289,7 +289,7 @@ namespace Accord.Statistics.Kernels
         /// <summary>
         ///   Attempts to retrieve the value of the kernel function
         ///   from the diagonal of the kernel matrix. If the value
-        ///   is not available, it is immediatelly computed and inserted
+        ///   is not available, it is immediately computed and inserted
         ///   in the cache.
         /// </summary>
         /// 
@@ -394,7 +394,7 @@ namespace Accord.Statistics.Kernels
 
 
         /// <summary>
-        ///   Gets a copy of the the data cache.
+        ///   Gets a copy of the data cache.
         /// </summary>
         /// 
         /// <returns>A copy of the data cache.</returns>

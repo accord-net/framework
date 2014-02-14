@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -114,11 +114,11 @@ namespace Accord.MachineLearning.Bayes
     /// 
     /// <para>
     ///   Now that we already have our learning input/ouput pairs, we should specify our
-    ///   decision tree. We will be trying to build a tree to predict the last column, entitled
+    ///   Bayes model. We will be trying to build a model to predict the last column, entitled
     ///   “PlayTennis”. For this, we will be using the “Outlook”, “Temperature”, “Humidity” and
     ///   “Wind” as predictors (variables which will we will use for our decision). Since those
-    ///   are categorical, we must specify, at the moment of creation of our tree, the
-    ///   number of each possible symbol for those variables.
+    ///   are categorical, we must specify, at the moment of creation of our Bayes model, the
+    ///   number of each possible symbols for those variables.
     /// </para>
     /// 
     /// <code>
@@ -143,6 +143,17 @@ namespace Accord.MachineLearning.Bayes
     /// <para>Now that we have created and estimated our classifier, we 
     /// can query the classifier for new input samples through the <see
     /// cref="NaiveBayes.Compute(int[])"/> method.</para>
+    /// 
+    /// <code>
+    /// // We will be computing the label for a sunny, cool, humid and windy day:
+    /// int[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong");
+    /// 
+    /// // Now, we can feed this instance to our model
+    /// int output = model.Compute(instance, out logLikelihood);
+    /// 
+    /// // Finally, the result can be translated back to one of the codewords using
+    /// string result = codebook.Translate("PlayTennis", output); // result is "No"
+    /// </code>
     /// </example>
     /// 
     /// <seealso cref="NaiveBayes{T}"/>
@@ -242,14 +253,14 @@ namespace Accord.MachineLearning.Bayes
         }
 
         /// <summary>
-        ///   Gets the tables of log-probabilities for the frequence of
-        ///   occurance of each symbol for each class and input.
+        ///   Gets the tables of log-probabilities for the frequency of
+        ///   occurrence of each symbol for each class and input.
         /// </summary>
         /// 
         /// <value>A double[,] array in with each row corresponds to a 
         /// class, each column corresponds to an input variable. Each
         /// element of this double[,] array is a frequency table containing
-        /// the frequence of each symbol for the corresponding variable as
+        /// the frequency of each symbol for the corresponding variable as
         /// a double[] array.</value>
         /// 
         public double[,][] Distributions
@@ -302,7 +313,7 @@ namespace Accord.MachineLearning.Bayes
                 // For each variable (col)
                 for (int j = 0; j < symbols.Length; j++)
                 {
-                    // Count value occurances and store
+                    // Count value occurrences and store
                     // frequencies to form probabilities
                     double[] frequencies = new double[symbols[j]];
 

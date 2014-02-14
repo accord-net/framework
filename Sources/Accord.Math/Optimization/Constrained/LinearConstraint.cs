@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -63,7 +63,7 @@ namespace Accord.Math.Optimization
         private double[] scalars;
 
         /// <summary>
-        ///   Gest the number of variables in the constraint.
+        ///   Gets the number of variables in the constraint.
         /// </summary>
         /// 
         public int NumberOfVariables { get; private set; }
@@ -139,7 +139,8 @@ namespace Accord.Math.Optimization
         ///   Constructs a new linear constraint.
         /// </summary>
         /// 
-        /// <param name="coefficients">The scalar coefficients specifying how variables should be combined in the constraint.</param>
+        /// <param name="coefficients">The scalar coefficients specifying 
+        /// how variables should be combined in the constraint.</param>
         /// 
         public LinearConstraint(params double[] coefficients)
         {
@@ -153,8 +154,17 @@ namespace Accord.Math.Optimization
         ///   Constructs a new linear constraint.
         /// </summary>
         /// 
-        /// <param name="function">The objective function to which this constraint refers to.</param>
-        /// <param name="constraint">A <see cref="System.String"/> specifying this constraint, such as "ax + b = c".</param>
+        /// <param name="function">The objective function to which
+        ///   this constraint refers to.</param>
+        /// <param name="constraint">A <see cref="System.String"/> 
+        ///   specifying this constraint, such as "ax + b = c".</param>
+        /// 
+        /// <remarks>
+        ///   The constraint string is always parsed using 
+        ///   <see cref="System.Globalization.CultureInfo.InvariantCulture"/>.
+        ///   This means numbers should be written using the English format, 
+        ///   using the dot (.) as the decimal separator.
+        /// </remarks>
         /// 
         public LinearConstraint(IObjectiveFunction function, string constraint)
         {
@@ -165,14 +175,45 @@ namespace Accord.Math.Optimization
         ///   Constructs a new linear constraint.
         /// </summary>
         /// 
-        /// <param name="function">The objective function to which this constraint refers to.</param>
-        /// <param name="constraint">A <see cref="Expression{T}"/> specifying this constraint in the form of a lambda expression.</param>
+        /// <param name="function">The objective function to which this 
+        ///   constraint refers to.</param>
+        /// <param name="constraint">A <see cref="Expression{T}"/> specifying
+        ///   this constraint in the form of a lambda expression.</param>
         /// 
         public LinearConstraint(IObjectiveFunction function, Expression<Func<bool>> constraint)
         {
             parseExpression(function, constraint);
         }
 
+        /// <summary>
+        ///   Attempts to create a <see cref="LinearConstraint"/>
+        ///   from a <see cref="System.String"/> representation.
+        /// </summary>
+        /// 
+        /// <param name="str">The string containing the constraint in textual form.</param>
+        /// <param name="function">The objective function to which this constraint refers to.</param>
+        /// <param name="constraint">The resulting constraint, if it could be parsed.</param>
+        /// 
+        /// <returns><c>true</c> if the function could be parsed
+        ///   from the string, <c>false</c> otherwise.</returns>
+        /// 
+        public static bool TryParse(string str, IObjectiveFunction function,
+            out LinearConstraint constraint)
+        {
+            // TODO: implement this method without the try-catch block.
+
+            try
+            {
+                constraint = new LinearConstraint(function, str);
+            }
+            catch (FormatException)
+            {
+                constraint = null;
+                return false;
+            }
+
+            return true;
+        }
 
         private void parseString(IObjectiveFunction function, string constraint)
         {
@@ -211,7 +252,7 @@ namespace Accord.Math.Optimization
             lhs = sides[0];
             rhs = sides[2];
 
-            double value = Double.Parse(rhs);
+            double value = Double.Parse(rhs, System.Globalization.CultureInfo.InvariantCulture);
 
             MatchCollection matches = r.Matches(lhs, 0);
 
@@ -225,7 +266,7 @@ namespace Accord.Math.Optimization
                 MatchCollection coeff = number.Matches(term);
 
                 foreach (Match c in coeff)
-                    scalar *= Double.Parse(c.Value);
+                    scalar *= Double.Parse(c.Value, System.Globalization.CultureInfo.InvariantCulture);
 
                 // Extract symbols
                 MatchCollection symbols = symbol.Matches(term);

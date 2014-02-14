@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -79,14 +79,14 @@ namespace Accord.MachineLearning
     /// 
     public class RANSAC<TModel> where TModel : class
     {
-        // Ransac parameters
+        // RANSAC parameters
         private int s;    // number of samples
         private double t; // inlier threshold
         private int maxSamplings = 100;
         private int maxEvaluations = 1000;
         private double probability = 0.99;
 
-        // Ransac functions
+        // RANSAC functions
         private Func<int[], TModel> fitting;
         private Func<TModel, double, int[]> distances;
         private Func<int[], bool> degenerate;
@@ -305,7 +305,7 @@ namespace Accord.MachineLearning
                 //   than the maximum limit of attempts
                 while (samplings < maxSamplings)
                 {
-                    // Select at random s datapoints to form a trial model.
+                    // Select at random s data points to form a trial model.
                     sample = Statistics.Tools.RandomSample(size, r);
 
                     // If the sampled points are not in a degenerate configuration,

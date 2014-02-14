@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -43,6 +43,11 @@ namespace Accord.MachineLearning.VectorMachines
     ///   mapped so that the examples of the separate categories are divided by a clear gap
     ///   that is as wide as possible. New examples are then mapped into that same space and
     ///   predicted to belong to a category based on which side of the gap they fall on.</para>
+    ///   
+    /// <para>
+    ///   For the non-linear generalization of the Support Vector Machine using arbitrary 
+    ///   kernel functions, please see the <see cref="KernelSupportVectorMachine"/>.
+    /// </para>
     ///   
     /// <para>
     ///   References:
@@ -86,6 +91,12 @@ namespace Accord.MachineLearning.VectorMachines
     ///   int decision = System.Math.Sign(svm.Compute(inputs[0]));
     ///   </code>
     /// </example>
+    ///
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// <seealso cref="MulticlassSupportVectorMachine"/>
+    /// <seealso cref="MultilabelSupportVectorMachine"/>
+    ///
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning.SequentialMinimalOptimization"/>
     /// 
     [Serializable]
     public class SupportVectorMachine : ISupportVectorMachine

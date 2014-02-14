@@ -1,11 +1,11 @@
 ﻿// Accord Imaging Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
 // Copyright © Diego Catalano, 2013
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -37,13 +37,13 @@ namespace Accord.Imaging.Filters
     /// <remarks>
     ///   <para>
     ///   Robinson's edge detector is a variation of <see cref="KirschEdgeDetector">
-    ///   Kirsch's detector</see> using different convulution masks. Both are examples
+    ///   Kirsch's detector</see> using different convolution masks. Both are examples
     ///   of <see cref="CompassConvolution">compass convolution filters</see>.</para>
     /// </remarks>
     /// 
     /// <example>
     /// <code>
-    /// Bitmap image = ... // lena's picture
+    /// Bitmap image = ... // Lena's picture
     /// 
     /// // Create a new Robinson's edge detector:
     /// var robinson = new RobinsonEdgeDetector();

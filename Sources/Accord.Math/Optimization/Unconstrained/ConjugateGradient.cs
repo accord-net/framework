@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 // Copyright © Jorge Nocedal, 1990
@@ -100,7 +100,7 @@ namespace Accord.Math.Optimization
     ///    </list></para>
     /// </remarks>
     /// 
-    public class ConjugateGradient : IOptimizationMethod
+    public class ConjugateGradient : IGradientOptimizationMethod
     {
 
         private int numberOfVariables;
@@ -349,7 +349,7 @@ namespace Accord.Math.Optimization
             bool bnew = true;
             int nrst = 0;
             int im = 0;   // Number of times betapr was negative for method 2 or 3
-            searches = 0; // Number of line search iterations alfter Wolfe conditions were satisfied.
+            searches = 0; // Number of line search iterations after Wolfe conditions were satisfied.
             double dg0 = 0;
 
             for (int i = 0; i < g.Length; ++i)
@@ -380,7 +380,7 @@ namespace Accord.Math.Optimization
                 // (modified for Nocedal's CG method) 
                 // ------------------------------------------------- 
                 //
-                //  JJ Mor'e and D Thuente, "Linesearch Algorithms with Guaranteed 
+                //  J.J. Mor'e and D. Thuente, "Linesearch Algorithms with Guaranteed 
                 //  Sufficient Decrease". ACM Transactions on Mathematical 
                 //  Software 20 (1994), pp 286-307. 
                 //

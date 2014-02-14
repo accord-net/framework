@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@ namespace Accord.Statistics.Testing
     using Accord.Statistics.Analysis;
 
     /// <summary>
-    ///   McNemar test of homogeneity for <c>2 x 2</c> contigency tables.
+    ///   McNemar test of homogeneity for <c>2 x 2</c> contingency tables.
     /// </summary>
     /// 
     /// <remarks>
@@ -52,7 +52,6 @@ namespace Accord.Statistics.Testing
     public class McNemarTest : ChiSquareTest
     {
 
-
         /// <summary>
         ///   Creates a new McNemar test.
         /// </summary>
@@ -68,9 +67,13 @@ namespace Accord.Statistics.Testing
             int c = matrix.FalsePositives;
             int d = matrix.TrueNegatives;
 
-            double u = (yatesCorrection) ? Math.Abs(b - c) - 0.5 : u = b - c;
+            double u = b - c;
+            
+            if (yatesCorrection)
+                 u = Math.Abs(u) - 0.5;
 
             double chiSquare = (u * u) / (b + c);
+
             int df = 1;
 
             Compute(chiSquare, df);

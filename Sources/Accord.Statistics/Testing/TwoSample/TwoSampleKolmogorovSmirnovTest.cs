@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -94,11 +94,11 @@ namespace Accord.Statistics.Testing
     /// <para>
     ///   The following example comes from the stats page of the College of Saint Benedict and Saint John's
     ///   University (Kirkman, 1996). It is a very interesting example as it shows a case in which a t-test
-    ///   fails to see a difference between the samples because of the non-normality of of the sample's
+    ///   fails to see a difference between the samples because of the non-normality of the sample's
     ///   distributions. The Kolmogorov-Smirnov nonparametric test, on the other hand, succeeds.</para>
     /// <para>
     ///   The example deals with the preference of bees between two nearby blooming trees in an empty field.
-    ///   The experimenter has colelcted data measurinbg how much time does a bee spents near a particular
+    ///   The experimenter has collected data measuring how much time does a bee spent near a particular
     ///   tree. The time starts to be measured when a bee first touches the tree, and is stopped when the bee
     ///   moves more than 1 meter far from it. The samples below represents the measured time, in seconds, of
     ///   the observed bees for each of the trees.</para>
@@ -133,7 +133,7 @@ namespace Accord.Statistics.Testing
     /// Console.WriteLine("Test p-value: " + t.PValue);    // ~0.837
     /// Console.WriteLine("Significant? " + t.Significant); // false
     /// 
-    /// // Create a non-parametric Kolmogovor Smirnov test
+    /// // Create a non-parametric Kolmogorov-Smirnov test
     /// var ks = new TwoSampleKolmogorovSmirnovTest(redwell, whitney);
     /// 
     /// Console.WriteLine("KS-Test");

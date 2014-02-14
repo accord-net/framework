@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -254,12 +254,15 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (!variance.HasValue)
                 {
-                    variance = 0.0;
+                    double m = Mean;
+                    double v = 0;
                     for (int i = 0; i < probabilities.Length; i++)
                     {
-                        double d = i + start - mean.Value;
-                        variance += probabilities[i] * (d * d);
+                        double d = i + start - m;
+                        v += probabilities[i] * (d * d);
                     }
+
+                    this.variance = v;
                 }
                 return variance.Value;
             }
@@ -349,8 +352,12 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double DistributionFunction(int k)
         {
             int value = k - start;
-            if (value < 0) return 0;
-            if (value >= probabilities.Length) return 1.0;
+
+            if (value < 0) 
+                return 0;
+
+            if (value >= probabilities.Length) 
+                return 1.0;
 
             double sum = 0.0;
             for (int i = 0; i <= value; i++)

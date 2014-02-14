@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,12 +23,13 @@
 namespace Accord.Statistics.Models.Markov
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
-    using Accord.Statistics.Models.Markov.Topology;
-    using Accord.Statistics.Models.Markov.Learning;
+    using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Univariate;
-    using System.Collections.Generic;
+    using Accord.Statistics.Models.Markov.Learning;
+    using Accord.Statistics.Models.Markov.Topology;
 
     /// <summary>
     ///   Discrete-density Hidden Markov Model Set for Sequence Classification.
@@ -45,6 +46,12 @@ namespace Accord.Statistics.Models.Markov
     ///   continuous and multivariate variables, please see use the generic classifier counterpart 
     ///   <see cref="HiddenMarkovClassifier{TDistribution}"/></para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   Examples are available at the respective learning algorithm pages. For 
+    ///   example, see <see cref="HiddenMarkovClassifierLearning"/>. </para>
+    /// </example>
     /// 
     /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
     /// <seealso cref="HiddenMarkovClassifierLearning"/>
@@ -113,7 +120,7 @@ namespace Accord.Statistics.Models.Markov
             : base(classes)
         {
             if (topology.Length != classes)
-                throw new ArgumentException("The number of topology especifications should equal the number of classes", "classes");
+                throw new ArgumentException("The number of topology specifications should equal the number of classes", "classes");
 
             for (int i = 0; i < classes; i++)
                 Models[i] = new HiddenMarkovModel(topology[i], symbols);
@@ -133,7 +140,7 @@ namespace Accord.Statistics.Models.Markov
             : base(classes)
         {
             if (topology.Length != classes)
-                throw new ArgumentException("The number of topology especifications should equal the number of classes", "classes");
+                throw new ArgumentException("The number of topology specifications should equal the number of classes", "classes");
 
             for (int i = 0; i < classes; i++)
                 Models[i] = new HiddenMarkovModel(topology[i], symbols) { Tag = names[i] };
@@ -311,6 +318,8 @@ namespace Accord.Statistics.Models.Markov
         #endregion
 
 
+        #region Save & Load methods
+
         /// <summary>
         ///   Saves the classifier to a stream.
         /// </summary>
@@ -367,6 +376,35 @@ namespace Accord.Statistics.Models.Markov
             }
         }
 
+        /// <summary>
+        ///   Loads a classifier from a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream from which the classifier is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized classifier.</returns>
+        /// 
+        public static HiddenMarkovClassifier<TDistribution> Load<TDistribution>(Stream stream)
+            where TDistribution : IDistribution
+        {
+            return HiddenMarkovClassifier<TDistribution>.Load(stream);
+        }
+
+        /// <summary>
+        ///   Loads a classifier from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file from which the classifier is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized classifier.</returns>
+        /// 
+        public static HiddenMarkovClassifier<TDistribution> Load<TDistribution>(string path)
+            where TDistribution : IDistribution
+        {
+            return HiddenMarkovClassifier<TDistribution>.Load(path);
+        }
+
+        #endregion
 
     }
 }

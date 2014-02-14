@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -48,35 +48,6 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -188,7 +159,7 @@ namespace Accord.Tests.MachineLearning
             var crossvalidation = new CrossValidation<KernelSupportVectorMachine>(size: data.Length, folds: 3);
 
             // Define a fitting function using Support Vector Machines. The objective of this
-            // function is to learn a SVM in the subset of the data dicted by cross-validation.
+            // function is to learn a SVM in the subset of the data indicated by cross-validation.
 
             crossvalidation.Fitting = delegate(int k, int[] indicesTrain, int[] indicesValidation)
             {

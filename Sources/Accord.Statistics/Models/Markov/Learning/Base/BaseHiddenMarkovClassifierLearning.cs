@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -103,7 +103,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 
         /// <summary>
         ///   Gets or sets a value indicating whether the class priors
-        ///   should be estimated from the data, as in an empirical bayes method.
+        ///   should be estimated from the data, as in an empirical Bayes method.
         /// </summary>
         /// 
         public bool Empirical { get; set; }
@@ -142,8 +142,11 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         protected double Run<T>(T[] inputs, int[] outputs)
         {
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null) 
+                throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
                 throw new DimensionMismatchException("outputs",

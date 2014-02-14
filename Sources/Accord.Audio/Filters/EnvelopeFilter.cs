@@ -1,8 +1,8 @@
-﻿// Accord (Experimental) Audio Library
+﻿// Accord Audio Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -39,17 +39,21 @@ namespace Accord.Audio.Filters
     {
         private float alpha = 0.001f;
 
-        private Dictionary<SampleFormat, SampleFormat> formatTranslations = new Dictionary<SampleFormat, SampleFormat>();
+        private Dictionary<SampleFormat, SampleFormat> formatTranslations 
+            = new Dictionary<SampleFormat, SampleFormat>();
 
 
         /// <summary>
         ///   Format translations dictionary.
         /// </summary>
+        /// 
         /// <value>The format translations.</value>
+        /// 
         /// <remarks>
         ///   The dictionary defines which sample formats are supported for
         ///   source signals and which sample format will be used for resulting signal.
         /// </remarks>
+        /// 
         public override Dictionary<SampleFormat, SampleFormat> FormatTranslations
         {
             get { return formatTranslations; }
@@ -58,6 +62,7 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Alpha
         /// </summary>
+        /// 
         public float Alpha
         {
             get { return alpha; }
@@ -67,6 +72,7 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Constructs a new Envelope filter
         /// </summary>
+        /// 
         public EnvelopeFilter(float alpha)
         {
             this.alpha = alpha;
@@ -77,6 +83,7 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Processes the filter.
         /// </summary>
+        /// 
         protected override void ProcessFilter(Signal sourceData, Signal destinationData)
         {
             SampleFormat format = sourceData.SampleFormat;

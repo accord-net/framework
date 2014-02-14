@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,35 +50,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
         [TestMethod()]
         public void ConstructorTest1()
@@ -134,7 +105,8 @@ namespace Accord.Tests.Statistics
 
             double actual = mixture.LogProbabilityDensityFunction(x);
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual, 1e-10);
+            Assert.IsFalse(double.IsNaN(actual));
         }
 
         [TestMethod()]
@@ -257,7 +229,7 @@ namespace Accord.Tests.Statistics
             double[][] points = new double[] { 0, 3, 1, 7, 3, 5, 1, 2, -1, 2, 7, 6, 8, 6 } // (14 points)
                 .ToArray();
 
-            // And those are their respective unnormalized weights:
+            // And those are their respective unormalized weights:
             double[] weights = { 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 2, 3, 1, 1 }; // (14 weights)
 
             // Let's normalize the weights so they sum up to one:
@@ -314,10 +286,10 @@ namespace Accord.Tests.Statistics
             double mean10 = mixture.Components[1].Mean[0];
             double mean11 = mixture.Components[1].Mean[1];
 
-            Assert.AreEqual(-0.11704994950834195, mean00);
-            Assert.AreEqual(0.11603470123007256, mean01);
-            Assert.AreEqual(0.11814483652855159, mean10);
-            Assert.AreEqual(-0.12029275652994373, mean11);
+            Assert.AreEqual(-0.11704994950834195, mean00, 1e-10);
+            Assert.AreEqual(0.11603470123007256, mean01, 1e-10);
+            Assert.AreEqual(0.11814483652855159, mean10, 1e-10);
+            Assert.AreEqual(-0.12029275652994373, mean11, 1e-10);
         }
 
     }

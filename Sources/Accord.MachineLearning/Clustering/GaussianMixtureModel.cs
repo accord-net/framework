@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -24,7 +24,6 @@ namespace Accord.MachineLearning
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
@@ -51,8 +50,8 @@ namespace Accord.MachineLearning
     ///   // Compute the model (estimate)
     ///   gmm.Compute(samples, 0.0001);
     ///   
-    ///   // Classify a single sample
-    ///   int c = gmm.Nearest(sample);
+    ///   // Get classification for a new sample
+    ///   int c = gmm.Gaussians.Nearest(sample);
     ///   </code>
     /// </example>
     /// 
@@ -124,7 +123,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="mixture">
-        ///   The initial solution as a mixture of normals distribution.</param>
+        ///   The initial solution as a mixture of normal distributions.</param>
         ///   
         public GaussianMixtureModel(Mixture<NormalDistribution> mixture)
         {
@@ -142,7 +141,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="mixture">
-        ///   The initial solution as a mixture of normals distribution.</param>
+        ///   The initial solution as a mixture of normal distributions.</param>
         ///   
         public GaussianMixtureModel(MultivariateMixture<MultivariateNormalDistribution> mixture)
         {
@@ -168,7 +167,7 @@ namespace Accord.MachineLearning
 
         /// <summary>
         ///   Initializes the model with initial values obtained 
-        ///   throught a run of the K-Means clustering algorithm.
+        ///   through a run of the K-Means clustering algorithm.
         /// </summary>
         /// 
         public double Initialize(double[][] data, double threshold)
@@ -189,7 +188,7 @@ namespace Accord.MachineLearning
 
         /// <summary>
         ///   Initializes the model with initial values obtained 
-        ///   throught a run of the K-Means clustering algorithm.
+        ///   through a run of the K-Means clustering algorithm.
         /// </summary>
         /// 
         public void Initialize(KMeans kmeans)
@@ -208,7 +207,7 @@ namespace Accord.MachineLearning
                 double[] mean = kmeans.Clusters.Centroids[i];
                 double[,] covariance = kmeans.Clusters.Covariances[i];
 
-                if (!covariance.IsPositiveDefinite())
+                if (covariance == null || !covariance.IsPositiveDefinite())
                     covariance = Matrix.Identity(kmeans.Dimension);
 
                 distributions[i] = new MultivariateNormalDistribution(mean, covariance);
@@ -350,9 +349,6 @@ namespace Accord.MachineLearning
                 throw new ArgumentNullException("data");
             }
 
-            int components = this.clusters.Count;
-
-
             if (model == null)
             {
                 // TODO: Perform K-Means multiple times to avoid
@@ -365,19 +361,12 @@ namespace Accord.MachineLearning
             {
                 Threshold = options.Threshold,
                 InnerOptions = options.NormalOptions,
+                Iterations = options.Iterations,
+                Logarithm = options.Logarithm
             };
 
             // Check if we have weighted samples
             double[] weights = options.Weights;
-            if (weights != null)
-            {
-                // Normalize if necessary
-                double sum = weights.Sum();
-                if (sum != 1)
-                    weights.Divide(sum, inPlace: true);
-
-                System.Diagnostics.Debug.Assert(weights.Sum() - 1 < 1e-5);
-            }
 
             // Fit a multivariate Gaussian distribution
             model.Fit(data, weights, mixtureOptions);
@@ -405,7 +394,7 @@ namespace Accord.MachineLearning
         /// for the algorithm. Default is 1e-5.</param>
         /// 
         /// <returns>
-        ///   The labelings for the input data.
+        ///   The labellings for the input data.
         /// </returns>
         /// 
         int[] IClusteringAlgorithm<double[]>.Compute(double[][] data, double threshold)
@@ -488,6 +477,15 @@ namespace Accord.MachineLearning
     ///   Options for Gaussian Mixture Model fitting.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   This class provides different options that can be passed to a 
+    ///   <see cref="GaussianMixtureModel"/> object when calling its
+    ///   <see cref="GaussianMixtureModel.Compute(double[][], GaussianMixtureModelOptions)"/>
+    ///   method.
+    /// </remarks>
+    /// 
+    /// <seealso cref="GaussianMixtureModel"/>
+    /// 
     public class GaussianMixtureModelOptions
     {
 
@@ -499,6 +497,21 @@ namespace Accord.MachineLearning
         /// <value>The convergence threshold.</value>
         /// 
         public double Threshold { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations
+        ///   to be performed by the Expectation-Maximization
+        ///   algorithm. Default is zero (iterate until convergence).
+        /// </summary>
+        /// 
+        public int Iterations { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether to make computations using the log
+        ///   -domain. This might improve accuracy on large datasets.
+        /// </summary>
+        /// 
+        public bool Logarithm { get; set; }
 
         /// <summary>
         ///   Gets or sets the sample weights. If set to null,

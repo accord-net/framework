@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -35,7 +35,7 @@ namespace Accord.Statistics.Filters
     ///   The normalization filter is able to transform numerical data into
     ///   Z-Scores, subtracting the mean for each variable and dividing by
     ///   their standard deviation. The filter is able to distinguish
-    ///   numerical columns automatically, leaving other columns unnafected.
+    ///   numerical columns automatically, leaving other columns unaffected.
     ///   It is also possible to control which columns should be processed
     ///   by the filter.</para>
     /// 

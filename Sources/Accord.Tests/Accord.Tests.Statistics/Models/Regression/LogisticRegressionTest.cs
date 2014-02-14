@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -46,35 +46,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -82,7 +53,7 @@ namespace Accord.Tests.Statistics
         {
             // Suppose we have the following data about some patients.
             // The first variable is continuous and represent patient
-            // age. The second variable is dicotomic and give whether
+            // age. The second variable is dichotomic and give whether
             // they smoke or not (This is completely fictional data).
             double[][] input =
             {
@@ -112,7 +83,7 @@ namespace Accord.Tests.Statistics
             LogisticRegression regression = new LogisticRegression(inputs: 2);
 
             // Next, we are going to estimate this model. For this, we
-            // will use the Iteravely reweighted least squares method.
+            // will use the Iteratively Reweighted Least Squares method.
             var teacher = new IterativeReweightedLeastSquares(regression);
 
             // Now, we will iteratively estimate our model. The Run method returns
@@ -134,7 +105,7 @@ namespace Accord.Tests.Statistics
 
             // For the age variable, we have that individuals with
             //   higher age have 1.021 greater odds of getting lung
-            //   cancer controlling for cigarrete smoking.
+            //   cancer controlling for cigarette smoking.
             double ageOdds = regression.GetOddsRatio(1); // 1.0208597028836701
 
             // For the smoking/non smoking category variable, however, we
@@ -157,8 +128,8 @@ namespace Accord.Tests.Statistics
 
             double[,] inputGrouped =
             {
-                { 1, 4, 5 }, // product 1 has four occurances of class 1 and five  of class 0
-                { 2, 1, 3 }, // product 2 has one  occurance  of class 1 and three of class 0
+                { 1, 4, 5 }, // product 1 has four occurrences of class 1 and five  of class 0
+                { 2, 1, 3 }, // product 2 has one  occurrence  of class 1 and three of class 0
             };
 
             double[,] inputGroupProb =

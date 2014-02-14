@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -65,7 +65,10 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public abstract class UnivariateDiscreteDistribution : DistributionBase,
-        IDistribution, IUnivariateDistribution
+        IUnivariateDistribution<int>,
+        IUnivariateDistribution,
+        IUnivariateDistribution<double>,
+        IDistribution<double[]>, IDistribution<double>
     {
 
         double? median;
@@ -179,7 +182,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        double IDistribution.DistributionFunction(params double[] x)
+        double IDistribution.DistributionFunction(double[] x)
         {
             return DistributionFunction((int)x[0]);
         }
@@ -262,7 +265,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        double IDistribution.ProbabilityFunction(params double[] x)
+        double IDistribution.ProbabilityFunction(double[] x)
         {
             return ProbabilityMassFunction((int)x[0]);
         }
@@ -282,51 +285,16 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   occurring in the current distribution.
         /// </returns>
         /// 
-        double IDistribution.LogProbabilityFunction(params double[] x)
+        double IDistribution.LogProbabilityFunction(double[] x)
         {
             return LogProbabilityMassFunction((int)x[0]);
         }
 
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range. For a
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        /// <returns>
-        /// 
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.
-        /// </returns>
-        /// 
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
         double IUnivariateDistribution.ProbabilityFunction(double x)
         {
             return ProbabilityMassFunction((int)x);
         }
 
-        /// <summary>
-        ///   Gets the log-probability density function (pdf)
-        ///   for this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range. For a
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        /// 
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c>
-        ///   occurring in the current distribution.
-        /// </returns>
-        /// 
         double IUnivariateDistribution.LogProbabilityFunction(double x)
         {
             return LogProbabilityMassFunction((int)x);
@@ -819,5 +787,73 @@ namespace Accord.Statistics.Distributions.Univariate
         public abstract object Clone();
 
 
+
+
+        double IDistribution<int>.ProbabilityFunction(int x)
+        {
+            return ProbabilityMassFunction(x);
+        }
+
+        double IDistribution<int>.LogProbabilityFunction(int x)
+        {
+            return LogProbabilityMassFunction(x);
+        }
+
+        double IDistribution<double[]>.DistributionFunction(double[] x)
+        {
+            return (this as IDistribution).DistributionFunction(x);
+        }
+
+        double IDistribution<double[]>.ProbabilityFunction(double[] x)
+        {
+            return (this as IDistribution).ProbabilityFunction(x);
+        }
+
+        double IDistribution<double[]>.LogProbabilityFunction(double[] x)
+        {
+            return (this as IDistribution).LogProbabilityFunction(x);
+        }
+
+        double IDistribution<double[]>.ComplementaryDistributionFunction(double[] x)
+        {
+            return (this as IDistribution).ComplementaryDistributionFunction(x);
+        }
+
+        double IDistribution<double>.DistributionFunction(double x)
+        {
+            return DistributionFunction((int)x);
+        }
+
+        double IDistribution<double>.ProbabilityFunction(double x)
+        {
+            return ProbabilityMassFunction((int)x);
+        }
+
+        double IDistribution<double>.LogProbabilityFunction(double x)
+        {
+            return LogProbabilityMassFunction((int)x);
+        }
+
+        double IDistribution<double>.ComplementaryDistributionFunction(double x)
+        {
+            return ComplementaryDistributionFunction((int)x);
+        }
+
+        double IUnivariateDistribution<double>.InverseDistributionFunction(double p)
+        {
+            return InverseDistributionFunction(p);
+        }
+
+        double IUnivariateDistribution<double>.HazardFunction(double x)
+        {
+            return HazardFunction((int)x);
+        }
+
+        double IUnivariateDistribution<double>.CumulativeHazardFunction(double x)
+        {
+            return CumulativeHazardFunction((int)x);
+        }
+
+        
     }
 }

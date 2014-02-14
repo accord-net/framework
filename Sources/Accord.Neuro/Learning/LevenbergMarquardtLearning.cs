@@ -1,8 +1,8 @@
 ﻿// Accord Neural Net Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -210,7 +210,7 @@ namespace Accord.Neuro.Learning
 
         /// <summary>
         ///   Gets the number of effective parameters being used
-        ///   by the network as determined by the bayesian regularization.
+        ///   by the network as determined by the Bayesian regularization.
         /// </summary>
         /// <remarks>
         ///   If no regularization is being used, the value will be 0.
@@ -226,7 +226,7 @@ namespace Accord.Neuro.Learning
         ///   weights in the cost function. Used by the regularization.
         /// </summary>
         /// <remarks>
-        ///   This is the first bayesian hyperparameter. The default
+        ///   This is the first Bayesian hyperparameter. The default
         ///   value is 0.
         /// </remarks>
         /// 
@@ -241,7 +241,7 @@ namespace Accord.Neuro.Learning
         ///   errors in the cost function. Used by the regularization.
         /// </summary>
         /// <remarks>
-        ///   This is the second bayesian hyperparameter. The default
+        ///   This is the second Bayesian hyperparameter. The default
         ///   value is 1.
         /// </remarks>
         /// 
@@ -273,6 +273,39 @@ namespace Accord.Neuro.Learning
             set { blocks = value; }
         }
 
+        /// <summary>
+        ///   Gets the approximate Hessian matrix of second derivatives 
+        ///   generated in the last algorithm iteration. The Hessian is 
+        ///   stored in the upper triangular part of this matrix. See 
+        ///   remarks for details.
+        ///   </summary>
+        ///   
+        /// <remarks>
+        /// <para>
+        ///   The Hessian needs only be upper-triangular, since
+        ///   it is symmetric. The Cholesky decomposition will
+        ///   make use of this fact and use the lower-triangular
+        ///   portion to hold the decomposition, conserving memory</para>
+        /// <para>
+        ///   Thus said, this property will hold the Hessian matrix
+        ///   in the upper-triangular part of this matrix, and store
+        ///   its Cholesky decomposition on its lower triangular part.</para>
+        /// </remarks>
+        ///  
+        public float[][] Hessian
+        {
+            get { return hessian; }
+        }
+
+        /// <summary>
+        ///   Gets the gradient vector computed in the last iteration.
+        /// </summary>
+        /// 
+        public float[] Gradient
+        {
+            get { return gradient; }
+        }
+
 
 
         /// <summary>
@@ -289,7 +322,7 @@ namespace Accord.Neuro.Learning
         /// </summary>
         /// 
         /// <param name="network">Network to teach.</param>
-        /// <param name="useRegularization">True to use bayesian regularization, false otherwise.</param>
+        /// <param name="useRegularization">True to use Bayesian regularization, false otherwise.</param>
         /// 
         public LevenbergMarquardtLearning(ActivationNetwork network, bool useRegularization) :
             this(network, useRegularization, JacobianMethod.ByBackpropagation) { }
@@ -299,7 +332,7 @@ namespace Accord.Neuro.Learning
         /// </summary>
         /// 
         /// <param name="network">Network to teach.</param>
-        /// <param name="useRegularization">True to use bayesian regularization, false otherwise.</param>
+        /// <param name="useRegularization">True to use Bayesian regularization, false otherwise.</param>
         /// <param name="method">The method by which the Jacobian matrix will be calculated.</param>
         /// 
         public LevenbergMarquardtLearning(ActivationNetwork network, bool useRegularization, JacobianMethod method)
@@ -320,7 +353,7 @@ namespace Accord.Neuro.Learning
             this.jacobian = new float[numberOfParameters][];
 
 
-            // Will use backpropagation method for Jacobian computation
+            // Will use Backpropagation method for Jacobian computation
             if (method == JacobianMethod.ByBackpropagation)
             {
                 // create weight derivatives arrays
@@ -451,7 +484,7 @@ namespace Accord.Neuro.Learning
                 Trace.TraceInformation("Jacobian block finished.");
 
 
-                // Compute error gradient using jacobian
+                // Compute error gradient using Jacobian
                 Trace.TraceInformation("Updating gradient.");
                 for (int i = 0; i < jacobian.Length; i++)
                 {
@@ -463,7 +496,7 @@ namespace Accord.Neuro.Learning
 
 
                 // Compute Quasi-Hessian Matrix approximation
-                //  using the outer project Jacobian (H ~ J'J)
+                //  using the outer product Jacobian (H ~ J'J)
                 Trace.TraceInformation("Updating Hessian.");
                 Parallel.For(0, jacobian.Length, i =>
                 {
@@ -499,12 +532,12 @@ namespace Accord.Neuro.Learning
             sumOfSquaredWeights = saveNetworkToArray();
 
 
-            // Define the objective function: (bayesian regularization objective)
+            // Define the objective function: (Bayesian regularization objective)
             double objective = beta * sumOfSquaredErrors + alpha * sumOfSquaredWeights;
             double current = objective + 1.0; // (starting value to enter iteration)
 
 
-            // Begin of the main Levenberg-Marcquardt method
+            // Begin of the main Levenberg-Marquardt method
             lambda /= v;
 
             // We'll try to find a direction with less error
@@ -559,15 +592,15 @@ namespace Accord.Neuro.Learning
             lambda /= v;
 
 
-            // If we are using bayesian regularization, we need to
-            //   update the bayesian hyperparameters alpha and beta
+            // If we are using Bayesian regularization, we need to
+            //   update the Bayesian hyperparameters alpha and beta
             if (useBayesianRegularization)
             {
                 // References: 
                 // - http://www-alg.ist.hokudai.ac.jp/~jan/alpha.pdf
                 // - http://www.inference.phy.cam.ac.uk/mackay/Bayes_FAQ.html
 
-                // Compute the trace for the inverse hessian in place. The
+                // Compute the trace for the inverse Hessian in place. The
                 // Hessian which was still being hold together with the L
                 // factorization will be destroyed after this computation.
                 trace = decomposition.InverseTrace(destroy: true);
@@ -577,12 +610,12 @@ namespace Accord.Neuro.Learning
                 gamma = numberOfParameters - (alpha * trace);
                 alpha = numberOfParameters / (2 * sumOfSquaredWeights + trace);
                 beta = System.Math.Abs((N - gamma) / (2 * sumOfSquaredErrors));
-                //beta = (N - gama) / (2.0 * sumOfSquaredErrors);
+                //beta = (N - gamma) / (2.0 * sumOfSquaredErrors);
 
                 // Original MacKay's update formula:
-                //  gama = (double)networkParameters - (alpha * trace);
-                //  alpha = gama / (2.0 * sumOfSquaredWeights);
-                //  beta = (gama - N) / (2.0 * sumOfSquaredErrors);
+                //  gamma = (double)networkParameters - (alpha * trace);
+                //  alpha = gamma / (2.0 * sumOfSquaredWeights);
+                //  beta = (gamma - N) / (2.0 * sumOfSquaredErrors);
             }
 
             return sumOfSquaredErrors;
@@ -867,7 +900,7 @@ namespace Accord.Neuro.Learning
                     // We will start computing the second part of the product. Since the g' 
                     //  derivatives have already been computed in the previous computation,
                     //  we will be summing all previous function derivatives and weighting
-                    //  them using their connection weight (sinapses).
+                    //  them using their connection weight (synapses).
                     //
                     // So, for each neuron in the next layer:
                     for (int nj = 0; nj < nextLayerDerivatives.Length; nj++)
@@ -876,7 +909,7 @@ namespace Accord.Neuro.Learning
                         //   neuron and the activation function of the next neuron.
                         double weight = nextLayer.Neurons[nj].Weights[ni];
 
-                        // accumulate the sinapse weight * next layer derivative
+                        // accumulate the synapse weight * next layer derivative
                         sum += weight * nextLayerDerivatives[nj];
                     }
 
@@ -934,9 +967,9 @@ namespace Accord.Neuro.Learning
                     e = errors[row] = desiredOutput[i][j] - networkOutput[j];
                     sumOfSquaredErrors += e * e;
 
-                    // Computation of one of the Jacobian Matrix rows by nummerical differentiation:
-                    // for each weight wj in the network, we have to compute its partial derivative
-                    // to build the jacobian matrix.
+                    // Computation of one of the Jacobian Matrix rows by numerical differentiation:
+                    // for each weight w_j in the network, we have to compute its partial derivative
+                    // to build the Jacobian matrix.
 
                     // So, for each layer:
                     for (int li = 0, col = 0; li < network.Layers.Length; li++)

@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -42,19 +42,60 @@ namespace Accord.Statistics.Analysis
     /// <para>
     ///   This class can also be bound to standard controls such as the 
     ///   <a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.datagridview.aspx">DataGridView</a>
-    ///   by setting their DataSource property to the analysis' <see cref="PrincipalComponentAnalysis.Components"/> property.</para>
+    ///   by setting their DataSource property to the analysis' <see cref="PrincipalComponentAnalysis.Components"/>
+    ///   property.</para>
     ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description><a href="http://www.heikohoffmann.de/htmlthesis/hoffmann_diss.html">
     ///       Heiko Hoffmann, Unsupervised Learning of Visuomotor Associations (Kernel PCA topic).
-    ///       PhD thesis. 2005. Available on: http://www.heikohoffmann.de/htmlthesis/hoffmann_diss.html </a></description></item>
+    ///       PhD thesis. 2005. Available on: http://www.heikohoffmann.de/htmlthesis/hoffmann_diss.html </a>
+    ///       </description></item>
     ///     <item><description><a href="http://www.hpl.hp.com/conferences/icml2003/papers/345.pdf">
-    ///       James T. Kwok, Ivor W. Tsang. The Pre-Image Problem in Kernel Methods. 2003. Avaiable on:
+    ///       James T. Kwok, Ivor W. Tsang. The Pre-Image Problem in Kernel Methods. 2003. Available on:
     ///       http://www.hpl.hp.com/conferences/icml2003/papers/345.pdf </a></description></item>
     ///    </list></para>
     /// </remarks>
+    /// 
+    ///<example>
+    ///  <para>
+    ///    The example below shows a typical usage of the analysis. We will be replicating
+    ///    the exact same example which can be found on the <see cref="PrincipalComponentAnalysis"/>
+    ///    documentation page. However, while we will be using a <see cref="Linear"/> kernel,
+    ///    any other kernel function could have been used.</para>
+    ///    
+    ///  <code>
+    ///  // Below is the same data used on the excellent paper "Tutorial
+    ///  //   On Principal Component Analysis", by Lindsay Smith (2002).
+    ///  
+    ///  double[,] sourceMatrix = 
+    ///  {
+    ///      { 2.5,  2.4 },
+    ///      { 0.5,  0.7 },
+    ///      { 2.2,  2.9 },
+    ///      { 1.9,  2.2 },
+    ///      { 3.1,  3.0 },
+    ///      { 2.3,  2.7 },
+    ///      { 2.0,  1.6 },
+    ///      { 1.0,  1.1 },
+    ///      { 1.5,  1.6 },
+    ///      { 1.1,  0.9 }
+    ///  }; 
+    /// 
+    ///  // Create a new linear kernel
+    ///  IKernel kernel = new Linear();
+    ///  
+    ///  // Creates the Kernel Principal Component Analysis of the given data
+    ///  var kpca = new KernelPrincipalComponentAnalysis(sourceMatrix, kernel);
+    ///    
+    ///  // Compute the Kernel Principal Component Analysis
+    ///  kpca.Compute();
+    ///    
+    ///  // Creates a projection considering 80% of the information
+    ///  double[,] components = kpca.Transform(sourceMatrix, 0.8f);
+    ///  </code>
+    /// </example>
     /// 
     [Serializable]
     public class KernelPrincipalComponentAnalysis : PrincipalComponentAnalysis
@@ -168,7 +209,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets or sets whether the points should be centured in feature space.
+        ///   Gets or sets whether the points should be centered in feature space.
         /// </summary>
         /// 
         public bool Center

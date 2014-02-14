@@ -1,8 +1,8 @@
 // Accord Control Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -46,27 +46,42 @@ namespace Accord.Controls
         /// <summary>
         ///   Initializes a new instance of the <see cref="ArrayRowView"/> class.
         /// </summary>
-        internal ArrayRowView(ArrayDataView owner, int index)
+        /// 
+        public ArrayRowView(ArrayDataView owner, int index)
         {
             this.owner = owner;
             this.rowIndex = index;
-            this.error = String.Empty;
         }
 
-        internal string GetName()
+        /// <summary>
+        ///   Gets the row name.
+        /// </summary>
+        /// 
+        public string Name
         {
-            return owner.RowNames[rowIndex];
+            get { return owner.RowNames[rowIndex]; }
         }
 
         /// <summary>
         ///   Gets the value at the specified position of this row.
         /// </summary>
+        /// 
         /// <param name="index">The column index of the element to get.</param>
-        internal object GetColumn(int index)
+        /// 
+        public object GetColumn(int index)
         {
-            if (owner.ArrayData.Rank == 2)
+            if (owner.ArrayType == ArrayDataType.Multidimensional)
             {
                 return owner.ArrayData.GetValue(this.rowIndex, index);
+            }
+            if (owner.ArrayType == ArrayDataType.Jagged)
+            {
+                Array row = owner.ArrayData.GetValue(this.rowIndex) as Array;
+
+                if (row == null)
+                    return null;
+
+                return row.GetValue(index);
             }
             else
             {
@@ -77,9 +92,11 @@ namespace Accord.Controls
         /// <summary>
         ///   Sets a value to the element at the specified position of this row.
         /// </summary>
+        /// 
         /// <param name="index">The index of the element to set.</param>
         /// <param name="value">The new value for the specified element.</param>
-        internal void SetColumnValue(int index, object value)
+        /// 
+        public void SetColumnValue(int index, object value)
         {
             try
             {
@@ -168,52 +185,49 @@ namespace Accord.Controls
         /// 
         public PropertyDescriptorCollection GetProperties(Attribute[] attributes)
         {
-            if (owner.ArrayData.Rank == 2)
-            {
-                // Multidimensional array of rank 2
-                int col = owner.ArrayData.GetLength(1);
-                Type type = owner.ArrayData.GetType().GetElementType();
-                PropertyDescriptor[] prop;
+            PropertyDescriptor[] prop;
 
+            Array array = owner.ArrayData;
+            int cols = owner.ColumnsCount;
+
+            Type type = array.GetType().GetElementType();
+            if (owner.ArrayType == ArrayDataType.Jagged)
+            {
+                if (array.GetLength(0) == 0)
+                    return null;
+                type = owner.ArrayData.GetValue(0).GetType().GetElementType();
+            }
+
+
+            if (owner.ArrayType == ArrayDataType.Multidimensional ||
+                owner.ArrayType == ArrayDataType.Jagged)
+            {
                 if (owner.RowNames != null)
                 {
-                    prop = new PropertyDescriptor[col+1];
+                    prop = new PropertyDescriptor[cols + 1];
                     prop[0] = new RowNamePropertyDescriptor("Row");
-                    for (int i = 0; i < col; i++)
-                        prop[i+1] = new ArrayPropertyDescriptor(owner.ColumnNames[i], type, i);
+                    for (int i = 0; i < cols; i++)
+                        prop[i + 1] = new ArrayPropertyDescriptor(owner.ColumnNames[i], type, i);
                 }
                 else
                 {
-                    prop = new PropertyDescriptor[col];
-                    for (int i = 0; i < col; i++)
+                    prop = new PropertyDescriptor[cols];
+                    for (int i = 0; i < cols; i++)
                         prop[i] = new ArrayPropertyDescriptor(owner.ColumnNames[i], type, i);
                 }
-                return new PropertyDescriptorCollection(prop);
+            }
+            else if (owner.ArrayType == ArrayDataType.Simple)
+            {
+                prop = new PropertyDescriptor[cols];
+                for (int i = 0; i < prop.Length; i++)
+                    prop[i] = new ArrayPropertyDescriptor(owner.ColumnNames[i], type, i);
             }
             else
             {
-                if (owner.ArrayType == ArrayDataType.Simple)
-                {
-                    int col = owner.ArrayData.GetLength(0);
-                    Type type = owner.ArrayData.GetType().GetElementType();
-                    PropertyDescriptor[] prop = new PropertyDescriptor[col];
-
-                    for (int i = 0; i < prop.Length; i++)
-                        prop[i] = new ArrayPropertyDescriptor(owner.ColumnNames[i], type, i);
-
-                    return new PropertyDescriptorCollection(prop);
-                }
-                else
-                {
-                    Type type = owner.ArrayData.GetType().GetElementType();
-                    PropertyDescriptor[] prop = new PropertyDescriptor[owner.ColumnsCount];
-
-                    for (int i = 0; i < prop.Length; i++)
-                        prop[i] = new ArrayPropertyDescriptor(owner.ColumnNames[i], type, i);
-
-                    return new PropertyDescriptorCollection(prop);
-                }
+                throw new InvalidOperationException("Invalid type");
             }
+
+            return new PropertyDescriptorCollection(prop);
         }
 
         PropertyDescriptorCollection System.ComponentModel.ICustomTypeDescriptor.GetProperties()
@@ -284,17 +298,20 @@ namespace Accord.Controls
         /// <summary>
         ///   Gets the error message for the property with the given name.
         /// </summary>
+        /// 
         public string this[string columnName]
         {
-            get { return String.Empty; }
+            get { return error; }
         }
 
         /// <summary>
-        /// Gets an error message indicating what is wrong with this object.
+        ///   Gets an error message indicating what is wrong with this object.
         /// </summary>
+        /// 
         /// <returns>
-        /// An error message indicating what is wrong with this object. The default is an empty string ("").
+        ///   An error message indicating what is wrong with this object. The default is an empty string ("").
         /// </returns>
+        /// 
         public string Error
         {
             get { return error; }

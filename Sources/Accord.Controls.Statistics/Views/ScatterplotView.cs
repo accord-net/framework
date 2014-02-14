@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Controls Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -30,10 +30,9 @@ namespace Accord.Controls
     using Accord.Math;
     using Accord.Statistics.Visualizations;
     using ZedGraph;
-    using System.Threading;
 
     /// <summary>
-    ///   Scatterplot visualization control.
+    ///   Scatter plot visualization control.
     /// </summary>
     /// 
     public partial class ScatterplotView : UserControl
@@ -105,9 +104,10 @@ namespace Accord.Controls
 
         #region Properties
         /// <summary>
-        ///   Gets the underlying scatterplot being shown by this control.
+        ///   Gets the underlying scatter plot being shown by this control.
         /// </summary>
         /// 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Scatterplot Scatterplot
         {
             get { return scatterplot; }
@@ -132,6 +132,7 @@ namespace Accord.Controls
         /// </summary>
         /// 
         [DefaultValue(null)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public object DataSource
         {
             get { return dataSource; }
@@ -200,7 +201,7 @@ namespace Accord.Controls
 
         /// <summary>
         ///   Gets a reference to the underlying ZedGraph
-        ///   control used to draw the scatterplot.
+        ///   control used to draw the scatter plot.
         /// </summary>
         /// 
         public ZedGraphControl Graph
@@ -210,7 +211,7 @@ namespace Accord.Controls
 
         /// <summary>
         ///   Gets or sets whether to show lines connecting
-        ///   sequential points in the scatterplot.
+        ///   sequential points in the scatter plot.
         /// </summary>
         /// 
         public bool LinesVisible { get; set; }

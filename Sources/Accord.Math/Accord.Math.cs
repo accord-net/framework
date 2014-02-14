@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -48,7 +48,7 @@ namespace Accord.Math
     ///   special functions and other tools for scientific applications. 
     ///   
     ///   Importing the Accord.Math namespace automatically brings support for the
-    ///   Extension Matrix Library, which extends common .NET datatypes with several
+    ///   Extension Matrix Library, which extends common .NET data types with several
     ///   mathematics-related extension methods.</para>
     ///   
     /// <para>

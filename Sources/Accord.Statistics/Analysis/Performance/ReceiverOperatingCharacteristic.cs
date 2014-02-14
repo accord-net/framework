@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -146,7 +146,7 @@ namespace Accord.Statistics.Analysis
     /// var roc = new ReceiverOperatingCharacteristic(outputs, predicted);
     /// roc.Compute(100); // Compute a ROC curve with 100 cut-off points
     /// 
-    /// // Generate a connected scatterplot for the ROC curve and show it on-screen
+    /// // Generate a connected scatter plot for the ROC curve and show it on-screen
     /// ScatterplotBox.Show(roc.GetScatterplot(includeRandom: true), nonBlocking: true)
     /// 
     ///     .SetSymbolSize(0)      // do not display data points
@@ -492,7 +492,7 @@ namespace Accord.Statistics.Analysis
 
             List<ReceiverOperatingCharacteristicPoint> points = new List<ReceiverOperatingCharacteristicPoint>();
 
-            // Create the curve, computing a point for each cutpoint
+            // Create the curve, computing a point for each cut-point
             for (int i = 0; i < cutpoints.Length; i++)
                 points.Add(ComputePoint(cutpoints[i]));
 
@@ -511,7 +511,7 @@ namespace Accord.Statistics.Analysis
 
         private static int order(ReceiverOperatingCharacteristicPoint a, ReceiverOperatingCharacteristicPoint b)
         {
-            // First order by descending specifity
+            // First order by descending specificity
             int c = a.Specificity.CompareTo(b.Specificity);
 
             if (c == 0) // then order by ascending sensitivity

@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -50,7 +50,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
     ///      http://www.lx.it.pt/~mtf/Krishnapuram_Carin_Figueiredo_Hartemink_2005.pdf </description></item>
     ///     <item><description>
     ///       D. Böhning. Multinomial logistic regression algorithm. Annals of the Institute
-    ///       of Statistical Mathe- matics, 44(9):197 ˝U200, 1992. 2. M. Corney.</description></item>
+    ///       of Statistical Mathematics, 44(9):197 ˝U200, 1992. 2. M. Corney.</description></item>
     ///     <item><description>
     ///       Bishop, Christopher M.; Pattern Recognition and Machine Learning. 
     ///       Springer; 1st ed. 2006.</description></item>
@@ -291,10 +291,10 @@ namespace Accord.Statistics.Models.Regression.Fitting
             //       H(w) = -sum(P(w) - p(w)p(w)')  (x)  xx'
             //      (see referenced paper for proper indices)
             //       
-            // In which (x) denotes the Kronocker product. By using
+            // In which (x) denotes the Kronecker product. By using
             // the lower bound principle, Krishnapuram has shown that
             // we can replace H(w) with a lower bound approximation B
-            // which does not depend on w (eq. 8 on aforementined paper):
+            // which does not depend on w (eq. 8 on aforementioned paper):
             // 
             //      B = -(1/2) [I - 11/M]  (x)  sum(xx')
             //
@@ -320,7 +320,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 // Compute current gradient and Hessian
                 //   We can take advantage of the block structure of the 
                 //   Hessian matrix and gradient vector by employing the
-                //   Kronocker product. See [Böhning, 1992]
+                //   Kronecker product. See [Böhning, 1992]
 
                 // (Re-) Compute error gradient
                 double[] g = Matrix.KroneckerProduct(errors, x);
@@ -347,8 +347,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
             {
                 UpdateLowerBound = false;
 
-                // Decompose to solve the linear system. Usually the hessian will
-                // be invertible and LU will succeed. However, sometimes the hessian
+                // Decompose to solve the linear system. Usually the Hessian will
+                // be invertible and LU will succeed. However, sometimes the Hessian
                 // may be singular and a Singular Value Decomposition may be needed.
 
                 // The SVD is very stable, but is quite expensive, being on average

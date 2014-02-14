@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,6 +31,18 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   </see> algorithms.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   In the context of <see cref="HiddenMarkovModel">hidden Markov models</see>, 
+    ///   unsupervised algorithms are algorithms which consider that the sequence
+    ///   of states in a system is hidden, and just the system's outputs can be seen 
+    ///   (or are known) during training. This is in contrast with <see cref="ISupervisedLearning">
+    ///   supervised learning algorithms</see> such as the <see cref="MaximumLikelihoodLearning">
+    ///   Maximum Likelihood (MLE)</see>, which consider that both the sequence of observations
+    ///   and the sequence of states are observable during training.
+    /// </para>
+    /// </remarks>
+    /// 
     /// <see cref="BaumWelchLearning"/>
     /// <see cref="BaumWelchLearning{TDistribution}"/>
     /// <see cref="ViterbiLearning"/>
@@ -49,7 +61,52 @@ namespace Accord.Statistics.Models.Markov.Learning
         ///   HMM parameters M = (A, B, pi) that best fit training data. 
         /// </remarks>
         /// 
+        /// <param name="observations">The observations.</param>
+        /// 
         double Run(Array[] observations);
+
+    }
+
+    /// <summary>
+    ///   Common interface for unsupervised learning algorithms for hidden
+    ///   Markov models such as the <see cref="BaumWelchLearning">Baum-Welch
+    ///   learning</see> and the <see cref="ViterbiLearning">Viterbi learning
+    ///   </see> algorithms.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   In the context of <see cref="HiddenMarkovModel">hidden Markov models</see>, 
+    ///   unsupervised algorithms are algorithms which consider that the sequence
+    ///   of states in a system is hidden, and just the system's outputs can be seen 
+    ///   (or are known) during training. This is in contrast with <see cref="ISupervisedLearning">
+    ///   supervised learning algorithms</see> such as the <see cref="MaximumLikelihoodLearning">
+    ///   Maximum Likelihood (MLE)</see>, which consider that both the sequence of observations
+    ///   and the sequence of states are observable during training.
+    /// </para>
+    /// </remarks>
+    /// 
+    /// <see cref="BaumWelchLearning"/>
+    /// <see cref="BaumWelchLearning{TDistribution}"/>
+    /// <see cref="ViterbiLearning"/>
+    /// <see cref="ViterbiLearning{TDistribution}"/>
+    /// 
+    public interface IUnsupervisedLearning<T> : IUnsupervisedLearning
+    {
+
+        /// <summary>
+        ///   Runs the learning algorithm.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   Learning problem. Given some training observation sequences O = {o1, o2, ..., oK}
+        ///   and general structure of HMM (numbers of hidden and visible states), determine
+        ///   HMM parameters M = (A, B, pi) that best fit training data. 
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations.</param>
+        /// 
+        double Run(params T[] observations);
 
     }
 

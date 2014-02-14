@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -48,6 +48,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
         private bool computeStandardErrors = true;
         private bool computeBaselineFunction = true;
+        private bool normalize = true;
 
         private ISolverMatrixDecomposition<double> decomposition;
         private RelativeParameterConvergence convergence;
@@ -56,6 +57,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <summary>
         ///   Gets or sets the maximum absolute parameter change detectable
         ///   after an iteration of the algorithm used to detect convergence.
+        ///   Default is 1e-5.
         /// </summary>
         /// 
         public double Tolerance
@@ -150,6 +152,18 @@ namespace Accord.Statistics.Models.Regression.Fitting
             set { computeBaselineFunction = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets a value indicating whether the Cox model should
+        ///   be computed using the mean-centered version of the covariates.
+        ///   Default is true.
+        /// </summary>
+        /// 
+        public bool Normalize
+        {
+            get { return normalize; }
+            set { normalize = value; }
+        }
+
 
         /// <summary>
         ///   Constructs a new Newton-Raphson learning algorithm
@@ -213,15 +227,22 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 throw new DimensionMismatchException("time",
                     "The inputs, time and output vector must have the same length.");
 
-            // Store means as regression centers
-            double[] means = inputs.Mean();
-            for (int i = 0; i < means.Length; i++)
-                regression.Offsets[i] = means[i];
+            double[] means = new double[parameterCount];
+            double[] sdev = new double[parameterCount];
+            for (int i = 0; i < sdev.Length; i++)
+                sdev[i] = 1;
 
-            // Convert to unit scores for increased accuracy
-            double[] sdev = Accord.Statistics.Tools.StandardDeviation(inputs);
-            inputs = inputs.Subtract(means, 0).ElementwiseDivide(sdev, 0);
+            if (normalize)
+            {
+                // Store means as regression centers
+                means = inputs.Mean();
+                for (int i = 0; i < means.Length; i++)
+                    regression.Offsets[i] = means[i];
 
+                // Convert to unit scores for increased accuracy
+                sdev = Accord.Statistics.Tools.StandardDeviation(inputs);
+                inputs = inputs.Subtract(means, 0).ElementwiseDivide(sdev, 0, inPlace: true);
+            }
 
             // Sort data by time to accelerate performance
             if (!time.IsSorted(ComparerDirection.Descending))
@@ -279,7 +300,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                             for (int k = 0; k < partialGradient.Length; k++)
                                 partialGradient[k] += inputs[j][k] * output[j] / den;
 
-                            // Compute partial hessian
+                            // Compute partial Hessian
                             for (int ii = 0; ii < inputs[j].Length; ii++)
                                 for (int jj = 0; jj < inputs[j].Length; jj++)
                                     partialHessian[ii, jj] += inputs[j][ii] * inputs[j][jj] * output[j] / den;
@@ -297,8 +318,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 }
 
 
-                // Decompose to solve the linear system. Usually the hessian will
-                // be invertible and LU will succeed. However, sometimes the hessian
+                // Decompose to solve the linear system. Usually the Hessian will
+                // be invertible and LU will succeed. However, sometimes the Hessian
                 // may be singular and a Singular Value Decomposition may be needed.
 
                 // The SVD is very stable, but is quite expensive, being on average

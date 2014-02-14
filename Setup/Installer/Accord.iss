@@ -1,16 +1,16 @@
 ; Accord.NET setup project
 
-#define VERSION "2.10.0"
-
+#define VERSION GetStringFileInfo("..\..\Release\Accord.dll", "ProductVersion")
+#pragma message "Creating package for Accord.NET " + VERSION
 [Setup]
 AppName=Accord.NET Framework
 AppVersion={#VERSION}
 AppVerName=Accord.NET Framework {#VERSION}
 AppPublisher=Accord.NET
-AppPublisherURL=http://accord.googlecode.com
-AppSupportURL=http://accord.googlecode.com
-AppUpdatesURL=http://accord.googlecode.com
-AppCopyright=Copyright © César Souza, 2009-2013
+AppPublisherURL=http://accord-framework.net
+AppSupportURL=http://accord-framework.net
+AppUpdatesURL=http://accord-framework.net
+AppCopyright=Copyright © César Souza, 2009-2014
 VersionInfoVersion={#VERSION}
 DefaultDirName={pf}\Accord.NET\Framework
 DefaultGroupName=Accord.NET\Framework
@@ -53,7 +53,7 @@ Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\v4.0.30319\AssemblyFolders
 
 [Icons]
 Name: "{group}\Documentation"; Filename: "{app}\Docs\Accord.NET.chm"
-Name: "{group}\Project Home"; Filename: "http://accord.googlecode.com"
+Name: "{group}\Project Home"; Filename: "http://accord-framework.net"
 Name: "{group}\Samples"; Filename: "{app}\Samples\"; Components: samples
 Name: "{group}\Release Notes"; Filename: "{app}\Release notes.txt"
 Name: "{group}\{cm:UninstallProgram,Accord.NET Framework}"; Filename: "{uninstallexe}"

@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -23,9 +23,9 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
+    using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
-    using Accord.Math;
 
     /// <summary>
     ///   Estimators for Hazard distribution functions.
@@ -73,7 +73,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   function from a set of hazard values at the given time instants.</para>
     /// <code>
     /// 
-    ///   // Consider the following observations, ocurring at the given timesteps
+    ///   // Consider the following observations, occurring at the given time steps
     ///   double[] times = { 11, 10, 9, 8, 6, 5, 4, 2 };
     ///   double[] values = { 0.22, 0.67, 1.00, 0.18, 1.00, 1.00, 1.00, 0.55 };
     ///   
@@ -192,9 +192,12 @@ namespace Accord.Statistics.Distributions.Univariate
                     // http://www.stat.nuk.edu.tw/wongkf_html/survival02.pdf
 
                     double v = 0;
+                    double m = Mean;
+
                     for (int i = 0; i < Times.Length; i++)
                         v += Times[i] * ComplementaryDistributionFunction(Times[i]);
-                    variance = v - Mean * Mean;
+                    
+                    this.variance = v - m * m;
                 }
 
                 return variance.Value;
@@ -322,7 +325,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </returns>
         /// 
         /// <remarks>
-        ///   In the Emprical Hazard Distribution, the PDF is defined
+        ///   In the Empirical Hazard Distribution, the PDF is defined
         ///   as the product of the hazard function h(x) and survival 
         ///   function CDF(x), as PDF(x) = h(x) * CDF(x).
         /// </remarks>
@@ -391,7 +394,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Creates a new Empirical Hazard Distribution froms the hazard values.
+        ///   Creates a new Empirical Hazard Distribution from the hazard values.
         /// </summary>
         /// 
         /// <param name="time">The time steps.</param>
@@ -405,7 +408,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Creates a new Empirical Hazard Distribution froms the survival values.
+        ///   Creates a new Empirical Hazard Distribution from the survival values.
         /// </summary>
         /// 
         /// <param name="time">The time steps.</param>

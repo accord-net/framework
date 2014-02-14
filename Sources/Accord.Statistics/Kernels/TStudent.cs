@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     /// <remarks>
-    ///   The Generalized T-Student Kernel is a Mercel Kernel and thus forms
+    ///   The Generalized T-Student Kernel is a Mercer Kernel and thus forms
     ///   a positive semi-definite Kernel matrix (Boughorbel, 2004). It has
     ///   a similar form to the <see cref="Multiquadric">Inverse Multiquadric Kernel.</see>
     /// </remarks>

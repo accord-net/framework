@@ -1,8 +1,8 @@
 ﻿// Accord Math Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ namespace Accord.Math.Optimization
     using System.Text;
 
     /// <summary>
-    ///   Quadractic objective function.
+    ///   Quadratic objective function.
     /// </summary>
     /// 
     public class QuadraticObjectiveFunction : IObjectiveFunction
@@ -81,11 +81,47 @@ namespace Accord.Math.Optimization
         ///   Creates a new objective function specified through a string.
         /// </summary>
         /// 
-        /// <param name="f">A <see cref="System.String"/> containing the function in the form similar to "ax²+b".</param>
+        /// <param name="hessian">A Hessian matrix of quadratic terms defining the quadratic objective function.</param>
+        /// <param name="linearTerms">The vector of linear terms associated with <paramref name="hessian"/>.</param>
+        /// <param name="variables">The name for each variable in the problem.</param>
         /// 
-        public QuadraticObjectiveFunction(string f)
+        public QuadraticObjectiveFunction(double[,] hessian, double[] linearTerms, params string[] variables)
         {
-            var terms = parseString(f);
+            if (hessian.GetLength(0) != hessian.GetLength(1))
+                throw new DimensionMismatchException("hessian", "The matrix must be square.");
+
+            if (hessian.GetLength(0) != linearTerms.Length)
+                throw new DimensionMismatchException("linearTerms", 
+                    "The vector of linear terms must have the same length as the Hessian matrix side.");
+
+            if (variables.Length != linearTerms.Length)
+                throw new DimensionMismatchException("variables",
+                    "The vector of variable names must have the same length as the vector of linear terms.");
+
+            this.variables = new Dictionary<string, int>();
+            this.indices = new Dictionary<int, string>();
+
+            for (int i = 0; i < variables.Length; i++)
+            {
+                string var = variables[i];
+                this.variables[var] = i;
+                this.indices[i] = var;
+            }
+
+            this.Q = hessian;
+            this.d = linearTerms;
+        }
+
+        /// <summary>
+        ///   Creates a new objective function specified through a string.
+        /// </summary>
+        /// 
+        /// <param name="function">A <see cref="System.String"/> containing
+        /// the function in the form similar to "ax²+b".</param>
+        /// 
+        public QuadraticObjectiveFunction(string function)
+        {
+            var terms = parseString(function);
 
             initialize(terms);
         }
@@ -94,13 +130,14 @@ namespace Accord.Math.Optimization
         ///   Creates a new objective function specified through a string.
         /// </summary>
         /// 
-        /// <param name="f">A <see cref="Expression{T}"/> containing the function in the form of a lambda expression.</param>
+        /// <param name="function">A <see cref="Expression{T}"/> containing 
+        /// the function in the form of a lambda expression.</param>
         /// 
-        public QuadraticObjectiveFunction(Expression<Func<double>> f)
+        public QuadraticObjectiveFunction(Expression<Func<double>> function)
         {
             var terms = new Dictionary<Tuple<string, string>, double>();
             double scalar;
-            parseExpression(terms, f.Body, out scalar);
+            parseExpression(terms, function.Body, out scalar);
 
             initialize(terms);
         }
@@ -483,7 +520,8 @@ namespace Accord.Math.Optimization
             return null;
         }
 
-        private static Tuple<string, string> addTuple(Dictionary<Tuple<string, string>, double> terms, double v, string v1, string v2)
+        private static Tuple<string, string> addTuple(Dictionary<Tuple<string, string>,
+            double> terms, double v, string v1, string v2)
         {
 
             var t1 = Tuple.Create(v1, v2);
@@ -494,5 +532,33 @@ namespace Accord.Math.Optimization
             return t1;
         }
 
+
+        /// <summary>
+        ///   Attempts to create a <see cref="QuadraticObjectiveFunction"/>
+        ///   from a <see cref="System.String"/> representation.
+        /// </summary>
+        /// 
+        /// <param name="str">The string containing the function in textual form.</param>
+        /// <param name="function">The resulting function, if it could be parsed.</param>
+        /// 
+        /// <returns><c>true</c> if the function could be parsed
+        ///   from the string, <c>false</c> otherwise.</returns>
+        /// 
+        public static bool TryParse(string str, out QuadraticObjectiveFunction function)
+        {
+            // TODO: implement this method without the try-catch block.
+
+            try
+            {
+                function = new QuadraticObjectiveFunction(str);
+            }
+            catch (FormatException)
+            {
+                function = null;
+                return false;
+            }
+
+            return true;
+        }
     }
 }

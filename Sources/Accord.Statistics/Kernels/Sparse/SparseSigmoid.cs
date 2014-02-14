@@ -1,8 +1,8 @@
 ﻿// Accord Statistics Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -31,7 +31,7 @@ namespace Accord.Statistics.Kernels.Sparse
     /// <remarks>
     ///   Sigmoid kernels are not positive definite and therefore do not induce
     ///   a reproducing kernel Hilbert space. However, they have been successfully
-    ///   used in practice (Scholkopf and Smola, 2002).
+    ///   used in practice (Schölkopf and Smola, 2002).
     /// </remarks>
     /// 
     [Serializable]

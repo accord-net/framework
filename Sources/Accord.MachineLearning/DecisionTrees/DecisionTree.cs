@@ -1,8 +1,8 @@
 ﻿// Accord Machine Learning Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -82,7 +82,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// </summary>
         /// 
         /// <param name="attributes">An array specifying the attributes to be processed by this tree.</param>
-        /// <param name="outputClasses">The number of possible output classes for the given atributes.</param>
+        /// <param name="outputClasses">The number of possible output classes for the given attributes.</param>
         /// 
         public DecisionTree(IList<DecisionVariable> attributes, int outputClasses)
         {
@@ -146,9 +146,11 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public int Compute(double[] input, DecisionNode subtree)
         {
-            if (subtree == null) throw new ArgumentNullException("subtree");
-            if (subtree.Owner != this) throw new ArgumentException(
-                "The node does not belong to this tree.", "subtree");
+            if (subtree == null) 
+                throw new ArgumentNullException("subtree");
+
+            if (subtree.Owner != this) 
+                throw new ArgumentException("The node does not belong to this tree.", "subtree");
 
             DecisionNode current = subtree;
 
@@ -159,13 +161,13 @@ namespace Accord.MachineLearning.DecisionTrees
                 if (current.IsLeaf)
                 {
                     // This is a leaf node. The decision
-                    // proccess thus should stop here.
+                    // process thus should stop here.
 
                     return (current.Output.HasValue) ? current.Output.Value : -1;
                 }
 
                 // This node is not a leaf. Continue the
-                // decisioning proccess following the childs
+                // decision process following the children
 
                 // Get the next attribute to guide reasoning
                 int attribute = current.Branches.AttributeIndex;
@@ -190,7 +192,8 @@ namespace Accord.MachineLearning.DecisionTrees
             }
 
             // Normal execution should not reach here.
-            throw new InvalidOperationException("The tree is degenerated.");
+            throw new InvalidOperationException("The tree is degenerated. This is often a sign that "
+                + "the tree is expecting discrete inputs, but it was given only real values.");
         }
 
 
@@ -329,6 +332,8 @@ namespace Accord.MachineLearning.DecisionTrees
         }
 #endif
 
+
+     
 
         /// <summary>
         ///   Generates a C# class implementing the decision tree.

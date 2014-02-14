@@ -1,8 +1,8 @@
 ﻿// Accord Unit Tests
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Statistics.Distributions.Fitting;
 
     [TestClass()]
     public class NewtonRaphsonCoxLearningTest
@@ -48,35 +49,6 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
 
 
         [TestMethod()]
@@ -370,6 +342,64 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(expected[i], actual[i], 1e-6);
                 Assert.IsFalse(Double.IsNaN(actual[i]));
             }
+        }
+
+        [TestMethod()]
+        public void BaselineHazardTest()
+        {
+            double[,] data = 
+            {
+               // t   c  in
+                { 8,  0, 13 },
+                { 4,  1, 56 },
+                { 12, 0, 25 },
+                { 6,  0, 64 },
+                { 10, 0, 38 },
+                { 8,  1, 80 },
+                { 5,  0, 0 },
+                { 5,  0, 81 },
+                { 3,  1, 81 },
+                { 14, 1, 38 },
+                { 8,  0, 23 },
+                { 11, 0, 99 },
+                { 7,  0, 12 },
+                { 7,  1, 36 },
+                { 12, 0, 63 },
+                { 8,  0, 92 },
+                { 7,  0, 38 },
+            };
+
+            double[] time = data.GetColumn(0);
+            int[] censor = data.GetColumn(1).ToInt32();
+            double[][] inputs = data.GetColumn(2).ToArray();
+
+            ProportionalHazards regression = new ProportionalHazards(1);
+
+            ProportionalHazardsNewtonRaphson target = new ProportionalHazardsNewtonRaphson(regression);
+            target.Normalize = false;
+
+            double error = target.Run(inputs, time, censor);
+            double log = -2 * regression.GetPartialLogLikelihood(inputs, time, censor);
+
+            EmpiricalHazardDistribution baseline = regression.BaselineHazard as EmpiricalHazardDistribution;
+         
+            double[] actual = new double[(int)baseline.Support.Max];
+            for (int i = (int)baseline.Support.Min; i < baseline.Support.Max; i++)
+                actual[i] = baseline.CumulativeHazardFunction(i);
+
+            Assert.AreEqual(14, actual.Length);
+
+            double[] expected = 
+            {
+                0,0,0,
+                0.025000345517572315,0.052363663484639708,0.052363663484639708,0.052363663484639708,
+                0.16317880290786446,
+                0.34217461190678861,0.34217461190678861,0.34217461190678861,
+                0.34217461190678861,0.34217461190678861,0.34217461190678861
+            };
+
+            for (int i = 0; i < actual.Length; i++)
+                Assert.AreEqual(expected[i], actual[i], 0.025);
         }
     }
 }

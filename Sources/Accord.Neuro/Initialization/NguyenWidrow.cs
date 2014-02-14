@@ -1,8 +1,8 @@
 ﻿// Accord Neural Net Library
 // The Accord.NET Framework
-// http://accord.googlecode.com
+// http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2013
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@ namespace Accord.Neuro
     using AForge.Neuro;
 
     /// <summary>
-    ///  Nguyen-Widrow weight initializer
+    ///  Nguyen-Widrow weight initialization.
     /// </summary>
     /// 
     /// <remarks>
@@ -46,7 +46,7 @@ namespace Accord.Neuro
         private double beta;
 
         /// <summary>
-        ///   Constructs a new Nguyen-Widrow Weight Initializer.
+        ///   Constructs a new Nguyen-Widrow Weight initialization.
         /// </summary>
         /// 
         /// <param name="network">The activation network whose weights will be initialized.</param>
