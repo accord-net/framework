@@ -120,6 +120,7 @@
     <Compile Include="Learning\DeepNeuralNetworkLearning.cs" />
     <Compile Include="Learning\DeepBeliefNetworkLearning.cs" />
     <Compile Include="Learning\LevenbergMarquardtLearning.cs" />
+    <Compile Include="Learning\ParallelResilientBackPropagationDropConnectLearning.cs" />
     <Compile Include="Learning\ParallelResilientBackPropagationLearning.cs" />
     <Compile Include="Networks\DeepBeliefNetwork.cs" />
     <Compile Include="Networks\RestrictedBoltzmannMachine.cs" />
