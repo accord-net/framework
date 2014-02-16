@@ -86,13 +86,10 @@ namespace Accord.Math.Optimization
         /// <param name="gradient">A lambda expression defining the gradient
         ///   of the <paramref name="function">objective function</paramref>.</param>
         /// 
-        public NonlinearObjectiveFunction(int numberOfVariables,
-            Func<double[], double> function,
-            Func<double[], double[]> gradient = null)
+        public NonlinearObjectiveFunction(int numberOfVariables, Func<double[], double> function)
         {
             this.NumberOfVariables = numberOfVariables;
             this.Function = function;
-            this.Gradient = gradient;
 
             variables = new Dictionary<string, int>();
             readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
@@ -108,9 +105,26 @@ namespace Accord.Math.Optimization
             }
         }
 
-#if !NET35
         /// <summary>
         ///   Creates a new objective function specified through a string.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of parameters in the <paramref name="function"/>.</param>
+        /// <param name="function">A lambda expression defining the objective
+        ///   function.</param>
+        /// <param name="gradient">A lambda expression defining the gradient
+        ///   of the <paramref name="function">objective function</paramref>.</param>
+        /// 
+        public NonlinearObjectiveFunction(int numberOfVariables,
+            Func<double[], double> function, Func<double[], double[]> gradient)
+            : this(numberOfVariables, function)
+        {
+            this.Gradient = gradient;
+        }
+
+#if !NET35
+        /// <summary>
+        ///   Creates a new objective function specified through a lambda expression.
         /// </summary>
         /// 
         /// <param name="function">A <see cref="Expression{T}"/> containing 

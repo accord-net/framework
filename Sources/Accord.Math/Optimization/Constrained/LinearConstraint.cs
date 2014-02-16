@@ -185,6 +185,34 @@ namespace Accord.Math.Optimization
             parseExpression(function, constraint);
         }
 
+
+        public double Compute(double[] input)
+        {
+            double sum = 0;
+
+            for (int i = 0; i < indices.Length; i++)
+            {
+                double x = input[indices[i]];
+                double a = CombinedAs[i];
+
+                sum += x * a;
+            }
+
+            switch (ShouldBe)
+            {
+                case ConstraintType.EqualTo:
+                    return Math.Abs(sum - Value);
+
+                case ConstraintType.GreaterThanOrEqualTo:
+                    return sum - Value;
+                    
+                case ConstraintType.LesserThanOrEqualTo:
+                    return Value - sum;
+            }
+
+            throw new NotSupportedException();
+        }
+
         /// <summary>
         ///   Attempts to create a <see cref="LinearConstraint"/>
         ///   from a <see cref="System.String"/> representation.

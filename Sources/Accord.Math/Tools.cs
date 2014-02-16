@@ -617,5 +617,21 @@ namespace Accord.Math
 
             return upper;
         }
+
+        public static double Max(double a, double b, double c)
+        {
+            if (a > b)
+            {
+                if (c > a)
+                    return c;
+                return a;
+            }
+            else
+            {
+                if (c > b)
+                    return c;
+                return b;
+            }
+        }
     }
 }

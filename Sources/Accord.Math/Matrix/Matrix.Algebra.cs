@@ -983,8 +983,10 @@ namespace Accord.Math
             int cols = matrix.GetLength(1);
 
             if (rows != rowVector.Length)
+            {
                 throw new DimensionMismatchException("matrix",
                     "Matrix must have the same number of rows as the length of the vector.");
+            }
 
             double[] r = new double[cols];
 

@@ -95,7 +95,7 @@ namespace Accord.Math.Optimization
             this.QuadraticTerms = quadraticTerms;
             this.LinearTerms = linearTerms;
 
-            Create(objective, function, shouldBe, value, gradient, withinTolerance);
+            Create(n, function, shouldBe, value, gradient, withinTolerance);
         }
 
 
