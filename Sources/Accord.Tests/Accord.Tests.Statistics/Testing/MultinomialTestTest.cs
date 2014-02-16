@@ -70,5 +70,41 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.55555556, target.Statistic, 1e-5);
         }
 
+        [TestMethod()]
+        public void MultinomialTestConstructorTest2()
+        {
+            // This example is based on the example available on About.com Statistics,
+            // An Example of Chi-Square Test for a Multinomial Experiment By Courtney Taylor
+            // http://statistics.about.com/od/Inferential-Statistics/a/An-Example-Of-Chi-Square-Test-For-A-Multinomial-Experiment.htm
+
+            // In this example, we would like to test if a die is fair. For this, we
+            // will be rolling the die 600 times, annotating the result every time 
+            // the die falls. In the end, we got a one 106 times, a two 90 times, a 
+            // three 98 times, a four 102 times, a five 100 times and a six 104 times:
+
+            int[] sample = { 106, 90, 98, 102, 100, 104 };
+
+            // If the die was fair, we should note that we would be expecting the
+            // probabilities to be all equal to 1 / 6:
+
+            double[] hypothesizedProportion = 
+            { 
+                //   1        2           3          4          5         6
+                1 / 6.0,   1 / 6.0,   1 / 6.0,   1 / 6.0,   1 / 6.0,   1 / 6.0, 
+            };
+
+            // Now, we create our test using the samples and the expected proportion
+            MultinomialTest test = new MultinomialTest(sample, hypothesizedProportion);
+
+            double chiSquare = test.Statistic; // 1.6
+            bool significant = test.Significant; // false
+
+            // Since the test didn't come up significant, it means that we
+            // don't have enough evidence to to reject the null hypothesis 
+            // that the die is fair.
+
+            Assert.AreEqual(1.6000000000000003, chiSquare);
+            Assert.IsFalse(significant);
+        }
     }
 }
