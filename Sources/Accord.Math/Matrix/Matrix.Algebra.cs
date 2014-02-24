@@ -2137,8 +2137,11 @@ namespace Accord.Math
         /// 
         public static double[] Add(this double[] a, double[] b)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
+            if (a == null)
+                throw new ArgumentNullException("a");
+
+            if (b == null)
+                throw new ArgumentNullException("b");
 
             if (a.Length != b.Length)
                 throw new ArgumentException("Vector lengths must match", "b");

@@ -24,6 +24,7 @@ namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
     using Accord.Math.Optimization;
+    using Accord.Math.Differentiation;
 
     /// <summary>
     ///   Quasi-Newton (L-BFGS) learning algorithm for <see cref="HiddenConditionalRandomField{T}">
@@ -38,7 +39,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         IDisposable
     {
 
-        private BroydenFletcherGoldfarbShanno lbfgs;
+        private BoundedBroydenFletcherGoldfarbShanno lbfgs;
         private ForwardBackwardGradient<T> calculator;
 
         /// <summary>
@@ -46,6 +47,8 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// </summary>
         /// 
         public HiddenConditionalRandomField<T> Model { get; set; }
+
+        public double Regularization { get; set; }
 
         /// <summary>
         ///   Constructs a new L-BFGS learning algorithm.
@@ -56,11 +59,18 @@ namespace Accord.Statistics.Models.Fields.Learning
             Model = model;
 
             calculator = new ForwardBackwardGradient<T>(model);
+            calculator.Regularization = Regularization;
 
-            lbfgs = new BroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
+            lbfgs = new BoundedBroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
             lbfgs.Tolerance = 1e-3;
             lbfgs.Function = calculator.Objective;
             lbfgs.Gradient = calculator.Gradient;
+
+            for (int i = 0; i < lbfgs.UpperBounds.Length; i++)
+            {
+                lbfgs.UpperBounds[i] = 1e10;
+                lbfgs.LowerBounds[i] = -1e100;
+            }
         }
 
         /// <summary>
@@ -76,14 +86,7 @@ namespace Accord.Statistics.Models.Fields.Learning
             calculator.Inputs = observations;
             calculator.Outputs = outputs;
 
-            try
-            {
-                lbfgs.Minimize(Model.Function.Weights);
-            }
-            catch (LineSearchFailedException)
-            {
-                // TODO: Restructure L-BFGS to avoid exceptions.
-            }
+            lbfgs.Minimize(Model.Function.Weights);
 
             Model.Function.Weights = lbfgs.Solution;
 
@@ -111,7 +114,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         }
 
 
-                #region IDisposable Members
+        #region IDisposable Members
 
         /// <summary>
         ///   Performs application-defined tasks associated with freeing,
@@ -155,7 +158,7 @@ namespace Accord.Statistics.Models.Fields.Learning
                 }
             }
         }
-      
+
         #endregion
 
     }

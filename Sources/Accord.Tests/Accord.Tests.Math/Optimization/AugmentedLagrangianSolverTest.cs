@@ -93,9 +93,9 @@ namespace Accord.Tests.Math
                 shouldBe: ConstraintType.LesserThanOrEqualTo, value: 0
             ));
 
-            var solver = new AugmentedLagrangianSolver(2, constraints);
+            var solver = new AugmentedLagrangianSolver(f, constraints);
 
-            double minValue = solver.Minimize(f);
+            double minValue = solver.Minimize();
 
             Assert.AreEqual(1, minValue, 1e-5);
             Assert.AreEqual(0, solver.Solution[0], 1e-5);
@@ -143,13 +143,13 @@ namespace Accord.Tests.Math
                 shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0
             ));
 
-            var solver = new AugmentedLagrangianSolver(2, constraints);
+            var solver = new AugmentedLagrangianSolver(f, constraints);
 
-            double minValue = solver.Minimize(f);
+            double minValue = solver.Minimize();
 
             Assert.AreEqual(0, minValue, 1e-10);
-            Assert.AreEqual(1, solver.Solution[0], 1e-10);
-            Assert.AreEqual(1, solver.Solution[1], 1e-10);
+            Assert.AreEqual(1, solver.Solution[0], 1e-6);
+            Assert.AreEqual(1, solver.Solution[1], 1e-6);
 
             Assert.IsFalse(Double.IsNaN(minValue));
             Assert.IsFalse(Double.IsNaN(solver.Solution[0]));
@@ -201,13 +201,13 @@ namespace Accord.Tests.Math
                 shouldBe: ConstraintType.LesserThanOrEqualTo, value: 10
             ));
 
-            var solver = new AugmentedLagrangianSolver(3, constraints);
+            var solver = new AugmentedLagrangianSolver(f, constraints);
 
             solver.Solution[0] = 1;
             solver.Solution[1] = 1;
             solver.Solution[2] = 1;
 
-            double minValue = solver.Minimize(f);
+            double minValue = solver.Minimize();
 
             Assert.AreEqual(-6.9, minValue, 1e-1);
             Assert.AreEqual(+1.73, solver.Solution[0], 1e-2);
@@ -276,12 +276,12 @@ namespace Accord.Tests.Math
                 Tolerance = 1e-5
             });
 
-            var solver = new AugmentedLagrangianSolver(3, constraints);
+            var solver = new AugmentedLagrangianSolver(f, constraints);
 
             solver.Solution[0] = 1;
             solver.Solution[1] = 1;
             solver.Solution[2] = 1;
-            double minValue = solver.Minimize(f);
+            double minValue = solver.Minimize();
 
             Assert.AreEqual(1, solver.Solution[0] + solver.Solution[1], 1e-5);
 
@@ -347,10 +347,10 @@ namespace Accord.Tests.Math
 
 
             // Finally, we create the non-linear programming solver
-            var solver = new AugmentedLagrangianSolver(2, constraints);
+            var solver = new AugmentedLagrangianSolver(f, constraints);
 
             // And attempt to solve the problem
-            double minValue = solver.Minimize(f);
+            double minValue = solver.Minimize();
 
             Assert.AreEqual(0, minValue, 1e-10);
             Assert.AreEqual(1, solver.Solution[0], 1e-10);
@@ -438,9 +438,9 @@ namespace Accord.Tests.Math
             var inner = new ConjugateGradient(2);
 
             AugmentedLagrangianSolver solver =
-                new AugmentedLagrangianSolver(inner, constraints);
+                new AugmentedLagrangianSolver(inner, objective, constraints);
 
-            double maxValue = solver.Maximize(objective);
+            double maxValue = solver.Maximize();
 
             Assert.AreEqual(6, maxValue, 0.01);
             Assert.AreEqual(-3, solver.Solution[0], 0.01);
@@ -504,9 +504,9 @@ namespace Accord.Tests.Math
 
             // Create the solver algorithm
             AugmentedLagrangianSolver solver =
-                new AugmentedLagrangianSolver(2, constraints);
+                new AugmentedLagrangianSolver(objective, constraints);
 
-            double maxValue = solver.Maximize(objective);
+            double maxValue = solver.Maximize();
 
             Assert.AreEqual(18.02, maxValue, 0.01);
             Assert.AreEqual(2.77, solver.Solution[0], 1e-2);
@@ -514,5 +514,79 @@ namespace Accord.Tests.Math
         }
 #endif
 
+
+        [TestMethod]
+        public void ConstructorTest2()
+        {
+            var function = new NonlinearObjectiveFunction(2,
+                function: x => x[0] * x[1],
+                gradient: x => new[] { x[1], x[0] });
+
+            NonlinearConstraint[] constraints = 
+            {
+                new NonlinearConstraint(function,
+                    function: x => 1.0 - x[0] * x[0] - x[1] * x[1],
+                    gradient: x => new [] { -2 * x[0], -2 * x[1]})
+            };
+
+            var target = new ConjugateGradient(2);
+            AugmentedLagrangianSolver solver = new AugmentedLagrangianSolver(target, function, constraints);
+            double minimum = solver.Minimize();
+
+            double[] solution = solver.Solution;
+
+            double sqrthalf = Math.Sqrt(0.5);
+
+            Assert.AreEqual(-0.5, minimum, 1e-5);
+            Assert.AreEqual(sqrthalf, solution[0], 1e-5);
+            Assert.AreEqual(-sqrthalf, solution[1], 1e-5);
+
+            double expectedMinimum = function.Function(solver.Solution);
+            Assert.AreEqual(expectedMinimum, minimum);
+        }
+
+        [TestMethod]
+        public void ConstructorTest3()
+        {
+            // Easy three dimensional minimization in ellipsoid.
+            var function = new NonlinearObjectiveFunction(3, 
+                function: x => x[0] * x[1] * x[2],
+                gradient: x => new [] { x[1] * x[2], x[0] * x[2], x[0] * x[1] });
+
+            NonlinearConstraint[] constraints = 
+            {
+                new NonlinearConstraint(3,
+                    function: x =>  1.0 - x[0] * x[0] - 2.0 * x[1] * x[1] - 3.0 * x[2] * x[2],
+                    gradient: x =>  new[] { -2.0 * x[0],  -4.0 * x[1], -6.0 * x[2] }),
+                new NonlinearConstraint(3,
+                    function: x =>  x[0],
+                    gradient: x =>  new[] { 1.0, 0, 0 }),
+                new NonlinearConstraint(3,
+                    function: x =>  x[1],
+                    gradient: x =>  new[] { 0, 1.0, 0 }),
+            };
+
+            var target = new BroydenFletcherGoldfarbShanno(3);
+            //target.MaxIterations = 500;
+            var solver = new AugmentedLagrangianSolver(target, function, constraints);
+
+            double minimum = solver.Minimize();
+            double[] solution = solver.Solution;
+
+            double sqrthalf = Math.Sqrt(0.5);
+
+            double[] expected = 
+            {
+                1.0 / Math.Sqrt(3.0), 1.0 / Math.Sqrt(6.0), -1.0 / 3.0
+            };
+
+
+            for (int i = 0; i < expected.Length; i++)
+                Assert.AreEqual(expected[i], solver.Solution[i], 1e-4);
+            Assert.AreEqual(-0.078567420132031968, minimum, 1e-10);
+
+            double expectedMinimum = function.Function(solver.Solution);
+            Assert.AreEqual(expectedMinimum, minimum);
+        }
     }
 }

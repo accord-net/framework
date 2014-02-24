@@ -171,14 +171,16 @@ namespace Accord.Math.Optimization.Constrained
             create(numberOfVariables, function, null);
         }
 
-        private void create(int numberOfVariables, Func<double[], double> function, NonlinearConstraint[] cons)
+        private void create(int numberOfVariables, Func<double[], double> function, 
+            IEnumerable<NonlinearConstraint> cons)
         {
             this.numberOfVariables = numberOfVariables;
             this.Function = function;
 
             if (cons == null)
                 this.constraints = new NonlinearConstraint[0];
-            else this.constraints = cons;
+            else
+                this.constraints = System.Linq.Enumerable.ToArray(cons);
 
             x = new double[numberOfVariables];
             for (int i = 0; i < x.Length; i++)

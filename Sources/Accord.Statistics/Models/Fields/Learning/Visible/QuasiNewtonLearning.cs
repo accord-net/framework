@@ -47,7 +47,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         {
             this.model = model;
             this.lbfgs = new BroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
-            this.lbfgs.Tolerance = 1e-3;
+            //this.lbfgs.Tolerance = 1e-3;
         }
 
         /// <summary>

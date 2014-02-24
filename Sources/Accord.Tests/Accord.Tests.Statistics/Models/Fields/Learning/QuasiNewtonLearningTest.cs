@@ -124,7 +124,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(ll1 > ll0);
 
 
-            Assert.AreEqual(-0.01205815673780819, actual, 1e-10);
+            Assert.AreEqual(-0.00000025890879840062553, actual, 1e-10);
 
             for (int i = 0; i < sequences.Length; i++)
             {

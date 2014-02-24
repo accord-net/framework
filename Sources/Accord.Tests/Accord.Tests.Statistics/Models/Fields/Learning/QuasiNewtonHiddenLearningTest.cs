@@ -105,7 +105,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
 
             Assert.AreEqual(-0.00046872579976353634, ll0, 1e-10);
-            Assert.AreEqual(0.00012170806701733428, error, 1e-10);
+            Assert.AreEqual(0.0, error, 1e-10);
             Assert.AreEqual(error, -ll1);
             Assert.IsFalse(Double.IsNaN(ll0));
             Assert.IsFalse(Double.IsNaN(error));

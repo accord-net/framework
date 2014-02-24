@@ -503,8 +503,11 @@ namespace Accord.Math.Optimization
                         finish = true;
                 }
 
-                if (Progress != null) Progress(this, new OptimizationProgressEventArgs
+                if (Progress != null)
+                {
+                    Progress(this, new OptimizationProgressEventArgs
                             (iterations, evaluations, g, gnorm, x, xnorm, f, stp, finish));
+                }
             }
 
             return f;
@@ -691,8 +694,8 @@ namespace Accord.Math.Optimization
                 // Call CSTEPM to update the interval of
                 // uncertainty and to compute the new step.
 
-                BroydenFletcherGoldfarbShanno.SearchStep(ref stx, ref fxm, ref dgxm,
-                    ref sty, ref fym, ref dgym, ref stp, fm, dgm, ref brackt, out infoc);
+                Dcstep.dcstep(ref stx, ref fxm, ref dgxm,
+                    ref sty, ref fym, ref dgym, ref stp, fm, dgm, ref brackt, stpmin, stpmax);
 
                 // Reset the function and gradient values for f.
                 fx = fxm + stx * dgtest;
@@ -704,8 +707,8 @@ namespace Accord.Math.Optimization
             {
                 // Call CSTEPM to update the interval of
                 // uncertainty and to compute the new step.
-                BroydenFletcherGoldfarbShanno.SearchStep(ref stx, ref fx, ref dgx,
-                    ref sty, ref fy, ref dgy, ref stp, f, dg2, ref brackt, out infoc);
+                Dcstep.dcstep(ref stx, ref fx, ref dgx,
+                    ref sty, ref fy, ref dgy, ref stp, f, dg2, ref brackt, stpmin, stpmax);
             }
 
             // Force a sufficient decrease in the 

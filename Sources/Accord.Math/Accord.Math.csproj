@@ -126,7 +126,11 @@
     <Compile Include="Optimization\Base\IGradientOptimizationMethod.cs" />
     <Compile Include="Optimization\Base\ILeastSquaresMethod.cs" />
     <Compile Include="Optimization\BinarySearch.cs" />
+    <Compile Include="Optimization\Constrained\Cobyla.cs" />
     <Compile Include="Optimization\Constrained\LinearConstraintCollection.cs" />
+    <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.FORTRAN.cs" />
+    <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.LIBLBFGS.cs" />
+    <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.cs" />
     <Compile Include="Optimization\Unconstrained\Least Squares\GaussNewton.cs" />
     <Compile Include="Optimization\Unconstrained\Least Squares\LevenbergMarquardt.cs" />
     <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
