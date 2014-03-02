@@ -129,8 +129,10 @@ namespace Accord.Tests.Statistics
 
                 cauchy.Fit(observations);
 
-                Assert.AreEqual(0.18383597286086659, cauchy.Location);
-                Assert.AreEqual(-0.10530822112775458, cauchy.Scale);
+                Assert.AreEqual(0.18383597286086659, cauchy.Location, 1e-10);
+                Assert.AreEqual(-0.10530822112775458, cauchy.Scale, 1e-10);
+                Assert.IsFalse(Double.IsNaN(cauchy.Location));
+                Assert.IsFalse(Double.IsNaN(cauchy.Scale));
             }
             {
                 CauchyOptions options = new CauchyOptions()
@@ -144,8 +146,10 @@ namespace Accord.Tests.Statistics
 
                 cauchy.Fit(observations, options);
 
-                Assert.AreEqual(0.34712181102025652, cauchy.Location);
-                Assert.AreEqual(4.2, cauchy.Scale);
+                Assert.AreEqual(0.34712181102025652, cauchy.Location, 1e-4);
+                Assert.AreEqual(4.2, cauchy.Scale, 1e-10);
+                Assert.IsFalse(Double.IsNaN(cauchy.Location));
+                Assert.IsFalse(Double.IsNaN(cauchy.Scale));
             }
         }
 
@@ -227,7 +231,7 @@ namespace Accord.Tests.Statistics
 
         #region Sample
         // 500 samples drawn from a Cauchy distribution with t=4.2, s=0.21
-        private static double[] samples =
+        public static double[] samples =
         {
             4.25847161436748, 4.32879020336098, 4.10200384890093, 4.28335743818132, 4.51142173498328, 0.733112801568828, 3.42155584829012, 6.84721416706609, 4.30812425693285, 3.96366085968445, 4.13430430860427, 3.67928199937881, 
             4.01302162768263, 4.00010572364253, 4.07728464429852, 3.79490565751733, 4.09133867767407, 3.67756964373878, 4.75130809057927, 3.51183717030418, 5.14004955250686, 4.13105132634635, 2.80024939323037, 4.08658237419147, 

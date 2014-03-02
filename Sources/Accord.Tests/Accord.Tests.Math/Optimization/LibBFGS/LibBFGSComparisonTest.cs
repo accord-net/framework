@@ -28,6 +28,7 @@ namespace Accord.Tests.Math
     using AccordTestsMathCpp2;
     using System.Collections.Generic;
     using Accord.Tests.Math.Optimization;
+    using AForge;
 
     [TestClass()]
     public class LibBFGSComparisonTest
@@ -84,6 +85,11 @@ namespace Accord.Tests.Math
                 x => 10.0 * Math.Pow(x[0] + 1.0, 2.0) + Math.Pow(x[1], 2.0),
                 x => new[] { 20 * (x[0] + 1), 2 * x[1] },
                 new double[2]));
+
+            list.Add(new Specification(3, // uses a constant value
+                x => 10.0 * Math.Pow(x[0] + 1.0, 2.0) + Math.Pow(x[1], 2.0),
+                x => new[] { 20 * (x[0] + 1), 2 * x[1], 0 },
+                new double[3]));
 
             problems = list;
         }
@@ -142,9 +148,8 @@ namespace Accord.Tests.Math
         {
             for (var past = 0; past < 10; past += 3)
                 for (var delta = 1e-8; delta < 1; delta *= 100)
-                    for (int max_iterations = 0, i = 1; max_iterations < 50; max_iterations += i, i++)
-                        for (var linesearch = (int)LineSearch.Default; linesearch < 4; linesearch++)
-                            inner(problems, 4, 1e-5, past, delta, max_iterations, linesearch);
+                    for (int max_iterations = 0, i = 1; max_iterations < 50; max_iterations += i * i, i++)
+                        inner(problems, 4, 1e-5, past, delta, max_iterations, (int)LineSearch.Default);
 
         }
 
@@ -152,8 +157,8 @@ namespace Accord.Tests.Math
         public void ParameterBatchTest2()
         {
             for (var m = 2; m < 10; m++)
-                for (var epsilon = 1e-7; epsilon < 1; epsilon *= 100)
-                    for (var past = 0; past < 10; past++)
+                for (var epsilon = 1e-7; epsilon < 1; epsilon *= 1000)
+                    for (var past = 0; past < 10; past += 5)
                         for (var linesearch = (int)LineSearch.Default; linesearch < 4; linesearch++)
                             inner(problems, m, epsilon, past, 1e-5, 50, linesearch);
 
@@ -164,7 +169,7 @@ namespace Accord.Tests.Math
         {
             bool executed = false;
 
-            for (var ftol = 1e-8; ftol < 1e-5; ftol *= 100)
+            for (var ftol = 1e-8; ftol < 1e-5; ftol *= 1000)
                 for (var wolfe = 0.0; wolfe <= 1.0; wolfe += 0.4)
                     for (var gtol = 0.0; gtol <= 1.0; gtol += 0.5)
                         for (var xtol = 1.0e-16; xtol < 1e-6; xtol *= 10000)
@@ -246,14 +251,23 @@ namespace Accord.Tests.Math
 
             for (int i = 0; i < tests.Length; i++)
             {
+                var test = tests[i];
+
                 string actual = String.Empty;
                 string expected = String.Empty;
+                try { test.Actual(problem); }
+                catch (Exception ex)
+                {
+                    actual = ex.Data["Code"] as string;
+                    if (actual == null)
+                        throw;
+                }
 
-                try { tests[i].Actual(problem); }
-                catch (Exception ex) { actual = ex.Data["Code"] as string; }
+                test.Expected(problem);
+                expected = test.NativeCode;
 
-                tests[i].Expected(problem); 
-                expected = tests[i].NativeCode; 
+                if (actual == String.Empty)
+                    actual = test.ActualMessage;
 
                 Assert.AreEqual(expected, actual);
                 Assert.AreNotEqual(String.Empty, actual);
@@ -265,8 +279,29 @@ namespace Accord.Tests.Math
         {
             foreach (var problem in problems)
             {
+                string actualStr = String.Empty;
+                string expectedStr = String.Empty;
+
+                OptimizationProgressEventArgs[] actual = null;
+
+                try { actual = cmp.Actual(problem); }
+                catch (Exception ex)
+                {
+                    actualStr = ex.Data["Code"] as string;
+                    if (actualStr == null)
+                        throw;
+                }
+
                 var expected = cmp.Expected(problem);
-                var actual = cmp.Actual(problem);
+                expectedStr = cmp.NativeCode;
+
+                if (actualStr == String.Empty)
+                    actualStr = cmp.ActualMessage;
+
+                Assert.AreEqual(expectedStr, actualStr);
+
+                if (expectedStr != "LBFGS_SUCCESS")
+                    continue;
 
                 Assert.AreEqual(expected.Length, actual.Length);
                 for (int i = 0; i < expected.Length; i++)
@@ -282,6 +317,71 @@ namespace Accord.Tests.Math
                     Assert.AreEqual(e.step, a.Step);
                 }
             }
+        }
+
+        [TestMethod()]
+        public void InvalidLineSearchTest()
+        {
+            double t = 0;
+            double s = 0;
+            int n = 10;
+
+            Func<double[], double> function = (parameters) =>
+            {
+                t = parameters[0];
+                s = parameters[1];
+
+                return -(n * Math.Log(s) - n * Math.Log(Math.PI));
+            };
+
+            Func<double[], double[]> gradient = (parameters) =>
+            {
+                t = parameters[0];
+                s = parameters[1];
+
+                double dt = -2.0;
+                double ds = +2.0 - n / s;
+
+                return new[] { dt, ds };
+            };
+
+            double[] start = { 0, 0 };
+
+
+            Specification problem = new Specification(2, function, gradient, start);
+            LBFGSComparer cmp = new LBFGSComparer();
+
+            compute(new List<Specification>() { problem }, cmp);
+        }
+
+        [TestMethod()]
+        public void InvalidLineSearchTest2()
+        {
+            int n = 10;
+
+            Func<double[], double> function = (parameters) =>
+            {
+                return -(n * Math.Log(0) - n * Math.Log(Math.PI));
+            };
+
+            Func<double[], double[]> gradient = (parameters) =>
+            {
+                return new[] { 2.0, Double.NegativeInfinity };
+            };
+
+            double[] start = { 0, 0 };
+
+            var lbfgs = new BroydenFletcherGoldfarbShanno(2, function, gradient);
+
+            bool thrown = false;
+            try { lbfgs.Minimize(start); }
+            catch (InvalidOperationException ex)
+            {
+                Assert.AreEqual("LBFGSERR_INVALIDPARAMETERS", ex.Data["Code"] as String);
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
         }
 
     }

@@ -33,7 +33,7 @@ namespace Accord.Math.Optimization
     public class ResilientBackpropagation : IGradientOptimizationMethod
     {
 
-        private AbsoluteConvergence convergence;
+        private RelativeConvergence convergence;
 
         private double initialStep = 0.0125;
         private double deltaMax = 50.0;
@@ -184,7 +184,7 @@ namespace Accord.Math.Optimization
         /// 
         public ResilientBackpropagation(int parameters)
         {
-            convergence = new AbsoluteConvergence();
+            convergence = new RelativeConvergence();
 
             solution = new double[parameters];
             gradient = new double[parameters];

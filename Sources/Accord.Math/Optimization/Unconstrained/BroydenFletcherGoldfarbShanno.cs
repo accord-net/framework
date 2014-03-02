@@ -77,7 +77,7 @@ namespace Accord.Math.Optimization
         ///   The backtracking method finds the step length such that it satisfies
         ///   the sufficient decrease (Armijo) condition,</para>
         /// <code>
-        ///   - f(x + a * d) &lte; f(x) + FunctionTolerance * a * g(x)^T d,</code>
+        ///   -f(x + a * d) &lte; f(x) + FunctionTolerance * a * g(x)^T d,</code>
         /// <para>
         ///   where x is the current point, d is the current search direction, and
         ///   a is the step length.</para>
@@ -88,6 +88,7 @@ namespace Accord.Math.Optimization
         /// <summary>
         ///   Backtracking method with regular Wolfe condition. 
         /// </summary>
+        /// 
         /// <remarks>
         /// <para>
         ///   The backtracking method finds the step length such that it satisfies
@@ -231,6 +232,7 @@ namespace Accord.Math.Optimization
         private int orthantwise_start = 0;
         private int orthantwise_end = -1;
 
+        private Func<double[], double[]> gradient;
 
         // outputs
         private double[] x;
@@ -238,13 +240,20 @@ namespace Accord.Math.Optimization
 
         public enum Code
         {
-            MaximumIterations
+            Success,
+            MaximumIterations,
+            AlreadyMinimized,
+            RoundingError,
+            MaximumLineSearch,
+            Stop
         }
 
         #region Properties
 
         /// <summary>
         ///   The number of corrections to approximate the inverse Hessian matrix.
+        ///   Default is 6. Values less than 3 are not recommended. Large values 
+        ///   will result in excessive computing time.
         /// </summary>
         /// 
         /// <remarks>
@@ -358,8 +367,9 @@ namespace Accord.Math.Optimization
             get { return max_iterations; }
             set
             {
-                if (value <= 0)
-                    throw exception("Maximum number of iterations must be positive or zero.", String.Empty);
+                if (value < 0)
+                    throw exception("Maximum number of iterations must be positive or zero.",
+                       "LBFGSERR_MAXIMUMITERATION");
                 max_iterations = value;
             }
         }
@@ -367,7 +377,13 @@ namespace Accord.Math.Optimization
         public LineSearch LineSearch
         {
             get { return linesearch; }
-            set { linesearch = value; }
+            set
+            {
+                if (!Enum.IsDefined(typeof(LineSearch), value))
+                    throw exception("Invalid line-search method.", "LBFGSERR_INVALID_LINESEARCH");
+
+                linesearch = value;
+            }
         }
 
         public int MaxLineSearch
@@ -453,13 +469,29 @@ namespace Accord.Math.Optimization
         public int OrthantwiseStart
         {
             get { return orthantwise_start; }
-            set { orthantwise_start = value; }
+            set
+            {
+                if (value < 0 || value > n)
+                    throw exception("Value must be between 0 and the number of variables in the problem.",
+                        "LBFGSERR_INVALID_ORTHANTWISE_START");
+                orthantwise_start = value;
+            }
         }
 
         public int OrthantwiseEnd
         {
             get { return orthantwise_end; }
-            set { orthantwise_end = value; }
+            set
+            {
+                if (value > n)
+                    throw exception("Value must be between 0 and the number of variables in the problem.",
+                        "LBFGSERR_INVALID_ORTHANTWISE_END");
+
+                if (value < 0)
+                    value = n;
+
+                orthantwise_end = value;
+            }
         }
 
         /// <summary>
@@ -484,7 +516,31 @@ namespace Accord.Math.Optimization
         /// 
         /// <value>The gradient function.</value>
         /// 
-        public Func<double[], double[]> Gradient { get; set; }
+        public Func<double[], double[]> Gradient
+        {
+            get { return this.gradient; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+
+                double[] probe = new double[n];
+                double[] result = value(probe);
+
+                if (result == probe)
+                    throw new ArgumentException();
+                if (probe.Length != result.Length)
+                    throw new ArgumentException();
+
+                for (int i = 0; i < probe.Length; i++)
+                {
+                    if (probe[i] != 0.0)
+                        throw new ArgumentException();
+                }
+
+                this.gradient = value;
+            }
+        }
 
         /// <summary>
         ///   Gets the number of variables (free parameters)
@@ -507,6 +563,8 @@ namespace Accord.Math.Optimization
         {
             get { return x; }
         }
+
+        public Code Status { get; set; }
 
         /// <summary>
         ///   Gets the output of the function at the current solution.
@@ -534,6 +592,8 @@ namespace Accord.Math.Optimization
 
             this.n = numberOfVariables;
             x = new double[numberOfVariables];
+
+            orthantwise_end = n;
         }
 
         /// <summary>
@@ -583,6 +643,25 @@ namespace Accord.Math.Optimization
         /// 
         public double Minimize(double[] values)
         {
+            if (Function == null)
+                throw new ArgumentNullException("function");
+
+            if (Gradient == null)
+                throw new ArgumentNullException("gradient");
+
+            if (LineSearch == Optimization.LineSearch.RegularWolfe ||
+                LineSearch == Optimization.LineSearch.StrongWolfe)
+            {
+                if (wolfe <= ftol || 1.0 <= wolfe)
+                    throw operationException("Wolfe tolerance must be between ftol and 1.",
+                        "LBFGSERR_INVALID_WOLFE");
+            }
+
+            if (OrthantwiseC != 0.0 && linesearch != Optimization.LineSearch.RegularWolfe)
+            {
+                throw operationException("Orthant-wise updates are only available with RegularWolfe line search.",
+                    "LBFGSERR_INVALID_LINESEARCH");
+            }
 
             var param = new lbfgs_parameter_t()
             {
@@ -606,6 +685,22 @@ namespace Accord.Math.Optimization
 
             int ret = LBFGS.main(values, Function, Gradient, Progress, param);
 
+            Status = Code.Success;
+
+            if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_MAXIMUMITERATION)
+                Status = Code.MaximumIterations;
+            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGS_ALREADY_MINIMIZED)
+                Status = Code.AlreadyMinimized;
+            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_ROUNDING_ERROR)
+                Status = Code.RoundingError;
+            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_MAXIMUMLINESEARCH)
+                Status = Code.MaximumLineSearch;
+            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGS_STOP)
+                Status = Code.Stop;
+            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_INVALIDPARAMETERS)
+                throw operationException("Negative line search occurred.", "LBFGSERR_INVALIDPARAMETERS");
+
+
             for (int i = 0; i < values.Length; i++)
                 x[i] = values[i];
 
@@ -614,9 +709,20 @@ namespace Accord.Math.Optimization
 
 
 
-        private static ArgumentOutOfRangeException exception(string message, string code)
+        private static ArgumentOutOfRangeException exception(string message, string code, 
+            string paramName = null)
         {
-            var e = new ArgumentOutOfRangeException("value", message);
+            if (paramName == null)
+                paramName = "value";
+
+            var e = new ArgumentOutOfRangeException(paramName, message);
+            e.Data["Code"] = code;
+            return e;
+        }
+
+        private static InvalidOperationException operationException(string message, string code)
+        {
+            var e = new InvalidOperationException(message);
             e.Data["Code"] = code;
             return e;
         }

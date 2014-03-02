@@ -74,6 +74,7 @@ namespace Accord.Math
         /// <summary>
         ///   Gets or sets the maximum relative change in the watched value
         ///   after an iteration of the algorithm used to detect convergence.
+        ///   Default is zero.
         /// </summary>
         /// 
         public double Tolerance
@@ -90,7 +91,8 @@ namespace Accord.Math
 
         /// <summary>
         ///   Gets or sets the maximum number of iterations
-        ///   performed by the iterative algorithm.
+        ///   performed by the iterative algorithm. Default
+        ///   is 100.
         /// </summary>
         /// 
         public int Iterations
@@ -120,7 +122,7 @@ namespace Accord.Math
         /// 
         /// <param name="iterations">The maximum number of iterations which should be
         ///   performed by the iterative algorithm. Setting to zero indicates there
-        ///   is no maximum number of iterations. Default is 0.</param>
+        ///   is no maximum number of iterations. Default is 100.</param>
         /// <param name="tolerance">The maximum relative change in the watched value
         ///   after an iteration of the algorithm used to detect convergence.
         ///   Default is 0.</param>

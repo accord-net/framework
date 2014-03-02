@@ -437,8 +437,8 @@ namespace Accord.Statistics.Distributions.Univariate
             }
 
 
-            double t = location;
-            double s = scale;
+            double t0 = location;
+            double s0 = scale;
 
             int n = observations.Length;
 
@@ -447,10 +447,10 @@ namespace Accord.Statistics.Distributions.Univariate
             double median = Accord.Statistics.Tools.Quartiles(observations, out range, alreadySorted: false);
 
             if (estimateT)
-                t = median;
+                t0 = median;
 
             if (estimateS)
-                s = range.Length;
+                s0 = range.Length;
 
 
             if (useMLE)
@@ -465,8 +465,8 @@ namespace Accord.Statistics.Distributions.Univariate
                 {
                     // Assume location is the first
                     // parameter, shape is the second
-                    if (estimateT) t = parameters[0];
-                    if (estimateS) s = parameters[1];
+                    double t = (estimateT) ? parameters[0] : t0;
+                    double s = (estimateS) ? parameters[1] : s0;
 
                     if (s < 0) s = -s;
 
@@ -485,8 +485,8 @@ namespace Accord.Statistics.Distributions.Univariate
                 {
                     // Assume location is the first
                     // parameter, shape is the second
-                    if (estimateT) t = parameters[0];
-                    if (estimateS) s = parameters[1];
+                    double t = (estimateT) ? parameters[0] : t0;
+                    double s = (estimateS) ? parameters[1] : s0;
 
                     double sum1 = 0, sum2 = 0;
                     for (int i = 0; i < observations.Length; i++)
@@ -511,18 +511,18 @@ namespace Accord.Statistics.Distributions.Univariate
                 // value for location, and half interquartile range
                 // for shape.
 
-                double[] values = { t, s };
+                double[] values = { t0, s0 };
 
                 // Minimize
                 double error = lbfgs.Minimize(values);
 
                 // Check solution
-                t = lbfgs.Solution[0];
-                s = lbfgs.Solution[1];
+                t0 = lbfgs.Solution[0];
+                s0 = lbfgs.Solution[1];
             }
 
 
-            init(t, s); // Become the new distribution
+            init(t0, s0); // Become the new distribution
         }
 
         /// <summary>

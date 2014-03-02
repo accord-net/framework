@@ -241,6 +241,7 @@ namespace Accord.Math.Optimization
         /// 
         public double[] Solution { get; private set; }
 
+        public IGradientOptimizationMethod Optimizer { get { return dualSolver; } }
 
         /// <summary>
         ///   Creates a new instance of the Augmented Lagrangian algorithm.
@@ -328,7 +329,13 @@ namespace Accord.Math.Optimization
             }
 
             if (innerSolver == null)
-                this.dualSolver = new BroydenFletcherGoldfarbShanno(numberOfVariables);
+            {
+                innerSolver = new BroydenFletcherGoldfarbShanno(numberOfVariables)
+                {
+                    LineSearch = Optimization.LineSearch.BacktrackingArmijo,
+                    Corrections = 10
+                };
+            }
 
             List<NonlinearConstraint> equality = new List<NonlinearConstraint>();
             List<NonlinearConstraint> lesserThan = new List<NonlinearConstraint>();
@@ -356,8 +363,12 @@ namespace Accord.Math.Optimization
             this.greaterThanConstraints = greaterThan.ToArray();
             this.equalityConstraints = equality.ToArray();
 
-            this.Solution = new double[numberOfVariables];
+            this.lambda = new double[equalityConstraints.Length];
+            this.mu = new double[lesserThanConstraints.Length];
+            this.nu = new double[greaterThanConstraints.Length];
 
+            this.Solution = new double[numberOfVariables];
+             
             this.dualSolver = innerSolver;
             dualSolver.Function = objectiveFunction;
             dualSolver.Gradient = objectiveGradient;
@@ -397,7 +408,7 @@ namespace Accord.Math.Optimization
 
             minimize();
 
-            return -Function(Solution);
+            return Function(Solution);
         }
 
 
@@ -463,8 +474,19 @@ namespace Accord.Math.Optimization
             //   Phi'(x) = f'(x) + rho sum(c_i(x)*c_i'(x)) - sum(lambda_i * c_i'(x))
             //
 
-            double[] g = Gradient(x);
+            double[] orig = Gradient(x);
+            double[] g = new double[numberOfVariables];
 
+            if (maximizing)
+            {
+                for (int i = 0; i < g.Length; i++)
+                    g[i] = -orig[i];
+            }
+            else
+            {
+                for (int i = 0; i < g.Length; i++)
+                    g[i] = orig[i];
+            }
 
             double[] sum = new double[x.Length];
             double[] weightedSum = new double[x.Length];
@@ -519,12 +541,6 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < g.Length; i++)
                 g[i] += sum[i] - weightedSum[i];
 
-            if (maximizing)
-            {
-                for (int i = 0; i < g.Length; i++)
-                    g[i] = -g[i];
-            }
-
             return g;
         }
 
@@ -553,9 +569,9 @@ namespace Accord.Math.Optimization
 
             double[] currentSolution = (double[])Solution.Clone();
 
-            lambda = new double[equalityConstraints.Length];
-            mu = new double[lesserThanConstraints.Length];
-            nu = new double[greaterThanConstraints.Length];
+            Array.Clear(lambda, 0, lambda.Length);
+            Array.Clear(mu, 0, mu.Length);
+            Array.Clear(nu, 0, nu.Length);
             rho = 1;
 
 

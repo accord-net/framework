@@ -24,3 +24,5 @@ obj
 /Docs
 /Sources/Accord.Tests/Accord.Tests.Math.Cpp/Debug
 /Sources/Debug
+/Sources/Accord.Tests/Accord.Tests.Math.Cpp/Release
+/Sources/Release

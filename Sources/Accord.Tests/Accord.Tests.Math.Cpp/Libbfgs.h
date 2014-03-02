@@ -9,7 +9,7 @@ using namespace System::Reflection;
 
 namespace AccordTestsMathCpp2 
 {
-    enum class ReturnValue
+    public enum class ReturnValue
     {
         LBFGS_SUCCESS = 0,
         LBFGS_CONVERGENCE = 0,

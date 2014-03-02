@@ -425,7 +425,7 @@ namespace Accord.Math.Optimization
          * 
          *  Roughly speaking, a negative value indicates an error.
          */
-        enum Code
+        internal enum Code
         {
             /** L-BFGS reaches convergence. */
             LBFGS_SUCCESS = 0,
@@ -982,7 +982,15 @@ namespace Accord.Math.Optimization
                     The criterion is given by the following formula:
                         |g(x)| / \max(1, |x|) < \epsilon
                  */
-                if (xnorm < 1.0) xnorm = 1.0;
+                if (xnorm < 1.0)
+                    xnorm = 1.0;
+
+                if (Double.IsNaN(xnorm) || double.IsNaN(gnorm))
+                {
+                    ret = Code.LBFGSERR_UNKNOWNERROR;
+                    break;
+                }
+
                 if (gnorm / xnorm <= param.epsilon)
                 {
                     /* Convergence. */

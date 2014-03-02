@@ -48,6 +48,8 @@ namespace Accord.Tests.Math.Optimization
         public int orthantwise_start = 0;
         public int orthantwise_end = -1;
 
+        public string ActualMessage;
+
         public LBFGSComparer()
         {
             actual = new List<OptimizationProgressEventArgs>();
@@ -114,6 +116,25 @@ namespace Accord.Tests.Math.Optimization
             target.Progress += new EventHandler<OptimizationProgressEventArgs>(target_Progress);
 
             double v = target.Minimize((double[])problem.Start.Clone());
+
+            switch (target.Status)
+            {
+                case BroydenFletcherGoldfarbShanno.Code.Success:
+                    ActualMessage = "LBFGS_SUCCESS"; break;
+                case BroydenFletcherGoldfarbShanno.Code.MaximumIterations:
+                    ActualMessage = "LBFGSERR_MAXIMUMITERATION"; break;
+                case BroydenFletcherGoldfarbShanno.Code.AlreadyMinimized:
+                    ActualMessage = "LBFGS_ALREADY_MINIMIZED"; break;
+                case BroydenFletcherGoldfarbShanno.Code.RoundingError:
+                    ActualMessage = "LBFGSERR_ROUNDING_ERROR"; break;
+                case BroydenFletcherGoldfarbShanno.Code.MaximumLineSearch:
+                    ActualMessage = "LBFGSERR_MAXIMUMLINESEARCH"; break;
+                case BroydenFletcherGoldfarbShanno.Code.Stop:
+                    ActualMessage = "LBFGS_STOP"; break;
+                default:
+                    break;
+            }
+
 
            // actual.Add(new OptimizationProgressEventArgs(0, 0, null, 0, target.Solution, 0, v, 0, true));
 
