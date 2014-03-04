@@ -387,39 +387,27 @@ namespace Accord.Math.Optimization
                 Solution[j] = values[j];
             }
 
+            int n = numberOfVariables;
+            int m = corrections;
+
             String task = "";
             String csave = "";
             bool[] lsave = new bool[4];
-            int n = 0;
-            int m = 0;
-            int iprint = 0;
-            int[] nbd = new int[(1024)];
-            int[] iwa = new int[((3 * 1024))];
-            int[] isave = new int[(44)];
+            int iprint = 101;
+            int[] nbd = new int[n];
+            int[] iwa = new int[3 * n];
+            int[] isave = new int[60];
             double f = 0.0d;
-            double[] x = new double[(1024)];
-            double[] l = new double[(1024)];
-            double[] u = new double[(1024)];
-            double[] g = new double[(1024)];
-            double[] dsave = new double[(29)];
-            double[] wa = new double[((((((2 * 17) * 1024) + (5 * 1024)) + ((11 * 17) * 17)) + (8 * 17)))];
+            double[] x = new double[n];
+            double[] l = new double[n];
+            double[] u = new double[n];
+            double[] g = new double[n];
+            double[] dsave = new double[60];
+            int totalSize = 2 * m * n + 11 * m * m + 5 * n + 8 * m;
+            double[] wa = new double[totalSize];
 
             int i = 0;
 
-            // 
-            // c     We specify the dimension n of the sample problem and the number
-            // c        m of limited memory corrections stored.  (n and m should not
-            // c        exceed the limits nmax and mmax respectively.)
-            // 
-            n = numberOfVariables;
-            m = corrections;
-            // 
-            // c     We now provide nbd which defines the bounds on the variables:
-            // c                    l   specifies the lower bounds,
-            // c                    u   specifies the upper bounds. 
-            // 
-            // c     First set bounds on the odd-numbered variables.
-            // 
             {
                 for (i = 0; i < UpperBounds.Length; i++)
                 {

@@ -1,3 +1,4 @@
+#include "lbfgs.h"
 
 using namespace System;
 using namespace System::Collections::Generic;
@@ -8,14 +9,6 @@ using namespace System::Reflection;
 
 namespace AccordTestsMathCpp2 
 {
-    public enum class BoundSpec
-    {
-         Unbounded = 0,
-         LowerBound,
-         LowerUpper,
-         UpperBound,
-    };
-
     public enum class ReturnValue
     {
         LBFGS_SUCCESS = 0,
@@ -77,18 +70,6 @@ namespace AccordTestsMathCpp2
         int orthantwise_end;
     };
 
-     public ref class Param2
-    {
-    public:
-        int m;
-        BoundSpec bound;
-        double factr;
-        double pgtol;
-        array<double>^ l;
-        array<double>^ u;
-        int max_iterations;
-    };
-
     public ref class Info
     {
     public:
@@ -101,27 +82,21 @@ namespace AccordTestsMathCpp2
         int n;
         int k;
         int ls;
-
-        array<int>^ isave;
-        array<double>^ dsave;
     };
 
     public delegate double Function(array<double>^);
 
     public delegate array<double>^ Gradient(array<double>^);
 
-    public ref class Wrapper
+    public ref class Libbfgs
     {
     public:
 
         static Function^ function;
         static Gradient^ gradient;
 
-        static String^ Libbfgs(array<double>^ start, Function^ function, 
+        static String^ Run(array<double>^ start, Function^ function, 
             Gradient^ gradient, Param^ param);
-
-        static String^ Lbfgsb3(array<double>^ start, Function^ function, 
-            Gradient^ gradient, Param2^ param);
 
         static List<Info^>^ list;
 

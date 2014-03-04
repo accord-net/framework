@@ -396,7 +396,8 @@ namespace Accord.Statistics.Models.Fields.Functions
         /// <param name="classifier">A hidden Markov sequence classifier.</param>
         /// <param name="includePriors">True to include class features (priors), false otherwise.</param>
         /// 
-        public MarkovMultivariateFunction(HiddenMarkovClassifier<Independent> classifier, bool includePriors = true)
+        public MarkovMultivariateFunction(HiddenMarkovClassifier<Independent> classifier,
+            bool includePriors = true)
         {
             this.Outputs = classifier.Classes;
 

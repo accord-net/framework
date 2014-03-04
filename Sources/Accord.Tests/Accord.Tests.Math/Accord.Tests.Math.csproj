@@ -144,6 +144,8 @@
     <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
+    <Compile Include="Optimization\Lbfgsb3\LbfgsbComparer.cs" />
+    <Compile Include="Optimization\Lbfgsb3\LbfgsbComparisonTest.cs" />
     <Compile Include="Optimization\LibBFGS\LibBFGSComparisonTest.cs" />
     <Compile Include="Optimization\LibBFGS\LBFGSComparer.cs" />
     <Compile Include="Optimization\NonlinearConstraintTest.cs" />
@@ -241,6 +243,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Libbfgs.cpp" />
+    <Content Include="Libbfgs.h" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -11,22 +11,55 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="arithmetic_ansi.h">
+    <ClInclude Include="LibLBFGS\arithmetic_ansi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lbfgs.h">
+    <ClInclude Include="LibLBFGS\lbfgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lbfgsb3\f2c.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Libbfgs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Lbfgsb3\lbfgsb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lbfgs.cpp">
+    <ClCompile Include="LibLBFGS\lbfgs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lbfgsb3\blas.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lbfgsb3\lbfgsb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lbfgsb3\linpack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lbfgsb3\timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Libbfgs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Lbfgsb3\s_cmp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lbfgsb3\s_stop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lbfgsb3\s_copy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Lbfgsb3\License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\libf2c.lib" />
   </ItemGroup>
 </Project>

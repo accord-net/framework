@@ -52,11 +52,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>D:\Projects\Accord.NET\GitHub\framework\Sources\Accord.Tests\Accord.Tests.Math.Cpp\LibLBFGS;D:\Projects\Accord.NET\GitHub\framework\Sources\Accord.Tests\Accord.Tests.Math.Cpp\Lbfgsb3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>
-      </AdditionalDependencies>
+      <AdditionalDependencies>libf2c.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:\Projects\Accord.NET\GitHub\framework\Sources\Accord.Tests\Accord.Tests.Math.Cpp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -77,13 +78,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="arithmetic_ansi.h" />
-    <ClInclude Include="lbfgs.h" />
+    <ClInclude Include="Lbfgsb3\f2c.h" />
+    <ClInclude Include="LibLBFGS\arithmetic_ansi.h" />
+    <ClInclude Include="LibLBFGS\lbfgs.h" />
     <ClInclude Include="Libbfgs.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="lbfgs.cpp" />
+    <ClInclude Include="Lbfgsb3\lbfgsb.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClCompile Include="Lbfgsb3\blas.cpp" />
+    <ClCompile Include="Lbfgsb3\lbfgsb.cpp" />
+    <ClCompile Include="Lbfgsb3\linpack.cpp" />
+    <ClCompile Include="Lbfgsb3\s_cmp.cpp" />
+    <ClCompile Include="Lbfgsb3\s_copy.cpp" />
+    <ClCompile Include="Lbfgsb3\s_stop.cpp" />
+    <ClCompile Include="Lbfgsb3\timer.cpp" />
+    <ClCompile Include="LibLBFGS\lbfgs.cpp" />
     <ClCompile Include="Libbfgs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Lbfgsb3\License.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\libf2c.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

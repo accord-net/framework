@@ -30,6 +30,8 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Math;
     using System;
     using Accord.Statistics.Models.Markov.Topology;
+using Accord.Statistics.Distributions.Multivariate;
+using Accord.Statistics.Distributions.Univariate;
 
     [TestClass()]
     public class HiddenConditionalRandomFieldTest
@@ -115,5 +117,40 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
+        [TestMethod()]
+        public void NumberOfFeaturesTest()
+        {
+            Independent initial = new Independent(
+                      new GeneralDiscreteDistribution(46), // output,
+                      new NormalDistribution(0, 1),        // headAngle, 
+                      new NormalDistribution(0, 1),        // handAngle, 
+                      new NormalDistribution(0, 1),        // relHandX, 
+                      new NormalDistribution(0, 1)         // relHandY, 
+            );
+
+
+
+            var model = new HiddenMarkovClassifier<Independent>(
+                classes: 13, topology: new Forward(5), initial: initial);
+
+            var function = new MarkovMultivariateFunction(model);
+            var field = new HiddenConditionalRandomField<double[]>(function);
+
+
+
+            int discreteDistributions = 1;
+            int continuousDistributions = 4;
+            int symbols = 46;
+            int states = 5;
+            int classes = 13;
+            int expected = classes *
+                (1 + states + states * states +
+                states * discreteDistributions * symbols +
+                states * continuousDistributions * 3);
+
+            Assert.AreEqual(expected, field.Function.Features.Length);
+            Assert.AreEqual(expected, field.Function.Weights.Length);
+            Assert.AreEqual(4173, expected);
+        }
     }
 }

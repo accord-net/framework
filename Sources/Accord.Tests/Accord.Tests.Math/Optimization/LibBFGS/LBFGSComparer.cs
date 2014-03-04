@@ -80,9 +80,9 @@ namespace Accord.Tests.Math.Optimization
                 orthantwise_end = orthantwise_end
             };
 
-            NativeCode = Libbfgs.Run((double[])problem.Start.Clone(), function, gradient, param);
+            NativeCode = Wrapper.Libbfgs((double[])problem.Start.Clone(), function, gradient, param);
 
-            return Libbfgs.list.ToArray();
+            return Wrapper.list.ToArray();
         }
 
         public string NativeCode { get; private set; }
