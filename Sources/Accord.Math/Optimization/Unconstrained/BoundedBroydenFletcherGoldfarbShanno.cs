@@ -134,6 +134,8 @@ namespace Accord.Math.Optimization
         private double f;   // value at current solution f(x)
         double[] g;         // gradient at current solution
 
+        private Func<double[], double[]> gradient;
+
         private double[] lowerBound;
         private double[] upperBound;
 
@@ -237,12 +239,9 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value <= 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw exception("value", "ERROR: M .LE. 0");
 
-                if (corrections != value)
-                {
-                    corrections = value;
-                }
+                corrections = value;
             }
         }
 
@@ -270,7 +269,11 @@ namespace Accord.Math.Optimization
         public double Tolerance
         {
             get { return factr; }
-            set { factr = value; }
+            set {
+                if (value < 0)
+                    throw exception("Tolerance must be greater than or equal to zero.", "ERROR: FACTR .LT. 0");
+                
+                factr = value; }
         }
 
 
@@ -298,6 +301,16 @@ namespace Accord.Math.Optimization
         {
             get { return f; }
         }
+
+        public enum Code
+        {
+            Success,
+            ABNORMAL_TERMINATION_IN_LNSRCH,
+            Convergence,
+            ConvergenceGradient
+        }
+
+        public Code Status { get; set; }
 
         #endregion
 
@@ -366,6 +379,23 @@ namespace Accord.Math.Optimization
             return Minimize(Solution);
         }
 
+        private void probeGradient(Func<double[], double[]> value)
+        {
+            double[] probe = new double[numberOfVariables];
+            double[] result = value(probe);
+
+            if (result == probe)
+                throw new ArgumentException();
+            if (probe.Length != result.Length)
+                throw new ArgumentException();
+
+            for (int i = 0; i < probe.Length; i++)
+            {
+                if (probe[i] != 0.0)
+                    throw new ArgumentException();
+            }
+        }
+
         /// <summary>
         ///   Minimizes the defined function. 
         /// </summary>
@@ -381,6 +411,14 @@ namespace Accord.Math.Optimization
 
             if (values.Length != numberOfVariables)
                 throw new DimensionMismatchException("values");
+
+            if (Function == null)
+                throw new ArgumentNullException("function");
+
+            if (Gradient == null)
+                throw new ArgumentNullException("gradient");
+
+            probeGradient(Gradient);
 
             for (int j = 0; j < Solution.Length; j++)
             {
@@ -451,6 +489,12 @@ namespace Accord.Math.Optimization
                 factr, pgtol, wa, 0, iwa, 0, ref task, iprint, ref csave,
                 lsave, 0, isave, 0, dsave, 0);
 
+        if (Progress != null)
+            Progress(this, new OptimizationProgressEventArgs(0,0,null,0,null,0,0,0,false)
+            {
+                Tag = Tuple.Create((int[])isave.Clone(), (double[])dsave.Clone())
+            });
+
             // 
             if ((task.StartsWith("FG")))
             {
@@ -480,6 +524,13 @@ namespace Accord.Math.Optimization
             }
             else
             {
+                if (task == "ABNORMAL_TERMINATION_IN_LNSRCH")
+                    Status = Code.ABNORMAL_TERMINATION_IN_LNSRCH;
+                else if (task == "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH")
+                    Status = Code.Convergence;
+                else if (task == "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL")
+                    Status = Code.ConvergenceGradient;
+                else throw exception(task, task);
                 // return Double.NaN;
             }
 
@@ -497,6 +548,25 @@ namespace Accord.Math.Optimization
             }
 
             return f;
+        }
+
+
+        private static ArgumentOutOfRangeException exception(string message, string code,
+          string paramName = null)
+        {
+            if (paramName == null)
+                paramName = "value";
+
+            var e = new ArgumentOutOfRangeException(paramName, message);
+            e.Data["Code"] = code;
+            return e;
+        }
+
+        private static InvalidOperationException operationException(string message, string code)
+        {
+            var e = new InvalidOperationException(message);
+            e.Data["Code"] = code;
+            return e;
         }
 
     }

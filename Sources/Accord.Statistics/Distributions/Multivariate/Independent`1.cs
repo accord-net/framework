@@ -347,10 +347,18 @@ namespace Accord.Statistics.Distributions.Multivariate
         {
             observations = observations.Transpose();
 
-            if (options != null && options.InnerOptions != null)
+            if (options != null)
             {
-                for (int i = 0; i < components.Length; i++)
-                    components[i].Fit(observations[i], weights, options.InnerOptions[i]);
+                if (options.InnerOptions != null)
+                {
+                    for (int i = 0; i < components.Length; i++)
+                        components[i].Fit(observations[i], weights, options.InnerOptions[i]);
+                }
+                else
+                {
+                    for (int i = 0; i < components.Length; i++)
+                        components[i].Fit(observations[i], weights, options.InnerOption);
+                }
             }
             else
             {

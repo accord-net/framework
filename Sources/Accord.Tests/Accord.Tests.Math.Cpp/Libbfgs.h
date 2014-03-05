@@ -8,13 +8,6 @@ using namespace System::Reflection;
 
 namespace AccordTestsMathCpp2 
 {
-    public enum class BoundSpec
-    {
-         Unbounded = 0,
-         LowerBound,
-         LowerUpper,
-         UpperBound,
-    };
 
     public enum class ReturnValue
     {
@@ -81,7 +74,6 @@ namespace AccordTestsMathCpp2
     {
     public:
         int m;
-        BoundSpec bound;
         double factr;
         double pgtol;
         array<double>^ l;

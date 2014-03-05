@@ -728,7 +728,7 @@ static doublereal c_b282 = .1;
     /* Function Body */
     if (s_cmp(task, "START", (ftnlen)60, (ftnlen)5) == 0) {
 
-	epsmch = 2.22045e-016; // The difference between 1 and 
+	epsmch = 1.11022302462515654042E-16; // The difference between 1 and 
     //the smallest value greater than 1 for double values
 
 	timer_(&time1);

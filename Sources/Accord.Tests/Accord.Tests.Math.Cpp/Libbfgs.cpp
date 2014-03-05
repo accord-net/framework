@@ -123,6 +123,11 @@ String^ Wrapper::Libbfgs(array<double>^ start, Function^ function, Gradient^ gra
 
 String^ Wrapper::Lbfgsb3(array<double>^ start, Function^ function, Gradient^ gradient, Param2^ param)
 {
+    list = gcnew List<Info^>();
+
+    Wrapper::function = function;
+    Wrapper::gradient = gradient;
+
     /* System generated locals */
     integer i__1;
     doublereal d__1, d__2;
@@ -155,15 +160,28 @@ String^ Wrapper::Lbfgsb3(array<double>^ start, Function^ function, Gradient^ gra
     m = param->m;
 
     i__1 = n;
-    for (i__ = 1; i__ <= i__1; i__ ++) {
-	    nbd[i__ - 1] = 2;
-	    l[i__ - 1] = param->l[i__];
-	    u[i__ - 1] = param->l[i__];
+    for (i__ = 1; i__ <= i__1; i__ ++) 
+    {
+        bool hasUpper = !Double::IsInfinity(param->u[i__ - 1]);
+        bool hasLower = !Double::IsInfinity(param->l[i__ - 1]);
+
+        if (hasUpper && hasLower)
+            nbd[i__ - 1] = 2;
+        else if (hasUpper)
+            nbd[i__ - 1] = 3;
+        else if (hasLower)
+            nbd[i__ - 1] = 1;
+        else nbd[i__ - 1] = 0; // unbounded
+
+        if (hasLower)
+            l[i__ - 1] = param->l[i__ - 1];
+        if (hasUpper)
+            u[i__ - 1] = param->u[i__ - 1];
     }
 
     i__1 = n;
     for (i__ = 1; i__ <= i__1; ++i__) {
-        x[i__ - 1] = start[i__];
+        x[i__ - 1] = start[i__ - 1];
     }
 
 
@@ -172,6 +190,16 @@ String^ Wrapper::Lbfgsb3(array<double>^ start, Function^ function, Gradient^ gra
 L111:
     setulb_(&n, &m, x, l, u, nbd, &f, g, &factr, &pgtol, wa, iwa, task, &iprint, 
         csave, lsave, isave, dsave, (ftnlen)60, (ftnlen)60);
+
+    Info^ info = gcnew Info();
+
+    info->isave = gcnew array<int>(60);
+    info->dsave = gcnew array<double>(60);
+
+    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) isave ), info->isave, 0, 60 );
+    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) dsave ), info->dsave, 0, 60 );
+
+    Wrapper::list->Add(info);
 
     if (s_cmp(task, "FG", (ftnlen)2, (ftnlen)2) == 0) 
     {
@@ -183,14 +211,6 @@ L111:
         array<double>^ newg = Wrapper::gradient(_Data);
         System::Runtime::InteropServices::Marshal::Copy( newg, 0, IntPtr( ( void * ) g ), n );
 
-         Info^ info = gcnew Info();
-
-        info->isave = gcnew array<int>(60);
-        info->dsave = gcnew array<double>(60);
-
-        System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) isave ), info->isave, 0, 60 );
-        System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) dsave ), info->dsave, 0, 60 );
-
 	    goto L111;
     }
 
@@ -199,7 +219,7 @@ L111:
 	    goto L111;
     }
 
-    s_stop("", (ftnlen)0);
+    //s_stop("", (ftnlen)0);
 
-    return "";
+    return gcnew String(task);
 }

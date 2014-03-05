@@ -40,6 +40,20 @@ namespace Accord.Statistics.Distributions.Fitting
         /// 
         public IFittingOptions[] InnerOptions { get; set; }
 
+        public IFittingOptions InnerOption { get; set; }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="IndependentOptions"/> class.
+        /// </summary>
+        /// 
+        /// <param name="innerOptions">The fitting options for the inner
+        ///   component distributions of the independent distributions.</param>
+        ///   
+        public IndependentOptions(IFittingOptions innerOption)
+        {
+            InnerOption = innerOption;
+        }
+
         /// <summary>
         ///   Initializes a new instance of the <see cref="IndependentOptions"/> class.
         /// </summary>

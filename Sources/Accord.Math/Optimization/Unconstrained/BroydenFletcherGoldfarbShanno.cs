@@ -232,8 +232,6 @@ namespace Accord.Math.Optimization
         private int orthantwise_start = 0;
         private int orthantwise_end = -1;
 
-        private Func<double[], double[]> gradient;
-
         // outputs
         private double[] x;
         private double f;
@@ -516,29 +514,22 @@ namespace Accord.Math.Optimization
         /// 
         /// <value>The gradient function.</value>
         /// 
-        public Func<double[], double[]> Gradient
+        public Func<double[], double[]> Gradient { get; set; }
+
+        private void probeGradient(Func<double[], double[]> value)
         {
-            get { return this.gradient; }
-            set
+            double[] probe = new double[n];
+            double[] result = value(probe);
+
+            if (result == probe)
+                throw new ArgumentException();
+            if (probe.Length != result.Length)
+                throw new ArgumentException();
+
+            for (int i = 0; i < probe.Length; i++)
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-
-                double[] probe = new double[n];
-                double[] result = value(probe);
-
-                if (result == probe)
+                if (probe[i] != 0.0)
                     throw new ArgumentException();
-                if (probe.Length != result.Length)
-                    throw new ArgumentException();
-
-                for (int i = 0; i < probe.Length; i++)
-                {
-                    if (probe[i] != 0.0)
-                        throw new ArgumentException();
-                }
-
-                this.gradient = value;
             }
         }
 
@@ -648,6 +639,8 @@ namespace Accord.Math.Optimization
 
             if (Gradient == null)
                 throw new ArgumentNullException("gradient");
+
+            probeGradient(Gradient);
 
             if (LineSearch == Optimization.LineSearch.RegularWolfe ||
                 LineSearch == Optimization.LineSearch.StrongWolfe)

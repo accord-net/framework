@@ -26,6 +26,8 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Distributions.Fitting;
+    using System;
 
     [TestClass()]
     public class IndependentTest
@@ -158,6 +160,116 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Variance[1], target.Covariance[1, 1]);
             Assert.AreEqual(0, target.Covariance[0, 1]);
             Assert.AreEqual(0, target.Covariance[1, 0]);
+        }
+
+        [TestMethod()]
+        public void FittingNoOptionsTest()
+        {
+            double[][] data1 =
+            {
+                new double[] { 0, 8 },
+                new double[] { 0, 6 },
+                new double[] { 0, 7 },
+                new double[] { 0, 9 },
+            };
+
+            double[][] data2 =
+            {
+                new double[] { 8, 0 },
+                new double[] { 6, 0 },
+                new double[] { 7, 0 },
+                new double[] { 9, 0 },
+            };
+
+
+            var p1 = new NormalDistribution(0, 1);
+            var p2 = new NormalDistribution(0, 1);
+
+            bool thrown1 = false;
+            bool thrown2 = false;
+
+            try
+            {
+                var target = new Independent<NormalDistribution>(p1, p2);
+                target.Fit(data1);
+            }
+            catch (ArgumentException ex)
+            {
+                thrown1 = true;
+            }
+
+            try
+            {
+                var target = new Independent<NormalDistribution>(p1, p2);
+                target.Fit(data2);
+            }
+            catch (ArgumentException ex)
+            {
+                thrown2 = true;
+            }
+
+            Assert.IsTrue(thrown1);
+            Assert.IsTrue(thrown2);
+        }
+
+        [TestMethod()]
+        public void FittingOptionsTest()
+        {
+            double[][] data1 =
+            {
+                new double[] { 0, 8 },
+                new double[] { 0, 6 },
+                new double[] { 0, 7 },
+                new double[] { 0, 9 },
+            };
+
+            double[][] data2 =
+            {
+                new double[] { 8, 0 },
+                new double[] { 6, 0 },
+                new double[] { 7, 0 },
+                new double[] { 9, 0 },
+            };
+
+
+            var p1 = new NormalDistribution(0, 1);
+            var p2 = new NormalDistribution(0, 1);
+
+            {
+                Independent<NormalDistribution> target = new Independent<NormalDistribution>(p1, p2);
+
+                target.Fit(data1, new IndependentOptions()
+                {
+                    InnerOption = new NormalOptions()
+                    {
+                        Regularization = 1e-5
+                    }
+                });
+
+                Assert.AreEqual(0.00, target.Mean[0]);
+                Assert.AreEqual(7.50, target.Mean[1]);
+
+                Assert.AreEqual(1e-5, target.Variance[0]);
+                Assert.AreEqual(1.66666, target.Variance[1], 1e-5);
+            }
+
+            {
+                Independent<NormalDistribution> target = new Independent<NormalDistribution>(p1, p2);
+
+                target.Fit(data2, new IndependentOptions()
+                {
+                    InnerOption = new NormalOptions()
+                    {
+                        Regularization = 1e-5
+                    }
+                });
+
+                Assert.AreEqual(7.5, target.Mean[0]);
+                Assert.AreEqual(0, target.Mean[1]);
+
+                Assert.AreEqual(1.66666, target.Variance[0], 1e-5);
+                Assert.AreEqual(1e-5, target.Variance[1]);
+            }
         }
 
     }
