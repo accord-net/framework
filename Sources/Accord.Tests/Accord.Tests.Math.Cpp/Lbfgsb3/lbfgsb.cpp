@@ -26,6 +26,7 @@ static doublereal c_b280 = .001;
 static doublereal c_b281 = .9;
 static doublereal c_b282 = .1;
 
+static doublereal *WORKAREA;
 
 /*  L-BFGS-B is released under the “New BSD License” (aka “Modified BSD License */
 /*  or “3-clause license”) */
@@ -78,6 +79,8 @@ static doublereal c_b282 = .1;
 	iwa, char *task, integer *iprint, char *csave, logical *lsave, 
 	integer *isave, doublereal *dsave, ftnlen task_len, ftnlen csave_len)
 {
+    WORKAREA = wa;
+
     /* System generated locals */
     integer i__1;
 

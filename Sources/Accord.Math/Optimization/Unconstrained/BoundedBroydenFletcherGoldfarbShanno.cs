@@ -269,11 +269,13 @@ namespace Accord.Math.Optimization
         public double Tolerance
         {
             get { return factr; }
-            set {
+            set
+            {
                 if (value < 0)
                     throw exception("Tolerance must be greater than or equal to zero.", "ERROR: FACTR .LT. 0");
-                
-                factr = value; }
+
+                factr = value;
+            }
         }
 
 
@@ -396,6 +398,9 @@ namespace Accord.Math.Optimization
             }
         }
 
+        public static int iteration;
+
+
         /// <summary>
         ///   Minimizes the defined function. 
         /// </summary>
@@ -434,13 +439,13 @@ namespace Accord.Math.Optimization
             int iprint = 101;
             int[] nbd = new int[n];
             int[] iwa = new int[3 * n];
-            int[] isave = new int[60];
+            int[] isave = new int[44];
             double f = 0.0d;
             double[] x = new double[n];
             double[] l = new double[n];
             double[] u = new double[n];
             double[] g = new double[n];
-            double[] dsave = new double[60];
+            double[] dsave = new double[29];
             int totalSize = 2 * m * n + 11 * m * m + 5 * n + 8 * m;
             double[] wa = new double[totalSize];
 
@@ -478,10 +483,15 @@ namespace Accord.Math.Optimization
             // We start the iteration by initializing task.
             task = "START";
 
+            iteration = 0;
+
         // 
         // c        ------- the beginning of the loop ----------
         // 
         L111:
+
+            iteration++;
+
             // 
             // c     This is the call to the L-BFGS-B code.
             // 
@@ -489,31 +499,26 @@ namespace Accord.Math.Optimization
                 factr, pgtol, wa, 0, iwa, 0, ref task, iprint, ref csave,
                 lsave, 0, isave, 0, dsave, 0);
 
-        if (Progress != null)
-            Progress(this, new OptimizationProgressEventArgs(0,0,null,0,null,0,0,0,false)
-            {
-                Tag = Tuple.Create((int[])isave.Clone(), (double[])dsave.Clone())
-            });
+            double newF = Function(x.Submatrix(n));
+            double[] newG = Gradient(x.Submatrix(n));
+
+            if (Progress != null)
+                Progress(this, new OptimizationProgressEventArgs(iteration, 0, newG, 0, null, 0, newF, 0, false)
+                {
+                    Tag = Tuple.Create(
+                        (int[])isave.Clone(), (double[])dsave.Clone(),
+                        (bool[])lsave.Clone(), (String)csave.Clone(),
+                        (double[])wa.Clone())
+                });
 
             // 
             if ((task.StartsWith("FG")))
             {
-                // c        the minimization routine has returned to request the
-                // c        function f and gradient g values at the current x.
-                // 
-                // c        Compute function value f for the sample problem.
-                // 
-                f = Function(x.Submatrix(n));
+                f = newF;
 
-                // 
-                // c        Compute gradient g for the sample problem.
-                // 
-                double[] newG = Gradient(x.Submatrix(n));
                 for (int j = 0; j < newG.Length; j++)
                     g[j] = newG[j];
 
-                // 
-                // c          go back to the minimization routine.
                 goto L111;
             }
 

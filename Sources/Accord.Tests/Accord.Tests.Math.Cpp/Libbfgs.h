@@ -96,6 +96,14 @@ namespace AccordTestsMathCpp2
 
         array<int>^ isave;
         array<double>^ dsave;
+        array<int>^ lsave;
+        //array<System::Char>^ csave;
+        String^ csave;
+
+        double Value;
+        array<double>^ Gradient;
+        int Iteration;
+        array<double>^ Work;
     };
 
     public delegate double Function(array<double>^);
@@ -105,6 +113,8 @@ namespace AccordTestsMathCpp2
     public ref class Wrapper
     {
     public:
+
+        static int iteration;
 
         static Function^ function;
         static Gradient^ gradient;

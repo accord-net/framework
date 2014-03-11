@@ -104,18 +104,7 @@ namespace Accord.Tests.Math
                 var expected = cmp.Expected(problem);
                 var actual = cmp.Actual(problem);
 
-               // Assert.AreEqual(expected.Length, actual.Length);
-                for (int i = 0; i < expected.Length; i++)
-                {
-                    var a = (Tuple<Int32[], double[]>)actual[i].Tag;
-                    var e = expected[i];
-
-                    for (int j = 0; j < a.Item1.Length; j++)
-                        Assert.AreEqual(e.isave[j], a.Item1[j]);
-
-                    for (int j = 0; j < a.Item1.Length; j++)
-                        Assert.AreEqual(e.dsave[j], a.Item2[j], 1e-200);
-                }
+                check(actual, expected);
             }
         }
 
@@ -181,6 +170,9 @@ namespace Accord.Tests.Math
                 string actualStr = String.Empty;
                 string expectedStr = String.Empty;
 
+                cmp.l = null;
+                cmp.u = null;
+
                 OptimizationProgressEventArgs[] actual = null;
 
                 try { actual = cmp.Actual(problem); }
@@ -200,19 +192,41 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expectedStr, actualStr);
 
 
-                Assert.AreEqual(expected.Length, actual.Length);
-                for (int i = 0; i < expected.Length; i++)
+                check(actual, expected);
+            }
+        }
+
+        private static void check(OptimizationProgressEventArgs[] actual, Info[] expected)
+        {
+            Assert.AreEqual(expected.Length, actual.Length);
+            for (int i = 0; i < expected.Length; i++)
+            {
+                var a = (Tuple<Int32[], double[], bool[], string, double[]>)actual[i].Tag;
+                var e = expected[i];
+
+                Assert.AreEqual(e.Iteration, actual[i].Iteration);
+                Assert.AreEqual(e.Value, actual[i].Value);
+
+                for (int j = 0; j < a.Item5.Length; j++)
+                    Assert.AreEqual(e.Work[j], a.Item5[j]);
+
+                for (int j = 0; j < actual[i].Gradient.Length; j++)
+                    Assert.AreEqual(e.Gradient[j], actual[i].Gradient[j]);
+
+                for (int j = 0; j < a.Item1.Length; j++)
+                    Assert.AreEqual(e.isave[j], a.Item1[j]);
+
+                for (int j = 0; j < a.Item2.Length; j++)
                 {
-                    var a = actual[i];
-                    var e = expected[i];
-
-                    Assert.AreEqual(e.fx, a.Value);
-
-                    for (int j = 0; j < e.g.Length; j++)
-                        Assert.AreEqual(e.g[j], a.Gradient[j]);
-                    Assert.AreEqual(e.gnorm, a.GradientNorm);
-                    Assert.AreEqual(e.step, a.Step);
+                    Assert.AreEqual(Double.IsNaN(e.dsave[j]), Double.IsNaN(a.Item2[j]));
+                    Assert.AreEqual(e.dsave[j], a.Item2[j], 1e-200);
                 }
+
+                for (int j = 0; j < a.Item3.Length; j++)
+                    Assert.AreEqual(e.lsave[j], a.Item3[j] ? 1 : 0);
+
+                String trim = e.csave.Trim();
+                Assert.AreEqual(trim, a.Item4);
             }
         }
 

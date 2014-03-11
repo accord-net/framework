@@ -67,7 +67,8 @@ namespace Accord.Tests.Math.Optimization
         {
             ActualMessage = String.Empty;
 
-            BoundedBroydenFletcherGoldfarbShanno target = new BoundedBroydenFletcherGoldfarbShanno(problem.Variables)
+            BoundedBroydenFletcherGoldfarbShanno target =
+                new BoundedBroydenFletcherGoldfarbShanno(problem.Variables)
             {
                 Tolerance = factr,
                 Precision = pgtol,
@@ -96,6 +97,8 @@ namespace Accord.Tests.Math.Optimization
                 ActualMessage = "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL";
             else if (target.Status == BoundedBroydenFletcherGoldfarbShanno.Code.Convergence)
                 ActualMessage = "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH";
+            else if (target.Status == BoundedBroydenFletcherGoldfarbShanno.Code.ABNORMAL_TERMINATION_IN_LNSRCH)
+                ActualMessage = "ABNORMAL_TERMINATION_IN_LNSRCH";
 
             return actual.ToArray();
         }

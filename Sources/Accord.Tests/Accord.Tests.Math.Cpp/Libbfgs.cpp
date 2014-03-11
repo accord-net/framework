@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "Libbfgs.h"
 #include "lbfgs.h"
@@ -142,7 +143,8 @@ String^ Wrapper::Lbfgsb3(array<double>^ start, Function^ function, Gradient^ gra
     static integer i__;
     static doublereal l[nmax];
     static integer m, n;
-    static doublereal u[nmax], x[nmax], t1, t2, wa[ws];
+    static doublereal u[nmax], x[nmax], t1, t2;
+    static doublereal wa[ws];
     static integer nbd[nmax], iwa[3*nmax];
     static char task[60];
     static doublereal factr;
@@ -151,6 +153,11 @@ String^ Wrapper::Lbfgsb3(array<double>^ start, Function^ function, Gradient^ gra
     static integer isave[44];
     static logical lsave[4];
     static doublereal pgtol;
+
+    memset(dsave, 0, sizeof(doublereal) * 29);
+    memset(isave, 0, sizeof(integer) * 44);
+    memset(csave, 0, sizeof(char) * 60);
+    memset(wa, 0, sizeof(doublereal) * ws);
 
     iprint = 101; // print details of every iteration including x and g;
     factr = param->factr;
@@ -186,29 +193,43 @@ String^ Wrapper::Lbfgsb3(array<double>^ start, Function^ function, Gradient^ gra
 
 
     s_copy(task, "START", (ftnlen)60, (ftnlen)5);
+    iteration = 0;
 
 L111:
+
+    iteration++;
+
     setulb_(&n, &m, x, l, u, nbd, &f, g, &factr, &pgtol, wa, iwa, task, &iprint, 
         csave, lsave, isave, dsave, (ftnlen)60, (ftnlen)60);
 
     Info^ info = gcnew Info();
 
-    info->isave = gcnew array<int>(60);
-    info->dsave = gcnew array<double>(60);
+    array<double>^ _Data = gcnew array<double>(n);
+    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) x ), _Data, 0, n );
+    double newF = Wrapper::function(_Data);
+    array<double>^ newg = Wrapper::gradient(_Data);
 
-    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) isave ), info->isave, 0, 60 );
-    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) dsave ), info->dsave, 0, 60 );
+    info->isave = gcnew array<int>(44);
+    info->dsave = gcnew array<double>(29);
+    info->lsave = gcnew array<int>(4);
+    info->csave = gcnew String(csave);
+    info->Value = newF;
+    info->Gradient = (array<double>^)newg->Clone();
+    info->Iteration = iteration;
+    info->Work = gcnew array<double>(ws);
+
+    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) isave ), info->isave, 0, 44 );
+    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) dsave ), info->dsave, 0, 29 );
+    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) lsave ), info->lsave, 0, 4 );
+    System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) wa ), info->Work, 0, ws );
+
 
     Wrapper::list->Add(info);
 
     if (s_cmp(task, "FG", (ftnlen)2, (ftnlen)2) == 0) 
     {
-        array<double>^ _Data = gcnew array<double>(n);
-        System::Runtime::InteropServices::Marshal::Copy( IntPtr( ( void * ) x ), _Data, 0, n );
+        f = newF;
 
-        f = Wrapper::function(_Data);
-
-        array<double>^ newg = Wrapper::gradient(_Data);
         System::Runtime::InteropServices::Marshal::Copy( newg, 0, IntPtr( ( void * ) g ), n );
 
 	    goto L111;

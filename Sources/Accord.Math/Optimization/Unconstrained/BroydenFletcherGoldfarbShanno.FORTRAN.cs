@@ -331,7 +331,7 @@ namespace Accord.Math.Optimization
                         + (j - (1)) * (ldt) + _t_offset]);
                 }
             }
-
+            return;
 
         // 
         // solve t*x=b for t upper triangular.
@@ -360,7 +360,7 @@ namespace Accord.Math.Optimization
                 }
             }
 
-
+            return;
         // 
         // solve trans(t)*x=b for t lower triangular.
         // 
@@ -385,6 +385,7 @@ namespace Accord.Math.Optimization
                         + (j - (1)) * (ldt) + _t_offset]);
                 }
             }
+            return;
 
         // 
         // solve trans(t)*x=b for t upper triangular.
@@ -3180,7 +3181,10 @@ namespace Accord.Math.Optimization
             // 
             if (((iter == 0) && (!boxed)))
             {
-                stp = System.Math.Min((1.0 / dnorm), stpmx);
+                if (double.IsNaN(dnorm))
+                    stp = stpmx;
+                else
+                    stp = System.Math.Min((1.0 / dnorm), stpmx);
             }
             else
             {
@@ -4963,7 +4967,7 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            Dtrsl.dtrsl(wn, _wn_offset, m2, col2, wv, _wv_offset, 01, ref info);
+            Dtrsl.dtrsl(wn, _wn_offset, m2, col2, wv, _wv_offset, 1, ref info);
 
             if ((info != 0))
             {
