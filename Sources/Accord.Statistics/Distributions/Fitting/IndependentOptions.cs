@@ -40,13 +40,20 @@ namespace Accord.Statistics.Distributions.Fitting
         /// 
         public IFittingOptions[] InnerOptions { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the fitting options for the inner
+        ///   independent components in the joint distribution.
+        ///   Setting this property should make all component
+        ///   distributions use the same options specified here.
+        /// </summary>
+        /// 
         public IFittingOptions InnerOption { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="IndependentOptions"/> class.
         /// </summary>
         /// 
-        /// <param name="innerOptions">The fitting options for the inner
+        /// <param name="innerOption">The fitting options for the inner
         ///   component distributions of the independent distributions.</param>
         ///   
         public IndependentOptions(IFittingOptions innerOption)

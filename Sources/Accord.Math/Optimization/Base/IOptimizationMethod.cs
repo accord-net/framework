@@ -37,18 +37,43 @@ namespace Accord.Math.Optimization
     {
 
         /// <summary>
-        ///   Optimizes the defined function. 
-        /// </summary>
-        /// 
-        /// <param name="values">The initial guess values for the parameters.</param>
-        /// 
-        double Minimize(double[] values);
-
-        /// <summary>
         ///   Gets the solution found, the values of the parameters which
         ///   optimizes the function.
         /// </summary>
+        /// 
         double[] Solution { get; }
+
+
+
+        /// <summary>
+        ///   Finds the minimum value of a function. The solution vector
+        ///   will be made available at the <see cref="Solution"/> property.
+        /// </summary>
+        /// 
+        /// <param name="values">The initial guess values for the parameters.
+        ///   If the algorithm converges, this vector will contain the best 
+        ///   solution found during optimization.</param>
+        /// 
+        /// <returns>The minimum value of the function  over its parameter
+        ///   range. The solution vector that produces this minimum value 
+        ///   will be available in the <see cref="Solution"/> property.</returns>
+        ///  
+        double Minimize(double[] values);
+
+        /// <summary>
+        ///   Finds the minimum value of a function, without throwing exceptions.
+        ///   The solution vector will be made available at the <see cref="Solution"/>
+        ///   property.
+        /// </summary>
+        /// 
+        /// <param name="values">The initial guess values for the parameters.
+        ///   If the algorithm converges, this vector will contain the best 
+        ///   solution found during optimization.</param>
+        /// 
+        /// <returns>True, if the solution converged within the selected tolerance
+        ///   value, false otherwise.</returns>
+        ///  
+        bool TryMinimize(double[] values);
 
     }
 }

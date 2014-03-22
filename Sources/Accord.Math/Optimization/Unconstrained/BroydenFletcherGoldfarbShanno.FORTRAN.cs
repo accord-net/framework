@@ -3488,7 +3488,6 @@ namespace Accord.Math.Optimization
             bool boxed = false;
             bool updatd = false;
             bool wrk = false;
-            string word = "   ";
             int i = 0;
             int k = 0;
             int nintol = 0;
@@ -3583,9 +3582,7 @@ namespace Accord.Math.Optimization
                 cachyt = (double)(0);
                 sbtime = (double)(0);
                 lnscht = (double)(0);
-                // 
-                // c           'word' records the status of subspace solutions.
-                word = "---";
+
                 // 
                 // c           'info' records the termination information.
                 info = 0;

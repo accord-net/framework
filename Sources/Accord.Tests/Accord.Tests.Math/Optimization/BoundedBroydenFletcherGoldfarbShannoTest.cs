@@ -169,7 +169,7 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void NoFunctionTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2);
@@ -178,7 +178,7 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void NoGradientTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2)
@@ -190,7 +190,7 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void WrongGradientSizeTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2)
@@ -198,10 +198,12 @@ namespace Accord.Tests.Math
                 Function = (x) => 0.0,
                 Gradient = (x) => new double[1]
             };
+
+            double minimum = target.Minimize();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void MutableGradientSizeTest()
         {
             var target = new BoundedBroydenFletcherGoldfarbShanno(2)
@@ -209,6 +211,8 @@ namespace Accord.Tests.Math
                 Function = (x) => 0.0,
                 Gradient = (x) => x
             };
+
+            double minimum = target.Minimize();
         }
 
         [TestMethod]

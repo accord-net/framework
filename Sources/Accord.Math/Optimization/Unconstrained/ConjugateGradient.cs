@@ -327,6 +327,23 @@ namespace Accord.Math.Optimization
             return minimize();
         }
 
+        public bool TryMinimize(double[] values)
+        {
+            // TODO: Implement this method properly, without a try-catch block. This
+            // would mean modifying the underlying conjugate gradient algorithm to
+            // return status codes instead.
+
+            try
+            {
+                Minimize(values);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
         private double minimize()
         {
             // This code has been adapted from the original
@@ -637,7 +654,8 @@ namespace Accord.Math.Optimization
 
             if ((brackt && (stp <= stmin || stp >= stmax)) || infoc == 0)
                 throw new LineSearchFailedException(6, "Rounding errors prevent further progress." +
-                    "There may not be a step which satisfies the sufficient decrease and curvature conditions. Tolerances may be too small.");
+                    "There may not be a step which satisfies the sufficient decrease and curvature conditions. " + 
+                    "Tolerances may be too small.");
 
             if (stp == stpmax && f <= ftest1 && dg2 <= dgtest)
                 throw new LineSearchFailedException(5, "The step size has reached the upper bound.");
@@ -649,7 +667,8 @@ namespace Accord.Math.Optimization
                 throw new LineSearchFailedException(3, "Maximum number of function evaluations has been reached.");
 
             if (brackt && stmax - stmin <= xtol * stmax)
-                throw new LineSearchFailedException(2, "Relative width of the interval of uncertainty is at machine precision.");
+                throw new LineSearchFailedException(2, "Relative width of the interval of uncertainty" +
+                    " is at machine precision.");
 
 
             // More's code has been modified so that at least one new 

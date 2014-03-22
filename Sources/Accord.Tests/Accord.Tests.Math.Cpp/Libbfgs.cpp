@@ -131,8 +131,6 @@ String^ Wrapper::Lbfgsb3(array<double>^ start, Function^ function, Gradient^ gra
 
     /* System generated locals */
     integer i__1;
-    doublereal d__1, d__2;
-
     integer iprint;
 
     const int nmax = 1024;

@@ -88,6 +88,10 @@ namespace Accord.Math.Optimization
         /// 
         public bool Finished { get; private set; }
 
+        /// <summary>
+        ///   An user-defined value associated with this object.
+        /// </summary>
+        /// 
         public object Tag { get; set; }
 
         /// <summary>

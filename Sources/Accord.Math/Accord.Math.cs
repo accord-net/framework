@@ -43,7 +43,7 @@ namespace Accord.Math
     ///   along with a suite of numerical 
     ///   <see cref="Accord.Math.Decompositions">matrix decomposition methods</see>, 
     ///   <see cref="Accord.Math.Optimization">optimization algorithms</see> for 
-    ///   <see cref="AugmentedLagrangianSolver">constrained</see> and
+    ///   <see cref="AugmentedLagrangian">constrained</see> and
     ///   <see cref="BroydenFletcherGoldfarbShanno">unconstrained problems</see>,
     ///   special functions and other tools for scientific applications. 
     ///   

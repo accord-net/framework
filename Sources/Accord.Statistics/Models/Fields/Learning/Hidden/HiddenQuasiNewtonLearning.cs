@@ -48,7 +48,17 @@ namespace Accord.Statistics.Models.Fields.Learning
         /// 
         public HiddenConditionalRandomField<T> Model { get; set; }
 
-        public double Regularization { get; set; }
+        /// <summary>
+        ///   Gets or sets the amount of the parameter weights
+        ///   which should be included in the objective function.
+        ///   Default is 0 (do not include regularization).
+        /// </summary>
+        /// 
+        public double Regularization
+        {
+            get { return calculator.Regularization; }
+            set { calculator.Regularization = value; }
+        }
 
         /// <summary>
         ///   Constructs a new L-BFGS learning algorithm.
@@ -59,7 +69,6 @@ namespace Accord.Statistics.Models.Fields.Learning
             Model = model;
 
             calculator = new ForwardBackwardGradient<T>(model);
-            calculator.Regularization = Regularization;
 
             lbfgs = new BoundedBroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
             lbfgs.Tolerance = 1e-3;

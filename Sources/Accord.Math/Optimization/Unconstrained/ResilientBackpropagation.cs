@@ -228,6 +228,26 @@ namespace Accord.Math.Optimization
             return convergence.NewValue;
         }
 
+        /// <summary>
+        ///   Finds the minimum value of a function, without throwing exceptions.
+        ///   The solution vector will be made available at the <see cref="Solution"/>
+        ///   property.
+        /// </summary>
+        /// 
+        /// <param name="values">The initial guess values for the parameters.
+        ///   If the algorithm converges, this vector will contain the best
+        ///   solution found during optimization.</param>
+        ///   
+        /// <returns>
+        ///   True, if the solution converged within the selected tolerance
+        ///   value, false otherwise.
+        /// </returns>
+        /// 
+        public bool TryMinimize(double[] values)
+        {
+            Minimize(values);
+            return true;
+        }
 
         private double runEpoch()
         {

@@ -77,7 +77,7 @@ namespace Accord.Math.Optimization
         ///   The backtracking method finds the step length such that it satisfies
         ///   the sufficient decrease (Armijo) condition,</para>
         /// <code>
-        ///   -f(x + a * d) &lte; f(x) + FunctionTolerance * a * g(x)^T d,</code>
+        ///   -f(x + a * d) ≤ f(x) + FunctionTolerance * a * g(x)^T d,</code>
         /// <para>
         ///   where x is the current point, d is the current search direction, and
         ///   a is the step length.</para>
@@ -95,7 +95,7 @@ namespace Accord.Math.Optimization
         ///   both the Armijo condition (LineSearch.LBFGS_LINESEARCH_BACKTRACKING_ARMIJO)
         ///   and the curvature condition,</para>
         ///  <code>
-        ///   - g(x + a * d)^T d >= lbfgs_parameter_t::wolfe * g(x)^T d,
+        ///   - g(x + a * d)^T d ≥ lbfgs_parameter_t::wolfe * g(x)^T d,
         ///  </code>
         ///    where x is the current point, d is the current search direction, and
         ///    a is the step length.
@@ -113,7 +113,7 @@ namespace Accord.Math.Optimization
         ///   both the Armijo condition (LineSearch.LBFGS_LINESEARCH_BACKTRACKING_ARMIJO)
         ///   and the following condition,</para>
         /// <code>
-        ///     - |g(x + a * d)^T d| &lte; lbfgs_parameter_t::wolfe * |g(x)^T d|,</code>
+        ///     - |g(x + a * d)^T d| ≤ lbfgs_parameter_t::wolfe * |g(x)^T d|,</code>
         /// <para>
         ///   where x is the current point, d is the current search direction, and
         ///   a is the step length.</para>
@@ -372,6 +372,15 @@ namespace Accord.Math.Optimization
             }
         }
 
+        /// <summary>
+        ///   The line search algorithm. 
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This parameter specifies a line search 
+        ///   algorithm to be used by the L-BFGS routine.
+        /// </remarks>
+        /// 
         public LineSearch LineSearch
         {
             get { return linesearch; }
@@ -384,6 +393,15 @@ namespace Accord.Math.Optimization
             }
         }
 
+        /// <summary>
+        ///   The maximum number of trials for the line search.
+        /// </summary>
+        ///   
+        /// <remarks>
+        ///   This parameter controls the number of function and gradients evaluations 
+        ///   per iteration for the line search routine. The default value is <c>20</c>.
+        /// </remarks>
+        /// 
         public int MaxLineSearch
         {
             get { return max_linesearch; }
@@ -395,6 +413,16 @@ namespace Accord.Math.Optimization
             }
         }
 
+        /// <summary>
+        ///   The minimum step of the line search routine.
+        /// </summary>
+        ///  
+        /// <remarks>
+        ///   The default value is <c>1e-20</c>. This value need not be modified unless 
+        ///   the exponents are too large for the machine being used, or unless the problem
+        ///   is extremely badly scaled (in which case the exponents should be increased).
+        /// </remarks>
+        /// 
         public double MinStep
         {
             get { return min_step; }
@@ -406,6 +434,17 @@ namespace Accord.Math.Optimization
                 min_step = value;
             }
         }
+
+        /// <summary>
+        ///   The maximum step of the line search.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The default value is <c>1e+20</c>. This value need not be modified unless the
+        ///   exponents are too large for the machine being used, or unless the problem is 
+        ///   extremely badly scaled (in which case the exponents should be increased).
+        /// </remarks>
+        /// 
         public double MaxStep
         {
             get { return max_step; }
@@ -416,21 +455,61 @@ namespace Accord.Math.Optimization
                 max_step = value;
             }
         }
+
+        /// <summary>
+        ///  A parameter to control the accuracy of the line search routine. The default 
+        ///  value is <c>1e-4</c>. This parameter should be greater than zero and smaller 
+        ///  than <c>0.5</c>.
+        /// </summary>
+        /// 
         public double ParameterTolerance
         {
             get { return ftol; }
             set
             {
-                if (value < 0)
-                    throw exception("Parameter tolerance must be positive or zero.", "LBFGSERR_INVALID_FTOL");
+                if (value < 0 || value > 0.5)
+                    throw exception("Parameter tolerance must be greater than zero and smaller than 0.5.",
+                        "LBFGSERR_INVALID_FTOL");
                 ftol = value;
             }
         }
+
+        /// <summary>
+        ///   A coefficient for the Wolfe condition.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This parameter is valid only when the backtracking line-search algorithm is used 
+        ///   with the Wolfe condition, <see cref="Accord.Math.Optimization.LineSearch.StrongWolfe"/> 
+        ///   or <see cref="Accord.Math.Optimization.LineSearch.RegularWolfe"/>. The default value 
+        ///   is <c>0.9</c>. This parameter should be greater the <see cref="ParameterTolerance"/> 
+        ///   and smaller than <c>1.0</c>.
+        /// </remarks>
+        /// 
         public double Wolfe
         {
             get { return wolfe; }
-            set { wolfe = value; }
+            set
+            {
+                if (wolfe > 1.0)
+                    throw exception("Wolfe parameter must be smaller than 1.0.", "LBFGSERR_INVALID_WOLFE");
+                wolfe = value;
+            }
         }
+
+        /// <summary>
+        ///   A parameter to control the accuracy of the line search routine.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The default value is <c>0.9</c>. If the function and gradient evaluations are
+        ///   inexpensive with respect to the cost of the iteration (which is sometimes the
+        ///   case when solving very large problems) it may be advantageous to set this parameter
+        ///   to a small value. A typical small value is <c>0.1</c>. This parameter should be
+        ///   greater than the <see cref="ParameterTolerance"/> (<c>1e-4</c>) and smaller than
+        ///   <c>1.0.</c>
+        /// </remarks>
+        /// 
         public double GradientTolerance
         {
             get { return gtol; }
@@ -441,6 +520,18 @@ namespace Accord.Math.Optimization
                 gtol = value;
             }
         }
+
+        /// <summary>
+        ///   The machine precision for floating-point values.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This parameter must be a positive value set by a client program to
+        ///   estimate the machine precision. The line search routine will terminate
+        ///   with the status code (::LBFGSERR_ROUNDING_ERROR) if the relative width
+        ///   of the interval of uncertainty is less than this parameter.
+        /// </remarks>
+        /// 
         public double FunctionTolerance
         {
             get { return xtol; }
@@ -451,6 +542,24 @@ namespace Accord.Math.Optimization
                 xtol = value;
             }
         }
+
+        /// <summary>
+        ///   Coefficient for the L1 norm of variables.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para>
+        ///   This parameter should be set to zero for standard minimization problems. Setting this
+        ///   parameter to a positive value activates Orthant-Wise Limited-memory Quasi-Newton (OWL-QN)
+        ///   method, which minimizes the objective function F(x) combined with the L1 norm |x| of the
+        ///   variables, <c>{F(x) + C |x|}</c>. This parameter is the coefficient for the |x|, i.e., C.</para>
+        ///   
+        /// <para>
+        ///   As the L1 norm |x| is not differentiable at zero, the library modifies function and 
+        ///   gradient evaluations from a client program suitably; a client program thus have only 
+        ///   to return the function value F(x) and gradients G(x) as usual. The default value is zero.</para>
+        /// </remarks>
+        /// 
         public double OrthantwiseC
         {
             get { return orthantwise_c; }
@@ -463,7 +572,24 @@ namespace Accord.Math.Optimization
         }
 
 
-
+        /// <summary>
+        ///    Start index for computing L1 norm of the variables.
+        /// </summary>
+        /// 
+        /// <remarks>
+        /// <para>
+        ///   This parameter is valid only for OWL-QN method (i.e., <see cref="OrthantwiseC"/> != 0).
+        ///   This parameter b (0 &lt;= b &lt; N) specifies the index number from which the library 
+        ///   computes the L1 norm of the variables x,</para>
+        /// <code>
+        ///     |x| := |x_{b}| + |x_{b+1}| + ... + |x_{N}|.</code>
+        /// <para>
+        ///   In other words, variables x_1, ..., x_{b-1} are not used for
+        ///   computing the L1 norm. Setting b (0 &lt; b &lt; N), one can protect
+        ///   variables, x_1, ..., x_{b-1} (e.g., a bias term of logistic
+        ///   regression) from being regularized. The default value is zero.</para>
+        /// </remarks>
+        /// 
         public int OrthantwiseStart
         {
             get { return orthantwise_start; }
@@ -476,6 +602,18 @@ namespace Accord.Math.Optimization
             }
         }
 
+        /// <summary>
+        ///   End index for computing L1 norm of the variables.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This parameter is valid only for OWL-QN method (i.e., <see cref="OrthantwiseC"/> != 0).
+        ///   This parameter e (0 &lt; e &lt;= N) specifies the index number at which the library stops
+        ///   computing the L1 norm of the variables x,
+        /// <code>
+        ///     |x| := |x_{b}| + |x_{b+1}| + ... + |x_{N}|.</code>
+        /// </remarks>
+        /// 
         public int OrthantwiseEnd
         {
             get { return orthantwise_end; }
@@ -516,22 +654,7 @@ namespace Accord.Math.Optimization
         /// 
         public Func<double[], double[]> Gradient { get; set; }
 
-        private void probeGradient(Func<double[], double[]> value)
-        {
-            double[] probe = new double[n];
-            double[] result = value(probe);
 
-            if (result == probe)
-                throw new ArgumentException();
-            if (probe.Length != result.Length)
-                throw new ArgumentException();
-
-            for (int i = 0; i < probe.Length; i++)
-            {
-                if (probe[i] != 0.0)
-                    throw new ArgumentException();
-            }
-        }
 
         /// <summary>
         ///   Gets the number of variables (free parameters)
@@ -591,6 +714,17 @@ namespace Accord.Math.Optimization
         ///   Creates a new instance of the L-BFGS optimization algorithm.
         /// </summary>
         /// 
+        /// <param name="function">The function to be optimized.</param>
+        /// 
+        public BroydenFletcherGoldfarbShanno(NonlinearObjectiveFunction function)
+            : this(function.NumberOfVariables, function.Function, function.Gradient)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the L-BFGS optimization algorithm.
+        /// </summary>
+        /// 
         /// <param name="numberOfVariables">The number of free parameters in the function to be optimized.</param>
         /// <param name="function">The function to be optimized.</param>
         /// <param name="gradient">The gradient of the function.</param>
@@ -615,13 +749,32 @@ namespace Accord.Math.Optimization
         ///   Minimizes the defined function. 
         /// </summary>
         /// 
-        /// <param name="values">The initial guess values for the parameters. Default is the zero vector.</param>
-        /// 
         /// <returns>The minimum value found at the <see cref="Solution"/>.</returns>
         /// 
         public double Minimize()
         {
             return Minimize(Solution);
+        }
+
+        /// <summary>
+        ///   Finds the minimum value of a function, without throwing exceptions.
+        ///   The solution vector will be made available at the <see cref="Solution"/>
+        ///   property.
+        /// </summary>
+        /// 
+        /// <param name="values">The initial guess values for the parameters.
+        ///   If the algorithm converges, this vector will contain the best
+        ///   solution found during optimization.</param>
+        ///   
+        /// <returns>
+        ///   True, if the solution converged within the selected tolerance
+        ///   value, false otherwise.
+        /// </returns>
+        /// 
+        public bool TryMinimize(double[] values)
+        {
+            Minimize(values);
+            return true;
         }
 
         /// <summary>
@@ -634,13 +787,19 @@ namespace Accord.Math.Optimization
         /// 
         public double Minimize(double[] values)
         {
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            if (values.Length != n)
+                throw new DimensionMismatchException("values");
+
             if (Function == null)
-                throw new ArgumentNullException("function");
+                throw new InvalidOperationException("function");
 
             if (Gradient == null)
-                throw new ArgumentNullException("gradient");
+                throw new InvalidOperationException("gradient");
 
-            probeGradient(Gradient);
+            NonlinearObjectiveFunction.CheckGradient(Gradient, values);
 
             if (LineSearch == Optimization.LineSearch.RegularWolfe ||
                 LineSearch == Optimization.LineSearch.StrongWolfe)
@@ -702,7 +861,7 @@ namespace Accord.Math.Optimization
 
 
 
-        private static ArgumentOutOfRangeException exception(string message, string code, 
+        private static ArgumentOutOfRangeException exception(string message, string code,
             string paramName = null)
         {
             if (paramName == null)

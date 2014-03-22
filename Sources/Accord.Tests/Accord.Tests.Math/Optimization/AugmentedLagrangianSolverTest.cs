@@ -93,7 +93,7 @@ namespace Accord.Tests.Math
                 shouldBe: ConstraintType.LesserThanOrEqualTo, value: 0
             ));
 
-            var solver = new AugmentedLagrangianSolver(f, constraints);
+            var solver = new AugmentedLagrangian(f, constraints);
 
             double minValue = solver.Minimize();
 
@@ -143,7 +143,7 @@ namespace Accord.Tests.Math
                 shouldBe: ConstraintType.GreaterThanOrEqualTo, value: 0
             ));
 
-            var solver = new AugmentedLagrangianSolver(f, constraints);
+            var solver = new AugmentedLagrangian(f, constraints);
 
             double minValue = solver.Minimize();
 
@@ -201,7 +201,7 @@ namespace Accord.Tests.Math
                 shouldBe: ConstraintType.LesserThanOrEqualTo, value: 10
             ));
 
-            var solver = new AugmentedLagrangianSolver(f, constraints);
+            var solver = new AugmentedLagrangian(f, constraints);
 
             solver.Solution[0] = 1;
             solver.Solution[1] = 1;
@@ -276,7 +276,7 @@ namespace Accord.Tests.Math
                 Tolerance = 1e-5
             });
 
-            var solver = new AugmentedLagrangianSolver(f, constraints);
+            var solver = new AugmentedLagrangian(f, constraints);
 
             solver.Solution[0] = 1;
             solver.Solution[1] = 1;
@@ -347,7 +347,7 @@ namespace Accord.Tests.Math
 
 
             // Finally, we create the non-linear programming solver
-            var solver = new AugmentedLagrangianSolver(f, constraints);
+            var solver = new AugmentedLagrangian(f, constraints);
 
             // And attempt to solve the problem
             double minValue = solver.Minimize();
@@ -452,8 +452,8 @@ namespace Accord.Tests.Math
 
 
 
-            AugmentedLagrangianSolver solver =
-                new AugmentedLagrangianSolver(inner, objective, constraints);
+            AugmentedLagrangian solver =
+                new AugmentedLagrangian(inner, objective, constraints);
 
             Assert.AreEqual(inner, solver.Optimizer);
 
@@ -523,8 +523,8 @@ namespace Accord.Tests.Math
 
 
             // Create the solver algorithm
-            AugmentedLagrangianSolver solver =
-                new AugmentedLagrangianSolver(inner, objective, constraints);
+            AugmentedLagrangian solver =
+                new AugmentedLagrangian(inner, objective, constraints);
 
             Assert.AreEqual(inner, solver.Optimizer);
 
@@ -556,7 +556,7 @@ namespace Accord.Tests.Math
             };
 
             var target = new ConjugateGradient(2);
-            AugmentedLagrangianSolver solver = new AugmentedLagrangianSolver(target, function, constraints);
+            AugmentedLagrangian solver = new AugmentedLagrangian(target, function, constraints);
             double minimum = solver.Minimize();
 
             double[] solution = solver.Solution;
@@ -613,7 +613,7 @@ namespace Accord.Tests.Math
             inner.LineSearch = LineSearch.BacktrackingArmijo;
             inner.Corrections = 10;
 
-            var solver = new AugmentedLagrangianSolver(inner, function, constraints);
+            var solver = new AugmentedLagrangian(inner, function, constraints);
 
             Assert.AreEqual(inner, solver.Optimizer);
 

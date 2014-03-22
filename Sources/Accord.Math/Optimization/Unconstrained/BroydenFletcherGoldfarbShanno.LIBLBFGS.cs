@@ -58,179 +58,30 @@ method presented in:
 I would like to thank the original author, Jorge Nocedal, who has been
 distributing the efficient and explanatory implementation in an open source
 license.
+                                                        -- Naoaki Okazaki 
 */
 
 namespace Accord.Math.Optimization
 {
     using System;
 
-
-
-    /**
-     * L-BFGS optimization parameters.
-     *  Call Code.LBFGS_parameter_init() function to initialize parameters to the
-     *  default values.
-     */
-    public class lbfgs_parameter_t
+    internal class lbfgs_parameter_t
     {
-        /**
-         * The number of corrections to approximate the inverse hessian matrix.
-         *  The L-BFGS routine stores the computation results of previous \ref m
-         *  iterations to approximate the inverse hessian matrix of the current
-         *  iteration. This parameter controls the size of the limited memories
-         *  (corrections). The default value is \c 6. Values less than \c 3 are
-         *  not recommended. Large values will result in excessive computing time.
-         */
         public int m;
-
-        /**
-         * Epsilon for convergence test.
-         *  This parameter determines the accuracy with which the solution is to
-         *  be found. A minimization terminates when
-         *      ||g|| < \ref epsilon * max(1, ||x||),
-         *  where ||.|| denotes the Euclidean (L2) norm. The default value is
-         *  \c 1e-5.
-         */
         public double epsilon;
-
-        /**
-         * Distance for delta-based convergence test.
-         *  This parameter determines the distance, in iterations, to compute
-         *  the rate of decrease of the objective function. If the value of this
-         *  parameter is zero, the library does not perform the delta-based
-         *  convergence test. The default value is \c 0.
-         */
         public int past;
-
-        /**
-         * Delta for convergence test.
-         *  This parameter determines the minimum rate of decrease of the
-         *  objective function. The library stops iterations when the
-         *  following condition is met:
-         *      (f' - f) / f < \ref delta,
-         *  where f' is the objective value of \ref past iterations ago, and f is
-         *  the objective value of the current iteration.
-         *  The default value is \c 0.
-         */
         public double delta;
-
-        /**
-         * The maximum number of iterations.
-         *  The lbfgs() function terminates an optimization process with
-         *  ::Code.LBFGSERR_MAXIMUMITERATION status code when the iteration count
-         *  exceedes this parameter. Setting this parameter to zero continues an
-         *  optimization process until a convergence or error. The default value
-         *  is \c 0.
-         */
         public int max_iterations;
-
-        /**
-         * The line search algorithm.
-         *  This parameter specifies a line search algorithm to be used by the
-         *  L-BFGS routine.
-         */
         public Accord.Math.Optimization.LineSearch linesearch;
-
-        /**
-         * The maximum number of trials for the line search.
-         *  This parameter controls the number of function and gradients evaluations
-         *  per iteration for the line search routine. The default value is \c 20.
-         */
         public int max_linesearch;
-
-        /**
-         * The minimum step of the line search routine.
-         *  The default value is \c 1e-20. This value need not be modified unless
-         *  the exponents are too large for the machine being used, or unless the
-         *  problem is extremely badly scaled (in which case the exponents should
-         *  be increased).
-         */
         public double min_step;
-
-        /**
-         * The maximum step of the line search.
-         *  The default value is \c 1e+20. This value need not be modified unless
-         *  the exponents are too large for the machine being used, or unless the
-         *  problem is extremely badly scaled (in which case the exponents should
-         *  be increased).
-         */
         public double max_step;
-
-        /**
-         * A parameter to control the accuracy of the line search routine.
-         *  The default value is \c 1e-4. This parameter should be greater
-         *  than zero and smaller than \c 0.5.
-         */
         public double ftol;
-
-        /**
-         * A coefficient for the Wolfe condition.
-         *  This parameter is valid only when the backtracking line-search
-         *  algorithm is used with the Wolfe condition,
-         *  ::LineSearch.LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE or
-         *  ::LineSearch.LBFGS_LINESEARCH_BACKTRACKING_WOLFE .
-         *  The default value is \c 0.9. This parameter should be greater
-         *  the \ref ftol parameter and smaller than \c 1.0.
-         */
         public double wolfe;
-
-        /**
-         * A parameter to control the accuracy of the line search routine.
-         *  The default value is \c 0.9. If the function and gradient
-         *  evaluations are inexpensive with respect to the cost of the
-         *  iteration (which is sometimes the case when solving very large
-         *  problems) it may be advantageous to set this parameter to a small
-         *  value. A typical small value is \c 0.1. This parameter shuold be
-         *  greater than the \ref ftol parameter (\c 1e-4) and smaller than
-         *  \c 1.0.
-         */
         public double gtol;
-
-        /**
-         * The machine precision for floating-point values.
-         *  This parameter must be a positive value set by a client program to
-         *  estimate the machine precision. The line search routine will terminate
-         *  with the status code (::Code.LBFGSERR_ROUNDING_ERROR) if the relative width
-         *  of the interval of uncertainty is less than this parameter.
-         */
         public double xtol;
-
-        /**
-         * Coeefficient for the L1 norm of variables.
-         *  This parameter should be set to zero for standard minimization
-         *  problems. Setting this parameter to a positive value activates
-         *  Orthant-Wise Limited-memory Quasi-Newton (OWL-QN) method, which
-         *  minimizes the objective function F(x) combined with the L1 norm |x|
-         *  of the variables, {F(x) + C |x|}. This parameter is the coeefficient
-         *  for the |x|, i.e., C. As the L1 norm |x| is not differentiable at
-         *  zero, the library modifies function and gradient evaluations from
-         *  a client program suitably; a client program thus have only to return
-         *  the function value F(x) and gradients G(x) as usual. The default value
-         *  is zero.
-         */
         public double orthantwise_c;
-
-        /**
-         * Start index for computing L1 norm of the variables.
-         *  This parameter is valid only for OWL-QN method
-         *  (i.e., \ref orthantwise_c != 0). This parameter b (0 <= b < N)
-         *  specifies the index number from which the library computes the
-         *  L1 norm of the variables x,
-         *      |x| := |x_{b}| + |x_{b+1}| + ... + |x_{N}| .
-         *  In other words, variables x_1, ..., x_{b-1} are not used for
-         *  computing the L1 norm. Setting b (0 < b < N), one can protect
-         *  variables, x_1, ..., x_{b-1} (e.g., a bias term of logistic
-         *  regression) from being regularized. The default value is zero.
-         */
         public int orthantwise_start;
-
-        /**
-         * End index for computing L1 norm of the variables.
-         *  This parameter is valid only for OWL-QN method
-         *  (i.e., \ref orthantwise_c != 0). This parameter e (0 < e <= N)
-         *  specifies the index number at which the library stops computing the
-         *  L1 norm of the variables x,
-         */
         public int orthantwise_end;
     };
 
@@ -241,7 +92,6 @@ namespace Accord.Math.Optimization
         internal static int main(double[] start, Func<double[], double> fn, Func<double[], double[]> gn,
             EventHandler<OptimizationProgressEventArgs> progress, lbfgs_parameter_t param)
         {
-            int i;
             double fx = 0;
 
             lbfgs_evaluate_t target = NewMethod(fn, gn);
@@ -300,11 +150,11 @@ namespace Accord.Math.Optimization
         {
 
             lbfgs_evaluate_t target = (object instance,
-    double[] x,
-    double[] g,
-    int n,
-    double step
-    ) =>
+                double[] x,
+                double[] g,
+                int n,
+                double step
+                ) =>
             {
                 double r = fn(x);
                 double[] newg = gn(x);
@@ -577,97 +427,6 @@ namespace Accord.Math.Optimization
             int k,
             Code ls
             );
-
-        /*
-        A user must implement a function compatible with ::lbfgs_evaluate_t (evaluation
-        callback) and pass the pointer to the callback function to lbfgs() arguments.
-        Similarly, a user can implement a function compatible with ::lbfgs_progress_t
-        (progress callback) to obtain the current progress (e.g., variables, function
-        value, ||G||, etc) and to cancel the iteration process if necessary.
-        Implementation of a progress callback is optional: a user can pass \c null if
-        progress notification is not necessary.
-
-        In addition, a user must preserve two requirements:
-            - The number of variables must be multiples of 16 (this is not 4).
-            - The memory block of variable array ::x must be aligned to 16.
-
-        This algorithm terminates an optimization
-        when:
-
-            ||G|| < \epsilon \cdot \max(1, ||x||) .
-
-        In this formula, ||.|| denotes the Euclidean norm.
-        */
-
-        /**
-         * Start a L-BFGS optimization.
-         *
-         *  @param  n           The number of variables.
-         *  @param  x           The array of variables. A client program can set
-         *                      default values for the optimization and receive the
-         *                      optimization result through this array. This array
-         *                      must be allocated by ::Code.LBFGS_malloc function
-         *                      for libLBFGS built with SSE/SSE2 optimization routine
-         *                      enabled. The library built without SSE/SSE2
-         *                      optimization does not have such a requirement.
-         *  @param  ptr_fx      The pointer to the variable that receives the final
-         *                      value of the objective function for the variables.
-         *                      This argument can be set to \c null if the final
-         *                      value of the objective function is unnecessary.
-         *  @param  proc_evaluate   The callback function to provide function and
-         *                          gradient evaluations given a current values of
-         *                          variables. A client program must implement a
-         *                          callback function compatible with \ref
-         *                          lbfgs_evaluate_t and pass the pointer to the
-         *                          callback function.
-         *  @param  proc_progress   The callback function to receive the progress
-         *                          (the number of iterations, the current value of
-         *                          the objective function) of the minimization
-         *                          process. This argument can be set to \c null if
-         *                          a progress report is unnecessary.
-         *  @param  instance    A user data for the client program. The callback
-         *                      functions will receive the value of this argument.
-         *  @param  param       The pointer to a structure representing parameters for
-         *                      L-BFGS optimization. A client program can set this
-         *                      parameter to \c null to use the default parameters.
-         *                      Call Code.LBFGS_parameter_init() function to fill a
-         *                      structure with the default values.
-         *  @retval int         The status code. This function returns zero if the
-         *                      minimization process terminates without an error. A
-         *                      non-zero value indicates an error.
-         */
-
-
-        /**
-         * Initialize L-BFGS parameters to the default values.
-         *
-         *  Call this function to fill a parameter structure with the default values
-         *  and overwrite parameter values if necessary.
-         *
-         *  @param  param       The pointer to the parameter structure.
-         */
-
-        /**
-         * Allocate an array for variables.
-         *
-         *  This function allocates an array of variables for the convenience of
-         *  ::lbfgs function; the function has a requreiemt for a variable array
-         *  when libLBFGS is built with SSE/SSE2 optimization routines. A user does
-         *  not have to use this function for libLBFGS built without SSE/SSE2
-         *  optimization.
-         *  
-         *  @param  n           The number of variables.
-         */
-
-        /**
-         * Free an array of variables.
-         *  
-         *  @param  x           The array of variables allocated by ::Code.LBFGS_malloc
-         *                      function.
-         */
-
-
-
 
         class callback_data_t
         {
@@ -1530,7 +1289,6 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            return Code.LBFGSERR_LOGICERROR;
         }
 
 

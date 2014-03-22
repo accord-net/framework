@@ -122,8 +122,6 @@ namespace Accord.Math.Optimization
         private const double stpmax = 1e20;
 
         // Line search parameters
-        private int maxfev = 20;
-
         private int iterations;
         private int evaluations;
 
@@ -208,11 +206,7 @@ namespace Accord.Math.Optimization
         ///   is 0 (iterate until convergence).
         /// </summary>
         /// 
-        public int MaxIterations
-        {
-            get;
-            set;
-        }
+        public int MaxIterations { get; set; }
 
         /// <summary>
         ///   Gets the number of function evaluations performed
@@ -372,8 +366,6 @@ namespace Accord.Math.Optimization
         ///   Minimizes the defined function. 
         /// </summary>
         /// 
-        /// <param name="values">The initial guess values for the parameters. Default is the zero vector.</param>
-        /// 
         /// <returns>The minimum value found at the <see cref="Solution"/>.</returns>
         /// 
         public double Minimize()
@@ -381,22 +373,13 @@ namespace Accord.Math.Optimization
             return Minimize(Solution);
         }
 
-        private void probeGradient(Func<double[], double[]> value)
+        public bool TryMinimize(double[] values)
         {
-            double[] probe = new double[numberOfVariables];
-            double[] result = value(probe);
-
-            if (result == probe)
-                throw new ArgumentException();
-            if (probe.Length != result.Length)
-                throw new ArgumentException();
-
-            for (int i = 0; i < probe.Length; i++)
-            {
-                if (probe[i] != 0.0)
-                    throw new ArgumentException();
-            }
+            Minimize(values);
+            return true;
         }
+
+        
 
         public static int iteration;
 
@@ -418,12 +401,12 @@ namespace Accord.Math.Optimization
                 throw new DimensionMismatchException("values");
 
             if (Function == null)
-                throw new ArgumentNullException("function");
+                throw new InvalidOperationException("function");
 
             if (Gradient == null)
-                throw new ArgumentNullException("gradient");
+                throw new InvalidOperationException("gradient");
 
-            probeGradient(Gradient);
+            NonlinearObjectiveFunction.CheckGradient(Gradient, values);
 
             for (int j = 0; j < Solution.Length; j++)
             {
@@ -536,16 +519,7 @@ namespace Accord.Math.Optimization
                 else if (task == "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL")
                     Status = Code.ConvergenceGradient;
                 else throw exception(task, task);
-                // return Double.NaN;
             }
-
-            // c        the minimization routine has returned with a new iterate,
-            // c         and we have opted to continue the iteration.
-            // 
-            // c           ---------- the end of the loop -------------
-            // 
-            // c     If task is neither FG nor NEW_X we terminate execution.
-            // 
 
             for (int j = 0; j < Solution.Length; j++)
             {

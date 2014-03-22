@@ -83,8 +83,6 @@ namespace Accord.Math.Optimization
         /// <param name="numberOfVariables">The number of parameters in the <paramref name="function"/>.</param>
         /// <param name="function">A lambda expression defining the objective
         ///   function.</param>
-        /// <param name="gradient">A lambda expression defining the gradient
-        ///   of the <paramref name="function">objective function</paramref>.</param>
         /// 
         public NonlinearObjectiveFunction(int numberOfVariables, Func<double[], double> function)
         {
@@ -163,6 +161,26 @@ namespace Accord.Math.Optimization
             this.Gradient = grad.Compile();
         }
 #endif
+
+
+
+        internal static void CheckGradient(Func<double[], double[]> value, double[] probe)
+        {
+            double[] original = (double[])probe.Clone();
+            double[] result = value(probe);
+
+            if (result == probe)
+                throw new InvalidOperationException(
+                    "The gradient function should not return the parameter vector.");
+
+            if (probe.Length != result.Length)
+                throw new InvalidOperationException(
+                    "The gradient vector should have the same length as the number of parameters.");
+
+            for (int i = 0; i < probe.Length; i++)
+                if (!probe[i].IsEqual(original[i], 0))
+                    throw new InvalidOperationException("The gradient function shouldn't modify the parameter vector.");
+        }
 
     }
 }

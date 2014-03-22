@@ -343,7 +343,7 @@ namespace Accord.Tests.Math
 
                 double minimum = cobyla.Minimize();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 thrown = true;
             }

@@ -57,7 +57,7 @@ namespace Accord.Math.Optimization
     ///   Constraint with only linear terms.
     /// </summary>
     /// 
-    public class LinearConstraint
+    public class LinearConstraint : IConstraint
     {
         private int[] indices;
         private double[] scalars;
@@ -133,6 +133,9 @@ namespace Accord.Math.Optimization
             this.indices = Matrix.Indices(0, numberOfVariables);
             this.scalars = Matrix.Vector(numberOfVariables, 1.0);
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
+
+            this.Function = compute;
+            this.Gradient = gradient;
         }
 
         /// <summary>
@@ -148,6 +151,9 @@ namespace Accord.Math.Optimization
             this.indices = Matrix.Indices(0, coefficients.Length);
             this.CombinedAs = coefficients;
             this.ShouldBe = ConstraintType.GreaterThanOrEqualTo;
+
+            this.Function = compute;
+            this.Gradient = gradient;
         }
 
         /// <summary>
@@ -169,6 +175,9 @@ namespace Accord.Math.Optimization
         public LinearConstraint(IObjectiveFunction function, string constraint)
         {
             parseString(function, constraint);
+
+            this.Function = compute;
+            this.Gradient = gradient;
         }
 
         /// <summary>
@@ -183,10 +192,40 @@ namespace Accord.Math.Optimization
         public LinearConstraint(IObjectiveFunction function, Expression<Func<bool>> constraint)
         {
             parseExpression(function, constraint);
+
+            this.Function = compute;
+            this.Gradient = gradient;
         }
 
+        private double compute(double[] input)
+        {
+            double sum = 0;
 
-        public double Compute(double[] input)
+            for (int i = 0; i < indices.Length; i++)
+            {
+                double x = input[indices[i]];
+                double a = CombinedAs[i];
+
+                sum += x * a;
+            }
+
+            return sum;
+        }
+
+        private double[] gradient(double[] x)
+        {
+            return CombinedAs;
+        }
+
+        /// <summary>
+        ///   Gets how much the constraint is being violated.
+        /// </summary>
+        /// 
+        /// <param name="x">The function point.</param>
+        /// 
+        /// <returns>How much the constraint is being violated at the given point.</returns>
+        /// 
+        public double GetViolation(double[] input)
         {
             double sum = 0;
 
@@ -485,6 +524,12 @@ namespace Accord.Math.Optimization
 
             return null;
         }
+
+
+
+        public Func<double[], double> Function { get; private set; }
+
+        public Func<double[], double[]> Gradient { get; private set; }
 
     }
 }
