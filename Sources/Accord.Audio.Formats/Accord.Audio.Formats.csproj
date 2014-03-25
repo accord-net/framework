@@ -96,7 +96,6 @@
     </Compile>
     <Compile Include="Extensions.cs" />
     <Compile Include="FrameInfo.cs" />
-    <Compile Include="SoundStreamCoverup.cs" />
     <Compile Include="WaveEncoder.cs" />
     <Compile Include="IAudioEncoder.cs" />
     <Compile Include="IAudioDecoder.cs" />

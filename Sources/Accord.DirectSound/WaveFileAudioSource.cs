@@ -320,8 +320,8 @@ namespace Accord.DirectSound
             try
             {
                 waveStream = (stream != null)
-                    ? new SoundStreamCoverup(stream)
-                    : new SoundStreamCoverup(File.OpenRead(fileName));
+                    ? new SoundStream(stream)
+                    : new SoundStream(File.OpenRead(fileName));
 
                 // Open the Wave stream
                 decoder.Open(waveStream);

@@ -231,7 +231,7 @@ namespace Accord.Audio.Formats
         /// 
         public int Open(Stream stream)
         {
-            return Open(new SoundStreamCoverup(stream));
+            return Open(new SoundStream(stream));
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace Accord.Audio.Formats
         /// 
         public int Open(string path)
         {
-            return Open(new SoundStreamCoverup(File.OpenRead(path)));
+            return Open(new SoundStream(File.OpenRead(path)));
         }
 
         /// <summary>
