@@ -24,7 +24,7 @@ namespace Accord.Audio
 {
     using System;
     using Accord.Audio;
-    using SlimDX.Multimedia;
+    using SharpDX.Multimedia;
 
     /// <summary>
     ///   Extension methods.
@@ -39,18 +39,18 @@ namespace Accord.Audio
         /// 
         /// <param name="sampleFormat">The sample format.</param>
         /// 
-        public static WaveFormatTag ToWaveFormat(this SampleFormat sampleFormat)
+        public static WaveFormatEncoding ToWaveFormat(this SampleFormat sampleFormat)
         {
             switch (sampleFormat)
             {
                 case SampleFormat.Format8Bit:
                 case SampleFormat.Format32Bit:
                 case SampleFormat.Format16Bit:
-                    return WaveFormatTag.Pcm;
+                    return WaveFormatEncoding.Pcm;
 
                 case SampleFormat.Format64BitIeeeFloat:
                 case SampleFormat.Format32BitIeeeFloat:
-                    return WaveFormatTag.IeeeFloat;
+                    return WaveFormatEncoding.IeeeFloat;
             }
 
             throw new ArgumentOutOfRangeException("sampleFormat", "Unsupported sample format.");
@@ -64,16 +64,16 @@ namespace Accord.Audio
         /// <param name="tag">The wave format tag.</param>
         /// <param name="bitsPerSample">The bits per sample.</param>
         /// 
-        public static SampleFormat ToSampleFormat(this WaveFormatTag tag, int bitsPerSample)
+        public static SampleFormat ToSampleFormat(this WaveFormatEncoding tag, int bitsPerSample)
         {
-            if (tag == WaveFormatTag.Pcm)
+            if (tag == WaveFormatEncoding.Pcm)
             {
                 if (bitsPerSample == 16)
                     return SampleFormat.Format16Bit;
                 else if (bitsPerSample == 32)
                     return SampleFormat.Format32Bit;
             }
-            else if (tag == WaveFormatTag.IeeeFloat)
+            else if (tag == WaveFormatEncoding.IeeeFloat)
             {
                 if (bitsPerSample == 32)
                     return SampleFormat.Format32BitIeeeFloat;

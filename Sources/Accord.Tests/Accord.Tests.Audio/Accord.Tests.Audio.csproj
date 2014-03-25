@@ -122,9 +122,6 @@
       <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="SlimDX">
-      <HintPath>..\..\..\Externals\SlimDX\net40\x86\SlimDX.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -166,10 +163,6 @@
     <ProjectReference Include="..\..\Accord.Audio\Accord.Audio.csproj">
       <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
       <Name>Accord.Audio</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Controls.Audio\Accord.Controls.Audio.csproj">
-      <Project>{E0B826AC-2A51-41EC-9F09-561CA14A82BB}</Project>
-      <Name>Accord.Controls.Audio</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
       <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>

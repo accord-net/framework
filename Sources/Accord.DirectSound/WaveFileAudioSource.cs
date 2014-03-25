@@ -24,7 +24,7 @@ namespace Accord.DirectSound
 {
     using Accord.Audio;
     using Accord.Audio.Formats;
-    using SlimDX.Multimedia;
+    using SharpDX.Multimedia;
     using System;
     using System.IO;
     using System.Threading;
@@ -315,12 +315,13 @@ namespace Accord.DirectSound
         /// 
         private void WorkerThread()
         {
-            WaveStream waveStream = null;
+            SoundStream waveStream = null;
 
             try
             {
-                waveStream = (stream != null) ?
-                    new WaveStream(stream) : new WaveStream(fileName);
+                waveStream = (stream != null)
+                    ? new SoundStreamCoverup(stream)
+                    : new SoundStreamCoverup(File.OpenRead(fileName));
 
                 // Open the Wave stream
                 decoder.Open(waveStream);

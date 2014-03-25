@@ -23,7 +23,7 @@
 namespace Accord.DirectSound
 {
     using System;
-    using SlimDX.DirectSound;
+    using SharpDX.DirectSound;
 
     /// <summary>
     ///   Audio device information.
