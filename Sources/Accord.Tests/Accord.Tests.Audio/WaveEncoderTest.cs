@@ -75,7 +75,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(4000, sourceDecoder.Duration);
             Assert.AreEqual(44100, sourceDecoder.SampleRate);
             Assert.AreEqual(16, sourceDecoder.BitsPerSample);
-            Assert.AreEqual(22050, sourceDecoder.AverageBitsPerSecond);
+            Assert.AreEqual(1411200, sourceDecoder.AverageBitsPerSecond);
 
             // Decode the signal in the source stream
             Signal sourceSignal = sourceDecoder.Decode();
@@ -115,7 +115,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(4000, destDecoder.Duration);
             Assert.AreEqual(44100, destDecoder.SampleRate);
             Assert.AreEqual(32, destDecoder.BitsPerSample);
-            Assert.AreEqual(22050, sourceDecoder.AverageBitsPerSecond);
+            Assert.AreEqual(1411200, sourceDecoder.AverageBitsPerSecond);
 
 
             // Decode the destination stream
