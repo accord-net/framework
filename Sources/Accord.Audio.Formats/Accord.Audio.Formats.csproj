@@ -81,7 +81,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="SharpDX">
-      <HintPath>..\..\Externals\SharpDX\net40\Any CPU\SharpDX.dll</HintPath>
+      <HintPath>..\..\Externals\SharpDX\net40\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
