@@ -71,7 +71,7 @@ namespace Accord.Statistics.Models.Fields.Learning
             calculator = new ForwardBackwardGradient<T>(model);
 
             lbfgs = new BoundedBroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
-            lbfgs.Tolerance = 1e-3;
+            lbfgs.FunctionTolerance = 1e-3;
             lbfgs.Function = calculator.Objective;
             lbfgs.Gradient = calculator.Gradient;
 

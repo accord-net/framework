@@ -47,7 +47,7 @@ namespace Accord.Statistics.Models.Fields.Learning
         {
             this.model = model;
             this.lbfgs = new BoundedBroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
-            this.lbfgs.Tolerance = 1e-3;
+            this.lbfgs.FunctionTolerance = 1e-3;
 
             for (int i = 0; i < lbfgs.UpperBounds.Length; i++)
             {
@@ -84,16 +84,8 @@ namespace Accord.Statistics.Models.Fields.Learning
             };
 
 
-            try
-            {
-                double ll = lbfgs.Minimize(model.Function.Weights);
-            }
-            catch (LineSearchFailedException)
-            {
-                // TODO: Restructure L-BFGS to avoid exceptions.
-            }
-
-            model.Function.Weights = lbfgs.Solution;
+            if (lbfgs.Minimize(model.Function.Weights))
+                model.Function.Weights = lbfgs.Solution;
 
             return model.LogLikelihood(observations, labels);
         }

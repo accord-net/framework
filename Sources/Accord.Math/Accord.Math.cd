@@ -259,7 +259,7 @@
       <FileName>Constants.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Accord.Math.Optimization.GoldfarbIdnaniQuadraticSolver">
+  <Class Name="Accord.Math.Optimization.GoldfarbIdnani">
     <Position X="16.5" Y="0.5" Width="3.25" />
     <Members>
       <Field Name="constraintMatrix" Hidden="true" />
@@ -282,7 +282,7 @@
     </Members>
     <TypeIdentifier>
       <HashCode>ACASMBBYACAAABBAAIkAAAIQAIAAABAACCIhAQAAAgg=</HashCode>
-      <FileName>Optimization\Constrained\GoldfarbIdnaniQuadraticSolver.cs</FileName>
+      <FileName>Optimization\Constrained\GoldfarbIdnani.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Optimization.LinearConstraint">

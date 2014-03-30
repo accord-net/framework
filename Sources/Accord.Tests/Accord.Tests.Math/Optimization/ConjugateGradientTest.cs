@@ -50,7 +50,8 @@ namespace Accord.Tests.Math
             ConjugateGradient cg = new ConjugateGradient(n, f, g);
             cg.Method = ConjugateGradientMethod.FletcherReeves;
 
-            double actual = cg.Minimize(initial);
+            Assert.IsTrue(cg.Minimize(initial));
+            double actual = cg.Value;
             double expected = 0;
             Assert.AreEqual(expected, actual, 1e-6);
 
@@ -90,7 +91,8 @@ namespace Accord.Tests.Math
             ConjugateGradient cg = new ConjugateGradient(n, f, g);
             cg.Method = ConjugateGradientMethod.PolakRibiere;
 
-            double actual = cg.Minimize(initial);
+            Assert.IsTrue(cg.Minimize(initial));
+            double actual = cg.Value;
             double expected = 0;
             Assert.AreEqual(expected, actual, 1e-6);
 
@@ -130,7 +132,8 @@ namespace Accord.Tests.Math
             ConjugateGradient cg = new ConjugateGradient(n, f, g);
             cg.Method = ConjugateGradientMethod.PositivePolakRibiere;
 
-            double actual = cg.Minimize(initial);
+            Assert.IsTrue(cg.Minimize(initial));
+            double actual = cg.Value;
             double expected = 0;
             Assert.AreEqual(expected, actual, 1e-6);
 

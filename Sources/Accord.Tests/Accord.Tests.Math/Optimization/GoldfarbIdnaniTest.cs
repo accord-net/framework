@@ -67,11 +67,12 @@ namespace Accord.Tests.Math
 
             double[] b = { -8, 2, 0 };
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(3, A.Transpose(), b);
+            GoldfarbIdnani target = new GoldfarbIdnani(D, d.Multiply(-1), A.Transpose(), b);
 
             double[] expectedSolution = { 0.4761905, 1.0476190, 2.0952381 };
             double expected = -2.380952;
-            double actual = target.Minimize(D, d.Multiply(-1));
+            Assert.IsTrue(target.Minimize());
+            double actual = target.Value;
             Assert.AreEqual(expected, actual, 1e-6);
             Assert.IsFalse(double.IsNaN(actual));
             Assert.AreEqual(3, target.Iterations);
@@ -108,9 +109,10 @@ namespace Accord.Tests.Math
 
             double[] b = { -8, 2, 0 };
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(3, A.Transpose(), b);
+            GoldfarbIdnani target = new GoldfarbIdnani(D, d.Multiply(-1), A.Transpose(), b);
 
-            double actual = target.Minimize(D, d.Multiply(-1));
+            Assert.IsTrue(target.Minimize());
+            double actual = target.Value;
             Assert.AreEqual(-12.41011, actual, 1e-5);
             Assert.IsFalse(double.IsNaN(actual));
             Assert.AreEqual(3, target.Iterations);
@@ -159,10 +161,11 @@ namespace Accord.Tests.Math
             double[] b = { 5, 3 };
 
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(2, A.Transpose(), b);
+            GoldfarbIdnani target = new GoldfarbIdnani(D, d.Multiply(-1), A.Transpose(), b);
 
-            double actual = target.Minimize(D, d.Multiply(-1));
-            Assert.AreEqual(64.8, actual);
+            Assert.IsTrue(target.Minimize());
+            double actual = target.Value;
+            Assert.AreEqual(64.8, actual, 1e-10);
             Assert.IsFalse(double.IsNaN(actual));
             Assert.AreEqual(2, target.Iterations);
             Assert.AreEqual(0, target.Deletions);
@@ -206,9 +209,10 @@ namespace Accord.Tests.Math
 
             double[] b = { -8, 4, -1 };
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(3, A.Transpose(), b);
+            GoldfarbIdnani target = new GoldfarbIdnani(D, d.Multiply(-1), A.Transpose(), b);
 
-            double actual = target.Minimize(D, d.Multiply(-1));
+            Assert.IsTrue(target.Minimize());
+            double actual = target.Value;
 
             Assert.AreEqual(6.8, actual, 1e-5);
             Assert.IsFalse(double.IsNaN(actual));
@@ -259,9 +263,11 @@ namespace Accord.Tests.Math
             double[] b = { 0, 0, 0 };
 
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(3, A.Transpose(), b);
+            GoldfarbIdnani target = new GoldfarbIdnani(D, d.Multiply(-1), A.Transpose(), b);
 
-            double actual = target.Minimize(D, d.Multiply(-1));
+            Assert.IsTrue(target.Minimize());
+            double actual = target.Value;
+
             Assert.AreEqual(-249.0, actual, 1e-6);
             Assert.IsFalse(double.IsNaN(actual));
             Assert.AreEqual(1, target.Iterations);
@@ -309,9 +315,10 @@ namespace Accord.Tests.Math
 
             int meq = 2;
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(10, Ama.Transpose(), bva, meq);
+            GoldfarbIdnani target = new GoldfarbIdnani(cma, dva.Multiply(-1), Ama.Transpose(), bva, meq);
 
-            double value = target.Minimize(cma, dva.Multiply(-1));
+            Assert.IsTrue(target.Minimize());
+            double value = target.Value;
 
             for (int i = 0; i < target.Solution.Length; i += 2)
             {
@@ -348,12 +355,12 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(+2, +1, +0) { Value = +2 });
             constraints.Add(new LinearConstraint(+0, -2, +1) { Value = +0 });
 
+            QuadraticObjectiveFunction f = new QuadraticObjectiveFunction("2x² + y - z + 2");
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(3, constraints);
+            GoldfarbIdnani target = new GoldfarbIdnani(f, constraints);
 
             Assert.IsTrue(A.IsEqual(target.ConstraintMatrix));
             Assert.IsTrue(b.IsEqual(target.ConstraintValues));
-
         }
 
         [TestMethod()]
@@ -439,7 +446,7 @@ namespace Accord.Tests.Math
 
 
             // Now we can finally create our optimization problem
-            var target = new GoldfarbIdnaniQuadraticSolver(numberOfVariables: 2, constraints: list);
+            var target = new GoldfarbIdnani(new QuadraticObjectiveFunction(Q, d), constraints: list);
 
 
             Assert.IsTrue(A.IsEqual(target.ConstraintMatrix));
@@ -448,7 +455,8 @@ namespace Accord.Tests.Math
 
 
             // And attempt to solve it.
-            double minimumValue = target.Minimize(Q, d);
+            Assert.IsTrue(target.Minimize());
+            double minimumValue = target.Value;
 
 
             Assert.AreEqual(170, minimumValue, 1e-10);
@@ -465,6 +473,8 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void GoldfarbIdnaniConstructorTest3()
         {
+            // http://www.wolframalpha.com/input/?i=min+2x%C2%B2+-+xy+%2B+4y%C2%B2+-+5x+-+6y+s.t.+x+-+y++%3D%3D+++5%2C+x++%3E%3D++10
+
             // Solve the following optimization problem:
             //
             //  min f(x) = 2x² - xy + 4y² - 5x - 6y
@@ -486,7 +496,7 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, () => x >= 10));
 
             // Now we create the quadratic programming solver for 2 variables, using the constraints.
-            GoldfarbIdnaniQuadraticSolver solver = new GoldfarbIdnaniQuadraticSolver(2, constraints);
+            GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
 
 
             double[,] A = 
@@ -514,16 +524,87 @@ namespace Accord.Tests.Math
             double[] d = { -5, -6 };
 
 
-            var actualQ = f.GetQuadraticTermsMatrix();
-            var actuald = f.GetLinearTermsVector();
+            var actualQ = f.QuadraticTerms;
+            var actuald = f.LinearTerms;
 
             Assert.IsTrue(Q.IsEqual(actualQ));
             Assert.IsTrue(d.IsEqual(actuald));
 
 
             // And attempt to solve it.
-            double minimumValue = solver.Minimize(f);
+            bool success = solver.Minimize();
+            Assert.AreEqual(170, solver.Value);
+            Assert.IsTrue(success);
+        }
 
+        [TestMethod()]
+        public void GoldfarbIdnaniConstructorTest10()
+        {
+            // http://www.wolframalpha.com/input/?i=minimize+f%28x%2Cy%29+%3D+2x%5E2+-+xy+%2B+4y%5E2+-+5x+-+6y+-+100%2C+s.t.+x+-+y++%3D+++5%2C+x++%3E%3D++10
+
+            double x = 0, y = 0;
+
+            var f = new QuadraticObjectiveFunction(() => 2 * (x * x) - (x * y) + 4 * (y * y) - 5 * x - 6 * y - 100);
+
+            List<LinearConstraint> constraints = new List<LinearConstraint>();
+            constraints.Add(new LinearConstraint(f, () => x - y == 5));
+            constraints.Add(new LinearConstraint(f, () => x >= 10));
+
+            GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
+
+            double[,] Q = 
+            {   
+                { +2*2,  -1   }, 
+                {   -1,  +4*2 },
+            };
+
+            double[] d = { -5, -6 };
+
+            var actualQ = f.QuadraticTerms;
+            var actuald = f.LinearTerms;
+
+            Assert.IsTrue(Q.IsEqual(actualQ));
+            Assert.IsTrue(d.IsEqual(actuald));
+            Assert.AreEqual(-100, f.ConstantTerm);
+
+            bool success = solver.Minimize();
+            Assert.AreEqual(70, solver.Value);
+            Assert.IsTrue(success);
+        }
+
+        [TestMethod]
+        public void GoldfarbIdnaniConstructorTest11()
+        {
+            // http://www.wolframalpha.com/input/?i=minimize+f%28x%2Cy%29+%3D+2x%5E2+-+xy+%2B+4y%5E2+-+5x+-+6y+-+100%2C+s.t.+x+-+y++%3D+++5%2C+x++%3E%3D++10
+
+            double x = 0, y = 0;
+
+            var f = new QuadraticObjectiveFunction(() => 2 * (x * x) - (x * y) + 4 * (y * y) - 5 * x - 6 * y + 100);
+
+            List<LinearConstraint> constraints = new List<LinearConstraint>();
+            constraints.Add(new LinearConstraint(f, () => x - y == 5));
+            constraints.Add(new LinearConstraint(f, () => x >= 10));
+
+            GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
+
+            double[,] Q = 
+            {   
+                { +2*2,  -1   }, 
+                {   -1,  +4*2 },
+            };
+
+            double[] d = { -5, -6 };
+
+            var actualQ = f.QuadraticTerms;
+            var actuald = f.LinearTerms;
+
+            Assert.IsTrue(Q.IsEqual(actualQ));
+            Assert.IsTrue(d.IsEqual(actuald));
+            Assert.AreEqual(100, f.ConstantTerm);
+
+            bool success = solver.Minimize();
+            Assert.AreEqual(270, solver.Value);
+            Assert.IsTrue(success);
         }
 
         [TestMethod()]
@@ -544,7 +625,7 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, "x >= 10"));
 
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(2, constraints);
+            GoldfarbIdnani target = new GoldfarbIdnani(f, constraints);
 
             double[,] A = 
             {
@@ -570,8 +651,8 @@ namespace Accord.Tests.Math
             double[] d = { -5, -6 };
 
 
-            var actualQ = f.GetQuadraticTermsMatrix();
-            var actuald = f.GetLinearTermsVector();
+            var actualQ = f.QuadraticTerms;
+            var actuald = f.LinearTerms;
 
             Assert.IsTrue(Q.IsEqual(actualQ));
             Assert.IsTrue(d.IsEqual(actuald));
@@ -594,9 +675,12 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, () => -z - y == 12));
 
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(f.NumberOfVariables, constraints);
+            GoldfarbIdnani target = new GoldfarbIdnani(f, constraints);
 
-            double value = target.Minimize(f);
+            bool success = target.Minimize();
+            double value = target.Value;
+
+            Assert.IsTrue(success);
 
             Assert.AreEqual(14376 / 109.0, value, 1e-10);
 
@@ -624,10 +708,12 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, "-z-y = 12"));
 
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(f.NumberOfVariables, constraints);
+            GoldfarbIdnani target = new GoldfarbIdnani(f, constraints);
 
-            double value = target.Minimize(f);
+            bool success = target.Minimize();
+            double value = target.Value;
 
+            Assert.IsTrue(success);
             Assert.AreEqual(14376 / 109.0, value, 1e-10);
 
             Assert.AreEqual(-186 / 109.0, target.Solution[0], 1e-10);
@@ -659,7 +745,7 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, () => y >= 1));
 
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(2, constraints);
+            GoldfarbIdnani target = new GoldfarbIdnani(f, constraints);
 
             double[,] A = 
             {
@@ -685,13 +771,17 @@ namespace Accord.Tests.Math
             double[] d = { 0, -1 };
 
 
-            var actualQ = f.GetQuadraticTermsMatrix();
-            var actuald = f.GetLinearTermsVector();
+            var actualQ = f.QuadraticTerms;
+            var actuald = f.LinearTerms;
 
             Assert.IsTrue(Q.IsEqual(actualQ));
             Assert.IsTrue(d.IsEqual(actuald));
 
-            double minValue = target.Minimize(f);
+            bool success = target.Minimize();
+            double minValue = target.Value;
+
+            Assert.IsTrue(success);
+
             double[] solution = target.Solution;
 
             Assert.AreEqual(7, minValue);
@@ -729,7 +819,7 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, () => y >= 1));
 
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(2, constraints);
+            GoldfarbIdnani target = new GoldfarbIdnani(f, constraints);
 
             double[,] A = 
             {
@@ -755,23 +845,15 @@ namespace Accord.Tests.Math
             double[] d = { 0, -1 };
 
 
-            var actualQ = f.GetQuadraticTermsMatrix();
-            var actuald = f.GetLinearTermsVector();
+            var actualQ = f.QuadraticTerms;
+            var actuald = f.LinearTerms;
 
             Assert.IsTrue(Q.IsEqual(actualQ));
             Assert.IsTrue(d.IsEqual(actuald));
 
-            bool thrown = false;
-            try
-            {
-                target.Minimize(f);
-            }
-            catch (NonPositiveDefiniteMatrixException)
-            {
-                thrown = true;
-            }
+            bool success = target.Minimize();
 
-            Assert.IsTrue(thrown);
+            Assert.IsFalse(success);
         }
 
 
@@ -801,7 +883,7 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, () => y >= 0));
 
 
-            GoldfarbIdnaniQuadraticSolver target = new GoldfarbIdnaniQuadraticSolver(2, constraints);
+            GoldfarbIdnani target = new GoldfarbIdnani(f, constraints);
 
             double[,] expectedA = 
             {
@@ -839,15 +921,16 @@ namespace Accord.Tests.Math
 
             var actualA = target.ConstraintMatrix;
             var actualb = target.ConstraintValues;
-            var actualQ = f.GetQuadraticTermsMatrix();
-            var actuald = f.GetLinearTermsVector();
+            var actualQ = f.QuadraticTerms;
+            var actuald = f.LinearTerms;
 
             Assert.IsTrue(expectedA.IsEqual(actualA));
             Assert.IsTrue(expectedb.IsEqual(actualb));
             Assert.IsTrue(expectedQ.IsEqual(actualQ));
             Assert.IsTrue(expectedd.IsEqual(actuald));
 
-            double min = target.Minimize(f);
+            Assert.IsTrue(target.Minimize());
+            double min = target.Value;
 
             double[] solution = target.Solution;
 
@@ -891,10 +974,11 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, "    y >= 0"));
 
             // Now we create the quadratic programming solver for 2 variables, using the constraints.
-            GoldfarbIdnaniQuadraticSolver solver = new GoldfarbIdnaniQuadraticSolver(2, constraints);
+            GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
 
             // And attempt to solve it.
-            double maxValue = solver.Maximize(f);
+            Assert.IsTrue(solver.Maximize());
+            double maxValue = solver.Value;
 
             Assert.AreEqual(25 / 16.0, maxValue);
 
@@ -902,7 +986,6 @@ namespace Accord.Tests.Math
             Assert.AreEqual(5 / 8.0, solver.Solution[1]);
         }
 
-        [Ignore()] // TODO: Remove this tag
         [TestMethod()]
         public void GoldfarbIdnaniMinimizeTest1()
         {
@@ -942,10 +1025,11 @@ namespace Accord.Tests.Math
             double[,] A = constraints.CreateMatrix(4, out b, out eq);
 
             // Now we create the quadratic programming solver for 2 variables, using the constraints.
-            GoldfarbIdnaniQuadraticSolver solver = new GoldfarbIdnaniQuadraticSolver(4, constraints);
+            GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
 
             // And attempt to solve it.
-            double minValue = solver.Minimize(f);
+            Assert.IsTrue(solver.Minimize());
+            double minValue = solver.Value;
 
             double[] expected = { 0.5, 0.336259542, 0.163740458, 0 };
             double[] actual = solver.Solution;

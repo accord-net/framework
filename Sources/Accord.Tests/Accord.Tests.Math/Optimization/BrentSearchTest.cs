@@ -61,9 +61,12 @@ namespace Accord.Tests.Math
             BrentSearch search = new BrentSearch(function, -4, 3);
 
             // Finally, we can query the information we need
-            double max = search.Maximize();  // occurs at -2.61
-            double min = search.Minimize();  // occurs at  1.27
-            double root = search.FindRoot(); // occurs at  0.50
+            Assert.IsTrue(search.Maximize());  // occurs at -2.61
+            double max = search.Solution;
+            Assert.IsTrue(search.Minimize());  // occurs at  1.27
+            double min = search.Solution;
+            Assert.IsTrue(search.FindRoot()); // occurs at  0.50
+            double root = search.Solution;
 
             Assert.AreEqual(-2.6103173042172645, max);
             Assert.AreEqual(1.2769840667540548, min);

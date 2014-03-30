@@ -61,6 +61,53 @@ namespace Accord.Math.Optimization
         PositivePolakRibiere = 3,
     }
 
+    public enum ConjugateGradientCode
+    {
+        Success,
+
+        /// <summary>
+        ///   Invalid step size.
+        /// </summary>
+        /// 
+        StepSize = 1,
+
+        /// <summary>
+        ///   Descent direction was not obtained.
+        /// </summary>
+        /// 
+        DescentNotObtained = -2,
+
+        /// <summary>
+        ///   Rounding errors prevent further progress. There may not be a step 
+        ///   which satisfies the sufficient decrease and curvature conditions. 
+        ///   Tolerances may be too small.
+        /// </summary>
+        /// 
+        RoundingErrors = 6,
+
+        /// <summary>
+        ///   The step size has reached the upper bound.
+        /// </summary>
+        /// 
+        StepHigh = 5,
+
+        /// <summary>
+        ///   The step size has reached the lower bound.
+        /// </summary>
+        StepLow = 4,
+
+        /// <summary>
+        ///   Maximum number of function evaluations has been reached.
+        /// </summary>
+        MaximumEvaluations = 3,
+
+        /// <summary>
+        ///   Relative width of the interval of uncertainty is at machine precision.
+        /// </summary>
+        /// 
+        Precision = 2,
+    }
+
     /// <summary>
     ///   Conjugate Gradient (CG) optimization method.
     /// </summary>
@@ -100,13 +147,9 @@ namespace Accord.Math.Optimization
     ///    </list></para>
     /// </remarks>
     /// 
-    public class ConjugateGradient : IGradientOptimizationMethod
+    public class ConjugateGradient : BaseGradientOptimizationMethod, IGradientOptimizationMethod
     {
 
-        private int numberOfVariables;
-
-        private double[] x; // current solution x
-        private double f;   // value at current solution f(x)
         private double[] g; // gradient at current solution
 
         private double[] d;
@@ -125,6 +168,7 @@ namespace Accord.Math.Optimization
         private int searches;
         private int maxIterations;
         private double tolerance = 0;
+
 
         /// <summary>
         ///   Gets or sets the relative difference threshold
@@ -195,62 +239,13 @@ namespace Accord.Math.Optimization
             get { return searches; }
         }
 
+        public ConjugateGradientCode Code { get; private set; }
+
         /// <summary>
         ///   Occurs when progress is made during the optimization.
         /// </summary>
         /// 
         public event EventHandler<OptimizationProgressEventArgs> Progress;
-
-        /// <summary>
-        ///   Gets or sets the function to be optimized.
-        /// </summary>
-        /// 
-        /// <value>The function to be optimized.</value>
-        /// 
-        public Func<double[], double> Function { get; set; }
-
-        /// <summary>
-        ///   Gets or sets a function returning the gradient
-        ///   vector of the function to be optimized for a
-        ///   given value of its free parameters.
-        /// </summary>
-        /// 
-        /// <value>The gradient function.</value>
-        /// 
-        public Func<double[], double[]> Gradient { get; set; }
-
-        /// <summary>
-        ///   Gets the number of variables (free parameters)
-        ///   in the optimization problem.
-        /// </summary>
-        /// 
-        /// <value>The number of parameters.</value>
-        /// 
-        public int Parameters
-        {
-            get { return numberOfVariables; }
-        }
-
-
-        /// <summary>
-        ///   Gets the solution found, the values of the 
-        ///   parameters which optimizes the function.
-        /// </summary>
-        /// 
-        public double[] Solution
-        {
-            get { return x; }
-        }
-
-        /// <summary>
-        ///   Gets the output of the function at the current solution.
-        /// </summary>
-        /// 
-        public double Value
-        {
-            get { return f; }
-        }
-
 
         /// <summary>
         ///   Creates a new instance of the CG optimization algorithm.
@@ -259,19 +254,11 @@ namespace Accord.Math.Optimization
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
         /// 
         public ConjugateGradient(int numberOfVariables)
+            : base(numberOfVariables)
         {
-            if (numberOfVariables <= 0)
-                throw new ArgumentOutOfRangeException("numberOfVariables");
-
-            this.numberOfVariables = numberOfVariables;
-
             d = new double[numberOfVariables];
             gold = new double[numberOfVariables];
             w = new double[numberOfVariables];
-
-            x = new double[numberOfVariables];
-            for (int i = 0; i < x.Length; i++)
-                x[i] = Accord.Math.Tools.Random.NextDouble() * 2 - 1;
         }
 
 
@@ -279,86 +266,32 @@ namespace Accord.Math.Optimization
         ///   Creates a new instance of the CG optimization algorithm.
         /// </summary>
         /// 
-        /// <param name="parameters">The number of free parameters in the function to be optimized.</param>
+        /// <param name="numberOfVariables">The number of free parameters in the function to be optimized.</param>
         /// <param name="function">The function to be optimized.</param>
         /// <param name="gradient">The gradient of the function.</param>
         /// 
-        public ConjugateGradient(int parameters, Func<double[], double> function, Func<double[], double[]> gradient)
-            : this(parameters)
+        public ConjugateGradient(int numberOfVariables,
+            Func<double[], double> function, Func<double[], double[]> gradient)
+            : base(numberOfVariables, function, gradient)
         {
-            if (function == null)
-                throw new ArgumentNullException("function");
-
-            if (gradient == null)
-                throw new ArgumentNullException("gradient");
-
-            this.Function = function;
-            this.Gradient = gradient;
+            d = new double[numberOfVariables];
+            gold = new double[numberOfVariables];
+            w = new double[numberOfVariables];
         }
 
 
-        /// <summary>
-        ///   Optimizes the defined function.
-        /// </summary>
-        /// 
-        public double Minimize()
-        {
-            return minimize();
-        }
-
-        /// <summary>
-        ///   Optimizes the defined function.
-        /// </summary>
-        /// 
-        /// <param name="values">The initial guess values for the parameters.</param>
-        /// 
-        public double Minimize(double[] values)
-        {
-            if (values == null)
-                throw new ArgumentNullException("values");
-
-            if (values.Length != numberOfVariables)
-                throw new DimensionMismatchException("values");
-
-            // Copy initial guess for solution
-            for (int i = 0; i < x.Length; i++)
-                x[i] = values[i];
-
-            return minimize();
-        }
-
-        public bool TryMinimize(double[] values)
-        {
-            // TODO: Implement this method properly, without a try-catch block. This
-            // would mean modifying the underlying conjugate gradient algorithm to
-            // return status codes instead.
-
-            try
-            {
-                Minimize(values);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        private double minimize()
+        protected override bool Optimize()
         {
             // This code has been adapted from the original
             // FORTRAN function CGFAM by Jorge Nocedal, 1992.
 
-            if (Function == null) throw new InvalidOperationException(
-                 "The function to be minimized has not been defined.");
-
-            if (Gradient == null) throw new InvalidOperationException(
-                "The gradient function has not been defined.");
-
             int irest = 1;
-            int n = numberOfVariables;
-            f = Function(x);
+            int n = NumberOfVariables;
+            double[] x = Solution;
+
+            double f = Function(x);
             g = Gradient(x);
+
             int method = (int)Method;
 
             iterations = 0;
@@ -382,7 +315,7 @@ namespace Accord.Math.Optimization
 
             // Make initial progress report with initialization parameters
             if (Progress != null) Progress(this, new OptimizationProgressEventArgs
-                (iterations, evaluations, g, gnorm, x, xnorm, f, stp1, finish));
+                (iterations, evaluations, g, gnorm, Solution, xnorm, f, stp1, finish));
 
 
 
@@ -426,7 +359,10 @@ namespace Accord.Math.Optimization
             L72:
 
                 // Call to the line search subroutine
-                cvsmod(d, ref stp, ref info, ref nfev, w, ref dg, ref dgout);
+                Code = cvsmod(ref f, d, ref stp, ref info, ref nfev, w, ref dg, ref dgout);
+
+                if (Code != ConjugateGradientCode.Success)
+                    return false;
 
                 // Test if descent direction is obtained for methods 2 and 3
                 double gg = Matrix.InnerProduct(g, g);
@@ -450,7 +386,10 @@ namespace Accord.Math.Optimization
                             ides++;
 
                             if (ides > 5)
-                                throw new LineSearchFailedException("Descent was not obtained (-2)");
+                            {
+                                Code = ConjugateGradientCode.DescentNotObtained;
+                                return false;
+                            }
 
                             goto L72; // retry
                         }
@@ -522,12 +461,12 @@ namespace Accord.Math.Optimization
 
                 if (Progress != null)
                 {
-                    Progress(this, new OptimizationProgressEventArgs
-                            (iterations, evaluations, g, gnorm, x, xnorm, f, stp, finish));
+                    Progress(this, new OptimizationProgressEventArgs(iterations,
+                        evaluations, g, gnorm, Solution, xnorm, f, stp, finish));
                 }
             }
 
-            return f;
+            return Code == ConjugateGradientCode.Success;
         }
 
 
@@ -553,19 +492,20 @@ namespace Accord.Math.Optimization
         double fy;
         double ftest1;
 
-        private unsafe int cvsmod(double[] s, ref double stp, ref int info,
+        private unsafe ConjugateGradientCode cvsmod(ref double f, double[] s, ref double stp, ref int info,
              ref int nfev, double[] wa, ref double dginit, ref double dgout)
         {
-            int n = numberOfVariables;
+            int n = NumberOfVariables;
+
+            double[] x = Solution;
 
             if (info == 1)
                 goto L321;
 
             infoc = 1;
 
-
             if (stp <= 0) // Check the input parameters for errors
-                throw new LineSearchFailedException(1, "Invalid step size.");
+                return ConjugateGradientCode.StepSize;
 
             // Compute the initial gradient in the search direction
             // and check that S is a descent direction.
@@ -642,7 +582,6 @@ namespace Accord.Math.Optimization
             f = Function(x);
             g = Gradient(x);
 
-
             info = 0;
             nfev++;
             dg2 = 0;
@@ -653,22 +592,19 @@ namespace Accord.Math.Optimization
             ftest1 = finit + stp * dgtest;
 
             if ((brackt && (stp <= stmin || stp >= stmax)) || infoc == 0)
-                throw new LineSearchFailedException(6, "Rounding errors prevent further progress." +
-                    "There may not be a step which satisfies the sufficient decrease and curvature conditions. " + 
-                    "Tolerances may be too small.");
+                return ConjugateGradientCode.RoundingErrors;
 
             if (stp == stpmax && f <= ftest1 && dg2 <= dgtest)
-                throw new LineSearchFailedException(5, "The step size has reached the upper bound.");
+                return ConjugateGradientCode.StepHigh;
 
             if (stp == stpmin && (f > ftest1 || dg2 >= dgtest))
-                throw new LineSearchFailedException(4, "The step size has reached the lower bound.");
+                return ConjugateGradientCode.StepLow;
 
             if (nfev >= maxfev)
-                throw new LineSearchFailedException(3, "Maximum number of function evaluations has been reached.");
+                return ConjugateGradientCode.MaximumEvaluations;
 
             if (brackt && stmax - stmin <= xtol * stmax)
-                throw new LineSearchFailedException(2, "Relative width of the interval of uncertainty" +
-                    " is at machine precision.");
+                return ConjugateGradientCode.Precision;
 
 
             // More's code has been modified so that at least one new 
@@ -680,7 +616,7 @@ namespace Accord.Math.Optimization
             {
                 info = 1;
                 dgout = dg2;
-                return 0;
+                return ConjugateGradientCode.Success;
             }
 
 
@@ -713,7 +649,7 @@ namespace Accord.Math.Optimization
                 // Call CSTEPM to update the interval of
                 // uncertainty and to compute the new step.
 
-                Dcstep.dcstep(ref stx, ref fxm, ref dgxm,
+                BoundedBroydenFletcherGoldfarbShanno.dcstep(ref stx, ref fxm, ref dgxm,
                     ref sty, ref fym, ref dgym, ref stp, fm, dgm, ref brackt, stpmin, stpmax);
 
                 // Reset the function and gradient values for f.
@@ -726,7 +662,7 @@ namespace Accord.Math.Optimization
             {
                 // Call CSTEPM to update the interval of
                 // uncertainty and to compute the new step.
-                Dcstep.dcstep(ref stx, ref fx, ref dgx,
+                BoundedBroydenFletcherGoldfarbShanno.dcstep(ref stx, ref fx, ref dgx,
                     ref sty, ref fy, ref dgy, ref stp, f, dg2, ref brackt, stpmin, stpmax);
             }
 

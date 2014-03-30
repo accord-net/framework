@@ -159,7 +159,7 @@
     <Compile Include="Matrix\Matrix.Conversion.cs" />
     <Compile Include="OctaveEnvironmentTest.cs" />
     <Compile Include="Optimization\BrentSearchTest.cs" />
-    <Compile Include="Optimization\QuadraticConstraintTest.cs" />
+    <Compile Include="Optimization\QuadraticObjectiveFunctionTest.cs" />
     <Compile Include="PlaneTest.cs" />
     <Compile Include="Point3Test.cs" />
     <Compile Include="Functions\BetaTest.cs" />

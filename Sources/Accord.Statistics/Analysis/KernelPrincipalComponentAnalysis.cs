@@ -127,7 +127,7 @@ namespace Accord.Statistics.Analysis
             AnalysisMethod method, bool centerInFeatureSpace)
             : base(data, method)
         {
-            if (kernel == null) 
+            if (kernel == null)
                 throw new ArgumentNullException("kernel");
 
             this.kernel = kernel;
@@ -149,7 +149,7 @@ namespace Accord.Statistics.Analysis
             AnalysisMethod method, bool centerInFeatureSpace)
             : base(data, method)
         {
-            if (kernel == null) 
+            if (kernel == null)
                 throw new ArgumentNullException("kernel");
 
             this.kernel = kernel;
@@ -405,7 +405,7 @@ namespace Accord.Statistics.Analysis
                 throw new InvalidOperationException("The analysis must have been computed first.");
 
             if (data.GetLength(1) != Source.GetLength(1))
-                throw new DimensionMismatchException("data", 
+                throw new DimensionMismatchException("data",
                     "The input data should have the same number of columns as the original data.");
 
             if (dimensions < 0 || dimensions > Components.Count)
@@ -440,6 +440,61 @@ namespace Accord.Statistics.Analysis
             return result;
         }
 
+
+        /// <summary>
+        ///   Projects a given matrix into the principal component space.
+        /// </summary>
+        /// 
+        /// <param name="data">The matrix to be projected. The matrix should contain
+        /// variables as columns and observations of each variable as rows.</param>
+        /// <param name="dimensions">The number of components to use in the transformation.</param>
+        /// 
+        public override double[][] Transform(double[][] data, int dimensions)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            if (sourceCentered == null)
+                throw new InvalidOperationException("The analysis must have been computed first.");
+
+            if (data[0].Length != Source.GetLength(1))
+                throw new DimensionMismatchException("data",
+                    "The input data should have the same number of columns as the original data.");
+
+            if (dimensions < 0 || dimensions > Components.Count)
+            {
+                throw new ArgumentOutOfRangeException("dimensions",
+                    "The specified number of dimensions must be equal or less than the " +
+                    "number of components available in the Components collection property.");
+            }
+
+            int samples = data.Length;
+            int rows = sourceCentered.GetLength(0);
+
+            // Center the data
+            data = Adjust(data, false);
+
+            // Create the Kernel matrix
+            double[,] newK = new double[samples, rows];
+            for (int i = 0; i < samples; i++)
+            {
+                double[] row = data[i];
+                for (int j = 0; j < rows; j++)
+                    newK[i, j] = kernel.Function(row, sourceCentered.GetRow(j));
+            }
+
+            if (centerFeatureSpace)
+                centerKernel(newK, kernelMatrix);
+
+            // Project into the kernel principal components
+            double[][] result = new double[samples][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = new double[dimensions];
+
+            newK.Multiply(ComponentMatrix, result: result);
+
+            return result;
+        }
         /// <summary>
         ///   Reverts a set of projected data into it's original form. Complete reverse
         ///   transformation is not always possible and is not even guaranteed to exist.
@@ -614,7 +669,7 @@ namespace Accord.Statistics.Analysis
             // row mean and column means should be equal on a symmetric matrix
             double[] colMean = Accord.Statistics.Tools.Mean(K, 0);
             for (int i = 0; i < colMean.Length; i++)
-               System.Diagnostics.Debug.Assert(colMean[i] == rowMean[i]);
+                System.Diagnostics.Debug.Assert(colMean[i] == rowMean[i]);
 #endif
             double mean = Accord.Statistics.Tools.Mean(K, -1)[0];
 

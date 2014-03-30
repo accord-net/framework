@@ -32,17 +32,6 @@ namespace Accord.Math.Optimization.Constrained
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    /// Signature for the objective and constraints function evaluation method used in <see cref="Cobyla"/> minimization.
-    /// </summary>
-    /// <param name="n">Number of variables.</param>
-    /// <param name="m">Number of constraints.</param>
-    /// <param name="x">Variable values to be employed in function and constraints calculation.</param>
-    /// <param name="f">Calculated objective function value.</param>
-    /// <param name="con">Calculated function values of the constraints.</param>
-    public delegate void CalcfcDelegate(int n, int m, double[] x, out double f, double[] con);
-
-
 
     /// <summary>
     /// Status of optimization upon return.
@@ -93,35 +82,15 @@ namespace Accord.Math.Optimization.Constrained
     /// not be entered as the zero vector.
     /// </remarks>
     ///
-    public class Cobyla : IOptimizationMethod
+    public class Cobyla : BaseOptimizationMethod, IOptimizationMethod
     {
-
 
         double rhobeg = 0.5;
         double rhoend = 1.0e-6;
         int maxfun = 3500;
         int iterations;
 
-        int numberOfVariables;
-        double[] x;
-
         NonlinearConstraint[] constraints;
-
-        /// <summary>
-        ///   Gets the current solution.
-        /// </summary>
-        /// 
-        public double[] Solution
-        {
-            get { return x; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the objective function 
-        ///   of the optimization problem.
-        /// </summary>
-        /// 
-        public Func<double[], double> Function { get; set; }
 
         /// <summary>
         ///   Occurs when progress is made during the optimization.
@@ -129,17 +98,6 @@ namespace Accord.Math.Optimization.Constrained
         /// 
         public event EventHandler<OptimizationProgressEventArgs> Progress;
 
-        /// <summary>
-        ///   Gets the number of variables (free parameters)
-        ///   in the optimization problem.
-        /// </summary>
-        /// 
-        /// <value>The number of parameters.</value>
-        /// 
-        public int Parameters
-        {
-            get { return numberOfVariables; }
-        }
 
         /// <summary>
         ///   Gets the number of iterations performed in the last
@@ -167,6 +125,20 @@ namespace Accord.Math.Optimization.Constrained
             set { maxfun = value; }
         }
 
+        public CobylaExitStatus Code { get; private set; }
+
+        /// <summary>
+        ///   Creates a new instance of the Cobyla optimization algorithm.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of free parameters in the function to be optimized.</param>
+        /// <param name="function">The function to be optimized.</param>
+        /// 
+        public Cobyla(int numberOfVariables)
+            : base(numberOfVariables)
+        {
+            this.constraints = new NonlinearConstraint[0];
+        }
 
         /// <summary>
         ///   Creates a new instance of the Cobyla optimization algorithm.
@@ -176,11 +148,9 @@ namespace Accord.Math.Optimization.Constrained
         /// <param name="function">The function to be optimized.</param>
         /// 
         public Cobyla(int numberOfVariables, Func<double[], double> function)
+            : base(numberOfVariables, function)
         {
-            if (function == null)
-                throw new ArgumentNullException("function");
-
-            init(numberOfVariables, function, null);
+            this.constraints = new NonlinearConstraint[0];
         }
 
       
@@ -192,11 +162,21 @@ namespace Accord.Math.Optimization.Constrained
         /// <param name="function">The function to be optimized.</param>
         /// 
         public Cobyla(NonlinearObjectiveFunction function)
+            : base(function.NumberOfVariables, function.Function)
         {
-            if (function == null)
-                throw new ArgumentNullException("function");
+            this.constraints = new NonlinearConstraint[0];
+        }
 
-            init(function.NumberOfVariables, function.Function, null);
+        /// <summary>
+        ///   Creates a new instance of the Cobyla optimization algorithm.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be optimized.</param>
+        /// <param name="constraints">The constraints of the optimization problem.</param>
+        /// 
+        public Cobyla(NonlinearObjectiveFunction function, IEnumerable<NonlinearConstraint> constraints)
+            : this(function, System.Linq.Enumerable.ToArray(constraints))
+        {
         }
 
         /// <summary>
@@ -207,93 +187,31 @@ namespace Accord.Math.Optimization.Constrained
         /// <param name="constraints">The constraints of the optimization problem.</param>
         /// 
         public Cobyla(NonlinearObjectiveFunction function, NonlinearConstraint[] constraints)
+            : base(function.NumberOfVariables, function.Function)
         {
-            if (function == null)
-                throw new ArgumentNullException("function");
-
             if (constraints == null)
                 throw new ArgumentNullException("constraints");
 
             for (int i = 0; i < constraints.Length; i++)
             {
                 if (constraints[i].NumberOfVariables != function.NumberOfVariables)
-                    throw new ArgumentException();
+                    throw new DimensionMismatchException("constraints", "The constraint at position " + i + 
+                        " contains an unexpected number of variables. Expected value would be " + NumberOfVariables + ".");
 
                 if (constraints[i].ShouldBe == ConstraintType.EqualTo)
-                    throw new ArgumentException();
+                    throw new ArgumentException("constraints", "Inequality constraints are not supported."
+                        + " The constraint at position " + i + " is an inequality constraint.");
             }
-
-            init(function.NumberOfVariables, function.Function, constraints);
 
             this.constraints = constraints;
         }
 
 
-        private void init(int numberOfVariables, Func<double[], double> function,
-          IEnumerable<NonlinearConstraint> cons)
+        protected override bool Optimize()
         {
-            this.numberOfVariables = numberOfVariables;
-            this.Function = function;
-
-            if (cons == null)
-                this.constraints = new NonlinearConstraint[0];
-            else
-                this.constraints = System.Linq.Enumerable.ToArray(cons);
-
-            x = new double[numberOfVariables];
-            for (int i = 0; i < x.Length; i++)
-                x[i] = 1.0;
+            Code = cobyla();
+            return Code == CobylaExitStatus.Normal;
         }
-
-
-
-        /// <summary>
-        ///   Optimizes the defined function.
-        /// </summary>
-        /// 
-        /// <param name="values">The initial guess values for the parameters.</param>
-        /// 
-        /// <returns>The minimum of the function <see cref="Function"/> over 
-        ///  its range of parameters.</returns>
-        /// 
-        public double Minimize(double[] values)
-        {
-            x = values;
-
-            cobyla();
-
-            return Function(Solution);
-        }
-
-        public double Minimize()
-        {
-            cobyla();
-
-            return Function(Solution);
-        }
-
-        /// <summary>
-        ///   Finds the minimum value of a function, without throwing exceptions.
-        ///   The solution vector will be made available at the <see cref="Solution"/>
-        ///   property.
-        /// </summary>
-        /// 
-        /// <param name="values">The initial guess values for the parameters.
-        ///   If the algorithm converges, this vector will contain the best
-        ///   solution found during optimization.</param>
-        ///   
-        /// <returns>
-        ///   True, if the solution converged within the selected tolerance
-        ///   value, false otherwise.
-        /// </returns>
-        /// 
-        public bool TryMinimize(double[] values)
-        {
-            Minimize(values);
-            return true;
-        }
-
-
 
         private CobylaExitStatus cobyla()
         {
@@ -359,9 +277,11 @@ namespace Accord.Math.Optimization.Constrained
 
             // Local variables
 
-            int n = numberOfVariables;
+            int n = NumberOfVariables;
             int m = constraints.Length;
             int mpp = m + 2;
+
+            double[] x = Solution;
 
             const double alpha = 0.25;
             const double beta = 2.1;
@@ -397,7 +317,7 @@ namespace Accord.Math.Optimization.Constrained
 
             for (int i = 1; i <= n; ++i)
             {
-                sim[i, np] = x[i - 1];
+                sim[i, np] = Solution[i - 1];
                 sim[i, i] = rho;
                 simi[i, i] = temp;
             }

@@ -84,7 +84,7 @@ namespace Accord.Math.Optimization
         ///   Gets the type of the constraint.
         /// </summary>
         /// 
-        public ConstraintType ShouldBe { get; set; }
+        public ConstraintType ShouldBe { get; private set; }
 
         /// <summary>
         ///   Gets the value in the right hand

@@ -55,6 +55,28 @@
 namespace Accord.Math.Optimization
 {
     using System;
+    using System.ComponentModel;
+
+    public enum BroydenFletcherGoldfarbShannoCode
+    {
+        [Description("LBFGS_SUCCESS")]
+        Success,
+
+        [Description("LBFGSERR_MAXIMUMITERATION")]
+        MaximumIterations,
+
+        [Description("LBFGS_ALREADY_MINIMIZED")]
+        AlreadyMinimized,
+
+        [Description("LBFGSERR_ROUNDING_ERROR")]
+        RoundingError,
+
+        [Description("LBFGSERR_MAXIMUMLINESEARCH")]
+        MaximumLineSearch,
+
+        [Description("LBFGS_STOP")]
+        Stop
+    }
 
     /// <summary>
     ///   Line search algorithms.
@@ -210,11 +232,10 @@ namespace Accord.Math.Optimization
     /// </code>
     /// </example>
     /// 
-    public class BroydenFletcherGoldfarbShanno : IGradientOptimizationMethod
+    public class BroydenFletcherGoldfarbShanno : BaseGradientOptimizationMethod, IGradientOptimizationMethod
     {
 
         // parameters
-        private int n;
         private int m = 6;
         private double epsilon = 1e-5;
         private int past = 0;
@@ -232,19 +253,7 @@ namespace Accord.Math.Optimization
         private int orthantwise_start = 0;
         private int orthantwise_end = -1;
 
-        // outputs
-        private double[] x;
-        private double f;
-
-        public enum Code
-        {
-            Success,
-            MaximumIterations,
-            AlreadyMinimized,
-            RoundingError,
-            MaximumLineSearch,
-            Stop
-        }
+        
 
         #region Properties
 
@@ -268,7 +277,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value <= 0)
-                    throw exception("The number of corrections must be greater than zero.", "LBFGSERR_INVALID_M");
+                {
+                    throw ArgumentException("value",
+                        "The number of corrections must be greater than zero.", 
+                        "LBFGSERR_INVALID_M");
+                }
+
                 m = value;
             }
         }
@@ -293,7 +307,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Epsilon should be positive or zero.", "LBFGSERR_INVALID_EPSILON");
+                {
+                    throw ArgumentException("value", 
+                        "Epsilon should be positive or zero.", 
+                        "LBFGSERR_INVALID_EPSILON");
+                }
+
                 epsilon = value;
             }
         }
@@ -315,7 +334,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Past should be positive or zero.", "LBFGSERR_INVALID_TESTPERIOD");
+                {
+                    throw ArgumentException("value",
+                        "Past should be positive or zero.", 
+                        "LBFGSERR_INVALID_TESTPERIOD");
+                }
+
                 past = value;
             }
         }
@@ -344,7 +368,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Delta should be positive or zero.", "LBFGSERR_INVALID_DELTA");
+                {
+                    throw ArgumentException("value", 
+                        "Delta should be positive or zero.", 
+                        "LBFGSERR_INVALID_DELTA");
+                }
+
                 delta = value;
             }
         }
@@ -366,8 +395,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Maximum number of iterations must be positive or zero.",
+                {
+                    throw ArgumentException("value", 
+                        "Maximum number of iterations must be positive or zero.",
                        "LBFGSERR_MAXIMUMITERATION");
+                }
+
                 max_iterations = value;
             }
         }
@@ -387,7 +420,11 @@ namespace Accord.Math.Optimization
             set
             {
                 if (!Enum.IsDefined(typeof(LineSearch), value))
-                    throw exception("Invalid line-search method.", "LBFGSERR_INVALID_LINESEARCH");
+                {
+                    throw ArgumentException("value",
+                        "Invalid line-search method.", 
+                        "LBFGSERR_INVALID_LINESEARCH");
+                }
 
                 linesearch = value;
             }
@@ -408,7 +445,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value <= 0)
-                    throw exception("Maximum line searches must be greater than zero.", "LBFGSERR_INVALID_MAXLINESEARCH");
+                {
+                    throw ArgumentException("value",
+                        "Maximum line searches must be greater than zero.", 
+                        "LBFGSERR_INVALID_MAXLINESEARCH");
+                }
+
                 max_linesearch = value;
             }
         }
@@ -429,8 +471,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Minimum step must be greater than zero and less than the maximum step",
+                {
+                    throw ArgumentException("value",
+                        "Minimum step must be greater than zero and less than the maximum step",
                         "LBFGSERR_INVALID_MINSTEP");
+                }
+
                 min_step = value;
             }
         }
@@ -451,7 +497,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Maximum step must be greater than the minimum step", "LBFGSERR_INVALID_MAXSTEP");
+                {
+                    throw ArgumentException("value", 
+                        "Maximum step must be greater than the minimum step", 
+                        "LBFGSERR_INVALID_MAXSTEP");
+                }
+
                 max_step = value;
             }
         }
@@ -468,8 +519,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0 || value > 0.5)
-                    throw exception("Parameter tolerance must be greater than zero and smaller than 0.5.",
+                {
+                    throw ArgumentException("value",
+                        "Parameter tolerance must be greater than zero and smaller than 0.5.",
                         "LBFGSERR_INVALID_FTOL");
+                }
+
                 ftol = value;
             }
         }
@@ -492,7 +547,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (wolfe > 1.0)
-                    throw exception("Wolfe parameter must be smaller than 1.0.", "LBFGSERR_INVALID_WOLFE");
+                {
+                    throw ArgumentException("value",
+                        "Wolfe parameter must be smaller than 1.0.",
+                        "LBFGSERR_INVALID_WOLFE");
+                }
+
                 wolfe = value;
             }
         }
@@ -516,7 +576,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Gradient tolerance must be positive or zero.", "LBFGSERR_INVALID_GTOL");
+                {
+                    throw ArgumentException("value",
+                        "Gradient tolerance must be positive or zero.", 
+                        "LBFGSERR_INVALID_GTOL");
+                }
+
                 gtol = value;
             }
         }
@@ -538,7 +603,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Function tolerance must be positive or zero.", "LBFGSERR_INVALID_XTOL");
+                {
+                    throw ArgumentException("value",
+                        "Function tolerance must be positive or zero.",
+                        "LBFGSERR_INVALID_XTOL");
+                }
+
                 xtol = value;
             }
         }
@@ -566,7 +636,12 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value < 0)
-                    throw exception("Orthantwise C should be positive or zero.", "LBFGSERR_INVALID_ORTHANTWISE");
+                {
+                    throw ArgumentException("value",
+                        "Orthantwise C should be positive or zero.",
+                        "LBFGSERR_INVALID_ORTHANTWISE");
+                }
+
                 orthantwise_c = value;
             }
         }
@@ -595,9 +670,13 @@ namespace Accord.Math.Optimization
             get { return orthantwise_start; }
             set
             {
-                if (value < 0 || value > n)
-                    throw exception("Value must be between 0 and the number of variables in the problem.",
+                if (value < 0 || value > NumberOfVariables)
+                {
+                    throw ArgumentException("value",
+                        "Value must be between 0 and the number of variables in the problem.",
                         "LBFGSERR_INVALID_ORTHANTWISE_START");
+                }
+
                 orthantwise_start = value;
             }
         }
@@ -619,12 +698,15 @@ namespace Accord.Math.Optimization
             get { return orthantwise_end; }
             set
             {
-                if (value > n)
-                    throw exception("Value must be between 0 and the number of variables in the problem.",
+                if (value > NumberOfVariables)
+                {
+                    throw ArgumentException("value",
+                        "Value must be between 0 and the number of variables in the problem.",
                         "LBFGSERR_INVALID_ORTHANTWISE_END");
+                }
 
                 if (value < 0)
-                    value = n;
+                    value = NumberOfVariables;
 
                 orthantwise_end = value;
             }
@@ -636,59 +718,9 @@ namespace Accord.Math.Optimization
         /// 
         public event EventHandler<OptimizationProgressEventArgs> Progress;
 
-        /// <summary>
-        ///   Gets or sets the function to be optimized.
-        /// </summary>
-        /// 
-        /// <value>The function to be optimized.</value>
-        /// 
-        public Func<double[], double> Function { get; set; }
 
-        /// <summary>
-        ///   Gets or sets a function returning the gradient
-        ///   vector of the function to be optimized for a
-        ///   given value of its free parameters.
-        /// </summary>
-        /// 
-        /// <value>The gradient function.</value>
-        /// 
-        public Func<double[], double[]> Gradient { get; set; }
-
-
-
-        /// <summary>
-        ///   Gets the number of variables (free parameters)
-        ///   in the optimization problem.
-        /// </summary>
-        /// 
-        /// <value>The number of parameters.</value>
-        /// 
-        public int Parameters
-        {
-            get { return n; }
-        }
-
-        /// <summary>
-        ///   Gets the solution found, the values of the
-        ///   parameters which optimizes the function.
-        /// </summary>
-        /// 
-        public double[] Solution
-        {
-            get { return x; }
-        }
-
-        public Code Status { get; set; }
-
-        /// <summary>
-        ///   Gets the output of the function at the current solution.
-        /// </summary>
-        /// 
-        public double Value
-        {
-            get { return f; }
-        }
-
+        public BroydenFletcherGoldfarbShannoCode Status { get; set; }
+        
         #endregion
 
         #region Constructors
@@ -700,14 +732,9 @@ namespace Accord.Math.Optimization
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
         /// 
         public BroydenFletcherGoldfarbShanno(int numberOfVariables)
+            : base(numberOfVariables)
         {
-            if (numberOfVariables <= 0)
-                throw new ArgumentOutOfRangeException("numberOfVariables");
-
-            this.n = numberOfVariables;
-            x = new double[numberOfVariables];
-
-            orthantwise_end = n;
+            orthantwise_end = numberOfVariables;
         }
 
         /// <summary>
@@ -731,51 +758,13 @@ namespace Accord.Math.Optimization
         /// 
         public BroydenFletcherGoldfarbShanno(int numberOfVariables,
             Func<double[], double> function, Func<double[], double[]> gradient)
-            : this(numberOfVariables)
+            : base(numberOfVariables, function, gradient)
         {
-            if (function == null)
-                throw new ArgumentNullException("function");
-
-            if (gradient == null)
-                throw new ArgumentNullException("gradient");
-
-            this.Function = function;
-            this.Gradient = gradient;
         }
 
         #endregion
 
-        /// <summary>
-        ///   Minimizes the defined function. 
-        /// </summary>
-        /// 
-        /// <returns>The minimum value found at the <see cref="Solution"/>.</returns>
-        /// 
-        public double Minimize()
-        {
-            return Minimize(Solution);
-        }
-
-        /// <summary>
-        ///   Finds the minimum value of a function, without throwing exceptions.
-        ///   The solution vector will be made available at the <see cref="Solution"/>
-        ///   property.
-        /// </summary>
-        /// 
-        /// <param name="values">The initial guess values for the parameters.
-        ///   If the algorithm converges, this vector will contain the best
-        ///   solution found during optimization.</param>
-        ///   
-        /// <returns>
-        ///   True, if the solution converged within the selected tolerance
-        ///   value, false otherwise.
-        /// </returns>
-        /// 
-        public bool TryMinimize(double[] values)
-        {
-            Minimize(values);
-            return true;
-        }
+       
 
         /// <summary>
         ///   Minimizes the defined function. 
@@ -785,33 +774,18 @@ namespace Accord.Math.Optimization
         /// 
         /// <returns>The minimum value found at the <see cref="Solution"/>.</returns>
         /// 
-        public double Minimize(double[] values)
+        protected override bool Optimize()
         {
-            if (values == null)
-                throw new ArgumentNullException("values");
-
-            if (values.Length != n)
-                throw new DimensionMismatchException("values");
-
-            if (Function == null)
-                throw new InvalidOperationException("function");
-
-            if (Gradient == null)
-                throw new InvalidOperationException("gradient");
-
-            NonlinearObjectiveFunction.CheckGradient(Gradient, values);
-
             if (LineSearch == Optimization.LineSearch.RegularWolfe ||
                 LineSearch == Optimization.LineSearch.StrongWolfe)
             {
                 if (wolfe <= ftol || 1.0 <= wolfe)
-                    throw operationException("Wolfe tolerance must be between ftol and 1.",
-                        "LBFGSERR_INVALID_WOLFE");
+                    throw OperationException("Wolfe tolerance must be between ftol and 1.", "LBFGSERR_INVALID_WOLFE");
             }
 
             if (OrthantwiseC != 0.0 && linesearch != Optimization.LineSearch.RegularWolfe)
             {
-                throw operationException("Orthant-wise updates are only available with RegularWolfe line search.",
+                throw OperationException("Orthant-wise updates are only available with RegularWolfe line search.",
                     "LBFGSERR_INVALID_LINESEARCH");
             }
 
@@ -835,48 +809,27 @@ namespace Accord.Math.Optimization
                 orthantwise_end = orthantwise_end,
             };
 
-            int ret = LBFGS.main(values, Function, Gradient, Progress, param);
+            int ret = LBFGS.main(Solution, Function, Gradient, Progress, param);
 
-            Status = Code.Success;
+            Status = BroydenFletcherGoldfarbShannoCode.Success;
 
             if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_MAXIMUMITERATION)
-                Status = Code.MaximumIterations;
+                Status = BroydenFletcherGoldfarbShannoCode.MaximumIterations;
             else if ((LBFGS.Code)ret == LBFGS.Code.LBFGS_ALREADY_MINIMIZED)
-                Status = Code.AlreadyMinimized;
+                Status = BroydenFletcherGoldfarbShannoCode.AlreadyMinimized;
             else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_ROUNDING_ERROR)
-                Status = Code.RoundingError;
+                Status = BroydenFletcherGoldfarbShannoCode.RoundingError;
             else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_MAXIMUMLINESEARCH)
-                Status = Code.MaximumLineSearch;
+                Status = BroydenFletcherGoldfarbShannoCode.MaximumLineSearch;
             else if ((LBFGS.Code)ret == LBFGS.Code.LBFGS_STOP)
-                Status = Code.Stop;
+                Status = BroydenFletcherGoldfarbShannoCode.Stop;
             else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_INVALIDPARAMETERS)
-                throw operationException("Negative line search occurred.", "LBFGSERR_INVALIDPARAMETERS");
+                throw OperationException("Negative line search occurred.", "LBFGSERR_INVALIDPARAMETERS");
 
-
-            for (int i = 0; i < values.Length; i++)
-                x[i] = values[i];
-
-            return Function(values);
+            return Status == BroydenFletcherGoldfarbShannoCode.Success ||
+                   Status == BroydenFletcherGoldfarbShannoCode.AlreadyMinimized;
         }
 
 
-
-        private static ArgumentOutOfRangeException exception(string message, string code,
-            string paramName = null)
-        {
-            if (paramName == null)
-                paramName = "value";
-
-            var e = new ArgumentOutOfRangeException(paramName, message);
-            e.Data["Code"] = code;
-            return e;
-        }
-
-        private static InvalidOperationException operationException(string message, string code)
-        {
-            var e = new InvalidOperationException(message);
-            e.Data["Code"] = code;
-            return e;
-        }
     }
 }

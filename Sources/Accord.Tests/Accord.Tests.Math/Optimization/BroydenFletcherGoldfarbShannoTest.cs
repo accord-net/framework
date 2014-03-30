@@ -63,7 +63,11 @@ namespace Accord.Tests.Math
             var lbfgs = new BroydenFletcherGoldfarbShanno(n, f, g);
 
             double expected = 0;
-            double actual = lbfgs.Minimize(initial);
+            Assert.IsTrue(lbfgs.Minimize(initial));
+
+            bool success = lbfgs.Minimize();
+            double actual = lbfgs.Value;
+            Assert.IsTrue(success);
 
             Assert.AreEqual(expected, actual, 1e-10);
 
@@ -115,7 +119,8 @@ namespace Accord.Tests.Math
             var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2, function: f, gradient: g);
 
             // And then minimize the function:
-            double minValue = lbfgs.Minimize();
+            Assert.IsTrue(lbfgs.Minimize());
+            double minValue = lbfgs.Value;
             double[] solution = lbfgs.Solution;
 
             // The resultant minimum value should be -2, and the solution
@@ -170,7 +175,7 @@ namespace Accord.Tests.Math
         {
             BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2);
 
-            double minimum = target.Minimize();
+            target.Minimize();
         }
 
         [TestMethod]
@@ -182,7 +187,7 @@ namespace Accord.Tests.Math
                 Function = (x) => 0.0
             };
 
-            double minimum = target.Minimize();
+            target.Minimize();
         }
 
         [TestMethod]
@@ -195,7 +200,7 @@ namespace Accord.Tests.Math
                 Gradient = (x) => new double[1]
             };
 
-            double minimum = target.Minimize();
+            target.Minimize();
         }
 
         [TestMethod]
@@ -208,7 +213,7 @@ namespace Accord.Tests.Math
                 Gradient = (x) => x
             };
 
-            double minimum = target.Minimize();
+            target.Minimize();
         }
 
         [TestMethod]
@@ -225,7 +230,8 @@ namespace Accord.Tests.Math
                 Gradient = gradient
             };
 
-            double minimum = target.Minimize();
+            Assert.IsTrue(target.Minimize());
+            double minimum = target.Value;
 
             double[] solution = target.Solution;
 
@@ -251,7 +257,8 @@ namespace Accord.Tests.Math
             BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2,
                 function.Invoke, gradient.Invoke);
 
-            double minimum = target.Minimize();
+            Assert.IsTrue(target.Minimize());
+            double minimum = target.Value;
 
             double[] solution = target.Solution;
 
@@ -281,7 +288,8 @@ namespace Accord.Tests.Math
 
                 var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2, function: f, gradient: g);
 
-                double minValue = lbfgs.Minimize(start);
+                lbfgs.Minimize(start);
+                double minValue = lbfgs.Value;
                 double[] solution = lbfgs.Solution;
 
                 double expected = -2;

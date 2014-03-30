@@ -91,7 +91,7 @@ namespace Accord.Math.Optimization
         /// 
         /// <value>The number of parameters.</value>
         /// 
-        int Parameters { get; }
+        int NumberOfVariables { get; }
 
         /// <summary>
         ///   Attempts to find the best values for the parameter vector

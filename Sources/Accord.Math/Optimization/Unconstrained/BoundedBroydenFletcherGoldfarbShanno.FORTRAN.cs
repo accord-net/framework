@@ -57,7 +57,7 @@
 
 namespace Accord.Math.Optimization
 {
-    internal static class Active
+    partial class BoundedBroydenFletcherGoldfarbShanno
     {
 
         // 
@@ -189,10 +189,7 @@ namespace Accord.Math.Optimization
                 // DISPLAY: 'At X0 ',i9,' variables are exactly at the bounds'" (nbdd)
             }
         }
-    }
 
-    internal static class Dtrsl
-    {
 
         // 
         // c====================== The end of dpofa ===============================
@@ -325,7 +322,7 @@ namespace Accord.Math.Optimization
                 for (j = 2; j <= n; j++)
                 {
                     temp = (-(b[((j - 1) - (1)) + _b_offset]));
-                    Daxpy.daxpy(((n - j) + 1), temp, t, (j - (1)) + ((j - 1)
+                    daxpy(((n - j) + 1), temp, t, (j - (1)) + ((j - 1)
                         - (1)) * (ldt) + _t_offset, 1, b, (j - (1)) + _b_offset, 1);
                     b[(j - (1)) + _b_offset] = (b[(j - (1)) + _b_offset] / t[(j - (1))
                         + (j - (1)) * (ldt) + _t_offset]);
@@ -351,7 +348,7 @@ namespace Accord.Math.Optimization
                 {
                     j = ((n - jj) + 1);
                     temp = (-(b[((j + 1) - (1)) + _b_offset]));
-                    Daxpy.daxpy(j, temp,
+                    daxpy(j, temp,
                         t, (1 - (1)) + ((j + 1) - (1)) * (ldt) + _t_offset, 1,
                         b, (1 - (1)) + _b_offset, 1);
 
@@ -378,7 +375,7 @@ namespace Accord.Math.Optimization
                 {
                     j = ((n - jj) + 1);
                     b[(j - (1)) + _b_offset] = (b[(j - (1)) + _b_offset]
-                        - Ddot.ddot((jj - 1), t, ((j + 1) - (1)) + (j - (1)) * (ldt) + _t_offset,
+                        - ddot((jj - 1), t, ((j + 1) - (1)) + (j - (1)) * (ldt) + _t_offset,
                         1, b, ((j + 1) - (1)) + _b_offset, 1));
 
                     b[(j - (1)) + _b_offset] = (b[(j - (1)) + _b_offset] / t[(j - (1))
@@ -403,7 +400,7 @@ namespace Accord.Math.Optimization
                 for (j = 2; j <= n; j++)
                 {
                     b[(j - (1)) + _b_offset] = (b[(j - (1)) + _b_offset]
-                        - Ddot.ddot((j - 1), t, (1 - (1)) + (j - (1)) * (ldt) + _t_offset,
+                        - ddot((j - 1), t, (1 - (1)) + (j - (1)) * (ldt) + _t_offset,
                         1, b, (1 - (1)) + _b_offset, 1));
 
                     b[(j - (1)) + _b_offset] = (b[(j - (1)) + _b_offset]
@@ -411,10 +408,6 @@ namespace Accord.Math.Optimization
                 }
             }
         }
-    }
-
-    internal static class Bmv
-    {
 
         // 
         // c======================= The end of active =============================
@@ -465,7 +458,7 @@ namespace Accord.Math.Optimization
         // c
         // c     Subprograms called:
         // c
-        // c       Linpack ... dtrsl.
+        // c       Linpack ... 
         // c
         // c
         // c                           *  *  *
@@ -481,7 +474,6 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-
         public static void bmv(int m, double[] sy, int _sy_offset, double[] wt, int _wt_offset,
             int col, double[] v, int _v_offset, double[] p, int _p_offset, ref int info)
         {
@@ -520,7 +512,7 @@ namespace Accord.Math.Optimization
             }
 
             // Solve the triangular system
-            Dtrsl.dtrsl(wt, _wt_offset, m, col, p,
+            dtrsl(wt, _wt_offset, m, col, p,
                 ((col + 1) - (1)) + _p_offset, 11, ref info);
 
             if ((info != 0))
@@ -542,7 +534,7 @@ namespace Accord.Math.Optimization
             // 
             //    solve J^Tp2=p2. 
             //
-            Dtrsl.dtrsl(wt, _wt_offset, m, col,
+            dtrsl(wt, _wt_offset, m, col,
                 p, ((col + 1) - (1)) + _p_offset, 01, ref info);
 
             if ((info != 0))
@@ -574,10 +566,6 @@ namespace Accord.Math.Optimization
                 }
             }
         }
-    }
-
-    internal static class Cauchy
-    {
 
         // 
         // c======================== The end of bmv ===============================
@@ -735,7 +723,7 @@ namespace Accord.Math.Optimization
         // c 
         // c       L-BFGS-B Library ... hpsolb, bmv.
         // c
-        // c       Linpack ... dscal dcopy, daxpy.
+        // c       Linpack ... dscal dcopy, 
         // c
         // c
         // c     References:
@@ -770,7 +758,6 @@ namespace Accord.Math.Optimization
         // c       compute the Cauchy direction d and the breakpoints t; initialize
         // c       the derivative f1 and the vector p = W'd (for theta = 1).
         // 
-
         public static void cauchy(int n, double[] x, int _x_offset, double[] l, int _l_offset,
             double[] u, int _u_offset, int[] nbd, int _nbd_offset, double[] g, int _g_offset,
             int[] iorder, int _iorder_offset, int[] iwhere, int _iwhere_offset, double[] t, int _t_offset,
@@ -809,7 +796,6 @@ namespace Accord.Math.Optimization
             double wmc = 0.0d;
             double wmp = 0.0d;
             double wmw = 0.0d;
-            double ddot = 0.0d;
             double tj = 0.0d;
             double tj0 = 0.0d;
             double neggi = 0.0d;
@@ -822,7 +808,7 @@ namespace Accord.Math.Optimization
                     // DISPLAY: Subgnorm = 0.  GCP = X.
                 }
 
-                Dcopy.dcopy(n, x, _x_offset, 1, xcp, _xcp_offset, 1);
+                dcopy(n, x, _x_offset, 1, xcp, _xcp_offset, 1);
                 return;
             }
 
@@ -968,13 +954,13 @@ namespace Accord.Math.Optimization
             if ((theta != 1.0))
             {
                 // complete the initialization of p for theta not= one.
-                Dscal.dscal(col, theta, p, ((col + 1) - (1)) + _p_offset, 1);
+                dscal(col, theta, p, ((col + 1) - (1)) + _p_offset, 1);
             }
 
             // 
             // c     Initialize GCP xcp = x.
             // 
-            Dcopy.dcopy(n, x, _x_offset, 1, xcp, _xcp_offset, 1);
+            dcopy(n, x, _x_offset, 1, xcp, _xcp_offset, 1);
 
             if (((nbreak == 0) && (nfree == (n + 1))))
             {
@@ -999,7 +985,7 @@ namespace Accord.Math.Optimization
             f2_org = f2;
             if ((col > 0))
             {
-                Bmv.bmv(m, sy, _sy_offset, wt, _wt_offset,
+                bmv(m, sy, _sy_offset, wt, _wt_offset,
                     col, p, _p_offset, v, _v_offset, ref info);
 
                 if ((info != 0))
@@ -1007,7 +993,7 @@ namespace Accord.Math.Optimization
                     return;
                 }
 
-                f2 = (f2 - Ddot.ddot(col2, v, _v_offset, 1, p, _p_offset, 1));
+                f2 = (f2 - BoundedBroydenFletcherGoldfarbShanno.ddot(col2, v, _v_offset, 1, p, _p_offset, 1));
             }
 
             dtm = (-((f1 / f2)));
@@ -1062,7 +1048,7 @@ namespace Accord.Math.Optimization
                     // Update heap structure of breakpoints
                     //   (if iter=2, initialize heap).
                 }
-                Hpsolb.hpsolb(nleft, t, _t_offset, iorder, _iorder_offset, (iter - 2));
+                hpsolb(nleft, t, _t_offset, iorder, _iorder_offset, (iter - 2));
                 tj = t[(nleft - (1)) + _t_offset];
                 ibp = iorder[(nleft - (1)) + _iorder_offset];
             }
@@ -1140,7 +1126,7 @@ namespace Accord.Math.Optimization
             if ((col > 0))
             {
                 // update c = c + dt*p.
-                Daxpy.daxpy(col2, dt, p, _p_offset, 1, c, _c_offset, 1);
+                daxpy(col2, dt, p, _p_offset, 1, c, _c_offset, 1);
 
                 // choose wbp,
                 // the row of W corresponding to the breakpoint encountered.
@@ -1159,7 +1145,7 @@ namespace Accord.Math.Optimization
                 }
 
                 // compute (wbp)Mc, (wbp)Mp, and (wbp)M(wbp)'.
-                Bmv.bmv(m, sy, _sy_offset, wt, _wt_offset, col, wbp,
+                bmv(m, sy, _sy_offset, wt, _wt_offset, col, wbp,
                     _wbp_offset, v, _v_offset, ref info);
 
                 if ((info != 0))
@@ -1167,12 +1153,12 @@ namespace Accord.Math.Optimization
                     return;
                 }
 
-                wmc = Ddot.ddot(col2, c, _c_offset, 1, v, _v_offset, 1);
-                wmp = Ddot.ddot(col2, p, _p_offset, 1, v, _v_offset, 1);
-                wmw = Ddot.ddot(col2, wbp, _wbp_offset, 1, v, _v_offset, 1);
+                wmc = ddot(col2, c, _c_offset, 1, v, _v_offset, 1);
+                wmp = ddot(col2, p, _p_offset, 1, v, _v_offset, 1);
+                wmw = ddot(col2, wbp, _wbp_offset, 1, v, _v_offset, 1);
 
                 // update p = p - dibp*wbp. 
-                Daxpy.daxpy(col2, (-(dibp)), wbp, _wbp_offset, 1, p, _p_offset, 1);
+                daxpy(col2, (-(dibp)), wbp, _wbp_offset, 1, p, _p_offset, 1);
 
                 // complete updating f1 and f2 while col > 0.
                 f1 = (f1 + (dibp * wmc));
@@ -1223,7 +1209,7 @@ namespace Accord.Math.Optimization
             // Move free variables (i.e., the ones w/o breakpoints) and 
             //   the variables whose breakpoints haven't been reached.
             // 
-            Daxpy.daxpy(n, tsum, d, _d_offset, 1, xcp, _xcp_offset, 1);
+            daxpy(n, tsum, d, _d_offset, 1, xcp, _xcp_offset, 1);
         // 
         L999:
             // 
@@ -1232,7 +1218,7 @@ namespace Accord.Math.Optimization
             // 
             if ((col > 0))
             {
-                Daxpy.daxpy(col2, dtm, p, _p_offset, 1, c, _c_offset, 1);
+                daxpy(col2, dtm, p, _p_offset, 1, c, _c_offset, 1);
             }
 
             
@@ -1251,10 +1237,6 @@ namespace Accord.Math.Optimization
             }
 
         }
-    }
-
-    internal static class Cmprlb
-    {
 
         // 
         // c====================== The end of cauchy ==============================
@@ -1286,7 +1268,6 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-
         public static void cmprlb(int n, int m, double[] x, int _x_offset, double[] g, int _g_offset, double[] ws, int _ws_offset, double[] wy, int _wy_offset, double[] sy, int _sy_offset,
         double[] wt, int _wt_offset, double[] z, int _z_offset, double[] r, int _r_offset,
         double[] wa, int _wa_offset, int[] index, int _index_offset, double theta,
@@ -1320,7 +1301,7 @@ namespace Accord.Math.Optimization
                     }
                 }
 
-                Bmv.bmv(m, sy, _sy_offset, wt, _wt_offset, col, wa,
+                bmv(m, sy, _sy_offset, wt, _wt_offset, col, wa,
                     (((2 * m) + 1) - (1)) + _wa_offset, wa, (1 - (1)) + _wa_offset, ref info);
 
                 if ((info != 0))
@@ -1351,10 +1332,6 @@ namespace Accord.Math.Optimization
                 }
             }
         }
-    }
-
-    internal static class Dcsrch
-    {
 
         // c====================== The end of subsm ===============================
         // 
@@ -1494,7 +1471,6 @@ namespace Accord.Math.Optimization
         // 
         // c     Initialization block.
         // 
-
         public static void dcsrch(double f, double g, ref double stp, double ftol,
         double gtol, double xtol, double stpmin, double stpmax, ref string task,
         int[] isave, int _isave_offset, double[] dsave, int _dsave_offset)
@@ -1693,7 +1669,7 @@ namespace Accord.Math.Optimization
                 // 
                 // Call dcstep to update stx, sty, and to compute the new step.
                 // 
-                Dcstep.dcstep(ref stx, ref fxm, ref gxm, ref sty, ref fym, ref gym,
+                dcstep(ref stx, ref fxm, ref gxm, ref sty, ref fym, ref gym,
                     ref stp, fm, gm, ref brackt, stmin, stmax);
 
                 // 
@@ -1710,7 +1686,7 @@ namespace Accord.Math.Optimization
                 // 
                 // Call dcstep to update stx, sty, and to compute the new step.
                 // 
-                Dcstep.dcstep(ref stx, ref fx, ref gx, ref sty, ref fy, ref gy,
+                dcstep(ref stx, ref fx, ref gx, ref sty, ref fy, ref gy,
                     ref stp, f, g, ref brackt, stmin, stmax);
             }
 
@@ -1788,10 +1764,6 @@ namespace Accord.Math.Optimization
             dsave[(12 - (1)) + _dsave_offset] = width;
             dsave[(13 - (1)) + _dsave_offset] = width1;
         }
-    }
-
-    internal static class Dcstep
-    {
 
         // 
         // c====================== The end of dcsrch ==============================
@@ -1891,7 +1863,6 @@ namespace Accord.Math.Optimization
         // c     **********
         // 
         // 
-
         public static void dcstep(ref double stx, ref double fx, ref double dx,
             ref double sty, ref double fy, ref double dy, ref double stp,
             double fp, double dp, ref bool brackt, double stpmin, double stpmax)
@@ -2135,10 +2106,6 @@ namespace Accord.Math.Optimization
             // 
             stp = stpf;
         }
-    }
-
-    internal static class Errclb
-    {
 
         // 
         // c======================= The end of cmprlb =============================
@@ -2167,7 +2134,6 @@ namespace Accord.Math.Optimization
         // 
         // c     Check the input arguments for errors.
         // 
-
         public static void errclb(int n, int m, double factr,
             double[] l, int _l_offset, double[] u, int _u_offset,
             int[] nbd, int _nbd_offset, ref string task, ref int info, ref int k)
@@ -2214,10 +2180,6 @@ namespace Accord.Math.Optimization
             }
 
         }
-    }
-
-    internal static class Formk
-    {
 
         // 
         // c======================= The end of errclb =============================
@@ -2321,7 +2283,7 @@ namespace Accord.Math.Optimization
         // c
         // c     Subprograms called:
         // c
-        // c       Linpack ... dcopy, dpofa, dtrsl.
+        // c       Linpack ... dcopy, dpofa, 
         // c
         // c
         // c     References:
@@ -2357,7 +2319,6 @@ namespace Accord.Math.Optimization
         // c        where L_a is the strictly lower triangular part of S'AA'Y
         // c              R_z is the upper triangular part of S'ZZ'Y.
         // 
-
         public static void formk(int n, int nsub, int[] ind, int _ind_offset,
             int nenter, int ileave, int[] indx2, int _indx2_offset,
             int iupdat, bool updatd, double[] wn, int _wn_offset, double[] wn1, int _wn1_offset,
@@ -2384,7 +2345,6 @@ namespace Accord.Math.Optimization
             int dbegin = 0;
             int dend = 0;
             int upcl = 0;
-            double ddot = 0.0d;
             double temp1 = 0.0d;
             double temp2 = 0.0d;
             double temp3 = 0.0d;
@@ -2399,11 +2359,11 @@ namespace Accord.Math.Optimization
                         for (jy = 1; jy <= (m - 1); jy++)
                         {
                             js = (m + jy);
-                            Dcopy.dcopy((m - jy), wn1, ((jy + 1) - (1)) + ((jy + 1) - (1)) * ((2 * m))
+                            dcopy((m - jy), wn1, ((jy + 1) - (1)) + ((jy + 1) - (1)) * ((2 * m))
                                 + _wn1_offset, 1, wn1, (jy - (1)) + (jy - (1)) * ((2 * m)) + _wn1_offset, 1);
-                            Dcopy.dcopy((m - jy), wn1, ((js + 1) - (1)) + ((js + 1) - (1)) * ((2 * m))
+                            dcopy((m - jy), wn1, ((js + 1) - (1)) + ((js + 1) - (1)) * ((2 * m))
                                 + _wn1_offset, 1, wn1, (js - (1)) + (js - (1)) * ((2 * m)) + _wn1_offset, 1);
-                            Dcopy.dcopy((m - 1), wn1, ((m + 2) - (1)) + ((jy + 1) - (1)) * ((2 * m))
+                            dcopy((m - 1), wn1, ((m + 2) - (1)) + ((jy + 1) - (1)) * ((2 * m))
                                 + _wn1_offset, 1, wn1, ((m + 1) - (1)) + (jy - (1)) * ((2 * m)) + _wn1_offset, 1);
                         }
                     }
@@ -2637,7 +2597,7 @@ namespace Accord.Math.Optimization
             // 
             // c        first Cholesky factor (1,1) block of wn to get LL'
             // c                          with L' stored in the upper triangle of wn.
-            Dpofa.dpofa(wn, _wn_offset, m2, col, ref info);
+            dpofa(wn, _wn_offset, m2, col, ref info);
 
             if ((info != 0))
             {
@@ -2650,7 +2610,7 @@ namespace Accord.Math.Optimization
             {
                 for (js = (col + 1); js <= col2; js++)
                 {
-                    Dtrsl.dtrsl(wn, _wn_offset, m2, col, wn, (1 - (1))
+                    dtrsl(wn, _wn_offset, m2, col, wn, (1 - (1))
                         + (js - (1)) * ((2 * m)) + _wn_offset, 11, ref info);
                 }
             }
@@ -2668,7 +2628,7 @@ namespace Accord.Math.Optimization
                         {
                             wn[(is2 - (1)) + (js - (1)) * ((2 * m)) + _wn_offset] =
                                 (wn[(is2 - (1)) + (js - (1)) * ((2 * m)) + _wn_offset]
-                                + Ddot.ddot(col, wn, (1 - (1)) + (is2 - (1)) * ((2 * m))
+                                + ddot(col, wn, (1 - (1)) + (is2 - (1)) * ((2 * m))
                                 + _wn_offset, 1, wn, (1 - (1)) + (js - (1)) * ((2 * m)) + _wn_offset, 1));
                         }
                     }
@@ -2678,7 +2638,7 @@ namespace Accord.Math.Optimization
             // 
             // c     Cholesky factorization of (2,2) block of wn.
             // 
-            Dpofa.dpofa(wn, ((col + 1) - (1)) + ((col + 1) - (1))
+            dpofa(wn, ((col + 1) - (1)) + ((col + 1) - (1))
                 * ((2 * m)) + _wn_offset, m2, col, ref info);
 
             if ((info != 0))
@@ -2688,10 +2648,6 @@ namespace Accord.Math.Optimization
             }
 
         }
-    }
-
-    internal static class Formt
-    {
 
         // 
         // c======================= The end of formk ==============================
@@ -2731,7 +2687,6 @@ namespace Accord.Math.Optimization
         // c     Form the upper half of  T = theta*SS + L*D^(-1)*L',
         // c        store T in the upper triangle of the array wt.
         // 
-
         public static void formt(int m,
             double[] wt, int _wt_offset,
             double[] sy, int _sy_offset,
@@ -2782,17 +2737,13 @@ namespace Accord.Math.Optimization
             // c     Cholesky factorize T to J*J' with 
             // c        J' stored in the upper triangle of wt.
             // 
-            Dpofa.dpofa(wt, _wt_offset, m, col, ref info);
+            dpofa(wt, _wt_offset, m, col, ref info);
 
             if ((info != 0))
             {
                 info = -3;
             }
         }
-    }
-
-    internal static class Freev
-    {
 
         // 
         // c======================= The end of formt ==============================
@@ -2838,7 +2789,6 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-
         public static void freev(int n, ref int nfree,
             int[] index, int _index_offset, ref int nenter, ref int ileave,
             int[] indx2, int _indx2_offset, int[] iwhere, int _iwhere_offset,
@@ -2929,10 +2879,6 @@ namespace Accord.Math.Optimization
                 // DISPLAY: nfree + " variables are free at GCP " + (iter + 1))
             }
         }
-    }
-
-    internal static class Hpsolb
-    {
 
         // 
         // c======================= The end of freev ==============================
@@ -2983,7 +2929,6 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-
         public static void hpsolb(int n, double[] t, int _t_offset,
         int[] iorder, int _iorder_offset, int iheap)
         {
@@ -3068,10 +3013,6 @@ namespace Accord.Math.Optimization
                 iorder[(n - (1)) + _iorder_offset] = indxou;
             }
         }
-    }
-
-    internal static class Lnsrlb
-    {
 
         // 
         // c====================== The end of hpsolb ==============================
@@ -3090,7 +3031,7 @@ namespace Accord.Math.Optimization
         // c
         // c       Minpack2 Library ... dcsrch.
         // c
-        // c       Linpack ... dtrsl, ddot.
+        // c       Linpack ... dtrsl, 
         // c
         // c
         // c                           *  *  *
@@ -3106,7 +3047,6 @@ namespace Accord.Math.Optimization
         // c     **********
         // 
         // 
-
         public static void lnsrlb(int n, double[] l, int _l_offset, double[] u, int _u_offset,
             int[] nbd, int _nbd_offset, double[] x, int _x_offset, double f, ref double fold, ref double gd,
             ref double gdold, double[] g, int _g_offset, double[] d, int _d_offset, double[] r, int _r_offset,
@@ -3118,7 +3058,6 @@ namespace Accord.Math.Optimization
         {
 
             int i = 0;
-            double ddot = 0.0d;
             double a1 = 0.0d;
             double a2 = 0.0d;
 
@@ -3128,7 +3067,7 @@ namespace Accord.Math.Optimization
             }
 
             // 
-            dtd = Ddot.ddot(n, d, _d_offset, 1, d, _d_offset, 1);
+            dtd = ddot(n, d, _d_offset, 1, d, _d_offset, 1);
             dnorm = System.Math.Sqrt(dtd);
             // 
             // c     Determine the maximum step length.
@@ -3192,8 +3131,8 @@ namespace Accord.Math.Optimization
             }
 
             // 
-            Dcopy.dcopy(n, x, _x_offset, 1, t, _t_offset, 1);
-            Dcopy.dcopy(n, g, _g_offset, 1, r, _r_offset, 1);
+            dcopy(n, x, _x_offset, 1, t, _t_offset, 1);
+            dcopy(n, g, _g_offset, 1, r, _r_offset, 1);
 
             fold = f;
             ifun = 0;
@@ -3201,7 +3140,7 @@ namespace Accord.Math.Optimization
             csave = "START";
 
         L556:
-            gd = Ddot.ddot(n, g, _g_offset, 1, d, _d_offset, 1);
+            gd = BoundedBroydenFletcherGoldfarbShanno.ddot(n, g, _g_offset, 1, d, _d_offset, 1);
 
             if ((ifun == 0))
             {
@@ -3217,7 +3156,7 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            Dcsrch.dcsrch(f, gd, ref stp,
+            dcsrch(f, gd, ref stp,
                 0.001000000000000000020816681711721685132943,
                 0.9000000000000000222044604925031308084726,
                 0.1000000000000000055511151231257827021182, 0.0,
@@ -3234,7 +3173,7 @@ namespace Accord.Math.Optimization
                 iback = (ifun - 1);
                 if ((stp == 1.0))
                 {
-                    Dcopy.dcopy(n, z, _z_offset, 1, x, _x_offset, 1);
+                    dcopy(n, z, _z_offset, 1, x, _x_offset, 1);
                 }
                 else
                 {
@@ -3251,10 +3190,6 @@ namespace Accord.Math.Optimization
                 task = "NEW_X";
             }
         }
-    }
-
-    internal static class Mainlb
-    {
 
         // 
         // c======================= The end of setulb =============================
@@ -3413,7 +3348,7 @@ namespace Accord.Math.Optimization
         // c
         // c       Minpack2 Library ... timer
         // c
-        // c       Linpack Library ... dcopy, ddot.
+        // c       Linpack Library ... dcopy, 
         // c
         // c
         // c     References:
@@ -3448,7 +3383,6 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-
         public static void mainlb(int n,
             int m,
             double[] x, int _x_offset,
@@ -3510,7 +3444,6 @@ namespace Accord.Math.Optimization
             int nenter = 0;
             double theta = 0.0d;
             double fold = 0.0d;
-            double ddot = 0.0d;
             double dr = 0.0d;
             double rr = 0.0d;
             double tol = 0.0d;
@@ -3596,7 +3529,7 @@ namespace Accord.Math.Optimization
                 // 
                 // c        Check the input arguments for errors.
                 // 
-                Errclb.errclb(n, m, factr, l, _l_offset, u, _u_offset,
+                errclb(n, m, factr, l, _l_offset, u, _u_offset,
                     nbd, _nbd_offset, ref task, ref info, ref k);
 
                 if ((task.StartsWith("ERROR")))
@@ -3615,7 +3548,7 @@ namespace Accord.Math.Optimization
                 // 
                 // c        Initialize iwhere & project x onto the feasible set.
                 // 
-                Active.active(n, l, _l_offset, u, _u_offset, nbd, _nbd_offset, x,
+                active(n, l, _l_offset, u, _u_offset, nbd, _nbd_offset, x,
                     _x_offset, iwhere, _iwhere_offset, iprint, ref prjctd, ref cnstnd, ref boxed);
                 // 
                 // c        The end of the initialization.
@@ -3689,8 +3622,8 @@ namespace Accord.Math.Optimization
                     if ((task.Substring((7) - 1, 9).StartsWith("CPU")))
                     {
                         // c                                          restore the previous iterate.
-                        Dcopy.dcopy(n, t, _t_offset, 1, x, _x_offset, 1);
-                        Dcopy.dcopy(n, r, _r_offset, 1, g, _g_offset, 1);
+                        dcopy(n, t, _t_offset, 1, x, _x_offset, 1);
+                        dcopy(n, r, _r_offset, 1, g, _g_offset, 1);
                         f = fold;
                     }
                     goto L999;
@@ -3712,7 +3645,7 @@ namespace Accord.Math.Optimization
             // 
             // c     Compute the infinity norm of the (-) projected gradient.
             // 
-            Projgr.projgr(n, l, _l_offset, u, _u_offset, nbd, _nbd_offset,
+            projgr(n, l, _l_offset, u, _u_offset, nbd, _nbd_offset,
                 x, _x_offset, g, _g_offset, ref sbgnrm);
 
             if ((iprint >= 1))
@@ -3744,7 +3677,7 @@ namespace Accord.Math.Optimization
             if (((!cnstnd) && (col > 0)))
             {
                 // skip the search for GCP.
-                Dcopy.dcopy(n, x, _x_offset, 1, z, _z_offset, 1);
+                dcopy(n, x, _x_offset, 1, z, _z_offset, 1);
                 wrk = updatd;
                 nseg = 0;
                 goto L333;
@@ -3758,7 +3691,7 @@ namespace Accord.Math.Optimization
             // cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
             // 
 
-            Cauchy.cauchy(n, x, _x_offset, l, _l_offset, u, _u_offset, nbd, _nbd_offset,
+            cauchy(n, x, _x_offset, l, _l_offset, u, _u_offset, nbd, _nbd_offset,
                 g, _g_offset, indx2, _indx2_offset, iwhere, _iwhere_offset, t, _t_offset,
                 d, _d_offset, z, _z_offset, m, wy, _wy_offset, ws, _ws_offset, sy, _sy_offset,
                 wt, _wt_offset, theta, col, head, wa, (1 - (1)) + _wa_offset, wa,
@@ -3792,7 +3725,7 @@ namespace Accord.Math.Optimization
             // Count the entering and leaving variables for iter > 0; 
             // find the index set of free and active variables at the GCP.
             // 
-            Freev.freev(n, ref nfree, index, _index_offset, ref nenter, ref ileave, indx2, _indx2_offset,
+            freev(n, ref nfree, index, _index_offset, ref nenter, ref ileave, indx2, _indx2_offset,
                 iwhere, _iwhere_offset, ref wrk, updatd, cnstnd, iprint, iter);
 
             nact = (n - nfree);
@@ -3823,7 +3756,7 @@ namespace Accord.Math.Optimization
             // 
             if (wrk)
             {
-                Formk.formk(n, nfree, index, _index_offset, nenter,
+                formk(n, nfree, index, _index_offset, nenter,
                     ileave, indx2, _indx2_offset, iupdat, updatd, wn, _wn_offset,
                     snd, _snd_offset, m, ws, _ws_offset, wy, _wy_offset, sy, _sy_offset,
                     theta, col, head, ref info);
@@ -3853,7 +3786,7 @@ namespace Accord.Math.Optimization
             // 
             // compute r=-Z'B(xcp-xk)-Z'g   (using wa(2m+1)=W'(xcp-x) from 'cauchy')
             //
-            Cmprlb.cmprlb(n, m, x, _x_offset, g, _g_offset, ws, _ws_offset, wy, _wy_offset,
+            cmprlb(n, m, x, _x_offset, g, _g_offset, ws, _ws_offset, wy, _wy_offset,
                 sy, _sy_offset, wt, _wt_offset, z, _z_offset, r, _r_offset, wa, _wa_offset,
                 index, _index_offset, theta, col, head, nfree, cnstnd, ref info);
 
@@ -3865,7 +3798,7 @@ namespace Accord.Math.Optimization
             // 
             // c-jlm-jn   call the direct method. 
             // 
-            Subsm.subsm(n, m, nfree, index, _index_offset, l, _l_offset, u, _u_offset,
+            subsm(n, m, nfree, index, _index_offset, l, _l_offset, u, _u_offset,
                 nbd, _nbd_offset, z, _z_offset, r, _r_offset, xp, _xp_offset, ws, _ws_offset,
                 wy, _wy_offset, theta, x, _x_offset, g, _g_offset, col, head,
                 ref iword, wa, _wa_offset, wn, _wn_offset, iprint, ref info);
@@ -3912,7 +3845,7 @@ namespace Accord.Math.Optimization
 
 
         L666:
-            Lnsrlb.lnsrlb(n, l, _l_offset, u, _u_offset, nbd, _nbd_offset, x, _x_offset,
+            lnsrlb(n, l, _l_offset, u, _u_offset, nbd, _nbd_offset, x, _x_offset,
                 f, ref fold, ref gd, ref gdold, g, _g_offset, d, _d_offset, r, _r_offset, t, _t_offset,
                 z, _z_offset, ref stp, ref dnorm, ref dtd, ref xstep, ref stpmx, iter, ref ifun,
                 ref iback, ref nfgv, ref info, ref task, boxed, cnstnd, ref csave, isave,
@@ -3921,8 +3854,8 @@ namespace Accord.Math.Optimization
             if (((info != 0) || (iback >= 20)))
             {
                 // restore the previous iterate.
-                Dcopy.dcopy(n, t, _t_offset, 1, x, _x_offset, 1);
-                Dcopy.dcopy(n, r, _r_offset, 1, g, _g_offset, 1);
+                dcopy(n, t, _t_offset, 1, x, _x_offset, 1);
+                dcopy(n, r, _r_offset, 1, g, _g_offset, 1);
 
                 f = fold;
 
@@ -3981,7 +3914,7 @@ namespace Accord.Math.Optimization
                 // 
                 // Compute the infinity norm of the projected (-)gradient.
                 // 
-                Projgr.projgr(n, l, _l_offset, u, _u_offset, nbd, _nbd_offset,
+                projgr(n, l, _l_offset, u, _u_offset, nbd, _nbd_offset,
                     x, _x_offset, g, _g_offset, ref sbgnrm);
 
                 // 
@@ -4033,7 +3966,7 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            rr = Ddot.ddot(n, r, _r_offset, 1, r, _r_offset, 1);
+            rr = ddot(n, r, _r_offset, 1, r, _r_offset, 1);
 
             if ((stp == 1.0))
             {
@@ -4043,7 +3976,7 @@ namespace Accord.Math.Optimization
             else
             {
                 dr = (((gd - gdold)) * stp);
-                Dscal.dscal(n, stp, d, _d_offset, 1);
+                dscal(n, stp, d, _d_offset, 1);
                 ddum = (-((gdold * stp)));
             }
 
@@ -4076,7 +4009,7 @@ namespace Accord.Math.Optimization
             // 
             // c     Update matrices WS and WY and form the middle matrix in B.
             // 
-            Matupd.matupd(n, m, ws, _ws_offset, wy, _wy_offset, sy, _sy_offset,
+            matupd(n, m, ws, _ws_offset, wy, _wy_offset, sy, _sy_offset,
                 ss, _ss_offset, d, _d_offset, r, _r_offset, ref itail, iupdat, ref col,
                 ref head, ref theta, rr, dr, stp, dtd);
 
@@ -4086,7 +4019,7 @@ namespace Accord.Math.Optimization
             // c        Cholesky factorize T to J*J' with
             // c           J' stored in the upper triangular of wt.
             // 
-            Formt.formt(m, wt, _wt_offset, sy, _sy_offset, ss,
+            formt(m, wt, _wt_offset, sy, _sy_offset, ss,
                 _ss_offset, col, theta, ref info);
 
             // 
@@ -4177,10 +4110,6 @@ namespace Accord.Math.Optimization
 
             return;
         }
-    }
-
-    internal static class Matupd
-    {
 
         // 
         // c======================= The end of lnsrlb =============================
@@ -4196,7 +4125,7 @@ namespace Accord.Math.Optimization
         // c
         // c     Subprograms called:
         // c
-        // c       Linpack ... dcopy, ddot.
+        // c       Linpack ... dcopy, 
         // c
         // c
         // c                           *  *  *
@@ -4214,7 +4143,6 @@ namespace Accord.Math.Optimization
         // 
         // c     Set pointers for matrices WS and WY.
         // 
-
         public static void matupd(int n,
             int m, double[] ws, int _ws_offset, double[] wy, int _wy_offset,
             double[] sy, int _sy_offset, double[] ss, int _ss_offset, double[] d, int _d_offset,
@@ -4224,7 +4152,7 @@ namespace Accord.Math.Optimization
 
             int j = 0;
             int pointr = 0;
-            double ddot = 0.0d;
+
             if ((iupdat <= m))
             {
                 col = iupdat;
@@ -4239,8 +4167,8 @@ namespace Accord.Math.Optimization
             // 
             // c     Update matrices WS and WY.
             // 
-            Dcopy.dcopy(n, d, _d_offset, 1, ws, (1 - (1)) + (itail - (1)) * (n) + _ws_offset, 1);
-            Dcopy.dcopy(n, r, _r_offset, 1, wy, (1 - (1)) + (itail - (1)) * (n) + _wy_offset, 1);
+            dcopy(n, d, _d_offset, 1, ws, (1 - (1)) + (itail - (1)) * (n) + _ws_offset, 1);
+            dcopy(n, r, _r_offset, 1, wy, (1 - (1)) + (itail - (1)) * (n) + _wy_offset, 1);
 
             // 
             // c     Set theta=yy/ys.
@@ -4258,9 +4186,9 @@ namespace Accord.Math.Optimization
                 {
                     for (j = 1; j <= (col - 1); j++)
                     {
-                        Dcopy.dcopy(j, ss, (2 - (1)) + ((j + 1) - (1)) * (m)
+                        dcopy(j, ss, (2 - (1)) + ((j + 1) - (1)) * (m)
                             + _ss_offset, 1, ss, (1 - (1)) + (j - (1)) * (m) + _ss_offset, 1);
-                        Dcopy.dcopy((col - j), sy, ((j + 1) - (1)) + ((j + 1)
+                        dcopy((col - j), sy, ((j + 1) - (1)) + ((j + 1)
                             - (1)) * (m) + _sy_offset, 1, sy, (j - (1)) + (j - (1)) * (m) + _sy_offset, 1);
                     }
                 }
@@ -4272,12 +4200,12 @@ namespace Accord.Math.Optimization
                 for (j = 1; j <= (col - 1); j++)
                 {
                     sy[(col - (1)) + (j - (1)) * (m) + _sy_offset] =
-                        Ddot.ddot(n,
+                        ddot(n,
                           d, _d_offset, 1,
                         wy, (1 - (1)) + (pointr - (1)) * (n) + _wy_offset, 1);
 
                     ss[(j - (1)) + (col - (1)) * (m) + _ss_offset] =
-                        Ddot.ddot(n,
+                        ddot(n,
                           ws, (1 - (1)) + (pointr - (1)) * (n) + _ws_offset, 1,
                           d, _d_offset, 1);
 
@@ -4297,12 +4225,6 @@ namespace Accord.Math.Optimization
 
             return;
         }
-    }
-
-
-
-    internal static class Projgr
-    {
 
         // 
         // c======================= The end of prn3lb =============================
@@ -4330,7 +4252,6 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-
         public static void projgr(int n,
         double[] l, int _l_offset,
         double[] u, int _u_offset,
@@ -4368,10 +4289,6 @@ namespace Accord.Math.Optimization
                 }
             }
         }
-    }
-
-    internal static class Setulb
-    {
 
         // c                                                                       
         // c  L-BFGS-B is released under the “New BSD License” (aka “Modified
@@ -4606,7 +4523,6 @@ namespace Accord.Math.Optimization
         // c
         // c     ************
         // 
-
         public static void setulb(int n,
         int m,
         double[] x, int _x_offset,
@@ -4674,7 +4590,7 @@ namespace Accord.Math.Optimization
             lxp = isave[(15 - (1)) + _isave_offset];
             lwa = isave[(16 - (1)) + _isave_offset];
             // 
-            Mainlb.mainlb(n, m, x, _x_offset, l, _l_offset, u, _u_offset, nbd,
+            mainlb(n, m, x, _x_offset, l, _l_offset, u, _u_offset, nbd,
                 _nbd_offset, ref f, g, _g_offset, factr, pgtol, wa, (lws - (1)) + _wa_offset,
                 wa, (lwy - (1)) + _wa_offset, wa, (lsy - (1)) + _wa_offset, wa,
                 (lss - (1)) + _wa_offset, wa, (lwt - (1)) + _wa_offset, wa,
@@ -4687,10 +4603,6 @@ namespace Accord.Math.Optimization
                 lsave, _lsave_offset, isave, (22 - (1)) + _isave_offset, dsave,
                 _dsave_offset);
         }
-    }
-
-    internal static class Subsm
-    {
 
         // 
         // c======================= The end of projgr =============================
@@ -4855,7 +4767,7 @@ namespace Accord.Math.Optimization
         // c
         // c     Subprograms called:
         // c
-        // c       Linpack dtrsl.
+        // c       Linpack 
         // c
         // c
         // c     References:
@@ -4880,7 +4792,6 @@ namespace Accord.Math.Optimization
         // 
         // c
         // 
-
         public static void subsm(int n,
         int m, int nsub, int[] ind, int _ind_offset,
         double[] l, int _l_offset, double[] u, int _u_offset,
@@ -4891,7 +4802,6 @@ namespace Accord.Math.Optimization
         int col, int head, ref int iword,
         double[] wv, int _wv_offset, double[] wn, int _wn_offset, int iprint, ref int info)
         {
-
             int pointr = 0;
             int m2 = 0;
             int col2 = 0;
@@ -4950,7 +4860,7 @@ namespace Accord.Math.Optimization
             m2 = (2 * m);
             col2 = (2 * col);
 
-            Dtrsl.dtrsl(wn, _wn_offset, m2, col2, wv, _wv_offset, 11, ref info);
+            dtrsl(wn, _wn_offset, m2, col2, wv, _wv_offset, 11, ref info);
 
             if ((info != 0))
             {
@@ -4964,7 +4874,7 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            Dtrsl.dtrsl(wn, _wn_offset, m2, col2, wv, _wv_offset, 1, ref info);
+            dtrsl(wn, _wn_offset, m2, col2, wv, _wv_offset, 1, ref info);
 
             if ((info != 0))
             {
@@ -4995,7 +4905,7 @@ namespace Accord.Math.Optimization
             }
 
 
-            Dscal.dscal(nsub, (1.0 / theta), d, _d_offset, 1);
+            dscal(nsub, (1.0 / theta), d, _d_offset, 1);
 
             //  
             // ----------------------------------------------------
@@ -5003,7 +4913,7 @@ namespace Accord.Math.Optimization
             // 
             iword = 0;
 
-            Dcopy.dcopy(n, x, _x_offset, 1, xp, _xp_offset, 1);
+            dcopy(n, x, _x_offset, 1, xp, _xp_offset, 1);
 
             // c
             {
@@ -5074,7 +4984,7 @@ namespace Accord.Math.Optimization
 
             if ((dd_p > 0.0))
             {
-                Dcopy.dcopy(n, xp, _xp_offset, 1, x, _x_offset, 1);
+                dcopy(n, xp, _xp_offset, 1, x, _x_offset, 1);
 
                 // DISPLAY: " Positive dir derivative in projection "
                 // DISPLAY: " Using the backtracking step "
@@ -5164,10 +5074,6 @@ namespace Accord.Math.Optimization
 
             return;
         }
-    }
-
-    internal static class Dpofa
-    {
 
         // c                                                                       
         // c  L-BFGS-B is released under the “New BSD License” (aka “Modified
@@ -5220,10 +5126,8 @@ namespace Accord.Math.Optimization
         // c     begin block with ...exits to 40
         // c
         // c
-
         public static void dpofa(double[] a, int _a_offset, int lda, int n, ref int info)
         {
-            double ddot = 0.0d;
             double t = 0.0d;
             double s = 0.0d;
             int j = 0;
@@ -5244,7 +5148,7 @@ namespace Accord.Math.Optimization
                         for (k = 1; k <= jm1; k++)
                         {
                             t = (a[(k - (1)) + (j - (1)) * (lda) + _a_offset]
-                                - Ddot.ddot((k - 1), a, (1 - (1)) + (k - (1)) * (lda)
+                                - ddot((k - 1), a, (1 - (1)) + (k - (1)) * (lda)
                                 + _a_offset, 1, a, (1 - (1)) + (j - (1)) * (lda) + _a_offset, 1));
 
                             t = (t / a[(k - (1)) + (k - (1)) * (lda) + _a_offset]);
@@ -5270,10 +5174,6 @@ namespace Accord.Math.Optimization
         L40:
             return;
         }
-    }
-
-    internal static class Dscal
-    {
 
         // *     .. Scalar Arguments ..
         // *     ..
@@ -5294,7 +5194,6 @@ namespace Accord.Math.Optimization
         // *     ..
         // *     .. Intrinsic Functions ..
         // *     ..
-
         public static void dscal(int n, double da, double[] dx, int _dx_offset, int incx)
         {
 
@@ -5366,10 +5265,6 @@ namespace Accord.Math.Optimization
 
             return;
         }
-    }
-
-    internal static class Ddot
-    {
 
         // *     .. Scalar Arguments ..
         // *     ..
@@ -5389,11 +5284,9 @@ namespace Accord.Math.Optimization
         // *     ..
         // *     .. Intrinsic Functions ..
         // *     ..
-
         public static double ddot(int n, double[] dx, int _dx_offset,
-        int incx, double[] dy, int _dy_offset, int incy)
+           int incx, double[] dy, int _dy_offset, int incy)
         {
-
             double dtemp = 0.0d;
             int i = 0;
             int ix = 0;
@@ -5481,13 +5374,9 @@ namespace Accord.Math.Optimization
             ddot = dtemp;
             return ddot;
         }
-    }
-
-    internal static class Dcopy
-    {
 
         public static void dcopy(int n, double[] dx, int _dx_offset, int incx,
-        double[] dy, int _dy_offset, int incy)
+           double[] dy, int _dy_offset, int incy)
         {
 
             int i = 0;
@@ -5566,10 +5455,6 @@ namespace Accord.Math.Optimization
                 }
             }
         }
-    }
-
-    internal static class Daxpy
-    {
 
         // *     .. Scalar Arguments ..
         // *     ..
@@ -5594,9 +5479,8 @@ namespace Accord.Math.Optimization
         // *     ..
         // *     .. Intrinsic Functions ..
         // *     ..
-
         public static void daxpy(int n, double da,
-        double[] dx, int _dx_offset, int incx, double[] dy, int _dy_offset, int incy)
+             double[] dx, int _dx_offset, int incx, double[] dy, int _dy_offset, int incy)
         {
 
             int i = 0;

@@ -93,7 +93,7 @@ namespace Accord.Math.Optimization
     /// constraints.Add(new LinearConstraint(f, () => x >= 10));
     ///
     /// // Now we create the quadratic programming solver for 2 variables, using the constraints.
-    /// GoldfarbIdnaniQuadraticSolver solver = new GoldfarbIdnaniQuadraticSolver(2, constraints);
+    /// GoldfarbIdnani solver = new GoldfarbIdnani(2, constraints);
     ///
     /// // And attempt to solve it.
     /// double minimumValue = solver.Minimize(f);
@@ -120,7 +120,7 @@ namespace Accord.Math.Optimization
     /// constraints.Add(new LinearConstraint(f, "    x >= 10"));
     ///
     /// // Now we create the quadratic programming solver for 2 variables, using the constraints.
-    /// GoldfarbIdnaniQuadraticSolver solver = new GoldfarbIdnaniQuadraticSolver(2, constraints);
+    /// GoldfarbIdnani solver = new GoldfarbIdnani(2, constraints);
     ///
     /// // And attempt to solve it.
     /// double maxValue = solver.Maximize(f);
@@ -209,15 +209,18 @@ namespace Accord.Math.Optimization
     ///
     ///
     /// // Now we can finally create our optimization problem
-    /// var target = new GoldfarbIdnaniQuadraticSolver(numberOfVariables: 2, constraints: list);
+    /// var target = new GoldfarbIdnani(numberOfVariables: 2, constraints: list);
     ///
     /// // And attempt to solve it.
     /// double minimumValue = target.Minimize(Q, d);
     /// </code>
     /// </example>
     /// 
-    public class GoldfarbIdnaniQuadraticSolver
+    public class GoldfarbIdnani
+        : BaseGradientOptimizationMethod, IOptimizationMethod
     {
+        private double[,] hessian;
+        private double[] linearTerms;
 
         private double[,] constraintMatrix;
         private double[] constraintValues;
@@ -232,11 +235,6 @@ namespace Accord.Math.Optimization
         private double[] iwsv;
         private double[] iwnbv;
 
-        /// <summary>
-        ///   Gets the number of variables in the quadratic problem.
-        /// </summary>
-        /// 
-        public int NumberOfVariables { get; private set; }
 
         /// <summary>
         ///   Gets the total number of constraints in the problem.
@@ -271,18 +269,6 @@ namespace Accord.Math.Optimization
         /// 
         public double[] Lagrangian { get; private set; }
 
-        /// <summary>
-        ///   Gets the last solution found on the last call
-        ///   to the <see cref="Minimize(QuadraticObjectiveFunction)"/> method.
-        /// </summary>
-        /// 
-        public double[] Solution { get; private set; }
-
-        /// <summary>
-        ///   Gets the value found at the <see cref="Solution"/>.
-        /// </summary>
-        /// 
-        public double Value { get; private set; }
 
         /// <summary>
         ///   Gets the indices of the active constraints
@@ -310,41 +296,47 @@ namespace Accord.Math.Optimization
         }
 
 
+        public double[,] QuadraticTerms { get { return hessian; } }
+
+        public double[] LinearTerms { get { return linearTerms; } }
 
         /// <summary>
-        ///   Constructs a new <see cref="GoldfarbIdnaniQuadraticSolver"/> class.
+        ///   Constructs a new <see cref="GoldfarbIdnani"/> class.
         /// </summary>
         /// 
         /// <param name="numberOfVariables">The number of variables.</param>
         /// <param name="constraints">The problem's constraints.</param>
         /// 
-        public GoldfarbIdnaniQuadraticSolver(int numberOfVariables, IEnumerable<LinearConstraint> constraints)
-            : this(numberOfVariables, new LinearConstraintCollection(constraints))
+        public GoldfarbIdnani(QuadraticObjectiveFunction function, IEnumerable<LinearConstraint> constraints)
+            : this(function, new LinearConstraintCollection(constraints))
         {
         }
 
         /// <summary>
-        ///   Constructs a new <see cref="GoldfarbIdnaniQuadraticSolver"/> class.
+        ///   Constructs a new <see cref="GoldfarbIdnani"/> class.
         /// </summary>
         /// 
         /// <param name="numberOfVariables">The number of variables.</param>
         /// <param name="constraints">The problem's constraints.</param>
         /// 
-        public GoldfarbIdnaniQuadraticSolver(int numberOfVariables, LinearConstraintCollection constraints)
+        public GoldfarbIdnani(QuadraticObjectiveFunction function, LinearConstraintCollection constraints)
+            : base(function.NumberOfVariables, function.Function, function.Gradient)
         {
             int equalities;
 
             // Create the constraint matrix A from the specified constraint list
-            double[,] A = constraints.CreateMatrix(numberOfVariables, out constraintValues, out equalities);
+            double[,] A = constraints.CreateMatrix(function.NumberOfVariables, out constraintValues, out equalities);
 
-            System.Diagnostics.Debug.Assert(A.GetLength(1) == numberOfVariables);
+            System.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
 
-            initialize(numberOfVariables, A, constraintValues, equalities);
+            initialize(function.NumberOfVariables,
+                function.QuadraticTerms, function.LinearTerms,
+                A, constraintValues, equalities);
         }
 
 
         /// <summary>
-        ///   Constructs a new instance of the <see cref="GoldfarbIdnaniQuadraticSolver"/> class.
+        ///   Constructs a new instance of the <see cref="GoldfarbIdnani"/> class.
         /// </summary>
         /// 
         /// <param name="numberOfVariables">The number of variables.</param>
@@ -352,19 +344,53 @@ namespace Accord.Math.Optimization
         /// <param name="constraintValues">The constraints values <c>b</c>.</param>
         /// <param name="numberOfEqualities">The number of equalities in the constraints.</param>
         /// 
-        public GoldfarbIdnaniQuadraticSolver(int numberOfVariables, double[,] constraintMatrix,
+        public GoldfarbIdnani(QuadraticObjectiveFunction function, double[,] constraintMatrix,
             double[] constraintValues, int numberOfEqualities = 0)
+            : base(function.NumberOfVariables, function.Function, function.Gradient)
         {
-            if (numberOfVariables != constraintMatrix.GetLength(1))
-                throw new ArgumentException("The number of columns in the constraint matrix A " 
-                    + "should equal the number of variables in the problem.", "constraintMatrix");
-
-            initialize(numberOfVariables, constraintMatrix, constraintValues, numberOfEqualities);
+            initialize(function.NumberOfVariables, function.QuadraticTerms,
+                function.LinearTerms, constraintMatrix, constraintValues, numberOfEqualities);
         }
 
-        private void initialize(int numberOfVariables, double[,] A, double[] b, int numberOfEqualities)
+        /// <summary>
+        ///   Constructs a new instance of the <see cref="GoldfarbIdnani"/> class.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables.</param>
+        /// <param name="constraintMatrix">The constraints matrix <c>A</c>.</param>
+        /// <param name="constraintValues">The constraints values <c>b</c>.</param>
+        /// <param name="numberOfEqualities">The number of equalities in the constraints.</param>
+        /// 
+        public GoldfarbIdnani(double[,] quadratic, double[] linear,
+            double[,] constraintMatrix, double[] constraintValues, int numberOfEqualities = 0)
+            : this(new QuadraticObjectiveFunction(quadratic, linear), constraintMatrix, constraintValues, numberOfEqualities)
         {
+        }
+
+        private void initialize(int numberOfVariables, double[,] hessian, double[] linearTerms, double[,] A, double[] b, int numberOfEqualities)
+        {
+            if (numberOfVariables != A.GetLength(1))
+            {
+                throw new ArgumentException("The number of columns in the constraint matrix A "
+                    + "should equal the number of variables in the problem.", "constraintMatrix");
+            }
+
+            if (hessian == null)
+                throw new ArgumentNullException("hessian");
+
+            if (linearTerms == null)
+                throw new ArgumentNullException("linearTerms");
+
+            if (hessian.GetLength(0) != NumberOfVariables || hessian.GetLength(1) != NumberOfVariables)
+                throw new ArgumentException("The number of rows and columns of the quadratic terms matrix D should equal the number of variables in the problem.");
+
+            if (linearTerms.Length != NumberOfVariables)
+                throw new ArgumentException("The length of the vector of linear terms d should equal the number of variables in the problem.");
+
+
             this.NumberOfVariables = numberOfVariables;
+            this.linearTerms = linearTerms;
+            this.hessian = hessian;
 
             this.constraintMatrix = A;
             this.constraintValues = b;
@@ -388,40 +414,6 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        ///   Maximizes the function.
-        /// </summary>
-        /// 
-        /// <param name="function">The function to be maximized.</param>
-        /// <returns>The maximum value at the solution found.</returns>
-        /// 
-        public double Maximize(QuadraticObjectiveFunction function)
-        {
-            if (function == null)
-                throw new ArgumentNullException("function");
-
-            double[,] Q = function.GetQuadraticTermsMatrix();
-            double[] d = function.GetLinearTermsVector();
-            return Maximize(Q, d);
-        }
-
-        /// <summary>
-        ///   Minimizes the function.
-        /// </summary>
-        /// 
-        /// <param name="function">The function to be minimized.</param>
-        /// <returns>The minimum value at the solution found.</returns>
-        /// 
-        public double Minimize(QuadraticObjectiveFunction function)
-        {
-            if (function == null)
-                throw new ArgumentNullException("function");
-
-            double[,] Q = function.GetQuadraticTermsMatrix();
-            double[] d = function.GetLinearTermsVector();
-            return Minimize(Q, d);
-        }
-
-        /// <summary>
         ///   Minimizes the function.
         /// </summary>
         /// 
@@ -429,60 +421,71 @@ namespace Accord.Math.Optimization
         /// <param name="linearTerms">The vector of linear terms <c>d</c>.</param>
         /// <returns>The minimum value at the solution found.</returns>
         /// 
-        public double Minimize(double[,] hessian, double[] linearTerms)
+        public override bool Minimize()
         {
-            if (hessian == null)
-                throw new ArgumentNullException("hessian");
-
-            if (linearTerms == null)
-                throw new ArgumentNullException("linearTerms");
-
-            if (hessian.GetLength(0) != NumberOfVariables || hessian.GetLength(1) != NumberOfVariables)
-                throw new ArgumentException("The number of rows and columns of the quadratic terms matrix D should equal the number of variables in the problem.");
-
-            if (linearTerms.Length != NumberOfVariables)
-                throw new ArgumentException("The length of the vector of linear terms d should equal the number of variables in the problem.");
-
-            // Prepare a minimization problem
-            for (int i = 0; i < linearTerms.Length; i++)
-                linearTerms[i] = -linearTerms[i];
-
-            minimize(hessian, linearTerms);
-
-            return Value; // Return the value at the solution
-        }
-
-        /// <summary>
-        ///   Maximizes the function.
-        /// </summary>
-        /// 
-        /// <param name="hessian">The Hessian matrix <c>D</c> for the quadratic terms.</param>
-        /// <param name="linearTerms">The vector of linear terms <c>d</c>.</param>
-        /// <returns>The maximum value at the solution found.</returns>
-        /// 
-        public double Maximize(double[,] hessian, double[] linearTerms)
-        {
-            if (hessian == null)
-                throw new ArgumentNullException("hessian");
-
-            if (linearTerms == null)
-                throw new ArgumentNullException("linearTerms");
-
-            if (hessian.GetLength(0) != NumberOfVariables || hessian.GetLength(1) != NumberOfVariables)
-                throw new ArgumentException("The number of rows and columns of the quadratic terms matrix D should equal the number of variables in the problem.");
-
-            if (linearTerms.Length != NumberOfVariables)
-                throw new ArgumentException("The length of the vector of linear terms d should equal the number of variables in the problem.");
+            double[,] h = new double[NumberOfVariables, NumberOfVariables];
+            double[] d = new double[NumberOfVariables];
 
             // Prepare a maximization problem
             for (int i = 0; i < NumberOfVariables; i++)
                 for (int j = 0; j < NumberOfVariables; j++)
-                    hessian[i, j] = -hessian[i, j];
+                    h[i, j] = hessian[i, j];
 
-            minimize(hessian, linearTerms);
-            Value = -Value;
+            for (int i = 0; i < linearTerms.Length; i++)
+                d[i] = -linearTerms[i];
 
-            return Value; // Return the value at the solution
+            try
+            {
+                minimize(h, d);
+
+                Value = Function(Solution);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        ///   Maximizes the function.
+        /// </summary>
+        /// 
+        /// <param name="hessian">The Hessian matrix <c>D</c> for the quadratic terms.</param>
+        /// <param name="linearTerms">The vector of linear terms <c>d</c>.</param>
+        /// <returns>The maximum value at the solution found.</returns>
+        /// 
+        public override bool Maximize()
+        {
+            double[,] h = new double[NumberOfVariables, NumberOfVariables];
+            double[] d = new double[NumberOfVariables];
+
+            // Prepare a maximization problem
+            for (int i = 0; i < NumberOfVariables; i++)
+                for (int j = 0; j < NumberOfVariables; j++)
+                    h[i, j] = -hessian[i, j];
+
+            for (int i = 0; i < d.Length; i++)
+                d[i] = linearTerms[i];
+
+            try
+            {
+                minimize(h, d);
+
+                Value = Function(Solution);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        protected override bool Optimize()
+        {
+            throw new NotImplementedException();
         }
 
         private void minimize(double[,] D, double[] d)
@@ -591,7 +594,7 @@ namespace Accord.Math.Optimization
             int l1;
             double gc, gs, tt, sum;
 
-            Value = 0;
+            double f = 0;
             nact = 0;
 
 
@@ -656,7 +659,7 @@ namespace Accord.Math.Optimization
             // Set upper triangular of dmat to zero, store dvec in sol and 
             //   calculate value of the criterion at unconstrained minima
 
-            Value = 0.0;
+            f = 0.0;
 
 
             // calculate some constants, i.e., from which index on 
@@ -665,14 +668,14 @@ namespace Accord.Math.Optimization
             for (int j = 0; j < sol.Length; j++)
             {
                 sol[j] = dvec[j];
-                Value += work[j] * sol[j];
+                f += work[j] * sol[j];
                 work[j] = 0.0;
 
                 for (int i = j + 1; i < n; i++)
                     dmat[j, i] = 0.0;
             }
 
-            Value = -Value / 2.0;
+            f = -f / 2.0;
             ierr = 0;
 
 
@@ -908,7 +911,7 @@ namespace Accord.Math.Optimization
                 for (int i = 0; i < sol.Length; i++)
                     sol[i] += tt * iwzv[i];
 
-                Value += tt * sum * (tt / 2.0 + iwuv[nact]);
+                f += tt * sum * (tt / 2.0 + iwuv[nact]);
 
                 for (int i = 0; i < nact; i++)
                     iwuv[i] -= tt * iwrv[i];
@@ -1229,6 +1232,8 @@ namespace Accord.Math.Optimization
 
             return true;
         }
+
+
 
     }
 }

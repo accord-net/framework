@@ -95,7 +95,8 @@ namespace Accord.Tests.Math
 
             var solver = new AugmentedLagrangian(f, constraints);
 
-            double minValue = solver.Minimize();
+            Assert.IsTrue(solver.Minimize());
+            double minValue = solver.Value;
 
             Assert.AreEqual(1, minValue, 1e-5);
             Assert.AreEqual(0, solver.Solution[0], 1e-5);
@@ -145,7 +146,8 @@ namespace Accord.Tests.Math
 
             var solver = new AugmentedLagrangian(f, constraints);
 
-            double minValue = solver.Minimize();
+            Assert.IsTrue(solver.Minimize());
+            double minValue = solver.Value;
 
             Assert.AreEqual(0, minValue, 1e-10);
             Assert.AreEqual(1, solver.Solution[0], 1e-5);
@@ -207,7 +209,9 @@ namespace Accord.Tests.Math
             solver.Solution[1] = 1;
             solver.Solution[2] = 1;
 
-            double minValue = solver.Minimize();
+            bool success = solver.Minimize();
+            double minValue = solver.Value;
+            Assert.IsTrue(success);
 
             Assert.AreEqual(-6.9, minValue, 1e-1);
             Assert.AreEqual(+1.73, solver.Solution[0], 1e-2);
@@ -281,7 +285,9 @@ namespace Accord.Tests.Math
             solver.Solution[0] = 1;
             solver.Solution[1] = 1;
             solver.Solution[2] = 1;
-            double minValue = solver.Minimize();
+
+            Assert.IsTrue(solver.Minimize());
+            double minValue = solver.Value;
 
             Assert.AreEqual(1, solver.Solution[0] + solver.Solution[1], 1e-4);
 
@@ -350,7 +356,8 @@ namespace Accord.Tests.Math
             var solver = new AugmentedLagrangian(f, constraints);
 
             // And attempt to solve the problem
-            double minValue = solver.Minimize();
+            Assert.IsTrue(solver.Minimize());
+            double minValue = solver.Value;
 
             Assert.AreEqual(0, minValue, 1e-10);
             Assert.AreEqual(1, solver.Solution[0], 1e-6);
@@ -457,7 +464,8 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual(inner, solver.Optimizer);
 
-            double maxValue = solver.Maximize();
+            Assert.IsTrue(solver.Maximize());
+            double maxValue = solver.Value;
 
             Assert.AreEqual(6, maxValue, tol);
             Assert.AreEqual(-3, solver.Solution[0], tol);
@@ -528,7 +536,8 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual(inner, solver.Optimizer);
 
-            double maxValue = solver.Maximize();
+            Assert.IsTrue(solver.Maximize());
+            double maxValue = solver.Value;
 
             Assert.AreEqual(18.02, maxValue, 1e-2);
             Assert.AreEqual(2.77, solver.Solution[0], 1e-2);
@@ -541,6 +550,8 @@ namespace Accord.Tests.Math
         [TestMethod]
         public void ConstructorTest2()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             var function = new NonlinearObjectiveFunction(2,
                 function: x => x[0] * x[1],
                 gradient: x => new[] { x[1], x[0] });
@@ -557,7 +568,9 @@ namespace Accord.Tests.Math
 
             var target = new ConjugateGradient(2);
             AugmentedLagrangian solver = new AugmentedLagrangian(target, function, constraints);
-            double minimum = solver.Minimize();
+            
+            Assert.IsTrue(solver.Minimize());
+            double minimum = solver.Value;
 
             double[] solution = solver.Solution;
 
@@ -617,7 +630,8 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual(inner, solver.Optimizer);
 
-            double minimum = solver.Minimize();
+            Assert.IsTrue(solver.Minimize());
+            double minimum = solver.Value;
             double[] solution = solver.Solution;
 
             double[] expected = 

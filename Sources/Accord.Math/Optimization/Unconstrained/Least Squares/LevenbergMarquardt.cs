@@ -142,7 +142,7 @@ namespace Accord.Math.Optimization
         ///   The number of parameters.
         /// </value>
         /// 
-        public int Parameters
+        public int NumberOfVariables
         {
             get { return numberOfParameters; }
         }

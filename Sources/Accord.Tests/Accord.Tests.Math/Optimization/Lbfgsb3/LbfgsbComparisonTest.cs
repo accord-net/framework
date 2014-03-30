@@ -286,8 +286,7 @@ namespace Accord.Tests.Math
 
              lbfgs.Minimize(start);
 
-             Assert.AreEqual(BoundedBroydenFletcherGoldfarbShanno.Code
-                 .ABNORMAL_TERMINATION_IN_LNSRCH, lbfgs.Status);
+             Assert.AreEqual(BoundedBroydenFletcherGoldfarbShannoCode.LineSearchFailed, lbfgs.Status);
         }
 
     }

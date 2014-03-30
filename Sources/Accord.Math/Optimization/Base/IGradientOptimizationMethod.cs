@@ -54,13 +54,5 @@ namespace Accord.Math.Optimization
         /// 
         Func<double[], double[]> Gradient { get; set; }
 
-        /// <summary>
-        ///   Gets the number of variables (free parameters)
-        ///   in the optimization problem.
-        /// </summary>
-        /// 
-        /// <value>The number of parameters.</value>
-        /// 
-        int Parameters { get; }
     }
 }

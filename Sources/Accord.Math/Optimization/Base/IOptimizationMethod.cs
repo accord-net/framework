@@ -31,19 +31,32 @@ namespace Accord.Math.Optimization
     /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
     /// <seealso cref="ConjugateGradient"/>
     /// <seealso cref="ResilientBackpropagation"/>
-    /// <seealso cref="GoldfarbIdnaniQuadraticSolver"/>
+    /// <seealso cref="GoldfarbIdnani"/>
     /// 
     public interface IOptimizationMethod
     {
 
         /// <summary>
-        ///   Gets the solution found, the values of the parameters which
-        ///   optimizes the function.
+        ///   Gets the number of variables (free parameters)
+        ///   in the optimization problem.
         /// </summary>
         /// 
-        double[] Solution { get; }
+        /// <value>The number of parameters.</value>
+        /// 
+        int NumberOfVariables { get; }
 
+        /// <summary>
+        ///   Gets the current solution found, the values of 
+        ///   the parameters which optimizes the function.
+        /// </summary>
+        /// 
+        double[] Solution { get; set; }
 
+        /// <summary>
+        ///   Gets the output of the function at the current solution.
+        /// </summary>
+        /// 
+        double Value { get; }
 
         /// <summary>
         ///   Finds the minimum value of a function. The solution vector
@@ -58,22 +71,22 @@ namespace Accord.Math.Optimization
         ///   range. The solution vector that produces this minimum value 
         ///   will be available in the <see cref="Solution"/> property.</returns>
         ///  
-        double Minimize(double[] values);
+        bool Minimize();
 
         /// <summary>
-        ///   Finds the minimum value of a function, without throwing exceptions.
-        ///   The solution vector will be made available at the <see cref="Solution"/>
-        ///   property.
+        ///   Finds the maximum value of a function. The solution vector
+        ///   will be made available at the <see cref="Solution"/> property.
         /// </summary>
         /// 
         /// <param name="values">The initial guess values for the parameters.
         ///   If the algorithm converges, this vector will contain the best 
         ///   solution found during optimization.</param>
         /// 
-        /// <returns>True, if the solution converged within the selected tolerance
-        ///   value, false otherwise.</returns>
+        /// <returns>The maximum value of the function  over its parameter
+        ///   range. The solution vector that produces this maximum value 
+        ///   will be available in the <see cref="Solution"/> property.</returns>
         ///  
-        bool TryMinimize(double[] values);
+        bool Maximize();
 
     }
 }

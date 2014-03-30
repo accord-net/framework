@@ -514,7 +514,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 double[] values = { t0, s0 };
 
                 // Minimize
-                double error = lbfgs.Minimize(values);
+                lbfgs.Minimize(values);
 
                 // Check solution
                 t0 = lbfgs.Solution[0];

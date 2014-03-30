@@ -37,7 +37,7 @@ namespace Accord.Math.Optimization
         private readonly ReadOnlyDictionary<string, int> readOnlyVariables;
 
         private Dictionary<int, string> indices;
-        private ReadOnlyDictionary<int, string> readOnlyIndices;
+        private readonly ReadOnlyDictionary<int, string> readOnlyIndices;
 
         /// <summary>
         ///   Gets input variable's labels for the function.
@@ -57,24 +57,37 @@ namespace Accord.Math.Optimization
             get { return readOnlyIndices; }
         }
 
+        protected Dictionary<string, int> InnerVariables { get { return variables; } }
+        protected Dictionary<int, string> InnerIndices { get { return indices; } } 
+
         /// <summary>
         ///   Gets the objective function.
         /// </summary>
         /// 
-        public Func<double[], double> Function { get; private set; }
+        public Func<double[], double> Function { get; protected set; }
 
         /// <summary>
         ///   Gets the gradient of the <see cref="Function">objective function</see>.
         /// </summary>
         /// 
-        public Func<double[], double[]> Gradient { get; private set; }
+        public Func<double[], double[]> Gradient { get; protected set; }
 
 
         /// <summary>
         ///   Gets the number of input variables for the function.
         /// </summary>
         /// 
-        public int NumberOfVariables { get; private set; }
+        public int NumberOfVariables { get; protected set; }
+
+
+        protected NonlinearObjectiveFunction()
+        {
+            variables = new Dictionary<string, int>();
+            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
+
+            indices = new Dictionary<int, string>();
+            readOnlyIndices = new ReadOnlyDictionary<int, string>(indices);
+        }
 
         /// <summary>
         ///   Creates a new objective function specified through a string.
@@ -85,15 +98,10 @@ namespace Accord.Math.Optimization
         ///   function.</param>
         /// 
         public NonlinearObjectiveFunction(int numberOfVariables, Func<double[], double> function)
+            : this()
         {
             this.NumberOfVariables = numberOfVariables;
             this.Function = function;
-
-            variables = new Dictionary<string, int>();
-            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
-
-            indices = new Dictionary<int, string>();
-            readOnlyIndices = new ReadOnlyDictionary<int, string>(indices);
 
             for (int i = 0; i < numberOfVariables; i++)
             {
@@ -130,16 +138,9 @@ namespace Accord.Math.Optimization
         /// <param name="gradient">A <see cref="Expression{T}"/> containing 
         ///   the gradient of the <paramref name="function">objective function</paramref>.</param>
         /// 
-        public NonlinearObjectiveFunction(
-            Expression<Func<double>> function,
-            Expression<Func<double[]>> gradient = null)
+        public NonlinearObjectiveFunction(Expression<Func<double>> function, Expression<Func<double[]>> gradient = null)
+            : this()
         {
-            variables = new Dictionary<string, int>();
-            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
-
-            indices = new Dictionary<int, string>();
-            readOnlyIndices = new ReadOnlyDictionary<int, string>(indices);
-
             SortedSet<string> list = new SortedSet<string>();
             ExpressionParser.Parse(list, function.Body);
 

@@ -70,8 +70,8 @@ namespace Accord.Tests.Math.Optimization
             BoundedBroydenFletcherGoldfarbShanno target =
                 new BoundedBroydenFletcherGoldfarbShanno(problem.Variables)
             {
-                Tolerance = factr,
-                Precision = pgtol,
+                FunctionTolerance = factr,
+                GradientTolerance = pgtol,
                 Corrections = m,
                 MaxIterations = max_iterations
             };
@@ -91,13 +91,13 @@ namespace Accord.Tests.Math.Optimization
             actual.Clear();
             target.Progress += new EventHandler<OptimizationProgressEventArgs>(target_Progress);
 
-            double v = target.Minimize((double[])problem.Start.Clone());
+            target.Minimize((double[])problem.Start.Clone());
 
-            if (target.Status == BoundedBroydenFletcherGoldfarbShanno.Code.ConvergenceGradient)
+            if (target.Status == BoundedBroydenFletcherGoldfarbShannoCode.GradientConvergence)
                 ActualMessage = "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL";
-            else if (target.Status == BoundedBroydenFletcherGoldfarbShanno.Code.Convergence)
+            else if (target.Status == BoundedBroydenFletcherGoldfarbShannoCode.FunctionConvergence)
                 ActualMessage = "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH";
-            else if (target.Status == BoundedBroydenFletcherGoldfarbShanno.Code.ABNORMAL_TERMINATION_IN_LNSRCH)
+            else if (target.Status == BoundedBroydenFletcherGoldfarbShannoCode.LineSearchFailed)
                 ActualMessage = "ABNORMAL_TERMINATION_IN_LNSRCH";
 
             return actual.ToArray();
