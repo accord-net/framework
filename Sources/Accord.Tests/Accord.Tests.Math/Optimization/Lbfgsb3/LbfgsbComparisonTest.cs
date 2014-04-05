@@ -286,7 +286,7 @@ namespace Accord.Tests.Math
 
              lbfgs.Minimize(start);
 
-             Assert.AreEqual(BoundedBroydenFletcherGoldfarbShannoCode.LineSearchFailed, lbfgs.Status);
+             Assert.AreEqual(BoundedBroydenFletcherGoldfarbShannoStatus.LineSearchFailed, lbfgs.Status);
         }
 
     }

@@ -44,17 +44,21 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///   Gets the Hessian matrix of quadratic terms.
+        ///   Gets the quadratic terms of the quadratic function.
         /// </summary>
         /// 
         public double[,] QuadraticTerms { get { return Q; } }
 
         /// <summary>
-        ///   Gets the vector of linear terms.
+        ///   Gets the vector of linear terms of the quadratic function.
         /// </summary>
         /// 
         public double[] LinearTerms { get { return d; } }
 
+        /// <summary>
+        ///   Gets the constant term in the quadratic function.
+        /// </summary>
+        /// 
         public double ConstantTerm
         {
             get { return c; }
@@ -72,7 +76,7 @@ namespace Accord.Math.Optimization
         public QuadraticObjectiveFunction(double[,] quadraticTerms, double[] linearTerms, params string[] variables)
         {
             if (quadraticTerms.GetLength(0) != quadraticTerms.GetLength(1))
-                throw new DimensionMismatchException("hessian", "The matrix must be square.");
+                throw new DimensionMismatchException("quadraticTerms", "The matrix must be square.");
 
             if (quadraticTerms.GetLength(0) != linearTerms.Length)
                 throw new DimensionMismatchException("linearTerms",

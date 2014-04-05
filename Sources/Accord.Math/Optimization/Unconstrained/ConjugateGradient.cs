@@ -61,8 +61,16 @@ namespace Accord.Math.Optimization
         PositivePolakRibiere = 3,
     }
 
+    /// <summary>
+    ///   Conjugate Gradient exit codes.
+    /// </summary>
+    /// 
     public enum ConjugateGradientCode
     {
+        /// <summary>
+        ///   Success.
+        /// </summary>
+        /// 
         Success,
 
         /// <summary>
@@ -203,7 +211,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of iterations performed 
-        ///   in the last call to <see cref="Minimize()"/>.
+        ///   in the last call to <see cref="IOptimizationMethod.Minimize()"/>.
         /// </summary>
         /// 
         /// <value>
@@ -217,7 +225,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of function evaluations performed
-        ///   in the last call to <see cref="Minimize()"/>.
+        ///   in the last call to <see cref="IOptimizationMethod.Minimize()"/>.
         /// </summary>
         /// 
         /// <value>
@@ -231,7 +239,7 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of linear searches performed
-        ///   in the last call to <see cref="Minimize()"/>.
+        ///   in the last call to <see cref="IOptimizationMethod.Minimize()"/>.
         /// </summary>
         /// 
         public int Searches
@@ -239,6 +247,12 @@ namespace Accord.Math.Optimization
             get { return searches; }
         }
 
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        /// </summary>
+        /// 
         public ConjugateGradientCode Code { get; private set; }
 
         /// <summary>
@@ -280,6 +294,11 @@ namespace Accord.Math.Optimization
         }
 
 
+        /// <summary>
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
+        /// </summary>
+        /// 
         protected override bool Optimize()
         {
             // This code has been adapted from the original

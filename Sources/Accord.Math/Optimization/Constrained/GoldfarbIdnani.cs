@@ -33,6 +33,32 @@ namespace Accord.Math.Optimization
     using System.Linq;
 
     /// <summary>
+    ///   Status codes for the <see cref="GoldfarbIdnani"/>
+    ///   constrained quadratic programming solver.
+    /// </summary>
+    /// 
+    public enum GoldfarbIdnaniStatus
+    {
+        /// <summary>
+        ///   Convergence was attained.
+        /// </summary>
+        /// 
+        Success,
+
+        /// <summary>
+        ///   The quadratic problem matrix is not positive definite.
+        /// </summary>
+        /// 
+        NonPositiveDefinite,
+
+        /// <summary>
+        ///   The posed constraints cannot be fulfilled.
+        /// </summary>
+        /// 
+        NoPossibleSolution
+    }
+
+    /// <summary>
     ///   Goldfarb-Idnani Quadratic Programming Solver.
     /// </summary>
     /// 
@@ -93,10 +119,10 @@ namespace Accord.Math.Optimization
     /// constraints.Add(new LinearConstraint(f, () => x >= 10));
     ///
     /// // Now we create the quadratic programming solver for 2 variables, using the constraints.
-    /// GoldfarbIdnani solver = new GoldfarbIdnani(2, constraints);
+    /// GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
     ///
     /// // And attempt to solve it.
-    /// double minimumValue = solver.Minimize(f);
+    /// double minimumValue = solver.Minimize();
     /// </code>
     /// 
     /// <para>
@@ -120,10 +146,10 @@ namespace Accord.Math.Optimization
     /// constraints.Add(new LinearConstraint(f, "    x >= 10"));
     ///
     /// // Now we create the quadratic programming solver for 2 variables, using the constraints.
-    /// GoldfarbIdnani solver = new GoldfarbIdnani(2, constraints);
+    /// GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
     ///
     /// // And attempt to solve it.
-    /// double maxValue = solver.Maximize(f);
+    /// double maxValue = solver.Maximize();
     /// </code>
     ///   
     /// <para>
@@ -209,10 +235,10 @@ namespace Accord.Math.Optimization
     ///
     ///
     /// // Now we can finally create our optimization problem
-    /// var target = new GoldfarbIdnani(numberOfVariables: 2, constraints: list);
+    /// var target = new GoldfarbIdnani(Q, d, constraints: list);
     ///
     /// // And attempt to solve it.
-    /// double minimumValue = target.Minimize(Q, d);
+    /// double minimumValue = target.Minimize();
     /// </code>
     /// </example>
     /// 
@@ -250,14 +276,14 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the total number of iterations performed on the
-        ///   last call to the <see cref="Minimize(QuadraticObjectiveFunction)"/> method.
+        ///   last call to the <see cref="Minimize"/> or <see cref="Maximize"/> methods.
         /// </summary>
         /// 
         public int Iterations { get; set; }
 
         /// <summary>
         ///   Gets the total number of constraint removals performed
-        ///   on the last call to the <see cref="Minimize(QuadraticObjectiveFunction)"/> method.
+        ///   on the last call to the <see cref="Minimize"/> or <see cref="Maximize"/> methods.
         /// </summary>
         /// 
         public int Deletions { get; set; }
@@ -272,7 +298,9 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the indices of the active constraints
-        ///   found at the last <see cref="Solution"/>.
+        ///   found during the last call of the 
+        ///   <see cref="Minimize"/> or <see cref="Maximize"/>
+        ///   methods.
         /// </summary>
         /// 
         public int[] ActiveConstraints { get; private set; }
@@ -295,16 +323,25 @@ namespace Accord.Math.Optimization
             get { return constraintValues; }
         }
 
-
+        /// <summary>
+        ///   Gets the matrix of quadratic terms of
+        ///   the quadratic optimization problem.
+        /// </summary>
+        /// 
         public double[,] QuadraticTerms { get { return hessian; } }
 
+        /// <summary>
+        ///   Gets the vector of linear terms of the
+        ///   quadratic optimization problem.
+        /// </summary>
+        /// 
         public double[] LinearTerms { get { return linearTerms; } }
 
         /// <summary>
         ///   Constructs a new <see cref="GoldfarbIdnani"/> class.
         /// </summary>
         /// 
-        /// <param name="numberOfVariables">The number of variables.</param>
+        /// <param name="function">The objective function to be optimized.</param>
         /// <param name="constraints">The problem's constraints.</param>
         /// 
         public GoldfarbIdnani(QuadraticObjectiveFunction function, IEnumerable<LinearConstraint> constraints)
@@ -316,7 +353,7 @@ namespace Accord.Math.Optimization
         ///   Constructs a new <see cref="GoldfarbIdnani"/> class.
         /// </summary>
         /// 
-        /// <param name="numberOfVariables">The number of variables.</param>
+        /// <param name="function">The objective function to be optimized.</param>
         /// <param name="constraints">The problem's constraints.</param>
         /// 
         public GoldfarbIdnani(QuadraticObjectiveFunction function, LinearConstraintCollection constraints)
@@ -339,7 +376,7 @@ namespace Accord.Math.Optimization
         ///   Constructs a new instance of the <see cref="GoldfarbIdnani"/> class.
         /// </summary>
         /// 
-        /// <param name="numberOfVariables">The number of variables.</param>
+        /// <param name="function">The objective function to be optimized.</param>
         /// <param name="constraintMatrix">The constraints matrix <c>A</c>.</param>
         /// <param name="constraintValues">The constraints values <c>b</c>.</param>
         /// <param name="numberOfEqualities">The number of equalities in the constraints.</param>
@@ -348,6 +385,18 @@ namespace Accord.Math.Optimization
             double[] constraintValues, int numberOfEqualities = 0)
             : base(function.NumberOfVariables, function.Function, function.Gradient)
         {
+            if (function.NumberOfVariables != constraintMatrix.GetLength(1))
+            {
+                throw new ArgumentException("The number of columns in the constraint matrix A "
+                    + "should equal the number of variables in the problem.", "constraintMatrix");
+            }
+
+            if (constraintValues.Length != constraintMatrix.GetLength(0))
+                throw new DimensionMismatchException("constraintValues");
+
+            if (numberOfEqualities < 0 || numberOfEqualities > constraintValues.Length)
+                throw new ArgumentOutOfRangeException("numberOfEqualities");
+
             initialize(function.NumberOfVariables, function.QuadraticTerms,
                 function.LinearTerms, constraintMatrix, constraintValues, numberOfEqualities);
         }
@@ -356,7 +405,8 @@ namespace Accord.Math.Optimization
         ///   Constructs a new instance of the <see cref="GoldfarbIdnani"/> class.
         /// </summary>
         /// 
-        /// <param name="numberOfVariables">The number of variables.</param>
+        /// <param name="quadratic">The symmetric matrix of quadratic terms defining the objective function.</param>
+        /// <param name="linear">The vector of linear terms defining the objective function.</param>
         /// <param name="constraintMatrix">The constraints matrix <c>A</c>.</param>
         /// <param name="constraintValues">The constraints values <c>b</c>.</param>
         /// <param name="numberOfEqualities">The number of equalities in the constraints.</param>
@@ -367,36 +417,17 @@ namespace Accord.Math.Optimization
         {
         }
 
-        private void initialize(int numberOfVariables, double[,] hessian, double[] linearTerms, double[,] A, double[] b, int numberOfEqualities)
+        private void initialize(int numberOfVariables, double[,] hessian, double[] linearTerms, double[,] constraintMatrix, double[] b, int numberOfEqualities)
         {
-            if (numberOfVariables != A.GetLength(1))
-            {
-                throw new ArgumentException("The number of columns in the constraint matrix A "
-                    + "should equal the number of variables in the problem.", "constraintMatrix");
-            }
-
-            if (hessian == null)
-                throw new ArgumentNullException("hessian");
-
-            if (linearTerms == null)
-                throw new ArgumentNullException("linearTerms");
-
-            if (hessian.GetLength(0) != NumberOfVariables || hessian.GetLength(1) != NumberOfVariables)
-                throw new ArgumentException("The number of rows and columns of the quadratic terms matrix D should equal the number of variables in the problem.");
-
-            if (linearTerms.Length != NumberOfVariables)
-                throw new ArgumentException("The length of the vector of linear terms d should equal the number of variables in the problem.");
-
-
             this.NumberOfVariables = numberOfVariables;
             this.linearTerms = linearTerms;
             this.hessian = hessian;
 
-            this.constraintMatrix = A;
+            this.constraintMatrix = constraintMatrix;
             this.constraintValues = b;
 
             this.NumberOfEqualities = numberOfEqualities;
-            this.NumberOfConstraints = A.GetLength(0);
+            this.NumberOfConstraints = constraintMatrix.GetLength(0);
             this.r = Math.Min(NumberOfVariables, NumberOfConstraints);
 
             this.ActiveConstraints = new int[NumberOfConstraints];
@@ -413,13 +444,17 @@ namespace Accord.Math.Optimization
             this.iwnbv = new double[NumberOfConstraints];
         }
 
+
         /// <summary>
-        ///   Minimizes the function.
+        ///   Finds the minimum value of a function. The solution vector
+        ///   will be made available at the <see cref="IOptimizationMethod.Solution"/> property.
         /// </summary>
         /// 
-        /// <param name="hessian">The Hessian matrix <c>D</c> for the quadratic terms.</param>
-        /// <param name="linearTerms">The vector of linear terms <c>d</c>.</param>
-        /// <returns>The minimum value at the solution found.</returns>
+        /// <returns>
+        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
+        ///   property.
+        /// </returns>
         /// 
         public override bool Minimize()
         {
@@ -434,27 +469,23 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < linearTerms.Length; i++)
                 d[i] = -linearTerms[i];
 
-            try
-            {
-                minimize(h, d);
+            var code = minimize(h, d);
 
-                Value = Function(Solution);
+            Value = Function(Solution);
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            return (code == GoldfarbIdnaniStatus.Success);
         }
 
+
         /// <summary>
-        ///   Maximizes the function.
+        ///   Finds the maximum value of a function. The solution vector
+        ///   will be made available at the <see cref="IOptimizationMethod.Solution"/> property.
         /// </summary>
-        /// 
-        /// <param name="hessian">The Hessian matrix <c>D</c> for the quadratic terms.</param>
-        /// <param name="linearTerms">The vector of linear terms <c>d</c>.</param>
-        /// <returns>The maximum value at the solution found.</returns>
+        /// <returns>
+        ///   Returns <c>true</c> if the method converged to a <see cref="IOptimizationMethod.Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
+        ///   property.
+        /// </returns>
         /// 
         public override bool Maximize()
         {
@@ -469,26 +500,23 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < d.Length; i++)
                 d[i] = linearTerms[i];
 
-            try
-            {
-                minimize(h, d);
+            var code = minimize(h, d);
 
-                Value = Function(Solution);
+            Value = Function(Solution);
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            return (code == GoldfarbIdnaniStatus.Success);
         }
 
+        /// <summary>
+        ///   Not available.
+        /// </summary>
+        /// 
         protected override bool Optimize()
         {
             throw new NotImplementedException();
         }
 
-        private void minimize(double[,] D, double[] d)
+        private GoldfarbIdnaniStatus minimize(double[,] D, double[] d)
         {
             int numberOfActiveConstraints;
             int[] activeConstraints = new int[NumberOfConstraints];
@@ -501,10 +529,10 @@ namespace Accord.Math.Optimization
             if (ierr != 0)
             {
                 if (ierr == 1)
-                    throw new ConvergenceException("No possible solution.");
+                    return GoldfarbIdnaniStatus.NoPossibleSolution;
 
                 if (ierr == 2)
-                    throw new NonPositiveDefiniteMatrixException();
+                    return GoldfarbIdnaniStatus.NonPositiveDefinite;
 
                 throw new InvalidOperationException("Unexpected error.");
             }
@@ -514,6 +542,8 @@ namespace Accord.Math.Optimization
 
             for (int i = 0; i < ActiveConstraints.Length; i++)
                 Lagrangian[ActiveConstraints[i]] = iwuv[i];
+
+            return GoldfarbIdnaniStatus.Success;
         }
 
 

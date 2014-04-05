@@ -295,7 +295,6 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(solver.Solution[0]));
             Assert.IsFalse(Double.IsNaN(solver.Solution[1]));
             Assert.IsFalse(Double.IsNaN(solver.Solution[2]));
-
         }
 
         [TestMethod()]

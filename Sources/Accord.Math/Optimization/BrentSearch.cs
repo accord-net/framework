@@ -79,9 +79,8 @@ namespace Accord.Math.Optimization
     /// </example>
     /// 
     /// 
-    public class BrentSearch : IOptimizationMethod
+    public sealed class BrentSearch : IOptimizationMethod
     {
-
 
         /// <summary>
         ///   Gets the number of variables (free parameters)

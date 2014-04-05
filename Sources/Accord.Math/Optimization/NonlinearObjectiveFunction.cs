@@ -40,7 +40,7 @@ namespace Accord.Math.Optimization
         private readonly ReadOnlyDictionary<int, string> readOnlyIndices;
 
         /// <summary>
-        ///   Gets input variable's labels for the function.
+        ///   Gets the name of each input variable.
         /// </summary>
         /// 
         public IDictionary<string, int> Variables
@@ -57,7 +57,16 @@ namespace Accord.Math.Optimization
             get { return readOnlyIndices; }
         }
 
+        /// <summary>
+        ///   Gets the name of each input variable.
+        /// </summary>
+        /// 
         protected Dictionary<string, int> InnerVariables { get { return variables; } }
+
+        /// <summary>
+        ///   Gets the index of each input variable in the function.
+        /// </summary>
+        /// 
         protected Dictionary<int, string> InnerIndices { get { return indices; } } 
 
         /// <summary>
@@ -80,6 +89,10 @@ namespace Accord.Math.Optimization
         public int NumberOfVariables { get; protected set; }
 
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="NonlinearObjectiveFunction"/> class.
+        /// </summary>
+        /// 
         protected NonlinearObjectiveFunction()
         {
             variables = new Dictionary<string, int>();

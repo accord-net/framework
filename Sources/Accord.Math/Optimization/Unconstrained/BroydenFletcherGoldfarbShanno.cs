@@ -57,25 +57,117 @@ namespace Accord.Math.Optimization
     using System;
     using System.ComponentModel;
 
-    public enum BroydenFletcherGoldfarbShannoCode
+    /// <summary>
+    ///   Status codes for the <see cref="BroydenFletcherGoldfarbShanno"/>
+    ///   function optimizer.
+    /// </summary>
+    /// 
+    public enum BroydenFletcherGoldfarbShannoStatus
     {
+        /// <summary>
+        ///   Convergence was attained.
+        /// </summary>
+        /// 
         [Description("LBFGS_SUCCESS")]
-        Success,
+        Success = 0,
 
-        [Description("LBFGSERR_MAXIMUMITERATION")]
-        MaximumIterations,
+        /// <summary>
+        ///   The optimization stopped before convergence; maximum
+        ///   number of iterations could have been reached.
+        /// </summary>
+        /// 
+        [Description("LBFGS_STOP")]
+        Stop = 1,
 
+        /// <summary>
+        ///   The function is already at a minimum.
+        /// </summary>
+        /// 
         [Description("LBFGS_ALREADY_MINIMIZED")]
         AlreadyMinimized,
 
+        /// <summary>
+        ///   Unknown error.
+        /// </summary>
+        /// 
+        [Description("LBFGSERR_UNKNOWNERROR")]
+        UnknownError = -1024,
+
+        /// <summary>
+        ///   The line-search step went out of the interval of uncertainty.
+        /// </summary>
+        /// 
+        [Description("LBFGSERR_OUTOFINTERVAL")]
+        OutOfInterval = -1003,
+
+        /// <summary>
+        ///   A logic error occurred; alternatively, the interval of uncertainty became too small.
+        /// </summary>
+        /// 
+        [Description("LBFGSERR_INCORRECT_TMINMAX")]
+        IncorrectMinMax,
+
+        /// <summary>
+        ///   A rounding error occurred; alternatively, no line-search step satisfies
+        ///   the sufficient decrease and curvature conditions. The line search routine
+        ///   will terminate with this code if the relative width of the interval of 
+        ///   uncertainty is less than <see cref="BroydenFletcherGoldfarbShanno.FunctionTolerance"/>.
+        /// </summary>
+        /// 
         [Description("LBFGSERR_ROUNDING_ERROR")]
         RoundingError,
 
+        /// <summary>
+        ///   The line-search step became smaller than <see cref=" BroydenFletcherGoldfarbShanno.MinStep"/>.
+        /// </summary>
+        /// 
+        [Description("LBFGSERR_MINIMUMSTEP")]
+        MinimumStep,
+
+        /// <summary>
+        ///    The line-search step became larger than <see cref=" BroydenFletcherGoldfarbShanno.MaxStep"/>.
+        /// </summary>
+        /// 
+        [Description("LBFGSERR_MAXIMUMSTEP")]
+        MaximumStep,
+
+        /// <summary>
+        ///   The line-search routine reaches the maximum number of evaluations.
+        /// </summary>
+        /// 
         [Description("LBFGSERR_MAXIMUMLINESEARCH")]
         MaximumLineSearch,
 
-        [Description("LBFGS_STOP")]
-        Stop
+        /// <summary>
+        ///   Maximum number of iterations was reached.
+        /// </summary>
+        /// 
+        [Description("LBFGSERR_MAXIMUMITERATION")]
+        MaximumIterations,
+
+        /// <summary>
+        ///   Relative width of the interval of uncertainty is at most 
+        ///   <see cref="BroydenFletcherGoldfarbShanno.FunctionTolerance"/>.
+        /// </summary>
+        ///
+        [Description("LBFGSERR_WIDTHTOOSMALL")]
+        IntervalWidthTooSmall,
+
+        /// <summary>
+        ///   A logic error (negative line-search step) occurred. This
+        ///   could be an indication that something could be wrong with
+        ///   the gradient function.
+        /// </summary>
+        /// 
+        [Description("LBFGSERR_INVALIDPARAMETERS")]
+        InvalidParameters,
+
+        /// <summary>
+        ///   The current search direction increases the objective function value.
+        /// </summary>
+        /// 
+        [Description("LBFGSERR_INCREASEGRADIENT")]
+        IncreaseGradient,
     }
 
     /// <summary>
@@ -220,7 +312,8 @@ namespace Accord.Math.Optimization
     /// var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2, function: f, gradient: g);
     /// 
     /// // And then minimize the function:
-    /// double minValue = lbfgs.Minimize();
+    /// bool success = lbfgs.Minimize();
+    /// double minValue = lbfgs.Value;
     /// double[] solution = lbfgs.Solution;
     /// 
     /// // The resultant minimum value should be -2, and the solution
@@ -253,7 +346,7 @@ namespace Accord.Math.Optimization
         private int orthantwise_start = 0;
         private int orthantwise_end = -1;
 
-        
+
 
         #region Properties
 
@@ -279,7 +372,7 @@ namespace Accord.Math.Optimization
                 if (value <= 0)
                 {
                     throw ArgumentException("value",
-                        "The number of corrections must be greater than zero.", 
+                        "The number of corrections must be greater than zero.",
                         "LBFGSERR_INVALID_M");
                 }
 
@@ -308,8 +401,8 @@ namespace Accord.Math.Optimization
             {
                 if (value < 0)
                 {
-                    throw ArgumentException("value", 
-                        "Epsilon should be positive or zero.", 
+                    throw ArgumentException("value",
+                        "Epsilon should be positive or zero.",
                         "LBFGSERR_INVALID_EPSILON");
                 }
 
@@ -336,7 +429,7 @@ namespace Accord.Math.Optimization
                 if (value < 0)
                 {
                     throw ArgumentException("value",
-                        "Past should be positive or zero.", 
+                        "Past should be positive or zero.",
                         "LBFGSERR_INVALID_TESTPERIOD");
                 }
 
@@ -369,8 +462,8 @@ namespace Accord.Math.Optimization
             {
                 if (value < 0)
                 {
-                    throw ArgumentException("value", 
-                        "Delta should be positive or zero.", 
+                    throw ArgumentException("value",
+                        "Delta should be positive or zero.",
                         "LBFGSERR_INVALID_DELTA");
                 }
 
@@ -383,11 +476,11 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <remarks>
-        ///   The minimize function terminates an optimization process with <see
-        ///   cref="Code.MaximumIterations"/> status code when the iteration count 
-        ///   exceeds this parameter. Setting this parameter to zero continues an
-        ///   optimization process until a convergence or error. The default value
-        ///   is 0.</remarks>
+        ///   The minimize function terminates an optimization process with 
+        ///   <see cref="BroydenFletcherGoldfarbShannoStatus.MaximumIterations"/> status
+        ///   code when the iteration count exceeds this parameter. Setting this parameter
+        ///   to zero continues an optimization process until a convergence or error. The
+        ///   default value is 0.</remarks>
         /// 
         public int MaxIterations
         {
@@ -396,7 +489,7 @@ namespace Accord.Math.Optimization
             {
                 if (value < 0)
                 {
-                    throw ArgumentException("value", 
+                    throw ArgumentException("value",
                         "Maximum number of iterations must be positive or zero.",
                        "LBFGSERR_MAXIMUMITERATION");
                 }
@@ -422,7 +515,7 @@ namespace Accord.Math.Optimization
                 if (!Enum.IsDefined(typeof(LineSearch), value))
                 {
                     throw ArgumentException("value",
-                        "Invalid line-search method.", 
+                        "Invalid line-search method.",
                         "LBFGSERR_INVALID_LINESEARCH");
                 }
 
@@ -447,7 +540,7 @@ namespace Accord.Math.Optimization
                 if (value <= 0)
                 {
                     throw ArgumentException("value",
-                        "Maximum line searches must be greater than zero.", 
+                        "Maximum line searches must be greater than zero.",
                         "LBFGSERR_INVALID_MAXLINESEARCH");
                 }
 
@@ -498,8 +591,8 @@ namespace Accord.Math.Optimization
             {
                 if (value < 0)
                 {
-                    throw ArgumentException("value", 
-                        "Maximum step must be greater than the minimum step", 
+                    throw ArgumentException("value",
+                        "Maximum step must be greater than the minimum step",
                         "LBFGSERR_INVALID_MAXSTEP");
                 }
 
@@ -578,7 +671,7 @@ namespace Accord.Math.Optimization
                 if (value < 0)
                 {
                     throw ArgumentException("value",
-                        "Gradient tolerance must be positive or zero.", 
+                        "Gradient tolerance must be positive or zero.",
                         "LBFGSERR_INVALID_GTOL");
                 }
 
@@ -638,7 +731,7 @@ namespace Accord.Math.Optimization
                 if (value < 0)
                 {
                     throw ArgumentException("value",
-                        "Orthantwise C should be positive or zero.",
+                        "Orthant-wise C should be positive or zero.",
                         "LBFGSERR_INVALID_ORTHANTWISE");
                 }
 
@@ -718,9 +811,14 @@ namespace Accord.Math.Optimization
         /// 
         public event EventHandler<OptimizationProgressEventArgs> Progress;
 
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        /// </summary>
+        /// 
+        public BroydenFletcherGoldfarbShannoStatus Status { get; set; }
 
-        public BroydenFletcherGoldfarbShannoCode Status { get; set; }
-        
         #endregion
 
         #region Constructors
@@ -764,15 +862,13 @@ namespace Accord.Math.Optimization
 
         #endregion
 
-       
+
+
 
         /// <summary>
-        ///   Minimizes the defined function. 
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
         /// </summary>
-        /// 
-        /// <param name="values">The initial guess values for the parameters. Default is the zero vector.</param>
-        /// 
-        /// <returns>The minimum value found at the <see cref="Solution"/>.</returns>
         /// 
         protected override bool Optimize()
         {
@@ -780,12 +876,12 @@ namespace Accord.Math.Optimization
                 LineSearch == Optimization.LineSearch.StrongWolfe)
             {
                 if (wolfe <= ftol || 1.0 <= wolfe)
-                    throw OperationException("Wolfe tolerance must be between ftol and 1.", "LBFGSERR_INVALID_WOLFE");
+                    throw OperationException("Wolfe tolerance must be between 'ParameterTolerance' and 1.", "LBFGSERR_INVALID_WOLFE");
             }
 
             if (OrthantwiseC != 0.0 && linesearch != Optimization.LineSearch.RegularWolfe)
             {
-                throw OperationException("Orthant-wise updates are only available with RegularWolfe line search.",
+                throw OperationException("Orthant-wise updates are only available with Regular Wolfe line search.",
                     "LBFGSERR_INVALID_LINESEARCH");
             }
 
@@ -809,25 +905,17 @@ namespace Accord.Math.Optimization
                 orthantwise_end = orthantwise_end,
             };
 
-            int ret = LBFGS.main(Solution, Function, Gradient, Progress, param);
+            LBFGS.Code ret = (LBFGS.Code)LBFGS.main(Solution, Function, Gradient, Progress, param);
 
-            Status = BroydenFletcherGoldfarbShannoCode.Success;
+            Status = (BroydenFletcherGoldfarbShannoStatus)ret;
 
-            if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_MAXIMUMITERATION)
-                Status = BroydenFletcherGoldfarbShannoCode.MaximumIterations;
-            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGS_ALREADY_MINIMIZED)
-                Status = BroydenFletcherGoldfarbShannoCode.AlreadyMinimized;
-            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_ROUNDING_ERROR)
-                Status = BroydenFletcherGoldfarbShannoCode.RoundingError;
-            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_MAXIMUMLINESEARCH)
-                Status = BroydenFletcherGoldfarbShannoCode.MaximumLineSearch;
-            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGS_STOP)
-                Status = BroydenFletcherGoldfarbShannoCode.Stop;
-            else if ((LBFGS.Code)ret == LBFGS.Code.LBFGSERR_INVALIDPARAMETERS)
-                throw OperationException("Negative line search occurred.", "LBFGSERR_INVALIDPARAMETERS");
+            if (!Enum.IsDefined(typeof(BroydenFletcherGoldfarbShannoStatus), Status))
+                throw new InvalidOperationException("Unhandled return code: " + ret);
 
-            return Status == BroydenFletcherGoldfarbShannoCode.Success ||
-                   Status == BroydenFletcherGoldfarbShannoCode.AlreadyMinimized;
+            
+
+            return Status == BroydenFletcherGoldfarbShannoStatus.Success ||
+                   Status == BroydenFletcherGoldfarbShannoStatus.AlreadyMinimized;
         }
 
 

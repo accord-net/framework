@@ -4,7 +4,7 @@ using namespace System::Collections::Generic;
 using namespace System::Reflection;
 
 [assembly:AssemblyKeyFileAttribute("Accord.snk")];
-//[assembly:AssemblyDelaySignAttribute(true)];
+
 
 namespace AccordTestsMathCpp2 
 {

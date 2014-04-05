@@ -28,6 +28,7 @@ namespace Accord.Math.Optimization
     ///   Common interface for function optimization methods.
     /// </summary>
     /// 
+    /// <seealso cref="BoundedBroydenFletcherGoldfarbShanno"/>
     /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
     /// <seealso cref="ConjugateGradient"/>
     /// <seealso cref="ResilientBackpropagation"/>
@@ -53,7 +54,7 @@ namespace Accord.Math.Optimization
         double[] Solution { get; set; }
 
         /// <summary>
-        ///   Gets the output of the function at the current solution.
+        ///   Gets the output of the function at the current <see cref="Solution"/>.
         /// </summary>
         /// 
         double Value { get; }
@@ -63,13 +64,9 @@ namespace Accord.Math.Optimization
         ///   will be made available at the <see cref="Solution"/> property.
         /// </summary>
         /// 
-        /// <param name="values">The initial guess values for the parameters.
-        ///   If the algorithm converges, this vector will contain the best 
-        ///   solution found during optimization.</param>
-        /// 
-        /// <returns>The minimum value of the function  over its parameter
-        ///   range. The solution vector that produces this minimum value 
-        ///   will be available in the <see cref="Solution"/> property.</returns>
+        /// <returns>Returns <c>true</c> if the method converged to a <see cref="Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="Value"/>
+        ///   property.</returns>
         ///  
         bool Minimize();
 
@@ -78,15 +75,33 @@ namespace Accord.Math.Optimization
         ///   will be made available at the <see cref="Solution"/> property.
         /// </summary>
         /// 
-        /// <param name="values">The initial guess values for the parameters.
-        ///   If the algorithm converges, this vector will contain the best 
-        ///   solution found during optimization.</param>
-        /// 
-        /// <returns>The maximum value of the function  over its parameter
-        ///   range. The solution vector that produces this maximum value 
-        ///   will be available in the <see cref="Solution"/> property.</returns>
+        /// <returns>Returns <c>true</c> if the method converged to a <see cref="Solution"/>.
+        ///   In this case, the found value will also be available at the <see cref="Value"/>
+        ///   property.</returns>
         ///  
         bool Maximize();
 
+    }
+
+    /// <summary>
+    ///   Common interface for function optimization methods.
+    /// </summary>
+    /// 
+    /// <seealso cref="BoundedBroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="ConjugateGradient"/>
+    /// <seealso cref="ResilientBackpropagation"/>
+    /// <seealso cref="GoldfarbIdnani"/>
+    /// 
+    public interface IOptimizationMethod<TCode> : IOptimizationMethod
+        where TCode : struct
+    {
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        /// </summary>
+        /// 
+        TCode Status { get; }
     }
 }

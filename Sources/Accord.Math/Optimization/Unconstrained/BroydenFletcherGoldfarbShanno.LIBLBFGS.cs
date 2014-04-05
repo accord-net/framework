@@ -109,7 +109,7 @@ namespace Accord.Math.Optimization
                 fx = fn(start);
 
             if (progress != null)
-            progress(null, new OptimizationProgressEventArgs(0, 0, null, 0, start, 0, fx, 0, false));
+                progress(null, new OptimizationProgressEventArgs(0, 0, null, 0, start, 0, fx, 0, false));
 
             //lbfgs_free(x);
             return (int)ret;
@@ -177,17 +177,17 @@ namespace Accord.Math.Optimization
         {
             return new double[size];
         }
+        /*
+                static void vecset(double[] x, double c, int n)
+                {
+                    int i;
 
-        static void vecset(double[] x, double c, int n)
-        {
-            int i;
-
-            for (i = 0; i < n; ++i)
-            {
-                x[i] = c;
-            }
-        }
-
+                    for (i = 0; i < n; ++i)
+                    {
+                        x[i] = c;
+                    }
+                }
+        */
         static void veccpy(double[] y, double[] x, int n)
         {
             int i;
@@ -237,7 +237,7 @@ namespace Accord.Math.Optimization
                 y[i] *= c;
             }
         }
-
+/*
         static void vecmul(double[] y, double[] x, int n)
         {
             int i;
@@ -247,7 +247,7 @@ namespace Accord.Math.Optimization
                 y[i] *= x[i];
             }
         }
-
+*/
         static void vecdot(out double s, double[] x, double[] y, int n)
         {
             int i;
@@ -464,16 +464,16 @@ namespace Accord.Math.Optimization
             orthantwise_end = -1,
         };
 
+        /*
+                static double[] LBFGS_malloc(int n)
+                {
+                    return new double[n];
+                }
 
-        static double[] LBFGS_malloc(int n)
-        {
-            return new double[n];
-        }
-
-        static void LBFGS_free(double[] x)
-        {
-        }
-
+                static void LBFGS_free(double[] x)
+                {
+                }
+        */
         static Code lbfgs(
             int n,
             double[] x,
@@ -531,7 +531,7 @@ namespace Accord.Math.Optimization
                     return Code.LBFGSERR_INVALID_WOLFE;
                 }
             }
-         
+
             if (param.orthantwise_start < 0 || n < param.orthantwise_start)
             {
                 return Code.LBFGSERR_INVALID_ORTHANTWISE_START;
@@ -878,10 +878,7 @@ namespace Accord.Math.Optimization
 
         lbfgs_exit:
             /* Return the final value of the objective function. */
-            if (ptr_fx != null)
-            {
-                ptr_fx = fx;
-            }
+            ptr_fx = fx;
 
             return ret;
         }
@@ -1376,8 +1373,7 @@ namespace Accord.Math.Optimization
          *  @param  v       The value of another point, v.
          *  @param  fv      The value of f(v).
          */
-        public static void QUARD_MINIMIZER(ref double qm, ref double u, ref double fu, ref double du, ref double v, ref double fv, ref double a, ref double d, ref double gamma, ref double theta, ref double p, ref double q,
-            ref double r, ref double s)
+        public static void QUARD_MINIMIZER(ref double qm, ref double u, ref double fu, ref double du, ref double v, ref double fv, ref double a)
         {
             a = (v) - (u);
             (qm) = (u) + (du) / (((fu) - (fv)) / a + (du)) / 2 * a;
@@ -1390,9 +1386,7 @@ namespace Accord.Math.Optimization
          *  @param  v       The value of another point, v.
          *  @param  dv      The value of f'(v).
          */
-        public static void QUARD_MINIMIZER2(ref double qm, ref double u, ref double du, ref double v,
-            ref double dv, ref double a, ref double d, ref double gamma, ref double theta, ref double p, ref double q,
-            ref double r, ref double s)
+        public static void QUARD_MINIMIZER2(ref double qm, ref double u, ref double du, ref double v, ref double dv, ref double a)
         {
             a = (u) - (v);
             (qm) = (v) + (dv) / ((dv) - (du)) * a;
@@ -1483,7 +1477,8 @@ namespace Accord.Math.Optimization
                 brackt = 1;
                 bound = 1;
                 CUBIC_MINIMIZER(ref mc, ref x, ref fx, ref dx, ref t, ref ft, ref dt, ref a, ref d, ref gamma, ref theta, ref p, ref q, ref r, ref s);
-                QUARD_MINIMIZER(ref mq, ref x, ref fx, ref dx, ref t, ref ft, ref a, ref d, ref gamma, ref theta, ref p, ref q, ref r, ref s);
+                QUARD_MINIMIZER(ref mq, ref x, ref fx, ref dx, ref t, ref ft, ref a);
+
                 if (System.Math.Abs(mc - x) < System.Math.Abs(mq - x))
                 {
                     newt = mc;
@@ -1504,7 +1499,7 @@ namespace Accord.Math.Optimization
                 brackt = 1;
                 bound = 0;
                 CUBIC_MINIMIZER(ref mc, ref x, ref fx, ref dx, ref t, ref ft, ref dt, ref a, ref d, ref gamma, ref theta, ref p, ref q, ref r, ref s);
-                QUARD_MINIMIZER2(ref mq, ref x, ref dx, ref t, ref dt, ref a, ref d, ref gamma, ref theta, ref p, ref q, ref r, ref s);
+                QUARD_MINIMIZER2(ref mq, ref x, ref dx, ref t, ref dt, ref a);
                 if (System.Math.Abs(mc - t) > System.Math.Abs(mq - t))
                 {
                     newt = mc;
@@ -1529,7 +1524,7 @@ namespace Accord.Math.Optimization
                  */
                 bound = 1;
                 CUBIC_MINIMIZER2(ref mc, ref x, ref fx, ref dx, ref t, ref ft, ref dt, ref tmin, ref tmax, ref a, ref d, ref gamma, ref theta, ref p, ref q, ref r, ref s);
-                QUARD_MINIMIZER2(ref mq, ref x, ref dx, ref t, ref dt, ref a, ref d, ref gamma, ref theta, ref p, ref q, ref r, ref s);
+                QUARD_MINIMIZER2(ref mq, ref x, ref dx, ref t, ref dt, ref a);
                 if (brackt != 0)
                 {
                     if (System.Math.Abs(t - mc) < System.Math.Abs(t - mq))

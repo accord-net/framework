@@ -193,7 +193,7 @@ namespace Accord.Tests.Statistics
                 var target = new Independent<NormalDistribution>(p1, p2);
                 target.Fit(data1);
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException)
             {
                 thrown1 = true;
             }

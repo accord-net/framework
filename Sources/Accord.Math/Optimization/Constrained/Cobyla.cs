@@ -34,23 +34,26 @@ namespace Accord.Math.Optimization.Constrained
 
 
     /// <summary>
-    /// Status of optimization upon return.
+    ///   Cobyla exit codes.
     /// </summary>
-    public enum CobylaExitStatus
+    /// 
+    public enum CobylaStatus
     {
         /// <summary>
-        /// Optimization successfully completed.
+        ///   Optimization successfully completed.
         /// </summary>
-        Normal,
+        Success = 0,
 
         /// <summary>
-        /// Maximum number of iterations (function/constraints evaluations) reached during optimization.
+        ///   Maximum number of iterations (function/constraints evaluations) reached during optimization.
         /// </summary>
+        /// 
         MaxIterationsReached,
 
         /// <summary>
-        /// Size of rounding error is becoming damaging, terminating prematurely.
+        ///   Size of rounding error is becoming damaging, terminating prematurely.
         /// </summary>
+        /// 
         DivergingRoundingErrors
     }
 
@@ -82,7 +85,8 @@ namespace Accord.Math.Optimization.Constrained
     /// not be entered as the zero vector.
     /// </remarks>
     ///
-    public class Cobyla : BaseOptimizationMethod, IOptimizationMethod
+    public class Cobyla : BaseOptimizationMethod, IOptimizationMethod,
+        IOptimizationMethod<CobylaStatus>
     {
 
         double rhobeg = 0.5;
@@ -91,17 +95,17 @@ namespace Accord.Math.Optimization.Constrained
         int iterations;
 
         NonlinearConstraint[] constraints;
-
+/*
         /// <summary>
         ///   Occurs when progress is made during the optimization.
         /// </summary>
         /// 
         public event EventHandler<OptimizationProgressEventArgs> Progress;
-
+*/
 
         /// <summary>
         ///   Gets the number of iterations performed in the last
-        ///   call to <see cref="Minimize()"/>.
+        ///   call to <see cref="IOptimizationMethod.Minimize()"/>.
         /// </summary>
         /// 
         /// <value>
@@ -125,14 +129,19 @@ namespace Accord.Math.Optimization.Constrained
             set { maxfun = value; }
         }
 
-        public CobylaExitStatus Code { get; private set; }
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        /// </summary>
+        /// 
+        public CobylaStatus Status { get; private set; }
 
         /// <summary>
         ///   Creates a new instance of the Cobyla optimization algorithm.
         /// </summary>
         /// 
         /// <param name="numberOfVariables">The number of free parameters in the function to be optimized.</param>
-        /// <param name="function">The function to be optimized.</param>
         /// 
         public Cobyla(int numberOfVariables)
             : base(numberOfVariables)
@@ -152,8 +161,6 @@ namespace Accord.Math.Optimization.Constrained
         {
             this.constraints = new NonlinearConstraint[0];
         }
-
-      
 
         /// <summary>
         ///   Creates a new instance of the Cobyla optimization algorithm.
@@ -195,25 +202,30 @@ namespace Accord.Math.Optimization.Constrained
             for (int i = 0; i < constraints.Length; i++)
             {
                 if (constraints[i].NumberOfVariables != function.NumberOfVariables)
-                    throw new DimensionMismatchException("constraints", "The constraint at position " + i + 
+                    throw new DimensionMismatchException("constraints", "The constraint at position " + i +
                         " contains an unexpected number of variables. Expected value would be " + NumberOfVariables + ".");
 
                 if (constraints[i].ShouldBe == ConstraintType.EqualTo)
-                    throw new ArgumentException("constraints", "Inequality constraints are not supported."
-                        + " The constraint at position " + i + " is an inequality constraint.");
+                    throw new ArgumentException("Inequality constraints are not supported."
+                        + " The constraint at position " + i + " is an inequality constraint.", "constraints");
             }
 
             this.constraints = constraints;
         }
 
 
+        /// <summary>
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
+        /// </summary>
+        /// 
         protected override bool Optimize()
         {
-            Code = cobyla();
-            return Code == CobylaExitStatus.Normal;
+            Status = cobyla();
+            return Status == CobylaStatus.Success;
         }
 
-        private CobylaExitStatus cobyla()
+        private CobylaStatus cobyla()
         {
             //     This subroutine minimizes an objective function F(X) subject to M
             //     inequality constraints on X, where X is a vector of variables that has
@@ -325,16 +337,16 @@ namespace Accord.Math.Optimization.Constrained
             var jdrop = np;
             var ibrnch = false;
 
-            CobylaExitStatus status;
+            CobylaStatus status;
 
-            //     Make the next call of the user-supplied subroutine CALCFC. These
+        //     Make the next call of the user-supplied subroutine CALCFC. These
         //     instructions are also used for calling CALCFC during the iterations of
         //     the algorithm.
 
         L_40:
             if (iterations >= maxfun && iterations > 0)
             {
-                status = CobylaExitStatus.MaxIterationsReached;
+                status = CobylaStatus.MaxIterationsReached;
                 goto L_600;
             }
 
@@ -476,7 +488,7 @@ namespace Accord.Math.Optimization.Constrained
 
             if (error > 0.1)
             {
-                status = CobylaExitStatus.DivergingRoundingErrors;
+                status = CobylaStatus.DivergingRoundingErrors;
                 goto L_600;
             }
 
@@ -833,7 +845,7 @@ namespace Accord.Math.Optimization.Constrained
 
             //     Return the best calculated values of the variables.
 
-            status = CobylaExitStatus.Normal;
+            status = CobylaStatus.Success;
 
             if (ifull)
                 goto L_620;
@@ -943,7 +955,7 @@ namespace Accord.Math.Optimization.Constrained
             if (resmax == 0.0)
                 goto L_480;
 
-            //     End the current stage of the calculation if 3 consecutive iterations
+        //     End the current stage of the calculation if 3 consecutive iterations
         //     have either failed to reduce the best calculated value of the objective
         //     function or to increase the number of active constraints since the best
         //     value was calculated. This strategy prevents cycling, but there is a
@@ -1161,7 +1173,7 @@ namespace Accord.Math.Optimization.Constrained
             vmultc[nact] = ratio;
 
             //     Update IACT and ensure that the objective function continues to be
-            //     treated as the last active constraint when MCON>M.
+        //     treated as the last active constraint when MCON>M.
 
         L_210:
             iact[icon] = iact[nact];
@@ -1278,10 +1290,10 @@ namespace Accord.Math.Optimization.Constrained
                 sdirn[k] = temp * z[k, nact];
 
             //     Calculate the step to the boundary of the trust region or take the step
-            //     that reduces RESMAX to zero. The two statements below that include the
-            //     factor 1.0E-6 prevent some harmless underflows that occurred in a test
-            //     calculation. Further, we skip the step if it could be zero within a
-            //     reasonable tolerance for computer rounding errors.
+        //     that reduces RESMAX to zero. The two statements below that include the
+        //     factor 1.0E-6 prevent some harmless underflows that occurred in a test
+        //     calculation. Further, we skip the step if it could be zero within a
+        //     reasonable tolerance for computer rounding errors.
 
         L_340:
             var dd = rho * rho;
@@ -1457,8 +1469,8 @@ namespace Accord.Math.Optimization.Constrained
             vmultc[mcon] = 0.0;
             goto L_60;
 
-            //     We employ any freedom that may be available to reduce the objective
-            //     function before returning a DX whose length is less than RHO.
+        //     We employ any freedom that may be available to reduce the objective
+        //     function before returning a DX whose length is less than RHO.
 
         L_490:
             if (mcon == m)

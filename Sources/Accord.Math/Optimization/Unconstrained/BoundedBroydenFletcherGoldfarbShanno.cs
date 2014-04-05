@@ -26,14 +26,36 @@
 namespace Accord.Math.Optimization
 {
     using System;
+    using System.ComponentModel;
 
-    public enum BoundedBroydenFletcherGoldfarbShannoCode
+    /// <summary>
+    ///   Status codes for the <see cref="BoundedBroydenFletcherGoldfarbShanno"/>
+    ///   function optimizer.
+    /// </summary>
+    /// 
+    public enum BoundedBroydenFletcherGoldfarbShannoStatus
     {
-        Success,
+        /// <summary>
+        ///   The function output converged to a static 
+        ///   value within the desired precision.
+        /// </summary>
+        /// 
         FunctionConvergence,
+
+        /// <summary>
+        ///   The function gradient converged to a minimum
+        ///   value within the desired precision.
+        /// </summary>
+        /// 
         GradientConvergence,
 
-        LineSearchFailed = -1, // ABNORMAL_TERMINATION_IN_LNSRCH,
+        /// <summary>
+        ///   The inner line search function failed. This could be an indication 
+        ///   that there might be something wrong with the gradient function.
+        /// </summary>
+        /// 
+        [Description("ABNORMAL_TERMINATION_IN_LNSRCH")]
+        LineSearchFailed = -1,
     }
 
     /// <summary>
@@ -112,7 +134,8 @@ namespace Accord.Math.Optimization
     /// var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2, function: f, gradient: g);
     /// 
     /// // And then minimize the function:
-    /// double minValue = lbfgs.Minimize();
+    /// bool success = lbfgs.Minimize();
+    /// double minValue = lbfgs.Value;
     /// double[] solution = lbfgs.Solution;
     /// 
     /// // The resultant minimum value should be -2, and the solution
@@ -124,8 +147,9 @@ namespace Accord.Math.Optimization
     /// </code>
     /// </example>
     /// 
-    public partial class BoundedBroydenFletcherGoldfarbShanno 
-        : BaseGradientOptimizationMethod, IGradientOptimizationMethod
+    public partial class BoundedBroydenFletcherGoldfarbShanno
+        : BaseGradientOptimizationMethod, IGradientOptimizationMethod,
+        IOptimizationMethod<BoundedBroydenFletcherGoldfarbShannoStatus>
     {
 
 
@@ -159,7 +183,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of iterations performed in the last
-        ///   call to <see cref="Minimize()"/>.
+        ///   call to <see cref="IOptimizationMethod.Minimize()"/>
+        ///   or <see cref="IOptimizationMethod.Maximize()"/>.
         /// </summary>
         /// 
         /// <value>
@@ -181,7 +206,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of function evaluations performed
-        ///   in the last call to <see cref="Minimize()"/>.
+        ///   in the last call to <see cref="IOptimizationMethod.Minimize()"/>
+        ///   or <see cref="IOptimizationMethod.Maximize()"/>.
         /// </summary>
         /// 
         /// <value>
@@ -204,7 +230,7 @@ namespace Accord.Math.Optimization
             set
             {
                 if (value <= 0)
-                    throw ArgumentException("value", 
+                    throw ArgumentException("value",
                         "Number of corrections should be higher than zero.", "ERROR: M .LE. 0");
 
                 corrections = value;
@@ -256,7 +282,7 @@ namespace Accord.Math.Optimization
             {
                 if (value < 0)
                 {
-                    throw ArgumentException("value", 
+                    throw ArgumentException("value",
                         "Tolerance must be greater than or equal to zero.", "ERROR: FACTR .LT. 0");
                 }
 
@@ -285,7 +311,13 @@ namespace Accord.Math.Optimization
             set { pgtol = value; }
         }
 
-        public BoundedBroydenFletcherGoldfarbShannoCode Status { get; private set; }
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        /// </summary>
+        /// 
+        public BoundedBroydenFletcherGoldfarbShannoStatus Status { get; private set; }
 
         #endregion
 
@@ -335,6 +367,10 @@ namespace Accord.Math.Optimization
         #endregion
 
 
+        /// <summary>
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
+        /// </summary>
         protected override bool Optimize()
         {
             if (Function == null)
@@ -398,6 +434,8 @@ namespace Accord.Math.Optimization
                     x[i] = Solution[i];
             }
 
+            double newF = 0;
+            double[] newG = null;
 
             // We start the iteration by initializing task.
             task = "START";
@@ -418,11 +456,57 @@ namespace Accord.Math.Optimization
                 factr, pgtol, work, 0, iwa, 0, ref task, iprint, ref csave,
                 lsave, 0, isave, 0, dsave, 0);
 
-            double newF = Function(x.Submatrix(n));
-            double[] newG = Gradient(x.Submatrix(n));
+
+            // 
+            if ((task.StartsWith("FG", StringComparison.OrdinalIgnoreCase)))
+            {
+                newF = Function(x);
+                newG = Gradient(x);
+                evaluations++;
+
+                f = newF;
+
+                for (int j = 0; j < newG.Length; j++)
+                    g[j] = newG[j];
+            }
+
+            // c
+            else if ((task.StartsWith("NEW_X", StringComparison.OrdinalIgnoreCase)))
+            {
+
+            }
+            else
+            {
+                if (task == "ABNORMAL_TERMINATION_IN_LNSRCH")
+                    Status = BoundedBroydenFletcherGoldfarbShannoStatus.LineSearchFailed;
+                else if (task == "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH")
+                    Status = BoundedBroydenFletcherGoldfarbShannoStatus.FunctionConvergence;
+                else if (task == "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL")
+                    Status = BoundedBroydenFletcherGoldfarbShannoStatus.GradientConvergence;
+                else throw OperationException(task, task);
+
+                for (int j = 0; j < Solution.Length; j++)
+                    Solution[j] = x[j];
+
+                newF = Function(x);
+                newG = Gradient(x);
+                evaluations++;
+
+                if (Progress != null)
+                    Progress(this, new OptimizationProgressEventArgs(iterations, 0, newG, 0, null, 0, newF, 0, true)
+                    {
+                        Tag = Tuple.Create(
+                            (int[])isave.Clone(), (double[])dsave.Clone(),
+                            (bool[])lsave.Clone(), (String)csave.Clone(),
+                            (double[])work.Clone())
+                    });
+
+                return true;
+            }
+
 
             if (Progress != null)
-                Progress(this, new OptimizationProgressEventArgs(iterations, 0, newG, 0, null, 0, newF, 0, false)
+                Progress(this, new OptimizationProgressEventArgs(iterations, 0, newG, 0, null, 0, f, 0, false)
                 {
                     Tag = Tuple.Create(
                         (int[])isave.Clone(), (double[])dsave.Clone(),
@@ -430,41 +514,11 @@ namespace Accord.Math.Optimization
                         (double[])work.Clone())
                 });
 
-            // 
-            if ((task.StartsWith("FG")))
-            {
-                f = newF;
-
-                for (int j = 0; j < newG.Length; j++)
-                    g[j] = newG[j];
-
-                goto L111;
-            }
-
-            // c
-            else if ((task.StartsWith("NEW_X")))
-            {
-                goto L111;
-            }
-            else
-            {
-                if (task == "ABNORMAL_TERMINATION_IN_LNSRCH")
-                    Status = BoundedBroydenFletcherGoldfarbShannoCode.LineSearchFailed;
-                else if (task == "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH")
-                    Status = BoundedBroydenFletcherGoldfarbShannoCode.FunctionConvergence;
-                else if (task == "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL")
-                    Status = BoundedBroydenFletcherGoldfarbShannoCode.GradientConvergence;
-                else throw OperationException(task, task);
-            }
-
-            for (int j = 0; j < Solution.Length; j++)
-                Solution[j] = x[j];
-
-            return true;
+            goto L111;
         }
 
 
-       
+
 
     }
 }

@@ -373,15 +373,9 @@ namespace Accord.Tests.Math
 
             var lbfgs = new BroydenFletcherGoldfarbShanno(2, function, gradient);
 
-            bool thrown = false;
-            try { lbfgs.Minimize(start); }
-            catch (InvalidOperationException ex)
-            {
-                Assert.AreEqual("LBFGSERR_INVALIDPARAMETERS", ex.Data["Code"] as String);
-                thrown = true;
-            }
+            bool success = lbfgs.Minimize(start); 
 
-            Assert.IsTrue(thrown);
+            Assert.IsFalse(success);
         }
 
     }

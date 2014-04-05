@@ -197,56 +197,41 @@ namespace Accord.Math.Optimization
             this.Gradient = gradient;
         }
 
-        private double compute(double[] input)
-        {
-            double sum = 0;
-
-            for (int i = 0; i < indices.Length; i++)
-            {
-                double x = input[indices[i]];
-                double a = CombinedAs[i];
-
-                sum += x * a;
-            }
-
-            return sum;
-        }
-
-        private double[] gradient(double[] x)
-        {
-            return CombinedAs;
-        }
-
         /// <summary>
         ///   Gets how much the constraint is being violated.
         /// </summary>
         /// 
-        /// <param name="x">The function point.</param>
+        /// <param name="input">The function point.</param>
         /// 
-        /// <returns>How much the constraint is being violated at the given point.</returns>
+        /// <returns>
+        ///   How much the constraint is being violated at the given point. Positive
+        ///   value means the constraint is not being violated with the returned slack, 
+        ///   while a negative value means the constraint is being violated by the returned
+        ///   amount.
+        /// </returns>
         /// 
         public double GetViolation(double[] input)
         {
-            double sum = 0;
+            double fx = 0;
 
             for (int i = 0; i < indices.Length; i++)
             {
                 double x = input[indices[i]];
                 double a = CombinedAs[i];
 
-                sum += x * a;
+                fx += x * a;
             }
 
             switch (ShouldBe)
             {
                 case ConstraintType.EqualTo:
-                    return Math.Abs(sum - Value);
+                    return Math.Abs(fx - Value);
 
                 case ConstraintType.GreaterThanOrEqualTo:
-                    return sum - Value;
-                    
+                    return fx - Value;
+
                 case ConstraintType.LesserThanOrEqualTo:
-                    return Value - sum;
+                    return Value - fx;
             }
 
             throw new NotSupportedException();
@@ -281,6 +266,27 @@ namespace Accord.Math.Optimization
 
             return true;
         }
+
+        private double compute(double[] input)
+        {
+            double sum = 0;
+
+            for (int i = 0; i < indices.Length; i++)
+            {
+                double x = input[indices[i]];
+                double a = CombinedAs[i];
+
+                sum += x * a;
+            }
+
+            return sum;
+        }
+
+        private double[] gradient(double[] x)
+        {
+            return CombinedAs;
+        }
+
 
         private void parseString(IObjectiveFunction function, string constraint)
         {
@@ -526,9 +532,16 @@ namespace Accord.Math.Optimization
         }
 
 
-
+        /// <summary>
+        ///   Gets the left hand side of the constraint equation.
+        /// </summary>
+        /// 
         public Func<double[], double> Function { get; private set; }
 
+        /// <summary>
+        ///   Gets the gradient of the left hand side of the constraint equation.
+        /// </summary>
+        /// 
         public Func<double[], double[]> Gradient { get; private set; }
 
     }

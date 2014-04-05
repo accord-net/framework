@@ -93,11 +93,11 @@ namespace Accord.Tests.Math.Optimization
 
             target.Minimize((double[])problem.Start.Clone());
 
-            if (target.Status == BoundedBroydenFletcherGoldfarbShannoCode.GradientConvergence)
+            if (target.Status == BoundedBroydenFletcherGoldfarbShannoStatus.GradientConvergence)
                 ActualMessage = "CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL";
-            else if (target.Status == BoundedBroydenFletcherGoldfarbShannoCode.FunctionConvergence)
+            else if (target.Status == BoundedBroydenFletcherGoldfarbShannoStatus.FunctionConvergence)
                 ActualMessage = "CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH";
-            else if (target.Status == BoundedBroydenFletcherGoldfarbShannoCode.LineSearchFailed)
+            else if (target.Status == BoundedBroydenFletcherGoldfarbShannoStatus.LineSearchFailed)
                 ActualMessage = "ABNORMAL_TERMINATION_IN_LNSRCH";
 
             return actual.ToArray();

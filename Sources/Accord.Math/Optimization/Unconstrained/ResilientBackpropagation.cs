@@ -154,6 +154,11 @@ namespace Accord.Math.Optimization
         }
 
 
+        /// <summary>
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
+        /// </summary>
+        /// 
         protected override bool Optimize()
         {
             convergence.Clear();

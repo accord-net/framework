@@ -55,6 +55,7 @@
 //    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
+using System;
 namespace Accord.Math.Optimization
 {
     partial class BoundedBroydenFletcherGoldfarbShanno
@@ -95,7 +96,7 @@ namespace Accord.Math.Optimization
         // 
         // c     Initialize nbdd, prjctd, cnstnd and boxed.
         // 
-        public static void active(int n, double[] l, int _l_offset, double[] u, int _u_offset, int[] nbd,
+        private static void active(int n, double[] l, int _l_offset, double[] u, int _u_offset, int[] nbd,
             int _nbd_offset, double[] x, int _x_offset, int[] iwhere, int _iwhere_offset, int iprint,
             ref bool prjctd, ref bool cnstnd, ref bool boxed)
         {
@@ -257,7 +258,7 @@ namespace Accord.Math.Optimization
         // c        check for zero diagonal elements.
         // c
 
-        public static void dtrsl(double[] t, int _t_offset, int ldt, int n,
+        private static void dtrsl(double[] t, int _t_offset, int ldt, int n,
             double[] b, int _b_offset, int job, ref int info)
         {
             double temp = 0.0d;
@@ -474,7 +475,7 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-        public static void bmv(int m, double[] sy, int _sy_offset, double[] wt, int _wt_offset,
+        private static void bmv(int m, double[] sy, int _sy_offset, double[] wt, int _wt_offset,
             int col, double[] v, int _v_offset, double[] p, int _p_offset, ref int info)
         {
 
@@ -758,7 +759,7 @@ namespace Accord.Math.Optimization
         // c       compute the Cauchy direction d and the breakpoints t; initialize
         // c       the derivative f1 and the vector p = W'd (for theta = 1).
         // 
-        public static void cauchy(int n, double[] x, int _x_offset, double[] l, int _l_offset,
+        private static void cauchy(int n, double[] x, int _x_offset, double[] l, int _l_offset,
             double[] u, int _u_offset, int[] nbd, int _nbd_offset, double[] g, int _g_offset,
             int[] iorder, int _iorder_offset, int[] iwhere, int _iwhere_offset, double[] t, int _t_offset,
             double[] d, int _d_offset, double[] xcp, int _xcp_offset, int m,
@@ -1268,7 +1269,7 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-        public static void cmprlb(int n, int m, double[] x, int _x_offset, double[] g, int _g_offset, double[] ws, int _ws_offset, double[] wy, int _wy_offset, double[] sy, int _sy_offset,
+        private static void cmprlb(int n, int m, double[] x, int _x_offset, double[] g, int _g_offset, double[] ws, int _ws_offset, double[] wy, int _wy_offset, double[] sy, int _sy_offset,
         double[] wt, int _wt_offset, double[] z, int _z_offset, double[] r, int _r_offset,
         double[] wa, int _wa_offset, int[] index, int _index_offset, double theta,
         int col, int head, int nfree, bool cnstnd, ref int info)
@@ -1471,7 +1472,7 @@ namespace Accord.Math.Optimization
         // 
         // c     Initialization block.
         // 
-        public static void dcsrch(double f, double g, ref double stp, double ftol,
+        private static void dcsrch(double f, double g, ref double stp, double ftol,
         double gtol, double xtol, double stpmin, double stpmax, ref string task,
         int[] isave, int _isave_offset, double[] dsave, int _dsave_offset)
         {
@@ -1499,7 +1500,7 @@ namespace Accord.Math.Optimization
             double width = 0.0d;
             double width1 = 0.0d;
 
-            if ((task.StartsWith("START")))
+            if ((task.StartsWith("START", StringComparison.OrdinalIgnoreCase)))
             {
                 // 
                 //  Check the input arguments for errors.
@@ -1539,7 +1540,7 @@ namespace Accord.Math.Optimization
                 // 
                 // c        Exit if there are errors on input.
                 // 
-                if ((task.StartsWith("ERROR")))
+                if ((task.StartsWith("ERROR", StringComparison.OrdinalIgnoreCase)))
                 {
                     return;
                 }
@@ -1643,8 +1644,8 @@ namespace Accord.Math.Optimization
             // 
             // c     Test for termination.
             // 
-            if (((task.StartsWith("WARN")) ||
-                (task.StartsWith("CONV"))))
+            if (((task.StartsWith("WARN", StringComparison.OrdinalIgnoreCase)) ||
+                (task.StartsWith("CONV", StringComparison.OrdinalIgnoreCase))))
             {
                 goto L1000;
             }
@@ -1863,7 +1864,7 @@ namespace Accord.Math.Optimization
         // c     **********
         // 
         // 
-        public static void dcstep(ref double stx, ref double fx, ref double dx,
+        internal static void dcstep(ref double stx, ref double fx, ref double dx,
             ref double sty, ref double fy, ref double dy, ref double stp,
             double fp, double dp, ref bool brackt, double stpmin, double stpmax)
         {
@@ -2134,7 +2135,7 @@ namespace Accord.Math.Optimization
         // 
         // c     Check the input arguments for errors.
         // 
-        public static void errclb(int n, int m, double factr,
+        private static void errclb(int n, int m, double factr,
             double[] l, int _l_offset, double[] u, int _u_offset,
             int[] nbd, int _nbd_offset, ref string task, ref int info, ref int k)
         {
@@ -2319,7 +2320,7 @@ namespace Accord.Math.Optimization
         // c        where L_a is the strictly lower triangular part of S'AA'Y
         // c              R_z is the upper triangular part of S'ZZ'Y.
         // 
-        public static void formk(int n, int nsub, int[] ind, int _ind_offset,
+        private static void formk(int n, int nsub, int[] ind, int _ind_offset,
             int nenter, int ileave, int[] indx2, int _indx2_offset,
             int iupdat, bool updatd, double[] wn, int _wn_offset, double[] wn1, int _wn1_offset,
             int m, double[] ws, int _ws_offset, double[] wy, int _wy_offset,
@@ -2687,7 +2688,7 @@ namespace Accord.Math.Optimization
         // c     Form the upper half of  T = theta*SS + L*D^(-1)*L',
         // c        store T in the upper triangle of the array wt.
         // 
-        public static void formt(int m,
+        private static void formt(int m,
             double[] wt, int _wt_offset,
             double[] sy, int _sy_offset,
             double[] ss, int _ss_offset,
@@ -2789,7 +2790,7 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-        public static void freev(int n, ref int nfree,
+        private static void freev(int n, ref int nfree,
             int[] index, int _index_offset, ref int nenter, ref int ileave,
             int[] indx2, int _indx2_offset, int[] iwhere, int _iwhere_offset,
             ref bool wrk, bool updatd, bool cnstnd, int iprint, int iter)
@@ -2929,7 +2930,7 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-        public static void hpsolb(int n, double[] t, int _t_offset,
+        private static void hpsolb(int n, double[] t, int _t_offset,
         int[] iorder, int _iorder_offset, int iheap)
         {
 
@@ -3047,7 +3048,7 @@ namespace Accord.Math.Optimization
         // c     **********
         // 
         // 
-        public static void lnsrlb(int n, double[] l, int _l_offset, double[] u, int _u_offset,
+        private static void lnsrlb(int n, double[] l, int _l_offset, double[] u, int _u_offset,
             int[] nbd, int _nbd_offset, double[] x, int _x_offset, double f, ref double fold, ref double gd,
             ref double gdold, double[] g, int _g_offset, double[] d, int _d_offset, double[] r, int _r_offset,
             double[] t, int _t_offset, double[] z, int _z_offset, ref double stp,
@@ -3061,7 +3062,7 @@ namespace Accord.Math.Optimization
             double a1 = 0.0d;
             double a2 = 0.0d;
 
-            if ((task.Substring((1) - 1, 5).StartsWith("FG_LN")))
+            if ((task.Substring((1) - 1, 5).StartsWith("FG_LN", StringComparison.OrdinalIgnoreCase)))
             {
                 goto L556;
             }
@@ -3164,8 +3165,8 @@ namespace Accord.Math.Optimization
 
             // 
             xstep = (stp * dnorm);
-            if (((!csave.StartsWith("CONV"))
-                && (!csave.StartsWith("WARN"))))
+            if (((!csave.StartsWith("CONV", StringComparison.OrdinalIgnoreCase))
+                && (!csave.StartsWith("WARN", StringComparison.OrdinalIgnoreCase))))
             {
                 task = "FG_LNSRCH";
                 ifun = (ifun + 1);
@@ -3383,7 +3384,7 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-        public static void mainlb(int n,
+        private static void mainlb(int n,
             int m,
             double[] x, int _x_offset,
             double[] l, int _l_offset,
@@ -3459,15 +3460,15 @@ namespace Accord.Math.Optimization
             double sbtime = 0.0d;
             double lnscht = 0.0d;
             double time1 = 0.0d;
-            double time2 = 0.0d;
+            // double time2 = 0.0d;
             double gd = 0.0d;
             double gdold = 0.0d;
             double stp = 0.0d;
             double stpmx = 0.0d;
-            double time = 0.0d;
-            float epsilon = 0.0f;
+            // double time = 0.0d;
+            // float epsilon = 0.0f;
 
-            if ((task.StartsWith("START")))
+            if ((task.StartsWith("START", StringComparison.OrdinalIgnoreCase)))
             {
                 // 
                 // epsmch = (double)(Epsilon.epsilon(1.0));
@@ -3532,7 +3533,7 @@ namespace Accord.Math.Optimization
                 errclb(n, m, factr, l, _l_offset, u, _u_offset,
                     nbd, _nbd_offset, ref task, ref info, ref k);
 
-                if ((task.StartsWith("ERROR")))
+                if ((task.StartsWith("ERROR", StringComparison.OrdinalIgnoreCase)))
                 {
                     /*
                     Prn3lb.prn3lb(n, x, _x_offset, f, task, iprint,
@@ -3602,24 +3603,24 @@ namespace Accord.Math.Optimization
                 // c        After returning from the driver go to the point where execution
                 // c        is to resume.
                 // 
-                if ((task.Substring((1) - 1, 5).StartsWith("FG_LN")))
+                if ((task.Substring((1) - 1, 5).StartsWith("FG_LN", StringComparison.OrdinalIgnoreCase)))
                 {
                     goto L666;
                 }
 
-                if ((task.Substring((1) - 1, 5).StartsWith("NEW_X")))
+                if ((task.Substring((1) - 1, 5).StartsWith("NEW_X", StringComparison.OrdinalIgnoreCase)))
                 {
                     goto L777;
                 }
 
-                if ((task.Substring((1) - 1, 5).StartsWith("FG_ST")))
+                if ((task.Substring((1) - 1, 5).StartsWith("FG_ST", StringComparison.OrdinalIgnoreCase)))
                 {
                     goto L111;
                 }
 
-                if ((task.Substring((1) - 1, 4).StartsWith("STOP")))
+                if ((task.Substring((1) - 1, 4).StartsWith("STOP", StringComparison.OrdinalIgnoreCase)))
                 {
-                    if ((task.Substring((7) - 1, 9).StartsWith("CPU")))
+                    if ((task.Substring((7) - 1, 9).StartsWith("CPU", StringComparison.OrdinalIgnoreCase)))
                     {
                         // c                                          restore the previous iterate.
                         dcopy(n, t, _t_offset, 1, x, _x_offset, 1);
@@ -3900,7 +3901,7 @@ namespace Accord.Math.Optimization
                     goto L222;
                 }
             }
-            else if ((task.StartsWith("FG_LN")))
+            else if ((task.StartsWith("FG_LN", StringComparison.OrdinalIgnoreCase)))
             {
                 // return to the driver for calculating f and g; reenter at 666.
                 goto L1000;
@@ -4143,7 +4144,7 @@ namespace Accord.Math.Optimization
         // 
         // c     Set pointers for matrices WS and WY.
         // 
-        public static void matupd(int n,
+        internal static void matupd(int n,
             int m, double[] ws, int _ws_offset, double[] wy, int _wy_offset,
             double[] sy, int _sy_offset, double[] ss, int _ss_offset, double[] d, int _d_offset,
             double[] r, int _r_offset, ref int itail, int iupdat, ref int col,
@@ -4252,7 +4253,7 @@ namespace Accord.Math.Optimization
         // c     ************
         // 
         // 
-        public static void projgr(int n,
+        internal static void projgr(int n,
         double[] l, int _l_offset,
         double[] u, int _u_offset,
         int[] nbd, int _nbd_offset,
@@ -4523,7 +4524,7 @@ namespace Accord.Math.Optimization
         // c
         // c     ************
         // 
-        public static void setulb(int n,
+        internal static void setulb(int n,
         int m,
         double[] x, int _x_offset,
         double[] l, int _l_offset,
@@ -4557,7 +4558,7 @@ namespace Accord.Math.Optimization
             int lwn = 0;
             int lsnd = 0;
 
-            if ((task.StartsWith("START")))
+            if ((task.StartsWith("START", StringComparison.OrdinalIgnoreCase)))
             {
                 isave[(1 - (1)) + _isave_offset] = (m * n);
                 isave[(2 - (1)) + _isave_offset] = ((int)System.Math.Pow(m, 2));
@@ -4792,7 +4793,7 @@ namespace Accord.Math.Optimization
         // 
         // c
         // 
-        public static void subsm(int n,
+        internal static void subsm(int n,
         int m, int nsub, int[] ind, int _ind_offset,
         double[] l, int _l_offset, double[] u, int _u_offset,
         int[] nbd, int _nbd_offset, double[] x, int _x_offset,
@@ -5126,7 +5127,7 @@ namespace Accord.Math.Optimization
         // c     begin block with ...exits to 40
         // c
         // c
-        public static void dpofa(double[] a, int _a_offset, int lda, int n, ref int info)
+        private static void dpofa(double[] a, int _a_offset, int lda, int n, ref int info)
         {
             double t = 0.0d;
             double s = 0.0d;
@@ -5194,7 +5195,7 @@ namespace Accord.Math.Optimization
         // *     ..
         // *     .. Intrinsic Functions ..
         // *     ..
-        public static void dscal(int n, double da, double[] dx, int _dx_offset, int incx)
+        private static void dscal(int n, double da, double[] dx, int _dx_offset, int incx)
         {
 
             int i = 0;
@@ -5284,7 +5285,7 @@ namespace Accord.Math.Optimization
         // *     ..
         // *     .. Intrinsic Functions ..
         // *     ..
-        public static double ddot(int n, double[] dx, int _dx_offset,
+        private static double ddot(int n, double[] dx, int _dx_offset,
            int incx, double[] dy, int _dy_offset, int incy)
         {
             double dtemp = 0.0d;
@@ -5375,7 +5376,7 @@ namespace Accord.Math.Optimization
             return ddot;
         }
 
-        public static void dcopy(int n, double[] dx, int _dx_offset, int incx,
+        private static void dcopy(int n, double[] dx, int _dx_offset, int incx,
            double[] dy, int _dy_offset, int incy)
         {
 
@@ -5479,7 +5480,7 @@ namespace Accord.Math.Optimization
         // *     ..
         // *     .. Intrinsic Functions ..
         // *     ..
-        public static void daxpy(int n, double da,
+        private static void daxpy(int n, double da,
              double[] dx, int _dx_offset, int incx, double[] dy, int _dy_offset, int incy)
         {
 

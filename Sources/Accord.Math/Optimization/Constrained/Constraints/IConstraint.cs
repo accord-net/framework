@@ -66,10 +66,15 @@ namespace Accord.Math.Optimization
         ///   Gets how much the constraint is being violated.
         /// </summary>
         /// 
-        /// <param name="x">The function point.</param>
+        /// <param name="input">The function point.</param>
         /// 
-        /// <returns>How much the constraint is being violated at the given point.</returns>
+        /// <returns>
+        ///   How much the constraint is being violated at the given point. Positive
+        ///   value means the constraint is not being violated with the returned slack, 
+        ///   while a negative value means the constraint is being violated by the returned
+        ///   amount.
+        /// </returns>
         /// 
-        double GetViolation(double[] x);
+        double GetViolation(double[] input);
     }
 }

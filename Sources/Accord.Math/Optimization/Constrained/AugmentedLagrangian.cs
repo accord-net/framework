@@ -157,8 +157,9 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///   Gets the number of iterations performed in the last
-        ///   call to <see cref="Minimize()"/>.
+        ///   Gets the number of iterations performed in the
+        ///   last call to the <see cref="IOptimizationMethod.Minimize()"/> or
+        ///   <see cref="IOptimizationMethod.Maximize"/> methods.
         /// </summary>
         /// 
         /// <value>
@@ -172,7 +173,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of function evaluations performed
-        ///   in the last call to <see cref="Minimize()"/>.
+        ///   in the last call to the <see cref="IOptimizationMethod.Minimize()"/> or
+        ///   <see cref="IOptimizationMethod.Maximize"/> methods.
         /// </summary>
         /// 
         /// <value>
@@ -200,7 +202,10 @@ namespace Accord.Math.Optimization
             }
         }
 
-
+        /// <summary>
+        ///   Gets the inner dual problem optimization algorithm.
+        /// </summary>
+        /// 
         public IGradientOptimizationMethod Optimizer { get { return dualSolver; } }
 
         /// <summary>
@@ -247,7 +252,8 @@ namespace Accord.Math.Optimization
             : base(innerSolver.NumberOfVariables)
         {
             if (innerSolver.NumberOfVariables != function.NumberOfVariables)
-                throw new ArgumentException();
+                throw new ArgumentException("The inner unconstrained optimization algorithm and the "
+                    + "objective function should have the same number of variables.", "function");
 
             init(function, constraints, innerSolver);
         }
@@ -452,6 +458,11 @@ namespace Accord.Math.Optimization
             return g;
         }
 
+        /// <summary>
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
+        /// </summary>
+        /// 
         protected override bool Optimize()
         {
             double ICM = Double.PositiveInfinity;

@@ -1274,6 +1274,9 @@ namespace Accord.Math
         /// </summary>
         /// <param name="vector">The vector <c>v</c>.</param>
         /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        ///   overwriting the original matrix; false to return a new matrix.</param>
+        ///   
         /// <returns>The product <c>v*x</c> of the multiplication of the 
         ///   given vector <c>v</c> and scalar <c>x</c>.</returns>
         /// 

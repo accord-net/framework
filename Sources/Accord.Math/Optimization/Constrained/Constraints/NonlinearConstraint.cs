@@ -59,22 +59,29 @@ namespace Accord.Math.Optimization
         ///   Gets how much the constraint is being violated.
         /// </summary>
         /// 
-        /// <param name="x">The function point.</param>
+        /// <param name="input">The function point.</param>
         /// 
-        /// <returns>How much the constraint is being violated at the given point.</returns>
+        /// <returns>
+        ///   How much the constraint is being violated at the given point. Positive
+        ///   value means the constraint is not being violated with the returned slack, 
+        ///   while a negative value means the constraint is being violated by the returned
+        ///   amount.
+        /// </returns>
         /// 
-        public double GetViolation(double[] x)
+        public double GetViolation(double[] input)
         {
+            double fx = Function(input);
+
             switch (ShouldBe)
             {
                 case ConstraintType.EqualTo:
-                    return Math.Abs(Function(x) - Value);
+                    return Math.Abs(fx - Value);
 
                 case ConstraintType.GreaterThanOrEqualTo:
-                    return Function(x) - Value;
+                    return fx - Value;
 
                 case ConstraintType.LesserThanOrEqualTo:
-                    return Value - Function(x);
+                    return Value - fx;
             }
 
             throw new NotSupportedException();
@@ -254,13 +261,13 @@ namespace Accord.Math.Optimization
 
 
 
-        private void parse(Expression<Func<double[], bool>> constraint, 
+        private static void parse(Expression<Func<double[], bool>> constraint,
             out Func<double[], double> function, out ConstraintType shouldBe, out double value)
         {
             var expression = constraint.Body as BinaryExpression;
 
             var comparisonType = expression.NodeType;
-            
+
             switch (comparisonType)
             {
                 case ExpressionType.LessThanOrEqual:
@@ -276,7 +283,7 @@ namespace Accord.Math.Optimization
                     break;
 
                 default:
-                    throw new NotSupportedException();
+                    throw new NotSupportedException(comparisonType + " is not supported.");
             }
 
             var left = expression.Left;
@@ -319,7 +326,7 @@ namespace Accord.Math.Optimization
         {
             int n = objective.NumberOfVariables;
 
-            this.Create(objective.NumberOfVariables, function, 
+            this.Create(objective.NumberOfVariables, function,
                 ConstraintType.GreaterThanOrEqualTo, 0.0, gradient, 0.0);
         }
 
@@ -337,7 +344,7 @@ namespace Accord.Math.Optimization
             Func<double[], double> function,
             Func<double[], double[]> gradient)
         {
-            this.Create(numberOfVariables, function, 
+            this.Create(numberOfVariables, function,
                 ConstraintType.GreaterThanOrEqualTo, 0.0, gradient, 0.0);
         }
 

@@ -117,26 +117,8 @@ namespace Accord.Tests.Math.Optimization
 
             target.Minimize((double[])problem.Start.Clone());
 
-            switch (target.Status)
-            {
-                case BroydenFletcherGoldfarbShannoCode.Success:
-                    ActualMessage = "LBFGS_SUCCESS"; break;
-                case BroydenFletcherGoldfarbShannoCode.MaximumIterations:
-                    ActualMessage = "LBFGSERR_MAXIMUMITERATION"; break;
-                case BroydenFletcherGoldfarbShannoCode.AlreadyMinimized:
-                    ActualMessage = "LBFGS_ALREADY_MINIMIZED"; break;
-                case BroydenFletcherGoldfarbShannoCode.RoundingError:
-                    ActualMessage = "LBFGSERR_ROUNDING_ERROR"; break;
-                case BroydenFletcherGoldfarbShannoCode.MaximumLineSearch:
-                    ActualMessage = "LBFGSERR_MAXIMUMLINESEARCH"; break;
-                case BroydenFletcherGoldfarbShannoCode.Stop:
-                    ActualMessage = "LBFGS_STOP"; break;
-                default:
-                    break;
-            }
+            ActualMessage = target.Status.GetDescription();
 
-
-           // actual.Add(new OptimizationProgressEventArgs(0, 0, null, 0, target.Solution, 0, v, 0, true));
 
             return actual.ToArray();
         }
