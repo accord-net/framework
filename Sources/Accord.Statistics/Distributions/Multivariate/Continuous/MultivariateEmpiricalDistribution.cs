@@ -109,7 +109,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// 
     [Serializable]
     public class MultivariateEmpiricalDistribution : MultivariateContinuousDistribution,
-        IFittableDistribution<double[], MultivariateEmpiricalOptions>
+        IFittableDistribution<double[], MultivariateEmpiricalOptions>,
+        ISampleableDistribution<double[]>
     {
 
         // Distribution parameters
@@ -432,6 +433,42 @@ namespace Accord.Statistics.Distributions.Multivariate
             }
 
             return smoothing;
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public double[][] Generate(int samples)
+        {
+            var generator = Accord.Math.Tools.Random;
+
+            double[][] s = new double[samples][];
+            for (int i = 0; i < s.Length; i++)
+            {
+                int index = generator.Next(this.samples.Length);
+                s[i] = this.samples[index];
+            }
+
+            return s;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public double[] Generate()
+        {
+            var generator = Accord.Math.Tools.Random;
+
+            int index = generator.Next(this.samples.Length);
+
+            return this.samples[index];
         }
 
     }

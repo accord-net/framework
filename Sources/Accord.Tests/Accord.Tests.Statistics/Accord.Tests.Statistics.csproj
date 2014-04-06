@@ -126,6 +126,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Neuro, Version=2.2.5.0, Culture=neutral, PublicKeyToken=2094f4ea39731d4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Assembla\Externals\AForge.NET\AForge.Neuro.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -338,6 +342,10 @@
       <Name>Accord.Math</Name>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Neuro\Accord.Neuro.csproj">
+      <Project>{179F3045-8757-4F4B-9508-F48327BA11E3}</Project>
+      <Name>Accord.Neuro</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
@@ -374,6 +382,7 @@
     <None Include="Accord.snk" />
     <None Include="app.config" />
     <None Include="Resources\CircleWithWeights.xls" />
+    <None Include="Resources\intrusion.xlsx" />
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

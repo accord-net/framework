@@ -20,13 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Formats;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Data;
-using Accord.Math;
-
 namespace Accord.Tests.Statistics
 {
+    using Accord.Statistics.Formats;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Data;
+    using Accord.Math;
 
     [TestClass()]
     public class ExcelReaderTest

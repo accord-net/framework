@@ -492,6 +492,7 @@ namespace Accord.Statistics.Filters
             foreach (Options options in Columns)
             {
                 // Change its type from string to integer
+                result.Columns[options.ColumnName].MaxLength = -1;
                 result.Columns[options.ColumnName].DataType = typeof(int);
             }
 

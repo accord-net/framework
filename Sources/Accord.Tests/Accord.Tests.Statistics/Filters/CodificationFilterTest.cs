@@ -22,13 +22,13 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.MachineLearning.Bayes;
+    using System.Data;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Data;
+    using Accord.Statistics.Formats;
     using Accord.Controls;
 
     [TestClass()]
@@ -259,7 +259,6 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void ApplyTest3()
         {
-
             string[] names = { "child", "adult", "elder" };
 
             Codification codebook = new Codification("Label", names);
@@ -283,6 +282,27 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("child", labela);
             Assert.AreEqual("adult", labelb);
             Assert.AreEqual("elder", labelc);
+        }
+
+        [TestMethod()]
+        public void ApplyTest4()
+        {
+            string path = @"..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\intrusion.xlsx";
+
+            ExcelReader db = new ExcelReader(path, false, true);
+
+            DataTable table = db.GetWorksheet("test");
+
+            Codification codebook = new Codification(table);
+
+            DataTable result = codebook.Apply(table);
+
+            Assert.IsNotNull(result);
+
+            foreach (DataColumn col in result.Columns)
+                Assert.AreNotEqual(col.DataType, typeof(string));
+
+            Assert.IsTrue(result.Rows.Count > 0);
         }
     }
 }
