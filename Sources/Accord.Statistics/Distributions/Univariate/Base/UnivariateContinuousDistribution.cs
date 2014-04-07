@@ -478,7 +478,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (lowerBounded && upperBounded)
             {
-                return new BrentSearch(DistributionFunction, Support.Min, Support.Max).Find(p);
+                return BrentSearch.Find(DistributionFunction, p, Support.Min, Support.Max);
             }
 
             if (lowerBounded && !upperBounded)
@@ -505,7 +505,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     }
                 }
 
-                return new BrentSearch(DistributionFunction, lower, upper).Find(p);
+                return BrentSearch.Find(DistributionFunction, p, lower, upper);
             }
 
             if (!lowerBounded && upperBounded)
@@ -532,7 +532,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     }
                 }
 
-                return new BrentSearch(DistributionFunction, lower, upper).Find(p);
+                return BrentSearch.Find(DistributionFunction, p, lower, upper);
             }
 
             // completely unbounded
@@ -561,7 +561,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     }
                 }
 
-                return new BrentSearch(DistributionFunction, lower, upper).Find(p);
+                return BrentSearch.Find(DistributionFunction, p, lower, upper);
             }
         }
 
@@ -752,7 +752,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public abstract object Clone();
 
 
-       
+
         double IDistribution<double>.ProbabilityFunction(double x)
         {
             return ProbabilityDensityFunction(x);

@@ -32,84 +32,81 @@ namespace Accord.Math.Optimization
     ///   Quadratic objective function.
     /// </summary>
     /// 
-    public class QuadraticObjectiveFunction : IObjectiveFunction
+    public class QuadraticObjectiveFunction : NonlinearObjectiveFunction, IObjectiveFunction
     {
 
         private Dictionary<string, double> linear;
         private Dictionary<Tuple<string, string>, double> quadratic;
 
-        private Dictionary<string, int> variables;
-        private Dictionary<int, string> indices;
-
         private double[,] Q;
         private double[] d;
+        private double c;
 
 
         /// <summary>
-        ///   Gets input variable's labels for the function.
+        ///   Gets the quadratic terms of the quadratic function.
         /// </summary>
         /// 
-        public IDictionary<string, int> Variables
+        public double[,] QuadraticTerms { get { return Q; } }
+
+        /// <summary>
+        ///   Gets the vector of linear terms of the quadratic function.
+        /// </summary>
+        /// 
+        public double[] LinearTerms { get { return d; } }
+
+        /// <summary>
+        ///   Gets the constant term in the quadratic function.
+        /// </summary>
+        /// 
+        public double ConstantTerm
         {
-            get { return new ReadOnlyDictionary<string, int>(variables); }
-        }
-        /// <summary>
-        ///   Gets the index of each input variable in the function.
-        /// </summary>
-        /// 
-        public IDictionary<int, string> Indices
-        {
-            get { return new ReadOnlyDictionary<int, string>(indices); }
-        }
-
-        /// <summary>
-        ///   Gets the number of input variables for the function.
-        /// </summary>
-        /// 
-        public int NumberOfVariables { get { return variables.Count; } }
-
-        /// <summary>
-        ///   Gets the objective function.
-        /// </summary>
-        /// 
-        public Func<double[], double> Function
-        {
-            get { return function; }
+            get { return c; }
+            set { c = value; }
         }
 
         /// <summary>
         ///   Creates a new objective function specified through a string.
         /// </summary>
         /// 
-        /// <param name="hessian">A Hessian matrix of quadratic terms defining the quadratic objective function.</param>
-        /// <param name="linearTerms">The vector of linear terms associated with <paramref name="hessian"/>.</param>
+        /// <param name="quadraticTerms">A Hessian matrix of quadratic terms defining the quadratic objective function.</param>
+        /// <param name="linearTerms">The vector of linear terms associated with <paramref name="quadraticTerms"/>.</param>
         /// <param name="variables">The name for each variable in the problem.</param>
         /// 
-        public QuadraticObjectiveFunction(double[,] hessian, double[] linearTerms, params string[] variables)
+        public QuadraticObjectiveFunction(double[,] quadraticTerms, double[] linearTerms, params string[] variables)
         {
-            if (hessian.GetLength(0) != hessian.GetLength(1))
-                throw new DimensionMismatchException("hessian", "The matrix must be square.");
+            if (quadraticTerms.GetLength(0) != quadraticTerms.GetLength(1))
+                throw new DimensionMismatchException("quadraticTerms", "The matrix must be square.");
 
-            if (hessian.GetLength(0) != linearTerms.Length)
-                throw new DimensionMismatchException("linearTerms", 
+            if (quadraticTerms.GetLength(0) != linearTerms.Length)
+                throw new DimensionMismatchException("linearTerms",
                     "The vector of linear terms must have the same length as the Hessian matrix side.");
 
-            if (variables.Length != linearTerms.Length)
+            if (variables.Length == 0)
+            {
+                variables = new string[linearTerms.Length];
+                for (int i = 0; i < variables.Length; i++)
+                    variables[i] = "x" + i;
+            }
+            else if (variables.Length != linearTerms.Length)
+            {
                 throw new DimensionMismatchException("variables",
                     "The vector of variable names must have the same length as the vector of linear terms.");
-
-            this.variables = new Dictionary<string, int>();
-            this.indices = new Dictionary<int, string>();
+            }
 
             for (int i = 0; i < variables.Length; i++)
             {
                 string var = variables[i];
-                this.variables[var] = i;
-                this.indices[i] = var;
+                this.InnerVariables[var] = i;
+                this.InnerIndices[i] = var;
             }
 
-            this.Q = hessian;
+            this.Q = quadraticTerms;
             this.d = linearTerms;
+            base.NumberOfVariables = d.Length;
+
+            this.Function = function;
+            this.Gradient = gradient;
         }
 
         /// <summary>
@@ -144,12 +141,8 @@ namespace Accord.Math.Optimization
 
         private void initialize(Dictionary<Tuple<string, string>, double> terms)
         {
-            variables = new Dictionary<string, int>();
-            indices = new Dictionary<int, string>();
-
             linear = new Dictionary<string, double>();
             quadratic = new Dictionary<Tuple<string, string>, double>();
-
 
             var list = new SortedSet<string>();
 
@@ -162,37 +155,45 @@ namespace Accord.Math.Optimization
 
                     quadratic.Add(term.Key, term.Value);
                 }
-                else
+                else if (term.Key.Item1 != null)
                 {
                     list.Add(term.Key.Item1);
 
                     linear.Add(term.Key.Item1, term.Value);
+                }
+                else
+                {
+                    c = term.Value;
                 }
             }
 
             int i = 0;
             foreach (var variable in list)
             {
-                variables.Add(variable, i);
-                indices.Add(i, variable);
+                InnerVariables.Add(variable, i);
+                InnerIndices.Add(i, variable);
                 i++;
             }
 
+            NumberOfVariables = Variables.Count;
             this.Q = createQuadraticTermsMatrix();
             this.d = createLinearTermsVector();
+
+            this.Function = function;
+            this.Gradient = gradient;
         }
 
         private double[,] createQuadraticTermsMatrix()
         {
-            int n = variables.Count;
+            int n = Variables.Count;
 
             double[,] Q = new double[n, n];
             for (int i = 0; i < n; i++)
             {
-                var x = indices[i];
+                var x = Indices[i];
                 for (int j = 0; j < n; j++)
                 {
-                    var y = indices[j];
+                    var y = Indices[j];
                     var k = Tuple.Create(x, y);
 
                     if (quadratic.ContainsKey(k))
@@ -212,39 +213,34 @@ namespace Accord.Math.Optimization
 
         private double[] createLinearTermsVector()
         {
-            int n = variables.Count;
+            int n = Variables.Count;
             double[] d = new double[n];
 
-            for (int i = 0; i < indices.Count; i++)
+            for (int i = 0; i < Indices.Count; i++)
             {
-                if (linear.ContainsKey(indices[i]))
-                    d[i] = linear[indices[i]];
+                if (linear.ContainsKey(Indices[i]))
+                    d[i] = linear[Indices[i]];
             }
 
             return d;
         }
 
-
-
-        /// <summary>
-        ///   Gets the Hessian matrix of quadratic terms.
-        /// </summary>
-        /// 
-        public double[,] GetQuadraticTermsMatrix()
+        private double function(double[] input)
         {
-            return (double[,])Q.Clone();
+            double a = 0.5 * input.Multiply(Q).InnerProduct(input);
+            double b = input.InnerProduct(d);
+            return a + b + c;
         }
 
-        /// <summary>
-        ///   Gets the vector of linear terms.
-        /// </summary>
-        /// 
-        public double[] GetLinearTermsVector()
+        private double[] gradient(double[] input)
         {
-            return (double[])d.Clone();
+            double[] g = Q.TransposeAndMultiply(input);
+
+            for (int i = 0; i < d.Length; i++)
+                g[i] += d[i];
+
+            return g;
         }
-
-
 
 
 
@@ -266,6 +262,9 @@ namespace Accord.Math.Optimization
             foreach (var term in linear)
                 sb.AppendFormat("{0:+#;-#}{1} ", term.Value, term.Key);
 
+            if (c != 0)
+                sb.AppendFormat("{0:+#;-#} ", c);
+
             if (sb.Length > 0)
                 sb.Remove(sb.Length - 1, 1);
 
@@ -274,10 +273,7 @@ namespace Accord.Math.Optimization
 
 
 
-        private double function(double[] x)
-        {
-            return x.Multiply(Q).InnerProduct(x) + x.InnerProduct(d);
-        }
+
 
 
         private static Dictionary<Tuple<string, string>, double> parseString(string f)
@@ -316,7 +312,8 @@ namespace Accord.Math.Optimization
                     terms.Add(Tuple.Create(symbols[0].Value, (string)null), scalar);
                 else if (symbols.Count == 2)
                     terms.Add(Tuple.Create(symbols[0].Value, symbols[1].Value), scalar);
-                else throw new FormatException("Unexpected expression.");
+                else
+                    terms.Add(Tuple.Create((string)null, (string)null), scalar);
             }
 
             return terms;
@@ -403,6 +400,7 @@ namespace Accord.Math.Optimization
 
                     BinaryExpression rb = eb.Right as BinaryExpression;
                     MemberExpression rm = eb.Right as MemberExpression;
+                    ConstantExpression rc = eb.Right as ConstantExpression;
 
                     scalar = 1;
                     if (lb != null)
@@ -429,7 +427,14 @@ namespace Accord.Math.Optimization
                         var term = Tuple.Create(lm.Member.Name, (string)null);
                         if (!dontAdd) terms[term] = scalar;
                     }
+                    else if (rc != null)
+                    {
+                        scalar = (double)rc.Value;
+                        var term = Tuple.Create((string)null, (string)null);
+                        if (!dontAdd) terms[term] = scalar;
+                    }
                     else throw new FormatException("Unexpected expression.");
+
                 }
                 else if (expr.NodeType == ExpressionType.Subtract)
                 {
@@ -441,6 +446,8 @@ namespace Accord.Math.Optimization
                     BinaryExpression rb = eb.Right as BinaryExpression;
                     MemberExpression rm = eb.Right as MemberExpression;
                     UnaryExpression ru = eb.Right as UnaryExpression;
+
+                    ConstantExpression rc = eb.Right as ConstantExpression;
 
 
                     if (lb != null)
@@ -469,6 +476,12 @@ namespace Accord.Math.Optimization
                         scalar = -1;
                         var term = Tuple.Create(rm.Member.Name, (string)null);
                         if (!dontAdd) terms[term] = scalar;
+                    }
+                    else if (rc != null)
+                    {
+                        scalar = (double)rc.Value;
+                        var term = Tuple.Create((string)null, (string)null);
+                        terms[term] = -scalar;
                     }
                     else throw new FormatException("Unexpected expression.");
                 }

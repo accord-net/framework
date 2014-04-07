@@ -28,12 +28,11 @@ namespace Accord.Math.Optimization
     using System.Text.RegularExpressions;
     using System.Text;
 
-
     /// <summary>
     ///   Constraint with only linear terms.
     /// </summary>
     /// 
-    public class NonlinearConstraint
+    public class NonlinearConstraint : IConstraint
     {
 
         /// <summary>
@@ -60,22 +59,29 @@ namespace Accord.Math.Optimization
         ///   Gets how much the constraint is being violated.
         /// </summary>
         /// 
-        /// <param name="x">The function point.</param>
+        /// <param name="input">The function point.</param>
         /// 
-        /// <returns>How much the constraint is being violated at the given point.</returns>
+        /// <returns>
+        ///   How much the constraint is being violated at the given point. Positive
+        ///   value means the constraint is not being violated with the returned slack, 
+        ///   while a negative value means the constraint is being violated by the returned
+        ///   amount.
+        /// </returns>
         /// 
-        public double GetViolation(double[] x)
+        public double GetViolation(double[] input)
         {
+            double fx = Function(input);
+
             switch (ShouldBe)
             {
                 case ConstraintType.EqualTo:
-                    return Math.Abs(Function(x) - Value);
+                    return Math.Abs(fx - Value);
 
                 case ConstraintType.GreaterThanOrEqualTo:
-                    return Function(x) - Value;
+                    return fx - Value;
 
                 case ConstraintType.LesserThanOrEqualTo:
-                    return Value - Function(x);
+                    return Value - fx;
             }
 
             throw new NotSupportedException();
@@ -107,15 +113,14 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="objective">The objective function to which this constraint refers.</param>
-        /// 
         /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
         /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
-        /// left hand side of the constraint equation</paramref>.</param>
-        /// <param name="shouldBe">How the left hand side of the constraint should be compared to the given <paramref name="value"/>.</param>
+        ///   left hand side of the constraint equation</paramref>.</param>
+        /// <param name="shouldBe">How the left hand side of the constraint 
+        ///   should be compared to the given <paramref name="value"/>.</param>
         /// <param name="value">The right hand side of the constraint equation.</param>
         /// <param name="withinTolerance">The tolerance for violations of the constraint. Equality
         ///   constraints should set this to a small positive value. Default is 0.</param>
-        /// 
         /// 
         public NonlinearConstraint(IObjectiveFunction objective,
             Expression<Func<double>> function, ConstraintType shouldBe, double value,
@@ -138,8 +143,12 @@ namespace Accord.Math.Optimization
                 int n = NumberOfVariables;
                 double[] probe = new double[n];
                 double[] g = Gradient(probe);
-                if (g.Length != n) throw new DimensionMismatchException("gradient",
+
+                if (g.Length != n)
+                {
+                    throw new DimensionMismatchException("gradient",
                     "The length of the gradient vector must match the number of variables in the objective function.");
+                }
             }
         }
 #endif
@@ -149,14 +158,11 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="objective">The objective function to which this constraint refers.</param>
-        /// 
-        /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
-        /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
-        /// left hand side of the constraint equation</paramref>.</param>
-        /// <param name="shouldBe">How the left hand side of the constraint should be compared to the given <paramref name="value"/>.</param>
+        /// <param name="function">A lambda expression defining the left hand side of the 
+        ///   constraint equation.</param>
+        /// <param name="shouldBe">How the left hand side of the constraint should be 
+        ///   compared to the given <paramref name="value"/>.</param>
         /// <param name="value">The right hand side of the constraint equation.</param>
-        /// <param name="withinTolerance">The tolerance for violations of the constraint. Equality
-        ///   constraints should set this to a small positive value. Default is 0.</param>
         /// 
         public NonlinearConstraint(IObjectiveFunction objective,
             Func<double[], double> function, ConstraintType shouldBe, double value)
@@ -171,15 +177,32 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="objective">The objective function to which this constraint refers.</param>
-        /// 
-        /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
+        /// <param name="function">A lambda expression defining the left hand side of the 
+        ///   constraint equation.</param>
         /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
         ///   left hand side of the constraint equation</paramref>.</param>
+        /// <param name="shouldBe">How the left hand side of the constraint should be 
+        ///   compared to the given <paramref name="value"/>.</param>
+        /// <param name="value">The right hand side of the constraint equation.</param>
+        /// 
+        public NonlinearConstraint(IObjectiveFunction objective,
+            Func<double[], double> function, ConstraintType shouldBe, double value,
+            Func<double[], double[]> gradient)
+        {
+            int n = objective.NumberOfVariables;
+
+            this.Create(objective.NumberOfVariables, function, shouldBe, value, gradient, 0.0);
+        }
+
+        /// <summary>
+        ///   Constructs a new nonlinear constraint.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables in the constraint.</param>
+        /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
         /// <param name="shouldBe">How the left hand side of the constraint should be compared to 
         ///   the given <paramref name="value"/>. Default is <see cref="ConstraintType.GreaterThanOrEqualTo"/>.</param>
         /// <param name="value">The right hand side of the constraint equation.</param>
-        /// <param name="withinTolerance">The tolerance for violations of the constraint. Equality
-        ///   constraints should set this to a small positive value. Default is 0.</param>
         /// 
         public NonlinearConstraint(int numberOfVariables,
             Func<double[], double> function, ConstraintType shouldBe, double value)
@@ -192,14 +215,12 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="objective">The objective function to which this constraint refers.</param>
+        /// <param name="constraint">A boolean lambda expression expression the constraint. Please 
+        ///   see examples for details.</param>
+        ///   
+        /// <example >
         /// 
-        /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
-        /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
-        /// left hand side of the constraint equation</paramref>.</param>
-        /// <param name="shouldBe">How the left hand side of the constraint should be compared to the given <paramref name="value"/>.</param>
-        /// <param name="value">The right hand side of the constraint equation.</param>
-        /// <param name="withinTolerance">The tolerance for violations of the constraint. Equality
-        ///   constraints should set this to a small positive value. Default is 0.</param>
+        /// </example>
         /// 
         public NonlinearConstraint(IObjectiveFunction objective, Expression<Func<double[], bool>> constraint)
         {
@@ -218,15 +239,13 @@ namespace Accord.Math.Optimization
         ///   Constructs a new nonlinear constraint.
         /// </summary>
         /// 
-        /// <param name="objective">The objective function to which this constraint refers.</param>
+        /// <param name="numberOfVariables">The number of variables in the constraint.</param>
+        /// <param name="constraint">A boolean lambda expression expression the constraint. Please 
+        ///   see examples for details.</param>
+        ///   
+        /// <example >
         /// 
-        /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
-        /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
-        /// left hand side of the constraint equation</paramref>.</param>
-        /// <param name="shouldBe">How the left hand side of the constraint should be compared to the given <paramref name="value"/>.</param>
-        /// <param name="value">The right hand side of the constraint equation.</param>
-        /// <param name="withinTolerance">The tolerance for violations of the constraint. Equality
-        ///   constraints should set this to a small positive value. Default is 0.</param>
+        /// </example>
         /// 
         public NonlinearConstraint(int numberOfVariables, Expression<Func<double[], bool>> constraint)
         {
@@ -239,13 +258,16 @@ namespace Accord.Math.Optimization
             this.Create(numberOfVariables, function, shouldBe, value, null, 0.0);
         }
 
-        private void parse(Expression<Func<double[], bool>> constraint, 
+
+
+
+        private static void parse(Expression<Func<double[], bool>> constraint,
             out Func<double[], double> function, out ConstraintType shouldBe, out double value)
         {
             var expression = constraint.Body as BinaryExpression;
 
             var comparisonType = expression.NodeType;
-            
+
             switch (comparisonType)
             {
                 case ExpressionType.LessThanOrEqual:
@@ -261,7 +283,7 @@ namespace Accord.Math.Optimization
                     break;
 
                 default:
-                    throw new NotSupportedException();
+                    throw new NotSupportedException(comparisonType + " is not supported.");
             }
 
             var left = expression.Left;
@@ -279,14 +301,7 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="objective">The objective function to which this constraint refers.</param>
-        /// 
         /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
-        /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
-        /// left hand side of the constraint equation</paramref>.</param>
-        /// <param name="shouldBe">How the left hand side of the constraint should be compared to the given <paramref name="value"/>.</param>
-        /// <param name="value">The right hand side of the constraint equation.</param>
-        /// <param name="withinTolerance">The tolerance for violations of the constraint. Equality
-        ///   constraints should set this to a small positive value. Default is 0.</param>
         /// 
         public NonlinearConstraint(IObjectiveFunction objective, Func<double[], double> function)
         {
@@ -300,15 +315,47 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="objective">The objective function to which this constraint refers.</param>
-        /// 
-        /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
+        /// <param name="function">A lambda expression defining the left hand side of the 
+        ///   constraint equation.</param>
         /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
-        /// left hand side of the constraint equation</paramref>.</param>
-        /// <param name="shouldBe">How the left hand side of the constraint should be compared to the given <paramref name="value"/>.</param>
-        /// <param name="value">The right hand side of the constraint equation.</param>
-        /// <param name="withinTolerance">The tolerance for violations of the constraint. Equality
-        ///   constraints should set this to a small positive value. Default is 0.</param>
+        ///   left hand side of the constraint equation</paramref>.</param>
         /// 
+        public NonlinearConstraint(IObjectiveFunction objective,
+            Func<double[], double> function,
+            Func<double[], double[]> gradient)
+        {
+            int n = objective.NumberOfVariables;
+
+            this.Create(objective.NumberOfVariables, function,
+                ConstraintType.GreaterThanOrEqualTo, 0.0, gradient, 0.0);
+        }
+
+        /// <summary>
+        ///   Constructs a new nonlinear constraint.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables in the constraint.</param>
+        /// <param name="function">A lambda expression defining the left hand side of the 
+        ///   constraint equation.</param>
+        /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
+        ///   left hand side of the constraint equation</paramref>.</param>
+        /// 
+        public NonlinearConstraint(int numberOfVariables,
+            Func<double[], double> function,
+            Func<double[], double[]> gradient)
+        {
+            this.Create(numberOfVariables, function,
+                ConstraintType.GreaterThanOrEqualTo, 0.0, gradient, 0.0);
+        }
+
+        /// <summary>
+        ///   Constructs a new nonlinear constraint.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables in the constraint.</param>
+        /// <param name="function">A lambda expression defining the left hand side of the 
+        ///   constraint equation.</param>
+        ///   
         public NonlinearConstraint(int numberOfVariables, Func<double[], double> function)
         {
             this.Create(numberOfVariables, function, ConstraintType.GreaterThanOrEqualTo, 0.0, null, 0.0);
@@ -319,7 +366,6 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="objective">The objective function to which this constraint refers.</param>
-        /// 
         /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
         /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
         /// left hand side of the constraint equation</paramref>.</param>
@@ -340,8 +386,7 @@ namespace Accord.Math.Optimization
         ///   Constructs a new nonlinear constraint.
         /// </summary>
         /// 
-        /// <param name="objective">The objective function to which this constraint refers.</param>
-        /// 
+        /// <param name="numberOfVariables">The number of variables in the constraint.</param>
         /// <param name="function">A lambda expression defining the left hand side of the constraint equation.</param>
         /// <param name="gradient">A lambda expression defining the gradient of the <paramref name="function">
         /// left hand side of the constraint equation</paramref>.</param>

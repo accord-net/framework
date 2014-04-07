@@ -30,10 +30,10 @@ namespace Accord.Math.Optimization
     ///   Resilient Backpropagation method for unconstrained optimization.
     /// </summary>
     /// 
-    public class ResilientBackpropagation : IGradientOptimizationMethod
+    public class ResilientBackpropagation : BaseGradientOptimizationMethod, IGradientOptimizationMethod
     {
 
-        private AbsoluteConvergence convergence;
+        private RelativeConvergence convergence;
 
         private double initialStep = 0.0125;
         private double deltaMax = 50.0;
@@ -42,47 +42,19 @@ namespace Accord.Math.Optimization
         private double etaMinus = 0.5;
         private double etaPlus = 1.2;
 
-        private double[] solution;
         private double[] gradient;
         private double[] previousGradient;
 
         // update values, also known as deltas
         private double[] weightsUpdates;
 
-        /// <summary>
-        ///   Gets the solution found; the values for  
-        ///   the parameters that optimize the function.
-        /// </summary>
-        /// 
-        public double[] Solution
-        {
-            get { return solution; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the function to be optimized.
-        /// </summary>
-        /// 
-        /// <value>The function to be optimized.</value>
-        /// 
-        public Func<double[], double> Function { get; set; }
-
-        /// <summary>
-        ///   Gets or sets a function returning the gradient
-        ///   vector of the function to be optimized for a
-        ///   given value of its free parameters.
-        /// </summary>
-        /// 
-        /// <value>The gradient function.</value>
-        /// 
-        public Func<double[], double[]> Gradient { get; set; }
+        
 
         /// <summary>
         ///   Occurs when the current learning progress has changed.
         /// </summary>
         /// 
         public event EventHandler<ProgressChangedEventArgs> ProgressChanged;
-
 
 
         /// <summary>
@@ -161,62 +133,34 @@ namespace Accord.Math.Optimization
             set { convergence.Iterations = value; }
         }
 
-        /// <summary>
-        ///   Gets the number of variables (free parameters)
-        ///   in the optimization problem.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   The number of parameters.
-        /// </value>
-        /// 
-        public int Parameters
-        {
-            get { return solution.Length; }
-        }
-
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ResilientBackpropagation"/> class.
         /// </summary>
         /// 
-        /// <param name="parameters">The number of parameters in the function to be optimized.</param>
+        /// <param name="numberOfVariables">The number of parameters in the function to be optimized.</param>
         /// 
-        public ResilientBackpropagation(int parameters)
+        public ResilientBackpropagation(int numberOfVariables)
+            : base(numberOfVariables)
         {
-            convergence = new AbsoluteConvergence();
+            convergence = new RelativeConvergence();
 
-            solution = new double[parameters];
-            gradient = new double[parameters];
-            previousGradient = new double[parameters];
-            weightsUpdates = new double[parameters];
+            gradient = new double[numberOfVariables];
+            previousGradient = new double[numberOfVariables];
+            weightsUpdates = new double[numberOfVariables];
 
             // Initialize steps
             Reset(initialStep);
-
-            for (int i = 0; i < solution.Length; i++)
-                solution[i] = Accord.Math.Tools.Random.NextDouble() * 2.0 - 1.0;
         }
 
 
         /// <summary>
-        ///   Optimizes the defined function.
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
         /// </summary>
         /// 
-        public double Minimize()
+        protected override bool Optimize()
         {
-            return Minimize(Solution);
-        }
-
-        /// <summary>
-        ///   Optimizes the defined function.
-        /// </summary>
-        /// 
-        /// <param name="values">The initial guess values for the parameters.</param>
-        /// 
-        public double Minimize(double[] values)
-        {
-            solution = values;
             convergence.Clear();
 
             do
@@ -225,16 +169,18 @@ namespace Accord.Math.Optimization
             }
             while (!convergence.HasConverged);
 
-            return convergence.NewValue;
+            return true;
         }
 
+
+    
 
         private double runEpoch()
         {
             // Compute the true gradient
-            gradient = Gradient(solution);
+            gradient = Gradient(Solution);
 
-            double[] parameters = solution;
+            double[] parameters = Solution;
 
             // Do the Resilient Backpropagation parameter update
             for (int k = 0; k < parameters.Length; k++)

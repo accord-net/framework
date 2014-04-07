@@ -142,6 +142,14 @@
     <Compile Include="Convergence\RelativeConvergenceTest.cs" />
     <Compile Include="CombinatoricsTest.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
+    <Compile Include="Optimization\BinarySearchTest.cs" />
+    <Compile Include="Optimization\CobylaTest.cs" />
+    <Compile Include="Optimization\BoundedBroydenFletcherGoldfarbShannoTest.cs" />
+    <Compile Include="Optimization\Lbfgsb3\LbfgsbComparer.cs" />
+    <Compile Include="Optimization\Lbfgsb3\LbfgsbComparisonTest.cs" />
+    <Compile Include="Optimization\LibBFGS\LibBFGSComparisonTest.cs" />
+    <Compile Include="Optimization\LibBFGS\LBFGSComparer.cs" />
+    <Compile Include="Optimization\NonlinearConstraintTest.cs" />
     <Compile Include="REnvironmentTest.cs" />
     <Compile Include="CosineTransformTest.cs" />
     <Compile Include="Decompositions\GramSchmidtOrthogonalizationTest.cs" />
@@ -151,7 +159,7 @@
     <Compile Include="Matrix\Matrix.Conversion.cs" />
     <Compile Include="OctaveEnvironmentTest.cs" />
     <Compile Include="Optimization\BrentSearchTest.cs" />
-    <Compile Include="Optimization\QuadraticConstraintTest.cs" />
+    <Compile Include="Optimization\QuadraticObjectiveFunctionTest.cs" />
     <Compile Include="PlaneTest.cs" />
     <Compile Include="Point3Test.cs" />
     <Compile Include="Functions\BetaTest.cs" />
@@ -198,12 +206,15 @@
     <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
-      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj">
+      <Project>{161BD953-537D-4325-8A00-22475FC9088E}</Project>
+      <Name>Accord.Tests.Math.Cpp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +244,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Libbfgs.cpp" />
+    <Content Include="Libbfgs.h" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

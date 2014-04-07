@@ -79,8 +79,22 @@ namespace Accord.Math.Optimization
     /// </example>
     /// 
     /// 
-    public class BrentSearch
+    public sealed class BrentSearch : IOptimizationMethod
     {
+
+        /// <summary>
+        ///   Gets the number of variables (free parameters)
+        ///   in the optimization problem.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The number of parameters.
+        /// </value>
+        /// 
+        public int NumberOfVariables
+        {
+            get { return 1; }
+        }
 
         /// <summary>
         ///   Gets or sets the tolerance margin when
@@ -115,8 +129,19 @@ namespace Accord.Math.Optimization
         ///   or <see cref="FindRoot()"/>.
         /// </summary>
         /// 
-        public double Value { get; private set; }
+        double[] IOptimizationMethod.Solution
+        {
+            get { return new double[] { Value }; }
+            set { Value = value[0]; }
+        }
 
+        /// <summary>
+        ///   Gets the value at the solution found in the last call
+        ///   to <see cref="Minimize()"/>, <see cref="Maximize()"/>
+        ///   or <see cref="FindRoot()"/>.
+        /// </summary>
+        /// 
+        public double Value { get; private set; }
 
         /// <summary>
         ///   Gets the function to be searched.
@@ -148,11 +173,11 @@ namespace Accord.Math.Optimization
         /// 
         /// <returns>The location of the zero value in the given interval.</returns>
         /// 
-        public double FindRoot()
+        public bool FindRoot()
         {
             Solution = FindRoot(Function, LowerBound, UpperBound, Tolerance);
             Value = Function(Solution);
-            return Solution;
+            return true;
         }
 
         /// <summary>
@@ -161,11 +186,11 @@ namespace Accord.Math.Optimization
         /// 
         /// <returns>The location of the zero value in the given interval.</returns>
         /// 
-        public double Find(double value)
+        public bool Find(double value)
         {
             Solution = Find(Function, value, LowerBound, UpperBound, Tolerance);
             Value = Function(Solution);
-            return Solution;
+            return true;
         }
 
         /// <summary>
@@ -174,11 +199,11 @@ namespace Accord.Math.Optimization
         /// 
         /// <returns>The location of the minimum of the function in the given interval.</returns>
         /// 
-        public double Minimize()
+        public bool Minimize()
         {
             Solution = Minimize(Function, LowerBound, UpperBound, Tolerance);
             Value = Function(Solution);
-            return Solution;
+            return true;
         }
 
         /// <summary>
@@ -187,11 +212,11 @@ namespace Accord.Math.Optimization
         /// 
         /// <returns>The location of the maximum of the function in the given interval.</returns>
         /// 
-        public double Maximize()
+        public bool Maximize()
         {
             Solution = Maximize(Function, LowerBound, UpperBound, Tolerance);
             Value = Function(Solution);
-            return Solution;
+            return true;
         }
 
 
@@ -218,11 +243,16 @@ namespace Accord.Math.Optimization
             double r = 0.831966011250105;
 
             if (upperBound < lowerBound)
+            {
                 throw new ArgumentOutOfRangeException("upperBound",
                     "The search interval upper bound must be higher than the lower bound.");
+            }
+
             if (tol < 0)
+            {
                 throw new ArgumentOutOfRangeException("tol",
                     "Tolerance must be positive.");
+            }
 
             // First step - always gold section
             v = lowerBound + r * (upperBound - lowerBound); fv = function(v);
@@ -296,7 +326,9 @@ namespace Accord.Math.Optimization
                     {
                         // t is a better approximation, so reduce
                         // the range so that t would fall within it
-                        if (t < x) upperBound = x; else lowerBound = x;
+                        if (t < x) 
+                            upperBound = x; 
+                        else lowerBound = x;
 
                         // Best approx.
                         v = w; fv = fw;
@@ -307,7 +339,9 @@ namespace Accord.Math.Optimization
                     {
                         // x still remains the better approximation,
                         // so we can reduce the range enclosing x
-                        if (t < x) lowerBound = t; else upperBound = t;
+                        if (t < x) 
+                            lowerBound = t; 
+                        else upperBound = t;
 
                         if (ft <= fw || w == x)
                         {
@@ -473,5 +507,6 @@ namespace Accord.Math.Optimization
         {
             return FindRoot((x) => function(x) - value, lowerBound, upperBound, tol);
         }
+
     }
 }

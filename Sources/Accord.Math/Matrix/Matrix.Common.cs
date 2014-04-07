@@ -45,6 +45,20 @@ namespace Accord.Math
         ///   Compares two matrices for equality, considering an acceptance threshold.
         /// </summary>
         /// 
+        public static bool IsEqual(this double a, double b, double threshold)
+        {
+            if (a == b) 
+                return true;
+
+            if (Math.Abs(a - b) > threshold || (Double.IsNaN(a) ^ Double.IsNaN(b)))
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        ///   Compares two matrices for equality, considering an acceptance threshold.
+        /// </summary>
+        /// 
         public static bool IsEqual(this double[,] objA, double[,] objB, double threshold)
         {
             if (objA == objB) return true;

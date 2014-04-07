@@ -56,7 +56,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(2, function);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
 
             double[] solution = cobyla.Solution;
 
@@ -80,7 +81,11 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            for (int i = 0; i < cobyla.Solution.Length; i++)
+                cobyla.Solution[i] = 1;
+
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
 
             double[] solution = cobyla.Solution;
 
@@ -107,7 +112,11 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            for (int i = 0; i < cobyla.Solution.Length; i++)
+                cobyla.Solution[i] = 1;
+
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
 
             double[] solution = cobyla.Solution;
 
@@ -133,7 +142,12 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            for (int i = 0; i < cobyla.Solution.Length; i++)
+                cobyla.Solution[i] = 1;
+
+            bool success = cobyla.Minimize();
+            double minimum = cobyla.Value;
+            Assert.IsTrue(success);
 
             double[] solution = cobyla.Solution;
 
@@ -157,7 +171,11 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            for (int i = 0; i < cobyla.Solution.Length; i++)
+                cobyla.Solution[i] = 1;
+
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             double sqrthalf = Math.Sqrt(0.5);
@@ -185,7 +203,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             Assert.AreEqual(0, minimum, 1e-10);
@@ -205,7 +224,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             Assert.AreEqual(-0, minimum, 1e-6);
@@ -231,7 +251,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             double sqrthalf = Math.Sqrt(0.5);
@@ -258,8 +279,11 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            bool success = cobyla.Minimize();
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
+
+            Assert.IsTrue(success);
 
             double sqrthalf = Math.Sqrt(0.5);
             Assert.AreEqual(-sqrthalf * 2, minimum, 1e-10);
@@ -285,7 +309,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             double sqrthalf = Math.Sqrt(0.5);
@@ -312,7 +337,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             double sqrthalf = Math.Sqrt(0.5);
@@ -341,9 +367,10 @@ namespace Accord.Tests.Math
 
                 Cobyla cobyla = new Cobyla(function, constraints);
 
-                double minimum = cobyla.Minimize();
+                Assert.IsTrue(cobyla.Minimize());
+                double minimum = cobyla.Value;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 thrown = true;
             }
@@ -367,7 +394,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             Assert.AreEqual(-3, minimum, 1e-5);
@@ -404,7 +432,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             double[] expected = 
@@ -444,7 +473,8 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             double[] expected = 
@@ -454,7 +484,7 @@ namespace Accord.Tests.Math
 
             for (int i = 0; i < expected.Length; i++)
                 Assert.AreEqual(expected[i], cobyla.Solution[i], 1e-4);
-            Assert.AreEqual(680.63005737443393, minimum, 1e-10);
+            Assert.AreEqual(680.63005737443393, minimum, 1e-6);
 
             double expectedMinimum = function.Function(cobyla.Solution);
             Assert.AreEqual(expectedMinimum, minimum);
@@ -491,7 +521,11 @@ namespace Accord.Tests.Math
 
             Cobyla cobyla = new Cobyla(function, constraints);
 
-            double minimum = cobyla.Minimize();
+            for (int i = 0; i < cobyla.Solution.Length; i++)
+                cobyla.Solution[i] = 1;
+
+            Assert.IsTrue(cobyla.Minimize());
+            double minimum = cobyla.Value;
             double[] solution = cobyla.Solution;
 
             double[] expected = 

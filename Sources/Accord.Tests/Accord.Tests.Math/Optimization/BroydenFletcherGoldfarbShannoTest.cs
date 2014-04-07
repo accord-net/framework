@@ -25,6 +25,7 @@ namespace Accord.Tests.Math
     using Accord.Math.Optimization;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using AccordTestsMathCpp2;
 
     [TestClass()]
     public class BroydenFletcherGoldfarbShannoTest
@@ -59,49 +60,29 @@ namespace Accord.Tests.Math
             int n = 2; // number of variables
             double[] initial = { -1.2, 1 };
 
-            BroydenFletcherGoldfarbShanno lbfgs = new BroydenFletcherGoldfarbShanno(n, f, g);
+            var lbfgs = new BroydenFletcherGoldfarbShanno(n, f, g);
 
-            double actual = lbfgs.Minimize(initial);
             double expected = 0;
+            Assert.IsTrue(lbfgs.Minimize(initial));
+
+            bool success = lbfgs.Minimize();
+            double actual = lbfgs.Value;
+            Assert.IsTrue(success);
+
             Assert.AreEqual(expected, actual, 1e-10);
 
             double[] result = lbfgs.Solution;
 
-            Assert.AreEqual(49, lbfgs.Evaluations);
-            Assert.AreEqual(40, lbfgs.Iterations);
-            Assert.AreEqual(0.99999999999963229, result[0]);
-            Assert.AreEqual(0.99999999999924027, result[1]);
+            Assert.AreEqual(1.0, result[0], 1e-5);
+            Assert.AreEqual(1.0, result[1], 1e-5);
 
             double y = f(result);
             double[] d = g(result);
 
-            Assert.AreEqual(1.9432410039142452E-25, y);
-            Assert.AreEqual(0.0000000000089901419642010907, d[0]);
-            Assert.AreEqual(-0.0000000000048627768478581856, d[1]);
+            Assert.AreEqual(0, y, 1e-10);
+            Assert.AreEqual(0, d[0], 1e-6);
+            Assert.AreEqual(0, d[1], 1e-6);
         }
-
-
-
-        // The famous Rosenbrock test function.
-        public static double rosenbrockFunction(double[] x)
-        {
-            double a = x[1] - x[0] * x[0];
-            double b = 1 - x[0];
-            return b * b + 100 * a * a;
-        }
-
-        // Gradient of the Rosenbrock test function.
-        public static double[] rosenbrockGradient(double[] x)
-        {
-            double a = x[1] - x[0] * x[0];
-            double b = 1 - x[0];
-
-            double f0 = -2 * b - 400 * x[0] * a;
-            double f1 = 200 * a;
-
-            return new[] { f0, f1 };
-        }
-
 
         [TestMethod()]
         public void lbfgsTest2()
@@ -138,7 +119,8 @@ namespace Accord.Tests.Math
             var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2, function: f, gradient: g);
 
             // And then minimize the function:
-            double minValue = lbfgs.Minimize();
+            Assert.IsTrue(lbfgs.Minimize());
+            double minValue = lbfgs.Value;
             double[] solution = lbfgs.Solution;
 
             // The resultant minimum value should be -2, and the solution
@@ -150,10 +132,191 @@ namespace Accord.Tests.Math
             double expected = -2;
             Assert.AreEqual(expected, minValue, 1e-10);
 
-            Assert.AreEqual(1, solution[0], 1e-6);
-            Assert.AreEqual(2, solution[1], 1e-6);
+            Assert.AreEqual(1, solution[0], 1e-3);
+            Assert.AreEqual(2, solution[1], 1e-3);
 
         }
+
+        // The famous Rosenbrock test function.
+        public static double rosenbrockFunction(double[] x)
+        {
+            double a = x[1] - x[0] * x[0];
+            double b = 1 - x[0];
+            return b * b + 100 * a * a;
+        }
+
+        // Gradient of the Rosenbrock test function.
+        public static double[] rosenbrockGradient(double[] x)
+        {
+            double a = x[1] - x[0] * x[0];
+            double b = 1 - x[0];
+
+            double f0 = -2 * b - 400 * x[0] * a;
+            double f1 = 200 * a;
+
+            return new[] { f0, f1 };
+        }
+
+        private static void createTestFunction(out Func<double[], double> f, out Func<double[], double[]> g)
+        {
+            // min f(x, y) = -exp(-(x-1)^2) - exp(-0.5*(y-2)^2)
+            f = (x) => -Math.Exp(-Math.Pow(x[0] - 1, 2)) - Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2));
+
+            g = (x) => new[] 
+            {
+                2 * Math.Exp(-Math.Pow(x[0] - 1, 2)) * (x[0] - 1),
+                Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2)) * (x[1] - 2)
+            };
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void NoFunctionTest()
+        {
+            BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2);
+
+            target.Minimize();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void NoGradientTest()
+        {
+            BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2)
+            {
+                Function = (x) => 0.0
+            };
+
+            target.Minimize();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void WrongGradientSizeTest()
+        {
+            BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2)
+            {
+                Function = (x) => 0.0,
+                Gradient = (x) => new double[1]
+            };
+
+            target.Minimize();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void MutableGradientSizeTest()
+        {
+            BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2)
+            {
+                Function = (x) => 0.0,
+                Gradient = (x) => x
+            };
+
+            target.Minimize();
+        }
+
+        [TestMethod]
+        public void ConstructorTest1()
+        {
+            Func<double[], double> function = // min f(x) = 10 * (x+1)^2 + y^2
+                x => 10.0 * Math.Pow(x[0] + 1.0, 2.0) + Math.Pow(x[1], 2.0);
+
+            Func<double[], double[]> gradient = x => new[] { 20 * (x[0] + 1), 2 * x[1] };
+
+            BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2)
+            {
+                Function = function,
+                Gradient = gradient
+            };
+
+            Assert.IsTrue(target.Minimize());
+            double minimum = target.Value;
+
+            double[] solution = target.Solution;
+
+            Assert.AreEqual(0, minimum, 1e-10);
+            Assert.AreEqual(-1, solution[0], 1e-5);
+            Assert.AreEqual(0, solution[1], 1e-5);
+
+            double expectedMinimum = function(target.Solution);
+            Assert.AreEqual(expectedMinimum, minimum);
+        }
+
+        [TestMethod]
+        public void ConstructorTest2()
+        {
+            Function function = // min f(x) = 10 * (x+1)^2 + y^2
+                x => 10.0 * Math.Pow(x[0] + 1.0, 2.0) + Math.Pow(x[1], 2.0);
+
+            Gradient gradient = x => new[] { 20 * (x[0] + 1), 2 * x[1] };
+
+
+            double[] start = new double[2];
+
+            BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2,
+                function.Invoke, gradient.Invoke);
+
+            Assert.IsTrue(target.Minimize());
+            double minimum = target.Value;
+
+            double[] solution = target.Solution;
+
+            Assert.AreEqual(0, minimum, 1e-10);
+            Assert.AreEqual(-1, solution[0], 1e-5);
+            Assert.AreEqual(0, solution[1], 1e-5);
+
+            double expectedMinimum = function(target.Solution);
+            Assert.AreEqual(expectedMinimum, minimum);
+        }
+
+
+        [TestMethod()]
+        public void lbfgsTest3()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            Func<double[], double> f;
+            Func<double[], double[]> g;
+            createExpDiff(out f, out g);
+
+            int errors = 0;
+
+            for (int i = 0; i < 10000; i++)
+            {
+                double[] start = Accord.Math.Matrix.Random(2, -1.0, 1.0);
+
+                var lbfgs = new BroydenFletcherGoldfarbShanno(numberOfVariables: 2, function: f, gradient: g);
+
+                lbfgs.Minimize(start);
+                double minValue = lbfgs.Value;
+                double[] solution = lbfgs.Solution;
+
+                double expected = -2;
+
+                if (Math.Abs(expected - minValue) > 1e-3)
+                    errors++;
+            }
+
+            Assert.IsTrue(errors < 800);
+        }
+
+        private static void createExpDiff(out Func<double[], double> f, out Func<double[], double[]> g)
+        {
+            f = (x) =>
+                           -Math.Exp(-Math.Pow(x[0] - 1, 2)) - Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2));
+
+            g = (x) => new double[] 
+            {
+                // df/dx = {-2 e^(-    (x-1)^2) (x-1)}
+                2 * Math.Exp(-Math.Pow(x[0] - 1, 2)) * (x[0] - 1),
+
+                // df/dy = {-  e^(-1/2 (y-2)^2) (y-2)}
+                Math.Exp(-0.5 * Math.Pow(x[1] - 2, 2)) * (x[1] - 2)
+            };
+        }
+
+        
 
     }
 }

@@ -101,6 +101,18 @@ namespace Accord.Statistics.Models.Fields.Learning
             set { stochastic = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the amount of the parameter weights
+        ///   which should be included in the objective function.
+        ///   Default is 0 (do not include regularization).
+        /// </summary>
+        /// 
+        public double Regularization
+        {
+            get { return calculator.Regularization; }
+            set { calculator.Regularization = value; }
+        }
+
 
         /// <summary>
         ///   Gets or sets the model being trained.

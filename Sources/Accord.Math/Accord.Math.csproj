@@ -123,10 +123,17 @@
     <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
     <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
     <Compile Include="Matrix\Matrix.Submatrix.cs" />
+    <Compile Include="Optimization\Base\BaseGradientOptimizationMethod.cs" />
+    <Compile Include="Optimization\Base\BaseOptimizationMethod.cs" />
     <Compile Include="Optimization\Base\IGradientOptimizationMethod.cs" />
     <Compile Include="Optimization\Base\ILeastSquaresMethod.cs" />
     <Compile Include="Optimization\BinarySearch.cs" />
-    <Compile Include="Optimization\Constrained\LinearConstraintCollection.cs" />
+    <Compile Include="Optimization\Constrained\Cobyla.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\IConstraint.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\LinearConstraintCollection.cs" />
+    <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.FORTRAN.cs" />
+    <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.LIBLBFGS.cs" />
+    <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.cs" />
     <Compile Include="Optimization\Unconstrained\Least Squares\GaussNewton.cs" />
     <Compile Include="Optimization\Unconstrained\Least Squares\LevenbergMarquardt.cs" />
     <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
@@ -237,20 +244,20 @@
     </Compile>
     <Compile Include="Norm.cs" />
     <Compile Include="Differentiation\FiniteDifferences.cs" />
-    <Compile Include="Optimization\Constrained\AugmentedLagrangianSolver.cs" />
-    <Compile Include="Optimization\Constrained\QuadraticConstraint.cs" />
-    <Compile Include="Optimization\Constrained\NonlinearConstraint.cs" />
+    <Compile Include="Optimization\Constrained\AugmentedLagrangian.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\QuadraticConstraint.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\NonlinearConstraint.cs" />
     <Compile Include="Optimization\ExpressionParser.cs" />
     <Compile Include="Optimization\NonlinearObjectiveFunction.cs" />
     <Compile Include="Optimization\Unconstrained\ConjugateGradient.cs" />
-    <Compile Include="Optimization\Constrained\LinearConstraint.cs" />
+    <Compile Include="Optimization\Constrained\Constraints\LinearConstraint.cs" />
     <Compile Include="Optimization\IObjectiveFunction.cs" />
     <Compile Include="Optimization\QuadraticObjectiveFunction.cs" />
     <Compile Include="Optimization\Base\IOptimizationMethod.cs" />
     <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.cs" />
     <Compile Include="Optimization\Unconstrained\LineSearchFailedException.cs" />
     <Compile Include="Optimization\Unconstrained\OptimizationProgressEventHandler.cs" />
-    <Compile Include="Optimization\Constrained\GoldfarbIdnaniQuadraticSolver.cs" />
+    <Compile Include="Optimization\Constrained\GoldfarbIdnani.cs" />
     <Compile Include="Optimization\BrentSearch.cs" />
     <Compile Include="Special.cs" />
     <Compile Include="Transforms\HilbertTransform.cs" />
@@ -295,6 +302,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>SingularValueGenerator.txt</LastGenOutput>
     </None>
+    <None Include="Optimization\Accord.Math.Optimization.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.Math.cd" />

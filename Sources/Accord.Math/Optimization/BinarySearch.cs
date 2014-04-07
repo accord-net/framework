@@ -127,15 +127,19 @@ namespace Accord.Math.Optimization
 
             while (start < end)
             {
-                middle = (int)(((long)start + (long)end) / 2);
+                int m = (int)(((long)start + (long)end) / 2);
 
-                double v = function(middle) - value;
+                if (m == middle)
+                    return middle;
+                middle = m;
 
-                if (v > 0)
+                double v = function(middle);
+
+                if (v > value)
                 {
                     end = middle;
                 }
-                else if (v < 0)
+                else if (v < value)
                 {
                     start = middle + 1;
                 }

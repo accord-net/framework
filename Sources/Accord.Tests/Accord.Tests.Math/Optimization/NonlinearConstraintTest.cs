@@ -26,6 +26,7 @@ namespace Accord.Tests.Math
     using Accord.Math.Optimization;
     using Accord.Math.Optimization.Constrained;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Math;
 
     [TestClass()]
     public class NonlinearConstraintTest
@@ -79,6 +80,36 @@ namespace Accord.Tests.Math
 
                     Assert.AreEqual(v1, v2);
                 }
+            }
+        }
+
+        [TestMethod]
+        public void GetViolationTest1()
+        {
+            NonlinearConstraint[] targets =
+            {
+                new NonlinearConstraint(1, x => x[0] >= 1),
+                new NonlinearConstraint(1, x => x[0] <= 1)
+            };
+
+            double[] expected;
+            
+            expected = new double[] { -0.5, 0.5 };
+            for (int i = 0; i < targets.Length; i++)
+            {
+                double e = expected[i];
+                double a = targets[i].GetViolation(new double[] { 0.5 });
+
+                Assert.AreEqual(e, a);
+            }
+
+            expected = new double[] { 0.5, -0.5 };
+            for (int i = 0; i < targets.Length; i++)
+            {
+                double e = expected[i];
+                double a = targets[i].GetViolation(new double[] { 1.5 });
+
+                Assert.AreEqual(e, a);
             }
         }
 

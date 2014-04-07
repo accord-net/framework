@@ -23,12 +23,15 @@
 namespace Accord
 {
     using System.Data;
+    using System;
+    using System.Reflection;
+    using System.ComponentModel;
 
     /// <summary>
-    ///   Static class for DataSet-related extension methods.
+    ///   Static class for utility extension methods.
     /// </summary>
     /// 
-    public static class DataSetExtensions
+    public static class Extensions
     {
 
         /// <summary>
@@ -54,6 +57,29 @@ namespace Accord
         {
             for (int i = 0; i < columnNames.Length; i++)
                 collection.Add(columnNames[i]);
+        }
+
+        /// <summary>
+        ///   Gets a the value of a <see cref="DescriptionAttribute"/>
+        ///   associated with a particular enumeration value.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The enumeration type.</typeparam>
+        /// <param name="source">The enumeration value.</param>
+        /// 
+        /// <returns>The string value stored in the value's description attribute.</returns>
+        /// 
+        public static string GetDescription<T>(this T source)
+        {
+            FieldInfo fi = source.GetType().GetField(source.ToString());
+
+            DescriptionAttribute[] attributes = 
+                (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+
+            if (attributes != null && attributes.Length > 0) 
+                return attributes[0].Description;
+
+            return source.ToString();
         }
 
     }

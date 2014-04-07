@@ -33,7 +33,7 @@ namespace Accord.Math.Optimization
     ///   Constraint with only quadratic terms.
     /// </summary>
     /// 
-    public class QuadraticConstraint : NonlinearConstraint
+    public class QuadraticConstraint : NonlinearConstraint, IConstraint
     {
 
         /// <summary>
@@ -58,7 +58,8 @@ namespace Accord.Math.Optimization
         /// <param name="objective">The objective function to which this constraint refers.</param>
         /// <param name="quadraticTerms">The matrix of <c>A</c> quadratic terms.</param>
         /// <param name="linearTerms">The vector <c>b</c> of linear terms.</param>
-        /// <param name="shouldBe">How the left hand side of the constraint should be compared to the given <paramref name="value"/>.</param>
+        /// <param name="shouldBe">How the left hand side of the constraint should be compared to 
+        ///   the given <paramref name="value"/>.</param>
         /// <param name="value">The right hand side of the constraint equation.</param>
         /// <param name="withinTolerance">The tolerance for violations of the constraint. Equality
         ///   constraints should set this to a small positive value. Default is 0.</param>
@@ -95,7 +96,7 @@ namespace Accord.Math.Optimization
             this.QuadraticTerms = quadraticTerms;
             this.LinearTerms = linearTerms;
 
-            Create(n, function, shouldBe, value, gradient, withinTolerance);
+            Create(n, this.function, shouldBe, value, this.gradient, withinTolerance);
         }
 
 

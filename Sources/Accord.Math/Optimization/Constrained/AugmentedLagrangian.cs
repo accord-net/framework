@@ -127,7 +127,7 @@ namespace Accord.Math.Optimization
     /// </code>
     /// </example>
     /// 
-    public class AugmentedLagrangianSolver
+    public class AugmentedLagrangian : BaseGradientOptimizationMethod, IGradientOptimizationMethod
     {
 
         IGradientOptimizationMethod dualSolver;
@@ -145,8 +145,6 @@ namespace Accord.Math.Optimization
         private double[] mu;     // "lesser than"  inequality multipliers
         private double[] nu;     // "greater than" inequality multipliers
 
-        private int numberOfVariables;
-
 
         // Stopping criteria
         private double ftol_abs = 0;
@@ -159,20 +157,9 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///   Gets the number of variables (free parameters)
-        ///   in the optimization problem.
-        /// </summary>
-        /// 
-        /// <value>The number of parameters.</value>
-        /// 
-        public int Parameters
-        {
-            get { return numberOfVariables; }
-        }
-
-        /// <summary>
-        ///   Gets the number of iterations performed in the last
-        ///   call to <see cref="Minimize(NonlinearObjectiveFunction)"/>.
+        ///   Gets the number of iterations performed in the
+        ///   last call to the <see cref="IOptimizationMethod.Minimize()"/> or
+        ///   <see cref="IOptimizationMethod.Maximize"/> methods.
         /// </summary>
         /// 
         /// <value>
@@ -186,7 +173,8 @@ namespace Accord.Math.Optimization
 
         /// <summary>
         ///   Gets the number of function evaluations performed
-        ///   in the last call to <see cref="Minimize(NonlinearObjectiveFunction)"/>.
+        ///   in the last call to the <see cref="IOptimizationMethod.Minimize()"/> or
+        ///   <see cref="IOptimizationMethod.Maximize"/> methods.
         /// </summary>
         /// 
         /// <value>
@@ -215,63 +203,102 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        ///   Gets or sets the function to be optimized.
+        ///   Gets the inner dual problem optimization algorithm.
         /// </summary>
         /// 
-        /// <value>The function to be optimized.</value>
-        /// 
-        public Func<double[], double> Function { get; set; }
-
-        /// <summary>
-        ///   Gets or sets a function returning the gradient
-        ///   vector of the function to be optimized for a
-        ///   given value of its free parameters.
-        /// </summary>
-        /// 
-        /// <value>The gradient function.</value>
-        /// 
-        public Func<double[], double[]> Gradient { get; set; }
-
-        /// <summary>
-        ///   Gets the solution found, the values of the
-        ///   parameters which optimizes the function.
-        /// </summary>
-        /// 
-        public double[] Solution { get; private set; }
-
+        public IGradientOptimizationMethod Optimizer { get { return dualSolver; } }
 
         /// <summary>
         ///   Creates a new instance of the Augmented Lagrangian algorithm.
         /// </summary>
         /// 
         /// <param name="numberOfVariables">The number of free parameters in the optimization problem.</param>
-        /// <param name="constraints">The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        /// <param name="constraints">
+        ///   The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
         /// 
-        public AugmentedLagrangianSolver(int numberOfVariables,
-            IEnumerable<NonlinearConstraint> constraints)
+        public AugmentedLagrangian(int numberOfVariables, IEnumerable<NonlinearConstraint> constraints)
+            : base(numberOfVariables)
         {
-            var innerSolver = new BroydenFletcherGoldfarbShanno(numberOfVariables);
-            init(numberOfVariables, constraints, innerSolver);
+            init(null, constraints, null);
         }
 
         /// <summary>
         ///   Creates a new instance of the Augmented Lagrangian algorithm.
         /// </summary>
         /// 
-        /// <param name="innerSolver">The <see cref="IGradientOptimizationMethod">unconstrained optimization
-        ///   method</see> used internally to solve the dual of this optimization problem.</param>
-        /// <param name="constraints">The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        /// <param name="function">The objective function to be optimized.</param>
+        /// <param name="constraints">
+        ///   The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
         /// 
-        public AugmentedLagrangianSolver(IGradientOptimizationMethod innerSolver,
-            IEnumerable<NonlinearConstraint> constraints)
+        public AugmentedLagrangian(NonlinearObjectiveFunction function, IEnumerable<NonlinearConstraint> constraints)
+            : base(function.NumberOfVariables)
         {
-            int numberOfVariables = innerSolver.Parameters;
-            init(numberOfVariables, constraints, innerSolver);
+            init(function, constraints, null);
         }
 
-        private void init(int numberOfVariables, IEnumerable<NonlinearConstraint> constraints, IGradientOptimizationMethod innerSolver)
+        /// <summary>
+        ///   Creates a new instance of the Augmented Lagrangian algorithm.
+        /// </summary>
+        /// 
+        /// <param name="innerSolver">The <see cref="IGradientOptimizationMethod">unconstrained 
+        ///   optimization method</see> used internally to solve the dual of this optimization 
+        ///   problem.</param>
+        /// <param name="function">The objective function to be optimized.</param>
+        /// <param name="constraints">
+        ///   The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        /// 
+        public AugmentedLagrangian(IGradientOptimizationMethod innerSolver,
+            NonlinearObjectiveFunction function, IEnumerable<NonlinearConstraint> constraints)
+            : base(innerSolver.NumberOfVariables)
         {
-            this.numberOfVariables = numberOfVariables;
+            if (innerSolver.NumberOfVariables != function.NumberOfVariables)
+                throw new ArgumentException("The inner unconstrained optimization algorithm and the "
+                    + "objective function should have the same number of variables.", "function");
+
+            init(function, constraints, innerSolver);
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the Augmented Lagrangian algorithm.
+        /// </summary>
+        /// 
+        /// <param name="innerSolver">The <see cref="IGradientOptimizationMethod">unconstrained 
+        ///   optimization method</see> used internally to solve the dual of this optimization 
+        ///   problem.</param>
+        /// <param name="constraints">
+        ///   The <see cref="NonlinearConstraint"/>s to which the solution must be subjected.</param>
+        /// 
+        public AugmentedLagrangian(IGradientOptimizationMethod innerSolver, IEnumerable<NonlinearConstraint> constraints)
+            : base(innerSolver.NumberOfVariables)
+        {
+            init(null, constraints, innerSolver);
+        }
+
+
+        private void init(NonlinearObjectiveFunction function,
+            IEnumerable<NonlinearConstraint> constraints, IGradientOptimizationMethod innerSolver)
+        {
+            if (function != null)
+            {
+                if (function.NumberOfVariables != NumberOfVariables)
+                {
+                    throw new ArgumentOutOfRangeException("function",
+                        "Incorrect number of variables in the objective function. " +
+                        "The number of variables must match the number of variables set in the solver.");
+                }
+
+                this.Function = function.Function;
+                this.Gradient = function.Gradient;
+            }
+
+            if (innerSolver == null)
+            {
+                innerSolver = new BroydenFletcherGoldfarbShanno(NumberOfVariables)
+                {
+                    LineSearch = Optimization.LineSearch.BacktrackingArmijo,
+                    Corrections = 10
+                };
+            }
 
             List<NonlinearConstraint> equality = new List<NonlinearConstraint>();
             List<NonlinearConstraint> lesserThan = new List<NonlinearConstraint>();
@@ -299,99 +326,16 @@ namespace Accord.Math.Optimization
             this.greaterThanConstraints = greaterThan.ToArray();
             this.equalityConstraints = equality.ToArray();
 
-            this.Solution = new double[numberOfVariables];
+            this.lambda = new double[equalityConstraints.Length];
+            this.mu = new double[lesserThanConstraints.Length];
+            this.nu = new double[greaterThanConstraints.Length];
 
             this.dualSolver = innerSolver;
             dualSolver.Function = objectiveFunction;
             dualSolver.Gradient = objectiveGradient;
-
-            for (int i = 0; i < Solution.Length; i++)
-                Solution[i] = Accord.Math.Tools.Random.NextDouble() * 2 - 1;
         }
 
-        /// <summary>
-        ///   Minimizes the given function. 
-        /// </summary>
-        /// 
-        /// <param name="function">The function to be minimized.</param>
-        /// 
-        /// <returns>The minimum value found at the <see cref="Solution"/>.</returns>
-        /// 
-        public double Minimize(NonlinearObjectiveFunction function)
-        {
-            if (function.NumberOfVariables != numberOfVariables)
-                throw new ArgumentOutOfRangeException("function",
-                    "Incorrect number of variables in the objective function. " +
-                    "The number of variables must match the number of variables set in the solver.");
 
-            this.Function = function.Function;
-            this.Gradient = function.Gradient;
-
-            minimize();
-
-            return Function(Solution);
-        }
-
-        /// <summary>
-        ///   Minimizes the defined function. 
-        /// </summary>
-        /// 
-        /// <param name="function">The function to be minimized.</param>
-        /// <param name="gradient">The gradient of the given <paramref name="function"/>.</param>
-        /// 
-        /// <returns>The minimum value found at the <see cref="Solution"/>.</returns>
-        /// 
-        public double Minimize(Func<double[], double> function, Func<double[], double[]> gradient)
-        {
-            this.Function = function;
-            this.Gradient = gradient;
-
-            minimize();
-
-            return Function(Solution);
-        }
-
-        /// <summary>
-        ///   Maximizes the given function. 
-        /// </summary>
-        /// 
-        /// <param name="function">The function to be maximized.</param>
-        /// 
-        /// <returns>The maximum value found at the <see cref="Solution"/>.</returns>
-        /// 
-        public double Maximize(NonlinearObjectiveFunction function)
-        {
-            if (function.NumberOfVariables != numberOfVariables)
-                throw new ArgumentOutOfRangeException("function",
-                    "Incorrect number of variables in the objective function. " +
-                    "The number of variables must match the number of variables set in the solver.");
-
-            this.Function = x => -function.Function(x);
-            this.Gradient = x => function.Gradient(x).Multiply(-1);
-
-            minimize();
-
-            return -Function(Solution);
-        }
-
-        /// <summary>
-        ///   maximizes the defined function. 
-        /// </summary>
-        /// 
-        /// <param name="function">The function to be maximized.</param>
-        /// <param name="gradient">The gradient of the given <paramref name="function"/>.</param>
-        /// 
-        /// <returns>The maximum value found at the <see cref="Solution"/>.</returns>
-        /// 
-        public double Maximize(Func<double[], double> function, Func<double[], double[]> gradient)
-        {
-            this.Function = x => -function(x);
-            this.Gradient = x => gradient(x).Multiply(-1);
-
-            minimize();
-
-            return -Function(Solution);
-        }
 
         // Augmented Lagrangian objective
         double objectiveFunction(double[] x)
@@ -438,9 +382,10 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            double phi = Function(x) + sumOfSquares - weightedSum;
 
-            return phi;
+            double phi = Function(x);
+
+            return phi + sumOfSquares - weightedSum;
         }
 
         // Augmented Lagrangian gradient 
@@ -451,8 +396,11 @@ namespace Accord.Math.Optimization
             //   Phi'(x) = f'(x) + rho sum(c_i(x)*c_i'(x)) - sum(lambda_i * c_i'(x))
             //
 
-            double[] g = Gradient(x);
+            double[] orig = Gradient(x);
+            double[] g = new double[NumberOfVariables];
 
+            for (int i = 0; i < g.Length; i++)
+                g[i] = orig[i];
 
             double[] sum = new double[x.Length];
             double[] weightedSum = new double[x.Length];
@@ -510,7 +458,12 @@ namespace Accord.Math.Optimization
             return g;
         }
 
-        double minimize()
+        /// <summary>
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
+        /// </summary>
+        /// 
+        protected override bool Optimize()
         {
             double ICM = Double.PositiveInfinity;
 
@@ -535,9 +488,9 @@ namespace Accord.Math.Optimization
 
             double[] currentSolution = (double[])Solution.Clone();
 
-            lambda = new double[equalityConstraints.Length];
-            mu = new double[lesserThanConstraints.Length];
-            nu = new double[greaterThanConstraints.Length];
+            Array.Clear(lambda, 0, lambda.Length);
+            Array.Clear(mu, 0, mu.Length);
+            Array.Clear(nu, 0, nu.Length);
             rho = 1;
 
 
@@ -564,7 +517,7 @@ namespace Accord.Math.Optimization
                 }
 
                 // For each "lesser than" inequality constraint
-                for (int i = 0; i < lesserThanConstraints.Length; ++i)
+                for (int i = 0; i < lesserThanConstraints.Length; i++)
                 {
                     double c = lesserThanConstraints[i].Function(currentSolution) - lesserThanConstraints[i].Value;
 
@@ -574,7 +527,7 @@ namespace Accord.Math.Optimization
                 }
 
                 // For each "greater than" inequality constraint
-                for (int i = 0; i < greaterThanConstraints.Length; ++i)
+                for (int i = 0; i < greaterThanConstraints.Length; i++)
                 {
                     double c = -greaterThanConstraints[i].Function(currentSolution) + greaterThanConstraints[i].Value;
 
@@ -589,11 +542,11 @@ namespace Accord.Math.Optimization
 
 
                 double num = 2.0 * Math.Abs(minValue);
-            
+
                 if (num < 1e-300)
                     rho = rhoMin;
 
-                else if (con2 < 1e-300) 
+                else if (con2 < 1e-300)
                     rho = rhoMax;
 
                 else
@@ -613,17 +566,9 @@ namespace Accord.Math.Optimization
             {
                 double prevICM = ICM;
 
-                try
-                {
-                    // Minimize the dual problem using current solution
-                    currentValue = dualSolver.Minimize(currentSolution);
-                }
-                catch (LineSearchFailedException)
-                {
-                }
-                catch (NotFiniteNumberException)
-                {
-                }
+                // Minimize the dual problem using current solution
+                dualSolver.Solution = currentSolution;
+                dualSolver.Minimize();
 
                 // Retrieve the solution found
                 currentSolution = dualSolver.Solution;
@@ -689,14 +634,17 @@ namespace Accord.Math.Optimization
                     if (feasible)
                     {
                         if (relstop(minValue, currentValue, ftol_rel, ftol_abs))
-                            return minValue;
+                            return true;
 
                         bool xtolreach = true;
                         for (int i = 0; i < currentSolution.Length; i++)
+                        {
                             if (!relstop(Solution[i], currentSolution[i], xtol_rel, 0))
                                 xtolreach = false;
+                        }
+
                         if (xtolreach)
-                            return minValue;
+                            return true;
                     }
 
                     minValue = currentValue;
@@ -712,12 +660,12 @@ namespace Accord.Math.Optimization
                 else
                 {
                     if (ICM == 0)
-                        return minValue;
+                        return true;
 
                     noProgressCounter++;
 
                     if (noProgressCounter > maxCount)
-                        return minValue;
+                        return true;
                 }
 
 
@@ -725,7 +673,7 @@ namespace Accord.Math.Optimization
                 iterations++;
 
                 if (maxEvaluations > 0 && functionEvaluations >= maxEvaluations)
-                    return minValue;
+                    return true;
 
             }
 

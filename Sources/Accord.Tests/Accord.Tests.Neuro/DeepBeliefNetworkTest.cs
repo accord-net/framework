@@ -214,6 +214,8 @@ namespace Accord.Tests.Neuro
         [TestMethod()]
         public void ExampleTest1()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // We'll use a simple XOR function as input. 
 
             double[][] inputs =

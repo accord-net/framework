@@ -128,6 +128,7 @@ namespace Accord.Statistics.Models.Markov.Learning
 
         private HiddenMarkovModel<TDistribution> model;
         private bool useLaplaceRule = true;
+        private bool useWeights = false;
 
         private IFittingOptions fittingOptions;
 
@@ -139,6 +140,19 @@ namespace Accord.Statistics.Models.Markov.Learning
         public HiddenMarkovModel<TDistribution> Model
         {
             get { return model; }
+        }
+
+        /// <summary>
+        ///   Gets or sets whether the emission fitting algorithm should
+        ///   present weighted samples or simply the clustered samples to
+        ///   the <see cref="IDistribution.Fit(System.Array)">density estimation 
+        ///   methods</see>.
+        /// </summary>
+        /// 
+        public bool UseWeights
+        {
+            get { return useWeights; }
+            set { useWeights = value; }
         }
 
         /// <summary>
@@ -204,7 +218,6 @@ namespace Accord.Statistics.Models.Markov.Learning
                     obs[i] = convert(observations[i], model.Dimension);
             }
 
-
             // Grab model information
             int N = observations.Length;
             int states = model.States;
@@ -221,27 +234,55 @@ namespace Accord.Statistics.Models.Markov.Learning
                 for (int j = 1; j < path.Length; j++)
                     transitions[path[j - 1], path[j]]++;
 
-            // 3. Count emissions for each state
-            List<double[]>[] clusters = new List<double[]>[model.States];
-            for (int i = 0; i < clusters.Length; i++)
-                clusters[i] = new List<double[]>();
-
-            // Count symbol frequencies per state
-            for (int i = 0; i < paths.Length; i++)
+            if (useWeights)
             {
-                for (int t = 0; t < paths[i].Length; t++)
+                int totalObservations = 0;
+                for (int i = 0; i < obs.Length; i++)
+                    totalObservations += obs[i].Length;
+
+                double[][] weights = new double[states][];
+                for (int i = 0; i < weights.Length; i++)
+                    weights[i] = new double[totalObservations];
+
+                double[][] all = new double[totalObservations][];
+
+                for (int i = 0, c = 0; i < paths.Length; i++)
                 {
-                    int state = paths[i][t];
-                    double[] symbol = obs[i][t];
-
-                    clusters[state].Add(symbol);
+                    for (int t = 0; t < paths[i].Length; t++, c++)
+                    {
+                        int state = paths[i][t];
+                        all[c] = obs[i][t];
+                        weights[state][c] = 1;
+                    }
                 }
-            }
 
-            // Estimate probability distributions
-            for (int i = 0; i < model.States; i++)
-                if (clusters[i].Count > 0)
-                    model.Emissions[i].Fit(clusters[i].ToArray(), null, fittingOptions);
+                for (int i = 0; i < model.States; i++)
+                    model.Emissions[i].Fit(all, weights[i], fittingOptions);
+            }
+            else
+            {
+                // 3. Count emissions for each state
+                List<double[]>[] clusters = new List<double[]>[model.States];
+                for (int i = 0; i < clusters.Length; i++)
+                    clusters[i] = new List<double[]>();
+
+                // Count symbol frequencies per state
+                for (int i = 0; i < paths.Length; i++)
+                {
+                    for (int t = 0; t < paths[i].Length; t++)
+                    {
+                        int state = paths[i][t];
+                        double[] symbol = obs[i][t];
+
+                        clusters[state].Add(symbol);
+                    }
+                }
+
+                // Estimate probability distributions
+                for (int i = 0; i < model.States; i++)
+                    if (clusters[i].Count > 0)
+                        model.Emissions[i].Fit(clusters[i].ToArray(), null, fittingOptions);
+            }
 
             // 4. Form log-probabilities, using the Laplace
             //    correction to avoid zero probabilities

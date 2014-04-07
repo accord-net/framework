@@ -1,4 +1,23 @@
-﻿
+﻿// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2014
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 namespace Accord.Tests.Math
 {
@@ -42,9 +61,12 @@ namespace Accord.Tests.Math
             BrentSearch search = new BrentSearch(function, -4, 3);
 
             // Finally, we can query the information we need
-            double max = search.Maximize();  // occurs at -2.61
-            double min = search.Minimize();  // occurs at  1.27
-            double root = search.FindRoot(); // occurs at  0.50
+            Assert.IsTrue(search.Maximize());  // occurs at -2.61
+            double max = search.Solution;
+            Assert.IsTrue(search.Minimize());  // occurs at  1.27
+            double min = search.Solution;
+            Assert.IsTrue(search.FindRoot()); // occurs at  0.50
+            double root = search.Solution;
 
             Assert.AreEqual(-2.6103173042172645, max);
             Assert.AreEqual(1.2769840667540548, min);

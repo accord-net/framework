@@ -359,6 +359,8 @@
     <Folder Include="images\" />
     <Folder Include="images\" />
     <Folder Include="diagrams\classes\" />
+    <Folder Include="images\filters\" />
+    <Folder Include="images\hmm\" />
     <Folder Include="resources\" />
     <Folder Include="diagrams\" />
   </ItemGroup>
@@ -639,6 +641,46 @@
     <Content Include="diagrams\classes\Accord.Imaging.Filters.png">
       <ImageId>Accord.Imaging.Filters</ImageId>
       <AlternateText>Accord.Imaging.Filters</AlternateText>
+    </Content>
+    <Content Include="images\filters\input-table.png">
+      <ImageId>input-table</ImageId>
+      <AlternateText>input-table</AlternateText>
+    </Content>
+    <Content Include="images\filters\output-codification.png">
+      <ImageId>output-codification</ImageId>
+      <AlternateText>output-codification</AlternateText>
+    </Content>
+    <Content Include="images\filters\output-discretization.png">
+      <ImageId>output-discretization</ImageId>
+      <AlternateText>output-discretization</AlternateText>
+    </Content>
+    <Content Include="images\filters\output-projection.png">
+      <ImageId>output-projection</ImageId>
+      <AlternateText>output-projection</AlternateText>
+    </Content>
+    <Content Include="images\hmm\hmm-joint-probability.png">
+      <ImageId>hmm-joint-probability</ImageId>
+      <AlternateText>hmm-joint-probability</AlternateText>
+    </Content>
+    <Content Include="images\hmm\hmm-model.png">
+      <ImageId>hmm-model</ImageId>
+      <AlternateText>hmm-model</AlternateText>
+    </Content>
+    <Content Include="images\hmm\hmm-sequence-probability.png">
+      <ImageId>hmm-sequence-probability</ImageId>
+      <AlternateText>hmm-sequence-probability</AlternateText>
+    </Content>
+    <Content Include="images\hmm\hmm-tuple.png">
+      <ImageId>hmm-tuple</ImageId>
+      <AlternateText>hmm-tuple</AlternateText>
+    </Content>
+    <Content Include="images\hmm\map-decision.png">
+      <ImageId>map-decision</ImageId>
+      <AlternateText>map-decision</AlternateText>
+    </Content>
+    <Content Include="images\hmm\ml-decision.png">
+      <ImageId>ml-decision</ImageId>
+      <AlternateText>ml-decision</AlternateText>
     </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>

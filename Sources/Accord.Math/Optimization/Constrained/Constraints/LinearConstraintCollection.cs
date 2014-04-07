@@ -31,7 +31,7 @@ namespace Accord.Math.Optimization
     ///   Linear Constraint Collection.
     /// </summary>
     /// 
-    public class LinearConstraintCollection : Collection<LinearConstraint>
+    public class LinearConstraintCollection : Collection<LinearConstraint>, IEnumerable<LinearConstraint>
     {
 
         /// <summary>

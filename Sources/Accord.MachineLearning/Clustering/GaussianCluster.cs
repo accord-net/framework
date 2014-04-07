@@ -25,9 +25,9 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
-    using System.Threading.Tasks;
 
     /// <summary>
     ///   Gaussian Mixture Model cluster.
@@ -111,16 +111,37 @@ namespace Accord.MachineLearning
         /// <param name="x">An observation.</param>
         /// 
         /// <returns>
-        ///   The probability of <c>x</c> occurring
+        ///   The log-probability of <c>x</c> occurring
         ///   in the weighted Gaussian distribution.
         /// </returns>
         /// 
         public double LogLikelihood(double[] x)
         {
             if (owner.model == null)
-                return 0;
+                return Double.NegativeInfinity;
 
             return owner.model.LogProbabilityDensityFunction(index, x);
+        }
+
+        /// <summary>
+        ///   Gets the probability density function of the
+        ///   underlying Gaussian probability distribution 
+        ///   evaluated in point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">An observation.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the weighted Gaussian distribution.
+        /// </returns>
+        /// 
+        public double Likelihood(double[] x)
+        {
+            if (owner.model == null)
+                return 0;
+
+            return owner.model.ProbabilityDensityFunction(index, x);
         }
 
         /// <summary>

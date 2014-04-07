@@ -35,7 +35,7 @@ namespace Accord.Statistics.Models.Fields.Learning
     public class QuasiNewtonLearning<T> : IConditionalRandomFieldLearning<T>
     {
 
-        private BroydenFletcherGoldfarbShanno lbfgs;
+        private BoundedBroydenFletcherGoldfarbShanno lbfgs;
         private ConditionalRandomField<T> model;
 
 
@@ -46,8 +46,14 @@ namespace Accord.Statistics.Models.Fields.Learning
         public QuasiNewtonLearning(ConditionalRandomField<T> model)
         {
             this.model = model;
-            this.lbfgs = new BroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
-            this.lbfgs.Tolerance = 1e-3;
+            this.lbfgs = new BoundedBroydenFletcherGoldfarbShanno(model.Function.Weights.Length);
+            this.lbfgs.FunctionTolerance = 1e-3;
+
+            for (int i = 0; i < lbfgs.UpperBounds.Length; i++)
+            {
+                lbfgs.UpperBounds[i] = 1e10;
+                lbfgs.LowerBounds[i] = -1e100;
+            }
         }
 
         /// <summary>
@@ -78,16 +84,8 @@ namespace Accord.Statistics.Models.Fields.Learning
             };
 
 
-            try
-            {
-                double ll = lbfgs.Minimize(model.Function.Weights);
-            }
-            catch (LineSearchFailedException)
-            {
-                // TODO: Restructure L-BFGS to avoid exceptions.
-            }
-
-            model.Function.Weights = lbfgs.Solution;
+            if (lbfgs.Minimize(model.Function.Weights))
+                model.Function.Weights = lbfgs.Solution;
 
             return model.LogLikelihood(observations, labels);
         }

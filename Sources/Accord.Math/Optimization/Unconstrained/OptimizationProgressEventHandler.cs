@@ -89,6 +89,12 @@ namespace Accord.Math.Optimization
         public bool Finished { get; private set; }
 
         /// <summary>
+        ///   An user-defined value associated with this object.
+        /// </summary>
+        /// 
+        public object Tag { get; set; }
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="OptimizationProgressEventArgs"/> class.
         /// </summary>
         /// 
@@ -108,8 +114,12 @@ namespace Accord.Math.Optimization
             double[] solution, double xnorm,
             double value, double stp, bool finished)
         {
-            this.Gradient = (double[])gradient.Clone();
-            this.Solution = (double[])solution.Clone();
+            if (gradient != null)
+                this.Gradient = (double[])gradient.Clone();
+
+            if (solution != null)
+                this.Solution = (double[])solution.Clone();
+
             this.Value = value;
             this.GradientNorm = gnorm;
             this.SolutionNorm = xnorm;

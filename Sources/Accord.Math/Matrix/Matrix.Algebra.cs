@@ -430,6 +430,47 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
+        public static unsafe void Multiply(this double[,] a, double[,] b, double[][] result)
+        {
+            // TODO: enable argument checking
+            // if (a.GetLength(1) != b.GetLength(0))
+            //     throw new ArgumentException("Matrix dimensions must match");
+
+            int n = a.GetLength(1);
+            int m = result.GetLength(0); //a.GetLength(0);
+            int p = result.GetLength(1); //b.GetLength(1);
+
+
+            fixed (double* ptrA = a)
+            {
+                double[] Bcolj = new double[n];
+                for (int j = 0; j < p; j++)
+                {
+                    for (int k = 0; k < Bcolj.Length; k++)
+                        Bcolj[k] = b[k, j];
+
+                    double* Arowi = ptrA;
+                    for (int i = 0; i < m; i++)
+                    {
+                        double s = 0;
+                        for (int k = 0; k < Bcolj.Length; k++)
+                            s += *(Arowi++) * Bcolj[k];
+                        result[i][j] = s;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Computes the product <c>R = A*B</c> of two matrices <c>A</c>
+        ///   and <c>B</c>, storing the result in matrix <c>R</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="b">The right matrix <c>B</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
+        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
+        /// 
         public static void Multiply(this float[][] a, float[][] b, float[][] result)
         {
             // TODO: enable argument checking
@@ -1221,6 +1262,27 @@ namespace Accord.Math
         public static double[] Multiply(this double[] vector, double x)
         {
             double[] r = new double[vector.Length];
+
+            for (int i = 0; i < vector.Length; i++)
+                r[i] = vector[i] * x;
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Multiplies a vector <c>v</c> by a scalar <c>x</c>.
+        /// </summary>
+        /// <param name="vector">The vector <c>v</c>.</param>
+        /// <param name="x">The scalar <c>x</c>.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        ///   overwriting the original matrix; false to return a new matrix.</param>
+        ///   
+        /// <returns>The product <c>v*x</c> of the multiplication of the 
+        ///   given vector <c>v</c> and scalar <c>x</c>.</returns>
+        /// 
+        public static double[] Multiply(this double[] vector, double x, bool inPlace)
+        {
+            double[] r = inPlace ? vector : new double[vector.Length];
 
             for (int i = 0; i < vector.Length; i++)
                 r[i] = vector[i] * x;
@@ -2137,8 +2199,11 @@ namespace Accord.Math
         /// 
         public static double[] Add(this double[] a, double[] b)
         {
-            if (a == null) throw new ArgumentNullException("a");
-            if (b == null) throw new ArgumentNullException("b");
+            if (a == null)
+                throw new ArgumentNullException("a");
+
+            if (b == null)
+                throw new ArgumentNullException("b");
 
             if (a.Length != b.Length)
                 throw new ArgumentException("Vector lengths must match", "b");

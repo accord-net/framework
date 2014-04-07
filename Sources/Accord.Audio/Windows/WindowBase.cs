@@ -108,7 +108,7 @@ namespace Accord.Audio.Windows
                 for (int c = 0; c < channels; c++)
                 {
                     float* dst = (float*)result.Data.ToPointer() + c;
-                    float* src = (float*)signal.Data.ToPointer() + c + c * sampleIndex;
+                    float* src = (float*)signal.Data.ToPointer() + c + channels * sampleIndex;
 
                     for (int i = 0; i < minLength; i++, dst += channels, src += channels)
                     {
@@ -140,7 +140,7 @@ namespace Accord.Audio.Windows
                 for (int c = 0; c < complexSignal.Channels; c++)
                 {
                     Complex* dst = (Complex*)result.Data.ToPointer() + c;
-                    Complex* src = (Complex*)complexSignal.Data.ToPointer() + c + c * sampleIndex;
+                    Complex* src = (Complex*)complexSignal.Data.ToPointer() + c + channels * sampleIndex;
 
                     for (int i = 0; i < Length; i++, dst += channels, src += channels)
                     {

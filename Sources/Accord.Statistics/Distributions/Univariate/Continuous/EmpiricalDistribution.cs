@@ -100,7 +100,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class EmpiricalDistribution : UnivariateContinuousDistribution,
-        IFittableDistribution<double, EmpiricalOptions>
+        IFittableDistribution<double, EmpiricalOptions>,
+        ISampleableDistribution<double>
     {
 
         // Distribution parameters
@@ -445,5 +446,40 @@ namespace Accord.Statistics.Distributions.Univariate
             return sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);
         }
 
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public double[] Generate(int samples)
+        {
+            var generator = Accord.Math.Tools.Random;
+
+            double[] s = new double[samples];
+            for (int i = 0; i < s.Length; i++)
+            {
+                int index = generator.Next(this.samples.Length);
+                s[i] = this.samples[index];
+            }
+
+            return s;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public double Generate()
+        {
+            var generator = Accord.Math.Tools.Random;
+
+            int index = generator.Next(this.samples.Length);
+
+            return this.samples[index];
+        }
     }
 }
