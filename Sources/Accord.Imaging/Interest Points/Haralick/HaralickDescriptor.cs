@@ -579,7 +579,7 @@ namespace Accord.Imaging
                         for (int j = 0; j < size; j++)
                             s += (i - mu) * matrix[i, j];
 
-                    variance = sum;
+                    variance = s;
                 }
                 return variance.Value;
             }
