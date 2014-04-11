@@ -323,7 +323,7 @@ namespace Accord.Imaging
         {
             get
             {
-                if (sum == null)
+                if (xysum == null)
                 {
                     xysum = new double[2 * size];
                     for (int i = 0; i < size; i++)
