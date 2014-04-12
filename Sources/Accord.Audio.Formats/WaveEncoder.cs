@@ -49,7 +49,7 @@ namespace Accord.Audio.Formats
         private Stream waveStream;
 
         private int bytes;
-        private int blockAlign;
+        private int blockAlign; // frame size
         private int channels;
         private int numberOfFrames;
         private int numberOfSamples;
@@ -320,7 +320,7 @@ namespace Accord.Audio.Formats
             format.SamplesPerSecond = sampleRate;
             format.BitsPerSample = (short)this.bitsPerSample;
             format.BlockAlignment = (short)this.blockAlign;
-            format.AverageBytesPerSecond = this.averageBitsPerSecond;
+            format.AverageBytesPerSecond = this.averageBitsPerSecond / 8;
             waveFormat = format.GetBytes();
 
             // Create RIFF header
@@ -341,8 +341,8 @@ namespace Accord.Audio.Formats
             this.sampleRate = signal.SampleRate;
             this.sampleFormat = signal.SampleFormat;
             this.bitsPerSample = Signal.GetSampleSize(signal.SampleFormat);
-            this.blockAlign = (bitsPerSample / 8) * channels;
-            this.averageBitsPerSecond = sampleRate * blockAlign;
+            this.blockAlign = (bitsPerSample / 8) * channels; // bytes
+            this.averageBitsPerSecond = sampleRate * blockAlign * 8; // bits
 
             this.initialized = true;
         }
