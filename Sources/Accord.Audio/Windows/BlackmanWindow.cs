@@ -53,7 +53,8 @@ namespace Accord.Audio.Windows
         /// <param name="alpha">Blackman's alpha</param>
         /// <param name="length">The length for the window.</param>
         /// 
-        public BlackmanWindow(double alpha, int length) : base(length)
+        public BlackmanWindow(double alpha, int length) 
+            : base(length)
         {
             double a0 = (1.0 - alpha) / 2.0;
             double a1 = 0.5;

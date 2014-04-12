@@ -25,76 +25,73 @@ namespace Accord.Audio.Windows
     using AForge.Math;
 
     /// <summary>
-    ///   Base abstract class for signal windows.
+    ///   Rectangular Window.
     /// </summary>
     /// 
-    public abstract class WindowBase : IWindow
+    /// <remarks>
+    /// <para>
+    ///   The rectangular window (sometimes known as the boxcar or Dirichlet window) 
+    ///   is the simplest window, equivalent to replacing all but N values of a data 
+    ///   sequence by zeros, making it appear as though the waveform suddenly turns 
+    ///   on and off.</para>
+    ///   
+    /// <para>    
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/Window_function">
+    ///       Wikipedia, The Free Encyclopedia. Window function. Available on:
+    ///       http://en.wikipedia.org/wiki/Window_function </a></description></item>
+    ///   </list></para>
+    /// </remarks>
+    /// 
+    public class RectangularWindow : IWindow
     {
+        private int length;
         private int sampleRate;
-        private float[] window;
 
         /// <summary>
-        ///   Gets the window length.
+        ///   Gets the Window's length.
         /// </summary>
         /// 
         public int Length
         {
-            get { return window.Length; }
+            get { return length; }
         }
 
         /// <summary>
-        ///   Gets the Window duration.
+        ///   Gets the Window's duration.
         /// </summary>
         /// 
         public double Duration
         {
-            get { return sampleRate * window.Length; }
+            get { return sampleRate * length; }
         }
 
         /// <summary>
-        ///   Constructs a new Window.
+        ///   Constructs a new Rectangular Window.
         /// </summary>
         /// 
-        protected WindowBase(double duration, int sampleRate)
-            : this((int)duration * sampleRate, sampleRate)
+        public RectangularWindow(int length)
         {
-
+            this.length = length;
         }
 
         /// <summary>
-        ///   Constructs a new Window.
+        ///   Constructs a new Rectangular Window.
         /// </summary>
         /// 
-        protected WindowBase(int length)
-            : this(length, 0)
+        public RectangularWindow(int length, int sampleRate)
         {
-        }
-
-        /// <summary>
-        ///   Constructs a new Window.
-        /// </summary>
-        /// 
-        protected WindowBase(int length, int sampleRate)
-        {
-            this.window = new float[length];
+            this.length = length;
             this.sampleRate = sampleRate;
         }
 
-        /// <summary>
-        ///   Gets or sets values for the Window function.
-        /// </summary>
-        /// 
-        public float this[int index]
-        {
-            get { return window[index]; }
-            protected set { window[index] = value; }
-        }
 
         /// <summary>
-        ///   Splits a signal using the window.
+        ///   Splits a signal using the current window.
         /// </summary>
         /// 
-        public unsafe virtual Signal Apply(Signal signal, int sampleIndex)
+        public unsafe Signal Apply(Signal signal, int sampleIndex)
         {
             int channels = signal.Channels;
             int samples = signal.Length;
@@ -112,7 +109,7 @@ namespace Accord.Audio.Windows
 
                     for (int i = 0; i < minLength; i++, dst += channels, src += channels)
                     {
-                        *dst = window[i] * (*src);
+                        *dst = *src;
                     }
                 }
             }
@@ -125,10 +122,10 @@ namespace Accord.Audio.Windows
         }
 
         /// <summary>
-        ///   Splits a signal using the window.
+        ///   Splits a complex signal using the current window.
         /// </summary>
         /// 
-        public virtual ComplexSignal Apply(ComplexSignal complexSignal, int sampleIndex)
+        public ComplexSignal Apply(ComplexSignal complexSignal, int sampleIndex)
         {
             Complex[,] resultData = new Complex[Length, complexSignal.Channels];
             ComplexSignal result = ComplexSignal.FromArray(resultData, complexSignal.SampleRate);
@@ -145,7 +142,7 @@ namespace Accord.Audio.Windows
 
                     for (int i = 0; i < minLength; i++, dst += channels, src += channels)
                     {
-                        *dst = window[i] * (*src);
+                        *dst = *src;
                     }
                 }
             }
@@ -153,5 +150,7 @@ namespace Accord.Audio.Windows
             return result;
         }
 
+
+        
     }
 }

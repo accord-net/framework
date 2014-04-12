@@ -171,13 +171,18 @@ namespace Accord.Audio
 
 
         /// <summary>
-        ///   Converts the complex signal to a float array.
+        ///   Converts the complex signal to a complex array.
         /// </summary>
         /// 
         public Complex[,] ToArray()
         {
             Complex[,] array = new Complex[Length, Channels];
-            Buffer.BlockCopy(RawData, 0, array, 0, array.Length * Marshal.SizeOf(typeof(Complex)));
+            
+            GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
+            IntPtr pointer = handle.AddrOfPinnedObject();
+            Marshal.Copy(RawData, 0, pointer, array.Length * Marshal.SizeOf(typeof(Complex)));
+            handle.Free();
+
             return array;
         }
 

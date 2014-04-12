@@ -24,6 +24,8 @@ namespace Accord.Tests.Audio
 {
     using Accord.Audio;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Audio.Windows;
+    using Accord.Math;
 
     [TestClass()]
     public class SignalTest
@@ -86,7 +88,7 @@ namespace Accord.Tests.Audio
             int position = 3;
 
             float expected, actual;
-            
+
             expected = 0.42f;
             actual = target.GetSample(channel, position);
             Assert.AreEqual(expected, actual);
@@ -96,7 +98,41 @@ namespace Accord.Tests.Audio
             expected = -1;
             actual = target.GetSample(channel, position);
             Assert.AreEqual(expected, actual);
-            
+
+        }
+
+
+        [TestMethod()]
+        public void RectangularWindowTest()
+        {
+            int length = 3;
+            testWindow(length, RaisedCosineWindow.Rectangular(length));
+
+            testWindow(length, new RectangularWindow(length));
+        }
+
+        private void testWindow(int length, IWindow window)
+        {
+            float[,] data = (float[,])this.data.Clone();
+            Signal target = Signal.FromArray(data, 8000);
+
+            float[] samples = target.ToFloat();
+
+            Signal[] windows = target.Split(window, 1);
+
+            for (int i = 0; i < windows.Length; i++)
+            {
+                int min = System.Math.Min(i * 2 + length * 2, samples.Length);
+
+                float[] segment = windows[i].ToFloat();
+                float[] sub = samples.Submatrix(i * 2, min - 1);
+
+                float[] expected = new float[length * 2];
+                for (int j = 0; j < sub.Length; j++)
+                    expected[j] = sub[j];
+
+                Assert.IsTrue(segment.IsEqual(expected));
+            }
         }
     }
 }

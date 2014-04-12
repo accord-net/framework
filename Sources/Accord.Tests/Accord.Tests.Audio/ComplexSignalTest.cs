@@ -131,5 +131,41 @@ namespace Accord.Tests.Audio
                 Assert.AreEqual(ComplexSignalStatus.FourierTransformed, c.Status);
             }
         }
+
+
+        [TestMethod()]
+        public void ComplexRectangularWindowTest()
+        {
+            int length = 2;
+            testWindow(length, RaisedCosineWindow.Rectangular(length));
+
+            testWindow(length, new RectangularWindow(length));
+        }
+
+        private void testWindow(int length, IWindow window)
+        {
+            Complex[,] data = (Complex[,])this.data.Clone();
+            ComplexSignal target = ComplexSignal.FromArray(data, 8000);
+
+            Complex[,] samples = target.ToArray();
+
+            Assert.IsTrue(data.IsEqual(samples));
+
+            ComplexSignal[] windows = target.Split(window, 1);
+
+            for (int i = 0; i < windows.Length; i++)
+            {
+                int min = System.Math.Min(i + length, samples.Length / 2);
+
+                Complex[] segment = windows[i].ToArray().Reshape(1);
+                Complex[] sub = samples.Submatrix(i, min - 1, null).Reshape(1);
+
+                var expected = new Complex[length * 2];
+                for (int j = 0; j < sub.Length; j++)
+                    expected[j] = sub[j];
+
+                Assert.IsTrue(segment.IsEqual(expected));
+            }
+        }
     }
 }
