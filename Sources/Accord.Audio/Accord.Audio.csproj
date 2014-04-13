@@ -155,6 +155,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Windows\BlackmanWindow.cs" />
+    <Compile Include="Windows\RectangularWindow.cs" />
     <Compile Include="Windows\RaisedCosineWindow.cs" />
     <Compile Include="Windows\IWindow.cs" />
     <Compile Include="Windows\Extensions.cs" />
