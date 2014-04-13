@@ -323,7 +323,7 @@ namespace Accord.Imaging
         {
             get
             {
-                if (sum == null)
+                if (xysum == null)
                 {
                     xysum = new double[2 * size];
                     for (int i = 0; i < size; i++)
@@ -579,7 +579,7 @@ namespace Accord.Imaging
                         for (int j = 0; j < size; j++)
                             s += (i - mu) * matrix[i, j];
 
-                    variance = sum;
+                    variance = s;
                 }
                 return variance.Value;
             }
