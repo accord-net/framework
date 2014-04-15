@@ -158,6 +158,7 @@ namespace Accord.Imaging
             // check image format
             if (!(image.PixelFormat == PixelFormat.Format8bppIndexed ||
                 image.PixelFormat == PixelFormat.Format24bppRgb ||
+                image.PixelFormat == PixelFormat.Format32bppRgb ||
                 image.PixelFormat == PixelFormat.Format32bppArgb))
             {
                 throw new UnsupportedImageFormatException("Only grayscale and 24 bpp RGB images are supported.");
@@ -216,6 +217,7 @@ namespace Accord.Imaging
             // check image format
             if (!(image.PixelFormat == PixelFormat.Format8bppIndexed ||
                 image.PixelFormat == PixelFormat.Format24bppRgb ||
+                image.PixelFormat == PixelFormat.Format32bppRgb ||
                 image.PixelFormat == PixelFormat.Format32bppArgb))
             {
                 throw new UnsupportedImageFormatException("Only grayscale and 24 bpp RGB images are supported.");
