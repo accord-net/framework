@@ -2,10 +2,10 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2014
+// Copyright ï¿½ Cï¿½sar Souza, 2009-2014
 // cesarsouza at gmail.com
 //
-// Original work copyright © Lutz Roeder, 2000
+// Original work copyright ï¿½ Lutz Roeder, 2000
 //  Adapted from Mapack for .NET, September 2000
 //  Adapted from Mapack for COM and Jama routines
 //  http://www.aisto.com/roeder/dotnet
@@ -1212,7 +1212,7 @@ namespace Accord.Math.Decompositions
             svd.si = (int[])si.Clone();
             svd.swapped = swapped;
             if (u != null) svd.u = (Double[,])u.Clone();
-            if (v != null) svd.v = (Double[,])u.Clone();
+            if (v != null) svd.v = (Double[,])v.Clone();
 
             return svd;
         }
