@@ -29,6 +29,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics;
     using Accord.MachineLearning.Boosting;
     using Accord.MachineLearning.Boosting.Learners;
+    using Accord.MachineLearning.VectorMachines;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Statistics.Models.Regression;
+    using Accord.Statistics.Models.Regression.Fitting;
 
 
     [TestClass()]
@@ -107,5 +111,57 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < actual.Length; i++)
                 Assert.AreEqual(outputs[i], actual[i]);
         }
+
+        [TestMethod()]
+        public void ConstructorTest2()
+        {
+            double[][] inputs = LeastSquaresLearningTest.yinyang.GetColumns(0, 1).ToArray();
+            int[] outputs = LeastSquaresLearningTest.yinyang.GetColumn(2).ToInt32();
+
+            var outputs2 = outputs.Apply(x => x > 0 ? 1.0 : 0.0);
+
+            var classifier = new Boost<Weak<LogisticRegression>>();
+
+            var teacher = new AdaBoost<Weak<LogisticRegression>>(classifier)
+            {
+                Creation = (weights) =>
+                {
+                    LogisticRegression reg = new LogisticRegression(2, intercept: 1);
+
+                    IterativeReweightedLeastSquares irls = new IterativeReweightedLeastSquares(reg)
+                    {
+                        ComputeStandardErrors = false
+                    };
+
+                    for (int i = 0; i < 50; i++)
+                        irls.Run(inputs, outputs2, weights);
+
+                    return new Weak<LogisticRegression>(reg, (s, x) => Math.Sign(s.Compute(x) - 0.5));
+                },
+
+                Iterations = 50,
+                Tolerance = 1e-5,
+            };
+
+
+
+            double error = teacher.Run(inputs, outputs);
+
+
+            Assert.AreEqual(0.11, error);
+
+            Assert.AreEqual(2, classifier.Models.Count);
+            Assert.AreEqual(0.63576818449825168, classifier.Models[0].Weight);
+            Assert.AreEqual(0.36423181550174832, classifier.Models[1].Weight);
+
+            int[] actual = new int[outputs.Length];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = classifier.Compute(inputs[i]);
+
+            //for (int i = 0; i < actual.Length; i++)
+            //    Assert.AreEqual(outputs[i], actual[i]);
+        }
+
+
     }
 }

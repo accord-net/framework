@@ -34,6 +34,7 @@ namespace Accord.MachineLearning.Boosting.Learners
     ///   are perpendicular to one of the space dimensions.
     /// </summary>
     /// 
+    [Serializable]
     public class DecisionStump : IWeakClassifier
     {
 

@@ -51,6 +51,8 @@ namespace Accord.MachineLearning.Boosting
         Boost<TModel> classifier;
         RelativeConvergence convergence;
 
+        double threshold = 0.5;
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="AdaBoost&lt;TModel&gt;"/> class.
@@ -98,6 +100,12 @@ namespace Accord.MachineLearning.Boosting
         {
             get { return convergence.Tolerance; }
             set { convergence.Tolerance = value; }
+        }
+
+        public double Threshold
+        {
+            get { return threshold; }
+            set { threshold = value; }
         }
 
         /// <summary>
@@ -151,6 +159,9 @@ namespace Accord.MachineLearning.Boosting
                 // Create and train a classifier
                 TModel model = Creation(sampleWeights);
 
+                if (model == null)
+                    break;
+
                 // Determine its current accuracy
                 for (int i = 0; i < actualOutputs.Length; i++)
                     actualOutputs[i] = model.Compute(inputs[i]);
@@ -159,7 +170,7 @@ namespace Accord.MachineLearning.Boosting
                 for (int i = 0; i < actualOutputs.Length; i++)
                     if (actualOutputs[i] != outputs[i]) error += sampleWeights[i];
 
-                if (error >= 0.5)
+                if (error >= threshold)
                     break;
 
 
@@ -175,6 +186,7 @@ namespace Accord.MachineLearning.Boosting
                     sampleWeights[i] /= sum;
 
                 classifier.Add(w, model);
+
                 weightSum += w;
 
                 convergence.NewValue = error;
