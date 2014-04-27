@@ -33,8 +33,14 @@ namespace Accord.Imaging
     ///   Fast Retina Keypoint (FREAK) point.
     /// </summary>
     /// 
+    /// <remarks>
+    ///   In order to extract feature points from an image using FREAK,
+    ///   please take a look on the <see cref="FastRetinaKeypointDetector"/>
+    ///   documentation page.
+    /// </remarks>
+    /// 
     /// <seealso cref="FastRetinaKeypointDescriptor"/>
-    /// <seealso cref="FastRetinaKeypointDescriptor"/>
+    /// <seealso cref="FastRetinaKeypointDetector"/>
     /// 
     [Serializable]
     public class FastRetinaKeypoint : IFeaturePoint<byte[]>
@@ -51,6 +57,7 @@ namespace Accord.Imaging
         {
             this.X = x;
             this.Y = y;
+            this.Scale = 1;
         }
 
         /// <summary>

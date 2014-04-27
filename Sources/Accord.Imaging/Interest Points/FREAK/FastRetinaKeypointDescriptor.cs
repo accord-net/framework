@@ -49,6 +49,11 @@ namespace Accord.Imaging
     ///   Vandergheynst, distributed under a BSD style license.</para>
     ///   
     /// <para>
+    ///   In order to extract feature points from an image using FREAK,
+    ///   please take a look on the <see cref="FastRetinaKeypointDetector"/>
+    ///   documentation page.
+    /// </para>
+    /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
@@ -327,10 +332,10 @@ namespace Accord.Imaging
             // calculate borders
             int x_left = (int)(xf - radius + 0.5);
             int y_top = (int)(yf - radius + 0.5);
-            int x_right = (int)(xf + radius + 1.5);  //integral image is 1px wider
-            int y_bottom = (int)(yf + radius + 1.5); //integral image is 1px higher
+            int x_right = (int)(xf + radius + 1.5);  // integral image is 1px wider
+            int y_bottom = (int)(yf + radius + 1.5); // integral image is 1px higher
 
-            ret_val = (int)Integral.InternalData[y_bottom, x_right]; //bottom right corner
+            ret_val = (int)Integral.InternalData[y_bottom, x_right]; // bottom right corner
             ret_val -= (int)Integral.InternalData[y_bottom, x_left];
             ret_val += (int)Integral.InternalData[y_top, x_left];
             ret_val -= (int)Integral.InternalData[y_top, x_right];
