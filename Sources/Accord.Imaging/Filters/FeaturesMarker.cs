@@ -27,6 +27,7 @@ namespace Accord.Imaging.Filters
     using AForge.Imaging.Filters;
     using System.Collections.Generic;
     using AForge.Imaging;
+    using System.Linq;
 
     /// <summary>
     ///   Filter to mark (highlight) feature points in a image.
@@ -43,7 +44,9 @@ namespace Accord.Imaging.Filters
 
         private IEnumerable<SpeededUpRobustFeaturePoint> points;
         private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
+        private GrayscaleToRGB toRGB = new GrayscaleToRGB();
 
+        private double scale = 5;
 
         /// <summary>
         ///   Format translations dictionary.
@@ -54,6 +57,11 @@ namespace Accord.Imaging.Filters
             get { return formatTranslations; }
         }
 
+        public double Scale
+        {
+            get { return scale; }
+            set { scale = value; }
+        }
 
         /// <summary>
         ///   Gets or sets the set of points to mark.
@@ -80,14 +88,50 @@ namespace Accord.Imaging.Filters
         /// 
         public FeaturesMarker(IEnumerable<SpeededUpRobustFeaturePoint> points)
         {
+            init(points);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="FeaturesMarker"/> class.
+        /// </summary>
+        /// 
+        public FeaturesMarker(IEnumerable<FastRetinaKeypoint> points)
+        {
+            init(points.Select(p =>
+                new SpeededUpRobustFeaturePoint(p.X, p.Y, p.Scale, 1, p.Orientation, 10)));
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="FeaturesMarker"/> class.
+        /// </summary>
+        /// 
+        public FeaturesMarker(IEnumerable<SpeededUpRobustFeaturePoint> points, double scale)
+        {
+            init(points);
+
+            this.scale = scale;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="FeaturesMarker"/> class.
+        /// </summary>
+        /// 
+        public FeaturesMarker(IEnumerable<FastRetinaKeypoint> points, double scale)
+        {
+            init(points.Select(p =>
+                new SpeededUpRobustFeaturePoint(p.X, p.Y, p.Scale, 1, p.Orientation, 10)));
+
+            this.scale = scale;
+        }
+
+        private void init(IEnumerable<SpeededUpRobustFeaturePoint> points)
+        {
             this.points = points;
 
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format24bppRgb;
             formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
-
-        private GrayscaleToRGB toRGB = new GrayscaleToRGB();
 
         /// <summary>
         ///   Process the filter on the specified image.
@@ -100,7 +144,7 @@ namespace Accord.Imaging.Filters
         {
             if (sourceData.PixelFormat == PixelFormat.Format8bppIndexed)
                 sourceData = toRGB.Apply(sourceData);
-            
+
             // Copy image contents
             sourceData.Copy(destinationData);
 
@@ -114,7 +158,7 @@ namespace Accord.Imaging.Filters
                 // mark all points
                 foreach (SpeededUpRobustFeaturePoint p in points)
                 {
-                    int S = 2 * (int)(2.5f * p.Scale);
+                    int S = (int)(scale * p.Scale);
                     int R = (int)(S / 2f);
 
                     Point pt = new Point((int)p.X, (int)p.Y);

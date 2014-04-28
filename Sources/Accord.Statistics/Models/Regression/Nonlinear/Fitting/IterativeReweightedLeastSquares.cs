@@ -249,8 +249,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             return Run(inputs, output);
         }
-
-
+ 
         /// <summary>
         ///   Runs one iteration of the Reweighted Least Squares algorithm.
         /// </summary>
@@ -259,6 +258,21 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <returns>The maximum relative change in the parameters after the iteration.</returns>
         /// 
         public double Run(double[][] inputs, double[] outputs)
+        {
+            return Run(inputs, outputs, null);
+        }
+
+        /// <summary>
+        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// <param name="sampleWeights">An weight associated with each sample.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        public double Run(double[][] inputs, double[] outputs, double[] sampleWeights)
         {
             // Regress using Iteratively Reweighted Least Squares estimation.
 
@@ -297,6 +311,15 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
                 // Calculate weighting matrix
                 weights[i] = regression.Link.Derivative2(y);
+            }
+
+            if (sampleWeights != null)
+            {
+                for (int i = 0; i < weights.Length; i++)
+                {
+                    errors[i] *= sampleWeights[i];
+                    weights[i] *= sampleWeights[i];
+                }
             }
 
 

@@ -26,6 +26,12 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using Accord.Imaging;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Tests.Imaging.Properties;
+    using Accord.Math;
+    using AForge;
+    using System.Linq;
+    using Accord.Controls;
+    using Accord.Imaging.Filters;
 
     [TestClass()]
     public class FastRetinaKeypointDetectorTest
@@ -46,6 +52,55 @@ namespace Accord.Tests.Imaging
         }
 
 
+        [TestMethod()]
+        public void ExampleTest()
+        {
+            Bitmap lena = Resources.lena512;
+
+            // The freak detector can be used with any other corners detection
+            // algorithm. The default corners detection method used is the FAST
+            // corners detection. So, let's start creating this detector first:
+            //
+            var detector = new FastCornersDetector(60);
+
+            // Now that we have a corners detector, we can pass it to the FREAK
+            // feature extraction algorithm. Please note that if we leave this
+            // parameter empty, FAST will be used by default.
+            //
+            var freak = new FastRetinaKeypointDetector(detector);
+
+            // Now, all we have to do is to process our image:
+            List<FastRetinaKeypoint> points = freak.ProcessImage(lena);
+
+            // Afterwards, we should obtain 83 feature points. We can inspect
+            // the feature points visually using the FeaturesMarker class as
+            //
+            FeaturesMarker marker = new FeaturesMarker(points, scale: 20);
+            
+            // And showing it on screen with
+            // ImageBox.Show(marker.Apply(lena));
+
+            // We can also inspect the feature vectors (descriptors) associated
+            // with each feature point. In order to get a descriptor vector for
+            // any given point, we can use
+            //
+            byte[] feature = points[42].Descriptor;
+            
+            // By default, feature vectors will have 64 bytes in length. We can also
+            // display those vectors in more readable formats such as HEX or base64
+            //
+            string hex = points[42].ToHex();
+            string b64 = points[42].ToBase64();
+
+            // The above base64 result should be:
+            //
+            //  "3W8M/ev///ffbr/+v3f34vz//7X+f0609v//+++/1+jfq/e83/X5/+6ft3//b4uaPZf7ePb3n/P93/rIbZlf+g=="
+            //
+
+            Assert.AreEqual(83, points.Count);
+            Assert.AreEqual(64, feature.Length);
+            Assert.AreEqual("3W8M/ev///ffbr/+v3f34vz//7X+f0609v//+++/1+jfq/e83/X5/+6ft3//b4uaPZf7ePb3n/P93/rIbZlf+g==", b64);
+        }
 
         [TestMethod()]
         public void ProcessImageTest()

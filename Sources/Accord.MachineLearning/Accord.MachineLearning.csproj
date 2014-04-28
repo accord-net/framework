@@ -109,8 +109,9 @@
     <Compile Include="BagOfWords.cs" />
     <Compile Include="Bayes\NaiveBayes`1.cs" />
     <Compile Include="Boosting\Boost.cs" />
+    <Compile Include="Boosting\Classifiers\Weak.cs" />
     <Compile Include="Boosting\Classifiers\IWeakClassifier.cs" />
-    <Compile Include="Boosting\Classifiers\Stump.cs" />
+    <Compile Include="Boosting\Classifiers\DecisionStump.cs" />
     <Compile Include="Clustering\BinarySplit.cs" />
     <Compile Include="Clustering\GaussianCluster.cs" />
     <Compile Include="Clustering\MeanShiftCluster.cs" />

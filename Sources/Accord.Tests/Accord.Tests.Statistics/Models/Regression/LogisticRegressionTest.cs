@@ -228,6 +228,61 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(analysis.Coefficients[1].ConfidenceUpper));
         }
 
+        [TestMethod()]
+        public void ComputeTest3()
+        {
+            double[][] input =
+            {
+                new double[] { 55, 0 }, // 0 - no cancer
+                new double[] { 28, 0 }, // 0
+                new double[] { 65, 1 }, // 0
+                new double[] { 46, 0 }, // 1 - have cancer
 
+                new double[] { 86, 1 }, // 1
+                new double[] { 86, 1 }, // 1
+                new double[] { 56, 1 }, // 1
+                new double[] { 85, 0 }, // 0
+
+                new double[] { 33, 0 }, // 0
+                new double[] { 21, 1 }, // 0
+                new double[] { 42, 1 }, // 1
+            };
+
+            double[] output =
+            {
+                0, 0, 0, 1,
+                1, 1, 1, 0, 
+                0, 0, 1
+            };
+
+            double[] weights =
+            {
+                1.0, 1.0, 1.0, 1.0, 
+                0.5, 0.5, 1.0, 1.0,
+                1.0, 1.0, 1.0
+            };
+
+
+            LogisticRegression regression = new LogisticRegression(inputs: 2);
+
+            var teacher = new IterativeReweightedLeastSquares(regression);
+
+
+            double delta = 0;
+            do
+            {
+                delta = teacher.Run(input, output, weights);
+
+            } while (delta > 0.001);
+
+
+            double ageOdds = regression.GetOddsRatio(1); 
+            double smokeOdds = regression.GetOddsRatio(2); 
+
+            Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
+            Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-10);
+            Assert.IsFalse(double.IsNaN(ageOdds));
+            Assert.IsFalse(double.IsNaN(smokeOdds));
+        }
     }
 }

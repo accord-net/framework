@@ -24,10 +24,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using Accord.Math;
     using Accord.Statistics.Kernels;
-    using System.Threading;
-    using System.Threading.Tasks;
 
     /// <summary>
     ///   Gets the selection strategy to be used in SMO.
@@ -128,6 +127,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         // Training data
         private double[][] inputs;
         private int[] outputs;
+
+        private double[] sampleWeights;
 
         // Learning algorithm parameters
         private double c = 1.0;
@@ -234,6 +235,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         #region Properties
+        public double[] Weights
+        {
+            get { return sampleWeights; }
+            set { sampleWeights = value; }
+        }
+
         /// <summary>
         ///   Complexity (cost) parameter C. Increasing the value of C forces the creation
         ///   of a more accurate model that may not generalize well. Default value is the
@@ -947,6 +954,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             double alph2 = alpha[i2]; // Lagrange multiplier for p2
             double y2 = outputs[i2];  // Classification label for p2
             double c2 = y2 == +1 ? positiveCost : negativeCost;
+
+            if (sampleWeights != null)
+            {
+                c1 *= sampleWeights[i1];
+                c2 *= sampleWeights[i2];
+            }
 
 
             // SVM output on p2 - y2. Should have been computed already.
