@@ -22,12 +22,12 @@
 
 namespace Accord.Tests.Imaging
 {
-    using Accord.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Windows.Forms;
     using System.Drawing;
+    using Accord.Imaging;
     using Accord.Math;
-    using AForge.Imaging;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Imaging.Converters;
+    using System.Drawing.Imaging;
 
     [TestClass()]
     public class IntegralImage2Test
@@ -231,6 +231,45 @@ namespace Accord.Tests.Imaging
             int[,] actual = ii.Rotated;
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
+        }
+
+        [TestMethod()]
+        public void ImageFormatsTest()
+        {
+            byte[,] img = 
+            {
+                { 5, 2, 3, 4, 1 },
+                { 1, 5, 4, 2, 3 },
+                { 2, 2, 1, 3, 4 },
+                { 3, 5, 6, 4, 5 },
+                { 4, 1, 3, 2, 6 },
+            };
+
+            
+
+            int[,] actual8bpp = create(img, PixelFormat.Format8bppIndexed);
+            int[,] actual24rgb = create(img, PixelFormat.Format24bppRgb);
+            int[,] actual32rgb = create(img, PixelFormat.Format32bppRgb);
+            int[,] actual32argb = create(img, PixelFormat.Format32bppArgb);
+
+            Assert.IsTrue(actual8bpp.IsEqual(actual24rgb));
+            Assert.IsTrue(actual8bpp.IsEqual(actual32rgb));
+            Assert.IsTrue(actual8bpp.IsEqual(actual32argb));
+        }
+
+        private static int[,] create(byte[,] img, PixelFormat format)
+        {
+            int[,] actual8bpp;
+            Bitmap image;
+            MatrixToImage converter = new MatrixToImage();
+            converter.Format = format;
+            converter.Convert(img, out image);
+
+            Assert.AreEqual(format, image.PixelFormat);
+
+            IntegralImage2 ii8bpp = IntegralImage2.FromBitmap(image, 0);
+            actual8bpp = ii8bpp.Image;
+            return actual8bpp;
         }
 
         private static int[,] tiltedIntegral(byte[,] img)
