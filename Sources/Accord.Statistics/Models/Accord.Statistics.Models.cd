@@ -12,7 +12,7 @@
       <Compartment Name="Private" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>BEAAAAAAAAAAgAAAIAAAQAAAEEAAADAAAAAAAAAAAAA=</HashCode>
+      <HashCode>BEAAAAAAAAAAgAAAIAAAQAAAEEAAEDAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Regression\Linear\MultivariateLinearRegression.cs</FileName>
       <NewMemberFileName>Models\Regression\Linear\MultipleLinearRegression.cs</NewMemberFileName>
     </TypeIdentifier>
@@ -24,7 +24,7 @@
       <Method Name="ILinearRegression.Compute" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AEAQAAAAAAAAgAAEAAAAAAAQAEAAADAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AEAQAAAAAAAAgAAEAAAAAAAQAEAAEDAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Regression\Linear\PolynomialRegression.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -38,7 +38,7 @@
       <Method Name="ILinearRegression.Compute" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AEAQAAAAAAAAgAAEAAAAAAAAAAAAADAAAAAAAgAAAEA=</HashCode>
+      <HashCode>AEAQAAAAAAAAgAAEAAAAAAAAAAAAEDAAAAAAAgAAAEA=</HashCode>
       <FileName>Models\Regression\Linear\SimpleLinearRegression.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -57,22 +57,17 @@
       <Compartment Name="Private" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AEAAAACAAAAAgAAEAAAAQABAEEAAADAAAAAQAAAAAAA=</HashCode>
+      <HashCode>AEAAAACAAAAAgAAEAAAAQABAEEAAEDAAAAAQAAAAAAA=</HashCode>
       <FileName>Models\Regression\Linear\MultipleLinearRegression.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Statistics.Models.Regression.LogisticRegression" BaseTypeListCollapsed="true">
     <Position X="12" Y="0.5" Width="2.5" />
-    <Members>
-      <Field Name="coefficients" Hidden="true" />
-      <Field Name="standardErrors" Hidden="true" />
-    </Members>
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAACAQAAACQIAIEEAAAAAAYAAABEAAABA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>Models\Regression\Nonlinear\LogisticRegression.cs</FileName>
     </TypeIdentifier>
-    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Statistics.Analysis.StepwiseLogisticRegressionAnalysis">
     <Position X="13" Y="5" Width="2.75" />
@@ -83,7 +78,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>BEAIAAAAAoAjCAYJBACIAAQAEAEAACAAAAQgAAAAAAA=</HashCode>
+      <HashCode>BEAIAAAAAoAjCAYJBACIAAQAEAEAACAAAAQgABAAAAA=</HashCode>
       <FileName>Analysis\StepwiseLogisticRegressionAnalysis.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -94,7 +89,7 @@
   <Class Name="Accord.Statistics.Analysis.StepwiseLogisticRegressionModel">
     <Position X="17" Y="5.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAEAA=</HashCode>
+      <HashCode>AQAAgIAAAgAAAAAAAAAAAAAAUEAAAAAARAQABAAAEAA=</HashCode>
       <FileName>Analysis\StepwiseLogisticRegressionAnalysis.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -124,11 +119,10 @@
       <Field Name="parameterCount" Hidden="true" />
       <Field Name="partialGradient" Hidden="true" />
       <Field Name="partialHessian" Hidden="true" />
-      <Field Name="previous" Hidden="true" />
       <Field Name="regression" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AACQABAAAABCQgAARAIAAAoAkAAIAAAAAYAAAAEAgII=</HashCode>
+      <HashCode>AACQABAAAAByQgAAVAIAAAoAkAAIAAAAAYAAAAEAgII=</HashCode>
       <FileName>Models\Survival\Fitting\PartialNewtonRaphson.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -152,7 +146,7 @@
       <Field Name="regression" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AASQABAAAABAQgAAQAIAAAgAAAAIAAAAAYAAAAAAgAI=</HashCode>
+      <HashCode>QASQABAAAABAQgAAQAIAAAgAAAAIAAAAAYAAAAAAgAI=</HashCode>
       <FileName>Models\Regression\Nonlinear\Fitting\IterativeReweightedLeastSquares.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

@@ -57,6 +57,10 @@ namespace Accord.Imaging.Filters
             get { return formatTranslations; }
         }
 
+        /// <summary>
+        ///   Gets or sets the initial size for a feature point in the map. Default is 5.
+        /// </summary>
+        /// 
         public double Scale
         {
             get { return scale; }

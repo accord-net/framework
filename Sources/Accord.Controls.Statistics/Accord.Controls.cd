@@ -36,7 +36,6 @@
       <Method Name="ArrayRowView" Hidden="true" />
       <Field Name="error" Hidden="true" />
       <Method Name="GetColumn" Hidden="true" />
-      <Method Name="GetName" Hidden="true" />
       <Field Name="rowIndex" Hidden="true" />
       <Method Name="SetColumnValue" Hidden="true" />
       <Method Name="System.ComponentModel.ICustomTypeDescriptor.GetEvents" Hidden="true" />
@@ -46,7 +45,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAASAIACAAAgQAgiAEAAACAABAUIAAAAERACAAgDAA=</HashCode>
+      <HashCode>AAAASAIACAAAgQAgiAEAAASAABAUIAAAAERACAAgCAA=</HashCode>
       <FileName>Bindings\ArrayRowView.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -137,7 +136,7 @@
       <Method Name="update" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AgAAAAAAACAAgAAAAACEAAACBAAAAAAAAAAAAAAEAAA=</HashCode>
+      <HashCode>AgAAAAAAACAAgAAAAACEACACBAAgAAAAAAAAAAAEAAA=</HashCode>
       <FileName>Views\DecisionTreeView.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -157,7 +156,7 @@
       <Field Name="zedGraphControl" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAEAAAAgACAEAgALAAKAAAACABAAAAwAAAQIAAAAAAA=</HashCode>
+      <HashCode>AAEAAAAgACIEAgALAAKAAAACABAAAAwAAAQIGAAAAAA=</HashCode>
       <FileName>Views\ScatterplotView.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -169,12 +168,12 @@
       <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>ACAAAAAAAAAAABAACAAAAAAAAAAAAACAAQAAgAAAAAA=</HashCode>
+      <HashCode>ACAAAAAAAAAAABAACAAAAAQAAAAAAACAAQAAgAAAAAA=</HashCode>
       <FileName>ColorSequenceCollection.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Accord.Controls.Editors.NumericCollectionEditor">
+  <Class Name="Accord.Controls.NumericCollectionEditor">
     <Position X="8" Y="12" Width="2" />
     <Members>
       <Field Name="editorService" Hidden="true" />
@@ -184,7 +183,7 @@
       <FileName>Editors\NumericCollectionEditor.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Accord.Controls.Editors.NumericCollectionEditorForm">
+  <Class Name="Accord.Controls.NumericCollectionEditorForm">
     <Position X="10.5" Y="12" Width="3.25" />
     <Members>
       <Field Name="btnCancel" Hidden="true" />
@@ -243,13 +242,12 @@
       <Method Name="Dispose" Hidden="true" />
       <Field Name="formThread" Hidden="true" />
       <Method Name="InitializeComponent" Hidden="true" />
-      <Field Name="pane" Hidden="true" />
       <Method Name="ScatterplotBox" Hidden="true" />
       <Field Name="scatterplotView1" Hidden="true" />
       <Method Name="show" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAEACIAAACAAAEEAAEBAAgAAIAIAA=</HashCode>
+      <HashCode>AAAAAAAAACAAAAAAAACIAAACAAAEEAAGBAAoAAIAIAA=</HashCode>
       <FileName>Boxes\ScatterplotBox.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -279,13 +277,13 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Controls.ConfusionMatrixView" BaseTypeListCollapsed="true">
-    <Position X="7.5" Y="1.5" Width="2.25" />
+    <Position X="7.5" Y="1" Width="2.25" />
     <Members>
       <Method Name="OnListChanged" Hidden="true" />
       <Field Name="rows" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AEIAAEAAAESCBBAQCABANAQwoAAoQAAIKAAQADBQIBQ=</HashCode>
+      <HashCode>AEIAAEAAAESCBBAQCABANAQwoAAoQAIIKAAQADBQIBQ=</HashCode>
       <FileName>Bindings\ConfusionMatrixView.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

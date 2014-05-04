@@ -33,7 +33,7 @@ namespace Accord.Audio.Formats
     /// 
     /// <example>
     /// <code>
-    /// // Let's decode an Wave audio file
+    /// // Let's decode a Wave audio file
     /// UnmanagedMemoryStream sourceStream = ...
     /// 
     /// // Create a decoder for the source stream

@@ -25,6 +25,7 @@ namespace Accord.Math
     using System;
     using System.Data;
     using System.Globalization;
+    using System.Linq;
 
     public static partial class Matrix
     {
@@ -566,6 +567,78 @@ namespace Accord.Math
 
             for (int i = 0; i < matrix.Length; i++)
                 table.Rows.Add(matrix[i].Convert(x => (object)x));
+
+            return table;
+        }
+
+        /// <summary>
+        ///   Converts an array of values into a <see cref="DataTable"/>,
+        ///   attempting to guess column types by inspecting the data.
+        /// </summary>
+        /// 
+        /// <param name="values">The values to be converted.</param>
+        /// 
+        /// <returns>A <see cref="DataTable"/> containing the given values.</returns>
+        /// 
+        /// <example>
+        /// <code>
+        /// // Specify some data in a table format
+        /// //
+        /// object[,] data = 
+        /// {
+        ///     { "Id", "IsSmoker", "Age" },
+        ///     {   0,       1,        10  },
+        ///     {   1,       1,        15  },
+        ///     {   2,       0,        40  },
+        ///     {   3,       1,        20  },
+        ///     {   4,       0,        70  },
+        ///     {   5,       0,        55  },
+        /// };
+        /// 
+        /// // Create a new table with the data
+        /// DataTable dataTable = data.ToTable();
+        /// </code>
+        /// </example>
+        /// 
+        public static DataTable ToTable(this object[,] values)
+        {
+            DataTable table = new DataTable();
+            table.Locale = System.Globalization.CultureInfo.InvariantCulture;
+
+            object[] headers = values.GetRow(0);
+
+            if (headers.All(x => x is String))
+            {
+                // Get first data row to set types
+                object[] first = values.GetRow(1);
+
+                // Assume first row is header row
+                for (int i = 0; i < first.Length; i++)
+                    table.Columns.Add(headers[i] as String, first[i].GetType());
+
+                // Parse all the other rows
+                int rows = values.GetLength(0);
+                for (int i = 1; i < rows; i++)
+                {
+                    var row = values.GetRow(i);
+                    table.Rows.Add(row);
+                }
+            }
+            else
+            {
+                // Get first data row to set types
+                object[] first = values.GetRow(1);
+
+                for (int i = 0; i < first.Length; i++)
+                    table.Columns.Add("Column " + i, first[i].GetType());
+
+                int rows = values.GetLength(0);
+                for (int i = 0; i < rows; i++)
+                {
+                    var row = values.GetRow(i);
+                    table.Rows.Add(row);
+                }
+            }
 
             return table;
         }

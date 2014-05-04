@@ -34,18 +34,44 @@ namespace Accord.MachineLearning.Boosting.Learners
     ///   are perpendicular to one of the space dimensions.
     /// </summary>
     /// 
+    /// <typeparam name="TModel">The type for the weak classifier model.</typeparam>
+    /// 
     public class Weak<TModel> : IWeakClassifier
     {
+        /// <summary>
+        ///   Gets or sets the weak decision model.
+        /// </summary>
+        /// 
         public TModel Model { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the decision function used by the <see cref="Model"/>.
+        /// </summary>
+        /// 
         public Func<TModel, double[], int> Function { get; set; }
 
+        /// <summary>
+        ///   Creates a new Weak classifier given a 
+        ///   classification model and its decision function.
+        /// </summary>
+        /// 
+        /// <param name="model">The classifier.</param>
+        /// <param name="function">The classifier decision function.</param>
+        /// 
         public Weak(TModel model, Func<TModel, double[], int> function)
         {
             this.Model = model;
             this.Function = function;
         }
 
+        /// <summary>
+        ///   Computes the classifier decision for a given input.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input vector.</param>
+        /// 
+        /// <returns>The model's decision label.</returns>
+        /// 
         public int Compute(double[] inputs)
         {
             return Function(Model, inputs);

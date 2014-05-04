@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Accord.Math.Distance">
-    <Position X="7.5" Y="6" Width="2.5" />
+    <Position X="7.5" Y="6.5" Width="2.5" />
     <Members>
       <Method Name="cov" Hidden="true" />
       <Method Name="mean" Hidden="true" />
@@ -12,7 +12,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.HilbertTransform">
-    <Position X="13" Y="6" Width="2" />
+    <Position X="13" Y="6.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Transforms\HilbertTransform.cs</FileName>
@@ -24,7 +24,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AY4j0RACiViAyR00mcIXBCYIyAxJDfBVidAIYGpREYY=</HashCode>
+      <HashCode>Ac4n0RACidiCyR00mcJXBCYIyAxJDfBVidAI4GpREYY=</HashCode>
       <FileName>Matrix\Matrix.Algebra.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -44,19 +44,19 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAIAAAAAAAAAAAEQCIAAAAAAAYABABAAUQAUAAgACQ=</HashCode>
+      <HashCode>AAAIAAAAABAAAAAEQCIAAAAAAAYABABAAUQAUAAgACQ=</HashCode>
       <FileName>Tools.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Norm">
-    <Position X="10.25" Y="6" Width="2.5" />
+    <Position X="10.25" Y="6.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAIEAEAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Norm.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Optimization.LineSearchFailedException">
-    <Position X="25" Y="15.25" Width="3" />
+    <Position X="28" Y="17.25" Width="3" />
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
@@ -66,14 +66,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Optimization.OptimizationProgressEventArgs">
-    <Position X="22" Y="12.5" Width="2.5" />
+    <Position X="25" Y="13.75" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAABCAAQAAAQAAAAAAAAAAAAAJAAgAAAACAA=</HashCode>
+      <HashCode>AAAAABAAAABiAAQAAAQAAAAAAAAAAAAAJAAgAAAACAA=</HashCode>
       <FileName>Optimization\Unconstrained\OptimizationProgressEventHandler.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Geometry.ConvexHullDefects">
-    <Position X="9.75" Y="9" Width="1.75" />
+    <Position X="11" Y="10" Width="1.75" />
     <Members>
       <Method Name="extractDefect" Hidden="true" />
     </Members>
@@ -83,21 +83,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Geometry.ConvexityDefect">
-    <Position X="11.75" Y="8.75" Width="1.5" />
+    <Position X="13" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIAAAAAACAAgAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
       <FileName>Geometry\ConvexityDefect.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Geometry.KCurvature">
-    <Position X="13.5" Y="8.75" Width="1.5" />
+    <Position X="14.75" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAAIAA=</HashCode>
       <FileName>Geometry\KCurvature.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Wavelets.CDF97" BaseTypeListCollapsed="true">
-    <Position X="4.75" Y="16.5" Width="2" />
+    <Position X="5.25" Y="19.5" Width="2" />
     <Members>
       <Method Name="fwt2d" Hidden="true" />
       <Method Name="iwt2d" Hidden="true" />
@@ -110,7 +110,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Wavelets.Haar" BaseTypeListCollapsed="true">
-    <Position X="7" Y="16.5" Width="2" />
+    <Position X="7.5" Y="19.5" Width="2" />
     <Members>
       <Field Name="levels" Hidden="true" />
       <Field Name="s0" Hidden="true" />
@@ -126,41 +126,33 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Optimization.BroydenFletcherGoldfarbShanno" BaseTypeListCollapsed="true">
-    <Position X="24.75" Y="10.25" Width="3.5" />
+    <Position X="27.75" Y="11.5" Width="3.5" />
     <Members>
-      <Field Name="corrections" Hidden="true" />
-      <Method Name="createWorkVector" Hidden="true" />
-      <Field Name="evaluations" Hidden="true" />
-      <Field Name="f" Hidden="true" />
+      <Field Name="delta" Hidden="true" />
+      <Field Name="epsilon" Hidden="true" />
       <Field Name="ftol" Hidden="true" />
-      <Field Name="g" Hidden="true" />
-      <Method Name="getDiagonal" Hidden="true" />
-      <Method Name="getFunction" Hidden="true" />
-      <Method Name="getGradient" Hidden="true" />
       <Field Name="gtol" Hidden="true" />
-      <Field Name="iterations" Hidden="true" />
-      <Field Name="lowerBound" Hidden="true" />
-      <Field Name="maxfev" Hidden="true" />
-      <Method Name="mcsrch" Hidden="true" />
-      <Method Name="minimize" Hidden="true" />
-      <Field Name="numberOfVariables" Hidden="true" />
-      <Method Name="SearchStep" Hidden="true" />
-      <Field Name="stpmax" Hidden="true" />
-      <Field Name="stpmin" Hidden="true" />
-      <Field Name="tolerance" Hidden="true" />
-      <Field Name="upperBound" Hidden="true" />
-      <Field Name="work" Hidden="true" />
-      <Field Name="x" Hidden="true" />
+      <Field Name="linesearch" Hidden="true" />
+      <Field Name="m" Hidden="true" />
+      <Field Name="max_iterations" Hidden="true" />
+      <Field Name="max_linesearch" Hidden="true" />
+      <Field Name="max_step" Hidden="true" />
+      <Field Name="min_step" Hidden="true" />
+      <Field Name="orthantwise_c" Hidden="true" />
+      <Field Name="orthantwise_end" Hidden="true" />
+      <Field Name="orthantwise_start" Hidden="true" />
+      <Field Name="past" Hidden="true" />
+      <Field Name="wolfe" Hidden="true" />
       <Field Name="xtol" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAALIBIIABFCIAAAAkAAJAIgAAAAAAAZRIpkAAyCGgA=</HashCode>
+      <HashCode>QAAAoAAEKJACCCQMQgAgBBgAAAgQAABBkwAAIkCCAAA=</HashCode>
       <FileName>Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Optimization.ConjugateGradient" BaseTypeListCollapsed="true">
-    <Position X="28.75" Y="10.25" Width="2.5" />
+    <Position X="31.75" Y="11.5" Width="2.5" />
     <Members>
       <Field Name="brackt" Hidden="true" />
       <Method Name="cvsmod" Hidden="true" />
@@ -171,7 +163,6 @@
       <Field Name="dgy" Hidden="true" />
       <Field Name="epsilon" Hidden="true" />
       <Field Name="evaluations" Hidden="true" />
-      <Field Name="f" Hidden="true" />
       <Field Name="finit" Hidden="true" />
       <Field Name="ftest1" Hidden="true" />
       <Field Name="ftol" Hidden="true" />
@@ -184,7 +175,6 @@
       <Field Name="iterations" Hidden="true" />
       <Field Name="maxfev" Hidden="true" />
       <Field Name="maxIterations" Hidden="true" />
-      <Field Name="numberOfVariables" Hidden="true" />
       <Field Name="searches" Hidden="true" />
       <Field Name="stage1" Hidden="true" />
       <Field Name="stmax" Hidden="true" />
@@ -197,11 +187,10 @@
       <Field Name="w" Hidden="true" />
       <Field Name="width" Hidden="true" />
       <Field Name="width1" Hidden="true" />
-      <Field Name="x" Hidden="true" />
       <Field Name="xtol" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAKIRIAAhBCKAIARgAiBBIIAQAACCAcBIpgAISAGhA=</HashCode>
+      <HashCode>AAAAIQIEAhBCKAIARgAiBBIIAQAACCAMBAoAAISAGBA=</HashCode>
       <FileName>Optimization\Unconstrained\ConjugateGradient.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -233,12 +222,12 @@
   <Class Name="Accord.Math.Normal">
     <Position X="10.25" Y="3.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAgAAAAAAIAAAIAAAAAAAgAAAAAAACAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAgAAAABAIAAIIAAAAAAAgAAAAAAACAAAQ=</HashCode>
       <FileName>Functions\Normal.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Differentiation.FiniteDifferences">
-    <Position X="24" Y="5.25" Width="2.5" />
+    <Position X="26.5" Y="5.75" Width="2.5" />
     <Members>
       <Field Name="coef" Hidden="true" />
       <Method Name="createInterpolationCoefficients" Hidden="true" />
@@ -253,7 +242,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Constants">
-    <Position X="4" Y="5.25" Width="2.25" />
+    <Position X="4" Y="5.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AQIAAAAQAAAIAAAAAAAIgCgCAAAAIAAAAgEAAAAwAQA=</HashCode>
       <FileName>Constants.cs</FileName>
@@ -264,10 +253,10 @@
     <Members>
       <Field Name="constraintMatrix" Hidden="true" />
       <Field Name="constraintValues" Hidden="true" />
-      <Method Name="createConstraintMatrix" Hidden="true" />
       <Method Name="dpofa" Hidden="true" />
       <Method Name="dpori" Hidden="true" />
       <Method Name="dposl" Hidden="true" />
+      <Field Name="hessian" Hidden="true" />
       <Method Name="initialize" Hidden="true" />
       <Field Name="iwnbv" Hidden="true" />
       <Field Name="iwrm" Hidden="true" />
@@ -275,15 +264,17 @@
       <Field Name="iwsv" Hidden="true" />
       <Field Name="iwuv" Hidden="true" />
       <Field Name="iwzv" Hidden="true" />
+      <Field Name="linearTerms" Hidden="true" />
       <Method Name="minimize" Hidden="true" />
       <Method Name="qpgen2" Hidden="true" />
       <Field Name="r" Hidden="true" />
       <Field Name="work" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>ACASMBBYACAAABBAAIkAAAIQAIAAABAACCIhAQAAAgg=</HashCode>
+      <HashCode>ACASMABMADAAABBAAIkAAAIQAJAIABAACAIBAQBAAgg=</HashCode>
       <FileName>Optimization\Constrained\GoldfarbIdnani.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Optimization.LinearConstraint">
     <Position X="20.25" Y="4.5" Width="2.5" />
@@ -295,64 +286,39 @@
       <Field Name="scalars" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAQAAAIAAAAAAAAAAAAAAAEAAAAAAAACAgAAkIIAA=</HashCode>
-      <FileName>Optimization\Constrained\LinearConstraint.cs</FileName>
+      <HashCode>AIAAQAAAIABAAAAAQAAQAAIAEAAAAAAAACAgAAlIIAA=</HashCode>
+      <FileName>Optimization\Constrained\Constraints\LinearConstraint.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ShouldBe" />
     </ShowAsAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.ComplexExtensions.ComplexMatrix">
-    <Position X="4" Y="11" Width="2.25" />
+    <Position X="4" Y="11.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAAAACgAAgQABAAAAAAAAAAAAAAAAAAFABAQ=</HashCode>
       <FileName>Matrix\Matrix.Complex.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Optimization.BrentSearch">
-    <Position X="26.75" Y="4.75" Width="2" />
+    <Position X="29.25" Y="5.25" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAACAAABAAAABAIAAAEIAAAAAAIgAAAAAgA=</HashCode>
+      <HashCode>EAAAABAAAAACAAABAAAABAIAAAEIAAAAACIgAAAAAgA=</HashCode>
       <FileName>Optimization\BrentSearch.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="Accord.Math.Optimization.AugmentedLagrangianSolver">
-    <Position X="20" Y="0.5" Width="2.25" />
-    <Members>
-      <Field Name="dualSolver" Hidden="true" />
-      <Field Name="equalityConstraints" Hidden="true" />
-      <Field Name="ftol_abs" Hidden="true" />
-      <Field Name="ftol_rel" Hidden="true" />
-      <Field Name="functionEvaluations" Hidden="true" />
-      <Field Name="greaterThanConstraints" Hidden="true" />
-      <Field Name="iterations" Hidden="true" />
-      <Field Name="lambda" Hidden="true" />
-      <Field Name="lesserThanConstraints" Hidden="true" />
-      <Field Name="maxEvaluations" Hidden="true" />
-      <Method Name="minimize" Hidden="true" />
-      <Field Name="mu" Hidden="true" />
-      <Field Name="nu" Hidden="true" />
-      <Field Name="numberOfVariables" Hidden="true" />
-      <Method Name="objectiveFunction" Hidden="true" />
-      <Method Name="objectiveGradient" Hidden="true" />
-      <Method Name="relstop" Hidden="true" />
-      <Field Name="rho" Hidden="true" />
-      <Field Name="xtol_rel" Hidden="true" />
-    </Members>
-    <TypeIdentifier>
-      <HashCode>UAAKADAJACBAIAAAAgAAAAIAAAAAAABBBJMAAQQQAgA=</HashCode>
-      <FileName>Optimization\Constrained\AugmentedLagrangianSolver.cs</FileName>
-    </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Optimization.NonlinearConstraint">
     <Position X="16.75" Y="5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAIABCAAAAAAAQAAIAAAAAAEAAACAgAAAAAAA=</HashCode>
-      <FileName>Optimization\Constrained\NonlinearConstraint.cs</FileName>
+      <HashCode>AAAAAAAAIABCAAAAAAAQAAIAAAAAAEAAACAgAAAAIAA=</HashCode>
+      <FileName>Optimization\Constrained\Constraints\NonlinearConstraint.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ShouldBe" />
     </ShowAsAssociation>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Optimization.QuadraticConstraint">
     <Position X="17.25" Y="8.25" Width="1.75" />
@@ -362,60 +328,62 @@
     </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAABAAAAAAQgAAAAAAAAAAAAAAAAAAAABAAAA=</HashCode>
-      <FileName>Optimization\Constrained\QuadraticConstraint.cs</FileName>
+      <FileName>Optimization\Constrained\Constraints\QuadraticConstraint.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Optimization.ExpressionParser">
-    <Position X="29.5" Y="2.5" Width="2" />
+    <Position X="32" Y="3" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
       <FileName>Optimization\ExpressionParser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Optimization.NonlinearObjectiveFunction" BaseTypeListCollapsed="true">
-    <Position X="23" Y="0.5" Width="3" />
+    <Position X="25.5" Y="1" Width="3" />
     <Members>
       <Field Name="indices" Hidden="true" />
+      <Field Name="readOnlyIndices" Hidden="true" />
+      <Field Name="readOnlyVariables" Hidden="true" />
       <Field Name="variables" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAQAAAAEBAAAAAAAAAAAIAAAAAAAAAACQAAAAEAAA=</HashCode>
+      <HashCode>AAAAQAAAAEBAABAACAAAABIAAAAgQAAAACQAAAAEAAA=</HashCode>
       <FileName>Optimization\NonlinearObjectiveFunction.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Optimization.QuadraticObjectiveFunction" BaseTypeListCollapsed="true">
-    <Position X="26.25" Y="0.5" Width="3" />
+    <Position X="28.75" Y="1" Width="3" />
     <Members>
       <Method Name="addTuple" Hidden="true" />
+      <Field Name="c" Hidden="true" />
       <Method Name="createLinearTermsVector" Hidden="true" />
       <Method Name="createQuadraticTermsMatrix" Hidden="true" />
       <Field Name="d" Hidden="true" />
       <Method Name="function" Hidden="true" />
-      <Field Name="indices" Hidden="true" />
       <Method Name="initialize" Hidden="true" />
       <Field Name="linear" Hidden="true" />
       <Method Name="parseExpression" Hidden="true" />
       <Method Name="parseString" Hidden="true" />
       <Field Name="Q" Hidden="true" />
       <Field Name="quadratic" Hidden="true" />
-      <Field Name="variables" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAQCQAAAAEAAIAAkAgEAAIIAQAAAAAAEACQAACEkAAA=</HashCode>
+      <HashCode>AIQCAAAAABAAIAAEQgEAAIAAAAAAAACEACAAACFgQAA=</HashCode>
       <FileName>Optimization\QuadraticObjectiveFunction.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Combinatorics">
-    <Position X="4" Y="9.25" Width="2.25" />
+    <Position X="4" Y="9.75" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAIAAAAQAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAIAAAAQAAAAAAAEAAAA=</HashCode>
       <FileName>Combinatorics.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Comparers.CustomComparer&lt;T&gt;" BaseTypeListCollapsed="true">
-    <Position X="33.75" Y="1.5" Width="1.75" />
+    <Position X="37.75" Y="2.25" Width="1.75" />
     <Members>
       <Field Name="comparer" Hidden="true" />
     </Members>
@@ -426,14 +394,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Comparers.ElementComparer" BaseTypeListCollapsed="true">
-    <Position X="36.5" Y="1.25" Width="1.75" />
+    <Position X="40.5" Y="2" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Comparers\ElementComparer.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Comparers.GeneralComparer" BaseTypeListCollapsed="true">
-    <Position X="39.25" Y="1.5" Width="2.5" />
+    <Position X="43.25" Y="2.25" Width="2.5" />
     <Members>
       <Field Name="direction" Hidden="true" />
       <Field Name="map" Hidden="true" />
@@ -445,14 +413,14 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Comparers.IntegerArrayComparer" BaseTypeListCollapsed="true">
-    <Position X="36.25" Y="4.25" Width="2" />
+    <Position X="40.25" Y="5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Comparers\ArrayComparer`1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Comparers.StableComparer&lt;T&gt;" BaseTypeListCollapsed="true">
-    <Position X="33.75" Y="4.75" Width="1.75" />
+    <Position X="37.75" Y="5.5" Width="1.75" />
     <Members>
       <Field Name="comparison" Hidden="true" />
     </Members>
@@ -463,7 +431,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.MatrixFormatter">
-    <Position X="12" Y="14.75" Width="2" />
+    <Position X="12.75" Y="13.25" Width="2" />
     <Members>
       <Method Name="handleOtherFormats" Hidden="true" />
       <Method Name="parseOptions" Hidden="true" />
@@ -475,7 +443,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.MatrixFormatProviderBase" Collapsed="true">
-    <Position X="14.75" Y="15.25" Width="2.25" />
+    <Position X="15.5" Y="13.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>ACAAADAAAAAAACAAQgACAAAIAgAABAAAQFCAgEEAAAA=</HashCode>
       <FileName>Formats\Base\MatrixFormatProviderBase.cs</FileName>
@@ -483,7 +451,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.DefaultMatrixFormatProvider">
-    <Position X="18.5" Y="17" Width="2.25" />
+    <Position X="19.25" Y="15.5" Width="2.25" />
     <Members>
       <Field Name="currentCulture" Hidden="true" />
       <Field Name="invariantCulture" Hidden="true" />
@@ -494,7 +462,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.CSharpMatrixFormatProvider">
-    <Position X="16" Y="17" Width="2.25" />
+    <Position X="16.75" Y="15.5" Width="2.25" />
     <Members>
       <Field Name="currentCulture" Hidden="true" />
       <Field Name="invariantCulture" Hidden="true" />
@@ -505,7 +473,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.OctaveMatrixFormatProvider">
-    <Position X="13.5" Y="17" Width="2.25" />
+    <Position X="14.25" Y="15.5" Width="2.25" />
     <Members>
       <Field Name="currentCulture" Hidden="true" />
       <Field Name="invariantCulture" Hidden="true" />
@@ -516,7 +484,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.CSharpJaggedMatrixFormatProvider">
-    <Position X="10.5" Y="17" Width="2.75" />
+    <Position X="11.25" Y="15.5" Width="2.75" />
     <Members>
       <Field Name="currentCulture" Hidden="true" />
       <Field Name="invariantCulture" Hidden="true" />
@@ -527,7 +495,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.DefaultArrayFormatProvider">
-    <Position X="18.5" Y="19.5" Width="2.25" />
+    <Position X="19.25" Y="18" Width="2.25" />
     <Members>
       <Field Name="currentCulture" Hidden="true" />
       <Field Name="invariantCulture" Hidden="true" />
@@ -538,7 +506,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.OctaveArrayFormatProvider">
-    <Position X="16" Y="19.5" Width="2.25" />
+    <Position X="16.75" Y="18" Width="2.25" />
     <Members>
       <Field Name="currentCulture" Hidden="true" />
       <Field Name="invariantCulture" Hidden="true" />
@@ -549,7 +517,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.CSharpArrayFormatProvider">
-    <Position X="13.5" Y="19.5" Width="2.25" />
+    <Position X="14.25" Y="18" Width="2.25" />
     <Members>
       <Field Name="currentCulture" Hidden="true" />
       <Field Name="invariantCulture" Hidden="true" />
@@ -560,7 +528,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Comparers.ArrayComparer&lt;T&gt;" Collapsed="true">
-    <Position X="36.25" Y="5.75" Width="2" />
+    <Position X="40.25" Y="6.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
       <FileName>Comparers\ArrayComparer`1.cs</FileName>
@@ -568,7 +536,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Comparers.ElementComparer&lt;T&gt;" Collapsed="true">
-    <Position X="36.5" Y="3" Width="1.75" />
+    <Position X="40.5" Y="3.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAAAFAAAAAAAA=</HashCode>
       <FileName>Comparers\ElementComparer.cs</FileName>
@@ -576,70 +544,100 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Math.Gabor" Collapsed="true">
-    <Position X="34.75" Y="8.25" Width="1.5" />
+    <Position X="38.75" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAIAACAAQAAAAAAAAAAEAAAAAAAAAAAA=</HashCode>
       <FileName>Functions\Gabor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Optimization.BinarySearch">
-    <Position X="29" Y="5" Width="1.75" />
+    <Position X="31.5" Y="5.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAABAAAABAIAAAEIAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Optimization\BinarySearch.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="Accord.Math.Optimization.AugmentedLagrangian">
+    <Position X="20.25" Y="0.75" Width="2.75" />
+    <Members>
+      <Field Name="dualSolver" Hidden="true" />
+      <Field Name="equalityConstraints" Hidden="true" />
+      <Field Name="ftol_abs" Hidden="true" />
+      <Field Name="ftol_rel" Hidden="true" />
+      <Field Name="functionEvaluations" Hidden="true" />
+      <Field Name="greaterThanConstraints" Hidden="true" />
+      <Method Name="init" Hidden="true" />
+      <Field Name="iterations" Hidden="true" />
+      <Field Name="lambda" Hidden="true" />
+      <Field Name="lesserThanConstraints" Hidden="true" />
+      <Field Name="maxEvaluations" Hidden="true" />
+      <Field Name="mu" Hidden="true" />
+      <Field Name="nu" Hidden="true" />
+      <Method Name="objectiveFunction" Hidden="true" />
+      <Method Name="objectiveGradient" Hidden="true" />
+      <Method Name="relstop" Hidden="true" />
+      <Field Name="rho" Hidden="true" />
+      <Field Name="rhoMax" Hidden="true" />
+      <Field Name="rhoMin" Hidden="true" />
+      <Field Name="xtol_rel" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>UAAAADANACAAIAAAAgAAAAJAAAAAAEJBBJEAAQQQAAA=</HashCode>
+      <FileName>Optimization\Constrained\AugmentedLagrangian.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="Accord.Math.Wavelets.IWavelet">
-    <Position X="5.75" Y="14.75" Width="2" />
+    <Position X="6.25" Y="17.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
       <FileName>Wavelets\Base\IWavelet.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Math.Optimization.IOptimizationMethod">
-    <Position X="22.5" Y="10.5" Width="1.75" />
+    <Position X="25.5" Y="11.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
-      <FileName>Optimization\Unconstrained\IOptimizationMethod.cs</FileName>
+      <HashCode>AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAACIgAAAAAgA=</HashCode>
+      <FileName>Optimization\Base\IOptimizationMethod.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Math.Optimization.IObjectiveFunction">
-    <Position X="29.75" Y="0.5" Width="1.75" />
+    <Position X="32.25" Y="1" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAIAAAAAAAAAACQAAAAAAAA=</HashCode>
       <FileName>Optimization\IObjectiveFunction.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Math.IMatrixFormatProvider" Collapsed="true">
-    <Position X="17.5" Y="15.25" Width="2" />
+    <Position X="18.25" Y="13.75" Width="2" />
     <TypeIdentifier>
       <HashCode>ACAAADAAAAAAACAAQgACAAAIAAAABAAAQFCAgEEAAAA=</HashCode>
       <FileName>Formats\Base\IMatrixFormatProvider.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="Accord.Math.Optimization.ConjugateGradientMethod">
-    <Position X="28.75" Y="15" Width="2.5" />
+    <Position X="31.75" Y="16.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAgAAAAAAABAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Optimization\Unconstrained\ConjugateGradient.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Accord.Math.Optimization.ConstraintType">
-    <Position X="20.5" Y="7.25" Width="1.75" />
+    <Position X="20.5" Y="8.75" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAIAAAAAA=</HashCode>
-      <FileName>Optimization\Constrained\LinearConstraint.cs</FileName>
+      <FileName>Optimization\Constrained\Constraints\LinearConstraint.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Accord.Math.Comparers.ComparerDirection">
-    <Position X="39.25" Y="4.75" Width="1.75" />
+    <Position X="43.25" Y="5.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Comparers\GeneralComparer.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Accord.Math.GaborKernelKind" Collapsed="true">
-    <Position X="34.75" Y="9.5" Width="1.5" />
+    <Position X="38.75" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAAAAIAAAAAAACAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Functions\Gabor.cs</FileName>
