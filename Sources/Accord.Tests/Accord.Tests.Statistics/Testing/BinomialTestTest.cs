@@ -102,13 +102,14 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void BinomialTestConstructorTest3()
         {
-            // Tested against GNU R
+            // GNU R (0.096248626708984375)
+            // Wolfram Alpha reports 0.06357
             BinomialTest target = new BinomialTest(5, 18);
 
             Assert.AreEqual(OneSampleHypothesis.ValueIsDifferentFromHypothesis, target.Hypothesis);
             Assert.AreEqual(DistributionTail.TwoTail, target.Tail);
 
-            Assert.AreEqual(0.096248626708984375, target.PValue, 1e-4);
+            Assert.AreEqual(0.063564300537109319, target.PValue, 1e-4);
             Assert.IsFalse(target.Significant);
         }
 
@@ -168,7 +169,7 @@ namespace Accord.Tests.Statistics
             double[] expected =
             {
                 0.00000000000, 0.02819385651, 0.382725376073,
-                1.00000000000, 0.34347252004, 0.096248626708, 
+                1.00000000000, 0.34347252004, 0.063564300537, 
                 0.00707077678, 0.00026908252, 0.000002519659,
                 0.00000000052, 0.00000000000 
             };

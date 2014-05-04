@@ -81,7 +81,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.6896, var);
             Assert.AreEqual(0.13850027875444251, chf, 1e-10);
             Assert.AreEqual(0.12933699143209909, cdf, 1e-10);
-            Assert.AreEqual(0.28218979948821621, pdf);
+            Assert.AreEqual(0.28218979948821621, pdf, 1e-10);
             Assert.AreEqual(-2.0453339441581582, lpdf);
             Assert.AreEqual(0.14855000173354949, hf, 1e-10);
             Assert.AreEqual(0.87066300856790091, ccdf, 1e-10);
@@ -299,6 +299,17 @@ namespace Accord.Tests.Statistics
                 BinomialDistribution target = new BinomialDistribution(trials, 1.0);
                 Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
             }
+        }
+
+        [TestMethod()]
+        public void OverflowTest()
+        {
+            var binom = new BinomialDistribution(3779, 0.0638);
+
+            double expected = 0.021944019794458;
+            double actual = binom.ProbabilityMassFunction(250);
+
+            Assert.AreEqual(expected, actual, 1e-7);
         }
     }
 }
