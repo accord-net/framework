@@ -1,4 +1,4 @@
-﻿// Accord Vision Library
+﻿// Accord Core Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //

@@ -52,6 +52,7 @@ namespace Accord
     ///   <img src="..\diagrams\classes\Accord.Core.png" />
     /// </remarks>
     /// 
+    /// <seealso cref="Accord.Audio"/>
     /// <seealso cref="Accord.Audition"/>
     /// <seealso cref="Accord.Controls"/>
     /// <seealso cref="Accord.DirectSound"/>

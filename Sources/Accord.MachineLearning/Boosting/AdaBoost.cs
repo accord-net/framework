@@ -102,6 +102,10 @@ namespace Accord.MachineLearning.Boosting
             set { convergence.Tolerance = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the error limit before learning stops. Default is 0.5.
+        /// </summary>
+        /// 
         public double Threshold
         {
             get { return threshold; }

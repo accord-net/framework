@@ -99,7 +99,6 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Accord.Math.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Comparers\ArrayComparer`1.cs" />
     <Compile Include="Comparers\ElementComparer.cs" />

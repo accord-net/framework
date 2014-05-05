@@ -82,30 +82,35 @@ namespace Accord.Statistics.Filters
         /// 
         protected override DataTable ProcessFilter(DataTable data)
         {
-            DataTable result = data.Copy();
+            DataTable result = data.Clone();
 
-            // Scale each value from the original ranges to destination ranges
             foreach (DataColumn column in result.Columns)
             {
-                string name = column.ColumnName;
-                if (Columns.Contains(name))
-                {
-                    foreach (DataRow row in result.Rows)
-                    {
-                        try
-                        {
-                            double value = System.Convert.ToDouble(row[column]);
+                if (Columns.Contains(column.ColumnName))
+                    result.Columns[column.ColumnName].DataType = typeof(Double);
+            }
 
-                            Options options = Columns[name];
-                            row[column] = Accord.Math.Tools.Scale(
-                                options.SourceRange,
-                                options.OutputRange,
-                                value);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new InvalidCastException("Error in row #" + result.Rows.IndexOf(row), ex);
-                        }
+            foreach (DataRow row in data.Rows)
+                result.ImportRow(row);
+
+            // Scale each value from the original ranges to destination ranges
+            foreach (Options options in this.Columns)
+            {
+                string name = options.ColumnName;
+                
+                if (!result.Columns.Contains(name))
+                    continue;
+
+                foreach (DataRow row in result.Rows)
+                {
+                    try
+                    {
+                        double value = System.Convert.ToDouble(row[name]);
+                        row[name] = Tools.Scale(options.SourceRange, options.OutputRange, value);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new InvalidCastException("Error in row #" + result.Rows.IndexOf(row), ex);
                     }
                 }
             }

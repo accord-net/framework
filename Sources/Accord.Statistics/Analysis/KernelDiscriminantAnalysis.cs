@@ -22,13 +22,11 @@
 
 namespace Accord.Statistics.Analysis
 {
+    using System;
     using Accord.Math;
-    using Accord.Statistics;
+    using Accord.Math.Comparers;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
-    using System.Collections.Generic;
-    using System;
-    using Accord.Math.Comparers;
 
     /// <summary>
     ///   Kernel (Fisher) Discriminant Analysis.

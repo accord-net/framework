@@ -235,6 +235,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         #region Properties
+        /// <summary>
+        ///   Gets or sets the individual weight of 
+        ///   each sample in the training set. If set
+        ///   to null, all samples will be assumed
+        ///   equal weight. Default is <c>null</c>.
+        /// </summary>
+        /// 
         public double[] Weights
         {
             get { return sampleWeights; }
@@ -947,6 +954,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             double y1 = outputs[i1];  // Classification label for p1
             double c1 = y1 == +1 ? positiveCost : negativeCost;
 
+            if (sampleWeights != null)
+                c1 *= sampleWeights[i1];
+
             // SVM output on p1 - y1 [without bias threshold]. Check if it has already been computed
             double e1 = (alph1 > 0 && alph1 < c1) ? errors[i1] : errors[i1] = computeNoBias(i1) - y1;
 
@@ -956,16 +966,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             double c2 = y2 == +1 ? positiveCost : negativeCost;
 
             if (sampleWeights != null)
-            {
-                c1 *= sampleWeights[i1];
                 c2 *= sampleWeights[i2];
-            }
-
 
             // SVM output on p2 - y2. Should have been computed already.
             double e2 = errors[i2];
 
-
+            
             double s = y1 * y2;
 
 

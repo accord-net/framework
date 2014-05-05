@@ -173,5 +173,19 @@ namespace Accord.Statistics.Filters
         {
             return item.ColumnName;
         }
+
+        /// <summary>
+        ///   Adds a new column options definition to the collection.
+        /// </summary>
+        /// 
+        /// <param name="item">The column options to be added.</param>
+        /// 
+        /// <returns>The added column options.</returns>
+        /// 
+        new public T Add(T item)
+        {
+            base.Add(item);
+            return item;
+        }
     }
 }

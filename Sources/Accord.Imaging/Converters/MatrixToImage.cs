@@ -96,6 +96,11 @@ namespace Accord.Imaging.Converters
         /// 
         public double Min { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the desired output format of the image.
+        /// </summary>
+        /// 
+        public PixelFormat Format { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="MatrixToImage"/> class.
@@ -114,13 +119,17 @@ namespace Accord.Imaging.Converters
         {
             this.Min = min;
             this.Max = max;
+            this.Format = PixelFormat.Format8bppIndexed;
         }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="MatrixToImage"/> class.
         /// </summary>
         /// 
-        public MatrixToImage() : this(0, 1) { }
+        public MatrixToImage()
+            : this(0, 1)
+        {
+        }
 
 
         /// <summary>
@@ -135,12 +144,16 @@ namespace Accord.Imaging.Converters
             int width = input.GetLength(1);
             int height = input.GetLength(0);
 
-            output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            if (Format == PixelFormat.Format8bppIndexed)
+                output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            else output = new Bitmap(width, height, Format);
 
             BitmapData data = output.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.WriteOnly, output.PixelFormat);
 
-            int offset = data.Stride - width;
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(Format) / 8;
+
+            int offset = data.Stride - width * pixelSize;
 
             unsafe
             {
@@ -148,7 +161,7 @@ namespace Accord.Imaging.Converters
 
                 for (int y = 0; y < height; y++)
                 {
-                    for (int x = 0; x < width; x++, dst++)
+                    for (int x = 0; x < width; x++, dst += pixelSize)
                         *dst = (byte)Accord.Math.Tools.Scale(Min, Max, 0, 255, input[y, x]);
 
                     dst += offset;
@@ -170,12 +183,16 @@ namespace Accord.Imaging.Converters
             int width = input.GetLength(1);
             int height = input.GetLength(0);
 
-            output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            if (Format == PixelFormat.Format8bppIndexed)
+                output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            else output = new Bitmap(width, height, Format);
 
             BitmapData data = output.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.WriteOnly, output.PixelFormat);
 
-            int offset = data.Stride - width;
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(Format) / 8;
+
+            int offset = data.Stride - width * pixelSize;
 
             float min = (float)Min;
             float max = (float)Max;
@@ -186,7 +203,7 @@ namespace Accord.Imaging.Converters
 
                 for (int y = 0; y < height; y++)
                 {
-                    for (int x = 0; x < width; x++, dst++)
+                    for (int x = 0; x < width; x++, dst += pixelSize)
                         *dst = (byte)Accord.Math.Tools.Scale(min, max, 0, 255, input[y, x]);
 
                     dst += offset;
@@ -256,12 +273,16 @@ namespace Accord.Imaging.Converters
             int width = input.GetLength(1);
             int height = input.GetLength(0);
 
-            output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            if (Format == PixelFormat.Format8bppIndexed)
+                output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            else output = new Bitmap(width, height, Format);
+
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(Format) / 8;
 
             BitmapData data = output.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.WriteOnly, output.PixelFormat);
 
-            int offset = data.Stride - width;
+            int offset = data.Stride - width * pixelSize;
 
             unsafe
             {
@@ -269,7 +290,7 @@ namespace Accord.Imaging.Converters
 
                 for (int y = 0; y < height; y++)
                 {
-                    for (int x = 0; x < width; x++, dst++)
+                    for (int x = 0; x < width; x++, dst += pixelSize)
                         *dst = (byte)input[y, x];
 
                     dst += offset;

@@ -143,6 +143,8 @@
     <Compile Include="Analysis\ProportionalHazardsAnalysisTest.cs" />
     <Compile Include="Analysis\IndependentComponentAnalysisTest.cs" />
     <Compile Include="Analysis\DescriptiveAnalysisTest.cs" />
+    <Compile Include="Controls\DataGridBoxTest.cs" />
+    <Compile Include="Filters\BranchingFilterTest.cs" />
     <Compile Include="Kernels\QuadraticTest.cs" />
     <Compile Include="Kernels\LinearTest.cs" />
     <Compile Include="Models\Regression\NonlinearLeastSquaresTest.cs" />

@@ -218,7 +218,7 @@ namespace Accord.Controls
         public static DataGridBox Show(Array array, String title = null, 
             object[] rowNames = null, object[] colNames = null, bool nonBlocking = false)
         {
-            return show(new ArrayDataView(array, rowNames, colNames), title, nonBlocking);
+            return show(new ArrayDataView(array, columnNames: colNames, rowNames: rowNames), title, nonBlocking);
         }
 
         private static DataGridBox show(object source, string title, bool nonBlocking)

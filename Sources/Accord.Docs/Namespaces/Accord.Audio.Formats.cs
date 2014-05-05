@@ -1,4 +1,4 @@
-﻿// Accord Statistics Library
+﻿// Accord Core Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -20,24 +20,29 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Statistics.Distributions.Fitting
+namespace Accord.Audio.Formats
 {
-    using System;
-    using Accord.Statistics.Models.Markov;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
-    ///   Fitting options for hidden Markov model distributions.
+    ///  Classes used to handle different audio file formats.
     /// </summary>
     /// 
-    [Serializable]
-    public class HiddenMarkovOptions : IFittingOptions
+    /// <remarks>
+    /// <para>
+    ///  This namespace offers different classes to parse, encode and decode audio 
+    ///  signals stored in different formats. Examples include the <see cref="WaveDecoder"/>
+    ///  and <see cref="WaveEncoder"/> classes. </para>
+    ///  
+    /// <para>
+    ///   The namespace class diagram is shown below. </para>
+    ///   <img src="..\diagrams\classes\Accord.Audio.Formats.png" />
+    /// </remarks>
+    /// 
+    /// <seealso cref="Accord.Audio"/>
+    ///   
+    [CompilerGenerated]
+    class NamespaceDoc
     {
-
-        /// <summary>
-        ///   Gets or sets the learning function for the hidden Markov model.
-        /// </summary>
-        /// 
-        public Action<HiddenMarkovModel, double[][], double[]> Learning { get; set; }
-
     }
 }

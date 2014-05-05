@@ -290,8 +290,10 @@ namespace Accord.Statistics.Distributions.Univariate
             if (k < 0 || k > numberOfTrials)
                 return 0;
 
-            return Special.Binomial(numberOfTrials, k) * Math.Pow(probability, k)
-                * Math.Pow(1 - probability, numberOfTrials - k);
+            double log = Special.LogBinomial(numberOfTrials, k) + k * Math.Log(probability)
+                   + (numberOfTrials - k) * Math.Log(1 - probability);
+
+            return Math.Exp(log);
         }
 
         /// <summary>
