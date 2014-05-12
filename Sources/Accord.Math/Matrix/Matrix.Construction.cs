@@ -211,13 +211,34 @@ namespace Accord.Math
         /// 
         public static T[,] Diagonal<T>(T[] values)
         {
-            if (values == null) 
+            if (values == null)
                 throw new ArgumentNullException("values");
 
             T[,] matrix = new T[values.Length, values.Length];
 
             for (int i = 0; i < values.Length; i++)
                 matrix[i, i] = values[i];
+
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Return a jagged matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+        public static T[][] JaggedDiagonal<T>(T[] values)
+        {
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            T[][] matrix = new T[values.Length][];
+
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                matrix[i] = new T[values.Length];
+                matrix[i][i] = values[i];
+            }
 
             return matrix;
         }
