@@ -110,6 +110,14 @@
     <Compile Include="Convergence\RelativeConvergence.cs" />
     <Compile Include="Convergence\RelativeParameterConvergence.cs" />
     <Compile Include="Decompositions\GramSchmidtOrthogonalization.cs" />
+    <Compile Include="Decompositions\JaggedSingularValueDecomposition.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Environments\REnvironment.cs" />
     <Compile Include="Functions\Gabor.cs" />
     <Compile Include="Geometry\Circle.cs" />
@@ -192,6 +200,10 @@
       <DependentUpon>LuDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Decompositions\NonnegativeFactorization.cs" />
+    <None Include="Decompositions\JaggedSingularValueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedSingularValueDecomposition.cs</LastGenOutput>
+    </None>
     <None Include="Decompositions\QrDecomposition.tt" />
     <None Include="Decompositions\SingularValueDecomposition.tt" />
     <Compile Include="Decompositions\QrDecomposition.cs">
@@ -274,6 +286,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CholeskyGenerator.txt</LastGenOutput>
     </None>
+    <None Include="Decompositions\T4\JaggedSingularValueGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedSingularValueGenerator.txt</LastGenOutput>
+    </None>
     <None Include="Decompositions\T4\QrGenerator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>QrGenerator.txt</LastGenOutput>
@@ -346,6 +362,11 @@
       <DependentUpon>CholeskyGenerator.tt</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Content>
+    <Content Include="Decompositions\T4\JaggedSingularValueGenerator.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>JaggedSingularValueGenerator.tt</DependentUpon>
     </Content>
     <Content Include="Decompositions\T4\QrGenerator.txt">
       <DependentUpon>QrGenerator.tt</DependentUpon>

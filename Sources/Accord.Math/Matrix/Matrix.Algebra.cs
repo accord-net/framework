@@ -885,6 +885,44 @@ namespace Accord.Math
         /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
         /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
         /// 
+        public static double[][] MultiplyByDiagonal(this double[][] a, double[] b)
+        {
+            double[][] r = new double[a.Length][];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = new double[b.Length];
+
+            MultiplyByDiagonal(a, b, r);
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
+        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
+        /// 
+        public static float[][] MultiplyByDiagonal(this float[][] a, float[] b)
+        {
+            var r = new float[a.Length][];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = new float[b.Length];
+
+            MultiplyByDiagonal(a, b, r);
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
+        /// <returns>The product <c>A*B</c> of the given matrices <c>A</c> and <c>B</c>.</returns>
+        /// 
         public static double[,] MultiplyByDiagonal(this double[,] a, double[] b)
         {
             double[,] r = new double[a.GetLength(0), b.Length];
@@ -917,6 +955,42 @@ namespace Accord.Math
                     for (int j = 0; j < b.Length; j++)
                         *R++ = *A++ * b[j];
             }
+        }
+
+        /// <summary>
+        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
+        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
+        /// 
+        public static unsafe void MultiplyByDiagonal(this double[][] a, double[] b, double[][] result)
+        {
+            int rows = a.Length;
+
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < b.Length; j++)
+                    result[i][j] = a[i][j] * b[j];
+        }
+
+        /// <summary>
+        ///   Computes the product A*B of matrix <c>A</c> and diagonal matrix <c>B</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The left matrix <c>A</c>.</param>
+        /// <param name="b">The diagonal vector of right matrix <c>B</c>.</param>
+        /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
+        ///   of the given matrices <c>A</c> and <c>B</c>.</param>
+        /// 
+        public static unsafe void MultiplyByDiagonal(this float[][] a, float[] b, float[][] result)
+        {
+            int rows = a.Length;
+
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < b.Length; j++)
+                    result[i][j] = a[i][j] * b[j];
         }
 
         /// <summary>
@@ -1089,6 +1163,28 @@ namespace Accord.Math
             for (int i = 0; i < rows; i++)
                 for (int j = 0; j < columnVector.Length; j++)
                     r[i] += matrix[i, j] * columnVector[j];
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Multiplies a matrix <c>A</c> and a column vector <c>v</c>,
+        ///   giving the product <c>A*v</c>
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix <c>A</c>.</param>
+        /// <param name="columnVector">The column vector <c>v</c>.</param>
+        /// <returns>The product <c>A*v</c> of the multiplication of the
+        ///   given matrix <c>A</c> and column vector <c>v</c>.</returns>
+        /// 
+        public static float[] Multiply(this float[][] matrix, float[] columnVector)
+        {
+            int rows = matrix.Length;
+
+            float[] r = new float[rows];
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < columnVector.Length; j++)
+                    r[i] += matrix[i][j] * columnVector[j];
 
             return r;
         }
