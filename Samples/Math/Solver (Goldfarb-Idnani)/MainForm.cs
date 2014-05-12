@@ -88,17 +88,16 @@ namespace Solver.QP
             }
 
 
-            // Now, after the text has been parsed into actual objects, finally create the solver
-            var solver = new GoldfarbIdnaniQuadraticSolver(function.NumberOfVariables, constraints);
+            // After the text has been parsed, create the solver
+            var solver = new GoldfarbIdnani(function, constraints);
 
-            double optimumValue;
 
             try
             {
                 // Solve the optimization problem:
-                optimumValue = (minimize) ? 
-                    solver.Minimize(function) : // the user wants to minimize it
-                    solver.Maximize(function);  // the user wants to maximize it
+                if (minimize)
+                    solver.Minimize(); // the user wants to minimize it
+                else solver.Maximize();  // the user wants to maximize it
             }
             catch (NonPositiveDefiniteMatrixException)
             {
@@ -120,7 +119,7 @@ namespace Solver.QP
 
             sb.AppendLine("Solution:");
             sb.AppendLine();
-            sb.AppendLine(" " + strObjective + " = " + optimumValue);
+            sb.AppendLine(" " + strObjective + " = " + solver.Value);
             sb.AppendLine();
 
             for (int i = 0; i < solution.Length; i++)

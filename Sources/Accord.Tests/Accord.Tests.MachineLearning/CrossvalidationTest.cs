@@ -28,6 +28,8 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Kernels;
+    using Accord.Statistics.Models.Markov;
+    using Accord.Statistics.Models.Markov.Learning;
 
     [TestClass()]
     public class CrossvalidationTest
@@ -189,6 +191,123 @@ namespace Accord.Tests.MachineLearning
 
                 // Return a new information structure containing the model and the errors achieved.
                 return new CrossValidationValues<KernelSupportVectorMachine>(svm, trainingError, validationError);
+            };
+
+
+            // Compute the cross-validation
+            var result = crossvalidation.Compute();
+
+            // Finally, access the measured performance.
+            double trainingErrors = result.Training.Mean;
+            double validationErrors = result.Validation.Mean;
+
+            Assert.AreEqual(3, crossvalidation.K);
+            Assert.AreEqual(0, result.Training.Mean);
+            Assert.AreEqual(0, result.Validation.Mean);
+
+            Assert.AreEqual(3, crossvalidation.Folds.Length);
+            Assert.AreEqual(3, result.Models.Length);
+        }
+
+
+        [TestMethod()]
+        public void CrossvalidationConstructorTest2()
+        {
+
+            Accord.Math.Tools.SetupGenerator(0);
+
+            // This is a sample code on how to use Cross-Validation
+            // to assess the performance of Hidden Markov Models.
+
+            // Declare some testing data
+            int[][] inputs = new int[][]
+            {
+                new int[] { 0,1,1,0 },   // Class 0
+                new int[] { 0,0,1,0 },   // Class 0
+                new int[] { 0,1,1,1,0 }, // Class 0
+                new int[] { 0,1,1,1,0 }, // Class 0
+                new int[] { 0,1,1,0 },   // Class 0
+                new int[] { 0,1,1,1,0 }, // Class 0
+                new int[] { 0,1,1,1,0 }, // Class 0
+                new int[] { 0,1,0,1,0 }, // Class 0
+                new int[] { 0,1,0 },     // Class 0
+                new int[] { 0,1,1,0 },   // Class 0
+
+                new int[] { 1,0,0,1 },   // Class 1
+                new int[] { 1,1,0,1 },   // Class 1
+                new int[] { 1,0,0,0,1 }, // Class 1
+                new int[] { 1,0,1 },     // Class 1
+                new int[] { 1,1,0,1 },   // Class 1
+                new int[] { 1,0,1 },     // Class 1
+                new int[] { 1,0,0,1 },   // Class 1
+                new int[] { 1,0,0,0,1 }, // Class 1
+                new int[] { 1,0,1 },     // Class 1
+                new int[] { 1,0,0,0,1 }, // Class 1
+            };
+
+            int[] outputs = new int[]
+            {
+                0,0,0,0,0,0,0,0,0,0, // First 10 sequences are of class 0
+                1,1,1,1,1,1,1,1,1,1, // Last 10 sequences are of class 1
+            };
+
+
+
+            // Create a new Cross-validation algorithm passing the data set size and the number of folds
+            var crossvalidation = new CrossValidation<HiddenMarkovClassifier>(size: inputs.Length, folds: 3);
+
+            // Define a fitting function using Support Vector Machines. The objective of this
+            // function is to learn a SVM in the subset of the data indicated by cross-validation.
+
+            crossvalidation.Fitting = delegate(int k, int[] indicesTrain, int[] indicesValidation)
+            {
+                // The fitting function is passing the indices of the original set which
+                // should be considered training data and the indices of the original set
+                // which should be considered validation data.
+
+                // Lets now grab the training data:
+                var trainingInputs = inputs.Submatrix(indicesTrain);
+                var trainingOutputs = outputs.Submatrix(indicesTrain);
+
+                // And now the validation data:
+                var validationInputs = inputs.Submatrix(indicesValidation);
+                var validationOutputs = outputs.Submatrix(indicesValidation);
+
+
+                // We are trying to predict two different classes
+                int classes = 2;
+
+                // Each sequence may have up to two symbols (0 or 1)
+                int symbols = 2;
+
+                // Nested models will have two states each
+                int[] states = new int[] { 2, 2 };
+
+                // Creates a new Hidden Markov Model Classifier with the given parameters
+                HiddenMarkovClassifier classifier = new HiddenMarkovClassifier(classes, states, symbols);
+
+
+                // Create a new learning algorithm to train the sequence classifier
+                var teacher = new HiddenMarkovClassifierLearning(classifier,
+
+                    // Train each model until the log-likelihood changes less than 0.001
+                    modelIndex => new BaumWelchLearning(classifier.Models[modelIndex])
+                    {
+                        Tolerance = 0.001,
+                        Iterations = 0
+                    }
+                );
+
+                // Train the sequence classifier using the algorithm
+                double likelihood = teacher.Run(trainingInputs, trainingOutputs);
+
+                double trainingError = teacher.ComputeError(trainingInputs, trainingOutputs);
+
+                // Now we can compute the validation error on the validation data:
+                double validationError = teacher.ComputeError(validationInputs, validationOutputs);
+
+                // Return a new information structure containing the model and the errors achieved.
+                return new CrossValidationValues<HiddenMarkovClassifier>(classifier, trainingError, validationError);
             };
 
 
