@@ -82,7 +82,6 @@ namespace Accord.Tests.Statistics
         {
             Codification target = new Codification();
 
-
             DataTable input = new DataTable("Sample data");
 
             input.Columns.Add("Age", typeof(int));
@@ -304,5 +303,140 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(result.Rows.Count > 0);
         }
+
+		/// <summary>
+		/// Testing Codification.Translate(string, string)
+		/// This method tests, that the correct DataColumn is used 
+		/// </summary>
+	    [TestMethod]
+	    public void TranslateTest1()
+	    {
+
+		    string[] colNames = {"col1", "col2", "col3"};
+			DataTable table = new DataTable("TranslateTest1 Table");
+		    table.Columns.Add(colNames);
+
+			table.Rows.Add(1, 2, 3);
+			table.Rows.Add(1, 3, 5);
+			table.Rows.Add(1, 4, 7);
+			table.Rows.Add(2, 4, 6);
+			table.Rows.Add(2, 5, 8);
+			table.Rows.Add(2, 6, 10);
+			table.Rows.Add(3, 4, 5);
+			table.Rows.Add(3, 5, 7);
+			table.Rows.Add(3, 6, 9);
+
+			// ok, so values 1,2,3 are in column 1
+			// values 2,3,4,5,6 in column 2
+			// values 3,5,6,7,8,9,10 in column 3
+			var codeBook = new Codification(table);
+
+			Assert.AreEqual(0, codeBook.Translate("col1", "1"));
+			Assert.AreEqual(1, codeBook.Translate("col1", "2"));
+			Assert.AreEqual(2, codeBook.Translate("col1", "3"));
+
+			Assert.AreEqual(0, codeBook.Translate("col2", "2"));
+			Assert.AreEqual(1, codeBook.Translate("col2", "3"));
+			Assert.AreEqual(2, codeBook.Translate("col2", "4"));
+			Assert.AreEqual(3, codeBook.Translate("col2", "5"));
+			Assert.AreEqual(4, codeBook.Translate("col2", "6"));
+
+			Assert.AreEqual(0, codeBook.Translate("col3", "3"));
+			Assert.AreEqual(1, codeBook.Translate("col3", "5"));
+			Assert.AreEqual(2, codeBook.Translate("col3", "7"));
+			Assert.AreEqual(3, codeBook.Translate("col3", "6"));
+			Assert.AreEqual(4, codeBook.Translate("col3", "8"));
+			Assert.AreEqual(5, codeBook.Translate("col3", "10"));
+			Assert.AreEqual(6, codeBook.Translate("col3", "9"));
+	    }
+		/// <summary>
+		/// Testing Codification.Translate(string[], string[])
+		/// </summary>
+	    [TestMethod]
+	    public void TranslateTest2()
+	    {
+			string[] colNames = { "col1", "col2", "col3" };
+			DataTable table = new DataTable("TranslateTest1 Table");
+			table.Columns.Add(colNames);
+
+			table.Rows.Add(1, 2, 3);
+			table.Rows.Add(1, 3, 5);
+			table.Rows.Add(1, 4, 7);
+			table.Rows.Add(2, 4, 6);
+			table.Rows.Add(2, 5, 8);
+			table.Rows.Add(2, 6, 10);
+			table.Rows.Add(3, 4, 5);
+			table.Rows.Add(3, 5, 7);
+			table.Rows.Add(3, 6, 9);
+
+			// ok, so values 1,2,3 are in column 1
+			// values 2,3,4,5,6 in column 2
+			// values 3,5,6,7,8,9,10 in column 3
+			var codeBook = new Codification(table);
+			AssertEqualSequences(new int[]{0,0,0}, codeBook.Translate(colNames, new []{"1","2","3"}));
+			AssertEqualSequences(new int[]{0,1,1}, codeBook.Translate(colNames, new []{"1","3","5"}));
+			AssertEqualSequences(new int[]{0,2,2}, codeBook.Translate(colNames, new []{"1","4","7"}));
+			AssertEqualSequences(new int[]{1,2,3}, codeBook.Translate(colNames, new []{"2","4","6"}));
+			AssertEqualSequences(new int[]{1,3,4}, codeBook.Translate(colNames, new []{"2","5","8"}));
+			AssertEqualSequences(new int[]{1,4,5}, codeBook.Translate(colNames, new []{"2","6","10"}));
+			AssertEqualSequences(new int[]{2,2,1}, codeBook.Translate(colNames, new []{"3","4","5"}));
+			AssertEqualSequences(new int[]{2,3,2}, codeBook.Translate(colNames, new []{"3","5","7"}));
+			AssertEqualSequences(new int[]{2,4,6}, codeBook.Translate(colNames, new []{"3","6","9"}));
+	    }
+
+		/// <summary>
+		/// Testing Codification.Translate(params string[])
+		/// This test assumes string input is given in correct column order - is otherwise identical to TranslateTest2
+		/// </summary>
+		[TestMethod]
+		public void TranslateTest3()
+		{
+			string[] colNames = { "col1", "col2", "col3" };
+			DataTable table = new DataTable("TranslateTest1 Table");
+			table.Columns.Add(colNames);
+
+			table.Rows.Add(1, 2, 3);
+			table.Rows.Add(1, 3, 5);
+			table.Rows.Add(1, 4, 7);
+			table.Rows.Add(2, 4, 6);
+			table.Rows.Add(2, 5, 8);
+			table.Rows.Add(2, 6, 10);
+			table.Rows.Add(3, 4, 5);
+			table.Rows.Add(3, 5, 7);
+			table.Rows.Add(3, 6, 9);
+
+			// ok, so values 1,2,3 are in column 1
+			// values 2,3,4,5,6 in column 2
+			// values 3,5,6,7,8,9,10 in column 3
+			var codeBook = new Codification(table);
+			AssertEqualSequences(new int[] { 0, 0, 0 }, codeBook.Translate(new[] { "1", "2", "3" }));
+			AssertEqualSequences(new int[] { 0, 1, 1 }, codeBook.Translate(new[] { "1", "3", "5" }));
+			AssertEqualSequences(new int[] { 0, 2, 2 }, codeBook.Translate(new[] { "1", "4", "7" }));
+			AssertEqualSequences(new int[] { 1, 2, 3 }, codeBook.Translate(new[] { "2", "4", "6" }));
+			AssertEqualSequences(new int[] { 1, 3, 4 }, codeBook.Translate(new[] { "2", "5", "8" }));
+			AssertEqualSequences(new int[] { 1, 4, 5 }, codeBook.Translate(new[] { "2", "6", "10" }));
+			AssertEqualSequences(new int[] { 2, 2, 1 }, codeBook.Translate(new[] { "3", "4", "5" }));
+			AssertEqualSequences(new int[] { 2, 3, 2 }, codeBook.Translate(new[] { "3", "5", "7" }));
+			AssertEqualSequences(new int[] { 2, 4, 6 }, codeBook.Translate(new[] { "3", "6", "9" }));
+		}
+
+
+
+
+		/// <summary>
+		/// Requirment that Assert.AreEqual(T,T) makes sense
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="expected"></param>
+		/// <param name="actual"></param>
+	    private void AssertEqualSequences<T>(T[] expected, T[] actual)
+	    {
+		    Assert.AreEqual(expected.Length, actual.Length);
+			for(int i = 0; i < expected.Length; i++)
+				Assert.AreEqual(expected[i], actual[i]);
+			
+			Assert.IsTrue(true);
+	    }
+
     }
 }
