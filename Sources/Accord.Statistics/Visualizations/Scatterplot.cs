@@ -25,7 +25,6 @@ namespace Accord.Statistics.Visualizations
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using Accord.Math;
     using AForge;
 
@@ -119,6 +118,7 @@ namespace Accord.Statistics.Visualizations
         ///   Gets a collection containing information about
         ///   each of the classes presented in the scatter plot.
         /// </summary>
+        /// 
         public ReadOnlyCollection<ScatterplotClassValueCollection> Classes { get; private set; }
 
         /// <summary>
@@ -204,21 +204,63 @@ namespace Accord.Statistics.Visualizations
         /// </summary>
         /// 
         /// <param name="x">Array of X values.</param>
-        /// <param name="y">Array of corresponding Y values.</param>
-        /// <param name="labels">Array of integer labels defining a class for each (x,y) pair.</param>
         /// 
-        public void Compute(double[] x, double[] y, int[] labels = null)
+        public void Compute(double[] x)
         {
             if (x == null)
                 throw new ArgumentNullException("x");
+
+            double[] y = Matrix.Interval(0.0, x.Length - 1, 1.0);
+
+            initialize(x, y, null);
+        }
+
+        /// <summary>
+        ///   Computes the scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="x">Array of X values.</param>
+        /// <param name="y">Array of corresponding Y values.</param>
+        /// 
+        public void Compute(double[] x, double[] y)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
             if (y == null)
                 throw new ArgumentNullException("y");
 
             if (x.Length != y.Length)
                 throw new DimensionMismatchException("y", "The x and y arrays should have the same length");
 
-            if (labels != null && x.Length != labels.Length)
-                throw new DimensionMismatchException("labels", "If provided, the labels array should have the same length as x and y.");
+            initialize(x, y, null);
+        }
+
+        /// <summary>
+        ///   Computes the scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="x">Array of X values.</param>
+        /// <param name="y">Array of corresponding Y values.</param>
+        /// <param name="labels">Array of integer labels defining a class for each (x,y) pair.</param>
+        /// 
+        public void Compute(double[] x, double[] y, int[] labels)
+        {
+            if (x == null)
+                throw new ArgumentNullException("x");
+
+            if (y == null)
+                throw new ArgumentNullException("y");
+
+            if (labels == null)
+                throw new ArgumentNullException("labels");
+
+            if (x.Length != y.Length)
+                throw new DimensionMismatchException("y", "The x and y arrays should have the same length");
+
+            if (x.Length != labels.Length)
+                throw new DimensionMismatchException("labels",
+                    "The labels array should have the same length as the data array.");
 
             initialize(x, y, labels);
         }
@@ -228,27 +270,17 @@ namespace Accord.Statistics.Visualizations
         /// </summary>
         /// 
         /// <param name="data">Array of { x,y } values.</param>
-        /// <param name="labels">Array of integer labels defining a class for each (x,y) pair.</param>
         /// 
-        public void Compute(double[][] data, int[] labels = null)
+        public void Compute(double[][] data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
-
-            if (labels != null && data.Length != labels.Length)
-                throw new DimensionMismatchException("labels", "If provided, the labels array should have the same length as the data array.");
-
-
-            double[] x = new double[data.Length];
-            double[] y = new double[data.Length];
 
             for (int i = 0; i < data.Length; i++)
-            {
-                x[i] = data[i][0];
-                y[i] = data[i][1];
-            }
+                if (data[i].Length != 2)
+                    throw new DimensionMismatchException("data", "The matrix should have two columns.");
 
-            initialize(x, y, labels);
+            compute(data, null);
         }
 
         /// <summary>
@@ -258,14 +290,69 @@ namespace Accord.Statistics.Visualizations
         /// <param name="data">Array of { x,y } values.</param>
         /// <param name="labels">Array of integer labels defining a class for each (x,y) pair.</param>
         /// 
-        public void Compute(double[,] data, int[] labels = null)
+        public void Compute(double[][] data, int[] labels)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
 
-            if (labels != null && data.Length != labels.Length)
-                throw new DimensionMismatchException("labels", "If provided, the labels array should have the same length as the data array.");
+            if (labels == null)
+                throw new ArgumentNullException("labels");
 
+            if (data.Length != labels.Length)
+                throw new DimensionMismatchException("labels",
+                    "The labels array should have the same length as the data array.");
+
+            for (int i = 0; i < data.Length; i++)
+                if (data[i].Length != 2)
+                    throw new DimensionMismatchException("data", "The matrix should have two columns.");
+
+            compute(data, labels);
+        }
+
+        /// <summary>
+        ///   Computes the scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="data">Array of { x,y } values.</param>
+        /// 
+        public void Compute(double[,] data)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            if (data.GetLength(1) != 2)
+                throw new DimensionMismatchException("data", "The matrix should have two columns.");
+
+            compute(data, null);
+        }
+
+        /// <summary>
+        ///   Computes the scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="data">Array of { x,y } values.</param>
+        /// <param name="labels">Array of integer labels defining a class for each (x,y) pair.</param>
+        /// 
+        public void Compute(double[,] data, int[] labels)
+        {
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            if (labels == null)
+                throw new ArgumentNullException("labels");
+
+            if (data.GetLength(1) != 2)
+                throw new DimensionMismatchException("data", "The matrix should have two columns.");
+
+            if (data.GetLength(0) != labels.Length)
+                throw new DimensionMismatchException("labels",
+                    "The labels array should have the same length as the data array.");
+
+            compute(data, labels);
+        }
+
+        private void compute(double[,] data, int[] labels)
+        {
             int rows = data.GetLength(0);
             double[] x = new double[rows];
             double[] y = new double[rows];
@@ -279,98 +366,18 @@ namespace Accord.Statistics.Visualizations
             initialize(x, y, labels);
         }
 
-
-    }
-
-    /// <summary>
-    ///   Scatter Plot class.
-    /// </summary>
-    /// 
-    [Serializable]
-    public class ScatterplotClassValueCollection : IEnumerable<DoublePoint>
-    {
-        private Scatterplot parent;
-
-        private int index;
-
-        /// <summary>
-        ///   Gets the integer label associated with this class.
-        /// </summary>
-        /// 
-        public int Label { get { return parent.LabelValues[index]; } }
-
-        /// <summary>
-        ///   Gets the indices of all points of this class.
-        /// </summary>
-        /// 
-        public int[] Indices
+        private void compute(double[][] data, int[] labels)
         {
-            get { return parent.LabelAxis.Find(x => x == Label); }
-        }
+            double[] x = new double[data.Length];
+            double[] y = new double[data.Length];
 
-        /// <summary>
-        ///   Gets all X values of this class.
-        /// </summary>
-        /// 
-        public double[] XAxis
-        {
-            get { return parent.XAxis.Submatrix(Indices); }
-        }
-
-        /// <summary>
-        ///   Gets all Y values of this class.
-        /// </summary>
-        /// 
-        public double[] YAxis
-        {
-            get { return parent.YAxis.Submatrix(Indices); }
-        }
-
-        /// <summary>
-        ///   Gets or sets the class' text label.
-        /// </summary>
-        /// 
-        public string Text
-        {
-            get { return parent.LabelNames[index]; }
-            set { parent.LabelNames[index] = value; }
-        }
-
-        internal ScatterplotClassValueCollection(Scatterplot parent, int index)
-        {
-            this.parent = parent;
-            this.index = index;
-        }
-
-        /// <summary>
-        ///   Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
-        /// </returns>
-        /// 
-        public IEnumerator<DoublePoint> GetEnumerator()
-        {
-            for (int i = 0; i < parent.LabelAxis.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                if (parent.LabelAxis[i] == Label)
-                    yield return new DoublePoint(parent.XAxis[i], parent.YAxis[i]);
+                x[i] = data[i][0];
+                y[i] = data[i][1];
             }
 
-            yield break;
+            initialize(x, y, labels);
         }
-
-        /// <summary>
-        ///   Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// <returns>
-        ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
-        /// </returns>
-        /// 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
     }
 }

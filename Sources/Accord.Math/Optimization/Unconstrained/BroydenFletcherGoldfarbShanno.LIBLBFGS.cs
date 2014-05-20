@@ -1302,7 +1302,7 @@ namespace Accord.Math.Optimization
          *  @param  fv      The value of f(v).
          *  @param  du      The value of f'(v).
          */
-        public static void CUBIC_MINIMIZER(ref double cm, ref double u, ref double fu, ref double du, ref double v, ref double fv, ref double dv, ref double a, ref double d, ref double gamma, ref double theta, ref double p, ref double q,
+        private static void CUBIC_MINIMIZER(ref double cm, ref double u, ref double fu, ref double du, ref double v, ref double fv, ref double dv, ref double a, ref double d, ref double gamma, ref double theta, ref double p, ref double q,
             ref double r, ref double s)
         {
             d = (v) - (u);
@@ -1333,7 +1333,7 @@ namespace Accord.Math.Optimization
          *  @param  xmin    The maximum value.
          *  @param  xmin    The minimum value.
          */
-        public static void CUBIC_MINIMIZER2(ref double cm, ref double u, ref double fu, ref double du, ref double v,
+        private static void CUBIC_MINIMIZER2(ref double cm, ref double u, ref double fu, ref double du, ref double v,
             ref double fv, ref double dv, ref double xmin, ref double xmax, ref double a, ref double d, ref double gamma, ref double theta, ref double p, ref double q,
             ref double r, ref double s)
         {

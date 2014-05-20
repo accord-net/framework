@@ -17,7 +17,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.HarrisCornersDetector" BaseTypeListCollapsed="true">
-    <Position X="57.75" Y="10.75" Width="2.75" />
+    <Position X="47.5" Y="10.75" Width="2.75" />
     <Members>
       <Method Name="convolve" Hidden="true" />
       <Method Name="createGaussian" Hidden="true" />
@@ -67,6 +67,7 @@
   <Class Name="Accord.Imaging.Tools">
     <Position X="0.75" Y="0.75" Width="2.5" />
     <Members>
+      <Method Name="createFundamentalMatrix" Hidden="true" />
       <Field Name="SQRT2" Hidden="true" />
     </Members>
     <Compartments>
@@ -111,7 +112,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.FastCornersDetector">
-    <Position X="61" Y="10.75" Width="2.75" />
+    <Position X="50.75" Y="10.75" Width="2.75" />
     <Members>
       <Method Name="detect" Hidden="true" />
       <Method Name="makeOffsets" Hidden="true" />
@@ -131,7 +132,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.SpeededUpRobustFeaturesDetector" BaseTypeListCollapsed="true">
-    <Position X="55.25" Y="15.5" Width="3.5" />
+    <Position X="45" Y="15.5" Width="3.5" />
     <Members>
       <Field Name="computeOrientation" Hidden="true" />
       <Field Name="descriptor" Hidden="true" />
@@ -154,7 +155,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.SpeededUpRobustFeaturePoint">
-    <Position X="59.25" Y="15.75" Width="3.25" />
+    <Position X="49" Y="15.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAWBAAAAAAAIAAAAAAADAAAAAAAAACAEAYAA=</HashCode>
       <FileName>Interest Points\SURF\SpeededUpRobustFeaturePoint.cs</FileName>
@@ -162,7 +163,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.Moments.CentralMoments">
-    <Position X="12.25" Y="5.75" Width="2.75" />
+    <Position X="12.75" Y="3.25" Width="2.75" />
     <Members>
       <Field Name="DefaultOrder" Hidden="true" />
       <Field Name="invM00" Hidden="true" />
@@ -174,7 +175,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.Moments.RawMoments">
-    <Position X="15.5" Y="5.75" Width="2.5" />
+    <Position X="16" Y="3.25" Width="2.5" />
     <Members>
       <Field Name="DefaultOrder" Hidden="true" />
     </Members>
@@ -198,7 +199,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.SpeededUpRobustFeaturesDescriptor" BaseTypeListCollapsed="true">
-    <Position X="62.75" Y="16.25" Width="2.75" />
+    <Position X="52.5" Y="16.25" Width="2.75" />
     <Members>
       <Field Name="ang" Hidden="true" />
       <Field Name="extended" Hidden="true" />
@@ -241,7 +242,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.CornerFeaturePoint" BaseTypeListCollapsed="true">
-    <Position X="45.75" Y="7.5" Width="1.75" />
+    <Position X="37.5" Y="8.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
       <FileName>Interest Points\CornerFeaturePoint.cs</FileName>
@@ -249,7 +250,7 @@
     <Lollipop Position="0.1" />
   </Class>
   <Class Name="Accord.Imaging.CornerFeaturesDetector" BaseTypeListCollapsed="true">
-    <Position X="46.5" Y="12.5" Width="2.25" />
+    <Position X="36.25" Y="12.5" Width="2.25" />
     <Members>
       <Method Name="convert" Hidden="true" />
     </Members>
@@ -260,7 +261,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.HistogramsOfOrientedGradients">
-    <Position X="43.75" Y="12.5" Width="2.5" />
+    <Position X="33.5" Y="12.5" Width="2.5" />
     <Members>
       <Field Name="binWidth" Hidden="true" />
       <Field Name="blockSize" Hidden="true" />
@@ -283,7 +284,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.Moments.HuMoments">
-    <Position X="18.5" Y="5.75" Width="2.25" />
+    <Position X="19" Y="3.25" Width="2.25" />
     <Members>
       <Field Name="defaultOrder" Hidden="true" />
     </Members>
@@ -294,7 +295,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.Moments.MomentsBase">
-    <Position X="15.5" Y="3" Width="2.5" />
+    <Position X="16" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AEEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Moments\MomentsBase.cs</FileName>
@@ -323,7 +324,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.GrayLevelCooccurrenceMatrix">
-    <Position X="27" Y="12.5" Width="3.25" />
+    <Position X="18.75" Y="12.5" Width="3.25" />
     <Members>
       <Field Name="autoGray" Hidden="true" />
       <Field Name="degree" Hidden="true" />
@@ -338,7 +339,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.GrayLevelRunLengthMatrix">
-    <Position X="23.5" Y="11.75" Width="3" />
+    <Position X="15.25" Y="11.75" Width="3" />
     <Members>
       <Field Name="autoGray" Hidden="true" />
       <Field Name="degree" Hidden="true" />
@@ -351,7 +352,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.GrayLevelDifferenceMethod">
-    <Position X="26.75" Y="10.25" Width="3" />
+    <Position X="18.5" Y="10.25" Width="3" />
     <Members>
       <Field Name="autoGray" Hidden="true" />
       <Field Name="degree" Hidden="true" />
@@ -363,7 +364,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.FastRetinaKeypoint" BaseTypeListCollapsed="true">
-    <Position X="44.25" Y="17.5" Width="2.5" />
+    <Position X="34" Y="17.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAAWAAAAAAAEIAAIAAAADAAAAAAAAACAAAYAA=</HashCode>
       <FileName>Interest Points\FREAK\FastRetinaKeypoint.cs</FileName>
@@ -371,7 +372,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.FastRetinaKeypointDescriptor">
-    <Position X="47" Y="18" Width="2.25" />
+    <Position X="36.75" Y="18" Width="2.25" />
     <Members>
       <Field Name="pattern" Hidden="true" />
     </Members>
@@ -381,7 +382,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.FastRetinaKeypointDetector" BaseTypeListCollapsed="true">
-    <Position X="40.75" Y="17.5" Width="3" />
+    <Position X="30.5" Y="17.5" Width="3" />
     <Members>
       <Field Name="descriptor" Hidden="true" />
       <Field Name="featureType" Hidden="true" />
@@ -399,7 +400,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.Haralick" BaseTypeListCollapsed="true">
-    <Position X="23.5" Y="17.25" Width="5" />
+    <Position X="15.25" Y="17.25" Width="5" />
     <Members>
       <Field Name="autoGray" Hidden="true" />
       <Field Name="cellSize" Hidden="true" />
@@ -422,13 +423,13 @@
       <Property Name="Matrix" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Descriptors" />
       <Property Name="Degrees" />
+      <Property Name="Descriptors" />
     </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.HaralickDescriptor">
-    <Position X="33.75" Y="11.25" Width="2.25" />
+    <Position X="25.5" Y="11.25" Width="2.25" />
     <Members>
       <Field Name="angular" Hidden="true" />
       <Field Name="clusterProminence" Hidden="true" />
@@ -470,14 +471,14 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.HaralickDescriptorDictionary">
-    <Position X="29.75" Y="17.25" Width="3" />
+    <Position X="21.5" Y="17.25" Width="3" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>Interest Points\Haralick\HaralickDescriptor.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.LocalBinaryPattern" BaseTypeListCollapsed="true">
-    <Position X="41" Y="12.5" Width="2.25" />
+    <Position X="30.75" Y="12.5" Width="2.25" />
     <Members>
       <Field Name="blockSize" Hidden="true" />
       <Field Name="cellSize" Hidden="true" />
@@ -495,7 +496,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.ResponseLayerCollection" BaseTypeListCollapsed="true">
-    <Position X="52.5" Y="15" Width="2.25" />
+    <Position X="42.25" Y="15" Width="2.25" />
     <Members>
       <Field Name="height" Hidden="true" />
       <Method Name="IEnumerable.GetEnumerator" Hidden="true" />
@@ -514,7 +515,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Imaging.ResponseLayer">
-    <Position X="52.75" Y="17" Width="1.5" />
+    <Position X="42.5" Y="17" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEQAAAAABABAgAAAAAAAAEAAAAAAAAAAIAAAAAEAAAA=</HashCode>
       <FileName>Interest Points\SURF\ResponseLayer.cs</FileName>
@@ -538,7 +539,7 @@
     </TypeIdentifier>
   </Struct>
   <Struct Name="Accord.Imaging.FeatureDescriptor" BaseTypeListCollapsed="true">
-    <Position X="41" Y="4.5" Width="3.5" />
+    <Position X="32.75" Y="5.25" Width="3.5" />
     <Members>
       <Field Name="descriptor" Hidden="true" />
     </Members>
@@ -549,7 +550,7 @@
     <Lollipop Position="0.2" />
   </Struct>
   <Struct Name="Accord.Imaging.FeatureDescriptor&lt;T&gt;" BaseTypeListCollapsed="true">
-    <Position X="38" Y="4.5" Width="2.75" />
+    <Position X="29.75" Y="5.25" Width="2.75" />
     <Members>
       <Field Name="descriptor" Hidden="true" />
     </Members>
@@ -567,77 +568,77 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Imaging.Moments.IMoments">
-    <Position X="13.25" Y="3.5" Width="1.5" />
+    <Position X="13.75" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Moments\IMoments.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Imaging.IFeatureDetector&lt;TPoint&gt;">
-    <Position X="48.75" Y="2.25" Width="2.25" />
+    <Position X="40.5" Y="3" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interest Points\Base\IFeatureDetector.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Imaging.IFeaturePoint">
-    <Position X="45.75" Y="5.75" Width="1.5" />
+    <Position X="37.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interest Points\Base\IFeaturePoint.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Imaging.IFeatureDescriptor&lt;T&gt;">
-    <Position X="42" Y="2" Width="2" />
+    <Position X="33.75" Y="2.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interest Points\Base\IFeatureDescriptor.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Imaging.IFeatureDetector&lt;TPoint, TFeature&gt;">
-    <Position X="48.5" Y="4.25" Width="2.75" />
+    <Position X="40.25" Y="5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAA=</HashCode>
       <FileName>Interest Points\Base\IFeatureDetector.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Accord.Imaging.IFeaturePoint&lt;T&gt;">
-    <Position X="45.75" Y="3.75" Width="1.5" />
+    <Position X="37.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYAA=</HashCode>
       <FileName>Interest Points\Base\IFeaturePoint.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="Accord.Imaging.HarrisCornerMeasure">
-    <Position X="55" Y="11.25" Width="1.75" />
+    <Position X="44.75" Y="11.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA=</HashCode>
       <FileName>Interest Points\HarrisCornersDetector.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Accord.Imaging.SpeededUpRobustFeatureDescriptorType">
-    <Position X="55.25" Y="18.75" Width="3.5" />
+    <Position X="45" Y="18.75" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAIAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Interest Points\SURF\SpeededUpRobustFeaturesDetector.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Accord.Imaging.CooccurrenceDegree">
-    <Position X="23.75" Y="20.25" Width="1.75" />
+    <Position X="15.5" Y="20.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AACIAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAABA=</HashCode>
       <FileName>GrayLevelCooccurrenceMatrix.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Accord.Imaging.FastRetinaKeypointDescriptorType">
-    <Position X="40.75" Y="20.25" Width="3" />
+    <Position X="30.5" Y="20.25" Width="3" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAAIAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Interest Points\FREAK\FastRetinaKeypointDetector.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="Accord.Imaging.HaralickMode">
-    <Position X="26.25" Y="20.25" Width="1.75" />
+    <Position X="18" Y="20.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAAAAAAAAAAEAAAAAAAAEAAAAAABAAAAAAA=</HashCode>
       <FileName>Interest Points\Haralick\Haralick.cs</FileName>

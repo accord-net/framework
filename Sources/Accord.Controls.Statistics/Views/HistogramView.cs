@@ -50,10 +50,10 @@ namespace Accord.Controls
 
         private string formatString = "N2";
 
+        private double? binWidth;
+        private int? numberOfBins;
 
-        //---------------------------------------------
 
-        #region Constructor
         /// <summary>
         ///   Constructs a new instance of the HistogramView.
         /// </summary>
@@ -89,11 +89,8 @@ namespace Accord.Controls
             zedGraphControl.GraphPane.BarSettings.MinClusterGap = 0;
             zedGraphControl.GraphPane.CurveList.Add(graphBars);
         }
-        #endregion
 
-        //---------------------------------------------
 
-        #region Properties
         /// <summary>
         ///   Gets a reference to the underlying ZedGraph
         ///   control used to draw the histogram.
@@ -115,16 +112,55 @@ namespace Accord.Controls
         }
 
         /// <summary>
+        ///   Gets or sets a fixed bin width to be used by
+        ///   the histogram view. Setting this value to null
+        ///   will set the histogram to the default position.
+        /// </summary>
+        /// 
+        public double? BinWidth
+        {
+            get { return binWidth; }
+            set
+            {
+                binWidth = value;
+
+                if (!this.DesignMode)
+                    onDataBind();
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets a fixed number of bins to be used by
+        ///   the histogram view. Setting this value to null
+        ///   will set the histogram to the default position.
+        /// </summary>
+        /// 
+        public int? NumberOfBins
+        {
+            get { return numberOfBins; }
+            set
+            {
+                numberOfBins = value;
+
+                if (!this.DesignMode)
+                    onDataBind();
+            }
+        }
+
+        /// <summary>
         ///   Gets the underlying histogram being shown by this control.
         /// </summary>
+        /// 
         public Histogram Histogram
         {
             get { return histogram; }
+            set { DataSource = value; }
         }
 
         /// <summary>
         ///   Gets or sets a data source for this control.
         /// </summary>
+        /// 
         [DefaultValue(null)]
         public object DataSource
         {
@@ -142,6 +178,7 @@ namespace Accord.Controls
         ///   Gets or sets the member of the data source 
         ///   to be shown, if applicable.
         /// </summary>
+        /// 
         [DefaultValue(null)]
         public string DataMember
         {
@@ -149,6 +186,7 @@ namespace Accord.Controls
             set
             {
                 dataMember = value;
+
                 if (!this.DesignMode)
                     onDataBind();
             }
@@ -158,6 +196,7 @@ namespace Accord.Controls
         ///   Gets or sets the member of the data source
         ///   to be displayed, if applicable.
         /// </summary>
+        /// 
         [DefaultValue(null)]
         public string DisplayMember
         {
@@ -175,6 +214,7 @@ namespace Accord.Controls
         ///   Gets or sets the format used to display
         ///   the histogram values on screen.
         /// </summary>
+        /// 
         [DefaultValue("N2")]
         public string Format
         {
@@ -186,11 +226,8 @@ namespace Accord.Controls
                     onDataBind();
             }
         }
-        #endregion
 
-        //---------------------------------------------
 
-        #region Public Members
         /// <summary>
         ///   Forces a update of the Histogram bins.
         /// </summary>
@@ -218,6 +255,7 @@ namespace Accord.Controls
         /// <summary>
         ///   Forces the update of the trackbar control.
         /// </summary>
+        /// 
         private void UpdateTrackbar()
         {
             if (samples.Length == 0)
@@ -231,59 +269,79 @@ namespace Accord.Controls
                 trackBar.Maximum = samples.Length;
             }
         }
-        #endregion
 
-        //---------------------------------------------
+        /// <summary>
+        ///   Resets custom settings for a fixed number of bins or bin width.
+        /// </summary>
+        /// 
+        public void Reset()
+        {
+            binWidth = null;
+            numberOfBins = null;
+            onDataBind();
+        }
 
-        #region Private Members
         private void onDataBind()
         {
             if (dataSource == null)
                 return;
 
-            if (histogram == null)
-                histogram = new Histogram();
+            Histogram source = dataSource as Histogram;
 
-            if (dataSource is DataSet)
+            if (source == null)
             {
-                // throw new NotSupportedException();
-            }
-            else if (dataSource is DataTable)
-            {
-                DataTable table = dataSource as DataTable;
+                if (histogram == null)
+                    histogram = new Histogram();
 
-                if (dataMember != null && dataMember.Length > 0)
+                if (dataSource is DataSet)
                 {
-                    if (table.Columns.Contains(dataMember))
+                    // throw new NotSupportedException();
+                }
+                else if (dataSource is DataTable)
+                {
+                    DataTable table = dataSource as DataTable;
+
+                    if (dataMember != null && dataMember.Length > 0)
                     {
-                        DataColumn column = table.Columns[dataMember];
-                        samples = Matrix.ToArray(column);
+                        if (table.Columns.Contains(dataMember))
+                        {
+                            DataColumn column = table.Columns[dataMember];
+                            samples = Matrix.ToArray(column);
+                        }
+                        else
+                        {
+                            samples = new double[0];
+                        }
                     }
                     else
                     {
-                        samples = new double[0];
+                        return;
                     }
+                }
+                else if (dataSource is double[])
+                {
+                    samples = dataSource as double[];
+                }
+                else if (dataSource is IListSource)
+                {
+                    // throw new NotSupportedException();
                 }
                 else
                 {
-                    return;
+                    return; // invalid data source
                 }
-            }
-            else if (dataSource is double[])
-            {
-                samples = dataSource as double[];
-            }
-            else if (dataSource is IListSource)
-            {
-                // throw new NotSupportedException();
+
+                if (binWidth != null)
+                    this.histogram.Compute(samples, binWidth.Value);
+                else if (numberOfBins != null)
+                    this.histogram.Compute(samples, numberOfBins.Value);
+                else
+                    this.histogram.Compute(samples);
             }
             else
             {
-                return; // invalid data source
+                this.histogram = source;
             }
-
-            
-            this.histogram.Compute(samples);
 
             this.UpdateTrackbar();
             this.UpdateGraph();
@@ -291,21 +349,17 @@ namespace Accord.Controls
             if (histogram.Bins.Count > 0 &&
                 histogram.Bins.Count < trackBar.Maximum)
                 trackBar.Value = histogram.Bins.Count;
-
         }
-        #endregion
 
-        //---------------------------------------------
-
-        #region Event Handling
         private void trackBar_ValueChanged(object sender, EventArgs e)
         {
+            if (histogram == null)
+                return;
+
             histogram.Compute(samples, (int)trackBar.Value);
-        
+
             this.UpdateGraph();
         }
-        #endregion
-
 
     }
 }
