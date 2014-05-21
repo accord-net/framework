@@ -6040,6 +6040,70 @@
             Size in bytes of the buffer.
             </summary>
         </member>
+        <member name="M:SharpDX.DataPointer.ToDataStream">
+            <summary>
+            Converts this DataPointer to a <see cref="T:SharpDX.DataStream"/>.
+            </summary>
+            <returns>An instance of a <see cref="T:SharpDX.DataStream"/>.</returns>
+        </member>
+        <member name="M:SharpDX.DataPointer.ToDataBuffer">
+            <summary>
+            Converts this DataPointer to a <see cref="T:SharpDX.DataBuffer"/>.
+            </summary>
+            <returns>An instance of a <see cref="T:SharpDX.DataBuffer"/>.</returns>
+        </member>
+        <member name="M:SharpDX.DataPointer.ToArray">
+            <summary>
+            Converts this instance to a read only byte buffer.
+            </summary>
+            <returns>A readonly byte buffer.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            DataPointer is Zero
+            or
+            Size cannot be &lt; 0
+            </exception>
+        </member>
+        <member name="M:SharpDX.DataPointer.ToArray``1">
+            <summary>
+            Converts this instance to a read only typed buffer.
+            </summary>
+            <typeparam name="T">Type of a buffer element</typeparam>
+            <returns>A readonly typed buffer.</returns>
+            <exception cref="T:System.InvalidOperationException">DataPointer is Zero</exception>
+        </member>
+        <member name="M:SharpDX.DataPointer.CopyTo``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Reads the content of the unmanaged memory location of this instance to the specified buffer.
+            </summary>
+            <typeparam name="T">Type of a buffer element</typeparam>
+            <param name="buffer">The buffer.</param>
+            <param name="offset">The offset in the array to write to.</param>
+            <param name="count">The number of T element to read from the memory location.</param>
+            <exception cref="T:System.ArgumentNullException">buffer</exception>
+            <exception cref="T:System.InvalidOperationException">DataPointer is Zero</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">buffer;Total buffer size cannot be larger than size of this data pointer</exception>
+        </member>
+        <member name="M:SharpDX.DataPointer.CopyFrom``1(``0[])">
+            <summary>
+            Writes the content of the specified buffer to the unmanaged memory location of this instance.
+            </summary>
+            <typeparam name="T">Type of a buffer element</typeparam>
+            <param name="buffer">The buffer.</param>
+            <exception cref="T:System.ArgumentNullException">buffer</exception>
+            <exception cref="T:System.InvalidOperationException">DataPointer is Zero</exception>
+        </member>
+        <member name="M:SharpDX.DataPointer.CopyFrom``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Writes the content of the specified buffer to the unmanaged memory location of this instance.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="buffer">The buffer to read from.</param>
+            <param name="offset">The offset in the array to read from.</param>
+            <param name="count">The number of T element to write to the memory location.</param>
+            <exception cref="T:System.ArgumentNullException">buffer</exception>
+            <exception cref="T:System.InvalidOperationException">DataPointer is Zero</exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">buffer;Total buffer size cannot be larger than size of this data pointer</exception>
+        </member>
         <member name="M:SharpDX.DataPointer.op_Equality(SharpDX.DataPointer,SharpDX.DataPointer)">
             <summary>
             Implements the ==.
@@ -11343,6 +11407,12 @@
             <param name="canWrite">
               <c>true</c> if writing to the buffer should be allowed; otherwise, <c>false</c>.</param>
         </member>
+        <member name="M:SharpDX.DataStream.#ctor(SharpDX.DataPointer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.DataStream"/> class.
+            </summary>
+            <param name="dataPointer">The data pointer.</param>
+        </member>
         <member name="M:SharpDX.DataStream.#ctor(System.IntPtr,System.Int64,System.Boolean,System.Boolean)">
             <summary>
               Initializes a new instance of the <see cref="T:SharpDX.DataStream"/> class, using an unmanaged buffer as a backing store.
@@ -11907,6 +11977,12 @@
             <param name="sizeInBytes">The size of the buffer to be allocated, in bytes.</param>
             <exception cref="T:System.ArgumentOutOfRangeException">
               <paramref name="sizeInBytes"/> is less than 1.</exception>
+        </member>
+        <member name="M:SharpDX.DataBuffer.#ctor(SharpDX.DataPointer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:SharpDX.DataBuffer"/> class.
+            </summary>
+            <param name="dataPointer">The data pointer.</param>
         </member>
         <member name="M:SharpDX.DataBuffer.#ctor(System.IntPtr,System.Int32)">
             <summary>
@@ -12502,7 +12578,7 @@
         </member>
         <member name="F:SharpDX.Direct3D.DriverType.Reference">
             <summary>	
-            <dd> <p>A reference driver, which is a software implementation that supports every Direct3D feature. A reference driver is designed for accuracy rather than speed and as a result is slow but accurate. The rasterizer portion of the driver does make use of special CPU instructions whenever it can, but it is not intended for retail applications; use it only for feature testing, demonstration of functionality, debugging, or verifying bugs in other drivers. This driver is installed by the DirectX SDK. This driver may be referred to as a REF driver, a reference driver or a reference rasterizer.</p> </dd>	
+            <dd> <p>A reference driver, which is a software implementation that supports every Direct3D feature. A reference driver is designed for accuracy rather than speed and as a result is slow but accurate. The rasterizer portion of the driver does make use of special CPU instructions whenever it can, but it is not intended for retail applications; use it only for feature testing, demonstration of functionality, debugging, or verifying bugs in other drivers. The reference device for this driver is installed by the Windows SDK 8.0 or later and is intended only as a debug aid for development purposes. This driver may be referred to as a REF driver, a reference driver, or a reference rasterizer.</p> <p><strong>Note</strong>??When you use the REF driver in Windows Store apps,  the REF driver renders correctly but doesn't display any output on the screen. To verify bugs in hardware drivers for Windows Store apps, use <strong><see cref="F:SharpDX.Direct3D.DriverType.Warp"/></strong> for the WARP driver instead.</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D_DRIVER_TYPE_REFERENCE']/*"/>	
             <msdn-id>ff476328</msdn-id>	
@@ -12529,7 +12605,7 @@
         </member>
         <member name="F:SharpDX.Direct3D.DriverType.Warp">
             <summary>	
-            <dd> <p>A WARP driver, which is a high-performance software rasterizer. The rasterizer supports <strong>feature levels</strong> 9_1 through level 10.1 with a high performance software implementation. For information about limitations creating a WARP device on certain feature levels, see Limitations Creating WARP and Reference Devices. For more information about using a WARP driver, see Windows Advanced Rasterization Platform (WARP) In-Depth Guide.</p> </dd>	
+            <dd> <p>A WARP driver, which is a high-performance software rasterizer. The rasterizer supports <strong>feature levels</strong> 9_1 through level 10_1 with a high performance software implementation. For information about limitations creating a WARP device on certain feature levels, see Limitations Creating WARP and Reference Devices. For more information about using a WARP driver, see Windows Advanced Rasterization Platform (WARP) In-Depth Guide.</p> <p><strong>Note</strong>??The WARP driver that Windows?8 includes supports feature levels 9_1 through level 11_1.</p> <p><strong>Note</strong>??The WARP driver that Windows?8.1 includes fully supports feature level 11_1, including tiled, <strong>IDXGIDevice3::Trim</strong>, shared BCn surfaces, minblend, and map default. </p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D_DRIVER_TYPE_WARP']/*"/>	
             <msdn-id>ff476328</msdn-id>	
@@ -13105,7 +13181,7 @@
         </member>
         <member name="F:SharpDX.Direct3D.ShaderResourceViewDimension.ExtendedBuffer">
             <summary>	
-            <dd> <p>The resource is an extended buffer.</p> </dd>	
+            <dd> <p>The resource is a raw buffer. For more info about raw viewing of buffers, see Raw Views of Buffers.</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D_SRV_DIMENSION_BUFFEREX']/*"/>	
             <msdn-id>ff728736</msdn-id>	
@@ -13134,9 +13210,9 @@
             </summary>	
             <param name="size"><dd>  <p>Number of bytes in the blob.</p> </dd></param>	
             <param name="blobOut"><dd>  <p>The address of a reference to the <strong>ID3DBlob</strong> interface that is used to retrieve the buffer.</p> </dd></param>	
-            <returns><p>Returns one of the following Direct3D 10 Return Codes.</p></returns>	
+            <returns><p>Returns one of the Direct3D 11 return codes.</p></returns>	
             <remarks>	
-            <p>The latest D3dcompiler_nn.dll contains the <strong><see cref="M:SharpDX.Direct3D.D3DCommon.CreateBlob(SharpDX.PointerSize,SharpDX.Direct3D.Blob)"/></strong> compiler function. Therefore, you are no longer required to create and use an arbitrary length data buffer by using the  <strong>D3D10CreateBlob</strong> function that is contained in D3d10.dll.</p>	
+            <p>The latest D3dcompiler_nn.dll contains the <strong><see cref="M:SharpDX.Direct3D.D3DCommon.CreateBlob(SharpDX.PointerSize,SharpDX.Direct3D.Blob)"/></strong> compiler function. Therefore, you are no longer required to create and use an arbitrary length data buffer by using the  <strong>D3D10CreateBlob</strong> function that is contained in D3d10.dll.</p><p><strong>Windows Phone 8.1:</strong> This API is supported.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3DCreateBlob']/*"/>	
             <msdn-id>ff728672</msdn-id>	
@@ -13287,8 +13363,8 @@
             <p>Defines a shader macro.</p>	
             </summary>	
             <remarks>	
-            <p>You can use shader macros in your shaders. The <strong><see cref="T:SharpDX.Direct3D.ShaderMacro"/></strong> structure defines a single shader macro as shown in the following example:</p><pre><code> <see cref="T:SharpDX.Direct3D.ShaderMacro"/> Shader_Macros[1] = { "zero", "0"  };	
-            </code></pre><p>The following shader or effect creation functions take an array of shader macros as an input parameter:</p><ul> <li> <strong>D3D10CompileShader</strong> </li> <li> <strong><see cref="!:SharpDX.Direct3D10.D3DX10.CreateEffectFromFile"/></strong> </li> <li> <strong>D3DX10PreprocessShaderFromFile</strong> </li> <li> <strong>D3DX11CreateAsyncShaderPreprocessProcessor</strong> </li> </ul>	
+            <p>You can use shader macros in your shaders. The <strong><see cref="T:SharpDX.Direct3D.ShaderMacro"/></strong> structure defines a single shader macro as shown in the following example:</p><pre> <see cref="T:SharpDX.Direct3D.ShaderMacro"/> Shader_Macros[1] = { "zero", "0"  };	
+            </pre><p>The following shader or effect creation functions take an array of shader macros as an input parameter:</p><ul> <li> <strong>D3D10CompileShader</strong> </li> <li> <strong><see cref="!:SharpDX.Direct3D10.D3DX10.CreateEffectFromFile"/></strong> </li> <li> <strong>D3DX10PreprocessShaderFromFile</strong> </li> <li> <strong>D3DX11CreateAsyncShaderPreprocessProcessor</strong> </li> </ul>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='D3D_SHADER_MACRO']/*"/>	
             <msdn-id>ff728732</msdn-id>	
@@ -13585,14 +13661,16 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_ID']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_ID</unmanaged>	
             <unmanaged-short>HID_USAGE_ID</unmanaged-short>	
         </member>
         <member name="F:SharpDX.Multimedia.UsageId.GenericPointer">
             <summary>	
-            No documentation.	
+            <dd> <p>Aliased</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_POINTER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_POINTER</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_POINTER</unmanaged-short>	
         </member>
@@ -13601,6 +13679,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_MOUSE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_MOUSE</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_MOUSE</unmanaged-short>	
         </member>
@@ -13609,6 +13688,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_JOYSTICK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_JOYSTICK</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_JOYSTICK</unmanaged-short>	
         </member>
@@ -13617,6 +13697,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_GAMEPAD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_GAMEPAD</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_GAMEPAD</unmanaged-short>	
         </member>
@@ -13625,6 +13706,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_KEYBOARD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_KEYBOARD</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_KEYBOARD</unmanaged-short>	
         </member>
@@ -13633,6 +13715,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_KEYPAD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_KEYPAD</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_KEYPAD</unmanaged-short>	
         </member>
@@ -13641,6 +13724,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSTEM_CTL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSTEM_CTL</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSTEM_CTL</unmanaged-short>	
         </member>
@@ -13649,6 +13733,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_X']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_X</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_X</unmanaged-short>	
         </member>
@@ -13657,6 +13742,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_Y']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_Y</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_Y</unmanaged-short>	
         </member>
@@ -13665,6 +13751,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_Z']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_Z</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_Z</unmanaged-short>	
         </member>
@@ -13673,6 +13760,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_RX']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_RX</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_RX</unmanaged-short>	
         </member>
@@ -13681,6 +13769,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_RY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_RY</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_RY</unmanaged-short>	
         </member>
@@ -13689,6 +13778,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_RZ']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_RZ</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_RZ</unmanaged-short>	
         </member>
@@ -13697,6 +13787,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SLIDER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SLIDER</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SLIDER</unmanaged-short>	
         </member>
@@ -13705,6 +13796,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_DIAL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_DIAL</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_DIAL</unmanaged-short>	
         </member>
@@ -13713,6 +13805,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_WHEEL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_WHEEL</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_WHEEL</unmanaged-short>	
         </member>
@@ -13721,6 +13814,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_HATSWITCH']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_HATSWITCH</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_HATSWITCH</unmanaged-short>	
         </member>
@@ -13729,6 +13823,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_COUNTED_BUFFER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_COUNTED_BUFFER</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_COUNTED_BUFFER</unmanaged-short>	
         </member>
@@ -13737,6 +13832,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_BYTE_COUNT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_BYTE_COUNT</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_BYTE_COUNT</unmanaged-short>	
         </member>
@@ -13745,6 +13841,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_MOTION_WAKEUP']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_MOTION_WAKEUP</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_MOTION_WAKEUP</unmanaged-short>	
         </member>
@@ -13753,6 +13850,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_VX']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_VX</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_VX</unmanaged-short>	
         </member>
@@ -13761,6 +13859,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_VY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_VY</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_VY</unmanaged-short>	
         </member>
@@ -13769,6 +13868,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_VZ']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_VZ</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_VZ</unmanaged-short>	
         </member>
@@ -13777,6 +13877,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_VBRX']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_VBRX</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_VBRX</unmanaged-short>	
         </member>
@@ -13785,6 +13886,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_VBRY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_VBRY</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_VBRY</unmanaged-short>	
         </member>
@@ -13793,6 +13895,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_VBRZ']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_VBRZ</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_VBRZ</unmanaged-short>	
         </member>
@@ -13801,6 +13904,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_VNO']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_VNO</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_VNO</unmanaged-short>	
         </member>
@@ -13809,6 +13913,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_POWER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_POWER</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_POWER</unmanaged-short>	
         </member>
@@ -13817,6 +13922,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_SLEEP']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_SLEEP</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_SLEEP</unmanaged-short>	
         </member>
@@ -13825,6 +13931,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_WAKE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_WAKE</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_WAKE</unmanaged-short>	
         </member>
@@ -13833,6 +13940,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_CONTEXT_MENU']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_CONTEXT_MENU</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_CONTEXT_MENU</unmanaged-short>	
         </member>
@@ -13841,6 +13949,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_MAIN_MENU']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_MAIN_MENU</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_MAIN_MENU</unmanaged-short>	
         </member>
@@ -13849,6 +13958,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_APP_MENU']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_APP_MENU</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_APP_MENU</unmanaged-short>	
         </member>
@@ -13857,6 +13967,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_HELP_MENU']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_HELP_MENU</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_HELP_MENU</unmanaged-short>	
         </member>
@@ -13865,6 +13976,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_MENU_EXIT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_MENU_EXIT</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_MENU_EXIT</unmanaged-short>	
         </member>
@@ -13873,6 +13985,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_MENU_SELECT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_MENU_SELECT</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_MENU_SELECT</unmanaged-short>	
         </member>
@@ -13881,6 +13994,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_MENU_RIGHT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_MENU_RIGHT</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_MENU_RIGHT</unmanaged-short>	
         </member>
@@ -13889,6 +14003,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_MENU_LEFT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_MENU_LEFT</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_MENU_LEFT</unmanaged-short>	
         </member>
@@ -13897,6 +14012,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_MENU_UP']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_MENU_UP</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_MENU_UP</unmanaged-short>	
         </member>
@@ -13905,6 +14021,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_GENERIC_SYSCTL_MENU_DOWN']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_GENERIC_SYSCTL_MENU_DOWN</unmanaged>	
             <unmanaged-short>HID_USAGE_GENERIC_SYSCTL_MENU_DOWN</unmanaged-short>	
         </member>
@@ -13913,6 +14030,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_SIMULATION_RUDDER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_SIMULATION_RUDDER</unmanaged>	
             <unmanaged-short>HID_USAGE_SIMULATION_RUDDER</unmanaged-short>	
         </member>
@@ -13921,6 +14039,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_SIMULATION_THROTTLE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_SIMULATION_THROTTLE</unmanaged>	
             <unmanaged-short>HID_USAGE_SIMULATION_THROTTLE</unmanaged-short>	
         </member>
@@ -13929,6 +14048,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_NOEVENT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_NOEVENT</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_NOEVENT</unmanaged-short>	
         </member>
@@ -13937,6 +14057,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_ROLLOVER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_ROLLOVER</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_ROLLOVER</unmanaged-short>	
         </member>
@@ -13945,6 +14066,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_POSTFAIL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_POSTFAIL</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_POSTFAIL</unmanaged-short>	
         </member>
@@ -13953,6 +14075,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_UNDEFINED']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_UNDEFINED</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_UNDEFINED</unmanaged-short>	
         </member>
@@ -13961,6 +14084,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_aA']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_aA</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_aA</unmanaged-short>	
         </member>
@@ -13969,6 +14093,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_zZ']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_zZ</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_zZ</unmanaged-short>	
         </member>
@@ -13977,6 +14102,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_ONE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_ONE</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_ONE</unmanaged-short>	
         </member>
@@ -13985,6 +14111,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_ZERO']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_ZERO</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_ZERO</unmanaged-short>	
         </member>
@@ -13993,6 +14120,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_LCTRL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_LCTRL</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_LCTRL</unmanaged-short>	
         </member>
@@ -14001,6 +14129,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_LSHFT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_LSHFT</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_LSHFT</unmanaged-short>	
         </member>
@@ -14009,6 +14138,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_LALT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_LALT</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_LALT</unmanaged-short>	
         </member>
@@ -14017,6 +14147,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_LGUI']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_LGUI</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_LGUI</unmanaged-short>	
         </member>
@@ -14025,6 +14156,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_RCTRL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_RCTRL</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_RCTRL</unmanaged-short>	
         </member>
@@ -14033,6 +14165,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_RSHFT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_RSHFT</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_RSHFT</unmanaged-short>	
         </member>
@@ -14041,6 +14174,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_RALT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_RALT</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_RALT</unmanaged-short>	
         </member>
@@ -14049,6 +14183,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_RGUI']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_RGUI</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_RGUI</unmanaged-short>	
         </member>
@@ -14057,6 +14192,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_SCROLL_LOCK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_SCROLL_LOCK</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_SCROLL_LOCK</unmanaged-short>	
         </member>
@@ -14065,6 +14201,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_NUM_LOCK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_NUM_LOCK</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_NUM_LOCK</unmanaged-short>	
         </member>
@@ -14073,6 +14210,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_CAPS_LOCK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_CAPS_LOCK</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_CAPS_LOCK</unmanaged-short>	
         </member>
@@ -14081,6 +14219,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_F1']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_F1</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_F1</unmanaged-short>	
         </member>
@@ -14089,6 +14228,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_F12']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_F12</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_F12</unmanaged-short>	
         </member>
@@ -14097,6 +14237,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_RETURN']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_RETURN</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_RETURN</unmanaged-short>	
         </member>
@@ -14105,6 +14246,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_ESCAPE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_ESCAPE</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_ESCAPE</unmanaged-short>	
         </member>
@@ -14113,6 +14255,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_DELETE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_DELETE</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_DELETE</unmanaged-short>	
         </member>
@@ -14121,6 +14264,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_KEYBOARD_PRINT_SCREEN']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_KEYBOARD_PRINT_SCREEN</unmanaged>	
             <unmanaged-short>HID_USAGE_KEYBOARD_PRINT_SCREEN</unmanaged-short>	
         </member>
@@ -14129,6 +14273,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_NUM_LOCK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_NUM_LOCK</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_NUM_LOCK</unmanaged-short>	
         </member>
@@ -14137,6 +14282,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_CAPS_LOCK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_CAPS_LOCK</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_CAPS_LOCK</unmanaged-short>	
         </member>
@@ -14145,6 +14291,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SCROLL_LOCK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SCROLL_LOCK</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SCROLL_LOCK</unmanaged-short>	
         </member>
@@ -14153,6 +14300,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_COMPOSE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_COMPOSE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_COMPOSE</unmanaged-short>	
         </member>
@@ -14161,6 +14309,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_KANA']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_KANA</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_KANA</unmanaged-short>	
         </member>
@@ -14169,6 +14318,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_POWER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_POWER</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_POWER</unmanaged-short>	
         </member>
@@ -14177,6 +14327,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SHIFT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SHIFT</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SHIFT</unmanaged-short>	
         </member>
@@ -14185,6 +14336,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_DO_NOT_DISTURB']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_DO_NOT_DISTURB</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_DO_NOT_DISTURB</unmanaged-short>	
         </member>
@@ -14193,6 +14345,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_MUTE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_MUTE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_MUTE</unmanaged-short>	
         </member>
@@ -14201,6 +14354,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_TONE_ENABLE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_TONE_ENABLE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_TONE_ENABLE</unmanaged-short>	
         </member>
@@ -14209,6 +14363,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_HIGH_CUT_FILTER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_HIGH_CUT_FILTER</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_HIGH_CUT_FILTER</unmanaged-short>	
         </member>
@@ -14217,6 +14372,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_LOW_CUT_FILTER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_LOW_CUT_FILTER</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_LOW_CUT_FILTER</unmanaged-short>	
         </member>
@@ -14225,6 +14381,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_EQUALIZER_ENABLE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_EQUALIZER_ENABLE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_EQUALIZER_ENABLE</unmanaged-short>	
         </member>
@@ -14233,6 +14390,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SOUND_FIELD_ON']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SOUND_FIELD_ON</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SOUND_FIELD_ON</unmanaged-short>	
         </member>
@@ -14241,6 +14399,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SURROUND_FIELD_ON']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SURROUND_FIELD_ON</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SURROUND_FIELD_ON</unmanaged-short>	
         </member>
@@ -14249,6 +14408,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_REPEAT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_REPEAT</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_REPEAT</unmanaged-short>	
         </member>
@@ -14257,6 +14417,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_STEREO']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_STEREO</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_STEREO</unmanaged-short>	
         </member>
@@ -14265,6 +14426,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SAMPLING_RATE_DETECT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SAMPLING_RATE_DETECT</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SAMPLING_RATE_DETECT</unmanaged-short>	
         </member>
@@ -14273,6 +14435,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SPINNING']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SPINNING</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SPINNING</unmanaged-short>	
         </member>
@@ -14281,6 +14444,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_CAV']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_CAV</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_CAV</unmanaged-short>	
         </member>
@@ -14289,6 +14453,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_CLV']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_CLV</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_CLV</unmanaged-short>	
         </member>
@@ -14297,6 +14462,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_RECORDING_FORMAT_DET']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_RECORDING_FORMAT_DET</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_RECORDING_FORMAT_DET</unmanaged-short>	
         </member>
@@ -14305,6 +14471,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_OFF_HOOK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_OFF_HOOK</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_OFF_HOOK</unmanaged-short>	
         </member>
@@ -14313,6 +14480,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_RING']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_RING</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_RING</unmanaged-short>	
         </member>
@@ -14321,6 +14489,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_MESSAGE_WAITING']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_MESSAGE_WAITING</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_MESSAGE_WAITING</unmanaged-short>	
         </member>
@@ -14329,6 +14498,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_DATA_MODE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_DATA_MODE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_DATA_MODE</unmanaged-short>	
         </member>
@@ -14337,6 +14507,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_BATTERY_OPERATION']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_BATTERY_OPERATION</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_BATTERY_OPERATION</unmanaged-short>	
         </member>
@@ -14345,6 +14516,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_BATTERY_OK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_BATTERY_OK</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_BATTERY_OK</unmanaged-short>	
         </member>
@@ -14353,6 +14525,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_BATTERY_LOW']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_BATTERY_LOW</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_BATTERY_LOW</unmanaged-short>	
         </member>
@@ -14361,6 +14534,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SPEAKER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SPEAKER</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SPEAKER</unmanaged-short>	
         </member>
@@ -14369,6 +14543,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_HEAD_SET']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_HEAD_SET</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_HEAD_SET</unmanaged-short>	
         </member>
@@ -14377,6 +14552,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_HOLD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_HOLD</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_HOLD</unmanaged-short>	
         </member>
@@ -14385,6 +14561,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_MICROPHONE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_MICROPHONE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_MICROPHONE</unmanaged-short>	
         </member>
@@ -14393,6 +14570,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_COVERAGE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_COVERAGE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_COVERAGE</unmanaged-short>	
         </member>
@@ -14401,6 +14579,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_NIGHT_MODE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_NIGHT_MODE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_NIGHT_MODE</unmanaged-short>	
         </member>
@@ -14409,6 +14588,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SEND_CALLS']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SEND_CALLS</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SEND_CALLS</unmanaged-short>	
         </member>
@@ -14417,6 +14597,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_CALL_PICKUP']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_CALL_PICKUP</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_CALL_PICKUP</unmanaged-short>	
         </member>
@@ -14425,6 +14606,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_CONFERENCE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_CONFERENCE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_CONFERENCE</unmanaged-short>	
         </member>
@@ -14433,6 +14615,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_STAND_BY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_STAND_BY</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_STAND_BY</unmanaged-short>	
         </member>
@@ -14441,6 +14624,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_CAMERA_ON']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_CAMERA_ON</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_CAMERA_ON</unmanaged-short>	
         </member>
@@ -14449,6 +14633,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_CAMERA_OFF']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_CAMERA_OFF</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_CAMERA_OFF</unmanaged-short>	
         </member>
@@ -14457,6 +14642,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_ON_LINE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_ON_LINE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_ON_LINE</unmanaged-short>	
         </member>
@@ -14465,6 +14651,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_OFF_LINE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_OFF_LINE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_OFF_LINE</unmanaged-short>	
         </member>
@@ -14473,6 +14660,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_BUSY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_BUSY</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_BUSY</unmanaged-short>	
         </member>
@@ -14481,6 +14669,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_READY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_READY</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_READY</unmanaged-short>	
         </member>
@@ -14489,6 +14678,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_PAPER_OUT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_PAPER_OUT</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_PAPER_OUT</unmanaged-short>	
         </member>
@@ -14497,6 +14687,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_PAPER_JAM']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_PAPER_JAM</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_PAPER_JAM</unmanaged-short>	
         </member>
@@ -14505,6 +14696,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_REMOTE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_REMOTE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_REMOTE</unmanaged-short>	
         </member>
@@ -14513,6 +14705,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_FORWARD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_FORWARD</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_FORWARD</unmanaged-short>	
         </member>
@@ -14521,6 +14714,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_REVERSE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_REVERSE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_REVERSE</unmanaged-short>	
         </member>
@@ -14529,6 +14723,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_STOP']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_STOP</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_STOP</unmanaged-short>	
         </member>
@@ -14537,6 +14732,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_REWIND']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_REWIND</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_REWIND</unmanaged-short>	
         </member>
@@ -14545,6 +14741,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_FAST_FORWARD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_FAST_FORWARD</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_FAST_FORWARD</unmanaged-short>	
         </member>
@@ -14553,6 +14750,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_PLAY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_PLAY</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_PLAY</unmanaged-short>	
         </member>
@@ -14561,6 +14759,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_PAUSE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_PAUSE</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_PAUSE</unmanaged-short>	
         </member>
@@ -14569,6 +14768,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_RECORD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_RECORD</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_RECORD</unmanaged-short>	
         </member>
@@ -14577,6 +14777,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_ERROR']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_ERROR</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_ERROR</unmanaged-short>	
         </member>
@@ -14585,6 +14786,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SELECTED_INDICATOR']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SELECTED_INDICATOR</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SELECTED_INDICATOR</unmanaged-short>	
         </member>
@@ -14593,6 +14795,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_IN_USE_INDICATOR']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_IN_USE_INDICATOR</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_IN_USE_INDICATOR</unmanaged-short>	
         </member>
@@ -14601,6 +14804,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_MULTI_MODE_INDICATOR']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_MULTI_MODE_INDICATOR</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_MULTI_MODE_INDICATOR</unmanaged-short>	
         </member>
@@ -14609,6 +14813,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_INDICATOR_ON']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_INDICATOR_ON</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_INDICATOR_ON</unmanaged-short>	
         </member>
@@ -14617,6 +14822,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_INDICATOR_FLASH']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_INDICATOR_FLASH</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_INDICATOR_FLASH</unmanaged-short>	
         </member>
@@ -14625,6 +14831,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_INDICATOR_SLOW_BLINK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_INDICATOR_SLOW_BLINK</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_INDICATOR_SLOW_BLINK</unmanaged-short>	
         </member>
@@ -14633,6 +14840,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_INDICATOR_FAST_BLINK']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_INDICATOR_FAST_BLINK</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_INDICATOR_FAST_BLINK</unmanaged-short>	
         </member>
@@ -14641,6 +14849,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_INDICATOR_OFF']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_INDICATOR_OFF</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_INDICATOR_OFF</unmanaged-short>	
         </member>
@@ -14649,6 +14858,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_FLASH_ON_TIME']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_FLASH_ON_TIME</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_FLASH_ON_TIME</unmanaged-short>	
         </member>
@@ -14657,6 +14867,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SLOW_BLINK_ON_TIME']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SLOW_BLINK_ON_TIME</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SLOW_BLINK_ON_TIME</unmanaged-short>	
         </member>
@@ -14665,6 +14876,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_SLOW_BLINK_OFF_TIME']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_SLOW_BLINK_OFF_TIME</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_SLOW_BLINK_OFF_TIME</unmanaged-short>	
         </member>
@@ -14673,6 +14885,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_FAST_BLINK_ON_TIME']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_FAST_BLINK_ON_TIME</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_FAST_BLINK_ON_TIME</unmanaged-short>	
         </member>
@@ -14681,6 +14894,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_FAST_BLINK_OFF_TIME']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_FAST_BLINK_OFF_TIME</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_FAST_BLINK_OFF_TIME</unmanaged-short>	
         </member>
@@ -14689,6 +14903,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_INDICATOR_COLOR']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_INDICATOR_COLOR</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_INDICATOR_COLOR</unmanaged-short>	
         </member>
@@ -14697,6 +14912,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_RED']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_RED</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_RED</unmanaged-short>	
         </member>
@@ -14705,6 +14921,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_GREEN']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_GREEN</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_GREEN</unmanaged-short>	
         </member>
@@ -14713,6 +14930,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_AMBER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_AMBER</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_AMBER</unmanaged-short>	
         </member>
@@ -14721,6 +14939,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_LED_GENERIC_INDICATOR']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_LED_GENERIC_INDICATOR</unmanaged>	
             <unmanaged-short>HID_USAGE_LED_GENERIC_INDICATOR</unmanaged-short>	
         </member>
@@ -14729,6 +14948,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_PHONE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_PHONE</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_PHONE</unmanaged-short>	
         </member>
@@ -14737,6 +14957,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_ANSWERING_MACHINE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_ANSWERING_MACHINE</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_ANSWERING_MACHINE</unmanaged-short>	
         </member>
@@ -14745,6 +14966,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_MESSAGE_CONTROLS']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_MESSAGE_CONTROLS</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_MESSAGE_CONTROLS</unmanaged-short>	
         </member>
@@ -14753,6 +14975,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_HANDSET']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_HANDSET</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_HANDSET</unmanaged-short>	
         </member>
@@ -14761,6 +14984,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_HEADSET']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_HEADSET</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_HEADSET</unmanaged-short>	
         </member>
@@ -14769,6 +14993,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_KEYPAD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_KEYPAD</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_KEYPAD</unmanaged-short>	
         </member>
@@ -14777,6 +15002,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_PROGRAMMABLE_BUTTON']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_PROGRAMMABLE_BUTTON</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_PROGRAMMABLE_BUTTON</unmanaged-short>	
         </member>
@@ -14785,6 +15011,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_REDIAL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_REDIAL</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_REDIAL</unmanaged-short>	
         </member>
@@ -14793,6 +15020,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_TRANSFER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_TRANSFER</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_TRANSFER</unmanaged-short>	
         </member>
@@ -14801,6 +15029,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_DROP']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_DROP</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_DROP</unmanaged-short>	
         </member>
@@ -14809,6 +15038,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_LINE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_LINE</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_LINE</unmanaged-short>	
         </member>
@@ -14817,6 +15047,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_RING_ENABLE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_RING_ENABLE</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_RING_ENABLE</unmanaged-short>	
         </member>
@@ -14825,6 +15056,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_SEND']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_SEND</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_SEND</unmanaged-short>	
         </member>
@@ -14833,6 +15065,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_KEYPAD_0']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_KEYPAD_0</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_KEYPAD_0</unmanaged-short>	
         </member>
@@ -14841,6 +15074,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_KEYPAD_D']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_KEYPAD_D</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_KEYPAD_D</unmanaged-short>	
         </member>
@@ -14849,6 +15083,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_TELEPHONY_HOST_AVAILABLE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_TELEPHONY_HOST_AVAILABLE</unmanaged>	
             <unmanaged-short>HID_USAGE_TELEPHONY_HOST_AVAILABLE</unmanaged-short>	
         </member>
@@ -14857,6 +15092,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_MS_BTH_HF_DIALNUMBER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_MS_BTH_HF_DIALNUMBER</unmanaged>	
             <unmanaged-short>HID_USAGE_MS_BTH_HF_DIALNUMBER</unmanaged-short>	
         </member>
@@ -14865,6 +15101,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_MS_BTH_HF_DIALMEMORY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_MS_BTH_HF_DIALMEMORY</unmanaged>	
             <unmanaged-short>HID_USAGE_MS_BTH_HF_DIALMEMORY</unmanaged-short>	
         </member>
@@ -14873,6 +15110,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_CONSUMERCTRL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_CONSUMERCTRL</unmanaged>	
             <unmanaged-short>HID_USAGE_CONSUMERCTRL</unmanaged-short>	
         </member>
@@ -14881,6 +15119,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_DIGITIZER_PEN']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_DIGITIZER_PEN</unmanaged>	
             <unmanaged-short>HID_USAGE_DIGITIZER_PEN</unmanaged-short>	
         </member>
@@ -14889,6 +15128,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_DIGITIZER_IN_RANGE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_DIGITIZER_IN_RANGE</unmanaged>	
             <unmanaged-short>HID_USAGE_DIGITIZER_IN_RANGE</unmanaged-short>	
         </member>
@@ -14897,6 +15137,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_DIGITIZER_TIP_SWITCH']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_DIGITIZER_TIP_SWITCH</unmanaged>	
             <unmanaged-short>HID_USAGE_DIGITIZER_TIP_SWITCH</unmanaged-short>	
         </member>
@@ -14905,6 +15146,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_DIGITIZER_BARREL_SWITCH']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_DIGITIZER_BARREL_SWITCH</unmanaged>	
             <unmanaged-short>HID_USAGE_DIGITIZER_BARREL_SWITCH</unmanaged-short>	
         </member>
@@ -14913,14 +15155,16 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE</unmanaged-short>	
         </member>
         <member name="F:SharpDX.Multimedia.UsagePage.Undefined">
             <summary>	
-            No documentation.	
+            <dd> <p>Aliased</p> </dd>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_UNDEFINED']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_UNDEFINED</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_UNDEFINED</unmanaged-short>	
         </member>
@@ -14929,6 +15173,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_GENERIC']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_GENERIC</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_GENERIC</unmanaged-short>	
         </member>
@@ -14937,6 +15182,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_SIMULATION']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_SIMULATION</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_SIMULATION</unmanaged-short>	
         </member>
@@ -14945,6 +15191,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_VR']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_VR</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_VR</unmanaged-short>	
         </member>
@@ -14953,6 +15200,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_SPORT']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_SPORT</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_SPORT</unmanaged-short>	
         </member>
@@ -14961,6 +15209,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_GAME']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_GAME</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_GAME</unmanaged-short>	
         </member>
@@ -14969,6 +15218,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_KEYBOARD']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_KEYBOARD</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_KEYBOARD</unmanaged-short>	
         </member>
@@ -14977,6 +15227,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_LED']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_LED</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_LED</unmanaged-short>	
         </member>
@@ -14985,6 +15236,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_BUTTON']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_BUTTON</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_BUTTON</unmanaged-short>	
         </member>
@@ -14993,6 +15245,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_ORDINAL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_ORDINAL</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_ORDINAL</unmanaged-short>	
         </member>
@@ -15001,6 +15254,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_TELEPHONY']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_TELEPHONY</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_TELEPHONY</unmanaged-short>	
         </member>
@@ -15009,6 +15263,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_CONSUMER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_CONSUMER</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_CONSUMER</unmanaged-short>	
         </member>
@@ -15017,6 +15272,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_DIGITIZER']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_DIGITIZER</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_DIGITIZER</unmanaged-short>	
         </member>
@@ -15025,6 +15281,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_UNICODE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_UNICODE</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_UNICODE</unmanaged-short>	
         </member>
@@ -15033,6 +15290,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_ALPHANUMERIC']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_ALPHANUMERIC</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_ALPHANUMERIC</unmanaged-short>	
         </member>
@@ -15041,6 +15299,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_MICROSOFT_BLUETOOTH_HANDSFREE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_MICROSOFT_BLUETOOTH_HANDSFREE</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_MICROSOFT_BLUETOOTH_HANDSFREE</unmanaged-short>	
         </member>
@@ -15049,6 +15308,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_MEDICAL']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_MEDICAL</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_MEDICAL</unmanaged-short>	
         </member>
@@ -15057,6 +15317,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_MONITOR_PAGE0']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_MONITOR_PAGE0</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_MONITOR_PAGE0</unmanaged-short>	
         </member>
@@ -15065,6 +15326,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_MONITOR_PAGE1']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_MONITOR_PAGE1</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_MONITOR_PAGE1</unmanaged-short>	
         </member>
@@ -15073,6 +15335,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_MONITOR_PAGE2']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_MONITOR_PAGE2</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_MONITOR_PAGE2</unmanaged-short>	
         </member>
@@ -15081,6 +15344,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_MONITOR_PAGE3']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_MONITOR_PAGE3</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_MONITOR_PAGE3</unmanaged-short>	
         </member>
@@ -15089,6 +15353,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_POWER_PAGE0']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_POWER_PAGE0</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_POWER_PAGE0</unmanaged-short>	
         </member>
@@ -15097,6 +15362,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_POWER_PAGE1']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_POWER_PAGE1</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_POWER_PAGE1</unmanaged-short>	
         </member>
@@ -15105,6 +15371,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_POWER_PAGE2']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_POWER_PAGE2</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_POWER_PAGE2</unmanaged-short>	
         </member>
@@ -15113,6 +15380,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_POWER_PAGE3']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_POWER_PAGE3</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_POWER_PAGE3</unmanaged-short>	
         </member>
@@ -15121,6 +15389,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_BARCODE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_BARCODE</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_BARCODE</unmanaged-short>	
         </member>
@@ -15129,6 +15398,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_SCALE']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_SCALE</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_SCALE</unmanaged-short>	
         </member>
@@ -15137,6 +15407,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='HID_USAGE_PAGE_MSR']/*"/>	
+            <msdn-id>ff539946</msdn-id>	
             <unmanaged>HID_USAGE_PAGE_MSR</unmanaged>	
             <unmanaged-short>HID_USAGE_PAGE_MSR</unmanaged-short>	
         </member>
@@ -37734,13 +38005,10 @@
         </member>
         <member name="T:SharpDX.Win32.LockType">
             <summary>	
-            <p> The 	
-            <strong><see cref="T:SharpDX.Win32.LockType"/></strong> enumeration values indicate the type of locking requested for the specified range of bytes. The values are used in the 	
-            <strong>ILockBytes::LockRegion</strong> and 	
-            <strong><see cref="M:SharpDX.Win32.IStream.LockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)"/></strong> methods.</p>	
+            <p>Indicates the type of locks placed on records during editing.</p>	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='LOCKTYPE']/*"/>	
-            <msdn-id>aa380048</msdn-id>	
+            <msdn-id>ms677223</msdn-id>	
             <unmanaged>LOCKTYPE</unmanaged>	
             <unmanaged-short>LOCKTYPE</unmanaged-short>	
         </member>
@@ -37749,7 +38017,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='LOCK_WRITE']/*"/>	
-            <msdn-id>aa380048</msdn-id>	
+            <msdn-id>ms677223</msdn-id>	
             <unmanaged>LOCK_WRITE</unmanaged>	
             <unmanaged-short>LOCK_WRITE</unmanaged-short>	
         </member>
@@ -37758,7 +38026,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='LOCK_EXCLUSIVE']/*"/>	
-            <msdn-id>aa380048</msdn-id>	
+            <msdn-id>ms677223</msdn-id>	
             <unmanaged>LOCK_EXCLUSIVE</unmanaged>	
             <unmanaged-short>LOCK_EXCLUSIVE</unmanaged-short>	
         </member>
@@ -37767,7 +38035,7 @@
             No documentation.	
             </summary>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='LOCK_ONLYONCE']/*"/>	
-            <msdn-id>aa380048</msdn-id>	
+            <msdn-id>ms677223</msdn-id>	
             <unmanaged>LOCK_ONLYONCE</unmanaged>	
             <unmanaged-short>LOCK_ONLYONCE</unmanaged-short>	
         </member>
@@ -37894,7 +38162,7 @@
             <param name="cb"><dd> <p>The number of bytes of data to read from the stream object.</p> </dd></param>	
             <returns><dd> <p>A reference to a <strong>ULONG</strong> variable that receives the actual number of bytes read from the stream object. </p> <p><strong>Note</strong>??The number of bytes read may be zero.</p> </dd></returns>	
             <remarks>	
-            <p>This method reads bytes from this stream object into memory. The stream object must be opened in <strong>STGM_READ</strong> mode. This method adjusts the seek reference by the actual number of bytes read.</p><p>The number of bytes actually read is also returned in the <em>pcbRead</em> parameter.</p>Notes to Callers<p>The actual number of bytes read can be less than the number of bytes requested if an error occurs or if the end of the stream is reached during the read operation.  The number of bytes returned should always  be compared to the number of bytes requested.  If the number of bytes returned is less than the number of bytes requested, it usually means the <strong>Read</strong> method attempted to read  past the end of the stream.</p><p>The application should handle both a returned error  and <strong><see cref="F:SharpDX.Result.Ok"/></strong> return values on end-of-stream read operations.</p>	
+            <p>This method reads bytes from this stream object into memory. The stream object must be opened in <strong>STGM_READ</strong> mode. This method adjusts the seek reference by the actual number of bytes read.</p><p>The number of bytes actually read is also returned in the <em>pcbRead</em> parameter.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='ISequentialStream::Read']/*"/>	
             <msdn-id>aa380011</msdn-id>	
@@ -38030,11 +38298,11 @@
             <summary>	
             <p>The <strong>SetSize</strong> method changes the size of the stream object.</p>	
             </summary>	
-            <param name="libNewSize"><dd> <p>Specifies the new size of the stream as a number of bytes.</p> </dd></param>	
-            <returns><p>This method can return one of the following values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>The size of the stream object was successfully changed.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> <dt><strong>STG_E_MEDIUMFULL</strong></dt> <dd> <p>The stream size is not changed because there is no space left on the storage device.</p> </dd> <dt><strong>STG_E_INVALIDFUNCTION</strong></dt> <dd> <p>The value of the <em>libNewSize</em> parameter is not valid. Since streams cannot be greater than 232 bytes in the COM-provided implementation, the high <strong>DWORD</strong> data type of <em>libNewSize</em> must be 0. If it is nonzero, this parameter is not valid.</p> </dd> <dt><strong>STG_E_REVERTED</strong></dt> <dd> <p>The object has been invalidated by a revert operation above it in the transaction tree.</p> </dd> </dl></returns>	
+            <param name="libNewSize"><dd> <p>Specifies the new size, in bytes, of the stream.</p> </dd></param>	
+            <returns><p>This method can return one of these values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>The size of the stream object was successfully changed.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information, see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> <dt><strong>STG_E_MEDIUMFULL</strong></dt> <dd> <p>The stream size is not changed because there is no space left on the storage device.</p> </dd> <dt><strong>STG_E_INVALIDFUNCTION</strong></dt> <dd> <p>The value of the <em>libNewSize</em> parameter is not supported by the implementation. Not all streams support greater than 232 bytes. If a stream does not support more than 232 bytes, the high <strong>DWORD</strong> data type of <em>libNewSize</em> must be zero. If it is nonzero, the implementation may return STG_E_INVALIDFUNCTION. In general, COM-based implementations of the  <strong><see cref="T:SharpDX.Win32.IStream"/></strong> interface do not support streams larger than 232 bytes.</p> </dd> <dt><strong>STG_E_REVERTED</strong></dt> <dd> <p>The object has been invalidated by a revert operation above it in the transaction tree.</p> </dd> </dl></returns>	
             <remarks>	
             <p><strong><see cref="M:SharpDX.Win32.IStream.SetSize(System.Int64)"/></strong> changes the size of the stream object. Call this method to preallocate space for the stream. If the <em>libNewSize</em> parameter is larger than the current stream size, the stream is extended to the indicated size by filling the intervening space with bytes of undefined value. This operation is similar to the 	
-            <strong><see cref="M:SharpDX.Win32.IStreamBase.Write(System.IntPtr,System.Int32)"/></strong> method if the seek reference is past the current end of stream.</p><p>If the <em>libNewSize</em> parameter is smaller than the current stream, the stream is truncated to the indicated size.</p><p>The seek reference is not affected by the change in stream size.</p><p>Calling <strong><see cref="M:SharpDX.Win32.IStream.SetSize(System.Int64)"/></strong> can be an effective way to obtain a large chunk of contiguous space.</p>	
+            <strong><see cref="M:SharpDX.Win32.IStreamBase.Write(System.IntPtr,System.Int32)"/></strong> method if the seek reference is past the current end of the stream.</p><p>If the <em>libNewSize</em> parameter is smaller than the current stream, the stream is truncated to the indicated size.</p><p>The seek reference is not affected by the change in stream size.</p><p>Calling <strong><see cref="M:SharpDX.Win32.IStream.SetSize(System.Int64)"/></strong> can be an effective way to obtain a large chunk of contiguous space.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IStream::SetSize']/*"/>	
             <msdn-id>aa380044</msdn-id>	
@@ -38065,7 +38333,7 @@
             <p>The <strong>Commit</strong> method ensures that any changes made to a stream object open in transacted mode are reflected in the parent storage. If the stream object is open in direct mode, <strong><see cref="M:SharpDX.Win32.IStream.Commit(SharpDX.Win32.CommitFlags)"/></strong> has no effect other than flushing all memory buffers to the next-level storage object. The COM compound file implementation of streams does not support opening streams in transacted mode.</p>	
             </summary>	
             <param name="grfCommitFlags"><dd> <p>Controls how the changes for the stream object are committed. See the <strong><see cref="T:SharpDX.Win32.CommitFlags"/></strong> enumeration for a definition of these values.</p> </dd></param>	
-            <returns><p>This method can return one of the following values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>Changes to the stream object were successfully committed to the parent level.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> <dt><strong>STG_E_MEDIUMFULL</strong></dt> <dd> <p>The commit operation failed due to lack of space on the storage device.</p> </dd> <dt><strong>STG_E_REVERTED</strong></dt> <dd> <p>The object has been invalidated by a revert operation above it in the transaction tree.</p> </dd> </dl></returns>	
+            <returns><p>This method can return one of these values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>Changes to the stream object were successfully committed to the parent level.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> <dt><strong>STG_E_MEDIUMFULL</strong></dt> <dd> <p>The commit operation failed due to lack of space on the storage device.</p> </dd> <dt><strong>STG_E_REVERTED</strong></dt> <dd> <p>The object has been invalidated by a revert operation above it in the transaction tree.</p> </dd> </dl></returns>	
             <remarks>	
             <p>The <strong>Commit</strong> method ensures that changes to a stream object opened in transacted mode are reflected in the parent storage. Changes that have been made to the stream since it was opened or last committed are reflected to the parent storage object. If the parent is opened in transacted mode, the parent may revert at a later time, rolling back the changes to this stream object. The compound file implementation does not support the opening of streams in transacted mode, so this method has very little effect other than to flush memory buffers. For more information, see 	
             <see cref="T:SharpDX.Win32.IStream"/> - Compound File Implementation.</p><p>If the stream is open in direct mode, this method ensures that any memory buffers have been flushed out to the underlying storage object. This is much like a flush in traditional file systems.</p><p>The <strong><see cref="M:SharpDX.Win32.IStream.Commit(SharpDX.Win32.CommitFlags)"/></strong> method is useful on a direct mode stream when the implementation of the 	
@@ -38081,7 +38349,7 @@
             <p>The <strong>Revert</strong> method discards all changes that have been made to a transacted stream since the last 	
             <strong><see cref="M:SharpDX.Win32.IStream.Commit(SharpDX.Win32.CommitFlags)"/></strong> call. On streams open in direct mode and streams using the COM compound file implementation of <strong><see cref="M:SharpDX.Win32.IStream.Revert"/></strong>, this method has no effect.</p>	
             </summary>	
-            <returns><p>This method can return one of the following values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>The stream was successfully reverted to its previous version.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> </dl></returns>	
+            <returns><p>This method can return one of these values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>The stream was successfully reverted to its previous version.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> </dl></returns>	
             <remarks>	
             <p>The <strong>Revert</strong> method discards changes made to a transacted stream since the last commit operation.</p>	
             </remarks>	
@@ -38097,12 +38365,11 @@
             <param name="libOffset"><dd> <p>Integer that specifies the byte offset for the beginning of the range.</p> </dd></param>	
             <param name="cb"><dd> <p>Integer that specifies the length of the range, in bytes, to be restricted.</p> </dd></param>	
             <param name="dwLockType"><dd> <p>Specifies the restrictions being requested on accessing the range.</p> </dd></param>	
-            <returns><p>This method can return one of the following values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>The specified range of bytes was locked.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information, see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> <dt><strong>STG_E_INVALIDFUNCTION</strong></dt> <dd> <p>Locking is not supported at all or the specific type of lock requested is not supported.</p> </dd> <dt><strong>STG_E_LOCKVIOLATION</strong></dt> <dd> <p>Requested lock is supported, but cannot be granted because of an existing lock.</p> </dd> <dt><strong>STG_E_REVERTED</strong></dt> <dd> <p>The object has been invalidated by a revert operation above it in the transaction tree.</p> </dd> </dl></returns>	
+            <returns><p>This method can return one of these values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>The specified range of bytes was locked.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information, see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> <dt><strong>STG_E_INVALIDFUNCTION</strong></dt> <dd> <p>Locking is not supported at all or the specific type of lock requested is not supported.</p> </dd> <dt><strong>STG_E_LOCKVIOLATION</strong></dt> <dd> <p>Requested lock is supported, but cannot be granted because of an existing lock.</p> </dd> <dt><strong>STG_E_REVERTED</strong></dt> <dd> <p>The object has been invalidated by a revert operation above it in the transaction tree.</p> </dd> </dl></returns>	
             <remarks>	
             <p>The byte range of the stream can be extended.  Locking an extended range for the stream is useful as a method of communication between different instances of the stream without changing data that is actually part of the stream.</p><p>Three types of locking can be supported: locking to exclude other writers, locking to exclude other readers or writers, and locking that allows only one requester to obtain a lock on the given range, which is usually an alias for one of the other two lock types. A given stream instance might support either of the first two types, or both. The lock type is specified by <em>dwLockType</em>, using a value from the 	
             <strong><see cref="T:SharpDX.Win32.LockType"/></strong> enumeration.</p><p>Any region locked with <strong><see cref="M:SharpDX.Win32.IStream.LockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)"/></strong> must later be explicitly unlocked by calling 	
-            <strong><see cref="M:SharpDX.Win32.IStream.UnlockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)"/></strong> with exactly the same values for the <em>libOffset</em>, <em>cb</em>, and <em>dwLockType</em> parameters. The region must be unlocked before the stream is released. Two adjacent regions cannot be locked separately and then unlocked with a single unlock call.</p>Notes to Callers<p>Since the type of locking supported is optional and can vary in different implementations of 	
-            <strong><see cref="T:SharpDX.Win32.IStream"/></strong>, you must provide code to deal with the STG_E_INVALIDFUNCTION error.</p><p>The <strong>LockRegion</strong> method has no effect in the compound file implementation, because the implementation does not support range locking.</p>Notes to Implementers<p>Support for this method is optional for implementations of stream objects since it may not be supported by the underlying file system. The type of locking supported is also optional. The STG_E_INVALIDFUNCTION error is returned if the requested type of locking is not supported.</p>	
+            <strong><see cref="M:SharpDX.Win32.IStream.UnlockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)"/></strong> with exactly the same values for the <em>libOffset</em>, <em>cb</em>, and <em>dwLockType</em> parameters. The region must be unlocked before the stream is released. Two adjacent regions cannot be locked separately and then unlocked with a single unlock call.</p>	
             </remarks>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IStream::LockRegion']/*"/>	
             <msdn-id>aa380039</msdn-id>	
@@ -38111,13 +38378,19 @@
         </member>
         <member name="M:SharpDX.Win32.ComStream.UnlockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)">
             <summary>	
-            No documentation.	
+            <p> The <strong>UnlockRegion</strong> method removes the access restriction on a range of bytes previously restricted with 	
+            <strong><see cref="M:SharpDX.Win32.IStream.LockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)"/></strong>.</p>	
             </summary>	
             <param name="libOffset">No documentation.</param>	
             <param name="cb">No documentation.</param>	
             <param name="dwLockType">No documentation.</param>	
-            <returns>No documentation.</returns>	
+            <returns><p>This method can return one of these values.</p><dl> <dt><strong><see cref="F:SharpDX.Result.Ok"/></strong></dt> <dd> <p>The byte range was unlocked.</p> </dd> <dt><strong>E_PENDING</strong></dt> <dd> <p>Asynchronous Storage only: Part or all of the stream's data is currently unavailable. For more information see <strong>IFillLockBytes</strong> and Asynchronous Storage.</p> </dd> <dt><strong>STG_E_INVALIDFUNCTION</strong></dt> <dd> <p>Locking is not supported at all or the specific type of lock requested is not supported.</p> </dd> <dt><strong>STG_E_LOCKVIOLATION</strong></dt> <dd> <p>The requested unlock operation cannot be granted.</p> </dd> <dt><strong>STG_E_REVERTED</strong></dt> <dd> <p>The object has been invalidated by a revert operation above it in the transaction tree.</p> </dd> </dl></returns>	
+            <remarks>	
+            <p><strong><see cref="M:SharpDX.Win32.IStream.UnlockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)"/></strong> unlocks a region previously locked with the 	
+            <strong><see cref="M:SharpDX.Win32.IStream.LockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)"/></strong> method. Locked regions must later be explicitly unlocked by calling <strong><see cref="M:SharpDX.Win32.IStream.UnlockRegion(System.Int64,System.Int64,SharpDX.Win32.LockType)"/></strong> with exactly the same values for the <em>libOffset</em>, <em>cb</em>, and <em>dwLockType</em> parameters. The region must be unlocked before the stream is released. Two adjacent regions cannot be locked separately and then unlocked with a single unlock call.</p>	
+            </remarks>	
             <!-- No matching elements were found for the following include tag --><include file="..\..\Documentation\CodeComments.xml" path="/comments/comment[@id='IStream::UnlockRegion']/*"/>	
+            <msdn-id>aa380046</msdn-id>	
             <unmanaged>HRESULT IStream::UnlockRegion([In] ULARGE_INTEGER libOffset,[In] ULARGE_INTEGER cb,[In] LOCKTYPE dwLockType)</unmanaged>	
             <unmanaged-short>IStream::UnlockRegion</unmanaged-short>	
         </member>
@@ -42027,7 +42300,16 @@
             </summary>
             <returns>A <see cref="T:System.String"/> that represents this instance.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:SharpDX.Viewport.Project(SharpDX.Vector3,SharpDX.Matrix,SharpDX.Matrix,SharpDX.Matrix)" -->
+        <member name="M:SharpDX.Viewport.Project(SharpDX.Vector3,SharpDX.Matrix,SharpDX.Matrix,SharpDX.Matrix)">
+            <summary>
+            Projects a 3D vector from object space into screen space.
+            </summary>
+            <param name="source">The vector to project.</param>
+            <param name="projection">The projection matrix.</param>
+            <param name="view">The view matrix.</param>
+            <param name="world">The world matrix.</param>
+            <returns>The projected vector.</returns>
+        </member>
         <member name="M:SharpDX.Viewport.Project(SharpDX.Vector3@,SharpDX.Matrix@,SharpDX.Vector3@)">
             <summary>
             Projects a 3D vector from object space into screen space.
@@ -43687,8 +43969,18 @@
         </member>
         <member name="F:SharpDX.RectangleF.Empty">
             <summary>
-            An empty rectangle
+            An empty rectangle.
             </summary>
+        </member>
+        <member name="F:SharpDX.RectangleF.Infinite">
+            <summary>
+            An infinite rectangle. See remarks.
+            </summary>
+            <remarks>
+            http://msdn.microsoft.com/en-us/library/windows/desktop/dd372261%28v=vs.85%29.aspx
+            Any properties that involve computations, like <see cref="P:SharpDX.RectangleF.Center"/>, <see cref="P:SharpDX.RectangleF.Width"/> or <see cref="P:SharpDX.RectangleF.Height"/>
+            may return incorrect results - <see cref="F:System.Single.NaN"/>.
+            </remarks>
         </member>
         <member name="M:SharpDX.RectangleF.#ctor(System.Single,System.Single,System.Single,System.Single)">
             <summary>
@@ -44166,6 +44458,11 @@
             <summary>
               The maximum number of bytes to which a pointer can point. Use for a count that must span the full range of a pointer.
               Equivalent to Windows type SIZE_T.
+            </summary>
+        </member>
+        <member name="F:SharpDX.PointerSize.Zero">
+            <summary>
+            An empty pointer size initialized to zero.
             </summary>
         </member>
         <member name="M:SharpDX.PointerSize.#ctor(System.IntPtr)">
@@ -48352,9 +48649,23 @@
         </member>
         <member name="P:SharpDX.Windows.RenderForm.AllowUserResizing">
             <summary>
-            Gets or sets a value indicating whether this form can be resized by the user. 
+            Gets or sets a value indicating whether this form can be resized by the user. See remarks.
             </summary>
+            <remarks>
+            This property alters <see cref="P:System.Windows.Forms.Form.FormBorderStyle"/>, 
+            for <c>true</c> value it is <see cref="F:System.Windows.Forms.FormBorderStyle.Sizable"/>, 
+            for <c>false</c> - <see cref="F:System.Windows.Forms.FormBorderStyle.FixedSingle"/>.
+            </remarks>
             <value><c>true</c> if this form can be resized by the user (by default); otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:SharpDX.Windows.RenderForm.IsFullscreen">
+            <summary>
+            Gets or sets a value indicationg whether the current render form is in fullscreen mode. See remarks.
+            </summary>
+            <remarks>
+            If Toolkit is used, this property is set automatically,
+            otherwise user should maintain it himself as it affects the behavior of <see cref="P:SharpDX.Windows.RenderForm.AllowUserResizing"/> property.
+            </remarks>
         </member>
     </members>
 </doc>
