@@ -242,8 +242,8 @@ namespace Accord.Math.Optimization
     /// </code>
     /// </example>
     /// 
-    public class GoldfarbIdnani
-        : BaseGradientOptimizationMethod, IOptimizationMethod
+    public class GoldfarbIdnani : BaseGradientOptimizationMethod, 
+        IOptimizationMethod, IOptimizationMethod<GoldfarbIdnaniStatus>
     {
         private double[,] hessian;
         private double[] linearTerms;
@@ -338,6 +338,14 @@ namespace Accord.Math.Optimization
         public double[] LinearTerms { get { return linearTerms; } }
 
         /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="IOptimizationMethod.Maximize()"/> or 
+        ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
+        /// </summary>
+        /// 
+        public GoldfarbIdnaniStatus Status { get; private set; }
+
+        /// <summary>
         ///   Constructs a new <see cref="GoldfarbIdnani"/> class.
         /// </summary>
         /// 
@@ -417,7 +425,8 @@ namespace Accord.Math.Optimization
         {
         }
 
-        private void initialize(int numberOfVariables, double[,] hessian, double[] linearTerms, double[,] constraintMatrix, double[] b, int numberOfEqualities)
+        private void initialize(int numberOfVariables, double[,] hessian, double[] linearTerms,
+            double[,] constraintMatrix, double[] b, int numberOfEqualities)
         {
             this.NumberOfVariables = numberOfVariables;
             this.linearTerms = linearTerms;
@@ -469,11 +478,11 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < linearTerms.Length; i++)
                 d[i] = -linearTerms[i];
 
-            var code = minimize(h, d);
+            Status = minimize(h, d);
 
             Value = Function(Solution);
 
-            return (code == GoldfarbIdnaniStatus.Success);
+            return (Status == GoldfarbIdnaniStatus.Success);
         }
 
 
@@ -500,11 +509,11 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < d.Length; i++)
                 d[i] = linearTerms[i];
 
-            var code = minimize(h, d);
+            Status = minimize(h, d);
 
             Value = Function(Solution);
 
-            return (code == GoldfarbIdnaniStatus.Success);
+            return (Status == GoldfarbIdnaniStatus.Success);
         }
 
         /// <summary>
@@ -1263,7 +1272,6 @@ namespace Accord.Math.Optimization
             return true;
         }
 
-
-
+    
     }
 }

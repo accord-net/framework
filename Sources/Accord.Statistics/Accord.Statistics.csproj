@@ -443,6 +443,9 @@
     <Compile Include="Testing\ZTest.cs" />
     <Compile Include="Testing\Base\HypothesisTypes.cs" />
     <Compile Include="Tools.cs" />
+    <Compile Include="Visualizations\ScatterplotClassValueCollection.cs" />
+    <Compile Include="Visualizations\HistogramBinCollection.cs" />
+    <Compile Include="Visualizations\HistogramBin.cs" />
     <Compile Include="Visualizations\Histogram.cs" />
     <Compile Include="Visualizations\Scatterplot.cs" />
   </ItemGroup>

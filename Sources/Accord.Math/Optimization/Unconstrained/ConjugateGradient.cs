@@ -155,7 +155,8 @@ namespace Accord.Math.Optimization
     ///    </list></para>
     /// </remarks>
     /// 
-    public class ConjugateGradient : BaseGradientOptimizationMethod, IGradientOptimizationMethod
+    public class ConjugateGradient : BaseGradientOptimizationMethod,
+        IGradientOptimizationMethod, IOptimizationMethod<ConjugateGradientCode>
     {
 
         private double[] g; // gradient at current solution
@@ -253,7 +254,7 @@ namespace Accord.Math.Optimization
         ///   <see cref="IOptimizationMethod.Minimize()"/> methods.
         /// </summary>
         /// 
-        public ConjugateGradientCode Code { get; private set; }
+        public ConjugateGradientCode Status { get; private set; }
 
         /// <summary>
         ///   Occurs when progress is made during the optimization.
@@ -378,9 +379,9 @@ namespace Accord.Math.Optimization
             L72:
 
                 // Call to the line search subroutine
-                Code = cvsmod(ref f, d, ref stp, ref info, ref nfev, w, ref dg, ref dgout);
+                Status = cvsmod(ref f, d, ref stp, ref info, ref nfev, w, ref dg, ref dgout);
 
-                if (Code != ConjugateGradientCode.Success)
+                if (Status != ConjugateGradientCode.Success)
                     return false;
 
                 // Test if descent direction is obtained for methods 2 and 3
@@ -406,7 +407,7 @@ namespace Accord.Math.Optimization
 
                             if (ides > 5)
                             {
-                                Code = ConjugateGradientCode.DescentNotObtained;
+                                Status = ConjugateGradientCode.DescentNotObtained;
                                 return false;
                             }
 
@@ -485,7 +486,7 @@ namespace Accord.Math.Optimization
                 }
             }
 
-            return Code == ConjugateGradientCode.Success;
+            return Status == ConjugateGradientCode.Success;
         }
 
 

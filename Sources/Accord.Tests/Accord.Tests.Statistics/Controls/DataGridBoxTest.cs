@@ -69,6 +69,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("X", box.DataGridView.Columns[0].Name);
             Assert.AreEqual("Y", box.DataGridView.Columns[1].Name);
             Assert.AreEqual("SVM", box.DataGridView.Columns[2].Name);
+
+            box.Close();
         }
 
     }
