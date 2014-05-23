@@ -258,7 +258,7 @@ namespace Accord.Controls
         /// 
         private void UpdateTrackbar()
         {
-            if (samples.Length == 0)
+            if (samples == null || samples.Length == 0)
             {
                 trackBar.Enabled = false;
             }
@@ -283,6 +283,8 @@ namespace Accord.Controls
 
         private void onDataBind()
         {
+            samples = null;
+
             if (dataSource == null)
                 return;
 
@@ -354,6 +356,9 @@ namespace Accord.Controls
         private void trackBar_ValueChanged(object sender, EventArgs e)
         {
             if (histogram == null)
+                return;
+
+            if (samples == null)
                 return;
 
             histogram.Compute(samples, (int)trackBar.Value);
