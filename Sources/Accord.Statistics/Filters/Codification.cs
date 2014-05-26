@@ -288,12 +288,8 @@ namespace Accord.Statistics.Filters
 
             for (int i = 0; i < data.Length; i++)
             {
-                for (int j = 0; j < Columns.Count; j++)
-                {
-                    Options options = this.Columns[j];
-                    if (options.Mapping.TryGetValue(data[i], out result[i]))
-                        break;
-                }
+               Options options = this.Columns[i];
+	           result[i] = options.Mapping[data[i]];
             }
 
             return result;
