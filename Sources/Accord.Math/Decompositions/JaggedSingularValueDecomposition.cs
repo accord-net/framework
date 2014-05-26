@@ -1,5 +1,3 @@
-
-
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -391,8 +389,8 @@ namespace Accord.Math.Decompositions
                 {
                     // Transposing and swapping
                     a = value.Transpose(inPlace && m == n);
-                    m = value.GetLength(1);
-                    n = value.GetLength(0);
+                    n = value.Length;    // rows
+                    m = value[0].Length; // cols
                     swapped = true;
 
                     bool aux = computeLeftSingularVectors;
@@ -407,8 +405,8 @@ namespace Accord.Math.Decompositions
             }
 
 
-            int nu = System.Math.Max(m, n);
-            int ni = System.Math.Max(m + 1, n);
+            int nu = System.Math.Min(m, n);
+            int ni = System.Math.Min(m + 1, n);
             s = new Double[ni];
             u = new Double[m][];
             for (int i = 0; i < u.Length; i++)
@@ -430,168 +428,161 @@ namespace Accord.Math.Decompositions
             // Reduce A to bidiagonal form, storing the diagonal elements in s and the super-diagonal elements in e.
             int nct = System.Math.Min(m - 1, n);
             int nrt = System.Math.Max(0, System.Math.Min(n - 2, m));
-			int mrc = System.Math.Max(nct, nrt);
+            int mrc = System.Math.Max(nct, nrt);
 
             for (int k = 0; k < mrc; k++)
-			{
-				if (k < nct)
-				{
-					// Compute the transformation for the k-th column and place the k-th diagonal in s[k].
+            {
+                if (k < nct)
+                {
+                    // Compute the transformation for the k-th column and place the k-th diagonal in s[k].
                     // Compute 2-norm of k-th column without under/overflow.
                     s[k] = 0;
                     for (int i = k; i < m; i++)
                         s[k] = Accord.Math.Tools.Hypotenuse(s[k], a[i][k]);
 
-					if (s[k] != 0.0) 
-					{
-					   if (a[k][k] < 0.0)
-						  s[k] = -s[k];
+                    if (s[k] != 0.0) 
+                    {
+                       if (a[k][k] < 0.0)
+                          s[k] = -s[k];
 
-					   for (int i = k; i < m; i++) 
-						  a[i][k] /= s[k];
+                       for (int i = k; i < m; i++) 
+                          a[i][k] /= s[k];
                
-					   a[k][k] += 1;
-					}
+                       a[k][k] += 1;
+                    }
 
-					s[k] = -s[k];
-				}
-
-				for (int j = k+1; j < n; j++)
-				{
-					if ((k < nct) & (s[k] != 0.0))
-					{
-						// Apply the transformation.
-						Double t = 0;
-						for (int i = k; i < m; i++)
-						  t += a[i][k]*a[i][j];
-
-					   t = -t/a[k][k];
-
-					   for (int i = k; i < m; i++)
-						  a[i][j] += t*a[i][k];
-					 }
-
-					 // Place the k-th row of A into e for the
-					 // subsequent calculation of the row transformation.
-
-					 e[j] = a[k][j];
-				 }
-
-				 if (wantu & (k < nct))
-				 {
-					// Place the transformation in U for subsequent back
-					// multiplication.
-
-					for (int i = k; i < m; i++)
-					   u[i][k] = a[i][k];
-				 }
-
-				 if (k < nrt)
-				 {
-					// Compute the k-th row transformation and place the
-					// k-th super-diagonal in e[k].
-					// Compute 2-norm without under/overflow.
-					e[k] = 0;
-					for (int i = k+1; i < n; i++)
-					   e[k] = Tools.Hypotenuse(e[k],e[i]);
-
-					if (e[k] != 0.0)
-					{
-					   if (e[k+1] < 0.0) 
-						  e[k] = -e[k];
-
-					   for (int i = k+1; i < n; i++) 
-						  e[i] /= e[k];
-
-					   e[k+1] += 1;
-					}
-
-					e[k] = -e[k];
-					if ((k+1 < m) & (e[k] != 0.0))
-					{
-						// Apply the transformation.
-						for (int i = k+1; i < m; i++)
-						   work[i] = 0;
-
-					   for (int j = k+1; j < n; j++)
-						  for (int i = k+1; i < m; i++)
-							 work[i] += e[j]*a[i][j];
-
-					   for (int j = k+1; j < n; j++)
-					   {
-						  Double t = -e[j]/e[k+1];
-						  for (int i = k+1; i < m; i++) 
-							 a[i][j] += t*work[i];
-					   }
-					}
-
-					if (wantv)
-					{
-						// Place the transformation in V for subsequent
-						// back multiplication.
-
-						for (int i = k+1; i < n; i++)
-						   v[i][k] = e[i];
-					}
+                    s[k] = -s[k];
                 }
-			}
+
+                for (int j = k+1; j < n; j++)
+                {
+                    if ((k < nct) & (s[k] != 0.0))
+                    {
+                        // Apply the transformation.
+                        Double t = 0;
+                        for (int i = k; i < m; i++)
+                          t += a[i][k]*a[i][j];
+
+                       t = -t/a[k][k];
+
+                       for (int i = k; i < m; i++)
+                          a[i][j] += t*a[i][k];
+                     }
+
+                     // Place the k-th row of A into e for the
+                     // subsequent calculation of the row transformation.
+
+                     e[j] = a[k][j];
+                 }
+
+                 if (wantu & (k < nct))
+                 {
+                    // Place the transformation in U for subsequent back
+                    // multiplication.
+
+                    for (int i = k; i < m; i++)
+                       u[i][k] = a[i][k];
+                 }
+
+                 if (k < nrt)
+                 {
+                    // Compute the k-th row transformation and place the
+                    // k-th super-diagonal in e[k].
+                    // Compute 2-norm without under/overflow.
+                    e[k] = 0;
+                    for (int i = k+1; i < n; i++)
+                       e[k] = Tools.Hypotenuse(e[k],e[i]);
+
+                    if (e[k] != 0.0)
+                    {
+                       if (e[k+1] < 0.0) 
+                          e[k] = -e[k];
+
+                       for (int i = k+1; i < n; i++) 
+                          e[i] /= e[k];
+
+                       e[k+1] += 1;
+                    }
+
+                    e[k] = -e[k];
+                    if ((k+1 < m) & (e[k] != 0.0))
+                    {
+                        // Apply the transformation.
+                        for (int i = k+1; i < m; i++)
+                           work[i] = 0;
+
+                       for (int j = k+1; j < n; j++)
+                          for (int i = k+1; i < m; i++)
+                             work[i] += e[j]*a[i][j];
+
+                       for (int j = k+1; j < n; j++)
+                       {
+                          Double t = -e[j]/e[k+1];
+                          for (int i = k+1; i < m; i++) 
+                             a[i][j] += t*work[i];
+                       }
+                    }
+
+                    if (wantv)
+                    {
+                        // Place the transformation in V for subsequent
+                        // back multiplication.
+
+                        for (int i = k+1; i < n; i++)
+                           v[i][k] = e[i];
+                    }
+                }
+            }
 
             // Set up the final bidiagonal matrix or order p.
-            int p = System.Math.Max(n, m + 1);
-
-            if (nct < n)
-                s[nct] = a[nct][nct];
-
-            if (m < p)
-                s[p - 1] = 0;
-
-            if (nrt + 1 < p)
-                e[nrt] = a[nrt][p - 1];
-
+            int p = System.Math.Min(n, m + 1);
+            if (nct < n) s[nct] = a[nct][nct];
+            if (m < p) s[p - 1] = 0;
+            if (nrt + 1 < p) e[nrt] = a[nrt][p - 1];
             e[p - 1] = 0;
 
             // If required, generate U.
             if (wantu)
             {
-				for (int j = nct; j < nu; j++)
-				{
-					for (int i = 0; i < m; i++) 
-						u[i][j] = 0;
+                for (int j = nct; j < nu; j++)
+                {
+                    for (int i = 0; i < m; i++) 
+                        u[i][j] = 0;
 
-					u[j][j] = 1;
-				}
+                    u[j][j] = 1;
+                }
 
-				for (int k = nct-1; k >= 0; k--)
-				{
-					if (s[k] != 0.0)
-					{
-						for (int j = k+1; j < nu; j++)
-						{
-							Double t = 0;
-							for (int i = k; i < m; i++)
-								t += u[i][k]*u[i][j];
+                for (int k = nct-1; k >= 0; k--)
+                {
+                    if (s[k] != 0.0)
+                    {
+                        for (int j = k+1; j < nu; j++)
+                        {
+                            Double t = 0;
+                            for (int i = k; i < m; i++)
+                                t += u[i][k]*u[i][j];
 
-							t = -t/u[k][k];
+                            t = -t/u[k][k];
 
-							for (int i = k; i < m; i++)
-								u[i][j] += t*u[i][k];
-						}
+                            for (int i = k; i < m; i++)
+                                u[i][j] += t*u[i][k];
+                        }
 
-						for (int i = k; i < m; i++ )
-							u[i][k] = -u[i][k];
+                        for (int i = k; i < m; i++ )
+                            u[i][k] = -u[i][k];
 
-						u[k][k] = 1 + u[k][k];
-						for (int i = 0; i < k-1; i++) 
-							u[i][k] = 0;
-					}
-					else
-					{
-						for (int i = 0; i < m; i++) 
-							u[i][k] = 0;
-						u[k][k] = 1;
-					}
-					}
-			}
+                        u[k][k] = 1 + u[k][k];
+                        for (int i = 0; i < k-1; i++) 
+                            u[i][k] = 0;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < m; i++) 
+                            u[i][k] = 0;
+                        u[k][k] = 1;
+                    }
+                    }
+            }
               
 
             // If required, generate V.
@@ -615,20 +606,20 @@ namespace Accord.Math.Decompositions
                         for (int j = k + 1; j < n; j++) // pseudo-correction
                         {
                                 Double t = 0;
-							for (int i = k+1; i < n; i++)
-								t += v[i][k]*v[i][j];
+                            for (int i = k+1; i < n; i++)
+                                t += v[i][k]*v[i][j];
 
-							t = -t/v[k+1][k];
-							for (int i = k+1; i < n; i++)
-								v[i][j] += t*v[i][k];
-						}
-					}
+                            t = -t/v[k+1][k];
+                            for (int i = k+1; i < n; i++)
+                                v[i][j] += t*v[i][k];
+                        }
+                    }
 
-					for (int i = 0; i < n; i++)
-						v[i][k] = 0;
-					v[k][k] = 1;
-				}
-			}
+                    for (int i = 0; i < n; i++)
+                        v[i][k] = 0;
+                    v[k][k] = 1;
+                }
+            }
 
             // Main iteration loop for the singular values.
 
@@ -637,7 +628,7 @@ namespace Accord.Math.Decompositions
             Double eps = Constants.DoubleEpsilon;
             while (p > 0)
             {
-			    int k,kase;
+                int k,kase;
 
                 // Here is where a test for too many iterations would go.
 
@@ -652,25 +643,25 @@ namespace Accord.Math.Decompositions
                 // kase = 4     if e(p-1) is negligible (convergence).
 
                 for (k = p-2; k >= -1; k--)
-				{
-					if (k == -1)
-						break;
+                {
+                    if (k == -1)
+                        break;
 
-					if (Math.Abs(e[k]) <= eps*(Math.Abs(s[k]) + Math.Abs(s[k+1])))
-					{
-						e[k] = 0;
-						break;
-					}
+                    if (Math.Abs(e[k]) <= eps*(Math.Abs(s[k]) + Math.Abs(s[k+1])))
+                    {
+                        e[k] = 0;
+                        break;
+                    }
                 }
 
                 if (k == p-2)
                     kase = 4;
 
-				else
-				{
+                else
+                {
                     int ks;
                     for (ks = p-1; ks >= k; ks--)
-					{
+                    {
                        if (ks == k)
                           break;
 
@@ -678,7 +669,7 @@ namespace Accord.Math.Decompositions
                                   (ks != k+1 ? Math.Abs(e[ks-1]) : (Double)0);
 
                        if (Math.Abs(s[ks]) <= eps*t) 
-					   {
+                       {
                           s[ks] = 0;
                           break;
                        }
@@ -687,11 +678,11 @@ namespace Accord.Math.Decompositions
                     if (ks == k)
                        kase = 3;
 
-					else if (ks == p-1)
+                    else if (ks == p-1)
                        kase = 1;
 
                     else
-					{
+                    {
                        kase = 2;
                        k = ks;
                     }
@@ -701,10 +692,10 @@ namespace Accord.Math.Decompositions
 
                  // Perform the task indicated by kase.
                  switch (kase)
-				 {
+                 {
                     // Deflate negligible s(p).
                     case 1:
-					{
+                    {
                        Double f = e[p-2];
                        e[p-2] = 0;
                        for (int j = p-2; j >= k; j--) {
@@ -730,11 +721,11 @@ namespace Accord.Math.Decompositions
                     // Split at negligible s(k).
 
                     case 2:
-					{
+                    {
                        Double f = e[k-1];
                        e[k-1] = 0;
                        for (int j = k; j < p; j++)
-					   {
+                       {
                           Double t = Tools.Hypotenuse(s[j],f);
                           Double cs = s[j]/t;
                           Double sn = f/t;
@@ -754,133 +745,133 @@ namespace Accord.Math.Decompositions
 
                     // Perform one qr step.
                     case 3:
-						{
-						   // Calculate the shift.
-						   Double scale = Math.Max(Math.Max(Math.Max(Math.Max(
-								   Math.Abs(s[p-1]),Math.Abs(s[p-2])),Math.Abs(e[p-2])), 
-								   Math.Abs(s[k])),Math.Abs(e[k]));
-						   Double sp = s[p-1]/scale;
-						   Double spm1 = s[p-2]/scale;
-						   Double epm1 = e[p-2]/scale;
-						   Double sk = s[k]/scale;
-						   Double ek = e[k]/scale;
-						   Double b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2;
-						   Double c = (sp*epm1)*(sp*epm1);
-						   double shift = 0;
-						   if ((b != 0.0) || (c != 0.0))
-						   {
-							  shift = Math.Sqrt(b*b + c);
+                        {
+                           // Calculate the shift.
+                           Double scale = Math.Max(Math.Max(Math.Max(Math.Max(
+                                   Math.Abs(s[p-1]),Math.Abs(s[p-2])),Math.Abs(e[p-2])), 
+                                   Math.Abs(s[k])),Math.Abs(e[k]));
+                           Double sp = s[p-1]/scale;
+                           Double spm1 = s[p-2]/scale;
+                           Double epm1 = e[p-2]/scale;
+                           Double sk = s[k]/scale;
+                           Double ek = e[k]/scale;
+                           Double b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2;
+                           Double c = (sp*epm1)*(sp*epm1);
+                           double shift = 0;
+                           if ((b != 0.0) || (c != 0.0))
+                           {
+                              shift = Math.Sqrt(b*b + c);
 
-							  if (b < 0.0)
-								 shift = -shift;
+                              if (b < 0.0)
+                                 shift = -shift;
 
-							  shift = c/(b + shift);
-						   }
+                              shift = c/(b + shift);
+                           }
 
-						   Double f = (sk + sp)*(sk - sp) + (Double)shift;
-						   Double g = sk*ek;
+                           Double f = (sk + sp)*(sk - sp) + (Double)shift;
+                           Double g = sk*ek;
    
-						   // Chase zeros.
-						   for (int j = k; j < p-1; j++)
-						   {
-							  Double t = Tools.Hypotenuse(f,g);
-							  Double cs = f/t;
-							  Double sn = g/t;
-							  if (j != k)
-								 e[j-1] = t;
+                           // Chase zeros.
+                           for (int j = k; j < p-1; j++)
+                           {
+                              Double t = Tools.Hypotenuse(f,g);
+                              Double cs = f/t;
+                              Double sn = g/t;
+                              if (j != k)
+                                 e[j-1] = t;
 
-							  f = cs*s[j] + sn*e[j];
-							  e[j] = cs*e[j] - sn*s[j];
-							  g = sn*s[j+1];
-							  s[j+1] = cs*s[j+1];
+                              f = cs*s[j] + sn*e[j];
+                              e[j] = cs*e[j] - sn*s[j];
+                              g = sn*s[j+1];
+                              s[j+1] = cs*s[j+1];
 
-							  if (wantv)
-							  {
-								 for (int i = 0; i < n; i++)
-								 {
-									t = cs*v[i][j] + sn*v[i][j+1];
-									v[i][j+1] = -sn*v[i][j] + cs*v[i][j+1];
-									v[i][j] = t;
-								 }
-							  }
+                              if (wantv)
+                              {
+                                 for (int i = 0; i < n; i++)
+                                 {
+                                    t = cs*v[i][j] + sn*v[i][j+1];
+                                    v[i][j+1] = -sn*v[i][j] + cs*v[i][j+1];
+                                    v[i][j] = t;
+                                 }
+                              }
 
-							  t = Tools.Hypotenuse(f,g);
-							  cs = f/t;
-							  sn = g/t;
-							  s[j] = t;
-							  f = cs*e[j] + sn*s[j+1];
-							  s[j+1] = -sn*e[j] + cs*s[j+1];
-							  g = sn*e[j+1];
-							  e[j+1] = cs*e[j+1];
+                              t = Tools.Hypotenuse(f,g);
+                              cs = f/t;
+                              sn = g/t;
+                              s[j] = t;
+                              f = cs*e[j] + sn*s[j+1];
+                              s[j+1] = -sn*e[j] + cs*s[j+1];
+                              g = sn*e[j+1];
+                              e[j+1] = cs*e[j+1];
 
-							  if (wantu && (j < m-1))
-							  {
-								 for (int i = 0; i < m; i++)
-								 {
-									t = cs*u[i][j] + sn*u[i][j+1];
-									u[i][j+1] = -sn*u[i][j] + cs*u[i][j+1];
-									u[i][j] = t;
-								 }
-							  }
-						   }
+                              if (wantu && (j < m-1))
+                              {
+                                 for (int i = 0; i < m; i++)
+                                 {
+                                    t = cs*u[i][j] + sn*u[i][j+1];
+                                    u[i][j+1] = -sn*u[i][j] + cs*u[i][j+1];
+                                    u[i][j] = t;
+                                 }
+                              }
+                           }
 
-						   e[p-2] = f;
-						   iter = iter + 1;
-						}
-						break;
+                           e[p-2] = f;
+                           iter = iter + 1;
+                        }
+                        break;
 
-					// Convergence.
-					case 4:
-						{
-							// Make the singular values positive.
-							if (s[k] <= 0.0)
-							{
-								s[k] = (s[k] < 0 ? -s[k] : (Double)0);
+                    // Convergence.
+                    case 4:
+                        {
+                            // Make the singular values positive.
+                            if (s[k] <= 0.0)
+                            {
+                                s[k] = (s[k] < 0 ? -s[k] : (Double)0);
 
-								if (wantv)
-								{
-									for (int i = 0; i <= pp; i++) 
-										v[i][k] = -v[i][k];
-								}
-							}
+                                if (wantv)
+                                {
+                                    for (int i = 0; i <= pp; i++) 
+                                        v[i][k] = -v[i][k];
+                                }
+                            }
    
-							// Order the singular values.
-							while (k < pp)
-							{
-								if (s[k] >= s[k+1])
-									break;
+                            // Order the singular values.
+                            while (k < pp)
+                            {
+                                if (s[k] >= s[k+1])
+                                    break;
 
-								Double t = s[k];
-								s[k] = s[k+1];
-								s[k+1] = t;
-								if (wantv && (k < n-1))
-								{
-									for (int i = 0; i < n; i++)
-									{
-										t = v[i][k+1];
-										v[i][k+1] = v[i][k]; 
-										v[i][k] = t;
-									}
-								}
+                                Double t = s[k];
+                                s[k] = s[k+1];
+                                s[k+1] = t;
+                                if (wantv && (k < n-1))
+                                {
+                                    for (int i = 0; i < n; i++)
+                                    {
+                                        t = v[i][k+1];
+                                        v[i][k+1] = v[i][k]; 
+                                        v[i][k] = t;
+                                    }
+                                }
 
-								if (wantu && (k < m-1))
-								{
-									for (int i = 0; i < m; i++)
-									{
-										t = u[i][k+1]; 
-										u[i][k+1] = u[i][k]; 
-										u[i][k] = t;
-									}
-								}
+                                if (wantu && (k < m-1))
+                                {
+                                    for (int i = 0; i < m; i++)
+                                    {
+                                        t = u[i][k+1]; 
+                                        u[i][k+1] = u[i][k]; 
+                                        u[i][k] = t;
+                                    }
+                                }
 
-								k++;
-							}
+                                k++;
+                            }
 
-							iter = 0;
-							p--;
-						}
-						break;
-				}
+                            iter = 0;
+                            p--;
+                        }
+                        break;
+                }
             }
             
 
@@ -1154,7 +1145,7 @@ namespace Accord.Math.Decompositions
             svd.si = (int[])si.Clone();
             svd.swapped = swapped;
             if (u != null) svd.u = (Double[][])u.MemberwiseClone();
-            if (v != null) svd.v = (Double[][])u.MemberwiseClone();
+            if (v != null) svd.v = (Double[][])v.MemberwiseClone();
 
             return svd;
         }

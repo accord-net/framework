@@ -1209,7 +1209,7 @@ namespace Accord.Math.Decompositions
             svd.si = (int[])si.Clone();
             svd.swapped = swapped;
             if (u != null) svd.u = (<#=T#>[,])u.Clone();
-            if (v != null) svd.v = (<#=T#>[,])u.Clone();
+            if (v != null) svd.v = (<#=T#>[,])v.Clone();
 
             return svd;
         }

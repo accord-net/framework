@@ -141,6 +141,7 @@
     <Compile Include="Convergence\RelativeParameterConvergenceTest.cs" />
     <Compile Include="Convergence\RelativeConvergenceTest.cs" />
     <Compile Include="CombinatoricsTest.cs" />
+    <Compile Include="Decompositions\JaggedSingularValueDecompositionTest.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
