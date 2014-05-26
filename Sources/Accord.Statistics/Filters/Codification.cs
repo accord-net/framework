@@ -286,14 +286,16 @@ namespace Accord.Statistics.Filters
         {
             int[] result = new int[data.Length];
 
+            if (data.Length > this.Columns.Count)
+            {
+                throw new ArgumentException("The array contains more values"
+                + " than the number of known columns.", "data");
+            }
+
             for (int i = 0; i < data.Length; i++)
             {
-                for (int j = 0; j < Columns.Count; j++)
-                {
-                    Options options = this.Columns[j];
-                    if (options.Mapping.TryGetValue(data[i], out result[i]))
-                        break;
-                }
+                Options options = this.Columns[i];
+                result[i] = options.Mapping[data[i]];
             }
 
             return result;
@@ -343,6 +345,12 @@ namespace Accord.Statistics.Filters
         /// 
         public int[] Translate(string[] columnNames, string[] values)
         {
+            if (columnNames.Length != values.Length)
+            {
+                throw new ArgumentException("The number of column names"
+                + " and the number of values must match.", "values");
+            }
+
             int[] result = new int[values.Length];
 
             for (int i = 0; i < columnNames.Length; i++)
