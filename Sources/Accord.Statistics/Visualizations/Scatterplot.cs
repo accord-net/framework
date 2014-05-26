@@ -203,16 +203,16 @@ namespace Accord.Statistics.Visualizations
         ///   Computes the scatter plot.
         /// </summary>
         /// 
-        /// <param name="x">Array of X values.</param>
+        /// <param name="values">Array of values.</param>
         /// 
-        public void Compute(double[] x)
+        public void Compute(double[] values)
         {
-            if (x == null)
-                throw new ArgumentNullException("x");
+            if (values == null)
+                throw new ArgumentNullException("values");
 
-            double[] y = Matrix.Interval(0.0, x.Length - 1, 1.0);
+            double[] idx = Matrix.Interval(0.0, values.Length - 1, 1.0);
 
-            initialize(x, y, null);
+            initialize(idx, values, null);
         }
 
         /// <summary>

@@ -315,72 +315,81 @@ namespace Accord.Controls
             if (scatterplot == null)
                 scatterplot = new Scatterplot();
 
-            double[] x = null;
-            double[] y = null;
-            int[] z = null;
-
-            if (dataSource is DataTable)
+            double[] values = dataSource as double[];
+            if (values == null)
             {
-                DataTable table = dataSource as DataTable;
+                double[] x = null;
+                double[] y = null;
+                int[] z = null;
 
-                if (String.IsNullOrEmpty(xAxisDataMember) &&
-                    table.Columns.Contains(xAxisDataMember))
-                    x = table.Columns[xAxisDataMember].ToArray();
-
-                if (String.IsNullOrEmpty(yAxisDataMember) &&
-                    table.Columns.Contains(yAxisDataMember))
-                    y = table.Columns[yAxisDataMember].ToArray();
-
-                if (String.IsNullOrEmpty(labelDataMember) &&
-                    table.Columns.Contains(labelDataMember))
-                    z = table.Columns[labelDataMember].ToArray().ToInt32();
-            }
-            else if (dataSource is double[][])
-            {
-                double[][] source = dataSource as double[][];
-
-                if (source.Length > 0)
+                if (dataSource is DataTable)
                 {
-                    if (source[0].Length > 0)
-                        x = source.GetColumn(0);
+                    DataTable table = dataSource as DataTable;
 
-                    if (source[0].Length > 1)
-                        y = source.GetColumn(1);
+                    if (String.IsNullOrEmpty(xAxisDataMember) &&
+                        table.Columns.Contains(xAxisDataMember))
+                        x = table.Columns[xAxisDataMember].ToArray();
 
-                    if (source[0].Length > 2)
-                        z = source.GetColumn(2).ToInt32();
+                    if (String.IsNullOrEmpty(yAxisDataMember) &&
+                        table.Columns.Contains(yAxisDataMember))
+                        y = table.Columns[yAxisDataMember].ToArray();
+
+                    if (String.IsNullOrEmpty(labelDataMember) &&
+                        table.Columns.Contains(labelDataMember))
+                        z = table.Columns[labelDataMember].ToArray().ToInt32();
                 }
-            }
-            else if (dataSource is double[,])
-            {
-                double[,] source = dataSource as double[,];
-
-                if (source.Length > 0)
+                else if (dataSource is double[][])
                 {
-                    int cols = source.GetLength(1);
+                    double[][] source = dataSource as double[][];
 
-                    if (cols > 0)
-                        x = source.GetColumn(0);
+                    if (source.Length > 0)
+                    {
+                        if (source[0].Length > 0)
+                            x = source.GetColumn(0);
 
-                    if (cols > 1)
-                        y = source.GetColumn(1);
+                        if (source[0].Length > 1)
+                            y = source.GetColumn(1);
 
-                    if (cols > 2)
-                        z = source.GetColumn(2).ToInt32();
+                        if (source[0].Length > 2)
+                            z = source.GetColumn(2).ToInt32();
+                    }
                 }
+                else if (dataSource is double[,])
+                {
+                    double[,] source = dataSource as double[,];
+
+                    if (source.Length > 0)
+                    {
+                        int cols = source.GetLength(1);
+
+                        if (cols > 0)
+                            x = source.GetColumn(0);
+
+                        if (cols > 1)
+                            y = source.GetColumn(1);
+
+                        if (cols > 2)
+                            z = source.GetColumn(2).ToInt32();
+                    }
+                }
+                else
+                {
+                    return; // invalid data source
+                }
+
+                if (x != null && y == null)
+                    y = new double[x.Length];
+
+                else if (y != null && x == null)
+                    x = new double[y.Length];
+
+                this.scatterplot.Compute(x, y, z);
             }
             else
             {
-                return; // invalid data source
+                double[] idx = Matrix.Interval(0.0, values.Length - 1, 1.0);
+                this.scatterplot.Compute(idx, values);
             }
-
-            if (x != null && y == null)
-                y = new double[x.Length];
-
-            else if (y != null && x == null)
-                x = new double[y.Length];
-
-            this.scatterplot.Compute(x, y, z);
 
             this.UpdateGraph();
         }
