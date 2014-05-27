@@ -244,6 +244,29 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns a square diagonal matrix of the given size.
+        /// </summary>
+        /// 
+        public static T[][] JaggedDiagonal<T>(int size, T value)
+        {
+            if (size < 0)
+            {
+                throw new ArgumentOutOfRangeException("size", size,
+                "Square matrix's size must be a positive integer.");
+            }
+
+            var matrix = new T[size][];
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrix[i] = new T[size];
+                matrix[i][i] = value;
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
         ///   Return a square matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
@@ -258,7 +281,7 @@ namespace Accord.Math
         /// 
         public static T[,] Diagonal<T>(int rows, int cols, T[] values)
         {
-            if (values == null) 
+            if (values == null)
                 throw new ArgumentNullException("values");
 
             if (rows < 0)
@@ -286,9 +309,19 @@ namespace Accord.Math
         /// <summary>
         ///   Returns the Identity matrix of the given size.
         /// </summary>
+        /// 
         public static double[,] Identity(int size)
         {
             return Diagonal(size, 1.0);
+        }
+
+        /// <summary>
+        ///   Returns the Identity matrix of the given size.
+        /// </summary>
+        /// 
+        public static double[][] JaggedIdentity(int size)
+        {
+            return JaggedDiagonal(size, 1.0);
         }
 
         /// <summary>
@@ -538,7 +571,7 @@ namespace Accord.Math
         /// 
         public static T[,] ColumnVector<T>(params T[] values)
         {
-            if (values == null) 
+            if (values == null)
                 throw new ArgumentNullException("values");
 
             T[,] matrix = new T[values.Length, 1];
