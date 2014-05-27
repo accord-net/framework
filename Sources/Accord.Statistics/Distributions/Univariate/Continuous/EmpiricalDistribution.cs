@@ -24,8 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
     using Accord.Statistics.Distributions.Fitting;
+    using AForge;
 
     /// <summary>
     ///   Empirical distribution.
@@ -443,7 +443,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public static double SmoothingRule(double[] observations)
         {
             double sigma = Statistics.Tools.StandardDeviation(observations);
-            return sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);
+            return sigma * Math.Pow(4.0 / (3.0 * observations.Length), +1 / 5.0);
         }
 
         /// <summary>
