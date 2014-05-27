@@ -20,31 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accord.Math;
-using System.Drawing;
-using Accord.Controls;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
-using AForge;
 using System.Collections.Generic;
-using Accord.Controls.Imaging;
-using System;
-using Accord.Imaging.Filters;
+using System.Drawing;
+using Accord.Imaging;
+using Accord.Math.Geometry;
+using AForge;
 using AForge.Imaging;
 using AForge.Math.Geometry;
-using Accord.Math.Geometry;
-//using Accord.Math.Geometry;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Accord.Tests.Imaging
 {
 
 
-    /// <summary>
-    ///This is a test class for ToolsTest and is intended
-    ///to contain all ToolsTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class ConvexityDefectsTest
     {
@@ -52,10 +40,6 @@ namespace Accord.Tests.Imaging
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get

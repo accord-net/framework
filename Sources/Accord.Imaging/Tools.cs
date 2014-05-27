@@ -55,6 +55,7 @@ namespace Accord.Imaging
     using AForge.Imaging;
     using Accord.Math.Geometry;
     using AForge.Math;
+    using System.IO;
 
     /// <summary>
     ///   Static tool functions for imaging.
@@ -552,7 +553,7 @@ namespace Accord.Imaging
              (pt1.X * pt2.Y - pt1.Y * pt2.X) * pt3.W) < Constants.SingleEpsilon;
         }
 
-       
+
         #endregion
 
 
@@ -1853,5 +1854,41 @@ namespace Accord.Imaging
             return r;
         }
 
+        public static ImageFormat GetFormat(string fileName)
+        {
+            string extension = Path.GetExtension(fileName);
+
+            if (string.IsNullOrEmpty(extension))
+                throw new ArgumentException("Unable to determine file extension for fileName: " + fileName);
+
+            switch (extension.ToLower())
+            {
+                case @".bmp":
+                    return ImageFormat.Bmp;
+
+                case @".gif":
+                    return ImageFormat.Gif;
+
+                case @".ico":
+                    return ImageFormat.Icon;
+
+                case @".jpg":
+                case @".jpeg":
+                    return ImageFormat.Jpeg;
+
+                case @".png":
+                    return ImageFormat.Png;
+
+                case @".tif":
+                case @".tiff":
+                    return ImageFormat.Tiff;
+
+                case @".wmf":
+                    return ImageFormat.Wmf;
+
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }

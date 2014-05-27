@@ -90,11 +90,16 @@ namespace Accord.Math.Geometry
                 ConvexityDefect current = extractDefect(contour, indexes[i], indexes[i + 1]);
 
                 if (current.Depth > MinimumDepth)
-                {
                     defects.Add(current);
-                }
             }
 
+            // Consider area between the last point and the first point
+            {
+                ConvexityDefect current = extractDefect(contour, indexes[indexes.Length - 1], indexes[0]);
+
+                if (current.Depth > MinimumDepth)
+                    defects.Add(current);
+            }
 
             return defects;
         }
@@ -112,14 +117,41 @@ namespace Accord.Math.Geometry
             double maxDepth = 0;
             int maxIndex = 0;
 
-            for (int i = startIndex; i < endIndex; i++)
+            if (startIndex < endIndex)
             {
-                double d = line.DistanceToPoint(contour[i]);
-
-                if (d > maxDepth)
+                for (int i = startIndex; i < endIndex; i++)
                 {
-                    maxDepth = d;
-                    maxIndex = i;
+                    double d = line.DistanceToPoint(contour[i]);
+
+                    if (d > maxDepth)
+                    {
+                        maxDepth = d;
+                        maxIndex = i;
+                    }
+                }
+            }
+            else
+            {
+                for (int i = startIndex; i < contour.Count; i++)
+                {
+                    double d = line.DistanceToPoint(contour[i]);
+
+                    if (d > maxDepth)
+                    {
+                        maxDepth = d;
+                        maxIndex = i;
+                    }
+                }
+
+                for (int i = 0; i < endIndex; i++)
+                {
+                    double d = line.DistanceToPoint(contour[i]);
+
+                    if (d > maxDepth)
+                    {
+                        maxDepth = d;
+                        maxIndex = i;
+                    }
                 }
             }
 
@@ -128,6 +160,6 @@ namespace Accord.Math.Geometry
 
     }
 
- 
+
 
 }

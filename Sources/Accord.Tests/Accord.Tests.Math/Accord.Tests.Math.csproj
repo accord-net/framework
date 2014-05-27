@@ -118,6 +118,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\AForge.NET\AForge.dll</HintPath>
     </Reference>
+    <Reference Include="AForge.Imaging, Version=2.2.5.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Imaging.dll</HintPath>
+    </Reference>
     <Reference Include="AForge.Math, Version=2.2.3.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
@@ -128,6 +132,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
@@ -142,6 +147,7 @@
     <Compile Include="Convergence\RelativeConvergenceTest.cs" />
     <Compile Include="CombinatoricsTest.cs" />
     <Compile Include="Decompositions\JaggedSingularValueDecompositionTest.cs" />
+    <Compile Include="Geometry\ConvexHullDefectsTest.cs" />
     <Compile Include="Matrix\Matrix.Common.cs" />
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
@@ -196,6 +202,10 @@
     <Compile Include="ToolsTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
+      <Project>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</Project>
+      <Name>Accord.Controls.Imaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
       <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
       <Name>Accord.Controls</Name>
@@ -203,6 +213,10 @@
     <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Imaging\Accord.Imaging.csproj">
+      <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
+      <Name>Accord.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
@@ -245,10 +259,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Libbfgs.cpp" />
-    <Content Include="Libbfgs.h" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
