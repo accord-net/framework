@@ -23,13 +23,8 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning.DecisionTrees;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using System.Linq.Expressions;
-    using System.Text;
     using Accord.Math;
-    using System.Reflection;
-    using System.Reflection.Emit;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class DecisionTreeCompilerTest

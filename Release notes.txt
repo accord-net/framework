@@ -1,3 +1,64 @@
+Accord.NET Framework 2.13.0 release notes
+-----------------------------------------
+01.07.2014.    
+
+Version updates and fixes:
+  - GC-61: GoldfarbIdnani should implement the IOptimizationMethod interface;
+  - GC-63: Updating optimization methods to avoid throwing exceptions;
+  - GC-80: Audio.Formats.WaveDecoder.AverageBitsPerSecond should be bytes, not bits;
+  - GC-85: Tools.Random is not thread safe;
+  - GC-87: Add a base distance method for kernel functions;
+  - GC-88: General Discrete Distribution estimation doesn't handle negative values;
+  - GC-90: EmpiricalDistribution's SmoothingRule should use +0.2 in the factor calculation;
+  - GC-91: Update L-BFGS optimization algorithms from the latest Fortran source algorithms;
+  - GC-96: ConvexHullDefects doesn't accounts for defects between the last and first points;
+  - GH-05: ComplexSignalConstructor unit test fails;
+  - GH-07: Fixing typos in Haralick algorithm;
+  - GH-08: Updating IntegralImage2 to support Format32bppRgb images;
+  - GH-09: Binomial probability mass function result differs from Excel result;
+  - GH-10: Fixing issue in Singular value decomposition clone method;
+  - GH-11: Fixing issue in Statistics.Filters.Codification.Translate method;
+  - GH-12: Add a HistogramBox viewer in the same spirit as ScatterplotBox and DataGridBox.
+
+* Accord.Statistics
+  - Fixing Codification filter when columns have a max-length constraint;
+  - Fixing MultivariateNormalDistribution to handle edge cases;
+  - Fixing distance computations for most kernel functions;
+  - Updating Hidden Markov Model classes with more Debug assertions;
+  - Adding Deviance measure in the DescriptiveAnalysis;
+  - Adding a IReverseDistance interface to separate distinct kernel distances;
+  - Adding support for directly processing matrices in the Normalization filter;
+  - Adding support for explicit feature space transformation in some kernels.
+
+* Accord.Imaging
+  - Adding new user-contributed imaging filters: Difference of 
+    Gaussians, HighBoost, Niblack Threshold, Sauvola Threshold.
+
+* Accord.Math
+  - Fixing NonnegativeFactorization when smaller rank approximations are requested;
+  - Updating the previous L-BFGS implementation from the latest Lbfgsb.3.0 version;
+  - Adding the L-BFGS optimizer with support for Orthant-Wise optimizer from LibBFGS;
+  - Adding the Cobyla method for derivative-free optimization (user contribution);
+  - Adding the Discrete Curve Evolution algorithm (user contribution);
+  - Adding a Singular value decomposition implementation for Jagged matrices;
+  - Adding a simple 2D Kalman filter implementation (user contribution);
+  - Adding an 'online' version of the TruthTable method which can generate samples on the fly
+    through IEnumerable. Now it can also work with any number of symbols per element position.
+
+* Accord.Audio
+  - Fixing position calculation when sampleIndex is set in WindowBase.Apply method.
+
+* Accord.MachineLearning
+  - Adding support for different sample weights in SMO and and IRLS;
+  - Adding a configurable model threshold for AdaBoost learning;
+  - Adding a generic base model for AdaBoost's weak classifiers.
+
+* Accord.Controls
+  - Adding HistogramBox for displaying histograms in the same manner as MessageBox;
+  - Updating Scatterplot to allow for constructing a plot from a single parameter.
+
+
+
 Accord.NET Framework 2.12.0 release notes
 -----------------------------------------
 04.01.2014.    

@@ -157,14 +157,14 @@
     <Compile Include="Optimization\LibBFGS\LibBFGSComparisonTest.cs" />
     <Compile Include="Optimization\LibBFGS\LBFGSComparer.cs" />
     <Compile Include="Optimization\NonlinearConstraintTest.cs" />
-    <Compile Include="REnvironmentTest.cs" />
+    <Compile Include="Environment\REnvironmentTest.cs" />
     <Compile Include="CosineTransformTest.cs" />
     <Compile Include="Decompositions\GramSchmidtOrthogonalizationTest.cs" />
     <Compile Include="Functions\BesselTest.cs" />
     <Compile Include="Functions\NormalTest.cs" />
     <Compile Include="GaborTest.cs" />
     <Compile Include="Matrix\Matrix.Conversion.cs" />
-    <Compile Include="OctaveEnvironmentTest.cs" />
+    <Compile Include="Environment\OctaveEnvironmentTest.cs" />
     <Compile Include="Optimization\BrentSearchTest.cs" />
     <Compile Include="Optimization\QuadraticObjectiveFunctionTest.cs" />
     <Compile Include="PlaneTest.cs" />

@@ -22,12 +22,11 @@
 
 namespace Accord.Tests.Math
 {
+    using System;
     using System.Collections.Generic;
     using Accord.Math;
     using Accord.Math.Optimization;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Linq.Expressions;
-    using System;
 
 
     [TestClass()]

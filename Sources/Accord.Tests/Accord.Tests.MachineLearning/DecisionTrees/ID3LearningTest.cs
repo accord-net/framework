@@ -30,6 +30,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Tests.MachineLearning.Properties;
 
     [TestClass()]
     public class ID3LearningTest

@@ -22,11 +22,9 @@
 
 namespace Accord.Tests.Statistics
 {
+    using System.Data;
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Data;
-    using System;
-    using Accord.Controls;
 
     [TestClass()]
     public class DiscretizationFilterTest
