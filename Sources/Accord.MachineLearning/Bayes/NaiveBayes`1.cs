@@ -290,7 +290,7 @@ namespace Accord.MachineLearning.Bayes
         {
             if (classes <= 0) throw new ArgumentOutOfRangeException("classes");
             if (priors == null) throw new ArgumentNullException("priors");
-            if (priors.Length != classes) throw new DimensionMismatchException("priors");
+            if (priors.GetLength(0) != classes) throw new DimensionMismatchException("priors");
             if (classPriors.Length != classes) throw new DimensionMismatchException("classPriors");
 
             if (priors.GetLength(0) != classes)

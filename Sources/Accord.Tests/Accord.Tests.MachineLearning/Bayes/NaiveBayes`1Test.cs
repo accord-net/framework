@@ -96,6 +96,29 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+        [TestMethod()]
+        public void NaiveBayesConstructorTest5()
+        {
+            const int classes = 2;
+            const int inputCount = 3;
+            double[] classPriors = {0.4, 0.6};
+            var inputPriors = new [,]
+            {
+                {new UniformDiscreteDistribution(0,10), new UniformDiscreteDistribution(0,10), new UniformDiscreteDistribution(0,10)},
+                {new UniformDiscreteDistribution(0,10), new UniformDiscreteDistribution(0,10), new UniformDiscreteDistribution(0,10)}
+            };
+
+            var target = new NaiveBayes<UniformDiscreteDistribution>(classes, inputCount, inputPriors, classPriors);
+
+            Assert.AreEqual(classes, target.ClassCount);
+            Assert.AreEqual(inputCount, target.InputCount);
+            Assert.AreEqual(classPriors.Length, target.Priors.Length);
+            Assert.AreEqual(0.4, target.Priors[0]);
+            Assert.AreEqual(0.6, target.Priors[1]);
+
+            Assert.AreEqual(2, target.Distributions.GetLength(0));
+            Assert.AreEqual(3, target.Distributions.GetLength(1));            
+        }
 
         [TestMethod()]
         public void ComputeTest()
