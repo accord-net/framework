@@ -149,7 +149,18 @@ namespace Accord.Statistics.Models.Markov.Learning
                 throw new ArgumentNullException("observations");
 
             if (observations.Length == 0)
-                throw new ArgumentException("Observations vector must contain at least one observation", "observations");
+                throw new ArgumentException("Observation sequence vector must "+
+                    "contain at least one observation sequence.", "observations");
+
+            for (int i = 0; i < observations.Length; i++)
+            {
+                if (observations[i].Length == 0)
+                {
+                    throw new ArgumentException("The observation sequence at position "
+                        + i + " is empty. Observation sequences must contain at least "
+                        + " one observation.", "observations");
+                }
+            }
 
             LogWeights = new double[observations.Length];
 
@@ -183,7 +194,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                 throw new ArgumentNullException("observations");
 
             if (observations.Length == 0)
-                throw new ArgumentException("Observations vector must contain at least one observation", "observations");
+                throw new ArgumentException(
+                    "Observations vector must contain at least one observation", "observations");
 
             LogWeights = new double[observations.Length];
             for (int i = 0; i < observations.Length; i++)

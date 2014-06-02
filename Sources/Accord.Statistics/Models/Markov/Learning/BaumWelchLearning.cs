@@ -108,7 +108,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// <seealso cref="HiddenMarkovModel{TDistribution}"/>
     /// <seealso cref="BaumWelchLearning{TDistribution}"/>
     /// 
-    public class BaumWelchLearning : BaseBaumWelchLearning, IUnsupervisedLearning, 
+    public class BaumWelchLearning : BaseBaumWelchLearning, IUnsupervisedLearning,
         IConvergenceLearning, IUnsupervisedLearning<int[]>
     {
 
@@ -169,7 +169,8 @@ namespace Accord.Statistics.Models.Markov.Learning
                         "greater than or equal to 0, and lesser than the number of symbols passed to " +
                         "the HiddenMarkovModel. This model is expecting at most {0} symbols.";
 
-                        throw new ArgumentOutOfRangeException("observations", String.Format(message, model.Symbols));
+                        throw new ArgumentOutOfRangeException("observations",
+                            String.Format(message, model.Symbols));
                     }
                 }
             }

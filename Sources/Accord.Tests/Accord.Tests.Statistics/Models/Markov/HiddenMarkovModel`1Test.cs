@@ -1216,6 +1216,45 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void LearnTest_EmptySequence()
+        {
+            double[][] sequences =
+            {
+                new double[] { -0.223, -1.05, -0.574, 0.965, -0.448, 0.265, 0.087, 0.362, 0.717, -0.032 },
+                new double[] { -1.05, -0.574, 0.965, -0.448, 0.265, 0.087, 0.362, 0.717, -0.032, -0.346 },
+                new double[] {  },
+                new double[] { 0.965, -0.448, 0.265, 0.087, 0.362, 0.717, -0.032, -0.346, -0.989, -0.619 },
+                new double[] { -0.448, 0.265, 0.087, 0.362, 0.717, -0.032, -0.346, -0.989, -0.619, 0.02 },
+                new double[] { 0.265, 0.087, 0.362, 0.717, -0.032, -0.346, -0.989, -0.619, 0.02, -0.297 },
+            };
+
+
+            var density = new NormalDistribution(mean: 2, stdDev: 1.0);
+
+            var model = new HiddenMarkovModel<NormalDistribution>(new Forward(2), density);
+
+            var teacher = new BaumWelchLearning<NormalDistribution>(model)
+            {
+                Tolerance = 0.0001,
+                Iterations = 0,
+            };
+
+            bool thrown = false;
+
+            try
+            {
+                double logLikelihood = teacher.Run(sequences);
+            }
+            catch (ArgumentException ex)
+            {
+                Assert.AreEqual("observations", ex.ParamName);
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+        }
+
+        [TestMethod()]
         public void LearnTest13()
         {
             var observations = new double[][][]
