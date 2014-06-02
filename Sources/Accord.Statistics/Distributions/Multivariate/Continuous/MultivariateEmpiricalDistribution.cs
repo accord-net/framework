@@ -344,7 +344,8 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///
-        public void Fit(double[][] observations, double[] weights = null, MultivariateEmpiricalOptions options = null)
+        public void Fit(double[][] observations, double[] weights = null, 
+            MultivariateEmpiricalOptions options = null)
         {
             if (weights != null)
                 throw new ArgumentException("This distribution does not support weighted samples.");
@@ -427,8 +428,8 @@ namespace Accord.Statistics.Distributions.Multivariate
             var smoothing = new double[sigma.Length, sigma.Length];
             for (int i = 0; i < sigma.Length; i++)
             {
-                double a = Math.Pow(4 / (d + 2), 1 / (d + 4));
-                double b = Math.Pow(n, -1 / (d + 4));
+                double a = Math.Pow(4.0 / (d + 2.0), 1.0 / (d + 4.0));
+                double b = Math.Pow(n, -1.0 / (d + 4.0));
                 smoothing[i, i] = a * b * sigma[i];
             }
 

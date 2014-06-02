@@ -23,6 +23,10 @@
 namespace Accord.MachineLearning.DecisionTrees.Rules
 {
     using System.Collections.Generic;
+    using System.Text;
+    using Accord.Statistics.Filters;
+    using System;
+    using System.Globalization;
 
     /// <summary>
     ///   Decision rule set.
@@ -164,7 +168,42 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return rules.Remove(item);
         }
 
+        public override string ToString()
+        {
+            return toString(null, CultureInfo.CurrentUICulture);
+        }
 
+        public string ToString(Codification codebook, CultureInfo cultureInfo)
+        {
+            return toString(codebook, cultureInfo);
+        }
+
+        private string toString(Codification codebook, CultureInfo cultureInfo)
+        {
+            var rulesArray = new DecisionRule[this.rules.Count];
+
+            rules.CopyTo(rulesArray);
+            Array.Sort(rulesArray);
+
+            StringBuilder sb = new StringBuilder();
+            if (codebook != null)
+            {
+                foreach (DecisionRule rule in rulesArray)
+                    sb.AppendLine(rule.ToString(codebook, cultureInfo));
+            }
+            else
+            {
+                foreach (DecisionRule rule in rulesArray)
+                    sb.AppendLine(rule.ToString(cultureInfo));
+            }
+
+            return sb.ToString();
+        }
+
+        public string ToString(Codification codebook)
+        {
+            return ToString(codebook, CultureInfo.CurrentUICulture);
+        }
 
         /// <summary>
         ///    Returns an enumerator that iterates through a collection.

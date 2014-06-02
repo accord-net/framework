@@ -27,12 +27,14 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     using System.Linq;
     using System.Text;
     using Accord.Statistics.Filters;
+    using System.Globalization;
 
     /// <summary>
     ///   Decision Rule.
     /// </summary>
     /// 
-    public class DecisionRule : ICloneable, IEnumerable<Antecedent>, IEquatable<DecisionRule>
+    public class DecisionRule : ICloneable, IEnumerable<Antecedent>, 
+        IEquatable<DecisionRule>, IComparable<DecisionRule>
     {
 
         private HashSet<Antecedent> expressions;
@@ -152,7 +154,8 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
                 throw new ArgumentNullException("node");
 
             if (!node.IsLeaf || node.IsRoot || !node.Value.HasValue)
-                throw new InvalidOperationException("Only leaf nodes that have a parent can be converted to rules.");
+                throw new InvalidOperationException(
+                    "Only leaf nodes that have a parent can be converted to rules.");
 
             DecisionNode current = node;
             DecisionTree owner = current.Owner;
@@ -201,7 +204,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public override string ToString()
         {
-            return toString(null);
+            return toString(null, CultureInfo.CurrentUICulture);
         }
 
         /// <summary>
@@ -214,9 +217,18 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public string ToString(Codification codebook)
         {
-            return toString(codebook);
+            return toString(codebook, CultureInfo.CurrentUICulture);
         }
 
+        public string ToString(CultureInfo cultureInfo)
+        {
+            return toString(null, cultureInfo);
+        }
+
+        public string ToString(Codification codebook, CultureInfo cultureInfo)
+        {
+            return toString(codebook, cultureInfo);
+        }
        
 
         /// <summary>
@@ -315,21 +327,20 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
 
 
-        private string toString(Codification codebook)
+        private string toString(Codification codebook, CultureInfo culture)
         {
             StringBuilder sb = new StringBuilder();
-
+            
             var expr = expressions.ToArray();
 
             for (int i = 0; i < expr.Length - 1; i++)
-                sb.AppendFormat("({0}) && ", toString(expr[i], codebook));
+                sb.AppendFormat("({0}) && ", toString(expr[i], codebook, culture));
+            sb.AppendFormat("({0})", toString(expr[expr.Length - 1], codebook, culture));
 
-            sb.AppendFormat("({0}) := {1}", toString(expr[expr.Length - 1], codebook), Output);
-
-            return sb.ToString();
+            return String.Format(culture, "{0} =: {1}", Output, sb);
         }
 
-        private string toString(Antecedent antecedent, Codification codebook)
+        private string toString(Antecedent antecedent, Codification codebook, CultureInfo culture)
         {
             int index = antecedent.Index;
             String name = Variables[index].Name;
@@ -343,10 +354,21 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             if (codebook != null && codebook.Columns.Contains(name))
                 value = codebook.Translate(name, (int)antecedent.Value);
 
-            else value = antecedent.Value.ToString();
+            else value = antecedent.Value.ToString(culture);
 
-            return String.Format("{0} {1} {2}", name, op, value);
+            return String.Format(culture, "{0} {1} {2}", name, op, value);
         }
+
+        public int CompareTo(DecisionRule other)
+        {
+            int order = this.Output.CompareTo(other.Output);
+
+            if (order == 0)
+                return this.Antecedents.Count.CompareTo(other.Antecedents.Count);
+
+            return order;
+        }
+
     }
 
 }

@@ -244,6 +244,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\iris.data.txt" />
     <Content Include="Resources\iris.scale.txt" />
     <None Include="Accord.snk" />
     <None Include="Resources\noise-line.png" />

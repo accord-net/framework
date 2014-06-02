@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using System.Data;
+    using Accord.Math;
     using Accord.Statistics.Filters;
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math;
     
     [TestClass()]
     public class BranchingFilterTest

@@ -22,17 +22,13 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using Accord.MachineLearning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using Accord.Math;
-    using Accord.Statistics;
     using Accord.MachineLearning.Boosting;
     using Accord.MachineLearning.Boosting.Learners;
-    using Accord.MachineLearning.VectorMachines;
-    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
     [TestClass()]

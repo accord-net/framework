@@ -22,14 +22,8 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
-    using System.Data;
     using Accord.MachineLearning.DecisionTrees;
-    using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.MachineLearning.DecisionTrees.Rules;
-    using Accord.Math;
-    using Accord.Statistics.Filters;
-    using Accord.Tests.MachineLearning.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]

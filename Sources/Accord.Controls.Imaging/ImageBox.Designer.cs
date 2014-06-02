@@ -50,12 +50,19 @@ namespace Accord.Controls
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox = new AForge.Controls.PictureBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.centeredToolStripMenuItem = new System.Windows.Forms.ToolStripComboBox();
+            this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox
             // 
+            this.pictureBox.ContextMenuStrip = this.contextMenuStrip1;
             this.pictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox.Image = null;
             this.pictureBox.Location = new System.Drawing.Point(0, 0);
@@ -65,6 +72,36 @@ namespace Accord.Controls
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.centeredToolStripMenuItem,
+            this.zoomToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(213, 53);
+            // 
+            // centeredToolStripMenuItem
+            // 
+            this.centeredToolStripMenuItem.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.centeredToolStripMenuItem.Name = "centeredToolStripMenuItem";
+            this.centeredToolStripMenuItem.Size = new System.Drawing.Size(152, 23);
+            this.centeredToolStripMenuItem.SelectedIndexChanged += new System.EventHandler(this.centeredToolStripMenuItem_SelectedIndexChanged);
+            // 
+            // zoomToolStripMenuItem
+            // 
+            this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.zoomToolStripMenuItem.Text = "Save";
+            this.zoomToolStripMenuItem.Click += new System.EventHandler(this.zoomToolStripMenuItem_Click);
+            // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.DefaultExt = "png";
+            this.saveFileDialog1.Filter = "Bitmap Image (.bmp)|*.bmp|Gif Image (.gif)|*.gif|JPEG Image (.jpeg)|*.jpeg|Png Im" +
+    "age (.png)|*.png|Tiff Image (.tiff)|*.tiff|Wmf Image (.wmf)|*.wmf";
+            this.saveFileDialog1.Title = "Save Image As...";
+            this.saveFileDialog1.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog1_FileOk);
             // 
             // ImageBox
             // 
@@ -77,7 +114,9 @@ namespace Accord.Controls
             this.KeyPreview = true;
             this.Name = "ImageBox";
             this.Text = "Image";
+            this.Load += new System.EventHandler(this.ImageBox_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -85,6 +124,10 @@ namespace Accord.Controls
         #endregion
 
         private AForge.Controls.PictureBox pictureBox;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
+        private System.Windows.Forms.ToolStripComboBox centeredToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 
     }
 }

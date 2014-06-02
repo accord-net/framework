@@ -29,6 +29,8 @@ namespace Accord.Controls
 
     using Image = System.Drawing.Image;
     using Accord.Imaging.Converters;
+    using Accord.Imaging;
+    using System.Drawing.Imaging;
 
     /// <summary>
     ///   Displays images in a similar way to System.Windows.Forms.MessageBox.
@@ -36,7 +38,6 @@ namespace Accord.Controls
     /// 
     public partial class ImageBox : Form
     {
-
 
         /// <summary>
         ///   Displays an image on the screen.
@@ -270,7 +271,8 @@ namespace Accord.Controls
         /// <param name="image">The image to show.</param>
         /// <param name="sizeMode">How to display the image inside the image box.</param>
         /// 
-        public static DialogResult Show(string title, UnmanagedImage image, PictureBoxSizeMode sizeMode)
+        public static DialogResult Show(string title, UnmanagedImage image,
+            PictureBoxSizeMode sizeMode)
         {
             return Show(title, image, sizeMode, 0, 0);
         }
@@ -285,7 +287,8 @@ namespace Accord.Controls
         /// <param name="width">The width of the image box.</param>
         /// <param name="height">The height of the image box.</param>
         /// 
-        public static DialogResult Show(string title, Image image, PictureBoxSizeMode sizeMode, int width, int height)
+        public static DialogResult Show(string title, Image image,
+            PictureBoxSizeMode sizeMode, int width, int height)
         {
             return Show(title, image, sizeMode, width, height, Color.Black);
         }
@@ -300,7 +303,8 @@ namespace Accord.Controls
         /// <param name="width">The width of the image box.</param>
         /// <param name="height">The height of the image box.</param>
         /// 
-        public static DialogResult Show(string title, UnmanagedImage image, PictureBoxSizeMode sizeMode, int width, int height)
+        public static DialogResult Show(string title, UnmanagedImage image,
+            PictureBoxSizeMode sizeMode, int width, int height)
         {
             return Show(title, image, sizeMode, width, height, Color.Black);
         }
@@ -317,7 +321,8 @@ namespace Accord.Controls
         /// <param name="backColor">The background color to use in the window. 
         ///   Default is <see cref="Color.Black"/>.</param>
         /// 
-        public static DialogResult Show(string title, Image image, PictureBoxSizeMode sizeMode, int width, int height, Color backColor)
+        public static DialogResult Show(string title, Image image,
+            PictureBoxSizeMode sizeMode, int width, int height, Color backColor)
         {
             if (image == null)
                 throw new ArgumentNullException("image");
@@ -371,13 +376,14 @@ namespace Accord.Controls
         /// <param name="backColor">The background color to use in the window. 
         ///   Default is <see cref="Color.Black"/>.</param>
         /// 
-        public static DialogResult Show(string title, UnmanagedImage image, PictureBoxSizeMode sizeMode, int width, int height, Color backColor)
+        public static DialogResult Show(string title, UnmanagedImage image,
+            PictureBoxSizeMode sizeMode, int width, int height, Color backColor)
         {
             return Show(title, image.ToManagedImage(), sizeMode, width, height, backColor);
         }
 
 
-        private ImageBox()
+        protected ImageBox()
         {
             InitializeComponent();
         }
@@ -392,6 +398,33 @@ namespace Accord.Controls
                 this.Close();
 
             base.OnPreviewKeyDown(e);
+        }
+
+
+        private void centeredToolStripMenuItem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.pictureBox.SizeMode = (PictureBoxSizeMode)centeredToolStripMenuItem.ComboBox.SelectedValue;
+        }
+
+        private void ImageBox_Load(object sender, EventArgs e)
+        {
+            var modes = Enum.GetValues(typeof(PictureBoxSizeMode));
+
+            this.centeredToolStripMenuItem.ComboBox.BindingContext = this.BindingContext;
+            this.centeredToolStripMenuItem.ComboBox.DataSource = modes;
+        }
+
+        private void zoomToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.ShowDialog(this);
+        }
+
+        private void saveFileDialog1_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ImageFormat format = Tools.GetFormat(saveFileDialog1.FileName);
+
+            using (var file = saveFileDialog1.OpenFile())
+                this.pictureBox.Image.Save(file, format);
         }
 
     }
