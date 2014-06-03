@@ -126,9 +126,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Neuro, Version=2.2.5.0, Culture=neutral, PublicKeyToken=2094f4ea39731d4f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Assembla\Externals\AForge.NET\AForge.Neuro.dll</HintPath>
+    <Reference Include="AForge.Neuro">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Neuro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />

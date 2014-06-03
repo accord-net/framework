@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AccordTestsMathCpp2;
 using Accord.Math.Optimization;
+using AccordTestsMathCpp2;
 
 namespace Accord.Tests.Math.Optimization
 {

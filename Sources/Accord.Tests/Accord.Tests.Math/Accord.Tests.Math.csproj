@@ -114,6 +114,9 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Accord.Tests.Math.Cpp">
+      <HintPath>..\..\Debug\Accord.Tests.Math.Cpp.dll</HintPath>
+    </Reference>
     <Reference Include="AForge, Version=2.2.3.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\AForge.NET\AForge.dll</HintPath>
@@ -211,10 +214,6 @@
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
       <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj">
-      <Project>{161BD953-537D-4325-8A00-22475FC9088E}</Project>
-      <Name>Accord.Tests.Math.Cpp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
