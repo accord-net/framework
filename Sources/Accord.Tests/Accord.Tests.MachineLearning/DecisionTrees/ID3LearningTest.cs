@@ -76,7 +76,8 @@ namespace Accord.Tests.MachineLearning
 
             // Create a new codification codebook to
             // convert strings into integer symbols
-            Codification codebook = new Codification(data);
+            Codification codebook = new Codification(data,
+                "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
 
             DecisionVariable[] attributes =
             {

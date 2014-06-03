@@ -23,11 +23,10 @@
 namespace Accord.MachineLearning.Bayes
 {
     using System;
-    using Accord.Math;
-    using System.Runtime.Serialization.Formatters.Binary;
     using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using Accord.Math;
     using Accord.Statistics.Distributions;
-
 
     /// <summary>
     ///   Naïve Bayes Classifier.
@@ -104,7 +103,8 @@ namespace Accord.MachineLearning.Bayes
     /// <code>
     ///   // Create a new codification codebook to 
     ///   // convert strings into integer symbols
-    ///   Codification codebook = new Codification(data);
+    ///   Codification codebook = new Codification(data,
+    ///     "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
     ///   
     ///   // Translate our training data into integer symbols using our codebook:
     ///   DataTable symbols = codebook.Apply(data); 
@@ -178,8 +178,11 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, params int[] symbols)
         {
-            if (classes <= 0) throw new ArgumentOutOfRangeException("classes");
-            if (symbols == null) throw new ArgumentNullException("symbols");
+            if (classes <= 0) 
+                throw new ArgumentOutOfRangeException("classes");
+
+            if (symbols == null) 
+                throw new ArgumentNullException("symbols");
 
             initialize(classes, symbols, null);
         }
@@ -194,9 +197,14 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, double[] classPriors, params int[] symbols)
         {
-            if (classes <= 0) throw new ArgumentOutOfRangeException("classes");
-            if (classPriors == null) throw new ArgumentNullException("classPriors");
-            if (symbols == null) throw new ArgumentNullException("symbols");
+            if (classes <= 0) 
+                throw new ArgumentOutOfRangeException("classes");
+
+            if (classPriors == null) 
+                throw new ArgumentNullException("classPriors");
+
+            if (symbols == null) 
+                throw new ArgumentNullException("symbols");
 
             if (classPriors.Length != classes) throw new DimensionMismatchException("classPriors");
 
