@@ -1,7 +1,4 @@
-﻿using Accord.Statistics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-// Accord Unit Tests
+﻿// Accord Unit Tests
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -25,13 +22,10 @@ using System;
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics;
     using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
-
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Tools = Accord.Statistics.Tools;
-    using System;
 
     [TestClass()]
     public class ToolsTest
@@ -215,6 +209,41 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
         }
 
+        [TestMethod()]
+        public void QuartileTest1()
+        {
+            double[] values = new double[] { 3, 4, 8 };
+            double q1, q3, actual;
+
+            actual = Tools.Quartiles(values, out q1, out q3, false);
+            Assert.AreEqual(3, q1);
+            Assert.AreEqual(4, actual);
+            Assert.AreEqual(8, q3);
+        }
+
+        [TestMethod()]
+        public void QuartileTest2()
+        {
+            double[] values = new double[] { 1, 3, 3, 4, 5, 6, 6, 7, 8, 8 };
+            double q1, q3, actual;
+
+            actual = Tools.Quartiles(values, out q1, out q3, false);
+            Assert.AreEqual(3, q1);
+            Assert.AreEqual(5.5, actual);
+            Assert.AreEqual(7, q3);
+        }
+
+        [TestMethod()]
+        public void QuartileTest3()
+        {
+            double[] values = new double[] { 102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118 };
+            double q1, q3, actual;
+
+            actual = Tools.Quartiles(values, out q1, out q3, false);
+            Assert.AreEqual(105, q1);
+            Assert.AreEqual(109, actual);
+            Assert.AreEqual(115, q3);
+        }
 
         [TestMethod()]
         public void ModeTest1()
