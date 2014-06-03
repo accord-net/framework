@@ -157,7 +157,9 @@ namespace Accord.Statistics.Testing
             for (int i = 0; i < observed.Length; i++)
             {
                 double d = observed[i] - expected[i];
-                sum += (d * d) / expected[i];
+
+                if (d != 0)
+                    sum += (d * d) / expected[i];
             }
 
 
@@ -278,7 +280,8 @@ namespace Accord.Statistics.Testing
                     if (yatesCorrection)
                         u = Math.Abs(u) - 0.5;
 
-                    x += (u * u) / e;
+                    if (u != 0)
+                        x += (u * u) / e;
                 }
             }
 
