@@ -33,7 +33,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
     ///   Decision Rule.
     /// </summary>
     /// 
-    public class DecisionRule : ICloneable, IEnumerable<Antecedent>, 
+    public class DecisionRule : ICloneable, IEnumerable<Antecedent>,
         IEquatable<DecisionRule>, IComparable<DecisionRule>
     {
 
@@ -220,16 +220,32 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return toString(codebook, CultureInfo.CurrentUICulture);
         }
 
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
         public string ToString(CultureInfo cultureInfo)
         {
             return toString(null, cultureInfo);
         }
 
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
         public string ToString(Codification codebook, CultureInfo cultureInfo)
         {
             return toString(codebook, cultureInfo);
         }
-       
+
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -330,7 +346,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         private string toString(Codification codebook, CultureInfo culture)
         {
             StringBuilder sb = new StringBuilder();
-            
+
             var expr = expressions.ToArray();
 
             for (int i = 0; i < expr.Length - 1; i++)
@@ -359,6 +375,10 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return String.Format(culture, "{0} {1} {2}", name, op, value);
         }
 
+        /// <summary>
+        ///   Compares this instance to another <see cref="DecisionRule"/>.
+        /// </summary>
+        /// 
         public int CompareTo(DecisionRule other)
         {
             int order = this.Output.CompareTo(other.Output);
@@ -369,6 +389,46 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return order;
         }
 
-    }
+        /// <summary>
+        ///   Implements the operator &lt;.
+        /// </summary>
+        /// 
+        public static bool operator <(DecisionRule a, DecisionRule b)
+        {
+            if (a.Output == b.Output)
+                return a.Antecedents.Count < b.Antecedents.Count;
 
+            return a.Output < b.Output;
+        }
+
+        /// <summary>
+        ///   Implements the operator &gt;.
+        /// </summary>
+        /// 
+        public static bool operator >(DecisionRule a, DecisionRule b)
+        {
+            if (a.Output == b.Output)
+                return a.Antecedents.Count > b.Antecedents.Count;
+
+            return a.Output > b.Output;
+        }
+
+        /// <summary>
+        ///   Implements the operator ==.
+        /// </summary>
+        /// 
+        public static bool operator ==(DecisionRule a, DecisionRule b)
+        {
+            return a.Equals(b);
+        }
+
+        /// <summary>
+        ///   Implements the operator !=.
+        /// </summary>
+        /// 
+        public static bool operator !=(DecisionRule a, DecisionRule b)
+        {
+            return !a.Equals(b);
+        }
+    }
 }

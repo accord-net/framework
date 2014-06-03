@@ -382,7 +382,10 @@ namespace Accord.Controls
             return Show(title, image.ToManagedImage(), sizeMode, width, height, backColor);
         }
 
-
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ImageBox"/> class.
+        /// </summary>
+        /// 
         protected ImageBox()
         {
             InitializeComponent();

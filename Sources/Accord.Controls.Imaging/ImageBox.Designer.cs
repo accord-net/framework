@@ -20,6 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System.CodeDom.Compiler;
 namespace Accord.Controls
 {
     partial class ImageBox
@@ -48,6 +49,8 @@ namespace Accord.Controls
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
+        /// 
+        [GeneratedCode("Windows Forms Designer", "4.0")]
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();

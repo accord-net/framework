@@ -168,14 +168,43 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             return rules.Remove(item);
         }
 
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
         public override string ToString()
         {
             return toString(null, CultureInfo.CurrentUICulture);
         }
 
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
         public string ToString(Codification codebook, CultureInfo cultureInfo)
         {
             return toString(codebook, cultureInfo);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public string ToString(Codification codebook)
+        {
+            return ToString(codebook, CultureInfo.CurrentUICulture);
         }
 
         private string toString(Codification codebook, CultureInfo cultureInfo)
@@ -198,11 +227,6 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             }
 
             return sb.ToString();
-        }
-
-        public string ToString(Codification codebook)
-        {
-            return ToString(codebook, CultureInfo.CurrentUICulture);
         }
 
         /// <summary>

@@ -162,10 +162,7 @@ namespace Accord.Controls
         ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
-        /// <param name="title">The title for the plot window.</param>
         /// <param name="x">The x-values for the data.</param>
-        /// <param name="y">The y-values for the data.</param>
-        /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default
@@ -205,7 +202,6 @@ namespace Accord.Controls
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">The x-values for the data.</param>
         /// <param name="y">The y-values for the data.</param>
-        /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default
@@ -226,8 +222,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">The x-values for the data.</param>
-        /// <param name="y">The y-values for the data.</param>
-        /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default
@@ -263,7 +257,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
-        /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default
@@ -301,7 +294,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
-        /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default
@@ -338,7 +330,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
-        /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default
@@ -355,7 +346,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
-        /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
         /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
         /// executing while the form is shown on screen. If set to <c>false</c>,
         /// the caller will be blocked until the user closes the form. Default

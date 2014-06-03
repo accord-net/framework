@@ -2341,9 +2341,10 @@ namespace Accord.Statistics
         ///   Computes the Quartiles of the given values.
         /// </summary>
         /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// 
+        /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="range">The inter-quartile range for the values.</param>
+        /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
         public static double[] Quartiles(this double[,] matrix, out DoubleRange[] range)
@@ -2362,9 +2363,9 @@ namespace Accord.Statistics
         ///   Computes the Quartiles of the given values.
         /// </summary>
         /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
         /// <param name="range">The inter-quartile range for the values.</param>
+        /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
         public static double[] Quartiles(this double[][] matrix, out DoubleRange[] range)
@@ -2383,10 +2384,11 @@ namespace Accord.Statistics
         ///   Computes the Quartiles of the given values.
         /// </summary>
         /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="q1">The first quartile.</param>
-        /// <param name="q3">The third quartile.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// 
+        /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
+        /// <param name="q1">The first quartile for each column.</param>
+        /// <param name="q3">The third quartile for each column.</param>
+        /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
         public static double[] Quartiles(double[][] matrix, out double[] q1, out double[] q3)
@@ -2418,10 +2420,10 @@ namespace Accord.Statistics
         ///   Computes the Quartiles of the given values.
         /// </summary>
         /// 
-        /// <param name="values">An integer array containing the vector members.</param>
-        /// <param name="q1">The first quartile.</param>
-        /// <param name="q3">The third quartile.</param>
-        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="matrix">A matrix whose medians and quartiles will be calculated.</param>
+        /// <param name="q1">The first quartile for each column.</param>
+        /// <param name="q3">The third quartile for each column.</param>
+        /// 
         /// <returns>The second quartile, the median of the given data.</returns>
         /// 
         public static double[] Quartiles(double[,] matrix, out double[] q1, out double[] q3)
