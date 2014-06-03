@@ -187,5 +187,10 @@ namespace Accord.Statistics.Filters
             base.Add(item);
             return item;
         }
+
+        public bool TryGetValue(String key, out T item)
+        {
+            return base.Dictionary.TryGetValue(key, out item);
+        }
     }
 }

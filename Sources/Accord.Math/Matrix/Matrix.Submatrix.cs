@@ -478,12 +478,37 @@ namespace Accord.Math
         {
             if (source == null)
                 throw new ArgumentNullException("source");
+
             if (indexes == null)
                 throw new ArgumentNullException("indexes");
 
             var destination = new T[indexes.Length];
             for (int i = 0; i < indexes.Length; i++)
                 destination[i] = source[indexes[i]];
+
+            return destination;
+        }
+
+        /// <summary>
+        ///   Returns a subvector extracted from the current vector.
+        /// </summary>
+        /// 
+        /// <param name="source">The vector to return the subvector from.</param>
+        /// <param name="indexes">Array of indices.</param>
+        /// 
+        public static T[] Submatrix<T>(this T[] source, IList<int> indexes)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            if (indexes == null)
+                throw new ArgumentNullException("indexes");
+
+            var destination = new T[indexes.Count];
+
+            int i = 0;
+            foreach (var j in indexes)
+                destination[i++] = source[j];
 
             return destination;
         }
@@ -545,6 +570,7 @@ namespace Accord.Math
         {
             if (source == null)
                 throw new ArgumentNullException("source");
+
             if (indexes == null)
                 throw new ArgumentNullException("indexes");
 

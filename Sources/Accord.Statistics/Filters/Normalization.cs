@@ -169,31 +169,58 @@ namespace Accord.Statistics.Filters
             {
                 double[][] newData = data.MemberwiseClone();
 
-                // Scale each value from the original ranges to destination ranges
-                foreach (Options column in this.Columns)
-                {
-                    string name = column.ColumnName;
+                apply(newData);
 
-                    int index = (column.Tag != null) ?
-                        (int)column.Tag : int.Parse(name);
-
-                    double mean = column.Mean;
-                    double stdDev = column.StandardDeviation;
-
-                    if (column.Standardize)
-                    {
-                        for (int i = 0; i < data.Length; i++)
-                            newData[i][index] = (data[i][index] - mean) / stdDev; 
-                    }
-                    else
-                    {
-                        for (int i = 0; i < data.Length; i++)
-                            newData[i][index] = (data[i][index] - mean);
-                    }
-                }
+                return newData;
             }
 
             return data;
+        }
+
+        /// <summary>
+        ///   Applies the Filter to a <see cref="System.Data.DataTable"/>.
+        /// </summary>
+        /// 
+        /// <param name="data">The source <see cref="System.Data.DataTable"/>.</param>
+        /// 
+        /// <returns>The processed <see cref="System.Data.DataTable"/>.</returns>
+        /// 
+        public double[][] ApplyInPlace(double[][] data)
+        {
+            // Initial argument checking
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            if (Active)
+                apply(data);
+
+            return data;
+        }
+
+        private void apply(double[][] data)
+        {
+            // Scale each value from the original ranges to destination ranges
+            foreach (Options column in this.Columns)
+            {
+                string name = column.ColumnName;
+
+                int index = (column.Tag != null) ?
+                    (int)column.Tag : int.Parse(name);
+
+                double mean = column.Mean;
+                double stdDev = column.StandardDeviation;
+
+                if (column.Standardize)
+                {
+                    for (int i = 0; i < data.Length; i++)
+                        data[i][index] = (data[i][index] - mean) / stdDev;
+                }
+                else
+                {
+                    for (int i = 0; i < data.Length; i++)
+                        data[i][index] = (data[i][index] - mean);
+                }
+            }
         }
 
         /// <summary>

@@ -514,8 +514,8 @@ namespace Accord.Statistics
 
                 int lowerStart = 0;
                 int lowerLength = half - 1;
-                int upperStart = half + 1;
-                int upperLength = N - upperStart + 1;
+                int upperStart = half;
+                int upperLength = N - upperStart;
 
                 q1 = Median(values, lowerStart, lowerLength, alreadySorted: true);
                 q3 = Median(values, upperStart, upperLength, alreadySorted: true);
@@ -531,7 +531,7 @@ namespace Accord.Statistics
                 int lowerStart = 0;
                 int lowerLength = half;
                 int upperStart = half + 1;
-                int upperLength = N - upperStart + 1;
+                int upperLength = N - upperStart;
 
                 q1 = Median(values, lowerStart, lowerLength, alreadySorted: true);
                 q3 = Median(values, upperStart, upperLength, alreadySorted: true);
@@ -1429,6 +1429,42 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">An array of integer symbols.</param>
+        /// <param name="startValue">The starting symbol.</param>
+        /// <param name="endValue">The ending symbol.</param>
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double Entropy(IList<int> values, int startValue, int endValue)
+        {
+            double entropy = 0;
+            double total = values.Count;
+
+            // For each class
+            for (int c = startValue; c <= endValue; c++)
+            {
+                int count = 0;
+
+                // Count the number of instances inside
+                foreach (int v in values)
+                    if (v == c) count++;
+
+                if (count > 0)
+                {
+                    // Avoid situations limiting situations
+                    //  by forcing 0 * Math.Log(0) to be 0.
+
+                    double p = count / total;
+                    entropy -= p * Math.Log(p, 2);
+                }
+            }
+
+            return entropy;
+        }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
         /// <param name="valueRange">The range of symbols.</param>
         /// <returns>The evaluated entropy.</returns>
         /// 
@@ -1449,6 +1485,20 @@ namespace Accord.Statistics
         {
             return Entropy(values, 0, classes - 1);
         }
+
+        /// <summary>
+        ///   Computes the entropy for the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An array of integer symbols.</param>
+        /// <param name="classes">The number of distinct classes.</param>
+        /// <returns>The evaluated entropy.</returns>
+        /// 
+        public static double Entropy(IList<int> values, int classes)
+        {
+            return Entropy(values, 0, classes - 1);
+        }
+
         #endregion
 
         #region Weighted Array Measures
@@ -1540,7 +1590,7 @@ namespace Accord.Statistics
         public static double WeightedVariance(double[] values, double[] weights, double mean)
         {
             if (values.Length != weights.Length)
-                throw new DimensionMismatchException("weights", 
+                throw new DimensionMismatchException("weights",
                     "The values and weight vectors must have the same length");
 
             // http://en.wikipedia.org/wiki/Weighted_variance#Weighted_sample_variance
@@ -1592,7 +1642,7 @@ namespace Accord.Statistics
                 throw new DimensionMismatchException("weights",
                     "The values and weight vectors must have the same length");
 
-            if (rows == 0) 
+            if (rows == 0)
                 return new double[0];
 
             int cols = matrix[0].Length;
@@ -2260,7 +2310,8 @@ namespace Accord.Statistics
         /// 
         public static double[] Median(this double[][] matrix)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.Length;
             int cols = matrix[0].Length;
@@ -2281,6 +2332,118 @@ namespace Accord.Statistics
                 if (N % 2 == 0)
                     medians[i] = (data[N / 2] + data[(N / 2) - 1]) * 0.5; // N is even 
                 else medians[i] = data[N / 2];                      // N is odd
+            }
+
+            return medians;
+        }
+
+        /// <summary>
+        ///   Computes the Quartiles of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An integer array containing the vector members.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="range">The inter-quartile range for the values.</param>
+        /// <returns>The second quartile, the median of the given data.</returns>
+        /// 
+        public static double[] Quartiles(this double[,] matrix, out DoubleRange[] range)
+        {
+            double[] q1, q3;
+            double[] median = Quartiles(matrix, out q1, out q3);
+
+            range = new DoubleRange[median.Length];
+            for (int i = 0; i < range.Length; i++)
+                range[i] = new DoubleRange(q1[i], q3[i]);
+
+            return median;
+        }
+
+        /// <summary>
+        ///   Computes the Quartiles of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An integer array containing the vector members.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <param name="range">The inter-quartile range for the values.</param>
+        /// <returns>The second quartile, the median of the given data.</returns>
+        /// 
+        public static double[] Quartiles(this double[][] matrix, out DoubleRange[] range)
+        {
+            double[] q1, q3;
+            double[] median = Quartiles(matrix, out q1, out q3);
+
+            range = new DoubleRange[median.Length];
+            for (int i = 0; i < range.Length; i++)
+                range[i] = new DoubleRange(q1[i], q3[i]);
+
+            return median;
+        }
+
+        /// <summary>
+        ///   Computes the Quartiles of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An integer array containing the vector members.</param>
+        /// <param name="q1">The first quartile.</param>
+        /// <param name="q3">The third quartile.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <returns>The second quartile, the median of the given data.</returns>
+        /// 
+        public static double[] Quartiles(double[][] matrix, out double[] q1, out double[] q3)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.Length;
+            int cols = matrix[0].Length;
+            double[] medians = new double[cols];
+            q1 = new double[cols];
+            q3 = new double[cols];
+
+            for (int i = 0; i < cols; i++)
+            {
+                double[] data = new double[rows];
+
+                // Creates a copy of the given values
+                for (int j = 0; j < rows; j++)
+                    data[j] = matrix[j][i];
+
+                medians[i] = Quartiles(data, out q1[i], out q3[i], alreadySorted: false);
+            }
+
+            return medians;
+        }
+
+        /// <summary>
+        ///   Computes the Quartiles of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">An integer array containing the vector members.</param>
+        /// <param name="q1">The first quartile.</param>
+        /// <param name="q3">The third quartile.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
+        /// <returns>The second quartile, the median of the given data.</returns>
+        /// 
+        public static double[] Quartiles(double[,] matrix, out double[] q1, out double[] q3)
+        {
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
+
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            double[] medians = new double[cols];
+            q1 = new double[cols];
+            q3 = new double[cols];
+
+            for (int i = 0; i < cols; i++)
+            {
+                double[] data = new double[rows];
+
+                // Creates a copy of the given values
+                for (int j = 0; j < rows; j++)
+                    data[j] = matrix[j, i];
+
+                medians[i] = Quartiles(data, out q1[i], out q3[i], alreadySorted: false);
             }
 
             return medians;
@@ -3870,7 +4033,7 @@ namespace Accord.Statistics
             double[] means, double factor, int dimension)
         {
             int rows = matrix.Length;
-            if (rows == 0) 
+            if (rows == 0)
                 return new double[0, 0];
             int cols = matrix[0].Length;
 

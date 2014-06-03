@@ -23,11 +23,11 @@
 namespace Accord.MachineLearning.Bayes
 {
     using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
     ///   Naïve Bayes Classifier for arbitrary distributions.
@@ -107,7 +107,8 @@ namespace Accord.MachineLearning.Bayes
     /// <code>
     ///   // Create a new codification codebook to 
     ///   // convert strings into integer symbols
-    ///   Codification codebook = new Codification(data);
+    ///   Codification codebook = new Codification(data,
+    ///     "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
     ///   
     ///   // Translate our training data into integer symbols using our codebook:
     ///   DataTable symbols = codebook.Apply(data); 
@@ -184,9 +185,14 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution prior)
         {
-            if (classes <= 0) throw new ArgumentOutOfRangeException("classes");
-            if (inputs <= 0) throw new ArgumentOutOfRangeException("inputs");
-            if (prior == null) throw new ArgumentNullException("prior");
+            if (classes <= 0) 
+                throw new ArgumentOutOfRangeException("classes");
+
+            if (inputs <= 0)
+                throw new ArgumentOutOfRangeException("inputs");
+
+            if (prior == null)
+                throw new ArgumentNullException("prior");
 
             TDistribution[,] priors = new TDistribution[classes, inputs];
             for (int i = 0; i < classes; i++)
@@ -211,10 +217,17 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution prior, double[] classPriors)
         {
-            if (classes <= 0) throw new ArgumentOutOfRangeException("classes");
-            if (inputs <= 0) throw new ArgumentOutOfRangeException("inputs");
-            if (classPriors == null) throw new ArgumentNullException("classPriors");
-            if (classPriors.Length != classes) throw new DimensionMismatchException("classPriors");
+            if (classes <= 0) 
+                throw new ArgumentOutOfRangeException("classes");
+
+            if (inputs <= 0) 
+                throw new ArgumentOutOfRangeException("inputs");
+
+            if (classPriors == null) 
+                throw new ArgumentNullException("classPriors");
+
+            if (classPriors.Length != classes) 
+                throw new DimensionMismatchException("classPriors");
 
             TDistribution[,] priors = new TDistribution[classPriors.Length, inputs];
             for (int i = 0; i < classPriors.Length; i++)
@@ -238,10 +251,17 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution[] inputPriors)
         {
-            if (classes <= 0) throw new ArgumentOutOfRangeException("classes");
-            if (inputs <= 0) throw new ArgumentOutOfRangeException("inputs");
-            if (inputPriors == null) throw new ArgumentNullException("inputPriors");
-            if (inputPriors.Length != inputs) throw new DimensionMismatchException("inputPriors");
+            if (classes <= 0) 
+                throw new ArgumentOutOfRangeException("classes");
+
+            if (inputs <= 0) 
+                throw new ArgumentOutOfRangeException("inputs");
+
+            if (inputPriors == null) 
+                throw new ArgumentNullException("inputPriors");
+
+            if (inputPriors.Length != inputs) 
+                throw new DimensionMismatchException("inputPriors");
 
             TDistribution[,] priors = new TDistribution[classes, inputPriors.Length];
             for (int i = 0; i < classes; i++)

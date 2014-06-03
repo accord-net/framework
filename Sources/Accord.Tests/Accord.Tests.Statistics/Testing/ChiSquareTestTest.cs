@@ -123,5 +123,19 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.23013934044341644, pvalue);
             Assert.IsFalse(significant);
         }
+
+        [TestMethod()]
+        public void ConstructorTest_WithZero_NoNaN()
+        {
+            double[] observed = { 639, 0 };
+            double[] expected = { 660, 0 };
+
+            int degreesOfFreedom = 1;
+            var chi = new ChiSquareTest(expected, observed, degreesOfFreedom);
+
+            Assert.AreEqual(0.66818181818181821, chi.Statistic, 0.015);
+            Assert.AreEqual(1, chi.DegreesOfFreedom);
+            Assert.AreEqual(0.41368622699316782, chi.PValue, 1e-4);
+        }
     }
 }

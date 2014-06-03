@@ -403,6 +403,41 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l2 > l3 && l2 > l4);
         }
 
+        [TestMethod()]
+        public void LearnTest_EmptySequence()
+        {
+
+            int[][] sequences = new int[][] 
+            {
+                new int[] { 0, 3, 1 },
+                new int[] { 0, 2 },
+                new int[] { 1, 0, 3 },
+                new int[] { 3, 4 },
+                new int[] { },
+                new int[] { 0, 3, 4 },
+                new int[] { 0, 1, 3, 5 },
+                new int[] { 0, 1, 3, 5 },
+                new int[] { 0, 1, 3, 4, 5 },
+            };
+
+            HiddenMarkovModel hmm = new HiddenMarkovModel(3, 6);
+
+            var teacher = new BaumWelchLearning(hmm) { Iterations = 100, Tolerance = 0 };
+
+            bool thrown = false;
+
+            try
+            {
+                double logLikelihood = teacher.Run(sequences);
+            }
+            catch (ArgumentException ex)
+            {
+                Assert.AreEqual("observations", ex.ParamName);
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
+        }
 
         [TestMethod()]
         public void PredictTest()

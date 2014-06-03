@@ -26,11 +26,11 @@ namespace Accord.Tests.MachineLearning
     using System.Data;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
+    using Accord.MachineLearning.DecisionTrees.Rules;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Accord.Tests.MachineLearning.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.MachineLearning.DecisionTrees.Rules;
 
     [TestClass()]
     public class C45LearningTest
@@ -455,7 +455,8 @@ namespace Accord.Tests.MachineLearning
         [TestMethod]
         public void IrisDatasetTest()
         {
-            string[][] text = Resources.iris_data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            string[][] text = Resources.iris_data.Split(
+                new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                 .Apply(x => x.Split(','));
 
             double[][] inputs = new double[text.Length][];
@@ -493,6 +494,8 @@ namespace Accord.Tests.MachineLearning
             string ruleText = rules.ToString(codebook, 
                 System.Globalization.CultureInfo.InvariantCulture);
 
+            // TODO: implement this assertion properly, actually checking
+            // the text contents once the feature is completely finished.
             Assert.AreEqual(570, ruleText.Length);
         }
 

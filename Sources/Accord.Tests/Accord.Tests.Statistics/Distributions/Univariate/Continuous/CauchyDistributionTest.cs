@@ -129,8 +129,8 @@ namespace Accord.Tests.Statistics
 
                 cauchy.Fit(observations);
 
-                Assert.AreEqual(0.18383597286086659, cauchy.Location, 1e-10);
-                Assert.AreEqual(-0.10530822112775458, cauchy.Scale, 1e-10);
+                Assert.AreEqual(0.18784819147980944, cauchy.Location, 1e-6);
+                Assert.AreEqual(0.14168064551279669, cauchy.Scale, 1e-6);
                 Assert.IsFalse(Double.IsNaN(cauchy.Location));
                 Assert.IsFalse(Double.IsNaN(cauchy.Scale));
             }

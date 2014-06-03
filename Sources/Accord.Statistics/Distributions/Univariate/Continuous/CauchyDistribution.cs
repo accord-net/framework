@@ -456,8 +456,9 @@ namespace Accord.Statistics.Distributions.Univariate
             if (useMLE)
             {
                 // Minimize the log-likelihood through numerical optimization
-                BroydenFletcherGoldfarbShanno lbfgs = new BroydenFletcherGoldfarbShanno(2);
+                var lbfgs = new BoundedBroydenFletcherGoldfarbShanno(2);
 
+                lbfgs.LowerBounds[1] = 0; // scale must be positive
 
                 // Define the negative log-likelihood function,
                 // which is the objective we want to minimize:
@@ -520,7 +521,6 @@ namespace Accord.Statistics.Distributions.Univariate
                 t0 = lbfgs.Solution[0];
                 s0 = lbfgs.Solution[1];
             }
-
 
             init(t0, s0); // Become the new distribution
         }

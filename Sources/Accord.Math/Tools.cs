@@ -24,8 +24,10 @@ namespace Accord.Math
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading;
     using Accord.Math.Comparers;
     using AForge;
+    using System.Threading;
 
     /// <summary>
     ///   Set of mathematical tools.
@@ -35,20 +37,35 @@ namespace Accord.Math
     {
 
         #region Framework-wide random number generator
-        private static Random random = new ThreadSafeRandom();
+        private static ThreadLocal<Random> random = new ThreadLocal<Random>(create);
+        private static int? seed;
+
+        private static Random create()
+        {
+            if (seed.HasValue)
+                return new Random(seed.Value);
+            return new Random();
+        }
 
         /// <summary>
         ///   Gets a reference to the random number generator used
         ///   internally by the Accord.NET classes and methods.
         /// </summary>
-        public static Random Random { get { return random; } }
+        public static Random Random { get { return random.Value; } }
 
         /// <summary>
         ///   Sets a random seed for the internal number generator.
         /// </summary>
-        public static void SetupGenerator(int seed)
+        public static void SetupGenerator(int? seed)
         {
-            random = new ThreadSafeRandom(seed);
+            // TODO: Enable for .NET 4.5
+            // lock (random)
+            // {
+            //     foreach (var r in random.Values)
+            //         r.Value = new Random(seed);
+            //  }
+
+            Tools.seed = seed;
         }
         #endregion
 
@@ -563,7 +580,7 @@ namespace Accord.Math
             var keys = new KeyValuePair<int, T>[values.Length];
             for (var i = 0; i < values.Length; i++)
                 keys[i] = new KeyValuePair<int, T>(i, values[i]);
-            Array.Sort(keys, values, new StableComparer<T>((a,b) => a.CompareTo(b)));
+            Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
         }
 
         /// <summary>

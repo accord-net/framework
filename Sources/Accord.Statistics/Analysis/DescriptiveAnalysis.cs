@@ -98,6 +98,7 @@ namespace Accord.Statistics.Analysis
         private string[] columnNames;
 
         private DoubleRange[] ranges;
+        private DoubleRange[] quartiles;
         private DoubleRange[] confidence;
         private DoubleRange[] deviance;
 
@@ -398,7 +399,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets a vector containing the Mean of each column of data.
+        ///   Gets a vector containing the Mean of each data column.
         /// </summary>
         /// 
         public double[] Means
@@ -416,7 +417,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets a vector containing the Standard Deviation of each column of data.
+        ///   Gets a vector containing the Standard Deviation of each data column.
         /// </summary>
         /// 
         public double[] StandardDeviations
@@ -435,7 +436,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets a vector containing the Standard Error of the Mean of each column of data.
+        ///   Gets a vector containing the Standard Error of the Mean of each data column.
         /// </summary>
         /// 
         public double[] StandardErrors
@@ -488,7 +489,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets a vector containing the Mode of each column of data.
+        ///   Gets a vector containing the Mode of each data column.
         /// </summary>
         /// 
         public double[] Modes
@@ -507,7 +508,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets a vector containing the Median of each column of data.
+        ///   Gets a vector containing the Median of each data column.
         /// </summary>
         /// 
         public double[] Medians
@@ -526,7 +527,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets a vector containing the Variance of each column of data.
+        ///   Gets a vector containing the Variance of each data column.
         /// </summary>
         /// 
         public double[] Variances
@@ -545,7 +546,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets a vector containing the number of distinct elements for each column of data.
+        ///   Gets a vector containing the number of distinct elements for each data column.
         /// </summary>
         /// 
         public int[] Distinct
@@ -564,7 +565,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets an array containing the Ranges of each column of data.
+        ///   Gets an array containing the Ranges of each data column.
         /// </summary>
         /// 
         public DoubleRange[] Ranges
@@ -583,7 +584,26 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets an array containing the sum of each column of data.
+        ///   Gets an array containing the interquartile range of each data column.
+        /// </summary>
+        /// 
+        public DoubleRange[] Quartiles
+        {
+            get
+            {
+                if (quartiles == null)
+                {
+                    if (sourceMatrix != null)
+                        this.medians = Statistics.Tools.Quartiles(sourceMatrix, out this.quartiles);
+                    else this.medians = Statistics.Tools.Quartiles(sourceArray, out this.quartiles);
+                }
+
+                return ranges;
+            }
+        }
+
+        /// <summary>
+        ///   Gets an array containing the sum of each data column.
         /// </summary>
         /// 
         public double[] Sums
@@ -602,7 +622,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        /// Gets an array containing the skewness for of each column of data.
+        /// Gets an array containing the skewness for of each data column.
         /// </summary>
         /// 
         public double[] Skewness
@@ -621,7 +641,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        /// Gets an array containing the kurtosis for of each column of data.
+        /// Gets an array containing the kurtosis for of each data column.
         /// </summary>
         /// 
         public double[] Kurtosis
@@ -786,6 +806,15 @@ namespace Accord.Statistics.Analysis
         public double Median
         {
             get { return analysis.Medians[index]; }
+        }
+
+        /// <summary>
+        ///   Gets the variable's interquartile range.
+        /// </summary>
+        /// 
+        public DoubleRange Quartiles
+        {
+            get { return analysis.Quartiles[index]; }
         }
 
         /// <summary>

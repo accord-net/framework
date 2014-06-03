@@ -496,26 +496,17 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the number of elements matching a certain criteria.
         /// </summary>
+        /// 
         /// <typeparam name="T">The type of the array.</typeparam>
         /// <param name="data">The array to search inside.</param>
         /// <param name="func">The search criteria.</param>
+        /// 
         public static int Count<T>(this T[] data, Func<T, bool> func)
         {
             int count = 0;
             for (int i = 0; i < data.Length; i++)
                 if (func(data[i])) count++;
             return count;
-        }
-
-        /// <summary>
-        ///   Gets the indices of all elements matching a certain criteria.
-        /// </summary>
-        /// <typeparam name="T">The type of the array.</typeparam>
-        /// <param name="data">The array to search inside.</param>
-        /// <param name="func">The search criteria.</param>
-        public static int[] Find<T>(this T[] data, Func<T, bool> func)
-        {
-            return Find(data, func, false);
         }
 
         /// <summary>
@@ -527,6 +518,27 @@ namespace Accord.Math
         public static int First<T>(this T[] data, Func<T, bool> func)
         {
             return Find(data, func, true)[0];
+        }
+
+        /// <summary>
+        ///   Gets the indices of all elements matching a certain criteria.
+        /// </summary>
+        /// <typeparam name="T">The type of the array.</typeparam>
+        /// <param name="data">The array to search inside.</param>
+        /// <param name="func">The search criteria.</param>
+        /// <param name="firstOnly">
+        ///    Set to true to stop when the first element is
+        ///    found, set to false to get all elements.
+        /// </param>
+        public static int[] Find<T>(this T[] data, Func<T, bool> func)
+        {
+            List<int> idx = new List<int>();
+
+            for (int i = 0; i < data.Length; i++)
+                if (func(data[i]))
+                    idx.Add(i);
+
+            return idx.ToArray();
         }
 
         /// <summary>
