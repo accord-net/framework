@@ -22,11 +22,11 @@
 
 namespace Accord.MachineLearning.DecisionTrees
 {
+    using Accord.Statistics.Filters;
+    using AForge;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using AForge;
-    using Accord.Statistics.Filters;
 
     /// <summary>
     ///   Attribute category.
@@ -145,8 +145,13 @@ namespace Accord.MachineLearning.DecisionTrees
             for (int i = 0; i < variables.Length; i++)
             {
                 string name = columns[i];
-                var col = codebook.Columns[name];
-                variables[i] = new DecisionVariable(name, col.Symbols);
+
+                Codification.Options col;
+
+                if (codebook.Columns.TryGetValue(name, out col))
+                    variables[i] = new DecisionVariable(name, col.Symbols);
+                else
+                    variables[i] = new DecisionVariable(name, DecisionVariableKind.Continuous);
             }
 
             return variables;

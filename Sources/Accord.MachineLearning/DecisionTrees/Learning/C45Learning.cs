@@ -24,9 +24,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using Accord.Math;
-    using System.Threading.Tasks;
     using AForge;
     using Parallel = System.Threading.Tasks.Parallel;
 
@@ -164,6 +162,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private DecisionTree tree;
 
         private int maxHeight;
+        private int splitStep;
+
         private double[][] thresholds;
         private IntRange[] inputRanges;
         private int outputClasses;
@@ -182,12 +182,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             set
             {
                 if (maxHeight <= 0 || maxHeight > attributes.Length)
-                    throw new ArgumentOutOfRangeException("value", 
+                    throw new ArgumentOutOfRangeException("value",
                         "The height must be greater than zero and less than the number of variables in the tree.");
                 maxHeight = value;
             }
         }
 
+        public int SplitStep
+        {
+            get { return splitStep; }
+            set { splitStep = value; }
+        }
 
         /// <summary>
         ///   Creates a new C4.5 learning algorithm.
@@ -206,6 +211,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             this.inputRanges = new IntRange[tree.InputCount];
             this.outputClasses = tree.OutputClasses;
             this.maxHeight = attributes.Length;
+            this.splitStep = 1;
 
             for (int i = 0; i < inputRanges.Length; i++)
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(false);
@@ -388,8 +394,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             {
                 // This is a continuous nature attribute, and we achieved two partitions
                 // using the partitioning scheme. We will branch on two possible settings:
-                // either the value is higher than a currently detected optimal threshold 
-                // or it is lesser.
+                // either the value is greater than a currently detected optimal threshold 
+                // or it is less.
 
                 DecisionNode[] children = 
                 {
@@ -501,21 +507,47 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             double bestThreshold = t[0];
             partitions = null;
 
+            List<int> idx1 = new List<int>(input.Length);
+            List<int> idx2 = new List<int>(input.Length);
+
+            List<int> output1 = new List<int>(input.Length);
+            List<int> output2 = new List<int>(input.Length);
+
+            double[] values = new double[input.Length];
+            for (int i = 0; i < values.Length; i++)
+                values[i] = input[i][attributeIndex];
+
             // For each possible splitting point of the attribute
-            for (int i = 0; i < t.Length; i++)
+            for (int i = 0; i < t.Length; i += splitStep)
             {
                 // Partition the remaining data set
                 // according to the threshold value
                 double value = t[i];
 
-                int[] idx1 = input.Find(x => x[attributeIndex] <= value);
-                int[] idx2 = input.Find(x => x[attributeIndex] > value);
+                idx1.Clear();
+                idx2.Clear();
 
-                int[] output1 = output.Submatrix(idx1);
-                int[] output2 = output.Submatrix(idx2);
+                output1.Clear();
+                output2.Clear();
 
-                double p1 = (double)idx1.Length / output.Length;
-                double p2 = (double)idx2.Length / output.Length;
+                for (int j = 0; j < values.Length; j++)
+                {
+                    double x = values[j];
+
+                    if (x <= value)
+                    {
+                        idx1.Add(j);
+                        output1.Add(output[j]);
+                    }
+                    else if (x > value)
+                    {
+                        idx2.Add(j);
+                        output2.Add(output[j]);
+                    }
+                }
+
+                double p1 = (double)output1.Count / output.Length;
+                double p2 = (double)output2.Count / output.Length;
 
                 double splitGain =
                     -p1 * Statistics.Tools.Entropy(output1, outputClasses) +
@@ -526,12 +558,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                     bestThreshold = value;
                     bestGain = splitGain;
 
-                    if (idx1.Length > 0 && idx2.Length > 0)
-                        partitions = new int[][] { idx1, idx2 };
-                    else if (idx1.Length > 0)
-                        partitions = new int[][] { idx1 };
-                    else if (idx2.Length > 0)
-                        partitions = new int[][] { idx2 };
+                    if (idx1.Count > 0 && idx2.Count > 0)
+                        partitions = new int[][] { idx1.ToArray(), idx2.ToArray() };
+                    else if (idx1.Count > 0)
+                        partitions = new int[][] { idx1.ToArray() };
+                    else if (idx2.Count > 0)
+                        partitions = new int[][] { idx2.ToArray() };
                     else
                         partitions = new int[][] { };
                 }
@@ -552,18 +584,18 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             if (inputs.Length != outputs.Length)
                 throw new DimensionMismatchException("outputs",
-                                                     "The number of input vectors and output labels does not match.");
+                    "The number of input vectors and output labels does not match.");
 
             if (inputs.Length == 0)
                 throw new ArgumentOutOfRangeException("inputs",
-                                                      "Training algorithm needs at least one training vector.");
+                    "Training algorithm needs at least one training vector.");
 
             for (int i = 0; i < inputs.Length; i++)
             {
                 if (inputs[i].Length != tree.InputCount)
                 {
                     throw new DimensionMismatchException("inputs", "The size of the input vector at index "
-                        + i + " does not match the expected number of inputs of the tree." 
+                        + i + " does not match the expected number of inputs of the tree."
                         + " All input vectors for this tree must have length " + tree.InputCount);
                 }
 
