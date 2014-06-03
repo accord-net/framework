@@ -150,9 +150,7 @@ namespace Accord.Tests.MachineLearning
             double[] responses;
 
             // Compute the result for a sunny, cool, humid and windy day:
-            double[] instance = codebook.Translate(
-				new[] { "Outlook", "Temperature", "Humidity", "Wind" },
-				new []{"Sunny", "Cool", "High", "Strong"}).ToDouble();
+            double[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong").ToDouble();
 
             int c = target.Compute(instance, out logLikelihood, out responses);
 
