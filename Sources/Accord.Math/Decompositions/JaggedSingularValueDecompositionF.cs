@@ -1,3 +1,4 @@
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -28,6 +29,7 @@
 namespace Accord.Math.Decompositions
 {
     using System;
+	using Accord.Math;
 
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
@@ -50,8 +52,8 @@ namespace Accord.Math.Decompositions
     ///   and right eigenvectors. If the routine is computed on A directly, the diagonal
     ///   of singular values may contain one or more zeros. The identity A = U * S * V'
     ///   may still hold, however. To overcome this problem, pass true to the
-    ///   <see cref="JaggedSingularValueDecompositionF(Single[][], bool, bool, bool)">
-    ///   autoTranspose</see> argument of the class constructor.</para>
+    ///   <see cref="JaggedSingularValueDecompositionF(Single[][], bool, bool, bool)">autoTranspose</see>
+	///   argument of the class constructor.</para>
     ///
     ///  <para>
     ///   This routine computes the economy decomposition of A.</para> 
@@ -605,7 +607,7 @@ namespace Accord.Math.Decompositions
 
                         for (int j = k + 1; j < n; j++) // pseudo-correction
                         {
-                                Single t = 0;
+                            Single t = 0;
                             for (int i = k+1; i < n; i++)
                                 t += v[i][k]*v[i][j];
 
@@ -700,12 +702,12 @@ namespace Accord.Math.Decompositions
                        e[p-2] = 0;
                        for (int j = p-2; j >= k; j--) {
                           Single t = Tools.Hypotenuse(s[j],f);
-                          Single cs = s[j]/t;
-                          Single sn = f/t;
+                          Single cs = s[j] / t;
+                          Single sn = f / t;
                           s[j] = t;
                           if (j != k) {
-                             f = -sn*e[j-1];
-                             e[j-1] = cs*e[j-1];
+                             f = -sn*e[j - 1];
+                             e[j-1] = cs*e[j - 1];
                           }
                           if (wantv) {
                              for (int i = 0; i < n; i++) {
@@ -726,9 +728,9 @@ namespace Accord.Math.Decompositions
                        e[k-1] = 0;
                        for (int j = k; j < p; j++)
                        {
-                          Single t = Tools.Hypotenuse(s[j],f);
-                          Single cs = s[j]/t;
-                          Single sn = f/t;
+                          Single t = Tools.Hypotenuse(s[j], f);
+                          Single cs = s[j] / t;
+                          Single sn = f / t;
                           s[j] = t;
                           f = -sn*e[j];
                           e[j] = cs*e[j];
@@ -750,11 +752,11 @@ namespace Accord.Math.Decompositions
                            Single scale = Math.Max(Math.Max(Math.Max(Math.Max(
                                    Math.Abs(s[p-1]),Math.Abs(s[p-2])),Math.Abs(e[p-2])), 
                                    Math.Abs(s[k])),Math.Abs(e[k]));
-                           Single sp = s[p-1]/scale;
-                           Single spm1 = s[p-2]/scale;
-                           Single epm1 = e[p-2]/scale;
-                           Single sk = s[k]/scale;
-                           Single ek = e[k]/scale;
+                           Single sp = s[p-1] / scale;
+                           Single spm1 = s[p-2] / scale;
+                           Single epm1 = e[p-2] / scale;
+                           Single sk = s[k] / scale;
+                           Single ek = e[k] / scale;
                            Single b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2;
                            Single c = (sp*epm1)*(sp*epm1);
                            double shift = 0;
@@ -774,9 +776,10 @@ namespace Accord.Math.Decompositions
                            // Chase zeros.
                            for (int j = k; j < p-1; j++)
                            {
-                              Single t = Tools.Hypotenuse(f,g);
-                              Single cs = f/t;
-                              Single sn = g/t;
+                              Single t = Tools.Hypotenuse(f, g);
+                              Single cs = f / t;
+                              Single sn = g / t;
+
                               if (j != k)
                                  e[j-1] = t;
 
@@ -1154,3 +1157,4 @@ namespace Accord.Math.Decompositions
 
     }
 }
+

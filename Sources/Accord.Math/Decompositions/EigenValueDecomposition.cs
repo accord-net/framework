@@ -1,3 +1,4 @@
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -35,7 +36,7 @@ namespace Accord.Math.Decompositions
     /// </summary>
     /// <remarks>
     ///   <para>
-    ///     In the mathematical discipline of linear algebra, Eigendecomposition
+    ///     In the mathematical discipline of linear algebra, eigendecomposition
     ///     or sometimes spectral decomposition is the factorization of a matrix
     ///     into a canonical form, whereby the matrix is represented in terms of
     ///     its eigenvalues and eigenvectors.</para>
@@ -70,7 +71,7 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   Construct an Eigenvalue decomposition.</summary>
+        ///   Construct an eigenvalue decomposition.</summary>
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         /// <param name="assumeSymmetric">
@@ -82,7 +83,7 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-        ///   Construct an Eigenvalue decomposition.</summary>
+        ///   Construct an eigenvalue decomposition.</summary>
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
         /// <param name="assumeSymmetric">
@@ -91,7 +92,7 @@ namespace Accord.Math.Decompositions
         /// <param name="inPlace">
         ///   Pass <see langword="true"/> to perform the decomposition in place. The matrix
         ///   <paramref name="value"/> will be destroyed in the process, resulting in less
-        ///   memory consumption.</param>
+        ///   memory comsumption.</param>
         public EigenvalueDecomposition(Double[,] value, bool assumeSymmetric, bool inPlace)
         {
             if (value == null)

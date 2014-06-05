@@ -88,8 +88,7 @@ namespace Accord.Tests.MachineLearning.Properties {
         ///5.8,4.0,1.2,0.2,Iris-setosa
         ///5.7,4.4,1.5,0.4,Iris-setosa
         ///5.4,3.9,1.3,0.4,Iris-setosa
-        ///5.1,3.5,1.4,0.3,Iris-setosa
-        ///5.7,3.8, [rest of string was truncated]&quot;;.
+        ///5.1,3.5,1.4,0.3,Iri [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string iris_data {
             get {

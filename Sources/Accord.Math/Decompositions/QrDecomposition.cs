@@ -1,3 +1,4 @@
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -46,14 +47,14 @@ namespace Accord.Math.Decompositions
     ///   This will fail if <see cref="FullRank"/> returns <see langword="false"/>.</para>  
     /// </remarks>
     /// 
-    public sealed class QrDecomposition : ICloneable, ISolverMatrixDecomposition<double>
+    public sealed class QrDecomposition : ICloneable, ISolverMatrixDecomposition<Double>
     {
-        private double[,] qr;
-        private double[] Rdiag;
+        private Double[,] qr;
+        private Double[] Rdiag;
 
         /// <summary>Constructs a QR decomposition.</summary>    
         /// <param name="value">The matrix A to be decomposed.</param>
-        public QrDecomposition(double[,] value)
+        public QrDecomposition(Double[,] value)
             : this(value, false)
         {
         }
@@ -62,7 +63,7 @@ namespace Accord.Math.Decompositions
         /// <param name="value">The matrix A to be decomposed.</param>
         /// <param name="transpose">True if the decomposition should be performed on
         /// the transpose of A rather than A itself, false otherwise. Default is false.</param>
-        public QrDecomposition(double[,] value, bool transpose)
+        public QrDecomposition(Double[,] value, bool transpose)
         {
             if (value == null)
             {
@@ -75,16 +76,16 @@ namespace Accord.Math.Decompositions
                 throw new ArgumentException("Matrix has more columns than rows.", "value");
             }
 
-            this.qr = transpose ? value.Transpose() : (double[,])value.Clone();
+            this.qr = transpose ? value.Transpose() : (Double[,])value.Clone();
 
             int rows = qr.GetLength(0);
             int cols = qr.GetLength(1);
-            this.Rdiag = new double[cols];
+            this.Rdiag = new Double[cols];
 
             for (int k = 0; k < cols; k++)
             {
                 // Compute 2-norm of k-th column without under/overflow.
-                double nrm = 0;
+                Double nrm = 0;
                 for (int i = k; i < rows; i++)
                     nrm = Tools.Hypotenuse(nrm, qr[i, k]);
 
@@ -102,7 +103,7 @@ namespace Accord.Math.Decompositions
                     // Apply transformation to remaining columns.
                     for (int j = k + 1; j < cols; j++)
                     {
-                        double s = 0;
+                        Double s = 0;
 
                         for (int i = k; i < rows; i++)
                             s += qr[i, k] * qr[i, j];
@@ -123,7 +124,7 @@ namespace Accord.Math.Decompositions
         /// <returns>A matrix that minimized the two norm of <c>Q * R * X - B</c>.</returns>
         /// <exception cref="T:System.ArgumentException">Matrix row dimensions must be the same.</exception>
         /// <exception cref="T:System.InvalidOperationException">Matrix is rank deficient.</exception>
-        public double[,] Solve(double[,] value)
+        public Double[,] Solve(Double[,] value)
         {
             if (value == null)
                 throw new ArgumentNullException("value", "Matrix cannot be null.");
@@ -136,7 +137,7 @@ namespace Accord.Math.Decompositions
 
             // Copy right hand side
             int count = value.GetLength(1);
-            var X = (double[,])value.Clone();
+            var X = (Double[,])value.Clone();
             int m = qr.GetLength(0);
             int n = qr.GetLength(1);
 
@@ -145,7 +146,7 @@ namespace Accord.Math.Decompositions
             {
                 for (int j = 0; j < count; j++)
                 {
-                    double s = 0;
+                    Double s = 0;
 
                     for (int i = k; i < m; i++)
                         s += qr[i, k] * X[i, j];
@@ -168,7 +169,7 @@ namespace Accord.Math.Decompositions
                         X[i, j] -= X[k, j] * qr[i, k];
             }
 
-            var r = new double[n, count];
+            var r = new Double[n, count];
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < count; j++)
                     r[i, j] = X[i, j];
@@ -181,7 +182,7 @@ namespace Accord.Math.Decompositions
         /// <returns>A matrix that minimized the two norm of <c>X * Q * R - B</c>.</returns>
         /// <exception cref="T:System.ArgumentException">Matrix column dimensions must be the same.</exception>
         /// <exception cref="T:System.InvalidOperationException">Matrix is rank deficient.</exception>
-        public double[,] SolveTranspose(double[,] value)
+        public Double[,] SolveTranspose(Double[,] value)
         {
             if (value == null)
                 throw new ArgumentNullException("value", "Matrix cannot be null.");
@@ -203,7 +204,7 @@ namespace Accord.Math.Decompositions
             {
                 for (int j = 0; j < count; j++)
                 {
-                    double s = 0;
+                    Double s = 0;
 
                     for (int i = k; i < m; i++)
                         s += qr[i, k] * X[i, j];
@@ -226,7 +227,7 @@ namespace Accord.Math.Decompositions
                         X[i, j] -= X[k, j] * qr[i, k];
             }
 
-            var r = new double[count, n];
+            var r = new Double[count, n];
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < count; j++)
                     r[j, i] = X[i, j];
@@ -239,7 +240,7 @@ namespace Accord.Math.Decompositions
         /// <returns>A matrix that minimized the two norm of <c>Q * R * X - B</c>.</returns>
         /// <exception cref="T:System.ArgumentException">Matrix row dimensions must be the same.</exception>
         /// <exception cref="T:System.InvalidOperationException">Matrix is rank deficient.</exception>
-        public double[] Solve(double[] value)
+        public Double[] Solve(Double[] value)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -251,14 +252,14 @@ namespace Accord.Math.Decompositions
                 throw new InvalidOperationException("Matrix is rank deficient.");
 
             // Copy right hand side
-            var X = (double[])value.Clone();
+            var X = (Double[])value.Clone();
             int m = qr.GetLength(0);
             int n = qr.GetLength(1);
 
             // Compute Y = transpose(Q)*B
             for (int k = 0; k < n; k++)
             {
-                double s = 0;
+                Double s = 0;
 
                 for (int i = k; i < m; i++)
                     s += qr[i, k] * X[i];
@@ -300,12 +301,12 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>Returns the upper triangular factor <c>R</c>.</summary>
-        public double[,] UpperTriangularFactor
+        public Double[,] UpperTriangularFactor
         {
             get
             {
                 int n = this.qr.GetLength(1);
-                var x = new double[n, n];
+                var x = new Double[n, n];
 
                 for (int i = 0; i < n; i++)
                 {
@@ -331,13 +332,13 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>Returns the orthogonal factor <c>Q</c>.</summary>
-        public double[,] OrthogonalFactor
+        public Double[,] OrthogonalFactor
         {
             get
             {
                 int rows = qr.GetLength(0);
                 int cols = qr.GetLength(1);
-                var x = new double[rows, cols];
+                var x = new Double[rows, cols];
 
                 for (int k = cols - 1; k >= 0; k--)
                 {
@@ -349,7 +350,7 @@ namespace Accord.Math.Decompositions
                     {
                         if (qr[k, k] != 0)
                         {
-                            double s = 0;
+                            Double s = 0;
 
                             for (int i = k; i < rows; i++)
                                 s += qr[i, k] * x[i, j];
@@ -367,13 +368,13 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>Returns the diagonal of <c>R</c>.</summary>
-        public double[] Diagonal
+        public Double[] Diagonal
         {
             get { return Rdiag; }
         }
 
         /// <summary>Least squares solution of <c>A * X = I</c></summary>
-        public double[,] Inverse()
+        public Double[,] Inverse()
         {
             if (!this.FullRank)
                 throw new InvalidOperationException("Matrix is rank deficient.");
@@ -381,7 +382,7 @@ namespace Accord.Math.Decompositions
             // Copy right hand side
             int m = qr.GetLength(0);
             int n = qr.GetLength(1);
-            var X = new double[m, m];
+            var X = new Double[m, m];
 
             // Compute Y = transpose(Q)
             for (int k = n - 1; k >= 0; k--)
@@ -394,7 +395,7 @@ namespace Accord.Math.Decompositions
                 {
                     if (qr[k, k] != 0)
                     {
-                        double s = 0;
+                        Double s = 0;
 
                         for (int i = k; i < m; i++)
                             s += qr[i, k] * X[j, i];
@@ -438,8 +439,8 @@ namespace Accord.Math.Decompositions
         public object Clone()
         {
             var clone = new QrDecomposition();
-            clone.qr = (double[,])qr.Clone();
-            clone.Rdiag = (double[])Rdiag.Clone();
+            clone.qr = (Double[,])qr.Clone();
+            clone.Rdiag = (Double[])Rdiag.Clone();
             return clone;
         }
 
@@ -447,3 +448,4 @@ namespace Accord.Math.Decompositions
 
     }
 }
+

@@ -1,3 +1,4 @@
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -52,11 +53,11 @@ namespace Accord.Math.Decompositions
     ///    </remarks>
     ///    
     [Serializable]
-    public sealed class CholeskyDecompositionD : ICloneable, ISolverMatrixDecomposition<decimal>
+    public sealed class CholeskyDecompositionD : ICloneable, ISolverMatrixDecomposition<Decimal>
     {
 
-        private decimal[,] L;
-        private decimal[] D;
+        private Decimal[,] L;
+        private Decimal[] D;
         private int n;
 
         private bool symmetric;
@@ -64,14 +65,14 @@ namespace Accord.Math.Decompositions
         private bool robust;
 
         // cache for lazy evaluation
-        private decimal[,] diagonalMatrix;
-        private decimal? determinant;
+        private Decimal[,] diagonalMatrix;
+        private Decimal? determinant;
         private double? lndeterminant;
         private bool? nonsingular;
 
         /// <summary>Constructs a new Cholesky Decomposition.</summary>
         /// <param name="value">The matrix to be decomposed.</param>
-        public CholeskyDecompositionD(decimal[,] value)
+        public CholeskyDecompositionD(Decimal[,] value)
             : this(value, false, false)
         {
         }
@@ -82,7 +83,7 @@ namespace Accord.Math.Decompositions
         /// <param name="robust">True to perform a square root free LDLt decomposition,
         /// false otherwise.</param>
         /// 
-        public CholeskyDecompositionD(decimal[,] value, bool robust)
+        public CholeskyDecompositionD(Decimal[,] value, bool robust)
             : this(value, robust, false)
         {
         }
@@ -95,7 +96,7 @@ namespace Accord.Math.Decompositions
         /// <param name="lowerTriangular">True to assume the <paramref name="value">value
         /// matrix</paramref> is a lower triangular symmetric matrix, false otherwise.</param>
         /// 
-        public CholeskyDecompositionD(decimal[,] value, bool robust, bool lowerTriangular)
+        public CholeskyDecompositionD(Decimal[,] value, bool robust, bool lowerTriangular)
         {
             if (value == null)
             {
@@ -143,7 +144,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the left (lower) triangular factor <c>L</c> so that <c>A = L * D * L'</c>.
         /// </summary>
         ///
-        public decimal[,] LeftTriangularFactor
+        public Decimal[,] LeftTriangularFactor
         {
             get { return this.L; }
         }
@@ -152,13 +153,13 @@ namespace Accord.Math.Decompositions
         ///   Returns the block diagonal matrix of diagonal elements in a LDLt decomposition.
         /// </summary>        
         ///
-        public decimal[,] DiagonalMatrix
+        public Decimal[,] DiagonalMatrix
         {
             get 
             {
                 if (diagonalMatrix == null)
                 {
-                    diagonalMatrix = new decimal[n, n];
+                    diagonalMatrix = new Decimal[n, n];
                     for (int i = 0; i < D.Length; i++)
                         diagonalMatrix[i,i] = D[i];
                 }
@@ -170,7 +171,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the one-dimensional array of diagonal elements in a LDLt decomposition.
         /// </summary>        
         ///
-        public decimal[] Diagonal
+        public Decimal[] Diagonal
         {
             get { return D; }
         }
@@ -179,7 +180,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the determinant of the matrix.
         /// </summary>
         ///
-        public decimal Determinant
+        public Decimal Determinant
         {
             get
             {
@@ -188,11 +189,11 @@ namespace Accord.Math.Decompositions
                     if (!this.symmetric)
                         throw new NonSymmetricMatrixException("Matrix is not symmetric.");
 
-                    decimal detL = 1;
+                    Decimal detL = 1;
                     for (int i = 0; i < n; i++)
                         detL *= L[i, i];
 
-                    decimal detD = 1;
+                    Decimal detD = 1;
                     for (int i = 0; i < D.Length; i++)
                         detD *= D[i];
 
@@ -256,33 +257,33 @@ namespace Accord.Math.Decompositions
         }
 
 
-        private unsafe void LLt(decimal[,] value)
+        private unsafe void LLt(Decimal[,] value)
         {
             n = value.GetLength(0);
-            L = new decimal[n, n];
-            D = new decimal[n];
+            L = new Decimal[n, n];
+            D = new Decimal[n];
 
             for (int i = 0; i < D.Length; i++)
                 D[i] = 1;
 
             robust = false;
 
-            decimal[,] a = value;
+            Decimal[,] a = value;
 
             this.positiveDefinite = true;
             this.symmetric = true;
 
-            fixed (decimal* ptrL = L)
+            fixed (Decimal* ptrL = L)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    decimal* Lrowj = ptrL + j * n;
-                    decimal d = 0;
+                    Decimal* Lrowj = ptrL + j * n;
+                    Decimal d = 0;
                     for (int k = 0; k < j; k++)
                     {
-                        decimal* Lrowk = ptrL + k * n;
+                        Decimal* Lrowk = ptrL + k * n;
 
-                        decimal s = 0;
+                        Decimal s = 0;
                         for (int i = 0; i < k; i++)
                             s += Lrowk[i] * Lrowj[i];
 
@@ -295,9 +296,9 @@ namespace Accord.Math.Decompositions
                     d = a[j, j] - d;
 
                     // Use a tolerance for positive-definiteness
-                    this.positiveDefinite &= (d > (decimal)1e-14 * Math.Abs(a[j, j]));
+                    this.positiveDefinite &= (d > (Decimal)1e-14 * Math.Abs(a[j, j]));
 
-                    Lrowj[j] = (decimal)System.Math.Sqrt((double)System.Math.Max(d, 0));
+                    Lrowj[j] = (Decimal)System.Math.Sqrt((double)System.Math.Max(d, 0));
 
                     for (int k = j + 1; k < n; k++)
                         Lrowj[k] = 0;
@@ -305,20 +306,20 @@ namespace Accord.Math.Decompositions
             }
         }
 
-        private unsafe void LDLt(decimal[,] value)
+        private unsafe void LDLt(Decimal[,] value)
         {
             n = value.GetLength(0);
-            L = new decimal[n, n];
-            D = new decimal[n];
+            L = new Decimal[n, n];
+            D = new Decimal[n];
             robust = true;
 
-            decimal[,] a = value;
+            Decimal[,] a = value;
 
-            decimal[] v = new decimal[n];
+            Decimal[] v = new Decimal[n];
             this.positiveDefinite = true;
             this.symmetric = true;
 
-            decimal d = D[0] = v[0] = a[0, 0];
+            Decimal d = D[0] = v[0] = a[0, 0];
 
             if (d == 0) 
                 this.positiveDefinite = false;
@@ -338,11 +339,11 @@ namespace Accord.Math.Decompositions
                 d = D[j] = v[j] = a[j, j] - d;
 
                 // Use a tolerance for positive-definiteness
-                this.positiveDefinite &= (d > (decimal)1e-14 * Math.Abs(a[j, j]));
+                this.positiveDefinite &= (d > (Decimal)1e-14 * Math.Abs(a[j, j]));
 
                 for (int k = j + 1; k < n; k++)
                 {
-                    decimal s = 0;
+                    Decimal s = 0;
                     for (int i = 0; i < j; i++)
                         s += L[k, i] * v[i];
 
@@ -363,7 +364,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
         /// <exception cref="T:System.InvalidOperationException">Matrix is not symmetric and positive definite.</exception>
         /// 
-        public decimal[,] Solve(decimal[,] value)
+        public Decimal[,] Solve(Decimal[,] value)
         {
             return Solve(value, false);
         }
@@ -376,7 +377,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// <param name="inPlace">True to compute the solving in place, false otherwise.</param>
         /// 
-        public decimal[,] Solve(decimal[,] value, bool inPlace)
+        public Decimal[,] Solve(Decimal[,] value, bool inPlace)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -392,7 +393,7 @@ namespace Accord.Math.Decompositions
 
 
             int count = value.GetLength(1);
-            decimal[,] B = inPlace ? value : (decimal[,])value.Clone();
+            Decimal[,] B = inPlace ? value : (Decimal[,])value.Clone();
 
 
             // Solve L*Y = B;
@@ -436,7 +437,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// 
-        public decimal[] Solve(decimal[] value)
+        public Decimal[] Solve(Decimal[] value)
         {
             return Solve(value, false);
         }
@@ -449,7 +450,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// <param name="inPlace">True to compute the solving in place, false otherwise.</param>
         /// 
-        public decimal[] Solve(decimal[] value, bool inPlace)
+        public Decimal[] Solve(Decimal[] value, bool inPlace)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -464,7 +465,7 @@ namespace Accord.Math.Decompositions
                 throw new NonPositiveDefiniteMatrixException("Decomposed matrix is not positive definite.");
 
 
-            decimal[] B = inPlace ? value : (decimal[])value.Clone();
+            Decimal[] B = inPlace ? value : (Decimal[])value.Clone();
 
 
             // Solve L*Y = B;
@@ -497,7 +498,7 @@ namespace Accord.Math.Decompositions
         ///   Computes the inverse of the decomposed matrix.
         /// </summary>
         /// 
-        public decimal[,] Inverse()
+        public Decimal[,] Inverse()
         {
             if (!symmetric)
                 throw new NonSymmetricMatrixException("Matrix is not symmetric.");
@@ -506,7 +507,7 @@ namespace Accord.Math.Decompositions
                 throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
 
 
-            decimal[,] B = new decimal[n, n];
+            Decimal[,] B = new Decimal[n, n];
             for (int i = 0; i < n; i++)
                 B[i, i] = 1;
 
@@ -551,7 +552,7 @@ namespace Accord.Math.Decompositions
         /// </summary>
         /// <param name="leftTriangular">The left triangular matrix from a Cholesky decomposition.</param>
         /// 
-        public static CholeskyDecompositionD FromLeftTriangularMatrix(decimal[,] leftTriangular)
+        public static CholeskyDecompositionD FromLeftTriangularMatrix(Decimal[,] leftTriangular)
         {
             var chol = new CholeskyDecompositionD();
             chol.n = leftTriangular.GetLength(0);
@@ -559,7 +560,7 @@ namespace Accord.Math.Decompositions
             chol.symmetric = true;
             chol.positiveDefinite = true;
             chol.robust = false;
-            chol.D = new decimal[chol.n];
+            chol.D = new Decimal[chol.n];
             for (int i = 0; i < chol.D.Length; i++)
                 chol.D[i] = 1;
 
@@ -583,8 +584,8 @@ namespace Accord.Math.Decompositions
         public object Clone()
         {
             var clone = new CholeskyDecompositionD();
-            clone.L = (decimal[,])L.Clone();
-            clone.D = (decimal[])D.Clone();
+            clone.L = (Decimal[,])L.Clone();
+            clone.D = (Decimal[])D.Clone();
             clone.n = n;
             clone.robust = robust;
             clone.positiveDefinite = positiveDefinite;
@@ -596,3 +597,4 @@ namespace Accord.Math.Decompositions
 
     }
 }
+

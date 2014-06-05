@@ -624,8 +624,9 @@ namespace Accord.MachineLearning.Structures
 
                 double value = position[current.Axis];
                 double median = current.Position[current.Axis];
+                double u = (value - median);
 
-                if (value < median)
+                if (u < 0)
                 {
                     if (current.Left != null)
                         nearest(current.Left, position, list);
@@ -633,7 +634,7 @@ namespace Accord.MachineLearning.Structures
                     list.Add(current, d);
 
                     if (current.Right != null)
-                        if (Math.Abs(value - median) <= list.Distance.Max)
+                        if ((u * u) < list.Distance.Max)
                             nearest(current.Right, position, list);
                 }
                 else
@@ -644,7 +645,7 @@ namespace Accord.MachineLearning.Structures
                     list.Add(current, d);
 
                     if (current.Left != null)
-                        if (Math.Abs(value - median) <= list.Distance.Max)
+                        if ((u * u) < list.Distance.Max)
                             nearest(current.Left, position, list);
                 }
             }
@@ -674,8 +675,9 @@ namespace Accord.MachineLearning.Structures
 
                 double value = position[current.Axis];
                 double median = current.Position[current.Axis];
+                double u = (value - median);
 
-                if (value < median)
+                if (u < 0)
                 {
                     if (current.Left != null)
                         nearest(current.Left, position, ref match, ref minDistance);
@@ -687,8 +689,10 @@ namespace Accord.MachineLearning.Structures
                     }
 
                     if (current.Right != null)
-                        if (Math.Abs(value - median) <= minDistance)
+                    {
+                        if ((u * u) < minDistance)
                             nearest(current.Right, position, ref match, ref minDistance);
+                    }
                 }
                 else
                 {
@@ -702,8 +706,10 @@ namespace Accord.MachineLearning.Structures
                     }
 
                     if (current.Left != null)
-                        if (Math.Abs(value - median) <= minDistance)
+                    {
+                        if ((u * u) < minDistance)
                             nearest(current.Left, position, ref match, ref minDistance);
+                    }
                 }
             }
         }
@@ -735,8 +741,9 @@ namespace Accord.MachineLearning.Structures
 
                 double value = position[current.Axis];
                 double median = current.Position[current.Axis];
+                double u = (value - median);
 
-                if (value < median)
+                if (u < 0)
                 {
                     if (current.Left != null)
                         if (approximate(current.Left, position, list, maxLeaves, ref visited))
@@ -745,7 +752,7 @@ namespace Accord.MachineLearning.Structures
                     list.Add(current, d);
 
                     if (current.Right != null)
-                        if (Math.Abs(value - median) <= list.Distance.Max)
+                        if ((u * u) < list.Distance.Max)
                             if (approximate(current.Right, position, list, maxLeaves, ref visited))
                                 return true;
                 }
@@ -757,7 +764,7 @@ namespace Accord.MachineLearning.Structures
                     list.Add(current, d);
 
                     if (current.Left != null)
-                        if (Math.Abs(value - median) <= list.Distance.Max)
+                        if ((u * u) < list.Distance.Max)
                             if (approximate(current.Left, position, list, maxLeaves, ref visited))
                                 return true;
                 }
@@ -796,6 +803,7 @@ namespace Accord.MachineLearning.Structures
 
                 double value = position[current.Axis];
                 double median = current.Position[current.Axis];
+                double u = (value - median);
 
                 if (value < median)
                 {
@@ -804,15 +812,15 @@ namespace Accord.MachineLearning.Structures
                             ref match, ref minDistance, maxLeaves, ref visited))
                             return true;
 
-                    if (d < minDistance)
+                    if (u < 0)
                     {
                         minDistance = d;
                         match = current;
                     }
 
                     if (current.Right != null)
-                        if (Math.Abs(value - median) <= minDistance)
-                            if (approximateNearest(current.Right, position, 
+                        if ((u * u) < minDistance)
+                            if (approximateNearest(current.Right, position,
                                 ref match, ref minDistance, maxLeaves, ref visited))
                                 return true;
                 }
@@ -829,7 +837,7 @@ namespace Accord.MachineLearning.Structures
                     }
 
                     if (current.Left != null)
-                        if (Math.Abs(value - median) <= minDistance)
+                        if ((u * u) < minDistance)
                             if (approximateNearest(current.Left, position,
                                 ref match, ref minDistance, maxLeaves, ref visited))
                                 return true;

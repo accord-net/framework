@@ -25,6 +25,7 @@ namespace Accord.Math
     using System;
     using System.Collections;
     using Accord.Math.Decompositions;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Static class Distance. Defines a set of extension methods defining distance measures.
@@ -44,6 +45,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Square Mahalanobis distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double SquareMahalanobis(this double[] x, double[] y, double[,] precision)
         {
             double[] d = new double[x.Length];
@@ -71,6 +75,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Square Mahalanobis distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double SquareMahalanobis(this double[] x, double[] y, SingularValueDecomposition covariance)
         {
             double[] d = new double[x.Length];
@@ -98,6 +105,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Mahalanobis(this double[] x, double[] y, double[,] precision)
         {
             return System.Math.Sqrt(SquareMahalanobis(x, y, precision));
@@ -116,6 +126,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Mahalanobis distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Mahalanobis(this double[] x, double[] y, SingularValueDecomposition covariance)
         {
             return System.Math.Sqrt(SquareMahalanobis(x, y, covariance));
@@ -130,6 +143,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Manhattan distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Manhattan(this double[] x, double[] y)
         {
             double sum = 0.0;
@@ -147,6 +163,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Manhattan distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Manhattan(this int[] x, int[] y)
         {
             int sum = 0;
@@ -164,6 +183,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Chebyshev distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Chebyshev(double[] x, double[] y)
         {
             double max = System.Math.Abs(x[0] - y[0]);
@@ -187,13 +209,16 @@ namespace Accord.Math
         /// 
         /// <returns>The Square Euclidean distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double SquareEuclidean(this double[] x, double[] y)
         {
-            double d = 0.0, u;
+            double d = 0.0;
 
             for (int i = 0; i < x.Length; i++)
             {
-                u = x[i] - y[i];
+                double u = x[i] - y[i];
                 d += u * u;
             }
 
@@ -211,6 +236,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Square Euclidean distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double SquareEuclidean(double x1, double x2, double y1, double y2)
         {
             double dx = x1 - x2;
@@ -227,6 +255,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Euclidean(this double[] x, double[] y)
         {
             return System.Math.Sqrt(SquareEuclidean(x, y));
@@ -243,6 +274,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Euclidean distance between x and y.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Euclidean(double x1, double y1, double x2, double y2)
         {
             return System.Math.Sqrt(SquareEuclidean(x1, y1, x2, y2));
@@ -252,6 +286,9 @@ namespace Accord.Math
         ///   Gets the Modulo-m distance between two integers <c>a</c> and <c>b</c>.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static int Modular(int a, int b, int modulo)
         {
             return System.Math.Min(Tools.Mod(a - b, modulo), Tools.Mod(b - a, modulo));
@@ -261,6 +298,9 @@ namespace Accord.Math
         ///   Gets the Modulo-m distance between two real values <c>a</c> and <c>b</c>.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Modular(double a, double b, double modulo)
         {
             return System.Math.Min(Tools.Mod(a - b, modulo), Tools.Mod(b - a, modulo));
@@ -274,6 +314,9 @@ namespace Accord.Math
         /// <param name="histogram2">A normalized histogram.</param>
         /// <returns>The Bhattacharyya distance between the two histograms.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Bhattacharyya(double[] histogram1, double[] histogram2)
         {
             int bins = histogram1.Length; // histogram bins
@@ -295,6 +338,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Bhattacharyya distance between the two matrices.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Bhattacharyya(double[,] x, double[,] y)
         {
             double[] meanX = mean(x);
@@ -317,6 +363,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Bhattacharyya(double[] meanX, double[,] covX, double[] meanY, double[,] covY)
         {
             int n = meanX.Length;
@@ -342,6 +391,9 @@ namespace Accord.Math
         /// 
         /// <returns>The Bhattacharyya distance between the two distributions.</returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Bhattacharyya(
             double[] meanX, double[,] covX, double lnDetCovX,
             double[] meanY, double[,] covY, double lnDetCovY)
@@ -381,6 +433,9 @@ namespace Accord.Math
         /// 
         /// <returns></returns>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Levenshtein(string x, string y)
         {
             if (x == null || x.Length == 0)
@@ -424,6 +479,9 @@ namespace Accord.Math
         ///   Hamming distance between two Boolean vectors.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Hamming(bool[] x, bool[] y)
         {
             int d = 0;
@@ -437,6 +495,9 @@ namespace Accord.Math
         ///   containing only 0 (false) or 1 (true) values.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double Hamming(double[] x, double[] y)
         {
             int d = 0;
@@ -449,6 +510,9 @@ namespace Accord.Math
         ///   Bitwise hamming distance between two sequences of bytes.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double BitwiseHamming(byte[] x, byte[] y)
         {
             int d = 0;
@@ -460,7 +524,7 @@ namespace Accord.Math
             return d;
         }
 
-        private static byte[] lookup =
+        private readonly static byte[] lookup =
         {
             0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
             1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
@@ -484,6 +548,9 @@ namespace Accord.Math
         ///   Bitwise hamming distance between two bit arrays.
         /// </summary>
         /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static double BitwiseHamming(BitArray x, BitArray y)
         {
             int d = 0;

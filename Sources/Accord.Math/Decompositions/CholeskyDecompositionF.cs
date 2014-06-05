@@ -1,3 +1,4 @@
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -52,11 +53,11 @@ namespace Accord.Math.Decompositions
     ///    </remarks>
     ///    
     [Serializable]
-    public sealed class CholeskyDecompositionF : ICloneable, ISolverMatrixDecomposition<float>
+    public sealed class CholeskyDecompositionF : ICloneable, ISolverMatrixDecomposition<Single>
     {
 
-        private float[,] L;
-        private float[] D;
+        private Single[,] L;
+        private Single[] D;
         private int n;
 
         private bool symmetric;
@@ -64,14 +65,14 @@ namespace Accord.Math.Decompositions
         private bool robust;
 
         // cache for lazy evaluation
-        private float[,] diagonalMatrix;
-        private float? determinant;
+        private Single[,] diagonalMatrix;
+        private Single? determinant;
         private double? lndeterminant;
         private bool? nonsingular;
 
         /// <summary>Constructs a new Cholesky Decomposition.</summary>
         /// <param name="value">The matrix to be decomposed.</param>
-        public CholeskyDecompositionF(float[,] value)
+        public CholeskyDecompositionF(Single[,] value)
             : this(value, false, false)
         {
         }
@@ -82,7 +83,7 @@ namespace Accord.Math.Decompositions
         /// <param name="robust">True to perform a square root free LDLt decomposition,
         /// false otherwise.</param>
         /// 
-        public CholeskyDecompositionF(float[,] value, bool robust)
+        public CholeskyDecompositionF(Single[,] value, bool robust)
             : this(value, robust, false)
         {
         }
@@ -95,7 +96,7 @@ namespace Accord.Math.Decompositions
         /// <param name="lowerTriangular">True to assume the <paramref name="value">value
         /// matrix</paramref> is a lower triangular symmetric matrix, false otherwise.</param>
         /// 
-        public CholeskyDecompositionF(float[,] value, bool robust, bool lowerTriangular)
+        public CholeskyDecompositionF(Single[,] value, bool robust, bool lowerTriangular)
         {
             if (value == null)
             {
@@ -143,7 +144,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the left (lower) triangular factor <c>L</c> so that <c>A = L * D * L'</c>.
         /// </summary>
         ///
-        public float[,] LeftTriangularFactor
+        public Single[,] LeftTriangularFactor
         {
             get { return this.L; }
         }
@@ -152,13 +153,13 @@ namespace Accord.Math.Decompositions
         ///   Returns the block diagonal matrix of diagonal elements in a LDLt decomposition.
         /// </summary>        
         ///
-        public float[,] DiagonalMatrix
+        public Single[,] DiagonalMatrix
         {
             get 
             {
                 if (diagonalMatrix == null)
                 {
-                    diagonalMatrix = new float[n, n];
+                    diagonalMatrix = new Single[n, n];
                     for (int i = 0; i < D.Length; i++)
                         diagonalMatrix[i,i] = D[i];
                 }
@@ -170,7 +171,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the one-dimensional array of diagonal elements in a LDLt decomposition.
         /// </summary>        
         ///
-        public float[] Diagonal
+        public Single[] Diagonal
         {
             get { return D; }
         }
@@ -179,7 +180,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the determinant of the matrix.
         /// </summary>
         ///
-        public float Determinant
+        public Single Determinant
         {
             get
             {
@@ -188,11 +189,11 @@ namespace Accord.Math.Decompositions
                     if (!this.symmetric)
                         throw new NonSymmetricMatrixException("Matrix is not symmetric.");
 
-                    float detL = 1;
+                    Single detL = 1;
                     for (int i = 0; i < n; i++)
                         detL *= L[i, i];
 
-                    float detD = 1;
+                    Single detD = 1;
                     for (int i = 0; i < D.Length; i++)
                         detD *= D[i];
 
@@ -256,33 +257,33 @@ namespace Accord.Math.Decompositions
         }
 
 
-        private unsafe void LLt(float[,] value)
+        private unsafe void LLt(Single[,] value)
         {
             n = value.GetLength(0);
-            L = new float[n, n];
-            D = new float[n];
+            L = new Single[n, n];
+            D = new Single[n];
 
             for (int i = 0; i < D.Length; i++)
                 D[i] = 1;
 
             robust = false;
 
-            float[,] a = value;
+            Single[,] a = value;
 
             this.positiveDefinite = true;
             this.symmetric = true;
 
-            fixed (float* ptrL = L)
+            fixed (Single* ptrL = L)
             {
                 for (int j = 0; j < n; j++)
                 {
-                    float* Lrowj = ptrL + j * n;
-                    float d = 0;
+                    Single* Lrowj = ptrL + j * n;
+                    Single d = 0;
                     for (int k = 0; k < j; k++)
                     {
-                        float* Lrowk = ptrL + k * n;
+                        Single* Lrowk = ptrL + k * n;
 
-                        float s = 0;
+                        Single s = 0;
                         for (int i = 0; i < k; i++)
                             s += Lrowk[i] * Lrowj[i];
 
@@ -295,9 +296,9 @@ namespace Accord.Math.Decompositions
                     d = a[j, j] - d;
 
                     // Use a tolerance for positive-definiteness
-                    this.positiveDefinite &= (d > (float)1e-14 * Math.Abs(a[j, j]));
+                    this.positiveDefinite &= (d > (Single)1e-14 * Math.Abs(a[j, j]));
 
-                    Lrowj[j] = (float)System.Math.Sqrt((double)System.Math.Max(d, 0));
+                    Lrowj[j] = (Single)System.Math.Sqrt((double)System.Math.Max(d, 0));
 
                     for (int k = j + 1; k < n; k++)
                         Lrowj[k] = 0;
@@ -305,20 +306,20 @@ namespace Accord.Math.Decompositions
             }
         }
 
-        private unsafe void LDLt(float[,] value)
+        private unsafe void LDLt(Single[,] value)
         {
             n = value.GetLength(0);
-            L = new float[n, n];
-            D = new float[n];
+            L = new Single[n, n];
+            D = new Single[n];
             robust = true;
 
-            float[,] a = value;
+            Single[,] a = value;
 
-            float[] v = new float[n];
+            Single[] v = new Single[n];
             this.positiveDefinite = true;
             this.symmetric = true;
 
-            float d = D[0] = v[0] = a[0, 0];
+            Single d = D[0] = v[0] = a[0, 0];
 
             if (d == 0) 
                 this.positiveDefinite = false;
@@ -338,11 +339,11 @@ namespace Accord.Math.Decompositions
                 d = D[j] = v[j] = a[j, j] - d;
 
                 // Use a tolerance for positive-definiteness
-                this.positiveDefinite &= (d > (float)1e-14 * Math.Abs(a[j, j]));
+                this.positiveDefinite &= (d > (Single)1e-14 * Math.Abs(a[j, j]));
 
                 for (int k = j + 1; k < n; k++)
                 {
-                    float s = 0;
+                    Single s = 0;
                     for (int i = 0; i < j; i++)
                         s += L[k, i] * v[i];
 
@@ -363,7 +364,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.ArgumentException">Matrix dimensions do not match.</exception>
         /// <exception cref="T:System.InvalidOperationException">Matrix is not symmetric and positive definite.</exception>
         /// 
-        public float[,] Solve(float[,] value)
+        public Single[,] Solve(Single[,] value)
         {
             return Solve(value, false);
         }
@@ -376,7 +377,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// <param name="inPlace">True to compute the solving in place, false otherwise.</param>
         /// 
-        public float[,] Solve(float[,] value, bool inPlace)
+        public Single[,] Solve(Single[,] value, bool inPlace)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -392,7 +393,7 @@ namespace Accord.Math.Decompositions
 
 
             int count = value.GetLength(1);
-            float[,] B = inPlace ? value : (float[,])value.Clone();
+            Single[,] B = inPlace ? value : (Single[,])value.Clone();
 
 
             // Solve L*Y = B;
@@ -436,7 +437,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// 
-        public float[] Solve(float[] value)
+        public Single[] Solve(Single[] value)
         {
             return Solve(value, false);
         }
@@ -449,7 +450,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// <param name="inPlace">True to compute the solving in place, false otherwise.</param>
         /// 
-        public float[] Solve(float[] value, bool inPlace)
+        public Single[] Solve(Single[] value, bool inPlace)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -464,7 +465,7 @@ namespace Accord.Math.Decompositions
                 throw new NonPositiveDefiniteMatrixException("Decomposed matrix is not positive definite.");
 
 
-            float[] B = inPlace ? value : (float[])value.Clone();
+            Single[] B = inPlace ? value : (Single[])value.Clone();
 
 
             // Solve L*Y = B;
@@ -497,7 +498,7 @@ namespace Accord.Math.Decompositions
         ///   Computes the inverse of the decomposed matrix.
         /// </summary>
         /// 
-        public float[,] Inverse()
+        public Single[,] Inverse()
         {
             if (!symmetric)
                 throw new NonSymmetricMatrixException("Matrix is not symmetric.");
@@ -506,7 +507,7 @@ namespace Accord.Math.Decompositions
                 throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
 
 
-            float[,] B = new float[n, n];
+            Single[,] B = new Single[n, n];
             for (int i = 0; i < n; i++)
                 B[i, i] = 1;
 
@@ -551,7 +552,7 @@ namespace Accord.Math.Decompositions
         /// </summary>
         /// <param name="leftTriangular">The left triangular matrix from a Cholesky decomposition.</param>
         /// 
-        public static CholeskyDecompositionF FromLeftTriangularMatrix(float[,] leftTriangular)
+        public static CholeskyDecompositionF FromLeftTriangularMatrix(Single[,] leftTriangular)
         {
             var chol = new CholeskyDecompositionF();
             chol.n = leftTriangular.GetLength(0);
@@ -559,7 +560,7 @@ namespace Accord.Math.Decompositions
             chol.symmetric = true;
             chol.positiveDefinite = true;
             chol.robust = false;
-            chol.D = new float[chol.n];
+            chol.D = new Single[chol.n];
             for (int i = 0; i < chol.D.Length; i++)
                 chol.D[i] = 1;
 
@@ -583,8 +584,8 @@ namespace Accord.Math.Decompositions
         public object Clone()
         {
             var clone = new CholeskyDecompositionF();
-            clone.L = (float[,])L.Clone();
-            clone.D = (float[])D.Clone();
+            clone.L = (Single[,])L.Clone();
+            clone.D = (Single[])D.Clone();
             clone.n = n;
             clone.robust = robust;
             clone.positiveDefinite = positiveDefinite;
@@ -596,3 +597,4 @@ namespace Accord.Math.Decompositions
 
     }
 }
+

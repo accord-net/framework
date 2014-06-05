@@ -16,6 +16,12 @@
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>.\</OutputPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release %284.5%29'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Release %284.5%29\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="Archiver\Build %28v3.5%29.cmd" />
     <None Include="Archiver\Build %28v4.0%29.cmd" />
