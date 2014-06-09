@@ -188,10 +188,22 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
         }
 
+        /// <summary>
+        ///   Gets or sets the step at which the samples will
+        ///   be divided when dividing continuous columns in
+        ///   binary classes. Default is 1.
+        /// </summary>
+        /// 
         public int SplitStep
         {
             get { return splitStep; }
-            set { splitStep = value; }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException("value",
+                        "The split step must be greater than zero.");
+                splitStep = value;
+            }
         }
 
         /// <summary>

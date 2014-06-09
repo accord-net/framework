@@ -70,7 +70,7 @@ namespace Accord.Tests.Statistics
             double[] samples = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
             EmpiricalDistribution target = new EmpiricalDistribution(samples);
             Assert.AreEqual(samples, target.Samples);
-            Assert.AreEqual(1.9144923416414432, target.Smoothing);
+            Assert.AreEqual(0.67595864392399474, target.Smoothing);
         }
 
         [TestMethod()]
@@ -78,8 +78,52 @@ namespace Accord.Tests.Statistics
         {
             double[] samples = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
             EmpiricalDistribution distribution = new EmpiricalDistribution(samples);
-
             
+            double mean = distribution.Mean; // 3
+            double median = distribution.Median; // 2.9999993064186787
+            double var = distribution.Variance; // 1.2941176470588236
+            double chf = distribution.CumulativeHazardFunction(x: 4.2); // 2.1972245773362191
+            double cdf = distribution.DistributionFunction(x: 4.2); // 0.88888888888888884
+            double pdf = distribution.ProbabilityDensityFunction(x: 4.2); // 0.181456280142802
+            double lpdf = distribution.LogProbabilityDensityFunction(x: 4.2); // -1.7067405350495708
+            double hf = distribution.HazardFunction(x: 4.2); // 1.6331065212852196
+            double ccdf = distribution.ComplementaryDistributionFunction(x: 4.2); //0.11111111111111116
+            double icdf = distribution.InverseDistributionFunction(p: cdf); // 4.1999999999999993
+            double smoothing = distribution.Smoothing; // 0.67595864392399474
+
+            string str = distribution.ToString(); // Fn(x; S)
+
+            Assert.AreEqual(samples, distribution.Samples);
+            Assert.AreEqual(0.67595864392399474, smoothing);
+            Assert.AreEqual(3.0, mean);
+            Assert.AreEqual(2.9999993064186787, median);
+            Assert.AreEqual(1.2941176470588236, var);
+            Assert.AreEqual(2.1972245773362191, chf);
+            Assert.AreEqual(0.88888888888888884, cdf);
+            Assert.AreEqual(0.18145628014280227, pdf);
+            Assert.AreEqual(-1.7067405350495708, lpdf);
+            Assert.AreEqual(1.6331065212852196, hf);
+            Assert.AreEqual(0.11111111111111116, ccdf);
+            Assert.AreEqual(4.1999999999999993, icdf);
+            Assert.AreEqual("Fn(x; S)", str);
+        }
+
+        [TestMethod()]
+        public void EmpiricalDistributionConstructorTest4()
+        {
+            double[] samples = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            EmpiricalDistribution target = new EmpiricalDistribution(samples, FaultySmoothingRule(samples));
+            Assert.AreEqual(samples, target.Samples);
+            Assert.AreEqual(1.9144923416414432, target.Smoothing);
+        }
+
+        [TestMethod()]
+        public void EmpiricalDistributionConstructorTest5()
+        {
+            double[] samples = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            EmpiricalDistribution distribution = new EmpiricalDistribution(samples, FaultySmoothingRule(samples));
+
+
             double mean = distribution.Mean; // 3
             double median = distribution.Median; // 2.9999993064186787
             double var = distribution.Variance; // 1.2941176470588236
@@ -95,7 +139,7 @@ namespace Accord.Tests.Statistics
             string str = distribution.ToString(); // Fn(x; S)
 
             Assert.AreEqual(samples, distribution.Samples);
-            Assert.AreEqual(1.9144923416414432, smoothing);
+            Assert.AreEqual(1.9144923416414432, smoothing, 1.0e-15);
             Assert.AreEqual(3.0, mean);
             Assert.AreEqual(2.9999993064186787, median);
             Assert.AreEqual(1.2941176470588236, var);
@@ -152,7 +196,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void FitTest()
+        public void FitTest1()
         {
             EmpiricalDistribution target = new EmpiricalDistribution(new double[] { 0 });
 
@@ -161,10 +205,24 @@ namespace Accord.Tests.Statistics
             IFittingOptions options = null;
 
             target.Fit(observations, weights, options);
+            Assert.AreEqual(1.8652004071576875, target.Smoothing);
             Assert.AreNotSame(observations, target.Samples);
+            CollectionAssert.AreEqual(observations, target.Samples);
+        }
 
-            for (int i = 0; i < observations.Length; i++)
-                Assert.AreEqual(observations[i], target.Samples[i]);
+        [TestMethod()]
+        public void FitTest2()
+        {
+            EmpiricalDistribution target = new EmpiricalDistribution(new double[] { 0 });
+
+            double[] observations = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            double[] weights = null;
+            IFittingOptions options = new EmpiricalOptions { SmoothingRule = FaultySmoothingRule };
+
+            target.Fit(observations, weights, options);
+            Assert.AreEqual(1.9144923416414432, target.Smoothing);
+            Assert.AreNotSame(observations, target.Samples);
+            CollectionAssert.AreEqual(observations, target.Samples);
         }
 
         [TestMethod()]
@@ -232,5 +290,10 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
+        private static double FaultySmoothingRule(double[] observations)
+        {
+            double sigma = Accord.Statistics.Tools.StandardDeviation(observations);
+            return sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);
+        }
     }
 }

@@ -370,9 +370,6 @@ namespace Accord.Statistics.Distributions.Univariate
             if (weights != null)
                 throw new ArgumentException("This distribution does not support weighted samples.");
 
-            if (options != null)
-                throw new ArgumentException("This method does not accept fitting options.");
-
             double? smoothing = null;
 
             if (options != null)

@@ -278,7 +278,12 @@ namespace Accord.MachineLearning.DecisionTrees
             return new TreeTraversal(subtree, method);
         }
 
-
+        /// <summary>
+        ///   Transforms the tree into a set of <see cref="DecisionSet">decision rules</see>.
+        /// </summary>
+        /// 
+        /// <returns>A <see cref="DecisionSet"/> created from this tree.</returns>
+        /// 
         public DecisionSet ToRules()
         {
             return DecisionSet.FromDecisionTree(this);

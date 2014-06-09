@@ -27,7 +27,6 @@ namespace Accord.Math
     using System.Threading;
     using Accord.Math.Comparers;
     using AForge;
-    using System.Threading;
 
     /// <summary>
     ///   Set of mathematical tools.

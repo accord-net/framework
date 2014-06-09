@@ -1854,6 +1854,15 @@ namespace Accord.Imaging
             return r;
         }
 
+        /// <summary>
+        ///   Gets the image format most likely associated with a given file name.
+        /// </summary>
+        /// 
+        /// <param name="fileName">The filename in the form "image.jpg".</param>
+        /// 
+        /// <returns>The <see cref="ImageFormat"/> most likely associated with
+        ///   the given <paramref name="fileName"/>.</returns>
+        /// 
         public static ImageFormat GetFormat(string fileName)
         {
             string extension = Path.GetExtension(fileName);
@@ -1861,30 +1870,33 @@ namespace Accord.Imaging
             if (string.IsNullOrEmpty(extension))
                 throw new ArgumentException("Unable to determine file extension for fileName: " + fileName);
 
-            switch (extension.ToLower())
+            switch (extension.ToUpperInvariant())
             {
-                case @".bmp":
+                case @".BMP":
                     return ImageFormat.Bmp;
 
-                case @".gif":
+                case @".GIF":
                     return ImageFormat.Gif;
 
-                case @".ico":
+                case @".ICO":
                     return ImageFormat.Icon;
 
-                case @".jpg":
-                case @".jpeg":
+                case @".JPG":
+                case @".JPEG":
                     return ImageFormat.Jpeg;
 
-                case @".png":
+                case @".PNG":
                     return ImageFormat.Png;
 
-                case @".tif":
-                case @".tiff":
+                case @".TIF":
+                case @".TIFF":
                     return ImageFormat.Tiff;
 
-                case @".wmf":
+                case @".WMF":
                     return ImageFormat.Wmf;
+
+                case @".EMF":
+                    return ImageFormat.Emf;
 
                 default:
                     throw new NotImplementedException();

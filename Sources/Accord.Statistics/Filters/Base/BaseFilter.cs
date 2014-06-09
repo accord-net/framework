@@ -166,7 +166,7 @@ namespace Accord.Statistics.Filters
         where T : ColumnOptionsBase
     {
         /// <summary>
-        ///   Extracts the key from the specified element.
+        ///   Extracts the key from the specified column options.
         /// </summary>
         /// 
         protected override string GetKeyForItem(T item)
@@ -178,19 +178,28 @@ namespace Accord.Statistics.Filters
         ///   Adds a new column options definition to the collection.
         /// </summary>
         /// 
-        /// <param name="item">The column options to be added.</param>
+        /// <param name="options">The column options to be added.</param>
         /// 
         /// <returns>The added column options.</returns>
         /// 
-        new public T Add(T item)
+        new public T Add(T options)
         {
-            base.Add(item);
-            return item;
+            base.Add(options);
+            return options;
         }
 
-        public bool TryGetValue(String key, out T item)
+        /// <summary>
+        ///   Gets the associated options for the given column name.
+        /// </summary>
+        /// 
+        /// <param name="columnName">The name of the column whose options should be retrieved.</param>
+        /// <param name="options">The retrieved options.</param>
+        /// 
+        /// <returns>True if the options was contained in the collection; false otherwise.</returns>
+        /// 
+        public bool TryGetValue(String columnName, out T options)
         {
-            return base.Dictionary.TryGetValue(key, out item);
+            return base.Dictionary.TryGetValue(columnName, out options);
         }
     }
 }
