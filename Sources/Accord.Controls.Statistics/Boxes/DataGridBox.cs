@@ -165,6 +165,21 @@ namespace Accord.Controls
         }
 
         /// <summary>
+        ///   Closes the form.
+        /// </summary>
+        /// 
+        public new void Close()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => base.Close()));
+                return;
+            }
+
+            base.Close();
+        }
+
+        /// <summary>
         ///   Displays a Data Grid View with the specified data.
         /// </summary>
         /// 

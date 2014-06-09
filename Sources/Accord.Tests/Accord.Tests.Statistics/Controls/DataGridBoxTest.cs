@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Accord;
     using System.Data;
     using Accord.Controls;
+    using System;
 
     [TestClass()]
     public class DataGridBoxText
@@ -70,7 +71,15 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("Y", box.DataGridView.Columns[1].Name);
             Assert.AreEqual("SVM", box.DataGridView.Columns[2].Name);
 
-            box.Close();
+            try
+            {
+                box.Close();
+                box.WaitForClose();
+            }
+            catch (Exception)
+            {
+                Assert.Fail();
+            }
         }
 
     }
