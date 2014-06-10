@@ -1,12 +1,12 @@
-ï»¿
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright ï¿½ Cï¿½sar Souza, 2009-2014
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
-// Original work copyright ï¿½ Lutz Roeder, 2000
+// Original work copyright © Lutz Roeder, 2000
 //  Adapted from Mapack for .NET, September 2000
 //  Adapted from Mapack for COM and Jama routines
 //  http://www.aisto.com/roeder/dotnet

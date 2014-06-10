@@ -96,7 +96,7 @@ namespace Accord.Audio.Windows
             int channels = signal.Channels;
             int samples = signal.Length;
 
-            int minLength = System.Math.Min(signal.Length - sampleIndex, Length);
+            int minLength = System.Math.Min(samples - sampleIndex, Length);
 
             Signal result = new Signal(channels, Length, signal.SampleRate, signal.SampleFormat);
 

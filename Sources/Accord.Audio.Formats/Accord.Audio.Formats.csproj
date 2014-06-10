@@ -43,14 +43,14 @@
     <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\Release\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %284.0%29|AnyCPU' ">
+    <OutputPath>..\..\Release\net40</OutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
-    <DocumentationFile>..\..\Release\Accord.Audio.Formats.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net40\Accord.Audio.Formats.XML</DocumentationFile>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
@@ -58,18 +58,18 @@
     <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
-    <OutputPath>..\..\Release (3.5)\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
+    <OutputPath>..\..\Release\net35</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
-    <DocumentationFile>..\..\Release (3.5)\Accord.Audio.Formats.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net35\Accord.Audio.Formats.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisLogFile>..\..\Release (3.5)\Accord.Audio.Formats.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>..\..\Release\net35\Accord.Audio.Formats.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
@@ -81,7 +81,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\Release %284.5%29\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;TRACE</DefineConstants>
-    <DocumentationFile>..\..\Release\Accord.Audio.Formats.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net40\Accord.Audio.Formats.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>

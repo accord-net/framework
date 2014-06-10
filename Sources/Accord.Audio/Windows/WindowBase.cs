@@ -97,7 +97,6 @@ namespace Accord.Audio.Windows
         public unsafe virtual Signal Apply(Signal signal, int sampleIndex)
         {
             int channels = signal.Channels;
-            int samples = signal.Length;
 
             int minLength = System.Math.Min(signal.Length - sampleIndex, Length);
 

@@ -267,14 +267,19 @@ namespace Accord.Statistics.Distributions.Fitting
             for (int i = 0; i < observations.Length; i++)
             {
                 var x = observations[i];
-                double w = weights[i];
+                double w = 1.0;
 
-                if (w == 0) 
-                    continue;
+                if (weights != null)
+                {
+                    w = weights[i];
+
+                    if (w == 0)
+                        continue;
+                }
 
                 double sum = 0.0;
-                for (int j = 0; j < pi.Length; j++)
-                    sum += pi[j] * pdf[j].ProbabilityFunction(x);
+                for (int k = 0; k < pi.Length; k++)
+                    sum += pi[k] * pdf[k].ProbabilityFunction(x);
 
                 if (sum > 0) 
                     logLikelihood += Math.Log(sum) * w;

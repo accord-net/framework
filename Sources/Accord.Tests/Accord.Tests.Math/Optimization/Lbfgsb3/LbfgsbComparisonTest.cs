@@ -201,32 +201,32 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected.Length, actual.Length);
             for (int i = 0; i < expected.Length; i++)
             {
-                var a = (Tuple<Int32[], double[], bool[], string, double[]>)actual[i].Tag;
+                var a = (BoundedBroydenFletcherGoldfarbShannoInnerStatus)actual[i].Tag;
                 var e = expected[i];
 
                 Assert.AreEqual(e.Iteration, actual[i].Iteration);
                 Assert.AreEqual(e.Value, actual[i].Value);
 
-                for (int j = 0; j < a.Item5.Length; j++)
-                    Assert.AreEqual(e.Work[j], a.Item5[j]);
+                for (int j = 0; j < a.Work.Length; j++)
+                    Assert.AreEqual(e.Work[j], a.Work[j]);
 
                 for (int j = 0; j < actual[i].Gradient.Length; j++)
                     Assert.AreEqual(e.Gradient[j], actual[i].Gradient[j]);
 
-                for (int j = 0; j < a.Item1.Length; j++)
-                    Assert.AreEqual(e.isave[j], a.Item1[j]);
+                for (int j = 0; j < a.Integers.Length; j++)
+                    Assert.AreEqual(e.isave[j], a.Integers[j]);
 
-                for (int j = 0; j < a.Item2.Length; j++)
+                for (int j = 0; j < a.Doubles.Length; j++)
                 {
-                    Assert.AreEqual(Double.IsNaN(e.dsave[j]), Double.IsNaN(a.Item2[j]));
-                    Assert.AreEqual(e.dsave[j], a.Item2[j], 1e-200);
+                    Assert.AreEqual(Double.IsNaN(e.dsave[j]), Double.IsNaN(a.Doubles[j]));
+                    Assert.AreEqual(e.dsave[j], a.Doubles[j], 1e-200);
                 }
 
-                for (int j = 0; j < a.Item3.Length; j++)
-                    Assert.AreEqual(e.lsave[j], a.Item3[j] ? 1 : 0);
+                for (int j = 0; j < a.Booleans.Length; j++)
+                    Assert.AreEqual(e.lsave[j], a.Booleans[j] ? 1 : 0);
 
                 String trim = e.csave.Trim();
-                Assert.AreEqual(trim, a.Item4);
+                Assert.AreEqual(trim, a.Strings);
             }
         }
 

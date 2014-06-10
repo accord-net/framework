@@ -66,44 +66,33 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Applies the filter to a signal.
         /// </summary>
-        protected override void ProcessFilter(Signal sourceData, Signal destinationData)
+        protected unsafe override void ProcessFilter(Signal sourceData, Signal destinationData)
         {
             SampleFormat format = sourceData.SampleFormat;
-            int channels = sourceData.Channels;
-            int length = sourceData.Length;
             int samples = sourceData.Samples;
 
             if (format == SampleFormat.Format32BitIeeeFloat)
             {
-                unsafe
-                {
-                    float* src = (float*)sourceData.Data.ToPointer();
-                    float* dst = (float*)destinationData.Data.ToPointer();
+                float* src = (float*)sourceData.Data.ToPointer();
+                float* dst = (float*)destinationData.Data.ToPointer();
 
-                    for (int i = 0; i < samples; i++, dst++, src++)
-                        *dst = System.Math.Abs(*src);
-                }
+                for (int i = 0; i < samples; i++, dst++, src++)
+                    *dst = System.Math.Abs(*src);
             }
             else if (format == SampleFormat.Format128BitComplex)
             {
-                unsafe
+                Complex* src = (Complex*)sourceData.Data.ToPointer();
+                Complex* dst = (Complex*)destinationData.Data.ToPointer();
+
+                Complex c = new Complex();
+
+                for (int i = 0; i < samples; i++, dst++, src++)
                 {
-                    Complex* src = (Complex*)sourceData.Data.ToPointer();
-                    Complex* dst = (Complex*)destinationData.Data.ToPointer();
-
-                    Complex c = new Complex();
-
-                    for (int i = 0; i < samples; i++, dst++, src++)
-                    {
-                        c.Re = (*src).Magnitude;
-                        *dst = c;
-                    }
+                    c.Re = (*src).Magnitude;
+                    *dst = c;
                 }
             }
-
         }
-
-
 
     }
 }

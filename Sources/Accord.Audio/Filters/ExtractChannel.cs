@@ -94,7 +94,6 @@ namespace Accord.Audio.Filters
             SampleFormat format = sourceData.SampleFormat;
             int channels = sourceData.Channels;
             int length = sourceData.Length;
-            int samples = sourceData.Samples;
 
             if (Channel < 0 || Channel > channels)
                 throw new InvalidOperationException("The signal doesn't contains the specified channel.");

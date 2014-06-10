@@ -493,26 +493,26 @@ namespace Accord.Math.Optimization
                 evaluations++;
 
                 if (Progress != null)
+                {
                     Progress(this, new OptimizationProgressEventArgs(iterations, 0, newG, 0, null, 0, newF, 0, true)
                     {
-                        Tag = Tuple.Create(
-                            (int[])isave.Clone(), (double[])dsave.Clone(),
-                            (bool[])lsave.Clone(), (String)csave.Clone(),
-                            (double[])work.Clone())
+                        Tag = new BoundedBroydenFletcherGoldfarbShannoInnerStatus(
+                            isave, dsave, lsave, csave, work)
                     });
+                }
 
                 return true;
             }
 
 
             if (Progress != null)
+            {
                 Progress(this, new OptimizationProgressEventArgs(iterations, 0, newG, 0, null, 0, f, 0, false)
                 {
-                    Tag = Tuple.Create(
-                        (int[])isave.Clone(), (double[])dsave.Clone(),
-                        (bool[])lsave.Clone(), (String)csave.Clone(),
-                        (double[])work.Clone())
+                    Tag = new BoundedBroydenFletcherGoldfarbShannoInnerStatus(
+                            isave, dsave, lsave, csave, work)
                 });
+            }
 
             goto L111;
         }
