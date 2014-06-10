@@ -148,8 +148,8 @@ Global
 		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Release (3.5)|Any CPU.ActiveCfg = Release (3.5)|Any CPU
 		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Release (3.5)|Any CPU.Build.0 = Release (3.5)|Any CPU
-		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Release (4.0)|Any CPU.ActiveCfg = Release (4.0)|x86
-		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Release (4.0)|Any CPU.Build.0 = Release (4.0)|x86
+		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Release (4.0)|Any CPU.ActiveCfg = Release (4.0)|Any CPU
+		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Release (4.0)|Any CPU.Build.0 = Release (4.0)|Any CPU
 		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Release (4.5)|Any CPU.ActiveCfg = Release (4.5)|Any CPU
 		{F454DBD6-2AB9-461D-9624-2249B921B6E6}.Release (4.5)|Any CPU.Build.0 = Release (4.5)|Any CPU
 		{49679C95-28CE-4D35-8F38-3D67A511A3C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

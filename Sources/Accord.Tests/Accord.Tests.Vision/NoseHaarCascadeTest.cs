@@ -90,7 +90,7 @@ namespace Accord.Tests.Vision
                         Assert.AreNotEqual(eNode, aNode);
                         Assert.AreEqual(eNode.LeftNodeIndex, aNode.LeftNodeIndex);
                         Assert.AreEqual(eNode.LeftValue, aNode.LeftValue);
-                        Assert.AreEqual(eNode.RightNodeIndex, aNode.RightNodeIndex);
+                        Assert.AreEqual(eNode.RightNodeIndex, aNode.RightNodeIndex, 1e-16);
                         Assert.AreEqual(eNode.RightValue, aNode.RightValue, 1e-16);
                         Assert.AreEqual(eNode.Threshold, aNode.Threshold, 1e-16);
                         Assert.IsFalse(double.IsNaN(aNode.Threshold));

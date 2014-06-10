@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestSettings name="Accord.NET" id="7d88f820-4815-47e4-ad20-ab97ad0bb852" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>This is a default test run configuration for a local test run.</Description>
-  <Execution hostProcessPlatform="MSIL">
+  <Execution>
     <TestTypeSpecific>
       <WebTestRunConfiguration testTypeId="4e7599fa-5ecb-43e9-a887-cd63cf72d207">
         <Browser name="Internet Explorer 7.0">
