@@ -65,7 +65,7 @@ namespace Accord.Tests.Statistics
 
             var results = inputs.InsertColumn(outputs);
 
-            var box = DataGridBox.Show(results, colNames: new[] { "X", "Y", "SVM" }, nonBlocking: true);
+            var box = DataGridBox.Show(results, colNames: new[] { "X", "Y", "SVM" });
 
             Assert.AreEqual("X", box.DataGridView.Columns[0].Name);
             Assert.AreEqual("Y", box.DataGridView.Columns[1].Name);
@@ -75,6 +75,7 @@ namespace Accord.Tests.Statistics
             {
                 box.Close();
                 box.WaitForClose();
+                box.Hold();
             }
             catch (Exception)
             {

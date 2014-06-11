@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using AForge;
+    using Accord.Statistics.Distributions.Fitting;
 
     /// <summary>
     ///   Beta Distribution (of the first kind).
@@ -131,8 +132,10 @@ namespace Accord.Statistics.Distributions.Univariate
                 throw new ArgumentOutOfRangeException("success", "The number of trials must be positive");
 
             if (success > trials)
+            {
                 throw new ArgumentOutOfRangeException("success",
                     "The number of successes should be lesser than or equal to the number of trials");
+            }
 
             init(success + 1, trials - success + 1);
         }
@@ -146,8 +149,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public BetaDistribution(double alpha, double beta)
         {
-            if (alpha <= 0) throw new ArgumentOutOfRangeException("alpha");
-            if (beta <= 0) throw new ArgumentOutOfRangeException("beta");
+            if (alpha <= 0) 
+                throw new ArgumentOutOfRangeException("alpha");
+
+            if (beta <= 0) 
+                throw new ArgumentOutOfRangeException("beta");
 
             init(alpha, beta);
         }
@@ -157,7 +163,8 @@ namespace Accord.Statistics.Distributions.Univariate
             this.a = alpha;
             this.b = beta;
 
-            constant = 1.0 / Accord.Math.Beta.Function(a, b);
+            this.constant = 1.0 / Accord.Math.Beta.Function(a, b);
+            this.entropy = null;
         }
 
         /// <summary>
@@ -238,6 +245,14 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
 
                 return entropy.Value;
+            }
+        }
+
+        public override double Mode
+        {
+            get
+            {
+                return (a - 1.0) / (a + b - 2.0);
             }
         }
 
@@ -330,6 +345,34 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             if (x <= 0 || x >= 1) return Double.NegativeInfinity;
             return Math.Log(constant) + (a - 1) * Math.Log(x) + (b - 1) * Math.Log(1 - x);
+        }
+
+        public override void Fit(double[] observations, double[] weights, IFittingOptions options)
+        {
+            if (options != null)
+                throw new ArgumentException("This method does not accept fitting options.");
+
+            double mean;
+            double var;
+
+            if (weights == null)
+            {
+                mean = observations.Mean();
+                var = observations.Variance(mean);
+            }
+            else
+            {
+                mean = observations.WeightedMean(weights);
+                var = observations.WeightedVariance(weights, mean);
+            }
+
+            if (var >= mean * (1.0 - mean))
+                throw new NotSupportedException();
+
+            double u = (mean * (1 - mean) / var) - 1.0;
+            double alpha = mean * u;
+            double beta = (1 - mean) * u;
+            init(alpha, beta);
         }
 
         /// <summary>
