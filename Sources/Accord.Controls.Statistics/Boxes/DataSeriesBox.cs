@@ -102,14 +102,12 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static DataSeriesBox Show(string title = "Time series",
-            bool nonBlocking = false, params double[][] series)
+        public static DataSeriesBox Show(string title = "Time series", params double[][] series)
         {
-            return show(title, series, nonBlocking);
+            return show(title, series);
         }
 
-
-        private static DataSeriesBox show(String title, double[][] series, bool hold)
+        private static DataSeriesBox show(String title, double[][] series)
         {
             DataSeriesBox form = null;
             Thread formThread = null;
@@ -147,10 +145,12 @@ namespace Accord.Controls
 
             stopWaitHandle.WaitOne();
 
-            if (!hold)
-                formThread.Join();
-
             return form;
+        }
+
+        public void Hold()
+        {
+            formThread.Join();
         }
 
     }

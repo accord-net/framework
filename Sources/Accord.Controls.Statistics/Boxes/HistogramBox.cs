@@ -26,8 +26,6 @@ namespace Accord.Controls
     using System.Threading;
     using System.Windows.Forms;
     using Accord.Statistics.Visualizations;
-    using ZedGraph;
-    using AForge;
 
     /// <summary>
     ///   Histogram Box for quickly displaying a form with a histogram 
@@ -91,6 +89,19 @@ namespace Accord.Controls
             return this;
         }
 
+        public HistogramBox SetTitle(string text)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => SetTitle(text)));
+                return this;
+            }
+
+            this.Text = text;
+
+            return this;
+        }
+
         /// <summary>
         ///   Sets the bins width in the histogram.
         /// </summary>
@@ -147,9 +158,9 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static HistogramBox Show(double[] values, bool nonBlocking = false)
+        public static HistogramBox Show(double[] values)
         {
-            return Show("Histogram", values, nonBlocking);
+            return Show("Histogram", values);
         }
 
         /// <summary>
@@ -163,11 +174,11 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static HistogramBox Show(string title, double[] values, bool nonBlocking = false)
+        public static HistogramBox Show(string title, double[] values)
         {
             Histogram histogram = new Histogram(title);
             histogram.Compute(values);
-            return show(histogram, nonBlocking);
+            return show(histogram);
         }
 
         /// <summary>
@@ -180,13 +191,13 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static HistogramBox Show(Histogram histogram, bool nonBlocking = false)
+        public static HistogramBox Show(Histogram histogram)
         {
-            return show(histogram, nonBlocking);
+            return show(histogram);
         }
 
 
-        private static HistogramBox show(Histogram histogram, bool hold)
+        private static HistogramBox show(Histogram histogram)
         {
             HistogramBox form = null;
             Thread formThread = null;
@@ -215,10 +226,14 @@ namespace Accord.Controls
 
             stopWaitHandle.WaitOne();
 
-            if (!hold)
-                formThread.Join();
-
             return form;
+        }
+
+        public void Hold()
+        {
+            this.SetTitle(this.Text + " [on hold]");
+
+            formThread.Join();
         }
 
     }

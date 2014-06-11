@@ -179,6 +179,19 @@ namespace Accord.Controls
             base.Close();
         }
 
+        public DataGridBox SetTitle(string text)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => SetTitle(text)));
+                return this;
+            }
+
+            this.Text = text;
+
+            return this;
+        }
+
         /// <summary>
         ///   Displays a Data Grid View with the specified data.
         /// </summary>
@@ -192,9 +205,9 @@ namespace Accord.Controls
         /// 
         /// <returns>The Data Grid Box being shown.</returns>
         /// 
-        public static DataGridBox Show(object source, string title = null, bool nonBlocking = false)
+        public static DataGridBox Show(object source, string title = null)
         {
-            return show(source, title, nonBlocking);
+            return show(source, title);
         }
 
         /// <summary>
@@ -209,9 +222,9 @@ namespace Accord.Controls
         /// 
         /// <returns>The Data Grid Box being shown.</returns>
         /// 
-        public static DataGridBox Show(DataTable table, bool nonBlocking = false)
+        public static DataGridBox Show(DataTable table)
         {
-            return show(table, table.TableName, nonBlocking);
+            return show(table, table.TableName);
         }
 
         /// <summary>
@@ -230,13 +243,13 @@ namespace Accord.Controls
         /// 
         /// <returns>The Data Grid Box being shown.</returns>
         /// 
-        public static DataGridBox Show(Array array, String title = null, 
-            object[] rowNames = null, object[] colNames = null, bool nonBlocking = false)
+        public static DataGridBox Show(Array array, String title = null,
+            object[] rowNames = null, object[] colNames = null)
         {
-            return show(new ArrayDataView(array, columnNames: colNames, rowNames: rowNames), title, nonBlocking);
+            return show(new ArrayDataView(array, columnNames: colNames, rowNames: rowNames), title);
         }
 
-        private static DataGridBox show(object source, string title, bool nonBlocking)
+        private static DataGridBox show(object source, string title)
         {
             DataGridBox form = null;
             Thread formThread = null;
@@ -265,10 +278,47 @@ namespace Accord.Controls
 
             stopWaitHandle.WaitOne();
 
-            if (!nonBlocking)
-                formThread.Join();
-
             return form;
+        }
+
+        public void Hold()
+        {
+            this.SetTitle(this.Text + " [on hold]");
+
+            formThread.Join();
+        }
+
+        private void dataGridView_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            this.contextMenuStrip1.Items.Clear();
+
+            foreach (DataGridViewColumn column in this.dataGridView.Columns)
+            {
+                var item = new ToolStripMenuItem()
+                {
+                    Text = column.HeaderText,
+                    Checked = true,
+                    CheckOnClick = true,
+                    Tag = column,
+                };
+
+                item.CheckedChanged += item_CheckedChanged;
+
+                this.contextMenuStrip1.Items.Add(item);
+                column.HeaderCell.ContextMenuStrip = this.contextMenuStrip1;
+            }
+
+        }
+
+        private void item_CheckedChanged(object sender, EventArgs e)
+        {
+            ToolStripMenuItem item = sender as ToolStripMenuItem;
+            DataGridViewColumn column = item.Tag as DataGridViewColumn;
+
+            if (column == null)
+                return;
+
+            column.Visible = item.Checked;
         }
 
     }

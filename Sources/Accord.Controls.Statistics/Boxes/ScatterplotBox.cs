@@ -28,6 +28,9 @@ namespace Accord.Controls
     using Accord.Statistics.Visualizations;
     using ZedGraph;
     using AForge;
+    using Accord.Math;
+    using System.Reflection;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     ///   Scatter plot Box for quickly displaying a form with a scatter plot on it
@@ -86,6 +89,20 @@ namespace Accord.Controls
             scatterplotView1.UpdateGraph();
 
             Refresh();
+
+            return this;
+        }
+
+     
+        public ScatterplotBox SetTitle(string text)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => SetTitle(text)));
+                return this;
+            }
+
+            this.Text = text;
 
             return this;
         }
@@ -168,9 +185,9 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(double[] x, bool nonBlocking = false)
+        public static ScatterplotBox Show(double[] x)
         {
-            return Show("Scatter Plot", x, nonBlocking);
+            return Show("Scatter Plot", x);
         }
 
         /// <summary>
@@ -186,13 +203,13 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(string title, double[] x, double[] y, int[] z, bool nonBlocking = false)
+        public static ScatterplotBox Show(string title, double[] x, double[] y, int[] z)
         {
             Scatterplot scatterplot = new Scatterplot(title);
 
             scatterplot.Compute(x, y, z);
 
-            return show(scatterplot, nonBlocking);
+            return show(scatterplot);
         }
 
         /// <summary>
@@ -207,13 +224,13 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(string title, double[] x, double[] y, bool nonBlocking = false)
+        public static ScatterplotBox Show(string title, double[] x, double[] y)
         {
             Scatterplot scatterplot = new Scatterplot(title);
 
             scatterplot.Compute(x, y);
 
-            return show(scatterplot, nonBlocking);
+            return show(scatterplot);
         }
 
         /// <summary>
@@ -227,13 +244,13 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(string title, double[] x, bool nonBlocking = false)
+        public static ScatterplotBox Show(string title, double[] x)
         {
             Scatterplot scatterplot = new Scatterplot(title);
 
             scatterplot.Compute(x);
 
-            return show(scatterplot, nonBlocking);
+            return show(scatterplot);
         }
 
         /// <summary>
@@ -247,9 +264,9 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(double[,] x, int[] z, bool nonBlocking = false)
+        public static ScatterplotBox Show(double[,] x, int[] z)
         {
-            return Show("Scatter Plot", x, z, nonBlocking);
+            return Show("Scatter Plot", x, z);
         }
 
         /// <summary>
@@ -262,9 +279,9 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(double[,] x, bool nonBlocking = false)
+        public static ScatterplotBox Show(double[,] x)
         {
-            return Show("Scatter Plot", x, nonBlocking);
+            return Show("Scatter Plot", x);
         }
 
         /// <summary>
@@ -279,13 +296,13 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(string title, double[,] x, int[] z, bool nonBlocking = false)
+        public static ScatterplotBox Show(string title, double[,] x, int[] z)
         {
             Scatterplot scatterplot = new Scatterplot(title);
 
             scatterplot.Compute(x, z);
 
-            return show(scatterplot, nonBlocking);
+            return show(scatterplot);
         }
 
         /// <summary>
@@ -299,13 +316,13 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(string title, double[,] x, bool nonBlocking = false)
+        public static ScatterplotBox Show(string title, double[,] x)
         {
             Scatterplot scatterplot = new Scatterplot(title);
 
             scatterplot.Compute(x);
 
-            return show(scatterplot, nonBlocking);
+            return show(scatterplot);
         }
 
         /// <summary>
@@ -319,9 +336,9 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(double[][] x, int[] z, bool nonBlocking = false)
+        public static ScatterplotBox Show(double[][] x, int[] z)
         {
-            return Show("Scatterplot", x, z, nonBlocking);
+            return Show("Scatterplot", x, z);
         }
 
 
@@ -335,9 +352,9 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(double[][] x, bool nonBlocking = false)
+        public static ScatterplotBox Show(double[][] x)
         {
-            return Show("Scatterplot", x, nonBlocking);
+            return Show("Scatterplot", x);
         }
 
         /// <summary>
@@ -351,13 +368,13 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(string title, double[][] x, bool nonBlocking = false)
+        public static ScatterplotBox Show(string title, double[][] x)
         {
             Scatterplot scatterplot = new Scatterplot(title);
 
             scatterplot.Compute(x);
 
-            return show(scatterplot, nonBlocking);
+            return show(scatterplot);
         }
 
         /// <summary>
@@ -372,13 +389,13 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(string title, double[][] x, int[] z, bool nonBlocking = false)
+        public static ScatterplotBox Show(string title, double[][] x, int[] z)
         {
             Scatterplot scatterplot = new Scatterplot(title);
 
             scatterplot.Compute(x, z);
 
-            return show(scatterplot, nonBlocking);
+            return show(scatterplot);
         }
 
         /// <summary>
@@ -391,13 +408,147 @@ namespace Accord.Controls
         /// the caller will be blocked until the user closes the form. Default
         /// is <c>false</c>.</param>
         /// 
-        public static ScatterplotBox Show(Scatterplot scatterplot, bool nonBlocking = false)
+        public static ScatterplotBox Show(Scatterplot scatterplot)
         {
-            return show(scatterplot, nonBlocking);
+            return show(scatterplot);
         }
 
+        /// <summary>
+        ///   Displays a scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="scatterplot">The scatter plot to show.</param>
+        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
+        /// executing while the form is shown on screen. If set to <c>false</c>,
+        /// the caller will be blocked until the user closes the form. Default
+        /// is <c>false</c>.</param>
+        /// 
+        public static ScatterplotBox Show(Func<double, double> function, double min, double max, double step)
+        {
+            return show(null, function, null, null, step);
+        }
 
-        private static ScatterplotBox show(Scatterplot scatterplot, bool hold)
+        /// <summary>
+        ///   Displays a scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="scatterplot">The scatter plot to show.</param>
+        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
+        /// executing while the form is shown on screen. If set to <c>false</c>,
+        /// the caller will be blocked until the user closes the form. Default
+        /// is <c>false</c>.</param>
+        /// 
+        public static ScatterplotBox Show(Func<double, double> function, DoubleRange range, double step)
+        {
+            return show(null, function, range.Min, range.Max, step);
+        }
+
+        /// <summary>
+        ///   Displays a scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="scatterplot">The scatter plot to show.</param>
+        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
+        /// executing while the form is shown on screen. If set to <c>false</c>,
+        /// the caller will be blocked until the user closes the form. Default
+        /// is <c>false</c>.</param>
+        /// 
+        public static ScatterplotBox Show(Func<double, double> function, DoubleRange range)
+        {
+            return show(null, function, range.Min, range.Max, null);
+        }
+
+        /// <summary>
+        ///   Displays a scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="scatterplot">The scatter plot to show.</param>
+        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
+        /// executing while the form is shown on screen. If set to <c>false</c>,
+        /// the caller will be blocked until the user closes the form. Default
+        /// is <c>false</c>.</param>
+        /// 
+        public static ScatterplotBox Show(String title, Func<double, double> function, DoubleRange range)
+        {
+            return show(title, function, range.Min, range.Max, null);
+        }
+
+        /// <summary>
+        ///   Displays a scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="scatterplot">The scatter plot to show.</param>
+        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
+        /// executing while the form is shown on screen. If set to <c>false</c>,
+        /// the caller will be blocked until the user closes the form. Default
+        /// is <c>false</c>.</param>
+        /// 
+        public static ScatterplotBox Show(String title, Func<double, double> function, double step)
+        {
+            return show(title, function, null, null, step);
+        }
+
+        /// <summary>
+        ///   Displays a scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="scatterplot">The scatter plot to show.</param>
+        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
+        /// executing while the form is shown on screen. If set to <c>false</c>,
+        /// the caller will be blocked until the user closes the form. Default
+        /// is <c>false</c>.</param>
+        /// 
+        public static ScatterplotBox Show(String title, Func<double, double> function)
+        {
+            return show(title, function, null, null, null);
+        }
+
+        /// <summary>
+        ///   Displays a scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="scatterplot">The scatter plot to show.</param>
+        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
+        /// executing while the form is shown on screen. If set to <c>false</c>,
+        /// the caller will be blocked until the user closes the form. Default
+        /// is <c>false</c>.</param>
+        /// 
+        public static ScatterplotBox Show(String title, Func<double, double> function, double min, double max, double step)
+        {
+            return show(title, function, min, max, step);
+        }
+
+        private static ScatterplotBox show(String title, Func<double, double> function, double? min, double? max, double? step)
+        {
+            if (min == null || max == null)
+            {
+                DoubleRange range;
+                if (GetRange(function, out range))
+                {
+                    min = range.Min;
+                    max = range.Max;
+                }
+                else
+                {
+                    min = 0;
+                    max = 1;
+                }
+            }
+
+            if (step == null)
+                step = (max - min) / 1000;
+
+            double[] input = Matrix.Interval(min.Value, max.Value, step.Value);
+            double[] output = Matrix.Apply(input, function);
+
+            Scatterplot scatterplot = new Scatterplot(title ?? "Scatter plot");
+
+            scatterplot.Compute(input, output);
+
+            return show(scatterplot);
+        }
+
+        private static ScatterplotBox show(Scatterplot scatterplot)
         {
             ScatterplotBox form = null;
             Thread formThread = null;
@@ -426,11 +577,33 @@ namespace Accord.Controls
 
             stopWaitHandle.WaitOne();
 
-            if (!hold)
-                formThread.Join();
-
             return form;
         }
 
+
+        public void Hold()
+        {
+            this.SetTitle(this.Text + " [on hold]");
+
+            formThread.Join();
+        }
+
+        private static bool GetRange(Func<double, double> source, out DoubleRange range)
+        {
+            ParameterInfo[] parameters = source.Method.GetParameters();
+            ParameterInfo first = parameters[0];
+
+            RangeAttribute[] attributes =
+                (RangeAttribute[])first.GetCustomAttributes(typeof(RangeAttribute), false);
+
+            if (attributes != null && attributes.Length > 0)
+            {
+                range = new DoubleRange((double)attributes[0].Minimum, (double)attributes[0].Maximum);
+                return true;
+            }
+
+            range = new DoubleRange();
+            return false;
+        }
     }
 }
