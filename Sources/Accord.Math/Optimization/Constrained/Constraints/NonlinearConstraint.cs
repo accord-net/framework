@@ -24,9 +24,11 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
     using System.Text;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     ///   Constraint with only linear terms.
@@ -289,7 +291,7 @@ namespace Accord.Math.Optimization
             var left = expression.Left;
             var right = expression.Right as ConstantExpression;
 
-            var functionExpression = Expression.Lambda(left, constraint.Parameters);
+            var functionExpression = Expression.Lambda(left, constraint.Parameters.ToArray());
 
             function = functionExpression.Compile() as Func<double[], double>;
 

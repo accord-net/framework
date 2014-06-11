@@ -39,7 +39,7 @@ namespace Accord.Audio.Filters
     {
         private float alpha = 0.001f;
 
-        private Dictionary<SampleFormat, SampleFormat> formatTranslations 
+        private Dictionary<SampleFormat, SampleFormat> formatTranslations
             = new Dictionary<SampleFormat, SampleFormat>();
 
 
@@ -84,29 +84,24 @@ namespace Accord.Audio.Filters
         ///   Processes the filter.
         /// </summary>
         /// 
-        protected override void ProcessFilter(Signal sourceData, Signal destinationData)
+        protected unsafe override void ProcessFilter(Signal sourceData, Signal destinationData)
         {
             SampleFormat format = sourceData.SampleFormat;
             int channels = sourceData.Channels;
             int length = sourceData.Length;
-            int samples = sourceData.Samples;
 
             if (format == SampleFormat.Format32BitIeeeFloat)
             {
-                unsafe
+                float* src = (float*)sourceData.Data.ToPointer();
+                float* dst = (float*)destinationData.Data.ToPointer();
+
+                for (int i = 0; i < channels; i++, src++, dst++)
+                    *dst = System.Math.Abs(*src);
+
+                for (int i = channels; i < length; i++)
                 {
-                    float* src = (float*)sourceData.Data.ToPointer();
-                    float* dst = (float*)destinationData.Data.ToPointer();
-
-                    for (int i = 0; i < channels; i++, src++, dst++)
-                        *dst = System.Math.Abs(*src);
-
-                    for (int i = channels; i < length; i++)
-                    {
-                        float abs = System.Math.Abs(*src);
-                        *dst = dst[-channels] + Alpha * (abs - dst[-channels]);
-                    }
-
+                    float abs = System.Math.Abs(*src);
+                    *dst = dst[-channels] + Alpha * (abs - dst[-channels]);
                 }
             }
         }

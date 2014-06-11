@@ -1,5 +1,21 @@
-﻿<#@ parameter type="System.String" name="Suffix" #>
-<#@ parameter type="System.String" name="T" #>
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".txt" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ include file="T4Toolbox.tt" #>
+<#
+	new DecompositionTemplate("",  "Double") .RenderToFile("SingularValueDecomposition.cs");
+	new DecompositionTemplate("F", "Single") .RenderToFile("SingularValueDecompositionF.cs");
+#>
+<#+
+    public class DecompositionTemplate : Template
+    {
+        public string Suffix { get; set; }
+		public string T { get; set; }
+
+		public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
+
+        public override string TransformText() {
+#>
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -52,7 +68,9 @@ namespace Accord.Math.Decompositions
     ///   and right eigenvectors. If the routine is computed on A directly, the diagonal
     ///   of singular values may contain one or more zeros. The identity A = U * S * V'
     ///   may still hold, however. To overcome this problem, pass true to the
-    ///   <see cref="SingularValueDecomposition<#=Suffix#>(<#=T#>[,], bool, bool, bool)">autoTranspose</see> argument of the class constructor.</para>
+    ///   <see cref="SingularValueDecomposition<#=Suffix#>(<#=T#>[,], bool, bool, bool)">autoTranspose</see>
+	///   argument of the class constructor.</para>
+	///
     ///  <para>
     ///   This routine computes the economy decomposition of A.</para> 
     /// </remarks>
@@ -1218,3 +1236,9 @@ namespace Accord.Math.Decompositions
 
     }
 }
+
+<#+
+            return GenerationEnvironment.ToString();
+        }
+    }
+#>

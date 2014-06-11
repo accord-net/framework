@@ -1,11 +1,12 @@
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright ï¿½ Cï¿½sar Souza, 2009-2014
+// Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
-// Original work copyright ï¿½ Lutz Roeder, 2000
+// Original work copyright © Lutz Roeder, 2000
 //  Adapted from Mapack for .NET, September 2000
 //  Adapted from Mapack for COM and Jama routines
 //  http://www.aisto.com/roeder/dotnet
@@ -32,7 +33,7 @@ namespace Accord.Math.Decompositions
     /// <summary>
     ///   Singular Value Decomposition for a rectangular matrix.
     /// </summary>
-	///
+    ///
     /// <remarks>
     ///  <para>
     ///      For an m-by-n matrix <c>A</c> with <c>m >= n</c>, the singular value decomposition
@@ -50,7 +51,9 @@ namespace Accord.Math.Decompositions
     ///   and right eigenvectors. If the routine is computed on A directly, the diagonal
     ///   of singular values may contain one or more zeros. The identity A = U * S * V'
     ///   may still hold, however. To overcome this problem, pass true to the
-    ///   <see cref="SingularValueDecomposition(Double[,], bool, bool, bool)">autoTranspose</see> argument of the class constructor.</para>
+    ///   <see cref="SingularValueDecomposition(Double[,], bool, bool, bool)">autoTranspose</see>
+	///   argument of the class constructor.</para>
+	///
     ///  <para>
     ///   This routine computes the economy decomposition of A.</para> 
     /// </remarks>
@@ -70,7 +73,7 @@ namespace Accord.Math.Decompositions
         private const Double eps = 2 * Constants.DoubleEpsilon;
         private const Double tiny = Constants.DoubleSmall;
 
-		Double? determinant;
+        Double? determinant;
         Double? lndeterminant;
         Double? pseudoDeterminant;
         Double? lnpseudoDeterminant;
@@ -103,11 +106,11 @@ namespace Accord.Math.Decompositions
         }
 
         /// <summary>
-		///   Returns the effective numerical matrix rank.
-		/// </summary>
-		///
+        ///   Returns the effective numerical matrix rank.
+        /// </summary>
+        ///
         /// <value>Number of non-negligible singular values.</value>
-		///
+        ///
         public int Rank
         {
             get
@@ -122,61 +125,61 @@ namespace Accord.Math.Decompositions
             }
         }
 
-		/// <summary>
-		///   Gets whether the decomposed matrix is singular.
-		/// </summary>
-		///
-		public bool IsSingular
+        /// <summary>
+        ///   Gets whether the decomposed matrix is singular.
+        /// </summary>
+        ///
+        public bool IsSingular
         {
             get { return Rank < Math.Min(m, n); }
         }
 
         /// <summary>
-		///   Gets the one-dimensional array of singular values.
-		/// </summary>        
-		///
+        ///   Gets the one-dimensional array of singular values.
+        /// </summary>        
+        ///
         public Double[] Diagonal
         {
             get { return this.s; }
         }
 
         /// <summary>
-		///  Returns the block diagonal matrix of singular values.
-		/// </summary>        
-		///
+        ///  Returns the block diagonal matrix of singular values.
+        /// </summary>        
+        ///
         public Double[,] DiagonalMatrix
         {
             get { return Matrix.Diagonal(s); }
         }
 
         /// <summary>
-		///   Returns the V matrix of Singular Vectors.
-		/// </summary>        
-		///
+        ///   Returns the V matrix of Singular Vectors.
+        /// </summary>        
+        ///
         public Double[,] RightSingularVectors
         {
             get { return v; }
         }
 
         /// <summary>
-		///   Returns the U matrix of Singular Vectors.
-		/// </summary>        
-		///
+        ///   Returns the U matrix of Singular Vectors.
+        /// </summary>        
+        ///
         public Double[,] LeftSingularVectors
         {
             get { return u; }
         }
 
         /// <summary>
-		///   Returns the ordering in which the singular values have been sorted.
-		/// </summary>
-		///
+        ///   Returns the ordering in which the singular values have been sorted.
+        /// </summary>
+        ///
         public int[] Ordering
         {
             get { return si; }
         }
 
-		/// <summary>
+        /// <summary>
         ///   Returns the absolute value of the matrix determinant.
         /// </summary>
         ///
@@ -259,12 +262,12 @@ namespace Accord.Math.Decompositions
 
 
         /// <summary>
-		///   Constructs a new singular value decomposition.
-		/// </summary>
-		///
+        ///   Constructs a new singular value decomposition.
+        /// </summary>
+        ///
         /// <param name="value">
         ///   The matrix to be decomposed.</param>
-		///
+        ///
         public SingularValueDecomposition(Double[,] value)
             : this(value, true, true)
         {
@@ -287,7 +290,7 @@ namespace Accord.Math.Decompositions
         ///   is <see langword="true"/>.</param>
         /// 
         public SingularValueDecomposition(Double[,] value,
-		    bool computeLeftSingularVectors, bool computeRightSingularVectors)
+            bool computeLeftSingularVectors, bool computeRightSingularVectors)
             : this(value, computeLeftSingularVectors, computeRightSingularVectors, false)
         {
         }
@@ -341,22 +344,17 @@ namespace Accord.Math.Decompositions
         ///   memory comsumption.</param>
         /// 
         public unsafe SingularValueDecomposition(Double[,] value,
-		   bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose, bool inPlace)
+           bool computeLeftSingularVectors, bool computeRightSingularVectors, bool autoTranspose, bool inPlace)
         {
             if (value == null)
-            {
                 throw new ArgumentNullException("value", "Matrix cannot be null.");
-            }
 
             Double[,] a;
             m = value.GetLength(0); // rows
             n = value.GetLength(1); // cols
 
-			if (m == 0 || n == 0)
-			{
-			   throw new ArgumentException("Matrix does not have any rows or columns.", "value");
-			}
-			    
+            if (m == 0 || n == 0)
+               throw new ArgumentException("Matrix does not have any rows or columns.", "value");
 
 
             if (m < n) // Check if we are violating JAMA's assumption
@@ -420,7 +418,9 @@ namespace Accord.Math.Decompositions
                 // Reduce A to bidiagonal form, storing the diagonal elements in s and the super-diagonal elements in e.
                 int nct = System.Math.Min(m - 1, n);
                 int nrt = System.Math.Max(0, System.Math.Min(n - 2, m));
-                for (int k = 0; k < System.Math.Max(nct, nrt); k++)
+				int mrc = System.Math.Max(nct, nrt);
+
+                for (int k = 0; k < mrc; k++)
                 {
                     if (k < nct)
                     {
@@ -428,9 +428,7 @@ namespace Accord.Math.Decompositions
                         // Compute 2-norm of k-th column without under/overflow.
                         s[k] = 0;
                         for (int i = k; i < m; i++)
-                        {
                             s[k] = Accord.Math.Tools.Hypotenuse(s[k], a[i, k]);
-                        }
 
                         if (s[k] != 0)
                         {
@@ -1221,3 +1219,4 @@ namespace Accord.Math.Decompositions
 
     }
 }
+

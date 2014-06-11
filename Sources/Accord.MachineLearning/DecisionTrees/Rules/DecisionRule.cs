@@ -332,13 +332,11 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public bool Equals(DecisionRule other)
         {
-            if (other == null)
+            if ((object)other == null)
                 return false;
 
-            bool s = this.Antecedents.SetEquals(other.Antecedents);
-            bool o = this.Output == other.output;
-
-            return s && o;
+            return this.Output == other.output
+              && this.Antecedents.SetEquals(other.Antecedents);
         }
 
 
@@ -419,7 +417,19 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public static bool operator ==(DecisionRule a, DecisionRule b)
         {
-            return a.Equals(b);
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            return a.Output == b.output
+              && a.Antecedents.SetEquals(b.Antecedents);
         }
 
         /// <summary>
@@ -428,7 +438,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public static bool operator !=(DecisionRule a, DecisionRule b)
         {
-            return !a.Equals(b);
+            return !(a == b);
         }
     }
 }

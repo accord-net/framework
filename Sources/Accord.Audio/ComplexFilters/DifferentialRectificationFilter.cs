@@ -47,10 +47,7 @@ namespace Accord.Audio.ComplexFilters
         /// 
         protected override void ProcessFilter(ComplexSignal sourceData, ComplexSignal destinationData)
         {
-            SampleFormat format = sourceData.SampleFormat;
-            int channels = sourceData.Channels;
             int length = sourceData.Length;
-            int samples = sourceData.Samples;
 
             unsafe
             {

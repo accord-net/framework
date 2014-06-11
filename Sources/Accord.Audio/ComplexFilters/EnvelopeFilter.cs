@@ -57,28 +57,22 @@ namespace Accord.Audio.ComplexFilters
         /// <summary>
         ///   Processes the filter.
         /// </summary>
-        protected override void ProcessFilter(ComplexSignal sourceData, ComplexSignal destinationData)
+        protected unsafe override void ProcessFilter(ComplexSignal sourceData, ComplexSignal destinationData)
         {
             if (sourceData.Status != ComplexSignalStatus.Analytic)
                 throw new ArgumentException("Signal must be in analytic form.", "sourceData");
 
-            SampleFormat format = sourceData.SampleFormat;
-            int channels = sourceData.Channels;
-            int length = sourceData.Length;
             int samples = sourceData.Samples;
 
             Complex d = new Complex();
 
-            unsafe
-            {
-                Complex* src = (Complex*)sourceData.Data.ToPointer();
-                Complex* dst = (Complex*)destinationData.Data.ToPointer();
+            Complex* src = (Complex*)sourceData.Data.ToPointer();
+            Complex* dst = (Complex*)destinationData.Data.ToPointer();
 
-                for (int i = 0; i < samples; i++, src++, dst++)
-                {
-                    d.Re = (*dst).Magnitude;
-                    *dst = d;
-                }
+            for (int i = 0; i < samples; i++, src++, dst++)
+            {
+                d.Re = (*dst).Magnitude;
+                *dst = d;
             }
         }
 

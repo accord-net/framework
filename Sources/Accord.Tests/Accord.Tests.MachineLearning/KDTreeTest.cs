@@ -22,13 +22,13 @@
 
 namespace Accord.Tests.Math
 {
-    using System.Linq;
     using Accord.MachineLearning.Structures;
     using Accord.Math;
     using Accord.Math.Comparers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections.Generic;
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     [TestClass()]
     public class KDTreeTest

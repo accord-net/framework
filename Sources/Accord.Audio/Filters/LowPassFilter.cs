@@ -65,24 +65,20 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Processes the filter.
         /// </summary>
-        protected override void ProcessFilter(Signal sourceData, Signal destinationData)
+        protected unsafe override void ProcessFilter(Signal sourceData, Signal destinationData)
         {
             SampleFormat format = sourceData.SampleFormat;
             int channels = sourceData.Channels;
             int length = sourceData.Length;
-            int samples = sourceData.Samples;
 
             if (format == SampleFormat.Format32BitIeeeFloat)
             {
-                unsafe
-                {
-                    float* src = (float*)sourceData.Data.ToPointer() + channels;
-                    float* dst = (float*)destinationData.Data.ToPointer() + channels;
+                float* src = (float*)sourceData.Data.ToPointer() + channels;
+                float* dst = (float*)destinationData.Data.ToPointer() + channels;
 
-                    for (int i = channels; i < length; i++, src++, dst++)
-                    {
-                        *dst = dst[-channels] + Alpha * (src[0] - dst[-channels]);
-                    }
+                for (int i = channels; i < length; i++, src++, dst++)
+                {
+                    *dst = dst[-channels] + Alpha * (src[0] - dst[-channels]);
                 }
             }
 

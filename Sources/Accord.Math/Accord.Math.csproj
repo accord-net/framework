@@ -43,9 +43,10 @@
     </CodeAnalysisRules>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>Migrated rules for Accord.Math.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\Release\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %284.0%29|AnyCPU' ">
+    <OutputPath>..\..\Release\net40</OutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
     <Optimize>True</Optimize>
@@ -53,30 +54,48 @@
     <DefineConstants>TRACE</DefineConstants>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <DocumentationFile>..\..\Release\Accord.Math.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net40\Accord.Math.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
     <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release 3.5|AnyCPU'">
-    <OutputPath>..\..\Release (3.5)\</OutputPath>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
+    <OutputPath>..\..\Release\net35</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\..\Release (3.5)\Accord.Math.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net35\Accord.Math.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisLogFile>..\..\Release (3.5)\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>..\..\Release\net35\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %284.5%29|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Release %284.5%29\</OutputPath>
+    <DefineConstants>CODE_ANALYSIS;TRACE</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\Release\net40\Accord.Math.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %283.5%29|AnyCPU'">
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -89,9 +108,6 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -109,14 +125,45 @@
     <Compile Include="Convergence\Base\ISingleValueConvergence.cs" />
     <Compile Include="Convergence\RelativeConvergence.cs" />
     <Compile Include="Convergence\RelativeParameterConvergence.cs" />
+    <Compile Include="Decompositions\CholeskyDecomposition.cs">
+      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\CholeskyDecompositionD.cs">
+      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\CholeskyDecompositionF.cs">
+      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\EigenvalueDecomposition.cs">
+      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\EigenvalueDecompositionF.cs">
+      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Decompositions\GramSchmidtOrthogonalization.cs" />
+    <Compile Include="Decompositions\JaggedLuDecomposition.cs">
+      <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Decompositions\JaggedSingularValueDecomposition.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
       <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecomposition.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecompositionD.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecompositionF.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\SingularValueDecomposition.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\SingularValueDecompositionF.cs">
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Environments\REnvironment.cs" />
     <Compile Include="Functions\Gabor.cs" />
@@ -141,6 +188,7 @@
     <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.FORTRAN.cs" />
     <Compile Include="Optimization\Unconstrained\BroydenFletcherGoldfarbShanno.LIBLBFGS.cs" />
     <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShanno.cs" />
+    <Compile Include="Optimization\Unconstrained\BoundedBroydenFletcherGoldfarbShannoInnerStatus.cs" />
     <Compile Include="Optimization\Unconstrained\Least Squares\GaussNewton.cs" />
     <Compile Include="Optimization\Unconstrained\Least Squares\LevenbergMarquardt.cs" />
     <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
@@ -149,29 +197,47 @@
     <Compile Include="Transforms\CosineTransform.cs" />
     <Compile Include="Decompositions\Base\ISolverArrayDecomposition.cs" />
     <Compile Include="Decompositions\Base\ISolverMatrixDecomposition.cs" />
-    <None Include="Decompositions\CholeskyDecomposition.tt" />
-    <None Include="Decompositions\Accord.Math.Decompositions.cd" />
-    <None Include="Decompositions\JaggedCholeskyDecomposition.tt" />
-    <None Include="Decompositions\JaggedLuDecomposition.tt">
-      <LastGenOutput>JaggedLuDecomposition.cs</LastGenOutput>
+    <None Include="Decompositions\CholeskyDecomposition.tt">
+      <LastOutputs>
+.\CholeskyDecomposition.cs
+.\CholeskyDecomposition.cs
+.\CholeskyDecompositionD.cs
+.\CholeskyDecompositionF.cs
+</LastOutputs>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CholeskyDecomposition.txt</LastGenOutput>
     </None>
-    <Compile Include="Decompositions\CholeskyDecomposition.cs">
-      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\CholeskyDecompositionD.cs">
-      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\CholeskyDecompositionF.cs">
-      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\EigenvalueDecomposition.cs">
-      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\EigenvalueDecompositionF.cs">
-      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
-    </Compile>
+    <None Include="Decompositions\Accord.Math.Decompositions.cd" />
+    <None Include="Decompositions\JaggedCholeskyDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedCholeskyDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\JaggedCholeskyDecomposition.cs
+.\JaggedCholeskyDecomposition1.cs
+.\JaggedCholeskyDecompositionD.cs
+.\JaggedCholeskyDecompositionF.cs
+</LastOutputs>
+    </None>
+    <None Include="Decompositions\JaggedLuDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>
+.\JaggedLuDecomposition.cs
+.\JaggedLuDecomposition.cs
+.\JaggedLuDecompositionD.cs
+.\JaggedLuDecompositionF.cs
+</LastOutputs>
+      <LastGenOutput>JaggedLuDecomposition.txt</LastGenOutput>
+    </None>
     <Compile Include="Decompositions\GeneralizedEigenvalueDecomposition.cs" />
-    <None Include="Decompositions\EigenvalueDecomposition.tt" />
+    <None Include="Decompositions\EigenvalueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EigenvalueDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\EigenvalueDecomposition.cs
+.\EigenvalueDecomposition1.cs
+.\EigenvalueDecompositionF.cs
+</LastOutputs>
+    </None>
     <Compile Include="Decompositions\JaggedCholeskyDecomposition.cs">
       <DependentUpon>JaggedCholeskyDecomposition.tt</DependentUpon>
     </Compile>
@@ -180,9 +246,6 @@
     </Compile>
     <Compile Include="Decompositions\JaggedCholeskyDecompositionF.cs">
       <DependentUpon>JaggedCholeskyDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\JaggedLuDecomposition.cs">
-      <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Decompositions\JaggedLuDecompositionD.cs">
       <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
@@ -202,25 +265,32 @@
     <Compile Include="Decompositions\NonnegativeFactorization.cs" />
     <None Include="Decompositions\JaggedSingularValueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>JaggedSingularValueDecomposition.cs</LastGenOutput>
+      <LastOutputs>
+.\JaggedSingularValueDecomposition.cs
+.\JaggedSingularValueDecomposition.cs
+.\JaggedSingularValueDecompositionF.cs
+</LastOutputs>
+      <LastGenOutput>JaggedSingularValueDecomposition.txt</LastGenOutput>
     </None>
-    <None Include="Decompositions\QrDecomposition.tt" />
-    <None Include="Decompositions\SingularValueDecomposition.tt" />
-    <Compile Include="Decompositions\QrDecomposition.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\QrDecompositionD.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\QrDecompositionF.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\SingularValueDecomposition.cs">
-      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\SingularValueDecompositionF.cs">
-      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
-    </Compile>
+    <None Include="Decompositions\QrDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>QrDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\QrDecomposition.cs
+.\QrDecomposition1.cs
+.\QrDecompositionD.cs
+.\QrDecompositionF.cs
+</LastOutputs>
+    </None>
+    <None Include="Decompositions\SingularValueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SingularValueDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\SingularValueDecomposition.cs
+.\SingularValueDecomposition1.cs
+.\SingularValueDecompositionF.cs
+</LastOutputs>
+    </None>
     <Compile Include="Distance.cs" />
     <Compile Include="Environments\OctaveEnvironment.cs" />
     <Compile Include="Formats\Base\IMatrixFormatProvider.cs" />
@@ -282,48 +352,20 @@
     <Compile Include="Wavelets\CDF97.cs" />
     <Compile Include="Wavelets\Haar.cs" />
     <Compile Include="Wavelets\Base\IWavelet.cs" />
-    <None Include="Decompositions\T4\CholeskyGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CholeskyGenerator.txt</LastGenOutput>
-    </None>
-    <None Include="Decompositions\T4\JaggedSingularValueGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>JaggedSingularValueGenerator.txt</LastGenOutput>
-    </None>
-    <None Include="Decompositions\T4\QrGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>QrGenerator.txt</LastGenOutput>
-    </None>
-    <None Include="Decompositions\T4\JaggedCholeskyGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>JaggedCholeskyGenerator.txt</LastGenOutput>
-    </None>
-    <None Include="Decompositions\T4\EigenvalueGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EigenvalueGenerator.txt</LastGenOutput>
-    </None>
-    <None Include="Decompositions\T4\JaggedLuGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>JaggedLuGenerator.txt</LastGenOutput>
-    </None>
-    <None Include="Decompositions\T4\BaseDecomposition.ttinclude">
-      <LastGenOutput>Decomposition.txt</LastGenOutput>
-    </None>
-    <None Include="Decompositions\T4\LuGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>LuGenerator.txt</LastGenOutput>
-    </None>
-    <None Include="Decompositions\T4\SingularValueGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>SingularValueGenerator.txt</LastGenOutput>
-    </None>
     <None Include="Optimization\Accord.Math.Optimization.cd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.Math.cd" />
     <None Include="Accord.snk" />
     <None Include="Decompositions\LuDecomposition.tt">
-      <LastGenOutput>LuDecompositionBase1.cs</LastGenOutput>
+      <LastGenOutput>LuDecomposition.txt</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>
+.\LuDecomposition.cs
+.\LuDecompositionBase1.cs
+.\LuDecompositionD.cs
+.\LuDecompositionF.cs
+</LastOutputs>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -356,47 +398,47 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Content Include="Decompositions\T4\CholeskyGenerator.txt">
-      <DependentUpon>CholeskyGenerator.tt</DependentUpon>
+    <Content Include="Decompositions\CholeskyDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
     </Content>
-    <Content Include="Decompositions\T4\JaggedSingularValueGenerator.txt">
+    <Content Include="Decompositions\EigenvalueDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>JaggedSingularValueGenerator.tt</DependentUpon>
+      <DependentUpon>EigenvalueDecomposition.tt</DependentUpon>
     </Content>
-    <Content Include="Decompositions\T4\QrGenerator.txt">
-      <DependentUpon>QrGenerator.tt</DependentUpon>
+    <Content Include="Decompositions\JaggedCholeskyDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>JaggedCholeskyDecomposition.tt</DependentUpon>
     </Content>
-    <Content Include="Decompositions\T4\JaggedCholeskyGenerator.txt">
-      <DependentUpon>JaggedCholeskyGenerator.tt</DependentUpon>
+    <Content Include="Decompositions\JaggedLuDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>JaggedLuDecomposition.tt</DependentUpon>
     </Content>
-    <Content Include="Decompositions\T4\EigenvalueGenerator.txt">
-      <DependentUpon>EigenvalueGenerator.tt</DependentUpon>
+    <Content Include="Decompositions\JaggedSingularValueDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
     </Content>
-    <Content Include="Decompositions\T4\JaggedLuGenerator.txt">
-      <DependentUpon>JaggedLuGenerator.tt</DependentUpon>
+    <Content Include="Decompositions\LuDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>LuDecomposition.tt</DependentUpon>
     </Content>
-    <Content Include="Decompositions\T4\LuGenerator.txt">
+    <Content Include="Decompositions\QrDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LuGenerator.tt</DependentUpon>
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
     </Content>
-    <Content Include="Decompositions\T4\SingularValueGenerator.txt">
+    <Content Include="Decompositions\SingularValueDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SingularValueGenerator.tt</DependentUpon>
+      <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Content>
   </ItemGroup>
+  <ItemGroup />
 </Project>

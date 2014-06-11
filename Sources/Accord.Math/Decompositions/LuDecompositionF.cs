@@ -1,3 +1,4 @@
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -48,21 +49,21 @@ namespace Accord.Math.Decompositions
     ///   </para>
     /// </remarks>
     /// 
-    public sealed class LuDecompositionF : ICloneable, ISolverMatrixDecomposition<float>
+    public sealed class LuDecompositionF : ICloneable, ISolverMatrixDecomposition<Single>
     {
         private int rows;
         private int cols;
-        private float[,] lu;
+        private Single[,] lu;
         private int pivotSign;
         private int[] pivotVector;
 
 
         // cache for lazy evaluation
-        private float? determinant;
+        private Single? determinant;
         private double? lndeterminant;
         private bool? nonsingular;
-        private float[,] lowerTriangularFactor;
-        private float[,] upperTriangularFactor;
+        private Single[,] lowerTriangularFactor;
+        private Single[,] upperTriangularFactor;
 
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace Accord.Math.Decompositions
         /// </summary>    
         /// <param name="value">The matrix A to be decomposed.</param>
         /// 
-        public LuDecompositionF(float[,] value)
+        public LuDecompositionF(Single[,] value)
             : this(value, false)
         {
         }
@@ -82,7 +83,7 @@ namespace Accord.Math.Decompositions
         /// <param name="transpose">True if the decomposition should be performed on
         /// the transpose of A rather than A itself, false otherwise. Default is false.</param>
         /// 
-        public LuDecompositionF(float[,] value, bool transpose)
+        public LuDecompositionF(Single[,] value, bool transpose)
             : this(value, transpose, false)
         {
         }
@@ -97,7 +98,7 @@ namespace Accord.Math.Decompositions
         /// <paramref name="value"/> matrix rather than on a copy of it. If true, the
         /// matrix will be destroyed during the decomposition. Default is false.</param>
         /// 
-        public LuDecompositionF(float[,] value, bool transpose, bool inPlace)
+        public LuDecompositionF(Single[,] value, bool transpose, bool inPlace)
         {
             if (value == null)
             {
@@ -110,7 +111,7 @@ namespace Accord.Math.Decompositions
             }
             else
             {
-                this.lu = inPlace ? value : (float[,])value.Clone();
+                this.lu = inPlace ? value : (Single[,])value.Clone();
             }
 
             this.rows = lu.GetLength(0);
@@ -121,12 +122,12 @@ namespace Accord.Math.Decompositions
             for (int i = 0; i < rows; i++)
                 pivotVector[i] = i;
 
-            var LUcolj = new float[rows];
+            var LUcolj = new Single[rows];
 
 
             unsafe
             {
-                fixed (float* LU = lu)
+                fixed (Single* LU = lu)
                 {
                     // Outer loop.
                     for (int j = 0; j < cols; j++)
@@ -138,12 +139,12 @@ namespace Accord.Math.Decompositions
                         // Apply previous transformations.
                         for (int i = 0; i < rows; i++)
                         {
-                            float s = 0;
+                            Single s = 0;
 
                             // Most of the time is spent in
                             // the following dot product:
                             int kmax = Math.Min(i, j);
-                            float* LUrowi = &LU[i * cols];
+                            Single* LUrowi = &LU[i * cols];
                             for (int k = 0; k < kmax; k++)
                                 s += LUrowi[k] * LUcolj[k];
 
@@ -222,7 +223,7 @@ namespace Accord.Math.Decompositions
         ///   Returns the determinant of the matrix.
         /// </summary>
         /// 
-        public float Determinant
+        public Single Determinant
         {
             get
             {
@@ -231,7 +232,7 @@ namespace Accord.Math.Decompositions
                     if (rows != cols)
                         throw new InvalidOperationException("Matrix must be square.");
 
-                    float det = pivotSign;
+                    Single det = pivotSign;
                     for (int i = 0; i < rows; i++)
                         det *= lu[i, i];
 
@@ -269,13 +270,13 @@ namespace Accord.Math.Decompositions
         ///   Returns the lower triangular factor <c>L</c> with <c>A=LU</c>.
         /// </summary>
         /// 
-        public float[,] LowerTriangularFactor
+        public Single[,] LowerTriangularFactor
         {
             get
             {
                 if (lowerTriangularFactor == null)
                 {
-                    var L = new float[rows, rows];
+                    var L = new Single[rows, rows];
 
                     for (int i = 0; i < rows; i++)
                     {
@@ -301,13 +302,13 @@ namespace Accord.Math.Decompositions
         ///   Returns the lower triangular factor <c>L</c> with <c>A=LU</c>.
         /// </summary>
         /// 
-        public float[,] UpperTriangularFactor
+        public Single[,] UpperTriangularFactor
         {
             get
             {
                 if (upperTriangularFactor == null)
                 {
-                    var U = new float[rows, cols];
+                    var U = new Single[rows, cols];
                     for (int i = 0; i < rows; i++)
                     {
                         for (int j = 0; j < cols; j++)
@@ -339,7 +340,7 @@ namespace Accord.Math.Decompositions
         ///   Solves a set of equation systems of type <c>A * X = I</c>.
         /// </summary>
         /// 
-        public float[,] Inverse()
+        public Single[,] Inverse()
         {
             if (!Nonsingular)
                 throw new SingularMatrixException("Matrix is singular.");
@@ -348,7 +349,7 @@ namespace Accord.Math.Decompositions
             int count = rows;
 
             // Copy right hand side with pivoting
-            var X = new float[rows, rows];
+            var X = new Single[rows, rows];
             for (int i = 0; i < rows; i++)
             {
                 int k = pivotVector[i];
@@ -381,7 +382,7 @@ namespace Accord.Math.Decompositions
         /// <param name="value">Right hand side matrix with as many rows as <c>A</c> and any number of columns.</param>
         /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
         /// 
-        public float[,] Solve(float[,] value)
+        public Single[,] Solve(Single[,] value)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -395,7 +396,7 @@ namespace Accord.Math.Decompositions
 
             // Copy right hand side with pivoting
             int count = value.GetLength(1);
-            float[,] X = value.Submatrix(pivotVector, null);
+            Single[,] X = value.Submatrix(pivotVector, null);
 
 
             // Solve L*Y = B(piv,:)
@@ -424,7 +425,7 @@ namespace Accord.Math.Decompositions
         /// <param name="value">Right hand side matrix with as many columns as <c>A</c> and any number of rows.</param>
         /// <returns>Matrix <c>X</c> so that <c>X * L * U = A</c>.</returns>
         /// 
-        public float[,] SolveTranspose(float[,] value)
+        public Single[,] SolveTranspose(Single[,] value)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -467,7 +468,7 @@ namespace Accord.Math.Decompositions
         /// <param name="value">Right hand side column vector with as many rows as <c>A</c>.</param>
         /// <returns>Matrix <c>X</c> so that <c>L * U * X = B</c>.</returns>
         /// 
-        public float[] Solve(float[] value)
+        public Single[] Solve(Single[] value)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -481,13 +482,13 @@ namespace Accord.Math.Decompositions
 
             // Copy right hand side with pivoting
             int count = value.Length;
-            var b = new float[count];
+            var b = new Single[count];
             for (int i = 0; i < b.Length; i++)
                 b[i] = value[pivotVector[i]];
 
 
             // Solve L*Y = B
-            var X = new float[count];
+            var X = new Single[count];
             for (int i = 0; i < rows; i++)
             {
                 X[i] = b[i];
@@ -526,7 +527,7 @@ namespace Accord.Math.Decompositions
             LuDecompositionF lud = new LuDecompositionF();
             lud.rows = this.rows;
             lud.cols = this.cols;
-            lud.lu = (float[,])this.lu.Clone();
+            lud.lu = (Single[,])this.lu.Clone();
             lud.pivotSign = this.pivotSign;
             lud.pivotVector = (int[])this.pivotVector;
             return lud;
@@ -536,3 +537,4 @@ namespace Accord.Math.Decompositions
 
     }
 }
+

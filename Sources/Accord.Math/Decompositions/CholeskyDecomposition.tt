@@ -1,5 +1,23 @@
-﻿<#@ parameter type="System.String" name="Suffix" #>
-<#@ parameter type="System.String" name="T" #>
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ output extension=".txt" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ include file="T4Toolbox.tt" #>
+<#
+	new DecompositionTemplate("",  "Double") .RenderToFile("CholeskyDecomposition.cs");
+	new DecompositionTemplate("F", "Single") .RenderToFile("CholeskyDecompositionF.cs");
+	new DecompositionTemplate("D", "Decimal").RenderToFile("CholeskyDecompositionD.cs");
+#>
+<#+
+public class DecompositionTemplate : Template
+{
+    public string Suffix { get; set; }
+	public string T { get; set; }
+
+	public DecompositionTemplate(string suffix, string dataType) { this.Suffix = suffix; this.T = dataType; }
+
+	public override string TransformText()
+	{
+#>
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -598,3 +616,9 @@ namespace Accord.Math.Decompositions
 
     }
 }
+
+<#+
+        return this.GenerationEnvironment.ToString();
+	}
+}
+#>

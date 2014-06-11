@@ -71,7 +71,6 @@ namespace Accord.Audio.Filters
             SampleFormat format = sourceData.SampleFormat;
             int channels = sourceData.Channels;
             int length = sourceData.Length;
-            int samples = sourceData.Samples;
 
             if (format == SampleFormat.Format32BitIeeeFloat)
             {

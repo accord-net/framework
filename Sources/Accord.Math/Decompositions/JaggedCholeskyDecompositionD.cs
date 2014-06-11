@@ -1,3 +1,4 @@
+
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -54,11 +55,11 @@ namespace Accord.Math.Decompositions
     ///    </remarks>
     ///    
     [Serializable]
-    public sealed class JaggedCholeskyDecompositionD : ICloneable, ISolverArrayDecomposition<decimal>
+    public sealed class JaggedCholeskyDecompositionD : ICloneable, ISolverArrayDecomposition<Decimal>
     {
 
-        private decimal[][] L;
-        private decimal[] D;
+        private Decimal[][] L;
+        private Decimal[] D;
         private int dimension;
 
         private bool positiveDefinite;
@@ -67,9 +68,9 @@ namespace Accord.Math.Decompositions
         private bool destroyed;
 
         // cache for lazy evaluation
-        private decimal[][] leftTriangularFactor;
-        private decimal[][] diagonalMatrix;
-        private decimal? determinant;
+        private Decimal[][] leftTriangularFactor;
+        private Decimal[][] diagonalMatrix;
+        private Decimal? determinant;
         private double? lndeterminant;
         private bool? nonsingular;
 
@@ -86,7 +87,7 @@ namespace Accord.Math.Decompositions
         ///   True to perform the decomposition in place, storing the factorization in the
         ///   lower triangular part of the given matrix.</param>
         /// 
-        public JaggedCholeskyDecompositionD(decimal[][] value, bool robust = false, bool inPlace = false)
+        public JaggedCholeskyDecompositionD(Decimal[][] value, bool robust = false, bool inPlace = false)
         {
             if (value == null)
                 throw new ArgumentNullException("value", "Matrix cannot be null.");
@@ -132,7 +133,7 @@ namespace Accord.Math.Decompositions
         ///   <c>L</c> so that <c>A = L * D * L'</c>.
         /// </summary>
         /// 
-        public decimal[][] LeftTriangularFactor
+        public Decimal[][] LeftTriangularFactor
         {
             get
             {
@@ -141,10 +142,10 @@ namespace Accord.Math.Decompositions
                     if (destroyed)
                         throw new InvalidOperationException("The decomposition has been destroyed.");
                         
-                    var left = new decimal[L.Length][];
+                    var left = new Decimal[L.Length][];
                     for (int i = 0; i < left.Length; i++)
                     {
-                        left[i] = new decimal[L.Length];
+                        left[i] = new Decimal[L.Length];
                         for (int j = 0; j <= i; j++)
                             left[i][j] = L[i][j];
                     }
@@ -161,7 +162,7 @@ namespace Accord.Math.Decompositions
         ///   elements in a LDLt decomposition.
         /// </summary>        
         ///   
-        public decimal[][] DiagonalMatrix
+        public Decimal[][] DiagonalMatrix
         {
             get
             {
@@ -170,10 +171,10 @@ namespace Accord.Math.Decompositions
                     if (destroyed)
                         throw new InvalidOperationException("The decomposition has been destroyed.");
                         
-                    diagonalMatrix = new decimal[D.Length][];
+                    diagonalMatrix = new Decimal[D.Length][];
                     for (int i = 0; i < diagonalMatrix.Length; i++)
                     {
-                        diagonalMatrix[i] = new decimal[D.Length];
+                        diagonalMatrix[i] = new Decimal[D.Length];
                         diagonalMatrix[i][i] = D[i];
                     }
                 }
@@ -187,7 +188,7 @@ namespace Accord.Math.Decompositions
         ///   elements in a LDLt decomposition.
         /// </summary>        
         /// 
-        public decimal[] Diagonal
+        public Decimal[] Diagonal
         {
             get { return D; }
         }
@@ -197,7 +198,7 @@ namespace Accord.Math.Decompositions
         ///   the decomposed matrix.
         /// </summary>
         /// 
-        public decimal Determinant
+        public Decimal Determinant
         {
             get
             {
@@ -206,7 +207,7 @@ namespace Accord.Math.Decompositions
                     if (destroyed)
                         throw new InvalidOperationException("The decomposition has been destroyed.");
                         
-                    decimal detL = 1, detD = 1;
+                    Decimal detL = 1, detD = 1;
                     for (int i = 0; i < L.Length; i++)
                         detL *= L[i][i];
 
@@ -280,7 +281,7 @@ namespace Accord.Math.Decompositions
         }
 
 
-        private unsafe void LLt(decimal[][] value, bool inPlace = false)
+        private unsafe void LLt(Decimal[][] value, bool inPlace = false)
         {
             dimension = value.Length;
             L = inPlace ? value : value.MemberwiseClone();
@@ -290,10 +291,10 @@ namespace Accord.Math.Decompositions
 
             for (int j = 0; j < L.Length; j++)
             {
-                decimal s = 0;
+                Decimal s = 0;
                 for (int k = 0; k < j; k++)
                 {
-                    decimal t = L[j][k];
+                    Decimal t = L[j][k];
                     for (int i = 0; i < k; i++)
                         t -= L[j][i] * L[k][i];
                     t = t / L[k][k];
@@ -305,21 +306,21 @@ namespace Accord.Math.Decompositions
                 s = L[j][j] - s;
 
                 // Use a tolerance for positive-definiteness
-                this.positiveDefinite &= (s > (decimal)1e-14 * Math.Abs(L[j][j]));
+                this.positiveDefinite &= (s > (Decimal)1e-14 * Math.Abs(L[j][j]));
 
-                L[j][j] = (decimal)Math.Sqrt((double)s);
+                L[j][j] = (Decimal)Math.Sqrt((double)s);
             }
         }
 
 
-        private unsafe void LDLt(decimal[][] value, bool inPlace)
+        private unsafe void LDLt(Decimal[][] value, bool inPlace)
         {
             dimension = value.Length;
             L = inPlace ? value : value.MemberwiseClone();
-            D = new decimal[dimension];
+            D = new Decimal[dimension];
             robust = true;
 
-            decimal[] v = new decimal[dimension];
+            Decimal[] v = new Decimal[dimension];
             this.positiveDefinite = true;
 
             for (int i = 0; i < L.Length; i++)
@@ -327,7 +328,7 @@ namespace Accord.Math.Decompositions
                 for (int j = 0; j < i; j++)
                     v[j] = L[i][j] * D[j];
 
-                decimal sum1 = 0;
+                Decimal sum1 = 0;
                 for (int k = 0; k < i; k++)
                     sum1 += L[i][k] * v[k];
 
@@ -338,11 +339,11 @@ namespace Accord.Math.Decompositions
                 if (v[i] == 0) { undefined = true; return; }
 
                 // Use a tolerance for positive-definiteness
-                this.positiveDefinite &= (v[i] > (decimal)1e-14 * Math.Abs(L[i][i]));
+                this.positiveDefinite &= (v[i] > (Decimal)1e-14 * Math.Abs(L[i][i]));
 				
                 Parallel.For(i + 1, L.Length, k =>
                 {
-                     decimal sum2 = 0;
+                     Decimal sum2 = 0;
                      for (int j = 0; j < i; j++)
                          sum2 += L[k][j] * v[j];
 
@@ -364,7 +365,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// 
-        public decimal[][] Solve(decimal[][] value)
+        public Decimal[][] Solve(Decimal[][] value)
         {
             return Solve(value, false);
         }
@@ -380,7 +381,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// <param name="inPlace">True to compute the solving in place, false otherwise.</param>
         /// 
-        public decimal[][] Solve(decimal[][] value, bool inPlace)
+        public Decimal[][] Solve(Decimal[][] value, bool inPlace)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -440,7 +441,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonSymmetricMatrixException">Matrix is not symmetric.</exception>
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// 
-        public decimal[] Solve(decimal[] value)
+        public Decimal[] Solve(Decimal[] value)
         {
             return Solve(value, false);
         }
@@ -456,7 +457,7 @@ namespace Accord.Math.Decompositions
         /// <exception cref="T:System.NonPositiveDefiniteMatrixException">Matrix is not positive-definite.</exception>
         /// <param name="inPlace">True to compute the solving in place, false otherwise.</param>
         /// 
-        public decimal[] Solve(decimal[] value, bool inPlace)
+        public Decimal[] Solve(Decimal[] value, bool inPlace)
         {
             if (value == null)
                 throw new ArgumentNullException("value");
@@ -470,7 +471,7 @@ namespace Accord.Math.Decompositions
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
 
-            var B = inPlace ? value : (decimal[])value.Clone();
+            var B = inPlace ? value : (Decimal[])value.Clone();
 
             // Solve L*Y = B;
             for (int k = 0; k < L.Length; k++)
@@ -501,7 +502,7 @@ namespace Accord.Math.Decompositions
         ///   Solves a set of equation systems of type <c>A * X = I</c>.
         /// </summary>
         /// 
-        public decimal[][] Inverse()
+        public Decimal[][] Inverse()
         {
             if (!robust && !positiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
@@ -512,9 +513,9 @@ namespace Accord.Math.Decompositions
             // References:
             // http://books.google.com/books?id=myzIPBwyBbcC&pg=PA119
 
-            var C = new decimal[dimension][];
+            var C = new Decimal[dimension][];
             for (int i = 0; i < C.Length; i++)
-                C[i] = new decimal[dimension];
+                C[i] = new Decimal[dimension];
 
 
             int n = C.Length - 1;
@@ -525,7 +526,7 @@ namespace Accord.Math.Decompositions
             // Compute last column (eq 2.8.12)
             for (int i = n - 1; i >= 0; i--)
             {
-                decimal sum = 0;
+                Decimal sum = 0;
                 for (int j = i + 1; j < L.Length; j++)
                     sum += L[j][i] * C[n][j];
                 C[n][i] = C[i][n] = -(1 / L[i][i]) * sum;
@@ -534,7 +535,7 @@ namespace Accord.Math.Decompositions
             // Compute the diagonal (eq 2.8.13)
             for (int k = C.Length - 2; k >= 0; k--)
             {
-                decimal sum = 0;
+                Decimal sum = 0;
                 for (int j = k + 1; j < L.Length; j++)
                     sum += L[j][k] * C[j][k];
 
@@ -543,14 +544,14 @@ namespace Accord.Math.Decompositions
                 else
                     C[k][k] = (1 / L[k][k]) * ((1 / L[k][k]) - sum);
 
-                // Compute remaining (eq 2.8.14)
+                // Compute restant (eq 2.8.14)
                 for (int i = k - 1; i >= 0; i--)
                 {
-                    decimal sum1 = 0;
+                    Decimal sum1 = 0;
                     for (int j = i + 1; j <= k; j++)
                         sum1 += L[j][i] * C[k][j];
 
-                    decimal sum2 = 0;
+                    Decimal sum2 = 0;
                     for (int j = k + 1; j <= n; j++)
                         sum2 += L[j][i] * C[j][k];
 
@@ -566,9 +567,9 @@ namespace Accord.Math.Decompositions
         ///   Computes the diagonal of the inverse of the decomposed matrix.
         /// </summary>
         /// 
-        public decimal[] InverseDiagonal(bool destroy = false)
+        public Decimal[] InverseDiagonal(bool destroy = false)
         {
-            decimal[] diagonal = new decimal[L.Length];
+            Decimal[] diagonal = new Decimal[L.Length];
             InverseDiagonal(diagonal, destroy);
             return diagonal;
         }
@@ -581,10 +582,10 @@ namespace Accord.Math.Decompositions
         ///    same space used to hold the decomposition, thus destroying
         ///    it in the process. Pass false otherwise.</param>
         /// <param name="result">The array to hold the result of the 
-        ///    computation. Should be of same length as the diagonal
+        ///    computation. Should be of same length as the the diagonal
         ///    of the original matrix.</param>
         /// 
-        public void InverseDiagonal(decimal[] result, bool destroy = false)
+        public void InverseDiagonal(Decimal[] result, bool destroy = false)
         {
             if (!robust && !positiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
@@ -592,7 +593,7 @@ namespace Accord.Math.Decompositions
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
 
-            decimal[][] S;
+            Decimal[][] S;
 
             if (destroy)
             {
@@ -600,9 +601,9 @@ namespace Accord.Math.Decompositions
             }
             else
             {
-                S = new decimal[L.Length][];
+                S = new Decimal[L.Length][];
                 for (int i = 0; i < S.Length; i++)
-                    S[i] = new decimal[L.Length];
+                    S[i] = new Decimal[L.Length];
             }
 
             // References:
@@ -616,7 +617,7 @@ namespace Accord.Math.Decompositions
                 S[j][j] = 1 / L[j][j];
                 for (int i = j - 1; i >= 0; i--)
                 {
-                    decimal sum = 0;
+                    Decimal sum = 0;
                     for (int k = i + 1; k <= j; k++)
                         sum += L[k][i] * S[k][j];
                     S[i][j] = -sum / L[i][i];
@@ -629,7 +630,7 @@ namespace Accord.Math.Decompositions
             {
                 for (int i = 0; i < S.Length; i++)
                 {
-                    decimal sum = 0;
+                    Decimal sum = 0;
                     for (int j = i; j < S[i].Length; j++)
                         sum += S[i][j] * S[i][j] / D[j];
                     result[i] = sum;
@@ -639,7 +640,7 @@ namespace Accord.Math.Decompositions
             {
                 for (int i = 0; i < S.Length; i++)
                 {
-                    decimal sum = 0;
+                    Decimal sum = 0;
                     for (int j = i; j < S[i].Length; j++)
                         sum += S[i][j] * S[i][j];
                     result[i] = sum;
@@ -655,7 +656,7 @@ namespace Accord.Math.Decompositions
         ///    same space used to hold the decomposition, thus destroying
         ///    it in the process. Pass false otherwise.</param>
         /// 
-        public decimal InverseTrace(bool destroy = false)
+        public Decimal InverseTrace(bool destroy = false)
         {
             if (!robust && !positiveDefinite)
                 throw new NonPositiveDefiniteMatrixException("Matrix is not positive definite.");
@@ -663,7 +664,7 @@ namespace Accord.Math.Decompositions
             if (destroyed)
                 throw new InvalidOperationException("The decomposition has been destroyed.");
                 
-            decimal[][] S;
+            Decimal[][] S;
 
             if (destroy)
             {
@@ -671,9 +672,9 @@ namespace Accord.Math.Decompositions
             }
             else
             {
-                S = new decimal[L.Length][];
+                S = new Decimal[L.Length][];
                 for (int i = 0; i < S.Length; i++)
-                    S[i] = new decimal[L.Length];
+                    S[i] = new Decimal[L.Length];
             }
 
             // References:
@@ -687,7 +688,7 @@ namespace Accord.Math.Decompositions
                 S[j][j] = 1 / L[j][j];
                 for (int i = j - 1; i >= 0; i--)
                 {
-                    decimal sum = 0;
+                    Decimal sum = 0;
                     for (int k = i + 1; k <= j; k++)
                         sum += L[k][i] * S[k][j];
                     S[i][j] = -sum / L[i][i];
@@ -696,7 +697,7 @@ namespace Accord.Math.Decompositions
 
             // Compute the 2-norm squared of the rows
             // of the upper (right) triangular matrix S.
-            decimal trace = 0;
+            Decimal trace = 0;
             
             if (robust)
             {
@@ -720,14 +721,14 @@ namespace Accord.Math.Decompositions
         /// </summary>
         /// <param name="leftTriangular">The left triangular matrix from a Cholesky decomposition.</param>
         /// 
-        public static JaggedCholeskyDecompositionD FromLeftTriangularMatrix(decimal[][] leftTriangular)
+        public static JaggedCholeskyDecompositionD FromLeftTriangularMatrix(Decimal[][] leftTriangular)
         {
             var chol = new JaggedCholeskyDecompositionD();
             chol.dimension = leftTriangular.Length;
             chol.L = leftTriangular;
             chol.positiveDefinite = true;
             chol.robust = false;
-            chol.D = new decimal[chol.dimension];
+            chol.D = new Decimal[chol.dimension];
             for (int i = 0; i < chol.D.Length; i++)
                 chol.D[i] = 1;
 
@@ -752,7 +753,7 @@ namespace Accord.Math.Decompositions
         {
             var clone = new JaggedCholeskyDecompositionD();
             clone.L = L.MemberwiseClone();
-            clone.D = (decimal[])D.Clone();
+            clone.D = (Decimal[])D.Clone();
             clone.destroyed = destroyed;
             clone.dimension = dimension;
             clone.undefined = undefined;
@@ -765,3 +766,4 @@ namespace Accord.Math.Decompositions
 
     }
 }
+

@@ -12,7 +12,7 @@
     <AssemblyName>Accord.Setup</AssemblyName>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <PlatformTarget>x86</PlatformTarget>
     <OutputPath>.\</OutputPath>
   </PropertyGroup>
