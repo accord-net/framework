@@ -20,6 +20,9 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using System.Linq;
+using Accord.Math;
+
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
@@ -263,6 +266,15 @@ namespace Accord.Statistics.Distributions.Univariate
             if (x >= xm)
                 return Math.Log(a) + a * Math.Log(xm) - (a + 1) * Math.Log(x);
             return 0;
+        }
+
+        /// <summary>
+        /// Approximates the Pareto parameters xm and alpha.
+        /// </summary>
+        public override void Fit(double[] observations, double[] weights, Fitting.IFittingOptions options)
+        {
+            xm = observations.Min();
+            a = observations.Length / (observations.Sum(o => Math.Log(o / xm)));
         }
 
         /// <summary>
