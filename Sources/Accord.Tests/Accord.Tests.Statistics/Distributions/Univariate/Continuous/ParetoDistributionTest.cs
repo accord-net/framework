@@ -20,15 +20,13 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System.Linq;
-
 namespace Accord.Tests.Statistics
 {
+    using System;
+    using System.Globalization;
     using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using System.Globalization;    
-    
+
     [TestClass()]
     public class ParetoDistributionTest
     {
@@ -140,17 +138,16 @@ namespace Accord.Tests.Statistics
         {
             var source = new ParetoDistribution(scale: 7.12, shape: 2);
             var sample = new double[10000];
-            var step = 1.0/sample.Length;
+            var step = 1.0 / sample.Length;
+
             for (var i = 0; i < sample.Length; i++)
-            {
-                sample[i] = source.InverseDistributionFunction(i*step);
-            }
+                sample[i] = source.InverseDistributionFunction(i * step);
 
             var target = new ParetoDistribution(0, 0);
             target.Fit(sample);
 
-            Assert.AreEqual(7.12, target.Mode, 1e-6);
-            Assert.AreEqual(2.0, -target.Mean / (target.Mode - target.Mean), 1e-2);
+            Assert.AreEqual(7.12, target.Scale, 1e-6);
+            Assert.AreEqual(2.0, target.Alpha, 1e-2);
         }
 
     }
