@@ -27,6 +27,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Math.Decompositions;
     using Accord.Math.Comparers;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Linear Discriminant Analysis (LDA).
@@ -992,6 +993,7 @@ namespace Accord.Statistics.Analysis
         ///   Gets the cumulative proportion of all discriminant factors until this factor.
         /// </summary>
         /// 
+        [DisplayName("Cumulative")]
         public double CumulativeProportion
         {
             get { return analysis.CumulativeProportions[index]; }

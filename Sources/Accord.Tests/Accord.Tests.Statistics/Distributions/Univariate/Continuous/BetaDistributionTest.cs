@@ -172,5 +172,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.84983461640764513, p975, 1e-6);
         }
 
+        [TestMethod()]
+        public void BetaFitTest1()
+        {
+            double[] x = { 0.1, 0.5, 0.3, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9, 0.9 };
+
+            BetaDistribution target = new BetaDistribution(0, 1);
+
+            target.Fit(x);
+
+            Assert.AreEqual(1.1810718232044195, target.Alpha);
+            Assert.AreEqual(0.60843093922651903, target.Beta);
+        }
     }
 }

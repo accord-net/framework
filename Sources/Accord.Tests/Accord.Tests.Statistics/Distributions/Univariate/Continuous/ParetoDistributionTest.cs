@@ -22,11 +22,11 @@
 
 namespace Accord.Tests.Statistics
 {
+    using System;
+    using System.Globalization;
     using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using System.Globalization;    
-    
+
     [TestClass()]
     public class ParetoDistributionTest
     {
@@ -131,6 +131,23 @@ namespace Accord.Tests.Statistics
             var target = new ParetoDistribution(scale: 7.12, shape: 2);
 
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5), 1e-6);
+        }
+
+        [TestMethod]
+        public void FitTest()
+        {
+            var source = new ParetoDistribution(scale: 7.12, shape: 2);
+            var sample = new double[10000];
+            var step = 1.0 / sample.Length;
+
+            for (var i = 0; i < sample.Length; i++)
+                sample[i] = source.InverseDistributionFunction(i * step);
+
+            var target = new ParetoDistribution(0, 0);
+            target.Fit(sample);
+
+            Assert.AreEqual(7.12, target.Scale, 1e-6);
+            Assert.AreEqual(2.0, target.Alpha, 1e-2);
         }
 
     }

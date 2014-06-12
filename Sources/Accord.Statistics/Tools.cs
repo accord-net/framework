@@ -1571,7 +1571,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The variance of the given data.</returns>
         /// 
-        public static double WeightedVariance(double[] values, double[] weights)
+        public static double WeightedVariance(this double[] values, double[] weights)
         {
             return WeightedVariance(values, weights, WeightedMean(values, weights));
         }
@@ -1587,11 +1587,13 @@ namespace Accord.Statistics
         /// 
         /// <returns>The variance of the given data.</returns>
         /// 
-        public static double WeightedVariance(double[] values, double[] weights, double mean)
+        public static double WeightedVariance(this double[] values, double[] weights, double mean)
         {
             if (values.Length != weights.Length)
+            {
                 throw new DimensionMismatchException("weights",
                     "The values and weight vectors must have the same length");
+            }
 
             // http://en.wikipedia.org/wiki/Weighted_variance#Weighted_sample_variance
             // http://www.gnu.org/software/gsl/manual/html_node/Weighted-Samples.html
@@ -1639,8 +1641,10 @@ namespace Accord.Statistics
             int rows = matrix.Length;
 
             if (rows != weights.Length)
+            {
                 throw new DimensionMismatchException("weights",
                     "The values and weight vectors must have the same length");
+            }
 
             if (rows == 0)
                 return new double[0];
@@ -1700,8 +1704,10 @@ namespace Accord.Statistics
             int cols = matrix.GetLength(1);
 
             if (rows != weights.Length)
+            {
                 throw new DimensionMismatchException("weights",
                     "The values and weight vectors must have the same length.");
+            }
 
             double N = rows;
 

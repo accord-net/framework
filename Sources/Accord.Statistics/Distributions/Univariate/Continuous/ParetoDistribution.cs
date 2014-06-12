@@ -23,6 +23,8 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
+    using Accord.Math;
+    using Accord.Statistics.Distributions.Fitting;
     using AForge;
 
     /// <summary>
@@ -74,11 +76,12 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </example>
     /// 
     [Serializable]
-    public class ParetoDistribution : UnivariateContinuousDistribution, IFormattable
+    public class ParetoDistribution : UnivariateContinuousDistribution,
+        IFormattable, ISampleableDistribution<double>
     {
 
         double xm; // x_m
-        double a;  // alpha
+        double alpha;  // alpha
 
         /// <summary>
         ///   Creates new Pareto distribution.
@@ -89,8 +92,23 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public ParetoDistribution(double scale, double shape)
         {
+            init(scale, shape);
+        }
+
+        private void init(double scale, double shape)
+        {
             this.xm = scale;
-            this.a = shape;
+            this.alpha = shape;
+        }
+
+        public double Scale
+        {
+            get { return xm; }
+        }
+
+        public double Alpha
+        {
+            get { return alpha; }
         }
 
         /// <summary>
@@ -106,7 +124,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mean
         {
-            get { return (a * xm) / (a - 1); }
+            get { return (alpha * xm) / (alpha - 1); }
         }
 
         /// <summary>
@@ -122,7 +140,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Variance
         {
-            get { return (xm * xm * a) / ((a - 1) * (a - 1) * (a - 2)); }
+            get { return (xm * xm * alpha) / ((alpha - 1) * (alpha - 1) * (alpha - 2)); }
         }
 
         /// <summary>
@@ -138,7 +156,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Entropy
         {
-            get { return Math.Log(xm / a) + 1.0 / a + 1.0; }
+            get { return Math.Log(xm / alpha) + 1.0 / alpha + 1.0; }
         }
 
         /// <summary>
@@ -183,7 +201,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Median
         {
-            get { return xm * Math.Pow(2, 1.0 / a); }
+            get { return xm * Math.Pow(2, 1.0 / alpha); }
         }
 
         /// <summary>
@@ -205,7 +223,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double DistributionFunction(double x)
         {
             if (x >= xm)
-                return 1 - Math.Pow(xm / x, a);
+                return 1 - Math.Pow(xm / x, alpha);
             return 0;
         }
 
@@ -233,7 +251,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double ProbabilityDensityFunction(double x)
         {
             if (x >= xm)
-                return (a * Math.Pow(xm, a)) / Math.Pow(x, a + 1);
+                return (alpha * Math.Pow(xm, alpha)) / Math.Pow(x, alpha + 1);
             return 0;
         }
 
@@ -261,8 +279,24 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double LogProbabilityDensityFunction(double x)
         {
             if (x >= xm)
-                return Math.Log(a) + a * Math.Log(xm) - (a + 1) * Math.Log(x);
+                return Math.Log(alpha) + alpha * Math.Log(xm) - (alpha + 1) * Math.Log(x);
             return 0;
+        }
+
+
+        public override void Fit(double[] observations, double[] weights, IFittingOptions options)
+        {
+            double xm = observations.Min();
+
+            double lnx = Math.Log(xm);
+
+            double den = 0;
+            for (int i = 0; i < observations.Length; i++)
+                den += Math.Log(observations[i]) - lnx;
+
+            double alpha = observations.Length / den;
+
+            init(xm, alpha);
         }
 
         /// <summary>
@@ -275,7 +309,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override object Clone()
         {
-            return new ParetoDistribution(xm, a);
+            return new ParetoDistribution(xm, alpha);
         }
 
         /// <summary>
@@ -288,7 +322,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString()
         {
-            return String.Format("Pareto(x; xm = {0}, α = {1})", xm, a);
+            return String.Format("Pareto(x; xm = {0}, α = {1})", xm, alpha);
         }
 
         /// <summary>
@@ -301,7 +335,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "Pareto(x; xm = {0}, α = {1})", xm, a);
+            return String.Format(formatProvider, "Pareto(x; xm = {0}, α = {1})", xm, alpha);
         }
 
         /// <summary>
@@ -316,7 +350,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             return String.Format(formatProvider, "Pareto(x; xm = {0}, α = {1})",
                 xm.ToString(format, formatProvider),
-                a.ToString(format, formatProvider));
+                alpha.ToString(format, formatProvider));
         }
 
         /// <summary>
@@ -330,7 +364,24 @@ namespace Accord.Statistics.Distributions.Univariate
         public string ToString(string format)
         {
             return String.Format("Pareto(x; xm = {0}, α = {1})",
-                xm.ToString(format), a.ToString(format));
+                xm.ToString(format), alpha.ToString(format));
+        }
+
+        public double[] Generate(int samples)
+        {
+            double[] U = UniformContinuousDistribution.Standard.Generate(samples);
+
+            for (int i = 0; i < U.Length; i++)
+                U[i] = xm / Math.Pow(U[i], 1.0 / alpha);
+
+            return U;
+        }
+
+        public double Generate()
+        {
+            double U = UniformContinuousDistribution.Standard.Generate();
+
+            return xm / Math.Pow(U, 1.0 / alpha);
         }
     }
 }

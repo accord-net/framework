@@ -370,6 +370,18 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Uniform distribution with the given parameters.
         /// </summary>
         /// 
+        /// <returns>A random double value sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static double Random()
+        {
+            return Accord.Math.Tools.Random.NextDouble();
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the 
+        ///   Uniform distribution with the given parameters.
+        /// </summary>
+        /// 
         /// <param name="a">The starting number a.</param>
         /// <param name="b">The ending number b.</param>
         /// 

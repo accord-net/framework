@@ -22,11 +22,12 @@
 
 namespace Accord.Statistics.Distributions.Univariate
 {
-    using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
     using Accord.Math.Optimization;
+    using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System;
+    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     ///   Abstract class for univariate continuous probability Distributions.
@@ -70,6 +71,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
         private double? median;
         private double? stdDev;
+        private DoubleRange? quartiles;
 
         /// <summary>
         ///   Constructs a new UnivariateDistribution class.
@@ -121,6 +123,31 @@ namespace Accord.Statistics.Distributions.Univariate
         public virtual double Mode
         {
             get { return Mean; }
+        }
+
+        public virtual DoubleRange Quartiles
+        {
+            get
+            {
+                if (quartiles == null)
+                {
+                    double min = InverseDistributionFunction(0.25);
+                    double max = InverseDistributionFunction(0.75);
+                    quartiles = new DoubleRange(min, max);
+                }
+
+                return quartiles.Value;
+            }
+        }
+
+        public virtual DoubleRange Range(double percentile)
+        {
+            if (percentile <= 0 || percentile >= 1)
+                throw new ArgumentOutOfRangeException("percentile", "The percentile must be between 0 and 1.");
+
+            double a = InverseDistributionFunction(1.0 - percentile);
+            double b = InverseDistributionFunction(percentile);
+            return new DoubleRange(a, b);
         }
 
         /// <summary>
@@ -471,7 +498,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <returns>A sample which could original the given probability 
         ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
         /// 
-        public virtual double InverseDistributionFunction(double p)
+        public virtual double InverseDistributionFunction([Range(0, 1)] double p)
         {
             bool lowerBounded = !Double.IsInfinity(Support.Min);
             bool upperBounded = !Double.IsInfinity(Support.Max);
