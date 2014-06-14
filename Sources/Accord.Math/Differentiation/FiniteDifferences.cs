@@ -64,12 +64,14 @@ namespace Accord.Math.Differentiation
     /// 
     public class FiniteDifferences
     {
-        private double step = 1e-2;
+        private int parameters;
+        private int pointCount;
 
-        private int n;
+        private double[] stepSizes;
+        private int[] orders;
 
-        private double[][,] coef; // differential coefficients
-        private double[] stepSize; // Relative step sizes
+        private double[][,] coefficients; // differential coefficients
+
 
 
         /// <summary>
@@ -83,12 +85,35 @@ namespace Accord.Math.Differentiation
         ///   approximate the derivatives. Default is 1e-2.
         /// </summary>
         /// 
-        public double StepSize
+        public double[] StepSizes
         {
-            get { return step; }
-            set { step = value; }
+            get { return stepSizes; }
         }
 
+        /// <summary>
+        ///   Gets or sets the order of the derivatives to be
+        ///   obtained. Default is 1 (computes the first derivative).
+        /// </summary>
+        /// 
+        public double[] Orders
+        {
+            get { return Orders; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the number of points to be used when 
+        ///   computing the approximation. Default is 3.
+        /// </summary>
+        /// 
+        public int Points
+        {
+            get { return pointCount; }
+            set
+            {
+                pointCount = value;
+                this.coefficients = CreateCoefficients(value);
+            }
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="FiniteDifferences"/> class.
@@ -98,25 +123,50 @@ namespace Accord.Math.Differentiation
         /// 
         public FiniteDifferences(int variables)
         {
-            this.n = variables;
-            this.stepSize = new double[variables];
-
-            // Create interpolation coefficient table
-            // for interpolated numerical differentiation
-            this.coef = createInterpolationCoefficients(3);
+            init(null, variables, 1, 1e-2);
         }
 
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="FiniteDifferences"/> class.
-        /// </summary>
-        /// 
-        /// <param name="variables">The number of free parameters in the function.</param>
-        /// <param name="function">The function to be differentiated.</param>
-        /// 
-        public FiniteDifferences(int variables, Func<double[], double> function)
-            : this(variables)
+        public FiniteDifferences(int variables, int order)
         {
-            this.Function = function;
+            init(null, variables, order, 1e-2);
+        }
+
+        public FiniteDifferences(int variables, int order, double stepSize)
+        {
+            init(null, variables, order, stepSize);
+        }
+
+        public FiniteDifferences(int variables, Func<double[], double> function)
+        {
+            init(function, variables, 1, 1e-2);
+        }
+
+        public FiniteDifferences(int variables, Func<double[], double> function, int order)
+        {
+            init(function, variables, order, 1e-2);
+        }
+
+        public FiniteDifferences(int variables, Func<double[], double> function, int order, double stepSize)
+        {
+            init(function, variables, order, stepSize);
+        }
+
+        private void init(Func<double[], double> func, int variables,
+            int order, double stepSize)
+        {
+            this.Function = func;
+            this.parameters = variables;
+            this.stepSizes = new double[variables];
+            this.orders = new int[variables];
+            this.pointCount = 3;
+
+            this.coefficients = CreateCoefficients(3);
+
+            for (int i = 0; i < stepSizes.Length; i++)
+                stepSizes[i] = stepSize;
+
+            for (int i = 0; i < orders.Length; i++)
+                orders[i] = order;
         }
 
 
@@ -131,7 +181,7 @@ namespace Accord.Math.Differentiation
             if (x == null)
                 throw new ArgumentNullException("x");
 
-            if (x.Length != n)
+            if (x.Length != parameters)
                 throw new ArgumentException("The number of dimensions does not match.", "x");
 
 
@@ -144,61 +194,65 @@ namespace Accord.Math.Differentiation
             return gradient;
         }
 
+        public void Compute(double[] x, double[] gradient)
+        {
+            double output = Function(x);
+
+            for (int i = 0; i < gradient.Length; i++)
+                gradient[i] = derivative(x, i, output);
+        }
+
         /// <summary>
         ///   Computes the derivative at point <c>x_i</c>.
         /// </summary>
         /// 
-        private double derivative(double[] x, int i, double output)
+        private double derivative(double[] x, int index, double output)
         {
             // Saves the original parameter value
-            double original = x[i];
 
-            stepSize[i] = (original != 0.0) ? step * System.Math.Abs(original) : step;
+            double original = x[index];
+            int order = orders[index];
+            double step = stepSizes[index];
+
+            if (original != 0.0)
+                step *= System.Math.Abs(original);
 
             // Create the interpolation points
-            double[] points = new double[coef.Length];
-            int center = (coef.Length - 1) / 2;
+            var points = new double[pointCount];
+            int center = (points.Length - 1) / 2;
 
-            for (int k = 0; k < coef.Length; k++)
+            for (int i = 0; i < points.Length; i++)
             {
-                if (k != center)
+                if (i != center)
                 {
                     // Make a small perturbation in the original parameter
-                    x[i] = original + (k - center) * stepSize[i];
+                    x[index] = original + (i - center) * step;
 
                     // Recompute the function to measure its importance
-                    points[k] = Function(x);
+                    points[i] = Function(x);
                 }
                 else
                 {
                     // The center point is the original function
-                    points[k] = output;
+                    points[i] = output;
                 }
             }
 
-            // Interpolate the points to obtain an
-            //   estimative of the derivative at x.
-            double derivative = 0.0;
-            for (int j = 0; j < coef.Length; j++)
-            {
-                double c = coef[center][1, j];
-                if (c != 0) derivative += c * points[j];
-            }
-            derivative /= Math.Pow(stepSize[i], 1);
-
             // Reverts the modified value
-            x[i] = original;
+            x[index] = original;
 
-            return derivative;
+            return Interpolate(coefficients, points, order, center, step);
         }
+
 
 
         /// <summary>
         ///   Creates the interpolation coefficients.
         /// </summary>
+        /// 
         /// <param name="points">The number of points in the tableau.</param>
         /// 
-        private static double[][,] createInterpolationCoefficients(int points)
+        public static double[][,] CreateCoefficients(int points)
         {
             // Compute difference coefficient table
             double[][,] c = new double[points][,];
@@ -222,6 +276,7 @@ namespace Accord.Math.Differentiation
                 }
 
                 c[i] = Matrix.Inverse(deltas);
+
                 for (int j = 0; j < points; j++)
                     for (int k = 0; k < points; k++)
                         c[i][j, k] = (Math.Round(c[i][j, k] * fac, MidpointRounding.AwayFromZero)) / fac;
@@ -230,6 +285,80 @@ namespace Accord.Math.Differentiation
             return c;
         }
 
+        /// <summary>
+        ///   Interpolates the points to obtain an estimative of the derivative at x.
+        /// </summary>
+        /// 
+        private static double Interpolate(double[][,] coefficients, double[] points,
+            int order, int center, double step)
+        {
+            double sum = 0.0;
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                double c = coefficients[center][order, i];
+
+                if (c != 0)
+                    sum += c * points[i];
+            }
+
+            return sum / Math.Pow(step, order);
+        }
+
+
+
+
+
+
+        private static double[][,] coefficientCache;
+
+        static FiniteDifferences()
+        {
+            coefficientCache = FiniteDifferences.CreateCoefficients(3);
+        }
+
+        public static double Derivative(Func<double, double> function, double value,
+            int order)
+        {
+            return Derivative(function, value, order, 3);
+        }
+
+        public static double Derivative(Func<double, double> function, double value)
+        {
+            return Derivative(function, value, 1);
+        }
+
+        public static double Derivative(Func<double, double> function, double value, 
+            int order, double step)
+        {
+            double output = function(value);
+            double original = value;
+
+            if (original != 0.0)
+                step *= System.Math.Abs(original);
+
+
+            // Create the interpolation points
+            double[] outputs = new double[coefficientCache.Length];
+
+            int center = (outputs.Length - 1) / 2;
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                if (i != center)
+                {
+                    // Recompute the function to measure its importance
+                    outputs[i] = function(original + (i - center) * step);
+                }
+                else
+                {
+                    // The center point is the original function
+                    outputs[i] = output;
+                }
+            }
+
+            return FiniteDifferences.Interpolate(coefficientCache,
+                outputs, order, center, step);
+        }
 
     }
 }
