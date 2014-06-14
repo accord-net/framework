@@ -34,9 +34,43 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
+    ///   In probability theory, the normal (or Gaussian) distribution is a very 
+    ///   commonly occurring continuous probability distribution—a function that
+    ///   tells the probability that any real observation will fall between any two
+    ///   real limits or real numbers, as the curve approaches zero on either side.
+    ///   Normal distributions are extremely important in statistics and are often 
+    ///   used in the natural and social sciences for real-valued random variables
+    ///   whose distributions are not known.</para>
+    /// <para>
+    ///   The normal distribution is immensely useful because of the central limit 
+    ///   theorem, which states that, under mild conditions, the mean of many random 
+    ///   variables independently drawn from the same distribution is distributed 
+    ///   approximately normally, irrespective of the form of the original distribution:
+    ///   physical quantities that are expected to be the sum of many independent processes
+    ///   (such as measurement errors) often have a distribution very close to the normal.
+    ///   Moreover, many results and methods (such as propagation of uncertainty and least
+    ///   squares parameter fitting) can be derived analytically in explicit form when the
+    ///   relevant variables are normally distributed.</para>
+    /// <para>
+    ///   The Gaussian distribution is sometimes informally called the bell curve. However,
+    ///   many other distributions are bell-shaped (such as Cauchy's, Student's, and logistic).
+    ///   The terms Gaussian function and Gaussian bell curve are also ambiguous because they
+    ///   sometimes refer to multiples of the normal distribution that cannot be directly
+    ///   interpreted in terms of probabilities.</para>
+    ///   
+    /// <para>
     ///   The Gaussian is the most widely used distribution for continuous
     ///   variables. In the case of a single variable, it is governed by
-    ///   two parameters, the mean and the variance.
+    ///   two parameters, the mean and the variance.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="https://en.wikipedia.org/wiki/Normal_distribution">
+    ///       Wikipedia, The Free Encyclopedia. Normal distribution. Available on: 
+    ///       https://en.wikipedia.org/wiki/Normal_distribution </a></description></item>
+    ///   </list></para> 
     /// </remarks>
     /// 
     /// <example>

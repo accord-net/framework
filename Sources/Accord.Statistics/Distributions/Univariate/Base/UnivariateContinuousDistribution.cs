@@ -22,12 +22,14 @@
 
 namespace Accord.Statistics.Distributions.Univariate
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
     using Accord.Math;
+    using Accord.Math.Differentiation;
+    using Accord.Math.Integration;
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
-    using System;
-    using System.ComponentModel.DataAnnotations;
 
     /// <summary>
     ///   Abstract class for univariate continuous probability Distributions.
@@ -68,10 +70,20 @@ namespace Accord.Statistics.Distributions.Univariate
     public abstract class UnivariateContinuousDistribution : DistributionBase,
         IDistribution, IUnivariateDistribution, IUnivariateDistribution<double>
     {
-
+        [NonSerialized]
         private double? median;
+
+        [NonSerialized]
         private double? stdDev;
+
+        [NonSerialized]
+        private double? entropy;
+
+        [NonSerialized]
         private DoubleRange? quartiles;
+
+        [NonSerialized]
+        private bool automaticMode;
 
         /// <summary>
         ///   Constructs a new UnivariateDistribution class.
@@ -103,7 +115,21 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <value>The distribution's entropy.</value>
         /// 
-        public abstract double Entropy { get; }
+        public virtual double Entropy
+        {
+            get
+            {
+                if (entropy == null)
+                {
+                    Func<double, double> func =
+                        (x) => ProbabilityDensityFunction(x) * LogProbabilityDensityFunction(x);
+
+                    entropy = -Romberg.Integrate(func, Support.Min, Support.Max);
+                }
+
+                return entropy.Value;
+            }
+        }
 
         /// <summary>
         ///   Gets the support interval for this distribution.
@@ -140,7 +166,7 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
-        public virtual DoubleRange Range(double percentile)
+        public virtual DoubleRange GetRange(double percentile)
         {
             if (percentile <= 0 || percentile >= 1)
                 throw new ArgumentOutOfRangeException("percentile", "The percentile must be between 0 and 1.");
@@ -459,7 +485,16 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public abstract double DistributionFunction(double x);
+        public virtual double DistributionFunction(double x)
+        {
+            if (automaticMode == true)
+                throw new NotImplementedException();
+
+            automaticMode = true;
+            double value = Romberg.Integrate(ProbabilityDensityFunction, 0, 1);
+            automaticMode = false;
+            return value;
+        }
 
         /// <summary>
         ///   Gets the complementary cumulative distribution function
@@ -592,6 +627,11 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        public virtual double QuantileDensityFunction(double p)
+        {
+            return 1.0 / ProbabilityDensityFunction(InverseDistributionFunction(p));
+        }
+
         /// <summary>
         ///   Gets the probability density function (pdf) for
         ///   this distribution evaluated at point <c>x</c>.
@@ -609,7 +649,17 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public abstract double ProbabilityDensityFunction(double x);
+        public virtual double ProbabilityDensityFunction(double x)
+        {
+            if (automaticMode == true)
+                throw new NotImplementedException();
+
+            automaticMode = true;
+            double value = FiniteDifferences.Derivative(DistributionFunction, x);
+            automaticMode = false;
+            return value;
+        }
+
 
         /// <summary>
         ///   Gets the log-probability density function (pdf) for
