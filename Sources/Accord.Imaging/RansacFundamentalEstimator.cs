@@ -72,8 +72,8 @@ namespace Accord.Imaging
     ///     <item><description>
     ///       P. D. Kovesi. MATLAB and Octave Functions for Computer Vision and Image Processing.
     ///       School of Computer Science and Software Engineering, The University of Western Australia.
-    ///       Available in: <a href="http://www.csse.uwa.edu.au/~pk/Research/MatlabFns/Match/matchbycorrelation.m">
-    ///       http://www.csse.uwa.edu.au/~pk/Research/MatlabFns/Match/matchbycorrelation.m </a> </description></item>
+    ///       Available in: <a href="http://www.csse.uwa.edu.au/~pk/Research/MatlabFns/Projective/fundmatrix.m">
+    ///       http://www.csse.uwa.edu.au/~pk/Research/MatlabFns/Projective/fundmatrix.m </a> </description></item>
     ///     <item><description>
     ///       E. Dubrofsky. Homography Estimation. Master thesis. Available on:
     ///       http://www.cs.ubc.ca/~dubroe/courses/MastersEssay.pdf </description></item>

@@ -224,5 +224,27 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(expected, actual, 1e-10);
         }
+
+        [TestMethod]
+        public void GaussianEstimateTest()
+        {
+            // Suppose we have the following data 
+            // 
+            double[][] data =  
+            { 
+                new double[] { 5.1, 3.5, 1.4, 0.2 }, 
+                new double[] { 5.0, 3.6, 1.4, 0.2 }, 
+                new double[] { 4.9, 3.0, 1.4, 0.2 }, 
+                new double[] { 5.8, 4.0, 1.2, 0.2 }, 
+                new double[] { 4.7, 3.2, 1.3, 0.2 }, 
+            };
+
+            // Estimate an appropriate sigma from data 
+            Gaussian kernel = Gaussian.Estimate(data);
+            double sigma = kernel.Sigma; // 0.36055512 
+            double sigma2 = kernel.SigmaSquared;
+            Assert.AreEqual(0.36055512754639879, sigma);
+            Assert.AreEqual(sigma * sigma, sigma2);
+        } 
     }
 }

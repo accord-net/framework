@@ -48,40 +48,5 @@ namespace Accord.Tests.Statistics
             }
         }
 
-
-
-        [TestMethod()]
-        public void VarianceTest()
-        {
-            double[][] inputs = 
-            {
-                new double[] { 0, 0 },
-                new double[] { 0, 1 },
-                new double[] { 1, 0 },
-                new double[] { 1, 1 },
-            };
-
-            double[] outputs = { 0, 1, 1, 0};
-
-            var results = inputs.InsertColumn(outputs);
-
-            var box = DataGridBox.Show(results, colNames: new[] { "X", "Y", "SVM" });
-
-            Assert.AreEqual("X", box.DataGridView.Columns[0].Name);
-            Assert.AreEqual("Y", box.DataGridView.Columns[1].Name);
-            Assert.AreEqual("SVM", box.DataGridView.Columns[2].Name);
-
-            try
-            {
-                box.Close();
-                box.WaitForClose();
-                box.Hold();
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
-        }
-
     }
 }

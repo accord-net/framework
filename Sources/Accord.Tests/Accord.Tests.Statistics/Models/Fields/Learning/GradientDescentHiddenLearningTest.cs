@@ -28,7 +28,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Fields.Learning;
     using Accord.Statistics.Models.Markov;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math.Differentiation;
 
     [TestClass()]
     public class GradientDescentHiddenLearningTest
