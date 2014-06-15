@@ -1,4 +1,4 @@
-﻿// Accord Unit Tests
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -20,32 +20,23 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Tests.Statistics
+namespace Accord.Math.Integration
 {
-    using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math;
-    using Accord;
-    using System.Data;
-    using Accord.Controls;
     using System;
 
-    [TestClass()]
-    public class DataGridBoxText
+    public static class Trapezoidal
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        public static double Integrate(Func<double, double> func, double a, double b,
+            int steps)
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            double h = (b - a) / steps;
+
+            double sum = 0.5 * (func(a) + func(b));
+
+            for (int i = 1; i < steps; i++)
+                sum += func(a + i * h);
+
+            return h * sum;
         }
 
     }

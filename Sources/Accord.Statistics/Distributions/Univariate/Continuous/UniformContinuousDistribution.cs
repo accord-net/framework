@@ -366,8 +366,26 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Generates a random observation from the 
-        ///   Uniform distribution with the given parameters.
+        ///   Generates a random observation from the Uniform 
+        ///   distribution defined in the interval 0 and 1.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Uniform distribution.</returns>
+        /// 
+        public static double[] Random(int samples)
+        {
+            double[] r = new double[samples];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = Accord.Math.Tools.Random.NextDouble();
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the Uniform 
+        ///   distribution defined in the interval 0 and 1.
         /// </summary>
         /// 
         /// <returns>A random double value sampled from the specified Uniform distribution.</returns>

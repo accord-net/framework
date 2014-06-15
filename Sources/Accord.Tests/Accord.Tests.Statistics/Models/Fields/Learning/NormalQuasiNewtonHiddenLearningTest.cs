@@ -23,16 +23,12 @@
 
 namespace Accord.Tests.Statistics.Models.Fields
 {
+    using System;
+    using Accord.Math.Differentiation;
+    using Accord.Statistics.Models.Fields;
+    using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Fields.Learning;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Models.Fields;
-    using Accord.Statistics.Models.Markov;
-    using Accord.Statistics.Models.Markov.Topology;
-    using Accord.Statistics.Models.Fields.Functions;
-    using Accord.Statistics.Models.Markov.Learning;
-    using Accord.Math;
-    using Accord.Math.Differentiation;
-    using System;
 
     [TestClass()]
     public class NormalQuasiNewtonHiddenLearningTest

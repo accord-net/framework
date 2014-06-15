@@ -26,7 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using AForge;
 
     /// <summary>
-    ///   Laplace's Distribution.
+    ///   Laplace's Distribution (as known as the double exponential distribution).
     /// </summary>
     /// 
     /// <remarks>
@@ -102,8 +102,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public LaplaceDistribution(double location, double scale)
         {
-            if (scale <= 0) throw new ArgumentOutOfRangeException(
-                "scale", "Scale must be non-negative.");
+            if (scale <= 0) 
+                throw new ArgumentOutOfRangeException("scale", "Scale must be non-negative.");
 
             this.u = location;
             this.b = scale;

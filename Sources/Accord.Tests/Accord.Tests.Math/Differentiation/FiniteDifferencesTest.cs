@@ -22,11 +22,10 @@
 
 namespace Accord.Tests.Math
 {
-    using Accord.Math.Optimization;
-    using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math.Differentiation;
     using System;
+    using Accord.Math;
+    using Accord.Math.Differentiation;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class FiniteDifferencesTest

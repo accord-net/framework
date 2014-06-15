@@ -97,6 +97,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        [Ignore()]
         public void ConstructorExcel10Test()
         {
             // If a 64-bit ACE is installed, this test requires a 64-bit process to run correctly.

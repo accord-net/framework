@@ -115,6 +115,9 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Integration\NonAdaptiveGaussKronrod.cs" />
+    <Compile Include="Differentiation\FiniteDifferences.cs" />
+    <Compile Include="Integration\MonteCarloIntegral.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Comparers\ArrayComparer`1.cs" />
     <Compile Include="Comparers\ElementComparer.cs" />
@@ -165,6 +168,8 @@
     <Compile Include="Decompositions\SingularValueDecompositionF.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Integration\Romberg.cs" />
+    <Compile Include="Integration\Trapezoidal.cs" />
     <Compile Include="Environments\REnvironment.cs" />
     <Compile Include="Functions\Gabor.cs" />
     <Compile Include="Geometry\Circle.cs" />
@@ -324,7 +329,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Norm.cs" />
-    <Compile Include="Differentiation\FiniteDifferences.cs" />
     <Compile Include="Optimization\Constrained\AugmentedLagrangian.cs" />
     <Compile Include="Optimization\Constrained\Constraints\QuadraticConstraint.cs" />
     <Compile Include="Optimization\Constrained\Constraints\NonlinearConstraint.cs" />

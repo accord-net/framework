@@ -22,16 +22,8 @@
 
 namespace Accord.Math
 {
-    using Accord.Math.Comparers;
-    using Accord.Math.ComplexExtensions;
-    using Accord.Math.Decompositions;
-    using Accord.Math.Differentiation;
-    using Accord.Math.Environments;
-    using Accord.Math.Geometry;
-    using Accord.Math.Kinematics;
-    using Accord.Math.Optimization;
-    using Accord.Math.Wavelets;
     using System.Runtime.CompilerServices;
+    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Mathematics, including matrix algebra and numeric optimization.

@@ -1,4 +1,4 @@
-﻿// Accord Unit Tests
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -20,33 +20,42 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Tests.Statistics
+namespace Accord.Math.Integration
 {
-    using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math;
-    using Accord;
-    using System.Data;
-    using Accord.Controls;
     using System;
 
-    [TestClass()]
-    public class DataGridBoxText
+    public static class Romberg
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        public static double Integrate(Func<double, double> func, double a, double b)
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            return Integrate(func, a, b, 6);
         }
 
+        public static double Integrate(Func<double, double> func, double a, double b,
+            int steps)
+        {
+            double[] s = new double[steps];
+
+            double sum = 0;
+            for (int i = 0; i < s.Length; i++)
+                s[i] = 1;
+
+            for (int k = 0; k < s.Length; k++)
+            {
+                sum = s[0];
+                s[0] = Trapezoidal.Integrate(func, a, b, 1 << k);
+
+                for (int i = 1; i <= k; i++)
+                {
+                    int p = (int)Math.Pow(4, i);
+                    s[k] = (p * s[i - 1] - sum) / (p - 1);
+
+                    sum = s[i];
+                    s[i] = s[k];
+                }
+            }
+
+            return s[s.Length - 1];
+        }
     }
 }

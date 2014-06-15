@@ -24,7 +24,6 @@ namespace Accord.Statistics.Models.Fields.Learning
 {
     using System;
     using Accord.Math.Optimization;
-    using Accord.Math.Differentiation;
 
     /// <summary>
     ///   Quasi-Newton (L-BFGS) learning algorithm for <see cref="HiddenConditionalRandomField{T}">

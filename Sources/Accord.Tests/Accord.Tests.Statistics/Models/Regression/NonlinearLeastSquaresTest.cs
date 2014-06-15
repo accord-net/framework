@@ -24,11 +24,11 @@ namespace Accord.Tests.Statistics
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Models.Regression;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Models.Regression.Fitting;
-    using Accord.Math.Optimization;
     using Accord.Math.Differentiation;
+    using Accord.Math.Optimization;
+    using Accord.Statistics.Models.Regression;
+    using Accord.Statistics.Models.Regression.Fitting;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class NonLinearLeastSquaresTest

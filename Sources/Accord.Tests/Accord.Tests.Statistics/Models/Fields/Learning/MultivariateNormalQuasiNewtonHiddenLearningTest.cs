@@ -20,27 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Models.Fields.Learning;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accord.Statistics.Models.Fields;
-using Accord.Statistics.Models.Markov;
-using Accord.Statistics.Models.Markov.Topology;
-using Accord.Statistics.Models.Fields.Functions;
-using Accord.Statistics.Models.Markov.Learning;
-using Accord.Math;
-using Accord.Math.Differentiation;
-using System;
-using Accord.Statistics.Distributions.Multivariate;
-using Accord.Tests.Statistics.Models.Fields;
-
 namespace Accord.Tests.Statistics
 {
+    using System;
+    using Accord.Math.Differentiation;
+    using Accord.Statistics.Distributions.Multivariate;
+    using Accord.Statistics.Models.Fields;
+    using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Statistics.Models.Fields.Learning;
+    using Accord.Statistics.Models.Markov;
+    using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Tests.Statistics.Models.Fields;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
-    /// <summary>
-    ///This is a test class for QuasiNewtonLearningTest and is intended
-    ///to contain all QuasiNewtonLearningTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class MultivariateNormalQuasiNewtonHiddenLearningTest
     {
@@ -48,10 +40,6 @@ namespace Accord.Tests.Statistics
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get

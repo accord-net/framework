@@ -22,11 +22,11 @@
 
 namespace Accord.Tests.Statistics
 {
+    using System;
+    using Accord.Math.Differentiation;
+    using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using Accord.Statistics.Models.Regression;
-    using Accord.Math.Differentiation;
 
     [TestClass()]
     public class LogisticGradientDescentTest

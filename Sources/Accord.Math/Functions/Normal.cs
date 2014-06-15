@@ -576,5 +576,15 @@ namespace Accord.Math
             return BVN + Normal.Function(-H) - Normal.Function(-K);
         }
 
+
+        public static double Derivative(double z)
+        {
+            return Math.Exp(Constants.LogSqrt2PI - z * z * 0.5);
+        }
+
+        public static double LogDerivative(double z)
+        {
+            return Constants.LogSqrt2PI - z * z * 0.5;
+        }
     }
 }
