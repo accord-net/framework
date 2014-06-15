@@ -43,7 +43,7 @@ namespace Accord.Imaging
     /// <seealso cref="FastRetinaKeypointDetector"/>
     /// 
     [Serializable]
-    public class FastRetinaKeypoint : IFeaturePoint<byte[]>
+    public class FastRetinaKeypoint : IFeaturePoint<byte[]>, IFeaturePoint
     {
 
         /// <summary>
@@ -235,6 +235,17 @@ namespace Accord.Imaging
         public static implicit operator AForge.IntPoint(FastRetinaKeypoint point)
         {
             return point.ToIntPoint();
+        }
+
+        double[] IFeatureDescriptor<double[]>.Descriptor
+        {
+            get
+            {
+                double[] r = new double[Descriptor.Length];
+                for (int i = 0; i < Descriptor.Length; i++)
+                    r[i] = Descriptor[i];
+                return r;
+            }
         }
     }
 }

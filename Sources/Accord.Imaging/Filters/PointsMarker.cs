@@ -25,6 +25,7 @@ namespace Accord.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using Accord.Math;
     using AForge;
     using AForge.Imaging;
     using AForge.Imaging.Filters;
@@ -112,6 +113,35 @@ namespace Accord.Imaging.Filters
         ///   Initializes a new instance of the <see cref="PointsMarker"/> class.
         /// </summary>
         /// 
+        public PointsMarker(IList<IFeaturePoint> points)
+            : this(points, Color.White, 3)
+        {
+        }
+
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="PointsMarker"/> class.
+        /// </summary>
+        /// 
+        public PointsMarker(IList<IFeaturePoint> points, Color markerColor)
+            : this(points, markerColor, 3)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="PointsMarker"/> class.
+        /// </summary>
+        /// 
+        public PointsMarker(IList<IFeaturePoint> points, Color markerColor, int width)
+        {
+            var newPoints = points.Apply(x => new IntPoint((int)x.X, (int)x.Y));
+            markerColor = init(newPoints, markerColor, width);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="PointsMarker"/> class.
+        /// </summary>
+        /// 
         public PointsMarker(IEnumerable<IntPoint> points)
             : this(points, Color.White, 3)
         {
@@ -133,6 +163,11 @@ namespace Accord.Imaging.Filters
         /// 
         public PointsMarker(IEnumerable<IntPoint> points, Color markerColor, int width)
         {
+            markerColor = init(points, markerColor, width);
+        }
+
+        private Color init(IEnumerable<IntPoint> points, Color markerColor, int width)
+        {
             this.points = points;
             this.markerColor = markerColor;
             this.width = width;
@@ -140,6 +175,7 @@ namespace Accord.Imaging.Filters
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
             formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
+            return markerColor;
         }
 
         /// <summary>
@@ -147,7 +183,7 @@ namespace Accord.Imaging.Filters
         /// </summary>
         /// 
         public PointsMarker(Color markerColor)
-            : this(null, markerColor, 3)
+            : this((IEnumerable<IntPoint>)null, markerColor, 3)
         {
         }
 

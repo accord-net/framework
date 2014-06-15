@@ -53,9 +53,11 @@ namespace Corners.FAST
             Bitmap lenna = Resources.lena512;
 
             // Create a new SURF Features Detector using the given parameters
-            FastCornersDetector fast = new FastCornersDetector();
-            fast.Threshold = (int)numThreshold.Value;
-            fast.Suppress = true;
+            FastCornersDetector fast = new FastCornersDetector()
+            {
+                Threshold = (int)numThreshold.Value,
+                Suppress = true
+            };
 
             // Create a new AForge's Corner Marker Filter
             CornersMarker corners = new CornersMarker(fast, Color.White);

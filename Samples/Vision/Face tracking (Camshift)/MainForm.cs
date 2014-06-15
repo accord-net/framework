@@ -335,7 +335,9 @@ namespace FaceTracking
                         LineSegment axis = obj.GetAxis();
 
                         // Draw X axis
-                        Drawing.Line(im, axis.Start.Round(), axis.End.Round(), Color.Red);
+                        if (axis != null)
+                            Drawing.Line(im, axis.Start.Round(), axis.End.Round(), Color.Red);
+                        else detecting = true;
                     }
 
 
@@ -345,9 +347,6 @@ namespace FaceTracking
                     }
                     else if (drawObjectBoxToolStripMenuItem.Checked)
                     {
-                        //InteractionPoints p = new InteractionPoints();
-                        //p.setHead(obj.Rectangle);
-
                         marker = new RectanglesMarker(obj.Rectangle);
                     }
                     else if (drawTrackingWindowToolStripMenuItem.Checked)

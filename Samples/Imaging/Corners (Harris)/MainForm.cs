@@ -56,10 +56,14 @@ namespace Corners.Harris
             float threshold = (float)numThreshold.Value;
 
             // Create a new Harris Corners Detector using the given parameters
-            HarrisCornersDetector harris = new HarrisCornersDetector(k);
-            harris.Measure = checkBox1.Checked ? HarrisCornerMeasure.Harris : HarrisCornerMeasure.Noble;
-            harris.Threshold = threshold;
-            harris.Sigma = sigma;
+            HarrisCornersDetector harris = new HarrisCornersDetector(k)
+            {
+                Measure = checkBox1.Checked ?
+                    HarrisCornerMeasure.Harris : HarrisCornerMeasure.Noble,
+
+                Threshold = threshold,
+                Sigma = sigma
+            };
 
             // Create a new AForge's Corner Marker Filter
             CornersMarker corners = new CornersMarker(harris, Color.White);
