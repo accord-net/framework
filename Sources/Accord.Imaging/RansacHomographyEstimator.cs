@@ -52,7 +52,6 @@ namespace Accord.Imaging
     using Accord.MachineLearning;
     using Accord.Math;
     using AForge;
-    using Point = System.Drawing.Point;
 
     /// <summary>
     ///   RANSAC Robust Homography Matrix Estimator.
@@ -127,6 +126,18 @@ namespace Accord.Imaging
             ransac.Distances = distance;
         }
 
+
+        /// <summary>
+        ///   Matches two sets of points using RANSAC.
+        /// </summary>
+        /// 
+        /// <returns>The homography matrix matching x1 and x2.</returns>
+        /// 
+        public MatrixH Estimate(AForge.Point[][] points)
+        {
+            return Estimate(points[0], points[1]);
+        }
+
         /// <summary>
         ///   Matches two sets of points using RANSAC.
         /// </summary>
@@ -159,6 +170,18 @@ namespace Accord.Imaging
         /// 
         /// <returns>The homography matrix matching x1 and x2.</returns>
         /// 
+        public MatrixH Estimate(IntPoint[][] points)
+        {
+            return Estimate(points[0], points[1]);
+        }
+
+
+        /// <summary>
+        ///   Matches two sets of points using RANSAC.
+        /// </summary>
+        /// 
+        /// <returns>The homography matrix matching x1 and x2.</returns>
+        /// 
         public MatrixH Estimate(IntPoint[] points1, IntPoint[] points2)
         {
             // Initial argument checks
@@ -177,6 +200,17 @@ namespace Accord.Imaging
             }
 
             return Estimate(p1, p2);
+        }
+
+        /// <summary>
+        ///   Matches two sets of points using RANSAC.
+        /// </summary>
+        /// 
+        /// <returns>The homography matrix matching x1 and x2.</returns>
+        /// 
+        public MatrixH Estimate(PointF[][] points)
+        {
+            return Estimate(points[0], points[1]);
         }
 
         /// <summary>

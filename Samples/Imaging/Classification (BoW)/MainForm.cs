@@ -247,12 +247,16 @@ namespace Classification.BoW
             // Configure the learning algorithm
             ml.Algorithm = (svm, classInputs, classOutputs, i, j) =>
             {
-                var smo = new SequentialMinimalOptimization(svm, classInputs, classOutputs);
-                smo.Complexity = complexity;
-                smo.Tolerance = tolerance;
-                smo.CacheSize = cacheSize;
-                smo.Strategy = strategy;
-                if (kernel is Linear) smo.Compact = true;
+                var smo = new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = complexity,
+                    Tolerance = tolerance,
+                    CacheSize = cacheSize,
+                    Strategy = strategy,
+                };
+
+                if (kernel is Linear) 
+                    smo.Compact = true;
                 return smo;
             };
 

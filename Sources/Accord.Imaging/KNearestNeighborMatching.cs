@@ -27,6 +27,7 @@ namespace Accord.Imaging
     using Accord.MachineLearning;
     using Accord.Math;
     using AForge;
+    using System.Linq;
 
     /// <summary>
     ///   Nearest neighbor feature point matching algorithm.
@@ -100,6 +101,14 @@ namespace Accord.Imaging
         }
 
 
+        /// <summary>
+        ///   Matches two sets of feature points.
+        /// </summary>
+        /// 
+        public IntPoint[][] Match(IEnumerable<IFeaturePoint<T>> points1, IEnumerable<IFeaturePoint<T>> points2)
+        {
+            return Match(points1.ToArray(), points2.ToArray());
+        }
 
         /// <summary>
         ///   Matches two sets of feature points.
@@ -116,7 +125,7 @@ namespace Accord.Imaging
             // We should build the classifiers with the highest number
             // of training points. Thus, if we have more points in the
             // second image than in the first, we'll have to swap them
-            
+
             if (points2.Length > points1.Length)
             {
                 var aux = points1;

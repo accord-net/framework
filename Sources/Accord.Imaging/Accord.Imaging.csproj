@@ -229,6 +229,7 @@
     <None Include="Accord.snk" />
     <None Include="Converters\Accord.Imaging.Converters.cd" />
     <None Include="Filters\Accord.Imaging.Filters.cd" />
+    <None Include="Interest Points\Accord.Imaging.InterestPoints.cd" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />

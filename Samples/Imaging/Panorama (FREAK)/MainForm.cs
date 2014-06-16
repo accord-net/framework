@@ -73,8 +73,8 @@ namespace Panorama.FREAK
             keyPoints2 = freak.ProcessImage(img2).ToArray();
 
             // Show the marked points in the original images
-            Bitmap img1mark = new PointsMarker(keyPoints1.Apply(p => (IntPoint)p)).Apply(img1);
-            Bitmap img2mark = new PointsMarker(keyPoints2.Apply(p => (IntPoint)p)).Apply(img2);
+            Bitmap img1mark = new PointsMarker(keyPoints1).Apply(img1);
+            Bitmap img2mark = new PointsMarker(keyPoints2).Apply(img2);
 
             // Concatenate the two images together in a single image (just to show on screen)
             Concatenate concatenate = new Concatenate(img1mark);

@@ -156,7 +156,7 @@ namespace GloveTracking
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "&About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -167,6 +167,9 @@ namespace GloveTracking
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.videoSourcePlayer);
             this.panel1.Location = new System.Drawing.Point(0, 24);
             this.panel1.Name = "panel1";
@@ -175,6 +178,9 @@ namespace GloveTracking
             // 
             // videoSourcePlayer
             // 
+            this.videoSourcePlayer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.videoSourcePlayer.AutoSizeControl = true;
             this.videoSourcePlayer.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.videoSourcePlayer.ForeColor = System.Drawing.Color.White;
@@ -187,6 +193,7 @@ namespace GloveTracking
             // 
             // cbContour
             // 
+            this.cbContour.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbContour.AutoSize = true;
             this.cbContour.Location = new System.Drawing.Point(387, 27);
             this.cbContour.Name = "cbContour";
@@ -198,6 +205,7 @@ namespace GloveTracking
             // 
             // cbFingertips
             // 
+            this.cbFingertips.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbFingertips.AutoSize = true;
             this.cbFingertips.Location = new System.Drawing.Point(387, 50);
             this.cbFingertips.Name = "cbFingertips";
@@ -209,6 +217,7 @@ namespace GloveTracking
             // 
             // cbContainer
             // 
+            this.cbContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbContainer.AutoSize = true;
             this.cbContainer.Location = new System.Drawing.Point(387, 73);
             this.cbContainer.Name = "cbContainer";
@@ -220,6 +229,7 @@ namespace GloveTracking
             // 
             // tbSensitivity
             // 
+            this.tbSensitivity.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.tbSensitivity.Location = new System.Drawing.Point(402, 123);
             this.tbSensitivity.Maximum = 255;
             this.tbSensitivity.Minimum = 1;
@@ -232,6 +242,7 @@ namespace GloveTracking
             // 
             // cbAngle
             // 
+            this.cbAngle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cbAngle.AutoSize = true;
             this.cbAngle.Location = new System.Drawing.Point(388, 96);
             this.cbAngle.Name = "cbAngle";
@@ -243,6 +254,7 @@ namespace GloveTracking
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Location = new System.Drawing.Point(387, 340);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);

@@ -54,6 +54,7 @@ namespace Accord.Imaging
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.Linq;
     using Accord.Math;
     using AForge;
     using AForge.Imaging.Filters;
@@ -139,6 +140,11 @@ namespace Accord.Imaging
         }
 
 
+        public IntPoint[][] Match(Bitmap image1, Bitmap image2,
+            IEnumerable<IntPoint> points1, IEnumerable<IntPoint> points2)
+        {
+            return Match(image1, image2, points1.ToArray(), points2.ToArray());
+        }
 
         /// <summary>
         ///   Matches two sets of feature points computed from the given images.

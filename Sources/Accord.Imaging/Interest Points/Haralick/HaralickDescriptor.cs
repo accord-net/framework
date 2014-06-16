@@ -26,10 +26,10 @@
 namespace Accord.Imaging
 {
     using System;
-    using Accord.Math;
-    using Accord.Statistics;
     using System.Collections.Generic;
+    using Accord.Math;
     using Accord.Math.Decompositions;
+    using Accord.Statistics;
     using AForge;
 
     /// <summary>
