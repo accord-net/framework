@@ -30,7 +30,7 @@ namespace Accord.Statistics.Kernels
     /// 
     /// <seealso cref="IKernel"/>
     ///
-    public interface ITransform
+    public interface ITransform : IKernel
     {
         /// <summary>
         ///   Projects an input point into feature space.

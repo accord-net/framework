@@ -86,6 +86,9 @@ namespace Analysis.KPCA
             Array methods = Enum.GetValues(typeof(AnalysisMethod));
             this.tscbMethod.ComboBox.DataSource = methods;
             this.cbMethod.DataSource = methods;
+
+            this.tscbMethod.SelectedItem = AnalysisMethod.Standardize;
+            this.cbMethod.SelectedItem = AnalysisMethod.Standardize;
         }
 
 
@@ -381,6 +384,17 @@ namespace Analysis.KPCA
         private void toolStripMenuItem5_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Create a matrix from the source data table
+            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
+
+            // Get the input values (the two first columns)
+            double[,] inputs = sourceMatrix.GetColumns(0, 1);
+
+            numSigma.Value = (decimal)Gaussian.Estimate(inputs.ToArray()).Sigma;
         }
 
     }

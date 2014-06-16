@@ -28,7 +28,7 @@ namespace Accord.Statistics.Kernels
     /// 
     /// <seealso cref="IKernel"/>
     ///
-    public interface IDistance
+    public interface IDistance : IKernel
     {
 
         /// <summary>

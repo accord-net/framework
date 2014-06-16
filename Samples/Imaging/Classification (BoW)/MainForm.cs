@@ -171,6 +171,7 @@ namespace Classification.BoW
         private void btnBagOfWords_Click(object sender, EventArgs e)
         {
             int numberOfWords = (int)numWords.Value;
+            
 
             // Create a Binary-Split clustering algorithm
             BinarySplit binarySplit = new BinarySplit(numberOfWords);
@@ -188,6 +189,17 @@ namespace Classification.BoW
 
             sw1.Stop();
 
+            /*
+                // Alternative creation using the FREAK detector
+             
+                // Create a Binary-Split clustering algorithm
+                var kmodes = new KModes<byte[]>(numberOfWords, Distance.BitwiseHamming);
+
+                FastRetinaKeypointDetector detector = new FastRetinaKeypointDetector();
+
+                // Create bag-of-words (BoW) with the given algorithm
+                var bow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(detector, kmodes);   
+            */
 
             Stopwatch sw2 = Stopwatch.StartNew();
 

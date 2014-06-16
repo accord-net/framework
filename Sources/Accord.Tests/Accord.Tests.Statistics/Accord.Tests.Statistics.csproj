@@ -401,7 +401,10 @@
     <None Include="Accord.snk" />
     <None Include="app.config" />
     <None Include="Resources\CircleWithWeights.xls" />
-    <None Include="Resources\intrusion.xlsx" />
+    <None Include="Resources\examples.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\intrusion.xls" />
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

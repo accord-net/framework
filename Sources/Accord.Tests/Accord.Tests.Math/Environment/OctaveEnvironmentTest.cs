@@ -104,7 +104,7 @@ namespace Accord.Tests.Math
             mat M = magic(3) * 5;
 
             // Compute the SVD
-            ret[u, s, v] = svd(M);
+            ret [u, s, v] = svd(M);
 
             string str = u;
 
@@ -137,6 +137,38 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expectedU.IsEqual(u, 1e-10));
             Assert.IsTrue(expectedS.IsEqual(s, 1e-10));
             Assert.IsTrue(expectedV.IsEqual(v, 1e-10));
+        }
+
+        [TestMethod()]
+        public void initTest()
+        {
+            MyAlgorithm al = new MyAlgorithm();
+        }
+
+        public class MyAlgorithm : Accord.Math.Environments.OctaveEnvironment
+        {
+            mat I, A, B;
+            mat U, S, V;
+
+            public MyAlgorithm()
+            {
+                I = eye(5);
+
+                A = new[,]
+                {
+                    { 0.0, 1.0 },
+                    { 4.0, 2.0 },
+                    { 7.0, 2.0 },
+                };
+
+                B = A * I;
+
+                ret[U, S, V] = svd(B);
+
+                Console.WriteLine(U);
+                Console.WriteLine(S);
+                Console.WriteLine(V);
+            }
         }
     }
 }

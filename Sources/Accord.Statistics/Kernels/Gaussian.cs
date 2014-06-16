@@ -24,6 +24,7 @@ namespace Accord.Statistics.Kernels
 {
     using System;
     using AForge;
+    using Accord.Math;
 
     /// <summary>
     ///   Gaussian Kernel.
@@ -47,7 +48,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public sealed class Gaussian : KernelBase, IKernel,
-        IDistance, IEstimable, ICloneable, IReverseDistance
+        IDistance, IEstimable, ICloneable, IReverseDistance, ITransform
     {
         private double sigma;
         private double gamma;
@@ -57,8 +58,10 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Gaussian Kernel
         /// </summary>
         /// 
-        public Gaussian() 
-            : this(1) { }
+        public Gaussian()
+            : this(1)
+        {
+        }
 
         /// <summary>
         ///   Constructs a new Gaussian Kernel
@@ -129,7 +132,7 @@ namespace Accord.Statistics.Kernels
             // Optimization in case x and y are
             // exactly the same object reference.
 
-            if (x == y) 
+            if (x == y)
                 return 1.0;
 
             double norm = 0.0;
@@ -143,18 +146,18 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
-        ///   Computes the squared distance in input space
-        ///   between two points given in feature space.
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
         /// </summary>
         /// 
-        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
-        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
         /// 
-        /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
         /// 
         public override double Distance(double[] x, double[] y)
         {
-            if (x == y) 
+            if (x == y)
                 return 0.0;
 
             double norm = 0.0;
@@ -181,7 +184,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public double ReverseDistance(double[] x, double[] y)
         {
-            if (x == y) 
+            if (x == y)
                 return 0.0;
 
             double norm = 0.0;
@@ -371,6 +374,71 @@ namespace Accord.Statistics.Kernels
         }
 
 
+
+
+        public double[] Transform(double[] input)
+        {
+            //http://epubs.siam.org/doi/pdf/10.1137/1.9781611972818.19 
+
+            double norm = Norm.SquareEuclidean(input);
+            double constant = Math.Exp(-gamma * norm);
+
+            int degree = 16;
+
+            int n = input.Length;
+            int m = 0;
+            int[] pos = new int[degree];
+            for (int i = 0; i < pos.Length; i++)
+                m += pos[i] = (int)Math.Pow(n, i + 1);
+
+
+            double[] features = new double[m + 1];
+
+            features[0] = 1;
+
+            int index = 1;
+
+            for (int k = 0; k < pos.Length; k++)
+            {
+                double alpha = Math.Sqrt(Math.Pow(2 * gamma, k + 1) / Special.Factorial(k + 1));
+                foreach (int[] s in Accord.Math.Combinatorics.Sequences(input.Length, k + 1))
+                {
+                    double prod = 1;
+                    for (int i = 0; i < s.Length; i++)
+                        prod *= input[s[i]];
+                    features[index++] = alpha * prod;
+                }
+            }
+
+            for (int i = 0; i < features.Length; i++)
+                features[i] *= constant;
+
+            return features;
+        }
+
+        private double monomial(double[] x, int d)
+        {
+            int n = x.Length;
+
+            double fd = Special.Factorial(d);
+
+            double den = 1;
+            double prod = 1;
+
+            foreach (int[] s in Accord.Math.Combinatorics.Sequences(n, n))
+            {
+                if (s.Sum() != d)
+                    continue;
+
+                for (int i = 0; i < n; i++)
+                    prod *= Math.Pow(x[i], s[i]);
+
+                for (int i = 0; i < d; i++)
+                    den *= Special.Factorial(s[i]);
+            }
+
+            return (fd / den) * prod;
+        }
 
     }
 }

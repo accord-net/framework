@@ -28,6 +28,7 @@ namespace Accord.Math.Environments
     using System;
     using System.Linq;
     using System.Collections.Generic;
+    using System.Reflection;
 
     /// <summary>
     ///   Programming environment for Octave.
@@ -353,6 +354,11 @@ namespace Accord.Math.Environments
             get { return new mat(null); }
         }
 
+        protected mat matrix
+        {
+            get { return new mat(null); }
+        }
+
         /// <summary>
         ///   Return setter keyword.
         /// </summary>
@@ -527,8 +533,9 @@ namespace Accord.Math.Environments
             /// 
             public static implicit operator string(mat m)
             {
-                if ((Object)m == null) return String.Empty;
-                return Matrix.ToString(m.matrix);
+                if ((Object)m == null) 
+                    return String.Empty;
+                return Matrix.ToString(m.matrix, "e");
             }
 
             /// <summary>
@@ -569,6 +576,19 @@ namespace Accord.Math.Environments
             public override int GetHashCode()
             {
                 return matrix.GetHashCode();
+            }
+        }
+
+        protected OctaveEnvironment()
+        {
+            var type = this.GetType();
+
+            FieldInfo[] fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (FieldInfo field in fields)
+            {
+                if (field.FieldType == typeof(mat))
+                    field.SetValue(this, new mat(null));
             }
         }
     }

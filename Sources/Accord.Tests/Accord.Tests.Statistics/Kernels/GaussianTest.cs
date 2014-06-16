@@ -245,6 +245,53 @@ namespace Accord.Tests.Statistics
             double sigma2 = kernel.SigmaSquared;
             Assert.AreEqual(0.36055512754639879, sigma);
             Assert.AreEqual(sigma * sigma, sigma2);
-        } 
+        }
+
+        [TestMethod()]
+        public void ExpandDistanceTest()
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                Gaussian kernel = new Gaussian(i);
+
+                var x = new double[] { 0.5, 2.0 };
+                var y = new double[] { 1.3, -0.2 };
+
+                var phi_x = kernel.Transform(x);
+                var phi_y = kernel.Transform(y);
+
+                double d1 = Distance.SquareEuclidean(phi_x, phi_y);
+                double d2 = kernel.Distance(x, y);
+                double d3 = Accord.Statistics.Tools.Distance(kernel, x, y);
+
+                Assert.AreEqual(d1, d2, 1e-4);
+                Assert.AreEqual(d1, d3, 1e-4);
+                Assert.IsFalse(double.IsNaN(d1));
+                Assert.IsFalse(double.IsNaN(d2));
+                Assert.IsFalse(double.IsNaN(d3));
+            }
+        }
+
+        [TestMethod()]
+        public void ExpandReverseDistanceTest()
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                Gaussian kernel = new Gaussian(i);
+
+                var x = new double[] { 0.5, 2.0 };
+                var y = new double[] { 1.3, -0.2 };
+
+                var phi_x = kernel.Transform(x);
+                var phi_y = kernel.Transform(y);
+
+                double d = Distance.SquareEuclidean(x, y);
+                double phi_d = kernel.ReverseDistance(phi_x, phi_y);
+
+                Assert.AreEqual(phi_d, d, 1e-3);
+                Assert.IsFalse(double.IsNaN(phi_d));
+                Assert.IsFalse(double.IsNaN(d));
+            }
+        }
     }
 }

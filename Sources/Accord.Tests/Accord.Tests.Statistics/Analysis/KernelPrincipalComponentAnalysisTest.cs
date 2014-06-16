@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using System.Diagnostics;
     using Accord.Statistics.Formats;
+    using System.Data;
 
     [TestClass()]
     public class KernelPrincipalComponentAnalysisTest
@@ -616,5 +617,78 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(data, preimage, 0.0001));
         }
 
+        [TestMethod()]
+        public void RevertTest2()
+        {
+
+            string path = @"..\..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\examples.xls";
+
+            // Create a new reader, opening a given path
+            ExcelReader reader = new ExcelReader(path);
+
+            // Afterwards, we can query the file for all
+            // worksheets within the specified workbook:
+            string[] sheets = reader.GetWorksheetList();
+
+            // Finally, we can request an specific sheet:
+            DataTable table = reader.GetWorksheet("Wikipedia");
+
+            // Now, we have loaded the Excel file into a DataTable. We
+            // can go further and transform it into a matrix to start
+            // running other algorithms on it: 
+
+            double[,] matrix = table.ToMatrix();
+
+            IKernel kernel = new Gaussian(5);
+
+            // Create analysis
+            KernelPrincipalComponentAnalysis target = new KernelPrincipalComponentAnalysis(matrix, 
+                kernel, AnalysisMethod.Center, centerInFeatureSpace: false);
+
+            target.Compute();
+
+            double[,] forward = target.Result;
+
+            double[,] reversion = target.Revert(forward);
+
+            Assert.IsTrue(!reversion.HasNaN());
+        }
+
+        [TestMethod()]
+        public void RevertTest3()
+        {
+
+            string path = @"..\..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\examples.xls";
+
+            // Create a new reader, opening a given path
+            ExcelReader reader = new ExcelReader(path);
+
+            // Afterwards, we can query the file for all
+            // worksheets within the specified workbook:
+            string[] sheets = reader.GetWorksheetList();
+
+            // Finally, we can request an specific sheet:
+            DataTable table = reader.GetWorksheet("Wikipedia");
+
+            // Now, we have loaded the Excel file into a DataTable. We
+            // can go further and transform it into a matrix to start
+            // running other algorithms on it: 
+
+            double[,] matrix = table.ToMatrix();
+
+            IKernel kernel = new Polynomial(2);
+
+            // Create analysis
+            KernelPrincipalComponentAnalysis target = new KernelPrincipalComponentAnalysis(matrix,
+                kernel, AnalysisMethod.Center, centerInFeatureSpace: true);
+
+            target.Compute();
+
+            double[,] forward = target.Result;
+
+            double[,] reversion = target.Revert(forward);
+
+            Assert.IsTrue(!reversion.HasNaN());
+        }
     }
 }
