@@ -66,8 +66,13 @@
     <ClInclude Include="LibLBFGS\arithmetic_ansi.h" />
     <ClInclude Include="LibLBFGS\lbfgs.h" />
     <ClInclude Include="Libbfgs.h" />
+    <ClInclude Include="Quadpack.h" />
+    <ClInclude Include="quadpack\qagi.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Quadpack.cpp" />
+    <ClCompile Include="quadpack\qagi.cpp" />
+    <ClCompile Include="quadpack\r1mach.cpp" />
     <ClInclude Include="Lbfgsb3\lbfgsb.h">
       <FileType>CppCode</FileType>
     </ClInclude>

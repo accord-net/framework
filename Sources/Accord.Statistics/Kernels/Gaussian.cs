@@ -47,8 +47,8 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Gaussian : KernelBase, IKernel,
-        IDistance, IEstimable, ICloneable, IReverseDistance, ITransform
+    public class Gaussian : KernelBase, IKernel,
+        IDistance, IEstimable, ICloneable, IReverseDistance
     {
         private double sigma;
         private double gamma;
@@ -86,6 +86,7 @@ namespace Accord.Statistics.Kernels
             {
                 sigma = value;
                 gamma = 1.0 / (2.0 * sigma * sigma);
+                OnSigmaChanging();
             }
         }
 
@@ -101,6 +102,7 @@ namespace Accord.Statistics.Kernels
             {
                 sigma = Math.Sqrt(value);
                 gamma = 1.0 / (2.0 * value);
+                OnSigmaChanging();
             }
         }
 
@@ -116,6 +118,7 @@ namespace Accord.Statistics.Kernels
             {
                 gamma = value;
                 sigma = Math.Sqrt(1.0 / (gamma * 2.0));
+                OnSigmaChanging();
             }
         }
 
@@ -375,70 +378,8 @@ namespace Accord.Statistics.Kernels
 
 
 
-
-        public double[] Transform(double[] input)
+        protected virtual void OnSigmaChanging()
         {
-            //http://epubs.siam.org/doi/pdf/10.1137/1.9781611972818.19 
-
-            double norm = Norm.SquareEuclidean(input);
-            double constant = Math.Exp(-gamma * norm);
-
-            int degree = 16;
-
-            int n = input.Length;
-            int m = 0;
-            int[] pos = new int[degree];
-            for (int i = 0; i < pos.Length; i++)
-                m += pos[i] = (int)Math.Pow(n, i + 1);
-
-
-            double[] features = new double[m + 1];
-
-            features[0] = 1;
-
-            int index = 1;
-
-            for (int k = 0; k < pos.Length; k++)
-            {
-                double alpha = Math.Sqrt(Math.Pow(2 * gamma, k + 1) / Special.Factorial(k + 1));
-                foreach (int[] s in Accord.Math.Combinatorics.Sequences(input.Length, k + 1))
-                {
-                    double prod = 1;
-                    for (int i = 0; i < s.Length; i++)
-                        prod *= input[s[i]];
-                    features[index++] = alpha * prod;
-                }
-            }
-
-            for (int i = 0; i < features.Length; i++)
-                features[i] *= constant;
-
-            return features;
         }
-
-        private double monomial(double[] x, int d)
-        {
-            int n = x.Length;
-
-            double fd = Special.Factorial(d);
-
-            double den = 1;
-            double prod = 1;
-
-            foreach (int[] s in Accord.Math.Combinatorics.Sequences(n, n))
-            {
-                if (s.Sum() != d)
-                    continue;
-
-                for (int i = 0; i < n; i++)
-                    prod *= Math.Pow(x[i], s[i]);
-
-                for (int i = 0; i < d; i++)
-                    den *= Special.Factorial(s[i]);
-            }
-
-            return (fd / den) * prod;
-        }
-
     }
 }

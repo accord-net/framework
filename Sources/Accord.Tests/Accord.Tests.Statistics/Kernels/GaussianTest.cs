@@ -252,7 +252,9 @@ namespace Accord.Tests.Statistics
         {
             for (int i = 1; i <= 3; i++)
             {
-                Gaussian kernel = new Gaussian(i);
+                TaylorGaussian kernel = new TaylorGaussian(i);
+
+                kernel.Degree = 64000;
 
                 var x = new double[] { 0.5, 2.0 };
                 var y = new double[] { 1.3, -0.2 };
@@ -277,7 +279,9 @@ namespace Accord.Tests.Statistics
         {
             for (int i = 1; i <= 3; i++)
             {
-                Gaussian kernel = new Gaussian(i);
+                TaylorGaussian kernel = new TaylorGaussian(i);
+
+                kernel.Degree = 64000;
 
                 var x = new double[] { 0.5, 2.0 };
                 var y = new double[] { 1.3, -0.2 };
