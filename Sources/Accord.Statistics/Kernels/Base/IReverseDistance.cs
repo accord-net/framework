@@ -35,7 +35,7 @@ namespace Accord.Statistics.Kernels
     ///
     /// <seealso cref="IKernel"/>
     ///
-    public interface IReverseDistance
+    public interface IReverseDistance : IKernel
     {
 
         /// <summary>
@@ -49,6 +49,5 @@ namespace Accord.Statistics.Kernels
         /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
         /// 
         double ReverseDistance(double[] x, double[] y);
-
     }
 }

@@ -24,6 +24,7 @@ namespace Accord.Statistics.Kernels
 {
     using System;
     using AForge;
+    using Accord.Math;
 
     /// <summary>
     ///   Gaussian Kernel.
@@ -46,7 +47,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Gaussian : KernelBase, IKernel,
+    public class Gaussian : KernelBase, IKernel,
         IDistance, IEstimable, ICloneable, IReverseDistance
     {
         private double sigma;
@@ -57,8 +58,10 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Gaussian Kernel
         /// </summary>
         /// 
-        public Gaussian() 
-            : this(1) { }
+        public Gaussian()
+            : this(1)
+        {
+        }
 
         /// <summary>
         ///   Constructs a new Gaussian Kernel
@@ -83,6 +86,7 @@ namespace Accord.Statistics.Kernels
             {
                 sigma = value;
                 gamma = 1.0 / (2.0 * sigma * sigma);
+                OnSigmaChanging();
             }
         }
 
@@ -98,6 +102,7 @@ namespace Accord.Statistics.Kernels
             {
                 sigma = Math.Sqrt(value);
                 gamma = 1.0 / (2.0 * value);
+                OnSigmaChanging();
             }
         }
 
@@ -113,6 +118,7 @@ namespace Accord.Statistics.Kernels
             {
                 gamma = value;
                 sigma = Math.Sqrt(1.0 / (gamma * 2.0));
+                OnSigmaChanging();
             }
         }
 
@@ -129,7 +135,7 @@ namespace Accord.Statistics.Kernels
             // Optimization in case x and y are
             // exactly the same object reference.
 
-            if (x == y) 
+            if (x == y)
                 return 1.0;
 
             double norm = 0.0;
@@ -143,18 +149,18 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
-        ///   Computes the squared distance in input space
-        ///   between two points given in feature space.
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
         /// </summary>
         /// 
-        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
-        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
         /// 
-        /// <returns>Squared distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
         /// 
         public override double Distance(double[] x, double[] y)
         {
-            if (x == y) 
+            if (x == y)
                 return 0.0;
 
             double norm = 0.0;
@@ -181,7 +187,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public double ReverseDistance(double[] x, double[] y)
         {
-            if (x == y) 
+            if (x == y)
                 return 0.0;
 
             double norm = 0.0;
@@ -372,5 +378,8 @@ namespace Accord.Statistics.Kernels
 
 
 
+        protected virtual void OnSigmaChanging()
+        {
+        }
     }
 }

@@ -336,7 +336,7 @@ namespace Analysis.KDA
             myCurve = myPane.AddCurve("M3", new PointPairList(), Color.Orange, SymbolType.Diamond);
             myCurve.Line.IsVisible = false;
             myCurve.Symbol.Border.IsVisible = false;
-            myCurve.Symbol.Fill = new Fill(Color.Yellow);
+            myCurve.Symbol.Fill = new Fill(Color.Orange);
 
             // Fill the background of the chart rect and pane
             myPane.Fill = new Fill(Color.WhiteSmoke);
@@ -384,6 +384,17 @@ namespace Analysis.KDA
         private void toolStripMenuItem7_Click(object sender, EventArgs e)
         {
             new AboutBox().ShowDialog(this);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Create a matrix from the source data table
+            double[,] sourceMatrix = (dgvAnalysisSource.DataSource as DataTable).ToMatrix(out columnNames);
+
+            // Get the input values (the two first columns)
+            double[,] inputs = sourceMatrix.GetColumns(0, 1);
+
+            numSigma.Value = (decimal)Gaussian.Estimate(inputs.ToArray()).Sigma;
         }
 
     }

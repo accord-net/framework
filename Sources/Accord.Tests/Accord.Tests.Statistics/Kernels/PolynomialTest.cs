@@ -155,7 +155,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void ExpandDistanceTest()
         {
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 Polynomial kernel = new Polynomial(i, 0);
 
@@ -180,7 +180,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void ExpandReverseDistanceTest()
         {
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 10; i++)
             {
                 Polynomial kernel = new Polynomial(i, 0);
 
@@ -197,7 +197,7 @@ namespace Accord.Tests.Statistics
                 double d = Distance.SquareEuclidean(x, y);
                 double phi_d = kernel.ReverseDistance(phi_x, phi_y);
 
-                Assert.AreEqual(phi_d, d);
+                Assert.AreEqual(phi_d, d, 1e-6);
                 Assert.IsFalse(double.IsNaN(phi_d));
                 Assert.IsFalse(double.IsNaN(d));
             }

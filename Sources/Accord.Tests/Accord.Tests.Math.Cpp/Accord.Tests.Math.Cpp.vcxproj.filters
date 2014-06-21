@@ -26,6 +26,12 @@
     <ClInclude Include="Lbfgsb3\lbfgsb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Quadpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="quadpack\qagi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LibLBFGS\lbfgs.cpp">
@@ -53,6 +59,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Lbfgsb3\s_copy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadpack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quadpack\qagi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="quadpack\r1mach.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

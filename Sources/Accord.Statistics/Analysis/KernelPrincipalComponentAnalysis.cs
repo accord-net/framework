@@ -549,7 +549,7 @@ namespace Accord.Statistics.Analysis
 
             // Verify if the current kernel supports
             // distance calculation in feature space.
-            IReverseDistance distance = kernel as IReverseDistance;
+            var distance = kernel as IReverseDistance;
 
             if (distance == null)
                 throw new NotSupportedException(
@@ -557,6 +557,9 @@ namespace Accord.Statistics.Analysis
 
 
             int rows = data.GetLength(0);
+
+
+            var result = Result;
 
             double[,] reversion = new double[rows, sourceCentered.GetLength(1)];
 
@@ -579,7 +582,10 @@ namespace Accord.Statistics.Analysis
                 for (int i = 0; i < X.GetLength(0); i++)
                 {
                     inx[i] = i;
-                    d2[i] = distance.ReverseDistance(y, Result.GetRow(i).Submatrix(y.Length));
+                    d2[i] = distance.ReverseDistance(y, result.GetRow(i).Submatrix(y.Length));
+
+                    if (Double.IsNaN(d2[i]))
+                        d2[i] = Double.PositiveInfinity;
                 }
 
                 // 2.2 Order them
@@ -597,7 +603,10 @@ namespace Accord.Statistics.Analysis
                 // TODO: If X has more columns than rows, the SV decomposition should be
                 //  computed on the transpose of X and the left and right vectors should
                 //  be swapped. This should be fixed after more unit tests are elaborated.
-                SingularValueDecomposition svd = new SingularValueDecomposition(X);
+                SingularValueDecomposition svd = new SingularValueDecomposition(X,
+                    computeLeftSingularVectors: true, computeRightSingularVectors: true, 
+                    autoTranspose: false);
+
                 double[,] U = svd.LeftSingularVectors;
                 double[,] L = Matrix.Diagonal(nn, svd.Diagonal);
                 double[,] V = svd.RightSingularVectors;

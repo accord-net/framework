@@ -25,6 +25,8 @@ namespace Accord.Tests.Math
     using System;
     using Accord.Math.Integration;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Statistics.Distributions.Univariate;
+    using AccordTestsMathCpp2;
 
     [TestClass()]
     public class IntegralTest
@@ -81,7 +83,7 @@ namespace Accord.Tests.Math
         public void RombergTest()
         {
             // Example from http://www.mathstat.dal.ca/~tkolokol/classes/1500/romberg.pdf
-            
+
             double actual;
 
             actual = Romberg.Integrate(function2, 1, 2, 1);
@@ -100,9 +102,10 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0.69314718055994151, actual);
         }
 
+
         public static double function3(double x)
         {
-            return x * Math.Exp(-x * x);
+            return x * Math.Exp(-(x * x));
         }
 
         [TestMethod()]
@@ -114,6 +117,28 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
+        [TestMethod()]
+        public void InfiniteGaussKronrodTest()
+        {
+            NormalDistribution norm;
+            
+            for (int i = -10; i < 10; i++)
+            {
+                norm = new NormalDistribution(i, 1);
+
+                Func<double, double> E = (x) => x * norm.ProbabilityDensityFunction(x);
+                UFunction UE = (x) => x * norm.ProbabilityDensityFunction(x);
+
+                double expected = Quadpack.Integrate(UE, 
+                    Double.NegativeInfinity, Double.PositiveInfinity);
+
+                double actual = InfiniteAdaptiveGaussKronrod.Integrate(E,
+                    Double.NegativeInfinity, Double.PositiveInfinity);
+
+                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.AreEqual(norm.Mean, actual, 1e-3);
+            }
+        }
 
     }
 }

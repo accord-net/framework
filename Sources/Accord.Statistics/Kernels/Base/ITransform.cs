@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Kernels
 {
+    using System;
 
     /// <summary>
     ///   Common interface for kernel functions that can explicitly 
@@ -30,7 +31,7 @@ namespace Accord.Statistics.Kernels
     /// 
     /// <seealso cref="IKernel"/>
     ///
-    public interface ITransform
+    public interface ITransform : IKernel, ICloneable
     {
         /// <summary>
         ///   Projects an input point into feature space.
@@ -43,5 +44,6 @@ namespace Accord.Statistics.Kernels
         /// </returns>
         /// 
         double[] Transform(double[] input);
+
     }
 }

@@ -97,7 +97,6 @@ namespace AccordTestsMathCpp2
         array<int>^ isave;
         array<double>^ dsave;
         array<int>^ lsave;
-        //array<System::Char>^ csave;
         String^ csave;
 
         double Value;

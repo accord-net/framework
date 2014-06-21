@@ -31,7 +31,7 @@ namespace Accord.Statistics.Kernels
     /// 
     /// <seealso cref="IKernel"/>
     ///
-    public interface IEstimable
+    public interface IEstimable : IKernel
     {
         /// <summary>
         ///   Estimates kernel parameters from the data.

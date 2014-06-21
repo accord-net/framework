@@ -92,19 +92,17 @@ namespace Solver.QP
             var solver = new GoldfarbIdnani(function, constraints);
 
 
-            try
-            {
-                // Solve the optimization problem:
-                if (minimize)
-                    solver.Minimize(); // the user wants to minimize it
-                else solver.Maximize();  // the user wants to maximize it
-            }
-            catch (NonPositiveDefiniteMatrixException)
+            // Solve the optimization problem:
+            if (minimize)
+                solver.Minimize(); // the user wants to minimize it
+            else solver.Maximize();  // the user wants to maximize it
+
+            if (solver.Status == GoldfarbIdnaniStatus.NonPositiveDefinite)
             {
                 tbSolution.Text = "Function is not positive definite.";
                 return;
             }
-            catch (ConvergenceException)
+            else if (solver.Status == GoldfarbIdnaniStatus.NoPossibleSolution)
             {
                 tbSolution.Text = "No possible solution could be attained.";
                 return;

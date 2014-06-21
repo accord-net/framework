@@ -96,13 +96,14 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
-        ///   Computes the distance in input space
-        ///   between two points given in feature space.
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
         /// </summary>
         /// 
-        /// <param name="x">Vector <c>x</c> in feature (kernel) space.</param>
-        /// <param name="y">Vector <c>y</c> in feature (kernel) space.</param>
-        /// <returns>Distance between <c>x</c> and <c>y</c> in input space.</returns>
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.</returns>
         /// 
         public override double Distance(double[] x, double[] y)
         {
@@ -182,10 +183,8 @@ namespace Accord.Statistics.Kernels
                     "The explicit feature-space projection function is only available "
                     + "for homogeneous kernels (i.e. with the constant term set to zero).");
 
-            if (degree <= 0 || degree >= 4)
-                throw new NotSupportedException(
-                    "The explicit feature-space projection function is only available "
-                    + "for degrees higher than zero and equal to or lesser than 4.");
+            if (degree <= 0)
+                throw new NotSupportedException("Degree must be positive.");
 
             int n = input.Length;
             int m = (int)Math.Pow(n, degree);
@@ -210,6 +209,19 @@ namespace Accord.Statistics.Kernels
                         for (int j = 0; j < n; j++)
                             for (int k = 0; k < n; k++)
                                 features[i * n * n + j * n + k] = input[i] * input[j] * input[k];
+                    break;
+
+                default:
+
+                    int index = 0;
+                    foreach (int[] s in Accord.Math.Combinatorics.Sequences(input.Length, degree))
+                    {
+                        double prod = 1;
+                        for (int i = 0; i < s.Length; i++)
+                            prod *= input[s[i]];
+                        features[index++] = prod;
+                    }
+
                     break;
             }
 

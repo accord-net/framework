@@ -45,7 +45,7 @@
     <CodeAnalysisRuleSet>Migrated rules for Accord.Math.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release %284.0%29|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release (4.0)|AnyCPU' ">
     <OutputPath>..\..\Release\net40</OutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
@@ -81,10 +81,11 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %284.5%29|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (4.5)|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\Release %284.5%29\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE</DefineConstants>
+    <OutputPath>..\..\Release\net45\</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DefineConstants>CODE_ANALYSIS;TRACE;NET45</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\..\Release\net40\Accord.Math.XML</DocumentationFile>
     <Optimize>true</Optimize>
@@ -94,7 +95,7 @@
     <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %283.5%29|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
@@ -115,6 +116,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Integration\InfiniteAdaptiveGaussKronrod.cs" />
     <Compile Include="Integration\NonAdaptiveGaussKronrod.cs" />
     <Compile Include="Differentiation\FiniteDifferences.cs" />
     <Compile Include="Integration\MonteCarloIntegral.cs" />
