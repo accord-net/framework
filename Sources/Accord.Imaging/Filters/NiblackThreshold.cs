@@ -23,10 +23,10 @@
 namespace Accord.Imaging.Filters
 {
     using System;
-    using AForge.Imaging.Filters;
     using System.Collections.Generic;
     using System.Drawing.Imaging;
     using AForge.Imaging;
+    using AForge.Imaging.Filters;
 
     /// <summary>
     ///   Niblack Threshold.
@@ -49,6 +49,27 @@ namespace Accord.Imaging.Filters
     ///        Prentice Hall, 1986.</description></item>
     ///   </list></para>   
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code>
+    /// Bitmap image = ... // Lena's picture
+    /// 
+    /// // Create a new Niblack threshold:
+    /// var niblack = new NiblackThreshold();
+    /// 
+    /// // Compute the filter
+    /// Bitmap result = niblack.Apply(image);
+    /// 
+    /// // Show on the screen
+    /// ImageBox.Show(result);
+    /// </code>
+    /// 
+    /// <para>
+    ///   The resulting image is shown below:</para>
+    /// 
+    ///   <img src="..\images\niblack.png" />
+    /// 
+    /// </example>
     /// 
     /// <seealso cref="SauvolaThreshold"/>
     /// 
@@ -83,8 +104,8 @@ namespace Accord.Imaging.Filters
         }
 
         /// <summary>
-        ///   Gets or sets the mean offset C.
-        ///   Default value is 0.
+        ///   Gets or sets the mean offset C. This value should
+        ///   be between 0 and 255. The default value is 0.
         /// </summary>
         /// 
         public double C
@@ -200,9 +221,9 @@ namespace Accord.Imaging.Filters
 
                         variance /= count - 1;
 
-                        double value = (*dst > (mean + k * Math.Sqrt(variance) - c)) ? 255 : 0;
+                        double cut = mean + k * Math.Sqrt(variance) - c;
 
-                        *dst = (byte)(value);
+                        *dst = (*src > cut) ? (byte)255 : (byte)0;
                     }
                     src += srcOffset;
                     dst += dstOffset;
@@ -274,8 +295,6 @@ namespace Accord.Imaging.Filters
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
-                                count++;
-
                                 varR += (p[RGB.R] - meanR) * (p[RGB.R] - meanR);
                                 varG += (p[RGB.G] - meanG) * (p[RGB.G] - meanG);
                                 varB += (p[RGB.B] - meanB) * (p[RGB.B] - meanB);
@@ -286,13 +305,13 @@ namespace Accord.Imaging.Filters
                         varG /= count - 1;
                         varB /= count - 1;
 
-                        double valueR = (dst[RGB.R] > (meanR + k * Math.Sqrt(varR) - c)) ? 255 : 0;
-                        double valueG = (dst[RGB.G] > (meanG + k * Math.Sqrt(varG) - c)) ? 255 : 0;
-                        double valueB = (dst[RGB.B] > (meanB + k * Math.Sqrt(varB) - c)) ? 255 : 0;
+                        double cutR = (meanR + k * Math.Sqrt(varR) - c);
+                        double cutG = (meanG + k * Math.Sqrt(varG) - c);
+                        double cutB = (meanB + k * Math.Sqrt(varB) - c);
 
-                        dst[RGB.R] = (byte)(valueR);
-                        dst[RGB.G] = (byte)(valueG);
-                        dst[RGB.B] = (byte)(valueB);
+                        dst[RGB.R] = (src[RGB.R] > cutR) ? (byte)255 : (byte)0;
+                        dst[RGB.G] = (src[RGB.G] > cutG) ? (byte)255 : (byte)0;
+                        dst[RGB.B] = (src[RGB.B] > cutB) ? (byte)255 : (byte)0;
 
                         // take care of alpha channel
                         if (pixelSize == 4)

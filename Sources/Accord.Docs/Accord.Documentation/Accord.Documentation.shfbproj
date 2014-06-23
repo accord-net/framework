@@ -679,6 +679,18 @@
       <ImageId>ml-decision</ImageId>
       <AlternateText>ml-decision</AlternateText>
     </Content>
+    <Content Include="images\freak.png">
+      <ImageId>freak</ImageId>
+      <AlternateText>freak</AlternateText>
+    </Content>
+    <Content Include="images\niblack.png">
+      <ImageId>niblack</ImageId>
+      <AlternateText>niblack</AlternateText>
+    </Content>
+    <Content Include="images\sauvola.png">
+      <ImageId>sauvola</ImageId>
+      <AlternateText>sauvola</AlternateText>
+    </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>
       <AlternateText>Accord.NET</AlternateText>
