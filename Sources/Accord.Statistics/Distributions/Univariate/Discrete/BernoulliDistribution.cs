@@ -386,7 +386,7 @@ namespace Accord.Statistics.Distributions.Univariate
             int[] r = new int[samples];
             for (int i = 0; i < r.Length; i++)
             {
-                double u = Accord.Math.Tools.Random.Next();
+                double u = Accord.Math.Tools.Random.NextDouble();
                 r[i] = u > this.probability ? 1 : 0;
             }
 
@@ -401,7 +401,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public int Generate()
         {
-            double u = Accord.Math.Tools.Random.Next();
+            double u = Accord.Math.Tools.Random.NextDouble();
             return u > this.probability ? 1 : 0;
         }
 

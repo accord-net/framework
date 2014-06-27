@@ -25,6 +25,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Globalization;
+    using System.Linq;
 
 
     [TestClass()]
@@ -174,6 +175,18 @@ namespace Accord.Tests.Statistics
                 BernoulliDistribution target = new BernoulliDistribution(1.0);
                 Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
             }
+        }
+
+        [TestMethod()]
+        public void GenerationTest()
+        {
+            double prob = 0.5;
+            int trials = 10000;
+
+            BernoulliDistribution target = new BernoulliDistribution(prob);
+            target.Fit(target.Generate(trials).Select(x => (double)x).ToArray());
+
+            Assert.AreEqual(target.Mean, prob, 0.01);
         }
     }
 }
