@@ -59,19 +59,24 @@ namespace Accord.Tests.Math
             double actual;
 
             actual = Trapezoidal.Integrate(function1, 0, 2, 1);
-            Assert.AreEqual(4.0486368718741526, actual);
+            Assert.AreEqual(4.0486368718741526, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
 
             actual = Trapezoidal.Integrate(function1, 0, 2, 2);
-            Assert.AreEqual(3.6081715993899337, actual);
+            Assert.AreEqual(3.6081715993899337, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
 
             actual = Trapezoidal.Integrate(function1, 0, 2, 4);
-            Assert.AreEqual(3.4971047822027077, actual);
+            Assert.AreEqual(3.4971047822027077, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
 
             actual = Trapezoidal.Integrate(function1, 0, 2, 8);
-            Assert.AreEqual(3.4692784302833672, actual);
+            Assert.AreEqual(3.4692784302833672, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
 
             actual = Trapezoidal.Integrate(function1, 0, 2, 16);
-            Assert.AreEqual(3.4623181105467689, actual);
+            Assert.AreEqual(3.4623181105467689, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
         }
 
         private static double function2(double x)

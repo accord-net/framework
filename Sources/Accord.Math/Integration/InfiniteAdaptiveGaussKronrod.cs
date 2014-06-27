@@ -25,97 +25,218 @@ namespace Accord.Math.Integration
     using System;
     using AForge;
 
-    public class InfiniteAdaptiveGaussKronrod
+    public enum InfiniteAdaptiveGaussKronrodStatus
     {
+        Success,
+
+        /// <summary>
+        ///   Maximum number of allowed subdivisions has been reached.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///  The maximum number of subdivisions allowed has been achieved. One can allow 
+        ///  more subdivisions by increasing the value of limit (and taking the according
+        ///  dimension adjustments into account). However, if this yields no improvement 
+        ///  it is advised to analyze the integrand in order to determine the integration 
+        ///  difficulties. If the position of a local difficulty can be determined (e.g. 
+        ///  singularity, discontinuity within the interval) one will probably gain from
+        ///  splitting up the interval at this point and calling the integrator on the 
+        ///  subranges. if possible, an appropriate special-purpose integrator should be
+        ///  used, which is designed for handling the type of difficulty involved.
+        /// </remarks>
+        /// 
+        MaximumSubdivisions = 1,
+
+        /// <summary>
+        ///   Roundoff errors prevent the tolerance from being reached.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The occurrence of roundoff error is detected, which prevents the requested 
+        ///   tolerance from being achieved. The error may be under-estimated.
+        /// </remarks>
+        /// 
+        RoundoffError = 2,
+
+        /// <summary>
+        ///   There are severe discontinuities in the integrand function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   Extremely bad integrand behaviour occurs at some points of the 
+        ///   integration interval.
+        /// </remarks>
+        /// 
+        BadBehavioredFunction = 3,
+
+        /// <summary>
+        ///   The algorithm cannot converge.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The algorithm does not converge. Roundoff error is detected in the
+        ///   extrapolation table. It is assumed that the requested tolerance cannot
+        ///   be achieved, and that the returned result is the best which can be obtained.
+        /// </remarks>
+        /// 
+        AlgorithmDivergence = 4,
+
+        /// <summary>
+        ///   The integral is divergent or slowly convergent.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The integral is probably divergent, or slowly convergent. It must be
+        ///   noted that divergence can occur with any other error code.
+        /// </remarks>
+        /// 
+        IntegralDiverence = 5,
+
+    }
+
+    public class InfiniteAdaptiveGaussKronrod : IUnivariateIntegration,
+        IIntegrationMethod<InfiniteAdaptiveGaussKronrodStatus>
+    {
+        private int[] iwork;
+        private double[] work;
+        private double result;
+        private double error;
+        private int evaluations;
 
         public Func<double, double> Function { get; set; }
 
-        public DoubleRange Range { get; private set; }
+        public DoubleRange Range { get; set; }
 
         public double ToleranceAbsolute { get; set; }
         public double ToleranceRelative { get; set; }
 
-        public double Area { get; private set; }
-        public double Error { get; private set; }
+        public InfiniteAdaptiveGaussKronrodStatus Status { get; private set; }
+        public double Area { get { return result; } }
+        public double Error { get { return error; } }
 
-        public int FunctionEvaluations { get; private set; }
+        public int FunctionEvaluations { get { return evaluations; } }
 
-        public InfiniteAdaptiveGaussKronrod(Func<double, double> function)
+
+
+        public InfiniteAdaptiveGaussKronrod(int workarea)
+            : this(workarea, null, Double.MinValue, Double.MaxValue)
         {
-            this.Function = function;
-            ToleranceAbsolute = 0;
-            ToleranceRelative = 1e-3;
+            init(workarea, null, Double.MinValue, Double.MaxValue);
         }
 
-        public double Compute()
+
+        public InfiniteAdaptiveGaussKronrod(int workarea, Func<double, double> function)
+            : this(workarea, function, Double.MinValue, Double.MaxValue)
         {
-            double result;
-            double error;
-            int evaluations;
+            if (function == null)
+                throw new ArgumentNullException("function");
+
+            init(workarea, function, Double.MinValue, Double.MaxValue);
+        }
+
+        public InfiniteAdaptiveGaussKronrod(int workarea,
+            Func<double, double> function, double a, double b)
+        {
+            if (function == null)
+                throw new ArgumentNullException("function");
+
+            init(workarea, function, a, b);
+        }
+
+        private void init(int workarea, Func<double, double> function, double a, double b)
+        {
+            if (workarea <= 0)
+                throw new ArgumentOutOfRangeException("workarea");
+
+            Function = function;
+            Range = new DoubleRange(a, b);
+
+            ToleranceAbsolute = 0;
+            ToleranceRelative = 1e-3;
+
+            work = new double[workarea * 4];
+            iwork = new int[workarea];
+        }
+
+
+        public bool Compute()
+        {
+            Status = InfiniteAdaptiveGaussKronrodStatus.Success;
+
             int errorCode;
 
-            double bound = 0;
-            int inf = 0;
+            double a = this.Range.Min;
+            double b = this.Range.Max;
 
-            int limit = 0;
-            int lenw = 0;
-            double[] work = null;
-            int[] iwork = null;
-            int last;
+            if (!Double.IsInfinity(a) && !Double.IsInfinity(b))
+            {
+                NonAdaptiveGaussKronrod.qng_(Function, a, b, ToleranceAbsolute, ToleranceRelative,
+                        out result, out error, out evaluations, out errorCode);
+            }
 
-            qagi_(Function, bound, inf, ToleranceAbsolute, ToleranceRelative,
-                out result, out error, out evaluations, out errorCode,
-                limit, lenw, out last, iwork, work);
+            else
+            {
+                double bound = 0;
+                int inf;
+                int last;
 
-            Area = result;
-            Error = error;
-            FunctionEvaluations = evaluations;
+                if (Double.IsInfinity(a) && Double.IsInfinity(b))
+                {
+                    inf = 2;
+                }
+                else if (Double.IsInfinity(a))
+                {
+                    bound = b;
+                    inf = -1;
+                }
+                else // if (Double.IsInfinity(b))
+                {
+                    bound = a;
+                    inf = 1;
+                }
 
-            return result;
+                qagi_(Function, bound, inf, ToleranceAbsolute, ToleranceRelative,
+                    out result, out error, out evaluations, out errorCode,
+                    iwork.Length, work.Length, out last, iwork, work);
+            }
+
+
+            if (errorCode == 6)
+                throw new InvalidOperationException("Unexpected internal error code.");
+
+            Status = (InfiniteAdaptiveGaussKronrodStatus)errorCode;
+
+            return Status == InfiniteAdaptiveGaussKronrodStatus.Success;
+        }
+
+        public static double Integrate(Func<double, double> f)
+        {
+            var iagk = new InfiniteAdaptiveGaussKronrod(100, f);
+
+            iagk.Compute();
+
+            return iagk.Area;
         }
 
         public static double Integrate(Func<double, double> f, double a, double b)
         {
-            double result;
-            double error;
-            int evaluations;
-            int errorCode;
+            var iagk = new InfiniteAdaptiveGaussKronrod(1000, f, a, b);
 
-            double bound = 0;
-            int inf = 0;
+            iagk.Compute();
 
-            if (Double.IsInfinity(a) && Double.IsInfinity(b))
+            return iagk.Area;
+        }
+
+        public static double Integrate(Func<double, double> f, double a, double b, double tolerance)
+        {
+            var iagk = new InfiniteAdaptiveGaussKronrod(100, f, a, b)
             {
-                inf = 2;
-            }
-            else if (Double.IsInfinity(a))
-            {
-                bound = b;
-                inf = -1;
-            }
-            else if (Double.IsInfinity(b))
-            {
-                bound = a;
-                inf = 1;
-            }
-            else
-            {
-                throw new ArgumentException();
-            }
+                ToleranceRelative = tolerance
+            };
 
-            int limit = 100;
-            int lenw = limit * 4;
-            double[] work = new double[lenw];
-            int[] iwork = new int[limit];
-            int last;
+            iagk.Compute();
 
-            double tol = 1e-3;
-
-            qagi_(f, bound, inf, 0, tol,
-                out result, out error, out evaluations, out errorCode,
-                limit, lenw, out last, iwork, work);
-
-            return result;
+            return iagk.Area;
         }
 
 
@@ -171,11 +292,6 @@ namespace Accord.Math.Integration
             {
                 lvl = 1;
             }
-
-            //if (ier != 0 && ier != 2)
-            //{
-            //    throw new Exception("abnormal return from  qagi");
-            //}
 
             return 0;
         }
@@ -1049,5 +1165,24 @@ namespace Accord.Math.Integration
 
 
         #endregion
+
+        private InfiniteAdaptiveGaussKronrod()
+        {
+        }
+
+        public object Clone()
+        {
+            var clone = new InfiniteAdaptiveGaussKronrod();
+
+            clone.evaluations = evaluations;
+            clone.iwork = (int[])iwork.Clone();
+            clone.work = (double[])work.Clone();
+            clone.error = error;
+            clone.result = result;
+            clone.ToleranceAbsolute = ToleranceAbsolute;
+            clone.ToleranceRelative = ToleranceRelative;
+
+            return clone;
+        }
     }
 }

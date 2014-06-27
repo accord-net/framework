@@ -310,12 +310,9 @@ namespace Accord.Math.Differentiation
 
 
 
-        private static double[][,] coefficientCache;
+        private static double[][,] coefficientCache =
+            FiniteDifferences.CreateCoefficients(3);
 
-        static FiniteDifferences()
-        {
-            coefficientCache = FiniteDifferences.CreateCoefficients(3);
-        }
 
         public static double Derivative(Func<double, double> function, double value,
             int order)

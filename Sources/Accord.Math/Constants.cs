@@ -81,7 +81,7 @@ namespace Accord.Math
         ///   is defined as 1.11022302462515654042E-16.
         /// </remarks>
         /// 
-        public const double DoubleEpsilon = 2.2204460492503131e-16;
+        public const double DoubleEpsilon = 1.11022302462515654042e-16;
 
         /// <summary>
         ///   Single-precision machine round-off error.

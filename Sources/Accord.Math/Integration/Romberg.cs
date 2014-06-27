@@ -23,27 +23,92 @@
 namespace Accord.Math.Integration
 {
     using System;
+    using AForge;
 
-    public static class Romberg
+    public class Romberg : IUnivariateIntegration
     {
-        public static double Integrate(Func<double, double> func, double a, double b)
+
+        private double[] s;
+        private DoubleRange range;
+
+        public Func<double, double> Function { get; set; }
+
+        public double Area { get; private set; }
+
+        public int Steps { get { return s.Length; } }
+
+        public DoubleRange Range
         {
-            return Integrate(func, a, b, 6);
+            get { return range; }
+            set
+            {
+                if (Double.IsInfinity(range.Min) || Double.IsNaN(range.Min))
+                    throw new ArgumentOutOfRangeException("value", "Minimum is out of range.");
+
+                if (Double.IsInfinity(range.Max) || Double.IsNaN(range.Max))
+                    throw new ArgumentOutOfRangeException("value", "Maximum is out of range.");
+
+                range = value;
+            }
         }
 
-        public static double Integrate(Func<double, double> func, double a, double b,
-            int steps)
+        public Romberg()
+            : this(6)
         {
-            double[] s = new double[steps];
+        }
 
-            double sum = 0;
+        public Romberg(Func<double, double> function)
+            : this(6, function)
+        {
+        }
+
+        public Romberg(Func<double, double> function, double a, double b)
+            : this(6, function, a, b)
+        {
+        }
+
+        public Romberg(int steps)
+        {
+            this.s = new double[steps];
+            Range = new DoubleRange(0, 1);
+        }
+
+        public Romberg(int steps, Func<double, double> function)
+        {
+            if (function == null)
+                throw new ArgumentNullException("function");
+
+            Range = new DoubleRange(0, 1);
+            Function = function;
+            this.s = new double[steps];
+        }
+
+        public Romberg(int steps, Func<double, double> function, double a, double b)
+        {
+            if (Double.IsInfinity(a) || Double.IsNaN(a))
+                throw new ArgumentOutOfRangeException("a");
+
+            if (Double.IsInfinity(b) || Double.IsNaN(b))
+                throw new ArgumentOutOfRangeException("b");
+
+            Function = function;
+            Range = new DoubleRange(a, b);
+            this.s = new double[steps];
+        }
+
+        public bool Compute()
+        {
             for (int i = 0; i < s.Length; i++)
                 s[i] = 1;
+
+            double sum = 0;
+            double a = range.Min;
+            double b = range.Max;
 
             for (int k = 0; k < s.Length; k++)
             {
                 sum = s[0];
-                s[0] = Trapezoidal.Integrate(func, a, b, 1 << k);
+                s[0] = Trapezoidal.Integrate(Function, a, b, 1 << k);
 
                 for (int i = 1; i <= k; i++)
                 {
@@ -55,7 +120,33 @@ namespace Accord.Math.Integration
                 }
             }
 
-            return s[s.Length - 1];
+            Area = s[s.Length - 1];
+
+            return true;
+        }
+
+        public static double Integrate(Func<double, double> func, double a, double b)
+        {
+            return Integrate(func, a, b, 6);
+        }
+
+        public static double Integrate(Func<double, double> func, double a, double b, int steps)
+        {
+            var romberg = new Romberg(steps, func, a, b);
+
+            romberg.Compute();
+
+            return romberg.Area;
+        }
+
+
+        public object Clone()
+        {
+            Romberg clone = new Romberg(
+                this.Steps, this.Function,
+                this.Range.Min, this.Range.Max);
+
+            return clone;
         }
     }
 }

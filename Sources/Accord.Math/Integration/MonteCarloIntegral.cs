@@ -24,26 +24,37 @@ namespace Accord.Math.Integration
 {
     using System;
 
-    public class MonteCarloIntegral
+    public class MonteCarloIntegral : IIntegrationMethod
     {
+        private double[] ranges;
+        private ISingleValueConvergence convergence;
+
+
         public int NumberOfParameters { get; private set; }
 
         public double[] Min { get; private set; }
         public double[] Max { get; private set; }
 
-        private double[] ranges;
 
         public Func<double[], double> Function { get; set; }
 
         public Random Random { get; set; }
 
-        private ISingleValueConvergence convergence;
 
         public double Area { get; set; }
         public double Error { get; set; }
 
-        public double Tolerance { get { return convergence.Tolerance; } }
-        public int Iterations { get { return convergence.Iterations; } }
+        public double Tolerance
+        {
+            get { return convergence.Tolerance; }
+            set { convergence.Tolerance = value; }
+        }
+
+        public int Iterations
+        {
+            get { return convergence.Iterations; }
+            set { convergence.Iterations = value; }
+        }
 
         public MonteCarloIntegral(int parameters, Func<double[], double> function)
         {
@@ -59,7 +70,7 @@ namespace Accord.Math.Integration
             this.convergence = new RelativeConvergence();
         }
 
-        public double Compute()
+        public bool Compute()
         {
             for (int i = 0; i < Min.Length; i++)
                 ranges[i] = Max[i] - Min[i];
@@ -77,7 +88,7 @@ namespace Accord.Math.Integration
             do
             {
                 for (int i = 0; i < sample.Length; i++)
-                    sample[i] = Random.Next() * ranges[i] + Min[i];
+                    sample[i] = Random.NextDouble() * ranges[i] + Min[i];
 
                 double f = Function(sample);
 
@@ -95,7 +106,7 @@ namespace Accord.Math.Integration
             Area = volume * avg;
             Error = volume * Math.Sqrt((avg2 - avg * avg) / count);
 
-            return Area;
+            return true;
         }
 
         public static double Integrate(Func<double, double> func, double a, double b,
@@ -126,5 +137,21 @@ namespace Accord.Math.Integration
 
             return volume * avg;
         }
+
+
+
+        public object Clone()
+        {
+            var clone = new MonteCarloIntegral(this.NumberOfParameters, this.Function);
+
+            clone.Iterations = Iterations;
+            clone.Tolerance = Tolerance;
+
+            clone.Max = (double[])Max.Clone();
+            clone.Min = (double[])Min.Clone();
+
+            return clone;
+        }
+
     }
 }

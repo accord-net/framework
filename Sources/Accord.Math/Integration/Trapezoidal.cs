@@ -23,11 +23,85 @@
 namespace Accord.Math.Integration
 {
     using System;
+    using AForge;
 
-    public static class Trapezoidal
+    public class Trapezoidal : IIntegrationMethod
     {
-        public static double Integrate(Func<double, double> func, double a, double b,
-            int steps)
+        private DoubleRange range;
+
+        public Func<double, double> Function { get; set; }
+
+        public double Area { get; private set; }
+
+        public int Steps { get; set; }
+
+        public DoubleRange Range
+        {
+            get { return range; }
+            set
+            {
+                if (Double.IsInfinity(range.Min) || Double.IsNaN(range.Min))
+                    throw new ArgumentOutOfRangeException("value", "Minimum is out of range.");
+
+                if (Double.IsInfinity(range.Max) || Double.IsNaN(range.Max))
+                    throw new ArgumentOutOfRangeException("value", "Maximum is out of range.");
+
+                range = value;
+            }
+        }
+
+        public Trapezoidal()
+            : this(6)
+        {
+        }
+
+        public Trapezoidal(Func<double, double> function)
+            : this(6, function)
+        {
+        }
+
+        public Trapezoidal(Func<double, double> function, double a, double b)
+            : this(6, function, a, b)
+        {
+        }
+
+        public Trapezoidal(int steps)
+        {
+            Steps = steps;
+            Range = new DoubleRange(0, 1);
+        }
+
+        public Trapezoidal(int steps, Func<double, double> function)
+        {
+            if (function == null)
+                throw new ArgumentNullException("function");
+
+            Range = new DoubleRange(0, 1);
+            Function = function;
+            Steps = steps;
+        }
+
+        public Trapezoidal(int steps, Func<double, double> function, double a, double b)
+        {
+            if (Double.IsInfinity(a) || Double.IsNaN(a))
+                throw new ArgumentOutOfRangeException("a");
+
+            if (Double.IsInfinity(b) || Double.IsNaN(b))
+                throw new ArgumentOutOfRangeException("b");
+
+            Function = function;
+            Range = new DoubleRange(a, b);
+            Steps = steps;
+        }
+
+        public bool Compute()
+        {
+            Area = Integrate(Function, range.Min, range.Max, Steps);
+
+            return true;
+        }
+
+        public static double Integrate(Func<double, double> func, double a, double b, int steps)
         {
             double h = (b - a) / steps;
 
@@ -37,6 +111,16 @@ namespace Accord.Math.Integration
                 sum += func(a + i * h);
 
             return h * sum;
+        }
+
+
+        public object Clone()
+        {
+            Trapezoidal clone = new Trapezoidal(
+                this.Steps, this.Function, 
+                this.Range.Min, this.Range.Max);
+
+            return clone;
         }
 
     }
