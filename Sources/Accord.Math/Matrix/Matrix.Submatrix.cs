@@ -550,6 +550,7 @@ namespace Accord.Math
         {
             if (source == null)
                 throw new ArgumentNullException("source");
+
             if (first < 0 || first > source.Length)
                 throw new ArgumentOutOfRangeException("first");
 

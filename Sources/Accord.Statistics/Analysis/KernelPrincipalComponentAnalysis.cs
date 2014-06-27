@@ -592,9 +592,15 @@ namespace Accord.Statistics.Analysis
                 Array.Sort(d2, inx);
 
                 // 2.3 Select nn neighbors
-                inx = inx.Submatrix(nn);
+
+                int def = 0;
+                for (int i = 0; i < d2.Length && i < nn; i++, def++)
+                    if (Double.IsInfinity(d2[i]))
+                        break;
+
+                inx = inx.Submatrix(def);
                 X = X.Submatrix(inx).Transpose(); // X is in input space
-                d2 = d2.Submatrix(nn);       // distances in input space
+                d2 = d2.Submatrix(def);       // distances in input space
 
 
                 // 3. Perform SVD
@@ -608,7 +614,7 @@ namespace Accord.Statistics.Analysis
                     autoTranspose: false);
 
                 double[,] U = svd.LeftSingularVectors;
-                double[,] L = Matrix.Diagonal(nn, svd.Diagonal);
+                double[,] L = Matrix.Diagonal(def, svd.Diagonal);
                 double[,] V = svd.RightSingularVectors;
 
 
@@ -625,7 +631,8 @@ namespace Accord.Statistics.Analysis
                 // 6. Get the pre-image using z = -0.5*inv(Z')*(d2-d02)
                 double[,] inv = Matrix.PseudoInverse(Z.Transpose());
 
-                double[] z = (-0.5).Multiply(inv).Multiply(d2.Subtract(d02)).Submatrix(U.GetLength(0));
+                double[] w = (-0.5).Multiply(inv).Multiply(d2.Subtract(d02));
+                double[] z = w.Submatrix(U.GetLength(1));
 
 
                 // 8. Project the pre-image on the original basis

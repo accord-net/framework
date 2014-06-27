@@ -229,8 +229,8 @@ namespace Accord.Tests.Statistics
 
             double[,] expected = 
             {
-                {  1.0, -1.0},
-                { -1.0, -1.0},
+                {  1.0, -1.0 },
+                { -1.0, -1.0 },
             };
 
             Assert.IsTrue(Matrix.IsEqual(actual, expected));

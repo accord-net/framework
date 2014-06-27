@@ -116,6 +116,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Integration\IIntegrationMethod.cs" />
     <Compile Include="Integration\InfiniteAdaptiveGaussKronrod.cs" />
     <Compile Include="Integration\NonAdaptiveGaussKronrod.cs" />
     <Compile Include="Differentiation\FiniteDifferences.cs" />

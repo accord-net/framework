@@ -338,8 +338,10 @@ namespace Accord.MachineLearning
             // Initial argument checking
             if (data == null)
                 throw new ArgumentNullException("data");
+
             if (data.Length < K)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
+
             if (threshold < 0)
                 throw new ArgumentException("Threshold should be a positive number.", "threshold");
 

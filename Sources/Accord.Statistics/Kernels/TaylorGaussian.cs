@@ -102,6 +102,9 @@ namespace Accord.Statistics.Kernels
 
         protected override void OnSigmaChanging()
         {
+            if (coefficients == null)
+                return;
+
             createCoefficients(Degree);
         }
 

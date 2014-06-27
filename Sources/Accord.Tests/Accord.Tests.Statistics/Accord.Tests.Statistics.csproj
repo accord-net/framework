@@ -49,7 +49,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release (4.0)|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -69,7 +69,7 @@
     <OutputPath>bin\Release 3.5\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -91,7 +91,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <NoWarn>618</NoWarn>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -130,6 +130,7 @@
     <Compile Include="Controls\ScatterplotTest.cs" />
     <Compile Include="Controls\DataGridBoxTest.cs" />
     <Compile Include="Controls\HistogramViewTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistributionTest.cs" />
     <Compile Include="Filters\BranchingFilterTest.cs" />
     <Compile Include="Kernels\QuadraticTest.cs" />
     <Compile Include="Kernels\LinearTest.cs" />
