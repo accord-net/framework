@@ -24,10 +24,10 @@ namespace Accord.Imaging
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Accord.MachineLearning;
     using Accord.Math;
     using AForge;
-    using System.Linq;
 
     /// <summary>
     ///   Nearest neighbor feature point matching algorithm.
