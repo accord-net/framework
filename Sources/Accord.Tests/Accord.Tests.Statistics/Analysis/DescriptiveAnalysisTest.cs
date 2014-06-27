@@ -151,7 +151,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(ranges.Apply(p => p.Min).IsEqual(new double[] { 12 }));
             Assert.IsTrue(ranges.Apply(p => p.Max).IsEqual(new double[] { 65 }));
             Assert.IsTrue(samples == 5);
-            Assert.IsTrue(skewness.IsEqual(new double[] {  -0.60008123614710385 }));
+            Assert.IsTrue(skewness.IsEqual(new double[] { -0.60008123614710385 }));
             Assert.IsTrue(source.IsEqual(new double[,] 
             {
                 { 52 },
@@ -180,9 +180,15 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(22.593329768263665, confidence[0].Min);
             Assert.AreEqual(63.806670231736341, confidence[0].Max);
 
+            DoubleRange q;
+            double q2 = Accord.Statistics.Tools.Quartiles(data, out q, alreadySorted: false);
+
             Assert.AreEqual(1, quartiles.Length);
-            Assert.AreEqual(12, quartiles[0].Min);
-            Assert.AreEqual(65, quartiles[0].Max);
+            Assert.AreEqual(q.Min, quartiles[0].Min);
+            Assert.AreEqual(q.Max, quartiles[0].Max);
+
+            Assert.AreEqual(18.5, quartiles[0].Min);
+            Assert.AreEqual(63.5, quartiles[0].Max);
         }
 
         [TestMethod()]
@@ -273,6 +279,8 @@ namespace Accord.Tests.Statistics
             var variables = analysis.Variables;
             var variances = analysis.Variances;
             var quartiles = analysis.Quartiles;
+            var inner = analysis.InnerFences;
+            var outer = analysis.OuterFences;
 
             Assert.IsTrue(columnNames.IsEqual(new string[] 
             {
@@ -340,8 +348,15 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3, quartiles.Length);
             Assert.AreEqual(1, quartiles[0].Min);
             Assert.AreEqual(2, quartiles[0].Max);
-            Assert.AreEqual(12, quartiles[1].Min);
-            Assert.AreEqual(65, quartiles[1].Max);
+            Assert.AreEqual(18.5, quartiles[1].Min);
+            Assert.AreEqual(63.5, quartiles[1].Max);
+
+            Assert.AreEqual(18.5 - 1.5 * (63.5 - 18.5), inner[1].Min);
+            Assert.AreEqual(63.5 + 1.5 * (63.5 - 18.5), inner[1].Max);
+
+            Assert.AreEqual(18.5 - 3 * (63.5 - 18.5), outer[1].Min);
+            Assert.AreEqual(63.5 + 3 * (63.5 - 18.5), outer[1].Max);
+
             Assert.AreEqual(5, quartiles[2].Min);
             Assert.AreEqual(5, quartiles[2].Max);
         }
