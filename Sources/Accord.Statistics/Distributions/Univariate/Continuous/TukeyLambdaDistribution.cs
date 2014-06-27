@@ -59,9 +59,31 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   compute some of its properties .</para>
     ///   
     /// <code>
-
+    /// var tukey = new TukeyLambdaDistribution(lambda: 0.14);
+    /// 
+    /// double mean = tukey.Mean;     // 0.0
+    /// double median = tukey.Median; // 0.0
+    /// double mode = tukey.Mode;     // 0.0
+    /// double var = tukey.Variance;  // 2.1102970222144855
+    /// double stdDev = tukey.StandardDeviation;  // 1.4526861402982014
+    /// 
+    /// double cdf = tukey.DistributionFunction(x: 1.4); // 0.83252947230217966
+    /// double pdf = tukey.ProbabilityDensityFunction(x: 1.4); // 0.17181242109370659
+    /// double lpdf = tukey.LogProbabilityDensityFunction(x: 1.4); // -1.7613519723149427
+    /// 
+    /// double ccdf = tukey.ComplementaryDistributionFunction(x: 1.4); // 0.16747052769782034
+    /// double icdf = tukey.InverseDistributionFunction(p: cdf); // 1.4000000000000004
+    /// 
+    /// double hf = tukey.HazardFunction(x: 1.4); // 1.0219566231014163
+    /// double chf = tukey.CumulativeHazardFunction(x: 1.4); // 1.7842102556452939
+    /// 
+    /// string str = tukey.ToString(CultureInfo.InvariantCulture); // Tukey(x; λ = 0.14)
     /// </code>
     /// </example>
+    /// 
+    /// <seealso cref="LogisticDistribution"/>
+    /// <seealso cref="UniformDistribution"/>
+    /// <seealso cref="NormalDistribution"/>
     /// 
     [Serializable]
     public class TukeyLambdaDistribution : UnivariateContinuousDistribution
@@ -108,7 +130,14 @@ namespace Accord.Statistics.Distributions.Univariate
 
         public override double Entropy
         {
-            get { return Romberg.Integrate(LogQuantileDensityFunction, 0, 1); }
+            get
+            {
+                double lower = 1e-15;
+                double upper = 1.0 - 1e-15;
+
+                return NonAdaptiveGaussKronrod
+                    .Integrate(LogQuantileDensityFunction, lower, upper);
+            }
         }
 
         public override double Variance
@@ -118,11 +147,11 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (lambda == 0)
                     return (Math.PI * Math.PI) / 3.0;
 
-                double a = 2.0 / lambda;
+                double a = 2.0 / (lambda * lambda);
                 double b = 1 / (1 + 2 * lambda);
                 double c = Gamma.Function(lambda + 1);
                 double d = Gamma.Function(2 * lambda + 2);
-                return a * (b - c / d);
+                return a * (b - (c * c) / d);
             }
         }
 
@@ -148,14 +177,21 @@ namespace Accord.Statistics.Distributions.Univariate
 
         public override double DistributionFunction(double x)
         {
-            return BrentSearch.Find(InverseDistributionFunction, x, 0, 1);
+            if (x < Support.Min) return 0;
+            if (x > Support.Max) return 1;
+
+            return BrentSearch.Find(InverseDistributionFunction, x, 0, 1, 1e-10);
         }
 
         public override double InverseDistributionFunction(double p)
         {
-            double num = Math.Pow(p, lambda) - Math.Pow(1 - p, lambda);
+            if (lambda == 0)
+                return Math.Log(p / (1 - p));
 
-            return num / lambda;
+            double a = Math.Pow(p, lambda);
+            double b = Math.Pow(1 - p, lambda);
+
+            return (a - b) / lambda;
         }
 
         public override double QuantileDensityFunction(double p)
@@ -165,13 +201,26 @@ namespace Accord.Statistics.Distributions.Univariate
 
         public double LogQuantileDensityFunction(double p)
         {
-            return (lambda - 1) * p + (lambda - 1) * (1 - p);
+            double a = Math.Pow(p, lambda - 1);
+            double b = Math.Pow(1 - p, lambda - 1);
+            return Math.Log(a + b);
         }
 
         public override double ProbabilityDensityFunction(double x)
         {
+            if (x < Support.Min) return 0;
+            if (x > Support.Max) return 0;
+
             // http://www.ism.ac.jp/editsec/aism/pdf/044_4_0721.pdf
             return 1.0 / QuantileDensityFunction(DistributionFunction(x));
+        }
+
+        public override double LogProbabilityDensityFunction(double x)
+        {
+            if (x < Support.Min) return Double.NegativeInfinity;
+            if (x > Support.Max) return Double.NegativeInfinity;
+
+            return -LogQuantileDensityFunction(DistributionFunction(x));
         }
 
         /// <summary>

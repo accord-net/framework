@@ -105,12 +105,12 @@ namespace Accord.Math.Integration
         {
             double h = (b - a) / steps;
 
-            double sum = 0.5 * (func(a) + func(b));
+            double sum = (func(a) + func(b));
 
             for (int i = 1; i < steps; i++)
                 sum += func(a + i * h);
 
-            return h * sum;
+            return h * sum * 0.5;
         }
 
 

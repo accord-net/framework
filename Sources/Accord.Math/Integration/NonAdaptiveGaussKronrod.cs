@@ -316,7 +316,8 @@ namespace Accord.Math.Integration
                 }
             }
         L80:
-            throw new Exception("abnormal return from  qng ");
+            //throw new Exception("abnormal return from  qng ");
+            System.Diagnostics.Trace.Write("abnormal return from  qng");
 
         L999:
             return 0;
