@@ -112,6 +112,7 @@ namespace Accord.Statistics.Distributions.Univariate
         double? mean;
         double? variance;
         double? entropy;
+        double? mode;
 
 
         /// <summary>
@@ -176,6 +177,15 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        public override double Mode
+        {
+            get
+            {
+                if (mode == null)
+                    mode = Statistics.Tools.Mode(samples);
+                return mode.Value;
+            }
+        }
         /// <summary>
         ///   Gets the variance for this distribution.
         /// </summary>

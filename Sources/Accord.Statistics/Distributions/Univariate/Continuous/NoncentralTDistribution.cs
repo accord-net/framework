@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Math;
     using AForge;
+    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Noncentral t-distribution.
@@ -81,17 +82,22 @@ namespace Accord.Statistics.Distributions.Univariate
     public class NoncentralTDistribution : UnivariateContinuousDistribution, IFormattable
     {
 
+        private double v;
+        private double u;
+
+        private double? mode;
+
         /// <summary>
         ///   Gets the degrees of freedom (v) for the distribution.
         /// </summary>
         /// 
-        public double DegreesOfFreedom { get; private set; }
+        public double DegreesOfFreedom { get { return v; } }
 
         /// <summary>
         ///   Gets the noncentrality parameter μ (mu) for the distribution.
         /// </summary>
         /// 
-        public double Noncentrality { get; private set; }
+        public double Noncentrality { get { return u; } }
 
 
         /// <summary>
@@ -106,8 +112,8 @@ namespace Accord.Statistics.Distributions.Univariate
             if (degreesOfFreedom <= 0)
                 throw new ArgumentOutOfRangeException("degreesOfFreedom");
 
-            this.DegreesOfFreedom = degreesOfFreedom;
-            this.Noncentrality = noncentrality;
+            this.v = degreesOfFreedom;
+            this.u = noncentrality;
         }
 
 
@@ -125,8 +131,6 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double v = DegreesOfFreedom;
-                double u = Noncentrality; // μ
                 if (v > 1)
                     return u * Math.Sqrt(v / 2.0) * (Gamma.Function((v - 1) / 2)) / Gamma.Function(v / 2);
                 return Double.NaN;
@@ -150,9 +154,6 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double v = DegreesOfFreedom;
-                double u = Noncentrality; // μ
-
                 if (v > 2)
                 {
                     double a = (v * (1 + u * u)) / (v - 2);
@@ -162,6 +163,41 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
 
                 return Double.NaN;
+            }
+        }
+
+        public override double Mode
+        {
+            get
+            {
+                if (mode == null)
+                {
+                    if (u == 0)
+                    {
+                        double ratio = Gamma.Function((v + 2) / 2) / Gamma.Function((v + 3) / 3);
+                        mode = Math.Sqrt(2 / v) * ratio * u;
+                    }
+                    else if (Double.IsInfinity(u))
+                    {
+                        mode = Math.Sqrt(v / (v + 1)) * u;
+                    }
+                    else
+                    {
+                        double upper = Math.Sqrt((2 * v) / (2 * v + 5)) * u;
+                        double lower = Math.Sqrt(v / (v + 1)) * u;
+
+                        if (u > 0)
+                        {
+                            mode = BrentSearch.Maximize(ProbabilityDensityFunction, lower, upper);
+                        }
+                        else
+                        {
+                            mode = BrentSearch.Maximize(ProbabilityDensityFunction, upper, lower);
+                        }
+                    }
+                }
+
+                return mode.Value;
             }
         }
 

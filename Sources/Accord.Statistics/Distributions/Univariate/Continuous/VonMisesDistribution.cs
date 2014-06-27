@@ -149,6 +149,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return mean; }
         }
 
+        public override double Mode
+        {
+            get { return mean; }
+        }
+
         /// <summary>
         ///   Gets the concentration κ (kappa) for this distribution.
         /// </summary>

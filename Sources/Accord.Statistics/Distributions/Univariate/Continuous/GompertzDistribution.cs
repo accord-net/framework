@@ -117,6 +117,18 @@ namespace Accord.Statistics.Distributions.Univariate
             get { throw new NotSupportedException(); }
         }
 
+
+        public override double Mode
+        {
+            get
+            {
+                if (eta >= 1)
+                    return 0;
+
+                return (1 / b) * Math.Log(1 / eta);
+            }
+        }
+
         /// <summary>
         ///   Gets the median for this distribution.
         /// </summary>

@@ -85,6 +85,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { throw new NotSupportedException(); }
         }
 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
+
 
         public override double Variance
         {
@@ -179,7 +184,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString()
         {
-            return String.Format("PKD(x; p = {0}, σ = {1})", power);
+            return String.Format("PKD(x; p = {0}, σ = {1})", power, sigma);
         }
 
         /// <summary>

@@ -149,6 +149,10 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        public override double Mode
+        {
+            get { return mean; }
+        }
 
         public override double Variance
         {

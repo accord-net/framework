@@ -102,7 +102,7 @@ namespace Accord.Statistics.Distributions.Univariate
             if (shape <= 0)
                 throw new ArgumentOutOfRangeException("shape");
 
-            if (scale <= 0) 
+            if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale");
 
             this.a = shape;
@@ -124,6 +124,11 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double Mean
         {
             get { return b / (a - 1); }
+        }
+
+        public override double Mode
+        {
+            get { return b / (a + 1); }
         }
 
         /// <summary>

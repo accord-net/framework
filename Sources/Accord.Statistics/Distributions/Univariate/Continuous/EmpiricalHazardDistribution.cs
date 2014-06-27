@@ -204,6 +204,11 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
+
         /// <summary>
         ///   Gets the entropy for this distribution.
         /// </summary>

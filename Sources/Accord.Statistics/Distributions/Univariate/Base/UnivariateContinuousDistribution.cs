@@ -77,13 +77,7 @@ namespace Accord.Statistics.Distributions.Univariate
         private double? stdDev;
 
         [NonSerialized]
-        private double? entropy;
-
-        [NonSerialized]
         private DoubleRange? quartiles;
-
-        [NonSerialized]
-        private bool automaticMode;
 
         /// <summary>
         ///   Constructs a new UnivariateDistribution class.
@@ -115,21 +109,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <value>The distribution's entropy.</value>
         /// 
-        public virtual double Entropy
-        {
-            get
-            {
-                if (entropy == null)
-                {
-                    Func<double, double> func =
-                        (x) => ProbabilityDensityFunction(x) * LogProbabilityDensityFunction(x);
-
-                    entropy = -Romberg.Integrate(func, Support.Min, Support.Max);
-                }
-
-                return entropy.Value;
-            }
-        }
+        public abstract double Entropy { get; }
 
         /// <summary>
         ///   Gets the support interval for this distribution.
@@ -146,10 +126,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <value>The distribution's mode value.</value>
         /// 
-        public virtual double Mode
-        {
-            get { return Mean; }
-        }
+        public abstract double Mode { get; }
 
         public virtual DoubleRange Quartiles
         {
@@ -485,16 +462,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public virtual double DistributionFunction(double x)
-        {
-            if (automaticMode == true)
-                throw new NotImplementedException();
-
-            automaticMode = true;
-            double value = Romberg.Integrate(ProbabilityDensityFunction, 0, 1);
-            automaticMode = false;
-            return value;
-        }
+        public abstract double DistributionFunction(double x);
 
         /// <summary>
         ///   Gets the complementary cumulative distribution function
@@ -649,16 +617,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The probability of <c>x</c> occurring
         ///   in the current distribution.</returns>
         ///   
-        public virtual double ProbabilityDensityFunction(double x)
-        {
-            if (automaticMode == true)
-                throw new NotImplementedException();
-
-            automaticMode = true;
-            double value = FiniteDifferences.Derivative(DistributionFunction, x);
-            automaticMode = false;
-            return value;
-        }
+        public abstract double ProbabilityDensityFunction(double x);
 
 
         /// <summary>

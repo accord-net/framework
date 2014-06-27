@@ -164,6 +164,16 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return shape * shape * (1 + (5 * shape * shape) / 4); }
         }
 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
+
+        public override double Entropy
+        {
+            get { throw new NotSupportedException(); }
+        }
+
         /// <summary>
         ///   Gets the cumulative distribution function (cdf) for
         ///   this distribution evaluated at point <c>x</c>.

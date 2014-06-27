@@ -206,6 +206,11 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        public override double Mode
+        {
+            get { return Math.Exp(location - shape2); }
+        }
+
         /// <summary>
         ///   Gets the support interval for this distribution.
         /// </summary>

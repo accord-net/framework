@@ -240,6 +240,17 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return k * theta * theta; }
         }
 
+        public override double Mode
+        {
+            get
+            {
+                if (k > 1)
+                    return (k - 1) * theta;
+
+                return Double.NaN;
+            }
+        }
+
         /// <summary>
         ///   Gets the entropy for this distribution.
         /// </summary>
@@ -609,7 +620,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Γ(x; k = {0}, θ = {1})", 
+            return String.Format("Γ(x; k = {0}, θ = {1})",
                 k.ToString(format, formatProvider),
                 theta.ToString(format, formatProvider));
         }

@@ -76,6 +76,10 @@ namespace Accord.Statistics.Distributions.Univariate
             get { throw new NotSupportedException(); }
         }
 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
 
         public override double Variance
         {

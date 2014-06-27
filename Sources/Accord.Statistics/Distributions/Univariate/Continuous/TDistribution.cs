@@ -143,6 +143,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return (DegreesOfFreedom > 1) ? 0 : Double.NaN; }
         }
 
+        public override double Mode
+        {
+            get { return 0; }
+        }
+
         /// <summary>
         ///   Gets the variance for this distribution.
         /// </summary>

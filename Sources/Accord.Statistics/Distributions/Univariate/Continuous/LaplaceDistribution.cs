@@ -127,6 +127,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return u; }
         }
 
+        public override double Mode
+        {
+            get { return u; }
+        }
+
         /// <summary>
         ///   Gets the median for this distribution.
         /// </summary>

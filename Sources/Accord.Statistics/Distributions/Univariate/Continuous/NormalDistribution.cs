@@ -243,6 +243,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return stdDev; }
         }
 
+        public override double Mode
+        {
+            get { return mean; }
+        }
+
         /// <summary>
         ///   Gets the support interval for this distribution.
         /// </summary>

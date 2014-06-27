@@ -168,6 +168,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return Constants.SqrtHalfPI * Constants.Log2 / Math.Sqrt(NumberOfSamples); }
         }
 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
+
         /// <summary>
         ///   Gets the variance for this distribution.
         /// </summary>

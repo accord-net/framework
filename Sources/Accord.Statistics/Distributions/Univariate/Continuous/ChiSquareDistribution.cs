@@ -253,6 +253,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return 2.0 * degreesOfFreedom; }
         }
 
+        public override double Mode
+        {
+            get { return Math.Max(degreesOfFreedom - 2, 0); }
+        }
+
         /// <summary>
         ///   Gets the entropy for this distribution.
         /// </summary>
@@ -385,7 +390,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("χ²(x; df = {0})", 
+            return String.Format("χ²(x; df = {0})",
                 degreesOfFreedom.ToString(format, formatProvider));
         }
     }

@@ -101,6 +101,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             if (shape < 0.5) throw new ArgumentOutOfRangeException("shape",
                 "Shape parameter (mu) should be greater than or equal to 0.5.");
+
             if (spread <= 0) throw new ArgumentOutOfRangeException("spread",
                 "Spread parameter (omega) should be greater than 0.");
 
@@ -167,6 +168,16 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (mean == null)
                     mean = (Gamma.Function(mu + 0.5) / Gamma.Function(mu)) * Math.Sqrt(omega / mu);
                 return mean.Value;
+            }
+        }
+
+        public override double Mode
+        {
+            get
+            {
+                double a = Math.Sqrt(2) / 2;
+                double b = ((2 * mu - 1) * omega) / mu;
+                return a * Math.Sqrt(b);
             }
         }
 

@@ -103,6 +103,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.1968506765456883, icdf2);
             Assert.AreEqual(5.6437596300843076, icdf3);
             Assert.AreEqual("Mixture(x; 0.5*N(x; μ = 5, σ² = 1) + 0.5*N(x; μ = 5, σ² = 1))", str);
+
+            Assert.IsFalse(double.IsNaN(icdf1));
         }
 
         [TestMethod()]

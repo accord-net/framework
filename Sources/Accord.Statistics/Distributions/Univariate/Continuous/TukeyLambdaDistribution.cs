@@ -101,6 +101,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return 0; }
         }
 
+        public override double Mode
+        {
+            get { return 0; }
+        }
+
         public override double Entropy
         {
             get { return Romberg.Integrate(LogQuantileDensityFunction, 0, 1); }

@@ -429,6 +429,11 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
+
         /// <summary>
         ///   This method is not supported.
         /// </summary>

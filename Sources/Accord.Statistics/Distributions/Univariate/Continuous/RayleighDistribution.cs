@@ -133,6 +133,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return (4.0 - Math.PI) / 2.0 * sigma * sigma; }
         }
 
+        public override double Mode
+        {
+            get { return sigma; }
+        }
+
         /// <summary>
         ///   Gets the entropy for this distribution.
         /// </summary>
