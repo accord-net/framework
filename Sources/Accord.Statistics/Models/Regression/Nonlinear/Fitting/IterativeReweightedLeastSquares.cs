@@ -223,11 +223,45 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
         private void constructor(GeneralizedLinearRegression regression)
         {
+            if (regression == null)
+                throw new ArgumentNullException("regression");
+
             this.regression = regression;
             this.parameterCount = regression.Coefficients.Length;
             this.hessian = new double[parameterCount, parameterCount];
             this.gradient = new double[parameterCount];
         }
+
+        /// <summary> 
+        /// Runs one iteration of the Reweighted Least Squares algorithm. 
+        /// </summary> 
+        /// <param name="inputs">The input data.</param> 
+        /// <param name="outputs">The outputs associated with each input vector.</param> 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns> 
+        ///  
+        public double Run(double[][] inputs, int[] outputs)
+        {
+            return Run(inputs, outputs.Apply(x => x > 0 ? 1.0 : 0.0));
+        }
+
+        /// <summary>
+        ///   Runs one iteration of the Reweighted Least Squares algorithm.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data.</param>
+        /// <param name="outputs">The outputs associated with each input vector.</param>
+        /// 
+        /// <returns>The maximum relative change in the parameters after the iteration.</returns>
+        /// 
+        public double Run(double[][] inputs, int[][] outputs)
+        {
+            if (outputs[0].Length != 1)
+                throw new ArgumentException("Function must have a single output.", "outputs");
+            double[] output = new double[outputs.Length];
+            for (int i = 0; i < outputs.Length; i++)
+                output[i] = outputs[i][0] > 0 ? 1.0 : 0.0;
+            return Run(inputs, output);
+        } 
 
         /// <summary>
         ///   Runs one iteration of the Reweighted Least Squares algorithm.

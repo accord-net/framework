@@ -134,7 +134,11 @@ namespace Accord.Math
         /// 
         public const double LogMin = -7.451332191019412076235E2;
 
-   
+        /// <summary>
+        ///   Catalan's constant. 
+        /// </summary>
+        /// 
+        public const double Catalan = 0.915965594177219015054603514;
 
         /// <summary>
         ///   Log of number pi: log(pi).

@@ -89,18 +89,12 @@ namespace Accord.Controls
 
 
 
-
-
         /// <summary>
         ///   Displays a scatter plot with the specified data.
         /// </summary>
         /// 
         /// <param name="title">The title for the data.</param>
         /// <param name="series">The data series.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static DataSeriesBox Show(string title = "Time series", params double[][] series)
         {

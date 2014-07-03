@@ -55,19 +55,37 @@ namespace Accord.Statistics.Distributions.Univariate
     ///       https://en.wikipedia.org/wiki/Generalized_normal_distribution </a></description></item>
     ///   </list></para> 
     /// </remarks>
-    /// </remarks>
     /// 
     /// <example>
     /// <para>
     ///   This examples shows how to create a Generalized normal distribution
     ///   and compute some of its properties.</para>
+    ///   
     /// <code>
-
+    /// // Creates a new generalized normal distribution with the given parameters
+    /// var normal = new GeneralizedNormalDistribution(location: 1, scale: 5, shape: 0.42);
+    /// 
+    /// double mean = normal.Mean;     // 1
+    /// double median = normal.Median; // 1
+    /// double mode = normal.Mode;     // 1
+    /// double var = normal.Variance;  // 19200.781700666659
+    /// 
+    /// double cdf = normal.DistributionFunction(x: 1.4); // 0.50877105447218995
+    /// double pdf = normal.ProbabilityDensityFunction(x: 1.4); // 0.024215092283124507
+    /// double lpdf = normal.LogProbabilityDensityFunction(x: 1.4); // -3.7207791921441378
+    /// 
+    /// double ccdf = normal.ComplementaryDistributionFunction(x: 1.4); // 0.49122894552781005
+    /// double icdf = normal.InverseDistributionFunction(p: cdf); // 1.4000000149740104
+    /// 
+    /// double hf = normal.HazardFunction(x: 1.4); // 0.049294921448706883
+    /// double chf = normal.CumulativeHazardFunction(x: 1.4); // 0.71084497569360638
+    /// 
+    /// string str = normal.ToString(CultureInfo.InvariantCulture); // GGD(x; μ = 1, α = 5, β = 0.42)
     /// </code>
     /// </example>
     /// 
-    /// <seealso cref="Accord.Statistics.Testing.NormalDistribution"/>
-    /// <seealso cref="Accord.Statistics.Testing.LaplaceDistribution"/>
+    /// <seealso cref="NormalDistribution"/>
+    /// <seealso cref="LaplaceDistribution"/>
     /// 
     [Serializable]
     public class GeneralizedNormalDistribution : UnivariateContinuousDistribution
@@ -82,13 +100,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Constructs a Generalized Normal distribution with the given parameters.
         /// </summary>
         /// 
-        /// <param name="mean">The location parameter μ.</param>
+        /// <param name="location">The location parameter μ.</param>
         /// <param name="scale">The scale parameter α.</param>
         /// <param name="shape">The shape parameter β.</param>
         /// 
         public GeneralizedNormalDistribution(double location, double scale, double shape)
         {
-            initialize(mean, scale, shape);
+            initialize(location, scale, shape);
         }
 
         /// <summary>
@@ -99,10 +117,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="location">The Laplace's location parameter μ (mu).</param>
         /// <param name="scale">The Laplace's scale parameter b.</param>
         /// 
-        /// <returns>A <see cref="GeneralizedPowerDistribution"/> that provides
+        /// <returns>A <see cref="GeneralizedNormalDistribution"/> that provides
         ///  a <see cref="LaplaceDistribution"/>.</returns>
         /// 
-        public GeneralizedNormalDistribution Laplace(double location, double scale)
+        public static GeneralizedNormalDistribution Laplace(double location, double scale)
         {
             return new GeneralizedNormalDistribution(location, scale, 1);
         }
@@ -112,13 +130,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   <see cref="GeneralizedNormalDistribution"/> specialization.
         /// </summary>
         /// 
-        /// <param name="location">The Normal's mean parameter μ (mu).</param>
-        /// <param name="scale">The Normal's standard deviation σ (sigma).</param>
+        /// <param name="mean">The Normal's mean parameter μ (mu).</param>
+        /// <param name="stdDev">The Normal's standard deviation σ (sigma).</param>
         /// 
-        /// <returns>A <see cref="GeneralizedPowerDistribution"/> that provides
+        /// <returns>A <see cref="GeneralizedNormalDistribution"/> that provides
         ///  a <see cref="NormalDistribution"/> distribution.</returns>
         /// 
-        public GeneralizedNormalDistribution Normal(double mean, double stdDev)
+        public static GeneralizedNormalDistribution Normal(double mean, double stdDev)
         {
             return new GeneralizedNormalDistribution(mean, Constants.Sqrt2 * stdDev, 2);
         }
@@ -149,11 +167,32 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In the Generalized Normal Distribution, the mode is
+        ///   equal to the distribution's <see cref="Mean"/> value.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
         public override double Mode
         {
             get { return mean; }
         }
 
+        /// <summary>
+        ///   Gets the variance for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's variance.
+        /// </value>
+        /// 
         public override double Variance
         {
             get { return alpha * alpha * Gamma.Function(3.0 / beta) / Gamma.Function(1.0 / beta); }
@@ -208,12 +247,14 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double DistributionFunction(double x)
         {
             double z = x - mean;
-            double w = Math.Abs(z) / alpha;
+            double w = Math.Abs(z / alpha);
 
             double b = Gamma.LowerIncomplete(1.0 / beta, Math.Pow(w, beta));
             double c = 2 * Gamma.Function(1.0 / beta);
 
-            return 0.5 + Math.Sign(z) * (b / c);
+            double r = 0.5 + Math.Sign(z) * (b / c);
+
+            return r;
         }
 
 
@@ -319,7 +360,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
         private void initialize(double mu, double alpha, double beta)
         {
-            this.mean = alpha;
+            this.mean = mu;
             this.alpha = alpha;
             this.beta = beta;
         }

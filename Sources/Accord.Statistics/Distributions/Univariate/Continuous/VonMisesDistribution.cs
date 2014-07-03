@@ -149,6 +149,10 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return mean; }
         }
 
+        /// <summary>
+        ///   Gets the mode value μ (mu) for this distribution.
+        /// </summary>
+        /// 
         public override double Mode
         {
             get { return mean; }

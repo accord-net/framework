@@ -133,6 +133,18 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return (4.0 - Math.PI) / 2.0 * sigma * sigma; }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In the Rayleigh distribution, the mode equals σ (sigma).
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
         public override double Mode
         {
             get { return sigma; }

@@ -24,18 +24,33 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using AForge;
 
     /// <summary>
-    ///   Power Normal distribution.
+    ///   Degenerate distribution.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///  The binomial distribution is the discrete probability distribution of the number of
+    ///  successes in a sequence of <c>>n</c> independent yes/no experiments, each of which 
+    ///  yields success with probability <c>p</c>. Such a success/failure experiment is also
+    ///  called a Bernoulli experiment or Bernoulli trial; when <c>n = 1</c>, the binomial 
+    ///  distribution is a <see cref="BernoulliDistribution">Bernoulli distribution</see>.</para>
+    ///   
+    /// <para>    
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/Degenerate_distribution">
+    ///       Wikipedia, The Free Encyclopedia. Degenerate distribution. Available on:
+    ///       http://en.wikipedia.org/wiki/Degenerate_distribution </a></description></item>
+    ///   </list></para>
+    /// </remarks>
     /// 
     /// <example>
     /// <para>
-    ///   This example shows how to create a Power Normal distribution
+    ///   This example shows how to create a Degenerate distribution
     ///   and compute some of its properties.</para>
     ///   
     /// <code>
@@ -68,199 +83,207 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </example>
     /// 
     [Serializable]
-    public class PowerNormalDistribution : UnivariateContinuousDistribution
+    public class DegenerateDistribution : UnivariateDiscreteDistribution
     {
 
-        // Distribution parameters
-        private double power = 1; // power (p)
+        private int k0;
 
         /// <summary>
-        ///   Constructs a Power Normal distribution
-        ///   with given power (shape) parameter.
+        ///   Gets the unique value whose probability is different from zero.
         /// </summary>
         /// 
-        /// <param name="power">The distribution's power p.</param>
-        /// 
-        public PowerNormalDistribution(double power)
-        {
-            if (power <= 0)
-                throw new ArgumentOutOfRangeException("power", "Power must be positive.");
+        public int Value { get { return k0; } }
 
-            initialize(power);
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="DegenerateDistribution"/> class.
+        /// </summary>
+        /// 
+        /// <param name="value">The only value whose probability is different from zero.</param>
+        /// 
+        public DegenerateDistribution(int value)
+        {
+            this.k0 = value;
         }
 
         /// <summary>
-        ///   Gets the distribution shape (power) parameter.
+        ///   Gets the mean for this distribution.
         /// </summary>
         /// 
-        public double Power
-        {
-            get { return power; }
-        }
-
-        /// <summary>
-        ///   Not supported.
-        /// </summary>
+        /// <remarks>
+        ///   In the Degenerate distribution, the mean is equal to the
+        ///   <see cref="Value">unique value</see> within its domain.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mean value, which should equal <see cref="Value"/>.
+        /// </value>
         /// 
         public override double Mean
         {
-            get { throw new NotSupportedException(); }
+            get { return k0; }
         }
 
         /// <summary>
-        ///   Not supported.
+        ///   Gets the median for this distribution, which should equal <see cref="Value"/>.
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   In the Degenerate distribution, the mean is equal to the
+        ///   <see cref="Value">unique value</see> within its domain.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's median value.
+        /// </value>
         /// 
         public override double Median
         {
-            get { throw new NotSupportedException(); }
+            get { return k0; }
         }
 
         /// <summary>
-        ///   Not supported.
+        ///   Gets the variance for this distribution, which should equal 1.
         /// </summary>
         /// 
-        public override double Mode
-        {
-            get { throw new NotSupportedException(); }
-        }
-
-        /// <summary>
-        ///   Not supported.
-        /// </summary>
+        /// <remarks>
+        ///   In the Degenerate distribution, the variance equals 1.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's variance.
+        /// </value>
         /// 
         public override double Variance
         {
-            get { throw new NotSupportedException(); }
+            get { return 1; }
         }
 
         /// <summary>
-        ///   Not supported.
+        ///   Gets the mode for this distribution, which should equal <see cref="Value"/>.
         /// </summary>
         /// 
-        public override double StandardDeviation
+        /// <remarks>
+        ///   In the Degenerate distribution, the mean is equal to the
+        ///   <see cref="Value">unique value</see> within its domain.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
+        public override double Mode
         {
-            get { throw new NotSupportedException(); }
+            get { return k0; }
         }
 
         /// <summary>
-        ///   Not supported.
+        ///   Gets the entropy for this distribution, which is zero.
         /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's entropy.
+        /// </value>
         /// 
         public override double Entropy
         {
-            get { throw new NotSupportedException(); }
+            get { return 0; }
         }
 
         /// <summary>
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
+        /// <remarks>
+        ///   The degenerate distribution's support is given only on the 
+        ///   point interval (<see cref="Value"/>, <see cref="Value"/>).
+        /// </remarks>
+        /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="AForge.IntRange"/> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(0, Double.PositiveInfinity); }
+            get { return new DoubleRange(k0, k0); }
         }
 
         /// <summary>
         ///   Gets the cumulative distribution function (cdf) for
-        ///   this distribution evaluated at point <c>x</c>.
+        ///   this distribution evaluated at point <c>k</c>.
         /// </summary>
         /// 
-        /// <param name="x">
-        ///   A single point in the distribution range.</param>
-        ///   
+        /// <param name="k">A single point in the distribution range.</param>
+        /// 
         /// <remarks>
         ///   The Cumulative Distribution Function (CDF) describes the cumulative
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
-        public override double DistributionFunction(double x)
+        public override double DistributionFunction(int k)
         {
-            return 1.0 - Math.Pow(Normal.Function(-x), power);
+            if (k < k0)
+                return 0;
+            return 1;
+        }
+
+        /// <summary>
+        ///   Gets the probability mass function (pmf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="k">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>k</c> occurring
+        ///   in the current distribution.
+        /// </returns>
+        /// 
+        /// <remarks>
+        ///   The Probability Mass Function (PMF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        public override double ProbabilityMassFunction(int k)
+        {
+            if (k == k0)
+                return 1;
+            return 0;
         }
 
         /// <summary>
         ///   Gets the inverse of the cumulative distribution function (icdf) for
-        ///   this distribution evaluated at probability <c>p</c>. This function 
+        ///   this distribution evaluated at probability <c>p</c>. This function
         ///   is also known as the Quantile function.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
-        ///   a given probability, the value which the random variable will be at,
-        ///   or below, with that probability.
-        /// </remarks>
-        /// 
         /// <param name="p">A probability value between 0 and 1.</param>
         /// 
-        /// <returns>A sample which could original the given probability 
-        ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
-        /// 
-        public override double InverseDistributionFunction(double p)
-        {
-            return Normal.Inverse(1.0 - Math.Pow(1.0 - p, 1.0 / power));
-        }
-
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">
-        ///   A single point in the distribution range.</param>
-        ///   
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
         /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.</returns>
-        ///   
-        public override double ProbabilityDensityFunction(double x)
-        {
-            return power * Normal.Derivative(x) * Math.Pow(Normal.Function(-x), power - 1);
-        }
-
-        /// <summary>
-        ///   Gets the log-probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction(int)"/>.
+        /// </returns>
         /// 
-        /// <param name="x">
-        ///   A single point in the distribution range.</param>
-        ///   
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c> 
-        ///   occurring in the current distribution.</returns>
-        ///   
-        public override double LogProbabilityDensityFunction(double x)
+        public override int InverseDistributionFunction(double p)
         {
-            return Math.Log(power) + Normal.LogDerivative(x) + (power - 1) * Normal.Function(-x);
+            if (p == 1)
+                return k0;
+            return k0 + 1;
         }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>
+        /// 
         /// <returns>
         ///   A new object that is a copy of this instance.
         /// </returns>
         /// 
         public override object Clone()
         {
-            return new PowerNormalDistribution(power);
+            return new DegenerateDistribution(k0);
         }
+
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -272,7 +295,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString()
         {
-            return String.Format("PND(x; p = {0})", power);
+            return String.Format("Degenerate(x; k0 = {0})", k0);
         }
 
         /// <summary>
@@ -285,7 +308,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "PND(x; p = {0})", power);
+            return String.Format(formatProvider, "Degenerate(x; k0 = {0})", k0);
         }
 
         /// <summary>
@@ -298,28 +321,17 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "PND(x; p = {0})",
-                power.ToString(format, formatProvider));
+            return String.Format("Degenerate(x; k0 = {0})", k0.ToString(format, formatProvider));
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
+        ///   The <see cref="DegenerateDistribution"/> does not support fitting.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
+        public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
-            return String.Format("PND(x; p = {0})", power.ToString(format));
+            throw new NotSupportedException();
         }
-
-
-        private void initialize(double power)
-        {
-            this.power = power;
-        }
-
     }
+
 }

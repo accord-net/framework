@@ -54,7 +54,29 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     /// <example>
     /// <para>
-
+    ///   This example shows how to create a Birnbaum-Saunders distribution
+    ///   and compute some of its properties.</para>
+    ///   
+    /// <code>
+    /// // Creates a new Birnbaum-Saunders distribution
+    /// var bs = new BirnbaumSaundersDistribution(shape: 0.42);
+    /// 
+    /// double mean = bs.Mean;     // 1.0882000000000001
+    /// double median = bs.Median; // 1.0
+    /// double var = bs.Variance;  // 0.21529619999999997
+    /// 
+    /// double cdf = bs.DistributionFunction(x: 1.4); // 0.78956384911580346
+    /// double pdf = bs.ProbabilityDensityFunction(x: 1.4); // 1.3618433601225426
+    /// double lpdf = bs.LogProbabilityDensityFunction(x: 1.4); // 0.30883919386130815
+    /// 
+    /// double ccdf = bs.ComplementaryDistributionFunction(x: 1.4); // 0.21043615088419654
+    /// double icdf = bs.InverseDistributionFunction(p: cdf); // 2.0618330099769064
+    /// 
+    /// double hf = bs.HazardFunction(x: 1.4); // 6.4715276077824093
+    /// double chf = bs.CumulativeHazardFunction(x: 1.4); // 1.5585729930861034
+    /// 
+    /// string str = bs.ToString(CultureInfo.InvariantCulture); // BirnbaumSaunders(x; μ = 0, β = 1, γ = 0.42)
+    /// </code>
     /// </example>
     /// 
     [Serializable]
@@ -116,7 +138,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the distribution's scale parameter  β.
+        ///   Gets the distribution's scale parameter β.
         /// </summary>
         /// 
         public double Scale
@@ -125,7 +147,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the distribution's shape parameter  γ.
+        ///   Gets the distribution's shape parameter γ.
         /// </summary>
         /// 
         public double Shape
@@ -147,28 +169,55 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return new DoubleRange(this.location, Double.PositiveInfinity); }
         }
 
-        public DoubleRange Range
-        {
-            get { return new DoubleRange(0, Double.PositiveInfinity); }
-        }
-
-
+        /// <summary>
+        ///   Gets the mean for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Birnbaum Saunders mean is defined as 
+        ///   <c>1 + 0.5<see cref="Shape">γ</see>²</c>.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mean value.
+        /// </value>
+        /// 
         public override double Mean
         {
             get { return 1 + 0.5 * shape * shape; }
         }
 
-
+        /// <summary>
+        ///   Gets the variance for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Birnbaum Saunders variance is defined as 
+        ///   <c><see cref="Shape">γ</see>² (1 + (5/4)<see cref="Shape">γ</see>²)</c>.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mean value.
+        /// </value>
+        /// 
         public override double Variance
         {
             get { return shape * shape * (1 + (5 * shape * shape) / 4); }
         }
 
+        /// <summary>
+        ///   This method is not supported.
+        /// </summary>
+        /// 
         public override double Mode
         {
             get { throw new NotSupportedException(); }
         }
 
+        /// <summary>
+        ///   This method is not supported.
+        /// </summary>
+        /// 
         public override double Entropy
         {
             get { throw new NotSupportedException(); }
@@ -230,6 +279,19 @@ namespace Accord.Statistics.Distributions.Univariate
             return alpha * Special.Erfc(-z / Constants.Sqrt2) * 0.5;
         }
 
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction"/>.
+        /// </returns>
+        /// 
         public override double InverseDistributionFunction(double p)
         {
             double z = Normal.Inverse(p);
@@ -261,7 +323,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString()
         {
-            return String.Format("BirnbaumSaunders(x; μ = {0}, β = {1}, γ = {2})", 
+            return String.Format("BirnbaumSaunders(x; μ = {0}, β = {1}, γ = {2})",
                 location, scale, shape);
         }
 

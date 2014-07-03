@@ -34,10 +34,6 @@ namespace Accord.Math.Integration
         Func<double, double> Function { get; set; }
         DoubleRange Range { get; set; }
 
-        double Area { get; }
-
-        bool Compute();
-
     }
 
     public interface IIntegrationMethod : ICloneable

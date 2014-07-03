@@ -153,11 +153,6 @@ namespace Accord.Controls
         /// 
         /// <param name="values">The histogram values.</param>
         /// 
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
-        /// 
         public static HistogramBox Show(double[] values)
         {
             return Show("Histogram", values);
@@ -169,10 +164,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the histogram window.</param>
         /// <param name="values">The histogram values.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static HistogramBox Show(string title, double[] values)
         {
@@ -186,10 +177,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="histogram">The histogram to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static HistogramBox Show(Histogram histogram)
         {

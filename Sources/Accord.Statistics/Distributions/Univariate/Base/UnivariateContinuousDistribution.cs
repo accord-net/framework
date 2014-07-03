@@ -128,6 +128,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public abstract double Mode { get; }
 
+        /// <summary>
+        ///   Gets the Quartiles for this distribution.
+        /// </summary>
+        /// 
+        /// <value>A <see cref="DoubleRange"/> object containing the first quartile
+        /// (Q1) as its minimum value, and the third quartile (Q2) as the maximum.</value>
+        /// 
         public virtual DoubleRange Quartiles
         {
             get
@@ -143,6 +150,21 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        /// <summary>
+        ///   Gets the distribution range within a given percentile.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If <c>0.25</c> is passed as the <paramref name="percentile"/> argument, 
+        ///   this function returns the same as the <see cref="Quartiles"/> function.
+        /// </remarks>
+        /// 
+        /// <param name="percentile">
+        ///   The percentile at which the distribution ranges will be returned.</param>
+        /// 
+        /// <value>A <see cref="DoubleRange"/> object containing the minimum value
+        /// for the distribution value, and the third quartile (Q2) as the maximum.</value>
+        /// 
         public virtual DoubleRange GetRange(double percentile)
         {
             if (percentile <= 0 || percentile >= 1)
@@ -595,6 +617,14 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        /// <summary>
+        ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
+        ///   inverse distribution function</see> (icdf) for this distribution evaluated
+        ///   at probability <c>p</c>. 
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
         public virtual double QuantileDensityFunction(double p)
         {
             return 1.0 / ProbabilityDensityFunction(InverseDistributionFunction(p));

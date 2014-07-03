@@ -138,11 +138,26 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Gets the mean for this distribution.
         /// </summary>
         /// 
+        /// <value>The distribution's mean value.</value>
+        /// 
+        /// <remarks>
+        ///   In the T Distribution, the mean is zero if the number of degrees 
+        ///   of freedom is higher than 1. Otherwise, it is undefined.
+        /// </remarks>
+        /// 
         public override double Mean
         {
             get { return (DegreesOfFreedom > 1) ? 0 : Double.NaN; }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution (always zero).
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mode value (zero).
+        /// </value>
+        /// 
         public override double Mode
         {
             get { return 0; }

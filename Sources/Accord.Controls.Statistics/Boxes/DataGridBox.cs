@@ -197,10 +197,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="source">The source object to display.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// <param name="title">The title for the data window.</param>
         /// 
         /// <returns>The Data Grid Box being shown.</returns>
@@ -215,10 +211,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="table">The source table to display.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         /// <returns>The Data Grid Box being shown.</returns>
         /// 
@@ -230,11 +222,6 @@ namespace Accord.Controls
         /// <summary>
         ///   Displays a Data Grid View with the specified data.
         /// </summary>
-        /// 
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         /// <param name="array">The array to be displayed.</param>
         /// <param name="colNames">A collection of column names to be displayed.</param>

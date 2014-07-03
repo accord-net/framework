@@ -133,6 +133,10 @@ namespace Accord.Statistics.Distributions.Univariate
             get { throw new NotSupportedException(); }
         }
 
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
         public override double Mode
         {
             get { throw new NotSupportedException(); }

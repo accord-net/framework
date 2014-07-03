@@ -130,8 +130,17 @@
     <Compile Include="Controls\ScatterplotTest.cs" />
     <Compile Include="Controls\DataGridBoxTest.cs" />
     <Compile Include="Controls\HistogramViewTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GeneralizedNormalDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GumbelDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\LogisticDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\PowerLognormalDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\PowerNormalDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\TriangularDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TukeyLambdaDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\DegenerateDistributionTest.cs" />
     <Compile Include="Filters\BranchingFilterTest.cs" />
     <Compile Include="Kernels\QuadraticTest.cs" />
     <Compile Include="Kernels\LinearTest.cs" />

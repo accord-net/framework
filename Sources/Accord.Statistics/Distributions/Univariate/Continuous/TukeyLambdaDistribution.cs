@@ -82,7 +82,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </example>
     /// 
     /// <seealso cref="LogisticDistribution"/>
-    /// <seealso cref="UniformDistribution"/>
+    /// <seealso cref="UniformContinuousDistribution"/>
     /// <seealso cref="NormalDistribution"/>
     /// 
     [Serializable]
@@ -112,22 +112,53 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return lambda; }
         }
 
+        /// <summary>
+        ///   Gets the mean for this distribution (always zero).
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mean value.
+        /// </value>
+        /// 
         public override double Mean
         {
             get { return 0; }
         }
 
-
+        /// <summary>
+        ///   Gets the median for this distribution (always zero).
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's median value.
+        /// </value>
+        /// 
         public override double Median
         {
             get { return 0; }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution (always zero).
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's median value.
+        /// </value>
+        /// 
         public override double Mode
         {
             get { return 0; }
         }
 
+        /// <summary>
+        ///   Gets the entropy for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's entropy.
+        /// </value>
+        /// 
         public override double Entropy
         {
             get
@@ -140,6 +171,14 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        /// <summary>
+        ///   Gets the variance for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's variance.
+        /// </value>
+        /// 
         public override double Variance
         {
             get
@@ -175,6 +214,13 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
 
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
         public override double DistributionFunction(double x)
         {
             if (x < Support.Min) return 0;
@@ -183,6 +229,19 @@ namespace Accord.Statistics.Distributions.Univariate
             return BrentSearch.Find(InverseDistributionFunction, x, 0, 1, 1e-10);
         }
 
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction"/>.
+        /// </returns>
+        /// 
         public override double InverseDistributionFunction(double p)
         {
             if (lambda == 0)
@@ -194,11 +253,28 @@ namespace Accord.Statistics.Distributions.Univariate
             return (a - b) / lambda;
         }
 
+        /// <summary>
+        ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
+        ///   inverse distribution function</see> (icdf) for this distribution evaluated
+        ///   at probability <c>p</c>. 
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
         public override double QuantileDensityFunction(double p)
         {
             return Math.Pow(p, lambda - 1) + Math.Pow(1 - p, lambda - 1);
         }
 
+        /// <summary>
+        ///   Gets the log of the <see cref="QuantileDensityFunction">quantile 
+        ///   density function</see>, which in turn is the first derivative of 
+        ///   the <see cref="InverseDistributionFunction"> inverse distribution
+        ///   function</see> (icdf), evaluated at probability <c>p</c>. 
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
         public double LogQuantileDensityFunction(double p)
         {
             double a = Math.Pow(p, lambda - 1);
@@ -206,6 +282,18 @@ namespace Accord.Statistics.Distributions.Univariate
             return Math.Log(a + b);
         }
 
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.
+        /// </returns>
+        /// 
         public override double ProbabilityDensityFunction(double x)
         {
             if (x < Support.Min) return 0;
@@ -215,6 +303,18 @@ namespace Accord.Statistics.Distributions.Univariate
             return 1.0 / QuantileDensityFunction(DistributionFunction(x));
         }
 
+        /// <summary>
+        ///   Gets the log-probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The logarithm of the probability of <c>x</c>
+        ///   occurring in the current distribution.
+        /// </returns>
+        /// 
         public override double LogProbabilityDensityFunction(double x)
         {
             if (x < Support.Min) return Double.NegativeInfinity;

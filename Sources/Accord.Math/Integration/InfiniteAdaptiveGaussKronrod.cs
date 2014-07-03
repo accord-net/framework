@@ -249,7 +249,7 @@ namespace Accord.Math.Integration
             out int ier, int limit, int lenw, out int last, int[] iwork,
             double[] dwork)
         {
-            int l1, l2, l3, lvl;
+            int l1, l2, l3;
 
             /*         check validity o limit and lenw. */
 
@@ -286,11 +286,11 @@ namespace Accord.Math.Integration
                 }
             }
 
-            lvl = 0;
+            // lvl = 0;
         L10:
             if (ier == 6)
             {
-                lvl = 1;
+                // lvl = 1;
             }
 
             return 0;

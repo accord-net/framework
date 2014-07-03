@@ -26,6 +26,7 @@ namespace Accord.Tests.Math
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.CodeDom.Compiler;
 
     [TestClass()]
     public class OctaveEnvironmentTest : OctaveEnvironment
@@ -147,8 +148,8 @@ namespace Accord.Tests.Math
 
         public class MyAlgorithm : Accord.Math.Environments.OctaveEnvironment
         {
-            mat I, A, B;
-            mat U, S, V;
+            protected mat I, A, B;
+            protected mat U, S, V;
 
             public MyAlgorithm()
             {

@@ -197,8 +197,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
         /// <summary>
-        ///   Gets the Mean value μ (mu) for 
-        ///   this Normal distribution.
+        ///   Gets the Mean value μ (mu) for this Normal distribution.
         /// </summary>
         /// 
         public override double Mean
@@ -210,6 +209,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Gets the median for this distribution.
         /// </summary>
         /// 
+        /// <remarks>
+        ///   The normal distribution's median value 
+        ///   equals its <see cref="Mean"/> value μ.
+        /// </remarks>
+        /// 
         /// <value>
         ///   The distribution's median value.
         /// </value>
@@ -218,7 +222,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(mean == base.Median);
+                System.Diagnostics.Debug.Assert(mean.IsRelativelyEqual(base.Median, 1e-10));
                 return mean;
             }
         }
@@ -243,6 +247,19 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return stdDev; }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The normal distribution's mode value 
+        ///   equals its <see cref="Mean"/> value μ.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
         public override double Mode
         {
             get { return mean; }

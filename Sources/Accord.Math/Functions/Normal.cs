@@ -576,15 +576,25 @@ namespace Accord.Math
             return BVN + Normal.Function(-H) - Normal.Function(-K);
         }
 
-
-        public static double Derivative(double z)
+        /// <summary>
+        ///   First derivative of <see cref="Function">Normal cumulative 
+        ///   distribution function</see>, also known as the Normal density
+        ///   function.
+        /// </summary>
+        /// 
+        public static double Derivative(double value)
         {
-            return Math.Exp(Constants.LogSqrt2PI - z * z * 0.5);
+            return Math.Exp(Constants.LogSqrt2PI - value * value * 0.5);
         }
 
-        public static double LogDerivative(double z)
+        /// <summary>
+        ///   Log of the first derivative of <see cref="Function">Normal cumulative 
+        ///   distribution function</see>, also known as the Normal density function.
+        /// </summary>
+        /// 
+        public static double LogDerivative(double value)
         {
-            return Constants.LogSqrt2PI - z * z * 0.5;
+            return Constants.LogSqrt2PI - value * value * 0.5;
         }
     }
 }

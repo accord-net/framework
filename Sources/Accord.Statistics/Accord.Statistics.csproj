@@ -187,6 +187,7 @@
     <Compile Include="Distributions\Multivariate\Continuous\DirichletDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistribution.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Distributions\Univariate\Base\UnivariateDiscreteDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\JointDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WilcoxonDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\DegenerateDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\NegativeBinomialDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ParetoDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\UniformDiscreteDistribution.cs" />

@@ -253,6 +253,18 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return 2.0 * degreesOfFreedom; }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The χ² distribution mode is <c>max(degrees of freedom - 2, 0)</c>.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
         public override double Mode
         {
             get { return Math.Max(degreesOfFreedom - 2, 0); }

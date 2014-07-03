@@ -24,6 +24,7 @@ namespace Accord.Tests.Statistics
 {
     using System;
     using System.Globalization;
+    using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -145,6 +146,26 @@ namespace Accord.Tests.Statistics
 
             var target = new ParetoDistribution(0, 0);
             target.Fit(sample);
+
+            Assert.AreEqual(7.12, target.Scale, 1e-6);
+            Assert.AreEqual(2.0, target.Alpha, 1e-2);
+        }
+
+        [TestMethod]
+        public void FitWeights()
+        {
+            var source = new ParetoDistribution(scale: 7.12, shape: 2);
+            var sample = new double[10000];
+            var step = 1.0 / sample.Length;
+
+            for (var i = 0; i < sample.Length; i++)
+                sample[i] = source.InverseDistributionFunction(i * step);
+
+            var target = new ParetoDistribution(0, 0);
+
+            double[] weights = Matrix.Vector(sample.Length, 1.0 / sample.Length);
+
+            target.Fit(sample, weights);
 
             Assert.AreEqual(7.12, target.Scale, 1e-6);
             Assert.AreEqual(2.0, target.Alpha, 1e-2);

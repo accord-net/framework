@@ -168,6 +168,10 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return Constants.SqrtHalfPI * Constants.Log2 / Math.Sqrt(NumberOfSamples); }
         }
 
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
         public override double Mode
         {
             get { throw new NotSupportedException(); }

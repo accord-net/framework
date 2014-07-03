@@ -25,6 +25,10 @@ namespace Accord.Math.Integration
     using System;
     using AForge;
 
+    /// <summary>
+    ///   Trapezoidal rule for numerical integration.
+    /// </summary>
+    /// 
     public class Trapezoidal : IIntegrationMethod
     {
         private DoubleRange range;
@@ -105,19 +109,19 @@ namespace Accord.Math.Integration
         {
             double h = (b - a) / steps;
 
-            double sum = (func(a) + func(b));
+            double sum = 0.5 * (func(a) + func(b));
 
             for (int i = 1; i < steps; i++)
                 sum += func(a + i * h);
 
-            return h * sum * 0.5;
+            return h * sum;
         }
 
 
         public object Clone()
         {
             Trapezoidal clone = new Trapezoidal(
-                this.Steps, this.Function, 
+                this.Steps, this.Function,
                 this.Range.Min, this.Range.Max);
 
             return clone;

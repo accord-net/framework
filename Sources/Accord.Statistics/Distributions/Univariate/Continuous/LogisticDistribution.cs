@@ -59,11 +59,27 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   random samples from it.</para>
     ///   
     /// <code>
-    ///   // Create a normal distribution with mean 2 and sigma 3
-    ///   var normal = new NormalDistribution(mean: 2, stdDev: 3);
+    /// // Create a logistic distribution with μ = 0.42 and scale = 3
+    /// var log = new LogisticDistribution(location: 0.42, scale: 1.2);
     /// 
-
+    /// double mean = log.Mean;     // 0.42
+    /// double median = log.Median; // 0.42
+    /// double mode = log.Mode;     // 0.42
+    /// double var = log.Variance;  // 4.737410112522892
+    /// 
+    /// double cdf = log.DistributionFunction(x: 1.4); // 0.693528308197921
+    /// double pdf = log.ProbabilityDensityFunction(x: 1.4); // 0.17712232827170876
+    /// double lpdf = log.LogProbabilityDensityFunction(x: 1.4); // -1.7309146649427332
+    /// 
+    /// double ccdf = log.ComplementaryDistributionFunction(x: 1.4); // 0.306471691802079
+    /// double icdf = log.InverseDistributionFunction(p: cdf); // 1.3999999999999997
+    /// 
+    /// double hf = log.HazardFunction(x: 1.4); // 0.57794025683160088
+    /// double chf = log.CumulativeHazardFunction(x: 1.4); // 1.1826298874077226
+    /// 
+    /// string str = log.ToString(CultureInfo.InvariantCulture); // Logistic(x; μ = 0.42, scale = 1.2)
     /// </code>
+    /// </example>
     /// 
     /// <seealso cref="TukeyLambdaDistribution"/>
     /// 
@@ -90,7 +106,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with given location and scale parameters.
         /// </summary>
         /// 
-        /// <param name="mean">The distribution's location value μ (mu).</param>
+        /// <param name="location">The distribution's location value μ (mu).</param>
         /// 
         public LogisticDistribution(double location)
         {
@@ -102,8 +118,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with given location and scale parameters.
         /// </summary>
         /// 
-        /// <param name="mean">The distribution's location value μ (mu).</param>
-        /// <param name="stdDev">The distribution's scale value s.</param>
+        /// <param name="location">The distribution's location value μ (mu).</param>
+        /// <param name="scale">The distribution's scale value s.</param>
         /// 
         public LogisticDistribution(double location, double scale)
         {
@@ -129,6 +145,15 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the distribution's scale value (s).
+        /// </summary>
+        /// 
+        public double Scale
+        {
+            get { return s; }
+        }
+
+        /// <summary>
         ///   Gets the median for this distribution.
         /// </summary>
         /// 
@@ -145,11 +170,31 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        /// <summary>
+        ///   Gets the variance for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's variance.
+        /// </value>
+        /// 
         public override double Variance
         {
             get { return (s * s * Math.PI * Math.PI) / 3.0; }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In the logistic distribution, the mode is equal
+        ///   to the distribution <see cref="Mean"/> value.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
         public override double Mode
         {
             get { return mu; }
@@ -169,12 +214,32 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity); }
         }
 
+        /// <summary>
+        ///   Gets the entropy for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In the logistic distribution, the entropy is 
+        ///   equal to <c>ln(<see cref="Scale">s</see>) + 2</c>.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's entropy.
+        /// </value>
+        /// 
         public override double Entropy
         {
             get { return Math.Log(s) + 2; }
         }
 
 
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
         public override double DistributionFunction(double x)
         {
             double z = (x - mu) / s;
@@ -182,7 +247,18 @@ namespace Accord.Statistics.Distributions.Univariate
             return 1.0 / (1 + Math.Exp(-z));
         }
 
-
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.
+        /// </returns>
+        /// 
         public override double ProbabilityDensityFunction(double x)
         {
             double z = (x - mu) / s;
@@ -194,6 +270,18 @@ namespace Accord.Statistics.Distributions.Univariate
             return num / den;
         }
 
+        /// <summary>
+        ///   Gets the log-probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The logarithm of the probability of <c>x</c>
+        ///   occurring in the current distribution.
+        /// </returns>
+        /// 
         public override double LogProbabilityDensityFunction(double x)
         {
             double z = (x - mu) / s;
@@ -201,6 +289,37 @@ namespace Accord.Statistics.Distributions.Univariate
             double result = -z - (Math.Log(s) + 2 * Special.Log1p(Math.Exp(-z)));
 
             return result;
+        }
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction"/>.
+        /// </returns>
+        /// 
+        public override double InverseDistributionFunction(double p)
+        {
+            return mu + s * Math.Log(p / (1 - p));
+        }
+
+        /// <summary>
+        ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
+        ///   inverse distribution function</see> (icdf) for this distribution evaluated
+        ///   at probability <c>p</c>. 
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        public override double QuantileDensityFunction(double p)
+        {
+            return s / (p * (1 - p));
         }
 
         /// <summary>

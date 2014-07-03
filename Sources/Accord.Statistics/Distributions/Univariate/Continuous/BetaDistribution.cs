@@ -248,12 +248,22 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///  The beta distribution's mode is given
+        ///  by <c>(a - 1) / (a + b - 2).</c>
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
         public override double Mode
         {
-            get
-            {
-                return (a - 1.0) / (a + b - 2.0);
-            }
+            get { return (a - 1.0) / (a + b - 2.0); }
         }
 
         /// <summary>
@@ -347,6 +357,17 @@ namespace Accord.Statistics.Distributions.Univariate
             return Math.Log(constant) + (a - 1) * Math.Log(x) + (b - 1) * Math.Log(1 - x);
         }
 
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
         public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
             if (options != null)
