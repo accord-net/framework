@@ -24,7 +24,7 @@ namespace Accord.DirectSound
 {
     using System;
     using System.Collections.Generic;
-    using SlimDX.DirectSound;
+    using SharpDX.DirectSound;
 
     /// <summary>
     ///   Audio Device Category.
@@ -106,18 +106,9 @@ namespace Accord.DirectSound
             this.Category = category;
 
             // Set default device
-            DeviceInformation info = new DeviceInformation();
-            if (Category == AudioDeviceCategory.Output)
-            {
-                info.Description = "Primary Sound Driver";
-                info.DriverGuid = Guid.Empty;
-            }
-
-            else if (Category == AudioDeviceCategory.Capture)
-            {
-                info.Description = "Primary Sound Capture Driver";
-                info.DriverGuid = Guid.Empty;
-            }
+            DeviceInformation info = new DeviceInformation(Guid.Empty,
+                Category == AudioDeviceCategory.Output ? "Primary Sound Driver" : "Primary Sound Capture Driver",
+                String.Empty);
 
             this.Default = new AudioDeviceInfo(info);
         }
@@ -133,7 +124,7 @@ namespace Accord.DirectSound
         /// 
         public IEnumerator<AudioDeviceInfo> GetEnumerator()
         {
-            DeviceCollection devices = (Category == AudioDeviceCategory.Capture) ?
+            var devices = (Category == AudioDeviceCategory.Capture) ?
                 DirectSoundCapture.GetDevices() :
                 DirectSound.GetDevices();
 

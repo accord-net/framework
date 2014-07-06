@@ -98,8 +98,8 @@
       <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="SlimDX">
-      <HintPath>..\..\Externals\SlimDX\net40\x86\SlimDX.dll</HintPath>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\Externals\SharpDX\net40\SharpDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

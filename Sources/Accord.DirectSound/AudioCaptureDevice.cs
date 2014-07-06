@@ -25,8 +25,8 @@ namespace Accord.DirectSound
     using System;
     using System.Threading;
     using Accord.Audio;
-    using SlimDX.DirectSound;
-    using SlimDX.Multimedia;
+    using SharpDX.DirectSound;
+    using SharpDX.Multimedia;
     using System.Collections.Generic;
 
     /// <summary>
@@ -401,20 +401,16 @@ namespace Accord.DirectSound
 
 
             // Set the capture format
-            WaveFormat format = new WaveFormat();
-            format.Channels = 1;
-            format.SamplesPerSecond = sampleRate;
-            format.FormatTag = sampleFormat.ToWaveFormat();
-            format.BitsPerSample = (short)Signal.GetSampleSize(sampleFormat);
-            format.BlockAlignment = (short)(format.BitsPerSample / 8);
-            format.AverageBytesPerSecond = format.SamplesPerSecond * format.BlockAlignment;
+            var bitsPerSample = Signal.GetSampleSize(sampleFormat);
+            WaveFormat format = WaveFormat.CreateCustomFormat(sampleFormat.ToWaveFormat(), sampleRate, 1,
+                sampleRate * bitsPerSample / 8, bitsPerSample / 8, bitsPerSample);
 
             // Setup the capture buffer
             CaptureBufferDescription captureBufferDescription = new CaptureBufferDescription();
             captureBufferDescription.Format = format;
-            captureBufferDescription.BufferBytes = 2 * desiredCaptureSize * format.BlockAlignment;
-            captureBufferDescription.WaveMapped = true;
-            captureBufferDescription.ControlEffects = false;
+            captureBufferDescription.BufferBytes = 2 * desiredCaptureSize * format.BlockAlign;
+            captureBufferDescription.Flags |= CaptureBufferCapabilitiesFlags.WaveMapped;
+            captureBufferDescription.Flags &= ~CaptureBufferCapabilitiesFlags.ControlEffects;
 
             CaptureBuffer captureBuffer = null;
             NotificationPosition[] notifications = new NotificationPosition[2];
@@ -424,19 +420,19 @@ namespace Accord.DirectSound
                 captureBuffer = new CaptureBuffer(captureDevice, captureBufferDescription);
 
                 // Setup the notification positions
-                int bufferPortionSize = captureBuffer.SizeInBytes / 2;
+                int bufferPortionSize = captureBuffer.Capabilities.BufferBytes / 2;
                 notifications[0] = new NotificationPosition();
                 notifications[0].Offset = bufferPortionSize - 1;
-                notifications[0].Event = new AutoResetEvent(false);
+                notifications[0].WaitHandle = new AutoResetEvent(false);
                 notifications[1] = new NotificationPosition();
                 notifications[1].Offset = bufferPortionSize - 1 + bufferPortionSize;
-                notifications[1].Event = new AutoResetEvent(false);
+                notifications[1].WaitHandle = new AutoResetEvent(false);
                 captureBuffer.SetNotificationPositions(notifications);
 
                 // Make a copy of the wait handles
                 WaitHandle[] waitHandles = new WaitHandle[notifications.Length];
                 for (int i = 0; i < notifications.Length; i++)
-                    waitHandles[i] = notifications[i].Event;
+                    waitHandles[i] = notifications[i].WaitHandle;
 
 
 
@@ -451,7 +447,7 @@ namespace Accord.DirectSound
                     while (!stopEvent.WaitOne(0, true))
                     {
                         int bufferPortionIndex = WaitHandle.WaitAny(waitHandles);
-                        captureBuffer.Read(currentSample, 0, currentSample.Length, bufferPortionSize * bufferPortionIndex);
+                        captureBuffer.Read(currentSample, 0, currentSample.Length, bufferPortionSize * bufferPortionIndex, LockFlags.None);
                         OnNewFrame(currentSample);
                     }
                 }
@@ -462,7 +458,7 @@ namespace Accord.DirectSound
                     while (!stopEvent.WaitOne(0, true))
                     {
                         int bufferPortionIndex = WaitHandle.WaitAny(waitHandles);
-                        captureBuffer.Read(currentSample, 0, currentSample.Length, bufferPortionSize * bufferPortionIndex);
+                        captureBuffer.Read(currentSample, 0, currentSample.Length, bufferPortionSize * bufferPortionIndex, LockFlags.None);
                         OnNewFrame(currentSample);
                     }
                 }
@@ -485,8 +481,8 @@ namespace Accord.DirectSound
                     captureDevice.Dispose();
 
                 for (int i = 0; i < notifications.Length; i++)
-                    if (notifications[i].Event != null)
-                        notifications[i].Event.Close();
+                    if (notifications[i].WaitHandle != null)
+                        notifications[i].WaitHandle.Close();
             }
         }
 
