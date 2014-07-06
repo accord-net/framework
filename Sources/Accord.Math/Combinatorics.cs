@@ -191,7 +191,13 @@ namespace Accord.Math
         /// 
         /// <param name="symbols">The number of symbols.</param>
         /// <param name="length">The length of the sequence to generate.</param>
-        /// 
+        /// <param name="inPlace">
+        ///   If set to true, the different generated sequences will be stored in 
+        ///   the same array, thus preserving memory. However, this may prevent the
+        ///   samples from being stored in other locations without having to clone
+        ///   them. If set to false, a new memory block will be allocated for each
+        ///   new object in the sequence.</param>
+        ///   
         /// <example>
         /// <para>
         ///   Suppose we would like to generate the same sequences shown
@@ -222,13 +228,13 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static IEnumerable<int[]> Sequences(int symbols, int length)
+        public static IEnumerable<int[]> Sequences(int symbols, int length, bool inPlace = false)
         {
             int[] sym = new int[length];
             for (int i = 0; i < sym.Length; i++)
                 sym[i] = symbols;
 
-            return Sequences(sym);
+            return Sequences(sym, inPlace);
         }
 
         /// <summary>
@@ -238,6 +244,12 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="symbols">The number of symbols for each variable.</param>
+        /// <param name="inPlace">
+        ///   If set to true, the different generated permutations will be stored in 
+        ///   the same array, thus preserving memory. However, this may prevent the
+        ///   samples from being stored in other locations without having to clone
+        ///   them. If set to false, a new memory block will be allocated for each
+        ///   new object in the sequence.</param>
         /// 
         /// <example>
         /// <para>
@@ -265,13 +277,13 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static IEnumerable<int[]> Sequences(int[] symbols)
+        public static IEnumerable<int[]> Sequences(int[] symbols, bool inPlace = false)
         {
             var current = new int[symbols.Length];
 
             while (true)
             {
-                yield return current;
+                yield return inPlace ? current : (int[])current;
 
                 bool match = true;
                 for (int i = 0; i < current.Length && match; i++)
@@ -300,7 +312,13 @@ namespace Accord.Math
         /// 
         /// <param name="values">The array whose combinations need to be generated.</param>
         /// <param name="k">The length of the combinations to be generated.</param>
-        /// 
+        /// <param name="inPlace">
+        ///   If set to true, the different generated combinations will be stored in 
+        ///   the same array, thus preserving memory. However, this may prevent the
+        ///   samples from being stored in other locations without having to clone
+        ///   them. If set to false, a new memory block will be allocated for each
+        ///   new object in the sequence.</param>
+        ///   
         /// <example>
         /// <code>
         ///   // Let's say we would like to generate all possible combinations
@@ -321,7 +339,7 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static IEnumerable<T[]> Combinations<T>(T[] values, int k)
+        public static IEnumerable<T[]> Combinations<T>(T[] values, int k, bool inPlace = false)
         {
             // Based on the Knuth algorithm implementation by
             // http://seekwell.wordpress.com/2007/11/17/knuth-generating-all-combinations/
@@ -331,7 +349,7 @@ namespace Accord.Math
             int t = k;
 
             int[] c = new int[t + 3];
-            int[] result = new int[t];
+            T[] current = new T[t];
             int j, x;
 
             for (j = 1; j <= t; j++)
@@ -343,9 +361,10 @@ namespace Accord.Math
 
             do
             {
-                for (int i = 0; i < t; i++)
-                    result[i] = c[i + 1];
-                yield return values.Submatrix(result);
+                for (int i = 0; i < current.Length; i++)
+                    current[i] = values[c[i + 1]];
+
+                yield return (inPlace ? current : (T[])current.Clone());
 
                 if (j > 0)
                 {
@@ -383,6 +402,12 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="values">The array whose permutations need to be generated</param>.
+        /// <param name="inPlace">
+        ///   If set to true, the different generated permutations will be stored in 
+        ///   the same array, thus preserving memory. However, this may prevent the
+        ///   samples from being stored in other locations without having to clone
+        ///   them. If set to false, a new memory block will be allocated for each
+        ///   new object in the sequence.</param>
         /// 
         /// <example>
         /// <code>
@@ -406,8 +431,12 @@ namespace Accord.Math
         /// </code>
         /// </example>
         /// 
-        public static IEnumerable<T[]> Permutations<T>(T[] values)
+        public static IEnumerable<T[]> Permutations<T>(T[] values, bool inPlace = false)
         {
+            T[] current = new T[values.Length];
+
+            yield return (inPlace ? values : (T[])values.Clone());
+
             int[] idx = Matrix.Indices(0, values.Length);
 
             int j, l;
@@ -434,11 +463,13 @@ namespace Accord.Math
                     idx[idx.Length - i + j] = temp;
                 }
 
-                yield return values.Submatrix(idx);
+                for (int i = 0; i < values.Length; i++)
+                    current[i] = values[idx[i]];
+
+                yield return (inPlace ? current : (T[])current.Clone());
             }
 
         }
-
 
     }
 }
