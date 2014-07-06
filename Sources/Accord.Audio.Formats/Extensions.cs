@@ -34,7 +34,7 @@ namespace Accord.Audio
     {
 
         /// <summary>
-        ///   Converts a sample format into an appropriate <see cref="WaveFormatTag"/>.
+        ///   Converts a sample format into an appropriate <see cref="WaveFormatEncoding"/>.
         /// </summary>
         /// 
         /// <param name="sampleFormat">The sample format.</param>
@@ -57,7 +57,7 @@ namespace Accord.Audio
         }
 
         /// <summary>
-        ///   Converts a <see cref="WaveFormatTag"/> and bits per sample information
+        ///   Converts a <see cref="WaveFormatEncoding"/> and bits per sample information
         ///   into an appropriate <see cref="SampleFormat"/>.
         /// </summary>
         /// 

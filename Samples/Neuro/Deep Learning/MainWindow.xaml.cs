@@ -27,7 +27,6 @@ namespace DeepLearning
     using DeepLearning.ViewModel;
     using MahApps.Metro.Controls;
 
-
     /// <summary>
     ///   Main Window View.
     /// </summary>
