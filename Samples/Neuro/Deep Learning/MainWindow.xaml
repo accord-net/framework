@@ -10,7 +10,8 @@
         xmlns:vm="clr-namespace:DeepLearning.ViewModel" 
         Loaded="Window_Loaded" SaveWindowPosition="True" 
         xmlns:my1="clr-namespace:DeepLearning.Controls" 
-        xmlns:my2="clr-namespace:DeepLearning.Converters">
+        xmlns:my2="clr-namespace:DeepLearning.Converters"
+        Icon="framework.ico">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

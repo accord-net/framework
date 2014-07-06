@@ -85,13 +85,13 @@ namespace Panorama.Harris
         {
             if (harrisPoints1 == null)
             {
-                MessageBox.Show("Please, click Harris button first! :-)");
+                MessageBox.Show("Please click the Harris button first! :-)");
                 return;
             }
 
             // Step 2: Match feature points using a correlation measure
-            CorrelationMatching matcher = new CorrelationMatching(9);
-            IntPoint[][] matches = matcher.Match(img1, img2, harrisPoints1, harrisPoints2);
+            CorrelationMatching matcher = new CorrelationMatching(9, img1, img2);
+            IntPoint[][] matches = matcher.Match(harrisPoints1, harrisPoints2);
 
             // Get the two sets of points
             correlationPoints1 = matches[0];
