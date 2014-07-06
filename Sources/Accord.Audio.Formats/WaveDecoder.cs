@@ -25,7 +25,7 @@ namespace Accord.Audio.Formats
     using System;
     using System.IO;
     using Accord.Audio;
-    using SlimDX.Multimedia;
+    using SharpDX.Multimedia;
 
     /// <summary>
     ///   Wave audio file decoder.
@@ -54,7 +54,7 @@ namespace Accord.Audio.Formats
     /// 
     public class WaveDecoder : IAudioDecoder
     {
-        private WaveStream waveStream;
+        private SoundStream waveStream;
 
         private int blockAlign;
         private int channels;
@@ -206,13 +206,13 @@ namespace Accord.Audio.Formats
         /// 
         /// <returns>Returns number of frames found in the specified stream.</returns>
         /// 
-        public int Open(WaveStream stream)
+        public int Open(SoundStream stream)
         {
             this.waveStream = stream;
             this.channels = stream.Format.Channels;
-            this.blockAlign = stream.Format.BlockAlignment;
+            this.blockAlign = stream.Format.BlockAlign;
             this.numberOfFrames = (int)stream.Length / blockAlign;
-            this.sampleRate = stream.Format.SamplesPerSecond;
+            this.sampleRate = stream.Format.SampleRate;
             this.numberOfSamples = numberOfFrames * Channels;
             this.duration = (int)(numberOfFrames / (double)sampleRate * 1000.0);
             this.bitsPerSample = stream.Format.BitsPerSample;
@@ -231,7 +231,7 @@ namespace Accord.Audio.Formats
         /// 
         public int Open(Stream stream)
         {
-            return Open(new WaveStream(stream));
+            return Open(new SoundStream(stream));
         }
 
         /// <summary>
@@ -244,7 +244,7 @@ namespace Accord.Audio.Formats
         /// 
         public int Open(string path)
         {
-            return Open(new WaveStream(path));
+            return Open(new SoundStream(File.OpenRead(path)));
         }
 
         /// <summary>
@@ -324,7 +324,7 @@ namespace Accord.Audio.Formats
             int reads = 0;
 
             // Detect the underlying stream format.
-            if (waveStream.Format.FormatTag == WaveFormatTag.Pcm)
+            if (waveStream.Format.Encoding == WaveFormatEncoding.Pcm)
             {
                 // The wave is in standard PCM format. We'll need
                 //  to convert it to IeeeFloat.
@@ -358,7 +358,7 @@ namespace Accord.Audio.Formats
                         throw new NotSupportedException();
                 }
             }
-            else if (waveStream.Format.FormatTag == WaveFormatTag.IeeeFloat)
+            else if (waveStream.Format.Encoding == WaveFormatEncoding.IeeeFloat)
             {
                 // Format is 16-bit IEEE float,
                 // just copy to the buffer.

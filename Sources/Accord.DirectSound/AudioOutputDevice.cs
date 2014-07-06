@@ -25,8 +25,8 @@ namespace Accord.DirectSound
     using System;
     using System.Threading;
     using Accord.Audio;
-    using SlimDX.DirectSound;
-    using SlimDX.Multimedia;
+    using SharpDX.DirectSound;
+    using SharpDX.Multimedia;
     using System.Collections.Generic;
 
 
@@ -214,14 +214,7 @@ namespace Accord.DirectSound
 
 
             // Set the output format
-            WaveFormat waveFormat = new WaveFormat();
-            waveFormat.FormatTag = WaveFormatTag.IeeeFloat;
-            waveFormat.BitsPerSample = 32;
-            waveFormat.BlockAlignment = (short)(waveFormat.BitsPerSample * channels / 8);
-            waveFormat.Channels = (short)channels;
-            waveFormat.SamplesPerSecond = samplingRate;
-            waveFormat.AverageBytesPerSecond = waveFormat.SamplesPerSecond * waveFormat.BlockAlignment;
-
+            WaveFormat waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(samplingRate, channels);
             bufferSize = 8 * waveFormat.AverageBytesPerSecond;
 
 
@@ -231,7 +224,7 @@ namespace Accord.DirectSound
                 BufferFlags.GlobalFocus |
                 BufferFlags.ControlPositionNotify |
                 BufferFlags.GetCurrentPosition2;
-            desc2.SizeInBytes = bufferSize;
+            desc2.BufferBytes = bufferSize;
             desc2.Format = waveFormat;
 
             buffer = new SecondarySoundBuffer(ds, desc2);
@@ -244,8 +237,8 @@ namespace Accord.DirectSound
             for (int i = 0; i < numberOfPositions; i++)
             {
                 list.Add(new NotificationPosition()
-                {
-                    Event = new AutoResetEvent(false),
+                {              
+                    WaitHandle = new AutoResetEvent(false),
                     Offset = i * bufferSize / numberOfPositions + 1,
                 });
             }
@@ -254,7 +247,7 @@ namespace Accord.DirectSound
             list.Add(new NotificationPosition()
             {
                 Offset = bufferSize - 1,
-                Event = new AutoResetEvent(false)
+                WaitHandle = new AutoResetEvent(false)
             });
 
             firstHalfBufferIndex = numberOfPositions / 2;
@@ -268,7 +261,7 @@ namespace Accord.DirectSound
             // Make a copy of the wait handles
             waitHandles = new WaitHandle[notifications.Length];
             for (int i = 0; i < notifications.Length; i++)
-                waitHandles[i] = notifications[i].Event;
+                waitHandles[i] = notifications[i].WaitHandle;
 
             // Store all notification positions
             buffer.SetNotificationPositions(notifications);
@@ -455,7 +448,7 @@ namespace Accord.DirectSound
                 stop = true;
 
                 for (int i = 0; i < notifications.Length; i++)
-                    (notifications[i].Event as AutoResetEvent).Set();
+                    (notifications[i].WaitHandle as AutoResetEvent).Set();
             }
         }
 
@@ -471,7 +464,7 @@ namespace Accord.DirectSound
             if (thread != null)
             {
                 for (int i = 0; i < notifications.Length; i++)
-                    (notifications[i].Event as AutoResetEvent).Set();
+                    (notifications[i].WaitHandle as AutoResetEvent).Set();
 
                 // wait for thread stop
                 thread.Join();
