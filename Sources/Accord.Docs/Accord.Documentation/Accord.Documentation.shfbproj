@@ -47,8 +47,10 @@
 <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.xml" />
 <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.dll" />
 <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.xml" /></DocumentationSources>
-    <CopyrightText>&amp;lt%3ba href=&amp;quot%3bhttp://accord-framework.net/&amp;quot%3b target=&amp;quot%3b_blank&amp;quot%3b&amp;gt%3bAccord.NET Framework&amp;lt%3b/a&amp;gt%3b &amp;#169%3b 2009-2014. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
+<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.xml" />
+<DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.dll" />
+<DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" /></DocumentationSources>
+    <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2014. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="True">&lt;b&gt;Accord.NET Framework&lt;/b&gt;</NamespaceSummaryItem>
@@ -221,7 +223,7 @@
     </FooterText>
     <MissingTags>AutoDocumentCtors, AutoDocumentDispose</MissingTags>
     <KeepLogFile>True</KeepLogFile>
-    <RootNamespaceContainer>True</RootNamespaceContainer>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
     <RootNamespaceTitle>Accord.NET Framework</RootNamespaceTitle>
     <ApiFilter>
       <Filter entryType="Namespace" fullName="Accord.Music" isExposed="False" xmlns="" />
@@ -281,7 +283,7 @@
       <Argument Key="logoAlignment" Value="left" />
     </TransformComponentArguments>
     <MaximumGroupParts>2</MaximumGroupParts>
-    <NamespaceGrouping>True</NamespaceGrouping>
+    <NamespaceGrouping>False</NamespaceGrouping>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional

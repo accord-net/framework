@@ -1,10 +1,5 @@
 <?xml version="1.0"?>
 
-<!--
-     The contents of this file and description tries to retain 
-     most of the style from the original AForge.NET definitions.
--->
-
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Accord.Math</id>
@@ -12,21 +7,25 @@
     <title>Accord.Math</title>
     <authors>Accord.NET</authors>
     <owners>Accord.NET</owners>
-    <licenseUrl>http://accord.googlecode.com/svn/docs/License.txt</licenseUrl>
-    <projectUrl>http://accord.googlecode.com</projectUrl>
-    <iconUrl>http://accord.googlecode.com/svn/docs/resources/Accord.NET%20(logo%20small).png</iconUrl>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Contains a matrix extension library, along with a suite of numerical matrix decomposition methods, numerical optimization algorithms for constrained and unconstrained problems, special functions and other tools for scientific applications. This package is part of the Accord.NET Framework.</description>
     <summary>Accord.Math library from the Accord.NET framework</summary>
     <tags>accord.net aforge.net framework math decompositions lu qr constrained optimization differentiation numerical matrix algebra</tags>
     <dependencies>
-      <dependency id="Accord"      version="2.12.0" />
+      <dependency id="Accord"      version="2.13.0" />
+      
       <dependency id="AForge"      version="2.2.5" />
       <dependency id="AForge.Math" version="2.2.5" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\Accord.Math.dll" target="lib\Accord.Math.dll" />
-    <file src="..\..\Release\Accord.Math.xml" target="lib\Accord.Math.xml" />
+    <file src="..\..\Release\net35\Accord.Math.dll" target="lib\net35\Accord.Math.dll" />
+    <file src="..\..\Release\net35\Accord.Math.xml" target="lib\net35\Accord.Math.xml" />
+
+    <file src="..\..\Release\net40\Accord.Math.dll" target="lib\net40\Accord.Math.dll" />
+    <file src="..\..\Release\net40\Accord.Math.xml" target="lib\net40\Accord.Math.xml" />
   </files>
 </package>

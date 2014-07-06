@@ -40,7 +40,6 @@
     <OutputPath>bin\Release 3.5\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Release\Accord.Tests.MachineLearning.GPL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
