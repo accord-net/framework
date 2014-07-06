@@ -67,11 +67,12 @@ namespace Accord.Statistics.Kernels
         ///   Constructs a new Gaussian Kernel
         /// </summary>
         /// 
-        /// <param name="sigma">The standard deviation for the Gaussian distribution.</param>
+        /// <param name="sigma">The kernel's sigma parameter.</param>
         /// 
         public Gaussian(double sigma)
         {
-            this.Sigma = sigma;
+            this.sigma = sigma;
+            this.gamma = 1.0 / (2.0 * sigma * sigma);
         }
 
         /// <summary>
@@ -377,7 +378,11 @@ namespace Accord.Statistics.Kernels
         }
 
 
-
+        /// <summary>
+        ///   Called when the value for any of the
+        ///   kernel's parameters has changed.
+        /// </summary>
+        /// 
         protected virtual void OnSigmaChanging()
         {
         }

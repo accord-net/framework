@@ -23,14 +23,13 @@
 namespace Accord.Controls
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.Reflection;
     using System.Threading;
     using System.Windows.Forms;
-    using Accord.Statistics.Visualizations;
-    using ZedGraph;
-    using AForge;
     using Accord.Math;
-    using System.Reflection;
-    using System.ComponentModel.DataAnnotations;
+    using Accord.Statistics.Visualizations;
+    using AForge;
 
     /// <summary>
     ///   Scatter plot Box for quickly displaying a form with a scatter plot on it
@@ -93,7 +92,14 @@ namespace Accord.Controls
             return this;
         }
 
-     
+        /// <summary>
+        ///   Sets the window title of the scatterplot box.
+        ///   
+        /// </summary>
+        /// <param name="text">The desired title text for the window.</param>
+        /// 
+        /// <returns>This instance, for fluent programming.</returns>
+        /// 
         public ScatterplotBox SetTitle(string text)
         {
             if (this.InvokeRequired)
@@ -180,10 +186,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="x">The x-values for the data.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(double[] x)
         {
@@ -198,10 +200,6 @@ namespace Accord.Controls
         /// <param name="x">The x-values for the data.</param>
         /// <param name="y">The y-values for the data.</param>
         /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(string title, double[] x, double[] y, int[] z)
         {
@@ -219,10 +217,6 @@ namespace Accord.Controls
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">The x-values for the data.</param>
         /// <param name="y">The y-values for the data.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(string title, double[] x, double[] y)
         {
@@ -239,10 +233,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">The x-values for the data.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(string title, double[] x)
         {
@@ -259,10 +249,6 @@ namespace Accord.Controls
         /// 
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
         /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(double[,] x, int[] z)
         {
@@ -274,10 +260,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(double[,] x)
         {
@@ -291,10 +273,6 @@ namespace Accord.Controls
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
         /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(string title, double[,] x, int[] z)
         {
@@ -311,10 +289,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(string title, double[,] x)
         {
@@ -331,10 +305,6 @@ namespace Accord.Controls
         /// 
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
         /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(double[][] x, int[] z)
         {
@@ -347,10 +317,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(double[][] x)
         {
@@ -363,10 +329,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(string title, double[][] x)
         {
@@ -384,10 +346,6 @@ namespace Accord.Controls
         /// <param name="title">The title for the plot window.</param>
         /// <param name="x">A two column matrix containing the (x,y) data pairs as rows.</param>
         /// <param name="z">The corresponding labels for the (x,y) pairs.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(string title, double[][] x, int[] z)
         {
@@ -403,10 +361,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="scatterplot">The scatter plot to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static ScatterplotBox Show(Scatterplot scatterplot)
         {
@@ -417,26 +371,23 @@ namespace Accord.Controls
         ///   Displays a scatter plot.
         /// </summary>
         /// 
-        /// <param name="scatterplot">The scatter plot to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
+        /// <param name="function">The function to plot.</param>
+        /// <param name="max">The maximum value for the functions argument parameter.</param>
+        /// <param name="min">The minimum value for the functions argument parameter.</param>
+        /// <param name="step">The step size to use during plotting.</param>
         /// 
         public static ScatterplotBox Show(Func<double, double> function, double min, double max, double step)
         {
-            return show(null, function, null, null, step);
+            return show(null, function, min, max, step);
         }
 
         /// <summary>
         ///   Displays a scatter plot.
         /// </summary>
         /// 
-        /// <param name="scatterplot">The scatter plot to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
+        /// <param name="function">The function to plot.</param>
+        /// <param name="range">The functions argument range to be plotted.</param>
+        /// <param name="step">The step size to use during plotting.</param>
         /// 
         public static ScatterplotBox Show(Func<double, double> function, DoubleRange range, double step)
         {
@@ -447,11 +398,8 @@ namespace Accord.Controls
         ///   Displays a scatter plot.
         /// </summary>
         /// 
-        /// <param name="scatterplot">The scatter plot to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
+        /// <param name="function">The function to plot.</param>
+        /// <param name="range">The functions argument range to be plotted.</param>
         /// 
         public static ScatterplotBox Show(Func<double, double> function, DoubleRange range)
         {
@@ -462,11 +410,9 @@ namespace Accord.Controls
         ///   Displays a scatter plot.
         /// </summary>
         /// 
-        /// <param name="scatterplot">The scatter plot to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
+        /// <param name="title">The title for the plot window.</param>
+        /// <param name="function">The function to plot.</param>
+        /// <param name="range">The functions argument range to be plotted.</param>
         /// 
         public static ScatterplotBox Show(String title, Func<double, double> function, DoubleRange range)
         {
@@ -477,11 +423,9 @@ namespace Accord.Controls
         ///   Displays a scatter plot.
         /// </summary>
         /// 
-        /// <param name="scatterplot">The scatter plot to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
+        /// <param name="title">The title for the plot window.</param>
+        /// <param name="function">The function to plot.</param>
+        /// <param name="step">The step size to use during plotting.</param>
         /// 
         public static ScatterplotBox Show(String title, Func<double, double> function, double step)
         {
@@ -492,11 +436,8 @@ namespace Accord.Controls
         ///   Displays a scatter plot.
         /// </summary>
         /// 
-        /// <param name="scatterplot">The scatter plot to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
+        /// <param name="title">The title for the plot window.</param>
+        /// <param name="function">The function to plot.</param>
         /// 
         public static ScatterplotBox Show(String title, Func<double, double> function)
         {
@@ -507,11 +448,11 @@ namespace Accord.Controls
         ///   Displays a scatter plot.
         /// </summary>
         /// 
-        /// <param name="scatterplot">The scatter plot to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
+        /// <param name="title">The title for the plot window.</param>
+        /// <param name="function">The function to plot.</param>
+        /// <param name="max">The maximum value for the functions argument parameter.</param>
+        /// <param name="min">The minimum value for the functions argument parameter.</param>
+        /// <param name="step">The step size to use during plotting.</param>
         /// 
         public static ScatterplotBox Show(String title, Func<double, double> function, double min, double max, double step)
         {
@@ -580,9 +521,15 @@ namespace Accord.Controls
             return form;
         }
 
-
+        /// <summary>
+        ///   Holds the execution until the window has been closed.
+        /// </summary>
+        /// 
         public void Hold()
         {
+            if (Thread.CurrentThread == formThread)
+                return;
+
             this.SetTitle(this.Text + " [on hold]");
 
             formThread.Join();

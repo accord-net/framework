@@ -78,18 +78,25 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Blocks the caller until the form is closed.
+        ///   Sets the window title of the data series box.
+        ///   
         /// </summary>
+        /// <param name="text">The desired title text for the window.</param>
         /// 
-        public void WaitForClose()
+        /// <returns>This instance, for fluent programming.</returns>
+        /// 
+        public DataSeriesBox SetTitle(string text)
         {
-            if (Thread.CurrentThread != formThread)
-                formThread.Join();
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => SetTitle(text)));
+                return this;
+            }
+
+            this.Text = text;
+
+            return this;
         }
-
-
-
-
 
         /// <summary>
         ///   Displays a scatter plot with the specified data.
@@ -97,10 +104,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the data.</param>
         /// <param name="series">The data series.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static DataSeriesBox Show(string title = "Time series", params double[][] series)
         {
@@ -148,8 +151,17 @@ namespace Accord.Controls
             return form;
         }
 
+        /// <summary>
+        ///   Holds the execution until the window has been closed.
+        /// </summary>
+        /// 
         public void Hold()
         {
+            if (Thread.CurrentThread == formThread)
+                return;
+
+            this.SetTitle(this.Text + " [on hold]");
+
             formThread.Join();
         }
 

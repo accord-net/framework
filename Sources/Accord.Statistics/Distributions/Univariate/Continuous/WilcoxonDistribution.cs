@@ -287,6 +287,20 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mode value. In the current
+        ///   implementation, returns the same as the <see cref="Mean"/>.
+        /// </value>
+        /// 
+        public override double Mode
+        {
+            get { return Mean; }
+        }
+
+        /// <summary>
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 

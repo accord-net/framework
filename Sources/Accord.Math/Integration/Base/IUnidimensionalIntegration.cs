@@ -23,39 +23,29 @@
 namespace Accord.Math.Integration
 {
     using System;
+    using AForge;
 
-    public static class Romberg
+    /// <summary>
+    ///   Common interface for multidimensional integration methods.
+    /// </summary>
+    /// 
+    public interface IUnivariateIntegration : INumericalIntegration
     {
-        public static double Integrate(Func<double, double> func, double a, double b)
-        {
-            return Integrate(func, a, b, 6);
-        }
 
-        public static double Integrate(Func<double, double> func, double a, double b,
-            int steps)
-        {
-            double[] s = new double[steps];
+        /// <summary>
+        ///   Gets or sets the unidimensional function
+        ///   whose integral should be computed.
+        /// </summary>
+        /// 
+        Func<double, double> Function { get; set; }
 
-            double sum = 0;
-            for (int i = 0; i < s.Length; i++)
-                s[i] = 1;
+        /// <summary>
+        ///   Gets or sets the input range under 
+        ///   which the integral must be computed.
+        /// </summary>
+        /// 
+        DoubleRange Range { get; set; }
 
-            for (int k = 0; k < s.Length; k++)
-            {
-                sum = s[0];
-                s[0] = Trapezoidal.Integrate(func, a, b, 1 << k);
-
-                for (int i = 1; i <= k; i++)
-                {
-                    int p = (int)Math.Pow(4, i);
-                    s[k] = (p * s[i - 1] - sum) / (p - 1);
-
-                    sum = s[i];
-                    s[i] = s[k];
-                }
-            }
-
-            return s[s.Length - 1];
-        }
     }
+
 }

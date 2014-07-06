@@ -128,6 +128,20 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the mode for this distribution (μ).
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Laplace's distribution mode has the 
+        ///   same value as the location parameter μ.
+        /// </remarks>
+        /// 
+        public override double Mode
+        {
+            get { return u; }
+        }
+
+        /// <summary>
         ///   Gets the median for this distribution.
         /// </summary>
         /// 

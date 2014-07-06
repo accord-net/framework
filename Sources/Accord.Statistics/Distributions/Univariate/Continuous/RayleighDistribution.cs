@@ -134,6 +134,23 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   In the Rayleigh distribution, the mode equals σ (sigma).
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
+        public override double Mode
+        {
+            get { return sigma; }
+        }
+
+        /// <summary>
         ///   Gets the entropy for this distribution.
         /// </summary>
         /// 

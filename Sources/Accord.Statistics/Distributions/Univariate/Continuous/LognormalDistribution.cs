@@ -207,6 +207,19 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
+        public override double Mode
+        {
+            get { return Math.Exp(location - shape2); }
+        }
+
+        /// <summary>
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 

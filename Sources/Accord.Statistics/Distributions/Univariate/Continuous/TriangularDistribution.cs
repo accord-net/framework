@@ -50,11 +50,29 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     /// <example>
     /// <para>
-    ///   This examples shows how to create a Triangular distribution
-    ///   and compute some of its properties.</para>
+    ///   This example shows how to create a Triangular distribution
+    ///   with minimum 1, maximum 6, and most common value 3.</para>
     ///   
     /// <code>
-
+    /// // Create a new Triangular distribution (1, 3, 6).
+    /// var trig = new TriangularDistribution(a: 1, b: 6, c: 3);
+    /// 
+    /// double mean = trig.Mean;     // 3.3333333333333335
+    /// double median = trig.Median; // 3.2613872124741694
+    /// double mode = trig.Mode;     // 3.0
+    /// double var = trig.Variance;  // 1.0555555555555556
+    /// 
+    /// double cdf = trig.DistributionFunction(x: 2); // 0.10000000000000001
+    /// double pdf = trig.ProbabilityDensityFunction(x: 2); // 0.20000000000000001
+    /// double lpdf = trig.LogProbabilityDensityFunction(x: 2); // -1.6094379124341003
+    /// 
+    /// double ccdf = trig.ComplementaryDistributionFunction(x: 2); // 0.90000000000000002
+    /// double icdf = trig.InverseDistributionFunction(p: cdf); // 2.0000000655718773
+    /// 
+    /// double hf = trig.HazardFunction(x: 2); // 0.22222222222222224
+    /// double chf = trig.CumulativeHazardFunction(x: 2); // 0.10536051565782628
+    /// 
+    /// string str = trig.ToString(CultureInfo.InvariantCulture); // Triangular(x; a = 1, b = 6, c = 3)
     /// </code>
     /// </example>
     /// 
@@ -73,30 +91,69 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with the given parameters a, b and c.
         /// </summary>
         /// 
-        /// <param name="a">The triangular distribution parameter a.</param>
-        /// <param name="b">The triangular distribution parameter b.</param>
-        /// <param name="c">The triangular distribution parameter c.</param>
+        /// <param name="a">The minimum possible value in the distribution (a).</param>
+        /// <param name="b">The maximum possible value in the distribution (b).</param>
+        /// <param name="c">The most common value in the distribution (c).</param>
         /// 
         public TriangularDistribution(double a, double b, double c)
         {
             if (a > b)
-                throw new ArgumentException();
+            {
+                throw new ArgumentOutOfRangeException("b",
+                    "The maximum value 'b' must be greater than the minimum value 'a'.");
+            }
 
             if (c < a || c > b)
-                throw new ArgumentException();
+            {
+                throw new ArgumentOutOfRangeException("c",
+                    "The most common value 'c' must be between 'a' and 'b'.");
+            }
 
             initialize(a, b, c);
         }
 
 
+        /// <summary>
+        ///   Gets the triangular parameter A (the minimum value).
+        /// </summary>
+        /// 
+        public double A { get { return a; } }
 
+        /// <summary>
+        ///   Gets the triangular parameter B (the maximum value).
+        /// </summary>
+        /// 
+        public double B { get { return b; } }
 
+        /// <summary>
+        ///   Gets the triangular parameter C (the most probable value).
+        /// </summary>
+        /// 
+        public double C { get { return c; } }
+
+        /// <summary>
+        ///   Gets the mean for this distribution, 
+        ///   defined as (a + b + c) / 3.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mean value.
+        /// </value>
+        /// 
         public override double Mean
         {
             get { return (a + b + c) / 3.0; }
         }
 
 
+        /// <summary>
+        ///   Gets the median for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's median value.
+        /// </value>
+        /// 
         public override double Median
         {
             get
@@ -118,28 +175,66 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
 
+        /// <summary>
+        ///   Gets the variance for this distribution, defined
+        ///   as (a² + b² + c² - ab - ac - bc) / 18.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's variance.
+        /// </value>
+        /// 
         public override double Variance
         {
             get { return (a * a + b * b + c * c - a * b - a * c - b * c) / 18; }
         }
 
+        /// <summary>
+        ///   Gets the mode for this distribution,
+        ///   which is defined as <see cref="C"/>.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
         public override double Mode
         {
             get { return c; }
         }
 
+        /// <summary>
+        ///   Gets the distribution support, defined as (<see cref="A"/>, <see cref="B"/>).
+        /// </summary>
+        /// 
         public override DoubleRange Support
         {
             get { return new DoubleRange(a, b); }
         }
 
 
+        /// <summary>
+        ///   Gets the entropy for this distribution, 
+        ///   defined as 0.5 + log((b-a)/2)).
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's entropy.
+        /// </value>
+        /// 
         public override double Entropy
         {
             get { return 0.5 + Math.Log((b - a) / 2); }
         }
 
 
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
         public override double DistributionFunction(double x)
         {
             if (x < a)
@@ -155,6 +250,18 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
 
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.
+        /// </returns>
+        /// 
         public override double ProbabilityDensityFunction(double x)
         {
             if (x < a)
@@ -246,7 +353,13 @@ namespace Accord.Statistics.Distributions.Univariate
             this.c = c;
         }
 
-
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
         public double[] Generate(int samples)
         {
             double Fc = DistributionFunction(c);
@@ -265,6 +378,12 @@ namespace Accord.Statistics.Distributions.Univariate
             return values;
         }
 
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
         public double Generate()
         {
             double u = UniformContinuousDistribution.Random();

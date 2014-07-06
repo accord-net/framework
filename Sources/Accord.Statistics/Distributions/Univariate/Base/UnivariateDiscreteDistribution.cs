@@ -666,7 +666,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The logarithm of the probability of <c>x</c>
         ///   occurring in the current distribution.</returns>
         ///   
-        public abstract double LogProbabilityMassFunction(int k);
+        public virtual double LogProbabilityMassFunction(int k)
+        {
+            return Math.Log(ProbabilityMassFunction(k));
+        }
 
         /// <summary>
         ///   Gets the hazard function, also known as the failure rate or

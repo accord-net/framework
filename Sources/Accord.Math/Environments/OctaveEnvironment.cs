@@ -354,11 +354,6 @@ namespace Accord.Math.Environments
             get { return new mat(null); }
         }
 
-        protected mat matrix
-        {
-            get { return new mat(null); }
-        }
-
         /// <summary>
         ///   Return setter keyword.
         /// </summary>
@@ -579,6 +574,10 @@ namespace Accord.Math.Environments
             }
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="OctaveEnvironment"/> class.
+        /// </summary>
+        /// 
         protected OctaveEnvironment()
         {
             var type = this.GetType();

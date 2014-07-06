@@ -150,6 +150,15 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the mode value μ (mu) for this distribution.
+        /// </summary>
+        /// 
+        public override double Mode
+        {
+            get { return mean; }
+        }
+
+        /// <summary>
         ///   Gets the concentration κ (kappa) for this distribution.
         /// </summary>
         /// 

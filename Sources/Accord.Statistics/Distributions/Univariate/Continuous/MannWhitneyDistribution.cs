@@ -281,6 +281,15 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   This method is not supported.
         /// </summary>
         /// 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
+
+        /// <summary>
+        ///   This method is not supported.
+        /// </summary>
+        /// 
         public override double Entropy
         {
             get { throw new NotSupportedException(); }

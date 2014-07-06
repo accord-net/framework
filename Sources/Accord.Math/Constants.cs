@@ -81,7 +81,7 @@ namespace Accord.Math
         ///   is defined as 1.11022302462515654042E-16.
         /// </remarks>
         /// 
-        public const double DoubleEpsilon = 2.2204460492503131e-16;
+        public const double DoubleEpsilon = 1.11022302462515654042e-16;
 
         /// <summary>
         ///   Single-precision machine round-off error.
@@ -134,7 +134,11 @@ namespace Accord.Math
         /// 
         public const double LogMin = -7.451332191019412076235E2;
 
-   
+        /// <summary>
+        ///   Catalan's constant. 
+        /// </summary>
+        /// 
+        public const double Catalan = 0.915965594177219015054603514;
 
         /// <summary>
         ///   Log of number pi: log(pi).

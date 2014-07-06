@@ -124,6 +124,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.30641361727662009, ccdf);
             Assert.AreEqual(0.27, icdf, 1e-10);
             Assert.AreEqual("B(x; α = 0.42, β = 1.57)", str);
+
+            Assert.IsFalse(Double.IsNaN(median));
         }
 
         [TestMethod()]

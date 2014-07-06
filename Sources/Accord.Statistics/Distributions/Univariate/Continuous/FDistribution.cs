@@ -106,10 +106,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public FDistribution(int degrees1, int degrees2)
         {
-            if (degrees1 <= 0) 
+            if (degrees1 <= 0)
                 throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
 
-            if (degrees2 <= 0) 
+            if (degrees2 <= 0)
                 throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
 
             this.d1 = degrees1;
@@ -182,6 +182,29 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
 
                 return variance.Value;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
+        public override double Mode
+        {
+            get
+            {
+                if (d1 > 2)
+                {
+                    double a = (d1 - 2) / d1;
+                    double b = d2 / (d2 + 2);
+                    return a * b;
+                }
+
+                return Double.NaN;
             }
         }
 
@@ -467,8 +490,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("F(x; df1 = {0}, df2 = {1})", 
-                d1.ToString(format, formatProvider), 
+            return String.Format("F(x; df1 = {0}, df2 = {1})",
+                d1.ToString(format, formatProvider),
                 d2.ToString(format, formatProvider));
         }
     }

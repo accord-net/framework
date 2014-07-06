@@ -89,6 +89,14 @@ namespace Accord.Controls
             return this;
         }
 
+        /// <summary>
+        ///   Sets the window title of the histogram box.
+        ///   
+        /// </summary>
+        /// <param name="text">The desired title text for the window.</param>
+        /// 
+        /// <returns>This instance, for fluent programming.</returns>
+        /// 
         public HistogramBox SetTitle(string text)
         {
             if (this.InvokeRequired)
@@ -153,11 +161,6 @@ namespace Accord.Controls
         /// 
         /// <param name="values">The histogram values.</param>
         /// 
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
-        /// 
         public static HistogramBox Show(double[] values)
         {
             return Show("Histogram", values);
@@ -169,10 +172,6 @@ namespace Accord.Controls
         /// 
         /// <param name="title">The title for the histogram window.</param>
         /// <param name="values">The histogram values.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static HistogramBox Show(string title, double[] values)
         {
@@ -186,10 +185,6 @@ namespace Accord.Controls
         /// </summary>
         /// 
         /// <param name="histogram">The histogram to show.</param>
-        /// <param name="nonBlocking">If set to <c>true</c>, the caller will continue
-        /// executing while the form is shown on screen. If set to <c>false</c>,
-        /// the caller will be blocked until the user closes the form. Default
-        /// is <c>false</c>.</param>
         /// 
         public static HistogramBox Show(Histogram histogram)
         {
@@ -229,8 +224,15 @@ namespace Accord.Controls
             return form;
         }
 
+        /// <summary>
+        ///   Holds the execution until the window has been closed.
+        /// </summary>
+        /// 
         public void Hold()
         {
+            if (Thread.CurrentThread == formThread)
+                return;
+
             this.SetTitle(this.Text + " [on hold]");
 
             formThread.Join();

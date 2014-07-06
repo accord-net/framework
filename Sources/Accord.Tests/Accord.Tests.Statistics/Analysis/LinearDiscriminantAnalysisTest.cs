@@ -215,30 +215,32 @@ namespace Accord.Tests.Statistics
             // Project the input data into discriminant space
             double[,] projection = lda.Transform(inputs);
 
-            Assert.AreEqual(projection[0, 0], 4.4273255813953485);
-            Assert.AreEqual(projection[0, 1], 1.9629629629629628);
-            Assert.AreEqual(projection[1, 0], 3.7093023255813953);
-            Assert.AreEqual(projection[1, 1], -2.5185185185185186);
-            Assert.AreEqual(projection[2, 0], 3.2819767441860463);
-            Assert.AreEqual(projection[2, 1], -1.5185185185185186);
-            Assert.AreEqual(projection[3, 0], 5.5639534883720927);
-            Assert.AreEqual(projection[3, 1], -3.7777777777777777);
-            Assert.AreEqual(projection[4, 0], 5.7093023255813957);
-            Assert.AreEqual(projection[4, 1], -1.0370370370370372);
-            Assert.AreEqual(projection[5, 0], 13.273255813953488);
-            Assert.AreEqual(projection[5, 1], -3.3333333333333339);
-            Assert.AreEqual(projection[6, 0], 9.4186046511627914);
-            Assert.AreEqual(projection[6, 1], -3.5555555555555554);
-            Assert.AreEqual(projection[7, 0], 11.136627906976745);
-            Assert.AreEqual(projection[7, 1], 1.6666666666666661);
-            Assert.AreEqual(projection[8, 0], 10.991279069767442);
-            Assert.AreEqual(projection[8, 1], -1.0740740740740744);
-            Assert.AreEqual(projection[9, 0], 13.418604651162791);
-            Assert.AreEqual(projection[9, 1], -0.59259259259259345);
+            double tol = 1e-15;
+            Assert.AreEqual(projection[0, 0], 4.4273255813953485, tol);
+            Assert.AreEqual(projection[0, 1], 1.9629629629629628, tol);
+            Assert.AreEqual(projection[1, 0], 3.7093023255813953, tol);
+            Assert.AreEqual(projection[1, 1], -2.5185185185185186, tol);
+            Assert.AreEqual(projection[2, 0], 3.2819767441860463, tol);
+            Assert.AreEqual(projection[2, 1], -1.5185185185185186, tol);
+            Assert.AreEqual(projection[3, 0], 5.5639534883720927, tol);
+            Assert.AreEqual(projection[3, 1], -3.7777777777777777, tol);
+            Assert.AreEqual(projection[4, 0], 5.7093023255813957, tol);
+            Assert.AreEqual(projection[4, 1], -1.0370370370370372, tol);
+            Assert.AreEqual(projection[5, 0], 13.273255813953488, tol);
+            Assert.AreEqual(projection[5, 1], -3.3333333333333339, tol);
+            Assert.AreEqual(projection[6, 0], 9.4186046511627914, tol);
+            Assert.AreEqual(projection[6, 1], -3.5555555555555554, tol);
+            Assert.AreEqual(projection[7, 0], 11.136627906976745, tol);
+            Assert.AreEqual(projection[7, 1], 1.6666666666666661, tol);
+            Assert.AreEqual(projection[8, 0], 10.991279069767442, tol);
+            Assert.AreEqual(projection[8, 1], -1.0740740740740744, tol);
+            Assert.AreEqual(projection[9, 0], 13.418604651162791, tol);
+            Assert.AreEqual(projection[9, 1], -0.59259259259259345, tol);
 
             // Assert the result equals the transformation of the input
             double[,] result = lda.Result;
             Assert.IsTrue(Matrix.IsEqual(result, projection));
+            Assert.IsFalse(Matrix.HasNaN(projection));
         }
 
         [TestMethod()]

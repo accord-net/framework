@@ -25,60 +25,229 @@ namespace Accord.Math.Integration
     using System;
     using AForge;
 
-    public class NonAdaptiveGaussKronrod
+    /// <summary>
+    ///   Status codes for the <see cref="NonAdaptiveGaussKronrod"/>
+    ///   integration method.
+    /// </summary>
+    /// 
+    public enum NonAdaptiveGaussKronrodStatus
     {
+        /// <summary>
+        ///   The integration calculation has been completed with success.
+        ///   The obtained result is under the selected convergence criteria.
+        /// </summary>
+        /// 
+        Success,
 
+        /// <summary>
+        ///   Maximum number of steps has been reached.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The maximum number of steps has been executed. The integral
+        ///   is probably too difficult to be calculated by dqng.
+        /// </remarks>
+        /// 
+        MaximumSteps = 1,
+
+    }
+
+    /// <summary>
+    ///   Non-Adaptive Gauss-Kronrod integration method. 
+    /// </summary>
+    /// 
+    /// <seealso cref="InfiniteAdaptiveGaussKronrod"/>
+    /// 
+    public class NonAdaptiveGaussKronrod : IUnivariateIntegration,
+        INumericalIntegration<NonAdaptiveGaussKronrodStatus>
+    {
+        private double result;
+        private double error;
+        private int evaluations;
+
+        private DoubleRange range;
+
+        /// <summary>
+        ///   Gets or sets the function to be differentiated.
+        /// </summary>
+        /// 
         public Func<double, double> Function { get; set; }
 
-        public DoubleRange Range { get; private set; }
+        /// <summary>
+        ///   Gets or sets the input range under
+        ///   which the integral must be computed.
+        /// </summary>
+        /// 
+        public DoubleRange Range
+        {
+            get { return range; }
+            set
+            {
+                if (Double.IsInfinity(range.Min) || Double.IsNaN(range.Min))
+                    throw new ArgumentOutOfRangeException("value", "Minimum is out of range.");
 
+                if (Double.IsInfinity(range.Max) || Double.IsNaN(range.Max))
+                    throw new ArgumentOutOfRangeException("value", "Maximum is out of range.");
+
+                range = value;
+            }
+        }
+
+        /// <summary>
+        ///   Desired absolute accuracy. If set to zero, this parameter
+        ///   will be ignored and only other requisites will be taken
+        ///   into account. Default is zero.
+        /// </summary>
+        /// 
         public double ToleranceAbsolute { get; set; }
+
+        /// <summary>
+        ///   Desired relative accuracy. If set to zero, this parameter
+        ///   will be ignored and only other requisites will be taken
+        ///   into account. Default is 1e-3.
+        /// </summary>
+        /// 
         public double ToleranceRelative { get; set; }
 
-        public double Area { get; private set; }
-        public double Error { get; private set; }
+        /// <summary>
+        ///   Gets the numerically computed result of the
+        ///   definite integral for the specified function.
+        /// </summary>
+        /// 
+        public double Area { get { return result; } }
 
-        public int FunctionEvaluations { get; private set; }
+        /// <summary>
+        ///   Gets the integration error for the
+        ///   computed <see cref="Area"/> value.
+        /// </summary>
+        /// 
+        public double Error { get { return error; } }
 
-        public NonAdaptiveGaussKronrod(Func<double, double> function)
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="INumericalIntegration.Compute()"/> method.
+        /// </summary>
+        /// 
+        public NonAdaptiveGaussKronrodStatus Status { get; private set; }
+
+        /// <summary>
+        ///   Gets the number of function evaluations performed in 
+        ///   the last call to the <see cref="Compute"/> method.
+        /// </summary>
+        /// 
+        public int FunctionEvaluations { get { return evaluations; } }
+
+
+        /// <summary>
+        ///   Creates a new <see cref="NonAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
+        public NonAdaptiveGaussKronrod()
         {
-            this.Function = function;
+            ToleranceAbsolute = 0;
+            ToleranceRelative = 1e-3;
+            range = new DoubleRange(0, 1);
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="NonAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be integrated.</param>
+        /// 
+        public NonAdaptiveGaussKronrod(Func<double, double> function)
+            : this()
+        {
+            if (function == null)
+                throw new ArgumentNullException("function");
+
             ToleranceAbsolute = 0;
             ToleranceRelative = 1e-3;
         }
 
-        public double Compute()
+        /// <summary>
+        ///   Creates a new <see cref="NonAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be integrated.</param>
+        /// <param name="a">The lower limit of integration.</param>
+        /// <param name="b">The upper limit of integration.</param>
+        /// 
+        public NonAdaptiveGaussKronrod(Func<double, double> function, double a, double b)
+            : this(function)
         {
-            double result; 
-            double error; 
-            int evaluations;
+            if (Double.IsInfinity(a) || Double.IsNaN(a))
+                throw new ArgumentOutOfRangeException("a");
+
+            if (Double.IsInfinity(b) || Double.IsNaN(b))
+                throw new ArgumentOutOfRangeException("b");
+
+            range = new DoubleRange(a, b);
+        }
+
+        /// <summary>
+        ///   Computes the area of the function under the selected <see cref="Range"/>.
+        ///   The computed value will be available at this object's <see cref="Area"/>.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If the integration method fails, the reason will be available at <see cref="Status"/>.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   True if the integration method succeeds, false otherwise.
+        /// </returns>
+        /// 
+        public bool Compute()
+        {
             int errorCode;
 
             qng_(Function, Range.Min, Range.Max, ToleranceAbsolute, ToleranceRelative,
                 out result, out error, out evaluations, out errorCode);
 
-            Area = result;
-            Error = error;
-            FunctionEvaluations = evaluations;
+            Status = (NonAdaptiveGaussKronrodStatus)errorCode;
 
-            return result;
+            return Status == NonAdaptiveGaussKronrodStatus.Success;
         }
 
 
+        /// <summary>
+        ///   Computes the area under the integral for the given function, 
+        ///   in the given integration interval, using Gauss-Kronrod method.
+        /// </summary>
+        /// 
+        /// <param name="f">The unidimensional function whose integral should be computed.</param>
+        /// <param name="a">The beginning of the integration interval.</param>
+        /// <param name="b">The ending of the integration interval.</param>
+        /// 
+        /// <returns>The integral's value in the current interval.</returns>
+        /// 
         public static double Integrate(Func<double, double> f, double a, double b)
         {
             return Integrate(f, a, b, 1e-3);
         }
 
-        public static double Integrate(Func<double, double> f, double a, double b,
-            double tolerance)
+        /// <summary>
+        ///   Computes the area under the integral for the given function, in the given 
+        ///   integration interval, using the Non-Adaptive Gauss Kronrod algorithm.
+        /// </summary>
+        /// 
+        /// <param name="f">The unidimensional function whose integral should be computed.</param>
+        /// <param name="a">The beginning of the integration interval.</param>
+        /// <param name="b">The ending of the integration interval.</param>
+        /// <param name="tolerance">
+        ///   The relative tolerance under which the solution has to be found. Default is 1e-3.</param>
+        /// 
+        /// <returns>The integral's value in the current interval.</returns>
+        /// 
+        public static double Integrate(Func<double, double> f, double a, double b, double tolerance)
         {
             double result;
             double error;
             int evaluations;
             int errorCode;
 
-            qng_(f, a,b, 0, tolerance, out result, out error, out evaluations, out errorCode);
+            qng_(f, a, b, 0, tolerance, out result, out error, out evaluations, out errorCode);
 
             return result;
         }
@@ -89,8 +258,8 @@ namespace Accord.Math.Integration
 
         #region Quadpack
 
-        private static int qng_(Func<double, double> f, double a, double b, 
-            double epsabs, double epsrel, out double result, out double abserr, 
+        internal static int qng_(Func<double, double> f, double a, double b,
+            double epsabs, double epsrel, out double result, out double abserr,
             out int neval, out int ier)
         {
 
@@ -261,7 +430,8 @@ namespace Accord.Math.Integration
                 }
             }
         L80:
-            throw new Exception("abnormal return from  qng ");
+            //throw new Exception("abnormal return from  qng ");
+            System.Diagnostics.Trace.Write("abnormal return from  qng");
 
         L999:
             return 0;
@@ -358,5 +528,27 @@ namespace Accord.Math.Integration
 	        .07472214751740301f 
         };
         #endregion
+
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            NonAdaptiveGaussKronrod clone = new NonAdaptiveGaussKronrod(
+                this.Function, this.Range.Min, this.Range.Max);
+
+            clone.error = error;
+            clone.result = result;
+            clone.ToleranceAbsolute = ToleranceAbsolute;
+            clone.ToleranceRelative = ToleranceRelative;
+
+            return clone;
+        }
     }
 }

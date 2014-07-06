@@ -231,7 +231,7 @@ namespace Accord.Math.Optimization
         /// 
         /// <returns>The location of the minimum of the function in the given interval.</returns>
         /// 
-        public static double Minimize(Func<double, double> function, 
+        public static double Minimize(Func<double, double> function,
             double lowerBound, double upperBound, double tol = 1e-6)
         {
             double x, v, w; // Abscissas
@@ -255,7 +255,8 @@ namespace Accord.Math.Optimization
             }
 
             // First step - always gold section
-            v = lowerBound + r * (upperBound - lowerBound); fv = function(v);
+            v = lowerBound + r * (upperBound - lowerBound); 
+            fv = function(v);
             x = v; fx = fv;
             w = v; fw = fv;
 
@@ -326,8 +327,8 @@ namespace Accord.Math.Optimization
                     {
                         // t is a better approximation, so reduce
                         // the range so that t would fall within it
-                        if (t < x) 
-                            upperBound = x; 
+                        if (t < x)
+                            upperBound = x;
                         else lowerBound = x;
 
                         // Best approx.
@@ -339,8 +340,8 @@ namespace Accord.Math.Optimization
                     {
                         // x still remains the better approximation,
                         // so we can reduce the range enclosing x
-                        if (t < x) 
-                            lowerBound = t; 
+                        if (t < x)
+                            lowerBound = t;
                         else upperBound = t;
 
                         if (ft <= fw || w == x)
@@ -368,7 +369,7 @@ namespace Accord.Math.Optimization
         /// 
         /// <returns>The location of the maximum of the function in the given interval.</returns>
         /// 
-        public static double Maximize(Func<double, double> function, 
+        public static double Maximize(Func<double, double> function,
             double lowerBound, double upperBound, double tol = 1e-6)
         {
             return Minimize(x => -function(x), lowerBound, upperBound, tol);

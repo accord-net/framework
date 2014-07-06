@@ -524,5 +524,151 @@ namespace Accord.Math
 
         #endregion
 
+
+        #region Derived trigonometric functions
+        //
+        // http://msdn.microsoft.com/en-us/library/w3t84e33.aspx
+
+        /// <summary>
+        ///   Secant.
+        /// </summary>
+        /// 
+        public static double Sec(double x)
+        {
+            return 1 / Math.Cos(x);
+        }
+
+        /// <summary>
+        ///   Cosecant.
+        /// </summary>
+        /// 
+        public static double Cosec(double x)
+        {
+            return 1 / Math.Sin(x);
+        }
+
+        /// <summary>
+        ///   Cotangent.
+        /// </summary>
+        public static double Cotan(double x)
+        {
+            return 1 / Math.Tan(x);
+        }
+
+        /// <summary>
+        ///   Inverse secant.
+        /// </summary>
+        /// 
+        public static double Asec(double x)
+        {
+            double u = x * x - 1;
+            return 2 * Math.Atan(1) - Math.Atan2(Math.Sign(x), u * u);
+        }
+
+        /// <summary>
+        ///   Inverse cosecant.
+        /// </summary>
+        /// 
+        public static double Acosec(double x)
+        {
+            double u = x * x - 1;
+            return Math.Atan2(Math.Sign(x), u * u);
+        }
+
+        /// <summary>
+        ///   Inverse cotangent.
+        /// </summary>
+        /// 
+        public static double Acotan(double x)
+        {
+            return 2 * Math.Atan(1) - Math.Atan(x);
+        }
+
+        /// <summary>
+        ///   Hyperbolic secant.
+        /// </summary>
+        /// 
+        public static double Sech(double x)
+        {
+            return 2 / (Math.Exp(x) + Math.Exp(-x));
+        }
+
+        /// <summary>
+        ///   Hyperbolic secant.
+        /// </summary>
+        /// 
+        public static double Cosech(double x)
+        {
+            return 2 / (Math.Exp(x) - Math.Exp(-x));
+        }
+
+        /// <summary>
+        ///   Hyperbolic cotangent.
+        /// </summary>
+        /// 
+        public static double Cotanh(double x)
+        {
+            return (Math.Exp(x) + Math.Exp(-x)) / (Math.Exp(x) - Math.Exp(-x));
+        }
+
+        /// <summary>
+        ///   Inverse hyperbolic sin.
+        /// </summary>
+        /// 
+        public static double Asinh(double x)
+        {
+            double u = x * x + 1;
+            return Math.Log(x + u * u);
+        }
+
+        /// <summary>
+        ///   Inverse hyperbolic cos.
+        /// </summary>
+        /// 
+        public static double Acosh(double x)
+        {
+            double u = x * x - 1;
+            return Math.Log(x + u * u);
+        }
+
+        /// <summary>
+        ///   Inverse hyperbolic tangent.
+        /// </summary>
+        /// 
+        public static double Atanh(double x)
+        {
+            return Math.Log((1 + x) / (1 - x)) / 2;
+        }
+
+        /// <summary>
+        ///   Inverse hyperbolic secant.
+        /// </summary>
+        /// 
+        public static double Asech(double x)
+        {
+            double u = -x * x + 1;
+            return Math.Log((u * u + 1) / x);
+        }
+
+        /// <summary>
+        ///   Inverse hyperbolic cosecant.
+        /// </summary>
+        /// 
+        public static double Acosech(double x)
+        {
+            double u = x * x + 1;
+            return Math.Log((Math.Sign(x) * u * u + 1) / x);
+        }
+
+        /// <summary>
+        ///   Inverse hyperbolic cotangent.
+        /// </summary>
+        /// 
+        public static double Acotanh(double x)
+        {
+            return Math.Log((x + 1) / (x - 1)) / 2;
+        }
+
+        #endregion
     }
 }

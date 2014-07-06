@@ -134,6 +134,15 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
+
+        /// <summary>
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 

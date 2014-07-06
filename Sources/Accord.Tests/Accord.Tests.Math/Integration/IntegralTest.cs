@@ -58,20 +58,25 @@ namespace Accord.Tests.Math
         {
             double actual;
 
-            actual = Trapezoidal.Integrate(function1, 0, 2, 1);
-            Assert.AreEqual(4.0486368718741526, actual);
+            actual = TrapezoidalRule.Integrate(function1, 0, 2, 1);
+            Assert.AreEqual(4.0486368718741526, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
 
-            actual = Trapezoidal.Integrate(function1, 0, 2, 2);
-            Assert.AreEqual(3.6081715993899337, actual);
+            actual = TrapezoidalRule.Integrate(function1, 0, 2, 2);
+            Assert.AreEqual(3.6081715993899337, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
 
-            actual = Trapezoidal.Integrate(function1, 0, 2, 4);
-            Assert.AreEqual(3.4971047822027077, actual);
+            actual = TrapezoidalRule.Integrate(function1, 0, 2, 4);
+            Assert.AreEqual(3.4971047822027077, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
 
-            actual = Trapezoidal.Integrate(function1, 0, 2, 8);
-            Assert.AreEqual(3.4692784302833672, actual);
+            actual = TrapezoidalRule.Integrate(function1, 0, 2, 8);
+            Assert.AreEqual(3.4692784302833672, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
 
-            actual = Trapezoidal.Integrate(function1, 0, 2, 16);
-            Assert.AreEqual(3.4623181105467689, actual);
+            actual = TrapezoidalRule.Integrate(function1, 0, 2, 16);
+            Assert.AreEqual(3.4623181105467689, actual, 1e-15);
+            Assert.IsFalse(Double.IsNaN(actual));
         }
 
         private static double function2(double x)
@@ -86,19 +91,19 @@ namespace Accord.Tests.Math
 
             double actual;
 
-            actual = Romberg.Integrate(function2, 1, 2, 1);
+            actual = RombergMethod.Integrate(function2, 1, 2, 1);
             Assert.AreEqual(0.75, actual);
 
-            actual = Romberg.Integrate(function2, 1, 2, 2);
+            actual = RombergMethod.Integrate(function2, 1, 2, 2);
             Assert.AreEqual(0.69444444444444431, actual);
 
-            actual = Romberg.Integrate(function2, 1, 2, 4);
+            actual = RombergMethod.Integrate(function2, 1, 2, 4);
             Assert.AreEqual(0.6931474776448322, actual);
 
-            actual = Romberg.Integrate(function2, 1, 2, 8);
+            actual = RombergMethod.Integrate(function2, 1, 2, 8);
             Assert.AreEqual(0.6931471805599444, actual);
 
-            actual = Romberg.Integrate(function2, 1, 2, 16);
+            actual = RombergMethod.Integrate(function2, 1, 2, 16);
             Assert.AreEqual(0.69314718055994151, actual);
         }
 

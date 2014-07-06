@@ -52,7 +52,7 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -64,7 +64,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Release\Accord.Tests.Imaging.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
@@ -86,7 +86,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (4.5)|AnyCPU'">
     <OutputPath>bin\Release %284.5%29\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <NoWarn>618</NoWarn>
@@ -138,6 +138,8 @@
     <Compile Include="ConvexityDefectsTest.cs" />
     <Compile Include="BorderFollowingTest.cs" />
     <Compile Include="CentralMomentsTest.cs" />
+    <Compile Include="Filters\SauvolaTest.cs" />
+    <Compile Include="Filters\NiblackTest.cs" />
     <Compile Include="Filters\KuwaharaTest.cs" />
     <Compile Include="Filters\LogExpTest.cs" />
     <Compile Include="Filters\VarianceTest.cs" />

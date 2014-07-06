@@ -23,9 +23,8 @@
 namespace Accord.Tests.Math
 {
     using System.Collections.Generic;
-    using Accord.Math;
-    using AForge;
     using System.Linq;
+    using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
@@ -217,12 +216,13 @@ namespace Accord.Tests.Math
             foreach (var p in Combinatorics.Permutations(values))
                 permutations.Add(p);
 
-            Assert.AreEqual(5, permutations.Count);
-            Assert.IsTrue(permutations[0].IsEqual(new[] { 1, 3, 2 }));
-            Assert.IsTrue(permutations[1].IsEqual(new[] { 2, 1, 3 }));
-            Assert.IsTrue(permutations[2].IsEqual(new[] { 2, 3, 1 }));
-            Assert.IsTrue(permutations[3].IsEqual(new[] { 3, 1, 2 }));
-            Assert.IsTrue(permutations[4].IsEqual(new[] { 3, 2, 1 }));
+            Assert.AreEqual(6, permutations.Count);
+            Assert.IsTrue(permutations[0].IsEqual(new[] { 1, 2, 3 }));
+            Assert.IsTrue(permutations[1].IsEqual(new[] { 1, 3, 2 }));
+            Assert.IsTrue(permutations[2].IsEqual(new[] { 2, 1, 3 }));
+            Assert.IsTrue(permutations[3].IsEqual(new[] { 2, 3, 1 }));
+            Assert.IsTrue(permutations[4].IsEqual(new[] { 3, 1, 2 }));
+            Assert.IsTrue(permutations[5].IsEqual(new[] { 3, 2, 1 }));
         }
 
         [TestMethod()]

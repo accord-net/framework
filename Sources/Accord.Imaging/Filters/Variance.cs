@@ -47,7 +47,7 @@ namespace Accord.Imaging.Filters
     /// Bitmap image = ... // Lena's picture
     /// 
     /// // Create a new Variance filter:
-    /// var variance = new VarianceFilter();
+    /// var variance = new Variance();
     /// 
     /// // Compute the filter
     /// Bitmap result = variance.Apply(image);

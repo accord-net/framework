@@ -169,7 +169,7 @@
     <Compile Include="Interest Points\FREAK\FastRetinaKeypointPattern.cs" />
     <Compile Include="Interest Points\HistogramsOfOrientedGradients.cs" />
     <Compile Include="Interest Points\SURF\ResponseLayer.cs" />
-    <Compile Include="KNearestNeighborMatching.cs" />
+    <Compile Include="Interest Points\Matching\KNearestNeighborMatching.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interest Points\CornerFeaturePoint.cs" />
     <Compile Include="Interest Points\CornerFeaturesDetector.cs" />
@@ -177,7 +177,7 @@
     <Compile Include="Moments\HuMoments.cs" />
     <Compile Include="Moments\MomentsBase.cs" />
     <Compile Include="RansacFundamentalEstimator.cs" />
-    <Compile Include="CorrelationMatching.cs" />
+    <Compile Include="Interest Points\Matching\CorrelationMatching.cs" />
     <Compile Include="Filters\CombineChannel.cs" />
     <Compile Include="Filters\Rectification.cs" />
     <Compile Include="Moments\CentralMoments.cs" />
@@ -231,7 +231,6 @@
     <None Include="Accord.snk" />
     <None Include="Converters\Accord.Imaging.Converters.cd" />
     <None Include="Filters\Accord.Imaging.Filters.cd" />
-    <None Include="Interest Points\Accord.Imaging.InterestPoints.cd" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="Properties\CustomDictionary.xml" />

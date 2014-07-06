@@ -101,11 +101,19 @@ namespace Accord.Statistics.Distributions.Univariate
             this.alpha = shape;
         }
 
+        /// <summary>
+        ///   Gets the scale parameter x<sub>m</sub> for this distribution.
+        /// </summary>
+        /// 
         public double Scale
         {
             get { return xm; }
         }
 
+        /// <summary>
+        ///   Gets the shape parameter α (alpha) for this distribution.
+        /// </summary>
+        /// 
         public double Alpha
         {
             get { return alpha; }
@@ -284,17 +292,46 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
 
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).
+        /// </param>
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
         public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
+            if (options != null)
+                throw new ArgumentException("This method does not accept fitting options.");
+
             double xm = observations.Min();
 
             double lnx = Math.Log(xm);
 
-            double den = 0;
-            for (int i = 0; i < observations.Length; i++)
-                den += Math.Log(observations[i]) - lnx;
+            double alpha;
 
-            double alpha = observations.Length / den;
+            if (weights == null)
+            {
+                double den = 0;
+                for (int i = 0; i < observations.Length; i++)
+                    den += Math.Log(observations[i]) - lnx;
+                alpha = observations.Length / den;
+            }
+            else
+            {
+                double den = 0;
+                for (int i = 0; i < observations.Length; i++)
+                    den += (Math.Log(observations[i]) - lnx) * weights[i];
+                alpha = weights.Sum() / den;
+            }
 
             init(xm, alpha);
         }
@@ -367,6 +404,13 @@ namespace Accord.Statistics.Distributions.Univariate
                 xm.ToString(format), alpha.ToString(format));
         }
 
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
         public double[] Generate(int samples)
         {
             double[] U = UniformContinuousDistribution.Standard.Generate(samples);
@@ -377,6 +421,12 @@ namespace Accord.Statistics.Distributions.Univariate
             return U;
         }
 
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
         public double Generate()
         {
             double U = UniformContinuousDistribution.Standard.Generate();

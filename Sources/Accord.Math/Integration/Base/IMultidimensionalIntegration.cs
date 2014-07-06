@@ -23,21 +23,36 @@
 namespace Accord.Math.Integration
 {
     using System;
+    using AForge;
 
-    public static class Trapezoidal
+    /// <summary>
+    ///   Common interface for multidimensional integration methods.
+    /// </summary>
+    /// 
+    public interface IMultidimensionalIntegration : INumericalIntegration
     {
-        public static double Integrate(Func<double, double> func, double a, double b,
-            int steps)
-        {
-            double h = (b - a) / steps;
 
-            double sum = 0.5 * (func(a) + func(b));
+        /// <summary>
+        ///   Gets the number of parameters expected by
+        ///   the <see cref="Function"/> to be integrated.
+        /// </summary>
+        /// 
+        int NumberOfParameters { get; }
 
-            for (int i = 1; i < steps; i++)
-                sum += func(a + i * h);
+        /// <summary>
+        ///   Gets or sets the multidimensional function
+        ///   whose integral should be computed.
+        /// </summary>
+        /// 
+        Func<double[], double> Function { get; set; }
 
-            return h * sum;
-        }
+        /// <summary>
+        ///   Gets or sets the range of each input variable 
+        ///   under which the integral must be computed.
+        /// </summary>
+        /// 
+        DoubleRange[] Range { get; }
 
     }
+
 }

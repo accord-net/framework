@@ -101,7 +101,7 @@ namespace Accord.Statistics.Distributions.Univariate
             if (mean <= 0)
                 throw new ArgumentOutOfRangeException("mean");
 
-            if (shape <= 0) 
+            if (shape <= 0)
                 throw new ArgumentOutOfRangeException("shape");
 
             init(mean, shape);
@@ -145,6 +145,24 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double Variance
         {
             get { return (mean * mean * mean) / lambda; }
+        }
+
+        /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
+        public override double Mode
+        {
+            get
+            {
+                double a = 1 + (9 * mean * mean) / (4 * lambda * lambda * lambda * lambda);
+                double b = (3 * mean) / (2 * lambda);
+                return mean * (Math.Sqrt(a) - b);
+            }
         }
 
         /// <summary>
@@ -474,7 +492,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("N^-1(x; μ = {0}, λ = {1})", 
+            return String.Format("N^-1(x; μ = {0}, λ = {1})",
                 mean.ToString(format, formatProvider),
                 lambda.ToString(format, formatProvider));
         }

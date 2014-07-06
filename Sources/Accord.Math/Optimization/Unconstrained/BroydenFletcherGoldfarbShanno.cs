@@ -325,7 +325,8 @@ namespace Accord.Math.Optimization
     /// </code>
     /// </example>
     /// 
-    public class BroydenFletcherGoldfarbShanno : BaseGradientOptimizationMethod, IGradientOptimizationMethod
+    public class BroydenFletcherGoldfarbShanno : BaseGradientOptimizationMethod,
+        IGradientOptimizationMethod, IOptimizationMethod<BroydenFletcherGoldfarbShannoStatus>
     {
 
         // parameters

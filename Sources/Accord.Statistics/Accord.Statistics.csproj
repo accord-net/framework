@@ -89,7 +89,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\Release\net45\</OutputPath>
     <DefineConstants>CODE_ANALYSIS;TRACE;CODE_ANALYSIS;NET45</DefineConstants>
-	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\..\Release\net45\Accord.Statistics.XML</DocumentationFile>
     <Optimize>true</Optimize>
@@ -187,6 +187,9 @@
     <Compile Include="Distributions\Multivariate\Continuous\DirichletDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\LogisticDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GumbelDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TukeyLambdaDistribution.cs" />
@@ -209,6 +212,7 @@
     <Compile Include="Distributions\Univariate\Base\UnivariateDiscreteDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\JointDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WilcoxonDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\DegenerateDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\NegativeBinomialDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ParetoDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\UniformDiscreteDistribution.cs" />

@@ -25,97 +25,366 @@ namespace Accord.Math.Integration
     using System;
     using AForge;
 
-    public class InfiniteAdaptiveGaussKronrod
+    /// <summary>
+    ///   Status codes for the <see cref="InfiniteAdaptiveGaussKronrodStatus"/>
+    ///   integration method.
+    /// </summary>
+    /// 
+    public enum InfiniteAdaptiveGaussKronrodStatus
     {
+        /// <summary>
+        ///   The integration calculation has been completed with success.
+        ///   The obtained result is under the selected convergence criteria.
+        /// </summary>
+        /// 
+        Success,
 
+        /// <summary>
+        ///   Maximum number of allowed subdivisions has been reached.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///  The maximum number of subdivisions allowed has been achieved. One can allow 
+        ///  more subdivisions by increasing the value of limit (and taking the according
+        ///  dimension adjustments into account). However, if this yields no improvement 
+        ///  it is advised to analyze the integrand in order to determine the integration 
+        ///  difficulties. If the position of a local difficulty can be determined (e.g. 
+        ///  singularity, discontinuity within the interval) one will probably gain from
+        ///  splitting up the interval at this point and calling the integrator on the 
+        ///  subranges. if possible, an appropriate special-purpose integrator should be
+        ///  used, which is designed for handling the type of difficulty involved.
+        /// </remarks>
+        /// 
+        MaximumSubdivisions = 1,
+
+        /// <summary>
+        ///   Roundoff errors prevent the tolerance from being reached.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The occurrence of roundoff error is detected, which prevents the requested 
+        ///   tolerance from being achieved. The error may be under-estimated.
+        /// </remarks>
+        /// 
+        RoundoffError = 2,
+
+        /// <summary>
+        ///   There are severe discontinuities in the integrand function.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   Extremely bad integrand behaviour occurs at some points of the 
+        ///   integration interval.
+        /// </remarks>
+        /// 
+        BadBehavioredFunction = 3,
+
+        /// <summary>
+        ///   The algorithm cannot converge.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The algorithm does not converge. Roundoff error is detected in the
+        ///   extrapolation table. It is assumed that the requested tolerance cannot
+        ///   be achieved, and that the returned result is the best which can be obtained.
+        /// </remarks>
+        /// 
+        AlgorithmDivergence = 4,
+
+        /// <summary>
+        ///   The integral is divergent or slowly convergent.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The integral is probably divergent, or slowly convergent. It must be
+        ///   noted that divergence can occur with any other error code.
+        /// </remarks>
+        /// 
+        IntegralDiverence = 5,
+
+    }
+
+    /// <summary>
+    ///   Infinite Adaptive Gauss-Kronrod integration method. 
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   In applied mathematics, adaptive quadrature is a process in which the
+    ///   integral of a function f(x) is approximated using static quadrature rules
+    ///   on adaptively refined subintervals of the integration domain. Generally, 
+    ///   adaptive algorithms are just as efficient and effective as traditional
+    ///   algorithms for "well behaved" integrands, but are also effective for 
+    ///   "badly behaved" integrands for which traditional algorithms fail.</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="NonAdaptiveGaussKronrod"/>
+    /// 
+    public class InfiniteAdaptiveGaussKronrod : IUnivariateIntegration,
+        INumericalIntegration<InfiniteAdaptiveGaussKronrodStatus>
+    {
+        private int[] iwork;
+        private double[] work;
+        private double result;
+        private double error;
+        private int evaluations;
+
+        /// <summary>
+        ///   Get the maximum number of subintervals to be utilized in the
+        ///   partition of the <see cref="Range">integration interval</see>.
+        /// </summary>
+        /// 
+        public int Subintervals { get { return iwork.Length; } }
+
+        /// <summary>
+        ///   Gets or sets the function to be differentiated.
+        /// </summary>
+        /// 
         public Func<double, double> Function { get; set; }
 
-        public DoubleRange Range { get; private set; }
+        /// <summary>
+        ///   Gets or sets the input range under
+        ///   which the integral must be computed.
+        /// </summary>
+        /// 
+        public DoubleRange Range { get; set; }
 
+        /// <summary>
+        ///   Desired absolute accuracy. If set to zero, this parameter
+        ///   will be ignored and only other requisites will be taken
+        ///   into account. Default is zero.
+        /// </summary>
+        /// 
         public double ToleranceAbsolute { get; set; }
+
+        /// <summary>
+        ///   Desired relative accuracy. If set to zero, this parameter
+        ///   will be ignored and only other requisites will be taken
+        ///   into account. Default is 1e-3.
+        /// </summary>
+        /// 
         public double ToleranceRelative { get; set; }
 
-        public double Area { get; private set; }
-        public double Error { get; private set; }
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="INumericalIntegration.Compute()"/> method.
+        /// </summary>
+        /// 
+        public InfiniteAdaptiveGaussKronrodStatus Status { get; private set; }
 
-        public int FunctionEvaluations { get; private set; }
+        /// <summary>
+        ///   Gets the numerically computed result of the
+        ///   definite integral for the specified function.
+        /// </summary>
+        /// 
+        public double Area { get { return result; } }
 
-        public InfiniteAdaptiveGaussKronrod(Func<double, double> function)
+        /// <summary>
+        ///   Gets the integration error for the
+        ///   computed <see cref="Area"/> value.
+        /// </summary>
+        /// 
+        public double Error { get { return error; } }
+
+        /// <summary>
+        ///   Gets the number of function evaluations performed in 
+        ///   the last call to the <see cref="Compute"/> method.
+        /// </summary>
+        /// 
+        public int FunctionEvaluations { get { return evaluations; } }
+
+
+        /// <summary>
+        ///   Creates a new <see cref="InfiniteAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="subintervals">Maximum number of subintervals in the 
+        ///   partition of the given integration interval. Default is 100.</param>
+        /// 
+        public InfiniteAdaptiveGaussKronrod(int subintervals)
+            : this(subintervals, null, Double.MinValue, Double.MaxValue)
         {
-            this.Function = function;
+            init(subintervals, null, Double.MinValue, Double.MaxValue);
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="InfiniteAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="subintervals">Maximum number of subintervals in the 
+        ///   partition of the given integration interval. Default is 100.</param>
+        /// <param name="function">The function to be integrated.</param>
+        /// 
+        public InfiniteAdaptiveGaussKronrod(int subintervals, Func<double, double> function)
+            : this(subintervals, function, Double.MinValue, Double.MaxValue)
+        {
+            if (function == null)
+                throw new ArgumentNullException("function");
+
+            init(subintervals, function, Double.MinValue, Double.MaxValue);
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="InfiniteAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="subintervals">Maximum number of subintervals in the 
+        ///   partition of the given integration interval. Default is 100.</param>
+        /// <param name="function">The function to be integrated.</param>
+        /// <param name="a">The lower limit of integration.</param>
+        /// <param name="b">The upper limit of integration.</param>
+        /// 
+        public InfiniteAdaptiveGaussKronrod(int subintervals,
+            Func<double, double> function, double a, double b)
+        {
+            if (function == null)
+                throw new ArgumentNullException("function");
+
+            init(subintervals, function, a, b);
+        }
+
+        private void init(int subintervals, Func<double, double> function, double a, double b)
+        {
+            if (subintervals <= 0)
+            {
+                throw new ArgumentOutOfRangeException("subintervals",
+                    "Number of subintervals must be higher than zero.");
+            }
+
+            Function = function;
+            Range = new DoubleRange(a, b);
+
             ToleranceAbsolute = 0;
             ToleranceRelative = 1e-3;
+
+            work = new double[subintervals * 4];
+            iwork = new int[subintervals];
         }
 
-        public double Compute()
+        /// <summary>
+        ///   Computes the area of the function under the selected <see cref="Range"/>.
+        ///   The computed value will be available at this object's <see cref="Area"/>.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If the integration method fails, the reason will be available at <see cref="Status"/>.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   True if the integration method succeeds, false otherwise.
+        /// </returns>
+        /// 
+        public bool Compute()
         {
-            double result;
-            double error;
-            int evaluations;
+            Status = InfiniteAdaptiveGaussKronrodStatus.Success;
+
             int errorCode;
 
-            double bound = 0;
-            int inf = 0;
+            double a = this.Range.Min;
+            double b = this.Range.Max;
 
-            int limit = 0;
-            int lenw = 0;
-            double[] work = null;
-            int[] iwork = null;
-            int last;
-
-            qagi_(Function, bound, inf, ToleranceAbsolute, ToleranceRelative,
-                out result, out error, out evaluations, out errorCode,
-                limit, lenw, out last, iwork, work);
-
-            Area = result;
-            Error = error;
-            FunctionEvaluations = evaluations;
-
-            return result;
-        }
-
-        public static double Integrate(Func<double, double> f, double a, double b)
-        {
-            double result;
-            double error;
-            int evaluations;
-            int errorCode;
-
-            double bound = 0;
-            int inf = 0;
-
-            if (Double.IsInfinity(a) && Double.IsInfinity(b))
+            if (!Double.IsInfinity(a) && !Double.IsInfinity(b))
             {
-                inf = 2;
+                NonAdaptiveGaussKronrod.qng_(Function, a, b, ToleranceAbsolute, ToleranceRelative,
+                        out result, out error, out evaluations, out errorCode);
             }
-            else if (Double.IsInfinity(a))
-            {
-                bound = b;
-                inf = -1;
-            }
-            else if (Double.IsInfinity(b))
-            {
-                bound = a;
-                inf = 1;
-            }
+
             else
             {
-                throw new ArgumentException();
+                double bound = 0;
+                int inf;
+                int last;
+
+                if (Double.IsInfinity(a) && Double.IsInfinity(b))
+                {
+                    inf = 2;
+                }
+                else if (Double.IsInfinity(a))
+                {
+                    bound = b;
+                    inf = -1;
+                }
+                else // if (Double.IsInfinity(b))
+                {
+                    bound = a;
+                    inf = 1;
+                }
+
+                qagi_(Function, bound, inf, ToleranceAbsolute, ToleranceRelative,
+                    out result, out error, out evaluations, out errorCode,
+                    iwork.Length, work.Length, out last, iwork, work);
             }
 
-            int limit = 100;
-            int lenw = limit * 4;
-            double[] work = new double[lenw];
-            int[] iwork = new int[limit];
-            int last;
 
-            double tol = 1e-3;
+            if (errorCode == 6)
+                throw new InvalidOperationException("Unexpected internal error code.");
 
-            qagi_(f, bound, inf, 0, tol,
-                out result, out error, out evaluations, out errorCode,
-                limit, lenw, out last, iwork, work);
+            Status = (InfiniteAdaptiveGaussKronrodStatus)errorCode;
 
-            return result;
+            return Status == InfiniteAdaptiveGaussKronrodStatus.Success;
+        }
+
+        /// <summary>
+        ///   Computes the area under the integral for the given function, in the given 
+        ///   integration interval, using the Infinite Adaptive Gauss Kronrod algorithm.
+        /// </summary>
+        /// 
+        /// <param name="f">The unidimensional function whose integral should be computed.</param>
+        /// 
+        /// <returns>The integral's value in the current interval.</returns>
+        /// 
+        public static double Integrate(Func<double, double> f)
+        {
+            var iagk = new InfiniteAdaptiveGaussKronrod(100, f);
+
+            iagk.Compute();
+
+            return iagk.Area;
+        }
+
+        /// <summary>
+        ///   Computes the area under the integral for the given function, in the given 
+        ///   integration interval, using the Infinite Adaptive Gauss Kronrod algorithm.
+        /// </summary>
+        /// 
+        /// <param name="f">The unidimensional function whose integral should be computed.</param>
+        /// <param name="a">The beginning of the integration interval.</param>
+        /// <param name="b">The ending of the integration interval.</param>
+        /// 
+        /// <returns>The integral's value in the current interval.</returns>
+        /// 
+        public static double Integrate(Func<double, double> f, double a, double b)
+        {
+            var iagk = new InfiniteAdaptiveGaussKronrod(1000, f, a, b);
+
+            iagk.Compute();
+
+            return iagk.Area;
+        }
+
+        /// <summary>
+        ///   Computes the area under the integral for the given function, in the given 
+        ///   integration interval, using the Infinite Adaptive Gauss Kronrod algorithm.
+        /// </summary>
+        /// 
+        /// <param name="f">The unidimensional function whose integral should be computed.</param>
+        /// <param name="a">The beginning of the integration interval.</param>
+        /// <param name="b">The ending of the integration interval.</param>
+        /// <param name="tolerance">
+        ///   The relative tolerance under which the solution has to be found. Default is 1e-3.</param>
+        /// 
+        /// <returns>The integral's value in the current interval.</returns>
+        /// 
+        public static double Integrate(Func<double, double> f, double a, double b, double tolerance)
+        {
+            var iagk = new InfiniteAdaptiveGaussKronrod(100, f, a, b)
+            {
+                ToleranceRelative = tolerance
+            };
+
+            iagk.Compute();
+
+            return iagk.Area;
         }
 
 
@@ -128,7 +397,7 @@ namespace Accord.Math.Integration
             out int ier, int limit, int lenw, out int last, int[] iwork,
             double[] dwork)
         {
-            int l1, l2, l3, lvl;
+            int l1, l2, l3;
 
             /*         check validity o limit and lenw. */
 
@@ -165,17 +434,12 @@ namespace Accord.Math.Integration
                 }
             }
 
-            lvl = 0;
+            // lvl = 0;
         L10:
             if (ier == 6)
             {
-                lvl = 1;
+                // lvl = 1;
             }
-
-            //if (ier != 0 && ier != 2)
-            //{
-            //    throw new Exception("abnormal return from  qagi");
-            //}
 
             return 0;
         }
@@ -1049,5 +1313,32 @@ namespace Accord.Math.Integration
 
 
         #endregion
+
+        private InfiniteAdaptiveGaussKronrod()
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public object Clone()
+        {
+            var clone = new InfiniteAdaptiveGaussKronrod();
+
+            clone.evaluations = evaluations;
+            clone.iwork = (int[])iwork.Clone();
+            clone.work = (double[])work.Clone();
+            clone.error = error;
+            clone.result = result;
+            clone.ToleranceAbsolute = ToleranceAbsolute;
+            clone.ToleranceRelative = ToleranceRelative;
+
+            return clone;
+        }
     }
 }

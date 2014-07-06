@@ -29,6 +29,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics;
     using System.Globalization;
     using Accord.Statistics.Distributions.DensityKernels;
+    using System;
 
     [TestClass()]
     public class MultivariateEmpiricalDistributionTest
@@ -104,140 +105,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-3.5432541357714742, lpdf);
         }
 
-        [TestMethod()]
-        public void ProbabilityDensityFunctionTest()
-        {
-            double[] mean = { 1, -1 };
-            double[,] covariance = 
-            {
-                { 0.9, 0.4 },
-                { 0.4, 0.3 },
-            };
-
-            var target = new MultivariateNormalDistribution(mean, covariance);
-
-            double[] x = { 1.2, -0.8 };
-            double expected = 0.446209421363460;
-            double actual = target.ProbabilityDensityFunction(x);
-
-            Assert.AreEqual(expected, actual, 0.00000001);
-        }
-
-        [TestMethod()]
-        public void LogProbabilityDensityFunctionTest()
-        {
-            double[] mean = { 1, -1 };
-            double[,] covariance = 
-            {
-                { 0.9, 0.4 },
-                { 0.4, 0.3 },
-            };
-
-            var target = new MultivariateNormalDistribution(mean, covariance);
-
-            double[] x = { 1.2, -0.8 };
-            double expected = System.Math.Log(0.446209421363460);
-            double actual = target.LogProbabilityDensityFunction(x);
-
-            Assert.AreEqual(expected, actual, 0.00000001);
-        }
-
-        [TestMethod()]
-        public void ProbabilityDensityFunctionTest2()
-        {
-            double[] mean = new double[64];
-            double[,] covariance = Accord.Tests.Math.CholeskyDecompositionTest.bigmatrix;
-
-            var target = new MultivariateNormalDistribution(mean, covariance);
-
-            double expected = 1.0;
-            double actual = target.ProbabilityDensityFunction(mean);
-
-            Assert.AreEqual(expected, actual, 0.00000001);
-
-            double[] x = Matrix.Diagonal(covariance).Multiply(1.5945e7);
-
-            expected = 4.781042576287362e-12;
-            actual = target.ProbabilityDensityFunction(x);
-
-            Assert.AreEqual(expected, actual, 1e-21);
-        }
-
-        [TestMethod()]
-        public void ProbabilityDensityFunctionTest3()
-        {
-            double[] mean = new double[3];
-            double[,] covariance = Matrix.Identity(3);
-
-            var target = new MultivariateNormalDistribution(mean, covariance);
-
-            double[] x = { 1.2, -0.8 };
-
-            bool thrown = false;
-            try
-            {
-                target.ProbabilityDensityFunction(x);
-            }
-            catch (DimensionMismatchException)
-            {
-                thrown = true;
-            }
-
-            Assert.IsTrue(thrown);
-        }
-
-
-        [TestMethod()]
-        public void ConstructorTest()
-        {
-            double[] mean = { 1, -1 };
-            double[,] covariance = 
-            {
-                { 2, 1 },
-                { 1, 3 }
-            };
-
-            MultivariateNormalDistribution target = new MultivariateNormalDistribution(mean, covariance);
-
-            Assert.AreEqual(covariance, target.Covariance);
-            Assert.AreEqual(mean, target.Mean);
-            Assert.AreEqual(2, target.Variance.Length);
-            Assert.AreEqual(2, target.Variance[0]);
-            Assert.AreEqual(3, target.Variance[1]);
-            Assert.AreEqual(2, target.Dimension);
-        }
-
-        [TestMethod()]
-        public void ConstructorTest2()
-        {
-            double[] mean = { 1, -1 };
-            double[,] covariance = Matrix.Identity(4);
-
-            bool thrown = false;
-
-            try { new MultivariateNormalDistribution(mean, covariance); }
-            catch (DimensionMismatchException) { thrown = true; }
-
-            Assert.IsTrue(thrown);
-        }
-
-        [TestMethod()]
-        public void ConstructorTest3()
-        {
-            double[] mean = { 0, 0 };
-            double[,] covariance = 
-            {
-                { 0, 1 },
-                { 1, 0 }
-            };
-
-            bool thrown = false;
-
-            try { new MultivariateNormalDistribution(mean, covariance); }
-            catch (NonPositiveDefiniteMatrixException) { thrown = true; }
-
-            Assert.IsTrue(thrown);
-        }
+       
 
 
         [TestMethod()]
@@ -251,17 +119,22 @@ namespace Accord.Tests.Statistics
                 new double[] { 2.0000,  0.3000 }
             };
 
-            double[] mean = Accord.Statistics.Tools.Mean(observations);
-            double[,] cov = Accord.Statistics.Tools.Covariance(observations);
-
-            var target = new MultivariateNormalDistribution(2);
+            var target = new MultivariateEmpiricalDistribution(observations);
 
             double[] weigths = { 0.25, 0.25, 0.25, 0.25 };
 
-            target.Fit(observations, weigths);
+            bool thrown = false;
 
-            Assert.IsTrue(Matrix.IsEqual(mean, target.Mean));
-            Assert.IsTrue(Matrix.IsEqual(cov, target.Covariance, 1e-10));
+            try
+            {
+                target.Fit(observations, weigths);
+            }
+            catch (ArgumentException)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
         }
 
         [TestMethod()]
@@ -269,73 +142,55 @@ namespace Accord.Tests.Statistics
         {
             double[][] observations = 
             {
-                new double[] { 1, 2 },
-                new double[] { 1, 2 },
-                new double[] { 1, 2 },
-                new double[] { 1, 2 }
+                new double[] { 0.1000, -0.2000 },
+                new double[] { 0.4000,  0.6000 },
+                new double[] { 2.0000,  0.2000 },
+                new double[] { 2.0000,  0.3000 }
             };
 
+            double[] mean = Accord.Statistics.Tools.Mean(observations);
+            double[,] cov = Accord.Statistics.Tools.Covariance(observations);
 
-            var target = new MultivariateNormalDistribution(2);
+            var target = new MultivariateEmpiricalDistribution(observations);
 
-            bool thrown = false;
-            try { target.Fit(observations); }
-            catch (NonPositiveDefiniteMatrixException) { thrown = true; }
+            target.Fit(observations);
 
-            Assert.IsTrue(thrown);
-
-            NormalOptions options = new NormalOptions() { Regularization = double.Epsilon };
-
-            // No exception thrown
-            target.Fit(observations, options);
+            Assert.IsTrue(Matrix.IsEqual(mean, target.Mean));
+            Assert.IsTrue(Matrix.IsEqual(cov, target.Covariance, 1e-10));
         }
 
         [TestMethod()]
-        public void GenerateTest()
+        public void GenerateTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            var normal = new MultivariateNormalDistribution(
-                new double[] { 2, 6 },
-                new double[,] { { 2, 1 }, { 1, 5 } });
+            double[] mean = { 2, 6 };
 
-            double[][] sample = normal.Generate(1000000);
+            double[,] cov = 
+            {
+                { 2, 1 },
+                { 1, 5 } 
+            };
 
-            double[] mean = sample.Mean();
-            double[,] cov = sample.Covariance();
+            var normal = new MultivariateNormalDistribution(mean, cov);
+            double[][] source = normal.Generate(10000000);
 
-            Assert.AreEqual(2, mean[0], 1e-2);
-            Assert.AreEqual(6, mean[1], 1e-2);
+            var target = new MultivariateEmpiricalDistribution(source);
 
-            Assert.AreEqual(2, cov[0, 0], 1e-2);
-            Assert.AreEqual(1, cov[0, 1], 1e-2);
-            Assert.AreEqual(1, cov[1, 0], 1e-2);
-            Assert.AreEqual(5, cov[1, 1], 2e-2);
-        }
+            Assert.IsTrue(mean.IsEqual(target.Mean, 0.001));
+            Assert.IsTrue(cov.IsEqual(target.Covariance, 0.003));
 
-        [TestMethod()]
-        public void GenerateTest2()
-        {
-            Accord.Math.Tools.SetupGenerator(0);
+            double[][] samples = target.Generate(10000000);
 
-            var normal = new MultivariateNormalDistribution(
-                new double[] { 2, 6 },
-                new double[,] { { 2, 1 }, { 1, 5 } });
+            double[] sampleMean = samples.Mean();
+            double[,] sampleCov = samples.Covariance();
 
-            double[][] sample = new double[1000000][];
-            for (int i = 0; i < sample.Length; i++)
-                sample[i] = normal.Generate();
-
-            double[] mean = sample.Mean();
-            double[,] cov = sample.Covariance();
-
-            Assert.AreEqual(2, mean[0], 1e-2);
-            Assert.AreEqual(6, mean[1], 1e-2);
-
-            Assert.AreEqual(2, cov[0, 0], 1e-2);
-            Assert.AreEqual(1, cov[0, 1], 1e-2);
-            Assert.AreEqual(1, cov[1, 0], 1e-2);
-            Assert.AreEqual(5, cov[1, 1], 2e-2);
+            Assert.AreEqual(2, sampleMean[0], 1e-2);
+            Assert.AreEqual(6, sampleMean[1], 1e-2);
+            Assert.AreEqual(2, sampleCov[0, 0], 1e-2);
+            Assert.AreEqual(1, sampleCov[0, 1], 1e-2);
+            Assert.AreEqual(1, sampleCov[1, 0], 1e-2);
+            Assert.AreEqual(5, sampleCov[1, 1], 2e-2);
         }
 
 

@@ -25,6 +25,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning;
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass()]
     public class KMeansTest
@@ -171,6 +172,44 @@ namespace Accord.Tests.MachineLearning
             Assert.IsNotNull(kmeans.Clusters.Count);
             Assert.IsNotNull(kmeans.Clusters.Covariances);
             Assert.IsNotNull(kmeans.Clusters.Proportions);
+        }
+
+        [TestMethod()]
+        public void KMeansMoreClustersThanSamples()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+
+            // Declare some observations
+            double[][] observations = 
+            {
+                new double[] { -5, -2, -1 },
+                new double[] { -5, -5, -6 },
+                new double[] {  2,  1,  1 },
+                new double[] {  1,  1,  2 },
+                new double[] {  1,  2,  2 },
+                new double[] {  3,  1,  2 },
+                new double[] { 11,  5,  4 },
+                new double[] { 15,  5,  6 },
+                new double[] { 10,  5,  6 },
+            };
+
+            double[][] orig = observations.MemberwiseClone();
+
+            KMeans kmeans = new KMeans(15);
+
+            bool thrown = false;
+
+            try
+            {
+                int[] labels = kmeans.Compute(observations);
+            }
+            catch (ArgumentException)
+            {
+                thrown = true;
+            }
+
+            Assert.IsTrue(thrown);
         }
     }
 }

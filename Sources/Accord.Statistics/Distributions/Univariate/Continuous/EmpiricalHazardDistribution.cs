@@ -205,12 +205,17 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the entropy for this distribution.
+        ///   This method is not supported.
         /// </summary>
         /// 
-        /// <value>
-        ///   The distribution's entropy.
-        /// </value>
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
+
+        /// <summary>
+        ///   This method is not supported.
+        /// </summary>
         /// 
         public override double Entropy
         {

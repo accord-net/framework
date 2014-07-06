@@ -118,6 +118,25 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
+        public override double Mode
+        {
+            get
+            {
+                if (eta >= 1)
+                    return 0;
+
+                return (1 / b) * Math.Log(1 / eta);
+            }
+        }
+
+        /// <summary>
         ///   Gets the median for this distribution.
         /// </summary>
         /// 

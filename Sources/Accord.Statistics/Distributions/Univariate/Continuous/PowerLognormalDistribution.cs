@@ -46,8 +46,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with the given power and shape parameters.
         /// </summary>
         /// 
-        /// <param name="mean">The distribution's power p.</param>
-        /// <param name="mean">The distribution's shape σ.</param>
+        /// <param name="power">The distribution's power p.</param>
+        /// <param name="shape">The distribution's shape σ.</param>
         /// 
         public PowerLognormalDistribution(double power, double shape)
         {
@@ -61,7 +61,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the distribution shape (power) parameter.
+        ///   Gets the distribution's power parameter (p).
         /// </summary>
         /// 
         public double Power
@@ -69,33 +69,64 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return power; }
         }
 
+        /// <summary>
+        ///   Gets the distribution's shape parameter sigma (σ). 
+        /// </summary>
+        /// 
         public double Shape
         {
             get { return sigma; }
         }
 
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
         public override double Mean
         {
             get { throw new NotSupportedException(); }
         }
 
-
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
         public override double Median
         {
             get { throw new NotSupportedException(); }
         }
 
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
+        public override double Mode
+        {
+            get { throw new NotSupportedException(); }
+        }
 
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
         public override double Variance
         {
             get { throw new NotSupportedException(); }
         }
 
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
         public override double StandardDeviation
         {
             get { throw new NotSupportedException(); }
         }
 
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
         public override double Entropy
         {
             get { throw new NotSupportedException(); }
@@ -115,17 +146,49 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return new DoubleRange(0, Double.PositiveInfinity); }
         }
 
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
         public override double DistributionFunction(double x)
         {
             double z = Math.Log(x) / sigma;
             return 1.0 - Math.Pow(Normal.Function(-z), power);
         }
 
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction"/>.
+        /// </returns>
+        /// 
         public override double InverseDistributionFunction(double p)
         {
             return Math.Exp(Normal.Inverse(1.0 - Math.Pow(1.0 - p, 1.0 / power)) * sigma);
         }
 
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.
+        /// </returns>
+        /// 
         public override double ProbabilityDensityFunction(double x)
         {
             double a = power / (x * sigma);
@@ -134,7 +197,19 @@ namespace Accord.Statistics.Distributions.Univariate
             return a * Normal.Derivative(z) * Math.Pow(Normal.Function(-z), power - 1);
         }
 
-
+        /// <summary>
+        ///   Gets the hazard function, also known as the failure rate or
+        ///   the conditional failure density function for this distribution
+        ///   evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The conditional failure density function <c>h(x)</c>
+        ///   evaluated at <c>x</c> in the current distribution.
+        /// </returns>
+        /// 
         public override double HazardFunction(double x)
         {
             double a = power / (x * sigma);
@@ -145,12 +220,32 @@ namespace Accord.Statistics.Distributions.Univariate
             return num / den;
         }
 
+        /// <summary>
+        ///   Gets the cumulative hazard function for this
+        ///   distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The cumulative hazard function <c>H(x)</c>
+        ///   evaluated at <c>x</c> in the current distribution.
+        /// </returns>
+        /// 
         public override double CumulativeHazardFunction(double x)
         {
             double z = Math.Log(x) / sigma;
             return -Math.Log(Math.Pow(Normal.Function(-z), power));
         }
 
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
         public override double ComplementaryDistributionFunction(double x)
         {
             double z = Math.Log(x) / sigma;
@@ -179,7 +274,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString()
         {
-            return String.Format("PKD(x; p = {0}, σ = {1})", power);
+            return String.Format("PKD(x; p = {0}, σ = {1})", power, sigma);
         }
 
         /// <summary>

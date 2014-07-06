@@ -406,7 +406,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             double r = Math.Exp(lnconstant - b * 0.5);
 
-            return r > 1 ? 1 : r;
+            return r;
         }
 
         /// <summary>

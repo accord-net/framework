@@ -158,6 +158,25 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the mode for this distribution.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The mode of the uniform distribution is any value contained
+        ///   in the interval of the distribution. The framework return
+        ///   the same value as the <see cref="Mean"/>.
+        /// </remarks>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
+        /// 
+        public override double Mode
+        {
+            get { return Mean; }
+        }
+
+        /// <summary>
         ///   Gets the entropy for this distribution.
         /// </summary>
         /// 

@@ -117,9 +117,9 @@ namespace Accord.Tests.Statistics
             double[,] cov = dist.Covariance; // { { 0.3, 0.1 }, { 0.1, 0.7 } }
 
             // Probability mass functions
-            double pdf1 = dist.ProbabilityDensityFunction(new double[] { 2, 5 }); 
-            double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 }); 
-            double pdf3 = dist.ProbabilityDensityFunction(new double[] { 3, 7 }); 
+            double pdf1 = dist.ProbabilityDensityFunction(new double[] { 2, 5 });
+            double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 });
+            double pdf3 = dist.ProbabilityDensityFunction(new double[] { 3, 7 });
             double lpdf = dist.LogProbabilityDensityFunction(new double[] { 3, 7 });
 
             // Cumulative distribution function (for up to two dimensions)
@@ -127,7 +127,7 @@ namespace Accord.Tests.Statistics
             // compared against R package mnormt: install.packages("mnormt")
             // pmnorm(c(3,5), mean=c(4,2), varcov=matrix(c(0.3,0.1,0.1,0.7), 2,2))
             double cdf = dist.DistributionFunction(new double[] { 3, 5 });
-            double ccdf = dist.ComplementaryDistributionFunction(new double[] { 3, 5 }); 
+            double ccdf = dist.ComplementaryDistributionFunction(new double[] { 3, 5 });
 
 
             Assert.AreEqual(4, mean[0]);
@@ -193,17 +193,23 @@ namespace Accord.Tests.Statistics
 
             var target = new MultivariateNormalDistribution(mean, covariance);
 
-            double expected = 1.0;
+            double expected = double.PositiveInfinity;
             double actual = target.ProbabilityDensityFunction(mean);
+            Assert.AreEqual(expected, actual, 0.00000001);
 
+            expected = 1053.6344885618446;
+            actual = target.LogProbabilityDensityFunction(mean);
             Assert.AreEqual(expected, actual, 0.00000001);
 
             double[] x = Matrix.Diagonal(covariance).Multiply(1.5945e7);
 
             expected = 4.781042576287362e-12;
             actual = target.ProbabilityDensityFunction(x);
-
             Assert.AreEqual(expected, actual, 1e-21);
+
+            expected = System.Math.Log(4.781042576287362e-12);
+            actual = target.LogProbabilityDensityFunction(x);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
 
         [TestMethod()]
@@ -227,6 +233,60 @@ namespace Accord.Tests.Statistics
             }
 
             Assert.IsTrue(thrown);
+        }
+
+        [TestMethod()]
+        public void ProbabilityFunctionTest4()
+        {
+            // https://code.google.com/p/accord/issues/detail?id=98
+
+            /*
+                mean = c(0.25, 0.082)
+                sigma = matrix(c(0.0117, 0.0032}, 0.0032, 0.001062), 2, 2)
+
+                d = seq(0.03, 0.13, 0.0001)
+                n <- length(d)
+                r <- rep(0, n)
+
+                for (i in 1:n) {
+                  r[i] = dmnorm(c(0.25, d[i]), mean, sigma) 
+                }
+             */
+
+            var target = new MultivariateNormalDistribution(
+                new[] { 0.25, 0.082 },
+                new[,] { { 0.0117, 0.0032 }, { 0.0032, 0.001062 } });
+
+            double[] vec = { 0.25, -1d };
+
+            double[] d = Matrix.Vector(0.03, 0.13, 0.01);
+            double[] actual = new double[d.Length];
+
+            double[] expected = 
+            {
+                  0.07736363146686682512598, 0.95791683037271524447931, 6.94400533773376249513376, 
+                  29.47023331179536498325433, 73.22314665629953367442795, 106.51345886810220520146686, 
+                  90.70931216253406148553040, 45.22624649290145271152142, 13.20141558295499173425469,  
+                  2.25601377127287250345944, 0.22571180597171525139544, 0.2257118059717152513954
+            };
+
+            for (int i = 0; i < d.Length; i++)
+            {
+                vec[1] = d[i];
+                actual[i] = target.ProbabilityDensityFunction(vec);
+            }
+
+            for (int i = 0; i < actual.Length; i++)
+                Assert.AreEqual(expected[i], actual[i], 1e-12);
+
+            for (int i = 0; i < d.Length; i++)
+            {
+                vec[1] = d[i];
+                actual[i] = System.Math.Exp(target.LogProbabilityDensityFunction(vec));
+            }
+
+            for (int i = 0; i < actual.Length; i++)
+                Assert.AreEqual(expected[i], actual[i], 1e-12);
         }
 
         [TestMethod()]
@@ -455,17 +515,17 @@ namespace Accord.Tests.Statistics
             double[,] cov = target.Covariance; // { { 0.0, 0.0 }, { 0.0, 0.0 } }
 
             // Probability mass functions
-            double pdf1 = target.ProbabilityDensityFunction(new double[] {1, 2});
-            double pdf2 = target.ProbabilityDensityFunction(new double[] {4, 2});
-            double pdf3 = target.ProbabilityDensityFunction(new double[] {3, 7});
-            double lpdf = target.LogProbabilityDensityFunction(new double[] {3, 7});
+            double pdf1 = target.ProbabilityDensityFunction(new double[] { 1, 2 });
+            double pdf2 = target.ProbabilityDensityFunction(new double[] { 4, 2 });
+            double pdf3 = target.ProbabilityDensityFunction(new double[] { 3, 7 });
+            double lpdf = target.LogProbabilityDensityFunction(new double[] { 3, 7 });
 
             // Cumulative distribution function (for up to two dimensions)
-            double cdf1 = target.DistributionFunction(new double[] {1, 2});
-            double cdf2 = target.DistributionFunction(new double[] {3, 5});
+            double cdf1 = target.DistributionFunction(new double[] { 1, 2 });
+            double cdf2 = target.DistributionFunction(new double[] { 3, 5 });
 
-            double ccdf1 = target.ComplementaryDistributionFunction(new double[] {1, 2});
-            double ccdf2 = target.ComplementaryDistributionFunction(new double[] {3, 5});
+            double ccdf1 = target.ComplementaryDistributionFunction(new double[] { 1, 2 });
+            double ccdf2 = target.ComplementaryDistributionFunction(new double[] { 3, 5 });
 
 
             Assert.AreEqual(1, mean[0]);

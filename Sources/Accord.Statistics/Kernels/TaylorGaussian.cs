@@ -25,11 +25,32 @@ namespace Accord.Statistics.Kernels
     using System;
     using Accord.Math;
 
+    /// <summary>
+    ///   Taylor approximation for the explicit Gaussian kernel.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///      Lin, Keng-Pei, and Ming-Syan Chen. "Efficient kernel approximation for large-scale support 
+    ///      vector machine classification." Proceedings of the Eleventh SIAM International Conference on
+    ///      Data Mining. 2011. Available on: http://epubs.siam.org/doi/pdf/10.1137/1.9781611972818.19 
+    ///      </description></item>
+    ///    </list></para>
+    /// </remarks>
+    /// 
     public class TaylorGaussian : Gaussian, ITransform
     {
 
         private double[] coefficients;
 
+        /// <summary>
+        ///   Gets or sets the approximation degree 
+        ///   for this kernel. Default is 1024.
+        /// </summary>
+        /// 
         public int Degree
         {
             get { return coefficients.Length; }
@@ -42,12 +63,22 @@ namespace Accord.Statistics.Kernels
         }
 
 
+        /// <summary>
+        ///   Constructs a new <see cref="TaylorGaussian"/> kernel.
+        /// </summary>
+        /// 
         public TaylorGaussian()
             : base()
         {
             createCoefficients(1024);
         }
 
+        /// <summary>
+        ///   Constructs a new <see cref="TaylorGaussian"/> kernel with the given sigma.
+        /// </summary>
+        /// 
+        /// <param name="sigma">The kernel's sigma parameter.</param>
+        /// 
         public TaylorGaussian(double sigma)
             : base(sigma)
         {
@@ -55,11 +86,19 @@ namespace Accord.Statistics.Kernels
         }
 
 
-
-
+        /// <summary>
+        ///   Projects an input point into feature space.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point to be projected into feature space.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
+        /// 
         public double[] Transform(double[] input)
         {
-            //http://epubs.siam.org/doi/pdf/10.1137/1.9781611972818.19 
+            // http://epubs.siam.org/doi/pdf/10.1137/1.9781611972818.19 
 
             double[] features = new double[coefficients.Length];
 
@@ -100,8 +139,16 @@ namespace Accord.Statistics.Kernels
                 coefficients[i] = Math.Sqrt(Math.Pow(2 * Gamma, i + 1) / Special.Factorial(i + 1));
         }
 
+        /// <summary>
+        ///   Called when the value for any of the
+        ///   kernel's parameters has changed.
+        /// </summary>
+        /// 
         protected override void OnSigmaChanging()
         {
+            if (coefficients == null)
+                return;
+
             createCoefficients(Degree);
         }
 

@@ -99,6 +99,8 @@ namespace Accord.Statistics.Analysis
 
         private DoubleRange[] ranges;
         private DoubleRange[] quartiles;
+        private DoubleRange[] innerFences;
+        private DoubleRange[] outerFences;
         private DoubleRange[] confidence;
         private DoubleRange[] deviance;
 
@@ -598,7 +600,51 @@ namespace Accord.Statistics.Analysis
                     else this.medians = Statistics.Tools.Quartiles(sourceArray, out this.quartiles);
                 }
 
-                return ranges;
+                return quartiles;
+            }
+        }
+
+        /// <summary>
+        ///   Gets an array containing the inner fences of each data column.
+        /// </summary>
+        /// 
+        public DoubleRange[] InnerFences
+        {
+            get
+            {
+                if (innerFences == null)
+                {
+                    innerFences = new DoubleRange[quartiles.Length];
+                    for (int i = 0; i < innerFences.Length; i++)
+                    {
+                        DoubleRange Q = Quartiles[i];
+                        innerFences[i] = new DoubleRange(Q.Min - 1.5 * Q.Length, Q.Max + 1.5 * Q.Length);
+                    }
+                }
+
+                return innerFences;
+            }
+        }
+
+        /// <summary>
+        ///   Gets an array containing the outer fences of each data column.
+        /// </summary>
+        /// 
+        public DoubleRange[] OuterFences
+        {
+            get
+            {
+                if (outerFences == null)
+                {
+                    outerFences = new DoubleRange[quartiles.Length];
+                    for (int i = 0; i < outerFences.Length; i++)
+                    {
+                        DoubleRange Q = Quartiles[i];
+                        outerFences[i] = new DoubleRange(Q.Min - 3 * Q.Length, Q.Max + 3 * Q.Length);
+                    }
+                }
+
+                return outerFences;
             }
         }
 
@@ -806,6 +852,24 @@ namespace Accord.Statistics.Analysis
         public double Median
         {
             get { return analysis.Medians[index]; }
+        }
+
+        /// <summary>
+        ///   Gets the variable's outer fences range.
+        /// </summary>
+        /// 
+        public DoubleRange OuterFence
+        {
+            get { return analysis.OuterFences[index]; }
+        }
+
+        /// <summary>
+        ///   Gets the variable's inner fence range.
+        /// </summary>
+        /// 
+        public DoubleRange InnerFence
+        {
+            get { return analysis.InnerFences[index]; }
         }
 
         /// <summary>

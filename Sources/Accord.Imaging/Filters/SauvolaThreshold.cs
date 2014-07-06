@@ -49,6 +49,27 @@ namespace Accord.Imaging.Filters
     ///   </list></para>   
     /// </remarks>
     /// 
+    /// <example>
+    /// <code>
+    /// Bitmap image = ... // Lena's picture
+    /// 
+    /// // Create a new Sauvola threshold:
+    /// var sauvola = new SauvolaThreshold();
+    /// 
+    /// // Compute the filter
+    /// Bitmap result = sauvola.Apply(image);
+    /// 
+    /// // Show on the screen
+    /// ImageBox.Show(result);
+    /// </code>
+    /// 
+    /// <para>
+    ///   The resulting image is shown below:</para>
+    /// 
+    ///   <img src="..\images\sauvola.png" />
+    /// 
+    /// </example>
+    /// 
     /// <seealso cref="NiblackThreshold"/>
     /// 
     public class SauvolaThreshold : BaseFilter
@@ -199,7 +220,9 @@ namespace Accord.Imaging.Filters
 
                         variance /= count - 1;
 
-                        *dst = (byte)((*dst > (mean * (1.0 + k * ((Math.Sqrt(variance) / r) - 1.0)))) ? 255 : 0);
+                        double cut = mean * (1.0 + k * ((Math.Sqrt(variance) / r) - 1.0));
+
+                        *dst = (*src > cut) ? (byte)255 : (byte)0;
                     }
                     src += srcOffset;
                     dst += dstOffset;
@@ -271,8 +294,6 @@ namespace Accord.Imaging.Filters
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
-                                count++;
-
                                 varR += (p[RGB.R] - meanR) * (p[RGB.R] - meanR);
                                 varG += (p[RGB.G] - meanG) * (p[RGB.G] - meanG);
                                 varB += (p[RGB.B] - meanB) * (p[RGB.B] - meanB);
@@ -283,13 +304,13 @@ namespace Accord.Imaging.Filters
                         varG /= count - 1;
                         varB /= count - 1;
 
-                        double valueR = (dst[RGB.R] > (meanR * (1.0 + k * ((Math.Sqrt(varR) / r) - 1.0)))) ? 255 : 0;
-                        double valueG = (dst[RGB.G] > (meanG * (1.0 + k * ((Math.Sqrt(varG) / r) - 1.0)))) ? 255 : 0;
-                        double valueB = (dst[RGB.B] > (meanB * (1.0 + k * ((Math.Sqrt(varB) / r) - 1.0)))) ? 255 : 0;
+                        double cutR = meanR * (1.0 + k * ((Math.Sqrt(varR) / r) - 1.0));
+                        double cutG = meanG * (1.0 + k * ((Math.Sqrt(varG) / r) - 1.0));
+                        double cutB = meanB * (1.0 + k * ((Math.Sqrt(varB) / r) - 1.0));
 
-                        dst[RGB.R] = (byte)((valueR));
-                        dst[RGB.G] = (byte)((valueG));
-                        dst[RGB.B] = (byte)((valueB));
+                        dst[RGB.R] = (dst[RGB.R] > cutR) ? (byte)255 : (byte)0;
+                        dst[RGB.G] = (dst[RGB.G] > cutG) ? (byte)255 : (byte)0;
+                        dst[RGB.B] = (dst[RGB.B] > cutB) ? (byte)255 : (byte)0;
 
                         // take care of alpha channel
                         if (pixelSize == 4)
