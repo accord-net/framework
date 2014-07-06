@@ -89,6 +89,14 @@ namespace Accord.Controls
             return this;
         }
 
+        /// <summary>
+        ///   Sets the window title of the histogram box.
+        ///   
+        /// </summary>
+        /// <param name="text">The desired title text for the window.</param>
+        /// 
+        /// <returns>This instance, for fluent programming.</returns>
+        /// 
         public HistogramBox SetTitle(string text)
         {
             if (this.InvokeRequired)
@@ -216,8 +224,15 @@ namespace Accord.Controls
             return form;
         }
 
+        /// <summary>
+        ///   Holds the execution until the window has been closed.
+        /// </summary>
+        /// 
         public void Hold()
         {
+            if (Thread.CurrentThread == formThread)
+                return;
+
             this.SetTitle(this.Text + " [on hold]");
 
             formThread.Join();

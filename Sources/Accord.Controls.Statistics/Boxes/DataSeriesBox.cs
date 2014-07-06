@@ -78,16 +78,25 @@ namespace Accord.Controls
         }
 
         /// <summary>
-        ///   Blocks the caller until the form is closed.
+        ///   Sets the window title of the data series box.
+        ///   
         /// </summary>
+        /// <param name="text">The desired title text for the window.</param>
         /// 
-        public void WaitForClose()
+        /// <returns>This instance, for fluent programming.</returns>
+        /// 
+        public DataSeriesBox SetTitle(string text)
         {
-            if (Thread.CurrentThread != formThread)
-                formThread.Join();
+            if (this.InvokeRequired)
+            {
+                this.Invoke((Action)(() => SetTitle(text)));
+                return this;
+            }
+
+            this.Text = text;
+
+            return this;
         }
-
-
 
         /// <summary>
         ///   Displays a scatter plot with the specified data.
@@ -142,8 +151,17 @@ namespace Accord.Controls
             return form;
         }
 
+        /// <summary>
+        ///   Holds the execution until the window has been closed.
+        /// </summary>
+        /// 
         public void Hold()
         {
+            if (Thread.CurrentThread == formThread)
+                return;
+
+            this.SetTitle(this.Text + " [on hold]");
+
             formThread.Join();
         }
 

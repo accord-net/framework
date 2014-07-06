@@ -98,10 +98,16 @@ namespace Accord.Statistics.Distributions.Univariate
         public TriangularDistribution(double a, double b, double c)
         {
             if (a > b)
-                throw new ArgumentException();
+            {
+                throw new ArgumentOutOfRangeException("b",
+                    "The maximum value 'b' must be greater than the minimum value 'a'.");
+            }
 
             if (c < a || c > b)
-                throw new ArgumentException();
+            {
+                throw new ArgumentOutOfRangeException("c",
+                    "The most common value 'c' must be between 'a' and 'b'.");
+            }
 
             initialize(a, b, c);
         }

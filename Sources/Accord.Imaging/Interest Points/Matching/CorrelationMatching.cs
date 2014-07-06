@@ -166,6 +166,10 @@ namespace Accord.Imaging
             this.dmax = maxDistance;
         }
 
+        /// <summary>
+        ///   Matches two sets of feature points computed from the given images.
+        /// </summary>
+        /// 
         [Obsolete("Please use Match(points1, points2) instead.")]
         public IntPoint[][] Match(Bitmap image1, Bitmap image2,
             IEnumerable<IntPoint> points1, IEnumerable<IntPoint> points2)
@@ -175,6 +179,10 @@ namespace Accord.Imaging
             return Match(points1, points2);
         }
 
+        /// <summary>
+        ///   Matches two sets of feature points computed from the given images.
+        /// </summary>
+        /// 
         public IntPoint[][] Match(IEnumerable<IntPoint> points1, IEnumerable<IntPoint> points2)
         {
             return Match(points1.ToArray(), points2.ToArray());

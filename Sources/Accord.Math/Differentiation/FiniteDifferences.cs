@@ -31,14 +31,23 @@ namespace Accord.Math.Differentiation
     /// 
     /// <remarks>
     /// <para>
-    ///   Numerical differentiation is a technique of numerical analysis to
-    ///   produce an estimate of the derivative of a mathematical function or
-    ///   function subroutine using values from the function and perhaps other
-    ///   knowledge about the function.</para>
+    ///   Numerical differentiation is a technique of numerical analysis to produce an estimate
+    ///   of the derivative of a mathematical function or function subroutine using values from 
+    ///   the function and perhaps other knowledge about the function.</para>
+    ///   
+    /// <para>
+    ///   A finite difference is a mathematical expression of the form f(x + b) − f(x + a). If a
+    ///   finite difference is divided by b − a, one gets a difference quotient. The approximation
+    ///   of derivatives by finite differences plays a central role in finite difference methods 
+    ///   for the numerical solution of differential equations, especially boundary value problems.
+    /// </para>
     ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/Finite_difference">
+    ///       Wikipedia, The Free Encyclopedia. Finite difference. Available on: 
+    ///       http://en.wikipedia.org/wiki/Finite_difference </a></description></item>
     ///     <item><description>
     ///     Trent F. Guidry, Calculating derivatives of a function numerically. Available on:
     ///     http://www.trentfguidry.net/post/2009/07/12/Calculate-derivatives-function-numerically.aspx
@@ -126,26 +135,65 @@ namespace Accord.Math.Differentiation
             init(null, variables, 1, 1e-2);
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="FiniteDifferences"/> class.
+        /// </summary>
+        /// 
+        /// <param name="variables">The number of free parameters in the function.</param>
+        /// <param name="order">The derivative order that should be obtained. Default is 1.</param>
+        /// 
         public FiniteDifferences(int variables, int order)
         {
             init(null, variables, order, 1e-2);
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="FiniteDifferences"/> class.
+        /// </summary>
+        /// 
+        /// <param name="variables">The number of free parameters in the function.</param>
+        /// <param name="order">The derivative order that should be obtained. Default is 1.</param>
+        /// <param name="stepSize">The relative step size used to approximate the derivatives. Default is 0.01.</param>
+        /// 
         public FiniteDifferences(int variables, int order, double stepSize)
         {
             init(null, variables, order, stepSize);
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="FiniteDifferences"/> class.
+        /// </summary>
+        /// 
+        /// <param name="variables">The number of free parameters in the function.</param>
+        /// <param name="function">The function to be differentiated.</param>
+        /// 
         public FiniteDifferences(int variables, Func<double[], double> function)
         {
             init(function, variables, 1, 1e-2);
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="FiniteDifferences"/> class.
+        /// </summary>
+        /// 
+        /// <param name="variables">The number of free parameters in the function.</param>
+        /// <param name="order">The derivative order that should be obtained. Default is 1.</param>
+        /// <param name="function">The function to be differentiated.</param>
+        /// 
         public FiniteDifferences(int variables, Func<double[], double> function, int order)
         {
             init(function, variables, order, 1e-2);
         }
 
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="FiniteDifferences"/> class.
+        /// </summary>
+        /// 
+        /// <param name="variables">The number of free parameters in the function.</param>
+        /// <param name="order">The derivative order that should be obtained. Default is 1.</param>
+        /// <param name="stepSize">The relative step size used to approximate the derivatives. Default is 0.01.</param>
+        /// <param name="function">The function to be differentiated.</param>
+        /// 
         public FiniteDifferences(int variables, Func<double[], double> function, int order, double stepSize)
         {
             init(function, variables, order, stepSize);
@@ -194,8 +242,22 @@ namespace Accord.Math.Differentiation
             return gradient;
         }
 
+        /// <summary>
+        ///   Computes the gradient at the given point <paramref name="x"/>, 
+        ///   storing the result at <paramref name="gradient"/>.
+        /// </summary>
+        /// 
+        /// <param name="x">The point where to compute the gradient.</param>
+        /// <param name="gradient">The gradient of the function evaluated at point <c>x</c>.</param>
+        /// 
         public void Compute(double[] x, double[] gradient)
         {
+            if (x.Length < gradient.Length)
+            {
+                throw new DimensionMismatchException("gradient",
+                    "Gradient vector must have at least the same size as x.");
+            }
+
             double output = Function(x);
 
             for (int i = 0; i < gradient.Length; i++)
@@ -314,25 +376,54 @@ namespace Accord.Math.Differentiation
             FiniteDifferences.CreateCoefficients(3);
 
 
+        /// <summary>
+        ///   Computes the derivative for a simpler unidimensional function.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be differentiated.</param>
+        /// <param name="value">The value <c>x</c> at which the derivative should be evaluated.</param>
+        /// <param name="order">The derivative order that should be obtained. Default is 1.</param>
+        /// 
+        /// <returns>The derivative of the function at the point <paramref name="value">x</paramref>.</returns>
+        /// 
         public static double Derivative(Func<double, double> function, double value,
             int order)
         {
             return Derivative(function, value, order, 3);
         }
 
+        /// <summary>
+        ///   Computes the derivative for a simpler unidimensional function.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be differentiated.</param>
+        /// <param name="value">The value <c>x</c> at which the derivative should be evaluated.</param>
+        /// 
+        /// <returns>The derivative of the function at the point <paramref name="value">x</paramref>.</returns>
+        /// 
         public static double Derivative(Func<double, double> function, double value)
         {
             return Derivative(function, value, 1);
         }
 
-        public static double Derivative(Func<double, double> function, double value, 
-            int order, double step)
+        /// <summary>
+        ///   Computes the derivative for a simpler unidimensional function.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be differentiated.</param>
+        /// <param name="order">The derivative order that should be obtained. Default is 1.</param>
+        /// <param name="stepSize">The relative step size used to approximate the derivatives. Default is 0.01.</param>
+        /// <param name="value">The value <c>x</c> at which the derivative should be evaluated.</param>
+        /// 
+        /// <returns>The derivative of the function at the point <paramref name="value">x</paramref>.</returns>
+        /// 
+        public static double Derivative(Func<double, double> function, double value, int order, double stepSize)
         {
             double output = function(value);
             double original = value;
 
             if (original != 0.0)
-                step *= System.Math.Abs(original);
+                stepSize *= System.Math.Abs(original);
 
 
             // Create the interpolation points
@@ -344,7 +435,7 @@ namespace Accord.Math.Differentiation
                 if (i != center)
                 {
                     // Recompute the function to measure its importance
-                    outputs[i] = function(original + (i - center) * step);
+                    outputs[i] = function(original + (i - center) * stepSize);
                 }
                 else
                 {
@@ -354,7 +445,7 @@ namespace Accord.Math.Differentiation
             }
 
             return FiniteDifferences.Interpolate(coefficientCache,
-                outputs, order, center, step);
+                outputs, order, center, stepSize);
         }
 
     }

@@ -116,11 +116,13 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Integration\IIntegrationMethod.cs" />
+    <Compile Include="Integration\Base\IMultidimensionalIntegration.cs" />
+    <Compile Include="Integration\Base\IUnidimensionalIntegration.cs" />
+    <Compile Include="Integration\Base\INumericalIntegration.cs" />
     <Compile Include="Integration\InfiniteAdaptiveGaussKronrod.cs" />
     <Compile Include="Integration\NonAdaptiveGaussKronrod.cs" />
     <Compile Include="Differentiation\FiniteDifferences.cs" />
-    <Compile Include="Integration\MonteCarloIntegral.cs" />
+    <Compile Include="Integration\MonteCarloIntegration.cs" />
     <Compile Include="Combinatorics.cs" />
     <Compile Include="Comparers\ArrayComparer`1.cs" />
     <Compile Include="Comparers\ElementComparer.cs" />
@@ -171,8 +173,8 @@
     <Compile Include="Decompositions\SingularValueDecompositionF.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
-    <Compile Include="Integration\Romberg.cs" />
-    <Compile Include="Integration\Trapezoidal.cs" />
+    <Compile Include="Integration\RombergMethod.cs" />
+    <Compile Include="Integration\TrapezoidalRule.cs" />
     <Compile Include="Environments\REnvironment.cs" />
     <Compile Include="Functions\Gabor.cs" />
     <Compile Include="Geometry\Circle.cs" />

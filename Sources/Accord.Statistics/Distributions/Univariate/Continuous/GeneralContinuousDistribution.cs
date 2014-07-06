@@ -74,6 +74,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             this.pdf = density;
             this.cdf = distribution;
+            this.support = support;
         }
 
         /// <summary>

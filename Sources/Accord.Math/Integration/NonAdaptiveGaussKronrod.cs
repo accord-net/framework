@@ -25,8 +25,18 @@ namespace Accord.Math.Integration
     using System;
     using AForge;
 
+    /// <summary>
+    ///   Status codes for the <see cref="NonAdaptiveGaussKronrod"/>
+    ///   integration method.
+    /// </summary>
+    /// 
     public enum NonAdaptiveGaussKronrodStatus
     {
+        /// <summary>
+        ///   The integration calculation has been completed with success.
+        ///   The obtained result is under the selected convergence criteria.
+        /// </summary>
+        /// 
         Success,
 
         /// <summary>
@@ -42,8 +52,14 @@ namespace Accord.Math.Integration
 
     }
 
+    /// <summary>
+    ///   Non-Adaptive Gauss-Kronrod integration method. 
+    /// </summary>
+    /// 
+    /// <seealso cref="InfiniteAdaptiveGaussKronrod"/>
+    /// 
     public class NonAdaptiveGaussKronrod : IUnivariateIntegration,
-        IIntegrationMethod<NonAdaptiveGaussKronrodStatus>
+        INumericalIntegration<NonAdaptiveGaussKronrodStatus>
     {
         private double result;
         private double error;
@@ -51,8 +67,17 @@ namespace Accord.Math.Integration
 
         private DoubleRange range;
 
+        /// <summary>
+        ///   Gets or sets the function to be differentiated.
+        /// </summary>
+        /// 
         public Func<double, double> Function { get; set; }
 
+        /// <summary>
+        ///   Gets or sets the input range under
+        ///   which the integral must be computed.
+        /// </summary>
+        /// 
         public DoubleRange Range
         {
             get { return range; }
@@ -68,16 +93,55 @@ namespace Accord.Math.Integration
             }
         }
 
+        /// <summary>
+        ///   Desired absolute accuracy. If set to zero, this parameter
+        ///   will be ignored and only other requisites will be taken
+        ///   into account. Default is zero.
+        /// </summary>
+        /// 
         public double ToleranceAbsolute { get; set; }
+
+        /// <summary>
+        ///   Desired relative accuracy. If set to zero, this parameter
+        ///   will be ignored and only other requisites will be taken
+        ///   into account. Default is 1e-3.
+        /// </summary>
+        /// 
         public double ToleranceRelative { get; set; }
 
+        /// <summary>
+        ///   Gets the numerically computed result of the
+        ///   definite integral for the specified function.
+        /// </summary>
+        /// 
         public double Area { get { return result; } }
+
+        /// <summary>
+        ///   Gets the integration error for the
+        ///   computed <see cref="Area"/> value.
+        /// </summary>
+        /// 
         public double Error { get { return error; } }
 
+        /// <summary>
+        ///   Get the exit code returned in the last call to the
+        ///   <see cref="INumericalIntegration.Compute()"/> method.
+        /// </summary>
+        /// 
         public NonAdaptiveGaussKronrodStatus Status { get; private set; }
 
+        /// <summary>
+        ///   Gets the number of function evaluations performed in 
+        ///   the last call to the <see cref="Compute"/> method.
+        /// </summary>
+        /// 
         public int FunctionEvaluations { get { return evaluations; } }
 
+
+        /// <summary>
+        ///   Creates a new <see cref="NonAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
         public NonAdaptiveGaussKronrod()
         {
             ToleranceAbsolute = 0;
@@ -85,6 +149,12 @@ namespace Accord.Math.Integration
             range = new DoubleRange(0, 1);
         }
 
+        /// <summary>
+        ///   Creates a new <see cref="NonAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be integrated.</param>
+        /// 
         public NonAdaptiveGaussKronrod(Func<double, double> function)
             : this()
         {
@@ -95,6 +165,14 @@ namespace Accord.Math.Integration
             ToleranceRelative = 1e-3;
         }
 
+        /// <summary>
+        ///   Creates a new <see cref="NonAdaptiveGaussKronrod"/> integration algorithm.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be integrated.</param>
+        /// <param name="a">The lower limit of integration.</param>
+        /// <param name="b">The upper limit of integration.</param>
+        /// 
         public NonAdaptiveGaussKronrod(Func<double, double> function, double a, double b)
             : this(function)
         {
@@ -107,7 +185,19 @@ namespace Accord.Math.Integration
             range = new DoubleRange(a, b);
         }
 
-
+        /// <summary>
+        ///   Computes the area of the function under the selected <see cref="Range"/>.
+        ///   The computed value will be available at this object's <see cref="Area"/>.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If the integration method fails, the reason will be available at <see cref="Status"/>.
+        /// </remarks>
+        /// 
+        /// <returns>
+        ///   True if the integration method succeeds, false otherwise.
+        /// </returns>
+        /// 
         public bool Compute()
         {
             int errorCode;
@@ -121,11 +211,35 @@ namespace Accord.Math.Integration
         }
 
 
+        /// <summary>
+        ///   Computes the area under the integral for the given function, 
+        ///   in the given integration interval, using Gauss-Kronrod method.
+        /// </summary>
+        /// 
+        /// <param name="f">The unidimensional function whose integral should be computed.</param>
+        /// <param name="a">The beginning of the integration interval.</param>
+        /// <param name="b">The ending of the integration interval.</param>
+        /// 
+        /// <returns>The integral's value in the current interval.</returns>
+        /// 
         public static double Integrate(Func<double, double> f, double a, double b)
         {
             return Integrate(f, a, b, 1e-3);
         }
 
+        /// <summary>
+        ///   Computes the area under the integral for the given function, in the given 
+        ///   integration interval, using the Non-Adaptive Gauss Kronrod algorithm.
+        /// </summary>
+        /// 
+        /// <param name="f">The unidimensional function whose integral should be computed.</param>
+        /// <param name="a">The beginning of the integration interval.</param>
+        /// <param name="b">The ending of the integration interval.</param>
+        /// <param name="tolerance">
+        ///   The relative tolerance under which the solution has to be found. Default is 1e-3.</param>
+        /// 
+        /// <returns>The integral's value in the current interval.</returns>
+        /// 
         public static double Integrate(Func<double, double> f, double a, double b, double tolerance)
         {
             double result;
@@ -416,6 +530,14 @@ namespace Accord.Math.Integration
         #endregion
 
 
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
         public object Clone()
         {
             NonAdaptiveGaussKronrod clone = new NonAdaptiveGaussKronrod(

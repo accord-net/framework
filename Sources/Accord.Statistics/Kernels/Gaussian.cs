@@ -71,7 +71,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public Gaussian(double sigma)
         {
-            this.Sigma = sigma;
+            this.sigma = sigma;
+            this.gamma = 1.0 / (2.0 * sigma * sigma);
         }
 
         /// <summary>

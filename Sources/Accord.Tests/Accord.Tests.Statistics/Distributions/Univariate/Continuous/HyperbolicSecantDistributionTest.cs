@@ -77,8 +77,10 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-2.2113389316917877, lpdf);
             Assert.AreEqual(-0.084669058493850285, hf);
             Assert.AreEqual(-1.2939067361538474, ccdf);
-            Assert.AreEqual(1.4000000017042402, icdf);
+            Assert.AreEqual(1.4000000017042402, icdf, 1e-13);
             Assert.AreEqual("Sech(x)", str);
+
+            Assert.IsFalse(double.IsNaN(icdf));
         }
 
     }

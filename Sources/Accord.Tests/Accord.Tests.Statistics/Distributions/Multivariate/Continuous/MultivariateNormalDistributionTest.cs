@@ -193,17 +193,23 @@ namespace Accord.Tests.Statistics
 
             var target = new MultivariateNormalDistribution(mean, covariance);
 
-            double expected = 1.0;
+            double expected = double.PositiveInfinity;
             double actual = target.ProbabilityDensityFunction(mean);
+            Assert.AreEqual(expected, actual, 0.00000001);
 
+            expected = 1053.6344885618446;
+            actual = target.LogProbabilityDensityFunction(mean);
             Assert.AreEqual(expected, actual, 0.00000001);
 
             double[] x = Matrix.Diagonal(covariance).Multiply(1.5945e7);
 
             expected = 4.781042576287362e-12;
             actual = target.ProbabilityDensityFunction(x);
-
             Assert.AreEqual(expected, actual, 1e-21);
+
+            expected = System.Math.Log(4.781042576287362e-12);
+            actual = target.LogProbabilityDensityFunction(x);
+            Assert.AreEqual(expected, actual, 1e-10);
         }
 
         [TestMethod()]

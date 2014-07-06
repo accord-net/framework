@@ -23,14 +23,13 @@
 namespace Accord.Controls
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.Reflection;
     using System.Threading;
     using System.Windows.Forms;
-    using Accord.Statistics.Visualizations;
-    using ZedGraph;
-    using AForge;
     using Accord.Math;
-    using System.Reflection;
-    using System.ComponentModel.DataAnnotations;
+    using Accord.Statistics.Visualizations;
+    using AForge;
 
     /// <summary>
     ///   Scatter plot Box for quickly displaying a form with a scatter plot on it
@@ -93,7 +92,14 @@ namespace Accord.Controls
             return this;
         }
 
-     
+        /// <summary>
+        ///   Sets the window title of the scatterplot box.
+        ///   
+        /// </summary>
+        /// <param name="text">The desired title text for the window.</param>
+        /// 
+        /// <returns>This instance, for fluent programming.</returns>
+        /// 
         public ScatterplotBox SetTitle(string text)
         {
             if (this.InvokeRequired)
@@ -372,7 +378,7 @@ namespace Accord.Controls
         /// 
         public static ScatterplotBox Show(Func<double, double> function, double min, double max, double step)
         {
-            return show(null, function, null, null, step);
+            return show(null, function, min, max, step);
         }
 
         /// <summary>
@@ -515,9 +521,15 @@ namespace Accord.Controls
             return form;
         }
 
-
+        /// <summary>
+        ///   Holds the execution until the window has been closed.
+        /// </summary>
+        /// 
         public void Hold()
         {
+            if (Thread.CurrentThread == formThread)
+                return;
+
             this.SetTitle(this.Text + " [on hold]");
 
             formThread.Join();
