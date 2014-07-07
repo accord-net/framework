@@ -43,6 +43,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///     </list></para>  
     /// </remarks>
     /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// 
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// 
     public class LeastSquaresLearning : ISupportVectorMachineLearning
     {
 

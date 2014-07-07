@@ -49,7 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\Namespaces.XML</DocumentationFile>
-	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PlatformTarget>x86</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -58,7 +58,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <DocumentationFile>bin\Release\Namespaces.XML</DocumentationFile>
     <Optimize>true</Optimize>
-	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -85,6 +85,7 @@
     <Compile Include="Accord.MachineLearning.cs" />
     <Compile Include="Accord.Audio.Formats.cs" />
     <Compile Include="Accord.Audition.cs" />
+    <Compile Include="Accord.MachineLearning.VectorMachines.cs" />
     <Compile Include="Accord.Math.cs" />
     <Compile Include="Accord.Neuro.cs" />
     <Compile Include="Accord.Statistics.cs" />

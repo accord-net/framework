@@ -31,6 +31,8 @@ namespace Accord.MachineLearning.VectorMachines
     /// <seealso cref="KernelSupportVectorMachine"/>
     /// <seealso cref="MulticlassSupportVectorMachine"/>
     /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning"/>
+    /// 
     public interface ISupportVectorMachine
     {
 

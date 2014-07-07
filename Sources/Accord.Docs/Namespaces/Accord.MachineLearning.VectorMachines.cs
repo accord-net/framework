@@ -1,0 +1,73 @@
+﻿// Accord Core Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2014
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
+
+namespace Accord.MachineLearning.VectorMachines
+{
+    using System.Runtime.CompilerServices;
+    using Accord.MachineLearning.VectorMachines;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using Accord.Statistics.Kernels;
+
+    /// <summary>
+    ///  Contains classes related to Support Vector Machines (SVMs). Contains
+    ///  linear machines, kernel machines, multi-class machines, SVM-DAGs (Directed
+    ///  Acyclic Graphs), multi-label classification and also offers support for the
+    ///  probabilistic output calibration of SVM outputs.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   This namespace contains both standard <see cref="SupportVectorMachine"/>s and the
+    ///   kernel extension given by <see cref="KernelSupportVectorMachine"/>s. For multiple
+    ///   classes or categories, the framework offers <see cref="MulticlassSupportVectorMachine"/>s
+    ///   and <see cref="MultilabelSupportVectorMachine"/>s. Multi-class machines can be used for
+    ///   cases where a single class should be picked up from a list of several class labels, and
+    ///   the multi-label machine for cases where multiple class labels might be detected for a 
+    ///   single input vector. The multi-class machines also support two types of classification:
+    ///   the faster decision based on Decision Directed Acyclic Graphs, and the more traditional
+    ///   based on a Voting scheme.</para>
+    ///   
+    /// <para>
+    ///   Learning can be achieved using the standard <see cref="SequentialMinimalOptimization"/>
+    ///   (SMO) algorithm. However, the framework can also learn Least Squares SVMs (LS-SVMs) using <see 
+    ///   cref="LeastSquaresLearning"/>, and even calibrate SVMs to produce probabilistic outputs
+    ///   using <see cref="ProbabilisticOutputLearning"/>. A <see cref="Accord.Statistics.Kernels">
+    ///   huge variety of kernels functions is available in the statistics namespace</see>, and
+    ///   new kernels can be created easily using the <see cref="IKernel"/> interface.</para>
+    ///   
+    /// <para>
+    ///   The namespace class diagram is shown below. </para>
+    ///   <img src="..\diagrams\classes\Accord.MachineLearning.VectorMachines.png" />
+    ///   
+    /// <para>
+    ///   Please note that class diagrams for each of the inner namespaces are 
+    ///   also available within their own documentation pages.</para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="Accord.MachineLearning.VectorMachines.Learning"/>
+    /// <seealso cref="Accord.Statistics.Kernels"/>
+    /// 
+    [CompilerGenerated]
+    class NamespaceDoc
+    {
+    }
+}
