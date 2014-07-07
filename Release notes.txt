@@ -1,6 +1,6 @@
 Accord.NET Framework 2.13.0 release notes
 -----------------------------------------
-01.07.2014.    
+01.08.2014.    
 
 Version updates and fixes:
   - GC-61: GoldfarbIdnani should implement the IOptimizationMethod interface;
@@ -14,6 +14,7 @@ Version updates and fixes:
   - GC-96: ConvexHullDefects doesn't accounts for defects between the last and first points;
   - GC-98: Fixing ProbabilityDensityFunction in MultivariateNormalDistribution;
   - GC-99: Combinatorics.Permutations(array) method does not include the original array;
+  - GH-04: Replacing SlimDX with SharpDX in Audio libraries;
   - GH-05: ComplexSignalConstructor unit test fails;
   - GH-07: Fixing typos in Haralick algorithm;
   - GH-08: Updating IntegralImage2 to support Format32bppRgb images;
@@ -23,7 +24,7 @@ Version updates and fixes:
   - GH-12: Add a HistogramBox viewer in the same spirit as ScatterplotBox and DataGridBox;
   - GH-13: NaiveBayes constructor incorrectly checks its arguments;
   - GH-25: SauvolaThreshold and NiblackThreshold filter are always making whole black image;
-  - GH-27: Fixing bernoulli distribution sampling;
+  - GH-27: Fixing bernoulli distribution sampling.
 
 * Accord.Statistics
   - Fixing Codification filter when columns have a max-length constraint;
@@ -35,7 +36,7 @@ Version updates and fixes:
   - Adding a IReverseDistance interface to separate distinct kernel distances;
   - Adding support for directly processing matrices in the Normalization filter;
   - Adding support for explicit feature space transformation in some kernels;
-  - Adding Beta and Pareto distribution fitting.
+  - Adding Beta and Pareto distribution fitting;
   - Adding explicit Gaussian kernel projection using a Taylor approximation;
   - Adding BirnbaumSaunders, Generalized Normal, Gumbel, Power Lognormal, 
     Power Normal, Triangular, Tukey Lambda, Logistic, Hyperbolic Secant,

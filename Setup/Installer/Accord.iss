@@ -34,21 +34,23 @@ Name: "samples";  Description: "Samples";                           Types: full 
 
 
 [Files]
-Source: "..\..\Copyright.txt";     DestDir: "{app}";           Components: libs
-Source: "..\..\License.txt";       DestDir: "{app}";           Components: libs
-Source: "..\..\Release notes.txt"; DestDir: "{app}";           Components: libs
-Source: "..\..\Release\*";         DestDir: "{app}\Release";   Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
-Source: "..\..\Release\GPL\*";     DestDir: "{app}\Release";   Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
-Source: "..\..\Docs\*.chm";        DestDir: "{app}\Docs";      Components: docs;     Flags: skipifsourcedoesntexist; Excludes: "*.~*"
-Source: "..\..\Sources\*";         DestDir: "{app}\Sources";   Components: sources;  Flags: recursesubdirs; Excludes: "*.~*,\TestResults,*\bin,*\obj,*.sdf,*.suo,*.user,*.vsp,*.shfbproj_*,*.pidb"
-Source: "..\..\Samples\*";         DestDir: "{app}\Samples";   Components: samples;  Flags: recursesubdirs; Excludes: "*.~*,*\obj,*\bin\x64\,*\bin\Debug,*\bin\Release,*\bin\x86\Debug,*\bin\x86\Release 3.5,*.pdb,*.user,*.pidb"
-Source: "..\..\Setup\*";           DestDir: "{app}\Setup";     Components: sources;  Flags: recursesubdirs; Excludes: "\bin,\obj,*.user,*.vsp"
-Source: "..\..\Externals\*";       DestDir: "{app}\Externals"; Components: libs;     Flags: recursesubdirs; Excludes: "*.~*,*.pdb"
+Source: "..\..\Copyright.txt";       DestDir: "{app}";           Components: libs
+Source: "..\..\License.txt";         DestDir: "{app}";           Components: libs
+Source: "..\..\Release notes.txt";   DestDir: "{app}";           Components: libs
+Source: "..\..\Release\*";           DestDir: "{app}\Release";   Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
+Source: "..\..\Release\net40\GPL\*"; DestDir: "{app}\Release\net40";   Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
+Source: "..\..\Release\net35\GPL\*"; DestDir: "{app}\Release\net35";   Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
+Source: "..\..\Docs\*.chm";          DestDir: "{app}\Docs";      Components: docs;     Flags: skipifsourcedoesntexist; Excludes: "*.~*"
+Source: "..\..\Sources\*";           DestDir: "{app}\Sources";   Components: sources;  Flags: recursesubdirs; Excludes: "*.~*,\TestResults,*\bin,*\obj,*.sdf,*.suo,*.user,*.vsp,*.shfbproj_*,*.pidb"
+Source: "..\..\Samples\*";           DestDir: "{app}\Samples";   Components: samples;  Flags: recursesubdirs; Excludes: "*.~*,*\obj,*\bin\x64\,*\bin\Debug,*\bin\Release,*\bin\x86\Debug,*\bin\x86\Release 3.5,*.pdb,*.user,*.pidb"
+Source: "..\..\Setup\*";             DestDir: "{app}\Setup";     Components: sources;  Flags: recursesubdirs; Excludes: "\bin,\obj,*.user,*.vsp"
+Source: "..\..\Externals\*";         DestDir: "{app}\Externals"; Components: libs;     Flags: recursesubdirs; Excludes: "*.~*,*.pdb"
 
 
 [Registry]
-Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\AssemblyFolders\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release"
-Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\v4.0.30319\AssemblyFoldersEx\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release"
+Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\AssemblyFolders\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release\net40"
+Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\v3.5\AssemblyFoldersEx\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release\net35"
+Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\v4.0.30319\AssemblyFoldersEx\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release\net40"
 
 
 [Icons]

@@ -69,7 +69,6 @@
     <OutputPath>bin\Release 3.5\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>

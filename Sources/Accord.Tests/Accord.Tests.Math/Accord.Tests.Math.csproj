@@ -67,7 +67,6 @@
     <OutputPath>bin\Release 3.5\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
     <Optimize>true</Optimize>
-	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Release\Accord.Tests.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>

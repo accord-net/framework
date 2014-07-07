@@ -64,7 +64,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\Release\Accord.Tests.Imaging.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>

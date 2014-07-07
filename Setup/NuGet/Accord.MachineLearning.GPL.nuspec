@@ -23,10 +23,10 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net35\Accord.MachineLearning.dll" target="lib\net35\Accord.MachineLearning.dll" />
-    <file src="..\..\Release\net35\Accord.MachineLearning.xml" target="lib\net35\Accord.MachineLearning.xml" />
+    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.dll" target="lib\net35\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net35\Accord.MachineLearning.GPL.xml" target="lib\net35\Accord.MachineLearning.GPL.xml" />
     
-    <file src="..\..\Release\net40\Accord.MachineLearning.dll" target="lib\net40\Accord.MachineLearning.dll" />
-    <file src="..\..\Release\net40\Accord.MachineLearning.xml" target="lib\net40\Accord.MachineLearning.xml" />
+    <file src="..\..\Release\net40\Accord.MachineLearning.GPL.dll" target="lib\net40\Accord.MachineLearning.GPL.dll" />
+    <file src="..\..\Release\net40\Accord.MachineLearning.GPL.xml" target="lib\net40\Accord.MachineLearning.GPL.xml" />
   </files>
 </package>

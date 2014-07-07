@@ -23,8 +23,12 @@
     <None Include="Build all.cmd" />
     <None Include="Installer\Build.cmd" />
     <None Include="NuGet\Accord.DirectSound.nuspec" />
-    <None Include="NuGet\Accord.Audio.nuspec" />
-    <None Include="NuGet\Accord.Controls.Audio.nuspec" />
+    <None Include="NuGet\Accord.Audio.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="NuGet\Accord.Controls.Audio.nuspec">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="NuGet\Accord.Controls.Imaging.nuspec" />
     <None Include="NuGet\Accord.Controls.nuspec" />
     <None Include="NuGet\Accord.Controls.Vision.nuspec" />
@@ -36,6 +40,7 @@
     <None Include="NuGet\Accord.Statistics.nuspec" />
     <None Include="NuGet\Accord.Vision.nuspec" />
     <None Include="NuGet\Build.cmd" />
+    <None Include="NuGet\Accord.MachineLearning.GPL.nuspec" />
     <None Include="NuGet\Push.cmd" />
     <None Include="NuGet\Update.cmd" />
     <None Include="NuGet\NuGet.exe" />

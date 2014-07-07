@@ -523,7 +523,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <returns>A sample which could original the given probability 
         ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
         /// 
-        public virtual double InverseDistributionFunction([Range(0, 1)] double p)
+        public virtual double InverseDistributionFunction(
+#if !NET35
+            [RangeAttribute(0, 1)]
+#endif 
+            double p)
         {
             bool lowerBounded = !Double.IsInfinity(Support.Min);
             bool upperBounded = !Double.IsInfinity(Support.Max);
