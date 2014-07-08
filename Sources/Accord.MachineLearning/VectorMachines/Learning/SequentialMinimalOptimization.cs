@@ -64,6 +64,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <para>
     ///   This class follows the original algorithm by Platt with additional modifications
     ///   by Keerthi et al.</para>
+    ///   
+    /// <para>
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
+    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
     ///  
     /// <para>
     ///   References:
@@ -120,6 +125,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   int decision = System.Math.Sign(svm.Compute(inputs[0])); // +1
     ///  </code>
     /// </example>
+    /// 
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// 
+    /// <seealso cref="ProbabilisticOutputLearning"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
     public class SequentialMinimalOptimization : ISupportVectorMachineLearning, ISupportCancellation
     {

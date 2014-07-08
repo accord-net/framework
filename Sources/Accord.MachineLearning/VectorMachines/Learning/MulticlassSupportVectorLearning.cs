@@ -99,9 +99,16 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
     ///   This class can be used to train Kernel Support Vector Machines with
-    ///   any algorithm using a one-against-one strategy. The underlying training
-    ///   algorithm can be configured by defining the Configure delegate.
+    ///   any algorithm using a <c>one-against-one</c> strategy. The underlying 
+    ///   training algorithm can be configured by defining the <see cref="Algorithm"/>
+    ///   property.</para>
+    ///   
+    /// <para>
+    ///   One example of learning algorithm that can be used with this class is the
+    ///   <see cref="SequentialMinimalOptimization">Sequential Minimal Optimization
+    ///   </see> (SMO) algorithm.</para>
     /// </remarks>
     /// 
     /// <example>
@@ -143,6 +150,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   double error = teacher.Run();
     ///   </code>
     /// </example>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
+    /// <seealso cref="MultilabelSupportVectorLearning"/>
+    /// 
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
     public class MulticlassSupportVectorLearning : ISupportVectorMachineLearning, ISupportCancellation
     {

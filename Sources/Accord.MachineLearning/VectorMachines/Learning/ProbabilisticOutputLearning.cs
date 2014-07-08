@@ -45,6 +45,24 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   by a proper learning algorithm such as <see cref="SequentialMinimalOptimization">
     ///   Sequential Minimal Optimization (SMO)</see>.</para>
     ///   
+    /// <para>
+    ///   This class can also be used in combination with <see cref="MulticlassSupportVectorLearning"/>
+    ///   or <see cref="MultilabelSupportVectorLearning"/> to learn <see cref="MulticlassSupportVectorMachine"/>s
+    ///   using the <c>one-vs-one</c> or <c>one-vs-all</c> multi-class decision strategies, respectively.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///        John C. Platt. 1999. Probabilistic Outputs for Support Vector Machines and Comparisons to
+    ///        Regularized Likelihood Methods. In ADVANCES IN LARGE MARGIN CLASSIFIERS (1999), pp. 61-74.</description></item>
+    ///     <item><description>
+    ///       Hsuan-Tien Lin, Chih-Jen Lin, and Ruby C. Weng. 2007. A note on Platt's probabilistic outputs
+    ///       for support vector machines. Mach. Learn. 68, 3 (October 2007), 267-276. </description></item>
+    ///   </list></para>   
+    /// </remarks>
+    /// 
+    /// <example>
     /// <code>
     /// // Example XOR problem
     /// double[][] inputs =
@@ -88,18 +106,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// 
     /// // At this point, decision is +1 with a probability of 75%
     /// </code>
+    /// </example>
     ///   
-    /// <para>
-    ///   References:
-    ///   <list type="bullet">
-    ///     <item><description>
-    ///        John C. Platt. 1999. Probabilistic Outputs for Support Vector Machines and Comparisons to
-    ///        Regularized Likelihood Methods. In ADVANCES IN LARGE MARGIN CLASSIFIERS (1999), pp. 61-74.</description></item>
-    ///     <item><description>
-    ///       Hsuan-Tien Lin, Chih-Jen Lin, and Ruby C. Weng. 2007. A note on Platt's probabilistic outputs
-    ///       for support vector machines. Mach. Learn. 68, 3 (October 2007), 267-276. </description></item>
-    ///   </list></para>   
-    /// </remarks>
+    /// <seealso cref="SupportVectorMachine"/>
+    /// <seealso cref="KernelSupportVectorMachine"/>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
     public class ProbabilisticOutputLearning : ISupportVectorMachineLearning
     {

@@ -27,15 +27,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Threading.Tasks;
     using System.Threading;
 
-
     /// <summary>
     ///   One-against-all Multi-label Support Vector Machine Learning Algorithm
     /// </summary>
     /// 
     /// <remarks>
+    /// <para>
     ///   This class can be used to train Kernel Support Vector Machines with
-    ///   any algorithm using a one-against-all strategy. The underlying training
-    ///   algorithm can be configured by defining the Configure delegate.
+    ///   any algorithm using a <c>one-against-all</c> strategy. The underlying 
+    ///   training algorithm can be configured by defining the <see cref="Algorithm"/>
+    ///   property.</para>
+    ///   
+    /// <para>
+    ///   One example of learning algorithm that can be used with this class is the
+    ///   <see cref="SequentialMinimalOptimization">Sequential Minimal Optimization
+    ///   </see> (SMO) algorithm.</para>
     /// </remarks>
     /// 
     /// <example>
