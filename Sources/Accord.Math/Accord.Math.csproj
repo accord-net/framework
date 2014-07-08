@@ -232,7 +232,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>
 .\JaggedLuDecomposition.cs
-.\JaggedLuDecomposition.cs
+.\JaggedLuDecomposition.txt
 .\JaggedLuDecompositionD.cs
 .\JaggedLuDecompositionF.cs
 </LastOutputs>
@@ -244,7 +244,7 @@
       <LastGenOutput>EigenvalueDecomposition.txt</LastGenOutput>
       <LastOutputs>
 .\EigenvalueDecomposition.cs
-.\EigenvalueDecomposition1.cs
+.\EigenvalueDecomposition.txt
 .\EigenvalueDecompositionF.cs
 </LastOutputs>
     </None>
@@ -277,7 +277,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>
 .\JaggedSingularValueDecomposition.cs
-.\JaggedSingularValueDecomposition.cs
+.\JaggedSingularValueDecomposition.txt
 .\JaggedSingularValueDecompositionF.cs
 </LastOutputs>
       <LastGenOutput>JaggedSingularValueDecomposition.txt</LastGenOutput>
@@ -297,7 +297,7 @@
       <LastGenOutput>SingularValueDecomposition.txt</LastGenOutput>
       <LastOutputs>
 .\SingularValueDecomposition.cs
-.\SingularValueDecomposition1.cs
+.\SingularValueDecomposition.txt
 .\SingularValueDecompositionF.cs
 </LastOutputs>
     </None>

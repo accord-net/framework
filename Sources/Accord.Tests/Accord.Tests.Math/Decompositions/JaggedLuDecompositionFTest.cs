@@ -45,6 +45,30 @@ namespace Accord.Tests.Math
             }
         }
 
+        [TestMethod()]
+        public void InverseTestNaN()
+        {
+            int n = 5;
+
+            var I = Matrix.Identity(n).ToSingle().ToArray();
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    var value = Matrix.Magic(n).ToArray().ToSingle();
+
+                    value[i][j] = Single.NaN;
+
+                    var target = new JaggedLuDecompositionF(value);
+
+                    var solution = target.Solve(I);
+                    var inverse = target.Inverse();
+
+                    Assert.IsTrue(Matrix.IsEqual(solution, inverse));
+                }
+            }
+        }
 
 
         [TestMethod()]

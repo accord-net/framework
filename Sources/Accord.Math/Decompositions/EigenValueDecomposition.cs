@@ -584,7 +584,13 @@ namespace Accord.Math.Decompositions
                 while (l > low)
                 {
                     s = System.Math.Abs(H[l - 1, l - 1]) + System.Math.Abs(H[l, l]);
-                    if (s == 0) s = norm;
+
+                    if (s == 0) 
+                        s = norm;
+
+                    if (Double.IsNaN(s))
+                        break;
+
                     if (System.Math.Abs(H[l, l - 1]) < eps * s)
                         break;
 

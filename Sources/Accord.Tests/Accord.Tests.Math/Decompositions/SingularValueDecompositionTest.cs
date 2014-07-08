@@ -72,6 +72,32 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod()]
+        public void InverseTestNaN()
+        {
+            int n = 5;
+
+            var I = Matrix.Identity(n);
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    double[,] value = Matrix.Magic(n);
+
+                    value[i, j] = double.NaN;
+
+                    var target = new SingularValueDecomposition(value);
+
+                    double[,] solution = target.Solve(I);
+                    double[,] inverse = target.Inverse();
+
+                    Assert.IsTrue(Matrix.IsEqual(solution, inverse));
+                }
+            }
+        }
+
+
+        [TestMethod()]
         public void SingularValueDecompositionConstructorTest1()
         {
             // This test catches the bug in SingularValueDecomposition in the line

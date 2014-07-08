@@ -2579,7 +2579,7 @@ namespace Accord.Math
         ///   Multiplies a matrix by itself <c>n</c> times.
         /// </summary>
         /// 
-        public static double[,] Power(double[,] matrix, int n)
+        public static double[,] Power(this double[,] matrix, int n)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
