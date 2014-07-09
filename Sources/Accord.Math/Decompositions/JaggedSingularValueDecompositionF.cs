@@ -649,7 +649,9 @@ namespace Accord.Math.Decompositions
                     if (k == -1)
                         break;
 
-                    if (Math.Abs(e[k]) <= eps*(Math.Abs(s[k]) + Math.Abs(s[k+1])))
+                    var alpha = tiny + eps * (System.Math.Abs(s[k]) + System.Math.Abs(s[k + 1]));
+
+                    if (System.Math.Abs(e[k]) <= alpha || Single.IsNaN(e[k]))
                     {
                         e[k] = 0;
                         break;

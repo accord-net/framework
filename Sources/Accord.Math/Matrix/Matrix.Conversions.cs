@@ -291,8 +291,9 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Truncates an integer matrix to double values.
+        ///   Converts an integer matrix to double values.
         /// </summary>
+        /// 
         /// <param name="matrix">The matrix to be converted.</param>
         /// 
         public static double[][] ToDouble(this int[][] matrix)
@@ -304,6 +305,26 @@ namespace Accord.Math
                 result[i] = new double[matrix[i].Length];
                 for (int j = 0; j < matrix[i].Length; j++)
                     result[i][j] = (double)matrix[i][j];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts an integer matrix to double values.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix to be converted.</param>
+        /// 
+        public static float[][] ToSingle(this double[][] matrix)
+        {
+            var result = new float[matrix.Length][];
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                result[i] = new float[matrix[i].Length];
+                for (int j = 0; j < matrix[i].Length; j++)
+                    result[i][j] = (float)matrix[i][j];
             }
 
             return result;

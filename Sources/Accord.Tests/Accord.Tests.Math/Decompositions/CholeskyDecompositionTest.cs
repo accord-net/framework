@@ -25,6 +25,7 @@ namespace Accord.Tests.Math
     using Accord.Math.Decompositions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
+    using System;
 
     [TestClass()]
     public class CholeskyDecompositionTest
@@ -45,7 +46,44 @@ namespace Accord.Tests.Math
             }
         }
 
+        [TestMethod()]
+        public void InverseTestNaN()
+        {
+            int n = 5;
 
+            var I = Matrix.Identity(n);
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    double[,] value = Matrix.Magic(n);
+
+                    // Make symmetric
+                    value = value.Multiply(value.Transpose());
+
+                    value[i, j] = double.NaN;
+                    value[j, i] = double.NaN;
+
+                    Assert.IsTrue(value.IsSymmetric());
+
+                    bool thrown = false;
+
+                    var target = new CholeskyDecomposition(value);
+
+                    try
+                    {
+                        target.Solve(I);
+                    }
+                    catch (Exception)
+                    {
+                        thrown = true;
+                    }
+
+                    Assert.IsTrue(thrown);
+                }
+            }
+        }
 
         [TestMethod()]
         public void CholeskyDecompositionConstructorTest()

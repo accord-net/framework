@@ -25,11 +25,8 @@ namespace Accord.Tests.Math
     using Accord.Math.Decompositions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
+    using System;
 
-    /// <summary>
-    ///This is a test class for CholeskyDecompositionTest and is intended
-    ///to contain all CholeskyDecompositionTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class JaggedCholeskyDecompositionFTest
     {
@@ -37,10 +34,6 @@ namespace Accord.Tests.Math
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -53,6 +46,39 @@ namespace Accord.Tests.Math
             }
         }
 
+
+        [TestMethod()]
+        public void InverseTestNaN()
+        {
+            int n = 5;
+
+            var I = Matrix.Identity(n).ToSingle().ToArray();
+
+            for (int i = 0; i < n; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    var value = Matrix.Magic(n).ToArray().ToSingle();
+
+                    value[i][j] = Single.NaN;
+
+                    bool thrown = false;
+
+                    var target = new JaggedCholeskyDecompositionF(value);
+
+                    try
+                    {
+                        target.Solve(I);
+                    }
+                    catch (NonPositiveDefiniteMatrixException)
+                    {
+                        thrown = true;
+                    }
+
+                    Assert.IsTrue(thrown);
+                }
+            }
+        }
 
 
         [TestMethod()]
@@ -75,7 +101,7 @@ namespace Accord.Tests.Math
             };
 
 
-            JaggedCholeskyDecompositionF chol = new JaggedCholeskyDecompositionF(value);
+            var chol = new JaggedCholeskyDecompositionF(value);
             float[][] L = chol.LeftTriangularFactor;
 
             Assert.IsTrue(Matrix.IsEqual(L, expected, 0.0001f));
