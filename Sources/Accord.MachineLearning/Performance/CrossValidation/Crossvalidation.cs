@@ -23,6 +23,7 @@
 namespace Accord.MachineLearning
 {
     using System;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   k-Fold cross-validation.
@@ -143,18 +144,31 @@ namespace Accord.MachineLearning
         ///   Creates a new k-fold cross-validation algorithm.
         /// </summary>
         /// 
-        /// <param name="size">The total number of available samples.</param>
+        /// <param name="size">The total number samples in the entire dataset.</param>
         /// 
-        public CrossValidation(int size) : base(size) { }
+        public CrossValidation(int size)
+            : base(size) { }
 
         /// <summary>
         ///   Creates a new k-fold cross-validation algorithm.
         /// </summary>
         /// 
-        /// <param name="size">The complete dataset for training and testing.</param>
+        /// <param name="size">The total number samples in the entire dataset.</param>
         /// <param name="folds">The number of folds, usually denoted as <c>k</c> (default is 10).</param>
         /// 
-        public CrossValidation(int size, int folds) : base(size, folds) { }
+        public CrossValidation(int size, int folds)
+            : base(size, folds) { }
+
+        /// <summary>
+        ///   Creates a new k-fold cross-validation algorithm.
+        /// </summary>
+        /// 
+        /// <param name="labels">A vector containing class labels.</param>
+        /// <param name="classes">The number of different classes in <paramref name="labels"/>.</param>
+        /// <param name="folds">The number of folds, usually denoted as <c>k</c> (default is 10).</param>
+        /// 
+        public CrossValidation(int[] labels, int classes, int folds)
+            : base(labels, classes, folds) { }
 
         /// <summary>
         ///   Creates a new k-fold cross-validation algorithm.
@@ -163,11 +177,11 @@ namespace Accord.MachineLearning
         /// <param name="indices">An already created set of fold indices for each sample in a dataset.</param>
         /// <param name="folds">The total number of folds referenced in the <paramref name="indices"/> parameter.</param>
         /// 
-        public CrossValidation(int[] indices, int folds) : base(indices, folds) { }
+        public CrossValidation(int[] indices, int folds)
+            : base(indices, folds) { }
 
         /// <summary>
-        ///   Create cross-validation folds by generating
-        ///   a vector of random fold indices.
+        ///   Create cross-validation folds by generating a vector of random fold indices.
         /// </summary>
         /// 
         /// <param name="size">The number of points in the data set.</param>
@@ -178,6 +192,22 @@ namespace Accord.MachineLearning
         public static int[] Splittings(int size, int folds)
         {
             return Accord.Statistics.Tools.RandomGroups(size, folds);
+        }
+
+        /// <summary>
+        ///   Create cross-validation folds by generating a vector of random fold indices,
+        ///   making sure class labels get equally distributed among the folds.
+        /// </summary>
+        /// 
+        /// <param name="labels">A vector containing class labels.</param>
+        /// <param name="classes">The number of different classes in <paramref name="labels"/>.</param>
+        /// <param name="folds">The number of folds in the cross-validation.</param>
+        /// 
+        /// <returns>A vector of indices defining the a fold for each point in the data set.</returns>
+        /// 
+        public static int[] Splittings(int[] labels, int classes, int folds)
+        {
+            return Accord.Statistics.Tools.RandomGroups(labels, classes, folds);
         }
 
     }

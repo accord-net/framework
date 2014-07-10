@@ -198,6 +198,7 @@ namespace Accord.MachineLearning
         /// <summary>
         ///  Gets the array of fold indices for each point in the data set.
         /// </summary>
+        /// 
         public int[] Indices { get { return indices; } }
 
         /// <summary>
@@ -231,27 +232,58 @@ namespace Accord.MachineLearning
         ///   Creates a new k-fold cross-validation algorithm.
         /// </summary>
         /// 
-        /// <param name="size">The total number of available samples.</param>
+        /// <param name="size">The total number samples in the entire dataset.</param>
         /// 
         public CrossValidation(int size)
-            : this(size, 10) { }
+            : this(size, 10) 
+        {
+        }
 
         /// <summary>
         ///   Creates a new k-fold cross-validation algorithm.
         /// </summary>
         /// 
-        /// <param name="size">The total number of available samples.</param>
+        /// <param name="size">The total number samples in the entire dataset.</param>
         /// <param name="folds">The number of folds, usually denoted as <c>k</c> (default is 10).</param>
         /// 
         public CrossValidation(int size, int folds)
         {
             if (folds > size)
-                throw new ArgumentException("The number of folds can not exceed the total number of samples in the data set", "folds");
+            {
+                throw new ArgumentException("The number of folds can not exceed "
+                + "the total number of samples in the data set", "folds");
+            }
 
             this.samples = size;
             this.folds = new int[folds][];
 
             this.indices = CrossValidation.Splittings(size, folds);
+
+            // Create foldings
+            for (int i = 0; i < folds; i++)
+                this.folds[i] = indices.Find(x => x == i);
+        }
+
+        /// <summary>
+        ///   Creates a new k-fold cross-validation algorithm.
+        /// </summary>
+        /// 
+        /// <param name="labels">A vector containing class labels.</param>
+        /// <param name="classes">The number of different classes in <paramref name="labels"/>.</param>
+        /// <param name="folds">The number of folds, usually denoted as <c>k</c> (default is 10).</param>
+        /// 
+        public CrossValidation(int[] labels, int classes, int folds)
+        {
+            if (folds > labels.Length)
+            {
+                throw new ArgumentException("The number of folds can not exceed "
+                + "the total number of samples in the data set", "folds");
+            }
+
+            this.samples = labels.Length;
+            this.folds = new int[folds][];
+
+            this.indices = CrossValidation.Splittings(labels, classes, folds);
 
             // Create foldings
             for (int i = 0; i < folds; i++)
