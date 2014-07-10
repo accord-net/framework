@@ -86,8 +86,8 @@ namespace Accord.Imaging.Filters
     ///   The resulting image is shown below. </para>
     ///   
     /// <img src="..\images\lines-gabor.png" /> 
-    /// 
     /// </example>
+    /// 
     public class GaborFilter : AForge.Imaging.Filters.BaseFilter
     {
         private Dictionary<PixelFormat, PixelFormat> formatTranslations

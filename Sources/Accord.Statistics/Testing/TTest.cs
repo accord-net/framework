@@ -218,6 +218,14 @@ namespace Accord.Statistics.Testing
         }
 
         /// <summary>
+        ///   Creates a T-Test.
+        /// </summary>
+        /// 
+        protected TTest()
+        {
+        }
+
+        /// <summary>
         ///   Tests the null hypothesis that the population mean is equal to a specified value.
         /// </summary>
         /// 

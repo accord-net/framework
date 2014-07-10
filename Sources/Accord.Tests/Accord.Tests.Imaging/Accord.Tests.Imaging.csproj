@@ -137,6 +137,9 @@
     <Compile Include="ConvexityDefectsTest.cs" />
     <Compile Include="BorderFollowingTest.cs" />
     <Compile Include="CentralMomentsTest.cs" />
+    <Compile Include="Filters\WhitePatchTest.cs" />
+    <Compile Include="Filters\GrayWorldTest.cs" />
+    <Compile Include="Filters\DifferenceOfGaussiansTest.cs" />
     <Compile Include="Filters\SauvolaTest.cs" />
     <Compile Include="Filters\NiblackTest.cs" />
     <Compile Include="Filters\KuwaharaTest.cs" />
@@ -176,7 +179,7 @@
     <Compile Include="SpeededUpRobustFeaturesDescriptorTest.cs" />
     <Compile Include="SpeededUpRobustFeaturesDetectorTest.cs" />
     <Compile Include="ToolsTest.cs" />
-    <Compile Include="WaveletTransformTest.cs" />
+    <Compile Include="Filters\WaveletTransformTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
@@ -238,6 +241,8 @@
     <None Include="Resources\old.png" />
     <None Include="Resources\lines.png" />
     <None Include="Resources\lena_color.jpg" />
+    <None Include="Resources\PICT0107a.jpg" />
+    <None Include="Resources\PICT0108a.jpg" />
     <Content Include="Resources\SURF\flower01.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -63,7 +63,28 @@ namespace Accord.Imaging.Filters
     ///   </list></para>   
     /// </remarks>
     ///
-    public class DifferenceOfGaussian : BaseInPlaceFilter
+    /// <example>
+    /// <code>
+    ///   Bitmap image = ... // Lena's famous picture
+    /// 
+    ///   // Create a new Difference of Gaussians
+    ///   var DoG = new DifferenceOfGaussians();
+    /// 
+    ///   // Apply the filter
+    ///   Bitmap result = DoG.Apply(image);
+    ///   
+    ///   // Show on the screen
+    ///   ImageBox.Show(result);
+    /// </code>
+    /// 
+    /// <para>
+    ///   The resulting image is shown below. </para>
+    ///   
+    /// <img src="..\images\differenceOfGaussians.png" /> 
+    ///
+    /// </example>
+    /// 
+    public class DifferenceOfGaussians : BaseInPlaceFilter
     {
         private Dictionary<PixelFormat, PixelFormat> formatTranslations;
 
@@ -113,10 +134,10 @@ namespace Accord.Imaging.Filters
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="DifferenceOfGaussian"/> class.
+        ///   Initializes a new instance of the <see cref="DifferenceOfGaussians"/> class.
         /// </summary>
         /// 
-        public DifferenceOfGaussian()
+        public DifferenceOfGaussians()
         {
             formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
@@ -138,17 +159,19 @@ namespace Accord.Imaging.Filters
                 Size = 5,
                 Sigma = 0.4
             };
+
+            this.subtract = new Subtract();
         }
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="DifferenceOfGaussian"/> class.
+        ///   Initializes a new instance of the <see cref="DifferenceOfGaussians"/> class.
         /// </summary>
         /// 
         /// <param name="windowSize1">The first window size. Default is 3</param>
         /// <param name="windowSize2">The second window size. Default is 4.</param>
         /// 
-        public DifferenceOfGaussian(int windowSize1, int windowSize2)
+        public DifferenceOfGaussians(int windowSize1, int windowSize2)
             : this()
         {
             this.first.Size = windowSize1;
@@ -156,7 +179,7 @@ namespace Accord.Imaging.Filters
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="DifferenceOfGaussian"/> class.
+        ///   Initializes a new instance of the <see cref="DifferenceOfGaussians"/> class.
         /// </summary>
         /// 
         /// <param name="windowSize1">The window size for the first Gaussian. Default is 3</param>
@@ -165,7 +188,7 @@ namespace Accord.Imaging.Filters
         /// <param name="sigma1">The sigma for the first Gaussian. Default is 0.4.</param>
         /// <param name="sigma2">The sigma for the second Gaussian. Default is 0.4</param>
         /// 
-        public DifferenceOfGaussian(int windowSize1, int windowSize2, double sigma1, double sigma2)
+        public DifferenceOfGaussians(int windowSize1, int windowSize2, double sigma1, double sigma2)
             : this(windowSize1, windowSize2)
         {
             this.first.Sigma = sigma1;
@@ -173,7 +196,7 @@ namespace Accord.Imaging.Filters
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="DifferenceOfGaussian"/> class.
+        ///   Initializes a new instance of the <see cref="DifferenceOfGaussians"/> class.
         /// </summary>
         /// 
         /// <param name="windowSize1">The window size for the first Gaussian. Default is 3</param>
@@ -181,7 +204,7 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="sigma">The sigma for both Gaussian filters. Default is 0.4.</param>
         /// 
-        public DifferenceOfGaussian(int windowSize1, int windowSize2, double sigma)
+        public DifferenceOfGaussians(int windowSize1, int windowSize2, double sigma)
             : this(windowSize1, windowSize2, sigma, sigma)
         {
         }
@@ -202,6 +225,7 @@ namespace Accord.Imaging.Filters
             second.ApplyInPlace(image);
 
             // Subtract the two images
+            subtract.UnmanagedOverlayImage = image1;
             subtract.ApplyInPlace(image);
         }
 

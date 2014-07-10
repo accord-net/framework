@@ -413,8 +413,10 @@ namespace Accord.Controls
         {
             var modes = Enum.GetValues(typeof(PictureBoxSizeMode));
 
+            var currentMode = pictureBox.SizeMode;
             this.centeredToolStripMenuItem.ComboBox.BindingContext = this.BindingContext;
             this.centeredToolStripMenuItem.ComboBox.DataSource = modes;
+            this.centeredToolStripMenuItem.ComboBox.SelectedItem = currentMode;
         }
 
         private void zoomToolStripMenuItem_Click(object sender, EventArgs e)

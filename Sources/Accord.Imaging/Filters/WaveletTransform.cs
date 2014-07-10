@@ -32,6 +32,42 @@ namespace Accord.Imaging.Filters
     ///   Wavelet transform filter.
     /// </summary>
     /// 
+    /// <example>
+    /// <code>
+    /// Bitmap image = ... // Lena's famous picture
+    /// 
+    /// // Create a new Haar Wavelet transform filter
+    /// var wavelet = new WaveletTransform(new Haar(1));
+    /// 
+    /// // Apply the Wavelet transformation
+    /// Bitmap result = wavelet.Apply(image);
+    /// 
+    /// // Show on the screen
+    /// ImageBox.Show(result);
+    /// </code>
+    /// 
+    /// <para>
+    ///   The resulting image is shown below. </para>
+    ///   
+    /// <img src="..\images\wavelet-1.png" /> 
+    /// 
+    /// <code>
+    /// // Extract only one of the resulting images
+    /// var crop = new Crop(new Rectangle(0, 0, 
+    ///     image.Width / 2, image.Height / 2));
+    /// 
+    /// Bitmap quarter = crop.Apply(result);
+    /// 
+    /// // Show on the screen
+    /// ImageBox.Show(quarter);
+    /// </code>
+    /// 
+    /// <para>
+    ///   The resulting image is shown below. </para>
+    ///   
+    /// <img src="..\images\wavelet-2.png" /> 
+    /// </example>
+    /// 
     public class WaveletTransform : BaseFilter
     {
         private IWavelet wavelet;
@@ -163,7 +199,7 @@ namespace Accord.Imaging.Filters
                         // for each pixel
                         for (int x = 0; x < width; x++, src++)
                         {
-                             data[y, x] = (double)Math.Tools.Scale(0, 65535, -1, 1, *src);
+                            data[y, x] = (double)Math.Tools.Scale(0, 65535, -1, 1, *src);
                         }
                         src += srcOffset;
                     }

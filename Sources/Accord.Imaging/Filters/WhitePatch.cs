@@ -45,6 +45,26 @@ namespace Accord.Imaging.Filters
     ///   White Patch filter for color normalization.
     /// </summary>
     /// 
+    /// <example>
+    /// <code>
+    ///   Bitmap image = ... // Lena's famous picture
+    /// 
+    ///   // Create the White Patch filter
+    ///   var whitePatch = new WhitePatch();
+    /// 
+    ///   // Apply the filter
+    ///   Bitmap result = grayWorld.Apply(image);
+    ///   
+    ///   // Show on the screen
+    ///   ImageBox.Show(result);
+    /// </code>
+    /// 
+    /// <para>
+    ///   The resulting image is shown below. </para>
+    ///   
+    /// <img src="..\images\white-patch.png" /> 
+    /// </example>
+    /// 
     public class WhitePatch : BaseInPlaceFilter
     {
         Dictionary<PixelFormat, PixelFormat> formatTranslations;

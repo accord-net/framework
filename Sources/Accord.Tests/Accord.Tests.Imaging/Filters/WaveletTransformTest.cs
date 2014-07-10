@@ -27,11 +27,12 @@ using System.Drawing;
 using Accord.Math;
 using Accord.Imaging;
 using Accord.Controls;
+using AForge.Imaging.Filters;
 
 namespace Accord.Tests.Imaging
 {
-    
-    
+
+
     [TestClass()]
     public class WaveletTransformTest
     {
@@ -51,14 +52,38 @@ namespace Accord.Tests.Imaging
             }
         }
 
+        [TestMethod()]
+        public void Example1()
+        {
+            Bitmap image = Properties.Resources.lena512;
 
+            // Create a new Haar Wavelet transform filter
+            var wavelet = new WaveletTransform(new Haar(1));
+
+            // Apply the Wavelet transformation
+            Bitmap result = wavelet.Apply(image);
+
+            // Show on the screen
+            //ImageBox.Show(result);
+            Assert.IsNotNull(result);
+            
+            // Extract only one of the resulting images
+            var crop = new Crop(new Rectangle(0, 0, 
+                image.Width / 2, image.Height / 2));
+
+            Bitmap quarter = crop.Apply(result);
+
+            // Show on the screen
+            //ImageBox.Show(quarter);
+            Assert.IsNotNull(quarter);
+        }
 
         [TestMethod()]
         public void WaveletTransformConstructorTest()
         {
             // Start with a grayscale image
-            Bitmap src = Properties.Resources.lena512; 
-            
+            Bitmap src = Properties.Resources.lena512;
+
             // Create a wavelet filter            
             IWavelet wavelet = new Accord.Math.Wavelets.Haar(2);
             WaveletTransform target = new WaveletTransform(wavelet);

@@ -30,6 +30,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Kernels;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
+    using System;
 
     [TestClass()]
     public class CrossvalidationTest
@@ -106,7 +107,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(4.5, result.Training.Mean);
             Assert.AreEqual(9.0, result.Validation.Mean);
             Assert.AreEqual(
-                2 * result.Training.StandardDeviation,      
+                2 * result.Training.StandardDeviation,
                 result.Validation.StandardDeviation);
 
             Assert.AreEqual(val.Folds.Length, result.Training.Sizes.Length);
@@ -326,5 +327,87 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, result.Models.Length);
         }
 
+        [TestMethod()]
+        public void NotEnoughSamplesTest1()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[] labels = Matrix.Vector(10, 1).Concatenate(Matrix.Vector(30, 0));
+
+            Accord.Statistics.Tools.Shuffle(labels);
+
+            var crossvalidation = new CrossValidation<MulticlassSupportVectorMachine>(size: 40, folds: 10)
+            {
+                RunInParallel = false,
+
+                Fitting = (int index, int[] indicesTrain, int[] indicesValidation) =>
+                {
+                    var labelsValidation = labels.Submatrix(indicesValidation);
+                    int countValidation = labelsValidation.Count(x => x == 1);
+                    Assert.AreEqual(2, countValidation);
+
+                    var labelsTraining = labels.Submatrix(indicesTrain);
+                    int countTraining = labelsTraining.Count(x => x == 1);
+                    Assert.AreEqual(9 * 2, countTraining);
+
+                    return new CrossValidationValues<MulticlassSupportVectorMachine>(null, 0, 0);
+                }
+            };
+
+            bool thrown = false;
+            try { crossvalidation.Compute(); }
+            catch (Exception) { thrown = true; }
+            Assert.IsTrue(thrown);
+
+            crossvalidation = new CrossValidation<MulticlassSupportVectorMachine>(labels, 2, folds: 10)
+            {
+                RunInParallel = false,
+
+                Fitting = (int index, int[] indicesTrain, int[] indicesValidation) =>
+                {
+                    var labelsValidation = labels.Submatrix(indicesValidation);
+                    int countValidation = labelsValidation.Count(x => x == 1);
+                    Assert.AreEqual(1, countValidation);
+
+                    var labelsTraining = labels.Submatrix(indicesTrain);
+                    int countTraining = labelsTraining.Count(x => x == 1);
+                    Assert.AreEqual(9, countTraining);
+
+                    return new CrossValidationValues<MulticlassSupportVectorMachine>(null, 0, 0);
+                }
+            };
+
+            crossvalidation.Compute();
+        }
+
+        [TestMethod()]
+        public void NotEnoughSamplesTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[] labels = Matrix.Vector(10, 1).Concatenate(Matrix.Vector(30, 0));
+
+            Accord.Statistics.Tools.Shuffle(labels);
+
+            var crossvalidation = new CrossValidation<MulticlassSupportVectorMachine>(labels, 2, folds: 10)
+            {
+                RunInParallel = false,
+
+                Fitting = (int index, int[] indicesTrain, int[] indicesValidation) =>
+                {
+                    var labelsValidation = labels.Submatrix(indicesValidation);
+                    int countValidation = labelsValidation.Count(x => x == 1);
+                    Assert.AreEqual(1, countValidation);
+
+                    var labelsTraining = labels.Submatrix(indicesTrain);
+                    int countTraining = labelsTraining.Count(x => x == 1);
+                    Assert.AreEqual(9, countTraining);
+
+                    return new CrossValidationValues<MulticlassSupportVectorMachine>(null, 0, 0);
+                }
+            };
+
+            crossvalidation.Compute();
+        }
     }
 }

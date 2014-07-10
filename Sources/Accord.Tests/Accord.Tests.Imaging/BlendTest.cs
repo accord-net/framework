@@ -26,6 +26,10 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Drawing;
+    using Accord.Tests.Imaging.Properties;
+    using Accord.Controls;
+    using System.Windows.Forms;
 
 
     [TestClass]
@@ -34,7 +38,7 @@ namespace Accord.Tests.Imaging
 
         private TestContext testContextInstance;
 
-      
+
         public TestContext TestContext
         {
             get
@@ -45,6 +49,46 @@ namespace Accord.Tests.Imaging
             {
                 testContextInstance = value;
             }
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void Example1()
+        {
+            // Let's start with two pictures that have been
+            // taken from slightly different points of view:
+            //
+            Bitmap img1 = Resources.dc_left;
+            Bitmap img2 = Resources.dc_right;
+
+            // Those pictures are shown below:
+            ImageBox.Show(img1, PictureBoxSizeMode.Zoom, 640, 480);
+            ImageBox.Show(img2, PictureBoxSizeMode.Zoom, 640, 480);
+
+
+            // Step 1: Detect feature points using Surf Corners Detector
+            var surf = new SpeededUpRobustFeaturesDetector();
+
+            var points1 = surf.ProcessImage(img1);
+            var points2 = surf.ProcessImage(img2);
+
+            // Step 2: Match feature points using a k-NN
+            var matcher = new KNearestNeighborMatching(5);
+            var matches = matcher.Match(points1, points2);
+
+            // Step 3: Create the matrix using a robust estimator
+            var ransac = new RansacHomographyEstimator(0.001, 0.99);
+            MatrixH homographyMatrix = ransac.Estimate(matches);
+
+            // Step 4: Project and blend using the homography
+            Blend blend = new Blend(homographyMatrix, img1);
+
+
+            // Compute the blending algorithm
+            Bitmap result = blend.Apply(img2);
+
+            // Show on screen
+            ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
         }
 
 
