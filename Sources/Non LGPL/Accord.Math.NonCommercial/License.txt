@@ -1,0 +1,10 @@
+
+ IMPORTANT NOTICE
+
+ Any algorithms and files in this C# project, named "Accord.Math.NonCommercial", 
+ are available under specific license terms specified in each file. Extra care is
+ necessary when using algorithms from this project. Please make sure you understand
+ the implications before using any algorithms from this namespace.
+
+ Do not use any code in this folder if you need your application to be exclusively 
+ LGPL compatible, or if you plan to use them for commercial purposes.

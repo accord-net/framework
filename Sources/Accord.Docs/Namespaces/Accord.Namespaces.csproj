@@ -134,7 +134,7 @@
       <Project>{4959a83d-f78f-439e-80a5-41583eceaac6}</Project>
       <Name>Accord.Imaging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.MachineLearning.GPL\Accord.MachineLearning %28GPL%29.csproj">
+    <ProjectReference Include="..\..\Non LGPL\Accord.MachineLearning.GPL\Accord.MachineLearning %28GPL%29.csproj">
       <Project>{6dd1a48c-d7a8-4b39-9c06-5a71feec70b9}</Project>
       <Name>Accord.MachineLearning %28GPL%29</Name>
     </ProjectReference>

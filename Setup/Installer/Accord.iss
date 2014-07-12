@@ -25,27 +25,54 @@ LicenseFile=..\..\License.txt
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
-[Components]
-Name: "libs";     Description: "Accord.NET Framework's libraries";  Types: full compact custom; Flags: fixed
-Name: "libs/gpl"; Description: "Extra GPL-only libraries (SMOreg)"; Types: full custom;
-Name: "docs";     Description: "Documentation";                     Types: full custom
-Name: "sources";  Description: "Sources";                           Types: full custom
-Name: "samples";  Description: "Samples";                           Types: full custom
+[Types]
+Name: "default"; Description: "Recommended settings"
+Name: "compact"; Description: "Compact installation"
+Name: "custom"; Description: "Advanced installation (see warning)"; Flags: iscustom
 
+
+[Components]
+Name: "libs";     Description: "Accord.NET Framework's libraries";  Types: default compact custom; Flags: fixed
+Name: "libs/gpl"; Description: "Extra GPL-only extensions";         Types: custom;
+Name: "libs/noc"; Description: "Noncommercial extensions";          Types: custom;
+Name: "docs";     Description: "Documentation";                     Types: default custom
+Name: "sources";  Description: "Sources";                           Types: default custom
+Name: "samples";  Description: "Samples";                           Types: default custom
+
+[Code]
+function NextButtonClick(CurPageID: Integer): Boolean;
+begin
+  Result := True;
+  if (CurPageID = wpSelectComponents) and  
+    (IsComponentSelected('libs/gpl') or IsComponentSelected('libs/noc')) then
+  begin
+    Result := MsgBox('You have chosen to install the GPL-only or noncommercial-only library extensions. ' +
+      'Please make sure you understand the implications of using those modules and accept their license ' +
+      'before you include them in your project. Are you sure you want to continue?', mbConfirmation, MB_YESNO) = IDYES;
+  end;
+end;
 
 [Files]
 Source: "..\..\Copyright.txt";       DestDir: "{app}";               Components: libs
 Source: "..\..\License.txt";         DestDir: "{app}";               Components: libs
 Source: "..\..\Release notes.txt";   DestDir: "{app}";               Components: libs
-Source: "..\..\Release\net40\*";     DestDir: "{app}\Release\net40"; Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
-Source: "..\..\Release\net35\*";     DestDir: "{app}\Release\net35"; Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
-Source: "..\..\Release\net40\GPL\*"; DestDir: "{app}\Release\net40"; Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
-Source: "..\..\Release\net35\GPL\*"; DestDir: "{app}\Release\net35"; Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 Source: "..\..\Docs\*.chm";          DestDir: "{app}\Docs";          Components: docs;     Flags: skipifsourcedoesntexist; Excludes: "*.~*"
 Source: "..\..\Sources\*";           DestDir: "{app}\Sources";       Components: sources;  Flags: recursesubdirs; Excludes: "*.~*,\TestResults,*\bin,*\obj,*.sdf,*.suo,*.user,*.vsp,*.shfbproj_*,*.pidb"
 Source: "..\..\Samples\*";           DestDir: "{app}\Samples";       Components: samples;  Flags: recursesubdirs; Excludes: "*.~*,*\obj,*\bin\x64\,*\bin\Debug,*\bin\Release,*\bin\x86\Debug,*\bin\x86\Release 3.5,*.pdb,*.user,*.pidb"
 Source: "..\..\Setup\*";             DestDir: "{app}\Setup";         Components: sources;  Flags: recursesubdirs; Excludes: "\bin,\obj,*.user,*.vsp"
 Source: "..\..\Externals\*";         DestDir: "{app}\Externals";     Components: libs;     Flags: recursesubdirs; Excludes: "*.~*,*.pdb"
+
+; Official, supported release:
+Source: "..\..\Release\net40\*";     DestDir: "{app}\Release\net40"; Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
+Source: "..\..\Release\net35\*";     DestDir: "{app}\Release\net35"; Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
+
+; Extra GPL-only libraries:
+Source: "..\..\Release\net40\GPL\*"; DestDir: "{app}\Release\net40"; Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
+Source: "..\..\Release\net35\GPL\*"; DestDir: "{app}\Release\net35"; Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
+
+; Extra Noncommercial libraries:
+Source: "..\..\Release\net40\Noncommercial\*"; DestDir: "{app}\Release\net40\Noncommercial\*"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
+Source: "..\..\Release\net35\Noncommercial\*"; DestDir: "{app}\Release\net35\Noncommercial\*"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 
 
 [Registry]

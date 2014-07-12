@@ -50,7 +50,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-	<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -85,7 +85,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-	<TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -133,6 +133,7 @@
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
     <Compile Include="Optimization\BoundedBroydenFletcherGoldfarbShannoTest.cs" />
+    <Compile Include="Optimization\NonlinearConjugateGradientTest.cs" />
     <Compile Include="Optimization\Lbfgsb3\LbfgsbComparer.cs" />
     <Compile Include="Optimization\Lbfgsb3\LbfgsbComparisonTest.cs" />
     <Compile Include="Optimization\LibBFGS\LibBFGSComparisonTest.cs" />
@@ -207,6 +208,10 @@
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
       <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Non LGPL\Accord.Math.NonCommercial\Accord.Math %28Noncommercial%29.csproj">
+      <Project>{1A83AF16-1AC8-45E3-9E7E-FA7248C7CBCB}</Project>
+      <Name>Accord.Math %28Noncommercial%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj">
       <Project>{161BD953-537D-4325-8A00-22475FC9088E}</Project>
