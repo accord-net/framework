@@ -152,7 +152,7 @@ namespace Accord.Statistics.Analysis
         private string[] inputNames;
         private string outputName;
 
-        private double[,] source;
+        private double[,] sourceMatrix;
         private double[] result;
 
         private LogisticCoefficientCollection coefficientCollection;
@@ -247,9 +247,9 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                if (source == null)
-                    this.source = inputData.ToMatrix();
-                return source;
+                if (sourceMatrix == null)
+                    this.sourceMatrix = inputData.ToMatrix();
+                return sourceMatrix;
             }
         }
 

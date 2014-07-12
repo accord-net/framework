@@ -127,8 +127,10 @@ namespace Accord.Statistics.Kernels
         public KernelFunctionCache(IKernel kernel, double[][] inputs, int cacheSize)
         {
             if (cacheSize < 0)
+            {
                 throw new ArgumentOutOfRangeException("cacheSize",
                     "The cache size must be non-negative.");
+            }
 
             this.kernel = kernel;
             this.inputs = inputs;

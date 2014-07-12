@@ -439,9 +439,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Gets or sets the cache size to partially
-        ///   stored the kernel matrix. Default is the
-        ///   same number of input vectors.
+        ///   Gets or sets the cache size to partially stored the kernel 
+        ///   matrix. Default is the same number of input vectors. If set
+        ///   to zero, the cache will be disabled and all operations will
+        ///   be computed as needed.
         /// </summary>
         /// 
         public int CacheSize
