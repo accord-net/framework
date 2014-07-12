@@ -33,16 +33,24 @@
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using Accord.Math.Optimization;
 
     /// <summary>
     ///   L2-regularized L2-loss support vector classification (primal)
     /// </summary>
     /// 
-    /// l2r_l2_svc_fun
+    /// <remarks>
+    /// <para>
+    ///   This class implements a L2-regularized L2-loss support vector machine
+    ///   learning algorithm that operates in the primal form of the optimization
+    ///   problem. This method has been based on liblinear's <c>l2r_l2_svc_fun</c>
+    ///   problem specification, optimized using a <see cref="TrustRegionNewtonMethod">
+    ///   Trust-region Newton method</see>. This method might be faster than the often
+    ///   preferred <see cref="CoordinateDescentLinearLearning"/>. </para>
+    /// </remarks>
+    /// 
+    /// <seealso cref="SequentialMinimalOptimization"/>
+    /// <seealso cref="CoordinateDescentLinearLearning"/>
     /// 
     public class NewtonMethodPrimalLearning : ISupportVectorMachineLearning
     {
@@ -55,7 +63,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         double[] C;
         double[] z;
-        double[] D;
         int[] I;
         int sizeI;
 
@@ -75,7 +82,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         int bias;
 
-
+        /// <summary>
+        ///   Constructs a new Newton method algorithm for L2-loss SVM primal problems.
+        /// </summary>
+        /// 
+        /// <param name="machine">A support vector machine.</param>
+        /// <param name="inputs">The input data points as row vectors.</param>
+        /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
+        /// 
         public NewtonMethodPrimalLearning(SupportVectorMachine machine, double[][] inputs, int[] outputs)
         {
             // Initial argument checking
@@ -88,7 +102,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             int l = inputs.Length;
             this.z = new double[l];
-            this.D = new double[l];
             this.I = new int[l];
             this.C = new double[l];
 
@@ -364,6 +377,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
 
+        /// <summary>
+        ///   Runs the learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="computeError">
+        ///   True to compute error after the training
+        ///   process completes, false otherwise.
+        /// </param>
+        /// 
+        /// <returns>
+        ///   The misclassification error rate of the resulting support
+        ///   vector machine if <paramref name="computeError"/> is true,
+        ///   returns zero otherwise.
+        /// </returns>
+        /// 
         public double Run(bool computeError)
         {
             // Initialization heuristics

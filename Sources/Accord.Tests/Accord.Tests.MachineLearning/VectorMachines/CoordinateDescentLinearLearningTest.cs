@@ -26,9 +26,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Analysis;
 
     [TestClass()]
     public class CoordinateDescentLinearLearningTest
@@ -138,9 +138,9 @@ namespace Accord.Tests.MachineLearning
 
                 ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
                 Assert.AreEqual(17, matrix.FalseNegatives);
-                Assert.AreEqual(1, matrix.FalsePositives);
+                Assert.AreEqual(0, matrix.FalsePositives);
                 Assert.AreEqual(33, matrix.TruePositives);
-                Assert.AreEqual(49, matrix.TrueNegatives);
+                Assert.AreEqual(50, matrix.TrueNegatives);
             }
 
             {

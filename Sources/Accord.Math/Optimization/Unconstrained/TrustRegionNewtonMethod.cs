@@ -33,36 +33,120 @@
 namespace Accord.Math.Optimization
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Diagnostics;
 
+    /// <summary>
+    ///   Simplified Trust Region Newton Method (TRON) for non-linear optimization.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   Trust region is a term used in mathematical optimization to denote the subset 
+    ///   of the region of the objective function to be optimized that is approximated 
+    ///   using a model function (often a quadratic). If an adequate model of the objective
+    ///   function is found within the trust region then the region is expanded; conversely,
+    ///   if the approximation is poor then the region is contracted. Trust region methods 
+    ///   are also known as restricted step methods.</para>
+    /// <para>
+    ///   The fit is evaluated by comparing the ratio of expected improvement from the model
+    ///   approximation with the actual improvement observed in the objective function. Simple
+    ///   thresholding of the ratio is used as the criteria for expansion and contraction—a
+    ///   model function is "trusted" only in the region where it provides a reasonable 
+    ///   approximation. </para>
+    ///   
+    /// <para>
+    ///   Trust region methods are in some sense dual to line search methods: trust region 
+    ///   methods first choose a step size (the size of the trust region) and then a step 
+    ///   direction while line search methods first choose a step direction and then a step
+    ///   size.</para>
+    ///   
+    /// <para>
+    ///   This class implements a simplified version of Chih-Jen Lin and Jorge Moré's TRON,
+    ///   a trust region Newton method for the solution of large bound-constrained optimization 
+    ///   problems. This version was based upon liblinear's implementation.</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       <a href="http://en.wikipedia.org/wiki/Trust_region">
+    ///       Wikipedia, The Free Encyclopedia. Trust region. Available on:
+    ///       http://en.wikipedia.org/wiki/Trust_region </a></description></item>
+    ///     <item><description>
+    ///       <a href="http://www.mcs.anl.gov/~more/tron/index.html">
+    ///      Chih-Jen Lin and Jorge Moré, TRON. Available on: http://www.mcs.anl.gov/~more/tron/index.html
+    ///       </a></description></item>
+    ///     <item><description>
+    ///       <a href="http://www.cs.iastate.edu/~honavar/keerthi-svm.pdf">
+    ///       Chih-Jen Lin and Jorge J. Moré. 1999. Newton's Method for Large Bound-Constrained 
+    ///       Optimization Problems. SIAM J. on Optimization 9, 4 (April 1999), 1100-1127. </a>
+    ///       </description></item>
+    ///     <item><description>
+    ///       <a href="http://www.csie.ntu.edu.tw/~cjlin/liblinear/">
+    ///       Machine Learning Group. LIBLINEAR -- A Library for Large Linear Classification.
+    ///       National Taiwan University. Available at: http://www.csie.ntu.edu.tw/~cjlin/liblinear/
+    ///       </a></description></item>
+    ///     </list></para>  
+    /// </remarks>
+    /// 
+    /// <seealso cref="ConjugateGradient"/>
+    /// <seealso cref="BoundedBroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="ResilientBackpropagation"/>
+    /// 
     public class TrustRegionNewtonMethod : BaseGradientOptimizationMethod
     {
         double eps = 0.1;
         int max_iter = 1000;
 
+        /// <summary>
+        ///   Gets or sets the tolerance under which the
+        ///   solution should be found. Default is 0.1.
+        /// </summary>
+        /// 
         public double Tolerance
         {
             get { return eps; }
             set { eps = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations that should
+        ///    be performed until the algorithm stops. Default is 1000.
+        /// </summary>
+        /// 
         public int MaxIterations
         {
             get { return max_iter; }
             set { max_iter = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the Hessian estimation function.
+        /// </summary>
+        /// 
         public Func<double[], double[]> Hessian { get; set; }
 
-
+        /// <summary>
+        ///   Creates a new <see cref="ResilientBackpropagation"/> function optimizer.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of parameters in the function to be optimized.</param>
+        /// 
         public TrustRegionNewtonMethod(int numberOfVariables)
             : base(numberOfVariables)
         {
         }
 
+        /// <summary>
+        ///   Creates a new <see cref="ResilientBackpropagation"/> function optimizer.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of free parameters in the function to be optimized.</param>
+        /// <param name="function">The function to be optimized.</param>
+        /// <param name="gradient">The gradient of the function.</param>
+        /// <param name="hessian">The hessian of the function.</param>
+        /// 
         public TrustRegionNewtonMethod(int numberOfVariables, Func<double[], double> function,
             Func<double[], double[]> gradient, Func<double[], double[]> hessian)
             : base(numberOfVariables, function, gradient)
@@ -70,6 +154,11 @@ namespace Accord.Math.Optimization
             Hessian = hessian;
         }
 
+        /// <summary>
+        ///   Implements the actual optimization algorithm. This
+        ///   method should try to minimize the objective function.
+        /// </summary>
+        /// 
         protected override bool Optimize()
         {
             tron(Solution);
@@ -180,20 +269,23 @@ namespace Accord.Math.Optimization
                     if (gnorm <= eps * gnorm1)
                         break;
                 }
+
+                // TODO: Use those status in a TrustRegionNewtonMethodStatus enumeration
+
                 if (f < -1.0e+32)
                 {
-                    Debug.WriteLine("WARNING: f < -1.0e+32\n");
+                    Debug.WriteLine("WARNING: f < -1.0e+32");
                     break;
                 }
                 if (Math.Abs(actred) <= 0 && prered <= 0)
                 {
-                    Debug.WriteLine("WARNING: actred and prered <= 0\n");
+                    Debug.WriteLine("WARNING: actred and prered <= 0");
                     break;
                 }
                 if (Math.Abs(actred) <= 1.0e-12 * Math.Abs(f) &&
                     Math.Abs(prered) <= 1.0e-12 * Math.Abs(f))
                 {
-                    Debug.WriteLine("WARNING: actred and prered too small\n");
+                    Debug.WriteLine("WARNING: actred and prered too small");
                     break;
                 }
             }
@@ -326,19 +418,7 @@ namespace Accord.Math.Optimization
 
             return cg_iter;
         }
-
-        double norm_inf(double[] x)
-        {
-            double dmax = Math.Abs(x[0]);
-
-            for (int i = 1; i < x.Length; i++)
-            {
-                if (Math.Abs(x[i]) >= dmax)
-                    dmax = Math.Abs(x[i]);
-            }
-
-            return dmax;
-        }
+      
     }
 }
 

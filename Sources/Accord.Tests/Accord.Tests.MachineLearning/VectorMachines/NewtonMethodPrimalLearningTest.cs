@@ -138,9 +138,9 @@ namespace Accord.Tests.MachineLearning
 
                 ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
                 Assert.AreEqual(17, matrix.FalseNegatives);
-                Assert.AreEqual(3, matrix.FalsePositives);
+                Assert.AreEqual(1, matrix.FalsePositives);
                 Assert.AreEqual(33, matrix.TruePositives);
-                Assert.AreEqual(47, matrix.TrueNegatives);
+                Assert.AreEqual(49, matrix.TrueNegatives);
             }
 
         }

@@ -61,54 +61,79 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using System;
     using System.Diagnostics;
-    using Accord.Math;
 
-    public enum Loss 
-    { 
+    /// <summary>
+    ///   Different categories of loss functions that can be used to learn 
+    ///   <see cref="SupportVectorMachine">support vector machines</see>.
+    /// </summary>
+    /// 
+    public enum Loss
+    {
         /// <summary>
         ///   Hinge-loss function. 
         /// </summary>
         /// 
-        L1, 
-        
+        L1,
+
         /// <summary>
         ///   Squared hinge-loss function.
         /// </summary>
         /// 
-        L2 
+        L2
     };
 
-    // A coordinate descent algorithm for 
-    // L1-loss and L2-loss SVM dual problems
-    //
-    //  min_\alpha  0.5(\alpha^T (Q + D)\alpha) - e^T \alpha,
-    //    s.t.      0 <= \alpha_i <= upper_bound_i,
-    // 
-    //  where Qij = yi yj xi^T xj and
-    //  D is a diagonal matrix 
-    //
-    // In L1-SVM case:
-    // 		upper_bound_i = Cp if y_i = 1
-    // 		upper_bound_i = Cn if y_i = -1
-    // 		D_ii = 0
-    // In L2-SVM case:
-    // 		upper_bound_i = INF
-    // 		D_ii = 1/(2*Cp)	if y_i = 1
-    // 		D_ii = 1/(2*Cn)	if y_i = -1
-    //
-    // Given: 
-    // x, y, Cp, Cn
-    // eps is the stopping tolerance
-    //
-    // solution will be put in w
-    // 
-    // See Algorithm 3 of Hsieh et al., ICML 2008
+
 
     /// <summary>
-    ///   L2-regularized, L1 or L2-loss Support Vector Machine learning.
+    ///   L2-regularized, L1 or L2-loss dual formulation Support Vector Machine learning.
     /// </summary>
     /// 
-    /// solve_l2r_l1l2_svc
+    /// <remarks>
+    /// <para>
+    ///   This class implements a <see cref="SupportVectorMachine"/> learning algorithm
+    ///   specifically crafted for linear machines only. It provides a L2-regularized, L1
+    ///   or L2-loss coordinate descent learning algorithm for optimizing the dual form of
+    ///   learning. The code has been based on liblinear's method <c>solve_l2r_l1l2_svc</c>
+    ///   method, whose original description is provided below.
+    /// </para>
+    /// 
+    /// <para>
+    ///   A coordinate descent algorithm for L1-loss and L2-loss SVM dual problems
+    /// </para>
+    /// 
+    /// <code>
+    ///  min_\alpha  0.5(\alpha^T (Q + D)\alpha) - e^T \alpha,
+    ///    s.t.      0 &lt;= \alpha_i &lt;= upper_bound_i,
+    /// </code>
+    /// 
+    /// <para>
+    ///  where Qij = yi yj xi^T xj and
+    ///  D is a diagonal matrix </para>
+    ///
+    /// <para>
+    /// In L1-SVM case:</para>
+    /// <code>
+    ///         upper_bound_i = Cp if y_i = 1
+    ///         upper_bound_i = Cn if y_i = -1
+    ///         D_ii = 0
+    /// </code>
+    /// <para>
+    /// In L2-SVM case:</para>
+    /// <code>
+    ///         upper_bound_i = INF
+    ///         D_ii = 1/(2*Cp)	if y_i = 1
+    ///         D_ii = 1/(2*Cn)	if y_i = -1
+    /// </code>
+    /// 
+    /// <para>
+    /// Given: x, y, Cp, Cn, and eps as the stopping tolerance</para>
+    ///
+    /// <para>
+    /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
+    /// </remarks>
+    /// 
+    /// <see cref="SequentialMinimalOptimization"/>
+    /// <see cref="NewtonMethodPrimalLearning"/>
     /// 
     public class CoordinateDescentLinearLearning : ISupportVectorMachineLearning
     {
@@ -137,7 +162,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         Loss loss = Loss.L2;
 
-
+        /// <summary>
+        ///   Constructs a new coordinate descent algorithm for L1-loss and L2-loss SVM dual problems.
+        /// </summary>
+        /// 
+        /// <param name="machine">A support vector machine.</param>
+        /// <param name="inputs">The input data points as row vectors.</param>
+        /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
+        /// 
         public CoordinateDescentLinearLearning(SupportVectorMachine machine, double[][] inputs, int[] outputs)
         {
             // Initial argument checking
@@ -161,7 +193,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
 
-
+        /// <summary>
+        ///   Gets or sets the <see cref="Loss"/> cost function that
+        ///   should be optimized. Default is 
+        ///   <see cref="Accord.MachineLearning.VectorMachines.Learning.Loss.L2"/>.
+        /// </summary>
+        /// 
         public Loss Loss
         {
             get { return loss; }
@@ -328,17 +365,40 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
         }
 
-     
 
+
+        /// <summary>
+        ///   Runs the learning algorithm.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   The misclassification error rate of
+        ///   the resulting support vector machine.
+        /// </returns>
+        /// 
         public double Run()
         {
             return Run(true);
         }
 
+        /// <summary>
+        ///   Runs the learning algorithm.
+        /// </summary>
+        /// 
+        /// <param name="computeError">
+        ///   True to compute error after the training
+        ///   process completes, false otherwise.</param>
+        ///   
+        /// <returns>
+        ///   The misclassification error rate of the resulting support
+        ///   vector machine if <paramref name="computeError"/> is true,
+        ///   returns zero otherwise.
+        /// </returns>
+        /// 
         public double Run(bool computeError)
         {
             double[] w = weights;
-            
+
             var random = new Random(Accord.Math.Tools.Random.Next());
 
             // Initialization heuristics

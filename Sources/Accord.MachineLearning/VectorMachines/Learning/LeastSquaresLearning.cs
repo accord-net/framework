@@ -70,10 +70,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         /// <summary>
-        ///   Initializes a new instance of the Least Squares SVM (LS-SVM) learning algorithm.
+        ///   Constructs a new Least Squares SVM (LS-SVM) learning algorithm.
         /// </summary>
         /// 
-        /// <param name="machine">A Support Vector Machine.</param>
+        /// <param name="machine">A support vector machine.</param>
         /// <param name="inputs">The input data points as row vectors.</param>
         /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
         /// 

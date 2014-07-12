@@ -330,7 +330,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.011896812071918696, gmm.Gaussians[b].Mean[0], 1e-4);
             Assert.AreEqual(-0.40400708592859663, gmm.Gaussians[b].Mean[1], 1e-4);
 
-            Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion);
+            Assert.AreEqual(1, gmm.Gaussians[0].Proportion + gmm.Gaussians[1].Proportion, 1e-15);
 
             Assert.IsFalse(gmm.Gaussians[0].Mean.HasNaN());
             Assert.IsFalse(gmm.Gaussians[1].Mean.HasNaN());
