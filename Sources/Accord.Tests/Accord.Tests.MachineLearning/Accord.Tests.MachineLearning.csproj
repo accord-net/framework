@@ -160,6 +160,8 @@
     <Compile Include="Clustering\KMeansTest.cs" />
     <Compile Include="Clustering\KModesTest.cs" />
     <Compile Include="KNearestNeighborTest.cs" />
+    <Compile Include="VectorMachines\CoordinateDescentLinearLearningTest.cs" />
+    <Compile Include="VectorMachines\NewtonMethodPrimalLearningTest.cs" />
     <Compile Include="VectorMachines\LeastSquaresLearningTest.cs" />
     <Compile Include="VectorMachines\SupportVectorReductionTest.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorLearningTest.cs" />

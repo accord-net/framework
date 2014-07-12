@@ -202,6 +202,7 @@
     <Compile Include="Optimization\Unconstrained\Least Squares\GaussNewton.cs" />
     <Compile Include="Optimization\Unconstrained\Least Squares\LevenbergMarquardt.cs" />
     <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
+    <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
     <Compile Include="Transforms\SineTransform.cs" />
     <Compile Include="Transforms\CosineTransform.cs" />

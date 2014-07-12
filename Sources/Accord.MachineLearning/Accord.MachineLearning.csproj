@@ -192,6 +192,8 @@
     <Compile Include="Structures\KDTreeNodeCollection.cs" />
     <Compile Include="DecisionTrees\DecisionTreeTraversal.cs" />
     <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
+    <Compile Include="VectorMachines\Learning\CoordinateDescentLinearLearning.cs" />
+    <Compile Include="VectorMachines\Learning\NewtonMethodPrimalLearning.cs" />
     <Compile Include="VectorMachines\Learning\MultilabelSupportVectorLearning.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorLearningHelper.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorReduction.cs" />
