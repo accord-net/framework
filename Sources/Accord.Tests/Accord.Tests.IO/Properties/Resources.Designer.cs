@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Accord.Tests.Statistics.Properties {
+namespace Accord.Tests.IO.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Accord.Tests.Statistics.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.Tests.Statistics.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Accord.Tests.IO.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,31 +61,30 @@ namespace Accord.Tests.Statistics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to 1 1:-0.555556 2:0.25 3:-0.864407 4:-0.916667 
+        ///1 1:-0.666667 2:-0.166667 3:-0.864407 4:-0.916667 
+        ///1 1:-0.777778 3:-0.898305 4:-0.916667 
+        ///1 1:-0.833333 2:-0.0833334 3:-0.830508 4:-0.916667 
+        ///1 1:-0.611111 2:0.333333 3:-0.864407 4:-0.916667 
+        ///1 1:-0.388889 2:0.583333 3:-0.762712 4:-0.75 
+        ///1 1:-0.833333 2:0.166667 3:-0.864407 4:-0.833333 
+        ///1 1:-0.611111 2:0.166667 3:-0.830508 4:-0.916667 
+        ///1 1:-0.944444 2:-0.25 3:-0.864407 4:-0.916667 
+        ///1 1:-0.666667 2:-0.0833334 3:-0.830508 4:-1 
+        ///1 1:-0.388889 2:0.416667 3 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static byte[] CircleWithWeights {
+        internal static string iris_scale {
             get {
-                object obj = ResourceManager.GetObject("CircleWithWeights", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("iris_scale", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] sample {
+        internal static byte[] t10k_images_idx3_ubyte {
             get {
-                object obj = ResourceManager.GetObject("sample", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] sample1 {
-            get {
-                object obj = ResourceManager.GetObject("sample1", resourceCulture);
+                object obj = ResourceManager.GetObject("t10k_images_idx3_ubyte", resourceCulture);
                 return ((byte[])(obj));
             }
         }

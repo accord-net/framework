@@ -26,7 +26,7 @@ namespace Accord.Tests.MachineLearning
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
     using System.IO;
-    using Accord.Statistics.Formats;
+    using Accord.IO;
     using System.Data;
     using Accord.Tests.MachineLearning.Properties;
     using System;

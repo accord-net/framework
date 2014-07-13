@@ -214,6 +214,10 @@
       <Name>Accord.Core</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Accord.Formats\Accord.IO.csproj">
+      <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
+      <Name>Accord.IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>

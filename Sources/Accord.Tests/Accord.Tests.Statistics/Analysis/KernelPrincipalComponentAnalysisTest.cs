@@ -27,7 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Kernels;
     using Accord.Math;
     using System.Diagnostics;
-    using Accord.Statistics.Formats;
+    using Accord.IO;
     using System.Data;
 
     [TestClass()]

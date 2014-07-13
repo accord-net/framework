@@ -67,7 +67,6 @@ namespace Accord.Statistics
     /// <seealso cref="Accord.Statistics.Analysis"/>
     /// <seealso cref="Accord.Statistics.Distributions"/>
     /// <seealso cref="Accord.Statistics.Filters"/>
-    /// <seealso cref="Accord.Statistics.Formats"/>
     /// <seealso cref="Accord.Statistics.Kernels"/>
     /// <seealso cref="Accord.Statistics.Links"/>
     /// <seealso cref="Accord.Statistics.Models"/>

@@ -26,6 +26,8 @@ namespace Accord
     using System;
     using System.Reflection;
     using System.ComponentModel;
+    using System.IO;
+    using System.Runtime.InteropServices;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -73,14 +75,50 @@ namespace Accord
         {
             FieldInfo fi = source.GetType().GetField(source.ToString());
 
-            DescriptionAttribute[] attributes = 
+            DescriptionAttribute[] attributes =
                 (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-            if (attributes != null && attributes.Length > 0) 
+            if (attributes != null && attributes.Length > 0)
                 return attributes[0].Description;
 
             return source.ToString();
         }
 
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static object ReadStructure(this Stream stream, Type type)
+        {
+            int size = Marshal.SizeOf(type);
+            byte[] buffer = new byte[size];
+            stream.Read(buffer, 0, buffer.Length);
+
+            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            Object temp = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), type);
+            handle.Free();
+
+            return temp;
+        }
+
+        /// <summary>
+        ///   Reads a <c>struct</c> from a stream.
+        /// </summary>
+        /// 
+        public static T ReadStructure<T>(this Stream stream) where T : struct
+        {
+            var type = typeof(T);
+
+            int size = Marshal.SizeOf(type);
+            byte[] buffer = new byte[size];
+            stream.Read(buffer, 0, buffer.Length);
+
+            T structure = new T();
+            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            Marshal.PtrToStructure(handle.AddrOfPinnedObject(), structure);
+            handle.Free();
+
+            return structure;
+        }
     }
 }
