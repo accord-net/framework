@@ -122,6 +122,13 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Mat\MatArrayFlags.cs" />
+    <Compile Include="Mat\MatArrayType.cs" />
+    <Compile Include="Mat\MatDataType.cs" />
+    <Compile Include="Mat\MatDataTag.cs" />
+    <Compile Include="Mat\MatHeader.cs" />
+    <Compile Include="MatNode.cs" />
+    <Compile Include="MatReader.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IdxReader.cs" />
     <Compile Include="ExcelReader.cs" />
@@ -158,5 +165,4 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
 </Project>

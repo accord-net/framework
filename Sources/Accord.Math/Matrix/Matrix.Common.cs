@@ -486,7 +486,8 @@ namespace Accord.Math
         /// <returns>The transpose of the given matrix.</returns>
         public static T[,] Transpose<T>(this T[,] matrix, bool inPlace)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);

@@ -118,10 +118,64 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="bigsparse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\bigsparse.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="cell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\cell.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="int32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\int32.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="int64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\int64.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="int8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\int8.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="iris_scale" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\iris.scale.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="java" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\java.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="logical" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\logical.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="matnativedouble" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\matnativedouble.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="matnativedouble2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\matnativedouble2.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="nan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\nan.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="simplestruct" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\simplestruct.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="single" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\single.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="sparse" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\sparse.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="t10k_images_idx3_ubyte" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\t10k-images-idx3-ubyte.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="uint32" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\uint32.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="uint64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\uint64.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="uint8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\uint8.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="_object" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\object.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="A64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\mat\a64.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>
