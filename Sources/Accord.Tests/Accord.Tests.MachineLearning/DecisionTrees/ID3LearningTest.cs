@@ -115,7 +115,9 @@ namespace Accord.Tests.MachineLearning
 
             {
                 string answer = codebook.Translate("PlayTennis",
-                    tree.Compute(codebook.Translate("Sunny", "Hot", "High", "Strong")));
+                    tree.Compute(codebook.Translate(
+						new []{"Outlook", "Temperature", "Humidity", "Wind"},
+						new []{"Sunny", "Hot", "High", "Strong"})));
 
                 Assert.AreEqual("No", answer);
             }
