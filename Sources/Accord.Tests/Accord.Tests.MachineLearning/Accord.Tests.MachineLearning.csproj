@@ -160,6 +160,8 @@
     <Compile Include="Clustering\KMeansTest.cs" />
     <Compile Include="Clustering\KModesTest.cs" />
     <Compile Include="KNearestNeighborTest.cs" />
+    <Compile Include="VectorMachines\CoordinateDescentLinearLearningTest.cs" />
+    <Compile Include="VectorMachines\NewtonMethodPrimalLearningTest.cs" />
     <Compile Include="VectorMachines\LeastSquaresLearningTest.cs" />
     <Compile Include="VectorMachines\SupportVectorReductionTest.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorLearningTest.cs" />
@@ -184,6 +186,10 @@
     <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Formats\Accord.IO.csproj">
+      <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
+      <Name>Accord.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Imaging\Accord.Imaging.csproj">
       <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>

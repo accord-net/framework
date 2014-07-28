@@ -28,7 +28,7 @@ namespace Accord.MachineLearning.VectorMachines
     using Accord.Statistics.Links;
 
     /// <summary>
-    ///   Sparse Linear Support Vector Machine (SVM)
+    ///   Linear Support Vector Machine (SVM)
     /// </summary>
     /// 
     /// <remarks>

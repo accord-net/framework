@@ -29,6 +29,7 @@ namespace Accord.Audition.Beat
     /// <summary>
     ///   Energy-based beat detector.
     /// </summary>
+    /// 
     /// <remarks>
     /// <para>
     ///   References:

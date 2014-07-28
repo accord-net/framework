@@ -20,31 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
-using System;
-using System.Text;
-using Accord.Statistics.Formats;
-
-namespace Accord.Tests.Statistics
+namespace Accord.Tests.IO
 {
+    using System;
+    using System.IO;
+    using System.Text;
+    using Accord.IO;
+    using Accord.Tests.IO.Properties;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
-    /// <summary>
-    ///This is a test class for SparseSampleReaderTest and is intended
-    ///to contain all SparseSampleReaderTest Unit Tests
-    ///</summary>
     [TestClass()]
-    public class SparseSampleReaderTest
+    public class SparseReaderTest
     {
 
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -65,7 +56,7 @@ namespace Accord.Tests.Statistics
             // http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#iris
 
             MemoryStream file = new MemoryStream(
-                Encoding.Default.GetBytes(Properties.Resources.iris_scale));
+                Encoding.Default.GetBytes(Accord.Tests.IO.Properties.Resources.iris_scale));
 
             // Suppose we are going to read a sparse sample file containing
             //  samples which have an actual dimension of 4. Since the samples
@@ -75,7 +66,7 @@ namespace Accord.Tests.Statistics
 
             // Create a new Sparse Sample Reader to read any given file,
             //  passing the correct dense sample size in the constructor
-            SparseSampleReader reader = new SparseSampleReader(file, Encoding.Default, sampleSize);
+            SparseReader reader = new SparseReader(file, Encoding.Default, sampleSize);
 
             // Declare some variables to receive each current sample
             int label = 0;
@@ -125,14 +116,11 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(150, count);
         }
 
-        /// <summary>
-        ///A test for ReadAll
-        ///</summary>
         [TestMethod()]
         public void ReadAllTest()
         {
             MemoryStream file = new MemoryStream(
-                Encoding.Default.GetBytes(Properties.Resources.iris_scale));
+                Encoding.Default.GetBytes(Resources.iris_scale));
 
             // Suppose we are going to read a sparse sample file containing
             //  samples which have an actual dimension of 4. Since the samples
@@ -142,7 +130,7 @@ namespace Accord.Tests.Statistics
 
             // Create a new Sparse Sample Reader to read any given file,
             //  passing the correct dense sample size in the constructor
-            SparseSampleReader reader = new SparseSampleReader(file, Encoding.Default, sampleSize);
+            SparseReader reader = new SparseReader(file, Encoding.Default, sampleSize);
 
             // Declare a vector to obtain the label
             //  of each of the samples in the file

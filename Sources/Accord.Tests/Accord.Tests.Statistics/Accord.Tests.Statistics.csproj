@@ -165,7 +165,6 @@
     <Compile Include="Distributions\Univariate\Continuous\InverseGammaDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LaplaceDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Discrete\NegativeBinomialTest.cs" />
-    <Compile Include="Formats\ExcelReaderTest.cs" />
     <Compile Include="Models\Fields\IndependentForwardBackwardAlgorithmTest.cs" />
     <Compile Include="Models\Fields\Functions\IndependentHiddenMarkovClassifierFunctionTest.cs" />
     <Compile Include="MovingNormalStatisticsTest.cs" />
@@ -230,7 +229,6 @@
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogNormalDistributionTest.cs" />
     <Compile Include="Analysis\GeneralConfusionMatrixTest.cs" />
-    <Compile Include="Formats\SparseSampleReaderTest.cs" />
     <Compile Include="Distributions\Multivariate\IndependentTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\InverseGaussianTest.cs" />
     <Compile Include="Models\Fields\Features\FeatureTest.cs" />
@@ -330,6 +328,10 @@
     <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Formats\Accord.IO.csproj">
+      <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
+      <Name>Accord.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj">
       <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>

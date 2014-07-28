@@ -35,6 +35,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Runs the learning algorithm.
         /// </summary>
         /// 
+        /// <returns>
+        ///   The misclassification error rate of
+        ///   the resulting support vector machine.
+        /// </returns>
+        /// 
         double Run();
 
         /// <summary>
@@ -45,6 +50,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   True to compute error after the training
         ///   process completes, false otherwise.
         /// </param>
+        /// 
+        /// <returns>
+        ///   The misclassification error rate of the resulting support
+        ///   vector machine if <paramref name="computeError"/> is true,
+        ///   returns zero otherwise.
+        /// </returns>
         /// 
         double Run(bool computeError);
 
@@ -73,8 +84,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// </param>
         /// 
         /// <returns>
-        ///   The sum of squares error rate for
-        ///   the resulting support vector machine.
+        ///   The misclassification error rate of the resulting support
+        ///   vector machine if <paramref name="computeError"/> is true,
+        ///   returns zero otherwise.
         /// </returns>
         /// 
         double Run(bool computeError, CancellationToken token);

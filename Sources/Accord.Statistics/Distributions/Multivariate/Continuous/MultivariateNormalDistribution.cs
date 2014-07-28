@@ -129,8 +129,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// 
     /// <para>
     ///   The next example shows how to estimate a Gaussian distribution from data
-    ///   available inside a Microsoft Excel spreadsheet using the 
-    ///   <see cref="Accord.Statistics.Formats.ExcelReader"/> class.</para>
+    ///   available inside a Microsoft Excel spreadsheet using the ExcelReader class.</para>
     ///   
     /// <code>
     ///   // Create a new Excel reader to read data from a spreadsheet

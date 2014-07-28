@@ -252,6 +252,9 @@ namespace Accord.Statistics.Analysis
             this.variances = Variances;
             this.standardErrors = StandardErrors;
             this.distinct = Distinct;
+            this.quartiles = Quartiles;
+            this.innerFences = InnerFences;
+            this.outerFences = OuterFences;
 
             // Mean centered and standardized data
             this.dScores = DeviationScores;
@@ -283,6 +286,9 @@ namespace Accord.Statistics.Analysis
             this.covarianceMatrix = null;
             this.correlationMatrix = null;
             this.deviance = null;
+            this.quartiles = null;
+            this.innerFences = null;
+            this.outerFences = null;
         }
 
         #region Properties
@@ -614,7 +620,7 @@ namespace Accord.Statistics.Analysis
             {
                 if (innerFences == null)
                 {
-                    innerFences = new DoubleRange[quartiles.Length];
+                    innerFences = new DoubleRange[variables];
                     for (int i = 0; i < innerFences.Length; i++)
                     {
                         DoubleRange Q = Quartiles[i];
@@ -636,7 +642,7 @@ namespace Accord.Statistics.Analysis
             {
                 if (outerFences == null)
                 {
-                    outerFences = new DoubleRange[quartiles.Length];
+                    outerFences = new DoubleRange[variables];
                     for (int i = 0; i < outerFences.Length; i++)
                     {
                         DoubleRange Q = Quartiles[i];

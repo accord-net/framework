@@ -182,10 +182,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private int maxChecks = 100;
 
         /// <summary>
-        ///   Initializes a new instance of a Sequential Minimal Optimization (SMO) algorithm.
+        ///   Constructs a new Sequential Minimal Optimization (SMO) algorithm.
         /// </summary>
         /// 
-        /// <param name="machine">A Support Vector Machine.</param>
+        /// <param name="machine">A support vector machine.</param>
         /// <param name="inputs">The input data points as row vectors.</param>
         /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
         /// 
@@ -439,9 +439,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Gets or sets the cache size to partially
-        ///   stored the kernel matrix. Default is the
-        ///   same number of input vectors.
+        ///   Gets or sets the cache size to partially stored the kernel 
+        ///   matrix. Default is the same number of input vectors. If set
+        ///   to zero, the cache will be disabled and all operations will
+        ///   be computed as needed.
         /// </summary>
         /// 
         public int CacheSize

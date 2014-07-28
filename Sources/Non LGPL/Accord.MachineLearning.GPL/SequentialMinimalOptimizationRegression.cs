@@ -34,7 +34,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Statistics.Kernels;
 
     /// <summary>
-    ///   Sequential Minimal Optimization (SMO) Algorithm for Regression
+    ///   Sequential Minimal Optimization (SMO) Algorithm for Regression. Warning:
+    ///   this code is contained in a GPL assembly. Thus, if you link against this
+    ///   assembly, you should comply with the GPL license.
     /// </summary>
     /// 
     /// <remarks>
@@ -557,7 +559,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
             else
             {
-                throw new Exception();
+                throw new InvalidOperationException("The index could not be found.");
             }
             #endregion
 
@@ -986,7 +988,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
 
             if (biasLowerIndex == -1 || biasUpperIndex == -1)
-                throw new Exception();
+                throw new InvalidOperationException("Unexpected status.");
 
             #endregion
 

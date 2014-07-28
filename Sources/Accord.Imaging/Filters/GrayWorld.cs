@@ -58,14 +58,34 @@ namespace Accord.Imaging.Filters
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
-    ///       [1]: Wikipedia Contributors, "Color normalization". Available at
+    ///       Wikipedia Contributors, "Color normalization". Available at
     ///       http://en.wikipedia.org/wiki/Color_normalization </description></item>
     ///     <item><description>
-    ///       [2]: Jose M. Buenaposada; Luis Baumela. ﻿Variations of Grey World for
+    ///       Jose M. Buenaposada; Luis Baumela. ﻿Variations of Grey World for
     ///       face tracking﻿ (Report). </description></item>
     ///   </list>
     /// </para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code>
+    ///   Bitmap image = ... // Lena's famous picture
+    /// 
+    ///   // Create a new Gray World filter
+    ///   var grayWorld = new GrayWorld();
+    /// 
+    ///   // Apply the filter
+    ///   Bitmap result = grayWorld.Apply(image);
+    ///   
+    ///   // Show on the screen
+    ///   ImageBox.Show(result);
+    /// </code>
+    /// 
+    /// <para>
+    ///   The resulting image is shown below. </para>
+    ///   
+    /// <img src="..\images\gray-world.png" /> 
+    /// </example>
     /// 
     public class GrayWorld : BaseInPlaceFilter
     {
@@ -108,18 +128,17 @@ namespace Accord.Imaging.Filters
 
 
             // Get image means
-            double meanR = 0, meanG = 0, meanB = 0;
+            double Rmean = 0, Gmean = 0, Bmean = 0;
 
             byte* src = (byte*)image.ImageData.ToPointer();
 
-            double Rmean = 0, Gmean = 0, Bmean = 0;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++, src += pixelSize)
                 {
-                    meanR += src[RGB.R];
-                    meanG += src[RGB.G];
-                    meanB += src[RGB.B];
+                    Rmean += src[RGB.R];
+                    Gmean += src[RGB.G];
+                    Bmean += src[RGB.B];
                 }
 
                 src += offset;

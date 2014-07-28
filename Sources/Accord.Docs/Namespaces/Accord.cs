@@ -38,6 +38,7 @@ namespace Accord
     using Accord.Statistics;
     using Accord.Vision;
     using Accord.Controls.Imaging;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///   Contains common classes, such as exceptions, events
@@ -63,7 +64,8 @@ namespace Accord
     /// <seealso cref="Accord.Statistics"/>
     /// <seealso cref="Accord.Vision"/>
     ///
-    public class NamespaceDoc
+    [CompilerGenerated]
+    class NamespaceDoc
     {
     }
 }

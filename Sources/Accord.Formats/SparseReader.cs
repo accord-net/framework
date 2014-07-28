@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Statistics.Formats
+namespace Accord.IO
 {
     using System;
     using System.Collections.Generic;
@@ -35,25 +35,29 @@ namespace Accord.Statistics.Formats
     /// <example>
     ///   <para>
     ///   The following example shows how to read all sparse samples from a file
-    ///   and retrieve them as a dense multimensional vector.</para>
+    ///   and retrieve them as a dense multidimensional vector.</para>
     ///   
     ///   <code>
     ///   // Suppose we are going to read a sparse sample file containing
     ///   //  samples which have an actual dimension of 4. Since the samples
     ///   //  are in a sparse format, each entry in the file will probably
     ///   //  have a much lesser number of elements.
+    ///   //
     ///   int sampleSize = 4;
     ///
     ///   // Create a new Sparse Sample Reader to read any given file,
     ///   //  passing the correct dense sample size in the constructor
-    ///   SparseSampleReader reader = new SparseSampleReader(file, Encoding.Default, sampleSize);
+    ///   //
+    ///   SparseReader reader = new SparseReader(file, Encoding.Default, sampleSize);
     ///   
     ///   // Declare a vector to obtain the label
     ///   //  of each of the samples in the file
+    ///   //
     ///   int[] labels = null;
     ///   
     ///   // Declare a vector to obtain the description (or comments)
     ///   //  about each of the samples in the file, if present.
+    ///   //
     ///   string[] descriptions = null;
     ///   
     ///   // Read the sparse samples and store them in a dense vector array
@@ -69,13 +73,16 @@ namespace Accord.Statistics.Formats
     ///   //  samples which have an actual dimension of 4. Since the samples
     ///   //  are in a sparse format, each entry in the file will probably
     ///   //  have a much lesser number of elements.
+    ///   //
     ///   int sampleSize = 4;
     ///
     ///   // Create a new Sparse Sample Reader to read any given file,
     ///   //  passing the correct dense sample size in the constructor
-    ///   SparseSampleReader reader = new SparseSampleReader(file, Encoding.Default, sampleSize);
+    ///   //
+    ///   SparseReader reader = new SparseReader(file, Encoding.Default, sampleSize);
     ///
-    ///   // Declare some variables to receive each current sample
+    ///   // Declare some variables to receive each sample
+    ///   //
     ///   int label = 0;
     ///   string description;
     ///   double[] sample;
@@ -91,7 +98,7 @@ namespace Accord.Statistics.Formats
     ///   </code>
     /// </example>
     /// 
-    public class SparseSampleReader : IDisposable
+    public class SparseReader : IDisposable
     {
         private StreamReader reader;
         private int sampleSize; // feature vector length
@@ -107,67 +114,67 @@ namespace Accord.Statistics.Formats
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseSampleReader"/> class.
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
         /// </summary>
         /// 
         /// <param name="path">The complete file path to be read.</param>
         /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
         /// 
-        public SparseSampleReader(string path, int sampleSize)
+        public SparseReader(string path, int sampleSize)
         {
             this.reader = new StreamReader(path);
             this.sampleSize = sampleSize;
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseSampleReader"/> class.
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
         /// </summary>
         /// 
         /// <param name="stream">The file stream to be read.</param>
         /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
         /// 
-        public SparseSampleReader(Stream stream, int sampleSize)
+        public SparseReader(Stream stream, int sampleSize)
         {
             this.reader = new StreamReader(stream);
             this.sampleSize = sampleSize;
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseSampleReader"/> class.
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
         /// </summary>
         /// 
         /// <param name="stream">The file stream to be read.</param>
         /// <param name="encoding">The character encoding to use.</param>
         /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
         /// 
-        public SparseSampleReader(Stream stream, Encoding encoding, int sampleSize)
+        public SparseReader(Stream stream, Encoding encoding, int sampleSize)
         {
             this.reader = new StreamReader(stream, encoding);
             this.sampleSize = sampleSize;
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseSampleReader"/> class.
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
         /// </summary>
         /// 
         /// <param name="path">The complete file path to be read.</param>
         /// <param name="encoding">The character encoding to use.</param>
         /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
         /// 
-        public SparseSampleReader(String path, Encoding encoding, int sampleSize)
+        public SparseReader(String path, Encoding encoding, int sampleSize)
         {
             this.reader = new StreamReader(path, encoding);
             this.sampleSize = sampleSize;
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="SparseSampleReader"/> class.
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
         /// </summary>
         /// 
         /// <param name="reader">A StreamReader containing the file to be read.</param>
         /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
         /// 
-        public SparseSampleReader(StreamReader reader, int sampleSize)
+        public SparseReader(StreamReader reader, int sampleSize)
         {
             this.reader = reader;
             this.sampleSize = sampleSize;
@@ -389,10 +396,10 @@ namespace Accord.Statistics.Formats
 
         /// <summary>
         ///   Releases unmanaged resources and performs other cleanup operations before the
-        ///   <see cref="SparseSampleReader"/> is reclaimed by garbage collection.
+        ///   <see cref="SparseReader"/> is reclaimed by garbage collection.
         /// </summary>
         /// 
-        ~SparseSampleReader()
+        ~SparseReader()
         {
             Dispose(false);
         }

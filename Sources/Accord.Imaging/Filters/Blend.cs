@@ -32,6 +32,7 @@ namespace Accord.Imaging.Filters
     /// <summary>
     ///   Linear Gradient Blending filter.
     /// </summary>
+    /// 
     /// <remarks>
     /// <para>
     ///   The blending filter is able to blend two images using a homography matrix.
@@ -39,15 +40,67 @@ namespace Accord.Imaging.Filters
     ///   images, effectively blending them in two images. The gradient is computed
     ///   considering the distance between the centers of the two images.</para>
     /// <para>
+    /// 
     ///   The first image should be passed at the moment of creation of the Blending
     ///   filter as the overlay image. A second image may be projected on top of the
     ///   overlay image by calling the Apply method and passing the second image as
     ///   argument.</para>  
+    ///   
     /// <para>
     ///   Currently the filter always produces 32bpp images, disregarding the format
     ///   of source images. The alpha layer is used as an intermediate mask in the
     ///   blending process.</para>  
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code>
+    /// // Let's start with two pictures that have been
+    /// // taken from slightly different points of view:
+    /// //
+    /// Bitmap img1 = Resources.dc_left;
+    /// Bitmap img2 = Resources.dc_right;
+    /// 
+    /// // Those pictures are shown below:
+    /// ImageBox.Show(img1, PictureBoxSizeMode.Zoom, 640, 480);
+    /// ImageBox.Show(img2, PictureBoxSizeMode.Zoom, 640, 480);
+    /// </code>
+    /// 
+    /// <img src="..\images\panorama-1.png" /> 
+    /// <img src="..\images\panorama-2.png" /> 
+    /// 
+    /// <code>
+    /// // Step 1: Detect feature points using Surf Corners Detector
+    /// var surf = new SpeededUpRobustFeaturesDetector();
+    /// 
+    /// var points1 = surf.ProcessImage(img1);
+    /// var points2 = surf.ProcessImage(img2);
+    /// 
+    /// // Step 2: Match feature points using a k-NN
+    /// var matcher = new KNearestNeighborMatching(5);
+    /// var matches = matcher.Match(points1, points2);
+    /// 
+    /// // Step 3: Create the matrix using a robust estimator
+    /// var ransac = new RansacHomographyEstimator(0.001, 0.99);
+    /// MatrixH homographyMatrix = ransac.Estimate(matches);
+    /// 
+    /// // Step 4: Project and blend using the homography
+    /// Blend blend = new Blend(homographyMatrix, img1);
+    /// 
+    /// 
+    /// // Compute the blending algorithm
+    /// Bitmap result = blend.Apply(img2);
+    /// 
+    /// // Show on screen
+    /// ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
+    /// </code>
+    /// 
+    /// <para>
+    ///   The resulting image is shown below. </para>
+    ///   
+    /// <img src="..\images\panorama-3.png" /> 
+    /// </example>
+    /// 
+    /// <seealso cref="RansacHomographyEstimator"/>
     /// 
     public class Blend : AForge.Imaging.Filters.BaseTransformationFilter
     {

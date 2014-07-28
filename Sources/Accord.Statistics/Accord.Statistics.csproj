@@ -257,8 +257,6 @@
     <Compile Include="Filters\LinearScaling.cs" />
     <Compile Include="Filters\Selection.cs" />
     <Compile Include="Analysis\Base\IMultivariateAnalysis.cs" />
-    <Compile Include="Formats\ExcelReader.cs" />
-    <Compile Include="Formats\SparseSampleReader.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />

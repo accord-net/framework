@@ -30,6 +30,11 @@ namespace Accord.Math.Optimization
     ///   Resilient Backpropagation method for unconstrained optimization.
     /// </summary>
     /// 
+    /// <seealso cref="ConjugateGradient"/>
+    /// <seealso cref="BoundedBroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="TrustRegionNewtonMethod"/>
+    /// 
     public class ResilientBackpropagation : BaseGradientOptimizationMethod, IGradientOptimizationMethod
     {
 
@@ -135,7 +140,7 @@ namespace Accord.Math.Optimization
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="ResilientBackpropagation"/> class.
+        ///   Creates a new <see cref="ResilientBackpropagation"/> function optimizer.
         /// </summary>
         /// 
         /// <param name="numberOfVariables">The number of parameters in the function to be optimized.</param>

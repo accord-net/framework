@@ -192,6 +192,39 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
+        ///   Gets or sets the maximum number of
+        ///   iterations. Default is 100. 
+        /// </summary>
+        /// 
+        public int Iterations
+        {
+            get { return maxIterations; }
+            set { maxIterations = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the tolerance under which the
+        ///   answer must be found. Default is 1-e5.
+        /// </summary>
+        /// 
+        public double Tolerance
+        {
+            get { return tolerance; }
+            set { tolerance = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the minimum step size used 
+        ///   during line search. Default is 1e-10.
+        /// </summary>
+        /// 
+        public double StepSize
+        {
+            get { return minStepSize; }
+            set { minStepSize = value; }
+        }
+
+        /// <summary>
         ///   Runs the calibration algorithm.
         /// </summary>
         /// 

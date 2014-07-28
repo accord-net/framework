@@ -19,37 +19,38 @@
     <HtmlHelpName>Accord.NET</HtmlHelpName>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.Formats.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.Formats.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audition.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audition.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Audio.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Audio.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Imaging.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Imaging.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Vision.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Vision.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.DirectSound.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.DirectSound.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Imaging.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Imaging.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.MachineLearning.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.MachineLearning.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Math.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Math.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Neuro.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Neuro.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.xml" />
-<DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.dll" />
-<DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.Formats.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.Formats.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audition.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audition.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Audio.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Audio.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Imaging.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Imaging.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Vision.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Vision.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.DirectSound.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.DirectSound.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Imaging.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Imaging.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.MachineLearning.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.MachineLearning.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Math.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Math.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Neuro.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Neuro.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.xml" />
+      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.dll" />
+      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" />
+    </DocumentationSources>
     <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2014. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
     <NamespaceSummaries>
@@ -223,8 +224,8 @@
     </FooterText>
     <MissingTags>AutoDocumentCtors, AutoDocumentDispose</MissingTags>
     <KeepLogFile>True</KeepLogFile>
-    <RootNamespaceContainer>False</RootNamespaceContainer>
-    <RootNamespaceTitle>Accord.NET Framework</RootNamespaceTitle>
+    <RootNamespaceContainer>True</RootNamespaceContainer>
+    <RootNamespaceTitle>Namespaces</RootNamespaceTitle>
     <ApiFilter>
       <Filter entryType="Namespace" fullName="Accord.Music" isExposed="False" xmlns="" />
       <Filter entryType="Namespace" fullName="Accord.Music.Melody" isExposed="False" xmlns="" />
@@ -271,7 +272,8 @@
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <PlugInConfigurations>
     </PlugInConfigurations>
-    <HeaderText>&amp;lt%3ba href=&amp;quot%3bhttp://accord-framework.net/docs/Index.html&amp;quot%3b target=&amp;quot%3b_top&amp;quot%3b&amp;gt%3bShow table of contents %28goes to the online documentation index%29.&amp;lt%3b/a&amp;gt%3b&amp;lt%3bbr /&amp;gt%3b</HeaderText>
+    <HeaderText>
+    </HeaderText>
     <HelpAttributes />
     <IndentHtml>True</IndentHtml>
     <TransformComponentArguments>
@@ -284,6 +286,9 @@
     </TransformComponentArguments>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
+    <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <CppCommentsFixup>False</CppCommentsFixup>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional
@@ -637,6 +642,38 @@
       <ImageId>Accord.Math.Optimization</ImageId>
       <AlternateText>Accord.Math.Optimization</AlternateText>
     </Content>
+    <Content Include="images\panorama-3.png">
+      <ImageId>panorama-3</ImageId>
+      <AlternateText>panorama-3</AlternateText>
+    </Content>
+    <Content Include="images\panorama-2.png">
+      <ImageId>panorama-2</ImageId>
+      <AlternateText>panorama-2</AlternateText>
+    </Content>
+    <Content Include="images\panorama-1.png">
+      <ImageId>panorama-1</ImageId>
+      <AlternateText>panorama-1</AlternateText>
+    </Content>
+    <Content Include="images\differenceOfGaussians.png">
+      <ImageId>differenceOfGaussians</ImageId>
+      <AlternateText>difference Of Gaussians</AlternateText>
+    </Content>
+    <Content Include="images\gray-world.png">
+      <ImageId>gray-world</ImageId>
+      <AlternateText>gray-world</AlternateText>
+    </Content>
+    <Content Include="images\wavelet-1.png">
+      <ImageId>wavelet-1</ImageId>
+      <AlternateText>wavelet-1</AlternateText>
+    </Content>
+    <Content Include="images\wavelet-2.png">
+      <ImageId>wavelet-2</ImageId>
+      <AlternateText>wavelet-2</AlternateText>
+    </Content>
+    <Content Include="images\white-patch.png">
+      <ImageId>white-patch</ImageId>
+      <AlternateText>white-patch</AlternateText>
+    </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>
       <AlternateText>Accord.NET</AlternateText>
@@ -702,6 +739,12 @@
     <Reference Include="AForge.Vision, Version=2.2.5.0, Culture=neutral, PublicKeyToken=b612fa915eefaa06">
       <HintPath>..\..\..\Externals\AForge.NET\AForge.Vision.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="SharpDX">
+      <HintPath>..\..\..\Externals\SharpDX\net40\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DirectSound">
+      <HintPath>..\..\..\Externals\SharpDX\net40\SharpDX.DirectSound.dll</HintPath>
     </Reference>
     <Reference Include="System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
       <Name>System</Name>

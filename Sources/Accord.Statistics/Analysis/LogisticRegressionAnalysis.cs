@@ -152,13 +152,12 @@ namespace Accord.Statistics.Analysis
         private string[] inputNames;
         private string outputName;
 
-        private double[,] source;
+        private double[,] sourceMatrix;
         private double[] result;
 
         private LogisticCoefficientCollection coefficientCollection;
 
 
-        //---------------------------------------------
 
 
         #region Constructors
@@ -172,11 +171,14 @@ namespace Accord.Statistics.Analysis
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs)
         {
             // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
+            if (inputs == null)
+                throw new ArgumentNullException("inputs");
+            if (outputs == null)
+                throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
-                throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
+                throw new ArgumentException("The number of rows in the input array"
+                    + " must match the number of given outputs.", "outputs");
 
 
             initialize(inputs, outputs);
@@ -213,8 +215,6 @@ namespace Accord.Statistics.Analysis
             for (int i = 0; i < coefficientCount; i++)
                 logCoefs.Add(new LogisticCoefficient(this, i));
             this.coefficientCollection = new LogisticCoefficientCollection(logCoefs);
-
-            this.source = inputs.ToMatrix();
         }
 
         /// <summary>
@@ -236,18 +236,30 @@ namespace Accord.Statistics.Analysis
         #endregion
 
 
-        //---------------------------------------------
-
 
         #region Public Properties
 
         /// <summary>
-        ///   Source data used in the analysis.
+        ///   Gets the source matrix from which the analysis was run.
         /// </summary>
         /// 
         public double[,] Source
         {
-            get { return source; }
+            get
+            {
+                if (sourceMatrix == null)
+                    this.sourceMatrix = inputData.ToMatrix();
+                return sourceMatrix;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the source matrix from which the analysis was run.
+        /// </summary>
+        /// 
+        public double[][] Array
+        {
+            get { return inputData; }
         }
 
         /// <summary>

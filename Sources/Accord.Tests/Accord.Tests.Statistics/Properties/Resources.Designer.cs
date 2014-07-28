@@ -71,25 +71,6 @@ namespace Accord.Tests.Statistics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1 1:-0.555556 2:0.25 3:-0.864407 4:-0.916667 
-        ///1 1:-0.666667 2:-0.166667 3:-0.864407 4:-0.916667 
-        ///1 1:-0.777778 3:-0.898305 4:-0.916667 
-        ///1 1:-0.833333 2:-0.0833334 3:-0.830508 4:-0.916667 
-        ///1 1:-0.611111 2:0.333333 3:-0.864407 4:-0.916667 
-        ///1 1:-0.388889 2:0.583333 3:-0.762712 4:-0.75 
-        ///1 1:-0.833333 2:0.166667 3:-0.864407 4:-0.833333 
-        ///1 1:-0.611111 2:0.166667 3:-0.830508 4:-0.916667 
-        ///1 1:-0.944444 2:-0.25 3:-0.864407 4:-0.916667 
-        ///1 1:-0.666667 2:-0.0833334 3:-0.830508 4:-1 
-        ///1 1:-0.388889 2:0.416667 3 [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string iris_scale {
-            get {
-                return ResourceManager.GetString("iris_scale", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] sample {

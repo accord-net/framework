@@ -213,6 +213,7 @@ namespace Accord.Statistics.Testing
         /// <summary>
         ///   Constructs a Chi-Square Test.
         /// </summary>
+        /// 
         protected ChiSquareTest() { }
 
         /// <summary>

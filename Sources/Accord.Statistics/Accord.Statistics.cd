@@ -234,7 +234,7 @@
       <FileName>Filters\Stratification.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Accord.Statistics.Formats.ExcelReader">
+  <Class Name="Accord.IO.ExcelReader">
     <Position X="7.25" Y="9.75" Width="2.25" />
     <Members>
       <Field Name="strConnection" Hidden="true" />
@@ -244,7 +244,7 @@
       <FileName>Formats\ExcelReader.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Accord.Statistics.Formats.SparseSampleReader">
+  <Class Name="Accord.IO.SparseReader">
     <Position X="9.75" Y="9.75" Width="2.75" />
     <Members>
       <Field Name="reader" Hidden="true" />
@@ -252,7 +252,7 @@
     </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAABAAACgAAQAAgQAAAAAQAAAAAAAQAAA=</HashCode>
-      <FileName>Formats\SparseSampleReader.cs</FileName>
+      <FileName>Formats\SparseReader.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>

@@ -70,7 +70,7 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2239:ProvideDeserializationMethodsForOptionalFields", Scope = "type", Target = "Accord.Statistics.Filters.Grouping")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2239:ProvideDeserializationMethodsForOptionalFields", Scope = "type", Target = "Accord.Statistics.Filters.Imputation+Options")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Scope = "type", Target = "Accord.Statistics.Filters.Imputation+Strategy")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Scope = "member", Target = "Accord.Statistics.Formats.ExcelReader.#GetWorksheet(System.String)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Scope = "member", Target = "Accord.IO.ExcelReader.#GetWorksheet(System.String)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Scope = "type", Target = "Accord.Statistics.Models.Fields.Functions.Specialized.MarkovDiscreteFactor")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Scope = "type", Target = "Accord.Statistics.Models.Fields.Functions.Specialized.MarkovIndependentFactor")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Scope = "type", Target = "Accord.Statistics.Models.Fields.Functions.Specialized.MarkovMultivariateNormalFactor")]

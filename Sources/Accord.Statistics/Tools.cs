@@ -28,6 +28,7 @@ namespace Accord.Statistics
     using Accord.Math.Decompositions;
     using AForge;
     using Accord.Statistics.Kernels;
+    using System.Collections;
 
     /// <summary>
     ///   Set of statistics functions.
@@ -2316,7 +2317,7 @@ namespace Accord.Statistics
         /// 
         public static double[] Median(this double[][] matrix)
         {
-            if (matrix == null) 
+            if (matrix == null)
                 throw new ArgumentNullException("matrix");
 
             int rows = matrix.Length;
@@ -4374,6 +4375,80 @@ namespace Accord.Statistics
         }
 
         /// <summary>
+        ///   Returns a random group assignment for a sample, making
+        ///   sure different class labels are distributed evenly among
+        ///   the groups.
+        /// </summary>
+        /// 
+        /// <param name="labels">A vector containing class labels.</param>
+        /// <param name="classes">The number of different classes in <paramref name="labels"/>.</param>
+        /// <param name="groups">The number of groups.</param>
+        /// 
+        public static int[] RandomGroups(int[] labels, int classes, int groups)
+        {
+            int size = labels.Length;
+
+            var buckets = new List<Tuple<int, int>>[classes];
+            for (int i = 0; i < buckets.Length; i++)
+                buckets[i] = new List<Tuple<int, int>>();
+
+            for (int i = 0; i < labels.Length; i++)
+                buckets[labels[i]].Add(Tuple.Create(i, labels[i]));
+
+            for (int i = 0; i < buckets.Length; i++)
+                Accord.Statistics.Tools.Shuffle(buckets);
+
+            var partitions = new List<Tuple<int, int>>[groups];
+            for (int i = 0; i < partitions.Length; i++)
+                partitions[i] = new List<Tuple<int, int>>();
+
+            // We are going to take samples from the buckets and assign to 
+            // groups. For this, we will be following the buckets in order,
+            // such that new samples are drawn equally from each bucket.
+
+            bool allEmpty = true;
+            int bucketIndex = 0;
+            int partitionIndex = 0;
+
+            do
+            {
+                for (int i = 0; i < partitions.Length; i++)
+                {
+                    allEmpty = true;
+
+                    var currentPartition = partitions[partitionIndex];
+                    partitionIndex = (partitionIndex + 1) % partitions.Length;
+
+                    for (int j = 0; j < buckets.Length; j++)
+                    {
+                        var currentBucket = buckets[bucketIndex];
+                        bucketIndex = (bucketIndex + 1) % buckets.Length;
+
+                        if (currentBucket.Count == 0)
+                            continue;
+
+                        allEmpty = false;
+
+                        var next = currentBucket[currentBucket.Count - 1];
+                        currentBucket.RemoveAt(currentBucket.Count - 1);
+                        currentPartition.Add(next);
+                    }
+                }
+
+            } while (!allEmpty);
+
+            for (int i = 0; i < partitions.Length; i++)
+                Accord.Statistics.Tools.Shuffle(partitions[i]);
+
+            int[] splittings = new int[labels.Length];
+            for (int i = 0; i < partitions.Length; i++)
+                foreach (var index in partitions[i])
+                    splittings[index.Item1] = i;
+
+            return splittings;
+        }
+
+        /// <summary>
         ///   Returns a random permutation of size n.
         /// </summary>
         /// 
@@ -4403,6 +4478,27 @@ namespace Accord.Statistics
 
             // i is the number of items remaining to be shuffled.
             for (int i = array.Length; i > 1; i--)
+            {
+                // Pick a random element to swap with the i-th element.
+                int j = random.Next(i);
+
+                // Swap array elements.
+                var aux = array[j];
+                array[j] = array[i - 1];
+                array[i - 1] = aux;
+            }
+        }
+
+        /// <summary>
+        ///   Shuffles a collection.
+        /// </summary>
+        /// 
+        public static void Shuffle<T>(IList<T> array)
+        {
+            Random random = Accord.Math.Tools.Random;
+
+            // i is the number of items remaining to be shuffled.
+            for (int i = array.Count; i > 1; i--)
             {
                 // Pick a random element to swap with the i-th element.
                 int j = random.Next(i);

@@ -54,6 +54,7 @@ namespace Accord.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ImageBox));
             this.pictureBox = new AForge.Controls.PictureBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.centeredToolStripMenuItem = new System.Windows.Forms.ToolStripComboBox();
@@ -114,6 +115,7 @@ namespace Accord.Controls
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(320, 240);
             this.Controls.Add(this.pictureBox);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Name = "ImageBox";
             this.Text = "Image";

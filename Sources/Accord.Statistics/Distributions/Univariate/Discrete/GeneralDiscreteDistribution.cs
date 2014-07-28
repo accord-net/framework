@@ -117,7 +117,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public GeneralDiscreteDistribution(int start, params double[] probabilities)
         {
-            if (probabilities == null) throw new ArgumentNullException("probabilities");
+            if (probabilities == null) 
+                throw new ArgumentNullException("probabilities");
 
             initialize(start, probabilities);
         }
@@ -181,8 +182,10 @@ namespace Accord.Statistics.Distributions.Univariate
         public static GeneralDiscreteDistribution Uniform(int a, int b)
         {
             if (a > b)
+            {
                 throw new ArgumentOutOfRangeException("b",
                     "The starting number a must be lower than b.");
+            }
 
             return new GeneralDiscreteDistribution(a, b - a + 1);
         }

@@ -155,6 +155,11 @@ namespace Accord.Math.Optimization
     ///    </list></para>
     /// </remarks>
     /// 
+    /// <seealso cref="BroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="ResilientBackpropagation"/>
+    /// <seealso cref="BoundedBroydenFletcherGoldfarbShanno"/>
+    /// <seealso cref="TrustRegionNewtonMethod"/>
+    /// 
     public class ConjugateGradient : BaseGradientOptimizationMethod,
         IGradientOptimizationMethod, IOptimizationMethod<ConjugateGradientCode>
     {
