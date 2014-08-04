@@ -27,6 +27,8 @@ namespace Accord.Tests.IO
     using Accord.Tests.IO.Properties;
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
+    using System;
 
     [TestClass()]
     public class MatReaderTest
@@ -385,7 +387,120 @@ namespace Accord.Tests.IO
             var xname = xX.Values["name"];
 
             Assert.IsTrue(expectedxXValues.IsEqual((X.Value as double[,]).Transpose(), 1e-15));
+
+            Assert.AreEqual("Sn(1) test*bf(1)", xname.Values["0"].Value);
+            Assert.AreEqual("Sn(1) test*bf(2)", xname.Values["1"].Value);
+            Assert.AreEqual("Sn(1) constant", xname.Values["2"].Value);
+
+
+
+            var Sess = cel.Values["Sess"];
+
+            Assert.AreEqual(5, Sess.Values.Count);
+
+            var U = Sess["U"];
+
+            Assert.AreEqual(7, U.Values.Count);
+
+            var Uname = U["name"];
+            var Uons = U["ons"];
+            var Udur = U["dur"];
+            var Udt = U["dt"];
+            var Uu = U["u"];
+            var Upst = U["pst"];
+            var P = U["P"];
+
+            Assert.AreEqual("test", (Uname.Values["0"] as MatNode).Value as string);
+            Assert.AreEqual(8.00000000000000e+00, (Uons.Value as byte[,])[0, 0]);
+            Assert.AreEqual(2.40000000000000e+01, (Uons.Value as byte[,])[0, 1]);
+            Assert.AreEqual(4.00000000000000e+01, (Uons.Value as byte[,])[0, 2]);
+            Assert.AreEqual(5.60000000000000e+01, (Uons.Value as byte[,])[0, 3]);
+            Assert.AreEqual(7.20000000000000e+01, (Uons.Value as byte[,])[0, 4]);
+            Assert.AreEqual(8.80000000000000e+01, (Uons.Value as byte[,])[0, 5]);
+
+            for (int i = 0; i < 6; i++)
+                Assert.AreEqual(8, (Udur.Value as byte[,])[0, i]);
+
+            Assert.AreEqual(1.87500000000000e-01, (Udt.Value as double[,])[0, 0]);
+
+            var sparse = Uu.Value as Tuple<int[], int[], Array>;
+            Assert.AreEqual(774, sparse.Item1.Length);
+            Assert.AreEqual(2, sparse.Item2.Length);
+            Assert.AreEqual(774, sparse.Item3.Length);
+
+            int j = 0;
+            for (int i = 160; i <= 288; i++, j++)
+                Assert.AreEqual(i - 1, sparse.Item1[j]);
+
+            for (int i = 416; i <= 544; i++, j++)
+                Assert.AreEqual(i - 1, sparse.Item1[j]);
+
+            for (int i = 672; i <= 800; i++, j++)
+                Assert.AreEqual(i - 1, sparse.Item1[j]);
+
+            for (int i = 928; i <= 1056; i++, j++)
+                Assert.AreEqual(i - 1, sparse.Item1[j]);
+
+            for (int i = 1184; i <= 1312; i++, j++)
+                Assert.AreEqual(i - 1, sparse.Item1[j]);
+
+            for (int i = 1440; i <= 1568; i++, j++)
+                Assert.AreEqual(i - 1, sparse.Item1[j]);
+
+            Assert.AreEqual(774, j);
+            for (int i = 0; i < sparse.Item3.Length; i++)
+                Assert.AreEqual(1.0, sparse.Item3.GetValue(i));
+
+            Assert.AreEqual(2, sparse.Item2.Length);
+            Assert.AreEqual(0, sparse.Item2[0]);
+            Assert.AreEqual(774, sparse.Item2[1]);
+
+            Assert.AreEqual(-21, (Upst.Value as short[,])[0, 0]);
+            Assert.AreEqual(24, (Upst.Value as short[,])[95, 0]);
+
+
+            var Pname = P["name"];
+            var PP = P["P"];
+            var Ph = P["h"];
+            var Pi = P["i"];
+
+            Assert.AreEqual("none", Pname.Value);
+            var ppv = PP.Value as ushort[,];
+            Assert.AreEqual(6, ppv.Length);
+            Assert.AreEqual(2.40000000000000e+01, ppv[0, 0]);
+            Assert.AreEqual(7.20000000000000e+01, ppv[0, 1]);
+            Assert.AreEqual(1.20000000000000e+02, ppv[0, 2]);
+            Assert.AreEqual(1.68000000000000e+02, ppv[0, 3]);
+            Assert.AreEqual(2.16000000000000e+02, ppv[0, 4]);
+            Assert.AreEqual(2.64000000000000e+02, ppv[0, 5]);
+
+            Assert.AreEqual(0, (Ph.Value as byte[,])[0, 0]);
+            Assert.AreEqual(1, (Pi.Value as byte[,])[0, 0]);
+
+            var C = Sess["C"];
+            Assert.AreEqual(2, C.Values.Count);
+
+            Assert.AreEqual(0, (C.Values["C"].Value as byte[,]).Length);
+            Assert.IsNull(C.Values["name"].Value);
+
+            var row = Sess["row"];
+            for (int i = 0; i < 96; i++)
+                Assert.AreEqual(i + 1, (row.Value as byte[,])[i, 0]);
+
+            var col = Sess["col"];
+            Assert.AreEqual(1, (col.Value as byte[,])[0, 0]);
+            Assert.AreEqual(2, (col.Value as byte[,])[1, 0]);
+
+            var Fc = Sess["Fc"];
+
+            var Fci = Fc["i"];
+            var Fname = Fc["name"];
+
+            Assert.AreEqual(1, (Fci.Value as byte[,])[0, 0]);
+            Assert.AreEqual(2, (Fci.Value as byte[,])[1, 0]);
+            Assert.AreEqual("test", Fname.Value);
         }
+
 
 
         private double[,] expectedBfValues = new double[,]

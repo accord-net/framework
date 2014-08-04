@@ -95,12 +95,14 @@ namespace Accord.IO
             if (flagsElement.NonZeroElements != 0)
             {
                 // Sparse matrices will not be supported right now
-                reader.ReadBytes(tag.NumberOfBytes - readBytes);
-                return;
+                //reader.ReadBytes(tag.NumberOfBytes - readBytes);
+                //return;
             }
 
             if (flagsElement.Class == MatArrayType.mxOBJECT_CLASS)
                 throw new Exception();
+
+
 
             readBytes += 8;
             MatDataTag dimensionsTag;
@@ -138,13 +140,70 @@ namespace Accord.IO
 
             Name = Name.Trim();
 
-            if (flagsElement.Class == MatArrayType.mxCELL_CLASS)
+            if (flagsElement.Class == MatArrayType.mxSPARSE_CLASS)
+            {
+                readBytes += 8;
+                MatDataTag irTag;
+                if (!reader.Read(out irTag))
+                    throw new Exception();
+
+                // read ir
+                int[] ir = new int[irTag.NumberOfBytes / 4];
+                for (int i = 0; i < ir.Length; i++)
+                    ir[i] = reader.ReadInt32();
+                align(reader, irTag.NumberOfBytes);
+
+                readBytes += 8;
+                MatDataTag icTag;
+                if (!reader.Read(out icTag))
+                    throw new Exception();
+
+                // read ic
+                int[] ic = new int[icTag.NumberOfBytes / 4];
+                for (int i = 0; i < ic.Length; i++)
+                    ic[i] = reader.ReadInt32();
+                align(reader, icTag.NumberOfBytes);
+
+
+                // read values
+                readBytes += 8;
+                MatDataTag valuesTag;
+                if (!reader.Read(out valuesTag))
+                    throw new Exception();
+
+                MatDataType matType = valuesTag.DataType;
+                type = MatReader.Translate(matType);
+                typeSize = Marshal.SizeOf(type);
+                length = valuesTag.NumberOfBytes / typeSize;
+                bytes = valuesTag.NumberOfBytes;
+
+                byte[] rawData = reader.ReadBytes(bytes);
+                align(reader, rawData.Length);
+
+                if (matType == MatDataType.miINT64 || matType == MatDataType.miUINT64)
+                {
+                    for (int i = 7; i < rawData.Length; i += 8)
+                    {
+                        byte b = rawData[i];
+                        bool bit = (b & (1 << 6)) != 0;
+                        if (bit)
+                            rawData[i] |= 1 << 7;
+                        else
+                            rawData[i] = (byte)(b & ~(1 << 7));
+                    }
+                }
+
+                Array array = Array.CreateInstance(type, length);
+                Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
+                value = Tuple.Create(ir, ic, array);
+            }
+            else if (flagsElement.Class == MatArrayType.mxCELL_CLASS)
             {
                 int readBytes2 = 0;
                 int toRead = tag.NumberOfBytes - readBytes;
                 int cellI = 0;
 
-                while(readBytes2 < toRead)
+                while (readBytes2 < toRead)
                 {
                     // Read first MAT data element
                     MatDataTag elementTag;
@@ -154,7 +213,7 @@ namespace Accord.IO
                     // Create a new node from the current position
                     MatNode node = new MatNode(reader, offset, elementTag, false);
 
-                    node.Name = "Cell " + cellI++;
+                    node.Name = (cellI++).ToString();
 
                     contents.Add(node.Name, node);
 
@@ -203,8 +262,6 @@ namespace Accord.IO
                     if (!reader.Read(out elementTag))
                         throw new Exception();
 
-                    if (names[i] == "u")
-                        throw new Exception();
                     if (elementTag.DataType == MatDataType.miINT32)
                         throw new Exception();
 
