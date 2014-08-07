@@ -1,5 +1,4 @@
-﻿
-// Accord Statistics Library
+﻿// Accord Statistics Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -26,9 +25,6 @@ namespace Accord.IO
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.IO.Compression;
-    using System.Runtime.InteropServices;
-
 
     /// <summary>
     ///   Reader for .mat files (such as the ones created by Matlab and Octave).
@@ -43,11 +39,32 @@ namespace Accord.IO
     {
         private BinaryReader reader;
 
-        Dictionary<string, MatNode> contents;
+        private Dictionary<string, MatNode> contents;
 
+        /// <summary>
+        ///   Gets the human readable description of the MAT file.
+        /// </summary>
+        /// 
+        /// <example>
+        ///   An example header description could be given by
+        ///   <c>"MATLAB 5.0 MAT-file, Platform: PCWIN, Created on: Thu Feb 22 03:12:25 2007"</c>.
+        /// </example>
+        /// 
         public string Description { get; private set; }
+
+        /// <summary>
+        ///   Gets the version information about the file. 
+        ///   This field should always contain 256.
+        /// </summary>
+        /// 
         public int Version { get; private set; }
 
+        /// <summary>
+        ///   Gets whether the MAT file uses the Big-Endian
+        ///   standard for bit-order. Currently, only little
+        ///   endian is supported.
+        /// </summary>
+        /// 
         public bool BigEndian { get; private set; }
 
         /// <summary>
@@ -59,9 +76,26 @@ namespace Accord.IO
             get { return reader.BaseStream; }
         }
 
-        public Dictionary<string, MatNode> Values
+        /// <summary>
+        ///   Gets a child object contained in this node.
+        /// </summary>
+        /// 
+        /// <param name="key">The field name or index.</param>
+        /// 
+        public MatNode this[string key]
         {
-            get { return contents; }
+            get { return contents[key]; }
+        }
+
+        /// <summary>
+        ///   Gets a child object contained in this node.
+        /// </summary>
+        /// 
+        /// <param name="key">The field index.</param>
+        /// 
+        public MatNode this[int key]
+        {
+            get { return contents[key.ToString()]; }
         }
 
         /// <summary>
@@ -89,7 +123,7 @@ namespace Accord.IO
 
 
             if (BitConverter.IsLittleEndian && BigEndian)
-                throw new Exception();
+                throw new NotSupportedException("The file bit ordering differs from the system architecture.");
 
             contents = new Dictionary<string, MatNode>();
 
@@ -138,7 +172,7 @@ namespace Accord.IO
                 case MatDataType.miUINT64:
                     return typeof(ulong);
                 default:
-                    throw new Exception();
+                    throw new ArgumentOutOfRangeException("type");
             }
         }
 

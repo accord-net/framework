@@ -12,6 +12,7 @@ namespace Accord.IO
         [FieldOffset(0)]
         public MatArrayType Class;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [FieldOffset(1)]
         public ArrayFlagsType Flags;
 

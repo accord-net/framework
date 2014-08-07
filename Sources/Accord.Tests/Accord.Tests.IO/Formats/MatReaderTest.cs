@@ -65,7 +65,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["arr"];
+            var node = reader["arr"];
             var value = node.Value as sbyte[,];
             value = value.Transpose();
 
@@ -90,7 +90,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["a"];
+            var node = reader["a"];
             var value = node.Value as int[,];
             value = value.Transpose();
 
@@ -115,7 +115,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["arr"];
+            var node = reader["arr"];
             var value = node.Value as long[,];
             value = value.Transpose();
 
@@ -140,7 +140,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["A64"];
+            var node = reader["A64"];
             var value = node.Value as long[,];
             value = value.Transpose();
 
@@ -169,7 +169,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["arr"];
+            var node = reader["arr"];
             var value = node.Value as ulong[,];
             value = value.Transpose();
 
@@ -194,7 +194,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["arr"];
+            var node = reader["arr"];
             var value = node.Value as float[,];
 
             float[,] expected = 
@@ -220,7 +220,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["arr"];
+            var node = reader["arr"];
             var value = node.Value as byte[,];
             value = value.Transpose();
 
@@ -247,7 +247,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["arr"];
+            var node = reader["arr"];
             var value = node.Value as double[,];
             value = value.Transpose();
 
@@ -274,7 +274,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["bool"];
+            var node = reader["bool"];
             var value = node.Value as byte[,];
             value = value.Transpose();
 
@@ -299,10 +299,10 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var node = reader.Values["structure"];
+            var node = reader["structure"];
 
-            var value1 = node.Values["a"];
-            var value2 = node.Values["string"];
+            var value1 = node["a"];
+            var value2 = node["string"];
 
             Assert.AreEqual("a", value1.Name);
             var a = value1.Value as byte[,];
@@ -334,25 +334,25 @@ namespace Accord.Tests.IO
             Assert.AreEqual(256, reader.Version);
             Assert.IsFalse(reader.BigEndian);
 
-            var cel = reader.Values["cel"];
-            Assert.IsNotNull(cel.Values["xBF"]);
-            Assert.IsNotNull(cel.Values["xY"]);
-            Assert.IsNotNull(cel.Values["nscan"]);
-            Assert.IsNotNull(cel.Values["Sess"]);
-            Assert.IsNotNull(cel.Values["xX"]);
+            var cel = reader["cel"];
+            Assert.IsNotNull(cel["xBF"]);
+            Assert.IsNotNull(cel["xY"]);
+            Assert.IsNotNull(cel["nscan"]);
+            Assert.IsNotNull(cel["Sess"]);
+            Assert.IsNotNull(cel["xX"]);
 
-            var xBF = cel.Values["xBF"];
+            var xBF = cel["xBF"];
 
             Assert.AreEqual("xBF", xBF.Name);
-            Assert.AreEqual(9, xBF.Values.Count);
+            Assert.AreEqual(9, xBF.Count);
 
-            var T = xBF.Values["T"];
-            var T0 = xBF.Values["T0"];
-            var dt = xBF.Values["dt"];
-            var UNITS = xBF.Values["UNITS"];
-            var name = xBF.Values["name"];
-            var order = xBF.Values["order"];
-            var bf = xBF.Values["bf"];
+            var T = xBF["T"];
+            var T0 = xBF["T0"];
+            var dt = xBF["dt"];
+            var UNITS = xBF["UNITS"];
+            var name = xBF["name"];
+            var order = xBF["order"];
+            var bf = xBF["bf"];
 
             Assert.AreEqual(16, (T.Value as byte[,])[0, 0]);
             Assert.AreEqual(1, (T0.Value as byte[,])[0, 0]);
@@ -362,45 +362,45 @@ namespace Accord.Tests.IO
             Assert.AreEqual(2, (order.Value as byte[,])[0, 0]);
             Assert.IsTrue(expectedBfValues.IsEqual((bf.Value as double[,]).Transpose(), 1e-15));
 
-            var nscan = cel.Values["nscan"];
-            Assert.AreEqual(0, nscan.Values.Count);
+            var nscan = cel["nscan"];
+            Assert.AreEqual(0, nscan.Count);
             Assert.AreEqual(96, (nscan.Value as byte[,])[0, 0]);
 
-            var xY = cel.Values["xY"];
+            var xY = cel["xY"];
 
             Assert.AreEqual("xY", xY.Name);
-            Assert.AreEqual(1, xY.Values.Count);
+            Assert.AreEqual(1, xY.Count);
 
-            var RT = xY.Values["RT"];
+            var RT = xY["RT"];
             Assert.AreEqual(3, (RT.Value as byte[,])[0, 0]);
 
-            var xX = cel.Values["xX"];
+            var xX = cel["xX"];
 
             Assert.AreEqual("xX", xX.Name);
-            Assert.AreEqual(6, xX.Values.Count);
+            Assert.AreEqual(6, xX.Count);
 
-            var X = xX.Values["X"];
-            var iH = xX.Values["iH"];
-            var iC = xX.Values["iC"];
-            var iB = xX.Values["iB"];
-            var iG = xX.Values["iG"];
-            var xname = xX.Values["name"];
+            var X = xX["X"];
+            var iH = xX["iH"];
+            var iC = xX["iC"];
+            var iB = xX["iB"];
+            var iG = xX["iG"];
+            var xname = xX["name"];
 
             Assert.IsTrue(expectedxXValues.IsEqual((X.Value as double[,]).Transpose(), 1e-15));
 
-            Assert.AreEqual("Sn(1) test*bf(1)", xname.Values["0"].Value);
-            Assert.AreEqual("Sn(1) test*bf(2)", xname.Values["1"].Value);
-            Assert.AreEqual("Sn(1) constant", xname.Values["2"].Value);
+            Assert.AreEqual("Sn(1) test*bf(1)", xname["0"].Value);
+            Assert.AreEqual("Sn(1) test*bf(2)", xname["1"].Value);
+            Assert.AreEqual("Sn(1) constant", xname["2"].Value);
 
 
 
-            var Sess = cel.Values["Sess"];
+            var Sess = cel["Sess"];
 
-            Assert.AreEqual(5, Sess.Values.Count);
+            Assert.AreEqual(5, Sess.Count);
 
             var U = Sess["U"];
 
-            Assert.AreEqual(7, U.Values.Count);
+            Assert.AreEqual(7, U.Count);
 
             var Uname = U["name"];
             var Uons = U["ons"];
@@ -410,7 +410,7 @@ namespace Accord.Tests.IO
             var Upst = U["pst"];
             var P = U["P"];
 
-            Assert.AreEqual("test", (Uname.Values["0"] as MatNode).Value as string);
+            Assert.AreEqual("test", (Uname["0"] as MatNode).Value as string);
             Assert.AreEqual(8.00000000000000e+00, (Uons.Value as byte[,])[0, 0]);
             Assert.AreEqual(2.40000000000000e+01, (Uons.Value as byte[,])[0, 1]);
             Assert.AreEqual(4.00000000000000e+01, (Uons.Value as byte[,])[0, 2]);
@@ -478,10 +478,10 @@ namespace Accord.Tests.IO
             Assert.AreEqual(1, (Pi.Value as byte[,])[0, 0]);
 
             var C = Sess["C"];
-            Assert.AreEqual(2, C.Values.Count);
+            Assert.AreEqual(2, C.Count);
 
-            Assert.AreEqual(0, (C.Values["C"].Value as byte[,]).Length);
-            Assert.IsNull(C.Values["name"].Value);
+            Assert.AreEqual(0, (C["C"].Value as byte[,]).Length);
+            Assert.IsNull(C["name"].Value);
 
             var row = Sess["row"];
             for (int i = 0; i < 96; i++)

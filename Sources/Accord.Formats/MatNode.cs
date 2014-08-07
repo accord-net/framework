@@ -1,15 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.IO.Compression;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
+﻿// Accord Statistics Library
+// The Accord.NET Framework
+// http://accord-framework.net
+//
+// Copyright © César Souza, 2009-2014
+// cesarsouza at gmail.com
+//
+//    This library is free software; you can redistribute it and/or
+//    modify it under the terms of the GNU Lesser General Public
+//    License as published by the Free Software Foundation; either
+//    version 2.1 of the License, or (at your option) any later version.
+//
+//    This library is distributed in the hope that it will be useful,
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+//    Lesser General Public License for more details.
+//
+//    You should have received a copy of the GNU Lesser General Public
+//    License along with this library; if not, write to the Free Software
+//    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+//
 
 namespace Accord.IO
 {
-    public class MatNode
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Runtime.InteropServices;
+
+    /// <summary>
+    ///   Node object for .MAT files. A node can contain a matrix object,
+    ///   a string, or another nodes.
+    /// </summary>
+    /// 
+    public class MatNode : IEnumerable<MatNode>
     {
         long startOffset;
         long matrixOffset;
@@ -29,10 +54,16 @@ namespace Accord.IO
 
         private int readBytes;
 
-        public Dictionary<string, MatNode> Values { get { return contents; } }
-
+        /// <summary>
+        ///   Gets the name of this node.
+        /// </summary>
+        /// 
         public string Name { get; private set; }
 
+        /// <summary>
+        ///   Gets the object stored at this node, if any.
+        /// </summary>
+        /// 
         public Object Value
         {
             get
@@ -43,15 +74,42 @@ namespace Accord.IO
             }
         }
 
-
-        internal unsafe MatNode(BinaryReader reader, long offset)
+        /// <summary>
+        ///   Gets the number of child objects contained in this node.
+        /// </summary>
+        /// 
+        public int Count
         {
-            contents = new Dictionary<string, MatNode>();
-            this.startOffset = offset;
+            get { return contents.Count; }
         }
+
+        /// <summary>
+        ///   Gets the child fields contained under the given name.
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the field to be retrieved.</param>
+        /// 
+        public MatNode this[string name]
+        {
+            get { return contents[name]; }
+        }
+
+        /// <summary>
+        ///   Gets the child fields contained under the given name.
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the field to be retrieved.</param>
+        /// 
+        public MatNode this[int name]
+        {
+            get { return contents[name.ToString()]; }
+        }
+
 
         internal unsafe MatNode(BinaryReader reader, long offset, MatDataTag tag, bool lazy)
         {
+            // TODO: Completely refactor this method.
+
             int originalBytes = tag.NumberOfBytes;
             contents = new Dictionary<string, MatNode>();
 
@@ -72,25 +130,25 @@ namespace Accord.IO
 
                 readBytes += 8;
                 if (!reader.Read(out tag))
-                    throw new Exception();
+                    throw new NotSupportedException("Invalid reader at position " + readBytes + ".");
             }
 
             if (tag.DataType != MatDataType.miMATRIX)
-                throw new Exception();
+                throw new NotSupportedException("Unexpected data type at position " + readBytes + ".");
 
             readBytes += 8;
             MatDataTag flagsTag;
             if (!reader.Read(out flagsTag))
-                throw new Exception();
+                throw new NotSupportedException("Invalid flags tag at position " + readBytes + ".");
 
             if (flagsTag.DataType != MatDataType.miUINT32)
-                throw new Exception();
+                throw new NotSupportedException("Unexpected flags data type at position " + readBytes + ".");
 
             readBytes += 8;
 
             ArrayFlags flagsElement;
             if (!reader.Read(out flagsElement))
-                throw new Exception();
+                throw new NotSupportedException("Invalid flags element at position " + readBytes + ".");
 
             if (flagsElement.NonZeroElements != 0)
             {
@@ -100,17 +158,17 @@ namespace Accord.IO
             }
 
             if (flagsElement.Class == MatArrayType.mxOBJECT_CLASS)
-                throw new Exception();
+                throw new NotSupportedException("Unexpected object class flag at position " + readBytes + ".");
 
 
 
             readBytes += 8;
             MatDataTag dimensionsTag;
             if (!reader.Read(out dimensionsTag))
-                throw new Exception();
+                throw new NotSupportedException("Invalid dimensions tag at position " + readBytes + ".");
 
             if (dimensionsTag.DataType != MatDataType.miINT32)
-                throw new Exception();
+                throw new NotSupportedException("Invalid dimensions data type at position " + readBytes + ".");
 
             int numberOfDimensions = (int)dimensionsTag.NumberOfBytes / 4;
             dimensions = new int[numberOfDimensions];
@@ -122,10 +180,10 @@ namespace Accord.IO
             readBytes += 8;
             MatDataTag nameTag;
             if (!reader.Read(out nameTag))
-                throw new Exception();
+                throw new NotSupportedException("Invalid name tag at position " + readBytes + ".");
 
             if (nameTag.DataType != MatDataType.miINT8)
-                throw new Exception();
+                throw new NotSupportedException("Invalid name data type at position " + readBytes + ".");
 
             if (nameTag.IsSmallFormat)
             {
@@ -145,7 +203,7 @@ namespace Accord.IO
                 readBytes += 8;
                 MatDataTag irTag;
                 if (!reader.Read(out irTag))
-                    throw new Exception();
+                    throw new NotSupportedException("Invalid sparse row tag at position " + readBytes + ".");
 
                 // read ir
                 int[] ir = new int[irTag.NumberOfBytes / 4];
@@ -156,7 +214,7 @@ namespace Accord.IO
                 readBytes += 8;
                 MatDataTag icTag;
                 if (!reader.Read(out icTag))
-                    throw new Exception();
+                    throw new NotSupportedException("Invalid sparse column tag at position " + readBytes + ".");
 
                 // read ic
                 int[] ic = new int[icTag.NumberOfBytes / 4];
@@ -169,7 +227,7 @@ namespace Accord.IO
                 readBytes += 8;
                 MatDataTag valuesTag;
                 if (!reader.Read(out valuesTag))
-                    throw new Exception();
+                    throw new NotSupportedException("Invalid values tag at position " + readBytes + ".");
 
                 MatDataType matType = valuesTag.DataType;
                 type = MatReader.Translate(matType);
@@ -208,7 +266,7 @@ namespace Accord.IO
                     // Read first MAT data element
                     MatDataTag elementTag;
                     if (!reader.Read(out elementTag))
-                        throw new Exception();
+                        throw new NotSupportedException("Invalid element tag at position " + readBytes + ".");
 
                     // Create a new node from the current position
                     MatNode node = new MatNode(reader, offset, elementTag, false);
@@ -224,22 +282,22 @@ namespace Accord.IO
             {
                 MatDataTag fieldNameLengthTag;
                 if (!reader.Read(out fieldNameLengthTag))
-                    throw new Exception();
+                    throw new NotSupportedException("Invalid struct field name length tag at position " + readBytes + ".");
 
                 if (!fieldNameLengthTag.IsSmallFormat)
-                    throw new Exception();
+                    throw new NotSupportedException("Small format struct field name length is not supported at position " + readBytes + ".");
 
                 int fieldNameLength = *(int*)fieldNameLengthTag.SmallData_Value;
 
                 if (fieldNameLengthTag.DataType != MatDataType.miINT32)
-                    throw new Exception();
+                    throw new NotSupportedException("Unexpected struct field name length data type at position " + readBytes + ".");
 
                 MatDataTag fieldNameTag;
                 if (!reader.Read(out fieldNameTag))
-                    throw new Exception();
+                    throw new NotSupportedException("Invalid struct field name at position " + readBytes + ".");
 
                 if (fieldNameTag.DataType != MatDataType.miINT8)
-                    throw new Exception();
+                    throw new NotSupportedException("Unexpected struct field name data type at position " + readBytes + ".");
 
                 int fields = fieldNameTag.NumberOfBytes / fieldNameLength;
                 string[] names = new string[fields];
@@ -251,7 +309,6 @@ namespace Accord.IO
                 }
 
                 align(reader, fieldNameTag.NumberOfBytes);
-                // matrixOffset = reader.BaseStream.Position;
 
                 for (int i = 0; i < names.Length; i++)
                 {
@@ -260,10 +317,10 @@ namespace Accord.IO
                     // Read first MAT data element
                     MatDataTag elementTag;
                     if (!reader.Read(out elementTag))
-                        throw new Exception();
+                        throw new NotSupportedException("Invalid struct element at position " + readBytes + ".");
 
                     if (elementTag.DataType == MatDataType.miINT32)
-                        throw new Exception();
+                        throw new NotSupportedException("Unexpected struct element data type at position " + readBytes + ".");
 
                     // Create a new node from the current position
                     MatNode node = new MatNode(reader, offset, elementTag, false);
@@ -278,7 +335,7 @@ namespace Accord.IO
                 readBytes += 8;
                 MatDataTag contentsTag;
                 if (!reader.Read(out contentsTag))
-                    throw new Exception();
+                    throw new NotSupportedException("Invalid contents tag at position " + readBytes + ".");
 
                 if (contentsTag.IsSmallFormat)
                 {
@@ -309,7 +366,7 @@ namespace Accord.IO
                     if (matType == MatDataType.miMATRIX)
                     {
                         // Create a new node from the current position
-                        MatNode node = new MatNode(reader, offset, contentsTag, false);
+                        value = new MatNode(reader, offset, contentsTag, false);
                     }
                     else if (matType == MatDataType.miUTF8)
                     {
@@ -325,11 +382,8 @@ namespace Accord.IO
                         bytes = contentsTag.NumberOfBytes;
 
                         if (!lazy)
-                        {
                             value = read(reader);
-                        }
                     }
-                    //byte[] rawData = reader.ReadBytes(bytes);
                 }
             }
 
@@ -337,16 +391,11 @@ namespace Accord.IO
                 matrixOffset = reader.BaseStream.Position;
         }
 
-        unsafe private static void align(BinaryReader reader, int rreadBytes)
+        private static void align(BinaryReader reader, int rreadBytes)
         {
             int mod = rreadBytes % 8;
             if (mod != 0) // need to be 8 bytes aligned
                 reader.ReadBytes(8 - mod);
-        }
-
-        public MatNode this[string name]
-        {
-            get { return contents[name]; }
         }
 
         private object read()
@@ -393,5 +442,32 @@ namespace Accord.IO
             return array;
         }
 
+
+
+        /// <summary>
+        ///   Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// 
+        public IEnumerator<MatNode> GetEnumerator()
+        {
+            return contents.Values.GetEnumerator();
+        }
+
+        /// <summary>
+        ///   Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// 
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return contents.Values.GetEnumerator();
+        }
     }
 }
