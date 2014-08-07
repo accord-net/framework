@@ -1920,6 +1920,21 @@ namespace Accord.Tests.Math
             Assert.AreEqual(matrix, actual);
             Assert.IsTrue(actual.IsEqual(expected));
         }
+
+        [TestMethod()]
+        public void GeneralizedTransposeTest()
+        {
+            double[,] a = 
+            {
+                { 5, 1, 6, 3, 1 },
+                { 7, 5, 1, 2, 8 },
+            };
+
+            double[,] actual = a.Transpose(new int[] { 1, 0 });
+            double[,] expected = a.Transpose();
+
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
         #endregion
 
         #region Apply
