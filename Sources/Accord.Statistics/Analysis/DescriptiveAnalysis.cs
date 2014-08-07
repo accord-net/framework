@@ -620,12 +620,11 @@ namespace Accord.Statistics.Analysis
             {
                 if (innerFences == null)
                 {
+                    DoubleRange[] Q = Quartiles;
+
                     innerFences = new DoubleRange[variables];
                     for (int i = 0; i < innerFences.Length; i++)
-                    {
-                        DoubleRange Q = Quartiles[i];
-                        innerFences[i] = new DoubleRange(Q.Min - 1.5 * Q.Length, Q.Max + 1.5 * Q.Length);
-                    }
+                        innerFences[i] = new DoubleRange(Q[i].Min - 1.5 * Q[i].Length, Q[i].Max + 1.5 * Q[i].Length);
                 }
 
                 return innerFences;
@@ -642,12 +641,11 @@ namespace Accord.Statistics.Analysis
             {
                 if (outerFences == null)
                 {
+                    DoubleRange[] Q = Quartiles;
+
                     outerFences = new DoubleRange[variables];
                     for (int i = 0; i < outerFences.Length; i++)
-                    {
-                        DoubleRange Q = Quartiles[i];
-                        outerFences[i] = new DoubleRange(Q.Min - 3 * Q.Length, Q.Max + 3 * Q.Length);
-                    }
+                        outerFences[i] = new DoubleRange(Q[i].Min - 3 * Q[i].Length, Q[i].Max + 3 * Q[i].Length);
                 }
 
                 return outerFences;
