@@ -227,6 +227,15 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        ///   Gets or sets whether the algorithm can use parallel
+        ///   processing to speedup computations. Enabling parallel
+        ///   processing can, however, result in different results 
+        ///   at each run.
+        /// </summary>
+        /// 
+        public bool UseParallelProcessing { get; set; }
+
+        /// <summary>
         ///   Gets the dimension of the samples being 
         ///   modeled by this clustering algorithm.
         /// </summary>
@@ -251,6 +260,7 @@ namespace Accord.MachineLearning
             this.kernel = kernel;
             this.Bandwidth = bandwidth;
             this.distance = Accord.Math.Distance.SquareEuclidean;
+            this.UseParallelProcessing = true;
         }
 
         /// <summary>
@@ -285,58 +295,16 @@ namespace Accord.MachineLearning
             tree = KDTree.FromData<int>(points, distance);
 
             // now, for each initial point 
-            Parallel.For(0, seeds.Length,
-#if DEBUG
- new ParallelOptions() { MaxDegreeOfParallelism = 1 },
-#endif
-
-            (index) =>
+            if (UseParallelProcessing)
             {
-                double[] point = seeds[index];
-                double[] mean = new double[point.Length];
-                double[] delta = new double[point.Length];
-
-                // we will keep moving it in the
-                // direction of the density modes
-
-                int iterations = 0;
-
-                // until convergence or max iterations reached
-                while (iterations < maxIterations)
-                {
-                    iterations++;
-
-                    // compute the shifted mean 
-                    computeMeanShift(point, mean);
-
-                    // extract the mean shift vector
-                    for (int j = 0; j < mean.Length; j++)
-                        delta[j] = point[j] - mean[j];
-
-                    // update the point towards a mode
-                    for (int j = 0; j < mean.Length; j++)
-                        point[j] = mean[j];
-
-                    // Check if we are already near any maximum point
-                    if (cut && nearest(point, maxcandidates) != null)
-                        break;
-
-                    // check for convergence: magnitude of the mean shift
-                    // vector converges to zero (Comaniciu 2002, page 606)
-                    if (Norm.Euclidean(delta) < threshold * Bandwidth)
-                        break;
-                }
-
-                if (cut)
-                {
-                    double[] match = nearest(point, maxcandidates);
-
-                    if (match != null)
-                        seeds[index] = match;
-
-                    else maxcandidates.Push(point);
-                }
-            });
+                Parallel.For(0, seeds.Length, (index) => 
+                    iterate(threshold, maxIterations, seeds, maxcandidates, index));
+            }
+            else
+            {
+                for (int index = 0; index < seeds.Length; index++)
+                    iterate(threshold, maxIterations, seeds, maxcandidates, index);
+            }
 
 
             // suppress non-maximum points
@@ -351,6 +319,59 @@ namespace Accord.MachineLearning
 
             // label each point
             return clusters.Nearest(points);
+        }
+
+        private void iterate(double threshold, int maxIterations, double[][] seeds, ConcurrentStack<double[]> maxcandidates, int index)
+        {
+            double[] point = seeds[index];
+            double[] mean = new double[point.Length];
+            double[] delta = new double[point.Length];
+
+            // we will keep moving it in the
+            // direction of the density modes
+
+            int iterations = 0;
+
+            // until convergence or max iterations reached
+            while (iterations < maxIterations)
+            {
+                iterations++;
+
+                // compute the shifted mean 
+                computeMeanShift(point, mean);
+
+                // check if the mean is locked at zero
+                // if it is, stop moving this centroid
+                if (mean.IsEqual(0))
+                    break;
+
+                // extract the mean shift vector
+                for (int j = 0; j < mean.Length; j++)
+                    delta[j] = point[j] - mean[j];
+
+                // update the point towards a mode
+                for (int j = 0; j < mean.Length; j++)
+                    point[j] = mean[j];
+
+                // Check if we are already near any maximum point
+                if (cut && nearest(point, maxcandidates) != null)
+                    break;
+
+                // check for convergence: magnitude of the mean shift
+                // vector converges to zero (Comaniciu 2002, page 606)
+                if (Norm.Euclidean(delta) < threshold * Bandwidth)
+                    break;
+            }
+
+            if (cut)
+            {
+                double[] match = nearest(point, maxcandidates);
+
+                if (match != null)
+                    seeds[index] = match;
+
+                else maxcandidates.Push(point);
+            }
         }
 
         private double[] nearest(double[] point, ConcurrentStack<double[]> candidates)
