@@ -31,19 +31,18 @@
 // 
 
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Accord.IO;
 using Accord.MachineLearning.DecisionTrees;
 using Accord.MachineLearning.DecisionTrees.Learning;
 using Accord.Math;
 using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
+using AForge;
 using Components;
 using ZedGraph;
-using AForge;
 
 namespace Classification.Trees
 {

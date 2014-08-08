@@ -59,7 +59,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matrices", "Math\Matrices\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering (GMMs)", "MachineLearning\Clustering (GMM)\Clustering (GMMs).csproj", "{6EE43C30-5232-4B18-802B-7D536EA4DCCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering (K-Means)", "MachineLearning\Clustering (K-Means)\Clustering (K-Means).csproj", "{8433F722-C197-4BCD-9E5D-08A6B2FAF23A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering (K-Means, MeanShift)", "MachineLearning\Clustering (K-Means)\Clustering (K-Means, MeanShift).csproj", "{8433F722-C197-4BCD-9E5D-08A6B2FAF23A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gestures (HMM)", "Statistics\Gestures (HMMs)\Gestures (HMM).csproj", "{36BA745B-850A-4C3C-88F5-125B0171B187}"
 EndProject

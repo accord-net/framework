@@ -30,15 +30,15 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using Accord.Controls;
-using Accord.Statistics.Filters;
-using Accord.Statistics.Formats;
-using Components;
 using System;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
+using Accord.Controls;
+using Accord.IO;
+using Accord.Statistics.Filters;
+using Components;
 
 namespace Tabular
 {

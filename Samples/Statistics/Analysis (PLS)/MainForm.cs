@@ -36,9 +36,9 @@ using System.Data;
 using System.IO;
 using System.Windows.Forms;
 using Accord.Controls;
+using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
 using Accord.Statistics.Models.Regression.Linear;
 using Components;
 

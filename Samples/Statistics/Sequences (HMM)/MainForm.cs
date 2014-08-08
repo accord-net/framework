@@ -35,7 +35,7 @@ using System.Data;
 using System.IO;
 using System.Windows.Forms;
 using Accord.Controls;
-using Accord.Statistics.Formats;
+using Accord.IO;
 using Accord.Statistics.Models.Markov;
 using Accord.Statistics.Models.Markov.Learning;
 using Components;

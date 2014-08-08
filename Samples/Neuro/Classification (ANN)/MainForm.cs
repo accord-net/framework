@@ -38,11 +38,11 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using Accord.IO;
 using Accord.Math;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
 using AForge.Neuro;
 using ZedGraph;
 

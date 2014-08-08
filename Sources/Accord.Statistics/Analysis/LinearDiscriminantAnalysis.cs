@@ -24,10 +24,10 @@ namespace Accord.Statistics.Analysis
 {
     using System;
     using System.Collections.ObjectModel;
-    using Accord.Math;
-    using Accord.Math.Decompositions;
-    using Accord.Math.Comparers;
     using System.ComponentModel;
+    using Accord.Math;
+    using Accord.Math.Comparers;
+    using Accord.Math.Decompositions;
 
     /// <summary>
     ///   Linear Discriminant Analysis (LDA).

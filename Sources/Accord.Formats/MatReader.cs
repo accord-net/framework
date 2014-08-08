@@ -203,7 +203,7 @@ namespace Accord.IO
                 // free managed resources
                 if (reader != null)
                 {
-                    reader.Dispose();
+                    reader.Close();
                     reader = null;
                 }
             }

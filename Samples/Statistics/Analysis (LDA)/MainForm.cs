@@ -32,13 +32,12 @@
 
 using System;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Accord.Controls;
+using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
 using Components;
 
 namespace Analysis.LDA

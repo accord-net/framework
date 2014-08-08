@@ -37,9 +37,9 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using Accord.Controls;
+using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
 using Components;
 
 namespace Regression.Linear
