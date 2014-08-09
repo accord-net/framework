@@ -62,7 +62,7 @@ namespace Accord.Math
     /// </code>
     /// </example>
     /// 
-    public class RelativeParameterConvergence
+    public class RelativeParameterConvergence : IConvergence<double[]>
     {
         private double[] oldValues;
         private double[] newValues;
@@ -241,7 +241,6 @@ namespace Accord.Math
             }
         }
 
-
         /// <summary>
         ///   Clears this instance.
         /// </summary>
@@ -251,6 +250,20 @@ namespace Accord.Math
             CurrentIteration = 0;
             newValues = null;
             oldValues = null;
+        }
+
+
+        /// <summary>
+        ///   Gets or sets the watched value after the iteration. This 
+        ///   method is implemented explicitly to avoid breaking too much
+        ///   existing applications.
+        /// </summary>
+        /// 
+        double[] IConvergence<double[]>.NewValue
+        {
+            // TODO: Remove this explicit implementation.
+            get { return NewValues; }
+            set { NewValues = value; }
         }
     }
 }

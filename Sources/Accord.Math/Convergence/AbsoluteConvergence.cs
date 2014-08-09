@@ -60,7 +60,7 @@ namespace Accord.Math
     /// </code>
     /// </example>
     /// 
-    public class AbsoluteConvergence
+    public class AbsoluteConvergence : ISingleValueConvergence
     {
 
         private double tolerance = 0;

@@ -1,4 +1,4 @@
-﻿// Accord Math Library
+﻿// Accord Core Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -20,15 +20,20 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Math
+namespace Accord.MachineLearning.DecisionTrees.Pruning
 {
+    using System.Runtime.CompilerServices;
+
     /// <summary>
-    ///   Common interface for convergence detection algorithms that 
-    ///   depend solely on a single value (such as the iteration error).
+    ///  Contains classes to prune decision trees, removing 
+    ///  unneeded nodes in an attempt to improve generalization.
     /// </summary>
     /// 
-    public interface ISingleValueConvergence : IConvergence<double>
+    /// <seealso cref="Accord.MachineLearning.DecisionTrees"/>
+    /// <seealso cref="Accord.MachineLearning.DecisionTrees.Rules"/>
+    /// 
+    [CompilerGenerated]
+    class NamespaceDoc
     {
-     
     }
 }

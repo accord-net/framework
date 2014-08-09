@@ -122,7 +122,8 @@ namespace Accord.Statistics.Distributions
     /// <seealso cref="MultivariateEmpiricalDistribution"/>
     /// <seealso cref="WishartDistribution"/>
     /// 
-    public interface IMultivariateDistribution<in TObservation> : IDistribution<TObservation>
+    public interface IMultivariateDistribution<in TObservation> 
+        : IDistribution<TObservation>, IDistribution
     {
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿// Accord Math Library
+﻿// Accord Statistics Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -20,15 +20,27 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Math
+namespace Accord.Statistics.Distributions.Multivariate
 {
+    using System.Runtime.CompilerServices;
+
     /// <summary>
-    ///   Common interface for convergence detection algorithms that 
-    ///   depend solely on a single value (such as the iteration error).
+    ///   Contains a multivariate distributions such as the <see cref="MultivariateNormalDistribution">
+    ///   multivariate Normal</see>, <see cref="MultinomialDistribution">Multinomial</see>, 
+    ///   <see cref="Independent{T}">Independent</see>, <see cref="JointDistribution">
+    ///   Joint</see> and <see cref="MultivariateMixture{T}">Mixture distributions</see>.
     /// </summary>
     /// 
-    public interface ISingleValueConvergence : IConvergence<double>
+    /// <para>
+    ///   The namespace class diagram is shown below. </para>
+    ///   <img src="..\diagrams\classes\Accord.Statistics.Multivariate.png" />
+    ///   
+    /// <seealso cref="Accord.Statistics.Distributions"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Fitting"/>
+    /// 
+    [CompilerGenerated]
+    class NamespaceDoc
     {
-     
     }
 }

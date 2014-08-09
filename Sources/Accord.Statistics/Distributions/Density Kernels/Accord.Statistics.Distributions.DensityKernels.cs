@@ -20,35 +20,28 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Statistics.Distributions.Fitting
+namespace Accord.Statistics.Distributions.DensityKernels
 {
-    using System;
+    using System.Runtime.CompilerServices;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Distributions.Multivariate;
 
     /// <summary>
-    ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution">
-    ///   Empirical distributions</see>. 
+    ///  Contains density estimation kernels which can be used in combination
+    ///  with <see cref="EmpiricalDistribution">empirical distributions</see> 
+    ///  and <see cref="MultivariateEmpiricalDistribution">multivariate empirical
+    ///  distributions</see>.
     /// </summary>
     /// 
-    [Serializable]
-    public class EmpiricalOptions : IFittingOptions
+    /// <seealso cref="Accord.Statistics.Distributions"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Multivariate"/>
+    /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Multivariate.MultivariateEmpiricalDistribution"/>
+    /// 
+    [CompilerGenerated]
+    class NamespaceDoc
     {
-        /// <summary>
-        ///   Gets or sets the smoothing rule used to compute the smoothing
-        ///   parameter in the <see cref="EmpiricalDistribution"/>. Default
-        ///   is to use the <see cref="EmpiricalDistribution.SmoothingRule">
-        ///   normal distribution bandwidth approximation</see>.
-        /// </summary>
-        /// 
-        public Func<double[], double> SmoothingRule { get; set; }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="NormalOptions"/> class.
-        /// </summary>
-        /// 
-        public EmpiricalOptions()
-        {
-            SmoothingRule = EmpiricalDistribution.SmoothingRule;
-        }
     }
 }

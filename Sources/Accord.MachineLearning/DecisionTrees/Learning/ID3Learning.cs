@@ -23,7 +23,6 @@
 namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
-    using System.Linq;
     using Accord.Math;
     using AForge;
     using Parallel = System.Threading.Tasks.Parallel;

@@ -22,33 +22,20 @@
 
 namespace Accord.Statistics.Distributions.Fitting
 {
-    using System;
-    using Accord.Statistics.Distributions.Univariate;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
-    ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution">
-    ///   Empirical distributions</see>. 
+    ///  Contains special options which can be used in 
+    ///  distribution fitting (estimation) methods.
     /// </summary>
     /// 
-    [Serializable]
-    public class EmpiricalOptions : IFittingOptions
+    /// <seealso cref="Accord.Statistics.Distributions"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Multivariate"/>
+    /// <seealso cref="Accord.Statistics.Distributions.DensityKernels"/>
+    /// 
+    [CompilerGenerated]
+    class NamespaceDoc
     {
-        /// <summary>
-        ///   Gets or sets the smoothing rule used to compute the smoothing
-        ///   parameter in the <see cref="EmpiricalDistribution"/>. Default
-        ///   is to use the <see cref="EmpiricalDistribution.SmoothingRule">
-        ///   normal distribution bandwidth approximation</see>.
-        /// </summary>
-        /// 
-        public Func<double[], double> SmoothingRule { get; set; }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="NormalOptions"/> class.
-        /// </summary>
-        /// 
-        public EmpiricalOptions()
-        {
-            SmoothingRule = EmpiricalDistribution.SmoothingRule;
-        }
     }
 }

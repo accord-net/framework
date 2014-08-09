@@ -27,11 +27,10 @@
 // Fortran 90 version was by Alan Miller (Alan.Miller @ vic.cmis.csiro.au). 
 //
 
-namespace Accord.Math.Optimization.Constrained
+namespace Accord.Math.Optimization
 {
     using System;
     using System.Collections.Generic;
-
 
     /// <summary>
     ///   Cobyla exit codes.

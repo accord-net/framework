@@ -1,6 +1,6 @@
 Accord.NET Framework 2.13.0 release notes
 -----------------------------------------
-01.08.2014.    
+10.08.2014.
 
 Version updates and fixes:
   - GC-61: GoldfarbIdnani should implement the IOptimizationMethod interface;
@@ -26,6 +26,18 @@ Version updates and fixes:
   - GH-25: SauvolaThreshold and NiblackThreshold filter are always making whole black image;
   - GH-27: Fixing bernoulli distribution sampling.
 
+* General
+  - Moving the old Statistics.Formats namespace into a separate assembly, Accord.IO, in
+    order to prepare for adding new file formats that can be reused also by Accord.Math;
+  - Creating a new Accord.Math.NonCommercial assembly to accomodate other algorithms that
+    are free but are not shared under a free software license and thus cannot be used in
+    commercial applications.
+
+* Accord.IO
+  - Adding a IDX file reader to read the MNIST (and possibly others) datasets;
+  - Adding a MAT file reader to read Matlab/Octave data, including sparse,
+    structures and objects.
+	
 * Accord.Statistics
   - Fixing Codification filter when columns have a max-length constraint;
   - Fixing MultivariateNormalDistribution to handle edge cases;
@@ -38,7 +50,7 @@ Version updates and fixes:
   - Adding support for explicit feature space transformation in some kernels;
   - Adding Beta and Pareto distribution fitting;
   - Adding explicit Gaussian kernel projection using a Taylor approximation;
-  - Adding BirnbaumSaunders, Generalized Normal, Gumbel, Power Lognormal, 
+  - Adding Birnbaum-Saunders, Generalized Normal, Gumbel, Power Lognormal, 
     Power Normal, Triangular, Tukey Lambda, Logistic, Hyperbolic Secant,
     Degenerate and General Continuous distributions.
 
@@ -53,6 +65,7 @@ Version updates and fixes:
   - Updating the previous L-BFGS implementation from the latest Lbfgsb.3.0 version;
   - Adding the L-BFGS optimizer with support for Orthant-Wise optimizer from LibBFGS;
   - Adding the Cobyla method for derivative-free optimization (user contribution);
+  - Adding Carl Edward Rasmussen's FminCG conjugate gradient minimizer (user contribution);
   - Adding the Discrete Curve Evolution algorithm (user contribution);
   - Adding a Singular value decomposition implementation for Jagged matrices;
   - Adding a simple 2D Kalman filter implementation (user contribution);
@@ -63,9 +76,13 @@ Version updates and fixes:
   - Fixing position calculation when sampleIndex is set in WindowBase.Apply method.
 
 * Accord.MachineLearning
+  - Updating cross-validation to support class-balanced partitions.
   - Adding support for different sample weights in SMO and and IRLS;
   - Adding a configurable model threshold for AdaBoost learning;
-  - Adding a generic base model for AdaBoost's weak classifiers.
+  - Adding a generic base model for AdaBoost's weak classifiers;
+  - Adding specialized linear SVM algorithms based on liblinear's offerings, 
+    such as  L2-regularized L1 and L2-loss SVM for the dual formulation and
+    the L2-regularized, L2-loss SVM for the primal formulation.
 
 * Accord.Controls
   - Adding HistogramBox for displaying histograms in the same manner as MessageBox;

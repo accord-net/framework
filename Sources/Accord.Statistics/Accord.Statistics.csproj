@@ -149,7 +149,10 @@
     <Compile Include="Analysis\Performance\ReceiverOperatingCharacteristic.cs" />
     <Compile Include="Analysis\StepwiseLogisticRegressionAnalysis.cs" />
     <Compile Include="Circular.cs" />
+    <Compile Include="Distributions\Accord.Statistics.Distributions.cs" />
+    <Compile Include="Distributions\Density Kernels\Accord.Statistics.Distributions.DensityKernels.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
+    <Compile Include="Distributions\Fitting\Accord.Statistics.Distributions.Fitting.cs" />
     <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />
     <Compile Include="Distributions\Fitting\EmpiricalOptions.cs" />
@@ -163,11 +166,13 @@
     <Compile Include="Distributions\Density Kernels\GaussianKernel.cs" />
     <Compile Include="Distributions\Density Kernels\IRadiallySymmetricKernel.cs" />
     <Compile Include="Distributions\Density Kernels\UniformKernel.cs" />
+    <Compile Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cs" />
     <Compile Include="Distributions\Multivariate\Base\IMultivariateDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\WishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Independent.cs" />
+    <Compile Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cs" />
     <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution.cs" />
     <Compile Include="Distributions\Fitting\CauchyOptions.cs" />
     <Compile Include="Distributions\Fitting\HypergeometricOptions.cs" />
@@ -496,6 +501,8 @@
     <None Include="Accord.Statistics.cd" />
     <None Include="Analysis\Accord.Statistics.Analysis.cd" />
     <None Include="Distributions\Accord.Statistics.Distributions.cd" />
+    <None Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cd" />
+    <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
     <None Include="Models\Accord.Statistics.Models.cd">
       <SubType>Designer</SubType>

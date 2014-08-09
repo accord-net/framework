@@ -957,7 +957,8 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">A number array containing the vector values.</param>
-        /// <returns>The variance of the given data.</returns>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
         /// 
         public static double Mode(this double[] values)
         {
@@ -1001,7 +1002,8 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">A number array containing the vector values.</param>
-        /// <returns>The variance of the given data.</returns>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
         /// 
         public static int Mode(this int[] values)
         {
@@ -1045,7 +1047,8 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">A number array containing the vector values.</param>
-        /// <returns>The variance of the given data.</returns>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
         /// 
         public static T Mode<T>(this T[] values)
         {

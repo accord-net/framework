@@ -85,7 +85,6 @@
     <Compile Include="Accord.MachineLearning.cs" />
     <Compile Include="Accord.Audio.Formats.cs" />
     <Compile Include="Accord.Audition.cs" />
-    <Compile Include="Accord.MachineLearning.VectorMachines.cs" />
     <Compile Include="Accord.Math.cs" />
     <Compile Include="Accord.Neuro.cs" />
     <Compile Include="Accord.Statistics.cs" />
