@@ -33,6 +33,7 @@
     <None Include="NuGet\Accord.Controls.nuspec" />
     <None Include="NuGet\Accord.Controls.Vision.nuspec" />
     <None Include="NuGet\Accord.Imaging.nuspec" />
+    <None Include="NuGet\Accord.IO.nuspec" />
     <None Include="NuGet\Accord.MachineLearning.nuspec" />
     <None Include="NuGet\Accord.Math.nuspec" />
     <None Include="NuGet\Accord.Neuro.nuspec" />

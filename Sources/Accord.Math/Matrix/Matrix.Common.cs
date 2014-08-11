@@ -627,9 +627,14 @@ namespace Accord.Math
         /// <returns>The transpose of the given tensor.</returns>
         /// 
         public static T Transpose<T>(this T array, int[] order)
-            where T : class, ICloneable, IList, IStructuralComparable, IStructuralEquatable
+            where T : class, ICloneable, IList
         {
-            return transpose(array as Array, order) as T;
+            Array arr = array as Array;
+
+            if (arr == null)
+                throw new ArgumentException("The given object must inherit from System.Array.", "array");
+
+            return transpose(arr, order) as T;
         }
 
         private static Array transpose(Array array, int[] order)
