@@ -52,6 +52,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 // This machine has a fixed input vector size
                 for (int i = 0; i < inputs.Length; i++)
                 {
+                    if (inputs[i] == null)
+                    {
+                        throw new ArgumentNullException("inputs",
+                               "The input vector at index " + i + " is null.");
+                    }
+
                     if (inputs[i].Length != machine.Inputs)
                     {
                         throw new DimensionMismatchException("inputs",

@@ -604,6 +604,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
             for (int i = 0; i < inputs.Length; i++)
             {
+                if (inputs[i] == null)
+                {
+                    throw new ArgumentNullException("inputs",
+                        "The input vector at index " + i + " is null.");
+                }
+
                 if (inputs[i].Length != tree.InputCount)
                 {
                     throw new DimensionMismatchException("inputs", "The size of the input vector at index "
