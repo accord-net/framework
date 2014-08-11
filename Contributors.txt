@@ -1,0 +1,21 @@
+ The Accord.NET Framework 
+ http://accord-framework.net
+
+
+ This project has been the result of years of work, in which several
+ contributors, including engineers, researchers and hobbyists alike
+ decided to share their work and contribute to its development. The 
+ space below enlists a few of those people who either agreed to help
+ or actively participated on its development:
+
+
+  - Anders Gustafsson 
+  - Antonino Porcino 
+  - Antonis Kalapodis 
+  - Andrew Kirillov
+  - Darko Juric 
+  - Marcos Diego Catalano
+  - Max Bügler
+  - Mathias Brandewinder
+  - Peter Sergio Larsen 
+  - Remy Disp
