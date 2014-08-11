@@ -115,6 +115,7 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   
     ///   double mean = normal.Mean;     // 4.0
     ///   double median = normal.Median; // 4.0
+    ///   double mode = normal.Mode;     // 4.0
     ///   double var = normal.Variance;  // 17.64
     ///   
     ///   double cdf = normal.DistributionFunction(x: 1.4);           // 0.26794249453351904
@@ -130,6 +131,9 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   string str = normal.ToString(CultureInfo.InvariantCulture); // N(x; μ = 4, σ² = 17.64)
     /// </code>
     /// </example>
+    /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.SkewNormalDistribution"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Multivariate.MultivariateNormalDistribution"/>
     /// 
     /// <seealso cref="Accord.Statistics.Testing.ZTest"/>
     /// <seealso cref="Accord.Statistics.Testing.TTest"/>
@@ -266,6 +270,26 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the skewness for this distribution. In 
+        ///   the Normal distribution, this is always 0.
+        /// </summary>
+        /// 
+        public double Skewness
+        {
+            get { return 0; }
+        }
+
+        /// <summary>
+        ///   Gets the excess kurtosis for this distribution. 
+        ///   In the Normal distribution, this is always 0.
+        /// </summary>
+        /// 
+        public double Kurtosis
+        {
+            get { return 0; }
+        }
+
+        /// <summary>
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
@@ -328,16 +352,24 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            double z = (x - mean) / stdDev;
-            double cdf = Special.Erfc(-z / Constants.Sqrt2) * 0.5;
-
-            /*
-                // For a normal distribution with zero variance, the cdf is the Heaviside
-                // step function (Wikipedia, http://en.wikipedia.org/wiki/Normal_distribution)
-                return (x >= mean) ? 1.0 : 0.0;
-            */
+            double cdf = Normal.Function((x - mean) / stdDev);
 
             return cdf;
+        }
+
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        public override double ComplementaryDistributionFunction(double x)
+        {
+            double ccdf = Normal.Complemented((x - mean) / stdDev);
+
+            return ccdf;
         }
 
 
@@ -406,16 +438,6 @@ namespace Accord.Statistics.Distributions.Univariate
             double lnp = lnconstant - z * z * 0.5;
 
             return Math.Exp(lnp);
-
-            /*
-                 // In the case the variance is zero, return the weak limit function 
-                 // of the sequence of Gaussian functions with variance towards zero.
-
-                 // In this case, the pdf can be seen as a Dirac delta function
-                 // (Wikipedia, http://en.wikipedia.org/wiki/Dirac_delta_function).
-
-                 return (x == mean) ? Double.PositiveInfinity : 0.0;
-             */
         }
 
         /// <summary>
@@ -503,7 +525,8 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public void Fit(double[] observations, double[] weights, NormalOptions options)
         {
-            if (immutable) throw new InvalidOperationException();
+            if (immutable) 
+                throw new InvalidOperationException("NormalDistribution.Standard is immutable.");
 
             double mu, var;
 
@@ -539,7 +562,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     var = regularization;
             }
 
-            if (var <= 0)
+            if (Double.IsNaN(var) || var <= 0)
             {
                 throw new ArgumentException("Variance is zero. Try specifying "
                     + "a regularization constant in the fitting options.");

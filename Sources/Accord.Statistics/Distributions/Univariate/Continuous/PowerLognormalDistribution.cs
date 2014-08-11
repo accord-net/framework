@@ -24,14 +24,44 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using AForge;
 
     /// <summary>
     ///   Power Lognormal distribution.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366e.htm">
+    ///       NIST/SEMATECH e-Handbook of Statistical Methods. Power Lognormal distribution. Available on: 
+    ///       http://www.itl.nist.gov/div898/handbook/eda/section3/eda366e.htm </a></description></item>
+    ///   </list></para> 
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   This example shows how to create a Power Lognormal 
+    ///   distribution and compute some of its properties.</para>
+    ///   
+    /// <code>
+    /// // Create a Power-Lognormal distribution with p = 4.2 and s = 1.2
+    /// var plog = new PowerLognormalDistribution(power: 4.2, shape: 1.2);
+    /// 
+    /// double cdf = plog.DistributionFunction(x: 1.4); // 0.98092157745191766
+    /// double pdf = plog.ProbabilityDensityFunction(x: 1.4); // 0.046958580233533977
+    /// double lpdf = plog.LogProbabilityDensityFunction(x: 1.4); // -3.0584893374471496
+    /// 
+    /// double ccdf = plog.ComplementaryDistributionFunction(x: 1.4); // 0.019078422548082351
+    /// double icdf = plog.InverseDistributionFunction(p: cdf); // 1.4
+    /// 
+    /// double hf = plog.HazardFunction(x: 1.4); // 10.337649063164642
+    /// double chf = plog.CumulativeHazardFunction(x: 1.4); // 3.9591972920568446
+    /// 
+    /// string str = plog.ToString(CultureInfo.InvariantCulture); // PLD(x; p = 4.2, σ = 1.2)
+    /// </code>
+    /// </example>
     /// 
     [Serializable]
     public class PowerLognormalDistribution : UnivariateContinuousDistribution
@@ -287,7 +317,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "PLD(x; p = {0}, σ = {1})", 
+            return String.Format(formatProvider, "PLD(x; p = {0}, σ = {1})",
                 power, sigma);
         }
 

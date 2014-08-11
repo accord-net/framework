@@ -33,37 +33,36 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   Power Normal distribution.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366d.htm">
+    ///       NIST/SEMATECH e-Handbook of Statistical Methods. Power Normal distribution. Available on: 
+    ///       http://www.itl.nist.gov/div898/handbook/eda/section3/eda366d.htm </a></description></item>
+    ///   </list></para> 
+    /// </remarks>
+    /// 
     /// <example>
     /// <para>
     ///   This example shows how to create a Power Normal distribution
     ///   and compute some of its properties.</para>
     ///   
     /// <code>
-    /// var dist = new DegenerateDistribution(value: 2);
+    /// // Create a new Power-Normal distribution with p = 4.2
+    /// var pnormal = new PowerNormalDistribution(power: 4.2);
     /// 
-    /// double mean = dist.Mean;     // 2
-    /// double median = dist.Median; // 2
-    /// double mode = dist.Mode;     // 2
-    /// double var = dist.Variance;  // 1
+    /// double cdf = pnormal.DistributionFunction(x: 1.4); // 0.99997428721920678
+    /// double pdf = pnormal.ProbabilityDensityFunction(x: 1.4); // 0.00020022645890003279
+    /// double lpdf = pnormal.LogProbabilityDensityFunction(x: 1.4); // -0.20543269836728234
     /// 
-    /// double cdf1 = dist.DistributionFunction(k: 1);    // 0
-    /// double cdf2 = dist.DistributionFunction(k: 2);   // 1
+    /// double ccdf = pnormal.ComplementaryDistributionFunction(x: 1.4); // 0.000025712780793218926
+    /// double icdf = pnormal.InverseDistributionFunction(p: cdf); // 1.3999999999998953
     /// 
-    /// double pdf1 = dist.ProbabilityMassFunction(k: 1); // 0
-    /// double pdf2 = dist.ProbabilityMassFunction(k: 2); // 1
-    /// double pdf3 = dist.ProbabilityMassFunction(k: 3); // 0
+    /// double hf = pnormal.HazardFunction(x: 1.4); // 7.7870402470368854
+    /// double chf = pnormal.CumulativeHazardFunction(x: 1.4); // 10.568522382550167
     /// 
-    /// double lpdf = dist.LogProbabilityMassFunction(k: 2); // 0
-    /// double ccdf = dist.ComplementaryDistributionFunction(k: 2); // 0.0
-    /// 
-    /// int icdf1 = dist.InverseDistributionFunction(p: 0.0); // 3
-    /// int icdf2 = dist.InverseDistributionFunction(p: 0.5); // 3
-    /// int icdf3 = dist.InverseDistributionFunction(p: 1.0); // 2
-    /// 
-    /// double hf = dist.HazardFunction(x: 0); // 0.0
-    /// double chf = dist.CumulativeHazardFunction(x: 0); // 0.0
-    /// 
-    /// string str = dist.ToString(CultureInfo.InvariantCulture); // Degenerate(x; k0 = 2)
+    /// string str = pnormal.ToString(); // PND(x; p = 4.2)
     /// </code>
     /// </example>
     /// 
@@ -181,7 +180,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            return 1.0 - Math.Pow(Normal.Function(-x), power);
+            double phi = Normal.Function(-x);
+            return 1.0 - Math.Pow(phi, power);
         }
 
         /// <summary>
@@ -225,7 +225,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public override double ProbabilityDensityFunction(double x)
         {
-            return power * Normal.Derivative(x) * Math.Pow(Normal.Function(-x), power - 1);
+            double pdf = Normal.Derivative(x);
+            double cdf = Normal.Function(-x);
+            return power * pdf * Math.Pow(cdf, power - 1);
         }
 
         /// <summary>

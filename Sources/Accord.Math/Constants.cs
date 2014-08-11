@@ -171,14 +171,14 @@ namespace Accord.Math
         public const double Log3 = 1.098612288668109691395;
 
         /// <summary>
-        ///   Log of square root of twice number pi: log(sqrt(2*π).
+        ///   Log of square root of twice number pi: sqrt(log(2*π).
         /// </summary>
         /// 
         /// <remarks>
-        ///   This constant has the value 0.91893853320467.
+        ///   This constant has the value 0.91893853320467274178032973640562.
         /// </remarks>
         /// 
-        public const double LogSqrt2PI = 0.91893853320467;
+        public const double LogSqrt2PI = 0.91893853320467274178032973640562;
 
         /// <summary>
         ///   Log of twice number pi: log(2*pi).
