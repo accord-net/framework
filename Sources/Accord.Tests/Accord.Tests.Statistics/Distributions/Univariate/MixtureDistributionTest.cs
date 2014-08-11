@@ -99,7 +99,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-1.8165661905848629, lpmf);
             Assert.AreEqual(0.40541978256972522, hf);
             Assert.AreEqual(0.40102402446505092, ccdf);
-            Assert.AreEqual(1.5866611690305095, icdf1);
+            Assert.AreEqual(1.5866611690305092, icdf1);
             Assert.AreEqual(3.1968506765456883, icdf2);
             Assert.AreEqual(5.6437596300843076, icdf3);
             Assert.AreEqual("Mixture(x; 0.5*N(x; μ = 5, σ² = 1) + 0.5*N(x; μ = 5, σ² = 1))", str);

@@ -56,22 +56,22 @@ namespace Accord.Tests.Statistics
             var plog = new PowerLognormalDistribution(power: 4.2, shape: 1.2);
 
             double cdf = plog.DistributionFunction(x: 1.4); // 0.98092157745191766
-            double pdf = plog.ProbabilityDensityFunction(x: 1.4); // 0.29504946136935367
-            double lpdf = plog.LogProbabilityDensityFunction(x: 1.4); // -1.2206122710378069
+            double pdf = plog.ProbabilityDensityFunction(x: 1.4); // 0.046958580233533977
+            double lpdf = plog.LogProbabilityDensityFunction(x: 1.4); // -3.0584893374471496
 
             double ccdf = plog.ComplementaryDistributionFunction(x: 1.4); // 0.019078422548082351
             double icdf = plog.InverseDistributionFunction(p: cdf); // 1.4
 
-            double hf = plog.HazardFunction(x: 1.4); // 64.953364704454728
+            double hf = plog.HazardFunction(x: 1.4); // 10.337649063164642
             double chf = plog.CumulativeHazardFunction(x: 1.4); // 3.9591972920568446
 
             string str = plog.ToString(CultureInfo.InvariantCulture); // PLD(x; p = 4.2, σ = 1.2)
 
             Assert.AreEqual(3.9591972920568446, chf);
             Assert.AreEqual(0.98092157745191766, cdf);
-            Assert.AreEqual(0.29504946136935367, pdf);
-            Assert.AreEqual(-1.2206122710378069, lpdf);
-            Assert.AreEqual(64.953364704454728, hf);
+            Assert.AreEqual(0.046958580233533977, pdf);
+            Assert.AreEqual(-3.0584893374471496, lpdf);
+            Assert.AreEqual(10.337649063164642, hf);
             Assert.AreEqual(0.019078422548082351, ccdf);
             Assert.AreEqual(1.4000000000000001, icdf);
             Assert.AreEqual("PLD(x; p = 4.2, σ = 1.2)", str);

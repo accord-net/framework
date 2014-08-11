@@ -91,6 +91,7 @@
     <Compile Include="Accord.Vision.cs" />
     <Compile Include="Accord.Controls.cs" />
     <Compile Include="Accord.IO.cs" />
+    <Compile Include="Accord.Controls.Vision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

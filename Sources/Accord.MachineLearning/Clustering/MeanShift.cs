@@ -340,11 +340,6 @@ namespace Accord.MachineLearning
                 // compute the shifted mean 
                 computeMeanShift(point, mean);
 
-                // check if the mean is locked at zero
-                // if it is, stop moving this centroid
-                if (mean.IsEqual(0))
-                    break;
-
                 // extract the mean shift vector
                 for (int j = 0; j < mean.Length; j++)
                     delta[j] = point[j] - mean[j];

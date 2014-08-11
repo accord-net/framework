@@ -22,12 +22,12 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
+    using Accord.Statistics;
+    using Accord.Statistics.Distributions.Multivariate;
+    using Accord.Statistics.Distributions.Univariate;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class NormalDistributionTest
@@ -57,6 +57,7 @@ namespace Accord.Tests.Statistics
 
             double mean = normal.Mean;     // 4.0
             double median = normal.Median; // 4.0
+            double mode = normal.Mode;     // 4.0
             double var = normal.Variance;  // 17.64
 
             double cdf = normal.DistributionFunction(x: 1.4); // 0.26794249453351904
@@ -73,6 +74,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(4.0, mean);
             Assert.AreEqual(4.0, median);
+            Assert.AreEqual(4.0, mode);
             Assert.AreEqual(17.64, var);
             Assert.AreEqual(0.31189620872601354, chf);
             Assert.AreEqual(0.26794249453351904, cdf);
@@ -82,6 +84,10 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.732057505466481, ccdf);
             Assert.AreEqual(1.4, icdf);
             Assert.AreEqual("N(x; μ = 4, σ² = 17.64)", str);
+
+            Assert.AreEqual(Accord.Math.Normal.Function(normal.ZScore(4.2)), normal.DistributionFunction(4.2));
+            Assert.AreEqual(Accord.Math.Normal.Derivative(normal.ZScore(4.2)) / normal.StandardDeviation, normal.ProbabilityDensityFunction(4.2), 1e-16);
+            Assert.AreEqual(Accord.Math.Normal.LogDerivative(normal.ZScore(4.2)) - Math.Log(normal.StandardDeviation), normal.LogProbabilityDensityFunction(4.2), 1e-15);
         }
 
         [TestMethod()]
@@ -223,7 +229,7 @@ namespace Accord.Tests.Statistics
 
             NormalDistribution target = new NormalDistribution(mean, dev);
 
-            MultivariateNormalDistribution multi = 
+            MultivariateNormalDistribution multi =
                 target.ToMultivariateDistribution();
 
             Assert.AreEqual(target.Mean, multi.Mean[0]);
@@ -270,6 +276,33 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-15);
         }
 
+        [TestMethod()]
+        public void StandardDensityFunctionTest()
+        {
+            for (int i = -100; i < 100; i++)
+            {
+                double x = i / 100.0;
+
+                double expected = Accord.Math.Normal.Derivative(x);
+                double actual = NormalDistribution.Standard.ProbabilityDensityFunction(x);
+
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod()]
+        public void LogStandardDensityFunctionTest()
+        {
+            for (int i = -100; i < 100; i++)
+            {
+                double x = i / 100.0;
+
+                double expected = Accord.Math.Normal.LogDerivative(x);
+                double actual = NormalDistribution.Standard.LogProbabilityDensityFunction(x);
+
+                Assert.AreEqual(expected, actual);
+            }
+        }
 
         [TestMethod()]
         public void DistributionFunctionTest()
@@ -399,6 +432,19 @@ namespace Accord.Tests.Statistics
             NormalDistribution target = new NormalDistribution(0.4, 2.2);
 
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
+        }
+
+
+        [TestMethod()]
+        public void EstimateTest()
+        {
+            double[] values = { 1 };
+
+            bool thrown = false;
+            try { NormalDistribution.Estimate(values); }
+            catch (ArgumentException) { thrown = true; }
+
+            Assert.IsTrue(thrown);
         }
     }
 }

@@ -20,51 +20,27 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord
+namespace Accord.Controls.Vision
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Accord.Audio;
-    using Accord.Audition;
-    using Accord.Controls;
-    using Accord.DirectSound;
-    using Accord.Imaging;
-    using Accord.IO;
-    using Accord.MachineLearning;
-    using Accord.Math;
-    using Accord.Neuro;
-    using Accord.Statistics;
-    using Accord.Vision;
     using System.Runtime.CompilerServices;
-
+    using System.Windows.Forms;
+    using Accord.Controls;
+   
     /// <summary>
-    ///   Contains common classes, such as exceptions, events
-    ///   and framework infrastructure classes.
+    ///   Windows Forms components and controls to track head, face and hand
+    ///   movements and other computer vision related tasks.
     /// </summary>
     /// 
     /// <remarks>
-    /// 
     /// <para>
-    ///   The root namespace class diagram is shown below. </para>
+    ///   The namespace class diagram is shown below. </para>
+    ///   <img src="..\diagrams\classes\Accord.Controls.Vision.png" />
     ///   
-    ///   <img src="..\diagrams\classes\Accord.Core.png" />
     /// </remarks>
     /// 
-    /// <seealso cref="Accord.Audio"/>
-    /// <seealso cref="Accord.Audition"/>
     /// <seealso cref="Accord.Controls"/>
-    /// <seealso cref="Accord.DirectSound"/>
-    /// <seealso cref="Accord.Imaging"/>
-    /// <seealso cref="Accord.IO"/>
-    /// <seealso cref="Accord.MachineLearning"/>
-    /// <seealso cref="Accord.Math"/>
-    /// <seealso cref="Accord.Neuro"/>
-    /// <seealso cref="Accord.Statistics"/>
     /// <seealso cref="Accord.Vision"/>
-    ///
+    /// 
     [CompilerGenerated]
     class NamespaceDoc
     {

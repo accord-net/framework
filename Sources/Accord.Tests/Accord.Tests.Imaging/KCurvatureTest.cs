@@ -20,23 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Math.Geometry;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AForge;
-using System.Collections.Generic;
-using AForge.Imaging.Filters;
-using Accord.Controls.Imaging;
-using AForge.Imaging;
-using Accord.Imaging;
-using Accord.Imaging.Filters;
-using System.Drawing;
-using System.Windows.Forms;
-using System;
-using System.Drawing.Imaging;
-using Accord.Controls;
-
 namespace Accord.Tests.Imaging
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Windows.Forms;
+    using Accord.Controls;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
+    using Accord.Math.Geometry;
+    using AForge;
+    using AForge.Imaging.Filters;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class KCurvatureTest

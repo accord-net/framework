@@ -20,22 +20,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accord.Math;
-using System.Drawing;
-
-using Tools = Accord.Imaging.Tools;
-using Accord.Controls;
-using System.Windows.Forms;
-using System.Drawing.Imaging;
-using AForge;
 using System.Collections.Generic;
-using Accord.Controls.Imaging;
-using System;
+using System.Drawing;
+using Accord.Imaging;
 using Accord.Imaging.Filters;
+using AForge;
 using AForge.Imaging;
 using AForge.Imaging.Filters;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Accord.Tests.Imaging
 {

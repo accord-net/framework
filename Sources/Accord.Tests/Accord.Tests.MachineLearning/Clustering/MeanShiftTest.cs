@@ -23,9 +23,9 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
     using Accord.Statistics.Distributions.DensityKernels;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class MeanShiftTest

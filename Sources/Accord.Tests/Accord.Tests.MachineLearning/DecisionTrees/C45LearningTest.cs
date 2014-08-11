@@ -453,6 +453,37 @@ namespace Accord.Tests.MachineLearning
         }
 
         [TestMethod]
+        public void ArgumentCheck1()
+        {
+            double[][] samples =
+            {
+                new [] { 0, 2, 4.0 },
+                new [] { 1, 5, 2.0 },
+                null,
+                new [] { 1, 5, 6.0 },
+            };
+
+            int[] outputs = 
+            {
+                1, 1, 0, 0
+            };
+
+            DecisionVariable[] vars = new DecisionVariable[3];
+            for (int i = 0; i < vars.Length; i++)
+                vars[i] = DecisionVariable.Continuous(i.ToString());
+
+            DecisionTree tree = new DecisionTree(vars, 2);
+            var teacher = new C45Learning(tree);
+
+            bool thrown = false;
+
+            try { double error = teacher.Run(samples, outputs); }
+            catch (ArgumentNullException ) { thrown = true; }
+
+            Assert.IsTrue(thrown);
+        }
+
+        [TestMethod]
         public void IrisDatasetTest()
         {
             string[][] text = Resources.iris_data.Split(

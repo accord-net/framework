@@ -123,13 +123,15 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Boosting\Accord.MachineLearning.Boosting.cs" />
     <Compile Include="Boosting\AdaBoost.cs" />
     <Compile Include="BagOfWords.cs" />
     <Compile Include="Bayes\NaiveBayes`1.cs" />
     <Compile Include="Boosting\Boost.cs" />
-    <Compile Include="Boosting\Classifiers\Weak.cs" />
-    <Compile Include="Boosting\Classifiers\IWeakClassifier.cs" />
-    <Compile Include="Boosting\Classifiers\DecisionStump.cs" />
+    <Compile Include="Boosting\Learners\Accord.MachineLearning.Boosting.Learners.cs" />
+    <Compile Include="Boosting\Learners\Weak.cs" />
+    <Compile Include="Boosting\Learners\IWeakClassifier.cs" />
+    <Compile Include="Boosting\Learners\DecisionStump.cs" />
     <Compile Include="Clustering\BinarySplit.cs" />
     <Compile Include="Clustering\GaussianCluster.cs" />
     <Compile Include="Clustering\MeanShiftCluster.cs" />
@@ -162,6 +164,7 @@
     <Compile Include="EarlyStopping.cs" />
     <Compile Include="GridSearchRange.cs" />
     <Compile Include="GridSearchParameter.cs" />
+    <Compile Include="Performance\CrossValidation\CrossValidationValues`1.cs" />
     <Compile Include="Performance\CrossValidation\CrossValidationResult`1.cs" />
     <Compile Include="Performance\CrossValidation\CrossValidationValues.cs" />
     <Compile Include="Performance\CrossValidation\CrossValidationStatistics.cs" />

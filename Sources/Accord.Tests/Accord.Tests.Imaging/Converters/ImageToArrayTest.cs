@@ -23,15 +23,12 @@
 namespace Accord.Tests.Imaging
 {
     using System.Drawing;
+    using System.Drawing.Imaging;
     using Accord.Imaging.Converters;
     using Accord.Math;
+    using AForge.Imaging;
     using AForge.Imaging.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using AForge.Imaging;
-    using Accord.Controls.Imaging;
-    using Accord.Statistics.Distributions.Multivariate;
-    using Accord.Statistics.Distributions.Fitting;
-    using System.Drawing.Imaging;
 
     [TestClass()]
     public class ImageToArrayTest

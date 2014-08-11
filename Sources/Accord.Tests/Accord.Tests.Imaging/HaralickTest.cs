@@ -22,17 +22,12 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Drawing;
-    using Accord.Imaging.Moments;
-    using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
+    using Accord.Imaging;
     using Accord.Imaging.Converters;
     using Accord.Math;
     using AForge.Imaging;
-    using Accord.Controls.Imaging;
-    using Accord.Imaging;
-    using System.Collections.Generic;
-
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class HaralickTest

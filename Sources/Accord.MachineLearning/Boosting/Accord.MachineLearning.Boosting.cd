@@ -6,9 +6,10 @@
       <Field Name="classifier" Hidden="true" />
       <Field Name="convergence" Hidden="true" />
       <Method Name="run" Hidden="true" />
+      <Field Name="threshold" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAQAAgACAAACAAAAAAAAAAIAAAAAAAAAAQAAAAAAAII=</HashCode>
+      <HashCode>AAQAAgACAAACAAAAAAAAAAIAAAAAACAAAQAgAAAAAII=</HashCode>
       <FileName>Boosting\AdaBoost.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -43,7 +44,7 @@
     </Members>
     <TypeIdentifier>
       <HashCode>AEAAAAAACAAAEBAAAAAQAAAAAAAAACAAAAEggAAAAAA=</HashCode>
-      <FileName>Boosting\Classifiers\Stump.cs</FileName>
+      <FileName>Boosting\Learners\DecisionStump.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -51,7 +52,7 @@
     <Position X="7.75" Y="1.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Boosting\Classifiers\IWeakClassifier.cs</FileName>
+      <FileName>Boosting\Learners\IWeakClassifier.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Delegate Name="Accord.MachineLearning.Boosting.ModelConstructor&lt;TModel&gt;">

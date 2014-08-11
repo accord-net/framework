@@ -22,19 +22,14 @@
 
 namespace Accord.Tests.Imaging
 {
-
-    using Accord.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using AForge.Imaging;
-    using AForge;
     using System.Collections.Generic;
     using System.Drawing;
-    using Accord.Controls;
     using System.Windows.Forms;
+    using Accord.Controls;
+    using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Tests.Imaging.Properties;
-    using Accord.Math;
-    using Accord.Controls.Imaging;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class SpeededUpRobustFeaturesDetectorTest

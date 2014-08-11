@@ -195,6 +195,7 @@
     <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\SkewNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GumbelDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TukeyLambdaDistribution.cs" />
@@ -319,6 +320,8 @@
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
+    <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
+    <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />
     <Compile Include="Running\IRunning`1.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />

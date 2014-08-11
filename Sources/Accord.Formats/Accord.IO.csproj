@@ -143,6 +143,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accord.IO.cd" />
     <None Include="Accord.snk" />
   </ItemGroup>
   <ItemGroup>

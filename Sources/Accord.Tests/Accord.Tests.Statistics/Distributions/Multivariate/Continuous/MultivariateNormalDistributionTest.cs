@@ -144,7 +144,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.35588127170858852, pdf2);
             Assert.AreEqual(0.000000000036520107734505265, pdf3);
             Assert.AreEqual(-24.033158110192296, lpdf);
-            Assert.AreEqual(0.033944035782101548, cdf);
+            Assert.AreEqual(0.033944035782101534, cdf);
         }
 
         [TestMethod()]

@@ -24,15 +24,13 @@ namespace Accord.Tests.Imaging
 {
     using System.Collections.Generic;
     using System.Drawing;
-    using System.Windows.Forms;
-    using Accord.Controls.Imaging;
+    using System.Drawing.Imaging;
     using Accord.Imaging.Converters;
+    using Accord.Math;
     using AForge;
     using AForge.Imaging;
-    using Accord.Math;
     using AForge.Imaging.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Drawing.Imaging;
 
     [TestClass()]
     public class ImageToMatrixTest

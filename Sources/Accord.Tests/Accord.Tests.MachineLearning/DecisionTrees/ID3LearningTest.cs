@@ -22,7 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
     using System.Data;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
@@ -30,7 +29,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Tests.MachineLearning.Properties;
+    using System;
 
     [TestClass()]
     public class ID3LearningTest
@@ -435,6 +434,36 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
+        [TestMethod]
+        public void ArgumentCheck1()
+        {
+            int[][] samples =
+            {
+                new [] { 0, 2, 4 },
+                new [] { 1, 5, 2 },
+                null,
+                new [] { 1, 5, 6 },
+            };
+
+            int[] outputs = 
+            {
+                1, 1, 0, 0
+            };
+
+            DecisionVariable[] vars = new DecisionVariable[3];
+            for (int i = 0; i < vars.Length; i++)
+                vars[i] = DecisionVariable.Discrete(i.ToString(), new IntRange(0, 10));
+
+            DecisionTree tree = new DecisionTree(vars, 2);
+            ID3Learning teacher = new ID3Learning(tree);
+
+            bool thrown = false;
+
+            try { double error = teacher.Run(samples, outputs); }
+            catch (ArgumentNullException) { thrown = true; }
+
+            Assert.IsTrue(thrown);
+        }
 
         [TestMethod]
         public void ConsistencyTest1()

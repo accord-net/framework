@@ -120,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\OwensTTest.cs" />
     <Compile Include="Integration\IntegralTest.cs" />
     <Compile Include="Convergence\AbsoluteConvergenceTest.cs" />
     <Compile Include="Comparers\ElementComparerTest.cs" />

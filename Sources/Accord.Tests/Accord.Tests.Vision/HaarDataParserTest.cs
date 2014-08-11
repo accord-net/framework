@@ -22,21 +22,12 @@
 
 namespace Accord.Tests.Vision
 {
-    using Accord.Vision.Detection;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Xml;
     using System.IO;
-    using System.Xml.Serialization;
-    using System.Drawing;
-    using Accord.Imaging.Filters;
-    using Accord.Controls.Imaging;
+    using Accord.Vision.Detection;
     using Accord.Vision.Detection.Cascades;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 
-    /// <summary>
-    ///This is a test class for HaarDataParserTest and is intended
-    ///to contain all HaarDataParserTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class HaarDataParserTest
     {
@@ -44,10 +35,6 @@ namespace Accord.Tests.Vision
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
