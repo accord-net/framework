@@ -25,24 +25,65 @@ namespace Accord.MachineLearning
     using System;
 
     /// <summary>
-    ///   Information class to store the training and validation errors of a model. 
+    ///   Training and validation errors of a model. 
     /// </summary>
     /// 
+    /// <typeparam name="TModel">The type of the model.</typeparam>
+    /// 
     [Serializable]
-    public class CrossValidationValues : CrossValidationValues<object>
+    public class CrossValidationValues<TModel> 
+        where TModel : class
     {
 
         /// <summary>
+        ///   Gets the model.
+        /// </summary>
+        /// 
+        public TModel Model { get; private set; }
+
+        /// <summary>
+        ///   Gets the validation value for the model.
+        /// </summary>
+        /// 
+        public double ValidationValue { get; private set; }
+
+        /// <summary>
+        ///   Gets the variance of the validation 
+        ///   value for the model, if available.
+        /// </summary>
+        /// 
+        public double ValidationVariance { get; private set; }
+
+        /// <summary>
+        ///   Gets the training value for the model.
+        /// </summary>
+        /// 
+        public double TrainingValue { get; private set; }
+
+        /// <summary>
+        ///   Gets the variance of the training 
+        ///   value for the model, if available.
+        /// </summary>
+        /// 
+        public double TrainingVariance { get; private set; }
+
+        /// <summary>
+        ///   Gets or sets a tag for user-defined information.
+        /// </summary>
+        /// 
+        public object Tag { get; set; }
+
+        /// <summary>
         ///   Creates a new Cross-Validation Values class.
         /// </summary>
         /// 
         /// <param name="trainingValue">The training value for the model.</param>
         /// <param name="validationValue">The validation value for the model.</param>
         /// 
-        public CrossValidationValues(
-            double trainingValue, double validationValue)
-            : base(trainingValue, validationValue)
+        public CrossValidationValues(double trainingValue, double validationValue)
         {
+            this.TrainingValue = trainingValue;
+            this.ValidationValue = validationValue;
         }
 
         /// <summary>
@@ -57,8 +98,12 @@ namespace Accord.MachineLearning
         public CrossValidationValues(
             double trainingValue, double trainingVariance,
             double validationValue, double validationVariance)
-            : base(trainingValue, trainingVariance, validationValue, validationVariance)
         {
+            this.TrainingValue = trainingValue;
+            this.ValidationValue = validationValue;
+
+            this.TrainingVariance = trainingVariance;
+            this.ValidationVariance = validationVariance;
         }
 
         /// <summary>
@@ -69,10 +114,10 @@ namespace Accord.MachineLearning
         /// <param name="trainingValue">The training value for the model.</param>
         /// <param name="validationValue">The validation value for the model.</param>
         /// 
-        public CrossValidationValues(object model,
-            double trainingValue, double validationValue)
-            : base(model, trainingValue, validationValue)
+        public CrossValidationValues(TModel model, double trainingValue, double validationValue)
+            : this(trainingValue, validationValue)
         {
+            this.Model = model;
         }
 
         /// <summary>
@@ -85,43 +130,14 @@ namespace Accord.MachineLearning
         /// <param name="trainingVariance">The variance of the training values.</param>
         /// <param name="validationVariance">The variance of the validation values.</param>
         /// 
-        public CrossValidationValues(object model,
+        public CrossValidationValues(TModel model,
             double trainingValue, double trainingVariance,
             double validationValue, double validationVariance)
-            : base(model, trainingValue, trainingVariance, validationValue, validationVariance)
+            : this(trainingValue, trainingVariance, validationValue, validationVariance)
         {
+            this.Model = model;
         }
 
-        /// <summary>
-        ///   Creates a new Cross-Validation Values class.
-        /// </summary>
-        /// 
-        /// <param name="model">The fitted model.</param>
-        /// <param name="trainingValue">The training value for the model.</param>
-        /// <param name="validationValue">The validation value for the model.</param>
-        /// <param name="trainingVariance">The variance of the training values.</param>
-        /// <param name="validationVariance">The variance of the validation values.</param>
-        /// 
-        public static CrossValidationValues<TModel> Create<TModel>(TModel model,
-            double trainingValue, double trainingVariance,
-            double validationValue, double validationVariance) where TModel : class
-        {
-            return new CrossValidationValues<TModel>(model, trainingValue, trainingVariance, validationValue, validationVariance);
-        }
-
-        /// <summary>
-        ///   Creates a new Cross-Validation Values class.
-        /// </summary>
-        /// 
-        /// <param name="model">The fitted model.</param>
-        /// <param name="trainingValue">The training value for the model.</param>
-        /// <param name="trainingVariance">The variance of the training values.</param>
-        /// 
-        public static CrossValidationValues<TModel> Create<TModel>(TModel model,
-            double trainingValue, double trainingVariance) where TModel : class
-        {
-            return new CrossValidationValues<TModel>(model, trainingValue, trainingVariance);
-        }
     }
 
 }
