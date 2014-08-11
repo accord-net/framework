@@ -97,12 +97,17 @@ namespace Accord.Math
         /// 
         public static double Function(double value)
         {
-            return 0.5 * Special.Erfc(-value / Constants.Sqrt2);
+            return 0.5 + 0.5 * Special.Erf(value / Constants.Sqrt2);
         }
 
         /// <summary>
         ///   Complemented cumulative distribution function.
         /// </summary>
+        /// 
+        /// <returns>
+        ///   The area under the Gaussian p.d.f. integrated
+        ///   from the given value to positive infinity.
+        /// </returns>
         /// 
         public static double Complemented(double value)
         {
@@ -584,7 +589,7 @@ namespace Accord.Math
         /// 
         public static double Derivative(double value)
         {
-            return Math.Exp(Constants.LogSqrt2PI - value * value * 0.5);
+            return Math.Exp(-Constants.LogSqrt2PI - value * value * 0.5);
         }
 
         /// <summary>
@@ -594,7 +599,7 @@ namespace Accord.Math
         /// 
         public static double LogDerivative(double value)
         {
-            return Constants.LogSqrt2PI - value * value * 0.5;
+            return -Constants.LogSqrt2PI - value * value * 0.5;
         }
     }
 }

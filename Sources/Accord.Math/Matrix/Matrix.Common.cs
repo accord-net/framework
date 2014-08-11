@@ -26,6 +26,7 @@ namespace Accord.Math
     using Accord.Math.Decompositions;
     using Accord.Math.Comparers;
     using System.Collections.Generic;
+    using System.Collections;
 
     public static partial class Matrix
     {
@@ -613,6 +614,26 @@ namespace Accord.Math
         /// 
         public static Array Transpose(this Array array, int[] order)
         {
+            return transpose(array, order);
+        }
+      
+        /// <summary>
+        ///   Gets the generalized transpose of a tensor.
+        /// </summary>
+        /// 
+        /// <param name="array">A tensor.</param>
+        /// <param name="order">The new order for the tensor's dimensions.</param>
+        /// 
+        /// <returns>The transpose of the given tensor.</returns>
+        /// 
+        public static T Transpose<T>(this T array, int[] order)
+            where T : class, ICloneable, IList, IStructuralComparable, IStructuralEquatable
+        {
+            return transpose(array as Array, order) as T;
+        }
+
+        private static Array transpose(Array array, int[] order)
+        {
             // Get the number of samples at each dimension
             int[] size = new int[array.Rank];
             for (int i = 0; i < size.Length; i++)
@@ -631,19 +652,6 @@ namespace Accord.Math
             return r;
         }
 
-        /// <summary>
-        ///   Gets the generalized transpose of a tensor.
-        /// </summary>
-        /// 
-        /// <param name="array">A tensor.</param>
-        /// <param name="order">The new order for the tensor's dimensions.</param>
-        /// 
-        /// <returns>The transpose of the given tensor.</returns>
-        /// 
-        public static T Transpose<T>(this T array, int[] order)
-        {
-            return (T)Transpose(array, order);
-        }
         #endregion
 
 
