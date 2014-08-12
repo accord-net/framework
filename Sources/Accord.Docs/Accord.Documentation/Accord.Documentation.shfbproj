@@ -19,39 +19,40 @@
     <HtmlHelpName>Accord.NET</HtmlHelpName>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.Formats.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.Formats.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audition.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audition.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Audio.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Audio.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Imaging.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Imaging.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Vision.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Vision.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.DirectSound.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.DirectSound.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Imaging.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Imaging.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.IO.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.IO.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.MachineLearning.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.MachineLearning.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Math.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Math.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Neuro.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Neuro.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.dll" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.xml" />
-<DocumentationSource sourceFile="..\..\..\Release\net40\Accord.xml" />
-<DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.dll" />
-<DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.Formats.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.Formats.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audio.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audition.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Audition.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Audio.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Audio.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Imaging.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Imaging.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Vision.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.Vision.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Controls.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.DirectSound.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.DirectSound.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Imaging.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Imaging.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.IO.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.IO.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.MachineLearning.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.MachineLearning.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Math.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Math.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Neuro.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Neuro.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Statistics.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.dll" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.Vision.xml" />
+      <DocumentationSource sourceFile="..\..\..\Release\net40\Accord.xml" />
+      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.dll" />
+      <DocumentationSource sourceFile="..\Namespaces\bin\Release\Namespaces.xml" />
+    </DocumentationSources>
     <CopyrightText>Accord.NET Framework &amp;#169%3b 2009-2014. All documentation is licensed under the Creative Commons Attribution/Share-Alike License.</CopyrightText>
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
     <NamespaceSummaries>
@@ -62,7 +63,7 @@
 <NamespaceSummaryItem name="Accord.Audio.Generators" isDocumented="True">Contains specialized signal generators. Generate square signals, sinusoids, pulse and other filters for use in signal processing.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Audio.Windows" isDocumented="True">Contains audio window functions which can be used to split signals in time.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Math" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Math.Decompositions" isDocumented="True">Contains numerical decompositions such as QR, SVD, LU, Cholesky, and NMF with specialized definitions for most .NET data types: float, double, and decimals.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Accord.Math.Decompositions" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Audition.Beat" isDocumented="True">Contains beat detection algorithms and related methods.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Audition.Tempo" isDocumented="True">Contains tempo detection algorithms and related methods.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Controls" isDocumented="True" />
@@ -71,12 +72,12 @@
 <NamespaceSummaryItem name="Accord.Imaging" isDocumented="True">Contains Interest point detectors (i.e. Harris, SURF and FAST), image matching and image stitching methods.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Imaging.Filters" isDocumented="True">Contains the image processing filters such as the Wavelet transform, stereo rectification, image blending and point markers.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.MachineLearning" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines" isDocumented="True">Contains classes related to Support Vector Machines (SVMs). Contains linear machines, kernel machines, multi-class machines, SVM-DAGs (Directed Acyclic Graphs), multi-label classification and also offers support for the probabilistic output calibration of SVM outputs.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines.Learning" isDocumented="True">Contains algorithms for training Support Vector Machines (SVMs).</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Neuro" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Neuro.Learning" isDocumented="True">Contains neural network learning algorithms such as the Levenberg-Marquardt (LM) with Bayesian Regularization and the Resilient Backpropagation (RProp) for multi-layer networks. This namespace extends the AForge.Neuro namespace of the AForge.NET project.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Analysis" isDocumented="True">Contains many statistical analysis, such as PCA, LDA, KPCA, KDA, PLS, IDA, Logistic Regression and Stepwise Logistic Regression Analyses. Also contains performance assessment analysis such as contingency tables and ROC curves.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Accord.Statistics.Analysis" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Statistics.Distributions" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Statistics.Filters" isDocumented="True">Contains data processing filters, such as data normalization, discretization, equalization, selection and projection filters.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Kernels" isDocumented="True">Contains more than 30+ kernel functions for machine learning and statistical applications. Kernel functions are used in kernel methods such as the Support Vector Machine (SVM).</NamespaceSummaryItem>
@@ -113,13 +114,13 @@
 <NamespaceSummaryItem name="Accord.Math.Differentiation" isDocumented="True">Contains methods for the automatic differentiation of mathematical formulas, such as the Finite Differences method.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Math.Formats" isDocumented="True">Contains methods and classes to convert to and from various matrix formats, such as the formats used by Octave (MATLAB-compatible) and Mathematica.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Math.Geometry" isDocumented="True">Contains geometry-related classes. Can identify convex-hulls, detect curvatures and extract convexity defects. When used together with the Imaging and Vision namespaces, can create finger detection components.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Math.Optimization" isDocumented="True">Contains classes for constrained and unconstrained optimizaion. Includes Conjugate Gradient (CG), Broyden–Fletcher–Goldfarb–Shanno (BFGS), and the Goldfarb-Idnani solver for Quadratic Programming (QP) problems.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Accord.Math.Optimization" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Math.Wavelets" isDocumented="True">Contains Wavelet transforms such as the Cohen-Daubechies-Feauveau and the Haar Wavelet transforms.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Analysis.ContrastFunctions" isDocumented="True">Contains contrast functions to be used with Independent Component Analysis (ICA).</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Distributions.Fitting" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Statistics.Distributions.Multivariate" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Statistics.Distributions.Univariate" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Formats" isDocumented="True">Contains readers for specialized formats, such as LibSVM's sparse format and Microsoft (c) Excel formats.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Accord.Statistics.Formats" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Statistics.Kernels.Sparse" isDocumented="True">Contains kernel function able to deal with sparse data in LibSVM's format.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Links" isDocumented="True">Contains link functions for generalized linear models, such as the Logit, the Probit and Cauchit link functions.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Features" isDocumented="True">Contains CRF feature functions such as Emission, Transition, First and Second Moments features.</NamespaceSummaryItem>
@@ -226,7 +227,7 @@
     <MissingTags>AutoDocumentCtors, AutoDocumentDispose</MissingTags>
     <KeepLogFile>True</KeepLogFile>
     <RootNamespaceContainer>True</RootNamespaceContainer>
-    <RootNamespaceTitle>Namespaces</RootNamespaceTitle>
+    <RootNamespaceTitle>Accord.NET Namespaces</RootNamespaceTitle>
     <ApiFilter>
       <Filter entryType="Namespace" fullName="Accord.Music" isExposed="False" xmlns="" />
       <Filter entryType="Namespace" fullName="Accord.Music.Melody" isExposed="False" xmlns="" />
@@ -260,7 +261,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
-    <HelpFileVersion>2.10.0.0</HelpFileVersion>
+    <HelpFileVersion>2.13.0.0</HelpFileVersion>
     <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, SealedProtected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
@@ -674,6 +675,26 @@
     <Content Include="images\white-patch.png">
       <ImageId>white-patch</ImageId>
       <AlternateText>white-patch</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.IO.png">
+      <ImageId>Accord.IO</ImageId>
+      <AlternateText>Accord.IO</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Math.Comparers.png">
+      <ImageId>Accord.Math.Comparers</ImageId>
+      <AlternateText>Accord.Math.Comparers</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Math.Integration.png">
+      <ImageId>Accord.Math.Integration</ImageId>
+      <AlternateText>Accord.Math.Integration</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Distributions.Multivariate.png">
+      <ImageId>Accord.Statistics.Distributions.Multivariate</ImageId>
+      <AlternateText>Accord.Statistics.Distributions.Multivariate</AlternateText>
+    </Content>
+    <Content Include="diagrams\classes\Accord.Statistics.Distributions.Univariate.png">
+      <ImageId>Accord.Statistics.Distributions.Univariate</ImageId>
+      <AlternateText>Accord.Statistics.Distributions.Univariate</AlternateText>
     </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>

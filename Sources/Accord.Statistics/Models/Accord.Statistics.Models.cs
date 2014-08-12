@@ -24,13 +24,18 @@ namespace Accord.Statistics.Models
 {
     using System.Runtime.CompilerServices;
     using Accord.Statistics.Models;
+    using Accord.Statistics.Models.Fields;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Hybrid;
+    using Accord.Statistics.Models.Regression;
+    using Accord.Statistics.Models.Regression.Linear;
 
     /// <summary>
-    ///  Contains statistical models with direct applications in machine learning,
-    ///  such as Hidden Markov Models, Conditional Random Fields, Hidden Conditional
-    ///  Random Fields and linear and logistic regressors.
+    ///  Contains statistical models with direct applications in machine learning, such as
+    ///  <see cref="HiddenMarkovModel">Hidden Markov Models</see>, <see cref="ConditionalRandomField{T}">
+    ///  Conditional Random Fields</see>, <see cref="HiddenConditionalRandomField{T}">Hidden Conditional 
+    ///  Random Fields</see> and <see cref="ILinearRegression">linear</see> and <see cref="LogisticRegression">
+    ///  logistic regressions</see>.
     /// </summary>
     /// 
     /// <remarks>

@@ -22,6 +22,7 @@
 
 namespace Accord.IO
 {
+    using Accord.Math;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -42,6 +43,7 @@ namespace Accord.IO
         Dictionary<string, MatNode> contents;
 
         private BinaryReader reader;
+        private MatReader matReader;
 
         private bool compressed;
         private MatDataType matType;
@@ -61,7 +63,18 @@ namespace Accord.IO
         public string Name { get; private set; }
 
         /// <summary>
-        ///   Gets the object stored at this node, if any.
+        ///   Gets the child nodes contained at this node.
+        /// </summary>
+        /// 
+        public Dictionary<string, MatNode> Fields
+        {
+            get { return contents; }
+        }
+
+        /// <summary>
+        ///   Gets the object value contained at this node, if any. 
+        ///   Its type can be known by checking the <see cref="Type"/>
+        ///   property of this node.
         /// </summary>
         /// 
         public Object Value
@@ -72,6 +85,30 @@ namespace Accord.IO
                     value = read();
                 return value;
             }
+        }
+
+        /// <summary>
+        ///   Gets the type of the object value contained in this node.
+        /// </summary>
+        /// 
+        public Type Type
+        {
+            get { return Value.GetType(); }
+        }
+
+        /// <summary>
+        ///   Gets the object value contained at this node, if any. 
+        ///   Its type can be known by checking the <see cref="Type"/>
+        ///   property of this node.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The object type, if known.</typeparam>
+        /// 
+        /// <returns>The object stored at this node.</returns>
+        /// 
+        public T GetValue<T>()
+        {
+            return (T)Value;
         }
 
         /// <summary>
@@ -106,9 +143,10 @@ namespace Accord.IO
         }
 
 
-        internal unsafe MatNode(BinaryReader reader, long offset, MatDataTag tag, bool lazy)
+        internal unsafe MatNode(MatReader matReader, BinaryReader reader, long offset, MatDataTag tag, bool lazy)
         {
             // TODO: Completely refactor this method.
+            this.matReader = matReader;
 
             int originalBytes = tag.NumberOfBytes;
             contents = new Dictionary<string, MatNode>();
@@ -149,13 +187,6 @@ namespace Accord.IO
             ArrayFlags flagsElement;
             if (!reader.Read(out flagsElement))
                 throw new NotSupportedException("Invalid flags element at position " + readBytes + ".");
-
-            if (flagsElement.NonZeroElements != 0)
-            {
-                // Sparse matrices will not be supported right now
-                //reader.ReadBytes(tag.NumberOfBytes - readBytes);
-                //return;
-            }
 
             if (flagsElement.Class == MatArrayType.mxOBJECT_CLASS)
                 throw new NotSupportedException("Unexpected object class flag at position " + readBytes + ".");
@@ -269,7 +300,7 @@ namespace Accord.IO
                         throw new NotSupportedException("Invalid element tag at position " + readBytes + ".");
 
                     // Create a new node from the current position
-                    MatNode node = new MatNode(reader, offset, elementTag, false);
+                    MatNode node = new MatNode(matReader, reader, offset, elementTag, false);
 
                     node.Name = (cellI++).ToString();
 
@@ -323,7 +354,7 @@ namespace Accord.IO
                         throw new NotSupportedException("Unexpected struct element data type at position " + readBytes + ".");
 
                     // Create a new node from the current position
-                    MatNode node = new MatNode(reader, offset, elementTag, false);
+                    MatNode node = new MatNode(matReader, reader, offset, elementTag, false);
 
                     node.Name = names[i];
 
@@ -357,6 +388,10 @@ namespace Accord.IO
                         for (int i = 0; i < rawData.Length; i++)
                             rawData[i] = contentsTag.SmallData_Value[i];
                         Buffer.BlockCopy(rawData, 0, array, 0, length);
+
+                        if (matReader.Transpose)
+                            array = array.Transpose(Matrix.Indices(dimensions.Length, 0));
+
                         value = array;
                     }
                 }
@@ -366,7 +401,7 @@ namespace Accord.IO
                     if (matType == MatDataType.miMATRIX)
                     {
                         // Create a new node from the current position
-                        value = new MatNode(reader, offset, contentsTag, false);
+                        value = new MatNode(matReader, reader, offset, contentsTag, false);
                     }
                     else if (matType == MatDataType.miUTF8)
                     {
@@ -439,6 +474,8 @@ namespace Accord.IO
 
             Array array = Array.CreateInstance(type, dimensions);
             Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
+            if (matReader.Transpose)
+                array = array.Transpose(Matrix.Indices(dimensions.Length, 0));
             return array;
         }
 
@@ -469,5 +506,7 @@ namespace Accord.IO
         {
             return contents.Values.GetEnumerator();
         }
+
+
     }
 }

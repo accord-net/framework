@@ -118,6 +118,7 @@
     </Compile>
     <Compile Include="Comparers\Accord.Math.Comparers.cs" />
     <Compile Include="Convergence\Base\IConvergence.cs" />
+    <Compile Include="Decompositions\Accord.Math.Decompositions.cs" />
     <Compile Include="Functions\OwensT.cs" />
     <Compile Include="Integration\Accord.Math.Integration.cs" />
     <Compile Include="Integration\Base\IMultidimensionalIntegration.cs" />
@@ -191,6 +192,7 @@
     <Compile Include="Kinematics\DenavitHartenbergParameter.cs" />
     <Compile Include="Kinematics\DenavitHartenbergJoint.cs" />
     <Compile Include="Matrix\Matrix.Submatrix.cs" />
+    <Compile Include="Optimization\Accord.Math.Optimization.cs" />
     <Compile Include="Optimization\Base\BaseGradientOptimizationMethod.cs" />
     <Compile Include="Optimization\Base\BaseOptimizationMethod.cs" />
     <Compile Include="Optimization\Base\IGradientOptimizationMethod.cs" />
@@ -278,7 +280,7 @@
     <Compile Include="Decompositions\LuDecompositionF.cs">
       <DependentUpon>LuDecomposition.tt</DependentUpon>
     </Compile>
-    <Compile Include="Decompositions\NonnegativeFactorization.cs" />
+    <Compile Include="Decompositions\NonnegativeMatrixFactorization.cs" />
     <None Include="Decompositions\JaggedSingularValueDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastOutputs>

@@ -22,13 +22,12 @@
 
 namespace Accord.Tests.IO
 {
-    using System.IO;
     using Accord.IO;
-    using Accord.Tests.IO.Properties;
     using Accord.Math;
+    using Accord.Tests.IO.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections.Generic;
     using System;
+    using System.IO;
 
     [TestClass()]
     public class MatReaderTest
@@ -51,6 +50,60 @@ namespace Accord.Tests.IO
         }
 
 
+        [TestMethod()]
+        public void ConstructorTest()
+        {
+            MemoryStream file = new MemoryStream(Resources.simplestruct);
+
+            // Create a new MAT file reader
+            var reader = new MatReader(file);
+
+            // Extract some basic information about the file:
+            string description = reader.Description; // "MATLAB 5.0 MAT-file, Platform: PCWIN"
+            int    version     = reader.Version;     // 256
+            bool   bigEndian   = reader.BigEndian;   // false
+
+
+            // Enumerate the fields in the file
+            foreach (var field in reader.Fields)
+                Console.WriteLine(field.Key); // "structure"
+
+            // We have the single following field
+            var structure = reader["structure"];
+
+            // Enumerate the fields in the structure
+            foreach (var field in structure.Fields)
+                Console.WriteLine(field.Key); // "a", "string"
+
+            // Check the type for the field "a"
+            var aType = structure["a"].Type; // byte[,]
+
+            // Retrieve the field "a" from the file
+            var a = structure["a"].GetValue<byte[,]>();
+
+            // We can also do directly if we know the type in advance
+            var s = reader["structure"]["string"].GetValue<string>();
+
+
+            Assert.AreEqual(typeof(byte[,]), aType);
+            Assert.AreEqual(typeof(string), reader["structure"]["string"].Type);
+
+            Assert.AreEqual(
+                "MATLAB 5.0 MAT-file, Platform: PCWIN, Created on: Thu Feb 22 01:39:50 2007",
+                reader.Description);
+            Assert.AreEqual(256, reader.Version);
+            Assert.IsFalse(reader.BigEndian);
+
+            byte[,] expected = 
+            {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+            };
+
+            Assert.IsTrue(expected.IsEqual(a));
+            Assert.AreEqual("ala ma kota", s);
+        }
+
 
         [TestMethod()]
         public void readInt8()
@@ -67,7 +120,6 @@ namespace Accord.Tests.IO
 
             var node = reader["arr"];
             var value = node.Value as sbyte[,];
-            value = value.Transpose();
 
             sbyte[,] expected = 
             {
@@ -92,7 +144,6 @@ namespace Accord.Tests.IO
 
             var node = reader["a"];
             var value = node.Value as int[,];
-            value = value.Transpose();
 
             int[,] expected = 
             {
@@ -117,7 +168,6 @@ namespace Accord.Tests.IO
 
             var node = reader["arr"];
             var value = node.Value as long[,];
-            value = value.Transpose();
 
             System.Int64[,] expected = 
             {
@@ -142,7 +192,6 @@ namespace Accord.Tests.IO
 
             var node = reader["A64"];
             var value = node.Value as long[,];
-            value = value.Transpose();
 
             long[,] expected = 
             {
@@ -171,7 +220,6 @@ namespace Accord.Tests.IO
 
             var node = reader["arr"];
             var value = node.Value as ulong[,];
-            value = value.Transpose();
 
             System.UInt64[,] expected = 
             {
@@ -199,9 +247,7 @@ namespace Accord.Tests.IO
 
             float[,] expected = 
             {
-                { 1.1f },
-                { 2.2f },
-                { 3.3f } 
+                { 1.1f, 2.2f, 3.3f } 
             };
 
             Assert.IsTrue(expected.IsEqual(value));
@@ -222,7 +268,6 @@ namespace Accord.Tests.IO
 
             var node = reader["arr"];
             var value = node.Value as byte[,];
-            value = value.Transpose();
 
             byte[,] expected = 
             {
@@ -249,7 +294,6 @@ namespace Accord.Tests.IO
 
             var node = reader["arr"];
             var value = node.Value as double[,];
-            value = value.Transpose();
 
             double[,] expected = 
             {
@@ -276,7 +320,6 @@ namespace Accord.Tests.IO
 
             var node = reader["bool"];
             var value = node.Value as byte[,];
-            value = value.Transpose();
 
             byte[,] expected = 
             {
@@ -306,7 +349,6 @@ namespace Accord.Tests.IO
 
             Assert.AreEqual("a", value1.Name);
             var a = value1.Value as byte[,];
-            a = a.Transpose();
 
             byte[,] expected = 
             {
@@ -360,7 +402,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual("scans", UNITS.Value as string);
             Assert.AreEqual("hrf (with time derivative)", name.Value as string);
             Assert.AreEqual(2, (order.Value as byte[,])[0, 0]);
-            Assert.IsTrue(expectedBfValues.IsEqual((bf.Value as double[,]).Transpose(), 1e-15));
+            Assert.IsTrue(expectedBfValues.IsEqual(bf.Value as double[,], 1e-15));
 
             var nscan = cel["nscan"];
             Assert.AreEqual(0, nscan.Count);
@@ -386,7 +428,7 @@ namespace Accord.Tests.IO
             var iG = xX["iG"];
             var xname = xX["name"];
 
-            Assert.IsTrue(expectedxXValues.IsEqual((X.Value as double[,]).Transpose(), 1e-15));
+            Assert.IsTrue(expectedxXValues.IsEqual(X.Value as double[,], 1e-15));
 
             Assert.AreEqual("Sn(1) test*bf(1)", xname["0"].Value);
             Assert.AreEqual("Sn(1) test*bf(2)", xname["1"].Value);
@@ -412,14 +454,14 @@ namespace Accord.Tests.IO
 
             Assert.AreEqual("test", (Uname["0"] as MatNode).Value as string);
             Assert.AreEqual(8.00000000000000e+00, (Uons.Value as byte[,])[0, 0]);
-            Assert.AreEqual(2.40000000000000e+01, (Uons.Value as byte[,])[0, 1]);
-            Assert.AreEqual(4.00000000000000e+01, (Uons.Value as byte[,])[0, 2]);
-            Assert.AreEqual(5.60000000000000e+01, (Uons.Value as byte[,])[0, 3]);
-            Assert.AreEqual(7.20000000000000e+01, (Uons.Value as byte[,])[0, 4]);
-            Assert.AreEqual(8.80000000000000e+01, (Uons.Value as byte[,])[0, 5]);
+            Assert.AreEqual(2.40000000000000e+01, (Uons.Value as byte[,])[1, 0]);
+            Assert.AreEqual(4.00000000000000e+01, (Uons.Value as byte[,])[2, 0]);
+            Assert.AreEqual(5.60000000000000e+01, (Uons.Value as byte[,])[3, 0]);
+            Assert.AreEqual(7.20000000000000e+01, (Uons.Value as byte[,])[4, 0]);
+            Assert.AreEqual(8.80000000000000e+01, (Uons.Value as byte[,])[5, 0]);
 
             for (int i = 0; i < 6; i++)
-                Assert.AreEqual(8, (Udur.Value as byte[,])[0, i]);
+                Assert.AreEqual(8, (Udur.Value as byte[,])[i, 0]);
 
             Assert.AreEqual(1.87500000000000e-01, (Udt.Value as double[,])[0, 0]);
 
@@ -456,7 +498,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(774, sparse.Item2[1]);
 
             Assert.AreEqual(-21, (Upst.Value as short[,])[0, 0]);
-            Assert.AreEqual(24, (Upst.Value as short[,])[95, 0]);
+            Assert.AreEqual(24, (Upst.Value as short[,])[0, 95]);
 
 
             var Pname = P["name"];
@@ -468,11 +510,11 @@ namespace Accord.Tests.IO
             var ppv = PP.Value as ushort[,];
             Assert.AreEqual(6, ppv.Length);
             Assert.AreEqual(2.40000000000000e+01, ppv[0, 0]);
-            Assert.AreEqual(7.20000000000000e+01, ppv[0, 1]);
-            Assert.AreEqual(1.20000000000000e+02, ppv[0, 2]);
-            Assert.AreEqual(1.68000000000000e+02, ppv[0, 3]);
-            Assert.AreEqual(2.16000000000000e+02, ppv[0, 4]);
-            Assert.AreEqual(2.64000000000000e+02, ppv[0, 5]);
+            Assert.AreEqual(7.20000000000000e+01, ppv[1, 0]);
+            Assert.AreEqual(1.20000000000000e+02, ppv[2, 0]);
+            Assert.AreEqual(1.68000000000000e+02, ppv[3, 0]);
+            Assert.AreEqual(2.16000000000000e+02, ppv[4, 0]);
+            Assert.AreEqual(2.64000000000000e+02, ppv[5, 0]);
 
             Assert.AreEqual(0, (Ph.Value as byte[,])[0, 0]);
             Assert.AreEqual(1, (Pi.Value as byte[,])[0, 0]);
@@ -485,11 +527,11 @@ namespace Accord.Tests.IO
 
             var row = Sess["row"];
             for (int i = 0; i < 96; i++)
-                Assert.AreEqual(i + 1, (row.Value as byte[,])[i, 0]);
+                Assert.AreEqual(i + 1, (row.Value as byte[,])[0, i]);
 
             var col = Sess["col"];
             Assert.AreEqual(1, (col.Value as byte[,])[0, 0]);
-            Assert.AreEqual(2, (col.Value as byte[,])[1, 0]);
+            Assert.AreEqual(2, (col.Value as byte[,])[0, 1]);
 
             var Fc = Sess["Fc"];
 
@@ -497,7 +539,7 @@ namespace Accord.Tests.IO
             var Fname = Fc["name"];
 
             Assert.AreEqual(1, (Fci.Value as byte[,])[0, 0]);
-            Assert.AreEqual(2, (Fci.Value as byte[,])[1, 0]);
+            Assert.AreEqual(2, (Fci.Value as byte[,])[0, 1]);
             Assert.AreEqual("test", Fname.Value);
         }
 

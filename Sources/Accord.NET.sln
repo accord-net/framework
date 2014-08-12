@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Accord.NET.testrunconfig = Accord.NET.testrunconfig
 		Accord.NET.vsmdi = Accord.NET.vsmdi
 		Building.txt = Building.txt
+		..\Contributors.txt = ..\Contributors.txt
 		..\Copyright.txt = ..\Copyright.txt
 		..\License.txt = ..\License.txt
 		..\Release notes.txt = ..\Release notes.txt
@@ -62,7 +63,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{3364C282-6
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Accord.Documentation", "Accord.Docs\Accord.Documentation\Accord.Documentation.shfbproj", "{048ACC63-3B91-4E14-B5A3-38E7898426FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.MachineLearning (GPL)", "Non LGPL\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL).csproj", "{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.MachineLearning (GPL)", "Extras\Accord.MachineLearning.GPL\Accord.MachineLearning (GPL).csproj", "{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{98CCD2AC-1853-4413-A2C7-B7283715B0FE}"
 EndProject
@@ -74,7 +75,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Namespaces", "Accord
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Accord.Tests.Math.Cpp", "Accord.Tests\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj", "{161BD953-537D-4325-8A00-22475FC9088E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math (Noncommercial)", "Non LGPL\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj", "{1A83AF16-1AC8-45E3-9E7E-FA7248C7CBCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math (Noncommercial)", "Extras\Accord.Math.NonCommercial\Accord.Math (Noncommercial).csproj", "{1A83AF16-1AC8-45E3-9E7E-FA7248C7CBCB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Extras", "Extras", "{54EB52AC-52D0-4046-BDB6-276A5C7ED0F4}"
 EndProject
@@ -267,7 +268,6 @@ Global
 		{048ACC63-3B91-4E14-B5A3-38E7898426FE}.Release (3.5)|Any CPU.ActiveCfg = Release|Any CPU
 		{048ACC63-3B91-4E14-B5A3-38E7898426FE}.Release (4.0)|Any CPU.ActiveCfg = Release|Any CPU
 		{048ACC63-3B91-4E14-B5A3-38E7898426FE}.Release (4.5)|Any CPU.ActiveCfg = Release|Any CPU
-		{048ACC63-3B91-4E14-B5A3-38E7898426FE}.Release (4.5)|Any CPU.Build.0 = Release|Any CPU
 		{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}.Release (3.5)|Any CPU.ActiveCfg = Release (3.5)|Any CPU
@@ -281,7 +281,6 @@ Global
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Release (3.5)|Any CPU.Build.0 = Release|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Release (4.0)|Any CPU.ActiveCfg = Release|Any CPU
 		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Release (4.5)|Any CPU.ActiveCfg = Release|Any CPU
-		{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}.Release (4.5)|Any CPU.Build.0 = Release|Any CPU
 		{357A4733-F671-439C-9D40-85E3D6C6B23A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{357A4733-F671-439C-9D40-85E3D6C6B23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{357A4733-F671-439C-9D40-85E3D6C6B23A}.Release (3.5)|Any CPU.ActiveCfg = Release (3.5)|Any CPU

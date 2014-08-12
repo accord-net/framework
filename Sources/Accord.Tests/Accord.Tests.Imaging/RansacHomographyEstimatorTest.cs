@@ -20,20 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AForge;
-using Accord.Math;
-using System;
-using Accord.Imaging;
-
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging;
+    using AForge;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-
-    /// <summary>
-    ///This is a test class for RansacHomographyEstimatorTest and is intended
-    ///to contain all RansacHomographyEstimatorTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class RansacHomographyEstimatorTest
     {
@@ -41,10 +33,6 @@ namespace Accord.Tests.Imaging
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -56,7 +44,6 @@ namespace Accord.Tests.Imaging
                 testContextInstance = value;
             }
         }
-
 
 
         [TestMethod()]
@@ -130,8 +117,8 @@ namespace Accord.Tests.Imaging
 
             double[,] expected = 
             {
-		        { 0.60628712500923021,     0.00059969215221173516, -85.656775800903588   },
-		        { 0.010863088422024825,    0.58853684011367191,     -1.6919055825149059  },
+                { 0.60628712500923021,     0.00059969215221173516, -85.656775800903588   },
+                { 0.010863088422024825,    0.58853684011367191,     -1.6919055825149059  },
                 { 0.000088084825486304467, 0.000063754043404499572,  0.53717560168513312 }
             };
 

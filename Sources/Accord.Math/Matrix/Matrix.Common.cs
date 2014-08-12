@@ -639,6 +639,9 @@ namespace Accord.Math
 
         private static Array transpose(Array array, int[] order)
         {
+            if (array.Length == 1 || array.Length == 0)
+                return array;
+
             // Get the number of samples at each dimension
             int[] size = new int[array.Rank];
             for (int i = 0; i < size.Length; i++)

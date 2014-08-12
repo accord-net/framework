@@ -123,6 +123,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Analysis\Accord.Statistics.Analysis.cs" />
     <Compile Include="Analysis\Base\IAnalysisComponent.cs" />
     <Compile Include="Analysis\Base\IAnalysis.cs" />
     <Compile Include="Analysis\Base\IProjectionAnalysis.cs" />

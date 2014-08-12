@@ -25,8 +25,8 @@ namespace Accord.Math.Optimization
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
-    using System.Text.RegularExpressions;
     using System.Text;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     ///   Quadratic objective function.

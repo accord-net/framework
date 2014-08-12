@@ -31,15 +31,66 @@ namespace Accord.IO
     /// </summary>
     /// 
     /// <remarks>
-    ///   The MATLAB file format is fully documented at 
-    ///   http://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf
+    /// <para>
+    ///   MAT files are binary files containing variables and structures from mathematical 
+    ///   processing programs, such as MATLAB or Octave. In MATLAB, .mat files can be created
+    ///   using its <c>save</c> and <c>load</c> functions. For the moment, this reader supports
+    ///   only version 5 MAT files (Matlab 5 MAT-file).</para>
+    ///   
+    /// <para>
+    ///   The MATLAB file format is documented at 
+    ///   <a href="http://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf">
+    ///   http://www.mathworks.com/help/pdf_doc/matlab/matfile_format.pdf </a></para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <code>
+    /// // Create a new MAT file reader
+    /// var reader = new MatReader(file);
+    /// 
+    /// // Extract some basic information about the file:
+    /// string description = reader.Description; // "MATLAB 5.0 MAT-file, Platform: PCWIN"
+    /// int    version     = reader.Version;     // 256
+    /// bool   bigEndian   = reader.BigEndian;   // false
+    /// 
+    /// 
+    /// // Enumerate the fields in the file
+    /// foreach (var field in reader.Fields)
+    ///   Console.WriteLine(field.Key); // "structure"
+    /// 
+    /// // We have the single following field
+    /// var structure = reader["structure"];
+    /// 
+    /// // Enumerate the fields in the structure
+    /// foreach (var field in structure.Fields)
+    ///   Console.WriteLine(field.Key); // "a", "string"
+    /// 
+    /// // Check the type for the field "a"
+    /// var aType = structure["a"].Type; // byte[,]
+    /// 
+    /// // Retrieve the field "a" from the file
+    /// var a = structure["a"].GetValue&lt;byte[,]>();
+    /// 
+    /// // We can also do directly if we know the type in advance
+    /// var s = reader["structure"]["string"].GetValue&lt;string>();
+    /// </code>
+    /// </example>
     /// 
     public class MatReader : IDisposable
     {
         private BinaryReader reader;
+        private bool autoTranspose;
 
         private Dictionary<string, MatNode> contents;
+
+        /// <summary>
+        ///   Gets the child nodes contained in this file.
+        /// </summary>
+        /// 
+        public Dictionary<string, MatNode> Fields
+        {
+            get { return contents; }
+        }
 
         /// <summary>
         ///   Gets the human readable description of the MAT file.
@@ -66,6 +117,13 @@ namespace Accord.IO
         /// </summary>
         /// 
         public bool BigEndian { get; private set; }
+
+        /// <summary>
+        ///   Gets whether matrices will be auto-transposed 
+        ///   to .NET row and column format if necessary.
+        /// </summary>
+        /// 
+        public bool Transpose { get { return autoTranspose; } }
 
         /// <summary>
         ///   Returns the underlying stream.
@@ -105,7 +163,22 @@ namespace Accord.IO
         /// <param name="input">The input stream containing the MAT file.</param>
         /// 
         public MatReader(Stream input)
+            : this(input, true)
         {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="MatReader"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input stream containing the MAT file.</param>
+        /// <param name="autoTranspose">Pass <c>true</c> to automatically transpose matrices if they 
+        ///   have been stored differently from .NET's default row-major order. Default is <c>true</c>.</param>
+        /// 
+        public MatReader(Stream input, bool autoTranspose)
+        {
+            this.autoTranspose = autoTranspose;
+
             long startOffset = input.Position;
             reader = new BinaryReader(input);
 
@@ -137,7 +210,7 @@ namespace Accord.IO
                     return;
 
                 // Create a new node from the current position
-                MatNode node = new MatNode(reader, offset, elementTag, true);
+                MatNode node = new MatNode(this, reader, offset, elementTag, true);
 
                 // Advance the stream to the next element (might be removed in the future)
                 reader.BaseStream.Seek(offset + elementTag.NumberOfBytes + 8, SeekOrigin.Begin);

@@ -17,8 +17,7 @@
     <OutputPath>.\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Archiver\Build %28v3.5%29.cmd" />
-    <None Include="Archiver\Build %28v4.0%29.cmd" />
+    <None Include="Archiver\Build.cmd" />
     <None Include="Archiver\Samples.cmd" />
     <None Include="Build all.cmd" />
     <None Include="Installer\Build.cmd" />

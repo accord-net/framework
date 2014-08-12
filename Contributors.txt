@@ -13,9 +13,14 @@
   - Antonino Porcino 
   - Antonis Kalapodis 
   - Andrew Kirillov
+  - Benjamin Collins
   - Darko Juric 
+  - David Durrleman
+  - Doug Blank
+  - Hans Wolff
   - Marcos Diego Catalano
   - Max Bügler
   - Mathias Brandewinder
+  - Mikkel Porse Rasmussen
   - Peter Sergio Larsen 
   - Remy Disp
