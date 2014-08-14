@@ -116,6 +116,7 @@
       <Field Name="decomposition" Hidden="true" />
       <Field Name="gradient" Hidden="true" />
       <Field Name="hessian" Hidden="true" />
+      <Field Name="normalize" Hidden="true" />
       <Field Name="parameterCount" Hidden="true" />
       <Field Name="partialGradient" Hidden="true" />
       <Field Name="partialHessian" Hidden="true" />

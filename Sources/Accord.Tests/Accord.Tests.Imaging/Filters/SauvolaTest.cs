@@ -22,16 +22,11 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Drawing.Imaging;
-    using Accord.Imaging;
-    using Accord.Math;
-    using Accord.Imaging.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Drawing;
-    using Accord.Controls.Imaging;
     using Accord.Imaging.Converters;
-    using Accord.Controls;
-
+    using Accord.Imaging.Filters;
+    using Accord.Math;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class SauvolaTest

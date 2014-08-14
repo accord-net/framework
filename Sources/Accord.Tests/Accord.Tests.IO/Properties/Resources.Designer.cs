@@ -61,6 +61,76 @@ namespace Accord.Tests.IO.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] _object {
+            get {
+                object obj = ResourceManager.GetObject("_object", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] A64 {
+            get {
+                object obj = ResourceManager.GetObject("A64", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] bigsparse {
+            get {
+                object obj = ResourceManager.GetObject("bigsparse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] cell {
+            get {
+                object obj = ResourceManager.GetObject("cell", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] int32 {
+            get {
+                object obj = ResourceManager.GetObject("int32", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] int64 {
+            get {
+                object obj = ResourceManager.GetObject("int64", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] int8 {
+            get {
+                object obj = ResourceManager.GetObject("int8", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1 1:-0.555556 2:0.25 3:-0.864407 4:-0.916667 
         ///1 1:-0.666667 2:-0.166667 3:-0.864407 4:-0.916667 
         ///1 1:-0.777778 3:-0.898305 4:-0.916667 
@@ -82,9 +152,119 @@ namespace Accord.Tests.IO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] java {
+            get {
+                object obj = ResourceManager.GetObject("java", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] logical {
+            get {
+                object obj = ResourceManager.GetObject("logical", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] matnativedouble {
+            get {
+                object obj = ResourceManager.GetObject("matnativedouble", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] matnativedouble2 {
+            get {
+                object obj = ResourceManager.GetObject("matnativedouble2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] nan {
+            get {
+                object obj = ResourceManager.GetObject("nan", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] simplestruct {
+            get {
+                object obj = ResourceManager.GetObject("simplestruct", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] single {
+            get {
+                object obj = ResourceManager.GetObject("single", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] sparse {
+            get {
+                object obj = ResourceManager.GetObject("sparse", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] t10k_images_idx3_ubyte {
             get {
                 object obj = ResourceManager.GetObject("t10k_images_idx3_ubyte", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] uint32 {
+            get {
+                object obj = ResourceManager.GetObject("uint32", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] uint64 {
+            get {
+                object obj = ResourceManager.GetObject("uint64", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] uint8 {
+            get {
+                object obj = ResourceManager.GetObject("uint8", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -671,9 +671,21 @@ namespace Accord.Math
         /// 
         public static int[] Indices(int from, int to)
         {
-            int[] vector = new int[to - from];
-            for (int i = 0; i < vector.Length; i++)
-                vector[i] = from++;
+            int[] vector;
+
+            if (to > from)
+            {
+                vector = new int[to - from];
+                for (int i = 0; i < vector.Length; i++)
+                    vector[i] = from++;
+            }
+            else
+            {
+                vector = new int[from - to];
+                for (int i = 0; i < vector.Length; i++)
+                    vector[i] = from-- - 1;
+            }
+
             return vector;
         }
 
@@ -683,9 +695,21 @@ namespace Accord.Math
         /// 
         public static int[] Interval(int from, int to)
         {
-            int[] vector = new int[to - from + 1];
-            for (int i = 0; i < vector.Length; i++)
-                vector[i] = from++;
+            int[] vector;
+
+            if (to > from)
+            {
+                vector = new int[to - from + 1];
+                for (int i = 0; i < vector.Length; i++)
+                    vector[i] = from++;
+            }
+            else
+            {
+                vector = new int[from - to + 1];
+                for (int i = 0; i < vector.Length; i++)
+                    vector[i] = from--;
+            }
+
             return vector;
         }
 
@@ -704,12 +728,28 @@ namespace Accord.Math
         /// 
         public static double[] Interval(double from, double to, double stepSize)
         {
-            double range = to - from;
-            int steps = (int)Math.Ceiling(range / stepSize) + 1;
+            double[] r;
 
-            double[] r = new double[steps];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = from + i * stepSize;
+            if (from > to)
+            {
+                double range = from - to;
+                int steps = (int)Math.Ceiling(range / stepSize) + 1;
+
+                r = new double[steps];
+                for (int i = 0; i < r.Length; i++)
+                    r[i] = from - i * stepSize;
+                r[steps - 1] = to;
+            }
+            else
+            {
+                double range = to - from;
+                int steps = (int)Math.Ceiling(range / stepSize) + 1;
+
+                r = new double[steps];
+                for (int i = 0; i < r.Length; i++)
+                    r[i] = from + i * stepSize;
+                r[steps - 1] = to;
+            }
 
             return r;
         }
@@ -761,17 +801,30 @@ namespace Accord.Math
         /// 
         public static double[] Interval(double from, double to, int steps)
         {
-            double range = to - from;
-            double stepSize = range / steps;
-
             if (steps == Int32.MaxValue)
+            {
                 throw new ArgumentOutOfRangeException("steps",
                     "input must be lesser than Int32.MaxValue");
-
+            }
 
             double[] r = new double[steps + 1];
-            for (int i = 0; i < r.Length; i++)
-                r[i] = i * stepSize;
+
+            if (from > to)
+            {
+                double range = from - to;
+                double stepSize = range / steps;
+                for (int i = 0; i < r.Length; i++)
+                    r[i] = from - i * stepSize;
+                r[steps] = to;
+            }
+            else
+            {
+                double range = to - from;
+                double stepSize = range / steps;
+                for (int i = 0; i < r.Length; i++)
+                    r[i] = from + i * stepSize;
+                r[steps] = to;
+            }
 
             return r;
         }

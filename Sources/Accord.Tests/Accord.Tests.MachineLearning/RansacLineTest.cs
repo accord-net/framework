@@ -22,20 +22,16 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using Accord.MachineLearning.Geometry;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using AForge.Math.Geometry;
-    using AForge;
-    using System.Drawing;
-    using Accord.Math;
-    using Accord.Imaging;
-    using Point = AForge.Point;
     using System.Collections.Generic;
-    using AForge.Imaging;
-    using Accord.Imaging.Filters;
-    using Accord.Controls.Imaging;
+    using System.Drawing;
     using Accord.Controls;
+    using Accord.Imaging.Filters;
+    using Accord.MachineLearning.Geometry;
+    using AForge;
+    using AForge.Imaging;
+    using AForge.Math.Geometry;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Point = AForge.Point;
 
     [TestClass()]
     public class RansacLineTest

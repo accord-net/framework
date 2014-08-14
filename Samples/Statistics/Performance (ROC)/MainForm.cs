@@ -34,8 +34,8 @@ using System.Windows.Forms;
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 using Accord.Controls;
+using Accord.IO;
 using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
 
 namespace Performance.ROC
 {

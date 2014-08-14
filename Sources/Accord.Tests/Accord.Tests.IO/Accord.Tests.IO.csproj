@@ -123,6 +123,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Formats\MatReaderTest.cs" />
     <Compile Include="Formats\IdxReaderTest.cs" />
     <Compile Include="Formats\ExcelReaderTest.cs" />
     <Compile Include="Formats\SparseReaderTest.cs" />
@@ -196,7 +197,25 @@
   <ItemGroup>
     <None Include="Accord.snk" />
     <None Include="app.config" />
+    <None Include="Resources\mat\A64.mat" />
+    <None Include="Resources\mat\bigsparse.mat" />
+    <None Include="Resources\mat\cell.mat" />
+    <None Include="Resources\mat\int32.mat" />
+    <None Include="Resources\mat\int64.mat" />
+    <None Include="Resources\mat\int8.mat" />
+    <None Include="Resources\mat\java.mat" />
+    <None Include="Resources\mat\logical.mat" />
+    <None Include="Resources\mat\matnativedouble.mat" />
+    <None Include="Resources\mat\matnativedouble2.mat" />
+    <None Include="Resources\mat\nan.mat" />
+    <None Include="Resources\mat\object.mat" />
+    <None Include="Resources\mat\simplestruct.mat" />
+    <None Include="Resources\mat\single.mat" />
+    <None Include="Resources\mat\sparse.mat" />
     <None Include="Resources\t10k-images-idx3-ubyte.gz" />
+    <None Include="Resources\mat\uint32.mat" />
+    <None Include="Resources\mat\uint64.mat" />
+    <None Include="Resources\mat\uint8.mat" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

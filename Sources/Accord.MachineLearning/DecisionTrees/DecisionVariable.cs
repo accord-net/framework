@@ -128,6 +128,57 @@ namespace Accord.MachineLearning.DecisionTrees
         {
         }
 
+
+        /// <summary>
+        ///   Creates a new continuous <see cref="DecisionVariable"/>.
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the attribute.</param>
+        /// 
+        public static DecisionVariable Continuous(string name)
+        {
+            return new DecisionVariable(name, DecisionVariableKind.Continuous);
+        }
+
+        /// <summary>
+        ///   Creates a new continuous <see cref="DecisionVariable"/>.
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="range">The range of valid values for this attribute. Default is [0;1].</param>
+        /// 
+        public static DecisionVariable Continuous(string name, DoubleRange range)
+        {
+            return new DecisionVariable(name, range);
+        }
+
+        /// <summary>
+        ///   Creates a new discrete <see cref="DecisionVariable"/>.
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="range">The range of valid values for this attribute.</param>
+        /// 
+        public static DecisionVariable Discrete(string name, IntRange range)
+        {
+            return new DecisionVariable(name, range);
+        }
+
+        /// <summary>
+        ///   Creates a new discrete-valued <see cref="DecisionVariable"/>.
+        /// </summary>
+        /// 
+        /// <param name="name">The name of the attribute.</param>
+        /// <param name="symbols">The number of possible values for this attribute.</param>
+        /// 
+        public static DecisionVariable Discrete(string name, int symbols)
+        {
+            return new DecisionVariable(name, symbols);
+        }
+
+
+
+
         /// <summary>
         ///   Creates a set of decision variables from a <see cref="Codification"/> codebook.
         /// </summary>

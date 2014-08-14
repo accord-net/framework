@@ -24,9 +24,9 @@ namespace Accord.Statistics.Analysis
 {
     using System;
     using Accord.Math;
+    using Accord.Math.Comparers;
     using Accord.Math.Decompositions;
     using Accord.Statistics.Kernels;
-    using Accord.Math.Comparers;
 
     /// <summary>
     ///   Kernel Principal Component Analysis.

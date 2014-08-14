@@ -26,11 +26,8 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using AForge;
     using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using AForge.Imaging.Filters;
-    using Accord.Controls.Imaging;
-    using System.Windows.Forms;
-    using System.Drawing.Drawing2D;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class MatrixToImageTest

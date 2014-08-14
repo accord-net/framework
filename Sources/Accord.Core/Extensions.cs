@@ -88,37 +88,24 @@ namespace Accord
         ///   Reads a <c>struct</c> from a stream.
         /// </summary>
         /// 
-        public static object ReadStructure(this Stream stream, Type type)
-        {
-            int size = Marshal.SizeOf(type);
-            byte[] buffer = new byte[size];
-            stream.Read(buffer, 0, buffer.Length);
-
-            GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-            Object temp = Marshal.PtrToStructure(handle.AddrOfPinnedObject(), type);
-            handle.Free();
-
-            return temp;
-        }
-
-        /// <summary>
-        ///   Reads a <c>struct</c> from a stream.
-        /// </summary>
-        /// 
-        public static T ReadStructure<T>(this Stream stream) where T : struct
+        public static bool Read<T>(this BinaryReader stream, out T structure) where T : struct
         {
             var type = typeof(T);
 
             int size = Marshal.SizeOf(type);
             byte[] buffer = new byte[size];
-            stream.Read(buffer, 0, buffer.Length);
+            if (stream.Read(buffer, 0, buffer.Length) == 0)
+            {
+                structure = default(T);
+                return false;
+            }
 
-            T structure = new T();
             GCHandle handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-            Marshal.PtrToStructure(handle.AddrOfPinnedObject(), structure);
+            structure = (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
             handle.Free();
 
-            return structure;
+            return true;
         }
+
     }
 }

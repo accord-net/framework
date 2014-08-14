@@ -22,10 +22,11 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
+    using Accord.Statistics.Analysis;
     using AForge;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass()]
     public class DescriptiveAnalysisTest
@@ -361,5 +362,251 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5, quartiles[2].Max);
         }
 
+        [TestMethod()]
+        public void DescriptiveAnalysisOneSampleTest()
+        {
+            double[] data = { 52 };
+
+            // Create the analysis
+            DescriptiveAnalysis analysis = new DescriptiveAnalysis(data);
+
+            // Compute
+            analysis.Compute();
+
+            var columnNames = analysis.ColumnNames;
+            var correlation = analysis.CorrelationMatrix;
+            var covariance = analysis.CovarianceMatrix;
+            var deviationScores = analysis.DeviationScores;
+            var distinct = analysis.Distinct;
+            var kurtosis = analysis.Kurtosis;
+            var means = analysis.Means;
+            var medians = analysis.Medians;
+            var modes = analysis.Modes;
+            var ranges = analysis.Ranges;
+            var samples = analysis.Samples;
+            var skewness = analysis.Skewness;
+            var source = analysis.Source;
+            var standardDeviation = analysis.StandardDeviations;
+            var standardErrors = analysis.StandardErrors;
+            var standardScores = analysis.StandardScores;
+            var sums = analysis.Sums;
+            var variables = analysis.Variables;
+            var variances = analysis.Variances;
+            var confidence = analysis.Confidence;
+            var quartiles = analysis.Quartiles;
+            var innerFence = analysis.InnerFences;
+            var outerFence = analysis.OuterFences;
+
+            Assert.IsTrue(columnNames.IsEqual(new string[] 
+        {
+            "Column 0",
+        }));
+
+            Assert.IsTrue(correlation.IsEqual(new double[,] { { Double.NaN } }));
+            Assert.IsTrue(covariance.IsEqual(new double[,] { { Double.NaN } }));
+
+            Assert.IsTrue(deviationScores.IsEqual(0));
+
+            Assert.IsTrue(distinct.IsEqual(new int[] { 1 }));
+            Assert.IsTrue(kurtosis.IsEqual(new double[] { Double.NaN }));
+            Assert.IsTrue(means.IsEqual(new double[] { 52 }));
+            Assert.IsTrue(medians.IsEqual(new double[] { 52.0 }));
+            Assert.IsTrue(modes.IsEqual(new double[] { 52.0 }));
+            Assert.IsTrue(samples == 1);
+            Assert.IsTrue(skewness.IsEqual(new double[] { Double.NaN }));
+            Assert.IsTrue(source.IsEqual(new double[,] 
+        {
+            { 52 },
+        }));
+
+            Assert.IsTrue(standardDeviation.IsEqual(new double[] { double.NaN }));
+            Assert.IsTrue(standardErrors.IsEqual(new double[] { double.NaN }));
+            Assert.IsTrue(standardScores.IsEqual(new double[,] 
+        { 
+            {  0.0 },
+        }));
+
+            Assert.IsTrue(sums.IsEqual(new double[] { 52 }));
+            Assert.IsTrue(variables == 1);
+            Assert.IsTrue(variances.IsEqual(new double[] { double.NaN }));
+
+            Assert.AreEqual(1, ranges.Length);
+            Assert.AreEqual(52, ranges[0].Min);
+            Assert.AreEqual(52, ranges[0].Max);
+
+            Assert.AreEqual(1, confidence.Length);
+            Assert.AreEqual(double.NaN, confidence[0].Min);
+            Assert.AreEqual(double.NaN, confidence[0].Max);
+
+            Assert.AreEqual(1, quartiles.Length);
+            Assert.AreEqual(52, quartiles[0].Min);
+            Assert.AreEqual(52, quartiles[0].Max);
+
+            Assert.AreEqual(1, innerFence.Length);
+            Assert.AreEqual(52, innerFence[0].Min);
+            Assert.AreEqual(52, innerFence[0].Max);
+
+            Assert.AreEqual(1, outerFence.Length);
+            Assert.AreEqual(52, outerFence[0].Min);
+            Assert.AreEqual(52, outerFence[0].Max);
+        }
+
+        [TestMethod()]
+        public void DescriptiveAnalysisTwoSampleTest()
+        {
+            double[][] data = 
+            { 
+                new [] { 52.0 },
+                new [] { 42.0 }
+            };
+
+            // Create the analysis
+            DescriptiveAnalysis analysis = new DescriptiveAnalysis(data);
+
+            // Compute
+            analysis.Compute();
+
+            var columnNames = analysis.ColumnNames;
+            var correlation = analysis.CorrelationMatrix;
+            var covariance = analysis.CovarianceMatrix;
+            var deviationScores = analysis.DeviationScores;
+            var distinct = analysis.Distinct;
+            var kurtosis = analysis.Kurtosis;
+            var means = analysis.Means;
+            var medians = analysis.Medians;
+            var modes = analysis.Modes;
+            var ranges = analysis.Ranges;
+            var samples = analysis.Samples;
+            var skewness = analysis.Skewness;
+            var source = analysis.Source;
+            var standardDeviation = analysis.StandardDeviations;
+            var standardErrors = analysis.StandardErrors;
+            var standardScores = analysis.StandardScores;
+            var sums = analysis.Sums;
+            var variables = analysis.Variables;
+            var variances = analysis.Variances;
+            var confidence = analysis.Confidence;
+            var quartiles = analysis.Quartiles;
+            var innerFence = analysis.InnerFences;
+            var outerFence = analysis.OuterFences;
+
+            Assert.IsTrue(columnNames.IsEqual(new string[] 
+            {
+                "Column 0"
+            }));
+
+            Assert.IsTrue(correlation.IsEqual(Matrix.Create(1, 1, 0.99999999999999978)));
+            Assert.IsTrue(covariance.IsEqual(Matrix.Create(1, 1, 50.0)));
+
+            Assert.IsTrue(deviationScores.IsEqual(new double[,] { { 5 }, { -5 } }));
+
+            Assert.IsTrue(distinct.IsEqual(new int[] { 2 }));
+            Assert.IsTrue(kurtosis.IsEqual(new double[] { Double.NaN }));
+            Assert.IsTrue(means.IsEqual(new double[] { 47 }));
+            Assert.IsTrue(medians.IsEqual(new double[] { 94 }));
+            Assert.IsTrue(modes.IsEqual(new double[] { 52.0 }));
+            Assert.IsTrue(samples == 2);
+            Assert.IsTrue(skewness.IsEqual(new double[] { Double.NaN }));
+            Assert.IsTrue(source.IsEqual(new double[,] 
+            {
+                { 52 },
+                { 42 }, 
+            }));
+
+            Assert.IsTrue(standardDeviation.IsEqual(new double[] { 7.0710678118654755 }));
+            Assert.IsTrue(standardErrors.IsEqual(new double[] { 5.0 }));
+            Assert.IsTrue(standardScores.IsEqual(new double[,] 
+            { 
+                {  0.70710678118654746 }, { -0.70710678118654746 },
+            }));
+
+            Assert.IsTrue(sums.IsEqual(new double[] { 94 }));
+            Assert.IsTrue(variables == 1);
+            Assert.IsTrue(variances.IsEqual(new double[] { 50 }));
+
+            Assert.AreEqual(1, ranges.Length);
+            Assert.AreEqual(42, ranges[0].Min);
+            Assert.AreEqual(52, ranges[0].Max);
+
+            Assert.AreEqual(1, confidence.Length);
+            Assert.AreEqual(37.200180077299734, confidence[0].Min);
+            Assert.AreEqual(56.799819922700266, confidence[0].Max);
+
+            Assert.AreEqual(1, quartiles.Length);
+            Assert.AreEqual(73, quartiles[0].Min);
+            Assert.AreEqual(68, quartiles[0].Max);
+
+            Assert.AreEqual(1, innerFence.Length);
+            Assert.AreEqual(80.5, innerFence[0].Min);
+            Assert.AreEqual(60.5, innerFence[0].Max);
+
+            Assert.AreEqual(1, outerFence.Length);
+            Assert.AreEqual(88, outerFence[0].Min);
+            Assert.AreEqual(53, outerFence[0].Max);
+        }
+
+        [TestMethod()]
+        public void DescriptiveAnalysisNSampleTest()
+        {
+            for (int i = 1; i < 100; i++)
+            {
+                double[] data = Matrix.Random(i, 0.0, 1.0);
+
+                // Create the analysis
+                DescriptiveAnalysis analysis = new DescriptiveAnalysis(data);
+
+                // Compute
+                analysis.Compute();
+
+                var columnNames = analysis.ColumnNames;
+                var correlation = analysis.CorrelationMatrix;
+                var covariance = analysis.CovarianceMatrix;
+                var deviationScores = analysis.DeviationScores;
+                var distinct = analysis.Distinct;
+                var kurtosis = analysis.Kurtosis;
+                var means = analysis.Means;
+                var medians = analysis.Medians;
+                var modes = analysis.Modes;
+                var ranges = analysis.Ranges;
+                var samples = analysis.Samples;
+                var skewness = analysis.Skewness;
+                var source = analysis.Source;
+                var standardDeviation = analysis.StandardDeviations;
+                var standardErrors = analysis.StandardErrors;
+                var standardScores = analysis.StandardScores;
+                var sums = analysis.Sums;
+                var variables = analysis.Variables;
+                var variances = analysis.Variances;
+                var confidence = analysis.Confidence;
+                var quartiles = analysis.Quartiles;
+                var innerFence = analysis.InnerFences;
+                var outerFence = analysis.OuterFences;
+
+                Assert.AreEqual(1, columnNames.Length);
+                Assert.AreEqual(1, correlation.Length);
+                Assert.AreEqual(1, covariance.Length);
+                Assert.AreEqual(i, deviationScores.Length);
+                Assert.AreEqual(1, distinct.Length);
+                Assert.AreEqual(1, kurtosis.Length);
+                Assert.AreEqual(1, means.Length);
+                Assert.AreEqual(1, medians.Length);
+                Assert.AreEqual(1, modes.Length);
+                Assert.AreEqual(1, ranges.Length);
+                Assert.AreEqual(i, samples);
+                Assert.AreEqual(1, skewness.Length);
+                Assert.AreEqual(i, source.Length);
+                Assert.AreEqual(1, standardDeviation.Length);
+                Assert.AreEqual(1, standardErrors.Length);
+                Assert.AreEqual(i, standardScores.Length);
+                Assert.AreEqual(1, sums.Length);
+                Assert.AreEqual(1, variables);
+                Assert.AreEqual(1, variances.Length);
+                Assert.AreEqual(1, confidence.Length);
+                Assert.AreEqual(1, innerFence.Length);
+                Assert.AreEqual(1, outerFence.Length);
+                Assert.AreEqual(1, quartiles.Length);
+            }
+
+        }
     }
 }

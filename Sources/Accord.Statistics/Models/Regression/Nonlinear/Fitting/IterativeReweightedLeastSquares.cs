@@ -206,8 +206,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// 
         public IterativeReweightedLeastSquares(LogisticRegression regression)
         {
-            var glm = GeneralizedLinearRegression.FromLogisticRegression(regression, makeCopy: false);
-            constructor(glm);
+            constructor(GeneralizedLinearRegression.FromLogisticRegression(regression, makeCopy: false));
         }
 
         /// <summary>

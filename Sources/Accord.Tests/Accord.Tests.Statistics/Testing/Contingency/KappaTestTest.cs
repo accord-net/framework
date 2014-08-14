@@ -123,7 +123,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(OneSampleHypothesis.ValueIsGreaterThanHypothesis, target.Hypothesis);
 
             Assert.AreEqual(10.67, target.Statistic, 1e-3);
-            Assert.AreEqual(0, target.PValue);
+            Assert.AreEqual(7.0849733798130419E-27, target.PValue);
         }
 
         [TestMethod()]

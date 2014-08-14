@@ -53,7 +53,6 @@ namespace Accord.Controls
     /// </remarks>
     /// 
     /// <seealso cref="Accord.Controls.Vision"/>
-    /// <seealso cref="Accord.Controls.Imaging"/>
     /// 
     [CompilerGenerated]
     class NamespaceDoc

@@ -32,12 +32,12 @@ namespace Accord
     using Accord.Controls;
     using Accord.DirectSound;
     using Accord.Imaging;
+    using Accord.IO;
     using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Neuro;
     using Accord.Statistics;
     using Accord.Vision;
-    using Accord.Controls.Imaging;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -58,6 +58,7 @@ namespace Accord
     /// <seealso cref="Accord.Controls"/>
     /// <seealso cref="Accord.DirectSound"/>
     /// <seealso cref="Accord.Imaging"/>
+    /// <seealso cref="Accord.IO"/>
     /// <seealso cref="Accord.MachineLearning"/>
     /// <seealso cref="Accord.Math"/>
     /// <seealso cref="Accord.Neuro"/>

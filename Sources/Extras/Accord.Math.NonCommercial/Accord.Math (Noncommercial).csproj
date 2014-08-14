@@ -54,7 +54,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <CodeAnalysisRules>
     </CodeAnalysisRules>
-    <DocumentationFile>..\..\Release\net40\Accord.Math.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net40\Accord.Math.Noncommercial.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
@@ -68,12 +68,12 @@
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\..\Release\net35\Accord.Math.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net35\Accord.Math.Noncommercial.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisLogFile>..\..\Release\net35\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>..\..\Release\net35\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
@@ -87,7 +87,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>CODE_ANALYSIS;TRACE;NET45</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\..\Release\net40\Accord.Math.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net40\Accord.Math.Noncommercial.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -95,18 +95,21 @@
     <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %284.0%29|AnyCPU'">
-    <DocumentationFile>..\..\..\Release\net40\Noncommercial\Accord.Math.Noncommercial.xml</DocumentationFile>
-    <OutputPath>..\..\..\Release\net40\Noncommercial\</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+    <OutputPath>..\..\..\Release\net40\</OutputPath>
+    <DocumentationFile>..\..\..\Release\net40\Accord.Math.Noncommercial.XML</DocumentationFile>
     <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %283.5%29|AnyCPU'">
-    <DocumentationFile>..\..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.xml</DocumentationFile>
-    <OutputPath>..\..\..\Release\net35\Noncommercial\</OutputPath>
-    <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <OutputPath>..\..\..\Release\net35\</OutputPath>
+    <DocumentationFile>..\..\..\Release\net35\Accord.Math.Noncommercial.XML</DocumentationFile>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %284.5%29|AnyCPU'">
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+    <OutputPath>..\..\..\Release\net45\</OutputPath>
+    <DocumentationFile>..\..\..\Release\net45\Accord.Math.Noncommercial.XML</DocumentationFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>

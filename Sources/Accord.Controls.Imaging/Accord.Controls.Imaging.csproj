@@ -8,7 +8,7 @@
     <ProjectGuid>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Accord.Controls.Imaging</RootNamespace>
+    <RootNamespace>Accord.Controls</RootNamespace>
     <AssemblyName>Accord.Controls.Imaging</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

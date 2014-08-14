@@ -24,11 +24,8 @@ namespace Accord.Tests.Imaging
 {
     using System.Drawing;
     using Accord.Imaging.Converters;
-    using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using AForge.Imaging.Filters;
-    using Accord.Controls.Imaging;
-    using System.Windows.Forms;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class ArrayToImageTest

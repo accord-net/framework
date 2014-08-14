@@ -120,7 +120,8 @@ namespace Accord.MachineLearning
         /// 
         public void Save(string path)
         {
-            Save(new FileStream(path, FileMode.Create));
+            using (var stream = new FileStream(path, FileMode.Create))
+                Save(stream);
         }
 
         /// <summary>
@@ -147,7 +148,8 @@ namespace Accord.MachineLearning
         /// 
         public static CrossValidationResult<TModel> Load(string path)
         {
-            return Load(new FileStream(path, FileMode.Open));
+            using (var stream = new FileStream(path, FileMode.Open))
+                return Load(stream);
         }
     }
 

@@ -123,13 +123,15 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Boosting\Accord.MachineLearning.Boosting.cs" />
     <Compile Include="Boosting\AdaBoost.cs" />
     <Compile Include="BagOfWords.cs" />
     <Compile Include="Bayes\NaiveBayes`1.cs" />
     <Compile Include="Boosting\Boost.cs" />
-    <Compile Include="Boosting\Classifiers\Weak.cs" />
-    <Compile Include="Boosting\Classifiers\IWeakClassifier.cs" />
-    <Compile Include="Boosting\Classifiers\DecisionStump.cs" />
+    <Compile Include="Boosting\Learners\Accord.MachineLearning.Boosting.Learners.cs" />
+    <Compile Include="Boosting\Learners\Weak.cs" />
+    <Compile Include="Boosting\Learners\IWeakClassifier.cs" />
+    <Compile Include="Boosting\Learners\DecisionStump.cs" />
     <Compile Include="Clustering\BinarySplit.cs" />
     <Compile Include="Clustering\GaussianCluster.cs" />
     <Compile Include="Clustering\MeanShiftCluster.cs" />
@@ -137,8 +139,11 @@
     <Compile Include="Clustering\IClusteringAlgorithm.cs" />
     <Compile Include="Clustering\KModesCluster.cs" />
     <Compile Include="Clustering\MeanShift.cs" />
+    <Compile Include="DecisionTrees\Accord.MachineLearning.DecisionTrees.cs" />
     <Compile Include="DecisionTrees\ComparisonKind.cs" />
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
+    <Compile Include="DecisionTrees\Pruning\Accord.MachineLearning.DecisionTrees.Prunning.cs" />
+    <Compile Include="DecisionTrees\Rules\Accord.MachineLearning.DecisionTrees.Rules.cs" />
     <Compile Include="DecisionTrees\Rules\Antecedent.cs" />
     <Compile Include="DecisionTrees\Rules\DecisionSet.cs" />
     <Compile Include="DecisionTrees\Rules\DecisionRule.cs" />
@@ -159,6 +164,7 @@
     <Compile Include="EarlyStopping.cs" />
     <Compile Include="GridSearchRange.cs" />
     <Compile Include="GridSearchParameter.cs" />
+    <Compile Include="Performance\CrossValidation\CrossValidationValues`1.cs" />
     <Compile Include="Performance\CrossValidation\CrossValidationResult`1.cs" />
     <Compile Include="Performance\CrossValidation\CrossValidationValues.cs" />
     <Compile Include="Performance\CrossValidation\CrossValidationStatistics.cs" />
@@ -191,6 +197,7 @@
     <Compile Include="Structures\KDTreeNode.cs" />
     <Compile Include="Structures\KDTreeNodeCollection.cs" />
     <Compile Include="DecisionTrees\DecisionTreeTraversal.cs" />
+    <Compile Include="VectorMachines\Accord.MachineLearning.VectorMachines.cs" />
     <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
     <Compile Include="VectorMachines\Learning\CoordinateDescentLinearLearning.cs" />
     <Compile Include="VectorMachines\Learning\NewtonMethodPrimalLearning.cs" />

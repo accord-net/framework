@@ -26,9 +26,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Analysis;
 
     [TestClass()]
     public class SequentialMinimalOptimizationTest
@@ -500,6 +500,35 @@ namespace Accord.Tests.MachineLearning
                 double error = learn.Run();
                 Assert.AreEqual(0.5, error);
             }
+        }
+
+        [TestMethod()]
+        public void SequentialMinimalOptimizationConstructorTest2()
+        {
+            double[][] inputs =
+            {
+                new double[] { -1, -1 },
+                null,
+                new double[] {  1, -1 },
+                new double[] {  1,  1 }
+            };
+
+            int[] or =
+            {
+                0,
+                0,
+                0,
+                +1
+            };
+
+            // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
+            SupportVectorMachine machine = new SupportVectorMachine(inputs[0].Length);
+
+            bool thrown = false;
+            try { new SequentialMinimalOptimization(machine, inputs, or); }
+            catch (ArgumentNullException) { thrown = true; }
+
+            Assert.IsTrue(thrown);
         }
 
 

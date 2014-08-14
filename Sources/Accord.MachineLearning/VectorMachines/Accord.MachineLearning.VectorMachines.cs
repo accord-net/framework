@@ -28,10 +28,12 @@ namespace Accord.MachineLearning.VectorMachines
     using Accord.Statistics.Kernels;
 
     /// <summary>
-    ///  Contains classes related to Support Vector Machines (SVMs). Contains
-    ///  linear machines, kernel machines, multi-class machines, SVM-DAGs (Directed
-    ///  Acyclic Graphs), multi-label classification and also offers support for the
-    ///  probabilistic output calibration of SVM outputs.
+    ///  Contains classes related to <see cref="SupportVectorMachine">Support Vector Machines</see> (SVMs). 
+    ///  Contains <see cref="SupportVectorMachine">linear machines</see>, <see cref="KernelSupportVectorMachine">
+    ///  kernel machines</see>, <see cref="MulticlassSupportVectorMachine">multi-class machines</see>, SVM-DAGs 
+    ///  (Directed Acyclic Graphs), <see cref="MultilabelSupportVectorMachine">multi-label classification</see>
+    ///  and also offers support for the <see cref="ProbabilisticOutputLearning">probabilistic output calibration
+    ///  </see> of SVM outputs.
     /// </summary>
     /// 
     /// <remarks>

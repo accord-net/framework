@@ -27,7 +27,7 @@ namespace Accord.Statistics.Distributions.Fitting
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution">
-    ///   Empirical distributions</see>.
+    ///   Empirical distributions</see>. 
     /// </summary>
     /// 
     [Serializable]
@@ -35,7 +35,9 @@ namespace Accord.Statistics.Distributions.Fitting
     {
         /// <summary>
         ///   Gets or sets the smoothing rule used to compute the smoothing
-        ///   parameter in the <see cref="EmpiricalDistribution"/>.
+        ///   parameter in the <see cref="EmpiricalDistribution"/>. Default
+        ///   is to use the <see cref="EmpiricalDistribution.SmoothingRule">
+        ///   normal distribution bandwidth approximation</see>.
         /// </summary>
         /// 
         public Func<double[], double> SmoothingRule { get; set; }

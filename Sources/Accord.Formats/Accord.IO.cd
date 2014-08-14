@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Accord.IO.ExcelReader">
+    <Position X="1" Y="0.5" Width="2.25" />
+    <Members>
+      <Field Name="strConnection" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IABAAAAACAEECAAAAAEABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExcelReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Accord.IO.SparseReader" BaseTypeListCollapsed="true">
+    <Position X="4.5" Y="0.5" Width="2.25" />
+    <Members>
+      <Field Name="reader" Hidden="true" />
+      <Field Name="sampleSize" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAABAAACgAAQAAgQAAAAAQAAAAAAAQAAA=</HashCode>
+      <FileName>SparseReader.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.IO.IdxReader" BaseTypeListCollapsed="true">
+    <Position X="7.75" Y="1.25" Width="2.25" />
+    <Members>
+      <Field Name="arrayLength" Hidden="true" />
+      <Field Name="buffer" Hidden="true" />
+      <Field Name="dataSize" Hidden="true" />
+      <Field Name="reader" Hidden="true" />
+      <Field Name="type" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAEAAQACJAAAAAABgAABIgkAABAABgAABEAAAQAAA=</HashCode>
+      <FileName>IdxReader.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DataType" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.IO.MatNode" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="3.75" Width="3.25" />
+    <Members>
+      <Field Name="bytes" Hidden="true" />
+      <Field Name="compressed" Hidden="true" />
+      <Field Name="contents" Hidden="true" />
+      <Field Name="dimensions" Hidden="true" />
+      <Field Name="length" Hidden="true" />
+      <Field Name="matrixOffset" Hidden="true" />
+      <Field Name="matType" Hidden="true" />
+      <Field Name="readBytes" Hidden="true" />
+      <Field Name="reader" Hidden="true" />
+      <Field Name="startOffset" Hidden="true" />
+      <Property Name="this" Hidden="true" />
+      <Field Name="type" Hidden="true" />
+      <Field Name="typeSize" Hidden="true" />
+      <Field Name="value" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AGAAAAEAAAAAABAACmBAAAQQAAQBASgAAABgAAAQAAQ=</HashCode>
+      <FileName>MatNode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="this[System.String]" />
+      <Property Name="this[System.Int32]" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.IO.MatReader" BaseTypeListCollapsed="true">
+    <Position X="1" Y="3.75" Width="2" />
+    <Members>
+      <Field Name="contents" Hidden="true" />
+      <Field Name="reader" Hidden="true" />
+      <Property Name="this" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IEAAAEAAACAgAAAACAAAAAAAgAAAAAAAAAAEAAAQAAA=</HashCode>
+      <FileName>MatReader.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="this[System.Int32]" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Enum Name="Accord.IO.IdxDataType">
+    <Position X="11" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAKAAAAAAAAAAAACAgAAAAAAAAAgAgA=</HashCode>
+      <FileName>IdxReader.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

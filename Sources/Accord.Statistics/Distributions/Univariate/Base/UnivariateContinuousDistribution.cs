@@ -77,6 +77,9 @@ namespace Accord.Statistics.Distributions.Univariate
         private double? stdDev;
 
         [NonSerialized]
+        private double? mode;
+
+        [NonSerialized]
         private DoubleRange? quartiles;
 
         /// <summary>
@@ -126,7 +129,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <value>The distribution's mode value.</value>
         /// 
-        public abstract double Mode { get; }
+        public virtual double Mode
+        {
+            get
+            {
+                if (mode == null)
+                    mode = BrentSearch.Maximize(ProbabilityDensityFunction, Quartiles.Min, Quartiles.Max, 1e-10);
+
+                return mode.Value;
+            }
+        }
 
         /// <summary>
         ///   Gets the Quartiles for this distribution.
@@ -525,7 +537,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual double InverseDistributionFunction(
 #if !NET35
-            [RangeAttribute(0, 1)]
+[RangeAttribute(0, 1)]
 #endif 
             double p)
         {

@@ -47,7 +47,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>Ew4ICBoAAAACEhQAAAFADDAAAQUwQBCABBAcALTGDMc=</HashCode>
+      <HashCode>Ew4ICBoAAAAGEhQAAAFADDAAAQUwQBCABFAcALTGDMc=</HashCode>
       <FileName>VectorMachines\Learning\SequentialMinimalOptimization.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -94,7 +94,7 @@
       <Field Name="tolerance" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AIAAAAKAgAACAAAAAAAABAAAAEAAABAQAABAAAQQAAI=</HashCode>
+      <HashCode>AIAAAAKAgIACAAAAAAAABAIAAEAAABAQAABAAAQQAAI=</HashCode>
       <FileName>VectorMachines\Learning\ProbabilisticOutputLearning.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -127,7 +127,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.MachineLearning.VectorMachines.Learning.SupportVectorReduction" BaseTypeListCollapsed="true">
-    <Position X="21.75" Y="7.5" Width="2.25" />
+    <Position X="12.25" Y="11.25" Width="2.25" />
     <Members>
       <Field Name="alpha" Hidden="true" />
       <Method Name="compute" Hidden="true" />
@@ -255,7 +255,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Accord.MachineLearning.VectorMachines.Learning.LeastSquaresLearning">
-    <Position X="24.5" Y="4.25" Width="1.75" />
+    <Position X="24.5" Y="4.25" Width="2" />
     <Members>
       <Field Name="cache" Hidden="true" />
       <Field Name="cacheSize" Hidden="true" />
@@ -272,6 +272,63 @@
     <TypeIdentifier>
       <HashCode>ACUAAAIAAAACAAAAAAABBABAAAAAABAAAAAEAAQAFEI=</HashCode>
       <FileName>VectorMachines\Learning\LeastSquaresLearning.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.CoordinateDescentLinearLearning" BaseTypeListCollapsed="true">
+    <Position X="21" Y="7.5" Width="2.5" />
+    <Members>
+      <Field Name="alpha" Hidden="true" />
+      <Field Name="bias" Hidden="true" />
+      <Field Name="c" Hidden="true" />
+      <Field Name="eps" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="loss" Hidden="true" />
+      <Field Name="machine" Hidden="true" />
+      <Field Name="max_iter" Hidden="true" />
+      <Field Name="negatives" Hidden="true" />
+      <Field Name="negativeWeight" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Field Name="positives" Hidden="true" />
+      <Field Name="positiveWeight" Hidden="true" />
+      <Field Name="useClassLabelProportion" Hidden="true" />
+      <Field Name="useComplexityHeuristic" Hidden="true" />
+      <Field Name="weights" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>goQIABKQAAACEBEAACAABCAAAAAgQBCAABIUAAQACMI=</HashCode>
+      <FileName>VectorMachines\Learning\CoordinateDescentLinearLearning.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Loss" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Accord.MachineLearning.VectorMachines.Learning.NewtonMethodPrimalLearning" BaseTypeListCollapsed="true">
+    <Position X="24" Y="7.25" Width="2.5" />
+    <Members>
+      <Field Name="bias" Hidden="true" />
+      <Field Name="c" Hidden="true" />
+      <Field Name="C" Hidden="true" />
+      <Field Name="g" Hidden="true" />
+      <Field Name="h" Hidden="true" />
+      <Field Name="I" Hidden="true" />
+      <Field Name="inputs" Hidden="true" />
+      <Field Name="machine" Hidden="true" />
+      <Field Name="negatives" Hidden="true" />
+      <Field Name="negativeWeight" Hidden="true" />
+      <Field Name="outputs" Hidden="true" />
+      <Field Name="positives" Hidden="true" />
+      <Field Name="positiveWeight" Hidden="true" />
+      <Field Name="sizeI" Hidden="true" />
+      <Field Name="tron" Hidden="true" />
+      <Field Name="useClassLabelProportion" Hidden="true" />
+      <Field Name="useComplexityHeuristic" Hidden="true" />
+      <Field Name="z" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gIQYQAOAAAACEBEAQAAEBCAAAAAoABCIUBAEgSQACMI=</HashCode>
+      <FileName>VectorMachines\Learning\NewtonMethodPrimalLearning.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -312,6 +369,13 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAACAAAAA=</HashCode>
       <FileName>VectorMachines\MulticlassSupportVectorMachine.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.MachineLearning.VectorMachines.Learning.Loss">
+    <Position X="18.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>VectorMachines\Learning\CoordinateDescentLinearLearning.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Delegate Name="Accord.MachineLearning.VectorMachines.Learning.SupportVectorMachineLearningConfigurationFunction">

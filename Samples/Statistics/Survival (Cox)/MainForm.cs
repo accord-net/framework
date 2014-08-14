@@ -36,9 +36,9 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
-using Accord.Statistics.Formats;
 
 namespace Survival.Cox
 {

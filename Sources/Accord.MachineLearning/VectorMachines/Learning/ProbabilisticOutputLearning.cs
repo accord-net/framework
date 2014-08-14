@@ -23,9 +23,9 @@
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using System;
-    using Accord.Statistics.Links;
-    using Accord.Math.Optimization;
     using Accord.Math;
+    using Accord.Math.Optimization;
+    using Accord.Statistics.Links;
 
     /// <summary>
     ///   Probabilistic Output Calibration.
@@ -376,18 +376,12 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
                     if (stepSize < minStepSize)
                     {
-                        // No decrease could be obtained. Abort with an exception.
-                        throw new LineSearchFailedException("No sufficient decrease was obtained.");
+                        // No decrease could be obtained. 
+                        break; // throw new LineSearchFailedException("No sufficient decrease was obtained.");
                     }
                 }
             }
 
-            if (iterations >= maxIterations)
-            {
-                // The method hasn't converged within the given
-                // maximum number of iterations. Alert the user.
-                throw new ConvergenceException("Maximum iterations reached.");
-            }
 
             // The iterative algorithm has converged
             machine.Link = new LogitLinkFunction(beta: -A, constant: -B);

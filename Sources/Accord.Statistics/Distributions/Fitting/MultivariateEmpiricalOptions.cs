@@ -36,6 +36,8 @@ namespace Accord.Statistics.Distributions.Fitting
         /// <summary>
         ///   Gets or sets the smoothing rule used to compute the smoothing
         ///   parameter in the <see cref="MultivariateEmpiricalDistribution"/>.
+        ///   Default is to use <see cref="MultivariateEmpiricalDistribution.SilvermanRule">
+        ///   Silverman's rule</see>.
         /// </summary>
         /// 
         public Func<double[][], double[,]> SmoothingRule { get; set; }

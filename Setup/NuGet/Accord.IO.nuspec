@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.IO</id>
+    <version>$version$</version>
+    <title>Accord.IO</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Contains File and data parsers to load and save data from different file formats. This package is part of the Accord.NET Framework.</description>
+    <summary>Accord.NET IO (data formats) Library from the Accord.NET Framework</summary>
+    <tags>accord.net aforge.net framework statistics mnist libsvm excel mat-file matlab octave matrix</tags>
+    <dependencies>
+      <dependency id="Accord"      version="2.13.0" />
+      <dependency id="Accord.Math" version="2.13.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.IO.dll" target="lib\net35\Accord.IO.dll" />
+    <file src="..\..\Release\net35\Accord.IO.xml" target="lib\net35\Accord.IO.xml" />
+
+    <file src="..\..\Release\net40\Accord.IO.dll" target="lib\net40\Accord.IO.dll" />
+    <file src="..\..\Release\net40\Accord.IO.xml" target="lib\net40\Accord.IO.xml" />
+  </files>
+</package>

@@ -241,7 +241,8 @@ namespace Accord.Statistics.Distributions
     /// <seealso cref="UniformContinuousDistribution"/>
     /// <seealso cref="UniformDiscreteDistribution"/>
     /// 
-    public interface IUnivariateDistribution<TObservation> : IDistribution<TObservation>
+    public interface IUnivariateDistribution<TObservation>
+        : IDistribution<TObservation>, IDistribution
     {
 
         /// <summary>

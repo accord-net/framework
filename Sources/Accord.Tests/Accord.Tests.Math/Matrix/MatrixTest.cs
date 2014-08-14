@@ -201,6 +201,18 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod()]
+        public void IntervalTest2Inverse()
+        {
+            double from = 10;
+            double to = 0;
+            int steps = 10;
+            double[] expected = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            double[] actual = Matrix.Interval(from, to, steps);
+
+            Assert.IsTrue(Matrix.IsEqual(expected.Reverse().ToArray(), actual));
+        }
+
+        [TestMethod()]
         public void IntervalTest1()
         {
             int from = -2;
@@ -224,11 +236,33 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod()]
+        public void IntervalTestInverse()
+        {
+            double from = 1;
+            double to = -1;
+            double stepSize = 0.2;
+            double[] expected = { -1.0, -0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0 };
+            double[] actual = Matrix.Interval(from, to, stepSize);
+
+            Assert.IsTrue(Matrix.IsEqual(expected.Reverse().ToArray(), Matrix.Round(actual, 15)));
+        }
+
+        [TestMethod()]
         public void IndexesTest()
         {
             int from = -1;
             int to = 6;
             int[] expected = { -1, 0, 1, 2, 3, 4, 5 };
+            int[] actual = Matrix.Indices(from, to);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+        }
+
+        [TestMethod()]
+        public void IndexesTestInverse()
+        {
+            int from = 6;
+            int to = -1;
+            int[] expected = { 5, 4, 3, 2, 1, 0, -1 };
             int[] actual = Matrix.Indices(from, to);
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
@@ -1918,6 +1952,21 @@ namespace Accord.Tests.Math
             double[][] actual = Matrix.Transpose(matrix, inPlace);
 
             Assert.AreEqual(matrix, actual);
+            Assert.IsTrue(actual.IsEqual(expected));
+        }
+
+        [TestMethod()]
+        public void GeneralizedTransposeTest()
+        {
+            double[,] a = 
+            {
+                { 5, 1, 6, 3, 1 },
+                { 7, 5, 1, 2, 8 },
+            };
+
+            double[,] actual = a.Transpose(new int[] { 1, 0 });
+            double[,] expected = a.Transpose();
+
             Assert.IsTrue(actual.IsEqual(expected));
         }
         #endregion

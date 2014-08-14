@@ -26,6 +26,7 @@ namespace Accord.Math
     using Accord.Math.Decompositions;
     using Accord.Math.Comparers;
     using System.Collections.Generic;
+    using System.Collections;
 
     public static partial class Matrix
     {
@@ -460,8 +461,11 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the transpose of a matrix.
         /// </summary>
+        /// 
         /// <param name="matrix">A matrix.</param>
+        /// 
         /// <returns>The transpose of the given matrix.</returns>
+        /// 
         public static T[,] Transpose<T>(this T[,] matrix)
         {
             return Transpose(matrix, false);
@@ -470,8 +474,11 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the transpose of a matrix.
         /// </summary>
+        /// 
         /// <param name="matrix">A matrix.</param>
+        /// 
         /// <returns>The transpose of the given matrix.</returns>
+        /// 
         public static T[][] Transpose<T>(this T[][] matrix)
         {
             return Transpose(matrix, false);
@@ -480,13 +487,18 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the transpose of a matrix.
         /// </summary>
+        /// 
         /// <param name="matrix">A matrix.</param>
+        /// 
         /// <param name="inPlace">True to store the transpose over the same input
         ///   <paramref name="matrix"/>, false otherwise. Default is false.</param>
+        ///   
         /// <returns>The transpose of the given matrix.</returns>
+        /// 
         public static T[,] Transpose<T>(this T[,] matrix, bool inPlace)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -523,10 +535,14 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the transpose of a matrix.
         /// </summary>
+        /// 
         /// <param name="matrix">A matrix.</param>
+        /// 
         /// <param name="inPlace">True to store the transpose over the same input
         ///   <paramref name="matrix"/>, false otherwise. Default is false.</param>
+        ///   
         /// <returns>The transpose of the given matrix.</returns>
+        /// 
         public static T[][] Transpose<T>(this T[][] matrix, bool inPlace)
         {
             if (matrix == null) throw new ArgumentNullException("matrix");
@@ -571,8 +587,11 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the transpose of a row vector.
         /// </summary>
+        /// 
         /// <param name="rowVector">A row vector.</param>
+        /// 
         /// <returns>The transpose of the given vector.</returns>
+        /// 
         public static T[,] Transpose<T>(this T[] rowVector)
         {
             if (rowVector == null) throw new ArgumentNullException("rowVector");
@@ -583,6 +602,64 @@ namespace Accord.Math
 
             return trans;
         }
+
+        /// <summary>
+        ///   Gets the generalized transpose of a tensor.
+        /// </summary>
+        /// 
+        /// <param name="array">A tensor.</param>
+        /// <param name="order">The new order for the tensor's dimensions.</param>
+        /// 
+        /// <returns>The transpose of the given tensor.</returns>
+        /// 
+        public static Array Transpose(this Array array, int[] order)
+        {
+            return transpose(array, order);
+        }
+      
+        /// <summary>
+        ///   Gets the generalized transpose of a tensor.
+        /// </summary>
+        /// 
+        /// <param name="array">A tensor.</param>
+        /// <param name="order">The new order for the tensor's dimensions.</param>
+        /// 
+        /// <returns>The transpose of the given tensor.</returns>
+        /// 
+        public static T Transpose<T>(this T array, int[] order)
+            where T : class, ICloneable, IList
+        {
+            Array arr = array as Array;
+
+            if (arr == null)
+                throw new ArgumentException("The given object must inherit from System.Array.", "array");
+
+            return transpose(arr, order) as T;
+        }
+
+        private static Array transpose(Array array, int[] order)
+        {
+            if (array.Length == 1 || array.Length == 0)
+                return array;
+
+            // Get the number of samples at each dimension
+            int[] size = new int[array.Rank];
+            for (int i = 0; i < size.Length; i++)
+                size[i] = array.GetLength(i);
+
+            Array r = Array.CreateInstance(array.GetType().GetElementType(), size.Submatrix(order));
+
+            // Generate all indices for accessing the matrix 
+            foreach (int[] pos in Combinatorics.Sequences(size, true))
+            {
+                int[] newPos = pos.Submatrix(order);
+                object value = array.GetValue(pos);
+                r.SetValue(value, newPos);
+            }
+
+            return r;
+        }
+
         #endregion
 
 
@@ -1119,8 +1196,11 @@ namespace Accord.Math
 
         #region Summation
         /// <summary>Calculates the matrix Sum vector.</summary>
+        /// 
         /// <param name="matrix">A matrix whose sums will be calculated.</param>
+        /// 
         /// <returns>Returns a vector containing the sums of each variable in the given matrix.</returns>
+        /// 
         public static float[] Sum(this float[,] matrix)
         {
             return Sum(matrix, 0);

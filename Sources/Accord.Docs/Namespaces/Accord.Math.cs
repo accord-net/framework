@@ -48,6 +48,14 @@ namespace Accord.Math
     ///   <img src="..\diagrams\classes\Accord.Math.png" />
     ///   
     /// <para>
+    ///   The namespace class diagram for the optimization namespace is shown below. </para>
+    ///   <img src="..\diagrams\classes\Accord.Math.Optimization.png" />
+    ///   
+    /// <para>
+    ///   The namespace class diagram for the matrix decompositions is shown below. </para>
+    ///   <img src="..\diagrams\classes\Accord.Math.Decompositions.png" />
+    ///   
+    /// <para>
     ///   Please note that class diagrams dedicated for matrix decompositions
     ///   are also available at <see cref="Accord.Math.Decompositions"/> page.
     /// </para>
@@ -59,6 +67,7 @@ namespace Accord.Math
     /// <seealso cref="Accord.Math.Differentiation"/>
     /// <seealso cref="Accord.Math.Environments"/>
     /// <seealso cref="Accord.Math.Geometry"/>
+    /// <seealso cref="Accord.Math.Integration"/>
     /// <seealso cref="Accord.Math.Kinematics"/>
     /// <seealso cref="Accord.Math.Optimization"/>
     /// <seealso cref="Accord.Math.Wavelets"/>

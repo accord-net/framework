@@ -166,7 +166,7 @@
       <Field Name="lbfgs" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAIAAAAAAAAAAAIAAAAAAEgAAAAAAAI=</HashCode>
+      <HashCode>AAAAAAAAACAAAAIAAAAAAgAAAAIAAAAAAEgAAAAAAAI=</HashCode>
       <FileName>Models\Fields\Learning\Hidden\HiddenQuasiNewtonLearning.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -203,7 +203,7 @@
       <Field Name="stochastic" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>IAAAgAAAACECBAIEQAAABAIAAAIgAAAAAAgAACIAAII=</HashCode>
+      <HashCode>IAAAgAAAACECBAIEQAAABgIAAAIgAAAAAAgAACIAAII=</HashCode>
       <FileName>Models\Fields\Learning\Hidden\HiddenGradientDescentLearning.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -275,7 +275,7 @@
       <Field Name="weightsUpdates" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>CIAAAEEAACECBAIEwAQABAIAAAIggAAAIAgUAAIBAII=</HashCode>
+      <HashCode>CIAAAEEAACECBAIEwAQABgIAAAIggAAAIAgUAAIBAII=</HashCode>
       <FileName>Models\Fields\Learning\Hidden\HiddenResilientGradientLearning.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -291,7 +291,7 @@
       <Method Name="progressChanged" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAQAAAAAACECAgIBBAAAAAIAAAIAAAAAAAgAAAAAAAI=</HashCode>
+      <HashCode>AAQAAAAAACECAgIBBAAAAgIAAAIAAAAAAAgAAAAAAAI=</HashCode>
       <FileName>Models\Fields\Learning\Hidden\HiddenConjugateGradientLearning.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -337,11 +337,6 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Struct Name="System.Double" Collapsed="true">
-    <Position X="10" Y="2.75" Width="2.75" />
-    <TypeIdentifier />
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Struct>
   <Interface Name="Accord.Statistics.Models.Fields.Features.IFeature&lt;TObservation&gt;">
     <Position X="10" Y="3.5" Width="2.75" />
     <Members>

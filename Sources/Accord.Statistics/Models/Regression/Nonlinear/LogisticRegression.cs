@@ -23,10 +23,8 @@
 namespace Accord.Statistics.Models.Regression
 {
     using System;
-    using System.Linq;
-    using Accord.Statistics.Testing;
-    using AForge;
     using Accord.Statistics.Links;
+    using AForge;
 
     /// <summary>
     ///   Binary Logistic Regression.

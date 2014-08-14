@@ -24,7 +24,6 @@ namespace Accord.Tests.Math
 {
     using System;
     using Accord.Math.Optimization;
-    using Accord.Math.Optimization.Constrained;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
 

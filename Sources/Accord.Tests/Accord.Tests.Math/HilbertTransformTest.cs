@@ -20,13 +20,11 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Math;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AForge.Math;
-
 namespace Accord.Tests.Math
 {
-
+    using Accord.Math;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using AForge.Math;
 
     [TestClass()]
     public class HilbertTransformTest

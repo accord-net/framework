@@ -57,22 +57,22 @@ namespace Accord.Tests.Statistics
 
 
             double cdf = pnormal.DistributionFunction(x: 1.4); // 0.99997428721920678
-            double pdf = pnormal.ProbabilityDensityFunction(x: 1.4); // 0.00125805994466928
-            double lpdf = pnormal.LogProbabilityDensityFunction(x: 1.4); // 1.6324443680420606
+            double pdf = pnormal.ProbabilityDensityFunction(x: 1.4); // 0.00020022645890003279
+            double lpdf = pnormal.LogProbabilityDensityFunction(x: 1.4); // -0.20543269836728234
 
             double ccdf = pnormal.ComplementaryDistributionFunction(x: 1.4); // 0.000025712780793218926
             double icdf = pnormal.InverseDistributionFunction(p: cdf); // 1.3999999999998953
 
-            double hf = pnormal.HazardFunction(x: 1.4); // 48.927416866598129
+            double hf = pnormal.HazardFunction(x: 1.4); // 7.7870402470368854
             double chf = pnormal.CumulativeHazardFunction(x: 1.4); // 10.568522382550167
 
             string str = pnormal.ToString(CultureInfo.InvariantCulture); // PND(x; p = 4.2)
 
             Assert.AreEqual(10.568522382550167, chf);
             Assert.AreEqual(0.99997428721920678, cdf);
-            Assert.AreEqual(0.00125805994466928, pdf);
-            Assert.AreEqual(1.6324443680420606, lpdf);
-            Assert.AreEqual(48.927416866598129, hf);
+            Assert.AreEqual(0.00020022645890003279, pdf);
+            Assert.AreEqual(-0.20543269836728234, lpdf);
+            Assert.AreEqual(7.7870402470368854, hf);
             Assert.AreEqual(0.000025712780793218926, ccdf);
             Assert.AreEqual(1.3999999999998953, icdf);
             Assert.AreEqual("PND(x; p = 4.2)", str);

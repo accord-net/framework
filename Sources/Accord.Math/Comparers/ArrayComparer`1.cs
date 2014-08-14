@@ -26,7 +26,8 @@ namespace Accord.Math.Comparers
     using System;
 
     /// <summary>
-    ///   Elementwise comparer for integer arrays.
+    ///   Elementwise comparer for integer arrays. 
+    ///   Please use ArrayComparer{T} instead.
     /// </summary>
     /// 
     [Obsolete("Please use ArrayComparer<T> instead.")]

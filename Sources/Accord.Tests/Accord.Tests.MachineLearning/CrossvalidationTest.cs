@@ -22,15 +22,15 @@
 
 namespace Accord.Tests.MachineLearning
 {
+    using System;
     using Accord.MachineLearning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Kernels;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
-    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class CrossvalidationTest
@@ -98,7 +98,7 @@ namespace Accord.Tests.MachineLearning
 
                 current++;
 
-                return new CrossValidationValues<object>(new object(), k, 2 * k);
+                return new CrossValidationValues(k, 2 * k);
             };
 
             var result = val.Compute();

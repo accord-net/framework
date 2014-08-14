@@ -30,20 +30,20 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using Accord.Controls;
-using Accord.MachineLearning.Bayes;
-using Accord.Math;
-using Accord.Statistics.Analysis;
-using Accord.Statistics.Distributions.Univariate;
-using Accord.Statistics.Formats;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using ZedGraph;
+using Accord.Controls;
+using Accord.IO;
+using Accord.MachineLearning.Bayes;
+using Accord.Math;
+using Accord.Statistics.Analysis;
+using Accord.Statistics.Distributions.Univariate;
 using Components;
+using ZedGraph;
 
 namespace Classification.Bayes
 {

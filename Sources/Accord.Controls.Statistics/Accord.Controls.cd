@@ -83,12 +83,12 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAIAgACAAAoAAAAagACAGIDgAABgIAAAAQgAAAEI=</HashCode>
+      <HashCode>AAAAAIAgACgABoAAAQagACEGIDgAABgIAAAASgAAAEI=</HashCode>
       <FileName>Views\HistogramView.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Controls.PropertyComparer&lt;T&gt;" BaseTypeListCollapsed="true">
-    <Position X="17.75" Y="0.5" Width="2" />
+    <Position X="18.5" Y="0.75" Width="2" />
     <Members>
       <Field Name="comparer" Hidden="true" />
       <Field Name="propertyDescriptor" Hidden="true" />
@@ -127,6 +127,7 @@
   <Class Name="Accord.Controls.DecisionTreeView">
     <Position X="17.25" Y="4" Width="1.75" />
     <Members>
+      <Field Name="codebook" Hidden="true" />
       <Field Name="components" Hidden="true" />
       <Method Name="convert" Hidden="true" />
       <Method Name="Dispose" Hidden="true" />
@@ -161,7 +162,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Controls.ColorSequenceCollection">
-    <Position X="14.5" Y="12" Width="3" />
+    <Position X="18" Y="12.25" Width="3" />
     <Members>
       <Field Name="Colors" Hidden="true" />
       <Field Name="sequence" Hidden="true" />
@@ -203,9 +204,10 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Controls.DataGridBox">
-    <Position X="15.5" Y="7.75" Width="2" />
+    <Position X="15" Y="8.25" Width="2" />
     <Members>
       <Field Name="components" Hidden="true" />
+      <Field Name="contextMenuStrip1" Hidden="true" />
       <Method Name="DataGridBox" Hidden="true" />
       <Field Name="dataGridView" Hidden="true" />
       <Method Name="Dispose" Hidden="true" />
@@ -214,12 +216,12 @@
       <Method Name="show" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAEAAIADAAAACAAAEAQAABKAAAAIBIAA=</HashCode>
+      <HashCode>AAAAAAAEASAAAEAAIADBAAACAAgEAQIABKAAAAKBIAA=</HashCode>
       <FileName>Boxes\DataGridBox.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Controls.DataSeriesBox">
-    <Position X="17.75" Y="7.75" Width="1.5" />
+    <Position X="17.5" Y="8.25" Width="1.5" />
     <Members>
       <Field Name="components" Hidden="true" />
       <Method Name="DataSeriesBox" Hidden="true" />
@@ -231,7 +233,7 @@
       <Field Name="zedGraphControl" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAQAAACAAAAAAAACAAAACABAEAAAABAAAAAIAIAA=</HashCode>
+      <HashCode>AAAAAQAEACAAAAAAAACAAAACABgEAAAABAAAAAIAAAA=</HashCode>
       <FileName>Boxes\DataSeriesBox.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -247,7 +249,7 @@
       <Method Name="show" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAACIAAACAAAEEAAGBAAoAAIAIAA=</HashCode>
+      <HashCode>AAAAAAAEACAAAAAAAACIAAACAAgEEAAGBAgoAAIAIAA=</HashCode>
       <FileName>Boxes\ScatterplotBox.cs</FileName>
     </TypeIdentifier>
   </Class>

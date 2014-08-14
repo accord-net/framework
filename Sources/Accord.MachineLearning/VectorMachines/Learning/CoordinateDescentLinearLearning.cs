@@ -599,7 +599,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     PGmin_old = Double.NegativeInfinity;
             }
 
-            Debug.WriteLine("\noptimization finished, #iter = %d\n", iter);
+            Debug.WriteLine("optimization finished, #iter = " + iter);
 
             if (iter >= max_iter)
             {

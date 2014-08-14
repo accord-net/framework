@@ -26,9 +26,8 @@ namespace Accord.Statistics
     using System.Collections.Generic;
     using Accord.Math;
     using Accord.Math.Decompositions;
-    using AForge;
     using Accord.Statistics.Kernels;
-    using System.Collections;
+    using AForge;
 
     /// <summary>
     ///   Set of statistics functions.
@@ -221,15 +220,18 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">A double array containing the vector members.</param>
         /// <param name="inPlace">Whether to perform operations in place, overwriting the original vector.</param>
+        /// <param name="alreadySorted">A boolean parameter informing if the given values have already been sorted.</param>
         /// <param name="percent">The percentage of observations to drop from the sample.</param>
         /// 
         /// <returns>The mean of the given data.</returns>
         /// 
-        public static double TruncatedMean(this double[] values, double percent, bool inPlace = false)
+        public static double TruncatedMean(this double[] values, double percent, bool inPlace = false, bool alreadySorted = false)
         {
-            values = (inPlace) ? values : (double[])values.Clone();
-
-            Array.Sort(values);
+            if (!alreadySorted)
+            {
+                values = (inPlace) ? values : (double[])values.Clone();
+                Array.Sort(values);
+            }
 
             int k = (int)Math.Floor(values.Length * percent);
 
@@ -452,6 +454,9 @@ namespace Accord.Statistics
         /// 
         public static double Median(this double[] values, int startIndex, int length, bool alreadySorted)
         {
+            if (values.Length == 1)
+                return values[0];
+
             if (!alreadySorted)
             {
                 values = (double[])values.Clone();
@@ -494,6 +499,21 @@ namespace Accord.Statistics
         /// 
         public static double Quartiles(double[] values, out double q1, out double q3, bool alreadySorted)
         {
+            double median;
+
+            if (values.Length == 1)
+            {
+                q1 = q3 = values[0];
+                return values[0];
+            }
+            else if (values.Length == 2)
+            {
+                median = values[0] + values[1];
+                q1 = (values[0] + median) / 2.0;
+                q3 = (median + values[1]) / 2.0;
+                return median;
+            }
+
             if (!alreadySorted)
             {
                 values = (double[])values.Clone();
@@ -503,7 +523,6 @@ namespace Accord.Statistics
             int N = values.Length;
             int half = N / 2;
 
-            double median;
 
             if (N % 2 == 0)
             {
@@ -938,7 +957,8 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">A number array containing the vector values.</param>
-        /// <returns>The variance of the given data.</returns>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
         /// 
         public static double Mode(this double[] values)
         {
@@ -982,7 +1002,8 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">A number array containing the vector values.</param>
-        /// <returns>The variance of the given data.</returns>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
         /// 
         public static int Mode(this int[] values)
         {
@@ -1026,7 +1047,8 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="values">A number array containing the vector values.</param>
-        /// <returns>The variance of the given data.</returns>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
         /// 
         public static T Mode<T>(this T[] values)
         {
@@ -3517,55 +3539,63 @@ namespace Accord.Statistics
         }
 
 
-        /// <summary>
-        ///   Generates the Standard Scores, also known as Z-Scores, from the given data.
-        /// </summary>
-        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <returns>The Z-Scores for the matrix.</returns>
+        /// <summary> 
+        ///   Generates the Standard Scores, also known as Z-Scores, from the given data. 
+        /// </summary> 
+        /// 
+        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param> 
+        /// 
+        /// <returns>The Z-Scores for the matrix.</returns> 
+        /// 
         public static double[,] ZScores(double[,] matrix)
         {
             double[] mean = Mean(matrix);
             return ZScores(matrix, mean, StandardDeviation(matrix, mean));
         }
 
-        /// <summary>
-        ///   Generates the Standard Scores, also known as Z-Scores, from the given data.
-        /// </summary>
-        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The mean value of the given values, if already known.</param>
-        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
-        /// <returns>The Z-Scores for the matrix.</returns>
+        /// <summary> 
+        ///   Generates the Standard Scores, also known as Z-Scores, from the given data. 
+        /// </summary> 
+        /// 
+        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param> 
+        /// <param name="means">The mean value of the given values, if already known.</param> 
+        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param> 
+        /// 
+        /// <returns>The Z-Scores for the matrix.</returns> 
+        /// 
         public static double[,] ZScores(double[,] matrix, double[] means, double[] standardDeviations)
         {
             return Center(matrix, means, inPlace: false).Standardize(standardDeviations, inPlace: true);
         }
 
-        /// <summary>
-        ///   Generates the Standard Scores, also known as Z-Scores, from the given data.
-        /// </summary>
-        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <returns>The Z-Scores for the matrix.</returns>
+        /// <summary> 
+        ///   Generates the Standard Scores, also known as Z-Scores, from the given data. 
+        /// </summary> 
+        /// 
+        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param> 
+        /// 
+        /// <returns>The Z-Scores for the matrix.</returns> 
+        /// 
         public static double[][] ZScores(double[][] matrix)
         {
             double[] mean = Mean(matrix);
             return ZScores(matrix, mean, StandardDeviation(matrix, mean));
         }
 
-        /// <summary>
-        ///   Generates the Standard Scores, also known as Z-Scores, from the given data.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param>
-        /// <param name="means">The mean value of the given values, if already known.</param>
-        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param>
-        /// 
-        /// <returns>The Z-Scores for the matrix.</returns>
-        /// 
+        /// <summary> 
+        ///   Generates the Standard Scores, also known as Z-Scores, from the given data. 
+        /// </summary> 
+        ///  
+        /// <param name="matrix">A number multi-dimensional array containing the matrix values.</param> 
+        /// <param name="means">The mean value of the given values, if already known.</param> 
+        /// <param name="standardDeviations">The values' standard deviation vector, if already known.</param> 
+        ///  
+        /// <returns>The Z-Scores for the matrix.</returns> 
+        ///  
         public static double[][] ZScores(double[][] matrix, double[] means, double[] standardDeviations)
         {
             return Center(matrix, means, inPlace: false).Standardize(standardDeviations, inPlace: true);
         }
-
 
         /// <summary>
         ///   Centers column data, subtracting the empirical mean from each variable.

@@ -120,6 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\OwensTTest.cs" />
     <Compile Include="Integration\IntegralTest.cs" />
     <Compile Include="Convergence\AbsoluteConvergenceTest.cs" />
     <Compile Include="Comparers\ElementComparerTest.cs" />
@@ -209,7 +210,7 @@
       <Name>Accord.Statistics</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Non LGPL\Accord.Math.NonCommercial\Accord.Math %28Noncommercial%29.csproj">
+    <ProjectReference Include="..\..\Extras\Accord.Math.NonCommercial\Accord.Math %28Noncommercial%29.csproj">
       <Project>{1A83AF16-1AC8-45E3-9E7E-FA7248C7CBCB}</Project>
       <Name>Accord.Math %28Noncommercial%29</Name>
     </ProjectReference>

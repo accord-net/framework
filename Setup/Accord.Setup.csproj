@@ -17,8 +17,7 @@
     <OutputPath>.\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Archiver\Build %28v3.5%29.cmd" />
-    <None Include="Archiver\Build %28v4.0%29.cmd" />
+    <None Include="Archiver\Build.cmd" />
     <None Include="Archiver\Samples.cmd" />
     <None Include="Build all.cmd" />
     <None Include="Installer\Build.cmd" />
@@ -33,6 +32,7 @@
     <None Include="NuGet\Accord.Controls.nuspec" />
     <None Include="NuGet\Accord.Controls.Vision.nuspec" />
     <None Include="NuGet\Accord.Imaging.nuspec" />
+    <None Include="NuGet\Accord.IO.nuspec" />
     <None Include="NuGet\Accord.MachineLearning.nuspec" />
     <None Include="NuGet\Accord.Math.nuspec" />
     <None Include="NuGet\Accord.Neuro.nuspec" />

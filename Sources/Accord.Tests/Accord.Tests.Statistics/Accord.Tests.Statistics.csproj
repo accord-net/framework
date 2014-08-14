@@ -136,6 +136,7 @@
     <Compile Include="Distributions\Univariate\Continuous\LogisticDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\PowerLognormalDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\PowerNormalDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\SkewNormalDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TukeyLambdaDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistributionTest.cs" />

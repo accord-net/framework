@@ -144,7 +144,7 @@ namespace Accord.Tests.Statistics
         {
             UnivariateContinuousDistribution target = CreateUnivariateContinuousDistribution();
             double x = 18.14;
-            double expected = 0.00885952932929092;
+            double expected = 0.008859529329290905;
             double actual = target.DistributionFunction(x);
 
             Assert.AreEqual(expected, actual);
@@ -156,7 +156,7 @@ namespace Accord.Tests.Statistics
         {
             IDistribution target = CreateUnivariateContinuousDistribution();
             double x = 18.14;
-            double expected = 0.00885952932929092;
+            double expected = 0.008859529329290905;
             double actual = target.DistributionFunction(x);
 
             Assert.AreEqual(expected, actual);
