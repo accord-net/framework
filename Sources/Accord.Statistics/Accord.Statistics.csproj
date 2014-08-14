@@ -433,6 +433,7 @@
     <Compile Include="Running\RunningNormalStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Moving\MovingNormalStatistics.cs" />
+    <Compile Include="Testing\Accord.Statistics.Testing.cs" />
     <Compile Include="Testing\Contingency\ReceiverOperatingCurveTest.cs" />
     <Compile Include="Testing\Contingency\TwoAverageKappaTest.cs" />
     <Compile Include="Testing\Contingency\AverageKappaTest.cs" />
@@ -440,6 +441,7 @@
     <Compile Include="Testing\MultinomialTest.cs" />
     <Compile Include="Testing\Multiple Samples\BartlettTest.cs" />
     <Compile Include="Testing\Multiple Samples\LeveneTest.cs" />
+    <Compile Include="Testing\Power\Accord.Statistics.Testing.Power.cs" />
     <Compile Include="Testing\TwoSample\PairedTTest.cs" />
     <Compile Include="Testing\TwoSample\TwoProportionZTest.cs" />
     <Compile Include="Testing\Contingency\TwoReceiverOperatingCurveTest.cs" />

@@ -84,7 +84,7 @@
 <NamespaceSummaryItem name="Accord.Statistics.Models" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Statistics.Models.Regression" isDocumented="True">Contains statistical regression models such as logistic and linear regressions.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Statistics.Models.Regression.Linear" isDocumented="True">Linear statistical regression models such as simple, polynomial, multiple and multivariate linear regressions.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Testing" isDocumented="True">Contains 15+ statistical hypothesis tests, including ANOVA tests, non-parametric tests such as the Kolmogorov-Smirnov test, contingency table tests such as the Kappa test, the Bhapkar and Bowker tests and the more common Chi-Square, Z, F, T and Wald tests.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Accord.Statistics.Testing" isDocumented="True" />
 <NamespaceSummaryItem name="Accord.Statistics.Visualizations" isDocumented="True">Contains classes for statistical visualization such as Histograms and Scatterplots.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="Accord.Wavelets" isDocumented="True">The &lt;b&gt;Accord.Wavelets&lt;/b&gt; namespace contains 1D and 2D wavelets transforms suitable for signal and imaging processing tasks.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="AForge" isDocumented="False" />

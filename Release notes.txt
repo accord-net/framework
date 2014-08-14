@@ -14,6 +14,7 @@ Version updates and fixes:
   - GC-96: ConvexHullDefects doesn't accounts for defects between the last and first points;
   - GC-98: Fixing ProbabilityDensityFunction in MultivariateNormalDistribution;
   - GC-99: Combinatorics.Permutations(array) method does not include the original array;
+  - GC-101: Issue with Haar transform at orders grater than one;
   - GH-04: Replacing SlimDX with SharpDX in Audio libraries;
   - GH-05: ComplexSignalConstructor unit test fails;
   - GH-07: Fixing typos in Haralick algorithm;
@@ -27,11 +28,14 @@ Version updates and fixes:
   - GH-27: Fixing bernoulli distribution sampling.
 
 * General
-  - Moving the old Statistics.Formats namespace into a separate assembly, Accord.IO, in
-    order to prepare for adding new file formats that can be reused also by Accord.Math;
-  - Creating a new Accord.Math.NonCommercial assembly to accomodate other algorithms that
-    are free but are not shared under a free software license and thus cannot be used in
-    commercial applications.
+  - This release brings some big changes. The SlimDX libraries have been replaced by SharpDX, 
+    which now enables the framework to be run into more platforms. Two new assemblies have also 
+    been created to further accommodate future framework extensions, such as a dedicate matrix
+    format library, and an additional library for math algorithms that are not available under 
+    the LGPL. As such, the former Accord.Statistics.Formats namespace has been moved into the
+    new Accord.IO, and a new Accord.Math.NonCommercial assembly has been created to contain
+    other algorithms that are free but are not shared under a free software license and thus 
+    cannot be used in commercial applications.
 
 * Accord.IO
   - Adding a IDX file reader to read the MNIST (and possibly others) datasets;

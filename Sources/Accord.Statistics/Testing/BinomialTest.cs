@@ -23,8 +23,8 @@
 namespace Accord.Statistics.Testing
 {
     using System;
-    using Accord.Statistics.Distributions.Univariate;
     using Accord.Math;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///   Binomial test.
