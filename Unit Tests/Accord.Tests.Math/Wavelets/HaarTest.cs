@@ -20,17 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Math.Wavelets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accord.Math;
 namespace Accord.Tests.Wavelets
 {
+    using Accord.Math.Wavelets;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Math;
 
-
-    /// <summary>
-    ///This is a test class for HaarTest and is intended
-    ///to contain all HaarTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class HaarTest
     {
@@ -38,10 +33,6 @@ namespace Accord.Tests.Wavelets
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
@@ -59,6 +50,39 @@ namespace Accord.Tests.Wavelets
         [TestMethod()]
         public void FWT2DTest()
         {
+            double[,] original =
+            {
+                { 5, 6, 1, 2 },
+                { 4, 2, 5, 5 },
+                { 3, 1, 7, 1 },
+                { 6, 3, 5, 1 }
+            };
+
+            double[,] data = (double[,])original.Clone();
+
+            Haar.FWT(data, 1);
+
+            double[,] expected = 
+            {
+                {  4.25,  3.25,  0.25, -0.25 },
+                {  3.25,  3.5,   1.25,  2.5  },
+                {  1.25, -1.75, -0.75, -0.25 },
+                { -1.25,  0.5,  -0.25,  0.5  } 
+            };
+
+            // string dataStr = data.ToString(CSharpMatrixFormatProvider.InvariantCulture);
+
+            Assert.IsTrue(Matrix.IsEqual(expected, data, 1e-5));
+
+            Haar.IWT(data, 1);
+
+            Assert.IsTrue(Matrix.IsEqual(data, original, 0.0001));
+        }
+
+        [TestMethod()]
+        public void FWT2DTest2()
+        {
+            int levels = 2;
 
             double[,] original =
             {
@@ -70,21 +94,23 @@ namespace Accord.Tests.Wavelets
 
             double[,] data = (double[,])original.Clone();
 
-            Haar.FWT(data,1);
+            Haar.FWT(data, levels);
 
             double[,] expected = 
             {
-                {  6.3640,    5.6569,    4.2426,    4.9497 },
-                {  6.3640,    2.8284,    8.4853 ,   1.4142 },
-                {  0.7071,    2.8284,   -2.8284 ,  -2.1213 },
-                { -2.1213,   -1.4142,    1.4142 ,        0 }
+                {  3.5625, 0.1875, 0.25, -0.25 },
+                {  0.1875, 0.3125, 1.25,  2.5  },
+                {  1.25,  -1.75,  -0.75, -0.25 },
+                { -1.25,   0.5,   -0.25,  0.5  } 
             };
 
+            string dataStr = data.ToString(CSharpMatrixFormatProvider.InvariantCulture);
 
-            Haar.IWT(data,1);
+            Assert.IsTrue(Matrix.IsEqual(expected, data, 1e-5));
+
+            Haar.IWT(data, levels);
 
             Assert.IsTrue(Matrix.IsEqual(data, original, 0.0001));
-
         }
 
         [TestMethod()]

@@ -14,16 +14,13 @@ obj
 *.sdf
 *.shfbproj_*
 
-/Release (3.5)
 /Release
 /Debug
 
-bin
-obj
-
 /Docs
-/Sources/Accord.Tests/Accord.Tests.Math.Cpp/Debug
+/Unit Tests/Accord.Tests.Math.Cpp/Debug
+/Unit Tests/Accord.Tests.Math.Cpp/Release
 /Sources/Debug
-/Sources/Accord.Tests/Accord.Tests.Math.Cpp/Release
 /Sources/Release
+
 /Sources/*.opensdf

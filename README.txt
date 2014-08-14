@@ -7,10 +7,10 @@
   methods and techniques to .NET. The project extends the popular AForge.NET 
   Framework providing a more complete scientific computing environment.
  
-  This GitHub repository is the official home of the project after release 2.10
-  was finished. New releases will only be made available on this repository, but
-  the code will also bt replicated in the Google Code repository for those who 
-  still would like to use the SVN repository instead.
+  The GitHub repository at https://github.com/accord-net/framework is the official 
+  home of the project after release 2.10 was finished. As such, new releases will 
+  only be made available on this repository, but the code will also bt replicated 
+  in the Google Code repository for those who still would like to use SVN instead.
 
     - http://code.google.com/p/accord/
 

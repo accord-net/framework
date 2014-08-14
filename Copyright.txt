@@ -22,7 +22,9 @@ Copyright (c) 2009-2014, César Roberto de Souza <cesarsouza at gmail.com>
 
 Some modules of this library are distributed under the GPL, and not the LGPL. Those modules
 have been marked with .GPL.dll in their name. All relevant licensing information should also
-be accompanying each respective source code. Please see relevant source headers for details.
+be accompanying each respective source code. Other extra modules may carry other restrictions.
+Please see relevant source headers for details.
+
 
 The documentation sections contains references to Wikipedia and is thus entirely available under the
 Creative Commons Attribution/Share-Alike License. All referenced sections include a hyperlink to the

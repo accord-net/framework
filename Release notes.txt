@@ -41,7 +41,7 @@ Version updates and fixes:
   - Adding a IDX file reader to read the MNIST (and possibly others) datasets;
   - Adding a MAT file reader to read Matlab/Octave data, including sparse,
     structures and objects.
-	
+    
 * Accord.Statistics
   - Fixing Codification filter when columns have a max-length constraint;
   - Fixing MultivariateNormalDistribution to handle edge cases;
