@@ -22,13 +22,14 @@
 
 namespace Accord.Statistics.Testing
 {
-    using System.Runtime.CompilerServices;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing.Power;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///  Contains 34+ statistical hypothesis tests, including <see cref="OneWayAnova">one way</see>
     ///  and <see cref="TwoWayAnova">two-way ANOVA tests</see>, non-parametric tests such as the 
-    ///  <see cref="KolmogorovSmirnov">Kolmogorov-Smirnov test</see> and the <see cref="SignTest">
+    ///  <see cref="KolmogorovSmirnovTest">Kolmogorov-Smirnov test</see> and the <see cref="SignTest">
     ///  Sign Test for the Median</see>, <see cref="GeneralConfusionMatrix">contingency table</see>
     ///  tests such as the <see cref="KappaTest">Kappa test</see>, including variations for 
     ///  <see cref="AverageKappaTest">multiple tables</see>, as well as the <see cref="BhapkarTest">
@@ -45,10 +46,10 @@ namespace Accord.Statistics.Testing
     ///   an statistical hypothesis can be supported or not</see>. Every hypothesis test is associated
     ///   with an <see cref="HypothesisTest{T}.StatisticDistribution">statistic distribution</see>
     ///   which can in turn be queried, inspected and computed as any other distribution in the 
-    ///   <see cref="Accord.Statistics.Distribution"/>namespace.</para>
+    ///   <see cref="Accord.Statistics.Distributions"/>namespace.</para>
     ///   
     /// <para>
-    ///   By default, tests are created using a 0.05 <see cref="HypothesisTest.Size">significance level
+    ///   By default, tests are created using a 0.05 <see cref="HypothesisTest{T}.Size">significance level
     ///   </see>, which in the framework is referred as the test's size. P-Values are also ready to be
     ///   inspected by checking a test's <see cref="HypothesisTest{T}.PValue">P-Value</see> property.</para>
     ///   

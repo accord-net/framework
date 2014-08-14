@@ -621,7 +621,7 @@ namespace Accord.Tests.Statistics
         public void RevertTest2()
         {
 
-            string path = @"..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\examples.xls";
+            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\examples.xls";
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);
@@ -658,7 +658,7 @@ namespace Accord.Tests.Statistics
         public void RevertTest3()
         {
 
-            string path = @"..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\examples.xls";
+            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\examples.xls";
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);

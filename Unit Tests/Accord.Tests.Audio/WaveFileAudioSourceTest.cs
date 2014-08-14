@@ -50,7 +50,7 @@ namespace Accord.Tests.Audio
         [TestMethod()]
         public void WaveFileAudioSourceConstructorTest()
         {
-            string fileName = @"..\..\..\Accord.Tests\Accord.Tests.Audio\Resources\Grand Piano - Fazioli - major A middle.wav";
+            string fileName = @"..\..\..\..\Unit Tests\Accord.Tests.Audio\Resources\Grand Piano - Fazioli - major A middle.wav";
 
             WaveFileAudioSource target = new WaveFileAudioSource(fileName);
 

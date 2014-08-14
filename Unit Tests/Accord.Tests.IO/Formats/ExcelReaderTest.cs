@@ -51,7 +51,7 @@ namespace Accord.Tests.IO
         [TestMethod()]
         public void ExcelReaderConstructorTest()
         {
-            string path = @"..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\sample.xls";
+            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\sample.xls";
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);
@@ -86,7 +86,7 @@ namespace Accord.Tests.IO
         [TestMethod()]
         public void ConstructorExcel8Test()
         {
-            string path = @"..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\sample.xls";
+            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\sample.xls";
             ExcelReader target = new ExcelReader(path);
 
             testWorksheets(target);

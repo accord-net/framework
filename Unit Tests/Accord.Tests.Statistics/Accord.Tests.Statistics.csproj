@@ -322,32 +322,32 @@
     <Compile Include="Analysis\WeightedConfusionMatrixTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.Controls.Statistics\Accord.Controls.csproj">
       <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
       <Name>Accord.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Formats\Accord.IO.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.Formats\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
       <Name>Accord.IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
       <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
       <Name>Accord.MachineLearning</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Neuro\Accord.Neuro.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.Neuro\Accord.Neuro.csproj">
       <Project>{179F3045-8757-4F4B-9508-F48327BA11E3}</Project>
       <Name>Accord.Neuro</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
     </ProjectReference>

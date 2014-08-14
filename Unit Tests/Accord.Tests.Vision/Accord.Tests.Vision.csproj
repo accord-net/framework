@@ -5,14 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{16A563A2-2D02-4B9E-B3F8-F36DD72F4477}</ProjectGuid>
+    <ProjectGuid>{8046613E-799A-460C-985A-444C0327B49C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Accord.Tests.Imaging</RootNamespace>
-    <AssemblyName>Accord.Tests.Imaging</AssemblyName>
+    <RootNamespace>Accord.Tests.Vision</RootNamespace>
+    <AssemblyName>Accord.Tests.Vision</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -43,7 +45,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <NoWarn>618</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release (4.0)|AnyCPU' ">
@@ -51,44 +52,32 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <NoWarn>618</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
     <OutputPath>bin\Release 3.5\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Release\Accord.Tests.Imaging.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>bin\Release\Accord.Tests.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <NoWarn>618</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (4.5)|AnyCPU'">
     <OutputPath>bin\Release %284.5%29\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Optimize>true</Optimize>
-    <NoWarn>618</NoWarn>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -100,9 +89,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\AForge.NET\AForge.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Controls">
-      <HintPath>..\..\..\Externals\AForge.NET\AForge.Controls.dll</HintPath>
-    </Reference>
     <Reference Include="AForge.Imaging, Version=2.2.3.0, Culture=neutral, PublicKeyToken=ba8ddea9676ca48b, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\AForge.NET\AForge.Imaging.dll</HintPath>
@@ -110,6 +96,14 @@
     <Reference Include="AForge.Math, Version=2.2.3.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video, Version=2.2.3.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Vision, Version=2.2.3.0, Culture=neutral, PublicKeyToken=b612fa915eefaa06, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Vision.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
       <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
@@ -130,164 +124,70 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BagOfVisualWordsTest.cs" />
-    <Compile Include="Converters\ArrayToImageTest.cs" />
-    <Compile Include="BlendTest.cs" />
-    <Compile Include="ConcatenateTest.cs" />
-    <Compile Include="ConvexityDefectsTest.cs" />
-    <Compile Include="BorderFollowingTest.cs" />
-    <Compile Include="CentralMomentsTest.cs" />
-    <Compile Include="Filters\WhitePatchTest.cs" />
-    <Compile Include="Filters\GrayWorldTest.cs" />
-    <Compile Include="Filters\DifferenceOfGaussiansTest.cs" />
-    <Compile Include="Filters\SauvolaTest.cs" />
-    <Compile Include="Filters\NiblackTest.cs" />
-    <Compile Include="Filters\KuwaharaTest.cs" />
-    <Compile Include="Filters\LogExpTest.cs" />
-    <Compile Include="Filters\VarianceTest.cs" />
-    <Compile Include="HaralickTest.cs" />
-    <Compile Include="Filters\KirschEdgeDetectorTest.cs" />
-    <Compile Include="LocalBinaryPatternsTest.cs" />
-    <Compile Include="Filters\GaborTest.cs" />
-    <Compile Include="HistogramsOfOrientedGradientsTest.cs" />
-    <Compile Include="KNearestNeighborMatchingTest.cs" />
-    <Compile Include="FastRetinaKeypointDetectorTest.cs" />
-    <Compile Include="HuMomentsTest.cs" />
-    <Compile Include="OpenSURF\FastHessian.cs" />
-    <Compile Include="OpenSURF\IntegralImage.cs" />
-    <Compile Include="OpenSURF\IPoint.cs" />
-    <Compile Include="OpenSURF\SurfDescriptor.cs" />
-    <Compile Include="RansacFundamentalEstimatorTest.cs" />
-    <Compile Include="FastCornersDetectorTest.cs" />
-    <Compile Include="Converters\ImageToArrayTest.cs" />
-    <Compile Include="Converters\ImageToMatrixTest.cs" />
-    <Compile Include="KCurvatureTest.cs" />
-    <Compile Include="Converters\MatrixToImageTest.cs" />
-    <Compile Include="CorrelationMatchingTest.cs" />
-    <Compile Include="HarrisCornersDetectorTest.cs" />
-    <Compile Include="IntegralImage2Test.cs" />
-    <Compile Include="MatrixHTest.cs" />
+    <Compile Include="HaarCascadeTest.cs" />
+    <Compile Include="HaarDataParserTest.cs" />
+    <Compile Include="NoseHaarCascadeTest.cs" />
+    <Compile Include="ObjectDetectorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RansacHomographyEstimatorTest.cs" />
-    <Compile Include="RawMomentsTest.cs" />
-    <Compile Include="Filters\RobinsonEdgeDetectorTest.cs" />
-    <Compile Include="SpeededUpRobustFeaturesDescriptorTest.cs" />
-    <Compile Include="SpeededUpRobustFeaturesDetectorTest.cs" />
-    <Compile Include="ToolsTest.cs" />
-    <Compile Include="Filters\WaveletTransformTest.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
-      <Project>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</Project>
-      <Name>Accord.Controls.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Controls.Statistics\Accord.Controls.csproj">
-      <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
-      <Name>Accord.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Core\Accord.Core.csproj">
-      <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
-      <Name>Accord.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Imaging\Accord.Imaging.csproj">
-      <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
-      <Name>Accord.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.MachineLearning\Accord.MachineLearning.csproj">
-      <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
-      <Name>Accord.MachineLearning</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Math\Accord.Math.csproj">
-      <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
-      <Name>Accord.Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
-      <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
-      <Name>Accord.Statistics</Name>
-    </ProjectReference>
+    <Compile Include="TrackerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
+      <Project>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</Project>
+      <Name>Accord.Controls.Imaging</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
+      <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
+      <Name>Accord.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Imaging\Accord.Imaging.csproj">
+      <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
+      <Name>Accord.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
+      <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
+      <Name>Accord.MachineLearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
+      <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
+      <Name>Accord.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
+      <Name>Accord.Statistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Vision\Accord.Vision.csproj">
+      <Project>{C70A159D-74A4-405F-9A7F-C17ACF451CCA}</Project>
+      <Name>Accord.Vision</Name>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Accord.snk" />
-    <None Include="Resources\image2.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\image1.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\tt4.png" />
-    <None Include="Resources\tt3.png" />
-    <None Include="Resources\tt2.png" />
-    <None Include="Resources\tt1.png" />
-    <None Include="Resources\hu2.bmp" />
-    <None Include="Resources\hu0.bmp" />
-    <None Include="Resources\hu1.bmp" />
-    <None Include="Resources\hu.png" />
-    <None Include="Resources\image3.png" />
-    <Content Include="Resources\dctWiki.bmp" />
-    <Content Include="Resources\dct.bmp" />
-    <None Include="Resources\new.png" />
-    <None Include="Resources\old.png" />
-    <None Include="Resources\lines.png" />
+    <None Include="Resources\three.jpg" />
+    <None Include="Resources\lena_gray.jpg" />
     <None Include="Resources\lena_color.jpg" />
-    <None Include="Resources\PICT0107a.jpg" />
-    <None Include="Resources\PICT0108a.jpg" />
-    <Content Include="Resources\SURF\flower01.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower02.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower03.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower04.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower05.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower06.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower07.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower08.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower09.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\SURF\flower10.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="Resources\lena512.bmp" />
-    <None Include="Resources\hand.png" />
-    <Content Include="Resources\hand2.bmp" />
-    <Content Include="Resources\rhand.bmp" />
-    <Content Include="Resources\rhand0.bmp" />
-    <Content Include="Resources\rhand1.bmp" />
-    <Content Include="Resources\rhand2.bmp" />
-    <None Include="Resources\rhand3-p.png" />
-    <Content Include="Resources\rhand3.bmp" />
-    <Content Include="Resources\rhand4.bmp" />
-    <Content Include="Resources\rhand5.bmp" />
-    <Content Include="Resources\sample-black.bmp" />
-    <None Include="Resources\sample-trans-up.png" />
-    <None Include="Resources\sample-trans-down.png" />
-    <None Include="Resources\sample-trans.png" />
+    <None Include="Resources\haarcascade_frontalface_alt.xml" />
+    <None Include="Resources\lena_color_small.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\haarcascade_eye.xml" />
+    <Content Include="Resources\haarcascade_eye_tree_eyeglasses.xml" />
+    <Content Include="Resources\haarcascade_frontalface_alt2.xml" />
+    <None Include="Resources\haarcascade_mcs_nose.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -311,7 +211,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
