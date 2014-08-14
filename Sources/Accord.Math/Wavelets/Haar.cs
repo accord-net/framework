@@ -44,26 +44,11 @@ namespace Accord.Math.Wavelets
     {
         private const double SQRT2 = Accord.Math.Constants.Sqrt2;
 
-        /*
-        private const double w0 = 1.0 / SQRT2;
-        private const double w1 = -1.0 / SQRT2;
-        private const double s0 = 1.0 / SQRT2;
-        private const double s1 = 1.0 / SQRT2;
-        //*/
 
-        /*
-        private const double w0 = 1.0;
-        private const double w1 = -1.0;
-        private const double s0 = 1.0;
-        private const double s1 = 1.0;
-        //*/
-
-        //*
         private const double w0 = 0.5;
         private const double w1 = -0.5;
         private const double s0 = 0.5;
         private const double s1 = 0.5;
-        //*/
 
         private int levels;
 
@@ -166,12 +151,18 @@ namespace Accord.Math.Wavelets
             int rows = data.GetLength(0);
             int cols = data.GetLength(1);
 
-            double[] row = new double[cols];
-            double[] col = new double[rows];
+            double[] row;
+            double[] col;
 
             for (int k = 0; k < iterations; k++)
             {
-                for (int i = 0; i < rows; i++)
+                int lev = 1 << k;
+
+                int levCols = cols / lev;
+                int levRows = rows / lev;
+
+                row = new double[levCols];
+                for (int i = 0; i < levRows; i++)
                 {
                     for (int j = 0; j < row.Length; j++)
                         row[j] = data[i, j];
@@ -182,7 +173,9 @@ namespace Accord.Math.Wavelets
                         data[i, j] = row[j];
                 }
 
-                for (int j = 0; j < cols; j++)
+
+                col = new double[levRows];
+                for (int j = 0; j < levCols; j++)
                 {
                     for (int i = 0; i < col.Length; i++)
                         col[i] = data[i, j];
@@ -204,14 +197,20 @@ namespace Accord.Math.Wavelets
             int rows = data.GetLength(0);
             int cols = data.GetLength(1);
 
-            double[] col = new double[rows];
-            double[] row = new double[cols];
+            double[] col;
+            double[] row;
 
-            for (int l = 0; l < iterations; l++)
+            for (int k = iterations - 1; k >= 0; k--)
             {
-                for (int j = 0; j < cols; j++)
+                int lev = 1 << k;
+
+                int levCols = cols / lev;
+                int levRows = rows / lev;
+
+                col = new double[levRows];
+                for (int j = 0; j < levCols; j++)
                 {
-                    for (int i = 0; i < row.Length; i++)
+                    for (int i = 0; i < col.Length; i++)
                         col[i] = data[i, j];
 
                     IWT(col);
@@ -220,7 +219,8 @@ namespace Accord.Math.Wavelets
                         data[i, j] = col[i];
                 }
 
-                for (int i = 0; i < rows; i++)
+                row = new double[levCols];
+                for (int i = 0; i < levRows; i++)
                 {
                     for (int j = 0; j < row.Length; j++)
                         row[j] = data[i, j];
