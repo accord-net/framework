@@ -105,6 +105,7 @@
     <OutputPath>..\..\..\Release\net35\</OutputPath>
     <DocumentationFile>..\..\..\Release\net35\Accord.Math.Noncommercial.XML</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+    <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %284.5%29|AnyCPU'">
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
