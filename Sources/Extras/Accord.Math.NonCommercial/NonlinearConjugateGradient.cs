@@ -42,6 +42,11 @@ namespace Accord.Math.Optimization
     ///   at your own risk.</para>
     ///   
     /// <para>
+    ///   To use this class, add a reference to the <c>Accord.Math.Noncommercial.dll</c>
+    ///   assembly that resides inside the Release/Noncommercial folder of the framework's
+    ///   installation directory.</para>
+    ///   
+    /// <para>
     ///   The copyright license, plus the original documentation for this code, is
     ///   shown below.</para>
     ///   

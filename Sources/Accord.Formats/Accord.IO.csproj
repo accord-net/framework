@@ -122,6 +122,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="MatSparse.cs" />
     <Compile Include="Mat\MatArrayFlags.cs" />
     <Compile Include="Mat\MatArrayType.cs" />
     <Compile Include="Mat\MatDataType.cs" />
@@ -144,6 +145,7 @@
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
       <Name>Accord.Math</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

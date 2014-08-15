@@ -59,6 +59,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   read the <a href="http://www.gnu.org/copyleft/gpl.html">GPL license</a> for more details. This
     ///   assembly also should have been distributed with a copy of the GNU GPLv3 alongside with it.
     /// </para>
+    /// 
+    /// <para>
+    ///   To use this class, add a reference to the <c>Accord.MachineLearning.GPL.dll</c> assembly
+    ///   that resides inside the Release/GPL folder of the framework's installation directory.</para>
     ///   
     /// <para>
     ///   References:

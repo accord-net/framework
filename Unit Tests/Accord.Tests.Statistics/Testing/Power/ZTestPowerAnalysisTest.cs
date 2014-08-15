@@ -138,7 +138,7 @@ namespace Accord.Tests.Statistics
 
             double samples = analysis.Samples; // We would need around 197 samples.
 
-            Assert.AreEqual(198.15082094251142, samples); // 196.22199335872716
+            Assert.AreEqual(196.22199335872716, samples); // 196.22199335872716
             Assert.AreEqual(0.36168309642441332, effect);
             Assert.AreEqual(0.34062035960875625, power);
         }

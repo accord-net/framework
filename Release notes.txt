@@ -1,6 +1,6 @@
 Accord.NET Framework 2.13.0 release notes
 -----------------------------------------
-10.08.2014.
+24.08.2014.
 
 Version updates and fixes:
   - GC-61: GoldfarbIdnani should implement the IOptimizationMethod interface;

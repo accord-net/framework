@@ -152,7 +152,7 @@ namespace Accord.Tests.Statistics
             double pvalue = test.PValue; // 0.98585347446367344
 
             Assert.AreEqual(96, sample.Median());
-            Assert.AreEqual(statistic, 5);
+            Assert.AreEqual(statistic, 40.0);
             Assert.AreEqual(pvalue, 0.98585347446367344);
         }
     }

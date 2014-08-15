@@ -100,14 +100,28 @@ namespace Accord.Imaging
             this.Distance = distance;
         }
 
-
+#if NET35
+        /// <summary>
+        ///   Matches two sets of feature points.
+        /// </summary>
+        /// 
+        public IntPoint[][] Match<TFeaturePoint>(IEnumerable<TFeaturePoint> points1, IEnumerable<TFeaturePoint> points2)
+            where TFeaturePoint : IFeaturePoint<T>
+        {
+            // This overload exists to maintain compatibility with .NET 3.5 and
+            // is redundant when generics covariance/contravariance is available
+            //
+            return match(points1.Cast<IFeaturePoint<T>>().ToArray(), 
+                         points2.Cast<IFeaturePoint<T>>().ToArray());
+        }
+#else
         /// <summary>
         ///   Matches two sets of feature points.
         /// </summary>
         /// 
         public IntPoint[][] Match(IEnumerable<IFeaturePoint<T>> points1, IEnumerable<IFeaturePoint<T>> points2)
         {
-            return Match(points1.ToArray(), points2.ToArray());
+            return match(points1.ToArray(), points2.ToArray());
         }
 
         /// <summary>
@@ -115,6 +129,16 @@ namespace Accord.Imaging
         /// </summary>
         /// 
         public IntPoint[][] Match(IFeaturePoint<T>[] points1, IFeaturePoint<T>[] points2)
+        {
+            return match(points1, points2);
+        }
+#endif
+
+        /// <summary>
+        ///   Matches two sets of feature points.
+        /// </summary>
+        /// 
+        private IntPoint[][] match(IFeaturePoint<T>[] points1, IFeaturePoint<T>[] points2)
         {
             if (points1.Length == 0 || points2.Length == 0)
                 throw new ArgumentException("Insufficient number of points to produce a matching.");

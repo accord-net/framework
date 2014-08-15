@@ -31,8 +31,8 @@ namespace Accord.IO
     using System.Runtime.InteropServices;
 
     /// <summary>
-    ///   Node object for .MAT files. A node can contain a matrix object,
-    ///   a string, or another nodes.
+    ///   Node object contained in <see cref="MatReader">.MAT file</see>. 
+    ///   A node can contain a matrix object, a string, or another nodes.
     /// </summary>
     /// 
     public class MatNode : IEnumerable<MatNode>
@@ -284,7 +284,7 @@ namespace Accord.IO
 
                 Array array = Array.CreateInstance(type, length);
                 Buffer.BlockCopy(rawData, 0, array, 0, rawData.Length);
-                value = Tuple.Create(ir, ic, array);
+                value = new MatSparse(ir, ic, array);
             }
             else if (flagsElement.Class == MatArrayType.mxCELL_CLASS)
             {
@@ -506,7 +506,6 @@ namespace Accord.IO
         {
             return contents.Values.GetEnumerator();
         }
-
 
     }
 }

@@ -26,7 +26,9 @@ namespace Accord.Math
     using Accord.Math.Optimization;
 
     /// <summary>
-    ///   Mathematics, including matrix algebra and numeric optimization.
+    ///   Mathematics, including <see cref="Matrix">matrix algebra</see>, 
+    ///   <see cref="Accord.Math.Decompositions">matrix decompositions</see>
+    ///   and <see cref="Accord.Math.Optimization">numeric optimization</see>.
     /// </summary>
     /// 
     /// <remarks>
@@ -37,8 +39,10 @@ namespace Accord.Math
     ///   <see cref="Accord.Math.Optimization">optimization algorithms</see> for 
     ///   <see cref="AugmentedLagrangian">constrained</see> and
     ///   <see cref="BroydenFletcherGoldfarbShanno">unconstrained problems</see>,
-    ///   special functions and other tools for scientific applications. 
+    ///   special functions and other <see cref="Accord.Math.Tools">tools</see> for 
+    ///   scientific applications.</para> 
     ///   
+    /// <para>
     ///   Importing the Accord.Math namespace automatically brings support for the
     ///   Extension Matrix Library, which extends common .NET data types with several
     ///   mathematics-related extension methods.</para>

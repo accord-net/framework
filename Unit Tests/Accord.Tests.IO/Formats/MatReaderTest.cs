@@ -465,37 +465,37 @@ namespace Accord.Tests.IO
 
             Assert.AreEqual(1.87500000000000e-01, (Udt.Value as double[,])[0, 0]);
 
-            var sparse = Uu.Value as Tuple<int[], int[], Array>;
-            Assert.AreEqual(774, sparse.Item1.Length);
-            Assert.AreEqual(2, sparse.Item2.Length);
-            Assert.AreEqual(774, sparse.Item3.Length);
+            var sparse = Uu.Value as MatSparse;
+            Assert.AreEqual(774, sparse.Rows.Length);
+            Assert.AreEqual(2, sparse.Columns.Length);
+            Assert.AreEqual(774, sparse.Values.Length);
 
             int j = 0;
             for (int i = 160; i <= 288; i++, j++)
-                Assert.AreEqual(i - 1, sparse.Item1[j]);
+                Assert.AreEqual(i - 1, sparse.Rows[j]);
 
             for (int i = 416; i <= 544; i++, j++)
-                Assert.AreEqual(i - 1, sparse.Item1[j]);
+                Assert.AreEqual(i - 1, sparse.Rows[j]);
 
             for (int i = 672; i <= 800; i++, j++)
-                Assert.AreEqual(i - 1, sparse.Item1[j]);
+                Assert.AreEqual(i - 1, sparse.Rows[j]);
 
             for (int i = 928; i <= 1056; i++, j++)
-                Assert.AreEqual(i - 1, sparse.Item1[j]);
+                Assert.AreEqual(i - 1, sparse.Rows[j]);
 
             for (int i = 1184; i <= 1312; i++, j++)
-                Assert.AreEqual(i - 1, sparse.Item1[j]);
+                Assert.AreEqual(i - 1, sparse.Rows[j]);
 
             for (int i = 1440; i <= 1568; i++, j++)
-                Assert.AreEqual(i - 1, sparse.Item1[j]);
+                Assert.AreEqual(i - 1, sparse.Rows[j]);
 
             Assert.AreEqual(774, j);
-            for (int i = 0; i < sparse.Item3.Length; i++)
-                Assert.AreEqual(1.0, sparse.Item3.GetValue(i));
+            for (int i = 0; i < sparse.Values.Length; i++)
+                Assert.AreEqual(1.0, sparse.Values.GetValue(i));
 
-            Assert.AreEqual(2, sparse.Item2.Length);
-            Assert.AreEqual(0, sparse.Item2[0]);
-            Assert.AreEqual(774, sparse.Item2[1]);
+            Assert.AreEqual(2, sparse.Columns.Length);
+            Assert.AreEqual(0, sparse.Columns[0]);
+            Assert.AreEqual(774, sparse.Columns[1]);
 
             Assert.AreEqual(-21, (Upst.Value as short[,])[0, 0]);
             Assert.AreEqual(24, (Upst.Value as short[,])[0, 95]);

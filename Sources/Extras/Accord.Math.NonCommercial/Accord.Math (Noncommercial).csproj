@@ -33,7 +33,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\..\Debug\</OutputPath>
+    <OutputPath>..\..\..\Debug\Noncommercial\</OutputPath>
     <DebugSymbols>True</DebugSymbols>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -97,13 +97,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %284.0%29|AnyCPU'">
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
-    <OutputPath>..\..\..\Release\net40\</OutputPath>
-    <DocumentationFile>..\..\..\Release\net40\Accord.Math.Noncommercial.XML</DocumentationFile>
+    <OutputPath>..\..\..\Release\net40\Noncommercial\</OutputPath>
+    <DocumentationFile>..\..\..\Release\net40\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
     <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %283.5%29|AnyCPU'">
-    <OutputPath>..\..\..\Release\net35\</OutputPath>
-    <DocumentationFile>..\..\..\Release\net35\Accord.Math.Noncommercial.XML</DocumentationFile>
+    <OutputPath>..\..\..\Release\net35\Noncommercial\</OutputPath>
+    <DocumentationFile>..\..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

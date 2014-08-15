@@ -22,10 +22,10 @@
 
 namespace Accord.Tests.Math
 {
+    using System;
+    using Accord.Math;
     using Accord.Math.Decompositions;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math;
-    using System;
 
     [TestClass()]
     public class JaggedCholeskyDecompositionFTest
