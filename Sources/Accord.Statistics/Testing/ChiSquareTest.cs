@@ -104,6 +104,8 @@ namespace Accord.Statistics.Testing
     /// </code>
     /// </example>
     /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.ChiSquareDistribution"/>
+    /// 
     [Serializable]
     public class ChiSquareTest : HypothesisTest<ChiSquareDistribution>
     {

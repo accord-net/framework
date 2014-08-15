@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using System;
     using System.Data;
     using Accord.Math;
+    using Accord.Statistics;
 
     [TestClass()]
     public class WilcoxonSignedRankTestTest
@@ -115,6 +116,44 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(200, target.Statistic);
             Assert.AreEqual(0.510, target.PValue, 1e-3);
             Assert.IsFalse(target.Significant);
+        }
+
+        [TestMethod()]
+        public void ConstructorTest2()
+        {
+            // This example has been adapted from the Wikipedia's page about
+            // the Z-Test, available from: http://en.wikipedia.org/wiki/Z-test
+
+            // We would like to check whether a sample of 20
+            // students with a median score of 96 points ...
+
+            double[] sample = 
+            { 
+                106, 115, 96, 88, 91, 88, 81, 104, 99, 68,
+                104, 100, 77, 98, 96, 104, 82, 94, 72, 96
+            };
+
+            // ... could have happened just by chance inside a 
+            // population with an hypothesized median of 100 points.
+
+            double hypothesizedMedian = 100;
+
+            // So we start by creating the test:
+            WilcoxonSignedRankTest test = new WilcoxonSignedRankTest(sample,
+                hypothesizedMedian, OneSampleHypothesis.ValueIsSmallerThanHypothesis);
+
+            // Now, we can check whether this result would be
+            // unlikely under a standard significance level:
+
+            bool significant = test.Significant; // false (so the event was likely)
+
+            // We can also check the test statistic and its P-Value
+            double statistic = test.Statistic; // 40.0
+            double pvalue = test.PValue; // 0.98585347446367344
+
+            Assert.AreEqual(96, sample.Median());
+            Assert.AreEqual(statistic, 5);
+            Assert.AreEqual(pvalue, 0.98585347446367344);
         }
     }
 }

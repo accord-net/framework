@@ -51,6 +51,9 @@ namespace Accord.Statistics.Testing
     ///   </list></para>
     /// </remarks>
     /// 
+    /// <seealso cref="TTest"/>
+    /// <seealso cref="TDistribution"/>
+    /// 
     [Serializable]
     public class TwoSampleTTest : HypothesisTest<TDistribution>
     {
@@ -82,6 +85,12 @@ namespace Accord.Statistics.Testing
         /// </summary>
         /// 
         public double StandardError { get; protected set; }
+
+        /// <summary>
+        ///   Gets the combined sample variance.
+        /// </summary>
+        /// 
+        public double Variance { get; protected set; }
 
         /// <summary>
         ///   Gets the estimated value for the first sample.
@@ -219,19 +228,23 @@ namespace Accord.Statistics.Testing
             this.EstimatedValue1 = x1;
             this.EstimatedValue2 = x2;
 
+            
+
             if (AssumeEqualVariance)
             {
                 // Assume the two samples share the same underlying population variance.
-                double Sp = Math.Sqrt(((n1 - 1) * s1 + (n2 - 1) * s2) / (n1 + n2 - 2));
-                StandardError = Sp * Math.Sqrt(1.0 / n1 + 1.0 / n2);
+                Variance = ((n1 - 1) * s1 + (n2 - 1) * s2) / (n1 + n2 - 2);
+                StandardError = Math.Sqrt(Variance) * Math.Sqrt(1.0 / n1 + 1.0 / n2);
                 df = n1 + n2 - 2;
             }
             else
             {
                 // Assume samples have unequal variances.
                 StandardError = Math.Sqrt(s1 / n1 + s2 / n2);
+                Variance = (s1 + s2) / 2.0;
 
-                double r1 = s1 / n1, r2 = s2 / n2;
+                double r1 = s1 / n1;
+                double r2 = s2 / n2;
                 df = ((r1 + r2) * (r1 + r2)) / ((r1 * r1) / (n1 - 1) + (r2 * r2) / (n2 - 1));
             }
 

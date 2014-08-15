@@ -54,6 +54,8 @@ namespace Accord.Statistics.Testing
     /// 
     /// <seealso cref="ZTest"/>
     /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.NormalDistribution"/>
+    /// 
     [Serializable]
     public class WaldTest : ZTest
     {

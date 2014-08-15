@@ -26,6 +26,9 @@ namespace Accord.Statistics.Testing
     ///   Common interface for analyses of variance.
     /// </summary>
     /// 
+    /// <seealso cref="OneWayAnova"/>
+    /// <seealso cref="TwoWayAnova"/>
+    /// 
     public interface IAnova
     {
         /// <summary>

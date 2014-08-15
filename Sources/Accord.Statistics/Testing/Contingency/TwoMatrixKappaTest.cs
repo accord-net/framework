@@ -48,6 +48,9 @@ namespace Accord.Statistics.Testing
     ///     Available on: http://www.cis.rit.edu/~ejipci/Reports/On_Using_and_Computing_the_Kappa_Statistic.pdf </description></item>
     ///   </list></para>
     /// </remarks>
+    /// 
+    /// <seealso cref="TwoSampleZTest"/>
+    /// <seealso cref="ZTest"/>
     ///
     [Serializable]
     public class TwoMatrixKappaTest : TwoSampleZTest

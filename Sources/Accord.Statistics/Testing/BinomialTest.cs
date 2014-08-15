@@ -82,6 +82,8 @@ namespace Accord.Statistics.Testing
     /// </code>
     /// </example>
     /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.BinomialDistribution"/>
+    /// 
     [Serializable]
     public class BinomialTest : HypothesisTest<BinomialDistribution>
     {

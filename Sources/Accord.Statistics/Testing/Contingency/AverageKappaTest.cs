@@ -46,6 +46,8 @@ namespace Accord.Statistics.Testing
     ///     Wiley-Interscience; 3rd edition (September 5, 2003) </description></item>
     ///   </list></para>
     /// </remarks>
+    /// 
+    /// <seealso cref="ChiSquareTest"/>
     ///
     [Serializable]
     public class AverageKappaTest : ChiSquareTest

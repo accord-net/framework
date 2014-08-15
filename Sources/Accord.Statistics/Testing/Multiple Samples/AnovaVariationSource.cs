@@ -26,7 +26,7 @@ namespace Accord.Statistics.Testing
     using System.ComponentModel;
 
     /// <summary>
-    ///   Source of variation in an ANOVA experiment.
+    ///   Source of variation in an <see cref="IAnova">ANOVA experiment</see>.
     /// </summary>
     /// 
     [Serializable]

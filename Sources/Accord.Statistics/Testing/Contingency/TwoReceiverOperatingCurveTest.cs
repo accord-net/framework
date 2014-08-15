@@ -30,6 +30,9 @@ namespace Accord.Statistics.Testing
     ///   Characteristic (ROC) curve areas (ROC-AUC).
     /// </summary>
     /// 
+    /// <seealso cref="TwoSampleZTest"/>
+    /// <seealso cref="ZTest"/>
+    /// 
     [Serializable]
     public class TwoReceiverOperatingCurveTest : TwoSampleZTest
     {

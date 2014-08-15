@@ -125,6 +125,8 @@ namespace Accord.Statistics.Testing
     ///   comes from a Normal distribution, just as we expected.</para>
     /// </example>
     /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.KolmogorovSmirnovDistribution"/>
+    /// 
     [Serializable]
     public class KolmogorovSmirnovTest : HypothesisTest<KolmogorovSmirnovDistribution>,
         IHypothesisTest<KolmogorovSmirnovDistribution>

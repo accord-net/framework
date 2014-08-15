@@ -31,6 +31,7 @@ namespace Accord.Statistics.Distributions
     ///   for most probability distribution measures and estimation methods.
     /// </summary>
     /// 
+    /// <remarks>
     /// <para>
     ///   This namespace contains a huge collection of probability distributions, ranging the from the common
     ///   and simple <see cref="NormalDistribution">Normal (Gaussian) </see> and <see cref="PoissonDistribution">
@@ -65,6 +66,7 @@ namespace Accord.Statistics.Distributions
     /// <para>
     ///   The namespace class diagram for multivariate distributions is shown below. </para>
     ///   <img src="..\diagrams\classes\Accord.Statistics.Multivariate.png" />
+    /// </remarks>
     /// 
     ///   
     /// <seealso cref="Accord.Statistics.Distributions"/>

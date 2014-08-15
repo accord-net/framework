@@ -56,6 +56,27 @@ namespace Accord.Statistics.Testing
     /// 
     /// <remarks>
     /// <para>
+    ///   In statistics, Levene's test is an inferential statistic used to assess the 
+    ///   equality of variances for a variable calculated for two or more groups. Some 
+    ///   common statistical procedures assume that variances of the populations from 
+    ///   which different samples are drawn are equal. Levene's test assesses this 
+    ///   assumption. It tests the null hypothesis that the population variances are 
+    ///   equal (called homogeneity of variance or homoscedasticity). If the resulting 
+    ///   P-value of Levene's test is less than some significance level (typically 0.05), 
+    ///   the obtained differences in sample variances are unlikely to have occurred based 
+    ///   on random sampling from a population with equal variances. Thus, the null hypothesis
+    ///   of equal variances is rejected and it is concluded that there is a difference 
+    ///   between the variances in the population.</para>
+    ///   
+    /// <para>
+    ///   Some of the procedures typically assuming homoscedasticity, for which one can use 
+    ///   Levene's tests, include <see cref="IAnova">analysis of variance</see> and <see cref="TTest">
+    ///   t-tests</see>. Levene's test is often used before a comparison of means. When Levene's
+    ///   test shows significance, one should switch to generalized tests, free from homoscedasticity 
+    ///   assumptions. Levene's test may also be used as a main test for answering a stand-alone 
+    ///   question of whether two sub-samples in a given population have equal or different variances.</para>
+    ///   
+    /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
@@ -65,6 +86,9 @@ namespace Accord.Statistics.Testing
     /// </remarks>
     /// 
     /// <seealso cref="BartlettTest"/>
+    /// 
+    /// <seealso cref="FTest"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.FDistribution"/>
     /// 
     [Serializable]
     public class LeveneTest : FTest

@@ -29,6 +29,8 @@ namespace Accord.Statistics.Testing
     ///   Hypothesis test for a single ROC curve.
     /// </summary>
     /// 
+    /// <seealso cref="ZTest"/>
+    /// 
     [Serializable]
     public class ReceiverOperatingCurveTest : ZTest
     {

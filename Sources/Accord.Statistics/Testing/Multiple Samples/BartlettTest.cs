@@ -30,6 +30,19 @@ namespace Accord.Statistics.Testing
     /// 
     /// <remarks>
     /// <para>
+    ///   In statistics, Bartlett's test is used to test if k samples are from populations
+    ///   with equal variances. Equal variances across samples is called homoscedasticity 
+    ///   or homogeneity of variances. Some statistical tests, for example the <see cref="IAnova">
+    ///   analysis of variance</see>, assume that variances are equal across groups or samples. 
+    ///   The Bartlett test can be used to verify that assumption.</para>
+    /// <para>
+    ///   Bartlett's test is sensitive to departures from normality. That is, if the samples 
+    ///   come from non-normal distributions, then Bartlett's test may simply be testing for 
+    ///   non-normality. <see cref="LeveneTest">Levene's test</see> and the Brown–Forsythe test
+    ///   are alternatives to the Bartlett test that are less sensitive to departures from 
+    ///   normality. </para>
+    ///   
+    /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
@@ -39,6 +52,9 @@ namespace Accord.Statistics.Testing
     /// </remarks>
     /// 
     /// <seealso cref="LeveneTest"/>
+    /// 
+    /// <seealso cref="ChiSquareTest"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.ChiSquareDistribution"/>
     /// 
     [Serializable]
     public class BartlettTest : ChiSquareTest

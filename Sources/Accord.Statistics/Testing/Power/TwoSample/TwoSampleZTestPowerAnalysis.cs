@@ -29,6 +29,15 @@ namespace Accord.Statistics.Testing.Power
     ///   Power analysis for two-sample Z-Tests.
     /// </summary>
     /// 
+    /// <example>
+    ///   <para>
+    ///   Please take a look at the <see cref="TwoSampleTTest"/> example section.</para>
+    /// </example>
+    /// 
+    /// <seealso cref="IPowerAnalysis"/>
+    /// <seealso cref="ZTestPowerAnalysis"/>
+    /// <seealso cref="TwoSampleTTestPowerAnalysis"/>
+    /// 
     [Serializable]
     public class TwoSampleZTestPowerAnalysis : BaseTwoSamplePowerAnalysis
     {

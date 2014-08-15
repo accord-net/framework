@@ -31,7 +31,7 @@ namespace Accord.Statistics.Testing
     /// </summary>
     ///
     /// <remarks>
-    ///   This class represents the results obtained from an ANOVA experiment.
+    ///   This class represents the results obtained from an <see cref="IAnova">ANOVA experiment</see>.
     /// </remarks>
     ///
     [Serializable]

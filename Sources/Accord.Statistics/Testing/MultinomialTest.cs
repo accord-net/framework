@@ -81,6 +81,9 @@ namespace Accord.Statistics.Testing
     /// that the die is fair.</para>
     /// </example>
     ///
+    /// <seealso cref="ChiSquareTest"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.ChiSquareDistribution"/>
+    /// 
     [Serializable]
     public class MultinomialTest : ChiSquareTest
     {

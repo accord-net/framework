@@ -142,6 +142,9 @@ namespace Accord.Statistics.Testing
     /// </code>
     /// </example>
     /// 
+    /// <seealso cref="KolmogorovSmirnovTest"/>
+    /// <seealso cref="KolmogorovSmirnovDistribution"/>
+    /// 
     [Serializable]
     public class TwoSampleKolmogorovSmirnovTest : HypothesisTest<KolmogorovSmirnovDistribution>
     {

@@ -89,6 +89,9 @@ namespace Accord.Statistics.Testing
     /// </code>
     /// </example>
     /// 
+    /// <seealso cref="TDistribution"/>
+    /// <seealso cref="TTest"/>
+    /// 
     [Serializable]
     public class PairedTTest : HypothesisTest<TDistribution>
     {

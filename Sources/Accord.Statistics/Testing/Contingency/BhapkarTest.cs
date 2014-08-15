@@ -46,6 +46,8 @@ namespace Accord.Statistics.Testing
     ///      Association, 61, 228-235.</description></item>
     ///    </list></para>
     /// </remarks>
+    /// 
+    /// <seealso cref="ChiSquareTest"/>
     ///
     [Serializable]
     public class BhapkarTest : ChiSquareTest

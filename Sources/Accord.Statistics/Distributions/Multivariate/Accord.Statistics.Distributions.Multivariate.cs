@@ -31,9 +31,11 @@ namespace Accord.Statistics.Distributions.Multivariate
     ///   Joint</see> and <see cref="MultivariateMixture{T}">Mixture distributions</see>.
     /// </summary>
     /// 
+    /// <remarks>
     /// <para>
     ///   The namespace class diagram is shown below. </para>
     ///   <img src="..\diagrams\classes\Accord.Statistics.Multivariate.png" />
+    /// </remarks>
     ///   
     /// <seealso cref="Accord.Statistics.Distributions"/>
     /// <seealso cref="Accord.Statistics.Distributions.Univariate"/>

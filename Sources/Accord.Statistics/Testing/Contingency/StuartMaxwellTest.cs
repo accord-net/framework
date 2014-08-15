@@ -50,6 +50,8 @@ namespace Accord.Statistics.Testing
     ///    </list></para>
     /// </remarks>
     /// 
+    /// <seealso cref="ChiSquareTest"/>
+    /// 
     [Serializable]
     public class StuartMaxwellTest : ChiSquareTest
     {

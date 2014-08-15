@@ -35,8 +35,10 @@ namespace Accord.Statistics.Testing
     ///   and <see cref="TwoSampleWilcoxonSignedRankTest"/>.
     /// </remarks>
     /// 
-    /// <see cref="WilcoxonSignedRankTest"/>
+    /// <seealso cref="WilcoxonSignedRankTest"/>
     /// <seealso cref="TwoSampleWilcoxonSignedRankTest"/>
+    /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.WilcoxonDistribution"/>
     /// 
     public class WilcoxonTest : HypothesisTest<WilcoxonDistribution>
     {

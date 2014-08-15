@@ -34,6 +34,8 @@ namespace Accord.Statistics.Testing
     ///   This is a <see cref="ChiSquareTest">Chi-square kind of test</see>.</para>
     /// </remarks>
     /// 
+    /// <seealso cref="ChiSquareTest"/>
+    /// 
     [Serializable]
     public class BowkerTest : ChiSquareTest
     {

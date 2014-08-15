@@ -46,6 +46,10 @@ namespace Accord.Statistics.Testing
     ///   specified at the creation of the test.</para>
     ///   
     /// <para>
+    ///   This test supports creating <see cref="ZTestPowerAnalysis">power analyses</see>
+    ///   through its <see cref="ZTest.Analysis"/> property.</para>
+    ///   
+    /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description><a href="http://en.wikipedia.org/wiki/Z-test">
@@ -58,11 +62,13 @@ namespace Accord.Statistics.Testing
     /// <para>
     ///   This example has been gathered from the Wikipedia's page about
     ///   the Z-Test, available from: http://en.wikipedia.org/wiki/Z-test </para>
+    ///   
     /// <para>
     ///   Suppose there is a text comprehension test being run across
     ///   a given demographic region. The mean score of the population
     ///   from this entire region are around 100 points, with a standard
     ///   deviation of 12 points.</para>
+    ///   
     /// <para>There is a local school, however, whose 55 students attained
     ///   an average score in the test of only about 96 points. Would 
     ///   their scores be surprisingly that low, or could this event
@@ -103,6 +109,8 @@ namespace Accord.Statistics.Testing
     /// <seealso cref="TwoSampleTTest"/>
     /// <seealso cref="TwoSampleZTest"/>
     /// <seealso cref="TwoProportionZTest"/>
+    /// 
+    /// <seealso cref="ZTestPowerAnalysis"/>
     /// 
     [Serializable]
     public class ZTest : HypothesisTest<NormalDistribution>

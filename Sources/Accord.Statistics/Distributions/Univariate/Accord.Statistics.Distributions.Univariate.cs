@@ -34,9 +34,11 @@ namespace Accord.Statistics.Distributions.Univariate
     ///  Weibull</see>, and <see cref="VonMisesDistribution">Von-Mises</see> distributions.
     /// </summary>
     /// 
+    /// <remarks>
     /// <para>
     ///   The namespace class diagram is shown below. </para>
     ///   <img src="..\diagrams\classes\Accord.Statistics.Univariate.png" />
+    /// </remarks>
     ///   
     /// <seealso cref="Accord.Statistics.Distributions"/>
     /// <seealso cref="Accord.Statistics.Distributions.Multivariate"/>

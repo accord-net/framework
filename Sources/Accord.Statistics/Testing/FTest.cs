@@ -61,13 +61,13 @@ namespace Accord.Statistics.Testing
     /// // measurements for two batches of material. The summary
     /// // statistics for each batch are shown below:
     /// 
-    /// // BATCH 1:
+    /// // Batch 1:
     /// int numberOfObservations1 = 240;
     /// // double mean1 = 688.9987;
     /// double stdDev1 = 65.54909;
     /// double var1 = stdDev1 * stdDev1;
     /// 
-    /// // BATCH 2:
+    /// // Batch 2:
     /// int numberOfObservations2 = 240;
     /// // double mean2 = 611.1559;
     /// double stdDev2 = 61.85425;
@@ -91,6 +91,8 @@ namespace Accord.Statistics.Testing
     /// // are equal at the 0.05 significance level.
     /// </code>
     /// </example>
+    /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.FDistribution"/>
     /// 
     [Serializable]
     public class FTest : HypothesisTest<FDistribution>

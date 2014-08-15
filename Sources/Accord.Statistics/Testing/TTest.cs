@@ -37,6 +37,10 @@ namespace Accord.Statistics.Testing
     ///   statistically different from a hypothesized value.</para>
     ///   
     /// <para>
+    ///   This test supports creating <see cref="TTestPowerAnalysis">power analyses</see>
+    ///   through its <see cref="TTest.Analysis"/> property.</para>
+    ///   
+    /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description><a href="http://en.wikipedia.org/wiki/Student's_t-test">
@@ -102,6 +106,8 @@ namespace Accord.Statistics.Testing
     /// <seealso cref="TwoSampleTTest"/>
     /// <seealso cref="TwoSampleZTest"/>
     /// <seealso cref="PairedTTest"/>
+    /// 
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.TDistribution"/>
     /// 
     [Serializable]
     public class TTest : HypothesisTest<TDistribution>

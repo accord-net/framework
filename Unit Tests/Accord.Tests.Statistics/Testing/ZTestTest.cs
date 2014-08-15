@@ -23,8 +23,8 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Statistics.Testing.Power;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class ZTestTest

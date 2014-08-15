@@ -47,6 +47,8 @@ namespace Accord.Statistics.Testing
     ///       Available on: http://http://en.wikipedia.org/wiki/McNemar's_test. </description></item>
     ///    </list></para>
     /// </remarks>
+    /// 
+    /// <seealso cref="ChiSquareTest"/>
     ///
     [Serializable]
     public class McNemarTest : ChiSquareTest

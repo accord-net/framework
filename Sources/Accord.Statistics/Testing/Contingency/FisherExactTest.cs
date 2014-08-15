@@ -36,6 +36,8 @@ namespace Accord.Statistics.Testing
     ///   Hypergeometric</see>.</para>
     /// </remarks>
     /// 
+    /// <seealso cref="HypergeometricDistribution"/>
+    /// 
     public class FisherExactTest : HypothesisTest<HypergeometricDistribution>
     {
 

@@ -58,6 +58,8 @@ namespace Accord.Statistics.Testing
     ///    </list></para>
     /// </remarks>
     ///
+    /// <seealso cref="ZTest"/>
+    /// 
     [Serializable]
     public class KappaTest : ZTest
     {

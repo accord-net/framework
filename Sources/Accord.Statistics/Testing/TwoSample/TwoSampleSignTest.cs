@@ -33,6 +33,10 @@ namespace Accord.Statistics.Testing
     ///   This is a <see cref="BinomialTest">Binomial kind of test</see>.</para>
     /// </remarks>
     /// 
+    /// <seealso cref="SignTest"/>
+    /// <seealso cref="BinomialTest"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.BinomialDistribution"/>
+    /// 
     [Serializable]
     public class TwoSampleSignTest : BinomialTest
     {

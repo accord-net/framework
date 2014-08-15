@@ -84,8 +84,10 @@ namespace Accord.Statistics.Testing
     /// </code>
     /// </example>
     /// 
-    /// <see cref="TwoSampleTTest"/>
-    /// <see cref="TwoSampleWilcoxonSignedRankTest"/>
+    /// <seealso cref="TwoSampleTTest"/>
+    /// <seealso cref="TwoSampleWilcoxonSignedRankTest"/>
+    /// 
+    /// <seealso cref="MannWhitneyDistribution"/>
     /// 
     [Serializable]
     public class MannWhitneyWilcoxonTest : HypothesisTest<MannWhitneyDistribution>

@@ -28,6 +28,9 @@ namespace Accord.Statistics.Testing
     ///   Wilcoxon signed-rank test for paired samples.
     /// </summary>
     /// 
+    /// <seealso cref="WilcoxonSignedRankTest"/>
+    /// <seealso cref="Accord.Statistics.Distributions.Univariate.WilcoxonDistribution"/>
+    /// 
     public class TwoSampleWilcoxonSignedRankTest : WilcoxonTest
     {
 
