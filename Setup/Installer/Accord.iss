@@ -15,7 +15,7 @@ VersionInfoVersion={#VERSION}
 DefaultDirName={pf}\Accord.NET\Framework
 DefaultGroupName=Accord.NET\Framework
 AllowNoIcons=yes
-OutputBaseFilename=Accord.NET Framework-{#VERSION}
+OutputBaseFilename=Accord.NET-{#VERSION}-installer.exe
 OutputDir=..\bin
 
 Compression=lzma2/ultra64

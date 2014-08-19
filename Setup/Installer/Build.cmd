@@ -8,7 +8,14 @@ echo This Windows batch file uses InnoSetup to automatically
 echo build the executable installer version of the framework.
 echo. 
 
+call ..\version.cmd
+
+set inno="C:\Program Files (x86)\Inno Setup 5\Compil32.exe"
+set rar="C:\Program Files\WinRAR\rar"
+
+set opts=a -m0 -s
+
 timeout /T 5
 
-"C:\Program Files (x86)\Inno Setup 5\Compil32.exe" /cc Accord.iss
-
+%inno% /cc Accord.iss
+%rar% %opts% ..\bin\Accord.NET-%version%-installer.rar ..\bin\Accord.NET-%version%-installer.exe
