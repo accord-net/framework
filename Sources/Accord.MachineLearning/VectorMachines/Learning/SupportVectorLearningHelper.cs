@@ -65,6 +65,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             + " does not match the expected number of inputs of the machine."
                             + " All input vectors for this machine must have length " + machine.Inputs);
                     }
+
+                    for (int j = 0; j < inputs[i].Length; j++)
+                    {
+                        if (Double.IsNaN(inputs[i][j]))
+                            throw new ArgumentException("The input vector at index "+ i + " contains NaN values.");
+
+                        if (Double.IsInfinity(inputs[i][j]))
+                            throw new ArgumentException("The input vector at index " + i + " contains infinity values.");
+                    }
                 }
             }
 
