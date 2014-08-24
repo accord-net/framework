@@ -178,4 +178,19 @@
   <data name="A64" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\mat\a64.mat;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="L1R_LR_a9a2_txt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\l1r_lr_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="L1R_LR_DUAL_a9a2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\l1r_lr_dual_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="L2R_LR_a9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\l2r_lr_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="a9a1_train" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\a9a.train;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="a9a_test" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\a9a.test;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
 </root>

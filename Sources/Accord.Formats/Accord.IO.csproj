@@ -122,6 +122,7 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="LibSvmModel.cs" />
     <Compile Include="MatSparse.cs" />
     <Compile Include="Mat\MatArrayFlags.cs" />
     <Compile Include="Mat\MatArrayType.cs" />
@@ -142,10 +143,18 @@
       <Name>Accord.Core</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\Accord.MachineLearning\Accord.MachineLearning.csproj">
+      <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
+      <Name>Accord.MachineLearning</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{f718e9a8-db62-4785-8c49-4333a60d256a}</Project>
       <Name>Accord.Math</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Statistics\Accord.Statistics.csproj">
+      <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
+      <Name>Accord.Statistics</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
