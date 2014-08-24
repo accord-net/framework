@@ -114,7 +114,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="SequentialMinimalOptimization"/>
     /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
-    public class ProbabilisticOutputLearning : ISupportVectorMachineLearning
+    public class ProbabilisticOutputCalibration : ISupportVectorMachineLearning
     {
 
         private double[][] inputs;
@@ -142,7 +142,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <param name="inputs">The input data points as row vectors.</param>
         /// <param name="outputs">The classification label for each data point in the range [-1;+1].</param>
         /// 
-        public ProbabilisticOutputLearning(SupportVectorMachine machine,
+        public ProbabilisticOutputCalibration(SupportVectorMachine machine,
             double[][] inputs, int[] outputs)
         {
 

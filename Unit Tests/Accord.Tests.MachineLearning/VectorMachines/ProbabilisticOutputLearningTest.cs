@@ -85,7 +85,7 @@ namespace Accord.Tests.MachineLearning
             }
 
 
-            ProbabilisticOutputLearning target = new ProbabilisticOutputLearning(svm, inputs, outputs);
+            ProbabilisticOutputCalibration target = new ProbabilisticOutputCalibration(svm, inputs, outputs);
 
             double ll0 = target.LogLikelihood(inputs, outputs);
 
@@ -145,7 +145,7 @@ namespace Accord.Tests.MachineLearning
             double error = smo.Run();
 
             // Instantiate the probabilistic learning calibration
-            ProbabilisticOutputLearning calibration = new ProbabilisticOutputLearning(svm, inputs, labels);
+            ProbabilisticOutputCalibration calibration = new ProbabilisticOutputCalibration(svm, inputs, labels);
 
             // Run the calibration algorithm
             double loglikelihood = calibration.Run();
@@ -204,7 +204,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, error1);
 
             target.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-                new ProbabilisticOutputLearning(svm, classInputs, classOutputs);
+                new ProbabilisticOutputCalibration(svm, classInputs, classOutputs);
 
             double error2 = target.Run();
             Assert.AreEqual(0, error2);

@@ -32,7 +32,7 @@ namespace Accord.MachineLearning.VectorMachines
     ///  Contains <see cref="SupportVectorMachine">linear machines</see>, <see cref="KernelSupportVectorMachine">
     ///  kernel machines</see>, <see cref="MulticlassSupportVectorMachine">multi-class machines</see>, SVM-DAGs 
     ///  (Directed Acyclic Graphs), <see cref="MultilabelSupportVectorMachine">multi-label classification</see>
-    ///  and also offers support for the <see cref="ProbabilisticOutputLearning">probabilistic output calibration
+    ///  and also offers support for the <see cref="ProbabilisticOutputCalibration">probabilistic output calibration
     ///  </see> of SVM outputs.
     /// </summary>
     /// 
@@ -52,7 +52,7 @@ namespace Accord.MachineLearning.VectorMachines
     ///   Learning can be achieved using the standard <see cref="SequentialMinimalOptimization"/>
     ///   (SMO) algorithm. However, the framework can also learn Least Squares SVMs (LS-SVMs) using <see 
     ///   cref="LeastSquaresLearning"/>, and even calibrate SVMs to produce probabilistic outputs
-    ///   using <see cref="ProbabilisticOutputLearning"/>. A <see cref="Accord.Statistics.Kernels">
+    ///   using <see cref="ProbabilisticOutputCalibration"/>. A <see cref="Accord.Statistics.Kernels">
     ///   huge variety of kernels functions is available in the statistics namespace</see>, and
     ///   new kernels can be created easily using the <see cref="IKernel"/> interface.</para>
     ///   

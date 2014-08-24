@@ -198,21 +198,25 @@
     <Compile Include="Structures\KDTreeNodeCollection.cs" />
     <Compile Include="DecisionTrees\DecisionTreeTraversal.cs" />
     <Compile Include="VectorMachines\Accord.MachineLearning.VectorMachines.cs" />
+    <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorLearning.cs" />
     <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
-    <Compile Include="VectorMachines\Learning\CoordinateDescentLinearLearning.cs" />
-    <Compile Include="VectorMachines\Learning\NewtonMethodPrimalLearning.cs" />
+    <Compile Include="VectorMachines\Learning\LinearCoordinateDescent.cs" />
+    <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticCoordinateDescent.cs" />
+    <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticDualCoordinateDescent.cs" />
+    <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticNewtonMethod.cs" />
+    <Compile Include="VectorMachines\Learning\LinearNewtonMethod.cs" />
     <Compile Include="VectorMachines\Learning\MultilabelSupportVectorLearning.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorLearningHelper.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorReduction.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorMachine.cs" />
     <Compile Include="VectorMachines\ISupportVectorMachine.cs" />
-    <Compile Include="VectorMachines\Learning\ISupportVectorMachineLearning.cs" />
+    <Compile Include="VectorMachines\Learning\Base\ISupportVectorMachineLearning.cs" />
     <Compile Include="VectorMachines\Learning\SequentialMinimalOptimization.cs" />
     <Compile Include="VectorMachines\KernelSupportVectorMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VectorMachines\MulticlassSupportVectorMachine.cs" />
     <Compile Include="VectorMachines\Learning\MulticlassSupportVectorLearning.cs" />
-    <Compile Include="VectorMachines\Learning\ProbabilisticOutputLearning.cs" />
+    <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticOutputCalibration.cs" />
     <Compile Include="VectorMachines\SupportVectorMachine.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -220,10 +224,6 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
       <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\Accord.Formats\Accord.IO.csproj">
-      <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
-      <Name>Accord.IO</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
