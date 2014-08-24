@@ -50,21 +50,24 @@ namespace Accord.Math
         ///   Gets a reference to the random number generator used
         ///   internally by the Accord.NET classes and methods.
         /// </summary>
+        /// 
         public static Random Random { get { return random.Value; } }
 
         /// <summary>
         ///   Sets a random seed for the internal number generator.
         /// </summary>
+        /// 
         public static void SetupGenerator(int? seed)
         {
-            // TODO: Enable for .NET 4.5
-            // lock (random)
-            // {
-            //     foreach (var r in random.Values)
-            //         r.Value = new Random(seed);
-            //  }
-
+#if NET45
+            lock (random)
+            {
+                foreach (var r in random.Values)
+                    r.Value = new Random(seed);
+            }
+#endif
             Tools.seed = seed;
+            Tools.random.Value = create();
         }
         #endregion
 
