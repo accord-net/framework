@@ -49,6 +49,91 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        double function(double[] parameters, double[] input)
+        {
+            double m = parameters[0];
+            double s = parameters[1];
+            double a = parameters[2];
+            double b = parameters[3];
+            double x = input[0];
+
+            return a * Math.Exp(-0.5 * Math.Pow((x - m) / s, 2)) + b;
+        }
+
+        void gradient(double[] parameters, double[] input, double[] result)
+        {
+            double m = parameters[0];
+            double s = parameters[1];
+            double a = parameters[2];
+            double b = parameters[3];
+            double x = input[0];
+
+            Func<double, double> exp = System.Math.Exp;
+            Func<double, double, double> pow = System.Math.Pow;
+
+            // diff a*exp(-0.5((m-x)/s)²) + b wrt m
+            result[0] = -(a * (m - x) * exp(-(0.5 * pow(m - x, 2)) / (s * s))) / (s * s);
+
+            //diff a*exp(-0.5((m-x)/s)²) + b wrt s
+            result[1] = (a * pow(m - x, 2) * exp(-(0.5 * pow(m - x, 2)) / (s * s))) / (s * s * s);
+
+            // diff a*exp(-0.5((m-x)/s)²) + b wrt a
+            result[2] = exp(-(0.5 * pow(x - m, 2)) / (s * s));
+
+            // diff a*exp(-0.5((m-x)/s)²) + b wrt b
+            result[3] = 1;
+        }
+
+        [TestMethod()]
+        public void RunTest()
+        {
+            double[,] data =
+            {
+                { -40,    -21142.1111111111 },
+                { -30,    -21330.1111111111 },
+                { -20,    -12036.1111111111 },
+                { -10,      7255.3888888889 },
+                {   0,     32474.8888888889 },
+                {  10,     32474.8888888889 },
+                {  20,      9060.8888888889 },
+                {  30,    -11628.1111111111 },
+                {  40,    -15129.6111111111 },
+            };
+
+            double[][] inputs = data.GetColumn(0).ToArray();
+            double[] outputs = data.GetColumn(1);
+
+            NonlinearRegression regression = new NonlinearRegression(4, function, gradient);
+
+
+            NonlinearLeastSquares nls = new NonlinearLeastSquares(regression);
+
+            Assert.IsTrue(nls.Algorithm is LevenbergMarquardt);
+
+            regression.Coefficients[0] = 0; // m
+            regression.Coefficients[1] = 80; // s
+            regression.Coefficients[2] = 53805; // a
+            regression.Coefficients[3] = -21330.11; //b
+
+            double error = 0;
+            for (int i = 0; i < 100; i++)
+                error = nls.Run(inputs, outputs);
+
+            double m = regression.Coefficients[0];
+            double s = regression.Coefficients[1];
+            double a = regression.Coefficients[2];
+            double b = regression.Coefficients[3];
+
+            Assert.AreEqual(5.316196154830604, m, 1e-3);
+            Assert.AreEqual(12.792301798208918, s, 1e-3);
+            Assert.AreEqual(56794.832645792514, a, 1e-3);
+            Assert.AreEqual(-20219.675997523173, b, 1e-2);
+
+            Assert.IsFalse(Double.IsNaN(m));
+            Assert.IsFalse(Double.IsNaN(s));
+            Assert.IsFalse(Double.IsNaN(a));
+            Assert.IsFalse(Double.IsNaN(b));
+        }
 
         [TestMethod()]
         public void RunTest1()

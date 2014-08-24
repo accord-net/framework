@@ -120,6 +120,11 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5.8584748789881331, smokeOdds,1e-10);
             Assert.IsFalse(double.IsNaN(ageOdds));
             Assert.IsFalse(double.IsNaN(smokeOdds));
+
+            Assert.AreEqual(-2.4577464307294092, regression.Intercept);
+            Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0]);
+            Assert.AreEqual(0.020645118265359252, regression.Coefficients[1], 1e-15);
+            Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-15);
         }
 
         [TestMethod()]
@@ -283,6 +288,12 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-10);
             Assert.IsFalse(double.IsNaN(ageOdds));
             Assert.IsFalse(double.IsNaN(smokeOdds));
+
+
+            Assert.AreEqual(-2.4577464307294092, regression.Intercept);
+            Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0]);
+            Assert.AreEqual(0.020645118265359252, regression.Coefficients[1]);
+            Assert.AreEqual(1.7678893101571855, regression.Coefficients[2]);
         }
     }
 }

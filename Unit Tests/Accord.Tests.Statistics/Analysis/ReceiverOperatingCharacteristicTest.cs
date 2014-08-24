@@ -296,7 +296,7 @@ namespace Accord.Tests.Statistics
                             .WaitForClose();
             */
 
-            Assert.AreEqual(0.7890625, roc.Area);
+            Assert.AreEqual(0.78125, roc.Area);
             // Assert.AreEqual(0.1174774, roc.StandardError, 1e-6); HanleyMcNeil
             Assert.AreEqual(0.11958120746409709, roc.StandardError, 1e-6);
         }
