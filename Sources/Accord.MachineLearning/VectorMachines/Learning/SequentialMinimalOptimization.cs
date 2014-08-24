@@ -129,33 +129,21 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <seealso cref="SupportVectorMachine"/>
     /// <seealso cref="KernelSupportVectorMachine"/>
     /// 
-    /// <seealso cref="ProbabilisticOutputLearning"/>
+    /// <seealso cref="ProbabilisticOutputCalibration"/>
     /// <seealso cref="MulticlassSupportVectorLearning"/>
     /// 
-    public class SequentialMinimalOptimization : ISupportVectorMachineLearning, ISupportCancellation
+    public class SequentialMinimalOptimization : BaseSupportVectorLearning,
+        ISupportVectorMachineLearning, ISupportCancellation
     {
-
-        // Training data
-        private double[][] inputs;
-        private int[] outputs;
-
-        private double[] sampleWeights;
-
         // Learning algorithm parameters
-        private double c = 1.0;
         private double tolerance = 1e-2;
         private double epsilon = 1e-6;
-        private bool useComplexityHeuristic;
-        private bool useClassLabelProportion;
+        private double[] c;
 
         // Support Vector Machine parameters
-        private SupportVectorMachine machine;
-        private IKernel kernel;
         private double[] alpha;
-
-        private bool isLinear;
-        private bool isCompact;
         private double[] weights;
+        private bool isCompact;
 
         private HashSet<int> activeExamples;   // alpha[i] > 0
         private HashSet<int> nonBoundExamples; // alpha[i] > 0 && alpha[i] < c
@@ -174,10 +162,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private KernelFunctionCache kernelCache;
 
         private SelectionStrategy strategy = SelectionStrategy.WorstPair;
-        private double positiveWeight = 1;
-        private double negativeWeight = 1;
-        private double positiveCost;
-        private double negativeCost;
 
         private int maxChecks = 100;
 
@@ -189,44 +173,16 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <param name="inputs">The input data points as row vectors.</param>
         /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
         /// 
-        public SequentialMinimalOptimization(SupportVectorMachine machine,
-            double[][] inputs, int[] outputs)
+        public SequentialMinimalOptimization(SupportVectorMachine machine, double[][] inputs, int[] outputs)
+            : base(machine, inputs, outputs)
         {
-            // Initial argument checking
-            SupportVectorLearningHelper.CheckArgs(machine, inputs, outputs);
-
-
-            // Machine
-            this.machine = machine;
-
-            // Kernel (if applicable)
-            KernelSupportVectorMachine ksvm = machine as KernelSupportVectorMachine;
-
-            if (ksvm == null)
-            {
-                isLinear = true;
-                Linear linear = new Linear();
-                kernel = linear;
-            }
-            else
-            {
-                Linear linear = ksvm.Kernel as Linear;
-                isLinear = linear != null;
-                kernel = ksvm.Kernel;
-            }
-
-
-            // Learning data
-            this.inputs = inputs;
-            this.outputs = outputs;
-
             int samples = inputs.Length;
             int dimension = inputs[0].Length;
 
             // Lagrange multipliers
             this.alpha = new double[inputs.Length];
-
-            if (isLinear) // Hyperplane weights
+            
+            if (IsLinear) // Hyperplane weights
                 this.weights = new double[dimension];
 
             // Error cache
@@ -242,156 +198,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
 
-        //---------------------------------------------
-
-
-        #region Properties
-        /// <summary>
-        ///   Gets or sets the individual weight of 
-        ///   each sample in the training set. If set
-        ///   to null, all samples will be assumed
-        ///   equal weight. Default is <c>null</c>.
-        /// </summary>
-        /// 
-        public double[] Weights
-        {
-            get { return sampleWeights; }
-            set { sampleWeights = value; }
-        }
-
-        /// <summary>
-        ///   Complexity (cost) parameter C. Increasing the value of C forces the creation
-        ///   of a more accurate model that may not generalize well. Default value is the
-        ///   number of examples divided by the trace of the kernel matrix.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The cost parameter C controls the trade off between allowing training
-        ///   errors and forcing rigid margins. It creates a soft margin that permits
-        ///   some misclassifications. Increasing the value of C increases the cost of
-        ///   misclassifying points and forces the creation of a more accurate model
-        ///   that may not generalize well.
-        /// </remarks>
-        /// 
-        public double Complexity
-        {
-            get { return this.c; }
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException("value");
-                this.c = value;
-            }
-        }
-
-        /// <summary>
-        ///   Gets or sets the positive class weight. This should be a
-        ///   value between 0 and 1 indicating how much of the <see cref="Complexity"/>
-        ///   parameter C should be applied to instances carrying the positive label.
-        /// </summary>
-        /// 
-        public double PositiveWeight
-        {
-            get { return this.positiveWeight; }
-            set
-            {
-                if (value <= 0 || value > 1)
-                    throw new ArgumentOutOfRangeException("value");
-                this.positiveWeight = value;
-            }
-        }
-
-        /// <summary>
-        ///   Gets or sets the negative class weight. This should be a
-        ///   value between 0 and 1 indicating how much of the <see cref="Complexity"/>
-        ///   parameter C should be applied to instances carrying the negative label.
-        /// </summary>
-        /// 
-        public double NegativeWeight
-        {
-            get { return this.negativeWeight; }
-            set
-            {
-                if (value <= 0 || value > 1)
-                    throw new ArgumentOutOfRangeException("value");
-                this.negativeWeight = value;
-            }
-        }
-
-        /// <summary>
-        ///   Gets or sets the weight ratio between positive and negative class
-        ///   weights. This ratio controls how much of the <see cref="Complexity"/>
-        ///   parameter C should be applied to the positive class. 
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///  <para>
-        ///   A weight ratio lesser than one, such as 1/10 (0.1) means 10% of C will
-        ///   be applied to the positive class, while 100% of C will be applied to the
-        ///   negative class.</para>
-        ///  <para>
-        ///   A weight ratio greater than one, such as 10/1 (10) means that 100% of C will
-        ///   be applied to the positive class, while 10% of C will be applied to the 
-        ///   negative class.</para>
-        /// </remarks>
-        /// 
-        public double WeightRatio
-        {
-            get { return positiveWeight / negativeWeight; }
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException("value");
-
-                if (value > 1)
-                {
-                    // There are more positive than negative instances, e.g. 5:2 (2.5)
-                    // (read as five positive examples for each two negative examples).
-                    positiveWeight = 1;
-                    negativeWeight = 1 / value;
-                }
-                else // value < 1
-                {
-                    // There are more negative than positive instances, e.g. 2:5 (0.4)
-                    // (read as two positive examples for each five negative examples).
-                    negativeWeight = 1;
-                    positiveWeight = value;
-                }
-            }
-        }
-
-        /// <summary>
-        ///   Gets or sets a value indicating whether the Complexity parameter C
-        ///   should be computed automatically by employing an heuristic rule.
-        ///   Default is false.
-        /// </summary>
-        /// 
-        /// <value>
-        /// 	<c>true</c> if complexity should be computed automatically; otherwise, <c>false</c>.
-        /// </value>
-        /// 
-        public bool UseComplexityHeuristic
-        {
-            get { return useComplexityHeuristic; }
-            set { useComplexityHeuristic = value; }
-        }
-
-        /// <summary>
-        ///   Gets or sets a value indicating whether the weight ratio to be used between
-        ///   <see cref="Complexity"/> values for negative and positive instances should
-        ///   be computed automatically from the data proportions. Default is false.
-        /// </summary>
-        /// 
-        /// <value>
-        /// 	<c>true</c> if the weighting coefficient should be computed 
-        /// 	automatically from the data; otherwise, <c>false</c>.
-        /// </value>
-        /// 
-        public bool UseClassProportions
-        {
-            get { return useClassLabelProportion; }
-            set { useClassLabelProportion = value; }
-        }
 
         /// <summary>
         ///   Epsilon for round-off errors. Default value is 1e-12.
@@ -473,7 +279,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             get { return isCompact; }
             set
             {
-                if (!isLinear && value)
+                if (!IsLinear && value)
                     throw new InvalidOperationException("Only linear machines can be created in compact form.");
                 isCompact = value;
             }
@@ -509,50 +315,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             get { return atBoundsExamples; }
         }
 
-        #endregion
 
 
-        //---------------------------------------------
 
         /// <summary>
-        ///   Runs the SMO algorithm.
+        ///   Runs the learning algorithm.
         /// </summary>
         /// 
-        /// <param name="computeError">
-        ///   True to compute error after the training
-        ///   process completes, false otherwise. Default is true.
-        /// </param>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of
-        ///   the resulting support vector machine.
-        /// </returns>
-        /// 
-        public double Run(bool computeError)
-        {
-            return Run(computeError, CancellationToken.None);
-        }
+        /// <param name="token">A token to stop processing when requested.</param>
+        /// <param name="c">The complexity for each sample.</param>
 
-        /// <summary>
-        ///   Runs the SMO algorithm.
-        /// </summary>
-        /// 
-        /// <param name="computeError">
-        ///   True to compute error after the training
-        ///   process completes, false otherwise. Default is true.
-        /// </param>
-        /// <param name="token">
-        ///   A <see cref="CancellationToken"/> which can be used
-        ///   to request the cancellation of the learning algorithm
-        ///   when it is being run in another thread.
-        /// </param>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of
-        ///   the resulting support vector machine.
-        /// </returns>
-        /// 
-        public double Run(bool computeError, CancellationToken token)
+        protected override void Run(CancellationToken token, double[] c)
         {
 
             // The SMO algorithm chooses to solve the smallest possible optimization problem
@@ -570,62 +343,31 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
             // Initialize variables
-            int samples = inputs.Length;
-            int dimension = inputs[0].Length;
-
-
-            // Initialization heuristics
-            if (useComplexityHeuristic)
-                c = EstimateComplexity(kernel, inputs);
-
-            int[] positives = outputs.Find(x => x == +1);
-            int[] negatives = outputs.Find(x => x == -1);
-
-
-            // If all examples are positive or negative, terminate
-            //   learning early by directly setting the threshold.
-
-            if (positives.Length == 0)
-            {
-                machine.SupportVectors = new double[0][];
-                machine.Weights = new double[0];
-                machine.Threshold = -1;
-                return 0;
-            }
-            if (negatives.Length == 0)
-            {
-                machine.SupportVectors = new double[0][];
-                machine.Weights = new double[0];
-                machine.Threshold = +1;
-                return 0;
-            }
-
-
-            if (useClassLabelProportion)
-                WeightRatio = positives.Length / (double)negatives.Length;
-
+            int samples = Inputs.Length;
+            int dimension = Inputs[0].Length;
+            this.c = c;
 
             // Lagrange multipliers
             Array.Clear(alpha, 0, alpha.Length);
 
-            if (isLinear) // Hyperplane weights
+            if (IsLinear) // Hyperplane weights
                 Array.Clear(weights, 0, weights.Length);
 
             // Error cache
             Array.Clear(errors, 0, errors.Length);
 
             // Kernel evaluations cache
-            this.kernelCache = new KernelFunctionCache(kernel, inputs, cacheSize);
+            this.kernelCache = new KernelFunctionCache(Kernel, Inputs, cacheSize);
 
             // [Keerthi] Initialize b_up to -1 and 
             //   i_up to any one index of class 1:
             this.b_upper = -1;
-            this.i_upper = positives[0];
+            this.i_upper = Outputs.First(x => x > 0);
 
             // [Keerthi] Initialize b_low to +1 and 
             //   i_low to any one index of class 2:
             this.b_lower = +1;
-            this.i_lower = negatives[0];
+            this.i_lower = Outputs.First(x => x < 0);
 
             // [Keerthi] Set error cache for i_low and i_up:
             this.errors[i_lower] = +1;
@@ -636,13 +378,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             activeExamples.Clear();
             nonBoundExamples.Clear();
             atBoundsExamples.Clear();
-
-
-            // Balance classes
-            bool balanced = positiveWeight == 1 && negativeWeight == 1;
-            positiveCost = c * positiveWeight;
-            negativeCost = c * negativeWeight;
-
 
 
             // Algorithm:
@@ -668,46 +403,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 {
                     if (strategy == SelectionStrategy.Sequential)
                     {
-                        if (balanced) // Assume balanced data
+                        // loop I over examples not at bounds
+                        for (int i = 0; i < alpha.Length; i++)
                         {
-                            // loop I over examples not at bounds
-                            for (int i = 0; i < alpha.Length; i++)
+                            if (alpha[i] != 0 && alpha[i] != c[i])
                             {
-                                if (alpha[i] != 0 && alpha[i] != c)
+                                if (examineExample(i))
+                                    numChanged++;
+
+                                if (b_upper > b_lower - 2.0 * tolerance)
                                 {
-                                    if (examineExample(i)) 
-                                        numChanged++;
-
-                                    if (b_upper > b_lower - 2.0 * tolerance)
-                                    {
-                                        numChanged = 0; break;
-                                    }
-                                }
-                            }
-                        }
-                        else // Use different weights for classes
-                        {
-                            // loop I over examples not at bounds
-                            for (int i = 0; i < alpha.Length; i++)
-                            {
-                                if (alpha[i] != 0)
-                                {
-                                    if (outputs[i] == +1)
-                                    {
-                                        if (alpha[i] == positiveCost) continue;
-                                    }
-                                    else // outputs[i] == -1
-                                    {
-                                        if (alpha[i] == negativeCost) continue;
-                                    }
-
-                                    if (examineExample(i))
-                                        numChanged++;
-
-                                    if (b_upper > b_lower - 2.0 * tolerance)
-                                    {
-                                        numChanged = 0; break;
-                                    }
+                                    numChanged = 0; break;
                                 }
                             }
                         }
@@ -746,36 +452,18 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
             // Store information about bounded examples
-            if (balanced)
+            for (int i = 0; i < alpha.Length; i++)
             {
-                // Assume equal weights for classes
-                for (int i = 0; i < alpha.Length; i++)
-                    if (alpha[i] == c) atBoundsExamples.Add(i);
-            }
-            else
-            {
-                // Use different weights for classes
-                for (int i = 0; i < alpha.Length; i++)
-                {
-                    if (outputs[i] == +1)
-                    {
-                        if (alpha[i] == positiveCost)
-                            atBoundsExamples.Add(i);
-                    }
-                    else // outputs[i] == -1
-                    {
-                        if (alpha[i] == negativeCost)
-                            atBoundsExamples.Add(i);
-                    }
-                }
+                if (alpha[i] == c[i])
+                    atBoundsExamples.Add(i);
             }
 
             if (isCompact)
             {
                 // Store the hyperplane directly
-                machine.SupportVectors = null;
-                machine.Weights = weights;
-                machine.Threshold = -(b_lower + b_upper) / 2.0;
+                Machine.SupportVectors = null;
+                Machine.Weights = weights;
+                Machine.Threshold = -(b_lower + b_upper) / 2.0;
             }
             else
             {
@@ -787,15 +475,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 int[] idx = new int[activeCount];
                 activeExamples.CopyTo(idx);
 
-                machine.SupportVectors = new double[activeCount][];
-                machine.Weights = new double[activeCount];
+                Machine.SupportVectors = new double[activeCount][];
+                Machine.Weights = new double[activeCount];
                 for (int i = 0; i < idx.Length; i++)
                 {
                     int j = idx[i];
-                    machine.SupportVectors[i] = inputs[j];
-                    machine.Weights[i] = alpha[j] * outputs[j];
+                    Machine.SupportVectors[i] = Inputs[j];
+                    Machine.Weights[i] = alpha[j] * Outputs[j];
                 }
-                machine.Threshold = -(b_lower + b_upper) / 2;
+                Machine.Threshold = -(b_lower + b_upper) / 2;
             }
 
             // Clear function cache
@@ -808,46 +496,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             "Please reduce the cost of misclassification errors by reducing " +
                             "the complexity parameter C or try a different kernel function.");
             }
-
-            // Compute error if required.
-            return (computeError) ? ComputeError(inputs, outputs) : 0.0;
         }
-
-        /// <summary>
-        ///   Runs the SMO algorithm.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   The misclassification error rate of
-        ///   the resulting support vector machine.
-        /// </returns>
-        /// 
-        public double Run()
-        {
-            return Run(true);
-        }
-
-        /// <summary>
-        ///   Computes the error rate for a given set of input and outputs.
-        /// </summary>
-        /// 
-        public double ComputeError(double[][] inputs, int[] expectedOutputs)
-        {
-            // Compute errors
-            int count = 0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                bool actual = compute(inputs[i]) >= 0;
-                bool expected = expectedOutputs[i] >= 0;
-
-                if (actual != expected) count++;
-            }
-
-            // Return misclassification error ratio
-            return count / (double)inputs.Length;
-        }
-
-        //---------------------------------------------
 
 
         /// <summary>
@@ -856,8 +505,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         private bool examineExample(int i2)
         {
-            double[] p2 = inputs[i2]; // Input point at index i2
-            double y2 = outputs[i2];  // Classification label for p2
+            double[] p2 = Inputs[i2]; // Input point at index i2
+            double y2 = Outputs[i2];  // Classification label for p2
             double alph2 = alpha[i2]; // Lagrange multiplier for p2
 
             double e2; // SVM output on p2 - y2. Check if it has already been computed
@@ -928,8 +577,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         private int I(int i)
         {
-            double a = alpha[i];
-            double y = outputs[i];
+            double a = this.alpha[i];
+            double y = base.Outputs[i];
+            double c = this.c[i];
 
             // From Keerthi's technical report, define:
             //
@@ -942,9 +592,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             if (y == +1 && a == 0)
                 return 1; // I1
-            else if (y == -1 && a == negativeCost)
+            else if (y == -1 && a == c)
                 return 2; // I2
-            else if (y == +1 && a == positiveCost)
+            else if (y == +1 && a == c)
                 return 3; // I3
             else if (y == -1 && a == 0)
                 return 4; // I4
@@ -958,32 +608,26 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         private bool takeStep(int i1, int i2)
         {
-            if (i1 == i2) 
+            if (i1 == i2)
                 return false;
 
-            double[] p1 = inputs[i1]; // Input point at index i1
+            double[] p1 = Inputs[i1]; // Input point at index i1
             double alph1 = alpha[i1]; // Lagrange multiplier for p1
-            double y1 = outputs[i1];  // Classification label for p1
-            double c1 = y1 == +1 ? positiveCost : negativeCost;
-
-            if (sampleWeights != null)
-                c1 *= sampleWeights[i1];
+            double y1 = Outputs[i1];  // Classification label for p1
+            double c1 = c[i1];
 
             // SVM output on p1 - y1 [without bias threshold]. Check if it has already been computed
             double e1 = (alph1 > 0 && alph1 < c1) ? errors[i1] : errors[i1] = computeNoBias(i1) - y1;
 
-            double[] p2 = inputs[i2]; // Input point at index i2
+            double[] p2 = Inputs[i2]; // Input point at index i2
             double alph2 = alpha[i2]; // Lagrange multiplier for p2
-            double y2 = outputs[i2];  // Classification label for p2
-            double c2 = y2 == +1 ? positiveCost : negativeCost;
+            double y2 = Outputs[i2];  // Classification label for p2
+            double c2 = c[i2];
 
-            if (sampleWeights != null)
-                c2 *= sampleWeights[i2];
 
             // SVM output on p2 - y2. Should have been computed already.
             double e2 = errors[i2];
 
-            
             double s = y1 * y2;
 
 
@@ -994,17 +638,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 // If the target y1 does not equal the target           (13)
                 // y2, then the following bounds apply to a2:
                 L = Math.Max(0, alph2 - alph1);
-                H = Math.Min(c2, c2 + alph2 - alph1);
+                H = Math.Min(c2, c1 + alph2 - alph1);
             }
             else
             {
                 // If the target y1 does equal the target               (14)
                 // y2, then the following bounds apply to a2:
-                L = Math.Max(0, alph2 + alph1 - c2);
+                L = Math.Max(0, alph2 + alph1 - c1);
                 H = Math.Min(c2, alph2 + alph1);
             }
 
-            if (L == H) 
+            if (L >= H)
                 return false;
 
 
@@ -1057,27 +701,18 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (Math.Abs(a2 - alph2) < epsilon * (a2 + alph2 + epsilon))
                 return false; // no step need to be taken
 
-            // Compute update step
-            a1 = alph1 + s * (alph2 - a2);
-
-            if (a1 < 0)
-            {
-                a2 += s * a1;
-                a1 = 0;
-            }
-            else if (a1 > c1)
-            {
-                a2 += s * (a1 - c2);
-                a1 = c1;
-            }
-
             // Approximate precision as
             // suggested in Platt's errata
             double roundoff = 1e-8;
             if (a2 > c2 - c2 * roundoff) a2 = c2;
             else if (a2 < c2 * roundoff) a2 = 0;
+
+            // Compute update step
+            a1 = alph1 + s * (alph2 - a2);
+
             if (a1 > c1 - c1 * roundoff) a1 = c1;
             else if (a1 < c1 * roundoff) a1 = 0;
+
 
             // Update error cache using new Lagrange multipliers
             double t1 = y1 * (a1 - alph1);
@@ -1100,7 +735,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             alpha[i2] = a2;
 
             // If linear, update weights
-            if (isLinear)
+            if (IsLinear)
             {
                 // (eq 22 of Platt, 1998)
                 for (int i = 0; i < weights.Length; i++)
@@ -1142,9 +777,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             else
                 activeExamples.Remove(index);
 
-            double cindex = outputs[index] == +1 ? positiveCost : negativeCost;
-
-            if (value == 0 || value == cindex)
+            if (value == 0 || value == c[index])
             {
                 // Value is at boundaries
                 nonBoundExamples.Remove(index);
@@ -1159,35 +792,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Computes the SVM output for a given point.
         /// </summary>
         /// 
-        private double compute(double[] point)
-        {
-            double sum = -(b_lower + b_upper) / 2;
-
-            if (isLinear)
-            {
-                for (int i = 0; i < weights.Length; i++)
-                    sum += weights[i] * point[i];
-            }
-            else
-            {
-                foreach (int i in activeExamples)
-                    sum += alpha[i] * outputs[i] * kernel.Function(inputs[i], point);
-            }
-
-            return sum;
-        }
-
-        /// <summary>
-        ///   Computes the SVM output for a given point.
-        /// </summary>
-        /// 
         private double computeNoBias(int j)
         {
             double sum = 0;
 
-            double[] point = inputs[j];
+            double[] point = Inputs[j];
 
-            if (isLinear)
+            if (IsLinear)
             {
                 for (int i = 0; i < weights.Length; i++)
                     sum += weights[i] * point[i];
@@ -1195,83 +806,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             else
             {
                 foreach (int i in activeExamples)
-                    sum += alpha[i] * outputs[i] * kernelCache.GetOrCompute(i, j);
+                    sum += alpha[i] * Outputs[i] * kernelCache.GetOrCompute(i, j);
             }
 
             return sum;
-        }
-
-        /// <summary>
-        ///   Estimates the <see cref="Complexity">complexity parameter C</see>
-        ///   for a given kernel and a given data set.
-        /// </summary>
-        /// 
-        /// <param name="kernel">The kernel function.</param>
-        /// <param name="inputs">The input samples.</param>
-        /// 
-        /// <returns>A suitable value for C.</returns>
-        /// 
-        public static double EstimateComplexity(IKernel kernel, double[][] inputs)
-        {
-            // Compute initial value for C as the number of examples
-            // divided by the trace of the input sample kernel matrix.
-
-            double sum = 0.0;
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                sum += kernel.Function(inputs[i], inputs[i]);
-
-                if (Double.IsNaN(sum))
-                    throw new OverflowException();
-            }
-            return inputs.Length / sum;
-        }
-
-
-        /// <summary>
-        ///   Estimates the <see cref="Complexity">complexity parameter C</see>
-        ///   for a given kernel and an unbalanced data set.
-        /// </summary>
-        /// 
-        /// <param name="kernel">The kernel function.</param>
-        /// <param name="inputs">The input samples.</param>
-        /// <param name="outputs">The output samples.</param>
-        /// 
-        /// <returns>A suitable value for positive C and negative C, respectively.</returns>
-        /// 
-        public static Tuple<double, double> EstimateComplexity(IKernel kernel, double[][] inputs, int[] outputs)
-        {
-            // Compute initial value for C as the number of examples
-            // divided by the trace of the input sample kernel matrix.
-
-            double negativeSum = 0.0;
-            double positiveSum = 0.0;
-
-            int negativeCount = 0;
-            int positiveCount = 0;
-
-            for (int i = 0; i < inputs.Length; i++)
-            {
-                if (outputs[i] == -1)
-                {
-                    negativeSum += kernel.Function(inputs[i], inputs[i]);
-                    negativeCount++;
-                }
-                else // outputs[i] == +1
-                {
-                    positiveSum += kernel.Function(inputs[i], inputs[i]);
-                    positiveCount++;
-                }
-
-                if (Double.IsNaN(positiveSum) || Double.IsNaN(negativeSum))
-                    throw new OverflowException();
-            }
-
-            return Tuple.Create
-            (
-                positiveCount / positiveSum,
-                negativeCount / negativeSum
-            );
         }
 
     }
