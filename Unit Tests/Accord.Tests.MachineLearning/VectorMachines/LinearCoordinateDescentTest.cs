@@ -31,7 +31,7 @@ namespace Accord.Tests.MachineLearning
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
-    public class CoordinateDescentLinearLearningTest
+    public class LinearCoordinateDescentTest
     {
 
 
@@ -80,7 +80,7 @@ namespace Accord.Tests.MachineLearning
             SupportVectorMachine machine = new SupportVectorMachine(augmented[0].Length);
 
             // Create the Least Squares Support Vector Machine teacher
-            var learn = new CoordinateDescentLinearLearning(machine, augmented, xor);
+            var learn = new LinearCoordinateDescent(machine, augmented, xor);
 
             // Run the learning algorithm
             learn.Run();
@@ -122,40 +122,42 @@ namespace Accord.Tests.MachineLearning
 
             {
                 Accord.Math.Tools.SetupGenerator(0);
-
-                inputs = inputs.Apply(kernel.Transform);
-                var machine = new SupportVectorMachine(inputs[0].Length);
-                var smo = new CoordinateDescentLinearLearning(machine, inputs, labels);
+                var projection = inputs.Apply(kernel.Transform);
+                var machine = new SupportVectorMachine(projection[0].Length);
+                var smo = new LinearCoordinateDescent(machine, projection, labels);
                 smo.UseComplexityHeuristic = true;
+                smo.Tolerance = 0.01;
 
                 double error = smo.Run();
 
-                Assert.AreEqual(0.11714451552090821, smo.Complexity);
+                Assert.AreEqual(0.11714451552090821, smo.Complexity, 1e-15);
 
                 int[] actual = new int[labels.Length];
                 for (int i = 0; i < actual.Length; i++)
-                    actual[i] = Math.Sign(machine.Compute(inputs[i]));
+                    actual[i] = Math.Sign(machine.Compute(projection[i]));
 
                 ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
                 Assert.AreEqual(17, matrix.FalseNegatives);
-                Assert.AreEqual(0, matrix.FalsePositives);
+                Assert.AreEqual(1, matrix.FalsePositives);
                 Assert.AreEqual(33, matrix.TruePositives);
-                Assert.AreEqual(50, matrix.TrueNegatives);
+                Assert.AreEqual(49, matrix.TrueNegatives);
             }
 
             {
-                var machine = new SupportVectorMachine(inputs[0].Length);
-                var smo = new CoordinateDescentLinearLearning(machine, inputs, labels);
+                Accord.Math.Tools.SetupGenerator(0);
+                var projection = inputs.Apply(kernel.Transform);
+                var machine = new SupportVectorMachine(projection[0].Length);
+                var smo = new LinearCoordinateDescent(machine, projection, labels);
                 smo.UseComplexityHeuristic = true;
                 smo.Loss = Loss.L1;
 
                 double error = smo.Run();
 
-                Assert.AreEqual(0.11714451552090821, smo.Complexity);
+                Assert.AreEqual(0.11714451552090821, smo.Complexity, 1e-15);
 
                 int[] actual = new int[labels.Length];
                 for (int i = 0; i < actual.Length; i++)
-                    actual[i] = Math.Sign(machine.Compute(inputs[i]));
+                    actual[i] = Math.Sign(machine.Compute(kernel.Transform(inputs[i])));
 
                 ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
                 Assert.AreEqual(20, matrix.FalseNegatives);

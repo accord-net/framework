@@ -31,7 +31,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Analysis;
 
     [TestClass()]
-    public class NewtonMethodPrimalLearningTest
+    public class LinearNewtonMethodTest
     {
 
 
@@ -80,7 +80,7 @@ namespace Accord.Tests.MachineLearning
             SupportVectorMachine machine = new SupportVectorMachine(augmented[0].Length);
 
             // Create the Least Squares Support Vector Machine teacher
-            var learn = new NewtonMethodPrimalLearning(machine, augmented, xor);
+            var learn = new LinearNewtonMethod(machine, augmented, xor);
 
             // Run the learning algorithm
             learn.Run();
@@ -94,9 +94,8 @@ namespace Accord.Tests.MachineLearning
         public void ComputeTest5()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
-
-            double[][] inputs = dataset.Submatrix(null, 0, 1).ToArray();
-            int[] labels = dataset.GetColumn(2).ToInt32();
+            var inputs = dataset.Submatrix(null, 0, 1).ToArray();
+            var labels = dataset.GetColumn(2).ToInt32();
 
             var kernel = new Polynomial(2, 0);
 
@@ -123,18 +122,18 @@ namespace Accord.Tests.MachineLearning
             {
                 Accord.Math.Tools.SetupGenerator(0);
 
-                inputs = inputs.Apply(kernel.Transform);
-                var machine = new SupportVectorMachine(inputs[0].Length);
-                var smo = new NewtonMethodPrimalLearning(machine, inputs, labels);
+                var projection = inputs.Apply(kernel.Transform);
+                var machine = new SupportVectorMachine(projection[0].Length);
+                var smo = new LinearNewtonMethod(machine, projection, labels);
                 smo.UseComplexityHeuristic = true;
 
                 double error = smo.Run();
 
-                Assert.AreEqual(0.11714451552090821, smo.Complexity);
+                Assert.AreEqual(0.11714451552090821, smo.Complexity, 1e-15);
 
                 int[] actual = new int[labels.Length];
                 for (int i = 0; i < actual.Length; i++)
-                    actual[i] = Math.Sign(machine.Compute(inputs[i]));
+                    actual[i] = Math.Sign(machine.Compute(projection[i]));
 
                 ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
                 Assert.AreEqual(17, matrix.FalseNegatives);
