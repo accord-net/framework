@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Kernels
 {
     using System;
+    using Accord.Math;
 
     /// <summary>
     ///   Polynomial Kernel.
@@ -54,7 +55,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="degree">The polynomial degree for this kernel.</param>
         /// 
-        public Polynomial(int degree) 
+        public Polynomial(int degree)
             : this(degree, 1.0) { }
 
         /// <summary>
@@ -64,7 +65,13 @@ namespace Accord.Statistics.Kernels
         public int Degree
         {
             get { return degree; }
-            set { degree = value; }
+            set
+            {
+                if (degree <= 0)
+                    throw new ArgumentOutOfRangeException("value", "Degree must be positive.");
+
+                degree = value;
+            }
         }
 
         /// <summary>
@@ -178,51 +185,53 @@ namespace Accord.Statistics.Kernels
         /// 
         public double[] Transform(double[] input)
         {
-            if (constant != 0)
-                throw new NotSupportedException(
-                    "The explicit feature-space projection function is only available "
-                    + "for homogeneous kernels (i.e. with the constant term set to zero).");
+            switch (degree)
+            {
+                case 1:
+                    return Linear.Transform(input, constant);
 
-            if (degree <= 0)
-                throw new NotSupportedException("Degree must be positive.");
+                case 2:
+                    return Quadratic.Transform(input, constant);
+
+                default:
+                    return Transform(input, degree, constant);
+            }
+        }
+
+        /// <summary>
+        ///   Projects an input point into feature space.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point to be projected into feature space.</param>
+        /// <param name="constant">The <see cref="Constant"/> parameter of the kernel.</param>
+        /// <param name="degree">The <see cref="Degree"/> parameter of the kernel.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
+        /// 
+        public static double[] Transform(double[] input, int degree, double constant)
+        {
+            if (constant != 0)
+            {
+                throw new NotSupportedException(
+                    "The explicit feature-space projection function for degrees "
+                    + " higher than two is only available for homogeneous kernels"
+                    + " (i.e. kernel functions with the constant term set to zero).");
+            }
 
             int n = input.Length;
             int m = (int)Math.Pow(n, degree);
 
             double[] features = new double[m];
 
-            switch (degree)
+            int index = 0;
+            foreach (int[] s in Combinatorics.Sequences(input.Length, degree))
             {
-                case 1:
-                    for (int i = 0; i < n; i++)
-                        features[i] = input[i];
-                    break;
-
-                case 2:
-                    for (int i = 0; i < n; i++)
-                        for (int j = 0; j < n; j++)
-                            features[i * n + j] = input[i] * input[j];
-                    break;
-
-                case 3:
-                    for (int i = 0; i < n; i++)
-                        for (int j = 0; j < n; j++)
-                            for (int k = 0; k < n; k++)
-                                features[i * n * n + j * n + k] = input[i] * input[j] * input[k];
-                    break;
-
-                default:
-
-                    int index = 0;
-                    foreach (int[] s in Accord.Math.Combinatorics.Sequences(input.Length, degree))
-                    {
-                        double prod = 1;
-                        for (int i = 0; i < s.Length; i++)
-                            prod *= input[s[i]];
-                        features[index++] = prod;
-                    }
-
-                    break;
+                double prod = 1;
+                for (int i = 0; i < s.Length; i++)
+                    prod *= input[s[i]];
+                features[index++] = prod;
             }
 
             return features;

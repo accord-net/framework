@@ -160,6 +160,22 @@ namespace Accord.Statistics.Kernels
         /// 
         public double[] Transform(double[] input)
         {
+            return Transform(input, constant);
+        }
+
+        /// <summary>
+        ///   Projects an input point into feature space.
+        /// </summary>
+        /// 
+        /// <param name="input">The input point to be projected into feature space.</param>
+        /// <param name="constant">The <see cref="Constant"/> parameter of the kernel.</param>
+        /// 
+        /// <returns>
+        ///   The feature space representation of the given <paramref name="input"/> point.
+        /// </returns>
+        /// 
+        public static double[] Transform(double[] input, double constant)
+        {
             int n = input.Length;
             int m = (n * (n + 1)) / 2;
 
