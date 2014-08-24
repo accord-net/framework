@@ -41,6 +41,7 @@ namespace Accord.Statistics.Kernels
     ///    </list></para>
     /// </remarks>
     /// 
+    [Serializable]
     public class TaylorGaussian : Gaussian, ITransform
     {
 
@@ -85,6 +86,18 @@ namespace Accord.Statistics.Kernels
             createCoefficients(1024);
         }
 
+        /// <summary>
+        ///   Constructs a new <see cref="TaylorGaussian"/> kernel with the given sigma.
+        /// </summary>
+        /// 
+        /// <param name="sigma">The kernel's sigma parameter.</param>
+        /// <param name="degree">The Gaussian approximation degree. Default is 1024.</param>
+        /// 
+        public TaylorGaussian(double sigma, int degree)
+            : base(sigma)
+        {
+            createCoefficients(degree);
+        }
 
         /// <summary>
         ///   Projects an input point into feature space.
