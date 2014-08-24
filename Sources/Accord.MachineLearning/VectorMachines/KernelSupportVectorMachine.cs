@@ -26,6 +26,8 @@ namespace Accord.MachineLearning.VectorMachines
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Statistics.Kernels;
+    using Accord.Statistics.Links;
+    using Accord.Statistics.Models.Regression;
 
     /// <summary>
     ///  Sparse Kernel Support Vector Machine (kSVM)
@@ -123,7 +125,8 @@ namespace Accord.MachineLearning.VectorMachines
         public KernelSupportVectorMachine(IKernel kernel, int inputs)
             : base(inputs)
         {
-            if (kernel == null) throw new ArgumentNullException("kernel");
+            if (kernel == null)
+                throw new ArgumentNullException("kernel");
 
             this.kernel = kernel;
         }
@@ -179,6 +182,94 @@ namespace Accord.MachineLearning.VectorMachines
             }
 
             return output >= 0 ? +1 : -1;
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="SupportVectorMachine"/> that is
+        ///   completely equivalent to a <see cref="LogisticRegression"/>.
+        /// </summary>
+        /// 
+        /// <param name="regression">The <see cref="LogisticRegression"/> to be converted.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="KernelSupportVectorMachine"/> whose linear weights 
+        ///   are equivalent to the given <see cref="LogisticRegression"/>'s
+        ///   <see cref="GeneralizedLinearRegression.Coefficients"> linear 
+        ///   coefficients</see>, properly configured with a <see cref="LogLinkFunction"/>. 
+        /// </returns>
+        /// 
+        public new static KernelSupportVectorMachine FromLogisticRegression(LogisticRegression regression)
+        {
+            double[] weights = regression.Coefficients;
+            var svm = new KernelSupportVectorMachine(new Linear(), regression.Inputs);
+            for (int i = 0; i < svm.Weights.Length; i++)
+                svm.Weights[i] = weights[i + 1];
+
+            svm.Threshold = regression.Intercept;
+            svm.Link = new LogitLinkFunction(1, 0);
+
+            return svm;
+        }
+
+        /// <summary>
+        ///   Creates a new linear <see cref="SupportVectorMachine"/> 
+        ///   with the given set of linear <paramref name="weights"/>.
+        /// </summary>
+        /// 
+        /// <param name="weights">The machine's linear coefficients.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="SupportVectorMachine"/> whose linear coefficients
+        ///   are defined by the given <paramref name="weights"/> vector.
+        /// </returns>
+        /// 
+        public new static KernelSupportVectorMachine FromWeights(double[] weights)
+        {
+            var svm = new KernelSupportVectorMachine(new Linear(0), weights.Length - 1);
+            for (int i = 0; i < svm.Weights.Length; i++)
+                svm.Weights[i] = weights[i + 1];
+            svm.Threshold = weights[0];
+
+            return svm;
+        }
+
+        /// <summary>
+        ///   Converts a <see cref="Linear"/>-kernel machine into an array of 
+        ///   linear coefficients. The first position in the array is the 
+        ///   <see cref="SupportVectorMachine.Threshold"/> value. If this 
+        ///   machine is not linear, an exception will be thrown.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   An array of linear coefficients representing this machine.
+        /// </returns>
+        /// 
+        /// <exception cref="InvalidOperationException">
+        ///   Thrown if the <see cref="Kernel">kernel function</see> is not <see cref="Linear"/>.
+        /// </exception>
+        /// 
+        public override double[] ToWeights()
+        {
+            if (!(kernel is Linear))
+                throw new InvalidOperationException();
+
+            double[] w = new double[Weights.Length + 1];
+
+            if (SupportVectors != null)
+            {
+                for (int i = 0; i < SupportVectors.Length; i++)
+                    for (int j = 0; j < SupportVectors[i].Length; j++)
+                        w[j + 1] += SupportVectors[i][j];
+                w[0] = Threshold;
+            }
+            else
+            {
+                for (int i = 0; i < Weights.Length; i++)
+                    w[i + 1] = Weights[i];
+                w[0] = Threshold;
+            }
+
+            return w;
         }
 
         /// <summary>
