@@ -116,7 +116,7 @@ namespace Classification.SVMs
                 Complexity = (double)numC.Value,
                 Tolerance = (double)numT.Value,
                 PositiveWeight = (double)numPositiveWeight.Value,
-                NegativeWeight = (double)numNegativeWeight.Value
+                NegativeWeight = (double)numNegativeWeight.Value,
             };
 
 
@@ -134,14 +134,16 @@ namespace Classification.SVMs
             }
 
 
+            createSurface(table);
+
+
             // Check if we got support vectors
-            if (svm.SupportVectors.Length == 0)
+            if (svm.SupportVectors == null || svm.SupportVectors.Length == 0)
             {
                 dgvSupportVectors.DataSource = null;
                 graphSupportVectors.GraphPane.CurveList.Clear();
                 return;
             }
-
 
 
             // Show support vectors on the Support Vectors tab page
@@ -165,7 +167,10 @@ namespace Classification.SVMs
             CreateScatterplot(graphSupportVectors, graph.ToMatrix());
 
 
+        }
 
+        private void createSurface(double[,] table)
+        {
             // Get the ranges for each variable (X and Y)
             DoubleRange[] ranges = Matrix.Range(table, 0);
 

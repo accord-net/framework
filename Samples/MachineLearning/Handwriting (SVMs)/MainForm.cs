@@ -211,7 +211,7 @@ namespace Handwriting.SVMs
             {
                 // Configure the calibration algorithm
                 Algorithm = (svm, classInputs, classOutputs, i, j) =>
-                    new ProbabilisticOutputLearning(svm, classInputs, classOutputs)
+                    new ProbabilisticOutputCalibration(svm, classInputs, classOutputs)
             };
 
 
