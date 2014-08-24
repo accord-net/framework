@@ -152,7 +152,7 @@ namespace Accord.Statistics.Models.Regression
         /// <param name="coefficients">The coefficient vector.</param>
         /// <param name="standardErrors">The standard error vector.</param>
         /// 
-        public GeneralizedLinearRegression(ILinkFunction function, 
+        public GeneralizedLinearRegression(ILinkFunction function,
             double[] coefficients, double[] standardErrors)
         {
             this.linkFunction = function;
@@ -204,6 +204,18 @@ namespace Accord.Statistics.Models.Regression
         {
             get { return linkFunction; }
         }
+
+        /// <summary>
+        ///   Gets or sets the intercept term. This is always the 
+        ///   first value of the <see cref="Coefficients"/> array.
+        /// </summary>
+        /// 
+        public double Intercept
+        {
+            get { return coefficients[0]; }
+            set { coefficients[0] = value; }
+        }
+
         #endregion
 
 
@@ -246,7 +258,7 @@ namespace Accord.Statistics.Models.Regression
         }
 
 
-       
+
 
         /// <summary>
         ///   Gets the Wald Test for a given coefficient.
@@ -367,7 +379,7 @@ namespace Accord.Statistics.Models.Regression
             double y0 = output.Count(y => y == 0.0);
             double y1 = output.Length - y0;
 
-            GeneralizedLinearRegression regression = new GeneralizedLinearRegression(linkFunction, 
+            GeneralizedLinearRegression regression = new GeneralizedLinearRegression(linkFunction,
                 Inputs, Math.Log(y1 / y0));
 
             double ratio = GetLogLikelihoodRatio(input, output, regression);

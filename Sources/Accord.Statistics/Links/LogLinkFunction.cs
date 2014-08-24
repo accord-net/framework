@@ -54,8 +54,8 @@ namespace Accord.Statistics.Links
         ///   Creates a new Log link function.
         /// </summary>
         /// 
-        /// <param name="beta">The beta value.</param>
-        /// <param name="constant">The constant value.</param>
+        /// <param name="beta">The beta value. Default is 1.</param>
+        /// <param name="constant">The constant value. Default is 0.</param>
         /// 
         public LogLinkFunction(double beta, double constant)
         {
@@ -67,7 +67,8 @@ namespace Accord.Statistics.Links
         ///   Creates a new Log link function.
         /// </summary>
         /// 
-        public LogLinkFunction() : this(1, 0) { }
+        public LogLinkFunction() 
+            : this(1, 0) { }
 
 
         /// <summary>

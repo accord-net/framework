@@ -200,5 +200,28 @@ namespace Accord.Statistics.Models.Regression
         {
             return Math.Exp(Coefficients[index]);
         }
+
+        /// <summary>
+        ///   Constructs a new <see cref="LogisticRegression"/> from
+        ///   an array of weights (linear coefficients). The first
+        ///   weight is interpreted as the intercept value.
+        /// </summary>
+        /// 
+        /// <param name="weights">An array of linear coefficients.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="LogisticRegression"/> whose 
+        ///   <see cref="GeneralizedLinearRegression.Coefficients"/> are
+        ///   the same as in the given <paramref name="weights"/> array.
+        /// </returns>
+        /// 
+        public static LogisticRegression FromWeights(double[] weights)
+        {
+            var lr = new LogisticRegression(weights.Length - 1);
+            for (int i = 0; i < weights.Length; i++)
+                lr.Coefficients[i] = weights[i];
+
+            return lr;
+        }
     }
 }
