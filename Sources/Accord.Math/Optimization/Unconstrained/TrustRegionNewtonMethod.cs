@@ -175,23 +175,19 @@ namespace Accord.Math.Optimization
             double sigma1 = 0.25, sigma2 = 0.5, sigma3 = 4;
 
             int n = NumberOfVariables;
-            int i, cg_iter;
-            double delta, snorm;
-            double alpha, f, fnew, prered, actred, gs;
+            int cg_iter;
+            double alpha, fnew, prered, actred;
             int search = 1, iter = 1;
             double[] s = new double[n];
             double[] r = new double[n];
             double[] w_new = new double[n];
-            double[] g = new double[n];
 
-            for (i = 0; i < n; i++)
-                w[i] = 0;
 
-            f = Function(w);
-            g = Gradient(w);
+            double f = Function(w);
+            double[] g = Gradient(w);
 
             // delta = dnrm2_(&n, g, &inc);
-            delta = 0;
+            double delta = 0;
             for (int j = 0; j < g.Length; j++)
                 delta += g[j] * g[j];
             delta = Math.Sqrt(delta);
@@ -211,7 +207,7 @@ namespace Accord.Math.Optimization
                 for (int j = 0; j < w_new.Length; j++)
                     w_new[j] = w[j] + s[j];
 
-                gs = 0;
+                double gs = 0;
                 for (int j = 0; j < g.Length; j++)
                     gs += g[j] * s[j];
 
@@ -225,7 +221,7 @@ namespace Accord.Math.Optimization
                 actred = f - fnew;
 
                 // On the first iteration, adjust the initial step bound.
-                snorm = 0;
+                double snorm = 0;
                 for (int j = 0; j < s.Length; j++)
                     snorm += s[j] * s[j];
                 snorm = Math.Sqrt(snorm);
@@ -249,7 +245,9 @@ namespace Accord.Math.Optimization
                 else
                     delta = Math.Max(delta, Math.Min(alpha * snorm, sigma3 * delta));
 
-                // info("iter %2d act %5.3e pre %5.3e delta %5.3e f %5.3e |g| %5.3e CG %3d\n", iter, actred, prered, delta, f, gnorm, cg_iter);
+                Trace.WriteLine(String.Format(
+                    "iter {0} act {1:E03} pre {2:E03} delta {3:E03} f {4:E03} |g| {5:E03} CG {6}",
+                    iter, actred, prered, delta, f, gnorm, cg_iter));
 
                 if (actred > eta0 * prered)
                 {
@@ -274,18 +272,18 @@ namespace Accord.Math.Optimization
 
                 if (f < -1.0e+32)
                 {
-                    Debug.WriteLine("WARNING: f < -1.0e+32");
+                    Trace.WriteLine("WARNING: f < -1.0e+32");
                     break;
                 }
                 if (Math.Abs(actred) <= 0 && prered <= 0)
                 {
-                    Debug.WriteLine("WARNING: actred and prered <= 0");
+                    Trace.WriteLine("WARNING: actred and prered <= 0");
                     break;
                 }
                 if (Math.Abs(actred) <= 1.0e-12 * Math.Abs(f) &&
                     Math.Abs(prered) <= 1.0e-12 * Math.Abs(f))
                 {
-                    Debug.WriteLine("WARNING: actred and prered too small");
+                    Trace.WriteLine("WARNING: actred and prered too small");
                     break;
                 }
             }
@@ -293,14 +291,10 @@ namespace Accord.Math.Optimization
 
         int trcg(double delta, double[] g, double[] s, double[] r)
         {
-            int i;
             int n = NumberOfVariables;
-
             double[] d = new double[n];
-            // double[] Hd = new double[n];
-            double rTr, rnewTrnew, alpha, beta, cgtol;
-
-            for (i = 0; i < n; i++)
+            
+            for (int i = 0; i < g.Length; i++)
             {
                 s[i] = 0;
                 r[i] = -g[i];
@@ -308,14 +302,14 @@ namespace Accord.Math.Optimization
             }
 
 
-            cgtol = 0; // cgtol = 0.1 * dnrm2_(&n, g, &inc);
+            double cgtol = 0; // cgtol = 0.1 * dnrm2_(&n, g, &inc);
             for (int j = 0; j < g.Length; j++)
                 cgtol += g[j] * g[j];
             cgtol = 0.1 * Math.Sqrt(cgtol);
 
             int cg_iter = 0;
 
-            rTr = 0; // rTr = ddot_(&n, r, &inc, r, &inc);
+            double rTr = 0; // rTr = ddot_(&n, r, &inc, r, &inc);
             for (int j = 0; j < r.Length; j++)
                 rTr += r[j] * r[j];
 
@@ -332,13 +326,13 @@ namespace Accord.Math.Optimization
 
                 cg_iter++;
 
-                var Hd = Hessian(d);
+                double[] Hd = Hessian(d);
 
                 double dHd = 0; // ddot_(&n, d, &inc, Hd, &inc)
                 for (int j = 0; j < d.Length; j++)
                     dHd += d[j] * Hd[j];
 
-                alpha = rTr / dHd;
+                double alpha = rTr / dHd;
 
                 // daxpy_(&n, &alpha, d, &inc, s, &inc);
                 for (int j = 0; j < d.Length; j++)
@@ -351,7 +345,7 @@ namespace Accord.Math.Optimization
 
                 if (sn > delta)
                 {
-                    Debug.WriteLine("cg reaches trust region boundary\n");
+                    Trace.WriteLine("cg reaches trust region boundary");
                     alpha = -alpha;
 
                     // daxpy_(&n, &alpha, d, &inc, s, &inc);
@@ -399,11 +393,11 @@ namespace Accord.Math.Optimization
                     r[j] += alpha * Hd[j];
 
                 // ddot_(&n, r, &inc, r, &inc);
-                rnewTrnew = 0.0;
+                double rnewTrnew = 0.0;
                 for (int j = 0; j < r.Length; j++)
                     rnewTrnew += r[j] * r[j];
 
-                beta = rnewTrnew / rTr;
+                double beta = rnewTrnew / rTr;
 
                 // dscal_(&n, &beta, d, &inc);
                 for (int j = 0; j < d.Length; j++)
