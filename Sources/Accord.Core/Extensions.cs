@@ -28,6 +28,7 @@ namespace Accord
     using System.ComponentModel;
     using System.IO;
     using System.Runtime.InteropServices;
+    using System.Globalization;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -105,6 +106,40 @@ namespace Accord
             handle.Free();
 
             return true;
+        }
+
+        /// <summary>
+        ///   Gets the underlying buffer position for a StreamReader.
+        /// </summary>
+        /// 
+        /// <param name="reader">A StreamReader whose position will be retrieved.</param>
+        /// 
+        /// <returns>The current offset from the beginning of the 
+        ///   file that the StreamReader is currently located into.</returns>
+        /// 
+        public static long GetPosition(this StreamReader reader)
+        {
+            // http://stackoverflow.com/a/17457085/262032
+
+            // The current buffer of decoded characters
+            char[] charBuffer = (char[])reader.GetType().InvokeMember("charBuffer",
+                BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
+                | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
+
+            // The current position in the buffer of decoded characters
+            int charPos = (int)reader.GetType().InvokeMember("charPos", 
+                BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
+                | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
+
+            // The number of bytes that the already-read characters need when encoded.
+            int numReadBytes = reader.CurrentEncoding.GetByteCount(charBuffer, 0, charPos);
+
+            // The number of encoded bytes that are in the current buffer
+            int byteLen = (int)reader.GetType().InvokeMember("byteLen", 
+                BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
+                | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
+
+            return reader.BaseStream.Position - byteLen + numReadBytes;
         }
 
     }

@@ -112,6 +112,31 @@ namespace Accord.IO
             get { return reader.BaseStream; }
         }
 
+        /// <summary>
+        ///   Gets or sets whether to include an intercept term
+        ///   (bias) value at the beginning of each new sample.
+        ///   Default is <c>null</c> (don't include anything).
+        /// </summary>
+        /// 
+        public double? Intercept { get; set; }
+
+        /// <summary>
+        ///   Gets the number of features present in this dataset. Please 
+        ///   note that, when using the sparse representation, it is not
+        ///   strictly necessary to know this value.
+        /// </summary>
+        /// 
+        public int Dimensions
+        {
+            get
+            {
+                if (sampleSize <= 0)
+                    sampleSize = guessSampleSize();
+
+                return Intercept.HasValue ? sampleSize + 1 : sampleSize;
+            }
+        }
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="SparseReader"/> class.
@@ -124,6 +149,18 @@ namespace Accord.IO
         {
             this.reader = new StreamReader(path);
             this.sampleSize = sampleSize;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="path">The complete file path to be read.</param>
+        /// 
+        public SparseReader(string path)
+        {
+            this.reader = new StreamReader(path);
+            this.sampleSize = -1;
         }
 
         /// <summary>
@@ -144,6 +181,18 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="stream">The file stream to be read.</param>
+        /// 
+        public SparseReader(Stream stream)
+        {
+            this.reader = new StreamReader(stream);
+            this.sampleSize = -1;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="stream">The file stream to be read.</param>
         /// <param name="encoding">The character encoding to use.</param>
         /// <param name="sampleSize">The size of the feature vectors stored in the file.</param>
         /// 
@@ -151,6 +200,19 @@ namespace Accord.IO
         {
             this.reader = new StreamReader(stream, encoding);
             this.sampleSize = sampleSize;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="stream">The file stream to be read.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// 
+        public SparseReader(Stream stream, Encoding encoding)
+        {
+            this.reader = new StreamReader(stream, encoding);
+            this.sampleSize = -1;
         }
 
         /// <summary>
@@ -178,6 +240,31 @@ namespace Accord.IO
         {
             this.reader = reader;
             this.sampleSize = sampleSize;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="path">The complete file path to be read.</param>
+        /// <param name="encoding">The character encoding to use.</param>
+        /// 
+        public SparseReader(String path, Encoding encoding)
+        {
+            this.reader = new StreamReader(path, encoding);
+            this.sampleSize = -1;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="SparseReader"/> class.
+        /// </summary>
+        /// 
+        /// <param name="reader">A StreamReader containing the file to be read.</param>
+        /// 
+        public SparseReader(StreamReader reader)
+        {
+            this.reader = reader;
+            this.sampleSize = -1;
         }
 
         /// <summary>
@@ -225,11 +312,27 @@ namespace Accord.IO
         /// 
         /// <param name="label">The label of the sample.</param>
         /// <param name="description">An optional description accompanying the sample.</param>
+        /// 
         /// <returns>A vector in dense representation containing the sample.</returns>
         /// 
         public double[] ReadDense(out int label, out string description)
         {
             return read(false, out label, out description);
+        }
+
+        /// <summary>
+        ///   Reads a sparse sample from the current stream
+        ///   and returns it as a dense vector.
+        /// </summary>
+        /// 
+        /// <param name="output">The output value associated with the sample.</param>
+        /// <param name="description">An optional description accompanying the sample.</param>
+        /// 
+        /// <returns>A vector in dense representation containing the sample.</returns>
+        /// 
+        public double[] ReadDense(out double output, out string description)
+        {
+            return read(false, out output, out description);
         }
 
         /// <summary>
@@ -251,6 +354,7 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="labels">An array containing the samples' labels.</param>
+        /// 
         /// <returns>An array of dense feature vectors.</returns>
         /// 
         public double[][] ReadToEnd(out int[] labels)
@@ -263,8 +367,23 @@ namespace Accord.IO
         ///   Reads samples from the current position to the end of the stream.
         /// </summary>
         /// 
+        /// <param name="outputs">An array containing the samples' output values.</param>
+        /// 
+        /// <returns>An array of dense feature vectors.</returns>
+        /// 
+        public double[][] ReadToEnd(out double[] outputs)
+        {
+            string[] descriptions;
+            return ReadToEnd(false, out outputs, out descriptions);
+        }
+
+        /// <summary>
+        ///   Reads samples from the current position to the end of the stream.
+        /// </summary>
+        /// 
         /// <param name="labels">An array containing the samples' labels.</param>
         /// <param name="descriptions">An array containing the samples' descriptions.</param>
+        /// 
         /// <returns>An array of dense feature vectors.</returns>
         /// 
         public double[][] ReadToEnd(out int[] labels, out string[] descriptions)
@@ -276,9 +395,24 @@ namespace Accord.IO
         ///   Reads samples from the current position to the end of the stream.
         /// </summary>
         /// 
+        /// <param name="outputs">An array containing the samples' output values.</param>
+        /// <param name="descriptions">An array containing the samples' descriptions.</param>
+        /// 
+        /// <returns>An array of dense feature vectors.</returns>
+        /// 
+        public double[][] ReadToEnd(out double[] outputs, out string[] descriptions)
+        {
+            return ReadToEnd(false, out outputs, out descriptions);
+        }
+
+        /// <summary>
+        ///   Reads samples from the current position to the end of the stream.
+        /// </summary>
+        /// 
         /// <param name="sparse">True to return the feature vectors in a
         /// sparse representation, false to return them as dense vectors.</param>
         /// <param name="labels">An array containing the samples' labels.</param>
+        /// 
         /// <returns>An array of dense feature vectors.</returns>
         /// 
         public double[][] ReadToEnd(bool sparse, out int[] labels)
@@ -293,8 +427,25 @@ namespace Accord.IO
         /// 
         /// <param name="sparse">True to return the feature vectors in a
         /// sparse representation, false to return them as dense vectors.</param>
+        /// <param name="outputs">An array containing the samples' output values.</param>
+        /// 
+        /// <returns>An array of dense feature vectors.</returns>
+        /// 
+        public double[][] ReadToEnd(bool sparse, out double[] outputs)
+        {
+            string[] descriptions;
+            return ReadToEnd(sparse, out outputs, out descriptions);
+        }
+
+        /// <summary>
+        ///   Reads samples from the current position to the end of the stream.
+        /// </summary>
+        /// 
+        /// <param name="sparse">True to return the feature vectors in a
+        /// sparse representation, false to return them as dense vectors.</param>
         /// <param name="labels">An array containing the samples' labels.</param>
         /// <param name="descriptions">An array containing the samples' descriptions.</param>
+        /// 
         /// <returns>An array of dense feature vectors.</returns>
         /// 
         public double[][] ReadToEnd(bool sparse, out int[] labels, out string[] descriptions)
@@ -316,8 +467,52 @@ namespace Accord.IO
             return samples.ToArray();
         }
 
+        /// <summary>
+        ///   Reads samples from the current position to the end of the stream.
+        /// </summary>
+        /// 
+        /// <param name="sparse">True to return the feature vectors in a
+        /// sparse representation, false to return them as dense vectors.</param>
+        /// <param name="labels">An array containing the samples' labels.</param>
+        /// <param name="descriptions">An array containing the samples' descriptions.</param>
+        /// 
+        /// <returns>An array of dense feature vectors.</returns>
+        /// 
+        public double[][] ReadToEnd(bool sparse, out double[] labels, out string[] descriptions)
+        {
+            List<double[]> samples = new List<double[]>();
+            List<double> listLabels = new List<double>();
+            List<string> listDescriptions = new List<string>();
+
+            while (!reader.EndOfStream)
+            {
+                double label; string description;
+                samples.Add(read(sparse, out label, out description));
+                listLabels.Add(label); listDescriptions.Add(description);
+            }
+
+            labels = listLabels.ToArray();
+            descriptions = listDescriptions.ToArray();
+
+            return samples.ToArray();
+        }
+
 
         private double[] read(bool sparse, out int label, out string description)
+        {
+            string[] values = read(out description);
+            label = int.Parse(values[0], CultureInfo.InvariantCulture);
+            return readFeature(sparse, values);
+        }
+
+        private double[] read(bool sparse, out double label, out string description)
+        {
+            string[] values = read(out description);
+            label = Double.Parse(values[0], CultureInfo.InvariantCulture);
+            return readFeature(sparse, values);
+        }
+
+        private string[] read(out string description)
         {
             string line = reader.ReadLine();
 
@@ -326,22 +521,32 @@ namespace Accord.IO
 
             description = (data.Length > 1) ? data[1].Trim() : String.Empty;
 
-            string[] values = sample.Split(' ');
-            label = int.Parse(values[0], CultureInfo.InvariantCulture);
+            return sample.Split(' ');
+        }
 
+        private double[] readFeature(bool sparse, string[] values)
+        {
             double[] features;
+
+            int offset = this.Intercept.HasValue ? 1 : 0;
 
             if (!sparse)
             {
-                features = new double[sampleSize];
+                if (sampleSize <= 0)
+                    sampleSize = guessSampleSize();
+
+                features = new double[sampleSize + offset];
                 for (int i = 1; i < values.Length; i++)
                 {
                     string[] element = values[i].Split(':');
-                    int index = int.Parse(element[0], CultureInfo.InvariantCulture) - 1;
-                    double value = double.Parse(element[1], CultureInfo.InvariantCulture);
+                    var index = Int32.Parse(element[0], CultureInfo.InvariantCulture) - 1;
+                    var value = Double.Parse(element[1], CultureInfo.InvariantCulture);
 
-                    features[index] = value;
+                    features[index + offset] = value;
                 }
+
+                if (Intercept.HasValue)
+                    features[0] = Intercept.Value;
             }
             else
             {
@@ -349,16 +554,50 @@ namespace Accord.IO
                 for (int i = 1; i < values.Length; i++)
                 {
                     string[] element = values[i].Split(':');
-                    double index = double.Parse(element[0], CultureInfo.InvariantCulture) - 1;
-                    double value = double.Parse(element[1], CultureInfo.InvariantCulture);
+                    var index = Int32.Parse(element[0], CultureInfo.InvariantCulture) - 1;
+                    var value = Double.Parse(element[1], CultureInfo.InvariantCulture);
 
                     int j = (i - 1) * 2;
-                    features[j] = index;
+                    features[j] = index + offset;
                     features[j + 1] = value;
+
+                    if (index >= sampleSize)
+                        sampleSize = index + 1;
                 }
+
+                if (Intercept.HasValue)
+                    features[1] = Intercept.Value;
             }
 
             return features;
+        }
+
+        private int guessSampleSize()
+        {
+            // Scan the whole file and identify
+            // the largest index we can find. 
+
+            long position = reader.GetPosition();
+
+            int max = 0;
+
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                int lastColon = line.LastIndexOf(':');
+                int lastSpace = line.LastIndexOf(' ', lastColon);
+
+                string str = line.Substring(lastSpace, lastColon - lastSpace);
+                int index = int.Parse(str, CultureInfo.InvariantCulture) - 1;
+
+                if (index >= max)
+                    max = index + 1;
+            }
+
+            // rewind the stream to where we found it
+            reader.BaseStream.Seek(position, SeekOrigin.Begin);
+
+            return max;
         }
 
 
