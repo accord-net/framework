@@ -107,11 +107,13 @@
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\..\Externals\SharpDX\net40\SharpDX.dll</HintPath>
-	  <HintPath>..\..\Externals\SharpDX\net20\SharpDX.dll</HintPath>
+      <HintPath>..\..\Externals\SharpDX\net20\SharpDX.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="SharpDX.DirectSound">
       <HintPath>..\..\Externals\SharpDX\net40\SharpDX.DirectSound.dll</HintPath>
-	  <HintPath>..\..\Externals\SharpDX\net20\SharpDX.DirectSound.dll</HintPath>
+      <HintPath>..\..\Externals\SharpDX\net20\SharpDX.DirectSound.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

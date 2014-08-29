@@ -1,6 +1,6 @@
-Accord.NET Framework 2.13.0 release notes
+Accord.NET Framework 2.13.1 release notes
 -----------------------------------------
-24.08.2014.
+30.08.2014.
 
 Version updates and fixes:
   - GC-61: GoldfarbIdnani should implement the IOptimizationMethod interface;
@@ -25,7 +25,7 @@ Version updates and fixes:
   - GH-12: Add a HistogramBox viewer in the same spirit as ScatterplotBox and DataGridBox;
   - GH-13: NaiveBayes constructor incorrectly checks its arguments;
   - GH-25: SauvolaThreshold and NiblackThreshold filter are always making whole black image;
-  - GH-27: Fixing bernoulli distribution sampling.
+  - GH-27: Fixing Bernoulli distribution sampling.
 
 * General
   - This release brings some big changes. The SlimDX libraries have been replaced by SharpDX, 
@@ -38,6 +38,7 @@ Version updates and fixes:
     cannot be used in commercial applications.
 
 * Accord.IO
+  - Adding a LibSVM's file model to load and save LibSVM's classifiers;
   - Adding a IDX file reader to read the MNIST (and possibly others) datasets;
   - Adding a MAT file reader to read Matlab/Octave data, including sparse,
     structures and objects.
@@ -80,13 +81,16 @@ Version updates and fixes:
   - Fixing position calculation when sampleIndex is set in WindowBase.Apply method.
 
 * Accord.MachineLearning
-  - Updating cross-validation to support class-balanced partitions.
+  - Fixing SequentialMinimalOptimization when working with weighted samples;
+  - Renaming ProbabilisticOutputLearning to ProbabilisticOutputCalibration;
+  - Updating cross-validation to support class-balanced partitions;
   - Adding support for different sample weights in SMO and and IRLS;
   - Adding a configurable model threshold for AdaBoost learning;
   - Adding a generic base model for AdaBoost's weak classifiers;
   - Adding specialized linear SVM algorithms based on liblinear's offerings, 
-    such as  L2-regularized L1 and L2-loss SVM for the dual formulation and
-    the L2-regularized, L2-loss SVM for the primal formulation.
+    such as L2-regularized L1 and L2-loss SVM for the dual formulation and
+    the L2-regularized, L2-loss SVM for the primal formulation, as well as
+    probabilistic SVM and Logistic Regression algorithms.
 
 * Accord.Controls
   - Adding HistogramBox for displaying histograms in the same manner as MessageBox;

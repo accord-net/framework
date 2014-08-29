@@ -11,6 +11,6 @@ using System.Reflection;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("2.13.0")]
-[assembly: AssemblyInformationalVersion("2.13.0")]
-[assembly: AssemblyFileVersion("2.13.0.4934")]
+[assembly: AssemblyVersion("2.13.1")]
+[assembly: AssemblyInformationalVersion("2.13.1")]
+[assembly: AssemblyFileVersion("2.13.1.4986")]
