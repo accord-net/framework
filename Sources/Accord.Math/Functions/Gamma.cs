@@ -113,7 +113,7 @@ namespace Accord.Math
     {
 
         /// <summary>Maximum gamma on the machine.</summary>
-        public const double GammaMax = 171.624376956302725;
+        public const double GammaMax = 171.624376956302725; // TODO: Rename to Max
 
         /// <summary>
         ///   Gamma function of the specified value.
@@ -229,11 +229,11 @@ namespace Accord.Math
         /// 
         public static double Multivariate(double x, int p)
         {
-            if (p < 1) 
+            if (p < 1)
                 throw new ArgumentOutOfRangeException("p",
                     "Parameter p must be higher than 1.");
 
-            if (p == 1) 
+            if (p == 1)
                 return Function(x);
 
 
@@ -437,6 +437,10 @@ namespace Accord.Math
         ///   (a.k.a the incomplete complemented Gamma function)
         /// </summary>
         /// 
+        /// <remarks>
+        ///   This function is equivalent to Q(x) = Γ(s, x) / Γ(s).
+        /// </remarks>
+        /// 
         public static double UpperIncomplete(double a, double x)
         {
             const double big = 4.503599627370496e15;
@@ -500,6 +504,10 @@ namespace Accord.Math
         ///   Lower incomplete regularized gamma function P
         ///   (a.k.a. the incomplete Gamma function).
         /// </summary>
+        /// 
+        /// <remarks>
+        ///   This function is equivalent to P(x) = γ(s, x) / Γ(s).
+        /// </remarks>
         /// 
         public static double LowerIncomplete(double a, double x)
         {
@@ -651,11 +659,37 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Inverse of the <see cref="UpperIncomplete">complemented 
-        ///   incomplete Gamma integral (UpperIncomplete)</see>.
+        ///   Inverse of the <see cref="LowerIncomplete"> 
+        ///   incomplete Gamma integral (LowerIncomplete, P)</see>.
         /// </summary>
         /// 
+        public static double InverseLowerIncomplete(double a, double y)
+        {
+            return inverse(a, 1 - y);
+        }
+
+        /// <summary>
+        ///   Inverse of the <see cref="UpperIncomplete">complemented 
+        ///   incomplete Gamma integral (UpperIncomplete, Q)</see>.
+        /// </summary>
+        /// 
+        public static double InverseUpperIncomplete(double a, double y)
+        {
+            return inverse(a, y);
+        }
+
+        /// <summary>
+        ///   Inverse of the <see cref="UpperIncomplete">complemented 
+        ///   incomplete Gamma integral (UpperIncomplete, Q)</see>.
+        /// </summary>
+        /// 
+        //[Obsolete("Please use InverseUpperIncomplete instead.")]
         public static double Inverse(double a, double y)
+        {
+            return inverse(a, y);
+        }
+
+        private static double inverse(double a, double y)
         {
             double x0, x1, x, yl, yh, yy, d, lgm, dithresh;
             int i, dir;
@@ -705,7 +739,7 @@ namespace Accord.Math
                 x = x - d;
             }
 
-        // Resort to interval halving if Newton iteration did not converge. 
+                // Resort to interval halving if Newton iteration did not converge. 
         ihalve:
 
             d = 0.0625;

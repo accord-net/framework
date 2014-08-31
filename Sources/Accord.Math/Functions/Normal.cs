@@ -139,12 +139,14 @@ namespace Accord.Math
         {
             if (y0 <= 0.0)
             {
-                if (y0 == 0) return Double.NegativeInfinity;
+                if (y0 == 0) 
+                    return Double.NegativeInfinity;
                 throw new ArgumentOutOfRangeException("y0");
             }
             if (y0 >= 1.0)
             {
-                if (y0 == 1) return Double.PositiveInfinity;
+                if (y0 == 1) 
+                    return Double.PositiveInfinity;
                 throw new ArgumentOutOfRangeException("y0");
             }
 
