@@ -92,7 +92,7 @@ namespace Accord.MachineLearning
     /// // Now we will create the K-Nearest Neighbors algorithm. For this
     /// // example, we will be choosing k = 4. This means that, for a given
     /// // instance, its nearest 4 neighbors will be used to cast a decision.
-    /// KNearestNeighbor knn = new KNearestNeighbor(k: 4, classes: 3,
+    /// KNearestNeighbors knn = new KNearestNeighbors(k: 4, classes: 3,
     ///     inputs: inputs, outputs: outputs);
     /// 
     /// 

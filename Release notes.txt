@@ -461,7 +461,7 @@ Version updates and fixes:
   - Marking DecisionAttributeCollection as Serializable;
   - Updating Multi-class and Multi-label SVMs to implement the IEnumerable interface;
   - Updating Multi-class SVM decision to be thread-safe in multithreaded environments;
-  - Adding explicit class count parameter to KNearestNeighbor;
+  - Adding explicit class count parameter to KNearestNeighbors;
   - Adding Bag-of-Words model for text categorization;
   - Fixing SMO when there is only one class label in outputs;
   - Fixing set size counting in Cross-Validation.
