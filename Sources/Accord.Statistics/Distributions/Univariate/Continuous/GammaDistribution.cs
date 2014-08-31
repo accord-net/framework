@@ -364,6 +364,24 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction"/>.
+        /// </returns>
+        /// 
+        public override double InverseDistributionFunction(double p)
+        {
+            return Gamma.InverseLowerIncomplete(k, p) * theta;
+        }
+
+        /// <summary>
         ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 

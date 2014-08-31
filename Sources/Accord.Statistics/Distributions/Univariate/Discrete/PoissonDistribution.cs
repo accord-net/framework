@@ -262,7 +262,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </remarks>
         public override int InverseDistributionFunction(double p)
         {
-            double result = Gamma.Inverse(lambda, 1.0 - p);
+            double result = Gamma.InverseUpperIncomplete(lambda, 1.0 - p);
 
             return (int)Math.Round(result);
         }

@@ -214,6 +214,24 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction"/>.
+        /// </returns>
+        /// 
+        public override double InverseDistributionFunction(double p)
+        {
+            return Gamma.InverseLowerIncomplete(degreesOfFreedom / 2.0, p) * 2.0;
+        }
+
+        /// <summary>
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
@@ -405,6 +423,29 @@ namespace Accord.Statistics.Distributions.Univariate
             return String.Format("χ²(x; df = {0})",
                 degreesOfFreedom.ToString(format, formatProvider));
         }
+
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// <param name="degreesOfFreedom">
+        ///   The degrees of freedom of the Chi-Square distribution.
+        /// </param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction"/>.
+        /// </returns>
+        /// 
+        public static double Inverse(double p, int degreesOfFreedom)
+        {
+            return Gamma.InverseLowerIncomplete(degreesOfFreedom / 2.0, p) * 2.0;
+        }
+
     }
 
 }

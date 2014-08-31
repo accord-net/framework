@@ -25,6 +25,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Controls;
+    using Accord.Math;
     using Accord.Statistics.Testing;
 
     [TestClass()]
@@ -170,7 +171,43 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-4);
         }
 
-     
+        [TestMethod()]
+        public void InverseTest()
+        {
+            double expected = 1.8307038053275149991e+01;
+            double actual = ChiSquareDistribution.Inverse(0.95, 10);
+            Assert.AreEqual(expected, actual, 1e-14);
+        }
+
+        [TestMethod()]
+        public void InverseTest2()
+        {
+            double[] p = 
+            {
+                0.003898633, 0.956808760, 0.318487983,
+                0.887227832, 0.641802182, 0.640345741,
+                0.931996171, 0.426819547, 0.624824460,
+                0.247553652, 0.282827901, 0.313780766,
+                0.093206440, 0.392279489, 0.601228848
+            };
+
+            double[] expected = 
+            {
+                 2.3875256301085814295e-05, 4.0879013123718950240e+00, 1.6842875232305037914e-01,
+                 2.5149366098649084122e+00, 8.4420178057142991612e-01, 8.3910013681477579883e-01,
+                 3.3305572850409235208e+00, 3.1738990781989129264e-01, 7.8645062825981804089e-01,
+                 9.9486814436765019787e-02, 1.3121839127554768556e-01, 1.6320884169279117892e-01,
+                 1.3708641978779382772e-02, 2.6350767581793288485e-01, 7.1202870676363294589e-01,
+
+            };
+
+
+            double[] actual = new double[p.Length];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = ChiSquareDistribution.Inverse(p[i], 1);
+
+            Assert.IsTrue(expected.IsEqual(actual, 1e-14));
+        }
 
 
     }
