@@ -5,6 +5,9 @@
 // Copyright © César Souza, 2009-2014
 // cesarsouza at gmail.com
 //
+// Copyright © Philipp Berens, 2011
+// berens at tuebingen.mpg.de
+//
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
 //    License as published by the Free Software Foundation; either
@@ -19,13 +22,42 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+// This file contains implementations based on the orginal code by Philipp
+// Berens, shared under a 2-clause BSD license. The original license text 
+// is reproduced below. 
+//
+// Copyright © Philipp Berens, 2011
+// All rights reserved.
+//
+//    Redistribution and use in source and binary forms, with or without
+//    modification, are permitted provided that the following conditions are
+//    met:
+//
+//        * Redistributions of source code must retain the above copyright
+//          notice, this list of conditions and the following disclaimer.
+//        * Redistributions in binary form must reproduce the above copyright
+//          notice, this list of conditions and the following disclaimer in
+//          the documentation and/or other materials provided with the distribution
+//    
+//   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+//   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+//   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+//   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+//   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+//   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+//   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+//   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+//   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+//   POSSIBILITY OF SUCH DAMAGE.
+//
 
 namespace Accord.Statistics
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
+    using AForge;
+    using Accord.Math;
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///   Set of statistics functions operating over a circular space.
@@ -40,28 +72,191 @@ namespace Accord.Statistics
     public static class Circular
     {
 
+        /// <summary>
+        ///   Transforms circular data into angles (normalizes the data to be between -PI and PI).
+        /// </summary>
+        /// 
+        /// <param name="samples">The samples to be transformed.</param>
+        /// <param name="length">The maximum possible sample value (such as 24 for hour data).</param>
+        /// <param name="inPlace">Whether to perform the transformation in place.</param>
+        /// 
+        /// <returns>A double array containing the same data in <paramref name="samples"/>,
+        ///   but normalized between -PI and PI.</returns>
+        /// 
+        public static double[] Transform(double[] samples, double length, bool inPlace = false)
+        {
+            double[] result = inPlace ? samples : new double[samples.Length];
+
+            for (int i = 0; i < result.Length; i++)
+                result[i] = samples[i] * ((2 * Math.PI) / length) - Math.PI;
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Transforms circular data into angles (normalizes the data to be between -PI and PI).
+        /// </summary>
+        /// 
+        /// <param name="sample">The sample to be transformed.</param>
+        /// <param name="length">The maximum possible sample value (such as 24 for hour data).</param>
+        /// 
+        /// <returns>The <paramref name="sample"/> normalized to be between -PI and PI.</returns>
+        /// 
+        public static double Transform(double sample, double length)
+        {
+            double m = Accord.Math.Tools.Mod(sample, length);
+            return (m / length) * (2 * Math.PI) - Math.PI;
+        }
+
+        /// <summary>
+        ///   Transforms angular data back into circular data (reverts the
+        ///   <see cref="Transform(double[], double, bool)">Transform</see> 
+        ///   operation.
+        /// </summary>
+        /// 
+        /// <param name="angle">The angle to be reconverted into the original unit.</param>
+        /// <param name="length">The maximum possible sample value (such as 24 for hour data).</param>
+        /// 
+        /// <returns>The original before being converted.</returns>
+        /// 
+        public static double Revert(double angle, double length)
+        {
+            double m = ((angle + Math.PI) / (2 * Math.PI)) * length;
+            return Accord.Math.Tools.Mod(m, length);
+        }
+
         #region Array Measures
 
         /// <summary>
-        ///   Computes the Mean of the given angles.
+        ///   Computes the sum of cosines and sines for the given angles.
         /// </summary>
         /// 
         /// <param name="angles">A double array containing the angles in radians.</param>
-        /// <returns>The mean of the given angles.</returns>
         /// 
-        public static double Mean(double[] angles)
+        /// <param name="cos">The sum of cosines, returned as an out parameter.</param>
+        /// <param name="sin">The sum of sines, returned as an out parameter.</param>
+        /// 
+        public static void Sum(double[] angles, out double cos, out double sin)
         {
-            double N = angles.Length;
-
-            double cos = 0, sin = 0;
+            cos = 0;
+            sin = 0;
 
             for (int i = 0; i < angles.Length; i++)
             {
                 cos += Math.Cos(angles[i]);
                 sin += Math.Sin(angles[i]);
             }
+        }
 
-            return Math.Atan2(sin / N, cos / N);
+        /// <summary>
+        ///   Computes the Mean direction of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// 
+        /// <returns>The mean direction of the given angles.</returns>
+        /// 
+        public static double Mean(double[] angles)
+        {
+            double cos, sin;
+            Sum(angles, out cos, out sin);
+            return Mean(angles.Length, cos, sin);
+        }
+
+        /// <summary>
+        ///   Computes the circular Mean direction of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// 
+        /// <returns>The circular Mean direction of the given samples.</returns>
+        /// 
+        public static double Mean(double[] samples, double length)
+        {
+            return Revert(Mean(Transform(samples, length)), length);
+        }
+
+        /// <summary>
+        ///   Computes the Mean direction of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples.</param>
+        /// <param name="cos">The sum of the cosines of the samples.</param>
+        /// <param name="sin">The sum of the sines of the samples.</param>
+        /// 
+        /// <returns>The mean direction of the given angles.</returns>
+        /// 
+        public static double Mean(int samples, double cos, double sin)
+        {
+            return Math.Atan2(sin / samples, cos / samples);
+        }
+
+        /// <summary>
+        ///   Computes the mean resultant vector length (r) of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// 
+        /// <returns>The mean resultant vector length of the given angles.</returns>
+        /// 
+        public static double Resultant(double[] angles)
+        {
+            double cos, sin;
+            Sum(angles, out cos, out sin);
+            return Resultant(angles.Length, cos, sin);
+        }
+
+        /// <summary>
+        ///   Computes the resultant vector length (r) of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// 
+        /// <returns>The mean resultant vector length of the given samples.</returns>
+        /// 
+        public static double Resultant(double[] samples, double length)
+        {
+            return Revert(Resultant(Transform(samples, length)), length);
+        }
+
+        /// <summary>
+        ///   Computes the mean resultant vector length (r) of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples.</param>
+        /// <param name="cos">The sum of the cosines of the samples.</param>
+        /// <param name="sin">The sum of the sines of the samples.</param>
+        /// 
+        /// <returns>The mean resultant vector length of the given angles.</returns>
+        /// 
+        public static double Resultant(int samples, double cos, double sin)
+        {
+            double x = sin / samples;
+            double y = cos / samples;
+            return Math.Sqrt(x * x + y * y);
+        }
+
+        /// <summary>
+        ///   Computes the circular variance of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// 
+        /// <returns>The circular variance of the given samples.</returns>
+        /// 
+        public static double Variance(double[] samples, double length)
+        {
+            double scale = length / (2 * Math.PI);
+            return Variance(Transform(samples, length)) * scale * scale;
         }
 
         /// <summary>
@@ -69,22 +264,478 @@ namespace Accord.Statistics
         /// </summary>
         /// 
         /// <param name="angles">A double array containing the angles in radians.</param>
+        /// 
         /// <returns>The variance of the given angles.</returns>
         /// 
         public static double Variance(double[] angles)
         {
-            double cos = 0, sin = 0;
+            double cos, sin;
+            Sum(angles, out cos, out sin);
+            return Variance(angles.Length, cos, sin);
+        }
 
-            for (int i = 0; i < angles.Length; i++)
+        /// <summary>
+        ///   Computes the Variance of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples.</param>
+        /// <param name="cos">The sum of the cosines of the samples.</param>
+        /// <param name="sin">The sum of the sines of the samples.</param>
+        /// 
+        /// <returns>The variance of the angles.</returns>
+        /// 
+        public static double Variance(int samples, double cos, double sin)
+        {
+            double rho = Math.Sqrt(sin * sin + cos * cos);
+            return 1.0 - rho / samples;
+        }
+
+        /// <summary>
+        ///   Computes the circular standard deviation of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// 
+        /// <returns>The circular standard deviation of the given samples.</returns>
+        /// 
+        public static double StandardDeviation(double[] samples, double length)
+        {
+            double scale = length / (2 * Math.PI);
+            return StandardDeviation(Transform(samples, length)) * scale;
+        }
+
+        /// <summary>
+        ///   Computes the Standard Deviation of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// 
+        /// <returns>The standard deviation of the given angles.</returns>
+        /// 
+        public static double StandardDeviation(double[] angles)
+        {
+            double cos, sin;
+            Sum(angles, out cos, out sin);
+            return StandardDeviation(angles.Length, cos, sin);
+        }
+
+
+        /// <summary>
+        ///   Computes the Standard Deviation of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples.</param>
+        /// <param name="cos">The sum of the cosines of the samples.</param>
+        /// <param name="sin">The sum of the sines of the samples.</param>
+        /// 
+        /// <returns>The standard deviation of the angles.</returns>
+        /// 
+        public static double StandardDeviation(int samples, double cos, double sin)
+        {
+            double rho = Math.Sqrt(sin * sin + cos * cos);
+            return Math.Sqrt(-2.0 * Math.Log(rho / samples));
+        }
+
+        /// <summary>
+        ///   Computes the circular angular deviation of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// 
+        /// <returns>The circular angular deviation of the given samples.</returns>
+        /// 
+        public static double AngularDeviation(double[] samples, double length)
+        {
+            double scale = length / (2 * Math.PI);
+            return AngularDeviation(Transform(samples, length)) * scale;
+        }
+
+        /// <summary>
+        ///   Computes the Angular Deviation of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// 
+        /// <returns>The angular deviation of the given angles.</returns>
+        /// 
+        public static double AngularDeviation(double[] angles)
+        {
+            double cos, sin;
+            Sum(angles, out cos, out sin);
+            return AngularDeviation(angles.Length, cos, sin);
+        }
+
+        /// <summary>
+        ///   Computes the Angular Deviation of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples.</param>
+        /// <param name="cos">The sum of the cosines of the samples.</param>
+        /// <param name="sin">The sum of the sines of the samples.</param>
+        /// 
+        /// <returns>The angular deviation of the angles.</returns>
+        /// 
+        public static double AngularDeviation(int samples, double cos, double sin)
+        {
+            double rho = Math.Sqrt(sin * sin + cos * cos);
+            return Math.Sqrt(-2.0 * (1.0 - rho / samples));
+        }
+
+        /// <summary>
+        ///   Computes the circular standard error of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// <param name="alpha">The confidence level. Default is 0.05.</param>
+        /// 
+        /// <returns>The circular standard error of the given samples.</returns>
+        /// 
+        public static double StandardError(double[] samples, double length, double alpha)
+        {
+            double scale = length / (2 * Math.PI);
+            return StandardError(Transform(samples, length), alpha) * scale;
+        }
+
+        /// <summary>
+        ///   Computes the standard error of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// <param name="alpha">The confidence level. Default is 0.05.</param>
+        /// 
+        /// <returns>The standard error of the given angles.</returns>
+        /// 
+        public static double StandardError(double[] angles, double alpha)
+        {
+            double cos, sin;
+            Sum(angles, out cos, out sin);
+            return StandardError(angles.Length, cos, sin, alpha);
+        }
+
+        /// <summary>
+        ///   Computes the standard error of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples.</param>
+        /// <param name="cos">The sum of the cosines of the samples.</param>
+        /// <param name="sin">The sum of the sines of the samples.</param>
+        /// <param name="alpha">The confidence level. Default is 0.05.</param>
+        /// 
+        /// <returns>The standard error of the angles.</returns>
+        /// 
+        public static double StandardError(int samples, double cos, double sin, double alpha)
+        {
+            int n = samples;
+
+            double x = sin / n;
+            double y = cos / n;
+            double r = Math.Sqrt(x * x + y * y);
+
+            double R = n * r;
+
+            // double c2 = ChiSquareDistribution.Inverse(1 - alpha, 1);
+            double c2 = 2 * Gamma.InverseUpperIncomplete(0.5, alpha);
+
+            // check for resultant vector length and select appropriate formula
+            double t = 0;
+
+            if (r < 0.9 && r > Math.Sqrt((c2 / 2) / n))
+                t = Math.Sqrt((2 * n * (2 * R * R - n * c2)) / (4 * n - c2));  // equ. 26.24
+            else if (r >= 0.9)
+                t = Math.Sqrt(n * n - (n * n - R * R) * Math.Exp(c2 / n));     // equ. 26.25
+            else
+                t = Double.NaN;
+
+            // apply final transform
+            t = Math.Acos(t / R);
+
+            return t;
+        }
+
+        /// <summary>
+        ///   Computes the angular distance between two angles.
+        /// </summary>
+        /// 
+        /// <param name="x">The first angle.</param>
+        /// <param name="y">The second angle.</param>
+        /// 
+        /// <returns>The distance between the two angles.</returns>
+        /// 
+        public static double Distance(double x, double y)
+        {
+            return Distance(Math.Cos(x), Math.Sin(x), Math.Cos(y), Math.Sin(y));
+        }
+
+        /// <summary>
+        ///   Computes the distance between two circular samples.
+        /// </summary>
+        /// 
+        /// <param name="x">The first sample.</param>
+        /// <param name="y">The second sample.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// 
+        /// <returns>The distance between the two angles.</returns>
+        /// 
+        public static double Distance(double x, double y, double length)
+        {
+            double ax = Transform(x, length);
+            double ay = Transform(y, length);
+            double dxy = Distance(ax, ay);
+            return (dxy * length) / (2 * Math.PI);
+        }
+
+        /// <summary>
+        ///   Computes the angular distance between two angles.
+        /// </summary>
+        /// 
+        /// <param name="cosx">The cosine of the first sample.</param>
+        /// <param name="sinx">The sin of the first sample.</param>
+        /// <param name="cosy">The cosine of the second sample.</param>
+        /// <param name="siny">The sin of the second sample.</param>
+        /// 
+        /// <returns>The distance between the two angles.</returns>
+        /// 
+        public static double Distance(double cosx, double sinx, double cosy, double siny)
+        {
+            double den = (cosy * cosy + siny * siny);
+            double e = (cosx * cosy + sinx * siny) / den;
+            double f = (sinx * cosy - cosx * siny) / den;
+
+            return Math.Atan2(f, e);
+        }
+
+        /// <summary>
+        ///   Computes the circular Median of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// 
+        /// <returns>The circular Median of the given samples.</returns>
+        /// 
+        public static double Median(double[] samples, double length)
+        {
+            return Revert(Median(Transform(samples, length)), length);
+        }
+
+        /// <summary>
+        ///   Computes the circular Median direction of the given angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// 
+        /// <returns>The circular Median of the given samples.</returns>
+        /// 
+        public static double Median(double[] angles)
+        {
+            double[] beta = new double[angles.Length];
+
+            // Normalize angles (remove multiples)
+            for (int i = 0; i < beta.Length; i++)
+                beta[i] = Accord.Math.Tools.Mod(angles[i], 2 * Math.PI);
+
+            double[] dm = new double[beta.Length];
+            for (int i = 0; i < beta.Length; i++)
             {
-                cos += Math.Cos(angles[i]);
-                sin += Math.Sin(angles[i]);
+                for (int j = i + 1; j < beta.Length; j++)
+                {
+                    double v1 = Distance(beta[i], beta[j]);
+
+                    if (v1 > 0)
+                    {
+                        dm[j] += 1;
+                        dm[i] -= 1;
+                    }
+                    else if (v1 < 0)
+                    {
+                        dm[j] -= 1;
+                        dm[i] += 1;
+                    }
+                }
             }
 
-            double rho = Math.Sqrt(sin * sin + cos * cos);
+            for (int i = 0; i < dm.Length; i++)
+                dm[i] = Math.Abs(dm[i]);
 
-            return 1.0 - rho / angles.Length;
+
+            int imin = 0;
+            double dmin = dm[0];
+            for (int i = 1; i < dm.Length; i++)
+            {
+                if (dm[i] < dmin)
+                {
+                    dmin = dm[i];
+                    imin = i;
+                }
+            }
+
+
+            double md;
+
+            if (dm.Length % 2 != 0)
+            {
+                // is odd
+                md = beta[imin];
+            }
+            else
+            {
+                // is even
+                int count = 0;
+                double cos = 0, sin = 0;
+                for (int i = 0; i < dm.Length; i++)
+                {
+                    if (dm[i] == dmin)
+                    {
+                        cos += Math.Cos(beta[i]);
+                        sin += Math.Sin(beta[i]);
+                        count++;
+                    }
+                }
+
+                md = Math.Atan2(sin / count, cos / count);
+            }
+
+            double mean = Mean(beta);
+
+            double d1 = Distance(mean, md);
+            double d2 = Distance(mean, md + Math.PI);
+
+            if (Math.Abs(d1) > Math.Abs(d2))
+                md = Accord.Math.Tools.Mod(md + Math.PI, 2 * Math.PI);
+
+            return md;
         }
+
+        /// <summary>
+        ///   Computes the circular quartiles of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// <param name="q1">The first quartile, as an out parameter.</param>
+        /// <param name="q3">The third quartile, as an out parameter.</param>
+        /// 
+        /// <returns>The median of the given samples.</returns>
+        /// 
+        public static double Quartiles(double[] samples, double length, out double q1, out double q3)
+        {
+            double q2 = Quartiles(Transform(samples, length), out q1, out q3);
+            q1 = Revert(q1, length);
+            q3 = Revert(q3, length);
+            return Revert(q2, length);
+        }
+
+        /// <summary>
+        ///   Computes the circular quartiles of the given circular angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// <param name="q1">The first quartile, as an out parameter.</param>
+        /// <param name="q3">The third quartile, as an out parameter.</param>
+        /// 
+        /// <returns>The median of the given angles.</returns>
+        /// 
+        public static double Quartiles(double[] angles, out double q1, out double q3)
+        {
+            return Quartiles(angles, out q1, out q3, Median(angles));
+        }
+
+        /// <summary>
+        ///   Computes the circular quartiles of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// <param name="range">The sample quartiles, as an out parameter.</param>
+        /// 
+        /// <returns>The median of the given samples.</returns>
+        /// 
+        public static double Quartiles(double[] samples, double length, out DoubleRange range)
+        {
+            double q2 = Quartiles(Transform(samples, length), out range);
+            range.Min = Revert(range.Min, length);
+            range.Max = Revert(range.Max, length);
+            return Revert(q2, length);
+        }
+
+        /// <summary>
+        ///   Computes the circular quartiles of the given circular angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// <param name="range">The sample quartiles, as an out parameter.</param>
+        /// 
+        /// <returns>The median of the given angles.</returns>
+        /// 
+        public static double Quartiles(double[] angles, out DoubleRange range)
+        {
+            return Quartiles(angles, out range, Median(angles));
+        }
+
+        /// <summary>
+        ///   Computes the circular quartiles of the given circular angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// <param name="range">The sample quartiles, as an out parameter.</param>
+        /// <param name="median">The angular median, if already known.</param>
+        /// 
+        /// <returns>The median of the given angles.</returns>
+        /// 
+        public static double Quartiles(double[] angles, out DoubleRange range, double median)
+        {
+            double q1, q3;
+            double q2 = Quartiles(angles, out q1, out q3, median);
+            range = new DoubleRange(q1, q3);
+            return median;
+        }
+
+        /// <summary>
+        ///   Computes the circular quartiles of the given circular angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// <param name="q1">The first quartile, as an out parameter.</param>
+        /// <param name="q3">The third quartile, as an out parameter.</param>
+        /// <param name="median">The angular median, if already known.</param>
+        /// 
+        /// <returns>The median of the given angles.</returns>
+        /// 
+        public static double Quartiles(double[] angles, out double q1, out double q3, double median)
+        {
+            double[] x = new double[angles.Length];
+            for (int i = 0; i < angles.Length; i++)
+                x[i] = Accord.Math.Tools.Mod(angles[i] - median, 2 * Math.PI);
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                x[i] = (x[i] < -Math.PI) ? (x[i] + (2 * Math.PI)) : (x[i]);
+                x[i] = (x[i] > Math.PI) ? (x[i] - (2 * Math.PI)) : (x[i]);
+            }
+
+            double newMedian = Tools.Quartiles(x, out q1, out q3, alreadySorted: false);
+
+            q1 = Accord.Math.Tools.Mod(q1 + median, 2 * Math.PI);
+            q3 = Accord.Math.Tools.Mod(q3 + median, 2 * Math.PI);
+
+            return median;
+        }
+
 
         /// <summary>
         ///   Computes the concentration (kappa) of the given angles.
@@ -115,7 +766,6 @@ namespace Accord.Statistics
         public static double Concentration(double[] angles, double mean)
         {
             double cos = 0;
-
             for (int i = 0; i < angles.Length; i++)
                 cos += Math.Cos(angles[i] - mean);
 
@@ -135,7 +785,6 @@ namespace Accord.Statistics
         public static double WeightedMean(double[] angles, double[] weights)
         {
             double cos = 0, sin = 0;
-
             for (int i = 0; i < angles.Length; i++)
             {
                 cos += Math.Cos(angles[i]) * weights[i];
@@ -230,5 +879,6 @@ namespace Accord.Statistics
             // However, Sun (2006) mentions this estimate of k
             // is not reliable when r is small, such as when r < 0.7.
         }
+
     }
 }

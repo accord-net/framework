@@ -134,6 +134,7 @@
     <Compile Include="Analysis\Contrast Functions\IContrastFunction.cs" />
     <Compile Include="Analysis\Contrast Functions\Kurtosis.cs" />
     <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
+    <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Distributions\Multivariate\Continuous\DirichletDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\InverseChiSquareDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistribution.cs" />

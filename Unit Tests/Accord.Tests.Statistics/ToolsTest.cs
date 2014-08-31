@@ -246,6 +246,30 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void QuartileTest4()
+        {
+            // This is equivalent to R's type 6. This is the 
+            // same algorithm used by Minitab and SPSS. It is
+            // not the same used by R and S.
+
+            double[] values = 
+            { 
+                -0.309882133, -0.640157313179586, 0.00470721699999999,
+                -0.709738241179586, 0.328021416, -1.95662033217959,
+                0.618215405, 0.113038781, 0.311043694, -0.0662271140000001,
+                -0.314138172179586, 0, -0.220574326, 0.078498723, 0.287448082 
+            };
+
+            double q1, q3, actual;
+
+            actual = Tools.Quartiles(values, out q1, out q3, false);
+
+            Assert.AreEqual(-0.31413817217958601, q1);
+            Assert.AreEqual(0, actual);
+            Assert.AreEqual(0.28744808199999999, q3);
+        }
+
+        [TestMethod()]
         public void ModeTest1()
         {
             double[] values = { 3, 3, 1, 4 };

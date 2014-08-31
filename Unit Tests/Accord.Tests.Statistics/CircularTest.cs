@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using Accord;
     using System.Data;
     using Accord.Controls;
+    using AForge;
 
     [TestClass()]
     public class CircularTest
@@ -108,19 +109,145 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void MeanTest()
         {
-            double expected = 0.2051961;
+            double expected = 2.0519609734450655614e-01;
             double actual = Circular.Mean(angles);
 
-            Assert.AreEqual(expected, actual, 1e-6);
+            Assert.AreEqual(expected, actual, 1e-15);
         }
 
         [TestMethod()]
         public void VarianceTest()
         {
-            double expected = 0.1466856;
+            double expected = 1.4668557528213066465e-01;
             double actual = Circular.Variance(angles);
 
-            Assert.AreEqual(expected, actual, 1e-6);
+            Assert.AreEqual(expected, actual, 1e-15);
+        }
+
+        [TestMethod()]
+        public void CirtularDeviationTest()
+        {
+            double expected = 5.4163747152893815251e-01;
+            double actual = Circular.AngularDeviation(angles);
+
+            Assert.AreEqual(expected, actual, 1e-15);
+        }
+
+        [TestMethod()]
+        public void StandardDeviationTest()
+        {
+            double expected = 5.6325338695100524156e-01;
+            double actual = Circular.StandardDeviation(angles);
+
+            Assert.AreEqual(expected, actual, 1e-15);
+        }
+
+        [TestMethod()]
+        public void DistanceTest()
+        {
+            double x = 0.15;
+            double y = -1.22;
+
+            double expected = 1.37;
+            double actual = Circular.Distance(x, y);
+
+            Assert.AreEqual(expected, actual, 1e-15);
+        }
+
+        [TestMethod()]
+        public void MedianTest()
+        {
+            double expected = 3.1378076599999993324e-01;
+            double actual = Circular.Median(angles);
+
+            Assert.AreEqual(expected, actual, 1e-15);
+        }
+
+        [TestMethod()]
+        public void MedianTest_Odd()
+        {
+            double expected = 3.1613437449999998163e-01;
+            double actual = Circular.Median(angles.RemoveAt(0));
+
+            Assert.AreEqual(expected, actual, 1e-15);
+        }
+
+        [TestMethod()]
+        public void QuartilesTest()
+        {
+            DoubleRange range;
+            double median = Circular.Quartiles(angles, out range);
+
+            Assert.AreEqual(6.2828279010000001, range.Min);
+            Assert.AreEqual(0.60122884799999998, range.Max);
+        }
+
+        [TestMethod()]
+        public void StandardErrorTest()
+        {
+            double actual = Circular.StandardError(angles, 0.05);
+
+            Assert.AreEqual(3.5294262881192373094e-01, actual);
+        }
+
+        [TestMethod()]
+        public void ClockTest()
+        {
+            double[] hours =
+            {
+                1, 23, 1, 23, 1, 23, 1, 23, 1, 23, 1, 23, 1, 23, 1, 23, 1, 23, 1, 23
+            };
+
+            double mean = Circular.Mean(hours, 24);
+            double stdDev = Circular.StandardDeviation(hours, 24);
+            double var = Circular.Variance(hours, 24);
+            double med = Circular.Median(hours, 24);
+
+            DoubleRange quartiles;
+            double median = Circular.Quartiles(hours, 24, out quartiles);
+
+            double d = Circular.Distance(1, 23, 24);
+
+
+            Assert.AreEqual(0, mean);
+            Assert.AreEqual(1.0058013608769885, stdDev);
+            Assert.AreEqual(0.4971507281317768, var);
+            Assert.AreEqual(0, med);
+            Assert.AreEqual(0, median);
+            Assert.AreEqual(23, quartiles.Min, 1e-13);
+            Assert.AreEqual(1, quartiles.Max, 1e-13);
+            Assert.AreEqual(2, d, 1e-15);
+        }
+
+        [TestMethod()]
+        public void ClockTest2()
+        {
+            double[] hours =
+            {
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+            };
+
+            double mean = Circular.Mean(hours, 24);
+            double stdDev = Circular.StandardDeviation(hours, 24);
+            double var = Circular.Variance(hours, 24);
+            double med = Circular.Median(hours, 24);
+
+            DoubleRange quartiles;
+            double median = Circular.Quartiles(hours, 24, out quartiles);
+
+            double d1 = Circular.Distance(23, 0, 24);
+            double d2 = Circular.Distance(0, 23, 24);
+
+
+            Assert.AreEqual(6, mean, 1e-15);
+            Assert.AreEqual(3.9598525326427247, stdDev, 1e-14);
+            Assert.AreEqual(6.0653308429985406, var, 1e-14);
+            Assert.AreEqual(6, med);
+            Assert.AreEqual(6, median);
+            Assert.AreEqual(2.5, quartiles.Min);
+            Assert.AreEqual(9.5, quartiles.Max);
+            Assert.AreEqual(-1, d1, 1e-15);
+            Assert.AreEqual(+1, d2, 1e-15);
         }
 
     }

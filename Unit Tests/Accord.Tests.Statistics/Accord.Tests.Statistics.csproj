@@ -136,6 +136,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Analysis\CircularDescriptiveAnalysisTest.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysisTest.cs" />
     <Compile Include="Analysis\IndependentComponentAnalysisTest.cs" />
     <Compile Include="Analysis\DescriptiveAnalysisTest.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Controls\DataGridBoxTest.cs" />
     <Compile Include="Controls\HistogramViewTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\InverseChiSquareDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralizedNormalDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GumbelDistributionTest.cs" />
