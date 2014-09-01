@@ -273,8 +273,9 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public IEnumerable<DecisionNode> Traverse(DecisionTreeTraversalMethod method, DecisionNode subtree)
         {
-            if (subtree.Owner != this) throw new ArgumentException(
-                "The node does not belong to this tree.", "subtree");
+            if (subtree.Owner != this)
+                throw new ArgumentException("The node does not belong to this tree.", "subtree");
+
             return new TreeTraversal(subtree, method);
         }
 
@@ -299,8 +300,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public Expression<Func<double[], int>> ToExpression()
         {
-            DecisionTreeExpressionCreator compiler = new DecisionTreeExpressionCreator(this);
-            return compiler.Create();
+            return new DecisionTreeExpressionCreator(this).Create();
         }
 
         /// <summary>
@@ -384,6 +384,32 @@ namespace Accord.MachineLearning.DecisionTrees
             treeWriter.Write(this, className);
         }
 
+        /// <summary>
+        ///   Computes the height of the tree, defined as the
+        ///   greatest distance (in links) between the tree's
+        ///   root node and its leaves.
+        /// </summary>
+        /// 
+        /// <returns>The tree's height.</returns>
+        /// 
+        public int GetHeight()
+        {
+            int maxHeight = 0;
+            foreach (var node in this)
+            {
+                if (!node.IsLeaf)
+                    continue;
+
+                int h = node.GetHeight();
+
+                if (h > maxHeight)
+                    maxHeight = h;
+            }
+
+            return maxHeight;
+        }
+
+
 
         /// <summary>
         ///   Loads a tree from a file.
@@ -466,6 +492,8 @@ namespace Accord.MachineLearning.DecisionTrees
                 return method(tree);
             }
         }
+
+       
     }
 }
 

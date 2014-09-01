@@ -48,7 +48,7 @@ namespace Accord.Math
         /// 
         public static bool IsEqual(this double a, double b, double threshold)
         {
-            if (a == b) 
+            if (a == b)
                 return true;
 
             if (Math.Abs(a - b) > threshold || (Double.IsNaN(a) ^ Double.IsNaN(b)))
@@ -313,6 +313,49 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Compares two enumerables for set equality. Two
+        ///   enumerables are set equal if they contain the
+        ///   same elements, but not necessarily in the same
+        ///   order.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The element type.</typeparam>
+        /// 
+        /// <param name="list1">The first set.</param>
+        /// <param name="list2">The first set.</param>
+        /// 
+        /// <returns>
+        ///   True if the two sets contains the same elements, false otherwise.
+        /// </returns>
+        /// 
+        public static bool SetEquals<T>(this IEnumerable<T> list1, IEnumerable<T> list2)
+        {
+            var cnt = new Dictionary<T, int>();
+
+            foreach (var s in list1)
+            {
+                if (cnt.ContainsKey(s))
+                    cnt[s]++;
+                else cnt.Add(s, 1);
+            }
+
+            foreach (var s in list2)
+            {
+                if (cnt.ContainsKey(s))
+                    cnt[s]--;
+                else return false;
+            }
+
+            foreach (var s in cnt)
+            {
+                if (s.Value != 0)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         ///   Returns a value indicating whether the specified
         ///   matrix contains a value that is not a number (NaN).
         /// </summary>
@@ -497,7 +540,7 @@ namespace Accord.Math
         /// 
         public static T[,] Transpose<T>(this T[,] matrix, bool inPlace)
         {
-            if (matrix == null) 
+            if (matrix == null)
                 throw new ArgumentNullException("matrix");
 
             int rows = matrix.GetLength(0);
@@ -616,7 +659,7 @@ namespace Accord.Math
         {
             return transpose(array, order);
         }
-      
+
         /// <summary>
         ///   Gets the generalized transpose of a tensor.
         /// </summary>

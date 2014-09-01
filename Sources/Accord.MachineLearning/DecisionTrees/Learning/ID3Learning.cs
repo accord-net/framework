@@ -166,33 +166,43 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private IntRange[] inputRanges;
         private int outputClasses;
 
-        private bool[] attributes;
+        private int join = 1;
+
+        private int[] attributeUsageCount;
 
 
         /// <summary>
-        ///   Gets or sets the maximum allowed 
-        ///   height when learning a tree.
+        ///   Gets or sets the maximum allowed height when
+        ///   learning a tree. If set to zero, no limit will
+        ///   be applied. Default is zero.
         /// </summary>
         /// 
         public int MaxHeight
         {
             get { return maxHeight; }
-            set
-            {
-                if (maxHeight <= 0 || maxHeight > attributes.Length)
-                    throw new ArgumentOutOfRangeException("value",
-                        "The height must be greater than zero and less than the number of variables in the tree.");
-                maxHeight = value;
-            }
+            set {  maxHeight = value; }
         }
 
         /// <summary>
-        ///   Gets or sets whether all nodes are obligated to
-        ///   provide a true decision value. If set to false,
-        ///   some leaf nodes may contain <c>null</c>.
+        ///   Gets or sets whether all nodes are obligated to provide 
+        ///   a true decision value. If set to false, some leaf nodes
+        ///   may contain <c>null</c>. Default is false.
         /// </summary>
         /// 
         public bool Rejection { get; set; }
+
+        /// <summary>
+        ///   Gets or sets how many times one single variable can be
+        ///   integrated into the decision process. In the original
+        ///   ID3 algorithm, a variable can join only one time per
+        ///   decision path (path from the root to a leaf).
+        /// </summary>
+        /// 
+        public int Join
+        {
+            get { return join; }
+            set { join = value; }
+        }
 
         /// <summary>
         ///   Creates a new ID3 learning algorithm.
@@ -209,13 +219,14 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             this.tree = tree;
             this.inputRanges = new IntRange[tree.InputCount];
             this.outputClasses = tree.OutputClasses;
-            this.attributes = new bool[tree.InputCount];
-            this.maxHeight = attributes.Length;
+            this.attributeUsageCount = new int[tree.InputCount];
             this.Rejection = true;
 
             for (int i = 0; i < tree.Attributes.Count; i++)
+            {
                 if (tree.Attributes[i].Nature != DecisionVariableKind.Discrete)
                     throw new ArgumentException("The ID3 learning algorithm can only handle discrete inputs.");
+            }
 
             for (int i = 0; i < inputRanges.Length; i++)
                 inputRanges[i] = tree.Attributes[i].Range.ToIntRange(false);
@@ -238,13 +249,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             checkArgs(inputs, outputs);
 
             // Reset the usage of all attributes
-            for (int i = 0; i < attributes.Length; i++)
-                attributes[i] = false;
+            for (int i = 0; i < attributeUsageCount.Length; i++)
+            {
+                // a[i] has never been used
+                attributeUsageCount[i] = 0; 
+            }
 
             // 1. Create a root node for the tree
             this.tree.Root = new DecisionNode(tree);
 
-            split(tree.Root, inputs, outputs);
+            split(tree.Root, inputs, outputs, 0);
 
             // Return the classification error
             return ComputeError(inputs, outputs);
@@ -274,7 +288,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             return (double)miss / inputs.Length;
         }
 
-        private void split(DecisionNode root, int[][] input, int[] output)
+        private void split(DecisionNode root, int[][] input, int[] output, int height)
         {
 
             // 2. If all examples are for the same class, return the single-node
@@ -291,9 +305,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 3. If number of predicting attributes is empty, then return the single-node
             //    tree with the output label corresponding to the most common value of
             //    the target attributes in the examples.
-            int predictors = attributes.Count(x => x == false);
+            //
 
-            if (predictors <= attributes.Length - maxHeight)
+            // how many variables have been used less than the limit
+            int candidateCount = attributeUsageCount.Count(x => x < join);
+
+            if (candidateCount == 0 || (maxHeight > 0 && height == maxHeight))
             {
                 root.Output = Statistics.Tools.Mode(output);
                 return;
@@ -303,14 +320,18 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 4. Otherwise, try to select the attribute which
             //    best explains the data sample subset.
 
-            double[] scores = new double[predictors];
-            double[] entropies = new double[predictors];
-            int[][][] partitions = new int[predictors][][];
+            double[] scores = new double[candidateCount];
+            double[] entropies = new double[candidateCount];
+            int[][][] partitions = new int[candidateCount][][];
+            int[][][] outputSubs = new int[candidateCount][][];
 
             // Retrieve candidate attribute indices
-            int[] candidates = new int[predictors];
-            for (int i = 0, k = 0; i < attributes.Length; i++)
-                if (!attributes[i]) candidates[k++] = i;
+            int[] candidates = new int[candidateCount];
+            for (int i = 0, k = 0; i < attributeUsageCount.Length; i++)
+            {
+                if (attributeUsageCount[i] < join)
+                    candidates[k++] = i;
+            }
 
 
             // For each attribute in the data set
@@ -321,7 +342,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 #endif
             {
                 scores[i] = computeGainRatio(input, output, candidates[i],
-                    entropy, out partitions[i]);
+                    entropy, out partitions[i], out outputSubs[i]);
             }
 #if !SERIAL
 );
@@ -330,27 +351,30 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // Select the attribute with maximum gain ratio
             int maxGainIndex; scores.Max(out maxGainIndex);
             var maxGainPartition = partitions[maxGainIndex];
+            var maxGainOutputs = outputSubs[maxGainIndex];
             var maxGainEntropy = entropies[maxGainIndex];
             var maxGainAttribute = candidates[maxGainIndex];
             var maxGainRange = inputRanges[maxGainAttribute];
 
-            attributes[maxGainAttribute] = true;
+            attributeUsageCount[maxGainAttribute]++;
 
             // Now, create next nodes and pass those partitions as their responsibilities.
             DecisionNode[] children = new DecisionNode[maxGainPartition.Length];
 
             for (int i = 0; i < children.Length; i++)
             {
-                children[i] = new DecisionNode(tree);
-                children[i].Parent = root;
-                children[i].Comparison = ComparisonKind.Equal;
-                children[i].Value = i + maxGainRange.Min;
+                children[i] = new DecisionNode(tree)
+                {
+                    Parent = root,
+                    Comparison = ComparisonKind.Equal,
+                    Value = i + maxGainRange.Min
+                };
 
 
                 int[][] inputSubset = input.Submatrix(maxGainPartition[i]);
-                int[] outputSubset = output.Submatrix(maxGainPartition[i]);
+                int[] outputSubset = maxGainOutputs[i];
 
-                split(children[i], inputSubset, outputSubset); // recursion
+                split(children[i], inputSubset, outputSubset, height + 1); // recursion
 
                 if (children[i].IsLeaf)
                 {
@@ -364,21 +388,24 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             }
 
 
-            attributes[maxGainAttribute] = false;
+            attributeUsageCount[maxGainAttribute]--;
 
             root.Branches.AttributeIndex = maxGainAttribute;
             root.Branches.AddRange(children);
         }
 
 
-        private double computeInfo(int[][] input, int[] output, int attributeIndex, out int[][] partitions)
+        private double computeInfo(int[][] input, int[] output, int attributeIndex,
+            out int[][] partitions, out int[][] outputSubset)
         {
             // Compute the information gain obtained by using
             // this current attribute as the next decision node.
             double info = 0;
 
             IntRange valueRange = inputRanges[attributeIndex];
+
             partitions = new int[valueRange.Length + 1][];
+            outputSubset = new int[valueRange.Length + 1][];
 
             // For each possible value of the attribute
             for (int i = 0; i < partitions.Length; i++)
@@ -391,27 +418,29 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                 // For each of the instances under responsibility
                 // of this node, check which have the same value
-                int[] outputSubset = output.Submatrix(partitions[i]);
+                outputSubset[i] = output.Submatrix(partitions[i]);
 
                 // Check the entropy gain originating from this partitioning
-                double e = Statistics.Tools.Entropy(outputSubset, outputClasses);
+                double e = Statistics.Tools.Entropy(outputSubset[i], outputClasses);
 
-                info += ((double)outputSubset.Length / output.Length) * e;
+                info += (outputSubset[i].Length / (double)output.Length) * e;
             }
 
             return info;
         }
 
         private double computeInfoGain(int[][] input, int[] output, int attributeIndex,
-            double entropy, out int[][] partitions)
+            double entropy, out int[][] partitions, out int[][] outputSubset)
         {
-            return entropy - computeInfo(input, output, attributeIndex, out partitions);
+            return entropy - computeInfo(input, output, attributeIndex, out partitions, out outputSubset);
         }
 
         private double computeGainRatio(int[][] input, int[] output, int attributeIndex,
-            double entropy, out int[][] partitions)
+            double entropy, out int[][] partitions, out int[][] outputSubset)
         {
-            double infoGain = computeInfoGain(input, output, attributeIndex, entropy, out partitions);
+            double infoGain = computeInfoGain(input, output, attributeIndex,
+                entropy, out partitions, out outputSubset);
+
             double splitInfo = Measures.SplitInformation(output.Length, partitions);
 
             return infoGain == 0 ? 0 : infoGain / splitInfo;

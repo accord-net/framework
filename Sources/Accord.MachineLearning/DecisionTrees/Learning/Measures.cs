@@ -46,7 +46,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             for (int i = 0; i < partitions.Length; i++)
             {
                 double p = (double)partitions[i].Length / samples;
-                if (p != 0) info -= p * Math.Log(p, 2);
+
+                if (p != 0)
+                    info -= p * Math.Log(p, 2);
             }
 
             return info;

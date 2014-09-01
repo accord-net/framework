@@ -550,6 +550,45 @@ namespace Accord.Tests.MachineLearning
 
             double error = id3Learning.Run(dataSamples, target);
 
+            int height = tree.GetHeight();
+            Assert.AreEqual(3, height);
+
+            foreach (var node in tree)
+            {
+                if (node.IsLeaf)
+                    Assert.IsNotNull(node.Output);
+            }
+
+            Assert.IsTrue(error < 0.15);
+        }
+
+        [TestMethod]
+        public void LargeSampleTest_WithRepetition()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[][] dataSamples = Matrix.Random(500, 3, 0, 10).ToInt32().ToArray();
+            int[] target = Matrix.Random(500, 1, 0, 2).ToInt32().GetColumn(0);
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("Outlook",      10), 
+                new DecisionVariable("Temperature",  10), 
+                new DecisionVariable("Humidity",     10), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, 2);
+            ID3Learning id3Learning = new ID3Learning(tree)
+            {
+                Rejection = false,
+                Join = 2 // every variable can join two times
+            };
+
+            double error = id3Learning.Run(dataSamples, target);
+
+            int height = tree.GetHeight();
+            Assert.AreEqual(6, height);
+
             foreach (var node in tree)
             {
                 if (node.IsLeaf)

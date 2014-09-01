@@ -24,10 +24,10 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using Accord.Statistics.Filters;
     using System.Globalization;
+    using System.Text;
+    using Accord.Math;
+    using Accord.Statistics.Filters;
 
     /// <summary>
     ///   Decision Rule.
@@ -37,7 +37,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         IEquatable<DecisionRule>, IComparable<DecisionRule>
     {
 
-        private HashSet<Antecedent> expressions;
+        private List<Antecedent> expressions;
         private DecisionVariableCollection variables;
         private double output;
 
@@ -53,21 +53,25 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         ///   must be fulfilled in order for this rule to be applicable.
         /// </summary>
         /// 
-        public ISet<Antecedent> Antecedents { get { return (ISet<Antecedent>)expressions; } }
+        public IList<Antecedent> Antecedents { get { return expressions; } }
 
         /// <summary>
-        ///   Gets the output of this decision rule, given when all
-        ///   <see cref="Antecedent"/> conditions are met.
+        ///   Gets or sets the output of this decision rule, given 
+        ///   when all <see cref="Antecedent"/> conditions are met.
         /// </summary>
         /// 
-        public double Output { get { return output; } }
+        public double Output 
+        {
+            get { return output; }
+            set { output = value; }
+        }
 
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="DecisionRule"/> class.
         /// </summary>
         /// 
-        /// /// <param name="variables">The decision variables handled by this decision rule.</param>
+        /// <param name="variables">The decision variables handled by this decision rule.</param>
         /// <param name="output">The output value, given after all antecedents are met.</param>
         /// <param name="antecedents">The antecedent conditions that lead to the <paramref name="output"/>.</param>
         /// 
@@ -89,7 +93,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             double output, IEnumerable<Antecedent> antecedents)
         {
             this.variables = new DecisionVariableCollection(variables);
-            this.expressions = new HashSet<Antecedent>(antecedents);
+            this.expressions = new List<Antecedent>(antecedents);
             this.output = output;
         }
 
@@ -102,7 +106,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public DecisionRule(double output, params Antecedent[] antecedents)
         {
-            this.expressions = new HashSet<Antecedent>(antecedents);
+            this.expressions = new List<Antecedent>(antecedents);
             this.output = output;
         }
 
@@ -169,7 +173,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
                 ComparisonKind comparison = current.Comparison;
                 double value = current.Value.Value;
 
-                antecedents.Add(new Antecedent(index, comparison, value));
+                antecedents.Insert(0, new Antecedent(index, comparison, value));
 
                 current = current.Parent;
             }

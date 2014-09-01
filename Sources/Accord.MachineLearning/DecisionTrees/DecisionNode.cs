@@ -228,6 +228,27 @@ namespace Accord.MachineLearning.DecisionTrees
             return String.Format("{0} {1} {2}", name, op, value);
         }
 
+        /// <summary>
+        ///   Computes the height of the node, defined as the
+        ///   distance (in number of links) between the tree's
+        ///   root node and this node.
+        /// </summary>
+        /// 
+        /// <returns>The node's height.</returns>
+        /// 
+        public int GetHeight()
+        {
+            int height = 0;
+            var parent = Parent;
+
+            while (parent != null)
+            {
+                height++;
+                parent = parent.parent;
+            }
+
+            return height;
+        }
 
 
 
@@ -245,5 +266,6 @@ namespace Accord.MachineLearning.DecisionTrees
                 }
             }
         }
+
     }
 }

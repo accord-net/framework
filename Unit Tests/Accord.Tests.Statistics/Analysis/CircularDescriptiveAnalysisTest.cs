@@ -146,8 +146,8 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(standardDeviation.IsEqual(expectedStdDev, 1e-14));
             Assert.IsTrue(sums.IsEqual(new double[] { 88.0, 177.0, 32.0 }));
-            Assert.IsTrue(sin.IsEqual(new double[] { -2.831951230073507, -3.6668708378746273, 4.1404989581310589 }));
-            Assert.IsTrue(cos.IsEqual(new double[] { -1.1730326074756157, -1.0815308282839116, -1.3019377358048381 }));
+            Assert.IsTrue(sin.IsEqual(new double[] { -2.831951230073507, -3.6668708378746273, 4.1404989581310589 }, 1e-14));
+            Assert.IsTrue(cos.IsEqual(new double[] { -1.1730326074756157, -1.0815308282839116, -1.3019377358048381 }, 1e-14));
             Assert.IsTrue(variables == 3);
             Assert.IsTrue(variances.IsEqual(expectedVar, 1e-14));
 
