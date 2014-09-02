@@ -34,7 +34,24 @@ namespace Accord.Math
     /// <remarks>
     /// 
     /// <para>
-    ///   This code is based on the original FORTRAN77 version by Mike Patefield, David Tandy;
+    ///   In mathematics, Owen's T function T(h, a), named after statistician Donald Bruce Owen,
+    ///   is defined by</para>
+    /// <code>
+    ///                  1   a   exp{-0.5 h²(1+x²)
+    ///     T(h, a) =  ----  ∫  ------------------- dx
+    ///                 2π   0        1 + x²
+    /// </code>
+    /// 
+    /// <para>
+    ///   The function <c>T(h, a)</c> gives the probability of the event <c>(X > h and 0 &lt; Y &lt; aX)</c>
+    ///   where <c>X</c> and <c>Y</c> are independent standard normal random variables. This function can 
+    ///   be used to calculate <see cref="Normal.Bivariate">bivariate normal distribution probabilities</see>
+    ///   and, from there, in the calculation of multivariate normal distribution probabilities. It also
+    ///   frequently appears in various integrals involving <see cref="Normal">Gaussian</see> functions.
+    /// </para>
+    /// 
+    /// <para>
+    ///   The code is based on the original FORTRAN77 version by Mike Patefield, David Tandy;
     ///   and the C version created by John Burkardt. The original code for the C version can
     ///   be found at http://people.sc.fsu.edu/~jburkardt/c_src/owens/owens.html  and is valid
     ///   under the LGPL.</para>

@@ -87,6 +87,7 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <OutputPath>..\..\..\Release\net45\GPL\</OutputPath>
     <DocumentationFile>..\..\..\Release\net45\GPL\Accord.MachineLearning.GPL.XML</DocumentationFile>
+	<CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

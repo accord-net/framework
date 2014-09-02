@@ -109,8 +109,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release %284.5%29|AnyCPU'">
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
-    <OutputPath>..\..\..\Release\net45\</OutputPath>
-    <DocumentationFile>..\..\..\Release\net45\Accord.Math.Noncommercial.XML</DocumentationFile>
+    <OutputPath>..\..\..\Release\net45\Noncommercial\</OutputPath>
+    <DocumentationFile>..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>..\..\Accord.NET.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
