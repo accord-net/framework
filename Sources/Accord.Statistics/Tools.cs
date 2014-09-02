@@ -4684,6 +4684,16 @@ namespace Accord.Statistics
             return counts;
         }
 
+        /// <summary>
+        ///   Gets the number of distinct values 
+        ///   present in each column of a matrix.
+        /// </summary>
+        /// 
+        public static int DistinctCount(double[] source)
+        {
+            return source.Distinct().Length;
+        }
+
 
         /// <summary>
         ///   Generates a random <see cref="Covariance(double[], double[], bool)"/> matrix.

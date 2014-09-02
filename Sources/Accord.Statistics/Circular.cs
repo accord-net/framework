@@ -58,6 +58,7 @@ namespace Accord.Statistics
     using AForge;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
+    using AForge.Math;
 
     /// <summary>
     ///   Set of statistics functions operating over a circular space.
@@ -535,29 +536,32 @@ namespace Accord.Statistics
         /// 
         /// <param name="angles">A double array containing the angles in radians.</param>
         /// 
-        /// <returns>The circular Median of the given samples.</returns>
+        /// <returns>The circular Median of the given angles.</returns>
         /// 
         public static double Median(double[] angles)
         {
-            double[] beta = new double[angles.Length];
-
-            // Normalize angles (remove multiples)
-            for (int i = 0; i < beta.Length; i++)
-                beta[i] = Accord.Math.Tools.Mod(angles[i], 2 * Math.PI);
-
-            double[] dm = new double[beta.Length];
-            for (int i = 0; i < beta.Length; i++)
+            double[] dm = new double[angles.Length];
+            for (int i = 0; i < angles.Length; i++)
             {
-                for (int j = i + 1; j < beta.Length; j++)
-                {
-                    double v1 = Distance(beta[i], beta[j]);
+                double cosx = Math.Cos(angles[i]);
+                double sinx = Math.Sin(angles[i]);
 
-                    if (v1 > 0)
+                for (int j = i + 1; j < angles.Length; j++)
+                {
+                    double cosy = Math.Cos(angles[j]);
+                    double siny = Math.Sin(angles[j]);
+
+                    double den = (cosy * cosy + siny * siny);
+                    double e = (cosx * cosy + sinx * siny) / den;
+                    double f = (sinx * cosy - cosx * siny) / den;
+                    double d = Math.Atan2(f, e);
+
+                    if (d > 0)
                     {
                         dm[j] += 1;
                         dm[i] -= 1;
                     }
-                    else if (v1 < 0)
+                    else if (d < 0)
                     {
                         dm[j] -= 1;
                         dm[i] += 1;
@@ -586,7 +590,7 @@ namespace Accord.Statistics
             if (dm.Length % 2 != 0)
             {
                 // is odd
-                md = beta[imin];
+                md = angles[imin];
             }
             else
             {
@@ -597,8 +601,8 @@ namespace Accord.Statistics
                 {
                     if (dm[i] == dmin)
                     {
-                        cos += Math.Cos(beta[i]);
-                        sin += Math.Sin(beta[i]);
+                        cos += Math.Cos(angles[i]);
+                        sin += Math.Sin(angles[i]);
                         count++;
                     }
                 }
@@ -606,7 +610,7 @@ namespace Accord.Statistics
                 md = Math.Atan2(sin / count, cos / count);
             }
 
-            double mean = Mean(beta);
+            double mean = Mean(angles);
 
             double d1 = Distance(mean, md);
             double d2 = Distance(mean, md + Math.PI);
@@ -880,5 +884,112 @@ namespace Accord.Statistics
             // is not reliable when r is small, such as when r < 0.7.
         }
 
+        /// <summary>
+        ///   Computes the circular skewness of the given circular angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// 
+        /// <returns>The circular skewness for the given <paramref name="angles"/>.</returns>
+        /// 
+        public static double Skewness(double[] angles)
+        {
+            // compute necessary values
+            double R = Circular.Resultant(angles);
+            double theta = Circular.Mean(angles);
+
+            Complex m = CentralMoments(angles, 2);
+            double rho2 = m.Magnitude;
+            double mu2 = m.Phase;
+
+            // compute skewness 
+            double b = 0; // Pewsey, Metrika, 2004
+            for (int i = 0; i < angles.Length; i++)
+                b += Math.Sin(2 * Distance(angles[i], theta));
+            b /= angles.Length;
+
+            /*
+            // alternative skewness measure from Fisher
+            // Statistical Analysis of Circular Data, p. 34
+            double b0 = 0; // (formula 2.29)
+            double omR = Math.Pow(1 - R, 3 / 2.0);
+
+            for (int i = 0; i < angles.Length; i++)
+                b0 += rho2 * Math.Sin(Distance(mu2, 2 * theta)) / omR;
+             */
+
+            return b;
+        }
+
+        /// <summary>
+        ///   Computes the circular kurtosis of the given circular angles.
+        /// </summary>
+        /// 
+        /// <param name="angles">A double array containing the angles in radians.</param>
+        /// 
+        /// <returns>The circular kurtosis for the given <paramref name="angles"/>.</returns>
+        /// 
+        public static double Kurtosis(double[] angles)
+        {
+            // Compute mean direction
+            double R = Circular.Resultant(angles);
+            double theta = Circular.Mean(angles);
+
+            // Compute central moments
+            double rho2 = CentralMoments(angles, 2).Magnitude;
+            double mu2 = NoncentralMoments(angles, 2).Phase;
+
+            // compute skewness 
+            double k = 0;
+            for (int i = 0; i < angles.Length; i++) // Pewsey, Metrika, 2004
+                k += Math.Cos(2 * Circular.Distance(angles[i], theta));
+            k /= angles.Length;
+
+            /*
+            double k0 = 0;
+            double R4 = (R * R * R * R);
+            double omR2 = (1 - R) * (1 - R);
+            for (int i = 0; i < angles.Length; i++) // Fisher, Circular Statistics, p. 34
+                k0 += (rho2 * Math.Cos(Circular.Distance(mu2, 2 * theta)) - R4) / omR2; // (formula 2.30)
+            */
+
+            return k;
+        }
+
+        /// <summary>
+        ///   Computes the complex circular central 
+        ///   moments of the given circular angles.
+        /// </summary>
+        /// 
+        public static Complex CentralMoments(double[] angles, int order)
+        {
+            double theta = Mean(angles);
+            double v = angles.Length / theta;
+            double[] alpha = new double[angles.Length];
+
+            for (int i = 0; i < alpha.Length; i++)
+                alpha[i] = Distance(angles[i], v);
+
+            return NoncentralMoments(angles, order);
+        }
+
+        /// <summary>
+        ///   Computes the complex circular non-central
+        ///   moments of the given circular angles.
+        /// </summary>
+        /// 
+        public static Complex NoncentralMoments(double[] angles, int order)
+        {
+            double cbar = 0;
+            double sbar = 0;
+
+            for (int i = 0; i < angles.Length; i++)
+            {
+                cbar += Math.Cos(angles[i] * order);
+                sbar += Math.Sin(angles[i] * order);
+            }
+
+            return new Complex(cbar, sbar);
+        }
     }
 }

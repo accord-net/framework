@@ -107,6 +107,7 @@
     <Compile Include="Compatibility\CancellationToken.cs" />
     <Compile Include="Compatibility\ConcurrentStack.cs" />
     <Compile Include="Compatibility\AggregateException.cs" />
+    <Compile Include="Compatibility\IReadOnlyCollection`1.cs" />
     <Compile Include="Compatibility\ISet.cs" />
     <Compile Include="Compatibility\Lazy.cs" />
     <Compile Include="Compatibility\Parallel.cs" />
@@ -120,12 +121,14 @@
     <Compile Include="Exceptions\NonPositiveDefiniteMatrixException.cs" />
     <Compile Include="Exceptions\NonSymmetricMatrixException.cs" />
     <Compile Include="Exceptions\SingularMatrixException.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionInfo.tt</DependentUpon>
     </Compile>
+    <Compile Include="Structures\ReadOnlyKeyedCollection.cs" />
     <Compile Include="Structures\ReadOnlyDictionary.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -798,7 +798,7 @@ namespace Accord.Statistics.Analysis
     /// <seealso cref="DescriptiveAnalysis"/>
     /// 
     [Serializable]
-    public class DescriptiveMeasures
+    public class DescriptiveMeasures : IDescriptiveMeasures
     {
 
         private DescriptiveAnalysis analysis;
@@ -1018,10 +1018,21 @@ namespace Accord.Statistics.Analysis
     /// <seealso cref="DescriptiveAnalysis"/>
     /// 
     [Serializable]
-    public class DescriptiveMeasureCollection : System.Collections.ObjectModel.ReadOnlyCollection<DescriptiveMeasures>
+    public class DescriptiveMeasureCollection : ReadOnlyKeyedCollection<string, DescriptiveMeasures>
     {
         internal DescriptiveMeasureCollection(DescriptiveMeasures[] components)
-            : base(components) { }
+        {
+            AddRange(components);
+        }
+
+        /// <summary>
+        ///   Gets the key for item.
+        /// </summary>
+        /// 
+        protected override string GetKeyForItem(DescriptiveMeasures item)
+        {
+            return item.Name;
+        }
     }
 
 }

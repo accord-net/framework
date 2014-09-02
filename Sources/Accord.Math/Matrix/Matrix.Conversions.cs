@@ -109,16 +109,16 @@ namespace Accord.Math
         {
             if (asColumnVector)
             {
-                T[,] m = new T[1, array.Length];
+                T[,] m = new T[array.Length, 1];
                 for (int i = 0; i < array.Length; i++)
-                    m[0, i] = array[i];
+                    m[i, 0] = array[i];
                 return m;
             }
             else
             {
-                T[,] m = new T[array.Length, 1];
+                T[,] m = new T[1, array.Length];
                 for (int i = 0; i < array.Length; i++)
-                    m[i, 0] = array[i];
+                    m[0, i] = array[i];
                 return m;
             }
         }

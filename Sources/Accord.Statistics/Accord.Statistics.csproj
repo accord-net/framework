@@ -126,6 +126,7 @@
     <Compile Include="Analysis\Accord.Statistics.Analysis.cs" />
     <Compile Include="Analysis\Base\IAnalysisComponent.cs" />
     <Compile Include="Analysis\Base\IAnalysis.cs" />
+    <Compile Include="Analysis\Base\IDescriptiveMeasures.cs" />
     <Compile Include="Analysis\Base\IProjectionAnalysis.cs" />
     <Compile Include="Analysis\Base\IMultivariateRegressionAnalysis.cs" />
     <Compile Include="Analysis\Base\IRegressionAnalysis.cs" />

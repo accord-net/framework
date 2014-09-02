@@ -87,7 +87,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DefineConstants>CODE_ANALYSIS;TRACE;NET45</DefineConstants>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\..\Release\net40\Accord.Math.XML</DocumentationFile>
+    <DocumentationFile>..\..\Release\net45\Accord.Math.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
