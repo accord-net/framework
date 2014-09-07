@@ -36,7 +36,13 @@ namespace Accord.Math
     {
 
         #region Framework-wide random number generator
+        
+#if NET45
+        private static ThreadLocal<Random> random = new ThreadLocal<Random>(create, true);
+#else
         private static ThreadLocal<Random> random = new ThreadLocal<Random>(create);
+#endif
+
         private static int? seed;
 
         private static Random create()
