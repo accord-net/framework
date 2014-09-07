@@ -104,6 +104,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collections\RedBlackTree`2.cs" />
+    <Compile Include="Collections\KeyValuePairComparer`2.cs" />
     <Compile Include="Compatibility\CancellationToken.cs" />
     <Compile Include="Compatibility\ConcurrentStack.cs" />
     <Compile Include="Compatibility\AggregateException.cs" />
@@ -128,8 +130,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>VersionInfo.tt</DependentUpon>
     </Compile>
-    <Compile Include="Structures\ReadOnlyKeyedCollection.cs" />
-    <Compile Include="Structures\ReadOnlyDictionary.cs" />
+    <Compile Include="Collections\ReadOnlyOrderedDictionary.cs" />
+    <Compile Include="Collections\ReadOnlyDictionary.cs" />
+    <Compile Include="Collections\RedBlackTreeDictionary`2.cs" />
+    <Compile Include="Collections\RedBlackTreeNode.cs" />
+    <Compile Include="Collections\RedBlackTree`1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
