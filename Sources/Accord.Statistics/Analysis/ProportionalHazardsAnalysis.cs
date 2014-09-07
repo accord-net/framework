@@ -22,15 +22,15 @@
 
 namespace Accord.Statistics.Analysis
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
     using AForge;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Cox's Proportional Hazards Survival Analysis.
@@ -111,7 +111,7 @@ namespace Accord.Statistics.Analysis
     /// <code>
     /// // We can also investigate all parameters individually. For
     /// // example the coefficients values will be available at
-        /// 
+    /// 
     /// double[] coef = cox.CoefficientValues;
     /// double[] stde = cox.StandardErrors;
     /// 
@@ -188,6 +188,11 @@ namespace Accord.Statistics.Analysis
         private double[] result;
 
         private HazardCoefficientCollection coefficientCollection;
+
+        private int iterations = 50;
+        private double tolerance = 1e-5;
+
+        private bool innerComputed = false;
 
 
         //---------------------------------------------
@@ -302,6 +307,30 @@ namespace Accord.Statistics.Analysis
 
 
         #region Public Properties
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations to be
+        ///   performed by the regression algorithm. Default is 50.
+        /// </summary>
+        /// 
+        public int Iterations
+        {
+            get { return iterations; }
+            set { iterations = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the difference between two iterations of the regression 
+        ///   algorithm when the algorithm should stop. The difference is calculated
+        ///   based on the largest absolute parameter change of the regression. Default
+        ///   is 1e-5.
+        /// </summary>
+        /// 
+        public double Tolerance
+        {
+            get { return tolerance; }
+            set { tolerance = value; }
+        }
 
         /// <summary>
         ///   Source data used in the analysis.
@@ -462,7 +491,13 @@ namespace Accord.Statistics.Analysis
         /// 
         public ChiSquareTest[] LikelihoodRatioTests
         {
-            get { return this.ratioTests; }
+            get
+            {
+                if (innerComputed == false)
+                    computeInner();
+
+                return this.ratioTests;
+            }
         }
 
         /// <summary>
@@ -491,6 +526,7 @@ namespace Accord.Statistics.Analysis
 
 
         #region Public Methods
+
         /// <summary>
         ///   Gets the Log-Likelihood Ratio between this model and another model.
         /// </summary>
@@ -508,16 +544,27 @@ namespace Accord.Statistics.Analysis
         ///   Computes the Proportional Hazards Analysis for an already computed regression.
         /// </summary>
         /// 
-        public void Compute(ProportionalHazards regression, double limit = 1e-4, int maxIterations = 50)
+        public void Compute(ProportionalHazards regression)
         {
             this.regression = regression;
 
             computeInformation();
 
-            if (inputCount > 0)
-                computeInner(limit, maxIterations);
+            innerComputed = false;
         }
 
+        /// <summary>
+        ///   Computes the Proportional Hazards Analysis.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   True if the model converged, false otherwise.
+        /// </returns>
+        /// 
+        public bool Compute()
+        {
+            return compute();
+        }
 
         /// <summary>
         ///   Computes the Proportional Hazards Analysis.
@@ -539,7 +586,20 @@ namespace Accord.Statistics.Analysis
         ///   True if the model converged, false otherwise.
         /// </returns>
         /// 
+        [Obsolete("Please set up the Iterations and Tolerance properties and call Compute() instead.")]
         public bool Compute(double limit = 1e-4, int maxIterations = 50)
+        {
+            this.iterations = maxIterations;
+            this.tolerance = limit;
+
+            return compute();
+        }
+
+        #endregion
+
+
+
+        private bool compute()
         {
             ProportionalHazardsNewtonRaphson learning =
                 new ProportionalHazardsNewtonRaphson(regression);
@@ -547,27 +607,28 @@ namespace Accord.Statistics.Analysis
             Array.Clear(regression.Coefficients, 0, regression.Coefficients.Length);
 
 
-            learning.Iterations = maxIterations;
-            learning.Tolerance = limit;
+            learning.Iterations = Iterations;
+            learning.Tolerance = Tolerance;
 
             learning.Run(inputData, timeData, censorData);
 
             // Check if the full model has converged
-            bool converged = learning.CurrentIteration < maxIterations;
+            bool converged = learning.CurrentIteration < Iterations;
 
 
             computeInformation();
 
-            if (inputCount > 2)
-                computeInner(limit, maxIterations);
-
+            innerComputed = false;
 
             // Returns true if the full model has converged, false otherwise.
             return converged;
         }
 
-        private void computeInner(double limit, int maxIterations)
+        private void computeInner()
         {
+            if (inputCount <= 2)
+                return;
+
             // Perform likelihood-ratio tests against diminished nested models
             ProportionalHazards innerModel = new ProportionalHazards(inputCount - 1);
             ProportionalHazardsNewtonRaphson learning = new ProportionalHazardsNewtonRaphson(innerModel);
@@ -581,8 +642,8 @@ namespace Accord.Statistics.Analysis
 
                 Array.Clear(innerModel.Coefficients, 0, inputCount - 1);
 
-                learning.Iterations = maxIterations;
-                learning.Tolerance = limit;
+                learning.Iterations = Iterations;
+                learning.Tolerance = Tolerance;
 
                 learning.Run(data, timeData, censorData);
 
@@ -590,6 +651,8 @@ namespace Accord.Statistics.Analysis
                 double ratio = 2.0 * (logLikelihood - innerModel.GetPartialLogLikelihood(data, timeData, censorData));
                 ratioTests[i] = new ChiSquareTest(ratio, 1);
             }
+
+            innerComputed = true;
         }
 
         private void computeInformation()
@@ -611,10 +674,6 @@ namespace Accord.Statistics.Analysis
                 this.hazardRatios[i] = regression.GetHazardRatio(i);
             }
         }
-        #endregion
-
-
-
 
         /// <summary>
         ///   Computes the analysis using given source data and parameters.
@@ -624,7 +683,6 @@ namespace Accord.Statistics.Analysis
         {
             Compute();
         }
-
 
     }
 

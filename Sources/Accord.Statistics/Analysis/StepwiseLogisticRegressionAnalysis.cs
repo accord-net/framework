@@ -22,16 +22,16 @@
 
 namespace Accord.Statistics.Analysis
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
-    using System.Text;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
     using AForge;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Text;
 
     /// <summary>
     ///   Backward Stepwise Logistic Regression Analysis.
@@ -162,8 +162,8 @@ namespace Accord.Statistics.Analysis
         private double threshold = 0.15;
 
         // Fitting parameters
-        private int maxIterations = 100;
-        private double limit = 10e-4;
+        private int iterations = 100;
+        private double tolerance = 10e-4;
 
 
         //---------------------------------------------
@@ -180,8 +180,11 @@ namespace Accord.Statistics.Analysis
         public StepwiseLogisticRegressionAnalysis(double[][] inputs, double[] outputs)
         {
             // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null) 
+                throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
@@ -210,8 +213,11 @@ namespace Accord.Statistics.Analysis
         public StepwiseLogisticRegressionAnalysis(double[][] inputs, double[] outputs, String[] inputNames, String outputName)
         {
             // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null) 
+                throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
@@ -232,6 +238,31 @@ namespace Accord.Statistics.Analysis
 
 
         #region Properties
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations to be
+        ///   performed by the regression algorithm. Default is 50.
+        /// </summary>
+        /// 
+        public int Iterations
+        {
+            get { return iterations; }
+            set { iterations = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the difference between two iterations of the regression 
+        ///   algorithm when the algorithm should stop. The difference is calculated
+        ///   based on the largest absolute parameter change of the regression. Default
+        ///   is 1e-5.
+        /// </summary>
+        /// 
+        public double Tolerance
+        {
+            get { return tolerance; }
+            set { tolerance = value; }
+        }
+
         /// <summary>
         ///   Source data used in the analysis.
         /// </summary>
@@ -377,7 +408,9 @@ namespace Accord.Statistics.Analysis
                 int inputCount = inputData[0].Length;
                 LogisticRegression regression = new LogisticRegression(inputCount);
                 int[] variables = Matrix.Indices(0, inputCount);
+
                 fit(regression, inputData, outputData);
+
                 ChiSquareTest test = regression.ChiSquare(inputData, outputData);
                 fullLikelihood = regression.GetLogLikelihood(inputData, outputData);
 
@@ -400,17 +433,20 @@ namespace Accord.Statistics.Analysis
 
             // Now go and create the diminished nested models
             var nestedModels = new StepwiseLogisticRegressionModel[currentModel.Regression.Inputs];
+
             for (int i = 0; i < nestedModels.Length; i++)
             {
                 // Create a diminished nested model without the current variable
                 LogisticRegression regression = new LogisticRegression(currentModel.Regression.Inputs - 1);
                 int[] variables = currentModel.Variables.RemoveAt(i);
                 double[][] subset = inputData.Submatrix(0, inputData.Length - 1, variables);
+
                 fit(regression, subset, outputData);
 
                 // Check the significance of the nested model
                 double logLikelihood = regression.GetLogLikelihood(subset, outputData);
                 double ratio = 2.0 * (fullLikelihood - logLikelihood);
+
                 ChiSquareTest test = new ChiSquareTest(ratio, inputNames.Length - variables.Length) { Size = threshold };
 
                 if (tests != null)
@@ -472,10 +508,10 @@ namespace Accord.Statistics.Analysis
                 delta = irls.Run(input, output);
                 iteration++;
 
-            } while (delta > limit && iteration < maxIterations);
+            } while (delta > tolerance && iteration < iterations);
 
             // Check if the full model has converged
-            return iteration <= maxIterations;
+            return iteration <= iterations;
         }
 
     }
@@ -676,8 +712,9 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                if (index == 0) return "Intercept";
-                else return analysis.Inputs[index - 1];
+                if (index == 0) 
+                    return "Intercept";
+                return analysis.Inputs[index - 1];
             }
         }
 

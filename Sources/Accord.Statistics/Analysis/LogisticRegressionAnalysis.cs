@@ -22,15 +22,15 @@
 
 namespace Accord.Statistics.Analysis
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
     using AForge;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Logistic Regression Analysis.
@@ -157,7 +157,10 @@ namespace Accord.Statistics.Analysis
 
         private LogisticCoefficientCollection coefficientCollection;
 
+        private int iterations = 50;
+        private double tolerance = 1e-5;
 
+        private bool innerComputed = false;
 
 
         #region Constructors
@@ -238,6 +241,30 @@ namespace Accord.Statistics.Analysis
 
 
         #region Public Properties
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations to be
+        ///   performed by the regression algorithm. Default is 50.
+        /// </summary>
+        /// 
+        public int Iterations
+        {
+            get { return iterations; }
+            set { iterations = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the difference between two iterations of the regression 
+        ///   algorithm when the algorithm should stop. The difference is calculated
+        ///   based on the largest absolute parameter change of the regression. Default
+        ///   is 1e-5.
+        /// </summary>
+        /// 
+        public double Tolerance
+        {
+            get { return tolerance; }
+            set { tolerance = value; }
+        }
 
         /// <summary>
         ///   Gets the source matrix from which the analysis was run.
@@ -380,9 +407,20 @@ namespace Accord.Statistics.Analysis
         ///   Gets the Likelihood-Ratio Tests for each coefficient.
         /// </summary>
         /// 
+        /// <remarks>
+        ///   Since this operation might be potentially time-consuming, the likelihood-ratio
+        ///   tests will be computed on the first time this property is acessed.
+        /// </remarks>
+        /// 
         public ChiSquareTest[] LikelihoodRatioTests
         {
-            get { return this.ratioTests; }
+            get
+            {
+                if (innerComputed == false)
+                    computeInner();
+
+                return this.ratioTests;
+            }
         }
 
         /// <summary>
@@ -428,9 +466,10 @@ namespace Accord.Statistics.Analysis
         ///   Computes the Logistic Regression Analysis.
         /// </summary>
         /// 
-        /// <remarks>The likelihood surface for the
-        ///   logistic regression learning is convex, so there will be only one
-        ///   peak. Any local maxima will be also a global maxima.
+        /// <remarks>
+        ///   The likelihood surface for the logistic regression learning 
+        ///   is convex, so there will be only one peak. Any local maxima 
+        ///   will be also a global maxima.
         /// </remarks>
         /// 
         /// <returns>
@@ -439,21 +478,20 @@ namespace Accord.Statistics.Analysis
         /// 
         public bool Compute()
         {
-            return Compute(10e-4, 50);
+            return compute();
         }
 
         /// <summary>
         ///   Computes the Logistic Regression Analysis for an already computed regression.
         /// </summary>
         /// 
-        /// 
-        public void Compute(LogisticRegression regression, double limit = 1e-5, int maxIterations = 50)
+        public void Compute(LogisticRegression regression)
         {
             this.regression = regression;
 
             computeInformation();
 
-            computeInner(limit, maxIterations);
+            innerComputed = false;
         }
 
         /// <summary>
@@ -468,7 +506,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="limit">
         ///   The difference between two iterations of the regression algorithm
         ///   when the algorithm should stop. If not specified, the value of
-        ///   10e-4 will be used. The difference is calculated based on the largest
+        ///   1e-5 will be used. The difference is calculated based on the largest
         ///   absolute parameter change of the regression.
         /// </param>
         /// 
@@ -481,7 +519,20 @@ namespace Accord.Statistics.Analysis
         ///   True if the model converged, false otherwise.
         /// </returns>
         /// 
+        [Obsolete("Please set up the Iterations and Tolerance properties and call Compute() instead.")]
         public bool Compute(double limit = 1e-5, int maxIterations = 50)
+        {
+            this.iterations = maxIterations;
+            this.tolerance = limit;
+
+            return compute();
+        }
+
+        #endregion
+
+
+
+        private bool compute()
         {
             double delta;
             int iteration = 0;
@@ -493,25 +544,27 @@ namespace Accord.Statistics.Analysis
                 delta = learning.Run(inputData, outputData);
                 iteration++;
 
-            } while (delta > limit && iteration < maxIterations);
+            } while (delta > tolerance && iteration < iterations);
 
             // Check if the full model has converged
-            bool converged = iteration < maxIterations;
+            bool converged = iteration < iterations;
 
 
             computeInformation();
 
-            computeInner(limit, maxIterations);
+            innerComputed = false;
 
-            // Returns true if the full model has converged, false otherwise.
             return converged;
         }
 
-        private void computeInner(double limit, int maxIterations)
+        private void computeInner()
         {
+            double limit = tolerance;
+            int maxIterations = iterations;
+
             // Perform likelihood-ratio tests against diminished nested models
-            LogisticRegression innerModel = new LogisticRegression(inputCount - 1);
-            IterativeReweightedLeastSquares learning = new IterativeReweightedLeastSquares(innerModel);
+            var innerModel = new LogisticRegression(inputCount - 1);
+            var learning = new IterativeReweightedLeastSquares(innerModel);
 
             for (int i = 0; i < inputCount; i++)
             {
@@ -531,6 +584,8 @@ namespace Accord.Statistics.Analysis
                 double ratio = 2.0 * (logLikelihood - innerModel.GetLogLikelihood(data, outputData));
                 ratioTests[i + 1] = new ChiSquareTest(ratio, 1);
             }
+
+            innerComputed = true;
         }
 
         private void computeInformation()
@@ -552,9 +607,6 @@ namespace Accord.Statistics.Analysis
                 this.oddsRatios[i] = regression.GetOddsRatio(i);
             }
         }
-        #endregion
-
-
 
 
         /// <summary>
@@ -580,7 +632,9 @@ namespace Accord.Statistics.Analysis
     [Serializable]
     public class LogisticCoefficient
     {
+
         private LogisticRegressionAnalysis analysis;
+
         private int index;
 
 
@@ -677,12 +731,16 @@ namespace Accord.Statistics.Analysis
         ///   Gets the Likelihood-Ratio test performed for this coefficient.
         /// </summary>
         /// 
+        /// <remarks>
+        ///   Since this operation might be potentially time-consuming, the likelihood-ratio
+        ///   tests will be computed on the first time this property is acessed.
+        /// </remarks>
+        /// 
         [DisplayName("Likelihood-Ratio p-value")]
         public ChiSquareTest LikelihoodRatio
         {
             get { return analysis.LikelihoodRatioTests[index]; }
         }
-
 
     }
 
