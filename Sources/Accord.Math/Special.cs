@@ -191,6 +191,29 @@ namespace Accord.Math
             return y;
         }
 
+        /// <summary>
+        ///   Inverse error function (<see cref="Erf(double)"/>.
+        /// </summary>
+        /// 
+        public static double Ierf(double y)
+        {
+            double s = Normal.Inverse(0.5 * y + 0.5);
+            double r = s * Math.Sqrt(2) / 2.0;
+            return r;
+        }
+
+
+        /// <summary>
+        ///   Inverse complemented error function (<see cref="Erfc(double)"/>.
+        /// </summary>
+        /// 
+        public static double Ierfc(double y)
+        {
+            double s = Normal.Inverse(-0.5 * y + 1);
+            double r = s * Math.Sqrt(2) / 2.0;
+            return r;
+        }
+
 
         #region Polynomial and spline functions
         /// <summary>
@@ -463,12 +486,16 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Returns A with the sign of B.
+        ///   Returns <paramref name="a"/> with the sign of <paramref name="b"/>. 
         /// </summary>
+        /// 
         /// <remarks>
-        ///   This is a port of the sign transfer function from EISPACK.
+        ///   This is a port of the sign transfer function from EISPACK,
+        ///   and is is equivalent to C++'s std::copysign function.
         /// </remarks>
+        /// 
         /// <returns>If B > 0 then the result is ABS(A), else it is -ABS(A).</returns>
+        /// 
         public static double Sign(double a, double b)
         {
             double x = (a >= 0 ? a : -a);
