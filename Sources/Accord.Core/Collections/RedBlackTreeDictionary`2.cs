@@ -353,6 +353,9 @@ namespace Accord.Collections
         /// 
         public KeyValuePair<TKey, TValue> Min()
         {
+            if (tree.Count == 0)
+                throw new InvalidOperationException("The dictionary is empty.");
+
             return tree.Min().Value;
         }
 
@@ -367,6 +370,9 @@ namespace Accord.Collections
         /// 
         public KeyValuePair<TKey, TValue> Max()
         {
+            if (tree.Count == 0)
+                throw new InvalidOperationException("The dictionary is empty.");
+
             return tree.Max().Value;
         }
 
@@ -384,8 +390,40 @@ namespace Accord.Collections
         /// 
         public KeyValuePair<TKey, TValue> GetPrevious(TKey key)
         {
-            var node = tree.Find(new KeyValuePair<TKey,TValue>(key, default(TValue)));
-            return tree.GetPreviousNode(node).Value;
+            var node = tree.Find(new KeyValuePair<TKey, TValue>(key, default(TValue)));
+            var prevNode = tree.GetPreviousNode(node);
+
+            if (prevNode != null)
+                return prevNode.Value;
+
+            throw new KeyNotFoundException("There are no ancestor keys in the dictionary.");
+        }
+
+        /// <summary>
+        ///   Gets the next key-value pair in the dictionary whose key is
+        ///   the immediate ancestor of the given <paramref name="key"/>.
+        /// </summary>
+        /// 
+        /// <param name="key">The key whose ancestor must be found.</param>
+        /// 
+        /// <returns>
+        ///   The key-value pair whose key is the immediate ancestor of <paramref name="key"/>.
+        /// </returns>
+        /// 
+        public bool TryGetPrevious(TKey key, out KeyValuePair<TKey, TValue> prev)
+        {
+            prev = default(KeyValuePair<TKey, TValue>);
+
+            var node = tree.Find(new KeyValuePair<TKey, TValue>(key, default(TValue)));
+            var prevNode = tree.GetPreviousNode(node);
+
+            if (prevNode != null)
+            {
+                prev = prevNode.Value;
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -402,7 +440,39 @@ namespace Accord.Collections
         public KeyValuePair<TKey, TValue> GetNext(TKey key)
         {
             var node = tree.Find(new KeyValuePair<TKey, TValue>(key, default(TValue)));
-            return tree.GetNextNode(node).Value;
+            var nextNode = tree.GetNextNode(node);
+
+            if (nextNode != null)
+                return nextNode.Value;
+
+            throw new KeyNotFoundException("There are no successor keys in the dictionary.");
+        }
+
+        /// <summary>
+        ///   Gets the next key-value pair in the dictionary whose key is
+        ///   the immediate successor to the given <paramref name="key"/>.
+        /// </summary>
+        /// 
+        /// <param name="key">The key whose successor must be found.</param>
+        /// 
+        /// <returns>
+        ///   The key-value pair whose key is the immediate successor of <paramref name="key"/>.
+        /// </returns>
+        /// 
+        public bool TryGetNext(TKey key, out KeyValuePair<TKey, TValue> next)
+        {
+            next = default(KeyValuePair<TKey, TValue>);
+
+            var node = tree.Find(new KeyValuePair<TKey, TValue>(key, default(TValue)));
+            var nextNode = tree.GetNextNode(node);
+
+            if (nextNode != null)
+            {
+                next = nextNode.Value;
+                return true;
+            }
+
+            return false;
         }
 
 
@@ -528,6 +598,6 @@ namespace Accord.Collections
                 return GetEnumerator();
             }
         }
-     
+
     }
 }

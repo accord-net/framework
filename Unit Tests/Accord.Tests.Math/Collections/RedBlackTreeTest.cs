@@ -57,33 +57,69 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void ExtensiveTest()
         {
-            for (int i = 1; i < 10; i ++)
+            for (int i = 1; i < 10; i++)
                 run(i);
 
             for (int i = 10; i < 1500; i += 47)
                 run(i);
 
-            run(5000);
+            run(2000);
         }
 
 
         [TestMethod()]
         public void DuplicateTest()
         {
-            RedBlackTree<int> t = new RedBlackTree<int>();
-            t.Add(1);
-            t.Add(2);
-            t.Add(1);
+            var t = new RedBlackTree<int, string>();
+            var collection = t as ICollection<KeyValuePair<int, string>>;
 
-            int[] values = (t as ICollection<int>).ToArray();
-            Assert.Fail();
+            var values = collection.ToArray();
+            Assert.AreEqual(0, values.Length);
 
-            var node1 = t.Remove(1);
-            var node2 = t.Remove(1);
+            t.Add(new KeyValuePair<int, string>(1, "1"));
+            values = collection.ToArray();
+            Assert.AreEqual(1, values.Length);
 
+            t.Add(new KeyValuePair<int, string>(2, "2"));
+            values = collection.ToArray();
+            Assert.AreEqual(2, values.Length);
+            Assert.AreEqual("1", values[0].Value);
+            Assert.AreEqual("2", values[1].Value);
+
+
+            t.Add(new KeyValuePair<int, string>(1, "bla"));
+            values = collection.ToArray();
+            Assert.AreEqual(2, values.Length);
+            Assert.AreEqual("bla", values[0].Value);
+            Assert.AreEqual("2", values[1].Value);
+
+            var node1 = t.Remove(new KeyValuePair<int, string>(1, "-"));
+            Assert.IsNotNull(node1);
+            values = collection.ToArray();
+            Assert.AreEqual(1, values.Length);
+            Assert.AreEqual("2", values[0].Value);
+
+            var node2 = t.Remove(new KeyValuePair<int, string>(1, "-"));
+            Assert.IsNull(node2);
+            values = collection.ToArray();
+            Assert.AreEqual(1, values.Length);
+            Assert.AreEqual("2", values[0].Value);
+
+            var node3 = t.Remove(new KeyValuePair<int, string>(2, "-"));
+            values = collection.ToArray();
+            Assert.AreEqual(0, values.Length);
         }
 
-       
+        [TestMethod()]
+        public void ExtensiveDuplicateTest()
+        {
+            for (int i = 1; i < 10; i++)
+                duplicates(i);
+
+            for (int i = 10; i < 1500; i += 47)
+                duplicates(i);
+        }
+
 
         private static void run(int n)
         {
@@ -190,7 +226,7 @@ namespace Accord.Tests.Math
                 k[i] = -1 - k[i]; // undo negation above
 
 
-            
+
 
             // check the localization functions
             for (int i = 0; i < k.Length; i++)
@@ -253,5 +289,73 @@ namespace Accord.Tests.Math
             // The tree should be empty
             Assert.AreEqual(0, t.Count);
         }
+
+        private static void duplicates(int n)
+        {
+            var rand = Accord.Math.Tools.Random;
+
+            RedBlackTree<int> t = new RedBlackTree<int>();
+
+            // Create a vector of random numbers with duplicates
+            int[] k = new int[n];
+            for (int i = 0; i < k.Length; i++) 
+                k[i] = i;
+            Accord.Statistics.Tools.Shuffle(k);
+
+            int[] sorted = (int[])k.Clone();
+            Array.Sort(sorted);
+
+            // Populate the tree with numbers
+            for (int i = 0; i < k.Length; i++)
+            {
+                var node = t.Add(k[i]);
+
+                Assert.IsNotNull(node);
+                Assert.AreEqual(k[i], node.Value);
+
+                Assert.IsTrue(t.check());
+            }
+
+            Assert.AreEqual(k.Length, t.Count);
+
+
+            // Check that all elements are in the tree
+            for (int i = 0; i < k.Length; i++)
+            {
+                var node = t.Find(k[i]);
+
+                Assert.IsNotNull(node);
+                Assert.AreEqual(k[i], node.Value);
+
+                Assert.IsTrue(t.Contains(k[i]));
+                Assert.IsTrue(t.Contains(node));
+            }
+
+            // Enumerate the values (must be in order)
+            int arrayIndex = 0;
+            foreach (var node in t)
+                Assert.AreEqual(sorted[arrayIndex++], node.Value);
+
+
+
+            // Populate the tree with the same numbers
+            for (int i = 0; i < k.Length; i++)
+            {
+                var node = t.Add(k[i]);
+
+                Assert.IsNotNull(node);
+                Assert.AreEqual(k[i], node.Value);
+
+                Assert.IsTrue(t.check());
+            }
+
+            Assert.IsTrue(t.check());
+
+            // Enumerate the values (must be in order)
+            arrayIndex = 0;
+            foreach (var node in t)
+                Assert.AreEqual(sorted[arrayIndex++], node.Value);
+        }
+
     }
 }

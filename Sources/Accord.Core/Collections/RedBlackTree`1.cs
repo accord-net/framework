@@ -188,20 +188,29 @@ namespace Accord.Collections
             var p = this.root;
 
             item.Color = RedBlackTreeNodeType.Red;
-            item.Parent = item.Left = item.Right = null;
-            this.count++;
+            item.Parent = null;
+            item.Left = null;
+            item.Right = null;
 
             if (p == null)
             {
                 this.root = item;
                 item.Color = RedBlackTreeNodeType.Black;
+                this.count++;
                 return;
             }
 
             // insert (red) node into tree
             while (true)
             {
-                if (compare.Compare(k, p.Value) <= 0)
+                int cmp = compare.Compare(k, p.Value);
+
+                /*if (cmp == 0)
+                {
+                    p.Value = item.Value;
+                    return;
+                }
+                else*/ if (cmp <= 0)
                 {
                     // k <= p.k
                     if (p.Left != null)
@@ -237,6 +246,7 @@ namespace Accord.Collections
                 {
                     p.Color = u.Color = RedBlackTreeNodeType.Black;
                     item = p.Parent;
+
                     if ((p = item.Parent) != null)
                     {
                         item.Color = RedBlackTreeNodeType.Red;
@@ -253,7 +263,8 @@ namespace Accord.Collections
                     else if (item == p.Left && p == p.Parent.Right)
                     {
                         rotate_right(p);
-                        p = item; item = item.Right;
+                        p = item;
+                        item = item.Right;
                     }
 
                     p.Color = RedBlackTreeNodeType.Black;
@@ -264,8 +275,9 @@ namespace Accord.Collections
                     else if (item == p.Right && p == p.Parent.Right)
                         rotate_left(p.Parent);
                 }
-
             }
+
+            this.count++;
         }
 
         /// <summary>
