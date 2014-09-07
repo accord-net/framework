@@ -65,8 +65,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// var fn = new FoldedNormalDistribution(mean: 4, stdDev: 4.2);
     /// 
     /// double mean = fn.Mean;     // 4.765653108337438
-    /// double median = fn.Median; // 4.0
-    /// double mode = fn.Mode;     // 3.8394074579465305
+    /// double median = fn.Median; // 4.2593565881862734
+    /// double mode = fn.Mode;     // 2.0806531871308014
     /// double var = fn.Variance;  // 10.928550450993715
     /// 
     /// double cdf = fn.DistributionFunction(x: 1.4);           // 0.16867109769018807

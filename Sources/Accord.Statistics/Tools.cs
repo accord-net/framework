@@ -43,6 +43,28 @@ namespace Accord.Statistics
     public static class Tools
     {
 
+        /// <summary>
+        ///   Creates Tukey's box plot inner fence.
+        /// </summary>
+        /// 
+        public static DoubleRange InnerFence(DoubleRange quartiles)
+        {
+            return new DoubleRange(
+                quartiles.Min - 1.5 * quartiles.Length,
+                quartiles.Max + 1.5 * quartiles.Length);
+        }
+
+        /// <summary>
+        ///   Creates Tukey's box plot outer fence.
+        /// </summary>
+        /// 
+        public static DoubleRange OuterFence(DoubleRange quartiles)
+        {
+            return new DoubleRange(
+                quartiles.Min - 3 * quartiles.Length,
+                quartiles.Max + 3 * quartiles.Length);
+        }
+
 
         #region Arrays Measures
 

@@ -144,6 +144,8 @@
     <Compile Include="Controls\DataGridBoxTest.cs" />
     <Compile Include="Controls\HistogramViewTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\LevyDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\FoldedNormalDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\InverseChiSquareDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralizedNormalDistributionTest.cs" />
