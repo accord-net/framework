@@ -102,11 +102,13 @@ namespace Accord.Math.Optimization
         /// <summary>
         ///   The step size has reached the lower bound.
         /// </summary>
+        /// 
         StepLow = 4,
 
         /// <summary>
         ///   Maximum number of function evaluations has been reached.
         /// </summary>
+        /// 
         MaximumEvaluations = 3,
 
         /// <summary>

@@ -208,7 +208,7 @@ The LAPACK Linear Algebra Package - Copyright (C) 1992-2010
      OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-NLopt Numerical Optimization Library
+NLopt Numerical Optimization Library - Copyright (c) 2008-2014 Steven G. Johnson
 
     Copyright (c) 2007-2011 Massachusetts Institute of Technology
 

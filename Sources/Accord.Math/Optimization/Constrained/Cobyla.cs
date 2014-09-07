@@ -41,6 +41,7 @@ namespace Accord.Math.Optimization
         /// <summary>
         ///   Optimization successfully completed.
         /// </summary>
+        /// 
         Success = 0,
 
         /// <summary>
@@ -79,9 +80,14 @@ namespace Accord.Math.Optimization
     /// <para>
     ///   This algorithm is able to solve non-smooth NLP problems with a moderate number
     ///   of variables (about 100), with inequality constraints only.</para>
-    ///
-    /// The initial point X is taken as one vertex of the initial simplex with zero being another, so, X should 
-    /// not be entered as the zero vector.
+    ///   
+    /// <para>    
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/COBYLA">
+    ///       Wikipedia, The Free Encyclopedia. Cobyla. Available on:
+    ///       http://en.wikipedia.org/wiki/COBYLA </a></description></item>
+    ///   </list></para>
     /// </remarks>
     ///
     public class Cobyla : BaseOptimizationMethod, IOptimizationMethod,
