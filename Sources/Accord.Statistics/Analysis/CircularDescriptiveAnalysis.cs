@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Analysis
 {
     using System;
+    using Accord.Collections;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using AForge;
@@ -82,6 +83,7 @@ namespace Accord.Statistics.Analysis
 
         private CircularDescriptiveMeasureCollection measuresCollection;
 
+        private bool useStrictRanges = true;
 
 
         /// <summary>
@@ -324,6 +326,29 @@ namespace Accord.Statistics.Analysis
         }
 
 
+        /// <summary>
+        ///   Gets or sets whether all reported statistics should respect the circular 
+        ///   interval. For example, setting this property to <c>false</c> would allow
+        ///   the <see cref="Confidence"/>, <see cref="Deviance"/>, <see cref="InnerFences"/>
+        ///   and <see cref="OuterFences"/> properties report minimum and maximum values 
+        ///   outside the variable's allowed circular range. Default is <c>true</c>.
+        /// </summary>
+        /// 
+        public bool UseStrictRanges
+        {
+            get { return useStrictRanges; }
+            set
+            {
+                if (useStrictRanges != value)
+                {
+                    useStrictRanges = value;
+                    innerFences = null;
+                    outerFences = null;
+                    deviances = null;
+                    confidences = null;
+                }
+            }
+        }
 
 
         /// <summary>
@@ -451,7 +476,7 @@ namespace Accord.Statistics.Analysis
                         modes = Statistics.Tools.Mode(sourceMatrix);
                     else if (sourceArray != null)
                         modes = Statistics.Tools.Mode(sourceArray);
-                    else modes = new [] { Statistics.Tools.Mode(sourceRow) };
+                    else modes = new[] { Statistics.Tools.Mode(sourceRow) };
                 }
 
                 return modes;
@@ -612,9 +637,7 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets an array containing the Ranges of each data column. If 
-        ///   the analysis has been computed in place, this will contain 
-        ///   the minimum and maximum transformed angle values instead.
+        ///   Gets an array containing the Ranges of each data column.
         /// </summary>
         /// 
         public DoubleRange[] Ranges
@@ -623,12 +646,9 @@ namespace Accord.Statistics.Analysis
             {
                 if (ranges == null)
                 {
-                    if (sourceMatrix != null)
-                        this.ranges = Matrix.Range(sourceMatrix, 0);
-                    else if (sourceArray != null)
-                        this.ranges = Matrix.Range(sourceArray, 0);
-                    else
-                        this.ranges = new[] { Matrix.Range(sourceRow) };
+                    this.ranges = new DoubleRange[variables];
+                    for (int i = 0; i < ranges.Length; i++)
+                        ranges[i] = new DoubleRange(0, lengths[i]);
                 }
 
                 return ranges;
@@ -651,9 +671,10 @@ namespace Accord.Statistics.Analysis
                     quartiles = new DoubleRange[variables];
                     for (int i = 0; i < variances.Length; i++)
                     {
-                        Circular.Quartiles(angles[i], out quartiles[i], angularMedians[i]);
-                        quartiles[i].Min = Circular.Revert(quartiles[i].Min, lengths[i]);
-                        quartiles[i].Max = Circular.Revert(quartiles[i].Max, lengths[i]);
+                        Circular.Quartiles(angles[i], out quartiles[i], angularMedians[i], wrap: useStrictRanges);
+
+                        quartiles[i].Min = Circular.Revert(quartiles[i].Min, lengths[i], useStrictRanges);
+                        quartiles[i].Max = Circular.Revert(quartiles[i].Max, lengths[i], useStrictRanges);
                     }
                 }
 
@@ -676,9 +697,13 @@ namespace Accord.Statistics.Analysis
                     innerFences = new DoubleRange[variables];
                     for (int i = 0; i < innerFences.Length; i++)
                     {
-                        double min = Tools.Mod(Q[i].Min - 1.5 * Q[i].Length, lengths[i]);
-                        double max = Tools.Mod(Q[i].Max + 1.5 * Q[i].Length, lengths[i]);
-                        innerFences[i] = new DoubleRange(min, max);
+                        innerFences[i] = Statistics.Tools.InnerFence(Q[i]);
+
+                        if (useStrictRanges)
+                        {
+                            innerFences[i].Min = Tools.Mod(innerFences[i].Min, lengths[i]);
+                            innerFences[i].Max = Tools.Mod(innerFences[i].Max, lengths[i]);
+                        }
                     }
                 }
 
@@ -701,9 +726,13 @@ namespace Accord.Statistics.Analysis
                     outerFences = new DoubleRange[variables];
                     for (int i = 0; i < outerFences.Length; i++)
                     {
-                        double min = Tools.Mod(Q[i].Min - 3 * Q[i].Length, lengths[i]);
-                        double max = Tools.Mod(Q[i].Max + 3 * Q[i].Length, lengths[i]);
-                        outerFences[i] = new DoubleRange(min, max);
+                        outerFences[i] = Statistics.Tools.OuterFence(Q[i]);
+
+                        if (useStrictRanges)
+                        {
+                            outerFences[i].Min = Tools.Mod(outerFences[i].Min, lengths[i]);
+                            outerFences[i].Max = Tools.Mod(outerFences[i].Max, lengths[i]);
+                        }
                     }
                 }
 
@@ -879,7 +908,16 @@ namespace Accord.Statistics.Analysis
 
             t *= lengths[index] / (2 * Math.PI);
 
-            return new DoubleRange(Means[index] - t, Means[index] + t);
+            double min = Means[index] - t;
+            double max = Means[index] + t;
+
+            if (useStrictRanges)
+            {
+                min = Tools.Mod(min, lengths[index]);
+                max = Tools.Mod(max, lengths[index]);
+            }
+
+            return new DoubleRange(min, max);
         }
 
         /// <summary>
@@ -900,9 +938,16 @@ namespace Accord.Statistics.Analysis
             double z = NormalDistribution.Standard
                 .InverseDistributionFunction(0.5 + percent / 2.0);
 
-            return new DoubleRange(
-                Means[index] - z * StandardDeviations[index],
-                Means[index] + z * StandardDeviations[index]);
+            double min = Means[index] - z * StandardDeviations[index];
+            double max = Means[index] + z * StandardDeviations[index];
+
+            if (useStrictRanges)
+            {
+                min = Tools.Mod(min, lengths[index]);
+                max = Tools.Mod(max, lengths[index]);
+            }
+
+            return new DoubleRange(min, max);
         }
 
 
@@ -1074,15 +1119,6 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
-        ///   Gets the variable's circular length.
-        /// </summary>
-        /// 
-        public double CircularLength
-        {
-            get { return analysis.Lengths[index]; }
-        }
-
-        /// <summary>
         ///   Gets the number of distinct values for the variable.
         /// </summary>
         /// 
@@ -1181,6 +1217,35 @@ namespace Accord.Statistics.Analysis
             get { return analysis.Kurtosis[index]; }
         }
 
+        /// <summary>
+        ///   Gets a confidence interval for the <see cref="Mean"/>
+        ///   within the given confidence level percentage.
+        /// </summary>
+        /// 
+        /// <param name="percent">The confidence level. Default is 0.95.</param>
+        /// 
+        /// <returns>A confidence interval for the estimated value.</returns>
+        /// 
+        public DoubleRange GetConfidenceInterval(double percent = 0.95)
+        {
+            return analysis.GetConfidenceInterval(index, percent);
+        }
+
+        /// <summary>
+        ///   Gets a deviance interval for the <see cref="Mean"/>
+        ///   within the given confidence level percentage (i.e. uses
+        ///   the standard deviation rather than the standard error to
+        ///   compute the range interval for the variable).
+        /// </summary>
+        /// 
+        /// <param name="percent">The confidence level. Default is 0.95.</param>
+        /// 
+        /// <returns>A confidence interval for the estimated value.</returns>
+        /// 
+        public DoubleRange GetDevianceInterval(double percent = 0.95)
+        {
+            return analysis.GetDevianceInterval(index, percent);
+        }
     }
 
     /// <summary>
@@ -1207,5 +1272,4 @@ namespace Accord.Statistics.Analysis
             return item.Name;
         }
     }
-
 }

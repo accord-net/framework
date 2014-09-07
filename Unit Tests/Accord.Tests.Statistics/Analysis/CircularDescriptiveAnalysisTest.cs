@@ -148,12 +148,12 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(3, ranges.Length);
-            Assert.AreEqual(3, ranges[0].Min);
-            Assert.AreEqual(23, ranges[0].Max);
-            Assert.AreEqual(8, ranges[1].Min);
-            Assert.AreEqual(52, ranges[1].Max);
+            Assert.AreEqual(0, ranges[0].Min);
+            Assert.AreEqual(24, ranges[0].Max);
+            Assert.AreEqual(0, ranges[1].Min);
+            Assert.AreEqual(60, ranges[1].Max);
             Assert.AreEqual(0, ranges[2].Min);
-            Assert.AreEqual(6, ranges[2].Max);
+            Assert.AreEqual(7, ranges[2].Max);
 
             Assert.IsTrue(samples == 8);
 
@@ -284,8 +284,8 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(1, ranges.Length);
-            Assert.AreEqual(-2.3561944901923448, ranges[0].Min);
-            Assert.AreEqual(2.879793265790644, ranges[0].Max);
+            Assert.AreEqual(0, ranges[0].Min);
+            Assert.AreEqual(24, ranges[0].Max);
 
             Assert.IsTrue(samples == 8);
 

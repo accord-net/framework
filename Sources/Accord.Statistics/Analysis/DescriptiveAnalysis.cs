@@ -26,6 +26,7 @@ namespace Accord.Statistics.Analysis
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using AForge;
+    using Accord.Collections;
 
     /// <summary>
     ///   Descriptive statistics analysis.
@@ -291,7 +292,6 @@ namespace Accord.Statistics.Analysis
             this.outerFences = null;
         }
 
-        #region Properties
 
         /// <summary>
         ///   Gets the source matrix from which the analysis was run.
@@ -630,7 +630,7 @@ namespace Accord.Statistics.Analysis
 
                     innerFences = new DoubleRange[variables];
                     for (int i = 0; i < innerFences.Length; i++)
-                        innerFences[i] = new DoubleRange(Q[i].Min - 1.5 * Q[i].Length, Q[i].Max + 1.5 * Q[i].Length);
+                        innerFences[i] = Statistics.Tools.InnerFence(Q[i]);
                 }
 
                 return innerFences;
@@ -651,7 +651,7 @@ namespace Accord.Statistics.Analysis
 
                     outerFences = new DoubleRange[variables];
                     for (int i = 0; i < outerFences.Length; i++)
-                        outerFences[i] = new DoubleRange(Q[i].Min - 3 * Q[i].Length, Q[i].Max + 3 * Q[i].Length);
+                        outerFences[i] = Statistics.Tools.OuterFence(Q[i]);
                 }
 
                 return outerFences;
@@ -741,8 +741,6 @@ namespace Accord.Statistics.Analysis
         {
             get { return measuresCollection; }
         }
-
-        #endregion
 
 
         /// <summary>
@@ -1006,6 +1004,36 @@ namespace Accord.Statistics.Analysis
         public double[] Samples
         {
             get { return analysis.Source.GetColumn(index); }
+        }
+
+        /// <summary>
+        ///   Gets a confidence interval for the <see cref="Mean"/>
+        ///   within the given confidence level percentage.
+        /// </summary>
+        /// 
+        /// <param name="percent">The confidence level. Default is 0.95.</param>
+        /// 
+        /// <returns>A confidence interval for the estimated value.</returns>
+        /// 
+        public DoubleRange GetConfidenceInterval(double percent = 0.95)
+        {
+            return analysis.GetConfidenceInterval(index, percent);
+        }
+
+        /// <summary>
+        ///   Gets a deviance interval for the <see cref="Mean"/>
+        ///   within the given confidence level percentage (i.e. uses
+        ///   the standard deviation rather than the standard error to
+        ///   compute the range interval for the variable).
+        /// </summary>
+        /// 
+        /// <param name="percent">The confidence level. Default is 0.95.</param>
+        /// 
+        /// <returns>A confidence interval for the estimated value.</returns>
+        /// 
+        public DoubleRange GetDevianceInterval(double percent = 0.95)
+        {
+            return analysis.GetDevianceInterval(index, percent);
         }
 
     }

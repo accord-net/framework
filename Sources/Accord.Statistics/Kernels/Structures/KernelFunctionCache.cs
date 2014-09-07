@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Accord.Collections;
 
     /// <summary>
     ///   Value cache for kernel function evaluations.

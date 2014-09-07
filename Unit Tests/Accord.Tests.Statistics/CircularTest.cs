@@ -228,8 +228,8 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(0, mean);
-            Assert.AreEqual(1.0058013608769885, stdDev);
-            Assert.AreEqual(0.4971507281317768, var);
+            Assert.AreEqual(1.0058013608769885, stdDev, 1e-11);
+            Assert.AreEqual(0.4971507281317768, var, 1e-11);
             Assert.AreEqual(0, med);
             Assert.AreEqual(0, median);
             Assert.AreEqual(23, quartiles.Min, 1e-13);

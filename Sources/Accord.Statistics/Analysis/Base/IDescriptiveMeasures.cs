@@ -166,6 +166,30 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         double[] Samples { get; }
+
+        /// <summary>
+        ///   Gets a confidence interval for the <see cref="Mean"/>
+        ///   within the given confidence level percentage.
+        /// </summary>
+        /// 
+        /// <param name="percent">The confidence level. Default is 0.95.</param>
+        /// 
+        /// <returns>A confidence interval for the estimated value.</returns>
+        /// 
+        DoubleRange GetConfidenceInterval(double percent = 0.95);
+
+        /// <summary>
+        ///   Gets a deviance interval for the <see cref="Mean"/>
+        ///   within the given confidence level percentage (i.e. uses
+        ///   the standard deviation rather than the standard error to
+        ///   compute the range interval for the variable).
+        /// </summary>
+        /// 
+        /// <param name="percent">The confidence level. Default is 0.95.</param>
+        /// 
+        /// <returns>A confidence interval for the estimated value.</returns>
+        /// 
+        DoubleRange GetDevianceInterval(double percent = 0.95);
     }
 
 }

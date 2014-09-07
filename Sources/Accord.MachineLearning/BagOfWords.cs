@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Collections.Generic;
     using Accord.Math;
+    using Accord.Collections;
 
     /// <summary>
     ///   Common interface for Bag of Words objects.

@@ -117,13 +117,21 @@ namespace Accord.Statistics
         /// 
         /// <param name="angle">The angle to be reconverted into the original unit.</param>
         /// <param name="length">The maximum possible sample value (such as 24 for hour data).</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
         /// 
         /// <returns>The original before being converted.</returns>
         /// 
-        public static double Revert(double angle, double length)
+        public static double Revert(double angle, double length, bool wrap = true)
         {
             double m = ((angle + Math.PI) / (2 * Math.PI)) * length;
-            return Accord.Math.Tools.Mod(m, length);
+
+            if (wrap)
+                m = Accord.Math.Tools.Mod(m, length);
+
+            return m;
         }
 
         #region Array Measures
@@ -631,14 +639,18 @@ namespace Accord.Statistics
         /// <param name="length">The maximum possible value of the samples.</param>
         /// <param name="q1">The first quartile, as an out parameter.</param>
         /// <param name="q3">The third quartile, as an out parameter.</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
-        public static double Quartiles(double[] samples, double length, out double q1, out double q3)
+        public static double Quartiles(double[] samples, double length, out double q1, out double q3, bool wrap = true)
         {
-            double q2 = Quartiles(Transform(samples, length), out q1, out q3);
-            q1 = Revert(q1, length);
-            q3 = Revert(q3, length);
+            double q2 = Quartiles(Transform(samples, length), out q1, out q3, wrap);
+            q1 = Revert(q1, length, wrap);
+            q3 = Revert(q3, length, wrap);
             return Revert(q2, length);
         }
 
@@ -649,12 +661,16 @@ namespace Accord.Statistics
         /// <param name="angles">A double array containing the angles in radians.</param>
         /// <param name="q1">The first quartile, as an out parameter.</param>
         /// <param name="q3">The third quartile, as an out parameter.</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
-        public static double Quartiles(double[] angles, out double q1, out double q3)
+        public static double Quartiles(double[] angles, out double q1, out double q3, bool wrap = true)
         {
-            return Quartiles(angles, out q1, out q3, Median(angles));
+            return Quartiles(angles, out q1, out q3, Median(angles), wrap);
         }
 
         /// <summary>
@@ -666,14 +682,18 @@ namespace Accord.Statistics
         /// <param name="samples">A double array containing the circular samples.</param>
         /// <param name="length">The maximum possible value of the samples.</param>
         /// <param name="range">The sample quartiles, as an out parameter.</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
         /// 
         /// <returns>The median of the given samples.</returns>
         /// 
-        public static double Quartiles(double[] samples, double length, out DoubleRange range)
+        public static double Quartiles(double[] samples, double length, out DoubleRange range, bool wrap = true)
         {
-            double q2 = Quartiles(Transform(samples, length), out range);
-            range.Min = Revert(range.Min, length);
-            range.Max = Revert(range.Max, length);
+            double q2 = Quartiles(Transform(samples, length), out range, wrap);
+            range.Min = Revert(range.Min, length, wrap);
+            range.Max = Revert(range.Max, length, wrap);
             return Revert(q2, length);
         }
 
@@ -683,12 +703,16 @@ namespace Accord.Statistics
         /// 
         /// <param name="angles">A double array containing the angles in radians.</param>
         /// <param name="range">The sample quartiles, as an out parameter.</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
-        public static double Quartiles(double[] angles, out DoubleRange range)
+        public static double Quartiles(double[] angles, out DoubleRange range, bool wrap = true)
         {
-            return Quartiles(angles, out range, Median(angles));
+            return Quartiles(angles, out range, Median(angles), wrap);
         }
 
         /// <summary>
@@ -698,13 +722,17 @@ namespace Accord.Statistics
         /// <param name="angles">A double array containing the angles in radians.</param>
         /// <param name="range">The sample quartiles, as an out parameter.</param>
         /// <param name="median">The angular median, if already known.</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
-        public static double Quartiles(double[] angles, out DoubleRange range, double median)
+        public static double Quartiles(double[] angles, out DoubleRange range, double median, bool wrap = true)
         {
             double q1, q3;
-            double q2 = Quartiles(angles, out q1, out q3, median);
+            double q2 = Quartiles(angles, out q1, out q3, median, wrap);
             range = new DoubleRange(q1, q3);
             return median;
         }
@@ -717,10 +745,14 @@ namespace Accord.Statistics
         /// <param name="q1">The first quartile, as an out parameter.</param>
         /// <param name="q3">The third quartile, as an out parameter.</param>
         /// <param name="median">The angular median, if already known.</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
         /// 
         /// <returns>The median of the given angles.</returns>
         /// 
-        public static double Quartiles(double[] angles, out double q1, out double q3, double median)
+        public static double Quartiles(double[] angles, out double q1, out double q3, double median, bool wrap = true)
         {
             double[] x = new double[angles.Length];
             for (int i = 0; i < angles.Length; i++)
@@ -729,13 +761,19 @@ namespace Accord.Statistics
             for (int i = 0; i < x.Length; i++)
             {
                 x[i] = (x[i] < -Math.PI) ? (x[i] + (2 * Math.PI)) : (x[i]);
-                x[i] = (x[i] > Math.PI) ? (x[i] - (2 * Math.PI)) : (x[i]);
+                x[i] = (x[i] > +Math.PI) ? (x[i] - (2 * Math.PI)) : (x[i]);
             }
 
             double newMedian = Tools.Quartiles(x, out q1, out q3, alreadySorted: false);
 
-            q1 = Accord.Math.Tools.Mod(q1 + median, 2 * Math.PI);
-            q3 = Accord.Math.Tools.Mod(q3 + median, 2 * Math.PI);
+            q1 = q1 + median;
+            q3 = q3 + median;
+
+            if (wrap)
+            {
+                q1 = Accord.Math.Tools.Mod(q1, 2 * Math.PI);
+                q3 = Accord.Math.Tools.Mod(q3, 2 * Math.PI);
+            }
 
             return median;
         }

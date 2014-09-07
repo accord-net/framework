@@ -20,22 +20,22 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord
+namespace Accord.Collections
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
-
     /// <summary>
-    ///   Read-only keyed dictionary wrapper.
+    ///   Read-only keyed collection wrapper.
     /// </summary>
     /// 
     /// <remarks>
     ///   This collection implements a read-only keyed collection. Read-only collections
     ///   can not be changed once they are created and are useful for presenting information
-    ///  to the user without allowing alteration.
+    ///   to the user without allowing alteration. A keyed collection is a collection whose 
+    ///   elements can be retrieved by key or by index.
     /// </remarks>
     /// 
     /// <typeparam name="TKey">The types of the keys in the dictionary.</typeparam>
