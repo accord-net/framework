@@ -92,11 +92,7 @@ namespace Accord.Math.Optimization
             if (numberOfVariables <= 0)
                 throw new ArgumentOutOfRangeException("numberOfVariables");
 
-            this.NumberOfVariables = numberOfVariables;
-            this.Solution = new double[numberOfVariables];
-
-            for (int i = 0; i < Solution.Length; i++)
-                Solution[i] = Accord.Math.Tools.Random.NextDouble() * 2 - 1;
+            init(numberOfVariables);
         }
 
         /// <summary>
@@ -107,12 +103,36 @@ namespace Accord.Math.Optimization
         /// <param name="function">The objective function whose optimum values should be found.</param>
         /// 
         protected BaseOptimizationMethod(int numberOfVariables, Func<double[], double> function)
-            : this(numberOfVariables)
         {
             if (function == null)
                 throw new ArgumentNullException("function");
 
+            init(numberOfVariables);
             this.Function = function;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="BaseOptimizationMethod"/> class.
+        /// </summary>
+        /// 
+        /// <param name="function">The objective function whose optimum values should be found.</param>
+        /// 
+        protected BaseOptimizationMethod(NonlinearObjectiveFunction function)
+        {
+            if (function == null)
+                throw new ArgumentNullException("function");
+
+            init(function.NumberOfVariables);
+            this.Function = function.Function;
+        }
+
+        private void init(int numberOfVariables)
+        {
+            this.NumberOfVariables = numberOfVariables;
+            this.Solution = new double[numberOfVariables];
+
+            for (int i = 0; i < Solution.Length; i++)
+                Solution[i] = Accord.Math.Tools.Random.NextDouble() * 2 - 1;
         }
 
         /// <summary>

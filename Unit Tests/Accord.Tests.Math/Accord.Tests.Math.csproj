@@ -133,6 +133,8 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />
+    <Compile Include="Collections\RedBlackTreeTest.cs" />
     <Compile Include="Functions\OwensTTest.cs" />
     <Compile Include="Integration\IntegralTest.cs" />
     <Compile Include="Convergence\AbsoluteConvergenceTest.cs" />
@@ -147,6 +149,8 @@
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
     <Compile Include="Optimization\BoundedBroydenFletcherGoldfarbShannoTest.cs" />
+    <Compile Include="Optimization\SubplexTest.cs" />
+    <Compile Include="Optimization\NelderMeadTest.cs" />
     <Compile Include="Optimization\NonlinearConjugateGradientTest.cs" />
     <Compile Include="Optimization\Lbfgsb3\LbfgsbComparer.cs" />
     <Compile Include="Optimization\Lbfgsb3\LbfgsbComparisonTest.cs" />
