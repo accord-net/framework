@@ -125,7 +125,7 @@ namespace Accord.Tests.Math
         {
             var rand = Accord.Math.Tools.Random;
 
-            RedBlackTree<int> t = new RedBlackTree<int>();
+            RedBlackTree<int> t = new RedBlackTree<int>(allowDuplicates: true);
 
             // Create a vector of random numbers
             int[] k = new int[n];

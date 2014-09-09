@@ -23,11 +23,9 @@
 namespace Accord.Tests.Math
 {
     using System;
-    using Accord.Collections;
-    using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Linq;
     using System.Collections.Generic;
+    using Accord.Collections;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class RedBlackDictionaryTest

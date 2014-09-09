@@ -70,7 +70,7 @@ namespace Accord.Collections
         private void init(IComparer<TKey> comparer)
         {
             var keyComparer = new KeyValuePairComparer<TKey, TValue>(comparer);
-            this.tree = new RedBlackTree<TKey, TValue>(keyComparer);
+            this.tree = new RedBlackTree<TKey, TValue>(keyComparer, false);
             this.values = new ValueCollection(tree);
             this.keys = new KeyCollection(tree);
         }
@@ -405,9 +405,13 @@ namespace Accord.Collections
         /// </summary>
         /// 
         /// <param name="key">The key whose ancestor must be found.</param>
+        /// <param name="prev">
+        ///   The key-value pair whose key is the immediate ancestor of
+        ///   <paramref name="key"/>, returned as an out parameter.
+        /// </param>
         /// 
         /// <returns>
-        ///   The key-value pair whose key is the immediate ancestor of <paramref name="key"/>.
+        ///   True if there was an ancestor in the dictionary; false otherwise.
         /// </returns>
         /// 
         public bool TryGetPrevious(TKey key, out KeyValuePair<TKey, TValue> prev)
@@ -454,9 +458,13 @@ namespace Accord.Collections
         /// </summary>
         /// 
         /// <param name="key">The key whose successor must be found.</param>
+        /// <param name="next">
+        ///   The key-value pair whose key is the immediate sucessor of
+        ///   <paramref name="key"/>, returned as an out parameter.
+        /// </param>
         /// 
         /// <returns>
-        ///   The key-value pair whose key is the immediate successor of <paramref name="key"/>.
+        ///   True if there was a successor in the dictionary; false otherwise.
         /// </returns>
         /// 
         public bool TryGetNext(TKey key, out KeyValuePair<TKey, TValue> next)

@@ -102,6 +102,8 @@ namespace Accord.Collections
         RedBlackTreeNode<T> root;
         int count;
 
+        bool duplicates = false;
+
         /// <summary>
         ///   Constructs a new <see cref="RedBlackTree&lt;T&gt;"/> using the
         ///   default <see cref="IComparer{T}"/> for type <typeparamref name="T"/>.
@@ -117,9 +119,44 @@ namespace Accord.Collections
         ///   the provided <see cref="IComparer{T}"/> implementation.
         /// </summary>
         /// 
+        /// <param name="comparer">
+        ///   The element comparer to be used to order elements in the tree.</param>
+        /// 
         public RedBlackTree(IComparer<T> comparer)
         {
             this.compare = comparer;
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="RedBlackTree&lt;T&gt;"/> using the
+        ///   default <see cref="IComparer{T}"/> for type <typeparamref name="T"/>.
+        /// </summary>
+        /// 
+        /// <param name="allowDuplicates">
+        ///   Pass <c>true</c> to allow duplicate elements 
+        ///   in the tree; <c>false</c> otherwise.</param>
+        /// 
+        public RedBlackTree(bool allowDuplicates)
+        {
+            this.compare = Comparer<T>.Default;
+            this.duplicates = allowDuplicates;
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="RedBlackTree&lt;T&gt;"/> using 
+        ///   the provided <see cref="IComparer{T}"/> implementation.
+        /// </summary>
+        /// 
+        /// <param name="comparer">
+        ///   The element comparer to be used to order elements in the tree.</param>
+        /// <param name="allowDuplicates">
+        ///   Pass <c>true</c> to allow duplicate elements 
+        ///   in the tree; <c>false</c> otherwise.</param>
+        /// 
+        public RedBlackTree(IComparer<T> comparer, bool allowDuplicates)
+        {
+            this.compare = comparer;
+            this.duplicates = allowDuplicates;
         }
 
         /// <summary>
@@ -205,12 +242,12 @@ namespace Accord.Collections
             {
                 int cmp = compare.Compare(k, p.Value);
 
-                /*if (cmp == 0)
+                if (!duplicates && cmp == 0)
                 {
                     p.Value = item.Value;
                     return;
                 }
-                else*/ if (cmp <= 0)
+                else if (cmp <= 0)
                 {
                     // k <= p.k
                     if (p.Left != null)

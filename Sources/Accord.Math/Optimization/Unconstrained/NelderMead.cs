@@ -454,7 +454,7 @@ namespace Accord.Math.Optimization
             var ret = NelderMeadStatus.Success;
             double init_diam = 0;
 
-            var t = new RedBlackTree<double, double[]>();
+            var t = new RedBlackTree<double, double[]>(allowDuplicates: true);
 
             fdiff = Double.MaxValue;
 

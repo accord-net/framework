@@ -84,10 +84,41 @@ namespace Accord.Collections
         ///   the provided <see cref="IComparer{T}"/> implementation.
         /// </summary>
         /// 
-        /// <param name="comparer">The key-pair comparer to be used.</param>
+        /// <param name="comparer">
+        ///   The element comparer to be used to order elements in the tree.</param>
         /// 
         public RedBlackTree(IComparer<KeyValuePair<TKey, TValue>> comparer)
             : base(comparer)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="RedBlackTree&lt;T&gt;"/> using the default
+        ///   <see cref="IComparer{T}"/> for the key type <typeparamref name="TKey"/>.
+        /// </summary>
+        /// 
+        /// <param name="allowDuplicates">
+        ///   Pass <c>true</c> to allow duplicate elements 
+        ///   in the tree; <c>false</c> otherwise.</param>
+        /// 
+        public RedBlackTree(bool allowDuplicates)
+            : base(KeyValuePairComparer<TKey, TValue>.Default, allowDuplicates)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new <see cref="RedBlackTree&lt;T&gt;"/> using 
+        ///   the provided <see cref="IComparer{T}"/> implementation.
+        /// </summary>
+        /// 
+        /// <param name="comparer">
+        ///   The element comparer to be used to order elements in the tree.</param>
+        /// <param name="allowDuplicates">
+        ///   Pass <c>true</c> to allow duplicate elements 
+        ///   in the tree; <c>false</c> otherwise.</param>
+        /// 
+        public RedBlackTree(IComparer<KeyValuePair<TKey, TValue>> comparer,
+            bool allowDuplicates) : base(comparer, allowDuplicates)
         {
         }
 
