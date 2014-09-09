@@ -24,8 +24,12 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq.Expressions;
+
+#if !NET45
     using Accord.Collections;
+#endif
 
     /// <summary>
     ///   Quadratic objective function.
@@ -35,10 +39,10 @@ namespace Accord.Math.Optimization
     {
 
         private Dictionary<string, int> variables;
-        private readonly ReadOnlyDictionary<string, int> readOnlyVariables;
+        private readonly IDictionary<string, int> readOnlyVariables;
 
         private Dictionary<int, string> indices;
-        private readonly ReadOnlyDictionary<int, string> readOnlyIndices;
+        private readonly IDictionary<int, string> readOnlyIndices;
 
         /// <summary>
         ///   Gets the name of each input variable.
@@ -97,9 +101,9 @@ namespace Accord.Math.Optimization
         protected NonlinearObjectiveFunction()
         {
             variables = new Dictionary<string, int>();
-            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
-
             indices = new Dictionary<int, string>();
+
+            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
             readOnlyIndices = new ReadOnlyDictionary<int, string>(indices);
         }
 

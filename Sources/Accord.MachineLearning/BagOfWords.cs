@@ -22,10 +22,18 @@
 
 namespace Accord.MachineLearning
 {
+    using Accord.Math;
     using System;
     using System.Collections.Generic;
-    using Accord.Math;
+    using System.Runtime.Serialization;
+
+#if NET45
+    using System.Collections.ObjectModel;
+#else
     using Accord.Collections;
+#endif
+
+
 
     /// <summary>
     ///   Common interface for Bag of Words objects.
@@ -68,10 +76,15 @@ namespace Accord.MachineLearning
     {
 
         private Dictionary<string, int> stringToCode;
-        private ReadOnlyDictionary<string, int> readOnlyStringToCode;
-
         private Dictionary<int, string> codeToString;
-        private ReadOnlyDictionary<int, string> readOnlyCodeToString;
+
+
+        [NonSerialized]
+        private IDictionary<string, int> readOnlyStringToCode;
+
+        [NonSerialized]
+        private IDictionary<int, string> readOnlyCodeToString;
+
 
 
         /// <summary>
@@ -85,7 +98,7 @@ namespace Accord.MachineLearning
         ///   string tokens to integer labels.
         /// </summary>
         /// 
-        public ReadOnlyDictionary<string, int> StringToCode
+        public IDictionary<string, int> StringToCode
         {
             get { return readOnlyStringToCode; }
         }
@@ -95,7 +108,7 @@ namespace Accord.MachineLearning
         ///   integer labels into string tokens.
         /// </summary>
         /// 
-        public ReadOnlyDictionary<int, string> CodeToString
+        public IDictionary<int, string> CodeToString
         {
             get { return readOnlyCodeToString; }
         }
@@ -148,9 +161,9 @@ namespace Accord.MachineLearning
         private void initialize(string[][] texts)
         {
             stringToCode = new Dictionary<string, int>();
-            readOnlyStringToCode = new ReadOnlyDictionary<string, int>(stringToCode);
-
             codeToString = new Dictionary<int, string>();
+
+            readOnlyStringToCode = new ReadOnlyDictionary<string, int>(stringToCode);
             readOnlyCodeToString = new ReadOnlyDictionary<int, string>(codeToString);
 
             MaximumOccurance = 1;
@@ -239,6 +252,14 @@ namespace Accord.MachineLearning
         double[] IBagOfWords<string[]>.GetFeatureVector(string[] value)
         {
             return GetFeatureVector(value).ToDouble();
+        }
+
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            readOnlyStringToCode = new ReadOnlyDictionary<string, int>(stringToCode);
+            readOnlyCodeToString = new ReadOnlyDictionary<int, string>(codeToString);
         }
     }
 }
