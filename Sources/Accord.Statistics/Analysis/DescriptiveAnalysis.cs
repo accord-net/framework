@@ -22,11 +22,12 @@
 
 namespace Accord.Statistics.Analysis
 {
-    using System;
+    using Accord.Collections;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using AForge;
-    using Accord.Collections;
+    using System;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Descriptive statistics analysis.
@@ -806,6 +807,17 @@ namespace Accord.Statistics.Analysis
         {
             this.analysis = analysis;
             this.index = index;
+        }
+
+        /// <summary>
+        ///   Gets the descriptive analysis 
+        ///   that originated this measure.
+        /// </summary>
+        /// 
+        [Browsable(false)]
+        public DescriptiveAnalysis Analysis
+        {
+            get { return analysis; }
         }
 
         /// <summary>

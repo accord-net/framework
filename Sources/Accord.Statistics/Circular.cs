@@ -84,7 +84,7 @@ namespace Accord.Statistics
         /// <returns>A double array containing the same data in <paramref name="samples"/>,
         ///   but normalized between -PI and PI.</returns>
         /// 
-        public static double[] Transform(double[] samples, double length, bool inPlace = false)
+        public static double[] ToRadians(this double[] samples, double length, bool inPlace = false)
         {
             double[] result = inPlace ? samples : new double[samples.Length];
 
@@ -103,16 +103,15 @@ namespace Accord.Statistics
         /// 
         /// <returns>The <paramref name="sample"/> normalized to be between -PI and PI.</returns>
         /// 
-        public static double Transform(double sample, double length)
+        public static double ToRadians(this double sample, double length)
         {
             double m = Accord.Math.Tools.Mod(sample, length);
-            return (m / length) * (2 * Math.PI) - Math.PI;
+            return (m / length) * (2.0 * Math.PI) - Math.PI;
         }
 
         /// <summary>
         ///   Transforms angular data back into circular data (reverts the
-        ///   <see cref="Transform(double[], double, bool)">Transform</see> 
-        ///   operation.
+        ///   <see cref="ToRadians(double[], double, bool)" /> transformation.
         /// </summary>
         /// 
         /// <param name="angle">The angle to be reconverted into the original unit.</param>
@@ -124,7 +123,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The original before being converted.</returns>
         /// 
-        public static double Revert(double angle, double length, bool wrap = true)
+        public static double ToCircular(this double angle, double length, bool wrap = true)
         {
             double m = ((angle + Math.PI) / (2 * Math.PI)) * length;
 
@@ -185,7 +184,7 @@ namespace Accord.Statistics
         /// 
         public static double Mean(double[] samples, double length)
         {
-            return Revert(Mean(Transform(samples, length)), length);
+            return ToCircular(Mean(ToRadians(samples, length)), length);
         }
 
         /// <summary>
@@ -231,7 +230,7 @@ namespace Accord.Statistics
         /// 
         public static double Resultant(double[] samples, double length)
         {
-            return Revert(Resultant(Transform(samples, length)), length);
+            return ToCircular(Resultant(ToRadians(samples, length)), length);
         }
 
         /// <summary>
@@ -265,7 +264,7 @@ namespace Accord.Statistics
         public static double Variance(double[] samples, double length)
         {
             double scale = length / (2 * Math.PI);
-            return Variance(Transform(samples, length)) * scale * scale;
+            return Variance(ToRadians(samples, length)) * scale * scale;
         }
 
         /// <summary>
@@ -313,7 +312,7 @@ namespace Accord.Statistics
         public static double StandardDeviation(double[] samples, double length)
         {
             double scale = length / (2 * Math.PI);
-            return StandardDeviation(Transform(samples, length)) * scale;
+            return StandardDeviation(ToRadians(samples, length)) * scale;
         }
 
         /// <summary>
@@ -362,7 +361,7 @@ namespace Accord.Statistics
         public static double AngularDeviation(double[] samples, double length)
         {
             double scale = length / (2 * Math.PI);
-            return AngularDeviation(Transform(samples, length)) * scale;
+            return AngularDeviation(ToRadians(samples, length)) * scale;
         }
 
         /// <summary>
@@ -411,7 +410,7 @@ namespace Accord.Statistics
         public static double StandardError(double[] samples, double length, double alpha)
         {
             double scale = length / (2 * Math.PI);
-            return StandardError(Transform(samples, length), alpha) * scale;
+            return StandardError(ToRadians(samples, length), alpha) * scale;
         }
 
         /// <summary>
@@ -496,8 +495,8 @@ namespace Accord.Statistics
         /// 
         public static double Distance(double x, double y, double length)
         {
-            double ax = Transform(x, length);
-            double ay = Transform(y, length);
+            double ax = ToRadians(x, length);
+            double ay = ToRadians(y, length);
             double dxy = Distance(ax, ay);
             return (dxy * length) / (2 * Math.PI);
         }
@@ -535,7 +534,7 @@ namespace Accord.Statistics
         /// 
         public static double Median(double[] samples, double length)
         {
-            return Revert(Median(Transform(samples, length)), length);
+            return ToCircular(Median(ToRadians(samples, length)), length);
         }
 
         /// <summary>
@@ -648,10 +647,37 @@ namespace Accord.Statistics
         /// 
         public static double Quartiles(double[] samples, double length, out double q1, out double q3, bool wrap = true)
         {
-            double q2 = Quartiles(Transform(samples, length), out q1, out q3, wrap);
-            q1 = Revert(q1, length, wrap);
-            q3 = Revert(q3, length, wrap);
-            return Revert(q2, length);
+            double q2 = Quartiles(ToRadians(samples, length), out q1, out q3, wrap);
+            q1 = ToCircular(q1, length, wrap);
+            q3 = ToCircular(q3, length, wrap);
+            return ToCircular(q2, length);
+        }
+
+        /// <summary>
+        ///   Computes the circular quartiles of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// <param name="q1">The first quartile, as an out parameter.</param>
+        /// <param name="q3">The third quartile, as an out parameter.</param>
+        /// <param name="median">The median value of the <paramref name="samples"/>, if already known.</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
+        /// 
+        /// <returns>The median of the given samples.</returns>
+        /// 
+        public static double Quartiles(double[] samples, double length, out double q1, out double q3, double median, bool wrap = true)
+        {
+            double angleMedian = Circular.ToRadians(median, length);
+            double q2 = Quartiles(ToRadians(samples, length), out q1, out q3, angleMedian, wrap);
+            q1 = ToCircular(q1, length, wrap);
+            q3 = ToCircular(q3, length, wrap);
+            return ToCircular(q2, length);
         }
 
         /// <summary>
@@ -691,10 +717,36 @@ namespace Accord.Statistics
         /// 
         public static double Quartiles(double[] samples, double length, out DoubleRange range, bool wrap = true)
         {
-            double q2 = Quartiles(Transform(samples, length), out range, wrap);
-            range.Min = Revert(range.Min, length, wrap);
-            range.Max = Revert(range.Max, length, wrap);
-            return Revert(q2, length);
+            double q2 = Quartiles(ToRadians(samples, length), out range, wrap);
+            range.Min = ToCircular(range.Min, length, wrap);
+            range.Max = ToCircular(range.Max, length, wrap);
+            return ToCircular(q2, length);
+        }
+
+        /// <summary>
+        ///   Computes the circular quartiles of the given circular samples.
+        ///   The minimum possible value for a sample must be zero and the maximum must
+        ///   be indicated in the parameter <paramref name="length"/>.
+        /// </summary>
+        /// 
+        /// <param name="samples">A double array containing the circular samples.</param>
+        /// <param name="length">The maximum possible value of the samples.</param>
+        /// <param name="range">The sample quartiles, as an out parameter.</param>
+        /// <param name="median">The median value of the <paramref name="samples"/>, if already known.</param>
+        /// <param name="wrap">
+        ///   Whether range values should be wrapped to be contained in the circle. If 
+        ///   set to false, range values could be returned outside the [+pi;-pi] range.
+        /// </param>
+        /// 
+        /// <returns>The median of the given samples.</returns>
+        /// 
+        public static double Quartiles(double[] samples, double length, out DoubleRange range, double median, bool wrap = true)
+        {
+            double angleMedian = Circular.ToRadians(median, length);
+            double q2 = Quartiles(ToRadians(samples, length), out range, angleMedian, wrap);
+            range.Min = ToCircular(range.Min, length, wrap);
+            range.Max = ToCircular(range.Max, length, wrap);
+            return ToCircular(q2, length);
         }
 
         /// <summary>

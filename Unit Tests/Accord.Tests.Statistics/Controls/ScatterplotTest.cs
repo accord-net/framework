@@ -59,6 +59,7 @@ namespace Accord.Tests.Statistics
 
             target.DataSource = data;
 
+            Assert.IsNotNull(target.DataSource);
             // ScatterplotBox.Show(data);
         }
 
@@ -75,6 +76,8 @@ namespace Accord.Tests.Statistics
             target.DataSource = histogram;
 
             target.DataSource = null;
+
+            Assert.IsNull(target.DataSource);
 
             // ScatterplotBox.Show(histogram);
         }

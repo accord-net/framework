@@ -22,11 +22,12 @@
 
 namespace Accord.Statistics.Analysis
 {
-    using System;
     using Accord.Collections;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using AForge;
+    using System;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Descriptive statistics analysis for circular data.
@@ -230,7 +231,7 @@ namespace Accord.Statistics.Analysis
                 {
                     angles[i] = new double[samples];
                     for (int j = 0; j < angles[i].Length; j++)
-                        angles[i][j] = Circular.Transform(matrix[j, i], length[i]);
+                        angles[i][j] = Circular.ToRadians(matrix[j, i], length[i]);
                 }
             }
             else if (array != null)
@@ -246,7 +247,7 @@ namespace Accord.Statistics.Analysis
                 {
                     angles[i] = new double[samples];
                     for (int j = 0; j < angles[i].Length; j++)
-                        angles[i][j] = Circular.Transform(array[j][i], length[i]);
+                        angles[i][j] = Circular.ToRadians(array[j][i], length[i]);
                 }
             }
             else
@@ -260,7 +261,7 @@ namespace Accord.Statistics.Analysis
 
                 angles[0] = inPlace ? sourceRow : new double[samples];
                 for (int j = 0; j < angles[0].Length; j++)
-                    angles[0][j] = Circular.Transform(sourceRow[j], length[0]);
+                    angles[0][j] = Circular.ToRadians(sourceRow[j], length[0]);
             }
 
 
@@ -454,7 +455,7 @@ namespace Accord.Statistics.Analysis
                     for (int i = 0; i < means.Length; i++)
                     {
                         angularMeans[i] = Circular.Mean(samples, c[i], s[i]);
-                        means[i] = Circular.Revert(angularMeans[i], lengths[i]);
+                        means[i] = Circular.ToCircular(angularMeans[i], lengths[i]);
                     }
                 }
 
@@ -673,8 +674,8 @@ namespace Accord.Statistics.Analysis
                     {
                         Circular.Quartiles(angles[i], out quartiles[i], angularMedians[i], wrap: useStrictRanges);
 
-                        quartiles[i].Min = Circular.Revert(quartiles[i].Min, lengths[i], useStrictRanges);
-                        quartiles[i].Max = Circular.Revert(quartiles[i].Max, lengths[i], useStrictRanges);
+                        quartiles[i].Min = Circular.ToCircular(quartiles[i].Min, lengths[i], useStrictRanges);
+                        quartiles[i].Max = Circular.ToCircular(quartiles[i].Max, lengths[i], useStrictRanges);
                     }
                 }
 
@@ -967,7 +968,7 @@ namespace Accord.Statistics.Analysis
             for (int i = 0; i < medians.Length; i++)
             {
                 angularMedians[i] = Circular.Median(angles[i]);
-                medians[i] = Circular.Revert(angularMedians[i], lengths[i]);
+                medians[i] = Circular.ToCircular(angularMedians[i], lengths[i]);
             }
         }
 
@@ -990,6 +991,17 @@ namespace Accord.Statistics.Analysis
         {
             this.analysis = analysis;
             this.index = index;
+        }
+
+        /// <summary>
+        ///   Gets the circular analysis 
+        ///   that originated this measure.
+        /// </summary>
+        /// 
+        [Browsable(false)]
+        public CircularDescriptiveAnalysis Analysis
+        {
+            get { return analysis; }
         }
 
         /// <summary>
