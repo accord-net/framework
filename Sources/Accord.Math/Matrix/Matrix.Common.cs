@@ -39,7 +39,22 @@ namespace Accord.Math
         /// 
         public static bool IsRelativelyEqual(this double a, double b, double threshold)
         {
-            return Math.Abs(a - b) <= Math.Abs(a) * threshold;
+            if (Double.IsNaN(a) ^ Double.IsNaN(b))
+                return false;
+
+            if (Double.IsPositiveInfinity(a) ^ Double.IsPositiveInfinity(b))
+                return false;
+
+            if (Double.IsNegativeInfinity(a) ^ Double.IsNegativeInfinity(b))
+                return false;
+
+            if (a == b)
+                return true;
+
+            double limit = Math.Abs(a) * threshold;
+            double delta = Math.Abs(a - b);
+
+            return delta <= limit;
         }
 
         /// <summary>
@@ -53,6 +68,7 @@ namespace Accord.Math
 
             if (Math.Abs(a - b) > threshold || (Double.IsNaN(a) ^ Double.IsNaN(b)))
                 return false;
+
             return true;
         }
 
@@ -62,9 +78,14 @@ namespace Accord.Math
         /// 
         public static bool IsEqual(this double[,] objA, double[,] objB, double threshold)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB)
+                return true;
+
+            if (objA == null)
+                throw new ArgumentNullException("objA");
+
+            if (objB == null)
+                throw new ArgumentNullException("objB");
 
             if (objA.GetLength(0) != objB.GetLength(0) ||
                 objA.GetLength(1) != objB.GetLength(1))
@@ -74,12 +95,11 @@ namespace Accord.Math
             {
                 for (int j = 0; j < objB.GetLength(1); j++)
                 {
-                    double x = objA[i, j], y = objB[i, j];
-
-                    if (Math.Abs(x - y) > threshold || (Double.IsNaN(x) ^ Double.IsNaN(y)))
+                    if (!IsEqual(objA[i, j], objB[i, j], threshold))
                         return false;
                 }
             }
+
             return true;
         }
 
@@ -89,102 +109,126 @@ namespace Accord.Math
         /// 
         public static bool IsEqual(this float[,] objA, float[,] objB, double threshold)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB) 
+                return true;
+
+            if (objA == null) 
+                throw new ArgumentNullException("objA");
+
+            if (objB == null) 
+                throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.GetLength(0); i++)
             {
                 for (int j = 0; j < objB.GetLength(1); j++)
                 {
-                    float x = objA[i, j], y = objB[i, j];
-
-                    if (Math.Abs(x - y) > threshold || (Single.IsNaN(x) ^ Single.IsNaN(y)))
+                    if (!IsEqual(objA[i, j], objB[i, j], threshold))
                         return false;
                 }
             }
+
             return true;
         }
 
         /// <summary>
         ///   Compares two matrices for equality, considering an acceptance threshold.
         /// </summary>
+        /// 
         public static bool IsEqual(this double[][] objA, double[][] objB, double threshold)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB)
+                return true;
+
+            if (objA == null)
+                throw new ArgumentNullException("objA");
+
+            if (objB == null)
+                throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.Length; i++)
             {
                 for (int j = 0; j < objA[i].Length; j++)
                 {
-                    double x = objA[i][j], y = objB[i][j];
-
-                    if (Math.Abs(x - y) > threshold || (Double.IsNaN(x) ^ Double.IsNaN(y)))
+                    if (!IsEqual(objA[i][j], objB[i][j], threshold))
                         return false;
                 }
             }
+
             return true;
         }
 
         /// <summary>
         ///   Compares two matrices for equality, considering an acceptance threshold.
         /// </summary>
+        /// 
         public static bool IsEqual(this float[][] objA, float[][] objB, double threshold)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB)
+                return true;
+
+            if (objA == null)
+                throw new ArgumentNullException("objA");
+
+            if (objB == null)
+                throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.Length; i++)
             {
                 for (int j = 0; j < objA[i].Length; j++)
                 {
-                    float x = objA[i][j], y = objB[i][j];
-
-                    if (Math.Abs(x - y) > threshold || (Single.IsNaN(x) ^ Single.IsNaN(y)))
+                    if (!IsEqual(objA[i][j], objB[i][j], threshold))
                         return false;
                 }
             }
+
             return true;
         }
 
         /// <summary>
         ///   Compares two vectors for equality, considering an acceptance threshold.
         /// </summary>
+        /// 
         public static bool IsEqual(this double[] objA, double[] objB, double threshold)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB)
+                return true;
+
+            if (objA == null)
+                throw new ArgumentNullException("objA");
+
+            if (objB == null)
+                throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.Length; i++)
             {
-                double x = objA[i], y = objB[i];
-
-                if (Math.Abs(x - y) > threshold || (Double.IsNaN(x) ^ Double.IsNaN(y)))
+                if (!IsEqual(objA[i], objB[i], threshold))
                     return false;
             }
+
             return true;
         }
 
         /// <summary>
         ///   Compares two vectors for equality, considering an acceptance threshold.
         /// </summary>
+        /// 
         public static bool IsEqual(this float[] objA, float[] objB, double threshold)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB) 
+                return true;
+
+            if (objA == null)
+                throw new ArgumentNullException("objA");
+
+            if (objB == null) 
+                throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.Length; i++)
             {
-                float x = objA[i], y = objB[i];
-
-                if (Math.Abs(x - y) > threshold || (Single.IsNaN(x) ^ Single.IsNaN(y)))
+                if (!IsEqual(objA[i], objB[i], threshold))
                     return false;
             }
+
             return true;
         }
 
@@ -192,35 +236,81 @@ namespace Accord.Math
         /// <summary>
         ///   Compares each member of a vector for equality with a scalar value x.
         /// </summary>
+        /// 
         public static bool IsEqual(this double[] vector, double scalar)
         {
-            if (vector == null) throw new ArgumentNullException("vector");
-            if (vector.Length == 0) return false;
+            if (vector == null)
+                throw new ArgumentNullException("vector");
+            if (vector.Length == 0)
+                return false;
 
-            for (int i = 0; i < vector.Length; i++)
+            foreach (double e in vector)
             {
-                if (vector[i] != scalar)
+                if (e != scalar)
                     return false;
             }
+
             return true;
         }
 
         /// <summary>
         ///   Compares each member of a matrix for equality with a scalar value x.
         /// </summary>
+        /// 
         public static bool IsEqual(this double[,] matrix, double scalar)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
-            if (matrix.Length == 0) return false;
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
 
-            unsafe
+            if (matrix.Length == 0)
+                return false;
+
+            foreach (double e in matrix)
             {
-                fixed (double* ptr = matrix)
-                {
-                    double* p = ptr;
-                    for (int i = 0; i < matrix.Length; i++, p++)
-                        if (*p != scalar) return false;
-                }
+                if (e != scalar)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///   Compares each member of a vector for equality with a scalar value x.
+        /// </summary>
+        /// 
+        public static bool IsEqual(this double[] vector, double scalar, double threshold)
+        {
+            if (vector == null)
+                throw new ArgumentNullException("vector");
+
+            if (vector.Length == 0)
+                return false;
+
+            foreach (double e in vector)
+            {
+                if (!e.IsEqual(scalar, threshold))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///   Compares each member of a matrix for equality with a scalar value x.
+        /// </summary>
+        /// 
+        public static bool IsEqual(this double[,] matrix, double scalar, double threshold)
+        {
+            if (matrix == null) 
+                throw new ArgumentNullException("matrix");
+
+            if (matrix.Length == 0)
+                return false;
+
+            foreach (double e in matrix)
+            {
+                if (!e.IsEqual(scalar, threshold))
+                    return false;
             }
 
             return true;
@@ -229,11 +319,17 @@ namespace Accord.Math
         /// <summary>
         ///   Compares two matrices for equality.
         /// </summary>
+        /// 
         public static bool IsEqual<T>(this T[][] objA, T[][] objB)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB)
+                return true;
+
+            if (objA == null)
+                throw new ArgumentNullException("objA");
+
+            if (objB == null)
+                throw new ArgumentNullException("objB");
 
             if (objA.Length != objB.Length)
                 return false;
@@ -251,8 +347,9 @@ namespace Accord.Math
 
                 for (int j = 0; j < objA[i].Length; j++)
                 {
-                    T elemA = objA[i][j];
-                    T elemB = objB[i][j];
+                    var elemA = objA[i][j];
+                    var elemB = objB[i][j];
+
                     if (!elemA.Equals(elemB))
                         return false;
                 }
@@ -263,9 +360,14 @@ namespace Accord.Math
         /// <summary>Compares two matrices for equality.</summary>
         public static bool IsEqual<T>(this T[,] objA, T[,] objB)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB)
+                return true;
+
+            if (objA == null)
+                throw new ArgumentNullException("objA");
+
+            if (objB == null)
+                throw new ArgumentNullException("objB");
 
             if (objA.GetLength(0) != objB.GetLength(0) ||
                 objA.GetLength(1) != objB.GetLength(1))
@@ -282,15 +384,21 @@ namespace Accord.Math
                         return false;
                 }
             }
+
             return true;
         }
 
         /// <summary>Compares two vectors for equality.</summary>
         public static bool IsEqual<T>(this T[] objA, params T[] objB)
         {
-            if (objA == objB) return true;
-            if (objA == null) throw new ArgumentNullException("objA");
-            if (objB == null) throw new ArgumentNullException("objB");
+            if (objA == objB)
+                return true;
+
+            if (objA == null)
+                throw new ArgumentNullException("objA");
+
+            if (objB == null)
+                throw new ArgumentNullException("objB");
 
             if (objA.Length != objB.Length)
                 return false;

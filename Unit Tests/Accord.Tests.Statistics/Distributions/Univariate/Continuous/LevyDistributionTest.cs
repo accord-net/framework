@@ -56,7 +56,7 @@ namespace Accord.Tests.Statistics
             var levy = new LevyDistribution(location: 1, scale: 4.2);
 
             double mean = levy.Mean;     // +inf
-            double median = levy.Median; // 0.47768324427555131
+            double median = levy.Median; // 10.232059220934481
             double mode = levy.Mode;     // NaN
             double var = levy.Variance;  // +inf
 
@@ -82,7 +82,7 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(Double.PositiveInfinity, mean);
-            Assert.AreEqual(0.47768324427555131, median);
+            Assert.AreEqual(10.232059220934481, median);
             Assert.IsTrue(Double.IsNaN(mode));
             Assert.AreEqual(Double.PositiveInfinity, var);
             Assert.AreEqual(0.0011944585265140923, chf);
@@ -93,7 +93,96 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.99880625455512795, ccdf);
             Assert.AreEqual(1.4, icdf, 1e-6);
             Assert.AreEqual("Lévy(x; μ = 1, c = 4.2)", str);
+
+            double p = levy.DistributionFunction(levy.Median);
+            Assert.AreEqual(0.5, p, 1e-10);
+            Assert.IsFalse(Double.IsNaN(p));
         }
 
+        [TestMethod()]
+        public void ConstructorTest2()
+        {
+            var levy = new LevyDistribution(location: 0, scale: 2.4);
+
+            double mean = levy.Mean;     // +inf
+            double median = levy.Median; // 5.2754624119625602
+            double mode = levy.Mode;     // 0.79999999999999993
+            double var = levy.Variance;  // +inf
+
+            double cdf = levy.DistributionFunction(x: 1.4); // 0.19043026382552419
+            double pdf = levy.ProbabilityDensityFunction(x: 1.4); // 0.15833291961096485
+            double lpdf = levy.LogProbabilityDensityFunction(x: 1.4); // -1.8430553766023994
+
+            double ccdf = levy.ComplementaryDistributionFunction(x: 1.4); // 0.80956973617447581
+            double icdf = levy.InverseDistributionFunction(p: cdf); // 1.4000000000000001
+
+            double hf = levy.HazardFunction(x: 1.4); // 0.19557662859180974
+            double chf = levy.CumulativeHazardFunction(x: 1.4); // 0.21125236235504694
+
+            string str = levy.ToString(CultureInfo.InvariantCulture); // Lévy(x; μ = 0, c = 2.4)
+
+            // Tested against GNU R's rmutils package
+            //
+            // dlevy(1.4, m=0, s=2.4)
+            // [1] 0.1583329196109648229207
+            //
+            // plevy(1.4, m=0, s=2.4)
+            // [1] 0.1904302638255241930665
+
+
+            Assert.AreEqual(Double.PositiveInfinity, mean);
+            Assert.AreEqual(5.2754624119625602, median);
+            Assert.AreEqual(0.79999999999999993, mode);
+            Assert.AreEqual(Double.PositiveInfinity, var);
+            Assert.AreEqual(0.21125236235504694, chf);
+            Assert.AreEqual(0.1904302638255241930665, cdf, 1e-10); // R
+            Assert.AreEqual(0.1583329196109648229207, pdf, 1e-10); // R
+            Assert.AreEqual(-1.8430553766023994, lpdf);
+            Assert.AreEqual(0.19557662859180974, hf);
+            Assert.AreEqual(0.80956973617447581, ccdf);
+            Assert.AreEqual(1.4, icdf, 1e-6);
+            Assert.AreEqual("Lévy(x; μ = 0, c = 2.4)", str);
+
+            double p = levy.DistributionFunction(levy.Median);
+            Assert.AreEqual(0.5, p, 1e-10);
+            Assert.IsFalse(Double.IsNaN(p));
+        }
+
+
+        [TestMethod()]
+        public void MedianTest1()
+        {
+            // plevy(5.2754624119625602, m=0, s=2.4)
+            // [1] 0.5
+
+            var levy = new LevyDistribution(location: 0, scale: 2.4);
+
+            double expected = 5.2754624119625602;
+            double actual = levy.Median;
+
+            Assert.AreEqual(expected, actual);
+
+            double p = levy.DistributionFunction(levy.Median);
+            Assert.AreEqual(0.5, p, 1e-10);
+            Assert.IsFalse(Double.IsNaN(p));
+        }
+
+        [TestMethod()]
+        public void MedianTest2()
+        {
+            // plevy(7.2754624119625602, m=2, s=2.4)
+            // [1] 0.5
+
+            var levy = new LevyDistribution(location: 2, scale: 2.4);
+
+            double expected = 7.2754624119625602;
+            double actual = levy.Median;
+
+            Assert.AreEqual(expected, actual);
+
+            double p = levy.DistributionFunction(levy.Median);
+            Assert.AreEqual(0.5, p, 1e-10);
+            Assert.IsFalse(Double.IsNaN(p));
+        }
     }
 }

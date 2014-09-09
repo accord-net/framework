@@ -114,5 +114,31 @@ namespace Accord.Tests.Math
         }
         #endregion
 
+
+        [TestMethod()]
+        public void RelativelyEqualsTest()
+        {
+            Assert.IsFalse(double.PositiveInfinity.IsRelativelyEqual(1, 1e-10));
+            Assert.IsFalse(1.0.IsRelativelyEqual(double.PositiveInfinity, 1e-10));
+
+            Assert.IsFalse(double.NegativeInfinity.IsRelativelyEqual(1, 1e-10));
+            Assert.IsFalse(1.0.IsRelativelyEqual(double.NegativeInfinity, 1e-10));
+
+            Assert.IsFalse(double.PositiveInfinity.IsRelativelyEqual(double.NegativeInfinity, 1e-10));
+            Assert.IsFalse(double.NegativeInfinity.IsRelativelyEqual(double.PositiveInfinity, 1e-10));
+
+            Assert.IsTrue(double.PositiveInfinity.IsRelativelyEqual(double.PositiveInfinity, 1e-10));
+            Assert.IsTrue(double.NegativeInfinity.IsRelativelyEqual(double.NegativeInfinity, 1e-10));
+
+            Assert.IsTrue(1.0.IsRelativelyEqual(1.1, 0.11));
+            Assert.IsTrue(1.1.IsRelativelyEqual(1.0, 0.11));
+
+            Assert.IsFalse(0.0.IsRelativelyEqual(1.1, 0.11));
+            Assert.IsFalse(1.1.IsRelativelyEqual(0.0, 0.11));
+
+            Assert.IsFalse(1.0.IsRelativelyEqual(1.2, 0.11));
+            Assert.IsFalse(1.2.IsRelativelyEqual(1.0, 0.11));
+
+        }
     }
 }

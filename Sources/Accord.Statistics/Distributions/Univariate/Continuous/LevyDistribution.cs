@@ -64,7 +64,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// var levy = new LevyDistribution(location: 1, scale: 4.2);
     /// 
     /// double mean = levy.Mean;     // +inf
-    /// double median = levy.Median; // 0.47768324427555131
+    /// double median = levy.Median; // 10.232059220934481
     /// double mode = levy.Mode;     // NaN
     /// double var = levy.Variance;  // +inf
     /// 
@@ -90,6 +90,9 @@ namespace Accord.Statistics.Distributions.Univariate
         private double location = 0;   // location μ
         private double scale = 1;      // scale c
 
+
+        // Derived measures
+        private double? median;
 
         /// <summary>
         ///   Constructs a new <see cref="LevyDistribution"/> 
@@ -174,12 +177,21 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double a = Accord.Math.Special.Ierfc(0.5);
-                double median = scale / 2.0 * (a * a);
+                if (!median.HasValue)
+                {
+                    double a = Normal.Inverse(0.75);
+                    double m = location + scale / (a * a);
 
-                System.Diagnostics.Debug.Assert(median.IsRelativelyEqual(base.Median, 1e-10));
+#if DEBUG
+                    double baseMedian = base.Median;
+                    if (!m.IsRelativelyEqual(baseMedian, 1e-10))
+                        throw new Exception();
+#endif
 
-                return median;
+                    median = m;
+                }
+
+                return median.Value;
             }
         }
 
@@ -290,11 +302,44 @@ namespace Accord.Statistics.Distributions.Univariate
                 return 0;
 
             double z = x - location;
-            double a = Math.Sqrt(scale / (2 * Math.PI));
+            double a = Math.Sqrt(scale / (2.0 * Math.PI));
             double b = Math.Exp(-(scale / (2 * z)));
-            double c = Math.Pow(z, 3 / 2.0);
+            double c = Math.Pow(z, 3.0 / 2.0);
 
             return a * b / c;
+        }
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction" />.
+        /// </returns>
+        /// 
+        /// <remarks>
+        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
+        ///   a given probability, the value which the random variable will be at,
+        ///   or below, with that probability.
+        /// </remarks>
+        /// 
+        public override double InverseDistributionFunction(double p)
+        {
+            double a = Normal.Inverse(1.0 - p / 2.0);
+            double icdf = location + scale / (a * a);
+
+#if DEBUG
+            double baseValue = base.InverseDistributionFunction(p);
+            if (!baseValue.IsRelativelyEqual(icdf, 1e-5))
+                throw new Exception();
+#endif
+
+            return icdf;
         }
 
         /// <summary>

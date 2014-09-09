@@ -162,6 +162,9 @@ namespace Accord.Tests.Math
                 double actual = Special.Ierf(erf);
 
                 Assert.AreEqual(expected, actual, 1e-15);
+
+                Assert.IsFalse(double.IsNaN(expected));
+                Assert.IsFalse(double.IsNaN(actual));
             }
         }
 
@@ -175,6 +178,9 @@ namespace Accord.Tests.Math
                 double actual = Special.Ierfc(erfc);
 
                 Assert.AreEqual(expected, actual, 1e-15);
+
+                Assert.IsFalse(double.IsNaN(expected));
+                Assert.IsFalse(double.IsNaN(actual));
             }
         }
     }
