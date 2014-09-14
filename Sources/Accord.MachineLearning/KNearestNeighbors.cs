@@ -57,7 +57,7 @@ namespace Accord.MachineLearning
         public KNearestNeighbors(int k, double[][] inputs, int[] outputs)
             : base(k, inputs, outputs, Accord.Math.Distance.Euclidean)
         {
-            this.tree = KDTree.FromData(inputs, outputs);
+            this.tree = KDTree.FromData(inputs, outputs, Accord.Math.Distance.Euclidean);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Accord.MachineLearning
         public KNearestNeighbors(int k, int classes, double[][] inputs, int[] outputs)
             : base(k, classes, inputs, outputs, Accord.Math.Distance.Euclidean)
         {
-            this.tree = KDTree.FromData(inputs, outputs);
+            this.tree = KDTree.FromData(inputs, outputs, Accord.Math.Distance.Euclidean);
         }
 
         /// <summary>
@@ -92,6 +92,16 @@ namespace Accord.MachineLearning
             this.tree = KDTree.FromData(inputs, outputs, distance);
         }
 
+
+        private KNearestNeighbors(KDTree<int> tree, int k, int classes, 
+            double[][] inputs, int[] outputs, Func<double[], double[], double> distance)
+            : base(k, classes, inputs, outputs, distance)
+        {
+            this.tree = tree;
+        }
+
+
+
         /// <summary>
         ///   Computes the most likely label of a new given point.
         /// </summary>
@@ -107,7 +117,7 @@ namespace Accord.MachineLearning
 
             scores = new double[ClassCount];
 
-            foreach (var point in neighbors)
+            foreach (KDTreeNodeDistance<int> point in neighbors)
             {
                 int label = point.Node.Value;
                 double d = point.Distance;
@@ -122,7 +132,26 @@ namespace Accord.MachineLearning
             return result;
         }
 
+        /// <summary>
+        ///   Creates a new <see cref="KNearestNeighbors"/> algorithm from an existing
+        ///   <see cref="KDTree{T}"/>. The tree must have been created using the input
+        ///   points and the point's class labels as the associated node information.
+        /// </summary>
+        /// 
+        /// <param name="tree">The <see cref="KDTree{T}"/> containing the input points and their integer labels.</param>
+        /// <param name="k">The number of nearest neighbors to be used in the decision.</param>
+        /// <param name="classes">The number of classes in the classification problem.</param>
+        /// <param name="inputs">The input data points.</param>
+        /// <param name="outputs">The associated labels for the input points.</param>
+        /// 
+        /// <returns>A <see cref="KNearestNeighbors"/> algorithm initialized from the tree.</returns>
+        /// 
+        public static KNearestNeighbors FromTree(KDTree<int> tree, int k, int classes, double[][] inputs, int[] outputs)
+        {
+            var knn = new KNearestNeighbors(tree, k, classes, inputs, outputs, tree.Distance);
+
+            return knn;
+        }
 
     }
-
 }
