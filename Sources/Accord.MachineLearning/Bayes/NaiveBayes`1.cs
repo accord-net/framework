@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Naïve Bayes Classifier for arbitrary distributions.
@@ -460,7 +461,7 @@ namespace Accord.MachineLearning.Bayes
                 throw new DimensionMismatchException("outputs");
 
             // For each class
-            for (int i = 0; i < priors.Length; i++)
+            Parallel.For(0, priors.Length, i =>
             {
                 // Estimate conditional distributions
 
@@ -472,9 +473,11 @@ namespace Accord.MachineLearning.Bayes
                     priors[i] = (double)idx.Length / inputs.Length;
 
                 // For each variable (col)
-                for (int j = 0; j < inputCount; j++)
+                Parallel.For(0, inputCount, j =>
+                {
                     probabilities[i, j].Fit(values[j], options);
-            }
+                });
+            });
 
             // Compute learning error
             return Error(inputs, outputs);

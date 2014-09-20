@@ -28,6 +28,7 @@ namespace Accord.MachineLearning.Bayes
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Univariate;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Naïve Bayes Classifier.
@@ -306,13 +307,20 @@ namespace Accord.MachineLearning.Bayes
         public double Estimate(int[][] inputs, int[] outputs,
             bool empirical = true, double regularization = 1e-5)
         {
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
-            if (inputs.Length == 0) throw new ArgumentException("The array has zero length.", "inputs");
-            if (outputs.Length != inputs.Length) throw new DimensionMismatchException("outputs");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null) 
+                throw new ArgumentNullException("outputs");
+
+            if (inputs.Length == 0)
+                throw new ArgumentException("The array has zero length.", "inputs");
+
+            if (outputs.Length != inputs.Length)
+                throw new DimensionMismatchException("outputs");
 
             // For each class
-            for (int i = 0; i < classCount; i++)
+            Parallel.For(0, classCount, i =>
             {
                 // Estimate conditional distributions
 
@@ -324,9 +332,8 @@ namespace Accord.MachineLearning.Bayes
                     priors[i] = (double)idx.Length / inputs.Length;
 
 
-
                 // For each variable (col)
-                for (int j = 0; j < symbols.Length; j++)
+                Parallel.For(0, symbols.Length, j =>
                 {
                     // Count value occurrences and store
                     // frequencies to form probabilities
@@ -351,8 +358,8 @@ namespace Accord.MachineLearning.Bayes
 
                         probabilities[i, j][k] = num / den;
                     }
-                }
-            }
+                });
+            });
 
             // Compute learning error
             int miss = 0;
