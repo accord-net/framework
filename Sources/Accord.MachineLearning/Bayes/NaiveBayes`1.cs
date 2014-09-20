@@ -45,6 +45,12 @@ namespace Accord.MachineLearning.Bayes
     ///   classifiers have worked quite well in many complex real-world situations.</para>
     ///   
     /// <para>
+    ///   This class implements an arbitrary-distribution (real-valued) Naive-Bayes classifier. There is 
+    ///   also a special <see cref="NaiveBayes.Normal(int, int)">named constructor to create classifiers 
+    ///   assuming normal distributions for each variable</see>. For a discrete (integer-valued) distribution 
+    ///   classifier, please see <see cref="NaiveBayes"/>. </para>
+    ///   
+    /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
@@ -171,19 +177,20 @@ namespace Accord.MachineLearning.Bayes
         private int inputCount;
 
         #region Constructors
+
         /// <summary>
         ///   Constructs a new Naïve Bayes Classifier.
         /// </summary>
         /// 
         /// <param name="classes">The number of output classes.</param>
         /// <param name="inputs">The number of input variables.</param>
-        /// <param name="prior">
-        ///   A value probability prior to be used in the estimation
-        ///   of each class-variable relationship. This value will be
-        ///   replicated for each entry in the <see cref="Distributions"/>
-        ///   property.</param>
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. This distribution will
+        ///   be cloned and made available in the <see cref="Distributions"/> property.
+        /// </param>
         /// 
-        public NaiveBayes(int classes, int inputs, TDistribution prior)
+        public NaiveBayes(int classes, int inputs, TDistribution initial)
         {
             if (classes <= 0) 
                 throw new ArgumentOutOfRangeException("classes");
@@ -191,13 +198,13 @@ namespace Accord.MachineLearning.Bayes
             if (inputs <= 0)
                 throw new ArgumentOutOfRangeException("inputs");
 
-            if (prior == null)
-                throw new ArgumentNullException("prior");
+            if (initial == null)
+                throw new ArgumentNullException("initial");
 
             TDistribution[,] priors = new TDistribution[classes, inputs];
             for (int i = 0; i < classes; i++)
                 for (int j = 0; j < inputs; j++)
-                    priors[i, j] = (TDistribution)prior.Clone();
+                    priors[i, j] = (TDistribution)initial.Clone();
 
             initialize(priors, null);
         }
@@ -208,14 +215,14 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="classes">The number of output classes.</param>
         /// <param name="inputs">The number of input variables.</param>
-        /// <param name="prior">
-        ///   A value probability prior to be used in the estimation
-        ///   of each class-variable relationship. This value will be
-        ///   replicated for each entry in the <see cref="Distributions"/>
-        ///   property.</param>
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. This distribution will
+        ///   be cloned and made available in the <see cref="Distributions"/> property.
+        /// </param>
         /// <param name="classPriors">The prior probabilities for each output class.</param>
         /// 
-        public NaiveBayes(int classes, int inputs, TDistribution prior, double[] classPriors)
+        public NaiveBayes(int classes, int inputs, TDistribution initial, double[] classPriors)
         {
             if (classes <= 0) 
                 throw new ArgumentOutOfRangeException("classes");
@@ -226,13 +233,16 @@ namespace Accord.MachineLearning.Bayes
             if (classPriors == null) 
                 throw new ArgumentNullException("classPriors");
 
+            if (initial == null)
+                throw new ArgumentNullException("initial");
+
             if (classPriors.Length != classes) 
                 throw new DimensionMismatchException("classPriors");
 
             TDistribution[,] priors = new TDistribution[classPriors.Length, inputs];
             for (int i = 0; i < classPriors.Length; i++)
                 for (int j = 0; j < inputs; j++)
-                    priors[i, j] = (TDistribution)prior.Clone();
+                    priors[i, j] = (TDistribution)initial.Clone();
 
             initialize(priors, classPriors);
         }
@@ -243,13 +253,13 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="classes">The number of output classes.</param>
         /// <param name="inputs">The number of input variables.</param>
-        /// <param name="inputPriors">
-        ///   A value probability prior for each input variable, to be used
-        ///   in the estimation of each class-variable relationship. This value
-        ///   will be replicated for each class in the <see cref="Distributions"/>
-        ///   property.</param>
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. Those distributions
+        ///   will made available in the <see cref="Distributions"/> property.
+        /// </param>
         /// 
-        public NaiveBayes(int classes, int inputs, TDistribution[] inputPriors)
+        public NaiveBayes(int classes, int inputs, TDistribution[] initial)
         {
             if (classes <= 0) 
                 throw new ArgumentOutOfRangeException("classes");
@@ -257,16 +267,16 @@ namespace Accord.MachineLearning.Bayes
             if (inputs <= 0) 
                 throw new ArgumentOutOfRangeException("inputs");
 
-            if (inputPriors == null) 
-                throw new ArgumentNullException("inputPriors");
+            if (initial == null)
+                throw new ArgumentNullException("initial");
 
-            if (inputPriors.Length != inputs) 
-                throw new DimensionMismatchException("inputPriors");
+            if (initial.Length != inputs)
+                throw new DimensionMismatchException("initial");
 
-            TDistribution[,] priors = new TDistribution[classes, inputPriors.Length];
+            TDistribution[,] priors = new TDistribution[classes, initial.Length];
             for (int i = 0; i < classes; i++)
-                for (int j = 0; j < inputPriors.Length; j++)
-                    priors[i, j] = (TDistribution)inputPriors[j].Clone();
+                for (int j = 0; j < initial.Length; j++)
+                    priors[i, j] = (TDistribution)initial[j].Clone();
 
             initialize(priors, null);
         }
@@ -277,22 +287,24 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="classes">The number of output classes.</param>
         /// <param name="inputs">The number of input variables.</param>
-        /// <param name="priors">
-        ///   A value probability prior for each class and input variables, to
-        ///   be used in the estimation of each class-variable relationship.</param>
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. Those distributions
+        ///   will made available in the <see cref="Distributions"/> property.
+        /// </param>
         /// 
-        public NaiveBayes(int classes, int inputs, TDistribution[,] priors)
+        public NaiveBayes(int classes, int inputs, TDistribution[,] initial)
         {
             if (classes <= 0) throw new ArgumentOutOfRangeException("classes");
             if (inputs <= 0) throw new ArgumentOutOfRangeException("inputs");
 
-            if (priors.GetLength(0) != classes)
-                throw new DimensionMismatchException("priors");
+            if (initial.GetLength(0) != classes)
+                throw new DimensionMismatchException("initial");
 
-            if (priors.GetLength(1) != inputs)
-                throw new DimensionMismatchException("priors");
+            if (initial.GetLength(1) != inputs)
+                throw new DimensionMismatchException("initial");
 
-            initialize(priors, null);
+            initialize(initial, null);
         }
 
         /// <summary>
@@ -301,33 +313,77 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="classes">The number of output classes.</param>
         /// <param name="inputs">The number of input variables.</param>
-        /// <param name="priors">
-        ///   A value probability prior for each class and input variables, to
-        ///   be used in the estimation of each class-variable relationship.</param>
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. Those distributions
+        ///   will made available in the <see cref="Distributions"/> property.
+        /// </param>
         /// <param name="classPriors">The prior probabilities for each output class.</param>
         /// 
-        public NaiveBayes(int classes, int inputs, TDistribution[,] priors, double[] classPriors)
+        public NaiveBayes(int classes, int inputs, TDistribution[,] initial, double[] classPriors)
         {
-            if (classes <= 0) throw new ArgumentOutOfRangeException("classes");
-            if (priors == null) throw new ArgumentNullException("priors");
-            if (priors.GetLength(0) != classes) throw new DimensionMismatchException("priors");
-            if (classPriors.Length != classes) throw new DimensionMismatchException("classPriors");
+            if (classes <= 0) 
+                throw new ArgumentOutOfRangeException("classes");
 
-            if (priors.GetLength(0) != classes)
-                throw new DimensionMismatchException("priors");
+            if (initial == null) 
+                throw new ArgumentNullException("initial");
 
-            if (priors.GetLength(1) != inputs)
-                throw new DimensionMismatchException("priors");
+            if (classPriors.Length != classes) 
+                throw new DimensionMismatchException("classPriors");
+
+            if (initial.GetLength(0) != classes)
+                throw new DimensionMismatchException("initial");
+
+            if (initial.GetLength(1) != inputs)
+                throw new DimensionMismatchException("initial");
+
+            initialize(initial, classPriors);
+        }
+
+        /// <summary>
+        ///   Constructs a new Naïve Bayes Classifier.
+        /// </summary>
+        /// 
+        /// <param name="classes">The number of output classes.</param>
+        /// <param name="inputs">The number of input variables.</param>
+        /// <param name="initial">
+        ///   An initial distribution to be used to initialized all independent
+        ///   distribution components of this Naive Bayes. Those distributions
+        ///   will made available in the <see cref="Distributions"/> property.
+        /// </param>
+        /// <param name="classPriors">The prior probabilities for each output class.</param>
+        /// 
+        public NaiveBayes(int classes, int inputs, TDistribution[] initial, double[] classPriors)
+        {
+            if (classes <= 0)
+                throw new ArgumentOutOfRangeException("classes");
+
+            if (inputs <= 0)
+                throw new ArgumentOutOfRangeException("inputs");
+
+            if (initial == null)
+                throw new ArgumentNullException("initial");
+
+            if (initial.Length != inputs)
+                throw new DimensionMismatchException("initial");
+
+            if (classPriors.Length != classes)
+                throw new DimensionMismatchException("classPriors");
+
+            TDistribution[,] priors = new TDistribution[classes, initial.Length];
+            for (int i = 0; i < classes; i++)
+                for (int j = 0; j < initial.Length; j++)
+                    priors[i, j] = (TDistribution)initial[j].Clone();
 
             initialize(priors, classPriors);
         }
 
-        private void initialize(TDistribution[,] parameterPriors, double[] classPriors)
+        private void initialize(TDistribution[,] initial, double[] classPriors)
         {
-            this.classCount = parameterPriors.GetLength(0);
-            this.inputCount = parameterPriors.GetLength(1);
+            this.classCount = initial.GetLength(0);
+            this.inputCount = initial.GetLength(1);
             this.priors = classPriors;
-            this.probabilities = parameterPriors;
+            this.probabilities = initial;
 
             if (priors == null)
             {
@@ -391,13 +447,20 @@ namespace Accord.MachineLearning.Bayes
         public double Estimate(double[][] inputs, int[] outputs,
             bool empirical = true, IFittingOptions options = null)
         {
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
-            if (inputs.Length == 0) throw new ArgumentException("The array has zero length.", "inputs");
-            if (outputs.Length != inputs.Length) throw new DimensionMismatchException("outputs");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null) 
+                throw new ArgumentNullException("outputs");
+
+            if (inputs.Length == 0)
+                throw new ArgumentException("The array has zero length.", "inputs");
+
+            if (outputs.Length != inputs.Length) 
+                throw new DimensionMismatchException("outputs");
 
             // For each class
-            for (int i = 0; i < classCount; i++)
+            for (int i = 0; i < priors.Length; i++)
             {
                 // Estimate conditional distributions
 
