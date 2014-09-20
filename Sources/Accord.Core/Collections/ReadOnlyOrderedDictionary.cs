@@ -42,11 +42,10 @@ namespace Accord.Collections
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     /// 
     [Serializable]
-    public abstract class ReadOnlyKeyedCollection<TKey, TValue> :
+    public abstract class ReadOnlyKeyedCollection<TKey, TValue> : ReadOnlyCollection<TValue>,
         IReadOnlyCollection<TValue>, IDictionary<TKey, TValue>, IList<TValue>
     {
 
-        List<TValue> list;
         Dictionary<TKey, TValue> dictionary;
 
 
@@ -55,27 +54,12 @@ namespace Accord.Collections
         ///   <see cref="ReadOnlyKeyedCollection&lt;TKey, TValue&gt;"/> class.
         /// </summary>
         /// 
-        protected ReadOnlyKeyedCollection()
+        protected ReadOnlyKeyedCollection(TValue[] components)
+            : base(components)
         {
-            list = new List<TValue>();
             dictionary = new Dictionary<TKey, TValue>();
-        }
-
-        /// <summary>
-        ///   Adds the elements of the specified collection to the end of this collection.
-        /// </summary>
-        /// 
-        /// <param name="collection">
-        ///   The collection whose elements should be added to the end of this list. 
-        ///   The collection itself cannot be null, but it can contain elements that 
-        ///   are null, if type T is a reference type.
-        /// </param>
-        /// 
-        protected void AddRange(IList<TValue> collection)
-        {
-            list.AddRange(collection);
-            foreach (var e in collection)
-                dictionary.Add(GetKeyForItem(e), e);
+            foreach (var value in components)
+                dictionary.Add(GetKeyForItem(value), value);
         }
 
         /// <summary>
@@ -88,52 +72,6 @@ namespace Accord.Collections
         /// 
         protected abstract TKey GetKeyForItem(TValue item);
 
-
-        /// <summary>
-        ///   Returns true.
-        /// </summary>
-        /// 
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
-
-        /// <summary>
-        ///   Gets the number of elements in the collection.
-        /// </summary>
-        /// 
-        /// <returns>The number of elements in the collection. </returns>
-        /// 
-        public int Count
-        {
-            get { return list.Count; }
-        }
-
-        /// <summary>
-        ///   Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
-        /// </returns>
-        /// 
-        public IEnumerator<TValue> GetEnumerator()
-        {
-            return list.GetEnumerator();
-        }
-
-        /// <summary>
-        ///   Returns an enumerator that iterates through a collection.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
-        /// </returns>
-        /// 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return list.GetEnumerator();
-        }
 
         /// <summary>
         ///   Returns an enumerator that iterates through the collection.
@@ -219,53 +157,7 @@ namespace Accord.Collections
             }
         }
 
-        /// <summary>
-        ///   Gets or sets the element at the specified index.
-        /// </summary>
-        /// 
-        /// <param name="index">The index.</param>
-        /// 
-        /// <exception cref="System.NotSupportedException">This collection is read-only</exception>
-        /// 
-        public TValue this[int index]
-        {
-            get { return list[index]; }
-            set
-            {
-                throw new NotSupportedException("This collection is read-only");
-            }
-        }
 
-
-        /// <summary>
-        ///   Determines the index of a specific item in the <see cref="T:System.Collections.Generic.IList`1" />.
-        /// </summary>
-        /// 
-        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.IList`1" />.</param>
-        /// 
-        /// <returns>
-        ///   The index of <paramref name="item" /> if found in the list; otherwise, -1.
-        /// </returns>
-        /// 
-        public int IndexOf(TValue item)
-        {
-            return list.IndexOf(item);
-        }
-
-        /// <summary>
-        ///   Determines whether the <see cref="T:System.Collections.Generic.ICollection`1" /> contains a specific value.
-        /// </summary>
-        /// 
-        /// <param name="item">The object to locate in the <see cref="T:System.Collections.Generic.ICollection`1" />.</param>
-        /// 
-        /// <returns>
-        ///   true if <paramref name="item" /> is found in the <see cref="T:System.Collections.Generic.ICollection`1" />; otherwise, false.
-        /// </returns>
-        /// 
-        public bool Contains(TValue item)
-        {
-            return dictionary.ContainsValue(item);
-        }
 
         /// <summary>
         ///   Determines whether the <see cref="T:System.Collections.Generic.ICollection`1" /> contains a specific value.
@@ -290,38 +182,11 @@ namespace Accord.Collections
         /// <param name="array">The one-dimensional Array that is the destination of the elements copied from ICollection. The Array must have zero-based indexing.</param>
         /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
         /// 
-        public void CopyTo(TValue[] array, int arrayIndex)
-        {
-            list.CopyTo(array, arrayIndex);
-        }
-
-        /// <summary>
-        ///   Copies the elements of the ICollection to an Array, starting at a particular Array index.
-        /// </summary>
-        /// 
-        /// <param name="array">The one-dimensional Array that is the destination of the elements copied from ICollection. The Array must have zero-based indexing.</param>
-        /// <param name="arrayIndex">The zero-based index in array at which copying begins.</param>
-        /// 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            foreach (TValue value in list)
-                array[arrayIndex++] = new KeyValuePair<TKey, TValue>(GetKeyForItem(value), value);
+            (dictionary as ICollection<KeyValuePair<TKey, TValue>>).CopyTo(array, arrayIndex);
         }
 
-
-
-
-
-        /// <summary>
-        ///   This method is not supported, as this is a read-only collection.
-        /// </summary>
-        /// 
-        /// <exception cref="System.NotSupportedException">This collection is read-only</exception>
-        /// 
-        public void Clear()
-        {
-            throw new NotSupportedException("This collection is read-only");
-        }
 
         /// <summary>
         ///   This method is not supported, as this is a read-only collection.
@@ -401,26 +266,23 @@ namespace Accord.Collections
         }
 
         /// <summary>
-        ///   This method is not supported, as this is a read-only collection.
+        ///   Not supported.
         /// </summary>
         /// 
         /// <exception cref="System.NotSupportedException">This collection is read-only</exception>
         /// 
-        public void Add(TValue item)
+        public void Clear()
         {
             throw new NotSupportedException("This collection is read-only");
         }
 
         /// <summary>
-        ///   This method is not supported, as this is a read-only collection.
+        ///   Returns true.
         /// </summary>
         /// 
-        /// <exception cref="System.NotSupportedException">This collection is read-only</exception>
-        /// 
-        public bool Remove(TValue item)
+        public bool IsReadOnly
         {
-            throw new NotSupportedException("This collection is read-only");
+            get { return true; }
         }
-
     }
 }

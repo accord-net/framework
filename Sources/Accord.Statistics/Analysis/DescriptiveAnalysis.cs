@@ -1061,8 +1061,8 @@ namespace Accord.Statistics.Analysis
     public class DescriptiveMeasureCollection : ReadOnlyKeyedCollection<string, DescriptiveMeasures>
     {
         internal DescriptiveMeasureCollection(DescriptiveMeasures[] components)
+            : base(components)
         {
-            AddRange(components);
         }
 
         /// <summary>

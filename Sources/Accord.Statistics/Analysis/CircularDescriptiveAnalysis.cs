@@ -1271,8 +1271,8 @@ namespace Accord.Statistics.Analysis
     public class CircularDescriptiveMeasureCollection : ReadOnlyKeyedCollection<string, CircularDescriptiveMeasures>
     {
         internal CircularDescriptiveMeasureCollection(CircularDescriptiveMeasures[] components)
+            : base(components)
         {
-            AddRange(components);
         }
 
         /// <summary>

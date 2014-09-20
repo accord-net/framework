@@ -22,12 +22,13 @@
 
 namespace Accord.Tests.Statistics
 {
+    using System;
     using Accord.Math;
+    using Accord.Statistics;
     using Accord.Statistics.Analysis;
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using Accord.Statistics;
+    using Accord.Controls;
 
     [TestClass()]
     public class CircularDescriptiveAnalysisTest
@@ -363,5 +364,44 @@ namespace Accord.Tests.Statistics
         }
 
 
+        [TestMethod()]
+        public void DataBindTest()
+        {
+            double[,] data =
+            {
+                // hours  minutes
+                {    7,    52 },
+                {    3,    12 },
+                {   23,    12 },
+                {   21,    42 },
+                {    5,    13 },
+                {   15,    16 },
+                {    6,     8 },
+                {    8,    22 },
+            };
+
+            double[] lengths = { 24, 60 };
+
+            var analysis = new CircularDescriptiveAnalysis(data, lengths);
+
+            analysis.Compute();
+
+            var m0 = analysis.Measures[0];
+            var m1 = analysis.Measures[1];
+
+            Assert.AreEqual(0, m0.Index);
+            Assert.AreEqual(1, m1.Index);
+
+            Assert.AreEqual("Column 0", m0.Name);
+            Assert.AreEqual("Column 1", m1.Name);
+
+            Assert.AreEqual(m0, analysis.Measures["Column 0"]);
+            Assert.AreEqual(m1, analysis.Measures["Column 1"]);
+
+            var box = DataGridBox.Show(analysis.Measures);
+
+
+            Assert.AreEqual(23, box.DataGridView.Columns.Count);
+        }
     }
 }

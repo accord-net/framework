@@ -17,3 +17,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "item", Scope = "member", Target = "Accord.Collections.ReadOnlyKeyedCollection`2.#Add(System.Collections.Generic.KeyValuePair`2<!1,!0>)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Scope = "type", Target = "Accord.Collections.ReadOnlyKeyedCollection`2")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Scope = "type", Target = "Accord.Collections.ReadOnlyKeyedCollection`2")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors", Scope = "member", Target = "Accord.Collections.ReadOnlyKeyedCollection`2.#.ctor(!1[])")]

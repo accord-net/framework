@@ -27,6 +27,8 @@ namespace Accord.Tests.Statistics
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Windows.Forms;
+    using Accord.Controls;
 
     [TestClass()]
     public class DescriptiveAnalysisTest
@@ -607,6 +609,45 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(1, quartiles.Length);
             }
 
+        }
+
+
+        [TestMethod()]
+        public void DataBindTest()
+        {
+            double[,] data =
+            {
+                { 1, 52, 5 },
+                { 2, 12, 5 },
+                { 1, 65, 5 },
+                { 1, 25, 5 },
+                { 2, 62, 5 },
+            };
+
+            DescriptiveAnalysis analysis = new DescriptiveAnalysis(data);
+
+            analysis.Compute();
+
+            var m0 = analysis.Measures[0];
+            var m1 = analysis.Measures[1];
+            var m2 = analysis.Measures[2];
+
+            Assert.AreEqual(0, m0.Index);
+            Assert.AreEqual(1, m1.Index);
+            Assert.AreEqual(2, m2.Index);
+
+            Assert.AreEqual("Column 0", m0.Name);
+            Assert.AreEqual("Column 1", m1.Name);
+            Assert.AreEqual("Column 2", m2.Name);
+
+            Assert.AreEqual(m0, analysis.Measures["Column 0"]);
+            Assert.AreEqual(m1, analysis.Measures["Column 1"]);
+            Assert.AreEqual(m2, analysis.Measures["Column 2"]);
+
+            var box = DataGridBox.Show(analysis.Measures);
+
+            
+            Assert.AreEqual(21, box.DataGridView.Columns.Count);
         }
     }
 }
