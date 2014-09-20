@@ -22,17 +22,17 @@
 
 namespace Accord.Tests.Statistics.Models.Fields
 {
+    using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics.Distributions.Multivariate;
+    using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Fields;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
-    using Accord.Math;
-    using System;
     using Accord.Statistics.Models.Markov.Topology;
-    using Accord.Statistics.Distributions.Multivariate;
-    using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics.Distributions.Fitting;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.IO;
+    using System;
 
     [TestClass()]
     public class HiddenConditionalRandomFieldTest
@@ -186,7 +186,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             // Gaussian distribution for each component in our feature
             // vectors (like assuming a Naive Bayes assumption).
 
-            Independent initial = new Independent
+            var initial = new Independent<NormalDistribution>
             (
                 new NormalDistribution(0, 1), 
                 new NormalDistribution(0, 1), 
@@ -200,7 +200,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             int numberOfWords = 3;  // we are trying to distinguish between 3 words
             int numberOfStates = 5; // this value can be found by trial-and-error
 
-            var classifier = new HiddenMarkovClassifier<Independent>
+            var classifier = new HiddenMarkovClassifier<Independent<NormalDistribution>>
             (
                classes: numberOfWords, 
                topology: new Forward(numberOfStates), // word classifiers should use a forward topology
@@ -208,10 +208,10 @@ namespace Accord.Tests.Statistics.Models.Fields
             );
 
             // Create a new learning algorithm to train the sequence classifier
-            var teacher = new HiddenMarkovClassifierLearning<Independent>(classifier,
+            var teacher = new HiddenMarkovClassifierLearning<Independent<NormalDistribution>>(classifier,
 
                 // Train each model until the log-likelihood changes less than 0.001
-                modelIndex => new BaumWelchLearning<Independent>(classifier.Models[modelIndex])
+                modelIndex => new BaumWelchLearning<Independent<NormalDistribution>>(classifier.Models[modelIndex])
                 {
                     Tolerance = 0.001,
                     Iterations = 100,
@@ -233,13 +233,36 @@ namespace Accord.Tests.Statistics.Models.Fields
             // At this point, the classifier should be successfully 
             // able to distinguish between our three word classes:
             //
-            int c1 = classifier.Compute(hello);
-            int c2 = classifier.Compute(car);
-            int c3 = classifier.Compute(wardrobe);
+            int tc1 = classifier.Compute(hello);
+            int tc2 = classifier.Compute(car);
+            int tc3 = classifier.Compute(wardrobe);
 
-            Assert.AreEqual(0, c1);
-            Assert.AreEqual(1, c2);
-            Assert.AreEqual(2, c3);
+            Assert.AreEqual(0, tc1);
+            Assert.AreEqual(1, tc2);
+            Assert.AreEqual(2, tc3);
+
+            var function = new MarkovMultivariateFunction(classifier);
+            var target = new HiddenConditionalRandomField<double[]>(function);
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                int expected = classifier.Compute(words[i]);
+
+                int actual = target.Compute(words[i]);
+
+                double h0 = classifier.LogLikelihood(words[i], 0);
+                double h1 = classifier.LogLikelihood(words[i], 1);
+
+                double c0 = target.LogLikelihood(words[i], 0);
+                double c1 = target.LogLikelihood(words[i], 1);
+
+                Assert.AreEqual(expected, actual);
+                Assert.AreEqual(h0, c0, 1e-10);
+                Assert.AreEqual(h1, c1, 1e-10);
+
+                Assert.IsFalse(double.IsNaN(c0));
+                Assert.IsFalse(double.IsNaN(c1));
+            }
         }
 
 
@@ -280,5 +303,115 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.AreEqual(expected, field.Function.Weights.Length);
             Assert.AreEqual(4173, expected);
         }
+
+        [TestMethod()]
+        public void SaveLoadTest()
+        {
+            double[][] hello =
+            {
+                new double[] { 1.0, 0.1, 0.0, 0.0 }, // let's say the word
+                new double[] { 0.0, 1.0, 0.1, 0.1 }, // hello took 6 frames
+                new double[] { 0.0, 1.0, 0.1, 0.1 }, // to be recorded.
+                new double[] { 0.0, 0.0, 1.0, 0.0 },
+                new double[] { 0.0, 0.0, 1.0, 0.0 },
+                new double[] { 0.0, 0.0, 0.1, 1.1 },
+            };
+
+            double[][] car =
+            {
+                new double[] { 0.0, 0.0, 0.0, 1.0 }, // the car word
+                new double[] { 0.1, 0.0, 1.0, 0.1 }, // took only 4.
+                new double[] { 0.0, 0.0, 0.1, 0.0 },
+                new double[] { 1.0, 0.0, 0.0, 0.0 },
+            };
+
+            double[][] wardrobe =
+            {
+                new double[] { 0.0, 0.0, 1.0, 0.0 }, // same for the
+                new double[] { 0.1, 0.0, 1.0, 0.1 }, // wardrobe word.
+                new double[] { 0.0, 0.1, 1.0, 0.0 },
+                new double[] { 0.1, 0.0, 1.0, 0.1 },
+            };
+
+            double[][][] words = { hello, car, wardrobe };
+
+            int[] labels = { 0, 1, 2 };
+
+            var initial = new Independent
+            (
+                new NormalDistribution(0, 1),
+                new NormalDistribution(0, 1),
+                new NormalDistribution(0, 1),
+                new NormalDistribution(0, 1)
+            );
+
+            int numberOfWords = 3;
+            int numberOfStates = 5;
+
+            var classifier = new HiddenMarkovClassifier<Independent>
+            (
+               classes: numberOfWords,
+               topology: new Forward(numberOfStates),
+               initial: initial
+            );
+
+            var teacher = new HiddenMarkovClassifierLearning<Independent>(classifier,
+                modelIndex => new BaumWelchLearning<Independent>(classifier.Models[modelIndex])
+                {
+                    Tolerance = 0.001,
+                    Iterations = 100,
+                    FittingOptions = new IndependentOptions()
+                    {
+                        InnerOption = new NormalOptions() { Regularization = 1e-5 }
+                    }
+                }
+            );
+
+            double logLikelihood = teacher.Run(words, labels);
+
+            var function = new MarkovMultivariateFunction(classifier);
+            var hcrf = new HiddenConditionalRandomField<double[]>(function);
+
+
+            MemoryStream stream = new MemoryStream();
+
+            hcrf.Save(stream);
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            var target = HiddenConditionalRandomField<double[]>.Load(stream);
+
+            Assert.AreEqual(hcrf.Function.Factors.Length, target.Function.Factors.Length);
+            for (int i = 0; i < hcrf.Function.Factors.Length; i++)
+            {
+                var e = hcrf.Function.Factors[i];
+                var a = target.Function.Factors[i];
+                Assert.AreEqual(e.Index, target.Function.Factors[i].Index);
+                Assert.AreEqual(e.States, target.Function.Factors[i].States);
+
+                Assert.AreEqual(e.EdgeParameters.Count, a.EdgeParameters.Count);
+                Assert.AreEqual(e.EdgeParameters.Offset, a.EdgeParameters.Offset);
+                Assert.AreEqual(e.FactorParameters.Count, a.FactorParameters.Count);
+                Assert.AreEqual(e.FactorParameters.Offset, a.FactorParameters.Offset);
+
+                Assert.AreEqual(e.OutputParameters.Count, a.OutputParameters.Count);
+                Assert.AreEqual(e.OutputParameters.Offset, a.OutputParameters.Offset);
+                Assert.AreEqual(e.StateParameters.Count, a.StateParameters.Count);
+                Assert.AreEqual(e.StateParameters.Offset, a.StateParameters.Offset);
+
+                Assert.AreEqual(target.Function, a.Owner);
+                Assert.AreEqual(hcrf.Function, e.Owner);    
+            }
+            
+            Assert.AreEqual(hcrf.Function.Features.Length, target.Function.Features.Length);
+            for (int i = 0; i < hcrf.Function.Factors.Length; i++)
+                Assert.AreEqual(hcrf.Function.Features[i].GetType(), target.Function.Features[i].GetType());
+
+            Assert.AreEqual(hcrf.Function.Outputs, target.Function.Outputs);
+
+            for (int i = 0; i < hcrf.Function.Weights.Length; i++)
+                Assert.AreEqual(hcrf.Function.Weights[i], target.Function.Weights[i]);    
+        }
+
     }
 }

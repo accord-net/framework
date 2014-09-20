@@ -29,10 +29,6 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Markov.Learning;
     using System;
 
-    /// <summary>
-    ///This is a test class for HiddenMarkovModelPotentialFunctionTest and is intended
-    ///to contain all HiddenMarkovModelPotentialFunctionTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class HiddenMarkovClassifierPotentialFunctionTest
     {
@@ -40,10 +36,6 @@ namespace Accord.Tests.Statistics.Models.Fields
 
         private TestContext testContextInstance;
 
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
         public TestContext TestContext
         {
             get
