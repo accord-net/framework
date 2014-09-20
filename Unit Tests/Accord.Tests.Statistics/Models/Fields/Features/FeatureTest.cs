@@ -99,7 +99,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ComputeTest2()
         {
-            var hmm = NormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = MarkovContinuousFunctionTest.CreateModel1();
 
             IPotentialFunction<double> owner = new MarkovContinuousFunction(hmm);
 
@@ -146,7 +146,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ComputeTest3()
         {
-            var hmm = MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = MarkovMultivariateFunctionTest.CreateModel1();
 
             var owner = new MarkovMultivariateFunction(hmm);
 

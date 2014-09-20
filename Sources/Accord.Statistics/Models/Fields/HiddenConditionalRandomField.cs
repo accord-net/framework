@@ -367,7 +367,7 @@ namespace Accord.Statistics.Models.Fields
             double[] logLikelihoods = new double[Outputs];
 
 
-#if SERIAL  // For all possible outputs for the model,
+#if SERIAL || DEBUG  // For all possible outputs for the model,
 
             for (int y = 0; y < logLikelihoods.Length; y++)
 #else
@@ -385,7 +385,7 @@ namespace Accord.Statistics.Models.Fields
 
                 System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
             }
-#if !SERIAL
+#if !(SERIAL || DEBUG)
 );
 #endif
 

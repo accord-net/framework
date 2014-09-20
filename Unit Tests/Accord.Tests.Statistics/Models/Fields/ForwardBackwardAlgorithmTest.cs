@@ -30,6 +30,9 @@ namespace Accord.Tests.Statistics.Models.Fields
     using System;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Models.Markov.Topology;
+    using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Models.Markov.Learning;
+    using Accord.Statistics.Distributions.Fitting;
 
     [TestClass()]
     public class ForwardBackwardAlgorithmTest
@@ -562,14 +565,14 @@ namespace Accord.Tests.Statistics.Models.Fields
         public void ForwardTest4()
         {
             var hmmc = Accord.Tests.Statistics.Models.Fields.
-                MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel3();
+                MarkovMultivariateFunctionTest.CreateModel3();
 
             var hmm = hmmc[0];
 
             var function = new MarkovMultivariateFunction(hmm);
 
             var observations = Accord.Tests.Statistics.Models.Fields.
-                MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest.inputTest[3];
+                MarkovMultivariateFunctionTest.inputTest[3];
 
             double expectedLogLikelihood;
             double[,] expected = Accord.Statistics.Models.Markov
@@ -592,7 +595,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         public void LogForwardTest4()
         {
             var hmmc = Accord.Tests.Statistics.Models.Fields.
-                MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel3();
+                MarkovMultivariateFunctionTest.CreateModel3();
 
             for (int c = 0; c < hmmc.Classes; c++)
             {
@@ -601,7 +604,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                 var function = new MarkovMultivariateFunction(hmm);
 
                 var sequences = Accord.Tests.Statistics.Models.Fields.
-                    MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest.inputTest;
+                    MarkovMultivariateFunctionTest.inputTest;
 
                 for (int i = 0; i < sequences.Length; i++)
                 {
@@ -647,7 +650,6 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.AreEqual(-5.5614629361549142, fwdLogLikelihood, 1e-10);
             Assert.IsFalse(double.IsNaN(fwdLogLikelihood));
         }
-
 
     }
 }

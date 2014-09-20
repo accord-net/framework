@@ -238,7 +238,10 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void GradientTest4()
         {
-            var hmm = IndependentMarkovClassifierPotentialFunctionTest.CreateModel2();
+            double[][][] observations;
+            int[] labels;
+            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel2(out observations, out labels);
+
             var function = new MarkovMultivariateFunction(hmm);
 
             var model = new HiddenConditionalRandomField<double[]>(function);
@@ -248,13 +251,11 @@ namespace Accord.Tests.Statistics.Models.Fields
             FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
 
             diff.Function = parameters => func(model, parameters,
-                IndependentMarkovClassifierPotentialFunctionTest.sequences,
-                IndependentMarkovClassifierPotentialFunctionTest.labels);
+                observations,
+                labels);
 
             double[] expected = diff.Compute(function.Weights);
-            double[] actual = target.Gradient(function.Weights,
-                IndependentMarkovClassifierPotentialFunctionTest.sequences,
-                IndependentMarkovClassifierPotentialFunctionTest.labels);
+            double[] actual = target.Gradient(function.Weights, observations, labels);
 
 
             for (int i = 0; i < actual.Length; i++)

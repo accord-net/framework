@@ -29,9 +29,10 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Statistics.Models.Fields.Functions.Specialized;
 
     [TestClass()]
-    public class NormalHiddenMarkovClassifierPotentialFunctionTest
+    public class MarkovContinuousFunctionTest
     {
 
 
@@ -143,6 +144,8 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             double[] x = { 0, 1 };
 
+            Check(model, target, x);
+
             for (int c = 0; c < model.Classes; c++)
             {
                 for (int i = 0; i < model[c].States; i++)
@@ -169,7 +172,96 @@ namespace Accord.Tests.Statistics.Models.Fields
                     }
                 }
             }
+        }
 
+        [TestMethod()]
+        public void ComputeDeoptimizedTest()
+        {
+            var model = CreateModel1();
+
+            var target = new MarkovContinuousFunction(model);
+
+#pragma warning disable 0618
+            target.Deoptimize();
+#pragma warning restore 0618
+
+            double actual;
+            double expected;
+
+            double[] x = { 0, 1 };
+
+            Check(model, target, x);
+
+            for (int c = 0; c < model.Classes; c++)
+            {
+                for (int i = 0; i < model[c].States; i++)
+                {
+                    // Check initial state transitions
+                    expected = model.Priors[c] * Math.Exp(model[c].Probabilities[i]) * model[c].Emissions[i].ProbabilityDensityFunction(x[0]);
+                    actual = Math.Exp(target.Factors[c].Compute(-1, i, x, 0, c));
+                    Assert.AreEqual(expected, actual, 1e-6);
+                    Assert.IsFalse(double.IsNaN(actual));
+                }
+
+                for (int t = 1; t < x.Length; t++)
+                {
+                    // Check normal state transitions
+                    for (int i = 0; i < model[c].States; i++)
+                    {
+                        for (int j = 0; j < model[c].States; j++)
+                        {
+                            expected = model.Priors[c] * Math.Exp(model[c].Transitions[i, j]) * model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                            actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
+                            Assert.AreEqual(expected, actual, 1e-6);
+                            Assert.IsFalse(double.IsNaN(actual));
+                        }
+                    }
+                }
+            }
+        }
+
+
+        public static void Check(HiddenMarkovClassifier<NormalDistribution> model,
+           MarkovContinuousFunction target, double[] x)
+        {
+            for (int c = 0; c < model.Classes; c++)
+            {
+                var hmm = model[c];
+                var factor = target.Factors[c] as MarkovNormalFactor;
+
+                var pi = factor.Probabilities;
+                var A = factor.Transitions;
+
+                int s = hmm.States;
+
+                for (int i = 0; i < s; i++)
+                {
+                    double a = pi[i];
+                    double e = hmm.Probabilities[i];
+                    Assert.AreEqual(a, e);
+                }
+
+                for (int i = 0; i < s; i++)
+                {
+                    for (int j = 0; j < s; j++)
+                    {
+                        double a = A[i, j];
+                        double e = hmm.Transitions[i, j];
+                        Assert.AreEqual(a, e);
+                    }
+                }
+
+
+                foreach (var obs in x)
+                {
+                    for (int i = 0; i < s; i++)
+                    {
+                        double a = hmm.Emissions[i].LogProbabilityDensityFunction(obs);
+                        double e = factor.Emissions(i, obs);
+                        Assert.AreEqual(a, e, 1e-5);
+                    }
+                }
+            }
         }
     }
 }

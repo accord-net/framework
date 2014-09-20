@@ -51,7 +51,9 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
         ///  
         public MarkovNormalFactor(IPotentialFunction<double> owner, int states, int factorIndex,
             int edgeIndex, int edgeCount, int stateIndex, int stateCount, int classIndex = 0, int classCount = 0)
-            : base(owner, states, factorIndex, edgeIndex, edgeCount, stateIndex, stateCount, classIndex, classCount) { }
+            : base(owner, states, factorIndex, edgeIndex, edgeCount, stateIndex, stateCount, classIndex, classCount) 
+        {
+        }
 
 
         /// <summary>
@@ -76,43 +78,6 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
             double sum = 0;
 
 
-            if (OutputParameters.Count != 0)
-            {
-                int cindex = OutputParameters.Offset;
-                double w = parameters[cindex];
-                if (Double.IsNaN(w) || Double.IsNegativeInfinity(w))
-                    return w = parameters[cindex] = Double.NegativeInfinity;
-                sum += w;
-            }
-
-
-            int bindex = StateParameters.Offset + currentState * 3;
-
-            // For each of the three possible features:
-            // Occupancy, first moment and second moment
-            for (int i = 0; i < 3; i++)
-            {
-                double w = parameters[bindex];
-
-                if (Double.IsNaN(w))
-                    w = parameters[bindex] = Double.NegativeInfinity;
-
-                if (w != 0)
-                {
-                    double f = features[bindex].Compute(previousState, currentState, observations, index, outputClass);
-
-                    if (f != 0)
-                    {
-                        sum += w * f;
-
-                        if (Double.IsNegativeInfinity(sum))
-                            return Double.NegativeInfinity;
-                    }
-                }
-
-                bindex++;
-            }
-
             if (previousState == -1)
             {
                 int pindex = EdgeParameters.Offset + currentState;
@@ -130,9 +95,129 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
                 sum += a;
             }
 
+            if (OutputParameters.Count != 0)
+            {
+                int cindex = OutputParameters.Offset;
+                double w = parameters[cindex];
+                if (Double.IsNaN(w) || Double.IsNegativeInfinity(w))
+                    return w = parameters[cindex] = Double.NegativeInfinity;
+                sum += w;
+            }
+
+
+            int bindex = StateParameters.Offset + currentState * 3;
+
+            // State occupancy feature
+            double b = parameters[bindex];
+            if (Double.IsNaN(b) || Double.IsNegativeInfinity(b))
+                return parameters[bindex] = Double.NegativeInfinity;
+
+            sum += b;
+
+            int m1index = ++bindex;
+            int m2index = ++bindex;
+
+            double u = observations[index];
+
+            if (u != 0)
+            {
+                // First moment feature
+                double m1 = parameters[m1index];
+                if (Double.IsNaN(m1) || Double.IsNegativeInfinity(m1))
+                    return parameters[m1index] = Double.NegativeInfinity;
+                sum += m1 * u;
+
+                // Second moment feature
+                double m2 = parameters[m2index];
+                if (Double.IsNaN(m2) || Double.IsNegativeInfinity(m2))
+                    return parameters[m2index] = Double.NegativeInfinity;
+                sum += m2 * u * u;
+            }
+
             return sum;
         }
 
+        public double Prior
+        {
+            get
+            {
+                if (OutputParameters.Count != 0)
+                    return Owner.Weights[OutputParameters.Offset];
 
+                return 1.0 / this.Owner.Factors.Length;
+            }
+        }
+
+        public double[] Probabilities
+        {
+            get
+            {
+                double[] pi = new double[States];
+                for (int i = 0; i < pi.Length; i++)
+                {
+                    int index = EdgeParameters.Offset + i;
+                    pi[i] = Owner.Weights[index];
+                }
+
+                return pi;
+            }
+        }
+
+        public double[,] Transitions
+        {
+            get
+            {
+                double[,] A = new double[States, States];
+
+                for (int i = 0; i < States; i++)
+                {
+                    for (int j = 0; j < States; j++)
+                    {
+                        int index = EdgeParameters.Offset + States + i * States + j;
+                        A[i, j] = Owner.Weights[index];
+                    }
+                }
+
+                return A;
+            }
+        }
+
+        public double Emissions(int i, double observation)
+        {
+            var parameters = Owner.Weights;
+
+            int index = StateParameters.Offset + i * 3;
+
+            double sum = 0;
+            double u = observation;
+
+            // State occupancy feature
+            double b = parameters[index];
+            if (Double.IsNaN(b) || Double.IsNegativeInfinity(b))
+                return parameters[index] = Double.NegativeInfinity;
+
+            sum += b;
+
+            int m1index = ++index;
+            int m2index = ++index;
+
+            if (u != 0)
+            {
+                // First moment feature
+                double m1 = parameters[m1index];
+                if (Double.IsNaN(m1) || Double.IsNegativeInfinity(m1))
+                    return parameters[m1index] = Double.NegativeInfinity;
+                sum += m1 * u;
+
+                // Second moment feature
+                double m2 = parameters[m2index];
+                if (Double.IsNaN(m2) || Double.IsNegativeInfinity(m2))
+                    return parameters[m2index] = Double.NegativeInfinity;
+                sum += m2 * u * u;
+            }
+
+
+            return sum;
+        }
     }
 }

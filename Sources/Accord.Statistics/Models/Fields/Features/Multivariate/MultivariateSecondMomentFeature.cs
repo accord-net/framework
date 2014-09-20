@@ -71,7 +71,10 @@ namespace Accord.Statistics.Models.Fields.Features
             if (currentState == this.state)
             {
                 if (observationIndex >= 0 && observationIndex < observations.Length)
-                    return observations[observationIndex][dimension] * observations[observationIndex][dimension];
+                {
+                    double x = observations[observationIndex][dimension];
+                    return x * x;
+                }
             }
 
             return 0.0;

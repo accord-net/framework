@@ -580,6 +580,22 @@ namespace Accord.Statistics.Models.Markov
             return lnFwd;
         }
 
+         /// <summary>
+        ///   Computes Forward probabilities for a given hidden Markov model and a set of observations.
+        /// </summary>
+        public static double[,] LogForward<TDistribution>(HiddenMarkovModel<TDistribution> model, double[][] observations)
+                       where TDistribution : IDistribution
+        {
+            int T = observations.Length;
+            int states = model.States;
+
+            double[,] lnFwd = new double[T, states];
+
+            ForwardBackwardAlgorithm.LogForward<TDistribution>(model, observations, lnFwd);
+
+            return lnFwd;
+        }
+
         /// <summary>
         ///   Computes Backward probabilities for a given hidden Markov model and a set of observations.
         /// </summary>
@@ -724,5 +740,6 @@ namespace Accord.Statistics.Models.Markov
 
             return lnBwd;
         }
+
     }
 }

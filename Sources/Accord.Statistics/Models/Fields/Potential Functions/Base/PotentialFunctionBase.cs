@@ -81,5 +81,18 @@ namespace Accord.Statistics.Models.Fields.Functions
             return featureVector;
         }
 
+
+
+        internal void Deoptimize()
+        {
+            for (int i = 0; i < Factors.Length; i++)
+            {
+                var factor = Factors[i];
+                Factors[i] = new FactorPotential<T>(factor.Owner, factor.States, factor.Index,
+                    factor.EdgeParameters.Offset, factor.EdgeParameters.Count,
+                    factor.StateParameters.Offset, factor.StateParameters.Count,
+                    factor.OutputParameters.Offset, factor.OutputParameters.Count);
+            }
+        }
     }
 }

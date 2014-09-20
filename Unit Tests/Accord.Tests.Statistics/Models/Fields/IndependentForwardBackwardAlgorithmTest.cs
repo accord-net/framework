@@ -55,12 +55,13 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ForwardTest()
         {
-            HiddenMarkovClassifier<Independent> hmm = IndependentMarkovClassifierPotentialFunctionTest
-                .CreateModel2();
+            double[][][] observations;
+            int[] labels;
+
+            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel2(out observations, out labels);
 
             var function = new MarkovMultivariateFunction(hmm, includePriors: false);
-            double[][][] observations = IndependentMarkovClassifierPotentialFunctionTest.sequences;
-            int[] labels = IndependentMarkovClassifierPotentialFunctionTest.labels;
+
 
             foreach (double[][] x in observations)
             {
@@ -95,13 +96,11 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LogForwardTest()
         {
-            HiddenMarkovClassifier<Independent> hmm = IndependentMarkovClassifierPotentialFunctionTest
-                .CreateModel2();
+            double[][][] observations;
+            int[] labels;
+            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel2(out observations, out labels);
 
             MarkovMultivariateFunction function = new MarkovMultivariateFunction(hmm, includePriors: false);
-
-            double[][][] observations = IndependentMarkovClassifierPotentialFunctionTest.sequences;
-            int[] labels = IndependentMarkovClassifierPotentialFunctionTest.labels;
 
             foreach (double[][] x in observations)
             {
@@ -125,13 +124,12 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LogBackwardTest()
         {
-            HiddenMarkovClassifier<Independent> hmm = IndependentMarkovClassifierPotentialFunctionTest
-                .CreateModel2();
+            double[][][] observations;
+            int[] labels;
+            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel2(out observations, out labels);
 
             MarkovMultivariateFunction function = new MarkovMultivariateFunction(hmm);
 
-            double[][][] observations = IndependentMarkovClassifierPotentialFunctionTest.sequences;
-            int[] labels = IndependentMarkovClassifierPotentialFunctionTest.labels;
 
             foreach (double[][] x in observations)
             {
@@ -156,12 +154,13 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ForwardTest2()
         {
-            HiddenMarkovClassifier<Independent> hmm = IndependentMarkovClassifierPotentialFunctionTest
-                .CreateModel3();
+            double[][][] observations;
+            int[] labels;
+
+            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel3(out observations, out labels);
 
             var function = new MarkovMultivariateFunction(hmm, includePriors: false);
-            double[][][] observations = IndependentMarkovClassifierPotentialFunctionTest.sequences2;
-            int[] labels = IndependentMarkovClassifierPotentialFunctionTest.labels2;
+
 
             foreach (double[][] x in observations)
             {
@@ -200,13 +199,13 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LogForwardTest2()
         {
-            HiddenMarkovClassifier<Independent> hmm = IndependentMarkovClassifierPotentialFunctionTest
-                .CreateModel3();
+            double[][][] observations;
+            int[] labels;
+
+            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel3(out observations, out labels);
 
             MarkovMultivariateFunction function = new MarkovMultivariateFunction(hmm, includePriors: false);
 
-            double[][][] observations = IndependentMarkovClassifierPotentialFunctionTest.sequences2;
-            int[] labels = IndependentMarkovClassifierPotentialFunctionTest.labels2;
 
             foreach (double[][] x in observations)
             {
@@ -233,13 +232,13 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LogBackwardTest2()
         {
-            HiddenMarkovClassifier<Independent> hmm = IndependentMarkovClassifierPotentialFunctionTest
-                .CreateModel3();
+            double[][][] observations;
+            int[] labels;
+
+            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel3(out observations, out labels);
 
             MarkovMultivariateFunction function = new MarkovMultivariateFunction(hmm);
 
-            double[][][] observations = IndependentMarkovClassifierPotentialFunctionTest.sequences2;
-            int[] labels = IndependentMarkovClassifierPotentialFunctionTest.labels2;
 
             foreach (double[][] x in observations)
             {
@@ -263,6 +262,151 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
+        [TestMethod()]
+        public void LogForwardGesturesTest()
+        {
+            double[][][] words;
+            var classifier = MarkovMultivariateFunctionIndependentTest.CreateModel4(out words, false);
 
+            var function = new MarkovMultivariateFunction(classifier);
+            var target = new HiddenConditionalRandomField<double[]>(function);
+
+            foreach (var word in words)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    var actual = Accord.Statistics.Models.Fields.ForwardBackwardAlgorithm.LogForward(
+                        target.Function.Factors[c], word, c);
+
+                    var expected = Accord.Statistics.Models.Markov.ForwardBackwardAlgorithm.LogForward(
+                        classifier[c], word);
+
+                    for (int i = 0; i < actual.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < actual.GetLength(1); j++)
+                        {
+                            double a = actual[i, j];
+                            double e = expected[i, j];
+
+                            // TODO: Verify if is possible to reduce this tolerance
+                            Assert.IsTrue(e.IsRelativelyEqual(a, 0.1)); 
+                        }
+                    }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void LogForwardGesturesPriorsTest()
+        {
+            double[][][] words;
+            var classifier = MarkovMultivariateFunctionIndependentTest.CreateModel4(out words, true);
+
+            var function = new MarkovMultivariateFunction(classifier);
+            var target = new HiddenConditionalRandomField<double[]>(function);
+
+            foreach (var word in words)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    var actual = Accord.Statistics.Models.Fields.ForwardBackwardAlgorithm.LogForward(
+                        target.Function.Factors[c], word, c);
+
+                    var expected = Accord.Statistics.Models.Markov.ForwardBackwardAlgorithm.LogForward(
+                        classifier[c], word);
+
+                    for (int i = 0; i < actual.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < actual.GetLength(1); j++)
+                        {
+                            double a = actual[i, j];
+                            double e = expected[i, j];
+
+                            // TODO: Verify if is possible to reduce this tolerance
+                            Assert.IsTrue(e.IsRelativelyEqual(a, 0.1)); 
+                        }
+                    }
+                }
+            }
+        }
+
+
+#pragma warning disable 0618
+        [TestMethod()]
+        public void LogForwardGesturesDeoptimizedTest()
+        {
+            double[][][] words;
+            var classifier = MarkovMultivariateFunctionIndependentTest.CreateModel4(out words, false);
+
+            var function = new MarkovMultivariateFunction(classifier);
+
+            function.Deoptimize();
+
+            var target = new HiddenConditionalRandomField<double[]>(function);
+
+            foreach (var word in words)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    var actual = Accord.Statistics.Models.Fields.ForwardBackwardAlgorithm.LogForward(
+                        target.Function.Factors[c], word, c);
+
+                    var expected = Accord.Statistics.Models.Markov.ForwardBackwardAlgorithm.LogForward(
+                        classifier[c], word);
+
+                    for (int i = 0; i < actual.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < actual.GetLength(1); j++)
+                        {
+                            double a = actual[i, j];
+                            double e = expected[i, j];
+                            Assert.IsTrue(e.IsRelativelyEqual(a, 0.1));
+                        }
+                    }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void LogForwardGesturesPriorsDeoptimizedTest()
+        {
+            double[][][] words;
+            var classifier = MarkovMultivariateFunctionIndependentTest.CreateModel4(out words, true);
+
+            var deopFun = new MarkovMultivariateFunction(classifier);
+            deopFun.Deoptimize();
+            var target1 = new HiddenConditionalRandomField<double[]>(deopFun);
+
+            var function = new MarkovMultivariateFunction(classifier);
+            var target2 = new HiddenConditionalRandomField<double[]>(function);
+
+            foreach (var word in words)
+            {
+                for (int c = 0; c < 3; c++)
+                {
+                    for (int y = 0; y < 3; y++)
+                    {
+                        var actual = Accord.Statistics.Models.Fields.ForwardBackwardAlgorithm
+                            .LogForward(target1.Function.Factors[c], word, y);
+
+                        var expected = Accord.Statistics.Models.Fields.ForwardBackwardAlgorithm
+                            .LogForward(target2.Function.Factors[c], word, y);
+
+                        for (int i = 0; i < actual.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < actual.GetLength(1); j++)
+                            {
+                                double a = actual[i, j];
+                                double e = expected[i, j];
+                                Assert.IsTrue(e.IsRelativelyEqual(a, 0.1));
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+#pragma warning restore 0618
     }
 }

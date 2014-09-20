@@ -82,7 +82,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void RunTest()
         {
-            var hmm = MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = MarkovMultivariateFunctionTest.CreateModel1();
             var function = new MarkovMultivariateFunction(hmm);
 
             var model = new HiddenConditionalRandomField<double[]>(function);
@@ -179,7 +179,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void GradientTest2()
         {
-            var hmm = MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = MarkovMultivariateFunctionTest.CreateModel1();
             var function = new MarkovMultivariateFunction(hmm);
 
             var model = new HiddenConditionalRandomField<double[]>(function);
@@ -207,7 +207,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void GradientTest3()
         {
-            var hmm = MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = MarkovMultivariateFunctionTest.CreateModel1();
             var function = new MarkovMultivariateFunction(hmm);
 
             var model = new HiddenConditionalRandomField<double[]>(function);

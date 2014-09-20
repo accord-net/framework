@@ -64,7 +64,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void RunTest()
         {
-            var hmm = NormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = MarkovContinuousFunctionTest.CreateModel1();
             var function = new MarkovContinuousFunction(hmm);
 
             var model = new HiddenConditionalRandomField<double>(function);
@@ -114,7 +114,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void GradientTest2()
         {
-            var hmm = NormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = MarkovContinuousFunctionTest.CreateModel1();
             var function = new MarkovContinuousFunction(hmm);
 
             var model = new HiddenConditionalRandomField<double>(function);
@@ -139,7 +139,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void GradientTest3()
         {
-            var hmm = NormalHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = MarkovContinuousFunctionTest.CreateModel1();
             var function = new MarkovContinuousFunction(hmm);
 
             var model = new HiddenConditionalRandomField<double>(function);

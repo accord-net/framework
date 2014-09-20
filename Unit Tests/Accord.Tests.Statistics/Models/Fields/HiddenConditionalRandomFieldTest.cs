@@ -32,6 +32,7 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Markov.Topology;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
+    using Accord.Math;
     using System;
 
     [TestClass()]
@@ -252,16 +253,20 @@ namespace Accord.Tests.Statistics.Models.Fields
 
                 double h0 = classifier.LogLikelihood(words[i], 0);
                 double h1 = classifier.LogLikelihood(words[i], 1);
+                double h2 = classifier.LogLikelihood(words[i], 2);
 
                 double c0 = target.LogLikelihood(words[i], 0);
                 double c1 = target.LogLikelihood(words[i], 1);
+                double c2 = target.LogLikelihood(words[i], 2);
 
                 Assert.AreEqual(expected, actual);
                 Assert.AreEqual(h0, c0, 1e-10);
-                Assert.AreEqual(h1, c1, 1e-10);
+                Assert.IsTrue(h1.IsRelativelyEqual(c1, 1e-10));
+                Assert.IsTrue(h2.IsRelativelyEqual(c2, 1e-10));
 
                 Assert.IsFalse(double.IsNaN(c0));
                 Assert.IsFalse(double.IsNaN(c1));
+                Assert.IsFalse(double.IsNaN(c2));
             }
         }
 

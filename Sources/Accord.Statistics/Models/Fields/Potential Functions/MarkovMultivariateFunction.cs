@@ -184,6 +184,7 @@ namespace Accord.Statistics.Models.Fields.Functions
             HiddenMarkovClassifier<Independent<NormalDistribution>> classifier, bool includePriors = true)
         {
             this.Outputs = classifier.Classes;
+            this.Dimensions = classifier.Models[0].Dimension;
 
             int factorIndex = 0;
             var factorParams = new List<double>();
@@ -227,13 +228,6 @@ namespace Accord.Statistics.Models.Fields.Functions
                     edgeFeatures.Add(new InitialFeature<double[]>(this, c, i));
                 }
 
-                // Create features for initial state probabilities
-                for (int i = 0; i < model.States; i++)
-                {
-                    stateParams.Add(model.Probabilities[i]);
-                    stateFeatures.Add(new InitialFeature<double[]>(this, c, i));
-                }
-
                 // Create features for state transition probabilities
                 for (int i = 0; i < model.States; i++)
                 {
@@ -252,16 +246,20 @@ namespace Accord.Statistics.Models.Fields.Functions
                         double mean = model.Emissions[i].Mean[d];
                         double var = model.Emissions[i].Variance[d];
 
+                        double u = -0.5 * (Math.Log(2.0 * Math.PI * var) + (mean * mean) / var);
+                        double m1 = mean / var;
+                        double m2 = -1.0 / (2.0 * var);
+
                         // Occupancy
-                        stateParams.Add(-0.5 * (Math.Log(2.0 * Math.PI * var) + (mean * mean) / var));
+                        stateParams.Add(u);
                         stateFeatures.Add(new OccupancyFeature<double[]>(this, c, i));
 
                         // 1st Moment (x)
-                        stateParams.Add(mean / var);
+                        stateParams.Add(m1);
                         stateFeatures.Add(new MultivariateFirstMomentFeature(this, c, i, d));
 
                         // 2nd Moment (x²)
-                        stateParams.Add(-1.0 / (2.0 * var));
+                        stateParams.Add(m2);
                         stateFeatures.Add(new MultivariateSecondMomentFeature(this, c, i, d));
                     }
                 }
@@ -493,7 +491,8 @@ namespace Accord.Statistics.Models.Fields.Functions
                             continue;
                         }
 
-                        GeneralDiscreteDistribution discrete = distribution as GeneralDiscreteDistribution;
+                        var discrete = distribution as GeneralDiscreteDistribution;
+
                         if (discrete != null)
                         {
                             lookupTable[i][d] = position;

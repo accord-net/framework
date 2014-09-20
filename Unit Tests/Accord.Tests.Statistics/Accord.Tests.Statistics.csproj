@@ -183,7 +183,7 @@
     <Compile Include="Distributions\Univariate\Continuous\LaplaceDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Discrete\NegativeBinomialTest.cs" />
     <Compile Include="Models\Fields\IndependentForwardBackwardAlgorithmTest.cs" />
-    <Compile Include="Models\Fields\Functions\IndependentHiddenMarkovClassifierFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\MarkovMultivariateFunctionIndependentTest.cs" />
     <Compile Include="MovingNormalStatisticsTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ParetoDistributionTest.cs" />
     <Compile Include="RunningMarkovClassifierTest`1.cs" />
@@ -253,8 +253,8 @@
     <Compile Include="Models\Fields\ConditionalRandomFieldTest.cs" />
     <Compile Include="Models\Fields\Learning\MultivariateNormalQuasiNewtonHiddenLearningTest.cs" />
     <Compile Include="Models\Fields\Learning\NormalQuasiNewtonHiddenLearningTest.cs" />
-    <Compile Include="Models\Fields\Functions\MultivariateNormalHiddenMarkovClassifierFunctionTest.cs" />
-    <Compile Include="Models\Fields\Functions\NormalHiddenMarkovClassifierFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\MarkovMultivariateFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\MarkovContinuousFunctionTest.cs" />
     <Compile Include="Models\Fields\Functions\HiddenMarkovClassifierFunctionTest.cs" />
     <Compile Include="Models\Fields\HiddenConditionalRandomFieldTest.cs" />
     <Compile Include="Models\Fields\Learning\QuasiNewtonHiddenLearningTest.cs" />

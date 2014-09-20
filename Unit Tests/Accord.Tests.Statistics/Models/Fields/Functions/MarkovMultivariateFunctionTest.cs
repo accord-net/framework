@@ -31,9 +31,11 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Models.Fields;
+    using Accord.Statistics.Models.Fields.Functions.Specialized;
+    using Accord.Math;
 
     [TestClass()]
-    public class MultivariateNormalHiddenMarkovClassifierPotentialFunctionTest
+    public class MarkovMultivariateFunctionTest
     {
 
 
@@ -289,10 +291,15 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             var target = new MarkovMultivariateFunction(model);
 
+            double[][] x = { new double[] { 0 }, new double[] { 1 } };
+
+
             double actual;
             double expected;
 
-            double[][] x = { new double[] { 0 }, new double[] { 1 } };
+            Check(model, target, x);
+
+
 
             for (int c = 0; c < model.Classes; c++)
             {
@@ -320,6 +327,48 @@ namespace Accord.Tests.Statistics.Models.Fields
                     }
                 }
             }
+
+        }
+
+        public static void Check(HiddenMarkovClassifier<MultivariateNormalDistribution> model, MarkovMultivariateFunction target, double[][] x)
+        {
+            for (int c = 0; c < model.Classes; c++)
+            {
+                var hmm = model[c];
+                var factor = target.Factors[c] as MarkovMultivariateNormalFactor;
+
+                var pi = factor.Probabilities;
+                var A = factor.Transitions;
+
+                int s = hmm.States;
+
+                for (int i = 0; i < s; i++)
+                {
+                    double a = pi[i];
+                    double e = hmm.Probabilities[i];
+                    Assert.AreEqual(a, e);
+                }
+
+                for (int i = 0; i < s; i++)
+                {
+                    for (int j = 0; j < s; j++)
+                    {
+                        double a = A[i, j];
+                        double e = hmm.Transitions[i, j];
+                        Assert.AreEqual(a, e);
+                    }
+                }
+
+                foreach (var obs in x)
+                {
+                    for (int i = 0; i < s; i++)
+                    {
+                        double a = hmm.Emissions[i].LogProbabilityDensityFunction(obs);
+                        double e = factor.Emissions(i, obs);
+                        Assert.IsTrue(a.IsRelativelyEqual(e, 1e-10));
+                    }
+                }
+            }
         }
 
         [TestMethod()]
@@ -333,6 +382,8 @@ namespace Accord.Tests.Statistics.Models.Fields
             double expected;
 
             double[][] x = { new double[] { 0, 1 }, new double[] { 3, 2 } };
+
+            Check(model, target, x);
 
             for (int c = 0; c < model.Classes; c++)
             {
@@ -375,6 +426,8 @@ namespace Accord.Tests.Statistics.Models.Fields
             double expected;
 
             double[][] x = { new double[] { 0, 1 }, new double[] { 3, 2 } };
+
+            Check(model, target, x);
 
             for (int c = 0; c < model.Classes; c++)
             {
@@ -425,6 +478,8 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             double[][] x = { new double[] { 0, 1 }, new double[] { 3, 2 } };
 
+            Check(model, target, x);
+
             for (int c = 0; c < model.Classes; c++)
             {
                 for (int i = 0; i < model[c].States; i++)
@@ -473,6 +528,8 @@ namespace Accord.Tests.Statistics.Models.Fields
             double expected;
 
             double[][] x = { new double[] { 0, 1 }, new double[] { 3, 2 } };
+
+            Check(model, target, x);
 
             for (int c = 0; c < model.Classes; c++)
             {

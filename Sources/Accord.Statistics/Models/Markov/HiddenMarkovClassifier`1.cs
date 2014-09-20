@@ -277,9 +277,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public new double LogLikelihood(Array sequence, int output)
         {
-            double[] responsabilities;
-            base.Compute(sequence, out responsabilities);
-            return Math.Log(responsabilities[output]);
+            return base.LogLikelihood(sequence, output);
         }
 
         /// <summary>
@@ -307,15 +305,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         public new double LogLikelihood(Array[] sequences, int[] outputs)
         {
-            double[] responsabilities;
-
-            double logLikelihood = 0;
-            for (int i = 0; i < sequences.Length; i++)
-            {
-                base.Compute(sequences[i], out responsabilities);
-                logLikelihood += Math.Log(responsabilities[outputs[i]]);
-            }
-            return logLikelihood;
+            return base.LogLikelihood(sequences, outputs);
         }
 
 
