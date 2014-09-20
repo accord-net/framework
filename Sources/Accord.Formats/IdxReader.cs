@@ -156,10 +156,24 @@ namespace Accord.IO
         ///   Creates a new <see cref="IdxReader"/>.
         /// </summary>
         /// 
-        /// <param name="input">The input stream containing the IDX file.</param>
+        /// <param name="path">The path for the IDX file.</param>
         /// 
-        public IdxReader(Stream input)
-            : this(input, false)
+        public IdxReader(string path)
+            : this(new FileStream(path, FileMode.Open, FileAccess.Read))
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="IdxReader"/>.
+        /// </summary>
+        /// 
+        /// <param name="path">The path for the IDX file.</param>
+        /// <param name="compressed">
+        ///   Pass <c>true</c> if the stream contains 
+        ///   a compressed (.gz) file. Default is true.</param>
+        /// 
+        public IdxReader(string path, bool compressed)
+            : this(new FileStream(path, FileMode.Open, FileAccess.Read), compressed)
         {
         }
 
@@ -168,7 +182,20 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="input">The input stream containing the IDX file.</param>
-        /// <param name="compressed">Pass <c>true</c> if the stream contains a compressed (.gz) file.</param>
+        /// 
+        public IdxReader(Stream input)
+            : this(input, true)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="IdxReader"/>.
+        /// </summary>
+        /// 
+        /// <param name="input">The input stream containing the IDX file.</param>
+        /// <param name="compressed">
+        ///   Pass <c>true</c> if the stream contains 
+        ///   a compressed (.gz) file. Default is true.</param>
         /// 
         public IdxReader(Stream input, bool compressed)
         {
@@ -185,7 +212,11 @@ namespace Accord.IO
             byte dimensions = bytes[3];
 
             if (zero != 0) // The first two bytes should be always zero
-                throw new FormatException("Magic number doesn't starts with zero.");
+            {
+                throw new FormatException("Magic number doesn't starts with zero." 
+                 + " If the file is compressed, please make sure to call this constructor"
+                 + " with the 'compressed' argument set to 'true'.");
+            }
 
             
             DataType = (IdxDataType)type;

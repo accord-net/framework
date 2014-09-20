@@ -317,12 +317,92 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Converts a matrix to integer values.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix to be converted.</param>
+        /// 
+        public static int[][] ToInt32(this byte[][] matrix)
+        {
+            int[][] result = new int[matrix.Length][];
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                result[i] = new int[matrix[i].Length];
+                for (int j = 0; j < matrix[i].Length; j++)
+                    result[i][j] = (int)matrix[i][j];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a matrix to integer values.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix to be converted.</param>
+        /// 
+        public static int[][] ToInt32(this sbyte[][] matrix)
+        {
+            int[][] result = new int[matrix.Length][];
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                result[i] = new int[matrix[i].Length];
+                for (int j = 0; j < matrix[i].Length; j++)
+                    result[i][j] = (int)matrix[i][j];
+            }
+
+            return result;
+        }
+
+        /// <summary>
         ///   Converts an integer matrix to double values.
         /// </summary>
         /// 
         /// <param name="matrix">The matrix to be converted.</param>
         /// 
         public static double[][] ToDouble(this int[][] matrix)
+        {
+            double[][] result = new double[matrix.Length][];
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                result[i] = new double[matrix[i].Length];
+                for (int j = 0; j < matrix[i].Length; j++)
+                    result[i][j] = (double)matrix[i][j];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts an integer matrix to double values.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix to be converted.</param>
+        /// 
+        public static double[][] ToDouble(this byte[][] matrix)
+        {
+            double[][] result = new double[matrix.Length][];
+
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                result[i] = new double[matrix[i].Length];
+                for (int j = 0; j < matrix[i].Length; j++)
+                    result[i][j] = (double)matrix[i][j];
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts an integer matrix to double values.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix to be converted.</param>
+        /// 
+        public static double[][] ToDouble(this sbyte[][] matrix)
         {
             double[][] result = new double[matrix.Length][];
 
@@ -390,6 +470,34 @@ namespace Accord.Math
         /// <param name="vector">The vector to be truncated.</param>
         /// 
         public static int[] ToInt32(this double[] vector)
+        {
+            int[] result = new int[vector.Length];
+            for (int i = 0; i < vector.Length; i++)
+                result[i] = (int)vector[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a vector to integer values.
+        /// </summary>
+        /// 
+        /// <param name="vector">The vector to be converted.</param>
+        /// 
+        public static int[] ToInt32(this byte[] vector)
+        {
+            int[] result = new int[vector.Length];
+            for (int i = 0; i < vector.Length; i++)
+                result[i] = (int)vector[i];
+            return result;
+        }
+
+        /// <summary>
+        ///   Converts a vector to integer values.
+        /// </summary>
+        /// 
+        /// <param name="vector">The vector to be converted.</param>
+        /// 
+        public static int[] ToInt32(this sbyte[] vector)
         {
             int[] result = new int[vector.Length];
             for (int i = 0; i < vector.Length; i++)
