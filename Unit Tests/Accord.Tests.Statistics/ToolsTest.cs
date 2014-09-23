@@ -94,6 +94,46 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod()]
+        public void WeightedVarianceTest1()
+        {
+            double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            double expected = Tools.Variance(original, unbiased: false);
+
+            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+
+            weights = weights.Divide(weights.Sum());
+            double actual = Tools.WeightedVariance(samples, weights, unbiased: false);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void WeightedVarianceTest3()
+        {
+            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+
+            weights = weights.Divide(weights.Sum());
+            double actual = Tools.WeightedVariance(samples, weights);
+
+            Assert.AreEqual(1.3655172413793104, actual);
+        }
+
+        [TestMethod()]
+        public void WeightedVarianceTest2()
+        {
+            double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            double expected = Tools.Variance(original);
+
+            var repeats = new [] { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            var samples = new [] { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3.0 };
+            double actual = Tools.WeightedVariance(samples, repeats);
+
+            Assert.AreEqual(expected, actual);
+        }
+
 
         [TestMethod()]
         public void MeanTest4()

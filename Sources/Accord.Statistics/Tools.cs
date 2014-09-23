@@ -1561,14 +1561,45 @@ namespace Accord.Statistics
         public static double WeightedMean(this double[] values, double[] weights)
         {
             if (values.Length != weights.Length)
+            {
                 throw new DimensionMismatchException("weights",
                     "The values and weight vectors must have the same length");
+            }
 
             double sum = 0.0;
             for (int i = 0; i < values.Length; i++)
                 sum += weights[i] * values[i];
 
             double w = 0.0;
+            for (int i = 0; i < weights.Length; i++)
+                w += weights[i];
+
+            return sum / w;
+        }
+
+        /// <summary>
+        ///   Computes the Weighted Mean of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A double array containing the vector members.</param>
+        /// <param name="weights">A vector containing how many times each element
+        /// in <see param="values"/> repeats itself in the non-weighted data.</param>
+        /// 
+        /// <returns>The mean of the given data.</returns>
+        /// 
+        public static double WeightedMean(this double[] values, int[] weights)
+        {
+            if (values.Length != weights.Length)
+            {
+                throw new DimensionMismatchException("weights",
+                    "The values and weight vectors must have the same length");
+            }
+
+            double sum = 0.0;
+            for (int i = 0; i < values.Length; i++)
+                sum += weights[i] * values[i];
+
+            int w = 0;
             for (int i = 0; i < weights.Length; i++)
                 w += weights[i];
 
@@ -1603,7 +1634,23 @@ namespace Accord.Statistics
         /// 
         public static double WeightedStandardDeviation(this double[] values, double[] weights, double mean)
         {
-            return Math.Sqrt(WeightedVariance(values, weights, mean));
+            return Math.Sqrt(WeightedVariance(values, weights, mean, true));
+        }
+
+        /// <summary>
+        ///   Computes the Standard Deviation of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A double array containing the vector members.</param>
+        /// <param name="weights">An unit vector containing the importance of each sample
+        /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
+        /// <param name="mean">The mean of the vector, if already known.</param>
+        /// 
+        /// <returns>The standard deviation of the given data.</returns>
+        /// 
+        public static double WeightedStandardDeviation(this double[] values, double[] weights, double mean, bool unbiased)
+        {
+            return Math.Sqrt(WeightedVariance(values, weights, mean, unbiased));
         }
 
         /// <summary>
@@ -1618,7 +1665,22 @@ namespace Accord.Statistics
         /// 
         public static double WeightedVariance(this double[] values, double[] weights)
         {
-            return WeightedVariance(values, weights, WeightedMean(values, weights));
+            return WeightedVariance(values, weights, WeightedMean(values, weights), true);
+        }
+
+        /// <summary>
+        ///   Computes the weighted Variance of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector members.</param>
+        /// <param name="weights">An unit vector containing the importance of each sample
+        /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
+        /// 
+        /// <returns>The variance of the given data.</returns>
+        /// 
+        public static double WeightedVariance(this double[] values, double[] weights, bool unbiased)
+        {
+            return WeightedVariance(values, weights, WeightedMean(values, weights), unbiased);
         }
 
         /// <summary>
@@ -1634,6 +1696,22 @@ namespace Accord.Statistics
         /// 
         public static double WeightedVariance(this double[] values, double[] weights, double mean)
         {
+            return WeightedVariance(values, weights, WeightedMean(values, weights), true);
+        }
+
+        /// <summary>
+        ///   Computes the weighted Variance of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector members.</param>
+        /// <param name="weights">An unit vector containing the importance of each sample
+        /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
+        /// <param name="mean">The mean of the array, if already known.</param>
+        /// 
+        /// <returns>The variance of the given data.</returns>
+        /// 
+        public static double WeightedVariance(this double[] values, double[] weights, double mean, bool unbiased)
+        {
             if (values.Length != weights.Length)
             {
                 throw new DimensionMismatchException("weights",
@@ -1644,7 +1722,8 @@ namespace Accord.Statistics
             // http://www.gnu.org/software/gsl/manual/html_node/Weighted-Samples.html
 
             double variance = 0.0;
-            double a = 0.0, b = 0.0;
+            double squareSum = 0.0;
+            double weightSum = 0.0;
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -1653,20 +1732,170 @@ namespace Accord.Statistics
 
                 variance += w * (z * z);
 
-                b += w;
-                a += w * w;
+                weightSum += w;
+                squareSum += w * w;
             }
 
-            return variance * (b / (b * b - a));
+            if (unbiased)
+            {
+                /* 
+                if (Math.Abs(weightSum - 1.0) >= 1e-8)
+                {
+                    throw new ArgumentException("An unbiased variance estimate"
+                      + " cannot be computed if weights do not sum to one. The"
+                      + " given weights sum up to " + squareSum, "weights");
+                } */
+
+                return variance / (weightSum - (squareSum / weightSum));
+            }
+
+            return variance / weightSum;
+        }
+
+        /// <summary>
+        ///   Computes the Standard Deviation of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A double array containing the vector members.</param>
+        /// <param name="weights">A vector containing how many times each element
+        /// in <see param="values"/> repeats itself in the non-weighted data.</param>
+        /// 
+        /// <returns>The standard deviation of the given data.</returns>
+        /// 
+        public static double WeightedStandardDeviation(this double[] values, int[] weights)
+        {
+            return Math.Sqrt(WeightedVariance(values, weights));
+        }
+
+        /// <summary>
+        ///   Computes the Standard Deviation of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A double array containing the vector members.</param>
+        /// <param name="weights">A vector containing how many times each element
+        /// in <see param="values"/> repeats itself in the non-weighted data.</param>
+        /// <param name="mean">The mean of the vector, if already known.</param>
+        /// 
+        /// <returns>The standard deviation of the given data.</returns>
+        /// 
+        public static double WeightedStandardDeviation(this double[] values, int[] weights, double mean)
+        {
+            return Math.Sqrt(WeightedVariance(values, weights, mean, true));
+        }
+
+        /// <summary>
+        ///   Computes the Standard Deviation of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A double array containing the vector members.</param>
+        /// <param name="weights">A vector containing how many times each element
+        /// in <see param="values"/> repeats itself in the non-weighted data.</param>
+        /// <param name="mean">The mean of the vector, if already known.</param>
+        /// 
+        /// <returns>The standard deviation of the given data.</returns>
+        /// 
+        public static double WeightedStandardDeviation(this double[] values, int[] weights, double mean, bool unbiased)
+        {
+            return Math.Sqrt(WeightedVariance(values, weights, mean, unbiased));
+        }
+
+        /// <summary>
+        ///   Computes the weighted Variance of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector members.</param>
+        /// <param name="weights">A vector containing how many times each element
+        /// in <see param="values"/> repeats itself in the non-weighted data.</param>
+        /// 
+        /// <returns>The variance of the given data.</returns>
+        /// 
+        public static double WeightedVariance(this double[] values, int[] weights)
+        {
+            return WeightedVariance(values, weights, WeightedMean(values, weights), true);
+        }
+
+        /// <summary>
+        ///   Computes the weighted Variance of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector members.</param>
+        /// <param name="weights">A vector containing how many times each element
+        /// in <see param="values"/> repeats itself in the non-weighted data.</param>
+        /// 
+        /// <returns>The variance of the given data.</returns>
+        /// 
+        public static double WeightedVariance(this double[] values, int[] weights, bool unbiased)
+        {
+            return WeightedVariance(values, weights, WeightedMean(values, weights), unbiased);
+        }
+
+        /// <summary>
+        ///   Computes the weighted Variance of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector members.</param>
+        /// <param name="weights">A vector containing how many times each element
+        /// in <see param="values"/> repeats itself in the non-weighted data.</param>
+        /// <param name="mean">The mean of the array, if already known.</param>
+        /// 
+        /// <returns>The variance of the given data.</returns>
+        /// 
+        public static double WeightedVariance(this double[] values, int[] weights, double mean)
+        {
+            return WeightedVariance(values, weights, WeightedMean(values, weights), true);
+        }
+
+        /// <summary>
+        ///   Computes the weighted Variance of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector members.</param>
+        /// <param name="weights">A vector containing how many times each element
+        /// in <see param="values"/> repeats itself in the non-weighted data.</param>
+        /// <param name="mean">The mean of the array, if already known.</param>
+        /// 
+        /// <returns>The variance of the given data.</returns>
+        /// 
+        public static double WeightedVariance(this double[] values, int[] weights, double mean, bool unbiased)
+        {
+            if (values.Length != weights.Length)
+            {
+                throw new DimensionMismatchException("weights",
+                    "The values and weight vectors must have the same length");
+            }
+
+            // http://en.wikipedia.org/wiki/Weighted_variance#Weighted_sample_variance
+            // http://www.gnu.org/software/gsl/manual/html_node/Weighted-Samples.html
+
+            double variance = 0.0;
+            int weightSum = 0;
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                double z = values[i] - mean;
+                int w = weights[i];
+
+                variance += w * (z * z);
+
+                weightSum += w;
+            }
+
+            if (unbiased)
+                return variance / (weightSum - 1.0);
+
+            return variance / weightSum;
         }
 
         /// <summary>
         ///   Calculates the matrix Variance vector.
         /// </summary>
+        /// 
         /// <param name="matrix">A matrix whose variances will be calculated.</param>
         /// <param name="weights">An unit vector containing the importance of each sample
         /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
+        /// 
         /// <returns>Returns a vector containing the variances of the given matrix.</returns>
+        /// 
         public static double[] WeightedVariance(this double[][] matrix, double[] weights)
         {
             return WeightedVariance(matrix, weights, WeightedMean(matrix, weights));
@@ -1779,6 +2008,96 @@ namespace Accord.Statistics
             }
 
             return variance;
+        }
+
+        /// <summary>
+        ///   Computes the Mode of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector values.</param>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
+        /// 
+        public static double WeightedMode(this double[] values, double[] weights)
+        {
+            double[] itemCount = new double[values.Length];
+            double[] itemArray = new double[values.Length];
+            int count = 0;
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                int index = Array.IndexOf<double>(itemArray, values[i], 0, count);
+
+                if (index >= 0)
+                {
+                    itemCount[index] += weights[index];
+                }
+                else
+                {
+                    itemArray[count] = values[i];
+                    itemCount[count] = weights[i];
+                    count++;
+                }
+            }
+
+            double maxValue = 0;
+            int maxIndex = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (itemCount[i] > maxValue)
+                {
+                    maxValue = itemCount[i];
+                    maxIndex = i;
+                }
+            }
+
+            return itemArray[maxIndex];
+        }
+
+        /// <summary>
+        ///   Computes the Mode of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector values.</param>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
+        /// 
+        public static double WeightedMode(this double[] values, int[] repeats)
+        {
+            int[] itemCount = new int[values.Length];
+            double[] itemArray = new double[values.Length];
+            int count = 0;
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                int index = Array.IndexOf<double>(itemArray, values[i], 0, count);
+
+                if (index >= 0)
+                {
+                    itemCount[index] += repeats[index];
+                }
+                else
+                {
+                    itemArray[count] = values[i];
+                    itemCount[count] = repeats[i];
+                    count++;
+                }
+            }
+
+            int maxValue = 0;
+            int maxIndex = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                if (itemCount[i] > maxValue)
+                {
+                    maxValue = itemCount[i];
+                    maxIndex = i;
+                }
+            }
+
+            return itemArray[maxIndex];
         }
         #endregion
 
