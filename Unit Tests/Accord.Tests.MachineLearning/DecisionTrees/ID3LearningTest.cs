@@ -100,6 +100,17 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, error);
 
 
+            {
+                int[] query = codebook.Translate("Sunny", "Hot", "High", "Strong");
+
+                int output = tree.Compute(query);
+
+                string answer = codebook.Translate("PlayTennis", output);
+
+                Assert.AreEqual("No", answer);
+            }
+
+
             foreach (DataRow row in data.Rows)
             {
                 var x = codebook.Translate(row, "Outlook", "Temperature", "Humidity", "Wind");

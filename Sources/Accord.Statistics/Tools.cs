@@ -4300,13 +4300,20 @@ namespace Accord.Statistics
         /// 
         public static double[][] Expand(int[] classes)
         {
-            int max = classes.Max();
+            return Expand(classes, classes.Max() + 1);
+        }
 
+        /// <summary>
+        ///   Expands a grouped data into a full observation matrix.
+        /// </summary>
+        /// 
+        public static double[][] Expand(int[] classes, int max)
+        {
             double[][] outputs = new double[classes.Length][];
 
             for (int i = 0; i < classes.Length; i++)
             {
-                outputs[i] = new double[max + 1];
+                outputs[i] = new double[max];
                 outputs[i][classes[i]] = 1.0;
             }
 

@@ -213,12 +213,12 @@ namespace Accord.IO
 
             if (zero != 0) // The first two bytes should be always zero
             {
-                throw new FormatException("Magic number doesn't starts with zero." 
+                throw new FormatException("Magic number doesn't starts with zero."
                  + " If the file is compressed, please make sure to call this constructor"
                  + " with the 'compressed' argument set to 'true'.");
             }
 
-            
+
             DataType = (IdxDataType)type;
             this.type = Translate(DataType);
 
@@ -250,6 +250,22 @@ namespace Accord.IO
             Buffer.BlockCopy(buffer, 0, array, 0, array.Length);
 
             return readBytes;
+        }
+
+        /// <summary>
+        ///   Reads the next sample as a value.
+        /// </summary>
+        /// 
+        /// <returns>A single number containing the sample.</returns>
+        /// 
+        public object ReadValue()
+        {
+            Array array = Array.CreateInstance(type, arrayLength);
+
+            if (Read(array) == 0)
+                return null;
+
+            return array.GetValue(0);
         }
 
         /// <summary>
@@ -285,6 +301,33 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Reads the next sample as a value.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type to be used.</typeparam>
+        /// 
+        /// <returns>A single number containing the sample.</returns>
+        /// 
+        public bool TryReadValue<T>(out T value)
+        {
+            value = default(T);
+
+            object v = ReadValue();
+
+            if (v == null)
+                return false;
+
+            if (type != typeof(T))
+            {
+                value = (T)Convert.ChangeType(v, typeof(T));
+                return true;
+            }
+
+            value = (T)v;
+            return true;
+        }
+
+        /// <summary>
         ///   Reads the next sample as a vector.
         /// </summary>
         /// 
@@ -294,10 +337,22 @@ namespace Accord.IO
         /// 
         public T[] ReadVector<T>()
         {
-            if (type != typeof(T))
-                throw new InvalidOperationException();
+            Array array = ReadVector();
 
-            return (T[])ReadVector();
+            if (array == null)
+                return null;
+
+            if (type != typeof(T))
+            {
+                T[] result = new T[array.Length];
+
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = (T)Convert.ChangeType(array.GetValue(i), typeof(T));
+
+                return result;
+            }
+
+            return (T[])array;
         }
 
         /// <summary>
@@ -310,10 +365,25 @@ namespace Accord.IO
         /// 
         public T[,] ReadMatrix<T>()
         {
-            if (type != typeof(T))
-                throw new InvalidOperationException();
+            Array array = ReadMatrix();
 
-            return (T[,])ReadMatrix();
+            if (array == null)
+                return null;
+
+            if (type != typeof(T))
+            {
+                int rows = array.GetLength(0);
+                int cols = array.GetLength(1);
+                T[,] result = new T[rows, cols];
+
+                for (int i = 0; i < rows; i++)
+                    for (int j = 0; j < cols; j++)
+                        result[i, j] = (T)Convert.ChangeType(array.GetValue(i, j), typeof(T));
+
+                return result;
+            }
+
+            return (T[,])array;
         }
 
         /// <summary>
@@ -361,6 +431,30 @@ namespace Accord.IO
             {
                 vectors.Add(current);
                 current = ReadVector<T>();
+            }
+
+            return vectors.ToArray();
+        }
+
+        /// <summary>
+        ///   Reads all samples in the file, starting from the current position, as vectors.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The data type to be used.</typeparam>
+        /// 
+        /// <returns>
+        ///   An array containing all samples from the current point until the end of the stream.
+        /// </returns>
+        /// 
+        public T[] ReadToEndAsValues<T>()
+        {
+            List<T> vectors = new List<T>();
+
+            T current;
+            
+            while (TryReadValue(out current))
+            {
+                vectors.Add(current);
             }
 
             return vectors.ToArray();

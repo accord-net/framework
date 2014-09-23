@@ -1158,12 +1158,15 @@ namespace Accord.Math
         #endregion
 
         #region Expand
+
+
         /// <summary>
         ///   Expands a data vector given in summary form.
         /// </summary>
+        /// 
         /// <param name="vector">A base vector.</param>
         /// <param name="count">An array containing by how much each line should be replicated.</param>
-        /// <returns></returns>
+        /// 
         public static T[] Expand<T>(T[] vector, int[] count)
         {
             var expansion = new List<T>();
@@ -1177,9 +1180,10 @@ namespace Accord.Math
         /// <summary>
         ///   Expands a data matrix given in summary form.
         /// </summary>
+        /// 
         /// <param name="matrix">A base matrix.</param>
         /// <param name="count">An array containing by how much each line should be replicated.</param>
-        /// <returns></returns>
+        /// 
         public static T[,] Expand<T>(T[,] matrix, int[] count)
         {
             var expansion = new List<T[]>();
@@ -1238,6 +1242,36 @@ namespace Accord.Math
             return r;
         }
         #endregion
+
+
+        public static T[,] Pad<T>(this T[,] matrix, int all)
+        {
+            return Pad(matrix, all, all, all, all);
+        }
+
+        public static T[,] Pad<T>(this T[,] matrix, int topBottom, int rightLeft)
+        {
+            return Pad(matrix, topBottom, rightLeft, topBottom, rightLeft);
+        }
+
+        public static T[,] Pad<T>(this T[,] matrix, int top, int sides, int bottom)
+        {
+            return Pad(matrix, top, sides, bottom, sides);
+        }
+
+        public static T[,] Pad<T>(this T[,] matrix, int top, int right, int bottom, int left)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            T[,] r = (T[,])Array.CreateInstance(typeof(T), rows + top + bottom, cols + left + right);
+
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    r[i + top, j + left] = matrix[i, j];
+
+            return r;
+        }
 
     }
 }
