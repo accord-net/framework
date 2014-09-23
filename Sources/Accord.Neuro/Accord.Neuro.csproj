@@ -123,8 +123,10 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Activation Functions\IdentityFunction.cs" />
+    <Compile Include="Activation Functions\RectifiedLinearFunction.cs" />
     <Compile Include="Activation Functions\GaussianFunction.cs" />
-    <Compile Include="Activation Functions\IStochasticFunction.cs" />
+    <Compile Include="Activation Functions\Base\IStochasticFunction.cs" />
     <Compile Include="Activation Functions\LinearFunction.cs" />
     <Compile Include="Activation Functions\BernoulliFunction.cs" />
     <Compile Include="Initialization\GaussianWeights.cs" />

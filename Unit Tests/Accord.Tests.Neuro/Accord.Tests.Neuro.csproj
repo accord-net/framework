@@ -123,11 +123,11 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.XML" />
-	<Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
-<!--
+  <!--
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
   	<Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
     </Reference>
@@ -137,12 +137,17 @@
       <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
- --> 
+ -->
   <ItemGroup>
     <Compile Include="ContrastiveDivergenceLearningTest.cs" />
     <Compile Include="BernoulliFunctionTest.cs" />
     <Compile Include="GaussianFunctionTest.cs" />
     <Compile Include="DeepBeliefNetworkTest.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ResilientPropagationLearningTest.cs" />
     <Compile Include="LevenbergMarquardtLearningTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,6 +184,10 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Formats\Accord.IO.csproj">
+      <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
+      <Name>Accord.IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
@@ -191,6 +200,15 @@
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
