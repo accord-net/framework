@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
+    using Accord.Statistics;
 
     [TestClass()]
     public class EmpiricalDistributionTest
@@ -132,8 +133,7 @@ namespace Accord.Tests.Statistics
             double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
             var target = new EmpiricalDistribution(samples, weights);
 
-            Assert.AreEqual(distribution.Entropy, target.Entropy, 1e-15);
-            Assert.AreEqual(distribution.Length, target.Length);
+            Assert.AreEqual(distribution.Entropy, target.Entropy, 1e-10);
             Assert.AreEqual(distribution.Mean, target.Mean);
             Assert.AreEqual(distribution.Median, target.Median);
             Assert.AreEqual(distribution.Mode, target.Mode);
@@ -197,7 +197,6 @@ namespace Accord.Tests.Statistics
 
             var target = new EmpiricalDistribution(samples, weights, distribution.Smoothing);
 
-            Assert.AreEqual(12, target.Length);
             Assert.AreEqual(distribution.Mean, target.Mean);
             Assert.AreEqual(distribution.Median, target.Median);
             Assert.AreEqual(distribution.Mode, target.Mode);
@@ -446,13 +445,13 @@ namespace Accord.Tests.Statistics
 
         private static double FaultySmoothingRule(double[] observations)
         {
-            return FaultySmoothingRule(observations, null, null);
+            double sigma = Accord.Statistics.Tools.StandardDeviation(observations);
+            return sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);
         }
 
         private static double FaultySmoothingRule(double[] observations, double[] weights, int[] repeats)
         {
-            double sigma = Accord.Statistics.Tools.StandardDeviation(observations);
-            return sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);
+            return FaultySmoothingRule(observations);
         }
     }
 }

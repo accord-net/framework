@@ -25,7 +25,7 @@ namespace Accord.Statistics.Distributions.Fitting
     using System;
     using Accord.Statistics.Distributions.Univariate;
 
-    public delegate double SmoothingRule(double[] observations, double[] weights, int[] repeats);
+    public delegate double SmoothingRule(double[] observations, double[] weights = null, int[] repeats = null);
 
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution">
@@ -44,6 +44,8 @@ namespace Accord.Statistics.Distributions.Fitting
         /// 
         public SmoothingRule SmoothingRule { get; set; }
 
+        public bool InPlace { get; set; }
+
         /// <summary>
         ///   Initializes a new instance of the <see cref="NormalOptions"/> class.
         /// </summary>
@@ -51,6 +53,7 @@ namespace Accord.Statistics.Distributions.Fitting
         public EmpiricalOptions()
         {
             SmoothingRule = EmpiricalDistribution.SmoothingRule;
+            InPlace = false;
         }
     }
 }

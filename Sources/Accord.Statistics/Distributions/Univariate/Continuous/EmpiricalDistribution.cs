@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using Tools = Statistics.Tools;
 
     /// <summary>
     ///   Empirical distribution.
@@ -106,12 +107,14 @@ namespace Accord.Statistics.Distributions.Univariate
 
         // Distribution parameters
         double[] samples;
-        double[] weights;
-        int[] repeats;
         double smoothing;
 
-        double numberOfSamples;
+        WeightType type;
+        double[] weights;
+        int[] repeats;
+
         double sumOfWeights;
+        int numberOfSamples;
 
 
         // Derived measures
@@ -214,13 +217,58 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the weights associated with each sample. In case all
-        ///   samples have the same weight, this vector can be null.
+        ///   Gets the fractional weights associated with each sample. Note that
+        ///   changing values on this array will not result int any effect in
+        ///   this distribution. The distribution must be computed from scratch
+        ///   with new values in case new weights needs to be used.
+        /// </summary>
+        /// 
         /// </summary>
         /// 
         public double[] Weights
         {
-            get { return weights; }
+            get
+            {
+                if (weights == null)
+                {
+                    weights = new double[samples.Length];
+                    for (int i = 0; i < weights.Length; i++)
+                        weights[i] = Counts[i] / (double)Length;
+                }
+
+                return weights;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the repetition counts associated with each sample. Note that
+        ///   changing values on this array will not result int any effect in
+        ///   this distribution. The distribution must be computed from scratch
+        ///   with new values in case new weights needs to be used.
+        /// </summary>
+        /// 
+        public int[] Counts
+        {
+            get
+            {
+                if (repeats == null)
+                {
+                    repeats = new int[samples.Length];
+                    for (int i = 0; i < repeats.Length; i++)
+                        repeats[i] = 1;
+                }
+
+                return repeats;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the total number of samples in this distribution.
+        /// </summary>
+        /// 
+        public int Length
+        {
+            get { return numberOfSamples; }
         }
 
         /// <summary>
@@ -233,10 +281,6 @@ namespace Accord.Statistics.Distributions.Univariate
             get { return smoothing; }
         }
 
-        public double Length
-        {
-            get { return numberOfSamples; }
-        }
 
         /// <summary>
         ///   Gets the mean for this distribution.
@@ -252,11 +296,14 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (mean == null)
                 {
-                    if (repeats != null)
-                        mean = Statistics.Tools.WeightedMean(samples, repeats);
-                    else if (weights != null)
-                        mean = Statistics.Tools.WeightedMean(samples, weights);
-                    else mean = Statistics.Tools.Mean(samples);
+                    if (type == WeightType.None)
+                        mean = Tools.Mean(samples);
+
+                    else if (type == WeightType.Integers)
+                        mean = Tools.WeightedMean(samples, repeats);
+
+                    else if (type == WeightType.Fraction)
+                        mean = Tools.WeightedMean(samples, weights);
                 }
 
                 return mean.Value;
@@ -277,12 +324,14 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (mode == null)
                 {
-                    if (repeats != null)
-                        mode = Statistics.Tools.WeightedMode(samples, repeats);
-                    else if (weights != null)
-                        mode = Statistics.Tools.WeightedMode(samples, weights);
-                    else
-                        mode = Statistics.Tools.Mode(samples);
+                    if (type == WeightType.None)
+                        mode = Tools.Mode(samples);
+
+                    else if (type == WeightType.Integers)
+                        mode = Tools.WeightedMode(samples, repeats);
+
+                    else if (type == WeightType.Fraction)
+                        mode = Tools.WeightedMode(samples, weights);
                 }
 
                 return mode.Value;
@@ -303,15 +352,41 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (variance == null)
                 {
-                    if (repeats != null)
-                        variance = Statistics.Tools.WeightedVariance(samples, repeats);
-                    else if (weights != null)
-                        variance = Statistics.Tools.WeightedVariance(samples, weights);
-                    else
-                        variance = Statistics.Tools.Variance(samples);
+                    if (type == WeightType.None)
+                        variance = Tools.Variance(samples);
+
+                    else if (type == WeightType.Integers)
+                        variance = Tools.WeightedVariance(samples, repeats);
+
+                    else if (type == WeightType.Fraction)
+                        variance = Tools.WeightedVariance(samples, weights);
                 }
 
                 return variance.Value;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the entropy for this distribution.
+        /// </summary>
+        /// 
+        public override double Entropy
+        {
+            get
+            {
+                if (entropy == null)
+                {
+                    if (type == WeightType.None)
+                        entropy = Tools.Entropy(samples, ProbabilityDensityFunction);
+
+                    else if (type == WeightType.Integers)
+                        entropy = Tools.WeightedEntropy(samples, repeats, ProbabilityDensityFunction);
+
+                    else if (type == WeightType.Fraction)
+                        entropy = Tools.WeightedEntropy(samples, weights, ProbabilityDensityFunction);
+                }
+
+                return entropy.Value;
             }
         }
 
@@ -327,54 +402,6 @@ namespace Accord.Statistics.Distributions.Univariate
         public override DoubleRange Support
         {
             get { return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity); }
-        }
-
-        /// <summary>
-        ///   Gets the entropy for this distribution.
-        /// </summary>
-        /// 
-        public override double Entropy
-        {
-            get
-            {
-                if (!entropy.HasValue)
-                {
-                    if (repeats != null)
-                    {
-                        double sum = 0;
-                        for (int i = 0; i < samples.Length; i++)
-                        {
-                            double p = ProbabilityDensityFunction(samples[i]);
-                            sum += repeats[i] * (p * Math.Log(p));
-                        }
-                        this.entropy = sum;
-                    }
-
-                    else if (weights != null)
-                    {
-                        double sum = 0;
-                        for (int i = 0; i < samples.Length; i++)
-                        {
-                            double p = ProbabilityDensityFunction(samples[i]);
-                            sum += weights[i] * (p * Math.Log(p));
-                        }
-                        this.entropy = sum;
-                    }
-
-                    else
-                    {
-                        double sum = 0;
-                        for (int i = 0; i < samples.Length; i++)
-                        {
-                            double p = ProbabilityDensityFunction(samples[i]);
-                            sum += p * Math.Log(p);
-                        }
-                        this.entropy = sum;
-                    }
-                }
-
-                return entropy.Value;
-            }
         }
 
         /// <summary>
@@ -395,20 +422,33 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            if (repeats != null)
+            if (type == WeightType.None)
             {
-                int sum = 0;
+                int sum = 0; // Normal sample, no weights
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    if (samples[i] <= x)
+                        sum++;
+                }
+
+                return sum / (double)numberOfSamples;
+            }
+
+            if (type == WeightType.Integers)
+            {
+                int sum = 0; // Repetition counts weights
                 for (int i = 0; i < samples.Length; i++)
                 {
                     if (samples[i] <= x)
                         sum += repeats[i];
                 }
 
-                return sum / numberOfSamples;
+                return sum / (double)numberOfSamples;
             }
-            else if (weights != null)
+
+            if (type == WeightType.Fraction)
             {
-                double sum = 0;
+                double sum = 0; // Fractional weights
                 for (int i = 0; i < samples.Length; i++)
                 {
                     if (samples[i] <= x)
@@ -417,17 +457,8 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 return sum / sumOfWeights;
             }
-            else
-            {
-                int sum = 0;
-                for (int i = 0; i < samples.Length; i++)
-                {
-                    if (samples[i] <= x)
-                        sum++;
-                }
 
-                return sum / numberOfSamples;
-            }
+            throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -456,40 +487,39 @@ namespace Accord.Statistics.Distributions.Univariate
             // References:
             //  - Bishop, Christopher M.; Pattern Recognition and Machine Learning. 
 
-            if (repeats != null)
+            double p = 0;
+
+            if (type == WeightType.None)
             {
-                double p = 0;
-                for (int i = 0; i < samples.Length; i++)
-                {
-                    double z = (x - samples[i]) / smoothing;
-                    p += repeats[i] * Math.Exp(-z * z * 0.5);
-                }
-
-                return p * constant;
-            }
-
-            else if (weights != null)
-            {
-                double p = 0;
-                for (int i = 0; i < samples.Length; i++)
-                {
-                    double z = (x - samples[i]) / smoothing;
-                    p += weights[i] * Math.Exp(-z * z * 0.5);
-                }
-
-                return p * constant;
-            }
-
-            else
-            {
-                double p = 0;
+                // Normal samples, not using any weights
                 for (int i = 0; i < samples.Length; i++)
                 {
                     double z = (x - samples[i]) / smoothing;
                     p += Math.Exp(-z * z * 0.5);
                 }
-                return p * constant;
             }
+
+            else if (type == WeightType.Integers)
+            {
+                // Weighted sample using discrete counts
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    double z = (x - samples[i]) / smoothing;
+                    p += repeats[i] * Math.Exp(-z * z * 0.5);
+                }
+            }
+
+            else if (type == WeightType.Fraction)
+            {
+                // Weighted sample using fractional weights
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    double z = (x - samples[i]) / smoothing;
+                    p += weights[i] * Math.Exp(-z * z * 0.5);
+                }
+            }
+
+            return p * constant;
         }
 
         /// <summary>
@@ -522,14 +552,23 @@ namespace Accord.Statistics.Distributions.Univariate
         public void Fit(double[] observations, double[] weights, EmpiricalOptions options)
         {
             double? smoothing = null;
+            bool inPlace = false;
 
             if (options != null)
+            {
                 smoothing = options.SmoothingRule(observations, weights, null);
+                inPlace = options.InPlace;
+            }
 
-            double[] newSamples = (double[])observations.Clone();
-            double[] newWeights = weights != null ? (double[])weights.Clone() : null;
+            if (!inPlace)
+            {
+                observations = (double[])observations.Clone();
 
-            initialize(newSamples, newWeights, null, smoothing);
+                if (weights != null)
+                    weights = (double[])weights.Clone();
+            }
+
+            initialize(observations, weights, null, smoothing);
         }
 
         /// <summary>
@@ -546,14 +585,23 @@ namespace Accord.Statistics.Distributions.Univariate
         public void Fit(double[] observations, int[] weights, EmpiricalOptions options)
         {
             double? smoothing = null;
+            bool inPlace = false;
 
             if (options != null)
+            {
                 smoothing = options.SmoothingRule(observations, null, weights);
+                inPlace = options.InPlace;
+            }
 
-            double[] newSamples = (double[])observations.Clone();
-            int[] newWeights = weights != null ? (int[])weights.Clone() : null;
+            if (!inPlace)
+            {
+                observations = (double[])observations.Clone();
 
-            initialize(newSamples, null, newWeights, smoothing);
+                if (weights != null)
+                    weights = (int[])weights.Clone();
+            }
+
+            initialize(observations, null, weights, smoothing);
         }
 
         /// <summary>
@@ -567,8 +615,9 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             var clone = new EmpiricalDistribution();
 
-            clone.numberOfSamples = numberOfSamples;
+            clone.type = type;
             clone.sumOfWeights = sumOfWeights;
+            clone.numberOfSamples = numberOfSamples;
             clone.smoothing = smoothing;
             clone.constant = constant;
 
@@ -603,12 +652,14 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (weights != null)
             {
+                this.type = WeightType.Fraction;
                 this.numberOfSamples = samples.Length;
                 this.sumOfWeights = weights.Sum();
                 this.constant = 1.0 / (Constants.Sqrt2PI * this.smoothing);
             }
             else if (repeats != null)
             {
+                this.type = WeightType.Integers;
                 this.numberOfSamples = repeats.Sum();
                 this.weights = repeats.Divide(numberOfSamples);
                 this.sumOfWeights = 1.0;
@@ -616,7 +667,9 @@ namespace Accord.Statistics.Distributions.Univariate
             }
             else
             {
+                this.type = WeightType.None;
                 this.numberOfSamples = samples.Length;
+                this.sumOfWeights = 1.0;
                 this.constant = 1.0 / (Constants.Sqrt2PI * this.smoothing * numberOfSamples);
             }
 
@@ -734,28 +787,24 @@ namespace Accord.Statistics.Distributions.Univariate
             if (weights == null)
             {
                 for (int i = 0; i < s.Length; i++)
-                {
-                    int index = generator.Next(this.samples.Length);
-                    s[i] = this.samples[index];
-                }
+                    s[i] = this.samples[generator.Next(this.samples.Length)];
+                return s;
             }
-            else
+
+            double u = generator.NextDouble();
+            double uniform = u * sumOfWeights;
+
+            for (int i = 0; i < s.Length; i++)
             {
-                double u = generator.NextDouble();
-                double uniform = u * numberOfSamples;
-
-                for (int i = 0; i < s.Length; i++)
+                double cumulativeSum = 0;
+                for (int j = 0; j < weights.Length; j++)
                 {
-                    double cumulativeSum = 0;
-                    for (int j = 0; j < weights.Length; j++)
-                    {
-                        cumulativeSum += weights[j];
+                    cumulativeSum += weights[j];
 
-                        if (uniform < cumulativeSum)
-                        {
-                            s[i] = this.samples[j];
-                            break;
-                        }
+                    if (uniform < cumulativeSum)
+                    {
+                        s[i] = this.samples[j];
+                        break;
                     }
                 }
             }
@@ -774,27 +823,22 @@ namespace Accord.Statistics.Distributions.Univariate
             var generator = Accord.Math.Tools.Random;
 
             if (weights == null)
+                return this.samples[generator.Next(this.samples.Length)];
+
+
+            double u = generator.NextDouble();
+            double uniform = u * sumOfWeights;
+
+            double cumulativeSum = 0;
+            for (int i = 0; i < weights.Length; i++)
             {
-                int index = generator.Next(this.samples.Length);
-                return this.samples[index];
+                cumulativeSum += weights[i];
+
+                if (uniform < cumulativeSum)
+                    return this.samples[i];
             }
-            else
-            {
-                double u = generator.NextDouble();
 
-                double uniform = u * numberOfSamples;
-
-                double cumulativeSum = 0;
-                for (int i = 0; i < weights.Length; i++)
-                {
-                    cumulativeSum += weights[i];
-
-                    if (uniform < cumulativeSum)
-                        return this.samples[i];
-                }
-
-                throw new Exception();
-            }
+            throw new Exception();
         }
     }
 }

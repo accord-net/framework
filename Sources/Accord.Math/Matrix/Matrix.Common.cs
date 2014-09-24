@@ -33,6 +33,20 @@ namespace Accord.Math
 
         #region Comparison
 
+        public static bool IsInteger(this double x, double threshold)
+        {
+            double a = Math.Truncate(x);
+            double b = x;
+
+            if (a == b)
+                return true;
+
+            double limit = Math.Abs(a) * threshold;
+            double delta = Math.Abs(a - b);
+
+            return delta <= limit;
+        }
+
         /// <summary>
         ///   Compares two values for equality, considering a relative acceptance threshold.
         /// </summary>

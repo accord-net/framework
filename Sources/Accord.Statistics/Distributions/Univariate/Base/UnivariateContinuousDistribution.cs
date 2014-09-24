@@ -600,6 +600,11 @@ namespace Accord.Statistics.Distributions.Univariate
             if (p < 0.0 || p > 1.0)
                 throw new ArgumentOutOfRangeException("p", "Value must be between 0 and 1.");
 
+            if (p == 0) 
+                return Support.Min;
+            else if (p == 1) 
+                return Support.Max;
+
             bool lowerBounded = !Double.IsInfinity(Support.Min);
             bool upperBounded = !Double.IsInfinity(Support.Max);
 
@@ -691,12 +696,10 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
-            if (f == 0)
-                return Support.Min;
-            else if (f == 1)
-                return Support.Max;
 
-            return BrentSearch.Find(DistributionFunction, p, lower, upper);
+            double value = BrentSearch.Find(DistributionFunction, p, lower, upper);
+
+            return value;
         }
 
         /// <summary>
