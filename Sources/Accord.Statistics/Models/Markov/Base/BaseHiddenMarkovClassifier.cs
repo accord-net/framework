@@ -216,10 +216,8 @@ namespace Accord.Statistics.Models.Markov
         /// 
         protected int Compute(Array sequence, out double[] responsibilities)
         {
-            double thresholdValue;
-            int imax = compute(sequence, out responsibilities, out thresholdValue);
-
-            double max = responsibilities[imax];
+            double maxValue, thresholdValue;
+            int imax = compute(sequence, out responsibilities, out thresholdValue, out maxValue);
 
             // Convert to probabilities
             for (int i = 0; i < responsibilities.Length; i++)
@@ -228,10 +226,11 @@ namespace Accord.Statistics.Models.Markov
             // return the index of the most likely model
             // or -1 if the sequence has been rejected.
             //
-            return (thresholdValue > max) ? -1 : imax;
+            return (thresholdValue > maxValue) ? -1 : imax;
         }
 
-        private int compute(Array sequence, out double[] logLikelihoods, out double rejectionThreshold)
+        private int compute(Array sequence, out double[] logLikelihoods, 
+            out double rejectionValue, out double maxValue)
         {
             logLikelihoods = new double[models.Length];
 
@@ -261,7 +260,7 @@ namespace Accord.Statistics.Models.Markov
 #endif
 
             logLikelihoods = responses;
-            rejectionThreshold = rejection;
+            rejectionValue = rejection;
 
             // Compute posterior likelihoods
             double lnsum = Double.NegativeInfinity;
@@ -275,7 +274,7 @@ namespace Accord.Statistics.Models.Markov
             int imax; 
 
             // Get the index of the most likely model
-            double max = logLikelihoods.Max(out imax);
+            maxValue = logLikelihoods.Max(out imax);
 
             // Normalize if different from zero
             if (lnsum != Double.NegativeInfinity)
@@ -299,10 +298,10 @@ namespace Accord.Statistics.Models.Markov
         /// 
         protected double LogLikelihood(Array sequence, int output)
         {
-            double rejectionValue;
-
             double[] logLikelihoods;
-            compute(sequence, out logLikelihoods, out rejectionValue);
+
+            double rejectionValue, maxValue;
+            compute(sequence, out logLikelihoods, out rejectionValue, out maxValue);
 
             return logLikelihoods[output];
         }
@@ -347,10 +346,10 @@ namespace Accord.Statistics.Models.Markov
             double sum = 0;
             for (int i = 0; i < sequences.Length; i++)
             {
-                double rejectionValue;
                 double[] logLikelihoods;
 
-                int imax = compute(sequences[i], out logLikelihoods, out rejectionValue);
+                double rejectionValue, maxValue;
+                int imax = compute(sequences[i], out logLikelihoods, out rejectionValue, out maxValue);
 
                 sum += logLikelihoods[outputs[i]];
             }

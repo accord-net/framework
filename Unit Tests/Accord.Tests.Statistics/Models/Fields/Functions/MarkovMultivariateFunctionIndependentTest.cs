@@ -584,7 +584,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                         {
                             for (int j = 0; j < model[c].States; j++)
                             {
-                                expected = Math.Exp(model[c].Transitions[i, j]) * model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                                expected = model.Priors[c] * Math.Exp(model[c].Transitions[i, j]) * model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
                                 actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
                                 Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-10));
                                 Assert.IsFalse(double.IsNaN(actual));
