@@ -25,6 +25,8 @@ namespace Accord.Statistics.Distributions.Fitting
     using System;
     using Accord.Statistics.Distributions.Univariate;
 
+    public delegate double SmoothingRule(double[] observations, double[] weights, int[] repeats);
+
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.EmpiricalDistribution">
     ///   Empirical distributions</see>. 
@@ -40,7 +42,7 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   normal distribution bandwidth approximation</see>.
         /// </summary>
         /// 
-        public Func<double[], double> SmoothingRule { get; set; }
+        public SmoothingRule SmoothingRule { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="NormalOptions"/> class.

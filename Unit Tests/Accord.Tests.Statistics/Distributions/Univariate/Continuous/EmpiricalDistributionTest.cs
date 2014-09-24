@@ -22,11 +22,11 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Accord.Statistics.Distributions.Fitting;
-    using System.Globalization;
+    using Accord.Statistics.Distributions.Univariate;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Math;
 
     [TestClass()]
     public class EmpiricalDistributionTest
@@ -78,7 +78,7 @@ namespace Accord.Tests.Statistics
         {
             double[] samples = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
             EmpiricalDistribution distribution = new EmpiricalDistribution(samples);
-            
+
             double mean = distribution.Mean; // 3
             double median = distribution.Median; // 2.9999993064186787
             double var = distribution.Variance; // 1.2941176470588236
@@ -100,12 +100,165 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.2941176470588236, var);
             Assert.AreEqual(2.1972245773362191, chf);
             Assert.AreEqual(0.88888888888888884, cdf);
-            Assert.AreEqual(0.18145628014280227, pdf);
+            Assert.AreEqual(0.18145628014280227, pdf, 1e-15);
             Assert.AreEqual(-1.7067405350495708, lpdf);
-            Assert.AreEqual(1.6331065212852196, hf);
+            Assert.AreEqual(1.6331065212852196, hf, 1e-15);
             Assert.AreEqual(0.11111111111111116, ccdf);
             Assert.AreEqual(4.1999999999999993, icdf);
             Assert.AreEqual("Fn(x; S)", str);
+        }
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistributionConstructorTest_WeightsDontSumToOne()
+        {
+            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+
+            try
+            {
+                new EmpiricalDistribution(samples, weights);
+                Assert.Fail();
+            }
+            catch (ArgumentException) { }
+        }
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistributionConstructorTest()
+        {
+            double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            var distribution = new EmpiricalDistribution(original);
+
+            int[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+            var target = new EmpiricalDistribution(samples, weights);
+
+            Assert.AreEqual(distribution.Entropy, target.Entropy, 1e-15);
+            Assert.AreEqual(distribution.Length, target.Length);
+            Assert.AreEqual(distribution.Mean, target.Mean);
+            Assert.AreEqual(distribution.Median, target.Median);
+            Assert.AreEqual(distribution.Mode, target.Mode);
+            Assert.AreEqual(distribution.Quartiles.Min, target.Quartiles.Min);
+            Assert.AreEqual(distribution.Quartiles.Max, target.Quartiles.Max);
+            Assert.AreEqual(distribution.Smoothing, target.Smoothing);
+            Assert.AreEqual(distribution.StandardDeviation, target.StandardDeviation);
+            Assert.AreEqual(distribution.Support.Min, target.Support.Min);
+            Assert.AreEqual(distribution.Support.Max, target.Support.Max);
+            Assert.AreEqual(distribution.Variance, target.Variance);
+            Assert.IsTrue(target.Weights.IsEqual(weights.Divide(weights.Sum())));
+            Assert.AreEqual(target.Samples, samples);
+
+            for (double x = 0; x < 6; x += 0.1)
+            {
+                double actual, expected;
+                expected = distribution.ComplementaryDistributionFunction(x);
+                actual = target.ComplementaryDistributionFunction(x);
+                Assert.AreEqual(expected, actual);
+
+                expected = distribution.CumulativeHazardFunction(x);
+                actual = target.CumulativeHazardFunction(x);
+                Assert.AreEqual(expected, actual);
+
+                expected = distribution.DistributionFunction(x);
+                actual = target.DistributionFunction(x);
+                Assert.AreEqual(expected, actual);
+
+                expected = distribution.HazardFunction(x);
+                actual = target.HazardFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.InverseDistributionFunction(Accord.Math.Tools.Scale(0, 6, 0, 1, x));
+                actual = target.InverseDistributionFunction(Accord.Math.Tools.Scale(0, 6, 0, 1, x));
+                Assert.AreEqual(expected, actual);
+
+                expected = distribution.LogProbabilityDensityFunction(x);
+                actual = target.LogProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.ProbabilityDensityFunction(x);
+                actual = target.ProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.QuantileDensityFunction(Accord.Math.Tools.Scale(0, 6, 0, 1, x));
+                actual = target.QuantileDensityFunction(Accord.Math.Tools.Scale(0, 6, 0, 1, x));
+                Assert.AreEqual(expected, actual, 1e-10);
+            }
+        }
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistributionConstructorTest2()
+        {
+            double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            var distribution = new EmpiricalDistribution(original);
+
+            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+
+            weights = weights.Divide(weights.Sum());
+
+            var target = new EmpiricalDistribution(samples, weights, distribution.Smoothing);
+
+            Assert.AreEqual(12, target.Length);
+            Assert.AreEqual(distribution.Mean, target.Mean);
+            Assert.AreEqual(distribution.Median, target.Median);
+            Assert.AreEqual(distribution.Mode, target.Mode);
+            Assert.AreEqual(distribution.Quartiles.Min, target.Quartiles.Min);
+            Assert.AreEqual(distribution.Quartiles.Max, target.Quartiles.Max);
+            Assert.AreEqual(distribution.Smoothing, target.Smoothing);
+            Assert.AreEqual(1.1685534824642432, target.StandardDeviation);
+            Assert.AreEqual(distribution.Support.Min, target.Support.Min);
+            Assert.AreEqual(distribution.Support.Max, target.Support.Max);
+            Assert.AreEqual(1.3655172413793104, target.Variance);
+            Assert.AreEqual(target.Weights, weights);
+            Assert.AreEqual(target.Samples, samples);
+
+            for (double x = 0; x < 6; x += 0.1)
+            {
+                double actual, expected;
+                expected = distribution.ComplementaryDistributionFunction(x);
+                actual = target.ComplementaryDistributionFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.CumulativeHazardFunction(x);
+                actual = target.CumulativeHazardFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.DistributionFunction(x);
+                actual = target.DistributionFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.HazardFunction(x);
+                actual = target.HazardFunction(x);
+                Assert.AreEqual(expected, actual, 1e-14);
+
+                expected = distribution.InverseDistributionFunction(Accord.Math.Tools.Scale(0, 6, 0, 1, x));
+                actual = target.InverseDistributionFunction(Accord.Math.Tools.Scale(0, 6, 0, 1, x));
+                Assert.AreEqual(expected, actual, 1e-14);
+
+                expected = distribution.LogProbabilityDensityFunction(x);
+                actual = target.LogProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.ProbabilityDensityFunction(x);
+                actual = target.ProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.QuantileDensityFunction(Accord.Math.Tools.Scale(0, 6, 0, 1, x));
+                actual = target.QuantileDensityFunction(Accord.Math.Tools.Scale(0, 6, 0, 1, x));
+                Assert.AreEqual(expected, actual, 1e-10);
+            }
+        }
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistributionConstructorTest3()
+        {
+            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+
+            weights = weights.Divide(weights.Sum());
+
+            var target = new EmpiricalDistribution(samples, weights);
+
+            Assert.AreEqual(1.2377597081667415, target.Smoothing);
         }
 
         [TestMethod()]
@@ -145,9 +298,9 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.2941176470588236, var);
             Assert.AreEqual(2.1972245773362191, chf);
             Assert.AreEqual(0.88888888888888884, cdf);
-            Assert.AreEqual(0.15552784414141974, pdf);
+            Assert.AreEqual(0.15552784414141974, pdf, 1e-15);
             Assert.AreEqual(-1.8609305013898356, lpdf);
-            Assert.AreEqual(1.3997505972727771, hf);
+            Assert.AreEqual(1.3997505972727771, hf, 1e-15);
             Assert.AreEqual(0.11111111111111116, ccdf);
             Assert.AreEqual(4.1999999999999993, icdf);
             Assert.AreEqual("Fn(x; S)", str);
@@ -239,19 +392,19 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.16854678051819402, actual);
 
             actual = target.ProbabilityDensityFunction(2);
-            Assert.AreEqual(0.15866528844260089, actual);
+            Assert.AreEqual(0.15866528844260089, actual, 1e-15);
 
             actual = target.ProbabilityDensityFunction(3);
-            Assert.AreEqual(0.0996000842425018, actual);
+            Assert.AreEqual(0.0996000842425018, actual, 1e-15);
 
             actual = target.ProbabilityDensityFunction(4);
             Assert.AreEqual(0.1008594542833362, actual);
 
             actual = target.ProbabilityDensityFunction(6);
-            Assert.AreEqual(0.078460710909263, actual);
+            Assert.AreEqual(0.078460710909263, actual, 1e-15);
 
             actual = target.ProbabilityDensityFunction(8);
-            Assert.AreEqual(0.049293898826709738, actual);
+            Assert.AreEqual(0.049293898826709738, actual, 1e-15);
         }
 
         [TestMethod()]
@@ -290,7 +443,13 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
+
         private static double FaultySmoothingRule(double[] observations)
+        {
+            return FaultySmoothingRule(observations, null, null);
+        }
+
+        private static double FaultySmoothingRule(double[] observations, double[] weights, int[] repeats)
         {
             double sigma = Accord.Statistics.Tools.StandardDeviation(observations);
             return sigma * Math.Pow(4.0 / (3.0 * observations.Length), -1 / 5.0);

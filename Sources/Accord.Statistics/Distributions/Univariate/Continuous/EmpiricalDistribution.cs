@@ -106,13 +106,21 @@ namespace Accord.Statistics.Distributions.Univariate
 
         // Distribution parameters
         double[] samples;
+        double[] weights;
+        int[] repeats;
         double smoothing;
+
+        double numberOfSamples;
+        double sumOfWeights;
+
 
         // Derived measures
         double? mean;
         double? variance;
         double? entropy;
         double? mode;
+
+        double constant;
 
 
         /// <summary>
@@ -123,7 +131,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public EmpiricalDistribution(double[] samples)
         {
-            initialize(samples, null);
+            initialize(samples, null, null, null);
         }
 
         /// <summary>
@@ -137,7 +145,63 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public EmpiricalDistribution(double[] samples, double smoothing)
         {
-            initialize(samples, smoothing);
+            initialize(samples, null, null, smoothing);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="samples">The data samples.</param>
+        /// <param name="smoothing">
+        ///   The kernel smoothing or bandwidth to be used in density estimation.
+        ///   By default, the normal distribution approximation will be used.</param>
+        /// 
+        public EmpiricalDistribution(double[] samples, double[] weights)
+        {
+            initialize(samples, weights, null, null);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="samples">The data samples.</param>
+        /// <param name="smoothing">
+        ///   The kernel smoothing or bandwidth to be used in density estimation.
+        ///   By default, the normal distribution approximation will be used.</param>
+        /// 
+        public EmpiricalDistribution(double[] samples, int[] repeats)
+        {
+            initialize(samples, null, repeats, null);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="samples">The data samples.</param>
+        /// <param name="smoothing">
+        ///   The kernel smoothing or bandwidth to be used in density estimation.
+        ///   By default, the normal distribution approximation will be used.</param>
+        /// 
+        public EmpiricalDistribution(double[] samples, double[] weights, double smoothing)
+        {
+            initialize(samples, weights, null, smoothing);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="samples">The data samples.</param>
+        /// <param name="smoothing">
+        ///   The kernel smoothing or bandwidth to be used in density estimation.
+        ///   By default, the normal distribution approximation will be used.</param>
+        /// 
+        public EmpiricalDistribution(double[] samples, int[] repeats, double smoothing)
+        {
+            initialize(samples, null, repeats, smoothing);
         }
 
         /// <summary>
@@ -150,6 +214,16 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the weights associated with each sample. In case all
+        ///   samples have the same weight, this vector can be null.
+        /// </summary>
+        /// 
+        public double[] Weights
+        {
+            get { return weights; }
+        }
+
+        /// <summary>
         ///   Gets the bandwidth smoothing parameter
         ///   used in the kernel density estimation.
         /// </summary>
@@ -157,6 +231,11 @@ namespace Accord.Statistics.Distributions.Univariate
         public double Smoothing
         {
             get { return smoothing; }
+        }
+
+        public double Length
+        {
+            get { return numberOfSamples; }
         }
 
         /// <summary>
@@ -172,7 +251,14 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (mean == null)
-                    mean = Statistics.Tools.Mean(samples);
+                {
+                    if (repeats != null)
+                        mean = Statistics.Tools.WeightedMean(samples, repeats);
+                    else if (weights != null)
+                        mean = Statistics.Tools.WeightedMean(samples, weights);
+                    else mean = Statistics.Tools.Mean(samples);
+                }
+
                 return mean.Value;
             }
         }
@@ -190,10 +276,19 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (mode == null)
-                    mode = Statistics.Tools.Mode(samples);
+                {
+                    if (repeats != null)
+                        mode = Statistics.Tools.WeightedMode(samples, repeats);
+                    else if (weights != null)
+                        mode = Statistics.Tools.WeightedMode(samples, weights);
+                    else
+                        mode = Statistics.Tools.Mode(samples);
+                }
+
                 return mode.Value;
             }
         }
+
         /// <summary>
         ///   Gets the variance for this distribution.
         /// </summary>
@@ -207,7 +302,15 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (variance == null)
-                    variance = Statistics.Tools.Variance(samples, Mean);
+                {
+                    if (repeats != null)
+                        variance = Statistics.Tools.WeightedVariance(samples, repeats);
+                    else if (weights != null)
+                        variance = Statistics.Tools.WeightedVariance(samples, weights);
+                    else
+                        variance = Statistics.Tools.Variance(samples);
+                }
+
                 return variance.Value;
             }
         }
@@ -236,15 +339,40 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (!entropy.HasValue)
                 {
-                    double h = 0;
-                    for (int i = 0; i < samples.Length; i++)
+                    if (repeats != null)
                     {
-                        double p = ProbabilityDensityFunction(samples[i]);
-                        h += p * Math.Log(p);
+                        double sum = 0;
+                        for (int i = 0; i < samples.Length; i++)
+                        {
+                            double p = ProbabilityDensityFunction(samples[i]);
+                            sum += repeats[i] * (p * Math.Log(p));
+                        }
+                        this.entropy = sum;
                     }
 
-                    this.entropy = h;
+                    else if (weights != null)
+                    {
+                        double sum = 0;
+                        for (int i = 0; i < samples.Length; i++)
+                        {
+                            double p = ProbabilityDensityFunction(samples[i]);
+                            sum += weights[i] * (p * Math.Log(p));
+                        }
+                        this.entropy = sum;
+                    }
+
+                    else
+                    {
+                        double sum = 0;
+                        for (int i = 0; i < samples.Length; i++)
+                        {
+                            double p = ProbabilityDensityFunction(samples[i]);
+                            sum += p * Math.Log(p);
+                        }
+                        this.entropy = sum;
+                    }
                 }
+
                 return entropy.Value;
             }
         }
@@ -267,15 +395,39 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            int sum = 0;
-
-            for (int i = 0; i < samples.Length; i++)
+            if (repeats != null)
             {
-                if (samples[i] <= x)
-                    sum++;
-            }
+                int sum = 0;
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    if (samples[i] <= x)
+                        sum += repeats[i];
+                }
 
-            return sum / (double)samples.Length;
+                return sum / numberOfSamples;
+            }
+            else if (weights != null)
+            {
+                double sum = 0;
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    if (samples[i] <= x)
+                        sum += weights[i];
+                }
+
+                return sum / sumOfWeights;
+            }
+            else
+            {
+                int sum = 0;
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    if (samples[i] <= x)
+                        sum++;
+                }
+
+                return sum / numberOfSamples;
+            }
         }
 
         /// <summary>
@@ -304,56 +456,40 @@ namespace Accord.Statistics.Distributions.Univariate
             // References:
             //  - Bishop, Christopher M.; Pattern Recognition and Machine Learning. 
 
-            double p = 0;
-
-            for (int i = 0; i < samples.Length; i++)
+            if (repeats != null)
             {
-                double z = (x - samples[i]) / smoothing;
-                p += Math.Exp(-z * z * 0.5);
+                double p = 0;
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    double z = (x - samples[i]) / smoothing;
+                    p += repeats[i] * Math.Exp(-z * z * 0.5);
+                }
+
+                return p * constant;
             }
 
-            p *= 1.0 / (Constants.Sqrt2PI * smoothing);
-
-            return p / samples.Length;
-        }
-
-        /// <summary>
-        ///   Gets the log-probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range.</param>
-        /// 
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c>
-        ///   occurring in the current distribution.
-        /// </returns>
-        /// 
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        /// <example>
-        ///   See <see cref="EmpiricalDistribution"/>.
-        /// </example>
-        /// 
-        public override double LogProbabilityDensityFunction(double x)
-        {
-            // References:
-            //  - Bishop, Christopher M.; Pattern Recognition and Machine Learning. 
-
-            double p = 0;
-
-            for (int i = 0; i < samples.Length; i++)
+            else if (weights != null)
             {
-                double z = (x - samples[i]) / smoothing;
-                p += Math.Exp(-z * z * 0.5);
+                double p = 0;
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    double z = (x - samples[i]) / smoothing;
+                    p += weights[i] * Math.Exp(-z * z * 0.5);
+                }
+
+                return p * constant;
             }
 
-            double logp = Math.Log(p) - Math.Log(Constants.Sqrt2PI * smoothing);
-
-            return logp - Math.Log(samples.Length);
+            else
+            {
+                double p = 0;
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    double z = (x - samples[i]) / smoothing;
+                    p += Math.Exp(-z * z * 0.5);
+                }
+                return p * constant;
+            }
         }
 
         /// <summary>
@@ -383,17 +519,41 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
-        public void Fit(double[] observations, double[] weights = null, EmpiricalOptions options = null)
+        public void Fit(double[] observations, double[] weights, EmpiricalOptions options)
         {
-            if (weights != null)
-                throw new ArgumentException("This distribution does not support weighted samples.");
-
             double? smoothing = null;
 
             if (options != null)
-                smoothing = options.SmoothingRule(observations);
+                smoothing = options.SmoothingRule(observations, weights, null);
 
-            initialize((double[])observations.Clone(), smoothing);
+            double[] newSamples = (double[])observations.Clone();
+            double[] newWeights = weights != null ? (double[])weights.Clone() : null;
+
+            initialize(newSamples, newWeights, null, smoothing);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(double[] observations, int[] weights, EmpiricalOptions options)
+        {
+            double? smoothing = null;
+
+            if (options != null)
+                smoothing = options.SmoothingRule(observations, null, weights);
+
+            double[] newSamples = (double[])observations.Clone();
+            int[] newWeights = weights != null ? (int[])weights.Clone() : null;
+
+            initialize(newSamples, null, newWeights, smoothing);
         }
 
         /// <summary>
@@ -405,11 +565,22 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override object Clone()
         {
-            EmpiricalDistribution e = new EmpiricalDistribution();
-            e.samples = (double[])samples.Clone();
-            e.smoothing = smoothing;
+            var clone = new EmpiricalDistribution();
 
-            return e;
+            clone.numberOfSamples = numberOfSamples;
+            clone.sumOfWeights = sumOfWeights;
+            clone.smoothing = smoothing;
+            clone.constant = constant;
+
+            clone.samples = (double[])samples.Clone();
+
+            if (weights != null)
+                clone.weights = (double[])weights.Clone();
+
+            if (repeats != null)
+                clone.repeats = (int[])repeats.Clone();
+
+            return clone;
         }
 
 
@@ -417,13 +588,38 @@ namespace Accord.Statistics.Distributions.Univariate
         {
         }
 
-        private void initialize(double[] observations, double? smoothing)
+        private void initialize(double[] observations, double[] weights, int[] repeats, double? smoothing)
         {
             if (smoothing == null)
-                smoothing = SmoothingRule(observations);
+            {
+                smoothing = SmoothingRule(observations, weights, repeats);
+            }
 
             this.samples = observations;
+            this.weights = weights;
+            this.repeats = repeats;
             this.smoothing = smoothing.Value;
+
+
+            if (weights != null)
+            {
+                this.numberOfSamples = samples.Length;
+                this.sumOfWeights = weights.Sum();
+                this.constant = 1.0 / (Constants.Sqrt2PI * this.smoothing);
+            }
+            else if (repeats != null)
+            {
+                this.numberOfSamples = repeats.Sum();
+                this.weights = repeats.Divide(numberOfSamples);
+                this.sumOfWeights = 1.0;
+                this.constant = 1.0 / (Constants.Sqrt2PI * this.smoothing * numberOfSamples);
+            }
+            else
+            {
+                this.numberOfSamples = samples.Length;
+                this.constant = 1.0 / (Constants.Sqrt2PI * this.smoothing * numberOfSamples);
+            }
+
 
             this.mean = null;
             this.variance = null;
@@ -458,7 +654,68 @@ namespace Accord.Statistics.Distributions.Univariate
         public static double SmoothingRule(double[] observations)
         {
             double sigma = Statistics.Tools.StandardDeviation(observations);
-            return sigma * Math.Pow(4.0 / (3.0 * observations.Length), +1 / 5.0);
+            return sigma * Math.Pow(4.0 / (3.0 * observations.Length), 1.0 / 5.0);
+        }
+
+        /// <summary>
+        ///   Gets the default estimative of the smoothing parameter.
+        /// </summary>
+        /// <remarks>
+        ///   This method is based on the practical estimation of the bandwidth as
+        ///   suggested in Wikipedia: http://en.wikipedia.org/wiki/Kernel_density_estimation
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations for the empirical distribution.</param>
+        /// 
+        /// <returns>An estimative of the smoothing parameter.</returns>
+        /// 
+        public static double SmoothingRule(double[] observations, double[] weights)
+        {
+            double N = weights.Sum();
+            double sigma = Statistics.Tools.WeightedStandardDeviation(observations, weights);
+            return sigma * Math.Pow(4.0 / (3.0 * N), 1.0 / 5.0);
+        }
+
+        /// <summary>
+        ///   Gets the default estimative of the smoothing parameter.
+        /// </summary>
+        /// <remarks>
+        ///   This method is based on the practical estimation of the bandwidth as
+        ///   suggested in Wikipedia: http://en.wikipedia.org/wiki/Kernel_density_estimation
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations for the empirical distribution.</param>
+        /// 
+        /// <returns>An estimative of the smoothing parameter.</returns>
+        /// 
+        public static double SmoothingRule(double[] observations, int[] repeats)
+        {
+            double N = repeats.Sum();
+            double sigma = Statistics.Tools.WeightedStandardDeviation(observations, repeats);
+            return sigma * Math.Pow(4.0 / (3.0 * N), 1.0 / 5.0);
+        }
+
+        /// <summary>
+        ///   Gets the default estimative of the smoothing parameter.
+        /// </summary>
+        /// <remarks>
+        ///   This method is based on the practical estimation of the bandwidth as
+        ///   suggested in Wikipedia: http://en.wikipedia.org/wiki/Kernel_density_estimation
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations for the empirical distribution.</param>
+        /// 
+        /// <returns>An estimative of the smoothing parameter.</returns>
+        /// 
+        public static double SmoothingRule(double[] observations, double[] weights, int[] repeats)
+        {
+            if (weights != null)
+                return SmoothingRule(observations, weights);
+
+            if (repeats != null)
+                return SmoothingRule(observations, repeats);
+
+            return SmoothingRule(observations);
         }
 
         /// <summary>
@@ -473,10 +730,34 @@ namespace Accord.Statistics.Distributions.Univariate
             var generator = Accord.Math.Tools.Random;
 
             double[] s = new double[samples];
-            for (int i = 0; i < s.Length; i++)
+
+            if (weights == null)
             {
-                int index = generator.Next(this.samples.Length);
-                s[i] = this.samples[index];
+                for (int i = 0; i < s.Length; i++)
+                {
+                    int index = generator.Next(this.samples.Length);
+                    s[i] = this.samples[index];
+                }
+            }
+            else
+            {
+                double u = generator.NextDouble();
+                double uniform = u * numberOfSamples;
+
+                for (int i = 0; i < s.Length; i++)
+                {
+                    double cumulativeSum = 0;
+                    for (int j = 0; j < weights.Length; j++)
+                    {
+                        cumulativeSum += weights[j];
+
+                        if (uniform < cumulativeSum)
+                        {
+                            s[i] = this.samples[j];
+                            break;
+                        }
+                    }
+                }
             }
 
             return s;
@@ -492,9 +773,28 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             var generator = Accord.Math.Tools.Random;
 
-            int index = generator.Next(this.samples.Length);
+            if (weights == null)
+            {
+                int index = generator.Next(this.samples.Length);
+                return this.samples[index];
+            }
+            else
+            {
+                double u = generator.NextDouble();
 
-            return this.samples[index];
+                double uniform = u * numberOfSamples;
+
+                double cumulativeSum = 0;
+                for (int i = 0; i < weights.Length; i++)
+                {
+                    cumulativeSum += weights[i];
+
+                    if (uniform < cumulativeSum)
+                        return this.samples[i];
+                }
+
+                throw new Exception();
+            }
         }
     }
 }
