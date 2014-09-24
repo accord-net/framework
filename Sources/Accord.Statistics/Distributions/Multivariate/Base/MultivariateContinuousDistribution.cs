@@ -261,7 +261,10 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The logarithm of the probability of <c>x</c>
         ///   occurring in the current distribution.</returns>
         ///   
-        public abstract double LogProbabilityDensityFunction(params double[] x);
+        public virtual double LogProbabilityDensityFunction(params double[] x)
+        {
+            return Math.Log(ProbabilityDensityFunction(x));
+        }
 
         /// <summary>
         ///   Gets the complementary cumulative distribution function

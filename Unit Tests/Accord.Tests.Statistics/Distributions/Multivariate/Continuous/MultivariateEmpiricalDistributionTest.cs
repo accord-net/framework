@@ -215,5 +215,114 @@ namespace Accord.Tests.Statistics
             for (int i = 0; i < actual.Length; i++)
                 Assert.AreEqual(expected[i], actual[i]);
         }
+
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistributionConstructorTest_WeightsDontSumToOne()
+        {
+            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+
+            try
+            {
+                new MultivariateEmpiricalDistribution(samples.ToArray(), weights);
+                Assert.Fail();
+            }
+            catch (ArgumentException) { }
+        }
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistributionConstructorTest()
+        {
+            double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            var distribution = new MultivariateEmpiricalDistribution(original.ToArray());
+
+            int[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+            var target = new MultivariateEmpiricalDistribution(samples.ToArray(), weights);
+
+            Assert.AreEqual(distribution.Mean, target.Mean);
+            Assert.AreEqual(distribution.Median, target.Median);
+            Assert.AreEqual(distribution.Mode, target.Mode);
+            Assert.AreEqual(distribution.Smoothing, target.Smoothing);
+            Assert.AreEqual(distribution.Variance, target.Variance);
+            Assert.IsTrue(target.Weights.IsEqual(weights.Divide(weights.Sum())));
+            Assert.AreEqual(target.Samples, samples);
+
+            for (double x = 0; x < 6; x += 0.1)
+            {
+                double actual, expected;
+                expected = distribution.ComplementaryDistributionFunction(x);
+                actual = target.ComplementaryDistributionFunction(x);
+                Assert.AreEqual(expected, actual);
+
+                expected = distribution.DistributionFunction(x);
+                actual = target.DistributionFunction(x);
+                Assert.AreEqual(expected, actual);
+
+                expected = distribution.LogProbabilityDensityFunction(x);
+                actual = target.LogProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.ProbabilityDensityFunction(x);
+                actual = target.ProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+            }
+        }
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistributionConstructorTest2()
+        {
+            double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
+            var distribution = new MultivariateEmpiricalDistribution(original.ToArray());
+
+            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+
+            weights = weights.Divide(weights.Sum());
+
+            var target = new MultivariateEmpiricalDistribution(samples.ToArray(), weights, distribution.Smoothing);
+
+            Assert.AreEqual(distribution.Mean, target.Mean);
+            Assert.AreEqual(distribution.Median, target.Median);
+            Assert.AreEqual(distribution.Mode, target.Mode);
+            Assert.AreEqual(distribution.Smoothing, target.Smoothing);
+            Assert.AreEqual(1.3655172413793104, target.Variance);
+            Assert.AreEqual(target.Weights, weights);
+            Assert.AreEqual(target.Samples, samples);
+
+            for (double x = 0; x < 6; x += 0.1)
+            {
+                double actual, expected;
+                expected = distribution.ComplementaryDistributionFunction(x);
+                actual = target.ComplementaryDistributionFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.DistributionFunction(x);
+                actual = target.DistributionFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.LogProbabilityDensityFunction(x);
+                actual = target.LogProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+
+                expected = distribution.ProbabilityDensityFunction(x);
+                actual = target.ProbabilityDensityFunction(x);
+                Assert.AreEqual(expected, actual, 1e-15);
+            }
+        }
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistributionConstructorTest3()
+        {
+            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+
+            weights = weights.Divide(weights.Sum());
+
+            var target = new MultivariateEmpiricalDistribution(samples.ToArray(), weights);
+
+            Assert.AreEqual(1.2377597081667415, target.Smoothing);
+        }
     }
 }

@@ -25,6 +25,8 @@ namespace Accord.Statistics.Distributions.Fitting
     using System;
     using Accord.Statistics.Distributions.Multivariate;
 
+    public delegate double[,] MultivariateSmoothingRule(double[][] observations, double[] weights = null, int[] repeats = null);
+
     /// <summary>
     ///   Estimation options for <see cref="Accord.Statistics.Distributions.Multivariate
     ///   .MultivariateEmpiricalDistribution">Multivariate Empirical distributions</see>.
@@ -40,7 +42,9 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   Silverman's rule</see>.
         /// </summary>
         /// 
-        public Func<double[][], double[,]> SmoothingRule { get; set; }
+        public MultivariateSmoothingRule SmoothingRule { get; set; }
+
+        public bool InPlace { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="NormalOptions"/> class.
@@ -49,6 +53,7 @@ namespace Accord.Statistics.Distributions.Fitting
         public MultivariateEmpiricalOptions()
         {
             SmoothingRule = MultivariateEmpiricalDistribution.SilvermanRule;
+            InPlace = false;
         }
     }
 }

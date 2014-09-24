@@ -27,6 +27,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Math.Decompositions;
     using Accord.Statistics.Distributions.DensityKernels;
     using Accord.Statistics.Distributions.Fitting;
+    using Tools = Accord.Statistics.Tools;
 
     /// <summary>
     ///   Multivariate empirical distribution.
@@ -116,8 +117,18 @@ namespace Accord.Statistics.Distributions.Multivariate
         // Distribution parameters
         double[][] samples;
         double[,] smoothing;
+
         double determinant;
 
+
+        WeightType type;
+        double[] weights;
+        int[] repeats;
+
+        int numberOfSamples;
+        double sumOfWeights;
+
+        CholeskyDecomposition chol;
         IDensityKernel kernel;
 
         private double[] mean;
@@ -131,6 +142,30 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="samples">The data samples.</param>
         /// 
         public MultivariateEmpiricalDistribution(double[][] samples)
+            : base(samples[0].Length)
+        {
+            this.initialize(null, samples, null);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="samples">The data samples.</param>
+        /// 
+        public MultivariateEmpiricalDistribution(double[][] samples, double[] weights)
+            : base(samples[0].Length)
+        {
+            this.initialize(null, samples, null);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="samples">The data samples.</param>
+        /// 
+        public MultivariateEmpiricalDistribution(double[][] samples, int[] weights)
             : base(samples[0].Length)
         {
             this.initialize(null, samples, null);
@@ -156,12 +191,108 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         /// <param name="kernel">The kernel density function to use. 
         ///   Default is to use the <see cref="GaussianKernel"/>.</param>
+        /// <param name="samples">The data samples forming the distribution.</param>
+        /// 
+        public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, double[] weights)
+            : base(samples[0].Length)
+        {
+            this.initialize(kernel, samples, null);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel density function to use. 
+        ///   Default is to use the <see cref="GaussianKernel"/>.</param>
+        /// <param name="samples">The data samples forming the distribution.</param>
+        /// 
+        public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, int[] weights)
+            : base(samples[0].Length)
+        {
+            this.initialize(kernel, samples, null);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel density function to use. 
+        ///   Default is to use the <see cref="GaussianKernel"/>.</param>
         /// <param name="samples">The data samples.</param>
         /// <param name="smoothing">
         ///   The kernel smoothing or bandwidth to be used in density estimation.
         ///   By default, the normal distribution approximation will be used.</param>
         /// 
         public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, double[,] smoothing)
+            : base(samples[0].Length)
+        {
+            this.initialize(kernel, samples, smoothing);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel density function to use. 
+        ///   Default is to use the <see cref="GaussianKernel"/>.</param>
+        /// <param name="samples">The data samples.</param>
+        /// <param name="smoothing">
+        ///   The kernel smoothing or bandwidth to be used in density estimation.
+        ///   By default, the normal distribution approximation will be used.</param>
+        /// 
+        public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, int[] weights, double[,] smoothing)
+            : base(samples[0].Length)
+        {
+            this.initialize(kernel, samples, smoothing);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel density function to use. 
+        ///   Default is to use the <see cref="GaussianKernel"/>.</param>
+        /// <param name="samples">The data samples.</param>
+        /// <param name="smoothing">
+        ///   The kernel smoothing or bandwidth to be used in density estimation.
+        ///   By default, the normal distribution approximation will be used.</param>
+        /// 
+        public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, double[] weights, double[,] smoothing)
+            : base(samples[0].Length)
+        {
+            this.initialize(kernel, samples, smoothing);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel density function to use. 
+        ///   Default is to use the <see cref="GaussianKernel"/>.</param>
+        /// <param name="samples">The data samples.</param>
+        /// <param name="smoothing">
+        ///   The kernel smoothing or bandwidth to be used in density estimation.
+        ///   By default, the normal distribution approximation will be used.</param>
+        /// 
+        public MultivariateEmpiricalDistribution(double[][] samples, int[] weights, double[,] smoothing)
+            : base(samples[0].Length)
+        {
+            this.initialize(kernel, samples, smoothing);
+        }
+
+        /// <summary>
+        ///   Creates a new Empirical Distribution from the data samples.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The kernel density function to use. 
+        ///   Default is to use the <see cref="GaussianKernel"/>.</param>
+        /// <param name="samples">The data samples.</param>
+        /// <param name="smoothing">
+        ///   The kernel smoothing or bandwidth to be used in density estimation.
+        ///   By default, the normal distribution approximation will be used.</param>
+        /// 
+        public MultivariateEmpiricalDistribution(double[][] samples, double[] weights, double[,] smoothing)
             : base(samples[0].Length)
         {
             this.initialize(kernel, samples, smoothing);
@@ -186,6 +317,41 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
+        ///   Gets the fractional weights associated with each sample. Note that
+        ///   changing values on this array will not result int any effect in
+        ///   this distribution. The distribution must be computed from scratch
+        ///   with new values in case new weights needs to be used.
+        /// </summary>
+        /// 
+        /// </summary>
+        /// 
+        public double[] Weights
+        {
+            get { return weights; }
+        }
+
+        /// <summary>
+        ///   Gets the repetition counts associated with each sample. Note that
+        ///   changing values on this array will not result int any effect in
+        ///   this distribution. The distribution must be computed from scratch
+        ///   with new values in case new weights needs to be used.
+        /// </summary>
+        /// 
+        public int[] Counts
+        {
+            get { return repeats; }
+        }
+
+        /// <summary>
+        ///   Gets the total number of samples in this distribution.
+        /// </summary>
+        /// 
+        public int Length
+        {
+            get { return numberOfSamples; }
+        }
+
+        /// <summary>
         ///   Gets the bandwidth smoothing parameter
         ///   used in the kernel density estimation.
         /// </summary>
@@ -195,6 +361,91 @@ namespace Accord.Statistics.Distributions.Multivariate
             get { return smoothing; }
         }
 
+
+
+        /// <summary>
+        ///   Gets the mean for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   A vector containing the mean values for the distribution.
+        /// </value>
+        /// 
+        public override double[] Mean
+        {
+            get
+            {
+                if (mean == null)
+                {
+                    if (type == WeightType.None)
+                        mean = Tools.Mean(samples);
+
+                    else if (type == WeightType.Integers)
+                        mean = Tools.WeightedMean(samples, repeats);
+
+                    else if (type == WeightType.Fraction)
+                        mean = Tools.WeightedMean(samples, weights);
+                }
+
+                return mean;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the variance for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   A vector containing the variance values for the distribution.
+        /// </value>
+        /// 
+        public override double[] Variance
+        {
+            get
+            {
+                if (variance == null)
+                {
+                    if (type == WeightType.None)
+                        variance = Tools.Variance(samples);
+
+                    else if (type == WeightType.Integers)
+                        variance = Tools.WeightedVariance(samples, repeats);
+
+                    else if (type == WeightType.Fraction)
+                        variance = Tools.WeightedVariance(samples, weights);
+                }
+
+                return variance;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the variance-covariance matrix for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   A matrix containing the covariance values for the distribution.
+        /// </value>
+        /// 
+        public override double[,] Covariance
+        {
+            get
+            {
+                if (covariance == null)
+                {
+                    if (type == WeightType.None)
+                        covariance = Tools.Covariance(samples, Mean);
+
+                    else if (type == WeightType.Integers)
+                        covariance = Tools.WeightedCovariance(samples, repeats);
+
+                    else if (type == WeightType.Fraction)
+                        covariance = Tools.WeightedCovariance(samples, weights);
+                }
+
+                return covariance;
+            }
+        }
 
         /// <summary>
         ///   Gets the probability density function (pdf) for
@@ -219,94 +470,51 @@ namespace Accord.Statistics.Distributions.Multivariate
             // http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/ebooks/html/spm/spmhtmlnode18.html
 
             double sum = 0;
-
-            CholeskyDecomposition chol = new CholeskyDecomposition(smoothing);
-
             double[] delta = new double[Dimension];
-            for (int i = 0; i < samples.Length; i++)
-            {
-                for (int j = 0; j < x.Length; j++)
-                    delta[j] = (x[j] - samples[i][j]);
 
-                sum += kernel.Function(chol.Solve(delta));
+            if (type == WeightType.None)
+            {
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    for (int j = 0; j < x.Length; j++)
+                        delta[j] = (x[j] - samples[i][j]);
+                    sum += kernel.Function(chol.Solve(delta));
+                }
+
+                return sum / (samples.Length * determinant);
             }
 
-            return sum / (samples.Length * determinant);
-        }
-
-        /// <summary>
-        ///   Gets the log-probability density function (pdf)
-        ///   for this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range. For a
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        ///   
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c>
-        ///   occurring in the current distribution.
-        /// </returns>
-        /// 
-        public override double LogProbabilityDensityFunction(params double[] x)
-        {
-            return Math.Log(ProbabilityDensityFunction(x));
-        }
-
-        /// <summary>
-        ///   Gets the mean for this distribution.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   A vector containing the mean values for the distribution.
-        /// </value>
-        /// 
-        public override double[] Mean
-        {
-            get
+            if (type == WeightType.Integers)
             {
-                if (mean == null)
-                    mean = Accord.Statistics.Tools.Mean(samples);
-                return mean;
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    for (int j = 0; j < x.Length; j++)
+                        delta[j] = (x[j] - samples[i][j]);
+
+                    sum += kernel.Function(chol.Solve(delta)) * repeats[i];
+                }
+
+                return sum / (numberOfSamples * determinant);
             }
+
+            if (type == WeightType.Fraction)
+            {
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    for (int j = 0; j < x.Length; j++)
+                        delta[j] = (x[j] - samples[i][j]);
+
+                    sum += kernel.Function(chol.Solve(delta)) * weights[i];
+                }
+
+                return sum / (sumOfWeights * determinant);
+            }
+
+            throw new InvalidOperationException();
         }
 
-        /// <summary>
-        ///   Gets the variance for this distribution.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   A vector containing the variance values for the distribution.
-        /// </value>
-        /// 
-        public override double[] Variance
-        {
-            get
-            {
-                if (variance == null)
-                    variance = Accord.Statistics.Tools.Variance(samples, Mean);
-                return variance;
-            }
-        }
 
-        /// <summary>
-        ///   Gets the variance-covariance matrix for this distribution.
-        /// </summary>
-        /// 
-        /// <value>
-        ///   A matrix containing the covariance values for the distribution.
-        /// </value>
-        /// 
-        public override double[,] Covariance
-        {
-            get
-            {
-                if (covariance == null)
-                    covariance = Accord.Statistics.Tools.Covariance(samples, Mean);
-                return covariance;
-            }
-        }
+
 
         /// <summary>
         ///   Not supported.
@@ -330,9 +538,9 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
-        public override void Fit(double[][] observations, double[] weights, Fitting.IFittingOptions options)
+        public override void Fit(double[][] observations, double[] weights, IFittingOptions options)
         {
-            Fit(observations, weights, options as EmpiricalOptions);
+            Fit(observations, weights, options as MultivariateEmpiricalOptions);
         }
 
         /// <summary>
@@ -344,8 +552,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///
-        public void Fit(double[][] observations, double[] weights = null, 
-            MultivariateEmpiricalOptions options = null)
+        public void Fit(double[][] observations, double[] weights, MultivariateEmpiricalOptions options)
         {
             if (weights != null)
                 throw new ArgumentException("This distribution does not support weighted samples.", "weights");
@@ -354,9 +561,42 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new ArgumentException("This method does not accept fitting options.");
 
             double[,] smoothing = null;
+            bool inPlace = false;
 
             if (options != null)
+            {
                 smoothing = options.SmoothingRule(observations);
+                inPlace = options.InPlace;
+            }
+
+            initialize(null, (double[][])observations.Clone(), smoothing);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against.</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///
+        public void Fit(double[][] observations, int[] weights, MultivariateEmpiricalOptions options)
+        {
+            if (weights != null)
+                throw new ArgumentException("This distribution does not support weighted samples.", "weights");
+
+            if (options != null)
+                throw new ArgumentException("This method does not accept fitting options.");
+
+            double[,] smoothing = null;
+            bool inPlace = false;
+
+            if (options != null)
+            {
+                smoothing = options.SmoothingRule(observations);
+                inPlace = options.InPlace;
+            }
 
             initialize(null, (double[][])observations.Clone(), smoothing);
         }
@@ -373,6 +613,8 @@ namespace Accord.Statistics.Distributions.Multivariate
             this.samples = observations;
             this.smoothing = smoothing;
             this.determinant = smoothing.Determinant();
+
+            this.chol = new CholeskyDecomposition(smoothing);
 
             this.mean = null;
             this.variance = null;
@@ -419,11 +661,83 @@ namespace Accord.Statistics.Distributions.Multivariate
             // Silverman's rule
             //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
 
-            double[] sigma = Statistics.Tools.StandardDeviation(observations);
+            double[] sigma = Tools.StandardDeviation(observations);
 
             double d = sigma.Length;
             double n = observations.Length;
 
+            return silverman(sigma, d, n);
+        }
+
+        /// <summary>
+        ///   Gets the Silverman's rule. estimative of the smoothing parameter.
+        ///   This is the default smoothing rule applied used when estimating 
+        ///   <see cref="MultivariateEmpiricalDistribution"/>s.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method is described on Wikipedia, at
+        ///   http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations for the empirical distribution.</param>
+        /// 
+        /// <returns>An estimative of the smoothing parameter.</returns>
+        /// 
+        public static double[,] SilvermanRule(double[][] observations, double[] weights)
+        {
+            // Silverman's rule
+            //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
+
+            double[] sigma = Tools.WeightedStandardDeviation(observations, weights);
+
+            double d = sigma.Length;
+            double n = weights.Sum();
+
+            return silverman(sigma, d, n);
+        }
+
+        /// <summary>
+        ///   Gets the Silverman's rule. estimative of the smoothing parameter.
+        ///   This is the default smoothing rule applied used when estimating 
+        ///   <see cref="MultivariateEmpiricalDistribution"/>s.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method is described on Wikipedia, at
+        ///   http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations for the empirical distribution.</param>
+        /// 
+        /// <returns>An estimative of the smoothing parameter.</returns>
+        /// 
+        public static double[,] SilvermanRule(double[][] observations, int[] weights)
+        {
+            // Silverman's rule
+            //  - http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
+
+            double[] sigma = Tools.WeightedStandardDeviation(observations, weights);
+
+            double d = sigma.Length;
+            double n = weights.Sum();
+
+            return silverman(sigma, d, n);
+        }
+
+        public static double[,] SilvermanRule(double[][] observations, double[] weights, int[] repeats)
+        {
+            if (weights != null)
+                return SilvermanRule(observations, weights);
+
+            if (repeats != null)
+                return SilvermanRule(observations, repeats);
+
+            return SilvermanRule(observations);
+        }
+
+        private static double[,] silverman(double[] sigma, double d, double n)
+        {
 
             var smoothing = new double[sigma.Length, sigma.Length];
             for (int i = 0; i < sigma.Length; i++)
@@ -447,12 +761,9 @@ namespace Accord.Statistics.Distributions.Multivariate
         {
             var generator = Accord.Math.Tools.Random;
 
-            double[][] s = new double[samples][];
+            var s = new double[samples][];
             for (int i = 0; i < s.Length; i++)
-            {
-                int index = generator.Next(this.samples.Length);
-                s[i] = this.samples[index];
-            }
+                s[i] = this.samples[generator.Next(this.samples.Length)];
 
             return s;
         }
@@ -467,9 +778,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         {
             var generator = Accord.Math.Tools.Random;
 
-            int index = generator.Next(this.samples.Length);
-
-            return this.samples[index];
+            return this.samples[generator.Next(this.samples.Length)];
         }
 
     }
