@@ -144,180 +144,66 @@ namespace Accord.Statistics.Distributions.Multivariate
 
         #region IDistribution explicit members
 
-        /// <summary>
-        /// Gets the cumulative distribution function (cdf) for
-        /// this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <remarks>
-        /// The Cumulative Distribution Function (CDF) describes the cumulative
-        /// probability that a given value or any value smaller than it will occur.
-        /// </remarks>
-        /// 
         double IDistribution.DistributionFunction(double[] x)
         {
             return DistributionFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
         }
 
-        /// <summary>
-        ///   Gets the probability mass function (pmf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">
-        ///   A single point in the distribution range. For a 
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        ///   
-        /// <remarks>
-        ///   The Probability Mass Function (PMF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.</returns>
-        ///   
         double IDistribution.ProbabilityFunction(double[] x)
         {
             return ProbabilityMassFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
         }
 
-        /// <summary>
-        ///   Gets the log-probability density function (pdf)
-        ///   for this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">
-        ///   A single point in the distribution range. For a 
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        ///   
-        /// <remarks>
-        ///   The Probability Mass Function (PMF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c>
-        ///   occurring in the current distribution.
-        /// </returns>
-        ///   
         double IDistribution.LogProbabilityFunction(double[] x)
         {
             return LogProbabilityMassFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
         }
 
-        /// <summary>
-        ///   Gets the complementary cumulative distribution function
-        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
-        ///   This function is also known as the Survival function.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The Complementary Cumulative Distribution Function (CCDF) is
-        ///   the complement of the Cumulative Distribution Function, or 1
-        ///   minus the CDF.
-        /// </remarks>
-        /// 
         double IDistribution.ComplementaryDistributionFunction(double[] x)
         {
             return ComplementaryDistributionFunction(Array.ConvertAll<double, int>(x, Convert.ToInt32));
         }
 
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// 
-        /// <param name="observations">
-        ///   The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).</param>
-        /// <remarks>
-        /// 
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
-        ///   
         void IDistribution.Fit(Array observations)
         {
             (this as IDistribution).Fit(observations, (IFittingOptions)null);
         }
 
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// <param name="observations">
-        ///   The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).</param>
-        /// <param name="weights">
-        ///   The weight vector containing the weight for each of the samples.</param>
-        /// <remarks>
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
-        /// 
         void IDistribution.Fit(Array observations, double[] weights)
         {
             (this as IDistribution).Fit(observations, weights, (IFittingOptions)null);
         }
 
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// <param name="observations">
-        ///   The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).</param>
-        /// <param name="options">
-        ///   Optional arguments which may be used during fitting, such
-        ///   as regularization constants and additional parameters.</param>
-        /// <remarks>
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
-        /// 
-        void IDistribution.Fit(Array observations, IFittingOptions options)
+        void IDistribution.Fit(Array observations, int[] weights)
         {
-            double[] weights = new double[observations.Length];
-
-            // Create equal weights for the observations
-            double w = 1.0 / observations.Length;
-            for (int i = 0; i < weights.Length; i++)
-                weights[i] = w;
-
-            (this as IDistribution).Fit(observations, weights, options);
+            (this as IDistribution).Fit(observations, weights, (IFittingOptions)null);
         }
 
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// <param name="observations">
-        ///   The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).
-        /// </param>
-        /// <param name="weights">
-        ///   The weight vector containing the weight for each of the samples.</param>
-        /// <param name="options">
-        ///   Optional arguments which may be used during fitting, such
-        ///   as regularization constants and additional parameters.</param>
-        /// <remarks>
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
-        /// 
+        void IDistribution.Fit(Array observations, IFittingOptions options)
+        {
+            (this as IDistribution).Fit(observations, (double[])null, options);
+        }
+
         void IDistribution.Fit(Array observations, double[] weights, IFittingOptions options)
+        {
+            double[][] multivariate = observations as double[][];
+            if (multivariate != null)
+            {
+                Fit(multivariate, weights, options);
+                return;
+            }
+
+            double[] univariate = observations as double[];
+            if (univariate != null)
+            {
+                Fit(univariate.Split(dimension), weights, options);
+                return;
+            }
+
+            throw new ArgumentException("Unsupported parameter type.", "observations");
+        }
+
+        void IDistribution.Fit(Array observations, int[] weights, IFittingOptions options)
         {
             double[][] multivariate = observations as double[][];
             if (multivariate != null)
@@ -469,6 +355,29 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   The array of observations to fit the model against. The array
         ///   elements can be either of type double (for univariate data) or
         ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public virtual void Fit(double[][] observations, int[] weights)
+        {
+            Fit(observations, weights, (IFittingOptions)null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
         /// <param name="options">
         ///   Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
@@ -482,14 +391,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public virtual void Fit(double[][] observations, IFittingOptions options)
         {
-            double[] weights = new double[observations.Length];
-
-            // Create equal weights for the observations
-            double w = 1.0 / observations.Length;
-            for (int i = 0; i < weights.Length; i++)
-                weights[i] = w;
-
-            Fit(observations, weights, options);
+            Fit(observations, (double[])null, options);
         }
 
         /// <summary>
@@ -514,7 +416,44 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   impact in performance.
         /// </remarks>
         /// 
-        public abstract void Fit(double[][] observations, double[] weights, IFittingOptions options);
+        public virtual void Fit(double[][] observations, double[] weights, IFittingOptions options)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).
+        /// </param>
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public virtual void Fit(double[][] observations, int[] weights, IFittingOptions options)
+        {
+            if (weights == null)
+            {
+                Fit(observations, (double[])null, options);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.

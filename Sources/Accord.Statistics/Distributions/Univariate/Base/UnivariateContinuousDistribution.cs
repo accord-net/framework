@@ -418,6 +418,29 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The array of observations to fit the model against. The array
         ///   elements can be either of type double (for univariate data) or
         ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        void IDistribution.Fit(Array observations, int[] weights)
+        {
+            (this as IDistribution).Fit(observations, weights, (IFittingOptions)null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
         /// <param name="options">
         ///   Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
@@ -431,14 +454,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         void IDistribution.Fit(Array observations, IFittingOptions options)
         {
-            double[] weights = new double[observations.Length];
-
-            // Create equal weights for the observations
-            double w = 1.0 / observations.Length;
-            for (int i = 0; i < weights.Length; i++)
-                weights[i] = w;
-
-            (this as IDistribution).Fit(observations, weights, options);
+            (this as IDistribution).Fit(observations, (double[])null, options);
         }
 
         /// <summary>
@@ -463,6 +479,46 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </remarks>
         /// 
         void IDistribution.Fit(Array observations, double[] weights, IFittingOptions options)
+        {
+            double[] univariate = observations as double[];
+            if (univariate != null)
+            {
+                Fit(univariate, weights, options);
+                return;
+            }
+
+            double[][] multivariate = observations as double[][];
+            if (multivariate != null)
+            {
+                Fit(Matrix.Concatenate(multivariate), weights, options);
+                return;
+            }
+
+            throw new ArgumentException("Invalid input type.", "observations");
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data). </param>
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples. </param>
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        void IDistribution.Fit(Array observations, int[] weights, IFittingOptions options)
         {
             double[] univariate = observations as double[];
             if (univariate != null)
@@ -541,20 +597,29 @@ namespace Accord.Statistics.Distributions.Univariate
 #endif 
             double p)
         {
+            if (p < 0.0 || p > 1.0)
+                throw new ArgumentOutOfRangeException("p", "Value must be between 0 and 1.");
+
             bool lowerBounded = !Double.IsInfinity(Support.Min);
             bool upperBounded = !Double.IsInfinity(Support.Max);
 
+            double lower;
+            double upper;
+            double f;
+
             if (lowerBounded && upperBounded)
             {
-                return BrentSearch.Find(DistributionFunction, p, Support.Min, Support.Max);
+                lower = Support.Min;
+                upper = Support.Max;
+                f = 0.5;
             }
 
-            if (lowerBounded && !upperBounded)
+            else if (lowerBounded && !upperBounded)
             {
-                double lower = Support.Min;
-                double upper = lower + 1;
+                lower = Support.Min;
+                upper = lower + 1;
 
-                double f = DistributionFunction(lower);
+                f = DistributionFunction(lower);
 
                 if (f > p)
                 {
@@ -572,16 +637,14 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(upper);
                     }
                 }
-
-                return BrentSearch.Find(DistributionFunction, p, lower, upper);
             }
 
-            if (!lowerBounded && upperBounded)
+            else if (!lowerBounded && upperBounded)
             {
-                double upper = Support.Max;
-                double lower = upper - 1;
+                upper = Support.Max;
+                lower = upper - 1;
 
-                double f = DistributionFunction(upper);
+                f = DistributionFunction(upper);
 
                 if (f > p)
                 {
@@ -599,16 +662,14 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(lower);
                     }
                 }
-
-                return BrentSearch.Find(DistributionFunction, p, lower, upper);
             }
 
-            // completely unbounded
+            else // completely unbounded
             {
-                int lower = 0;
-                int upper = 0;
+                lower = 0;
+                upper = 0;
 
-                double f = DistributionFunction(0);
+                f = DistributionFunction(0);
 
                 if (f > p)
                 {
@@ -628,9 +689,14 @@ namespace Accord.Statistics.Distributions.Univariate
                         f = DistributionFunction(upper);
                     }
                 }
-
-                return BrentSearch.Find(DistributionFunction, p, lower, upper);
             }
+
+            if (f == 0)
+                return Support.Min;
+            else if (f == 1)
+                return Support.Max;
+
+            return BrentSearch.Find(DistributionFunction, p, lower, upper);
         }
 
         /// <summary>
@@ -780,6 +846,29 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The array of observations to fit the model against. The array
         ///   elements can be either of type double (for univariate data) or
         ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public virtual void Fit(double[] observations, int[] weights)
+        {
+            Fit(observations, weights, (IFittingOptions)null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
         /// <param name="options">
         ///   Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
@@ -793,7 +882,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual void Fit(double[] observations, IFittingOptions options)
         {
-            Fit(observations, null, options);
+            Fit(observations, (double[])null, options);
         }
 
         /// <summary>
@@ -821,6 +910,40 @@ namespace Accord.Statistics.Distributions.Univariate
         public virtual void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).
+        /// </param>
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public virtual void Fit(double[] observations, int[] weights, IFittingOptions options)
+        {
+            if (weights == null)
+            {
+                Fit(observations, (double[])null, options);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         /// <summary>

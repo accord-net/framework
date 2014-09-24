@@ -387,6 +387,44 @@ namespace Accord.Statistics.Distributions.Univariate
                 var = observations.WeightedVariance(weights, mean);
             }
 
+            fit(mean, var);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public override void Fit(double[] observations, int[] weights, IFittingOptions options)
+        {
+            if (options != null)
+                throw new ArgumentException("This method does not accept fitting options.");
+
+            double mean;
+            double var;
+
+            if (weights == null)
+            {
+                mean = observations.Mean();
+                var = observations.Variance(mean);
+            }
+            else
+            {
+                mean = observations.WeightedMean(weights);
+                var = observations.WeightedVariance(weights, mean);
+            }
+
+            fit(mean, var);
+        }
+
+        private void fit(double mean, double var)
+        {
             if (var >= mean * (1.0 - mean))
                 throw new NotSupportedException();
 

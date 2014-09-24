@@ -399,7 +399,11 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             double icdf = mean + stdDev * Normal.Inverse(p);
 
-            System.Diagnostics.Debug.Assert(icdf.IsRelativelyEqual(base.InverseDistributionFunction(p), 1e-6));
+#if DEBUG
+            double baseValue = base.InverseDistributionFunction(p);
+            if (!icdf.IsRelativelyEqual(baseValue, 1e-6))
+                throw new Exception();
+#endif
 
             return icdf;
         }

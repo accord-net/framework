@@ -290,7 +290,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public static RayleighDistribution Estimate(double[] observations)
         {
             var n = new RayleighDistribution();
-            n.Fit(observations, null, null);
+            n.Fit(observations);
             return n;
         }
 

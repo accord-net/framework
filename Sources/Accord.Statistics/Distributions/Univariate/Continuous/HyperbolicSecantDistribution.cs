@@ -65,14 +65,14 @@ namespace Accord.Statistics.Distributions.Univariate
     /// double mode = sech.Mode;     // 0.0
     /// double var = sech.Variance;  // 1.0
     /// 
-    /// double cdf = sech.DistributionFunction(x: 1.4); // 2.2939067361538474
+    /// double cdf = sech.DistributionFunction(x: 1.4); // 0.92968538268895873
     /// double pdf = sech.ProbabilityDensityFunction(x: 1.4); // 0.10955386512899701
     /// double lpdf = sech.LogProbabilityDensityFunction(x: 1.4); // -2.2113389316917877
     /// 
-    /// double ccdf = sech.ComplementaryDistributionFunction(x: 1.4); // -1.2939067361538474
-    /// double icdf = sech.InverseDistributionFunction(p: cdf); // 1.4000000017042402
+    /// double ccdf = sech.ComplementaryDistributionFunction(x: 1.4); // 0.070314617311041272
+    /// double icdf = sech.InverseDistributionFunction(p: cdf); // 1.40
     /// 
-    /// double hf = sech.HazardFunction(x: 1.4); // -0.084669058493850285
+    /// double hf = sech.HazardFunction(x: 1.4); // 1.5580524977385339
     /// 
     /// string str = sech.ToString(); // Sech(x)
     /// </code>
@@ -196,7 +196,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            return (Math.PI / 2) * Math.Atan(Math.Exp(x * Math.PI / 2.0));
+            double angle = Math.Atan(Math.Exp(x * Math.PI / 2.0));
+            return 2 * angle / Math.PI;
         }
 
         /// <summary>

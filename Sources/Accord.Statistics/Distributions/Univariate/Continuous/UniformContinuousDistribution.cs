@@ -335,7 +335,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public static UniformContinuousDistribution Estimate(double[] observations)
         {
             var n = new UniformContinuousDistribution();
-            n.Fit(observations, null, null);
+            n.Fit(observations);
             return n;
         }
 

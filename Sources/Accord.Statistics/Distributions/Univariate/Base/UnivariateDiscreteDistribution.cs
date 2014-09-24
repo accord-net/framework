@@ -315,97 +315,46 @@ namespace Accord.Statistics.Distributions.Univariate
             return CumulativeHazardFunction((int)x);
         }
 
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// 
-        /// <param name="observations">
-        ///   The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).</param>
-        ///   
-        /// <remarks>
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
-        ///   
         void IDistribution.Fit(Array observations)
         {
             (this as IDistribution).Fit(observations, (IFittingOptions)null);
         }
 
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// 
-        /// <param name="observations">
-        ///   The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).</param>
-        /// <param name="weights">
-        ///   The weight vector containing the weight for each of the samples.</param>
-        /// <remarks>
-        /// 
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
-        /// 
         void IDistribution.Fit(Array observations, double[] weights)
         {
             (this as IDistribution).Fit(observations, weights, (IFittingOptions)null);
         }
 
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// 
-        /// <param name="observations">
-        ///   The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).</param>
-        /// <param name="options">
-        ///   Optional arguments which may be used during fitting, such
-        ///   as regularization constants and additional parameters.</param>
-        ///   
-        /// <remarks>
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
-        /// 
-        void IDistribution.Fit(Array observations, IFittingOptions options)
+        void IDistribution.Fit(Array observations, int[] weights)
         {
-            (this as IDistribution).Fit(observations, null, options);
+            (this as IDistribution).Fit(observations, weights, (IFittingOptions)null);
         }
 
-        /// <summary>
-        ///   Fits the underlying distribution to a given set of observations.
-        /// </summary>
-        /// 
-        /// <param name="observations">
-        ///   The array of observations to fit the model against. The array
-        ///   elements can be either of type double (for univariate data) or
-        ///   type double[] (for multivariate data).
-        /// </param>
-        /// <param name="weights">
-        ///   The weight vector containing the weight for each of the samples.</param>
-        /// <param name="options">
-        ///   Optional arguments which may be used during fitting, such
-        ///   as regularization constants and additional parameters.</param>
-        ///   
-        /// <remarks>
-        ///   Although both double[] and double[][] arrays are supported,
-        ///   providing a double[] for a multivariate distribution or a
-        ///   double[][] for a univariate distribution may have a negative
-        ///   impact in performance.
-        /// </remarks>
-        /// 
+        void IDistribution.Fit(Array observations, IFittingOptions options)
+        {
+            (this as IDistribution).Fit(observations, (double[])null, options);
+        }
+
         void IDistribution.Fit(Array observations, double[] weights, IFittingOptions options)
+        {
+            double[] univariate = observations as double[];
+            if (univariate != null)
+            {
+                Fit(univariate, weights, options);
+                return;
+            }
+
+            double[][] multivariate = observations as double[][];
+            if (multivariate != null)
+            {
+                Fit(Matrix.Concatenate(multivariate), weights, options);
+                return;
+            }
+
+            throw new ArgumentException("Invalid input type.", "observations");
+        }
+
+        void IDistribution.Fit(Array observations, int[] weights, IFittingOptions options)
         {
             double[] univariate = observations as double[];
             if (univariate != null)
@@ -751,13 +700,30 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   elements can be either of type double (for univariate data) or
         ///   type double[] (for multivariate data).</param>
         ///   
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        public virtual void Fit(double[] observations, int[] weights)
+        {
+            Fit(observations, weights, (IFittingOptions)null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        ///   
         /// <param name="options">
         ///   Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
         public virtual void Fit(double[] observations, IFittingOptions options)
         {
-            Fit(observations, null, options);
+            Fit(observations, (double[])null, options);
         }
 
         /// <summary>
@@ -777,7 +743,39 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
-        public abstract void Fit(double[] observations, double[] weights, IFittingOptions options);
+        public virtual void Fit(double[] observations, double[] weights, IFittingOptions options)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).
+        /// </param>
+        /// 
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public virtual void Fit(double[] observations, int[] weights, IFittingOptions options)
+        {
+            if (weights == null)
+            {
+                Fit(observations, (double[])null, options);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.

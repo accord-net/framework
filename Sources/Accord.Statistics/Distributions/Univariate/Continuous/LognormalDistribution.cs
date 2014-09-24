@@ -386,7 +386,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public void Fit(double[] observations, double[] weights, NormalOptions options)
         {
-            if (immutable) throw new InvalidOperationException();
+            if (immutable) 
+                throw new InvalidOperationException();
 
             double mu, var;
 

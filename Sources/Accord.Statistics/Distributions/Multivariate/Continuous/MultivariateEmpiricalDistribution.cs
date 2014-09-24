@@ -348,7 +348,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             MultivariateEmpiricalOptions options = null)
         {
             if (weights != null)
-                throw new ArgumentException("This distribution does not support weighted samples.");
+                throw new ArgumentException("This distribution does not support weighted samples.", "weights");
 
             if (options != null)
                 throw new ArgumentException("This method does not accept fitting options.");

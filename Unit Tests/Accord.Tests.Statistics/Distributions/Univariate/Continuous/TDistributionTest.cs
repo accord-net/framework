@@ -286,7 +286,7 @@ namespace Accord.Tests.Statistics
         {
             bool thrown = false;
             TDistribution target = new TDistribution(1);
-            try { target.Fit(null, null, null); }
+            try { target.Fit(null, (double[])null, null); }
             catch (NotSupportedException) { thrown = true; }
             Assert.IsTrue(thrown);
         }

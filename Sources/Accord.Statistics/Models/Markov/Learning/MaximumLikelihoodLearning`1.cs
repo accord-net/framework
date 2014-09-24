@@ -281,7 +281,7 @@ namespace Accord.Statistics.Models.Markov.Learning
                 // Estimate probability distributions
                 for (int i = 0; i < model.States; i++)
                     if (clusters[i].Count > 0)
-                        model.Emissions[i].Fit(clusters[i].ToArray(), null, fittingOptions);
+                        model.Emissions[i].Fit(clusters[i].ToArray(), fittingOptions);
             }
 
             // 4. Form log-probabilities, using the Laplace

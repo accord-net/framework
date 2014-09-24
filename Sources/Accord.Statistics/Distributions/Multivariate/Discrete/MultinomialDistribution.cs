@@ -300,8 +300,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new ArgumentException("This method does not accept fitting options.");
 
             double[] pi = new double[probabilities.Length];
-            double size = weights.Length;
-
+            
             if (weights == null)
             {
                 for (int c = 0; c < probabilities.Length; c++)
@@ -313,6 +312,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             }
             else
             {
+                double size = weights.Length;
                 for (int c = 0; c < probabilities.Length; c++)
                 {
                     for (int i = 0; i < observations.Length; i++)

@@ -237,8 +237,30 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
-        public void Fit(double[] observations, double[] weights = null, CauchyOptions options = null)
+        public void Fit(double[] observations, int[] weights, CauchyOptions options)
         {
+            if (weights != null)
+                throw new ArgumentException("This distribution does not support weighted samples.", "weights");
+
+            Fit(observations, (double[])null, options);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(double[] observations, double[] weights, CauchyOptions options)
+        {
+            if (weights != null)
+                throw new ArgumentException("This distribution does not support weighted samples.", "weights");
+
             double sin = 0, cos = 0;
             for (int i = 0; i < observations.Length; i++)
             {
@@ -250,9 +272,9 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double N = observations.Length;
             double R2 = (cos / N) * (cos / N) + (sin / N) * (sin / N);
-            double R2e = N / (N - 1) * (R2 - 1 / N);
+            double R2e = N / (N - 1) * (R2 - 1.0 / N);
 
-            gamma = Math.Log(1 / R2e) / 2;
+            gamma = Math.Log(1.0 / R2e) / 2.0;
         }
 
         /// <summary>

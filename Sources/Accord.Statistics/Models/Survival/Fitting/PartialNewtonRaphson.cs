@@ -420,7 +420,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     };
                 }
 
-                regression.BaselineHazard.Fit(time, null, options);
+                regression.BaselineHazard.Fit(time, options);
             }
 
             return 0;

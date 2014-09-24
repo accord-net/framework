@@ -213,23 +213,42 @@ namespace Accord.Statistics.Distributions.Multivariate
             if (options != null)
                 throw new ArgumentException("This method does not accept fitting options.");
 
-            if (observations.Length != weights.Length)
-                throw new ArgumentException("The weight vector should have the same size as the observations", "weights");
 
             for (int i = 0; i < probabilities.Length; i++)
                 probabilities[i] = 0;
 
-            for (int i = 0; i < observations.Length; i++)
+            if (weights != null)
             {
-                double[] x = observations[i];
+                if (observations.Length != weights.Length)
+                {
+                    throw new DimensionMismatchException("weights",
+                        "The weight vector should have the same size as the observations");
+                }
 
-                int index = 0;
-                for (int j = 0; j < x.Length; j++)
-                    index += (int)x[j] * positions[j];
+                for (int i = 0; i < observations.Length; i++)
+                {
+                    double[] x = observations[i];
 
-                probabilities[index] += weights[i];
+                    int index = 0;
+                    for (int j = 0; j < x.Length; j++)
+                        index += (int)x[j] * positions[j];
+
+                    probabilities[index] += weights[i];
+                }
             }
+            else
+            {
+                for (int i = 0; i < observations.Length; i++)
+                {
+                    double[] x = observations[i];
 
+                    int index = 0;
+                    for (int j = 0; j < x.Length; j++)
+                        index += (int)x[j] * positions[j];
+
+                    probabilities[index]++;
+                }
+            }
 
             double sum = 0;
             for (int i = 0; i < probabilities.Length; i++)
@@ -237,6 +256,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             if (sum != 0 && sum != 1)
             {
+                // TODO: add the following in a JointOption class:
                 // avoid locking a parameter in zero.
                 // if (num == 0) num = 1e-10;
 
