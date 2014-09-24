@@ -190,7 +190,6 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             double[] x = { 0, 1 };
 
-            Check(model, target, x);
 
             for (int c = 0; c < model.Classes; c++)
             {

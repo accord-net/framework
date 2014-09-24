@@ -548,8 +548,6 @@ namespace Accord.Tests.Statistics.Models.Fields
             var hcrf = new HiddenConditionalRandomField<double[]>(target);
 
 
-            Check(model, target, words);
-
             Assert.AreEqual(3, model.Priors.Length);
             Assert.AreEqual(1 / 3.0, model.Priors[0]);
             Assert.AreEqual(1 / 3.0, model.Priors[1]);

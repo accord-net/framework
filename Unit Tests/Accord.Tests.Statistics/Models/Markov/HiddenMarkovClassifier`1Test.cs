@@ -714,7 +714,7 @@ namespace Accord.Tests.Statistics
             {
                 int actual = hmm.Compute(large_gestures[i]);
                 int expected = large_outputs[i];
-                Assert.AreEqual(expected,actual);
+                Assert.AreEqual(expected, actual);
             }
         }
 
