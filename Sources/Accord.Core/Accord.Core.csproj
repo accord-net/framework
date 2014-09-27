@@ -117,7 +117,7 @@
     <Compile Include="Compatibility\SpinLock.cs" />
     <Compile Include="Compatibility\ThreadLocal.cs" />
     <Compile Include="Compatibility\Tuple.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Exceptions\ConvergenceException.cs" />
     <Compile Include="Exceptions\DimensionMismatchException.cs" />
     <Compile Include="Exceptions\NonPositiveDefiniteMatrixException.cs" />

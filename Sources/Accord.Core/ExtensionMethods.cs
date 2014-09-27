@@ -34,7 +34,7 @@ namespace Accord
     ///   Static class for utility extension methods.
     /// </summary>
     /// 
-    public static class Extensions
+    public static class ExtensionMethods
     {
 
         /// <summary>
