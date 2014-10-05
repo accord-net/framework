@@ -26,6 +26,7 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Tools = Accord.Statistics.Tools;
+    using Accord.Statistics;
 
     [TestClass()]
     public class ToolsTest
@@ -555,13 +556,13 @@ namespace Accord.Tests.Statistics
 
             double[] expected = 
             { 
-                Tools.WeightedVariance(matrix.GetColumn(0), weights),
-                Tools.WeightedVariance(matrix.GetColumn(1), weights),
-                Tools.WeightedVariance(matrix.GetColumn(2), weights),
+                Tools.WeightedVariance(matrix.GetColumn(0), weights, WeightType.Automatic),
+                Tools.WeightedVariance(matrix.GetColumn(1), weights, WeightType.Automatic),
+                Tools.WeightedVariance(matrix.GetColumn(2), weights, WeightType.Automatic),
             };
 
 
-            double[] actual = Tools.WeightedVariance(matrix, weights);
+            double[] actual = Tools.WeightedVariance(matrix, weights, WeightType.Automatic);
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
