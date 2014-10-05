@@ -33,9 +33,18 @@ namespace Accord.Math
 
         #region Comparison
 
+        /// <summary>
+        ///   Determines whether a number is an integer, given a tolerance threshold.
+        /// </summary>
+        /// 
+        /// <param name="x">The value to be compared.</param>
+        /// <param name="threshold">The maximum that the number can deviate from its closest integer number.</param>
+        /// 
+        /// <returns>True if the number if an integer, false otherwise.</returns>
+        /// 
         public static bool IsInteger(this double x, double threshold)
         {
-            double a = Math.Truncate(x);
+            double a = Math.Round(x);
             double b = x;
 
             if (a == b)
@@ -1591,7 +1600,8 @@ namespace Accord.Math
         /// 
         public static double Sum(this double[] vector)
         {
-            if (vector == null) throw new ArgumentNullException("vector");
+            if (vector == null) 
+                throw new ArgumentNullException("vector");
 
             double sum = 0.0;
             for (int i = 0; i < vector.Length; i++)

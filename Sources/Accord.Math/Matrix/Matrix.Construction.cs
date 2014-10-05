@@ -1026,7 +1026,7 @@ namespace Accord.Math
         ///   Combine vectors horizontally.
         /// </summary>
         /// 
-        public static T[] Concatenate<T>(params T[][] vectors)
+        public static T[] Concatenate<T>(this T[][] vectors)
         {
             int size = 0;
             for (int i = 0; i < vectors.Length; i++)
@@ -1243,22 +1243,63 @@ namespace Accord.Math
         }
         #endregion
 
-
+        /// <summary>
+        ///   Pads a matrix by filling all of its sides with zeros.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix whose contents will be padded.</param>
+        /// <param name="all">How many rows and columns to add at each side of the matrix.</param>
+        /// 
+        /// <returns>The original matrix with an extra row of zeros at the selected places.</returns>
+        /// 
         public static T[,] Pad<T>(this T[,] matrix, int all)
         {
             return Pad(matrix, all, all, all, all);
         }
 
+        /// <summary>
+        ///   Pads a matrix by filling all of its sides with zeros.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix whose contents will be padded.</param>
+        /// <param name="rightLeft">How many columns to add at the sides of the matrix.</param>
+        /// <param name="topBottom">How many rows to add at the bottom and top of the matrix.</param>
+        /// 
+        /// <returns>The original matrix with an extra row of zeros at the selected places.</returns>
+        /// 
         public static T[,] Pad<T>(this T[,] matrix, int topBottom, int rightLeft)
         {
             return Pad(matrix, topBottom, rightLeft, topBottom, rightLeft);
         }
 
+        /// <summary>
+        ///   Pads a matrix by filling all of its sides with zeros.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix whose contents will be padded.</param>
+        /// <param name="bottom">How many rows to add at the bottom.</param>
+        /// <param name="top">How many rows to add at the top.</param>
+        /// <param name="sides">How many columns to add at the sides.</param>
+        /// 
+        /// <returns>The original matrix with an extra row of zeros at the selected places.</returns>
+        /// 
         public static T[,] Pad<T>(this T[,] matrix, int top, int sides, int bottom)
         {
             return Pad(matrix, top, sides, bottom, sides);
         }
 
+        /// <summary>
+        ///   Pads a matrix by filling all of its sides with zeros.
+        /// </summary>
+        /// 
+        /// <param name="matrix">The matrix whose contents will be padded.</param>
+        /// <param name="bottom">How many rows to add at the bottom.</param>
+        /// <param name="top">How many rows to add at the top.</param>
+        /// <param name="left">How many columns to add at the left side.</param>
+        /// <param name="right">How many columns to add at the right side.</param>
+        /// 
+        /// <returns>The original matrix with an extra row of zeros at the selected places.</returns>
+        /// 
         public static T[,] Pad<T>(this T[,] matrix, int top, int right, int bottom, int left)
         {
             int rows = matrix.GetLength(0);
