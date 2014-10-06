@@ -120,16 +120,20 @@ namespace Accord.Statistics.Models.Fields.Functions
                         double mean = model.Emissions[i].Mean[d];
                         double var = model.Emissions[i].Variance[d];
 
+                        double u = -0.5 * (Math.Log(2.0 * Math.PI * var) + (mean * mean) / var);
+                        double m1 = mean / var;
+                        double m2 = -1.0 / (2.0 * var);
+
                         // Occupancy
-                        stateParams.Add(-0.5 * (Math.Log(2.0 * Math.PI * var) + (mean * mean) / var));
+                        stateParams.Add(u);
                         stateFeatures.Add(new OccupancyFeature<double[]>(this, c, i));
 
                         // 1st Moment (x)
-                        stateParams.Add(mean / var);
+                        stateParams.Add(m1);
                         stateFeatures.Add(new MultivariateFirstMomentFeature(this, c, i, d));
 
                         // 2nd Moment (x²)
-                        stateParams.Add(-1.0 / (2.0 * var));
+                        stateParams.Add(m2);
                         stateFeatures.Add(new MultivariateSecondMomentFeature(this, c, i, d));
                     }
                 }

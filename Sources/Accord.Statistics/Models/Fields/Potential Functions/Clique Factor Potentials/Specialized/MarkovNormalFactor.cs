@@ -69,6 +69,13 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
         /// 
         public override double Compute(int previousState, int currentState, double[] observations, int index, int outputClass = 0)
         {
+            // PS: This code seems messy because it should be as fast as possible. Unfortunately, 
+            // avoiding (virtual) function calls is the main objective for this method to exist;
+            // thus, refactoring those sections would defeat the existence of this method in the
+            // first place. An alternative approach might be reconsidered once the project fully
+            // migrates to .NET 4.5 and we could then use the explicit in-line method attributes.
+
+
             if (outputClass != this.Index)
                 return Double.NegativeInfinity;
 
@@ -77,25 +84,8 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
 
             double sum = 0;
 
-
-            if (previousState == -1)
-            {
-                int pindex = EdgeParameters.Offset + currentState;
-                double pi = parameters[pindex];
-                if (Double.IsNaN(pi))
-                    return pi = parameters[pindex] = Double.NegativeInfinity;
-                sum += pi;
-            }
-            else
-            {
-                int aindex = EdgeParameters.Offset + States + previousState * States + currentState;
-                double a = parameters[aindex];
-                if (Double.IsNaN(a))
-                    return a = parameters[aindex] = Double.NegativeInfinity;
-                sum += a;
-            }
-
-            if (OutputParameters.Count != 0)
+            // Output (class) probability
+            if (OutputParameters.Count != 0 && previousState == -1)
             {
                 int cindex = OutputParameters.Offset;
                 double w = parameters[cindex];
@@ -104,12 +94,36 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
                 sum += w;
             }
 
+            if (previousState == -1)
+            {
+                // Initial state probability (pi)
+                int pindex = EdgeParameters.Offset + currentState;
+                double pi = parameters[pindex];
+                if (Double.IsNaN(pi))
+                    return pi = parameters[pindex] = Double.NegativeInfinity;
+                sum += pi;
+            }
+            else
+            {
+                // State transition probabilities (A)
+                int aindex = EdgeParameters.Offset + States + previousState * States + currentState;
+                double a = parameters[aindex];
+                if (Double.IsNaN(a))
+                    return a = parameters[aindex] = Double.NegativeInfinity;
+                sum += a;
+            }
 
+
+            // State emission probability (B)
             int bindex = StateParameters.Offset + currentState * 3;
 
             // State occupancy feature
             double b = parameters[bindex];
-            if (Double.IsNaN(b) || Double.IsNegativeInfinity(b))
+
+            if (Double.IsNegativeInfinity(b))
+                return Double.NegativeInfinity;
+
+            if (Double.IsNaN(b))
                 return parameters[bindex] = Double.NegativeInfinity;
 
             sum += b;
@@ -123,101 +137,29 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
             {
                 // First moment feature
                 double m1 = parameters[m1index];
-                if (Double.IsNaN(m1) || Double.IsNegativeInfinity(m1))
+                if (Double.IsNegativeInfinity(m1))
+                    return Double.NegativeInfinity;
+
+                if (Double.IsNaN(m1))
                     return parameters[m1index] = Double.NegativeInfinity;
+
                 sum += m1 * u;
 
                 // Second moment feature
                 double m2 = parameters[m2index];
-                if (Double.IsNaN(m2) || Double.IsNegativeInfinity(m2))
+                if (Double.IsNegativeInfinity(m1))
+                    return Double.NegativeInfinity;
+
+                if (Double.IsNaN(m2))
                     return parameters[m2index] = Double.NegativeInfinity;
+
                 sum += m2 * u * u;
             }
+
+            System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return sum;
         }
 
-        public double Prior
-        {
-            get
-            {
-                if (OutputParameters.Count != 0)
-                    return Owner.Weights[OutputParameters.Offset];
-
-                return 1.0 / this.Owner.Factors.Length;
-            }
-        }
-
-        public double[] Probabilities
-        {
-            get
-            {
-                double[] pi = new double[States];
-                for (int i = 0; i < pi.Length; i++)
-                {
-                    int index = EdgeParameters.Offset + i;
-                    pi[i] = Owner.Weights[index];
-                }
-
-                return pi;
-            }
-        }
-
-        public double[,] Transitions
-        {
-            get
-            {
-                double[,] A = new double[States, States];
-
-                for (int i = 0; i < States; i++)
-                {
-                    for (int j = 0; j < States; j++)
-                    {
-                        int index = EdgeParameters.Offset + States + i * States + j;
-                        A[i, j] = Owner.Weights[index];
-                    }
-                }
-
-                return A;
-            }
-        }
-
-        public double Emissions(int i, double observation)
-        {
-            var parameters = Owner.Weights;
-
-            int index = StateParameters.Offset + i * 3;
-
-            double sum = 0;
-            double u = observation;
-
-            // State occupancy feature
-            double b = parameters[index];
-            if (Double.IsNaN(b) || Double.IsNegativeInfinity(b))
-                return parameters[index] = Double.NegativeInfinity;
-
-            sum += b;
-
-            int m1index = ++index;
-            int m2index = ++index;
-
-            if (u != 0)
-            {
-                // First moment feature
-                double m1 = parameters[m1index];
-                if (Double.IsNaN(m1) || Double.IsNegativeInfinity(m1))
-                    return parameters[m1index] = Double.NegativeInfinity;
-                sum += m1 * u;
-
-                // Second moment feature
-                double m2 = parameters[m2index];
-                if (Double.IsNaN(m2) || Double.IsNegativeInfinity(m2))
-                    return parameters[m2index] = Double.NegativeInfinity;
-                sum += m2 * u * u;
-            }
-
-
-            return sum;
-        }
     }
 }

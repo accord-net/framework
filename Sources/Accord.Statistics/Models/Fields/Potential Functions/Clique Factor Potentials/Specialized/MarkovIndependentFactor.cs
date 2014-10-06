@@ -27,7 +27,8 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
     using Accord.Statistics.Models.Fields.Features;
 
     /// <summary>
-    ///   Multivariate Normal Markov Model Factor Potential (Clique Potential) function.
+    ///   Factor Potential function for a Markov model whose states are independent 
+    ///   distributions composed of discrete and Normal distributed components.
     /// </summary>
     /// 
     [Serializable]
@@ -55,7 +56,7 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
         public MarkovIndependentFactor(IPotentialFunction<double[]> owner, int states, int factorIndex, int[][] stateTable,
             int edgeIndex, int edgeCount,
             int stateIndex, int stateCount,
-            int classIndex=0, int classCount=0)
+            int classIndex = 0, int classCount = 0)
             : base(owner, states, factorIndex, edgeIndex, edgeCount, stateIndex, stateCount, classIndex, classCount)
         {
             this.stateTable = stateTable;
@@ -75,6 +76,13 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
         /// 
         public override double Compute(int previousState, int currentState, double[][] observations, int index, int outputClass = 0)
         {
+            // PS: This code seems messy because it should be as fast as possible. Unfortunately, 
+            // avoiding (virtual) function calls is the main objective for this method to exist;
+            // thus, refactoring those sections would defeat the existence of this method in the
+            // first place. An alternative approach might be reconsidered once the project fully
+            // migrates to .NET 4.5 and we could then use the explicit in-line method attributes.
+
+
             if (outputClass != this.Index)
                 return Double.NegativeInfinity;
 
@@ -84,21 +92,53 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
 
             double sum = 0;
 
-
-            if (OutputParameters.Count != 0)
+            // Output (class) probability
+            if (OutputParameters.Count != 0 && previousState == -1)
             {
-                if (previousState == -1)
-                {
-                    int cindex = OutputParameters.Offset;
-                    double w = parameters[cindex];
-                    if (Double.IsNaN(w) || Double.IsNegativeInfinity(w))
-                        return parameters[cindex] = Double.NegativeInfinity;
-                    sum += w;
-                }
+                int cindex = OutputParameters.Offset;
+                double w = parameters[cindex];
+
+                if (Double.IsNegativeInfinity(w))
+                    return Double.NegativeInfinity;
+
+                if (Double.IsNaN(w))
+                    return parameters[cindex] = Double.NegativeInfinity;
+
+                sum += w;
+            }
+
+            if (previousState == -1)
+            {
+                // Initial state probability (pi)
+                int pindex = EdgeParameters.Offset + currentState;
+                double pi = parameters[pindex];
+
+                if (Double.IsNegativeInfinity(pi))
+                    return Double.NegativeInfinity;
+
+                if (Double.IsNaN(pi))
+                    return parameters[pindex] = Double.NegativeInfinity;
+
+                sum += pi;
+            }
+            else
+            {
+                // State transition probabilities (A)
+                int aindex = EdgeParameters.Offset + States + previousState * States + currentState;
+                double a = parameters[aindex];
+
+                if (Double.IsNegativeInfinity(a))
+                    return Double.NegativeInfinity;
+
+                if (Double.IsNaN(a))
+                    return parameters[aindex] = Double.NegativeInfinity;
+
+                sum += a;
             }
 
 
-            int[] lookup =  stateTable[currentState];
+            // State emission probability (B)
+            int[] lookup = stateTable[currentState];
             double[] observation = observations[index];
 
             double B = 0;
@@ -114,7 +154,10 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
                     int i = (int)observations[index][j];
                     double b = parameters[bindex + i];
 
-                    if (Double.IsNaN(b) || Double.IsNegativeInfinity(b))
+                    if (Double.IsNegativeInfinity(b))
+                        return Double.NegativeInfinity;
+
+                    if (Double.IsNaN(b))
                         return parameters[bindex + i] = Double.NegativeInfinity;
 
                     B += b;
@@ -126,7 +169,11 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
                 {
                     // State occupancy feature
                     double b = parameters[bindex];
-                    if (Double.IsNaN(b) || Double.IsNegativeInfinity(b))
+
+                    if (Double.IsNegativeInfinity(b))
+                        return Double.NegativeInfinity;
+
+                    if (Double.IsNaN(b))
                         return parameters[bindex] = Double.NegativeInfinity;
 
                     double u = observation[j];
@@ -138,44 +185,44 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
                     {
                         // First moment feature
                         double m1 = parameters[m1index];
-                        if (Double.IsNaN(m1) || Double.IsNegativeInfinity(m1))
+
+                        if (Double.IsNegativeInfinity(m1))
+                            return Double.NegativeInfinity;
+
+                        if (Double.IsNaN(m1))
                             m1 = parameters[m1index] = Double.NegativeInfinity;
+
                         b += m1 * u;
 
                         // Second moment feature
                         double m2 = parameters[m2index];
-                        if (Double.IsNaN(m2) || Double.IsNegativeInfinity(m2))
+
+                        if (Double.IsNegativeInfinity(m2))
+                            return Double.NegativeInfinity;
+
+                        if (Double.IsNaN(m2))
                             m2 = parameters[m2index] = Double.NegativeInfinity;
+
                         b += m2 * u * u;
                     }
 
                     B += b;
                     continue;
                 }
+
+                throw new InvalidOperationException("The feature vector contains an unsupported"
+                + " feature type. The MarkovIndependentFactor (which was likely created by a "
+                + " MarkovMultivariateFunction) supports only discrete MultivariateEmissionFeature "
+                + " (for GeneralDiscreteDistributions) and Occupancy/FirstMoment/SecondMoment features "
+                + " (for Normal distributions).");
             }
 
             sum += B;
 
-            if (previousState == -1)
-            {
-                int pindex = EdgeParameters.Offset + currentState;
-                double pi = parameters[pindex];
-                if (Double.IsNaN(pi) || Double.IsNegativeInfinity(pi))
-                    return parameters[pindex] = Double.NegativeInfinity;
-                sum += pi;
-            }
-            else
-            {
-                int aindex = EdgeParameters.Offset + States + previousState * States + currentState;
-                double a = parameters[aindex];
-                if (Double.IsNaN(a) || Double.IsNegativeInfinity(a))
-                    return parameters[aindex] = Double.NegativeInfinity;
-                sum += a;
-            }
+            System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return sum;
         }
-
 
     }
 }

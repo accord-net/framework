@@ -52,7 +52,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ComputeTest()
         {
-            var hmm = HiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            var hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
 
             IPotentialFunction<int> owner = new MarkovDiscreteFunction(hmm);
 
@@ -146,7 +146,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ComputeTest3()
         {
-            var hmm = MarkovMultivariateFunctionTest.CreateModel1();
+            var hmm = MultivariateMarkovFunctionTest.CreateModel1();
 
             var owner = new MarkovMultivariateFunction(hmm);
 

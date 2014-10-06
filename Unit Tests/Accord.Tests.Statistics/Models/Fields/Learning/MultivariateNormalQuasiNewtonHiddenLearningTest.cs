@@ -54,7 +54,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        double[][][] inputs1 = new double[][][]
+        public static double[][][] inputs1 = new double[][][]
         {
             new double[][] 
             { 
@@ -75,14 +75,14 @@ namespace Accord.Tests.Statistics
             }
         };
 
-        int[] outputs1 = { 0, 1 };
+        public static int[] outputs1 = { 0, 1 };
 
 
 
         [TestMethod()]
         public void RunTest()
         {
-            var hmm = MarkovMultivariateFunctionTest.CreateModel1();
+            var hmm = MultivariateMarkovFunctionTest.CreateModel1();
             var function = new MarkovMultivariateFunction(hmm);
 
             var model = new HiddenConditionalRandomField<double[]>(function);
@@ -132,135 +132,6 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(expected[i], actual[i]);
 
             Assert.IsTrue(ll1 > ll0);
-        }
-
-
-        [TestMethod()]
-        public void GradientTest()
-        {
-            // Creates a sequence classifier containing 2 hidden Markov Models
-            //  with 2 states and an underlying Normal distribution as density.
-            MultivariateNormalDistribution density = new MultivariateNormalDistribution(3);
-            var hmm = new HiddenMarkovClassifier<MultivariateNormalDistribution>(2, new Ergodic(2), density);
-
-            double[][][] inputs =
-            {
-                new [] { new double[] { 0, 1, 0 }, new double[] { 0, 1, 0 }, new double[] { 0, 1, 0 } },
-                new [] { new double[] { 1, 6, 2 }, new double[] { 2, 1, 6 }, new double[] { 1, 1, 0 } },
-                new [] { new double[] { 9, 1, 0 }, new double[] { 0, 1, 5 }, new double[] { 0, 0, 0 } },
-            };
-
-            int[] outputs = 
-            {
-                0, 0, 1
-            };
-
-            var function = new MarkovMultivariateFunction(hmm);
-
-            var model = new HiddenConditionalRandomField<double[]>(function);
-            var target = new ForwardBackwardGradient<double[]>(model);
-
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
-
-            diff.Function = parameters => func(model, parameters, inputs, outputs);
-
-            double[] expected = diff.Compute(function.Weights);
-            double[] actual = target.Gradient(function.Weights, inputs, outputs);
-
-
-            for (int i = 0; i < actual.Length; i++)
-            {
-                Assert.AreEqual(expected[i], actual[i], 0.05);
-                Assert.IsFalse(double.IsNaN(actual[i]));
-                Assert.IsFalse(double.IsNaN(expected[i]));
-            }
-        }
-
-        [TestMethod()]
-        public void GradientTest2()
-        {
-            var hmm = MarkovMultivariateFunctionTest.CreateModel1();
-            var function = new MarkovMultivariateFunction(hmm);
-
-            var model = new HiddenConditionalRandomField<double[]>(function);
-            var target = new ForwardBackwardGradient<double[]>(model);
-
-            var inputs = inputs1;
-            var outputs = outputs1;
-
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
-
-            diff.Function = parameters => func(model, parameters, inputs, outputs);
-
-            double[] expected = diff.Compute(function.Weights);
-            double[] actual = target.Gradient(function.Weights, inputs, outputs);
-
-
-            for (int i = 0; i < actual.Length; i++)
-            {
-                Assert.AreEqual(expected[i], actual[i], 1e-3);
-                Assert.IsFalse(double.IsNaN(actual[i]));
-                Assert.IsFalse(double.IsNaN(expected[i]));
-            }
-        }
-
-        [TestMethod()]
-        public void GradientTest3()
-        {
-            var hmm = MarkovMultivariateFunctionTest.CreateModel1();
-            var function = new MarkovMultivariateFunction(hmm);
-
-            var model = new HiddenConditionalRandomField<double[]>(function);
-            var target = new ForwardBackwardGradient<double[]>(model);
-            target.Regularization = 2;
-
-            var inputs = inputs1;
-            var outputs = outputs1;
-
-
-
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
-
-            diff.Function = parameters => func(model, parameters, inputs, outputs, target.Regularization);
-
-            double[] expected = diff.Compute(function.Weights);
-            double[] actual = target.Gradient(function.Weights, inputs, outputs);
-
-
-            for (int i = 0; i < actual.Length; i++)
-            {
-                Assert.AreEqual(expected[i], actual[i], 1e-3);
-
-                Assert.IsFalse(double.IsNaN(actual[i]));
-                Assert.IsFalse(double.IsNaN(expected[i]));
-            }
-        }
-
-
-        private double func(HiddenConditionalRandomField<double[]> model, double[] parameters, double[][][] inputs, int[] outputs)
-        {
-            model.Function.Weights = parameters;
-            return -model.LogLikelihood(inputs, outputs);
-        }
-
-        private double func(HiddenConditionalRandomField<double[]> model, double[] parameters, double[][][] inputs, int[] outputs, double beta)
-        {
-            model.Function.Weights = parameters;
-
-            // Regularization
-            double sumSquaredWeights = 0;
-            if (beta != 0)
-            {
-                for (int i = 0; i < parameters.Length; i++)
-                    if (!(Double.IsInfinity(parameters[i]) || Double.IsNaN(parameters[i])))
-                        sumSquaredWeights += parameters[i] * parameters[i];
-                sumSquaredWeights = sumSquaredWeights * 0.5 / beta;
-            }
-
-            double logLikelihood = model.LogLikelihood(inputs, outputs);
-
-            // Maximize the log-likelihood and minimize the sum of squared weights
-            return -logLikelihood + sumSquaredWeights;
         }
 
     }

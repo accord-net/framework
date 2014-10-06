@@ -59,7 +59,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void HiddenConditionalRandomFieldConstructorTest()
         {
-            HiddenMarkovClassifier hmm = HiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
 
             var function = new MarkovDiscreteFunction(hmm);
             var target = new HiddenConditionalRandomField<int>(function);
@@ -71,7 +71,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ComputeTest()
         {
-            HiddenMarkovClassifier hmm = HiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
 
             // Declare some testing data
             int[][] inputs = new int[][]

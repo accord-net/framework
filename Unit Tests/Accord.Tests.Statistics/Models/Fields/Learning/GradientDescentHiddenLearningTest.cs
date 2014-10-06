@@ -55,7 +55,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             var inputs = QuasiNewtonHiddenLearningTest.inputs;
             var outputs = QuasiNewtonHiddenLearningTest.outputs;
 
-            HiddenMarkovClassifier hmm = HiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
             var function = new MarkovDiscreteFunction(hmm);
 
             var model = new HiddenConditionalRandomField<int>(function);

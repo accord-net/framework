@@ -63,7 +63,7 @@ namespace Accord.Statistics.Models.Fields.Features
         public override double Compute(int previousState, int currentState, T[] observations,
             int observationIndex, int outputClass)
         {
-            return (outputClass == classSymbol) ? 1 : 0;
+            return (outputClass == classSymbol && previousState == -1) ? 1 : 0;
         }
 
         /// <summary>

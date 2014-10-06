@@ -58,7 +58,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             double[][][] observations;
             int[] labels;
 
-            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel2(out observations, out labels);
+            var hmm = IndependentMarkovFunctionTest.CreateModel2(out observations, out labels);
 
             var function = new MarkovMultivariateFunction(hmm, includePriors: false);
 
@@ -98,7 +98,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         {
             double[][][] observations;
             int[] labels;
-            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel2(out observations, out labels);
+            var hmm = IndependentMarkovFunctionTest.CreateModel2(out observations, out labels);
 
             MarkovMultivariateFunction function = new MarkovMultivariateFunction(hmm, includePriors: false);
 
@@ -126,7 +126,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         {
             double[][][] observations;
             int[] labels;
-            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel2(out observations, out labels);
+            var hmm = IndependentMarkovFunctionTest.CreateModel2(out observations, out labels);
 
             MarkovMultivariateFunction function = new MarkovMultivariateFunction(hmm);
 
@@ -157,7 +157,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             double[][][] observations;
             int[] labels;
 
-            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel3(out observations, out labels);
+            var hmm = IndependentMarkovFunctionTest.CreateModel3(out observations, out labels);
 
             var function = new MarkovMultivariateFunction(hmm, includePriors: false);
 
@@ -188,7 +188,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
                     for (int i = 0; i < scaling1.Length; i++)
                     {
-                        Assert.AreEqual(scaling1[i], scaling2[i], 1e-8);
+                        Assert.IsTrue(scaling1[i].IsRelativelyEqual(scaling2[i], 1e-10));
                         Assert.IsFalse(Double.IsNaN(scaling1[i]));
                         Assert.IsFalse(Double.IsNaN(scaling2[i]));
                     }
@@ -202,7 +202,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             double[][][] observations;
             int[] labels;
 
-            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel3(out observations, out labels);
+            var hmm = IndependentMarkovFunctionTest.CreateModel3(out observations, out labels);
 
             MarkovMultivariateFunction function = new MarkovMultivariateFunction(hmm, includePriors: false);
 
@@ -235,7 +235,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             double[][][] observations;
             int[] labels;
 
-            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel3(out observations, out labels);
+            var hmm = IndependentMarkovFunctionTest.CreateModel3(out observations, out labels);
 
             MarkovMultivariateFunction function = new MarkovMultivariateFunction(hmm);
 
@@ -265,10 +265,11 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LogForwardGesturesTest()
         {
+            int[] labels;
             double[][][] words;
-            var classifier = MarkovMultivariateFunctionIndependentTest.CreateModel4(out words, false);
+            var classifier = IndependentMarkovFunctionTest.CreateModel4(out words, out labels, false);
 
-            var function = new MarkovMultivariateFunction(classifier);
+            var function = new MarkovMultivariateFunction(classifier, includePriors: false);
             var target = new HiddenConditionalRandomField<double[]>(function);
 
             foreach (var word in words)
@@ -288,8 +289,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                             double a = actual[i, j];
                             double e = expected[i, j];
 
-                            // TODO: Verify if is possible to reduce this tolerance
-                            Assert.IsTrue(e.IsRelativelyEqual(a, 0.1)); 
+                            Assert.IsTrue(e.IsRelativelyEqual(a, 1e-10)); 
                         }
                     }
                 }
@@ -299,8 +299,9 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LogForwardGesturesPriorsTest()
         {
+            int[] labels;
             double[][][] words;
-            var classifier = MarkovMultivariateFunctionIndependentTest.CreateModel4(out words, true);
+            var classifier = IndependentMarkovFunctionTest.CreateModel4(out words, out labels, true);
 
             var function = new MarkovMultivariateFunction(classifier);
             var target = new HiddenConditionalRandomField<double[]>(function);
@@ -323,7 +324,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                             double e = expected[i, j];
 
                             // TODO: Verify if is possible to reduce this tolerance
-                            Assert.IsTrue(e.IsRelativelyEqual(a, 0.1)); 
+                            Assert.IsTrue(e.IsRelativelyEqual(a, 0.1));
                         }
                     }
                 }
@@ -335,8 +336,9 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LogForwardGesturesDeoptimizedTest()
         {
+            int[] labels;
             double[][][] words;
-            var classifier = MarkovMultivariateFunctionIndependentTest.CreateModel4(out words, false);
+            var classifier = IndependentMarkovFunctionTest.CreateModel4(out words, out labels, false);
 
             var function = new MarkovMultivariateFunction(classifier);
 
@@ -370,8 +372,9 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LogForwardGesturesPriorsDeoptimizedTest()
         {
+            int[] labels;
             double[][][] words;
-            var classifier = MarkovMultivariateFunctionIndependentTest.CreateModel4(out words, true);
+            var classifier = IndependentMarkovFunctionTest.CreateModel4(out words, out labels, true);
 
             var deopFun = new MarkovMultivariateFunction(classifier);
             deopFun.Deoptimize();

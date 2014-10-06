@@ -565,14 +565,14 @@ namespace Accord.Tests.Statistics.Models.Fields
         public void ForwardTest4()
         {
             var hmmc = Accord.Tests.Statistics.Models.Fields.
-                MarkovMultivariateFunctionTest.CreateModel3();
+                MultivariateMarkovFunctionTest.CreateModel3();
 
             var hmm = hmmc[0];
 
             var function = new MarkovMultivariateFunction(hmm);
 
             var observations = Accord.Tests.Statistics.Models.Fields.
-                MarkovMultivariateFunctionTest.inputTest[3];
+                MultivariateMarkovFunctionTest.inputTest[3];
 
             double expectedLogLikelihood;
             double[,] expected = Accord.Statistics.Models.Markov
@@ -595,7 +595,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         public void LogForwardTest4()
         {
             var hmmc = Accord.Tests.Statistics.Models.Fields.
-                MarkovMultivariateFunctionTest.CreateModel3();
+                MultivariateMarkovFunctionTest.CreateModel3();
 
             for (int c = 0; c < hmmc.Classes; c++)
             {
@@ -604,7 +604,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                 var function = new MarkovMultivariateFunction(hmm);
 
                 var sequences = Accord.Tests.Statistics.Models.Fields.
-                    MarkovMultivariateFunctionTest.inputTest;
+                    MultivariateMarkovFunctionTest.inputTest;
 
                 for (int i = 0; i < sequences.Length; i++)
                 {

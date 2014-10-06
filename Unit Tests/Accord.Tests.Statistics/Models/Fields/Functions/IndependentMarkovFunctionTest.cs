@@ -36,9 +36,12 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Functions.Specialized;
+    using System.Collections.Generic;
+    using Accord.Statistics.Models.Fields.Features;
+    using System.Linq;
 
     [TestClass()]
-    public class MarkovMultivariateFunctionIndependentTest
+    public class IndependentMarkovFunctionTest
     {
 
 
@@ -136,7 +139,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                 }
             };
 
-            labels = new [] { 0, 1 };
+            labels = new[] { 0, 1 };
 
             // Create a Continuous density Hidden Markov Model Sequence Classifier
             // to detect a multivariate sequence and the same sequence backwards.
@@ -236,7 +239,7 @@ namespace Accord.Tests.Statistics.Models.Fields
                 }
             };
 
-        labels2 = new [] { 0, 0, 0, 1, 1, 1 };
+            labels2 = new[] { 0, 0, 0, 1, 1, 1 };
 
             // Create a Continuous density Hidden Markov Model Sequence Classifier
             // to detect a multivariate sequence and the same sequence backwards.
@@ -271,7 +274,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             return classifier;
         }
 
-        public static HiddenMarkovClassifier<Independent<NormalDistribution>> CreateModel4(out double[][][] words, bool usePriors)
+        public static HiddenMarkovClassifier<Independent<NormalDistribution>> CreateModel4(out double[][][] words, out int[] labels, bool usePriors)
         {
             double[][] hello =
             {
@@ -309,7 +312,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             words = new double[][][] { hello, car, wardrobe, wardrobe2 };
 
-            int[] labels = { 0, 1, 2, 2 };
+            labels = new [] { 0, 1, 2, 2 };
 
             var initial = new Independent<NormalDistribution>
             (
@@ -386,7 +389,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                     {
                         for (int j = 0; j < model[c].States; j++)
                         {
-                            expected = Math.Exp(model[c].Transitions[i, j]) * model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                            double xb = Math.Exp(model[c].Transitions[i, j]);
+                            double xc = model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                            expected = xb * xc;
                             actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
                             Assert.AreEqual(expected, actual, 1e-6);
                             Assert.IsFalse(double.IsNaN(actual));
@@ -435,7 +440,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                     {
                         for (int j = 0; j < model[c].States; j++)
                         {
-                            expected = Math.Exp(model[c].Transitions[i, j]) * model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                            double xb = Math.Exp(model[c].Transitions[i, j]);
+                            double xc = model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                            expected = xb * xc;
                             actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
                             Assert.AreEqual(expected, actual, 1e-6);
                             Assert.IsFalse(double.IsNaN(actual));
@@ -490,7 +497,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                             {
                                 for (int j = 0; j < model[c].States; j++)
                                 {
-                                    expected = Math.Exp(model[c].Transitions[i, j]) * model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                                    double xb = Math.Exp(model[c].Transitions[i, j]);
+                                    double xc = model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                                    expected = xb * xc;
                                     actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
                                     Assert.AreEqual(expected, actual, 1e-6);
                                     Assert.IsFalse(double.IsNaN(actual));
@@ -515,15 +524,15 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ComputeTest4()
         {
+            int[] labels;
             double[][][] words;
-            var model = CreateModel4(out words, false);
+            HiddenMarkovClassifier<Independent<NormalDistribution>> model =
+                CreateModel4(out words, out labels, false);
 
             var target = new MarkovMultivariateFunction(model);
 
             var hcrf = new HiddenConditionalRandomField<double[]>(target);
 
-
-            Check(model, target, words);
 
             Assert.AreEqual(3, model.Priors.Length);
             Assert.AreEqual(1 / 3.0, model.Priors[0]);
@@ -534,10 +543,34 @@ namespace Accord.Tests.Statistics.Models.Fields
         }
 
         [TestMethod()]
+        public void ComputeDeoptimizeTest3()
+        {
+            double[][][] sequences;
+            int[] labels;
+            var model = CreateModel3(out sequences, out labels);
+
+            var target = new MarkovMultivariateFunction(model);
+
+#pragma warning disable 0618
+            target.Deoptimize();
+#pragma warning restore 0618
+
+            var hcrf = new HiddenConditionalRandomField<double[]>(target);
+
+
+            Assert.AreEqual(2, model.Priors.Length);
+            Assert.AreEqual(1 / 2.0, model.Priors[0]);
+            Assert.AreEqual(1 / 2.0, model.Priors[1]);
+
+            check4(sequences, model, target, hcrf);
+        }
+
+        [TestMethod()]
         public void ComputeDeoptimizeTest4()
         {
+            int[] labels;
             double[][][] words;
-            var model = CreateModel4(out words, false);
+            var model = CreateModel4(out words, out labels, false);
 
             var target = new MarkovMultivariateFunction(model);
 
@@ -577,6 +610,57 @@ namespace Accord.Tests.Statistics.Models.Fields
                         Assert.IsFalse(double.IsNaN(actual));
                     }
 
+                    for (int t = 0; t < x.Length; t++)
+                    {
+                        // Check normal state transitions
+                        for (int i = 0; i < model[c].States; i++)
+                        {
+                            for (int j = 0; j < model[c].States; j++)
+                            {
+                                double xb = Math.Exp(model[c].Transitions[i, j]);
+                                double xc = model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                                expected = xb * xc;
+                                actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
+                                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-10));
+                                Assert.IsFalse(double.IsNaN(actual));
+                            }
+                        }
+                    }
+
+                    actual = Math.Exp(model.LogLikelihood(x, c));
+                    expected = Math.Exp(hcrf.LogLikelihood(x, c));
+                    Assert.AreEqual(expected, actual, 1e-10);
+                    Assert.IsFalse(double.IsNaN(actual));
+
+                    actual = model.Compute(x);
+                    expected = hcrf.Compute(x);
+                    Assert.AreEqual(expected, actual);
+                    Assert.IsFalse(double.IsNaN(actual));
+                }
+            }
+        }
+
+        private static void check4(double[][][] words, HiddenMarkovClassifier<Independent> model, MarkovMultivariateFunction target, HiddenConditionalRandomField<double[]> hcrf)
+        {
+            double actual;
+            double expected;
+
+            foreach (var x in words)
+            {
+                for (int c = 0; c < model.Classes; c++)
+                {
+                    for (int i = 0; i < model[c].States; i++)
+                    {
+                        // Check initial state transitions
+                        double xa = model.Priors[c];
+                        double xb = Math.Exp(model[c].Probabilities[i]);
+                        double xc = model[c].Emissions[i].ProbabilityDensityFunction(x[0]);
+                        expected = xa * xb * xc;
+                        actual = Math.Exp(target.Factors[c].Compute(-1, i, x, 0, c));
+                        Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-10));
+                        Assert.IsFalse(double.IsNaN(actual));
+                    }
+
                     for (int t = 1; t < x.Length; t++)
                     {
                         // Check normal state transitions
@@ -584,7 +668,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                         {
                             for (int j = 0; j < model[c].States; j++)
                             {
-                                expected = model.Priors[c] * Math.Exp(model[c].Transitions[i, j]) * model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                                double xb = Math.Exp(model[c].Transitions[i, j]);
+                                double xc = model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                                expected = xb * xc;
                                 actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
                                 Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-10));
                                 Assert.IsFalse(double.IsNaN(actual));
@@ -608,14 +694,13 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void ComputeTestPriors4()
         {
+            int[] labels;
             double[][][] words;
-            var model = CreateModel4(out words, true);
+            var model = CreateModel4(out words, out labels, true);
 
             var target = new MarkovMultivariateFunction(model);
 
             var hcrf = new HiddenConditionalRandomField<double[]>(target);
-
-            Check(model, target, words);
 
             double actual;
             double expected;
@@ -643,7 +728,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                         {
                             for (int j = 0; j < model[c].States; j++)
                             {
-                                expected = Math.Exp(model[c].Transitions[i, j]) * model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                                double xb = Math.Exp(model[c].Transitions[i, j]);
+                                double xc = model[c].Emissions[j].ProbabilityDensityFunction(x[t]);
+                                expected = xb * xc;
                                 actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
                                 Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-6));
                                 Assert.IsFalse(double.IsNaN(actual));
@@ -664,50 +751,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        public static void Check(HiddenMarkovClassifier<Independent<NormalDistribution>> model,
-            MarkovMultivariateFunction target, double[][][] x)
-        {
-            for (int c = 0; c < model.Classes; c++)
-            {
-                var hmm = model[c];
-                var factor = target.Factors[c] as MarkovMultivariateNormalFactor;
 
-                var pi = factor.Probabilities;
-                var A = factor.Transitions;
-
-                int s = hmm.States;
-
-                for (int i = 0; i < s; i++)
-                {
-                    double a = pi[i];
-                    double e = hmm.Probabilities[i];
-                    Assert.AreEqual(a, e);
-                }
-
-                for (int i = 0; i < s; i++)
-                {
-                    for (int j = 0; j < s; j++)
-                    {
-                        double a = A[i, j];
-                        double e = hmm.Transitions[i, j];
-                        Assert.AreEqual(a, e);
-                    }
-                }
-
-                foreach (var sequence in x)
-                {
-                    foreach (var obs in sequence)
-                    {
-                        for (int i = 0; i < s; i++)
-                        {
-                            double a = hmm.Emissions[i].LogProbabilityDensityFunction(obs);
-                            double e = factor.Emissions(i, obs);
-                            Assert.AreEqual(a, e, 1e-10);
-                        }
-                    }
-                }
-            }
-        }
 
         [TestMethod()]
         public void GradientTest2()

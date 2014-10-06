@@ -61,7 +61,7 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
         public MarkovDiscreteFactor(IPotentialFunction<int> owner, int states, int factorIndex, int symbols,
             int edgeIndex, int edgeCount,
             int stateIndex, int stateCount,
-            int classIndex=0, int classCount=0)
+            int classIndex = 0, int classCount = 0)
             : base(owner, states, factorIndex, edgeIndex, edgeCount, stateIndex, stateCount, classIndex, classCount)
         {
             this.Symbols = symbols;
@@ -81,6 +81,13 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
         /// 
         public override double Compute(int previousState, int currentState, int[] observations, int index, int outputClass = 0)
         {
+            // PS: This code seems messy because it should be as fast as possible. Unfortunately, 
+            // avoiding (virtual) function calls is the main objective for this method to exist;
+            // thus, refactoring those sections would defeat the existence of this method in the
+            // first place. An alternative approach might be reconsidered once the project fully
+            // migrates to .NET 4.5 and we could then use the explicit in-line method attributes.
+
+
             if (outputClass != this.Index)
                 return Double.NegativeInfinity;
 
@@ -88,61 +95,67 @@ namespace Accord.Statistics.Models.Fields.Functions.Specialized
 
             double sum = 0;
 
-
-            // If a output feature exists,
-            if (OutputParameters.Count != 0)
+            // Output (class) probability
+            if (OutputParameters.Count != 0 && previousState == -1)
             {
-                // it will be activated for every state
-                //   in the state/observation sequence
-                int i = OutputParameters.Offset;
-                double w = parameters[i];
+                int cindex = OutputParameters.Offset;
+                double w = parameters[cindex];
 
-                if (Double.IsNaN(w) || Double.IsNegativeInfinity(w))
-                    return parameters[i] = Double.NegativeInfinity;
+                if (Double.IsNegativeInfinity(w))
+                    return Double.NegativeInfinity;
+
+                if (Double.IsNaN(w))
+                    return parameters[cindex] = Double.NegativeInfinity;
 
                 sum += w;
             }
 
-            // The state occupancy feature is activated for the current state.
-            {
-                int i = StateParameters.Offset + currentState * Symbols + observations[index];
-                double b = parameters[i];
-
-                if (Double.IsNaN(b) || Double.IsNegativeInfinity(b))
-                    return parameters[i] = Double.NegativeInfinity;
-
-                sum += b;
-            }
-
-            // If are just starting the sequence
             if (previousState == -1)
             {
-                // Compute the initial transition feature
-                int i = EdgeParameters.Offset + currentState;
-                double p = parameters[i];
+                // Initial state probability (pi)
+                int pindex = EdgeParameters.Offset + currentState;
+                double p = parameters[pindex];
+
+                if (Double.IsNegativeInfinity(p))
+                    return Double.NegativeInfinity;
 
                 if (Double.IsNaN(p))
-                    return parameters[i] = Double.NegativeInfinity;
+                    return parameters[pindex] = Double.NegativeInfinity;
 
                 sum += p;
             }
             else
             {
-                // Compute the transition feature
-                int i = EdgeParameters.Offset + States + previousState * States + currentState;
-                double a = parameters[i];
+                // State transition probabilities (A)
+                int aindex = EdgeParameters.Offset + States + previousState * States + currentState;
+                double a = parameters[aindex];
+
+                if (Double.IsNegativeInfinity(a))
+                    return Double.NegativeInfinity;
 
                 if (Double.IsNaN(a))
-                    return parameters[i] = Double.NegativeInfinity;
+                    return parameters[aindex] = Double.NegativeInfinity;
 
                 sum += a;
             }
+
+            // State emission probability (B)
+            int bindex = StateParameters.Offset + currentState * Symbols + observations[index];
+            double b = parameters[bindex];
+
+            if (Double.IsNegativeInfinity(b))
+                return Double.NegativeInfinity;
+
+            if (Double.IsNaN(b))
+                return parameters[bindex] = Double.NegativeInfinity;
+
+            sum += b;
+
 
             System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
 
             return sum;
         }
-
 
     }
 }

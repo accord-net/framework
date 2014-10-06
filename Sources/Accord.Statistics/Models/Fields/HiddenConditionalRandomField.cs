@@ -83,11 +83,11 @@ namespace Accord.Statistics.Models.Fields
             // Compute log-likelihoods for all possible outputs
             logLikelihoods = computeLogLikelihood(observations);
 
-            // The logLikelihoods array now stores the unormalized
+            // The logLikelihoods array now stores the unnormalized
             // log-likelihoods for each of the possible outputs. We
             // should now normalize them.
 
-            double sum = 0;
+            double sum = Double.NegativeInfinity;
 
             // Compute the marginal log-likelihood
             for (int i = 0; i < logLikelihoods.Length; i++)

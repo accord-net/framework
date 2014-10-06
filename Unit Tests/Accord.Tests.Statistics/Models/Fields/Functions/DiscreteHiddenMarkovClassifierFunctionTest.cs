@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics.Models.Fields
     using System;
 
     [TestClass()]
-    public class HiddenMarkovClassifierPotentialFunctionTest
+    public class DiscreteHiddenMarkovClassifierPotentialFunctionTest
     {
 
 
@@ -153,8 +153,10 @@ namespace Accord.Tests.Statistics.Models.Fields
                 for (int i = 0; i < model[c].States; i++)
                 {
                     // Check initial state transitions
-                    expected = model.Priors[c] *
-                        Math.Exp(model[c].Probabilities[i]) * Math.Exp(model[c].Emissions[i, x[0]]);
+                    double xa = model.Priors[c];
+                    double xb = Math.Exp(model[c].Probabilities[i]);
+                    double xc = Math.Exp(model[c].Emissions[i, x[0]]);
+                    expected = xa * xb * xc;
                     actual = Math.Exp(target.Factors[c].Compute(-1, i, x, 0, c));
                     Assert.AreEqual(expected, actual, 1e-6);
                     Assert.IsFalse(double.IsNaN(actual));
@@ -167,8 +169,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                     {
                         for (int j = 0; j < model[c].States; j++)
                         {
-                            expected = model.Priors[c] * 
-                                Math.Exp(model[c].Transitions[i, j]) * Math.Exp(model[c].Emissions[j, x[t]]);
+                            double xb = Math.Exp(model[c].Transitions[i, j]);
+                            double xc = Math.Exp(model[c].Emissions[j, x[t]]);
+                            expected = xb * xc;
                             actual = Math.Exp(target.Factors[c].Compute(i, j, x, t, c));
                             Assert.AreEqual(expected, actual, 1e-6);
                             Assert.IsFalse(double.IsNaN(actual));

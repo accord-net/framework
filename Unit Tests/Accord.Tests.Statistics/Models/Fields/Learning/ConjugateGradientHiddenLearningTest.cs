@@ -55,7 +55,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             var inputs = QuasiNewtonHiddenLearningTest.inputs;
             var outputs = QuasiNewtonHiddenLearningTest.outputs;
 
-            HiddenMarkovClassifier hmm = HiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
             var function = new MarkovDiscreteFunction(hmm);
 
             var model = new HiddenConditionalRandomField<int>(function);
@@ -85,8 +85,8 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.00046872579976353634, ll0, 1e-10);
-            Assert.AreEqual(0.0001043282389863176, error, 1e-6);
+            Assert.AreEqual(-0.00046872579975998363, ll0, 1e-10);
+            Assert.AreEqual(0.00012170806699429715, error, 1e-10);
             Assert.AreEqual(error, -ll1);
             Assert.IsFalse(Double.IsNaN(ll0));
             Assert.IsFalse(Double.IsNaN(error));

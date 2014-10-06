@@ -161,6 +161,7 @@
     <Compile Include="Filters\BranchingFilterTest.cs" />
     <Compile Include="Kernels\QuadraticTest.cs" />
     <Compile Include="Kernels\LinearTest.cs" />
+    <Compile Include="Models\Fields\Learning\ForwardBackwardGradientTest.cs" />
     <Compile Include="Models\Regression\NonlinearLeastSquaresTest.cs" />
     <Compile Include="RunningMarkovClassifierTest.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistributionTest.cs" />
@@ -183,7 +184,7 @@
     <Compile Include="Distributions\Univariate\Continuous\LaplaceDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Discrete\NegativeBinomialTest.cs" />
     <Compile Include="Models\Fields\IndependentForwardBackwardAlgorithmTest.cs" />
-    <Compile Include="Models\Fields\Functions\MarkovMultivariateFunctionIndependentTest.cs" />
+    <Compile Include="Models\Fields\Functions\IndependentMarkovFunctionTest.cs" />
     <Compile Include="MovingNormalStatisticsTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ParetoDistributionTest.cs" />
     <Compile Include="RunningMarkovClassifierTest`1.cs" />
@@ -253,13 +254,13 @@
     <Compile Include="Models\Fields\ConditionalRandomFieldTest.cs" />
     <Compile Include="Models\Fields\Learning\MultivariateNormalQuasiNewtonHiddenLearningTest.cs" />
     <Compile Include="Models\Fields\Learning\NormalQuasiNewtonHiddenLearningTest.cs" />
-    <Compile Include="Models\Fields\Functions\MarkovMultivariateFunctionTest.cs" />
-    <Compile Include="Models\Fields\Functions\MarkovContinuousFunctionTest.cs" />
-    <Compile Include="Models\Fields\Functions\HiddenMarkovClassifierFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\MultivariateMarkovFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\ContinuousMarkovFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\DiscreteHiddenMarkovClassifierFunctionTest.cs" />
     <Compile Include="Models\Fields\HiddenConditionalRandomFieldTest.cs" />
     <Compile Include="Models\Fields\Learning\QuasiNewtonHiddenLearningTest.cs" />
     <Compile Include="Models\Fields\ForwardBackwardAlgorithmTest.cs" />
-    <Compile Include="Models\Fields\Functions\HiddenMarkovModelFunctionTest.cs" />
+    <Compile Include="Models\Fields\Functions\DiscreteHiddenMarkovModelFunctionTest.cs" />
     <Compile Include="Models\Fields\Learning\QuasiNewtonLearningTest.cs" />
     <Compile Include="Models\Markov\ForwardBackwardAlgorithmTest.cs" />
     <Compile Include="Models\Regression\MultinomialLogisticRegressionTest.cs">

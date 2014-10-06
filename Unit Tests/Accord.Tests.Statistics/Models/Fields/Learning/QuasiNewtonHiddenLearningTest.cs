@@ -29,6 +29,8 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Fields.Learning;
     using Accord.Statistics.Models.Markov;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Statistics.Distributions.Multivariate;
+    using Accord.Statistics.Distributions.Univariate;
 
     [TestClass()]
     public class QuasiNewtonHiddenLearningTest
@@ -74,7 +76,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void RunTest()
         {
-            HiddenMarkovClassifier hmm = HiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
+            HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
             var function = new MarkovDiscreteFunction(hmm);
 
             var model = new HiddenConditionalRandomField<int>(function);
@@ -157,150 +159,6 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.IsTrue(ll1 > ll0);
         }
 
-
-
-
-        [TestMethod()]
-        public void GradientTest()
-        {
-            var function = new MarkovDiscreteFunction(2, 2, 2);
-            var model = new HiddenConditionalRandomField<int>(function);
-            var target = new ForwardBackwardGradient<int>(model);
-
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
-
-            diff.Function = parameters => func(model, parameters);
-
-            double[] expected = diff.Compute(function.Weights);
-            double[] actual = target.Gradient(function.Weights, inputs, outputs);
-
-
-            for (int i = 0; i < actual.Length; i++)
-            {
-                Assert.AreEqual(expected[i], actual[i], 1e-4);
-                Assert.IsFalse(double.IsNaN(actual[i]));
-                Assert.IsFalse(double.IsNaN(expected[i]));
-            }
-        }
-
-        [TestMethod()]
-        public void GradientTest2()
-        {
-            HiddenMarkovClassifier hmm = HiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
-            var function = new MarkovDiscreteFunction(hmm);
-
-            var model = new HiddenConditionalRandomField<int>(function);
-            var target = new ForwardBackwardGradient<int>(model);
-
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
-
-            diff.Function = parameters => func(model, parameters);
-
-            double[] expected = diff.Compute(function.Weights);
-            double[] actual = target.Gradient(function.Weights, inputs, outputs);
-
-
-            for (int i = 0; i < actual.Length; i++)
-            {
-                Assert.AreEqual(expected[i], actual[i], 1e-5);
-                Assert.IsFalse(double.IsNaN(actual[i]));
-                Assert.IsFalse(double.IsNaN(expected[i]));
-            }
-        }
-
-        [TestMethod()]
-        public void GradientTest3()
-        {
-            HiddenMarkovClassifier hmm = HiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
-            var function = new MarkovDiscreteFunction(hmm);
-
-            var model = new HiddenConditionalRandomField<int>(function);
-            var target = new ForwardBackwardGradient<int>(model);
-            target.Regularization = 2;
-
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
-
-            diff.Function = parameters => func(model, parameters, target.Regularization);
-
-            double[] expected = diff.Compute(function.Weights);
-            double[] actual = target.Gradient(function.Weights, inputs, outputs);
-
-
-            for (int i = 0; i < actual.Length; i++)
-            {
-                Assert.AreEqual(expected[i], actual[i], 1e-5);
-
-                Assert.IsFalse(double.IsNaN(actual[i]));
-                Assert.IsFalse(double.IsNaN(expected[i]));
-            }
-        }
-
-        [TestMethod()]
-        public void GradientTest4()
-        {
-            double[][][] observations;
-            int[] labels;
-            var hmm = MarkovMultivariateFunctionIndependentTest.CreateModel2(out observations, out labels);
-
-            var function = new MarkovMultivariateFunction(hmm);
-
-            var model = new HiddenConditionalRandomField<double[]>(function);
-            var target = new ForwardBackwardGradient<double[]>(model);
-            target.Regularization = 0;
-
-            FiniteDifferences diff = new FiniteDifferences(function.Weights.Length);
-
-            diff.Function = parameters => func(model, parameters,
-                observations,
-                labels);
-
-            double[] expected = diff.Compute(function.Weights);
-            double[] actual = target.Gradient(function.Weights, observations, labels);
-
-
-            for (int i = 0; i < actual.Length; i++)
-            {
-                if (double.IsNaN(expected[i]))
-                    continue;
-
-                Assert.AreEqual(expected[i], actual[i], 1e-5);
-                Assert.IsFalse(double.IsNaN(actual[i]));
-            }
-        }
-
-
-        private double func(HiddenConditionalRandomField<int> model, double[] parameters)
-        {
-            model.Function.Weights = parameters;
-            return -model.LogLikelihood(inputs, outputs);
-        }
-
-        private double func(HiddenConditionalRandomField<double[]> model, double[] parameters,
-            double[][][] inputs, int[] outputs)
-        {
-            model.Function.Weights = parameters;
-            return -model.LogLikelihood(inputs, outputs);
-        }
-
-        private double func(HiddenConditionalRandomField<int> model, double[] parameters, double beta)
-        {
-            model.Function.Weights = parameters;
-
-            // Regularization
-            double sumSquaredWeights = 0;
-            if (beta != 0)
-            {
-                for (int i = 0; i < parameters.Length; i++)
-                    if (!(Double.IsInfinity(parameters[i]) || Double.IsNaN(parameters[i])))
-                        sumSquaredWeights += parameters[i] * parameters[i];
-                sumSquaredWeights = sumSquaredWeights * 0.5 / beta;
-            }
-
-            double logLikelihood = model.LogLikelihood(inputs, outputs);
-
-            // Maximize the log-likelihood and minimize the sum of squared weights
-            return -logLikelihood + sumSquaredWeights;
-        }
 
     }
 }

@@ -328,6 +328,9 @@
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
     <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />
+    <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovIndependentFactor.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Running\IRunning`1.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />
@@ -356,7 +359,6 @@
     <Compile Include="Models\Fields\Features\TransitionFeature.cs" />
     <Compile Include="Models\Fields\ForwardBackwardAlgorithm.cs" />
     <Compile Include="Models\Fields\Gradient\IHiddenRandomFieldGradient.cs" />
-    <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovIndependentFactor.cs" />
     <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovNormalFactor.cs" />
     <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovMultivariateNormalFactor.cs" />
     <Compile Include="Models\Fields\Potential Functions\Clique Factor Potentials\Specialized\MarkovDiscreteFactor.cs" />

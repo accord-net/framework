@@ -31,7 +31,7 @@ namespace Accord.Tests.Statistics.Models.Fields
     using System;
 
     [TestClass()]
-    public class HiddenMarkovModelFunctionTest
+    public class DiscreteHiddenMarkovModelFunctionTest
     {
 
 
@@ -138,7 +138,6 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             int[] x = { 0, 1 };
 
-
             for (int i = 0; i < model.States; i++)
             {
                 // Check initial state transitions
@@ -159,7 +158,9 @@ namespace Accord.Tests.Statistics.Models.Fields
                     // Check normal state transitions
                     for (int j = 0; j < model.States; j++)
                     {
-                        expected = Math.Exp(model.Transitions[i, j]) * Math.Exp(model.Emissions[j, x[t]]);
+                        double xb = Math.Exp(model.Transitions[i, j]);
+                        double xc = Math.Exp(model.Emissions[j, x[t]]);
+                        expected = xb * xc;
                         actual = Math.Exp(target.Factors[0].Compute(i, j, x, t));
                         Assert.AreEqual(expected, actual, 1e-6);
                     }

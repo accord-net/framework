@@ -93,7 +93,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         public void ComputeTest()
         {
 
-            HiddenMarkovModel hmm = HiddenMarkovModelFunctionTest.CreateModel2();
+            HiddenMarkovModel hmm = DiscreteHiddenMarkovModelFunctionTest.CreateModel2();
 
             int states = hmm.States;
 
@@ -123,7 +123,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LikelihoodTest()
         {
-            HiddenMarkovModel hmm = HiddenMarkovModelFunctionTest.CreateModel2();
+            HiddenMarkovModel hmm = DiscreteHiddenMarkovModelFunctionTest.CreateModel2();
 
             int states = hmm.States;
             int symbols = hmm.Symbols;
