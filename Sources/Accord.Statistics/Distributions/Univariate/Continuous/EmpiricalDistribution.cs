@@ -156,9 +156,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The data samples.</param>
-        /// <param name="smoothing">
-        ///   The kernel smoothing or bandwidth to be used in density estimation.
-        ///   By default, the normal distribution approximation will be used.</param>
+        /// <param name="weights">The fractional weights to use for the samples.
+        ///   The weights must sum up to one.</param>
         /// 
         public EmpiricalDistribution(double[] samples, double[] weights)
         {
@@ -170,13 +169,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The data samples.</param>
-        /// <param name="smoothing">
-        ///   The kernel smoothing or bandwidth to be used in density estimation.
-        ///   By default, the normal distribution approximation will be used.</param>
+        /// <param name="weights">The number of repetition counts for each sample.</param>
         /// 
-        public EmpiricalDistribution(double[] samples, int[] repeats)
+        public EmpiricalDistribution(double[] samples, int[] weights)
         {
-            initialize(samples, null, repeats, null);
+            initialize(samples, null, weights, null);
         }
 
         /// <summary>
@@ -184,6 +181,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <param name="samples">The data samples.</param>
+        /// <param name="weights">The fractional weights to use for the samples.
+        ///   The weights must sum up to one.</param>
         /// <param name="smoothing">
         ///   The kernel smoothing or bandwidth to be used in density estimation.
         ///   By default, the normal distribution approximation will be used.</param>
@@ -201,10 +200,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="smoothing">
         ///   The kernel smoothing or bandwidth to be used in density estimation.
         ///   By default, the normal distribution approximation will be used.</param>
+        /// <param name="weights">The number of repetition counts for each sample.</param>
         /// 
-        public EmpiricalDistribution(double[] samples, int[] repeats, double smoothing)
+        public EmpiricalDistribution(double[] samples, int[] weights, double smoothing)
         {
-            initialize(samples, null, repeats, smoothing);
+            initialize(samples, null, weights, smoothing);
         }
 
         /// <summary>
@@ -221,8 +221,6 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   changing values on this array will not result int any effect in
         ///   this distribution. The distribution must be computed from scratch
         ///   with new values in case new weights needs to be used.
-        /// </summary>
-        /// 
         /// </summary>
         /// 
         public double[] Weights
@@ -299,7 +297,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     if (type == WeightType.None)
                         mean = Tools.Mean(samples);
 
-                    else if (type == WeightType.Integers)
+                    else if (type == WeightType.Repetition)
                         mean = Tools.WeightedMean(samples, repeats);
 
                     else if (type == WeightType.Fraction)
@@ -327,7 +325,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     if (type == WeightType.None)
                         mode = Tools.Mode(samples);
 
-                    else if (type == WeightType.Integers)
+                    else if (type == WeightType.Repetition)
                         mode = Tools.WeightedMode(samples, repeats);
 
                     else if (type == WeightType.Fraction)
@@ -355,7 +353,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     if (type == WeightType.None)
                         variance = Tools.Variance(samples);
 
-                    else if (type == WeightType.Integers)
+                    else if (type == WeightType.Repetition)
                         variance = Tools.WeightedVariance(samples, repeats);
 
                     else if (type == WeightType.Fraction)
@@ -379,7 +377,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     if (type == WeightType.None)
                         entropy = Tools.Entropy(samples, ProbabilityDensityFunction);
 
-                    else if (type == WeightType.Integers)
+                    else if (type == WeightType.Repetition)
                         entropy = Tools.WeightedEntropy(samples, repeats, ProbabilityDensityFunction);
 
                     else if (type == WeightType.Fraction)
@@ -434,7 +432,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 return sum / (double)numberOfSamples;
             }
 
-            if (type == WeightType.Integers)
+            if (type == WeightType.Repetition)
             {
                 int sum = 0; // Repetition counts weights
                 for (int i = 0; i < samples.Length; i++)
@@ -499,7 +497,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
-            else if (type == WeightType.Integers)
+            else if (type == WeightType.Repetition)
             {
                 // Weighted sample using discrete counts
                 for (int i = 0; i < samples.Length; i++)
@@ -659,9 +657,8 @@ namespace Accord.Statistics.Distributions.Univariate
             }
             else if (repeats != null)
             {
-                this.type = WeightType.Integers;
+                this.type = WeightType.Repetition;
                 this.numberOfSamples = repeats.Sum();
-                this.weights = repeats.Divide(numberOfSamples);
                 this.sumOfWeights = 1.0;
                 this.constant = 1.0 / (Constants.Sqrt2PI * this.smoothing * numberOfSamples);
             }
@@ -719,6 +716,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </remarks>
         /// 
         /// <param name="observations">The observations for the empirical distribution.</param>
+        /// <param name="weights">The fractional importance for each sample. Those values must sum up to one.</param>
         /// 
         /// <returns>An estimative of the smoothing parameter.</returns>
         /// 
@@ -738,6 +736,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </remarks>
         /// 
         /// <param name="observations">The observations for the empirical distribution.</param>
+        /// <param name="repeats">The number of times each sample should be repeated.</param>
         /// 
         /// <returns>An estimative of the smoothing parameter.</returns>
         /// 
@@ -751,22 +750,35 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <summary>
         ///   Gets the default estimative of the smoothing parameter.
         /// </summary>
+        /// 
         /// <remarks>
         ///   This method is based on the practical estimation of the bandwidth as
         ///   suggested in Wikipedia: http://en.wikipedia.org/wiki/Kernel_density_estimation
         /// </remarks>
         /// 
         /// <param name="observations">The observations for the empirical distribution.</param>
+        /// <param name="weights">The fractional importance for each sample. Those values must sum up to one.</param>
+        /// <param name="repeats">The number of times each sample should be repeated.</param>
         /// 
         /// <returns>An estimative of the smoothing parameter.</returns>
         /// 
         public static double SmoothingRule(double[] observations, double[] weights, int[] repeats)
         {
             if (weights != null)
+            {
+                if (repeats != null)
+                    throw new ArgumentException("Either weights or repeats can be different from null.");
+
                 return SmoothingRule(observations, weights);
+            }
 
             if (repeats != null)
+            {
+                if (weights != null)
+                    throw new ArgumentException("Either weights or repeats can be different from null.");
+
                 return SmoothingRule(observations, repeats);
+            }
 
             return SmoothingRule(observations);
         }
@@ -838,7 +850,7 @@ namespace Accord.Statistics.Distributions.Univariate
                     return this.samples[i];
             }
 
-            throw new Exception();
+            throw new InvalidOperationException("Execution should never reach here.");
         }
     }
 }

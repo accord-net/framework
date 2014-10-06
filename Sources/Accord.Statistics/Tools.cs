@@ -45,7 +45,7 @@ namespace Accord.Statistics
         ///   Weights are integers representing how many times a sample should repeat itself.
         /// </summary>
         /// 
-        Integers,
+        Repetition,
 
         /// <summary>
         ///   Weights are fractional numbers that sum up to one.
@@ -55,7 +55,7 @@ namespace Accord.Statistics
 
         /// <summary>
         ///   If weights sum up to one, they are handled as <see cref="Fraction">fractional
-        ///   weights</see>. If they sum to a whole number, they are handled as <see cref="Integers">
+        ///   weights</see>. If they sum to a whole number, they are handled as <see cref="Repetition">
         ///   integer repetition counts</see>.
         /// </summary>
         /// 
@@ -1749,7 +1749,7 @@ namespace Accord.Statistics
         /// in <see param="values"/>.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -1788,7 +1788,7 @@ namespace Accord.Statistics
         /// <param name="mean">The mean of the vector, if already known.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -1842,7 +1842,7 @@ namespace Accord.Statistics
         /// in <see param="values"/>. The sum of this array elements should add up to 1.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -1863,7 +1863,7 @@ namespace Accord.Statistics
         /// in <see param="values"/>.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -1904,7 +1904,7 @@ namespace Accord.Statistics
         /// in <see param="values"/>.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -1983,7 +1983,7 @@ namespace Accord.Statistics
         /// <param name="mean">The mean of the vector, if already known.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -2019,7 +2019,7 @@ namespace Accord.Statistics
         /// in <see param="values"/> repeats itself in the non-weighted data.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -2057,7 +2057,7 @@ namespace Accord.Statistics
         /// <param name="mean">The mean of the array, if already known.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -2136,7 +2136,7 @@ namespace Accord.Statistics
         /// <param name="weightType">How the weights should be interpreted for the bias correction.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -2262,7 +2262,7 @@ namespace Accord.Statistics
         /// <param name="means">The mean vector containing already calculated means for each column of the matrix.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -2348,7 +2348,7 @@ namespace Accord.Statistics
         /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -2438,7 +2438,7 @@ namespace Accord.Statistics
         /// <param name="weights">The number of times each sample should be repeated.</param>
         /// <param name="unbiased">
         ///   Pass true to compute the sample variance; or pass false to compute the 
-        ///   population variance. For <see cref="WeightType.Integers">integers weights
+        ///   population variance. For <see cref="WeightType.Repetition">integers weights
         ///   </see>, the bias correction is equivalent to the non-weighted case. For 
         ///   <see cref="WeightType.Fraction">fractional weights</see>, the variance
         ///   bias cannot be completely eliminated.</param>
@@ -6170,7 +6170,7 @@ namespace Accord.Statistics
 
                     return sum / (weightSum - (squareSum / weightSum));
                 }
-                else if (weightType == WeightType.Integers)
+                else if (weightType == WeightType.Repetition)
                 {
                     return sum / (weightSum - (squareSum / weightSum));
                 }

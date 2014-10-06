@@ -110,20 +110,6 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void WeightedEmpiricalDistributionConstructorTest_WeightsDontSumToOne()
-        {
-            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
-            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
-
-            try
-            {
-                new EmpiricalDistribution(samples, weights);
-                Assert.Fail();
-            }
-            catch (ArgumentException) { }
-        }
-
-        [TestMethod()]
         public void WeightedEmpiricalDistributionConstructorTest()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };

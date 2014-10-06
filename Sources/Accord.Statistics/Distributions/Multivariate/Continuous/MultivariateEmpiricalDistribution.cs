@@ -144,7 +144,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateEmpiricalDistribution(double[][] samples)
             : base(samples[0].Length)
         {
-            this.initialize(null, samples, null);
+            this.initialize(null, samples, null, null, null);
         }
 
         /// <summary>
@@ -152,11 +152,13 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="samples">The data samples.</param>
+        /// <param name="weights">The fractional weights to use for the samples.
+        ///   The weights must sum up to one.</param>
         /// 
         public MultivariateEmpiricalDistribution(double[][] samples, double[] weights)
             : base(samples[0].Length)
         {
-            this.initialize(null, samples, null);
+            this.initialize(null, samples, weights, null, null);
         }
 
         /// <summary>
@@ -164,11 +166,12 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </summary>
         /// 
         /// <param name="samples">The data samples.</param>
+        /// <param name="weights">The number of repetition counts for each sample.</param>
         /// 
         public MultivariateEmpiricalDistribution(double[][] samples, int[] weights)
             : base(samples[0].Length)
         {
-            this.initialize(null, samples, null);
+            this.initialize(null, samples, null, weights, null);
         }
 
         /// <summary>
@@ -182,7 +185,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples)
             : base(samples[0].Length)
         {
-            this.initialize(kernel, samples, null);
+            this.initialize(kernel, samples, null, null, null);
         }
 
         /// <summary>
@@ -192,11 +195,13 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="kernel">The kernel density function to use. 
         ///   Default is to use the <see cref="GaussianKernel"/>.</param>
         /// <param name="samples">The data samples forming the distribution.</param>
+        /// <param name="weights">The fractional weights to use for the samples.
+        ///   The weights must sum up to one.</param>
         /// 
         public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, double[] weights)
             : base(samples[0].Length)
         {
-            this.initialize(kernel, samples, null);
+            this.initialize(kernel, samples, weights, null, null);
         }
 
         /// <summary>
@@ -206,11 +211,12 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="kernel">The kernel density function to use. 
         ///   Default is to use the <see cref="GaussianKernel"/>.</param>
         /// <param name="samples">The data samples forming the distribution.</param>
+        /// <param name="weights">The number of repetition counts for each sample.</param>
         /// 
         public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, int[] weights)
             : base(samples[0].Length)
         {
-            this.initialize(kernel, samples, null);
+            this.initialize(kernel, samples, null, weights, null);
         }
 
         /// <summary>
@@ -227,7 +233,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, double[,] smoothing)
             : base(samples[0].Length)
         {
-            this.initialize(kernel, samples, smoothing);
+            this.initialize(kernel, samples, null, null, smoothing);
         }
 
         /// <summary>
@@ -237,6 +243,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="kernel">The kernel density function to use. 
         ///   Default is to use the <see cref="GaussianKernel"/>.</param>
         /// <param name="samples">The data samples.</param>
+        /// <param name="weights">The number of repetition counts for each sample.</param>
         /// <param name="smoothing">
         ///   The kernel smoothing or bandwidth to be used in density estimation.
         ///   By default, the normal distribution approximation will be used.</param>
@@ -244,7 +251,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, int[] weights, double[,] smoothing)
             : base(samples[0].Length)
         {
-            this.initialize(kernel, samples, smoothing);
+            this.initialize(kernel, samples, null, weights, smoothing);
         }
 
         /// <summary>
@@ -254,6 +261,8 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <param name="kernel">The kernel density function to use. 
         ///   Default is to use the <see cref="GaussianKernel"/>.</param>
         /// <param name="samples">The data samples.</param>
+        /// <param name="weights">The fractional weights to use for the samples.
+        ///   The weights must sum up to one.</param>
         /// <param name="smoothing">
         ///   The kernel smoothing or bandwidth to be used in density estimation.
         ///   By default, the normal distribution approximation will be used.</param>
@@ -261,16 +270,15 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateEmpiricalDistribution(IDensityKernel kernel, double[][] samples, double[] weights, double[,] smoothing)
             : base(samples[0].Length)
         {
-            this.initialize(kernel, samples, smoothing);
+            this.initialize(kernel, samples, weights, null, smoothing);
         }
 
         /// <summary>
         ///   Creates a new Empirical Distribution from the data samples.
         /// </summary>
         /// 
-        /// <param name="kernel">The kernel density function to use. 
-        ///   Default is to use the <see cref="GaussianKernel"/>.</param>
         /// <param name="samples">The data samples.</param>
+        /// <param name="weights">The number of repetition counts for each sample.</param>
         /// <param name="smoothing">
         ///   The kernel smoothing or bandwidth to be used in density estimation.
         ///   By default, the normal distribution approximation will be used.</param>
@@ -278,16 +286,16 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateEmpiricalDistribution(double[][] samples, int[] weights, double[,] smoothing)
             : base(samples[0].Length)
         {
-            this.initialize(kernel, samples, smoothing);
+            this.initialize(kernel, samples, null, weights, smoothing);
         }
 
         /// <summary>
         ///   Creates a new Empirical Distribution from the data samples.
         /// </summary>
         /// 
-        /// <param name="kernel">The kernel density function to use. 
-        ///   Default is to use the <see cref="GaussianKernel"/>.</param>
         /// <param name="samples">The data samples.</param>
+        /// <param name="weights">The fractional weights to use for the samples.
+        ///   The weights must sum up to one.</param>
         /// <param name="smoothing">
         ///   The kernel smoothing or bandwidth to be used in density estimation.
         ///   By default, the normal distribution approximation will be used.</param>
@@ -295,7 +303,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateEmpiricalDistribution(double[][] samples, double[] weights, double[,] smoothing)
             : base(samples[0].Length)
         {
-            this.initialize(kernel, samples, smoothing);
+            this.initialize(kernel, samples, weights, null, smoothing);
         }
 
         /// <summary>
@@ -323,11 +331,19 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   with new values in case new weights needs to be used.
         /// </summary>
         /// 
-        /// </summary>
-        /// 
         public double[] Weights
         {
-            get { return weights; }
+            get
+            {
+                if (weights == null)
+                {
+                    weights = new double[samples.Length];
+                    for (int i = 0; i < weights.Length; i++)
+                        weights[i] = Counts[i] / (double)Length;
+                }
+
+                return weights;
+            }
         }
 
         /// <summary>
@@ -339,7 +355,17 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public int[] Counts
         {
-            get { return repeats; }
+            get
+            {
+                if (repeats == null)
+                {
+                    repeats = new int[samples.Length];
+                    for (int i = 0; i < repeats.Length; i++)
+                        repeats[i] = 1;
+                }
+
+                return repeats;
+            }
         }
 
         /// <summary>
@@ -380,7 +406,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                     if (type == WeightType.None)
                         mean = Tools.Mean(samples);
 
-                    else if (type == WeightType.Integers)
+                    else if (type == WeightType.Repetition)
                         mean = Tools.WeightedMean(samples, repeats);
 
                     else if (type == WeightType.Fraction)
@@ -408,7 +434,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                     if (type == WeightType.None)
                         variance = Tools.Variance(samples);
 
-                    else if (type == WeightType.Integers)
+                    else if (type == WeightType.Repetition)
                         variance = Tools.WeightedVariance(samples, repeats);
 
                     else if (type == WeightType.Fraction)
@@ -436,7 +462,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                     if (type == WeightType.None)
                         covariance = Tools.Covariance(samples, Mean);
 
-                    else if (type == WeightType.Integers)
+                    else if (type == WeightType.Repetition)
                         covariance = Tools.WeightedCovariance(samples, repeats);
 
                     else if (type == WeightType.Fraction)
@@ -478,13 +504,14 @@ namespace Accord.Statistics.Distributions.Multivariate
                 {
                     for (int j = 0; j < x.Length; j++)
                         delta[j] = (x[j] - samples[i][j]);
+
                     sum += kernel.Function(chol.Solve(delta));
                 }
 
                 return sum / (samples.Length * determinant);
             }
 
-            if (type == WeightType.Integers)
+            if (type == WeightType.Repetition)
             {
                 for (int i = 0; i < samples.Length; i++)
                 {
@@ -516,13 +543,81 @@ namespace Accord.Statistics.Distributions.Multivariate
 
 
 
+
         /// <summary>
-        ///   Not supported.
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
         /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range. For a
+        /// univariate distribution, this should be a single
+        /// double value. For a multivariate distribution,
+        /// this should be a double array.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.
+        /// </returns>
+        /// 
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
         /// 
         public override double DistributionFunction(params double[] x)
         {
-            throw new NotSupportedException();
+            if (type == WeightType.None)
+            {
+                int sum = 0; // Normal sample, no weights
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    int j = 0;
+                    for (; j < x.Length; j++)
+                        if (samples[i][j] > x[j])
+                            break;
+
+                    if (j == x.Length)
+                        sum++;
+                }
+
+                return sum / (double)numberOfSamples;
+            }
+
+            if (type == WeightType.Repetition)
+            {
+                int sum = 0; // Repetition counts weights
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    int j = 0;
+                    for (; j < x.Length; j++)
+                        if (samples[i][j] > x[j])
+                            break;
+
+                    if (j == x.Length)
+                        sum += repeats[i];
+                }
+
+                return sum / (double)numberOfSamples;
+            }
+
+            if (type == WeightType.Fraction)
+            {
+                double sum = 0; // Fractional weights
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    int j = 0;
+                    for (; j < x.Length; j++)
+                        if (samples[i][j] > x[j])
+                            break;
+
+                    if (j == x.Length)
+                        sum += weights[i];
+                }
+
+                return sum / sumOfWeights;
+            }
+
+            throw new InvalidOperationException();
         }
 
 
@@ -569,7 +664,12 @@ namespace Accord.Statistics.Distributions.Multivariate
                 inPlace = options.InPlace;
             }
 
-            initialize(null, (double[][])observations.Clone(), smoothing);
+            observations = inPlace ? observations : observations.MemberwiseClone();
+
+            if (weights != null)
+                weights = inPlace ? weights : (double[])weights.Clone();
+
+            initialize(kernel, observations, weights, null, smoothing);
         }
 
         /// <summary>
@@ -598,13 +698,19 @@ namespace Accord.Statistics.Distributions.Multivariate
                 inPlace = options.InPlace;
             }
 
-            initialize(null, (double[][])observations.Clone(), smoothing);
+            observations = inPlace ? observations : observations.MemberwiseClone();
+
+            if (weights != null)
+                weights = inPlace ? weights : (int[])weights.Clone();
+
+            initialize(kernel, observations, null, weights, smoothing);
         }
 
-        private void initialize(IDensityKernel kernel, double[][] observations, double[,] smoothing)
+        private void initialize(IDensityKernel kernel, double[][] observations,
+            double[] weights, int[] repeats, double[,] smoothing)
         {
             if (smoothing == null)
-                smoothing = SilvermanRule(observations);
+                smoothing = SilvermanRule(observations, weights, repeats);
 
             if (kernel == null)
                 kernel = new GaussianKernel(Dimension);
@@ -614,7 +720,30 @@ namespace Accord.Statistics.Distributions.Multivariate
             this.smoothing = smoothing;
             this.determinant = smoothing.Determinant();
 
+            this.weights = weights;
+            this.repeats = repeats;
+
             this.chol = new CholeskyDecomposition(smoothing);
+
+
+            if (weights != null)
+            {
+                this.type = WeightType.Fraction;
+                this.numberOfSamples = samples.Length;
+                this.sumOfWeights = weights.Sum();
+            }
+            else if (repeats != null)
+            {
+                this.type = WeightType.Repetition;
+                this.numberOfSamples = repeats.Sum();
+                this.sumOfWeights = 1.0;
+            }
+            else
+            {
+                this.type = WeightType.None;
+                this.numberOfSamples = samples.Length;
+                this.sumOfWeights = 1.0;
+            }
 
             this.mean = null;
             this.variance = null;
@@ -636,7 +765,23 @@ namespace Accord.Statistics.Distributions.Multivariate
         public override object Clone()
         {
             var e = new MultivariateEmpiricalDistribution(Dimension);
-            e.initialize(kernel, samples.MemberwiseClone(), (double[,])smoothing.Clone());
+
+            e.chol = (CholeskyDecomposition)chol.Clone();
+            e.determinant = determinant;
+            e.kernel = kernel;
+            e.numberOfSamples = numberOfSamples;
+            e.repeats = (int[])repeats.Clone();
+            e.samples = (double[][])samples.MemberwiseClone();
+            e.smoothing = smoothing.MemberwiseClone();
+            e.sumOfWeights = sumOfWeights;
+            e.type = type;
+
+            if (e.weights != null)
+                e.weights = (double[])weights.Clone();
+
+            if (e.repeats != null)
+                e.repeats = (int[])repeats.Clone();
+
             return e;
         }
 
@@ -681,6 +826,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </remarks>
         /// 
         /// <param name="observations">The observations for the empirical distribution.</param>
+        /// <param name="weights">The fractional importance for each sample. Those values must sum up to one.</param>
         /// 
         /// <returns>An estimative of the smoothing parameter.</returns>
         /// 
@@ -709,6 +855,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// </remarks>
         /// 
         /// <param name="observations">The observations for the empirical distribution.</param>
+        /// <param name="weights">The number of times each sample should be repeated.</param>
         /// 
         /// <returns>An estimative of the smoothing parameter.</returns>
         /// 
@@ -725,6 +872,23 @@ namespace Accord.Statistics.Distributions.Multivariate
             return silverman(sigma, d, n);
         }
 
+        /// <summary>
+        ///   Gets the Silverman's rule. estimative of the smoothing parameter.
+        ///   This is the default smoothing rule applied used when estimating 
+        ///   <see cref="MultivariateEmpiricalDistribution"/>s.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method is described on Wikipedia, at
+        ///   http://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation
+        /// </remarks>
+        /// 
+        /// <param name="observations">The observations for the empirical distribution.</param>
+        /// <param name="weights">The fractional importance for each sample. Those values must sum up to one.</param>
+        /// <param name="repeats">The number of times each sample should be repeated.</param>
+        /// 
+        /// <returns>An estimative of the smoothing parameter.</returns>
+        /// 
         public static double[,] SilvermanRule(double[][] observations, double[] weights, int[] repeats)
         {
             if (weights != null)

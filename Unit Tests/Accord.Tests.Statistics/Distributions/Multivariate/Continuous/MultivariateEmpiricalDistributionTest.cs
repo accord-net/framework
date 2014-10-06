@@ -105,7 +105,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-3.5432541357714742, lpdf);
         }
 
-       
+
 
 
         [TestMethod()]
@@ -216,21 +216,6 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(expected[i], actual[i]);
         }
 
-
-        [TestMethod()]
-        public void WeightedEmpiricalDistributionConstructorTest_WeightsDontSumToOne()
-        {
-            double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
-            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
-
-            try
-            {
-                new MultivariateEmpiricalDistribution(samples.ToArray(), weights);
-                Assert.Fail();
-            }
-            catch (ArgumentException) { }
-        }
-
         [TestMethod()]
         public void WeightedEmpiricalDistributionConstructorTest()
         {
@@ -238,14 +223,15 @@ namespace Accord.Tests.Statistics
             var distribution = new MultivariateEmpiricalDistribution(original.ToArray());
 
             int[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
-            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
-            var target = new MultivariateEmpiricalDistribution(samples.ToArray(), weights);
+            double[] sources = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+            double[][] samples = sources.ToArray();
+            var target = new MultivariateEmpiricalDistribution(samples, weights);
 
-            Assert.AreEqual(distribution.Mean, target.Mean);
-            Assert.AreEqual(distribution.Median, target.Median);
-            Assert.AreEqual(distribution.Mode, target.Mode);
-            Assert.AreEqual(distribution.Smoothing, target.Smoothing);
-            Assert.AreEqual(distribution.Variance, target.Variance);
+            Assert.AreEqual(distribution.Mean[0], target.Mean[0]);
+            Assert.AreEqual(distribution.Median[0], target.Median[0]);
+            Assert.AreEqual(distribution.Mode[0], target.Mode[0]);
+            Assert.AreEqual(distribution.Smoothing[0, 0], target.Smoothing[0, 0]);
+            Assert.AreEqual(distribution.Variance[0], target.Variance[0]);
             Assert.IsTrue(target.Weights.IsEqual(weights.Divide(weights.Sum())));
             Assert.AreEqual(target.Samples, samples);
 
@@ -277,17 +263,19 @@ namespace Accord.Tests.Statistics
             var distribution = new MultivariateEmpiricalDistribution(original.ToArray());
 
             double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
-            double[] samples = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+            double[] source = { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3 };
+            double[][] samples = source.ToArray();
 
             weights = weights.Divide(weights.Sum());
 
-            var target = new MultivariateEmpiricalDistribution(samples.ToArray(), weights, distribution.Smoothing);
+            var target = new MultivariateEmpiricalDistribution(samples,
+                weights, distribution.Smoothing);
 
-            Assert.AreEqual(distribution.Mean, target.Mean);
-            Assert.AreEqual(distribution.Median, target.Median);
-            Assert.AreEqual(distribution.Mode, target.Mode);
-            Assert.AreEqual(distribution.Smoothing, target.Smoothing);
-            Assert.AreEqual(1.3655172413793104, target.Variance);
+            Assert.AreEqual(distribution.Mean[0], target.Mean[0]);
+            Assert.AreEqual(distribution.Median[0], target.Median[0]);
+            Assert.AreEqual(distribution.Mode[0], target.Mode[0]);
+            Assert.AreEqual(distribution.Smoothing[0, 0], target.Smoothing[0, 0]);
+            Assert.AreEqual(1.3655172413793104, target.Variance[0]);
             Assert.AreEqual(target.Weights, weights);
             Assert.AreEqual(target.Samples, samples);
 
@@ -322,7 +310,46 @@ namespace Accord.Tests.Statistics
 
             var target = new MultivariateEmpiricalDistribution(samples.ToArray(), weights);
 
-            Assert.AreEqual(1.2377597081667415, target.Smoothing);
+            Assert.AreEqual(1.2377597081667415, target.Smoothing[0, 0]);
+        }
+
+        [TestMethod()]
+        public void WeightedEmpiricalDistribution_DistributionFunction()
+        {
+            double[][] samples = 
+            {
+                new double[] { 5, 2 },
+                new double[] { 1, 5 },
+                new double[] { 4, 7 },
+                new double[] { 1, 6 },
+                new double[] { 2, 2 },
+                new double[] { 3, 4 },
+                new double[] { 4, 8 },
+                new double[] { 3, 2 },
+                new double[] { 4, 4 },
+                new double[] { 3, 7 },
+                new double[] { 2, 4 },
+                new double[] { 3, 1 },
+            };
+
+
+            var target = new MultivariateEmpiricalDistribution(samples);
+
+            double[] expected = 
+            {
+               0.33333333333333331, 0.083333333333333329, 0.83333333333333337,
+               0.16666666666666666, 0.083333333333333329, 0.41666666666666669,
+               0.91666666666666663, 0.25, 0.5, 
+               0.66666666666666663, 0.16666666666666666, 0.083333333333333329
+            };
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                double e = expected[i];
+                double a = target.DistributionFunction(samples[i]);
+                Assert.AreEqual(e, a);
+            }
+
         }
     }
 }

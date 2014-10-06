@@ -25,6 +25,17 @@ namespace Accord.Statistics.Distributions.Fitting
     using System;
     using Accord.Statistics.Distributions.Multivariate;
 
+    /// <summary>
+    ///   Smoothing rule function definition for <see cref="MultivariateEmpiricalDistribution">
+    ///   Empirical distributions</see>. 
+    /// </summary>
+    /// 
+    /// <param name="observations">The observations for the empirical distribution.</param>
+    /// <param name="weights">The fractional importance for each sample. Those values must sum up to one.</param>
+    /// <param name="repeats">The number of times each sample should be repeated.</param>
+    /// 
+    /// <returns>An estimative of the smoothing parameter.</returns>
+    /// 
     public delegate double[,] MultivariateSmoothingRule(double[][] observations, double[] weights = null, int[] repeats = null);
 
     /// <summary>
@@ -38,12 +49,18 @@ namespace Accord.Statistics.Distributions.Fitting
         /// <summary>
         ///   Gets or sets the smoothing rule used to compute the smoothing
         ///   parameter in the <see cref="MultivariateEmpiricalDistribution"/>.
-        ///   Default is to use <see cref="MultivariateEmpiricalDistribution.SilvermanRule">
+        ///   Default is to use <see cref="MultivariateEmpiricalDistribution.SilvermanRule(double[][], double[], int[])">
         ///   Silverman's rule</see>.
         /// </summary>
         /// 
         public MultivariateSmoothingRule SmoothingRule { get; set; }
 
+        /// <summary>
+        ///   Gets or sets whether the empirical distribution should be take the
+        ///   observation and weight vectors directly instead of making a copy
+        ///   beforehand.
+        /// </summary>
+        /// 
         public bool InPlace { get; set; }
 
         /// <summary>

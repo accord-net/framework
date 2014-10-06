@@ -25,6 +25,17 @@ namespace Accord.Statistics.Distributions.Fitting
     using System;
     using Accord.Statistics.Distributions.Univariate;
 
+    /// <summary>
+    ///   Smoothing rule function definition for <see cref="EmpiricalDistribution">
+    ///   Empirical distributions</see>. 
+    /// </summary>
+    /// 
+    /// <param name="observations">The observations for the empirical distribution.</param>
+    /// <param name="weights">The fractional importance for each sample. Those values must sum up to one.</param>
+    /// <param name="repeats">The number of times each sample should be repeated.</param>
+    /// 
+    /// <returns>An estimative of the smoothing parameter.</returns>
+    /// 
     public delegate double SmoothingRule(double[] observations, double[] weights = null, int[] repeats = null);
 
     /// <summary>
@@ -38,12 +49,18 @@ namespace Accord.Statistics.Distributions.Fitting
         /// <summary>
         ///   Gets or sets the smoothing rule used to compute the smoothing
         ///   parameter in the <see cref="EmpiricalDistribution"/>. Default
-        ///   is to use the <see cref="EmpiricalDistribution.SmoothingRule">
+        ///   is to use the <see cref="EmpiricalDistribution.SmoothingRule(double[], double[], int[])">
         ///   normal distribution bandwidth approximation</see>.
         /// </summary>
         /// 
         public SmoothingRule SmoothingRule { get; set; }
 
+        /// <summary>
+        ///   Gets or sets whether the empirical distribution should be take the
+        ///   observation and weight vectors directly instead of making a copy
+        ///   beforehand.
+        /// </summary>
+        /// 
         public bool InPlace { get; set; }
 
         /// <summary>
