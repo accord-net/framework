@@ -77,9 +77,10 @@ Source: "..\..\Release\net35\Noncommercial\*"; DestDir: "{app}\Release\net35\Non
 
 
 [Registry]
-Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\AssemblyFolders\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release\net40"
 Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\v3.5\AssemblyFoldersEx\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release\net35"
 Root: HKLM; Subkey: "Software\Microsoft\.NETFramework\v4.0.30319\AssemblyFoldersEx\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release\net40"
+Root: HKLM; Subkey: "Software\Wow6432Node\Microsoft\.NETFramework\v3.5\AssemblyFoldersEx\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release\net35"
+Root: HKLM; Subkey: "Software\Wow6432Node\Microsoft\.NETFramework\v4.0.30319\AssemblyFoldersEx\Accord.NET"; Flags: uninsdeletekey; ValueType: string; ValueData: "{app}\Release\net40"
 
 
 [Icons]
