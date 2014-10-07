@@ -175,7 +175,7 @@ namespace Accord.Tests.Statistics
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            HiddenMarkovModel hmm = new HiddenMarkovModel(new Ergodic(2, random: true), 3, random: true);
+            HiddenMarkovModel hmm = new HiddenMarkovModel(new Ergodic(2), 3);
 
             int[] observation = new int[]
             { 
@@ -272,7 +272,7 @@ namespace Accord.Tests.Statistics
             // Creates a new Hidden Markov Model with 3 states for
             //  an output alphabet of two characters (zero and one)
             //
-            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3, random: true), 2);
+            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3), 2);
 
             // Try to fit the model to the data until the difference in
             //  the average log-likelihood changes only by as little as 0.0001
@@ -344,7 +344,7 @@ namespace Accord.Tests.Statistics
             // Creates a new Hidden Markov Model with 3 states for
             //  an output alphabet of two characters (zero and one)
             //
-            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3, random: true), 2, random: true);
+            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3), 2);
 
             // Try to fit the model to the data until the difference in
             //  the average log-likelihood changes only by as little as 0.0001
@@ -392,58 +392,5 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l2 > l3 && l2 > l4);
         }
 
-        [TestMethod()]
-        public void LearnTest1()
-        {
-            Accord.Math.Tools.SetupGenerator(0);
-
-            int[][] sequences = new int[][] 
-            {
-                new int[] { 1,1,2,1,2,0,1,1,1,1 },
-                new int[] { 0,1,1,1,0,1,1,2,1,1 },
-                new int[] { 0,1,1,2,2,2,2,2,1,1 },
-                new int[] { 0,1,2,2,1,1         },
-                new int[] { 0,1,1,1,1,1,1       },
-                new int[] { 0,1,1,2,2,2,2,1,1,1 },
-                new int[] { 0,1,2,2,1,1,2,2,2,1 },
-            };
-
-            HiddenMarkovModel hmm = new HiddenMarkovModel(5, 3, random: true);
-
-            var teacher = new ViterbiLearning(hmm) { Tolerance = 0.0001, Iterations = 0 };
-
-            double ll = teacher.Run(sequences);
-
-
-            double l1 = hmm.Evaluate(new int[] { 0, 1 });
-            double l2 = hmm.Evaluate(new int[] { 0, 1, 2, 1 });
-
-
-            double l3 = hmm.Evaluate(new int[] { 1, 1 });
-            double l4 = hmm.Evaluate(new int[] { 1, 0, 2, 0 });
-
-            double l5 = hmm.Evaluate(new int[] { 0, 1, 0, 2, 2, 1, 2, 1, 1 });
-            double l6 = hmm.Evaluate(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 });
-
-
-            double pl = System.Math.Exp(ll);
-            double p1 = System.Math.Exp(l1);
-            double p2 = System.Math.Exp(l2);
-            double p3 = System.Math.Exp(l3);
-            double p4 = System.Math.Exp(l4);
-            double p5 = System.Math.Exp(l5);
-            double p6 = System.Math.Exp(l6);
-
-            Assert.AreEqual(1.754393540912413, pl, 1e-6);
-            Assert.AreEqual(0.61368718756104801, p1, 1e-6);
-            Assert.AreEqual(0.50049466955818356, p2, 1e-6);
-            Assert.AreEqual(0.18643340385264684, p3, 1e-6);
-            Assert.AreEqual(0.00300262431355424, p4, 1e-6);
-            Assert.AreEqual(0.03338686211012481, p5, 1e-6);
-            Assert.AreEqual(0.02659161933179825, p6, 1e-6);
-
-            Assert.IsTrue(l1 > l3 && l1 > l4);
-            Assert.IsTrue(l2 > l3 && l2 > l4);
-        }
     }
 }
