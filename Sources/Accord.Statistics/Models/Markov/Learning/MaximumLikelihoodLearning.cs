@@ -122,6 +122,10 @@ namespace Accord.Statistics.Models.Markov.Learning
         private HiddenMarkovModel model;
         private bool useLaplaceRule = true;
 
+        private int[] initial;
+        private int[,] transitions;
+        private int[,] emissions;
+
         /// <summary>
         ///   Gets the model being trained.
         /// </summary>
@@ -149,6 +153,13 @@ namespace Accord.Statistics.Models.Markov.Learning
         public MaximumLikelihoodLearning(HiddenMarkovModel model)
         {
             this.model = model;
+
+            int states = model.States;
+            int symbols = model.Symbols;
+
+            initial = new int[states];
+            transitions = new int[states, states];
+            emissions = new int[states, symbols];
         }
 
 
@@ -176,9 +187,9 @@ namespace Accord.Statistics.Models.Markov.Learning
             int states = model.States;
             int symbols = model.Symbols;
 
-            int[] initial = new int[states];
-            int[,] transitions = new int[states, states];
-            int[,] emissions = new int[states, symbols];
+            Array.Clear(initial, 0, initial.Length);
+            Array.Clear(transitions, 0, transitions.Length);
+            Array.Clear(emissions, 0, emissions.Length);
 
             // 1. Count first state occurrences
             for (int i = 0; i < paths.Length; i++)
@@ -218,6 +229,21 @@ namespace Accord.Statistics.Models.Markov.Learning
             int initialCount = initial.Sum();
             int[] transitionCount = transitions.Sum(1);
             int[] emissionCount = emissions.Sum(1);
+
+            if (initialCount == 0)
+                initialCount = 1;
+
+            for (int i = 0; i < transitionCount.Length; i++)
+            {
+                if (transitionCount[i] == 0)
+                    transitionCount[i] = 1;
+            }
+
+            for (int i = 0; i < emissionCount.Length; i++)
+            {
+                if (emissionCount[i] == 0)
+                    emissionCount[i] = 1;
+            }
 
             for (int i = 0; i < initial.Length; i++)
                 model.Probabilities[i] = Math.Log(initial[i] / (double)initialCount);

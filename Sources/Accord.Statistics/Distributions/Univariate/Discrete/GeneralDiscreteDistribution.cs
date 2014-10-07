@@ -191,6 +191,19 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the probability value associated with the symbol <paramref name="i"/>.
+        /// </summary>
+        /// 
+        /// <param name="i">The symbol's index.</param>
+        /// 
+        /// <returns>The probability of the given symbol.</returns>
+        /// 
+        public double this[int i]
+        {
+            get { return probabilities[i]; }
+        }
+
+        /// <summary>
         ///   Gets the integer value where the
         ///   discrete distribution starts.
         /// </summary>

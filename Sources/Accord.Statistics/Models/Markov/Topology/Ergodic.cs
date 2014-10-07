@@ -88,6 +88,7 @@ namespace Accord.Statistics.Models.Markov.Topology
         /// <summary>
         ///   Gets the number of states in this topology.
         /// </summary>
+        /// 
         public int States
         {
             get { return states; }
@@ -98,6 +99,7 @@ namespace Accord.Statistics.Models.Markov.Topology
         ///   should be initialized with random probabilities
         ///   or not. Default is false.
         /// </summary>
+        /// 
         public bool Random
         {
             get { return random; }
@@ -107,6 +109,7 @@ namespace Accord.Statistics.Models.Markov.Topology
         /// <summary>
         ///   Gets the initial state probabilities.
         /// </summary>
+        /// 
         public double[] Initial
         {
             get { return pi; }
@@ -116,7 +119,9 @@ namespace Accord.Statistics.Models.Markov.Topology
         /// <summary>
         ///   Creates a new Ergodic topology for a given number of states.
         /// </summary>
-        /// <param name="states">The number of states in the model.</param>
+        /// 
+        /// <param name="states">The number of states to be used in the model.</param>
+        /// 
         public Ergodic(int states)
             : this(states, false)
         {
@@ -125,9 +130,12 @@ namespace Accord.Statistics.Models.Markov.Topology
         /// <summary>
         ///   Creates a new Ergodic topology for a given number of states.
         /// </summary>
-        /// <param name="states">The number of states in the model.</param>
-        /// <param name="random">True to use random initial values, false
-        /// to use a uniform distribution.</param>
+        /// 
+        /// <param name="states">The number of states to be used in the model.</param>
+        /// <param name="random">Whether to initialize the model with random probabilities
+        ///   or uniformly with <c>1 / number of states</c>. Default is false (default is
+        ///   to use <c>1/states</c>).</param>
+        /// 
         public Ergodic(int states, bool random)
         {
             if (states <= 0)
@@ -151,17 +159,25 @@ namespace Accord.Statistics.Models.Markov.Topology
         ///   Creates the state transitions matrix and the
         ///   initial state probabilities for this topology.
         /// </summary>
+        /// 
         public int Create(bool logarithm, out double[,] transitionMatrix, out double[] initialState)
         {
             double[,] A = new double[States, States];
 
             if (random)
             {
-                // Create A using random uniform distribution
+                // Create pi
+                double sum = 0;
+                for (int i = 0; i < states; i++)
+                    sum += pi[i] = Accord.Math.Tools.Random.NextDouble();
 
                 for (int i = 0; i < states; i++)
+                    pi[i] /= sum;
+
+                // Create A using random uniform distribution
+                for (int i = 0; i < states; i++)
                 {
-                    double sum = 0.0;
+                    sum = 0.0;
                     for (int j = 0; j < states; j++)
                         sum += A[i, j] = Accord.Math.Tools.Random.NextDouble();
 

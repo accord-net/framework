@@ -49,11 +49,92 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        [TestMethod()]
+        public void LearnTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+            int[][] sequences = new int[500][];
+            for (int i = 0; i < sequences.Length; i++)
+            {
+                sequences[i] = new int[Accord.Math.Tools.Random.Next(20, 80)];
 
+                int start = Accord.Math.Tools.Random.Next();
+
+                for (int j = 0; j < sequences[i].Length; j++)
+                {
+                    double s = Math.Sin(j + start);
+                    double u = ((s + 1) / 2.0);
+                    sequences[i][j] = (int)(u * 10);
+                }
+            }
+
+            HiddenMarkovModel hmm1;
+            double ll1;
+
+            {
+                Accord.Math.Tools.SetupGenerator(0);
+                hmm1 = new HiddenMarkovModel(10, 10, true);
+                var teacher = new ViterbiLearning(hmm1)
+                {
+                    Iterations = 1,
+                    Tolerance = 1e-15,
+                    Batches = 1,
+                    UseLaplaceRule = true
+                };
+                ll1 = teacher.Run(sequences);
+            }
+
+            HiddenMarkovModel hmm10;
+            double ll10;
+
+            {
+                Accord.Math.Tools.SetupGenerator(0);
+                hmm10 = new HiddenMarkovModel(10, 10, true);
+
+                var teacher = new ViterbiLearning(hmm10)
+                {
+                    Iterations = 100,
+                    Tolerance = 1e-15,
+                    Batches = 1,
+                    UseLaplaceRule = true
+                };
+
+                ll10 = teacher.Run(sequences);
+            }
+
+            Assert.IsTrue(ll10 > ll1);
+            Assert.AreNotEqual(ll1, ll10, 10);
+
+            // Those results must match the ones in ViterbiLearningTest`1.
+            Assert.AreEqual(-33.834836461044411, ll1);
+            Assert.AreEqual(-23.362967205628703, ll10);
+
+            Assert.IsFalse(AreEqual(hmm1, hmm10));
+        }
+
+        private static bool AreEqual(HiddenMarkovModel hmm1, HiddenMarkovModel hmm10)
+        {
+            for (int i = 0; i < hmm1.States; i++)
+            {
+                if (hmm1.Probabilities[i] != hmm10.Probabilities[i])
+                    return false;
+
+                for (int j = 0; j < hmm1.States; j++)
+                    if (hmm1.Transitions[i, j] != hmm10.Transitions[i, j])
+                        return false;
+
+                for (int j = 0; j < hmm1.Symbols; j++)
+                    if (hmm1.Emissions[i, j] != hmm10.Emissions[i, j])
+                        return false;
+            }
+
+            return true;
+        }
 
         [TestMethod()]
         public void LearnTest4()
         {
+            Accord.Math.Tools.SetupGenerator(0);
 
             int[][] sequences = new int[][] 
             {
@@ -68,7 +149,7 @@ namespace Accord.Tests.Statistics
                 new int[] { 0, 1, 3, 4, 5 },
             };
 
-            HiddenMarkovModel hmm = new HiddenMarkovModel(3, 6);
+            HiddenMarkovModel hmm = new HiddenMarkovModel(new Ergodic(3, random: true), 6);
 
             var teacher = new ViterbiLearning(hmm) { Iterations = 100, Tolerance = 0 };
 
@@ -92,7 +173,9 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest()
         {
-            HiddenMarkovModel hmm = new HiddenMarkovModel(2, 3);
+            Accord.Math.Tools.SetupGenerator(0);
+
+            HiddenMarkovModel hmm = new HiddenMarkovModel(new Ergodic(2, random: true), 3, random: true);
 
             int[] observation = new int[]
             { 
@@ -169,9 +252,12 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest3()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // We will try to create a Hidden Markov Model which
             //  can detect if a given sequence starts with a zero
             //  and has any number of ones after that.
+            //
             int[][] sequences = new int[][] 
             {
                 new int[] { 0,1,1,1,1,0,1,1,1,1 },
@@ -185,15 +271,20 @@ namespace Accord.Tests.Statistics
 
             // Creates a new Hidden Markov Model with 3 states for
             //  an output alphabet of two characters (zero and one)
-            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3), 2);
+            //
+            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3, random: true), 2);
 
             // Try to fit the model to the data until the difference in
             //  the average log-likelihood changes only by as little as 0.0001
+            //
             var teacher = new ViterbiLearning(hmm) { Tolerance = 0.0001, Iterations = 0 };
+
+            //
             double ll = teacher.Run(sequences);
 
             // Calculate the probability that the given
             //  sequences originated from the model
+            //
             double l1; hmm.Decode(new int[] { 0, 1 }, out l1);        // 0.5394
             double l2; hmm.Decode(new int[] { 0, 1, 1, 1 }, out l2);  // 0.4485
 
@@ -201,11 +292,14 @@ namespace Accord.Tests.Statistics
             double l3; hmm.Decode(new int[] { 1, 1 }, out l3);        // 0.0864
             double l4; hmm.Decode(new int[] { 1, 0, 0, 0 }, out l4);  // 0.0004
 
+
             // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
+            //
             double l5; hmm.Decode(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }, out l5); // 0.0154
             double l6; hmm.Decode(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 }, out l6); // 0.0154
+
 
             ll = System.Math.Exp(ll);
             l1 = System.Math.Exp(l1);
@@ -230,9 +324,12 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest6()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // We will try to create a Hidden Markov Model which
             //  can detect if a given sequence starts with a zero
             //  and has any number of ones after that.
+            //
             int[][] sequences = new int[][] 
             {
                 new int[] { 0,1,1,1,1,0,1,1,1,1 },
@@ -246,17 +343,22 @@ namespace Accord.Tests.Statistics
 
             // Creates a new Hidden Markov Model with 3 states for
             //  an output alphabet of two characters (zero and one)
-            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3), 2);
+            //
+            HiddenMarkovModel hmm = new HiddenMarkovModel(new Forward(3, random: true), 2, random: true);
 
             // Try to fit the model to the data until the difference in
             //  the average log-likelihood changes only by as little as 0.0001
+            //
             var teacher = new ViterbiLearning(hmm) { Tolerance = 0.0001, Iterations = 0 };
+
             double ll = teacher.Run(sequences);
+
 
             // Calculate the probability that the given
             //  sequences originated from the model
             double l1 = hmm.Evaluate(new int[] { 0, 1 });       // 0.613
             double l2 = hmm.Evaluate(new int[] { 0, 1, 1, 1 }); // 0.500
+
 
             // Sequences which do not start with zero have much lesser probability.
             double l3 = hmm.Evaluate(new int[] { 1, 1 });       // 0.186
@@ -265,8 +367,10 @@ namespace Accord.Tests.Statistics
             // Sequences which contains few errors have higher probability
             //  than the ones which do not start with zero. This shows some
             //  of the temporal elasticity and error tolerance of the HMMs.
+            //
             double l5 = hmm.Evaluate(new int[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }); // 0.033
             double l6 = hmm.Evaluate(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 }); // 0.026
+
 
             double pl = System.Math.Exp(ll);
             double p1 = System.Math.Exp(l1);
@@ -288,5 +392,58 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l2 > l3 && l2 > l4);
         }
 
+        [TestMethod()]
+        public void LearnTest1()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int[][] sequences = new int[][] 
+            {
+                new int[] { 1,1,2,1,2,0,1,1,1,1 },
+                new int[] { 0,1,1,1,0,1,1,2,1,1 },
+                new int[] { 0,1,1,2,2,2,2,2,1,1 },
+                new int[] { 0,1,2,2,1,1         },
+                new int[] { 0,1,1,1,1,1,1       },
+                new int[] { 0,1,1,2,2,2,2,1,1,1 },
+                new int[] { 0,1,2,2,1,1,2,2,2,1 },
+            };
+
+            HiddenMarkovModel hmm = new HiddenMarkovModel(5, 3, random: true);
+
+            var teacher = new ViterbiLearning(hmm) { Tolerance = 0.0001, Iterations = 0 };
+
+            double ll = teacher.Run(sequences);
+
+
+            double l1 = hmm.Evaluate(new int[] { 0, 1 });
+            double l2 = hmm.Evaluate(new int[] { 0, 1, 2, 1 });
+
+
+            double l3 = hmm.Evaluate(new int[] { 1, 1 });
+            double l4 = hmm.Evaluate(new int[] { 1, 0, 2, 0 });
+
+            double l5 = hmm.Evaluate(new int[] { 0, 1, 0, 2, 2, 1, 2, 1, 1 });
+            double l6 = hmm.Evaluate(new int[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 });
+
+
+            double pl = System.Math.Exp(ll);
+            double p1 = System.Math.Exp(l1);
+            double p2 = System.Math.Exp(l2);
+            double p3 = System.Math.Exp(l3);
+            double p4 = System.Math.Exp(l4);
+            double p5 = System.Math.Exp(l5);
+            double p6 = System.Math.Exp(l6);
+
+            Assert.AreEqual(1.754393540912413, pl, 1e-6);
+            Assert.AreEqual(0.61368718756104801, p1, 1e-6);
+            Assert.AreEqual(0.50049466955818356, p2, 1e-6);
+            Assert.AreEqual(0.18643340385264684, p3, 1e-6);
+            Assert.AreEqual(0.00300262431355424, p4, 1e-6);
+            Assert.AreEqual(0.03338686211012481, p5, 1e-6);
+            Assert.AreEqual(0.02659161933179825, p6, 1e-6);
+
+            Assert.IsTrue(l1 > l3 && l1 > l4);
+            Assert.IsTrue(l2 > l3 && l2 > l4);
+        }
     }
 }

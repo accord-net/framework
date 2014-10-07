@@ -2606,5 +2606,61 @@ namespace Accord.Math
             return result;
         }
 
+        /// <summary>
+        ///   Divides values into groups given a vector 
+        ///   containing the group labels for every value.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the values.</typeparam>
+        /// <param name="values">The values to be separated into groups.</param>
+        /// <param name="labels">
+        ///   A vector containing the class label associated with each of the 
+        ///   values. The labels must begin on 0 and its maximum value should
+        ///   be the number of groups - 1.</param>
+        /// 
+        /// <returns>The original values divided into groups.</returns>
+        /// 
+        public static T[][] Group<T>(T[] values, int[] labels)
+        {
+            return Group(values, labels, labels.Max() + 1);
+        }
+
+        /// <summary>
+        ///   Divides values into groups given a vector 
+        ///   containing the group labels for every value.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the values.</typeparam>
+        /// <param name="values">The values to be separated into groups.</param>
+        /// <param name="labels">
+        ///   A vector containing the class label associated with each of the 
+        ///   values. The labels must begin on 0 and its maximum value should
+        ///   be the number of groups - 1.</param>
+        /// <param name="groups">The number of groups.</param>
+        /// 
+        /// <returns>The original values divided into groups.</returns>
+        /// 
+        public static T[][] Group<T>(T[] values, int[] labels, int groups)
+        {
+            if (values.Length != labels.Length)
+                throw new DimensionMismatchException("labels");
+
+            var result = new T[groups][];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                var group = new List<T>();
+
+                for (int j = 0; j < values.Length; j++)
+                {
+                    if (labels[j] == i)
+                        group.Add(values[j]);
+                }
+
+                result[i] = group.ToArray();
+            }
+
+            return result;
+        }
     }
 }

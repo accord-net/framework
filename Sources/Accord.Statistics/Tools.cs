@@ -5771,6 +5771,13 @@ namespace Accord.Statistics
             // Create the index vector
             int[] idx = new int[size];
 
+            if (groups == 1)
+            {
+                for (int i = 0; i < idx.Length; i++)
+                    idx[i] = 0;
+                return idx;
+            }
+
             double n = groups / (double)size;
             for (int i = 0; i < idx.Length; i++)
                 idx[i] = (int)System.Math.Ceiling((i + 0.9) * n) - 1;

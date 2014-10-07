@@ -130,6 +130,10 @@ namespace Accord.Statistics.Models.Markov.Learning
         private bool useLaplaceRule = true;
         private bool useWeights = false;
 
+        private int[] initial;
+        private int[,] transitions;
+
+
         private IFittingOptions fittingOptions;
 
 
@@ -186,6 +190,11 @@ namespace Accord.Statistics.Models.Markov.Learning
         public MaximumLikelihoodLearning(HiddenMarkovModel<TDistribution> model)
         {
             this.model = model;
+
+            int states = model.States;
+
+            initial = new int[states];
+            transitions = new int[states, states];
         }
 
 
@@ -222,8 +231,9 @@ namespace Accord.Statistics.Models.Markov.Learning
             int N = observations.Length;
             int states = model.States;
 
-            int[] initial = new int[states];
-            int[,] transitions = new int[states, states];
+            Array.Clear(initial, 0, initial.Length);
+            Array.Clear(transitions, 0, transitions.Length);
+
 
             // 1. Count first state occurrences
             for (int i = 0; i < paths.Length; i++)
@@ -304,6 +314,14 @@ namespace Accord.Statistics.Models.Markov.Learning
             // Form probabilities
             int initialCount = initial.Sum();
             int[] transitionCount = transitions.Sum(1);
+
+            if (initialCount == 0)
+                initialCount = 1;
+
+            for (int i = 0; i < transitionCount.Length; i++)
+                if (transitionCount[i] == 0)
+                    transitionCount[i] = 1;
+
 
             for (int i = 0; i < initial.Length; i++)
                 model.Probabilities[i] = Math.Log(initial[i] / (double)initialCount);

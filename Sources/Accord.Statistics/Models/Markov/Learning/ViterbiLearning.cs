@@ -46,10 +46,10 @@ namespace Accord.Statistics.Models.Markov.Learning
     /// 
     /// </remarks>
     /// 
-    public class ViterbiLearning : IUnsupervisedLearning, IConvergenceLearning
+    public class ViterbiLearning : BaseViterbiLearning<int[]>,
+        IUnsupervisedLearning, IConvergenceLearning
     {
 
-        private AbsoluteConvergence convergence;
         private MaximumLikelihoodLearning mle;
 
         /// <summary>
@@ -73,95 +73,51 @@ namespace Accord.Statistics.Models.Markov.Learning
         }
 
         /// <summary>
-        ///   Gets or sets the maximum change in the average log-likelihood
-        ///   after an iteration of the algorithm used to detect convergence.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   This is the likelihood convergence limit L between two iterations of the algorithm. The
-        ///   algorithm will stop when the change in the likelihood for two consecutive iterations
-        ///   has not changed by more than L percent of the likelihood. If left as zero, the
-        ///   algorithm will ignore this parameter and iterate over a number of fixed iterations
-        ///   specified by the previous parameter.
-        /// </remarks>
-        /// 
-        public double Tolerance
-        {
-            get { return convergence.Tolerance; }
-            set { convergence.Tolerance = value; }
-        }
-
-        /// <summary>
-        ///   Gets or sets the maximum number of iterations
-        ///   performed by the learning algorithm.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   This is the maximum number of iterations to be performed by the learning algorithm. If
-        ///   specified as zero, the algorithm will learn until convergence of the model average
-        ///   likelihood respecting the desired limit.
-        /// </remarks>
-        /// 
-        public int Iterations
-        {
-            get { return convergence.Iterations; }
-            set { convergence.Iterations = value; }
-        }
-
-        /// <summary>
         ///   Creates a new instance of the Viterbi learning algorithm.
         /// </summary>
         /// 
         public ViterbiLearning(HiddenMarkovModel model)
         {
-            this.convergence = new AbsoluteConvergence();
             this.mle = new MaximumLikelihoodLearning(model);
         }
 
+
         /// <summary>
-        ///   Runs the learning algorithm.
+        ///   Runs one single epoch (iteration) of the learning algorithm.
         /// </summary>
         /// 
-        /// <remarks>
-        ///   Learning problem. Given some training observation sequences O = {o1, o2, ..., oK}
-        ///   and general structure of HMM (numbers of hidden and visible states), determine
-        ///   HMM parameters M = (A, B, pi) that best fit training data. 
-        /// </remarks>
+        /// <param name="inputs">The observation sequences.</param>
+        /// <param name="outputs">A vector to be populated with the decoded Viterbi sequences.</param>
         /// 
-        public double Run(params int[][] observations)
+        protected override void RunEpoch(int[][] inputs, int[][] outputs)
         {
             var model = mle.Model;
-            convergence.Clear();
+
+            // Compute the Viterbi path for all sequences
+            for (int i = 0; i < inputs.Length; i++)
+                outputs[i] = model.Decode(inputs[i]);
+
+            // Compute Maximum Likelihood Estimation 
+            mle.Run(inputs, outputs);
+        }
+
+        /// <summary>
+        ///   Computes the log-likelihood for the current model for the given observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The observation vectors.</param>
+        /// 
+        /// <returns>The log-likelihood of the observations belonging to the model.</returns>
+        /// 
+        protected override double ComputeLogLikelihood(int[][] observations)
+        {
+            var model = mle.Model;
 
             double logLikelihood = Double.NegativeInfinity;
             for (int i = 0; i < observations.Length; i++)
                 logLikelihood = Special.LogSum(logLikelihood, model.Evaluate(observations[i]));
 
-            double newLogLikelihood = Double.NegativeInfinity;
-
-            do // Until convergence or max iterations is reached
-            {
-                logLikelihood = newLogLikelihood;
-
-                // Compute the Viterbi path for all sequences
-                int[][] paths = new int[observations.Length][];
-                for (int i = 0; i < observations.Length; i++)
-                    paths[i] = model.Decode(observations[i]);
-
-                // Compute Maximum Likelihood Estimation 
-                mle.Run(observations, paths);
-
-                // Compute log-likelihood
-                newLogLikelihood = Double.NegativeInfinity;
-                for (int i = 0; i < observations.Length; i++)
-                    newLogLikelihood = Special.LogSum(newLogLikelihood, model.Evaluate(observations[i]));
-
-                // Check convergence
-                convergence.NewValue = newLogLikelihood;
-
-            } while (convergence.HasConverged);
-
-            return newLogLikelihood;
+            return logLikelihood;
         }
 
         /// <summary>
@@ -176,7 +132,7 @@ namespace Accord.Statistics.Models.Markov.Learning
         /// 
         double IUnsupervisedLearning.Run(Array[] observations)
         {
-            return Run((int[][])observations);
+            return base.Run((int[][])observations);
         }
 
     }

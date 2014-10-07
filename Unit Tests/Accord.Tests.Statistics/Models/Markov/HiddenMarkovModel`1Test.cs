@@ -212,6 +212,26 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(pi.IsEqual(hmm.Probabilities));
         }
 
+        [TestMethod()]
+        public void ConstructorTest_RandomEquals()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+            var dhmm = new HiddenMarkovModel(10, 50, true);
+
+            Accord.Math.Tools.SetupGenerator(0);
+            var chmm = HiddenMarkovModel.CreateGeneric(10, 50, true);
+
+            for (int i = 0; i < dhmm.Probabilities.Length; i++)
+                Assert.AreEqual(dhmm.Probabilities[i], chmm.Probabilities[i]);
+
+            for (int i = 0; i < dhmm.States; i++)
+                for (int j = 0; j < dhmm.States; j++)
+                    Assert.AreEqual(dhmm.Transitions[i, j], chmm.Transitions[i, j]);
+
+            for (int i = 0; i < dhmm.States; i++)
+                for (int j = 0; j < dhmm.Symbols; j++)
+                    Assert.AreEqual(dhmm.Emissions[i, j], Math.Log(chmm.Emissions[i][j]), 1e-10);
+        }
 
         [TestMethod()]
         public void DecodeTest()

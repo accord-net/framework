@@ -52,12 +52,98 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        [TestMethod()]
+        public void LearnTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+            double[][][] sequences = new double[500][][];
+            for (int i = 0; i < sequences.Length; i++)
+            {
+                sequences[i] = new double[Accord.Math.Tools.Random.Next(20, 80)][];
+
+                int start = Accord.Math.Tools.Random.Next();
+
+                for (int j = 0; j < sequences[i].Length; j++)
+                {
+                    double s = Math.Sin(j + start);
+                    double u = ((s + 1) / 2.0);
+                    sequences[i][j] = new double[] { (int)(u * 10) };
+                }
+            }
+
+            HiddenMarkovModel<GeneralDiscreteDistribution> hmm1;
+            double ll1;
+
+            {
+                Accord.Math.Tools.SetupGenerator(0);
+                hmm1 = HiddenMarkovModel.CreateGeneric(10, 10, true);
+                var teacher = new ViterbiLearning<GeneralDiscreteDistribution>(hmm1)
+                {
+                    Iterations = 1,
+                    Tolerance = 1e-15,
+                    Batches = 1,
+                    UseLaplaceRule = true,
+                    FittingOptions = new GeneralDiscreteOptions
+                    {
+                        UseLaplaceRule = true
+                    }
+                };
+                ll1 = teacher.Run(sequences);
+            }
+
+            HiddenMarkovModel<GeneralDiscreteDistribution> hmm10;
+            double ll10;
+
+            {
+                Accord.Math.Tools.SetupGenerator(0);
+                hmm10 = HiddenMarkovModel.CreateGeneric(10, 10, true);
+
+                var teacher = new ViterbiLearning<GeneralDiscreteDistribution>(hmm10)
+                {
+                    Iterations = 100,
+                    Tolerance = 1e-15,
+                    Batches = 1,
+                    UseLaplaceRule = true,
+                    FittingOptions = new GeneralDiscreteOptions
+                    {
+                        UseLaplaceRule = true
+                    }
+                };
+
+                ll10 = teacher.Run(sequences);
+            }
+
+            Assert.IsTrue(ll10 > ll1);
+            Assert.AreNotEqual(ll1, ll10, 10);
+
+            // Those results must match the ones in ViterbiLearningTest.
+            Assert.AreEqual(-33.834836461044411, ll1);
+            Assert.AreEqual(-23.362967205628703, ll10);
+
+            Assert.IsFalse(AreEqual(hmm1, hmm10));
+        }
+
+        private static bool AreEqual(
+            HiddenMarkovModel<GeneralDiscreteDistribution> hmm1,
+            HiddenMarkovModel<GeneralDiscreteDistribution> hmm10)
+        {
+            for (int i = 0; i < hmm1.States; i++)
+            {
+                if (hmm1.Probabilities[i] != hmm10.Probabilities[i])
+                    return false;
+
+                for (int j = 0; j < hmm1.States; j++)
+                    if (hmm1.Transitions[i, j] != hmm10.Transitions[i, j])
+                        return false;
+            }
+
+            return true;
+        }
 
 
         [TestMethod()]
         public void LearnTest5()
         {
-
             double[][][] sequences = new double[][][] 
             {
                 new double[][] { new double[] { 0 }, new double[] { 3 }, new double[] { 1 } },
@@ -128,7 +214,6 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest3()
         {
-
             double[][] sequences = new double[][] 
             {
                 new double[] { 0,1,1,1,1,0,1,1,1,1 },
@@ -196,6 +281,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest6()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // Continuous Markov Models can operate using any
             // probability distribution, including discrete ones. 
 
@@ -281,6 +368,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest7()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // Create continuous sequences. In the sequences below, there
             //  seems to be two states, one for values between 0 and 1 and
             //  another for values between 5 and 7. The states seems to be
@@ -362,6 +451,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest8()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // Create continuous sequences. In the sequence below, there
             // seems to be two states, one for values equal to 1 and another
             // for values equal to 2.
@@ -431,6 +522,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void LearnTest9()
         {
+            Accord.Math.Tools.SetupGenerator(0);
 
             var observations = new double[][][]
             {
