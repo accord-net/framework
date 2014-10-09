@@ -235,7 +235,7 @@ namespace Accord.Statistics.Models.Markov.Learning
             // Set the initial probabilities
             double[] initial = new double[states];
             for (int i = 0; i < initial.Length; i++)
-                initial[i] = 1.0 / models.Length;
+                initial[i] = 1.0 / states;
 
 
             // Then, for each hidden Markov model in the classifier

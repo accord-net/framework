@@ -56,8 +56,8 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             double[,] transitions = 
             {
-                { 0.33, 0.66 },
-                { 0.00, 1.00 },
+                { 1 / 3.0, 2 / 3.0 },
+                { 0.00,    1.00 },
 
             };
 

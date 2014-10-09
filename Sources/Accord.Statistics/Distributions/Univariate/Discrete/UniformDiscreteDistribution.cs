@@ -95,7 +95,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </example>
     /// 
     [Serializable]
-    public class UniformDiscreteDistribution : UnivariateDiscreteDistribution
+    public class UniformDiscreteDistribution : UnivariateDiscreteDistribution,
+        ISampleableDistribution<int>
     {
 
         // Distribution parameters
@@ -344,6 +345,34 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             return String.Format("U(x; a = {0}, b = {1})",
                 a.ToString(format), b.ToString(format));
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public int Generate()
+        {
+            return Accord.Math.Tools.Random.Next(a, b);
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public int[] Generate(int samples)
+        {
+            int[] result = new int[samples];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Accord.Math.Tools.Random.Next(a, b);
+
+            return result;
         }
     }
 }

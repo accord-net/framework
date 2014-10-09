@@ -167,6 +167,13 @@ namespace Accord.Tests.Statistics
             // Train the sequence classifier using the algorithm
             double likelihood = teacher.Run(inputs, outputs);
 
+            Assert.AreEqual(-1.4974364451133668, likelihood, 1e-15);
+
+            likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
+        }
+
+        private static double testThresholdModel(int[][] inputs, int[] outputs, HiddenMarkovClassifier classifier, double likelihood)
+        {
             HiddenMarkovModel threshold = classifier.Threshold;
 
             Assert.AreEqual(6, threshold.States);
@@ -207,15 +214,15 @@ namespace Accord.Tests.Statistics
             int c = classifier.Compute(r0, out logRejection);
 
             Assert.AreEqual(-1, c);
-            Assert.AreEqual(0.99906957195279988, logRejection);
+            Assert.AreEqual(0.9972139003888405, logRejection);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             logRejection = threshold.Evaluate(r0);
-            Assert.AreEqual(-4.5653702970734793, logRejection, 1e-10);
+            Assert.AreEqual(-5.6639825857415893, logRejection, 1e-10);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             threshold.Decode(r0, out logRejection);
-            Assert.AreEqual(-8.21169955167614, logRejection, 1e-10);
+            Assert.AreEqual(-9.310311840344248, logRejection, 1e-10);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             foreach (var model in classifier.Models)
@@ -239,6 +246,7 @@ namespace Accord.Tests.Statistics
                     Assert.AreEqual(1, sum, 1e-6);
                 }
             }
+            return likelihood;
         }
     }
 }

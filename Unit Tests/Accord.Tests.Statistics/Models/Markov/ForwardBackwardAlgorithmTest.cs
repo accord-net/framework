@@ -120,7 +120,7 @@ namespace Accord.Tests.Statistics.Models.Markov
             {
                 //           L    R
                 /*  A  */ { 0.75, 0.25 },
-                /*  B  */ { 0.11, 0.88 },
+                /*  B  */ { 0.12, 0.88 },
             };
 
             return new HiddenMarkovModel(transitions, emissions, initial);
@@ -216,14 +216,14 @@ namespace Accord.Tests.Statistics.Models.Markov
             Assert.AreEqual(4, actual.GetLength(0));
             Assert.AreEqual(2, actual.GetLength(1));
 
-            Assert.AreEqual(0.128074432, actual[0, 0], 1e-10);
-            Assert.AreEqual(0.07923051, actual[0, 1], 1e-8);
+            Assert.AreEqual(0.128982144, actual[0, 0], 1e-10);
+            Assert.AreEqual(0.082407504, actual[0, 1], 1e-10);
 
-            Assert.AreEqual(0.196816, actual[1, 0]);
-            Assert.AreEqual(0.453856, actual[1, 1]);
+            Assert.AreEqual(0.196816, actual[1, 0], 1e-10);
+            Assert.AreEqual(0.453856, actual[1, 1], 1e-10);
 
-            Assert.AreEqual(0.376, actual[2, 0]);
-            Assert.AreEqual(0.691, actual[2, 1]);
+            Assert.AreEqual(0.376, actual[2, 0], 1e-10);
+            Assert.AreEqual(0.691, actual[2, 1], 1e-10);
 
             Assert.AreEqual(1, actual[3, 0]);
             Assert.AreEqual(1, actual[3, 1]);
@@ -345,16 +345,16 @@ namespace Accord.Tests.Statistics.Models.Markov
             Assert.AreEqual(2, actual.GetLength(1));
 
             Assert.AreEqual(0.675, actual[0, 0], 1e-10);
-            Assert.AreEqual(0.011, actual[0, 1], 1e-10);
+            Assert.AreEqual(0.012, actual[0, 1], 1e-10);
 
-            Assert.AreEqual(0.407475, actual[1, 0], 1e-10);
-            Assert.AreEqual(0.015697, actual[1, 1], 1e-10);
+            Assert.AreEqual(0.4077, actual[1, 0], 1e-10);
+            Assert.AreEqual(0.017208, actual[1, 1], 1e-10);
 
-            Assert.AreEqual(0.08267228, actual[2, 0], 1e-8);
-            Assert.AreEqual(0.08138495, actual[2, 1], 1e-8);
+            Assert.AreEqual(0.0828306, actual[2, 0], 1e-10);
+            Assert.AreEqual(0.082355328, actual[2, 1], 1e-10);
 
-            Assert.AreEqual(0.02263833, actual[3, 0], 1e-8);
-            Assert.AreEqual(0.06468345, actual[3, 1], 1e-8);
+            Assert.AreEqual(0.0227427696, actual[3, 0], 1e-10);
+            Assert.AreEqual(0.065309067648, actual[3, 1], 1e-10);
 
             foreach (double p in actual)
                 Assert.IsFalse(double.IsNaN(p));

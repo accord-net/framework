@@ -107,16 +107,6 @@ namespace Accord.Statistics.Models.Markov.Topology
         }
 
         /// <summary>
-        ///   Gets the initial state probabilities.
-        /// </summary>
-        /// 
-        public double[] Initial
-        {
-            get { return pi; }
-        }
-
-
-        /// <summary>
         ///   Creates a new Ergodic topology for a given number of states.
         /// </summary>
         /// 

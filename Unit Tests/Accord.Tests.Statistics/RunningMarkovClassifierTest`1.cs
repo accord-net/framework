@@ -103,10 +103,16 @@ namespace Accord.Tests.Statistics
                 int actual = running.Classification;
 
                 if (actual > -1)
-                    actualLikelihood = Math.Exp(running.Responses[actual]) / running.Responses.Exp().Sum();
+                {
+                    double sum = running.Responses.Exp().Sum() + Math.Exp(running.Threshold);
+                    actualLikelihood = Math.Exp(running.Responses[actual]) / sum;
+                }
                 else
+                {
+                    double sum = running.Responses.Exp().Sum();
                     actualLikelihood = Math.Exp(running.Threshold) /
-                        (running.Responses.Exp().Sum() + Math.Exp(running.Threshold));
+                        (sum + Math.Exp(running.Threshold));
+                }
 
                 double expectedLikelihood;
                 int expected = classifier.Compute(sequence, out expectedLikelihood);

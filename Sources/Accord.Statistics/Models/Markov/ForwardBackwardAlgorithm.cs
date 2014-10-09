@@ -322,7 +322,7 @@ namespace Accord.Statistics.Models.Markov
                     double sum = 0;
                     for (int j = 0; j < states; j++)
                         sum += A[i, j] * B[j, observations[t + 1]] * bwd[t + 1, j];
-                    bwd[t, i] += sum / scaling[t];
+                    bwd[t, i] = sum / scaling[t];
                 }
             }
 
@@ -354,7 +354,7 @@ namespace Accord.Statistics.Models.Markov
                     double sum = 0;
                     for (int j = 0; j < states; j++)
                         sum += A[i, j] * B[j, observations[t + 1]] * bwd[t + 1, j];
-                    bwd[t, i] += sum;
+                    bwd[t, i] = sum;
                 }
             }
 
@@ -426,7 +426,7 @@ namespace Accord.Statistics.Models.Markov
                     double sum = 0;
                     for (int j = 0; j < states; j++)
                         sum += A[i, j] * B[j].ProbabilityFunction(observations[t + 1]) * bwd[t + 1, j];
-                    bwd[t, i] += sum / scaling[t];
+                    bwd[t, i] = sum / scaling[t];
                 }
             }
 
@@ -616,7 +616,7 @@ namespace Accord.Statistics.Models.Markov
 
             // 1. Initialization
             for (int i = 0; i < states; i++)
-                lnBwd[T - 1, i] = 0;
+                lnBwd[T - 1, i] = 0; // log(1)
 
             // 2. Induction
             for (int t = T - 2; t >= 0; t--)
@@ -626,7 +626,7 @@ namespace Accord.Statistics.Models.Markov
                     double sum = Double.NegativeInfinity;
                     for (int j = 0; j < states; j++)
                         sum = Special.LogSum(sum, lnBwd[t + 1, j] + logA[i, j] + logB[j, observations[t + 1]]);
-                    lnBwd[t, i] += sum;
+                    lnBwd[t, i] = sum;
                 }
             }
 
@@ -660,8 +660,10 @@ namespace Accord.Statistics.Models.Markov
 
             logLikelihood = Double.NegativeInfinity;
             for (int i = 0; i < model.States; i++)
+            {
                 logLikelihood = Special.LogSum(logLikelihood, lnBwd[0, i] +
                     model.Probabilities[i] + model.Emissions[i, observations[0]]);
+            }
 
             return lnBwd;
         }
@@ -697,9 +699,8 @@ namespace Accord.Statistics.Models.Markov
                 {
                     double sum = Double.NegativeInfinity;
                     for (int j = 0; j < states; j++)
-                        sum = Special.LogSum(sum, lnBwd[t + 1, j] + logA[i, j]
-                            + logB[j].LogProbabilityFunction(observations[t + 1]));
-                    lnBwd[t, i] += sum;
+                        sum = Special.LogSum(sum, lnBwd[t + 1, j] + logA[i, j] + logB[j].LogProbabilityFunction(observations[t + 1]));
+                    lnBwd[t, i] = sum;
                 }
             }
 
@@ -735,8 +736,10 @@ namespace Accord.Statistics.Models.Markov
 
             logLikelihood = Double.NegativeInfinity;
             for (int i = 0; i < model.States; i++)
+            {
                 logLikelihood = Special.LogSum(logLikelihood, lnBwd[0, i] + model.Probabilities[i]
                     + model.Emissions[i].LogProbabilityFunction(observations[0]));
+            }
 
             return lnBwd;
         }

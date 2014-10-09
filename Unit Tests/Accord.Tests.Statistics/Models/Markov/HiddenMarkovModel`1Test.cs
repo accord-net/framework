@@ -1712,6 +1712,79 @@ namespace Accord.Tests.Statistics
 
         }
 
+         [TestMethod()]
+        public void PosteriorTest1()
+        {
+            // Example from http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf
+       
 
+            double[,] A = 
+            {
+                { 0.95, 0.05 }, // fair dice state
+                { 0.05, 0.95 }, // loaded dice state
+            };
+
+            double[,] B = 
+            {
+                { 1 /  6.0, 1 /  6.0, 1 /  6.0, 1 /  6.0, 1 /  6.0, 1 / 6.0 }, // fair dice probabilities
+                { 1 / 10.0, 1 / 10.0, 1 / 10.0, 1 / 10.0, 1 / 10.0, 1 / 2.0 }, // loaded probabilities
+            };
+
+            double[] pi = { 0.5, 0.5 };
+
+            var hmm = HiddenMarkovModel.CreateGeneric(A, B, pi);
+
+            int[] x = new int[] { 1, 2, 1, 5, 6, 2, 1, 5, 2, 4 }.Subtract(1);
+            int[] y = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+            double py = Math.Exp(hmm.Evaluate(x, y));
+
+            Assert.AreEqual(0.00000000521158647211, py, 1e-16);
+
+            x = new int[] { 1, 2, 1, 5, 6, 2, 1, 5, 2, 4 }.Subtract(1);
+            y = new int[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+            py = Math.Exp(hmm.Evaluate(x, y));
+
+            Assert.AreEqual(0.00000000015756235243, py, 1e-16);
+
+
+            Accord.Math.Tools.SetupGenerator(0);
+            var u = new UniformDiscreteDistribution(0, 6);
+
+            int[] sequence = u.Generate(1000);
+            int start = 120;
+            int end = 150;
+            for (int i = start; i < end; i += 2)
+                sequence[i] = 5;
+
+
+            // Predict the next observation in sequence
+            int[] path;
+            double[][] p = hmm.Posterior(sequence, out path);
+
+            for (int i = 0; i < path.Length; i++)
+                Assert.AreEqual(1, p[i][0] + p[i][1], 1e-10);
+
+
+            int loaded = 0;
+            for (int i = 0; i < start; i++)
+			 if (p[i][1] > 0.95)
+                 loaded++;
+                
+            Assert.AreEqual(0, loaded);
+
+            loaded = 0;
+            for (int i = start; i < end; i++)
+			 if (p[i][1] > 0.95)
+                 loaded++;
+
+            Assert.IsTrue(loaded > 15);
+
+            loaded = 0;
+            for (int i = end; i < p.Length; i++)
+                if (p[i][1] > 0.95)
+                    loaded++;
+
+            Assert.AreEqual(0, loaded);
+        }
     }
 }

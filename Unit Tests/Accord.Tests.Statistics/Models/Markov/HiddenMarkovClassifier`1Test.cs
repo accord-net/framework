@@ -410,10 +410,29 @@ namespace Accord.Tests.Statistics
 
             var density = new MultivariateNormalDistribution(2);
 
+            try
+            {
+                new HiddenMarkovClassifier<MultivariateNormalDistribution>(
+                    2, new Custom(new double[2, 2], new double[2]), density);
+
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+            }
+
+            var topology = new Custom(
+                new[,] { { 1 / 2.0, 1 / 2.0 }, { 1 / 2.0, 1 / 2.0 } },
+                new[] { 1.0, 0.0 });
+
+            Array.Clear(topology.Initial, 0, topology.Initial.Length);
+            Array.Clear(topology.Transitions, 0, topology.Transitions.Length);
+
             // Creates a sequence classifier containing 2 hidden Markov Models with 2 states
             // and an underlying multivariate mixture of Normal distributions as density.
             var classifier = new HiddenMarkovClassifier<MultivariateNormalDistribution>(
-                2, new Custom(new double[2, 2], new double[2]), density);
+                2, topology, density);
+
 
             // Configure the learning algorithms to train the sequence classifier
             var teacher = new HiddenMarkovClassifierLearning<MultivariateNormalDistribution>(
@@ -593,7 +612,13 @@ namespace Accord.Tests.Statistics
             // Train the sequence classifier using the algorithm
             double likelihood = teacher.Run(inputs, outputs);
 
+            Assert.AreEqual(-1.4974364451133668, likelihood);
 
+            likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
+        }
+
+        private static double testThresholdModel(double[][] inputs, int[] outputs, HiddenMarkovClassifier<GeneralDiscreteDistribution> classifier, double likelihood)
+        {
             var threshold = classifier.Threshold;
 
             Assert.AreEqual(classifier.Models[0].Transitions[0, 0], threshold.Transitions[0, 0], 1e-10);
@@ -633,15 +658,15 @@ namespace Accord.Tests.Statistics
             int c = classifier.Compute(r0, out logRejection);
 
             Assert.AreEqual(-1, c);
-            Assert.AreEqual(0.99893048690086783, logRejection);
+            Assert.AreEqual(0.99679830920309676, logRejection);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             logRejection = threshold.Evaluate(r0);
-            Assert.AreEqual(-4.7048235516322334, logRejection, 1e-10);
+            Assert.AreEqual(-5.8034358403003425, logRejection);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             threshold.Decode(r0, out logRejection);
-            Assert.AreEqual(-7.0705785431547579, logRejection, 1e-10);
+            Assert.AreEqual(-8.169190831822867, logRejection);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             foreach (var model in classifier.Models)
@@ -665,6 +690,7 @@ namespace Accord.Tests.Statistics
                     Assert.AreEqual(1, sum, 1e-6);
                 }
             }
+            return likelihood;
         }
 
 

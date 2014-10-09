@@ -53,32 +53,10 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        private static HiddenMarkovModel createHMM()
-        {
-            double[] initial = { 1.0, 0.0 };
-
-            double[,] transitions = 
-            {
-                { 0.33, 0.66 },
-                { 0.00, 1.00 },
-
-            };
-
-            double[,] emissions =
-            {
-                { 0.25, 0.25, 0.50 },
-                { 0.05, 0.05, 0.90 }
-            };
-
-            HiddenMarkovModel model = new HiddenMarkovModel(transitions, emissions, initial);
-            return model;
-        }
-
-
         [TestMethod()]
         public void ConditionalRandomFieldConstructorTest()
         {
-            HiddenMarkovModel hmm = createHMM();
+            HiddenMarkovModel hmm = DiscreteHiddenMarkovModelFunctionTest.CreateModel1();
 
             int states = 2;
             var function = new MarkovDiscreteFunction(hmm);

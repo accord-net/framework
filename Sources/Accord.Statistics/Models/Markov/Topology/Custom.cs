@@ -61,7 +61,7 @@ namespace Accord.Statistics.Models.Markov.Topology
 
         private int states;
         private double[] pi;
-        private double[,] transitions;
+        private double[,] A;
 
         /// <summary>
         ///   Creates a new custom topology with user-defined
@@ -111,8 +111,6 @@ namespace Accord.Statistics.Models.Markov.Topology
                      "initial");
             }
 
-
-
             this.states = transitions.GetLength(0);
 
             for (int i = 0; i < states; i++)
@@ -122,13 +120,34 @@ namespace Accord.Statistics.Models.Markov.Topology
 
             if (logarithm)
             {
-                this.transitions = Matrix.Exp(transitions);
-                this.pi = Matrix.Exp(initial);
+                transitions = Matrix.Exp(transitions);
+                initial = Matrix.Exp(initial);
             }
-            else
+
+            this.A = transitions;
+            this.pi = initial;
+
+            double initialSum = 0;
+            for (int i = 0; i < pi.Length; i++)
+                initialSum += pi[i];
+
+            if (!initialSum.IsEqual(1, 1e-10))
             {
-                this.transitions = transitions;
-                this.pi = initial;
+                throw new ArgumentException("Initial probabilities do not sum up to one.",
+                    "initial");
+            }
+
+            for (int i = 0; i < states; i++)
+            {
+                double stateSum = 0;
+                for (int j = 0; j < states; j++)
+                    stateSum += transitions[i, j];
+
+                if (!stateSum.IsEqual(1, 1e-10))
+                {
+                    throw new ArgumentException("State probabilities for state " + i +
+                        " do not sum up to one.", "transitions");
+                }
             }
         }
 
@@ -157,7 +176,7 @@ namespace Accord.Statistics.Models.Markov.Topology
         /// 
         public double[,] Transitions
         {
-            get { return transitions; }
+            get { return A; }
         }
 
 
@@ -171,12 +190,12 @@ namespace Accord.Statistics.Models.Markov.Topology
         {
             if (logarithm)
             {
-                transitionMatrix = Matrix.Log(transitions);
+                transitionMatrix = Matrix.Log(A);
                 initialState = Matrix.Log(pi);
             }
             else
             {
-                transitionMatrix = (double[,])transitions.Clone();
+                transitionMatrix = (double[,])A.Clone();
                 initialState = (double[])pi.Clone();
             }
 

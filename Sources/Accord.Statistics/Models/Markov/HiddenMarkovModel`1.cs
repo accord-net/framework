@@ -179,7 +179,6 @@ namespace Accord.Statistics.Models.Markov
 
 
 
-        //---------------------------------------------
 
 
         #region Constructors
@@ -283,10 +282,11 @@ namespace Accord.Statistics.Models.Markov
         #endregion
 
 
-        //---------------------------------------------
+
 
 
         #region Public Properties
+
         /// <summary>
         ///   Gets the number of dimensions in the
         ///   probability distributions for the states.
@@ -309,7 +309,7 @@ namespace Accord.Statistics.Models.Markov
         #endregion
 
 
-        //---------------------------------------------
+
 
 
         #region Public Methods
@@ -351,6 +351,7 @@ namespace Accord.Statistics.Models.Markov
         /// 
         /// <param name="observations">A sequence of observations.</param>
         /// <param name="logLikelihood">The log-likelihood along the most likely sequence.</param>
+        /// 
         /// <returns>The sequence of states that most likely produced the sequence.</returns>
         /// 
         public int[] Decode(Array observations, out double logLikelihood)
@@ -367,7 +368,11 @@ namespace Accord.Statistics.Models.Markov
             // Argument check
             double[][] x = MarkovHelperMethods.checkAndConvert(observations, dimension);
 
+            return viterbi(x, out logLikelihood);
+        }
 
+        private int[] viterbi(double[][] x, out double logLikelihood)
+        {
             // Viterbi-forward algorithm.
             int T = x.Length;
             int states = States;
@@ -441,6 +446,95 @@ namespace Accord.Statistics.Models.Markov
             return path;
         }
 
+        /// <summary>
+        ///   Calculates the probability of each hidden state for each
+        ///   observation in the observation vector.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If there are 3 states in the model, and the <paramref name="observations"/>
+        ///   array contains 5 elements, the resulting vector will contain 5 vectors of
+        ///   size 3 each. Each vector of size 3 will contain probability values that sum
+        ///   up to one. By following those probabilities in order, we may decode those
+        ///   probabilities into a sequence of most likely states. However, the sequence
+        ///   of obtained states may not be valid in the model.
+        /// </remarks>
+        /// 
+        /// <param name="observations">A sequence of observations.</param>
+        /// 
+        /// <returns>A vector of the same size as the observation vectors, containing
+        ///  the probabilities for each state in the model for the current observation.
+        ///  If there are 3 states in the model, and the <paramref name="observations"/>
+        ///  array contains 5 elements, the resulting vector will contain 5 vectors of
+        ///  size 3 each. Each vector of size 3 will contain probability values that sum
+        ///  up to one.</returns>
+        /// 
+        public double[][] Posterior(Array observations)
+        {
+            // Reference: C. S. Foo, CS262 Winter 2007, Lecture 5, Stanford
+            // http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf
+
+            if (observations == null)
+                throw new ArgumentNullException("observations");
+
+            double[][] x = MarkovHelperMethods.checkAndConvert(observations, dimension);
+
+            double logLikelihood;
+
+            // Compute forward and backward probabilities
+            double[,] lnFwd = ForwardBackwardAlgorithm.LogForward(this, x, out logLikelihood);
+            double[,] lnBwd = ForwardBackwardAlgorithm.LogBackward(this, x);
+
+            double[][] probabilities = new double[observations.Length][];
+
+            for (int i = 0; i < probabilities.Length; i++)
+            {
+                double[] states = probabilities[i] = new double[States];
+
+                for (int j = 0; j < states.Length; j++)
+                    states[j] = Math.Exp(lnFwd[i, j] + lnBwd[i, j] - logLikelihood);
+            }
+
+            return probabilities;
+        }
+
+        /// <summary>
+        ///   Calculates the probability of each hidden state for each observation 
+        ///   in the observation vector, and uses those probabilities to decode the
+        ///   most likely sequence of states for each observation in the sequence 
+        ///   using the posterior decoding method. See remarks for details.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If there are 3 states in the model, and the <paramref name="observations"/>
+        ///   array contains 5 elements, the resulting vector will contain 5 vectors of
+        ///   size 3 each. Each vector of size 3 will contain probability values that sum
+        ///   up to one. By following those probabilities in order, we may decode those
+        ///   probabilities into a sequence of most likely states. However, the sequence
+        ///   of obtained states may not be valid in the model.
+        /// </remarks>
+        /// 
+        /// <param name="observations">A sequence of observations.</param>
+        /// <param name="path">The sequence of states most likely associated with each
+        ///   observation, estimated using the posterior decoding method.</param>
+        /// 
+        /// <returns>A vector of the same size as the observation vectors, containing
+        ///  the probabilities for each state in the model for the current observation.
+        ///  If there are 3 states in the model, and the <paramref name="observations"/>
+        ///  array contains 5 elements, the resulting vector will contain 5 vectors of
+        ///  size 3 each. Each vector of size 3 will contain probability values that sum
+        ///  up to one.</returns>
+        /// 
+        public double[][] Posterior(int[] observations, out int[] path)
+        {
+            double[][] probabilities = Posterior(observations);
+
+            path = new int[observations.Length];
+            for (int i = 0; i < path.Length; i++)
+                Accord.Math.Matrix.Max(probabilities[i], out path[i]);
+
+            return probabilities;
+        }
 
         /// <summary>
         ///   Calculates the likelihood that this model has generated the given sequence.
@@ -509,18 +603,26 @@ namespace Accord.Statistics.Models.Markov
 
             double[][] x = MarkovHelperMethods.checkAndConvert(observations, dimension);
 
-
-            double logLikelihood = Probabilities[path[0]]
-                + Emissions[path[0]].LogProbabilityFunction(x[0]);
-
-            for (int i = 1; i < observations.Length; i++)
+            try
             {
-                logLikelihood = Accord.Math.Special.LogSum(logLikelihood, Transitions[path[i - 1],
-                    path[i]] + Emissions[path[i]].LogProbabilityFunction(x[i]));
-            }
+                double logLikelihood = Probabilities[path[0]]
+                    + Emissions[path[0]].LogProbabilityFunction(x[0]);
 
-            // Return the sequence probability
-            return logLikelihood;
+                for (int i = 1; i < observations.Length; i++)
+                {
+                    double a = Transitions[path[i - 1], path[i]];
+                    double b = Emissions[path[i]].LogProbabilityFunction(x[i]);
+                    logLikelihood += a + b;
+                }
+
+                // Return the sequence probability
+                return logLikelihood;
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                checkHiddenStates(ex, path);
+                throw;
+            }
         }
 
 
@@ -628,7 +730,7 @@ namespace Accord.Statistics.Models.Markov
         ///   Predicts the next observation occurring after a given observation sequence.
         /// </summary>
         /// 
-        public double[] Predict<TMultivariate>(double[][] observations, 
+        public double[] Predict<TMultivariate>(double[][] observations,
             out MultivariateMixture<TMultivariate> probabilities)
             where TMultivariate : DistributionBase, TDistribution, IMultivariateDistribution<double[]>
         {
@@ -754,7 +856,7 @@ namespace Accord.Statistics.Models.Markov
         {
             double[] transitions = Probabilities;
 
-            logLikelihood = Double.NegativeInfinity;
+            logLikelihood = 0; // log(1)
             path = new int[samples];
 
             var multivariate = Emissions as ISampleableDistribution<double[]>[];
@@ -776,8 +878,8 @@ namespace Accord.Statistics.Models.Markov
                     path[t] = state;
 
                     // Compute log-likelihood up to this point
-                    logLikelihood = Accord.Math.Special.LogSum(logLikelihood,
-                        transitions[state] + Emissions[state].LogProbabilityFunction(symbol));
+                    logLikelihood += transitions[state] +
+                        Emissions[state].LogProbabilityFunction(symbol);
 
                     // Continue sampling
                     transitions = Transitions.GetRow(state);
@@ -805,8 +907,8 @@ namespace Accord.Statistics.Models.Markov
                     path[t] = state;
 
                     // Compute log-likelihood up to this point
-                    logLikelihood = Accord.Math.Special.LogSum(logLikelihood,
-                        transitions[state] + Emissions[state].LogProbabilityFunction(symbol));
+                    logLikelihood += transitions[state] +
+                        Emissions[state].LogProbabilityFunction(symbol);
 
                     // Continue sampling
                     transitions = Transitions.GetRow(state);
@@ -825,6 +927,7 @@ namespace Accord.Statistics.Models.Markov
 
 
         #region Private Methods
+
         /// <summary>
         ///   Predicts the next observation occurring after a given observation sequence.
         /// </summary>
@@ -959,6 +1062,20 @@ namespace Accord.Statistics.Models.Markov
             var multi = dist as IMultivariateDistribution;
             return multi.Mode;
         }
+
+        private void checkHiddenStates(IndexOutOfRangeException ex, int[] path)
+        {
+            for (int i = 0; i < path.Length; i++)
+            {
+                if (path[i] < 0 || path[i] >= States)
+                {
+                    throw new ArgumentException("path", "The hidden states vector must "
+                    + "only contain values higher than or equal to 0 and less than " + States
+                    + ". The value at the position " + i + " is " + path[i] + ".", ex);
+                }
+            }
+        }
+
         #endregion
 
 
