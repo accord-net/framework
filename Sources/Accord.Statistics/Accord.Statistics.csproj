@@ -152,6 +152,7 @@
     <Compile Include="Analysis\Performance\ReceiverOperatingCharacteristic.cs" />
     <Compile Include="Analysis\StepwiseLogisticRegressionAnalysis.cs" />
     <Compile Include="Circular.cs" />
+    <Compile Include="Dissimilarity.cs" />
     <Compile Include="Distributions\Accord.Statistics.Distributions.cs" />
     <Compile Include="Distributions\Density Kernels\Accord.Statistics.Distributions.DensityKernels.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />

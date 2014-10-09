@@ -151,6 +151,24 @@ namespace Accord.Math
         }
 
         /// <summary>
+        /// Gets the greatest common divisor between two integers.
+        /// </summary>
+        /// <param name="a">First value.</param>
+        /// <param name="b">Second value.</param>
+        /// <returns>The greatest common divisor.</returns>
+        public static int GreatestCommonDivisor(int a, int b)
+        {
+            int x = a - b * (int)Math.Floor((double)(a / b));
+            while (x != 0)
+            {
+                a = b;
+                b = x;
+                x = a - b * (int)Math.Floor((double)(a / b));
+            }
+            return b;
+        }
+
+        /// <summary>
         ///   Returns the next power of 2 after the input value x.
         /// </summary>
         /// 
@@ -185,8 +203,8 @@ namespace Accord.Math
         ///   Hypotenuse calculus without overflow/underflow
         /// </summary>
         /// 
-        /// <param name="a">first value</param>
-        /// <param name="b">second value</param>
+        /// <param name="a">First value</param>
+        /// <param name="b">Second value</param>
         /// <returns>The hypotenuse Sqrt(a^2 + b^2)</returns>
         /// 
         public static double Hypotenuse(double a, double b)
