@@ -237,6 +237,25 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void ProbabilityDensityFunctionPerComponent()
+        {
+            NormalDistribution[] components = new NormalDistribution[2];
+            components[0] = new NormalDistribution(2, 1);
+            components[1] = new NormalDistribution(5, 1);
+
+            double[] coefficients = { 0.4, 0.5 };
+
+            var mixture = new Mixture<NormalDistribution>(coefficients, components);
+
+            double expected = mixture.ProbabilityDensityFunction(0, 0.42) +
+                              mixture.ProbabilityDensityFunction(1, 0.42);
+
+            double actual = mixture.ProbabilityDensityFunction(0.42);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
         public void LogProbabilityDensityFunction()
         {
             NormalDistribution[] components = new NormalDistribution[2];
@@ -252,6 +271,44 @@ namespace Accord.Tests.Statistics
                 0.5 * components[1].ProbabilityDensityFunction(0.42));
 
             double actual = mixture.LogProbabilityDensityFunction(0.42);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void LogProbabilityDensityFunctionPerComponent()
+        {
+            NormalDistribution[] components = new NormalDistribution[2];
+            components[0] = new NormalDistribution(2, 1);
+            components[1] = new NormalDistribution(5, 1);
+
+            double[] coefficients = { 0.4, 0.5 };
+
+            var mixture = new Mixture<NormalDistribution>(coefficients, components);
+
+            double expected = System.Math.Log(
+                0.4 * components[0].ProbabilityDensityFunction(0.42));
+
+            double actual = mixture.LogProbabilityDensityFunction(0, 0.42);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void DistributionFunctionPerComponent()
+        {
+            NormalDistribution[] components = new NormalDistribution[2];
+            components[0] = new NormalDistribution(2, 1);
+            components[1] = new NormalDistribution(5, 1);
+
+            double[] coefficients = { 0.4, 0.5 };
+
+            var mixture = new Mixture<NormalDistribution>(coefficients, components);
+
+            double expected = mixture.DistributionFunction(0, 0.42) +
+                              mixture.DistributionFunction(1, 0.42);
+
+            double actual = mixture.DistributionFunction(0.42);
 
             Assert.AreEqual(expected, actual);
         }

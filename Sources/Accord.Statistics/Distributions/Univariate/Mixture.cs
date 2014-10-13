@@ -215,6 +215,30 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the probability density function (pdf) for one of
+        ///   the component distributions evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="componentIndex">The index of the desired component distribution.</param>
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring in the component distribution,
+        ///   computed as the PDF of the component distribution times its mixture
+        ///   coefficient.
+        /// </returns>
+        /// 
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        public double ProbabilityDensityFunction(int componentIndex, double x)
+        {
+            return coefficients[componentIndex] * components[componentIndex].ProbabilityFunction(x);
+        }
+
+        /// <summary>
         ///   Gets the log-probability density function (pdf) for
         ///   this distribution evaluated at point <c>x</c>.
         /// </summary>
@@ -233,15 +257,47 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
-            double r = 0.0;
+            double r = Double.NegativeInfinity;
             for (int i = 0; i < components.Length; i++)
-                r += coefficients[i] * components[i].ProbabilityFunction(x);
-            return Math.Log(r);
+                r = Special.LogSum(r, Math.Log(coefficients[i]) + components[i].LogProbabilityFunction(x));
+            return r;
         }
 
         /// <summary>
-        ///   This method is not supported.
+        ///   Gets the log-probability density function (pdf) for one 
+        ///   of the component distributions evaluated at point <c>x</c>.
         /// </summary>
+        /// 
+        /// <param name="componentIndex">The index of the desired component distribution.</param>
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The logarithm of the probability of <c>x</c> occurring in the 
+        ///   component distribution, computed as the PDF of the component 
+        ///   distribution times its mixture coefficient.
+        /// </returns>
+        /// 
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
+        public double LogProbabilityDensityFunction(int componentIndex, double x)
+        {
+            return Math.Log(coefficients[componentIndex]) + components[componentIndex].LogProbabilityFunction(x);
+        }
+
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
         /// 
         public override double DistributionFunction(double x)
         {
@@ -249,6 +305,24 @@ namespace Accord.Statistics.Distributions.Univariate
             for (int i = 0; i < components.Length; i++)
                 r += coefficients[i] * components[i].DistributionFunction(x);
             return r;
+        }
+
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for one
+        ///   component of this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="componentIndex">The component distribution's index.</param>
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+        public double DistributionFunction(int componentIndex, double x)
+        {
+            return coefficients[componentIndex] * components[componentIndex].DistributionFunction(x);
         }
 
 

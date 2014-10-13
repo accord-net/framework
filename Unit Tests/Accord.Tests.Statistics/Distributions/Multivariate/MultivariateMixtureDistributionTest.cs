@@ -88,6 +88,48 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void ProbabilityDensityFunctionTestPerComponent()
+        {
+            MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
+            components[0] = new MultivariateNormalDistribution(new double[] { 2 }, new double[,] { { 1 } });
+            components[1] = new MultivariateNormalDistribution(new double[] { 5 }, new double[,] { { 1 } });
+
+            double[] coefficients = { 0.3, 0.7 };
+            var mixture = new MultivariateMixture<MultivariateNormalDistribution>(coefficients, components);
+
+            double[] x = { 1.2 };
+
+            double expected =
+                mixture.ProbabilityDensityFunction(0, x) +
+                mixture.ProbabilityDensityFunction(1, x);
+
+            double actual = mixture.ProbabilityDensityFunction(x);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void DistributionFunctionTestPerComponent()
+        {
+            MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
+            components[0] = new MultivariateNormalDistribution(new double[] { 2 }, new double[,] { { 1 } });
+            components[1] = new MultivariateNormalDistribution(new double[] { 5 }, new double[,] { { 1 } });
+
+            double[] coefficients = { 0.3, 0.7 };
+            var mixture = new MultivariateMixture<MultivariateNormalDistribution>(coefficients, components);
+
+            double[] x = { 1.2 };
+
+            double expected =
+                mixture.DistributionFunction(0, x) +
+                mixture.DistributionFunction(1, x);
+
+            double actual = mixture.DistributionFunction(x);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
         public void LogProbabilityDensityFunctionTest()
         {
             MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
@@ -102,6 +144,28 @@ namespace Accord.Tests.Statistics
             double expected = System.Math.Log(
                 0.3 * components[0].ProbabilityDensityFunction(x) +
                 0.7 * components[1].ProbabilityDensityFunction(x));
+
+            double actual = mixture.LogProbabilityDensityFunction(x);
+
+            Assert.AreEqual(expected, actual, 1e-10);
+            Assert.IsFalse(double.IsNaN(actual));
+        }
+
+        [TestMethod()]
+        public void LogProbabilityDensityFunctionTestPerComponent()
+        {
+            MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
+            components[0] = new MultivariateNormalDistribution(new double[] { 2 }, new double[,] { { 1 } });
+            components[1] = new MultivariateNormalDistribution(new double[] { 5 }, new double[,] { { 1 } });
+
+            double[] coefficients = { 0.3, 0.7 };
+            var mixture = new MultivariateMixture<MultivariateNormalDistribution>(coefficients, components);
+
+            double[] x = { 1.2 };
+
+            double expected = System.Math.Log(
+                mixture.ProbabilityDensityFunction(0, x) +
+                mixture.ProbabilityDensityFunction(1, x));
 
             double actual = mixture.LogProbabilityDensityFunction(x);
 

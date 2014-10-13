@@ -159,7 +159,7 @@ namespace Accord.Statistics.Distributions.Multivariate
 
         /// <summary>
         ///   Gets the probability density function (pdf) for one of
-        ///   the components distributions evaluated at point <c>x</c>.
+        ///   the component distributions evaluated at point <c>x</c>.
         /// </summary>
         /// 
         /// <param name="componentIndex">The index of the desired component distribution.</param>
@@ -181,8 +181,8 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
-        ///   Gets the log-probability density function (pdf)
-        ///   for one of the components distributions evaluated at point <c>x</c>.
+        ///   Gets the log-probability density function (pdf) for one 
+        ///   of the component distributions evaluated at point <c>x</c>.
         /// </summary>
         /// 
         /// <param name="componentIndex">The index of the desired component distribution.</param>
@@ -232,36 +232,66 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   Gets the log-probability density function (pdf) for
         ///   this distribution evaluated at point <c>x</c>.
         /// </summary>
+        /// 
         /// <param name="x">
         ///   A single point in the distribution range. For a 
         ///   univariate distribution, this should be a single
         ///   double value. For a multivariate distribution,
         ///   this should be a double array.</param>
+        ///   
         /// <remarks>
         ///   The Probability Density Function (PDF) describes the
         ///   probability that a given value <c>x</c> will occur.
         /// </remarks>
+        /// 
         /// <returns>
         ///   The logarithm of the probability of <c>x</c> 
         ///   occurring in the current distribution.</returns>
         ///   
         public override double LogProbabilityDensityFunction(params double[] x)
         {
-            double[] logCoefficients = Matrix.Log(coefficients);
-
-            double log = Double.NegativeInfinity;
+            double r = Double.NegativeInfinity;
             for (int i = 0; i < components.Length; i++)
-                log = Special.LogSum(log, logCoefficients[i] + components[i].LogProbabilityFunction(x));
-            return log;
+                r = Special.LogSum(r, Math.Log(coefficients[i]) + components[i].LogProbabilityFunction(x));
+            return r;
         }
 
         /// <summary>
-        ///   This method is not supported.
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
         /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
         /// 
         public override double DistributionFunction(params double[] x)
         {
-            throw new NotSupportedException();
+            double r = 0.0;
+            for (int i = 0; i < components.Length; i++)
+                r += coefficients[i] * components[i].DistributionFunction(x);
+            return r;
+        }
+
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for one 
+        ///   of the component distributions evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="componentIndex">The component distribution's index.</param>
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+        public double DistributionFunction(int componentIndex, params double[] x)
+        {
+            return coefficients[componentIndex] * components[componentIndex].DistributionFunction(x);
         }
 
 
