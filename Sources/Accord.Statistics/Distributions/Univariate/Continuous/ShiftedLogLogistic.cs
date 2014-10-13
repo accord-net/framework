@@ -30,109 +30,108 @@ namespace Accord.Statistics.Distributions.Univariate
     using AForge;
 
     /// <summary>
-    ///   Logistic distribution.
+    ///   Shift Log-Logistic distribution.
     /// </summary>
     /// 
     /// <remarks>
     /// <para>
-    ///   In probability theory and statistics, the logistic distribution is a continuous
-    ///   probability distribution. Its cumulative distribution function is the logistic 
-    ///   function, which appears in logistic regression and feedforward neural networks.
-    ///   It resembles the normal distribution in shape but has heavier tails (higher 
-    ///   kurtosis). The <see cref="TukeyLambdaDistribution">Tukey lambda distribution</see>
-    ///   can be considered a generalization of the logistic distribution since it adds a
-    ///   shape parameter, λ (the Tukey distribution becomes logistic when λ is zero).</para>
+    ///   The shifted log-logistic distribution is a probability distribution also known as
+    ///   the generalized log-logistic or the three-parameter log-logistic distribution. It
+    ///   has also been called the generalized logistic distribution, but this conflicts with
+    ///   other uses of the term: see generalized logistic distribution.</para>
     ///   
     /// <para>
     ///   References:
     ///   <list type="bullet">
-    ///     <item><description><a href="http://en.wikipedia.org/wiki/Logistic_distribution">
-    ///       Wikipedia, The Free Encyclopedia. Logistic distribution. Available on: 
-    ///       http://en.wikipedia.org/wiki/Logistic_distribution </a></description></item>
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/Shifted_log-logistic_distribution">
+    ///       Wikipedia, The Free Encyclopedia. Shifted log-logistic distribution. Available on: 
+    ///       http://en.wikipedia.org/wiki/Shifted_log-logistic_distribution </a></description></item>
     ///   </list></para> 
     /// </remarks>
     /// 
     /// <example>
     /// <para>
-    ///   This examples shows how to create a Logistic distribution,
-    ///   compute some of its properties and generate a number of
-    ///   random samples from it.</para>
+    ///   This examples shows how to create a Shifted Log-Logistic distribution,
+    ///   compute some of its properties and generate a number of random samples
+    ///   from it.</para>
     ///   
     /// <code>
-    /// // Create a logistic distribution with μ = 0.42 and scale = 3
-    /// var log = new LogisticDistribution(location: 0.42, scale: 1.2);
-    /// 
-    /// double mean = log.Mean;     // 0.42
-    /// double median = log.Median; // 0.42
-    /// double mode = log.Mode;     // 0.42
-    /// double var = log.Variance;  // 4.737410112522892
-    /// 
-    /// double cdf = log.DistributionFunction(x: 1.4); // 0.693528308197921
-    /// double pdf = log.ProbabilityDensityFunction(x: 1.4); // 0.17712232827170876
-    /// double lpdf = log.LogProbabilityDensityFunction(x: 1.4); // -1.7309146649427332
-    /// 
-    /// double ccdf = log.ComplementaryDistributionFunction(x: 1.4); // 0.306471691802079
-    /// double icdf = log.InverseDistributionFunction(p: cdf); // 1.3999999999999997
-    /// 
-    /// double hf = log.HazardFunction(x: 1.4); // 0.57794025683160088
-    /// double chf = log.CumulativeHazardFunction(x: 1.4); // 1.1826298874077226
-    /// 
-    /// string str = log.ToString(CultureInfo.InvariantCulture); // Logistic(x; μ = 0.42, scale = 1.2)
+    /// // Create a LLD3 distribution with μ = 0.42, scale = 3, shape = 0.5
+
     /// </code>
     /// </example>
     /// 
-    /// <seealso cref="TukeyLambdaDistribution"/>
+    /// <seealso cref="LogisticDistribution"/>
+    /// <seealso cref="ParetoDistribution"/>
     /// 
     [Serializable]
-    public class LogisticDistribution : UnivariateContinuousDistribution
+    public class ShiftedLogLogisticDistribution : UnivariateContinuousDistribution
     {
 
         // Distribution parameters
-        private double mu;   // location μ
-        private double s;    // scale s
+        private double mu;    // location μ (real)
+        private double sigma; // scale σ    (positive)
+        private double ksi;   // shape ξ    (real)
 
         /// <summary>
-        ///   Constructs a Logistic distribution
-        ///   with zero location and unit scale.
+        ///   Constructs a Shifted Log-Logistic distribution
+        ///   with zero location, unit scale, and zero shape.
         /// </summary>
         /// 
-        public LogisticDistribution()
+        public ShiftedLogLogisticDistribution()
         {
-            initialize(0, 1);
+            initialize(0, 1, 0);
         }
 
         /// <summary>
-        ///   Constructs a Logistic distribution
-        ///   with given location and unit scale.
+        ///   Constructs a Shifted Log-Logistic distribution
+        ///   with the given location, unit scale and zero shape.
         /// </summary>
         /// 
         /// <param name="location">The distribution's location value μ (mu).</param>
         /// 
-        public LogisticDistribution(double location)
+        public ShiftedLogLogisticDistribution(double location)
         {
-            initialize(location, 1);
+            initialize(location, 1, 0);
         }
 
         /// <summary>
-        ///   Constructs a Logistic distribution
-        ///   with given location and scale parameters.
+        ///   Constructs a Shifted Log-Logistic distribution
+        ///   with the given location and scale and zero shape.
         /// </summary>
         /// 
         /// <param name="location">The distribution's location value μ (mu).</param>
-        /// <param name="scale">The distribution's scale value s.</param>
+        /// <param name="scale">The distribution's scale value σ (sigma).</param>
         /// 
-        public LogisticDistribution(double location, double scale)
+        public ShiftedLogLogisticDistribution(double location, double scale)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
 
-            initialize(location, scale);
+            initialize(location, scale, 0);
+        }
+
+        /// <summary>
+        ///   Constructs a Shifted Log-Logistic distribution
+        ///   with the given location and scale and zero shape.
+        /// </summary>
+        /// 
+        /// <param name="location">The distribution's location value μ (mu).</param>
+        /// <param name="scale">The distribution's scale value s.</param>
+        /// <param name="shape">The distribution's shape value ξ (ksi).</param>
+        /// 
+        public ShiftedLogLogisticDistribution(double location, double scale, double shape)
+        {
+            if (scale <= 0)
+                throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
+
+            initialize(location, scale, shape);
         }
 
 
 
         /// <summary>
-        ///   Gets the location value μ (mu).
+        ///   Gets the mean for this distribution.
         /// </summary>
         /// 
         /// <value>
@@ -141,16 +140,38 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mean
         {
+            get
+            {
+                double alpha = Math.PI * ksi;
+                return mu + sigma / ksi * (alpha * Special.Cosec(alpha) - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Gets the distribution's location value μ (mu).
+        /// </summary>
+        /// 
+        public double Location
+        {
             get { return mu; }
         }
 
         /// <summary>
-        ///   Gets the distribution's scale value (s).
+        ///   Gets the distribution's scale value (σ).
         /// </summary>
         /// 
         public double Scale
         {
-            get { return s; }
+            get { return sigma; }
+        }
+
+        /// <summary>
+        ///   Gets the distribution's shape value (ξ).
+        /// </summary>
+        /// 
+        public double Shape
+        {
+            get { return ksi; }
         }
 
         /// <summary>
@@ -180,7 +201,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Variance
         {
-            get { return (s * s * Math.PI * Math.PI) / 3.0; }
+            get
+            {
+                double alpha = Math.PI * ksi;
+
+                double a = (sigma * sigma) / (ksi * ksi);
+                double b = 2 * alpha * Special.Cosec(2 * alpha);
+                double c = alpha * Special.Cosec(alpha);
+
+                return a * (b - c * c);
+            }
         }
 
         /// <summary>
@@ -198,7 +228,21 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mode
         {
-            get { return mu; }
+            get
+            {
+                double a = sigma / ksi;
+                double b = (1 - ksi) / (1 + ksi);
+                return mu + a * (Math.Pow(b, ksi) - 1);
+            }
+        }
+
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
+        public override double Entropy
+        {
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>
@@ -212,25 +256,17 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity); }
-        }
+            get
+            {
+                if (ksi > 0)
+                    return new DoubleRange(mu - sigma / ksi, Double.PositiveInfinity);
 
-        /// <summary>
-        ///   Gets the entropy for this distribution.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   In the logistic distribution, the entropy is 
-        ///   equal to <c>ln(<see cref="Scale">s</see>) + 2</c>.
-        /// </remarks>
-        /// 
-        /// <value>
-        ///   The distribution's entropy.
-        /// </value>
-        /// 
-        public override double Entropy
-        {
-            get { return Math.Log(s) + 2; }
+                if (ksi < 0)
+                    return new DoubleRange(Double.NegativeInfinity, mu - sigma / ksi);
+
+                // if (ksi == 0)
+                return new DoubleRange(Double.NegativeInfinity, Double.PositiveInfinity);
+            }
         }
 
 
@@ -243,9 +279,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            double z = (x - mu) / s;
+            double z = 1 + (ksi * (x - mu)) / sigma;
 
-            return 1.0 / (1 + Math.Exp(-z));
+            double den = 1 + Math.Pow(z, -1 / ksi);
+
+            return 1 / den;
         }
 
         /// <summary>
@@ -262,65 +300,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            double z = (x - mu) / s;
+            double z = 1 + (ksi * (x - mu)) / sigma;
 
-            double num = Math.Exp(-z);
-            double a = (1 + num);
-            double den = s * a * a;
+            double num = Math.Pow(z, -(1.0 / ksi + 1));
+            double den = 1 + Math.Pow(z, -1 / ksi);
 
-            return num / den;
-        }
-
-        /// <summary>
-        ///   Gets the log-probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range.</param>
-        /// 
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c>
-        ///   occurring in the current distribution.
-        /// </returns>
-        /// 
-        public override double LogProbabilityDensityFunction(double x)
-        {
-            double z = (x - mu) / s;
-
-            double result = -z - (Math.Log(s) + 2 * Special.Log1p(Math.Exp(-z)));
-
-            return result;
-        }
-
-        /// <summary>
-        ///   Gets the inverse of the cumulative distribution function (icdf) for
-        ///   this distribution evaluated at probability <c>p</c>. This function
-        ///   is also known as the Quantile function.
-        /// </summary>
-        /// 
-        /// <param name="p">A probability value between 0 and 1.</param>
-        /// 
-        /// <returns>
-        ///   A sample which could original the given probability
-        ///   value when applied in the <see cref="DistributionFunction"/>.
-        /// </returns>
-        /// 
-        public override double InverseDistributionFunction(double p)
-        {
-            return mu + s * Math.Log(p / (1 - p));
-        }
-
-        /// <summary>
-        ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
-        ///   inverse distribution function</see> (icdf) for this distribution evaluated
-        ///   at probability <c>p</c>. 
-        /// </summary>
-        /// 
-        /// <param name="p">A probability value between 0 and 1.</param>
-        /// 
-        public override double QuantileDensityFunction(double p)
-        {
-            return s / (p * (1 - p));
+            return num / (sigma * den * den);
         }
 
         /// <summary>
@@ -332,7 +317,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override object Clone()
         {
-            return new LogisticDistribution(mu, s);
+            return new ShiftedLogLogisticDistribution(mu, sigma, ksi);
         }
 
         /// <summary>
@@ -345,7 +330,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString()
         {
-            return String.Format("Logistic(x; μ = {0}, s = {1})", mu, s);
+            return String.Format("LLD3(x; μ = {0}, σ = {1}, ξ = {2})", mu, sigma, ksi);
         }
 
         /// <summary>
@@ -358,7 +343,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "Logistic(x; μ = {0}, s = {1})", mu, s);
+            return String.Format(formatProvider, "LLD3(x; μ = {0}, σ = {1}, ξ = {2})", mu, sigma, ksi);
         }
 
         /// <summary>
@@ -371,9 +356,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "Logistic(x; μ = {0}, s = {1})",
+            return String.Format(formatProvider, "LLD3(x; μ = {0}, σ = {1}, ξ = {2})",
                 mu.ToString(format, formatProvider),
-                s.ToString(format, formatProvider));
+                sigma.ToString(format, formatProvider),
+                ksi.ToString(format, formatProvider));
         }
 
         /// <summary>
@@ -386,15 +372,16 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public string ToString(string format)
         {
-            return String.Format("Logistic(x; μ = {0}, s = {1})",
-                mu.ToString(format), s.ToString(format));
+            return String.Format("LLD3(x; μ = {0}, σ = {1}, ξ = {2})",
+                mu.ToString(format), sigma.ToString(format), ksi.ToString(format));
         }
 
 
-        private void initialize(double mean, double scale)
+        private void initialize(double mean, double scale, double shape)
         {
             this.mu = mean;
-            this.s = scale;
+            this.sigma = scale;
+            this.ksi = shape;
         }
     }
 }

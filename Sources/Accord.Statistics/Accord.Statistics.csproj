@@ -196,12 +196,14 @@
     <Compile Include="Distributions\Multivariate\Continuous\DirichletDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\LogLogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\InverseChiSquareDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LevyDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\FoldedNormalDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogistic.cs" />
     <Compile Include="Distributions\Univariate\Continuous\SkewNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GumbelDistribution.cs" />
