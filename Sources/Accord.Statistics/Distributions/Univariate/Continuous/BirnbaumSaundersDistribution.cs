@@ -48,7 +48,6 @@ namespace Accord.Statistics.Distributions.Univariate
     ///     <item><description><a href="http://www.itl.nist.gov/div898/handbook/eda/section3/eda366a.htm">
     ///       NIST/SEMATECH e-Handbook of Statistical Methods, Birnbaum-Saunders (Fatigue Life) Distribution
     ///       Available from: http://www.itl.nist.gov/div898/handbook/eda/section3/eda366a.htm </a></description></item>
-    ///       
     ///   </list></para>
     /// </remarks>
     /// 
