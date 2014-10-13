@@ -212,6 +212,7 @@
     <Compile Include="Optimization\Unconstrained\ResilientBackpropagation.cs" />
     <Compile Include="Optimization\Unconstrained\Subplex.cs" />
     <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
+    <Compile Include="Taylor.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
     <Compile Include="Transforms\SineTransform.cs" />
     <Compile Include="Transforms\CosineTransform.cs" />
