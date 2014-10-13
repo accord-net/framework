@@ -120,6 +120,7 @@
     <Compile Include="Convergence\Base\IConvergence.cs" />
     <Compile Include="Convergence\GeneralConvergence.cs" />
     <Compile Include="Decompositions\Accord.Math.Decompositions.cs" />
+    <Compile Include="Dissimilarity.cs" />
     <Compile Include="Functions\OwensT.cs" />
     <Compile Include="Integration\Accord.Math.Integration.cs" />
     <Compile Include="Integration\Base\IMultidimensionalIntegration.cs" />
