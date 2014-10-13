@@ -101,6 +101,24 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("U(x; a = 2, b = 6)", str);
         }
 
+        [TestMethod()]
+        public void IntervalTest()
+        {
+            var target = new UniformDiscreteDistribution(-10, 10);
+
+            for (int k = -15; k < 15; k++)
+            {
+                double expected = target.ProbabilityMassFunction(k);
+
+                double a = target.DistributionFunction(k);
+                double b = target.DistributionFunction(k - 1);
+                double c = a - b;
+
+                Assert.AreEqual(expected, c, 1e-15);
+                Assert.AreEqual(c, target.DistributionFunction(k - 1, k), 1e-15);
+            }
+        }
+
         internal virtual UnivariateDiscreteDistribution CreateUnivariateDiscreteDistribution()
         {
             double mean = 0.42;

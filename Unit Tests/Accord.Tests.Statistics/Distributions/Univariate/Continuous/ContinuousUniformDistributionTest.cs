@@ -84,6 +84,24 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void IntervalTest()
+        {
+            var target = new UniformContinuousDistribution(-10, 10);
+
+            for (int k = -15; k < 15; k++)
+            {
+                double expected = target.ProbabilityDensityFunction(k);
+
+                double a = target.DistributionFunction(k);
+                double b = target.DistributionFunction(k - 1);
+                double c = a - b;
+
+                Assert.AreEqual(expected, c, 1e-15);
+                Assert.AreEqual(c, target.DistributionFunction(k - 1, k), 1e-15);
+            }
+        }
+
+        [TestMethod()]
         public void UniformDistributionConstructorTest()
         {
             double a = 1;
@@ -161,7 +179,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
 
             x = -5;
-            expected = 0.0625;
+            expected = 0.0;
             actual = target.ProbabilityDensityFunction(x);
             Assert.AreEqual(expected, actual);
 

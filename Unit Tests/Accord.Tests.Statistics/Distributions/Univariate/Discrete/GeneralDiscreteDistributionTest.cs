@@ -100,6 +100,24 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void IntervalTest()
+        {
+            var target = GeneralDiscreteDistribution.Uniform(-10, 10);
+
+            for (int k = -15; k < 15; k++)
+            {
+                double expected = target.ProbabilityMassFunction(k);
+
+                double a = target.DistributionFunction(k);
+                double b = target.DistributionFunction(k - 1);
+                double c = a - b;
+
+                Assert.AreEqual(expected, c, 1e-15);
+                Assert.AreEqual(c, target.DistributionFunction(k - 1, k), 1e-15);
+            }
+        }
+
+        [TestMethod()]
         public void ConstructorTest2()
         {
             double[] probabilities = { 0.25, 0.25, 0.50 };
@@ -109,7 +127,7 @@ namespace Accord.Tests.Statistics
             double var = dist.Variance;  // 0.6875
             double median = dist.Median; // 1.00
             double mean = dist.Mean;     // 1.25
-            
+
             Assert.AreEqual(1.25, mean);
             Assert.AreEqual(1.00, median);
             Assert.AreEqual(0.6875, var);
@@ -298,7 +316,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expectedVar, dist.Variance);
             Assert.AreEqual(n, dist.Frequencies.Length);
 
-            
+
             Assert.AreEqual(0, dist.ProbabilityMassFunction(0));
             Assert.AreEqual(0, dist.ProbabilityMassFunction(1));
             Assert.AreEqual(p, dist.ProbabilityMassFunction(2));
@@ -313,7 +331,7 @@ namespace Accord.Tests.Statistics
         public void ProbabilityMassFunctionTest()
         {
             GeneralDiscreteDistribution dist = GeneralDiscreteDistribution.Uniform(2, 5);
-            double p = 0.25; 
+            double p = 0.25;
             Assert.AreEqual(0, dist.ProbabilityMassFunction(0));
             Assert.AreEqual(0, dist.ProbabilityMassFunction(1));
             Assert.AreEqual(p, dist.ProbabilityMassFunction(2));
@@ -328,7 +346,7 @@ namespace Accord.Tests.Statistics
         public void LogProbabilityMassFunctionTest()
         {
             GeneralDiscreteDistribution dist = GeneralDiscreteDistribution.Uniform(2, 5);
-            
+
             double p = System.Math.Log(0.25);
             double l = System.Math.Log(0);
 

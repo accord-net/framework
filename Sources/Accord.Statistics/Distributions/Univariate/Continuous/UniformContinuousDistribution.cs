@@ -241,7 +241,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            if (x >= a && x <= b)
+            if (x > a && x <= b)
                 return 1.0 / (b - a);
             else return 0;
         }

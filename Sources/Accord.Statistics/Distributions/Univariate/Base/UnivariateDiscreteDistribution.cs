@@ -376,7 +376,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
         /// <summary>
-        ///   Gets P( X&lt;= k), the cumulative distribution function
+        ///   Gets P(X ≤ k), the cumulative distribution function
         ///   (cdf) for this distribution evaluated at point <c>k</c>.
         /// </summary>
         /// 
@@ -391,14 +391,15 @@ namespace Accord.Statistics.Distributions.Univariate
         public abstract double DistributionFunction(int k);
 
         /// <summary>
-        ///   Gets the cumulative distribution function
-        ///   (cdf) for this distribution evaluated at point <c>k</c>.
+        ///   Gets P(X ≤ k) or P(X &lt; k), the cumulative distribution function
+        ///   (cdf) for this distribution evaluated at point <c>k</c>, depending
+        ///   on the value of the <paramref name="inclusive"/> parameter.
         /// </summary>
         /// 
         /// <param name="k">
         ///   A single point in the distribution range.</param>
         /// <param name="inclusive">
-        ///   True to return P(X &lt; x), false to return P(X &lt; x). Default is true.</param>
+        ///   True to return P(X ≤ x), false to return P(X &lt; x). Default is true.</param>
         ///   
         /// <remarks>
         ///   The Cumulative Distribution Function (CDF) describes the cumulative
@@ -411,6 +412,31 @@ namespace Accord.Statistics.Distributions.Univariate
                 return DistributionFunction(k);
             else
                 return DistributionFunction(k) - ProbabilityMassFunction(k);
+        }
+
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for this
+        ///   distribution in the semi-closed interval (a; b] given as
+        ///   <c>P(a &lt; X ≤ b)</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The start of the semi-closed interval (a; b].</param>
+        /// <param name="b">The end of the semi-closed interval (a; b].</param>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+        public virtual double DistributionFunction(int a, int b)
+        {
+            if (a >= b)
+            {
+                throw new ArgumentOutOfRangeException("b",
+                    "The start of the interval a must be smaller than b.");
+            }
+
+            return DistributionFunction(b, inclusive: true) - DistributionFunction(a);
         }
 
         /// <summary>

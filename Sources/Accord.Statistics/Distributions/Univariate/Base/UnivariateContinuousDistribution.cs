@@ -555,6 +555,31 @@ namespace Accord.Statistics.Distributions.Univariate
         public abstract double DistributionFunction(double x);
 
         /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for this
+        ///   distribution in the semi-closed interval (a; b] given as
+        ///   <c>P(a &lt; X ≤ b)</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The start of the semi-closed interval (a; b].</param>
+        /// <param name="b">The end of the semi-closed interval (a; b].</param>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+        public virtual double DistributionFunction(double a, double b)
+        {
+            if (a >= b)
+            {
+                throw new ArgumentOutOfRangeException("b",
+                    "The start of the interval a must be smaller than b.");
+            }
+
+            return DistributionFunction(b) - DistributionFunction(a);
+        }
+
+        /// <summary>
         ///   Gets the complementary cumulative distribution function
         ///   (ccdf) for this distribution evaluated at point <c>x</c>.
         ///   This function is also known as the Survival function.
@@ -589,7 +614,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="p">A probability value between 0 and 1.</param>
         /// 
         /// <returns>A sample which could original the given probability 
-        ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
+        ///   value when applied in the <see cref="DistributionFunction(double)"/>.</returns>
         /// 
         public virtual double InverseDistributionFunction(
 #if !NET35
