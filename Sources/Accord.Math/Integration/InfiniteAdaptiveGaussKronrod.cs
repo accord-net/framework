@@ -116,7 +116,39 @@ namespace Accord.Math.Integration
     ///   adaptive algorithms are just as efficient and effective as traditional
     ///   algorithms for "well behaved" integrands, but are also effective for 
     ///   "badly behaved" integrands for which traditional algorithms fail.</para>
-    /// </remarks>
+    /// 
+    /// <para>
+    ///   The algorithm implemented by this class has been based on the original FORTRAN 
+    ///   implementation from QUADPACK. The function implemented the Non-adaptive Gauss-
+    ///   Kronrod integration is <c>qagi(f,bound,inf,epsabs,epsrel,result,abserr,neval,
+    ///   ier,limit,lenw,last,iwork,work)</c>. The original source code is in the public 
+    ///   domain, but this version is under the LGPL. The original authors, as long as the 
+    ///   original routine description, are listed below:</para>
+    ///   
+    /// <para>
+    ///   Robert Piessens, Elise de Doncker; Applied Mathematics and Programming Division,
+    ///   K.U.Leuven, Leuvenappl. This routine calculates an approximation result to a given 
+    ///   integral   i = integral of f over (bound,+infinity) or i = integral of f over 
+    ///   (-infinity,bound) or i = integral of f over (-infinity,+infinity) hopefully satisfying
+    ///   following claim for accuracy abs(i-result).le.max(epsabs,epsrel*abs(i)).</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/Adaptive_quadrature">
+    ///       Wikipedia, The Free Encyclopedia. Adaptive quadrature. Available on: 
+    ///       http://en.wikipedia.org/wiki/Adaptive_quadrature </a></description></item>
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/QUADPACK">
+    ///       Wikipedia, The Free Encyclopedia. QUADPACK. Available on: 
+    ///       http://en.wikipedia.org/wiki/QUADPACK </a></description></item>
+    ///     <item><description><a href="http://www.netlib.no/netlib/quadpack/qagi.f">
+    ///       Robert Piessens, Elise de Doncker; Non-adaptive integration standard fortran 
+    ///       subroutine (qng.f). Applied Mathematics and Programming Division, K.U.Leuven,
+    ///       Leuvenappl. Available at: http://www.netlib.no/netlib/quadpack/qagi.f </a>
+    ///     </description></item>
+    ///   </list>
+    ///  </para>
+    ///  </remarks>
     /// 
     /// <seealso cref="NonAdaptiveGaussKronrod"/>
     /// 
@@ -128,6 +160,12 @@ namespace Accord.Math.Integration
         private double result;
         private double error;
         private int evaluations;
+
+        private double abstol;
+        private double reltol;
+
+        private int limit;
+        private int lenw;
 
         /// <summary>
         ///   Get the maximum number of subintervals to be utilized in the
@@ -155,7 +193,11 @@ namespace Accord.Math.Integration
         ///   into account. Default is zero.
         /// </summary>
         /// 
-        public double ToleranceAbsolute { get; set; }
+        public double ToleranceAbsolute
+        {
+            get { return abstol; }
+            set { abstol = value; }
+        }
 
         /// <summary>
         ///   Desired relative accuracy. If set to zero, this parameter
@@ -163,7 +205,23 @@ namespace Accord.Math.Integration
         ///   into account. Default is 1e-3.
         /// </summary>
         /// 
-        public double ToleranceRelative { get; set; }
+        public double ToleranceRelative
+        {
+            get { return reltol; }
+            set
+            {
+                double limit = Math.Max(Constants.SingleEpsilon * 50.0, 5e-15);
+
+                if (value <= limit)
+                {
+                    throw new ArgumentOutOfRangeException("value",
+                        "Tolerance must be higher than machine precision"
+                        + "(must be greater than " + limit + ")");
+                }
+
+                reltol = value;
+            }
+        }
 
         /// <summary>
         ///   Get the exit code returned in the last call to the
@@ -202,7 +260,6 @@ namespace Accord.Math.Integration
         ///   partition of the given integration interval. Default is 100.</param>
         /// 
         public InfiniteAdaptiveGaussKronrod(int subintervals)
-            : this(subintervals, null, Double.MinValue, Double.MaxValue)
         {
             init(subintervals, null, Double.MinValue, Double.MaxValue);
         }
@@ -216,7 +273,6 @@ namespace Accord.Math.Integration
         /// <param name="function">The function to be integrated.</param>
         /// 
         public InfiniteAdaptiveGaussKronrod(int subintervals, Func<double, double> function)
-            : this(subintervals, function, Double.MinValue, Double.MaxValue)
         {
             if (function == null)
                 throw new ArgumentNullException("function");
@@ -257,8 +313,11 @@ namespace Accord.Math.Integration
             ToleranceAbsolute = 0;
             ToleranceRelative = 1e-3;
 
-            work = new double[subintervals * 4];
-            iwork = new int[subintervals];
+            work = new double[subintervals * 4 + 100];
+            iwork = new int[subintervals + 100];
+
+            limit = subintervals;
+            lenw = subintervals * 4;
         }
 
         /// <summary>
@@ -312,12 +371,16 @@ namespace Accord.Math.Integration
 
                 qagi_(Function, bound, inf, ToleranceAbsolute, ToleranceRelative,
                     out result, out error, out evaluations, out errorCode,
-                    iwork.Length, work.Length, out last, iwork, work);
+                    limit, lenw, out last, iwork, work);
             }
 
 
             if (errorCode == 6)
-                throw new InvalidOperationException("Unexpected internal error code.");
+            {
+                throw new InvalidOperationException("Invalid inputs. If this error happens, the "
+                    + "framework didn't check for inputs correctly. If you encounter this error, "
+                    + "please feel in a bug report at the framework's issue tracking system.");
+            }
 
             Status = (InfiniteAdaptiveGaussKronrodStatus)errorCode;
 
@@ -411,7 +474,7 @@ namespace Accord.Math.Integration
             result = 0.0;
             abserr = 0.0;
 
-            if (limit < 1 || lenw < limit << 2)
+            if (limit < 1 || lenw < (limit << 2))
             {
                 goto L10;
             }
@@ -419,8 +482,8 @@ namespace Accord.Math.Integration
             unsafe
             {
                 /*         preparef call for qagie. */
-                fixed (double* work = dwork)
-                fixed (int* Iwork = iwork)
+                fixed (double* work = &dwork[10])
+                fixed (int* Iwork = &iwork[10])
                 {
                     l1 = limit + 1;
                     l2 = limit + l1;
@@ -474,440 +537,450 @@ namespace Accord.Math.Integration
             bool noext;
 
             int iroff1, iroff2, iroff3;
-            double* res3la = stackalloc double[3];
-            double error1 = 0;
-            double error2 = 0;
-            double* rlist2 = stackalloc double[52];
-            int numrl2;
-            double defabs = 0, epmach;
-            double erlarg = 1;
-            double abseps = 0;
-            double correc = 0;
-            double errbnd;
-            double resabs = 0;
-            int jupbnd;
-            double erlast, errmax;
-            int maxerr;
-            double reseps = 0;
-            bool extrap;
-            double ertest = 0;
-            double errsum;
 
-            /* Parameter adjustments */
-            --iord;
-            --elist;
-            --rlist;
-            --blist;
-            --alist__;
+            double[] res3la_ = new double[3 + 1];
+            double[] rlist2_ = new double[52 + 1];
 
-            /* Function Body */
-            epmach = Constants.SingleEpsilon;
-
-            /*           test on validity o parameters */
-            /*           ----------------------------- */
-
-            /* ***first executable statement  qagie */
-            ier = 0;
-            neval = 0;
-            last = 0;
-            result = 0.0;
-            abserr = 0.0;
-            alist__[1] = 0.0;
-            blist[1] = 1.0;
-            rlist[1] = 0.0;
-            elist[1] = 0.0;
-            iord[1] = 0;
-
-            if (epsabs <= 0.0 && epsrel < Math.Max(epmach * 50.0, 5e-15))
+            fixed (double* res3la = res3la_)
+            fixed (double* rlist2 = rlist2_)
             {
-                ier = 6;
-            }
+                double error1 = 0;
+                double error2 = 0;
 
-            if (ier == 6)
-            {
-                return 0;
-            }
+                int numrl2;
+                double defabs = 0, epmach;
+                double erlarg = 1;
+                double abseps = 0;
+                double correc = 0;
+                double errbnd;
+                double resabs = 0;
+                int jupbnd;
+                double erlast, errmax;
+                int maxerr;
+                double reseps = 0;
+                bool extrap;
+                double ertest = 0;
+                double errsum;
 
+                /* Parameter adjustments */
+                --iord;
+                --elist;
+                --rlist;
+                --blist;
+                --alist__;
 
-            /*           first approximation to the integral */
-            /*           ----------------------------------- */
+                /* Function Body */
+                epmach = Constants.SingleEpsilon;
 
-            /*           determine the interval to be mapped onto (0,1). */
-            /*           i in = 2 the integral is computed as i = i1+i2, wheref */
-            /*           i1 = integral o  over (-infinity,0), */
-            /*           i2 = integral o  over (0,+infinity). */
+                /*           test on validity o parameters */
+                /*           ----------------------------- */
 
-            boun = bound;
+                /* ***first executable statement  qagie */
+                ier = 0;
+                neval = 0;
+                last = 0;
+                result = 0.0;
+                abserr = 0.0;
+                alist__[1] = 0.0;
+                blist[1] = 1.0;
+                rlist[1] = 0.0;
+                elist[1] = 0.0;
+                iord[1] = 0;
 
-            if (inf == 2)
-            {
-                boun = 0.0;
-            }
-
-            qk15i_(f, ref boun, ref inf, 0.0, 1.0,
-                ref result, ref abserr, ref defabs, ref resabs);
-
-            /*           test on accuracy */
-
-            last = 1;
-            rlist[1] = result;
-            elist[1] = abserr;
-            iord[1] = 1;
-            dres = Math.Abs(result);
-
-            errbnd = Math.Max(epsabs, epsrel * dres);
-            if (abserr <= epmach * 100.0 * defabs && abserr > errbnd)
-            {
-                ier = 2;
-            }
-            if (limit == 1)
-            {
-                ier = 1;
-            }
-            if (ier != 0 || abserr <= errbnd && abserr != resabs || abserr == 0.0)
-            {
-                goto L130;
-            }
-
-            /*           initialization */
-            /*           -------------- */
-
-            uflow = Single.MinValue;
-            oflow = Single.MaxValue;
-            rlist2[0] = result;
-            errmax = abserr;
-            maxerr = 1;
-            area = result;
-            errsum = abserr;
-            abserr = oflow;
-            nrmax = 1;
-            nres = 0;
-            ktmin = 0;
-            numrl2 = 2;
-            extrap = false;
-            noext = false;
-            ierro = 0;
-            iroff1 = 0;
-            iroff2 = 0;
-            iroff3 = 0;
-            ksgn = -1;
-            if (dres >= (1.0 - epmach * 50.0) * defabs)
-            {
-                ksgn = 1;
-            }
-
-            /*           main do-loop */
-            /*           ------------ */
-
-            i__1 = limit;
-            for (last = 2; last <= i__1; ++last)
-            {
-
-                /*           bisect the subinterval with nrmax-th largest */
-                /*           error estimate. */
-
-                a1 = alist__[maxerr];
-                b1 = (alist__[maxerr] + blist[maxerr]) * .5;
-                a2 = b1;
-                b2 = blist[maxerr];
-                erlast = errmax;
-
-                qk15i_(f, ref boun, ref inf, a1, b1, ref area1,
-                    ref error1, ref resabs, ref defab1);
-
-                qk15i_(f, ref boun, ref inf, a2, b2, ref area2,
-                    ref error2, ref resabs, ref defab2);
-
-                /*           improve previous approximations to integral */
-                /*           and error and test for accuracy. */
-
-                area12 = area1 + area2;
-                erro12 = error1 + error2;
-                errsum = errsum + erro12 - errmax;
-                area = area + area12 - rlist[maxerr];
-                if (defab1 == error1 || defab2 == error2)
+                if (epsabs <= 0.0 && epsrel < Math.Max(epmach * 50.0, 5e-15))
                 {
-                    goto L15;
+                    ier = 6;
                 }
-                if ((Math.Abs(rlist[maxerr] - area12)) > Math.Abs(area12) * 1e-5 || erro12 < errmax * 0.99)
-                {
-                    goto L10;
-                }
-                if (extrap)
-                {
-                    ++iroff2;
-                }
-                if (!extrap)
-                {
-                    ++iroff1;
-                }
-            L10:
-                if (last > 10 && erro12 > errmax)
-                {
-                    ++iroff3;
-                }
-            L15:
-                rlist[maxerr] = area1;
-                rlist[last] = area2;
-                errbnd = Math.Max(epsabs, epsrel * Math.Abs(area));
 
-                /*           test for roundof error and eventually */
-                /*           set error flag. */
+                if (ier == 6)
+                {
+                    return 0;
+                }
 
-                if (iroff1 + iroff2 >= 10 || iroff3 >= 20)
+
+                /*           first approximation to the integral */
+                /*           ----------------------------------- */
+
+                /*           determine the interval to be mapped onto (0,1). */
+                /*           i in = 2 the integral is computed as i = i1+i2, wheref */
+                /*           i1 = integral o  over (-infinity,0), */
+                /*           i2 = integral o  over (0,+infinity). */
+
+                boun = bound;
+
+                if (inf == 2)
+                {
+                    boun = 0.0;
+                }
+
+                qk15i_(f, ref boun, ref inf, 0.0, 1.0,
+                    ref result, ref abserr, ref defabs, ref resabs);
+
+                /*           test on accuracy */
+
+                last = 1;
+                rlist[1] = result;
+                elist[1] = abserr;
+                iord[1] = 1;
+                dres = Math.Abs(result);
+
+                errbnd = Math.Max(epsabs, epsrel * dres);
+                if (abserr <= epmach * 100.0 * defabs && abserr > errbnd)
                 {
                     ier = 2;
                 }
-                if (iroff2 >= 5)
-                {
-                    ierro = 3;
-                }
-
-                /*           set error flag in the case that the number o */
-                /*           subintervals equals limit. */
-
-                if (last == limit)
+                if (limit == 1)
                 {
                     ier = 1;
                 }
-
-                /*           set error flag in the case o bad integrand behaviour */
-                /*           at some points o the integration range. */
-
-                double alpha = Math.Max(Math.Abs(a1), Math.Abs(b2));
-                double beta = (epmach * 100.0 + 1.0) * (Math.Abs(a2) + uflow * 1e3);
-                if (alpha <= beta)
+                if (ier != 0 || abserr <= errbnd && abserr != resabs || abserr == 0.0)
                 {
-                    ier = 4;
+                    goto L130;
                 }
 
-                /*           append the newly-created intervals to the list. */
+                /*           initialization */
+                /*           -------------- */
 
-                if (error2 > error1)
+                uflow = Single.MinValue;
+                oflow = Single.MaxValue;
+                rlist2[0] = result;
+                errmax = abserr;
+                maxerr = 1;
+                area = result;
+                errsum = abserr;
+                abserr = oflow;
+                nrmax = 1;
+                nres = 0;
+                ktmin = 0;
+                numrl2 = 2;
+                extrap = false;
+                noext = false;
+                ierro = 0;
+                iroff1 = 0;
+                iroff2 = 0;
+                iroff3 = 0;
+                ksgn = -1;
+                if (dres >= (1.0 - epmach * 50.0) * defabs)
                 {
-                    goto L20;
-                }
-                alist__[last] = a2;
-                blist[maxerr] = b1;
-                blist[last] = b2;
-                elist[maxerr] = error1;
-                elist[last] = error2;
-                goto L30;
-            L20:
-                alist__[maxerr] = a2;
-                alist__[last] = a1;
-                blist[last] = b1;
-                rlist[maxerr] = area2;
-                rlist[last] = area1;
-                elist[maxerr] = error2;
-                elist[last] = error1;
-
-        /*           call subroutine qpsrt to maintain the descending ordering */
-            /*           in the list o error estimates and select the */
-            /*           subinterval with nrmax-th largest error estimate (to be */
-            /*           bisected next). */
-
-        L30:
-                qpsrt_(ref limit, ref last, ref maxerr, ref errmax,
-                    &elist[1], &iord[1], ref nrmax);
-
-                if (errsum <= errbnd)
-                {
-                    goto L115;
-                }
-                if (ier != 0)
-                {
-                    goto L100;
-                }
-                if (last == 2)
-                {
-                    goto L80;
-                }
-                if (noext)
-                {
-                    goto L90;
+                    ksgn = 1;
                 }
 
-                erlarg -= erlast;
+                /*           main do-loop */
+                /*           ------------ */
 
-                if (Math.Abs(b1 - a1) > small)
+                i__1 = limit;
+                for (last = 2; last <= i__1; ++last)
                 {
-                    erlarg += erro12;
-                }
-                if (extrap)
-                {
-                    goto L40;
-                }
 
-                /*           test whether the interval to be bisected next is the */
-                /*           smallest interval. */
+                    /*           bisect the subinterval with nrmax-th largest */
+                    /*           error estimate. */
 
-                if (Math.Abs(blist[maxerr] - alist__[maxerr]) > small)
-                {
-                    goto L90;
-                }
-                extrap = true;
-                nrmax = 2;
-            L40:
-                if (ierro == 3 || erlarg <= ertest)
-                {
-                    goto L60;
-                }
+                    a1 = alist__[maxerr];
+                    b1 = (alist__[maxerr] + blist[maxerr]) * .5;
+                    a2 = b1;
+                    b2 = blist[maxerr];
+                    erlast = errmax;
 
-                /*           the smallest interval has the largest error. */
-                /*           beforef bisecting decrease the sum o the errors */
-                /*           over the larger intervals (erlarg) and perform */
-                /*           extrapolation. */
+                    qk15i_(f, ref boun, ref inf, a1, b1, ref area1,
+                        ref error1, ref resabs, ref defab1);
 
-                id = nrmax;
-                jupbnd = last;
-                if (last > limit / 2 + 2)
-                {
-                    jupbnd = limit + 3 - last;
-                }
-                i__2 = jupbnd;
-                for (k = id; k <= i__2; ++k)
-                {
-                    maxerr = iord[nrmax];
-                    errmax = elist[maxerr];
-                    if ((Math.Abs(blist[maxerr] - alist__[maxerr])) > small)
+                    qk15i_(f, ref boun, ref inf, a2, b2, ref area2,
+                        ref error2, ref resabs, ref defab2);
+
+                    /*           improve previous approximations to integral */
+                    /*           and error and test for accuracy. */
+
+                    area12 = area1 + area2;
+                    erro12 = error1 + error2;
+                    errsum = errsum + erro12 - errmax;
+                    area = area + area12 - rlist[maxerr];
+                    if (defab1 == error1 || defab2 == error2)
+                    {
+                        goto L15;
+                    }
+                    if ((Math.Abs(rlist[maxerr] - area12)) > Math.Abs(area12) * 1e-5 || erro12 < errmax * 0.99)
+                    {
+                        goto L10;
+                    }
+                    if (extrap)
+                    {
+                        ++iroff2;
+                    }
+                    if (!extrap)
+                    {
+                        ++iroff1;
+                    }
+                L10:
+                    if (last > 10 && erro12 > errmax)
+                    {
+                        ++iroff3;
+                    }
+                L15:
+                    rlist[maxerr] = area1;
+                    rlist[last] = area2;
+                    errbnd = Math.Max(epsabs, epsrel * Math.Abs(area));
+
+                    /*           test for roundof error and eventually */
+                    /*           set error flag. */
+
+                    if (iroff1 + iroff2 >= 10 || iroff3 >= 20)
+                    {
+                        ier = 2;
+                    }
+                    if (iroff2 >= 5)
+                    {
+                        ierro = 3;
+                    }
+
+                    /*           set error flag in the case that the number o */
+                    /*           subintervals equals limit. */
+
+                    if (last == limit)
+                    {
+                        ier = 1;
+                    }
+
+                    /*           set error flag in the case o bad integrand behaviour */
+                    /*           at some points o the integration range. */
+
+                    double alpha = Math.Max(Math.Abs(a1), Math.Abs(b2));
+                    double beta = (epmach * 100.0 + 1.0) * (Math.Abs(a2) + uflow * 1e3);
+                    if (alpha <= beta)
+                    {
+                        ier = 4;
+                    }
+
+                    /*           append the newly-created intervals to the list. */
+
+                    if (error2 > error1)
+                    {
+                        goto L20;
+                    }
+                    alist__[last] = a2;
+                    blist[maxerr] = b1;
+                    blist[last] = b2;
+                    elist[maxerr] = error1;
+                    elist[last] = error2;
+                    goto L30;
+                L20:
+                    alist__[maxerr] = a2;
+                    alist__[last] = a1;
+                    blist[last] = b1;
+                    rlist[maxerr] = area2;
+                    rlist[last] = area1;
+                    elist[maxerr] = error2;
+                    elist[last] = error1;
+
+                /*           call subroutine qpsrt to maintain the descending ordering */
+                /*           in the list o error estimates and select the */
+                /*           subinterval with nrmax-th largest error estimate (to be */
+                /*           bisected next). */
+
+            L30:
+                    qpsrt_(ref limit, ref last, ref maxerr, ref errmax,
+                        &elist[1], &iord[1], ref nrmax);
+
+                    if (errsum <= errbnd)
+                    {
+                        goto L115;
+                    }
+                    if (ier != 0)
+                    {
+                        goto L100;
+                    }
+                    if (last == 2)
+                    {
+                        goto L80;
+                    }
+                    if (noext)
                     {
                         goto L90;
                     }
-                    ++nrmax;
-                    /* L50: */
+
+                    erlarg -= erlast;
+
+                    if (Math.Abs(b1 - a1) > small)
+                    {
+                        erlarg += erro12;
+                    }
+                    if (extrap)
+                    {
+                        goto L40;
+                    }
+
+                    /*           test whether the interval to be bisected next is the */
+                    /*           smallest interval. */
+
+                    if (Math.Abs(blist[maxerr] - alist__[maxerr]) > small)
+                    {
+                        goto L90;
+                    }
+                    extrap = true;
+                    nrmax = 2;
+                L40:
+                    if (ierro == 3 || erlarg <= ertest)
+                    {
+                        goto L60;
+                    }
+
+                    /*           the smallest interval has the largest error. */
+                    /*           beforef bisecting decrease the sum o the errors */
+                    /*           over the larger intervals (erlarg) and perform */
+                    /*           extrapolation. */
+
+                    id = nrmax;
+                    jupbnd = last;
+                    if (last > limit / 2 + 2)
+                    {
+                        jupbnd = limit + 3 - last;
+                    }
+                    i__2 = jupbnd;
+                    for (k = id; k <= i__2; ++k)
+                    {
+                        maxerr = iord[nrmax];
+                        errmax = elist[maxerr];
+                        if ((Math.Abs(blist[maxerr] - alist__[maxerr])) > small)
+                        {
+                            goto L90;
+                        }
+                        ++nrmax;
+                        /* L50: */
+                    }
+
+            /*           perform extrapolation. */
+
+            L60:
+                    ++numrl2;
+
+                    System.Diagnostics.Debug.Assert(numrl2 > 1);
+
+                    rlist2[numrl2 - 1] = area;
+                    qelg_(ref numrl2, rlist2, ref reseps, ref abseps, res3la, ref nres);
+
+                    ++ktmin;
+
+                    if (ktmin > 5 && abserr < errsum * .001)
+                    {
+                        ier = 5;
+                    }
+                    if (abseps >= abserr)
+                    {
+                        goto L70;
+                    }
+
+                    ktmin = 0;
+                    abserr = abseps;
+                    result = reseps;
+                    correc = erlarg;
+
+                    ertest = Math.Max(epsabs, epsrel * Math.Abs(reseps));
+
+                    if (abserr <= ertest)
+                    {
+                        goto L100;
+                    }
+
+            /*            preparef bisection o the smallest interval. */
+
+            L70:
+                    if (numrl2 == 1)
+                    {
+                        noext = true;
+                    }
+                    if (ier == 5)
+                    {
+                        goto L100;
+                    }
+                    maxerr = iord[1];
+                    errmax = elist[maxerr];
+                    nrmax = 1;
+                    extrap = false;
+                    small *= .5;
+                    erlarg = errsum;
+                    goto L90;
+                L80:
+                    small = .375;
+                    erlarg = errsum;
+                    ertest = errbnd;
+                    rlist2[1] = area;
+                L90:
+                    ;
                 }
-
-        /*           perform extrapolation. */
-
-        L60:
-                ++numrl2;
-                rlist2[numrl2 - 1] = area;
-                qelg_(ref numrl2, rlist2, ref reseps, ref abseps, res3la, ref nres);
-
-                ++ktmin;
-
-                if (ktmin > 5 && abserr < errsum * .001)
-                {
-                    ier = 5;
-                }
-                if (abseps >= abserr)
-                {
-                    goto L70;
-                }
-
-                ktmin = 0;
-                abserr = abseps;
-                result = reseps;
-                correc = erlarg;
-
-                ertest = Math.Max(epsabs, epsrel * Math.Abs(reseps));
-
-                if (abserr <= ertest)
-                {
-                    goto L100;
-                }
-
-        /*            preparef bisection o the smallest interval. */
-
-        L70:
-                if (numrl2 == 1)
-                {
-                    noext = true;
-                }
-                if (ier == 5)
-                {
-                    goto L100;
-                }
-                maxerr = iord[1];
-                errmax = elist[maxerr];
-                nrmax = 1;
-                extrap = false;
-                small *= .5;
-                erlarg = errsum;
-                goto L90;
-            L80:
-                small = .375;
-                erlarg = errsum;
-                ertest = errbnd;
-                rlist2[1] = area;
-            L90:
-                ;
-            }
 
         /*           set final result and error estimate. */
-        /*           ------------------------------------ */
+            /*           ------------------------------------ */
 
         L100:
-            if (abserr == oflow)
-            {
-                goto L115;
-            }
-            if (ier + ierro == 0)
-            {
+                if (abserr == oflow)
+                {
+                    goto L115;
+                }
+                if (ier + ierro == 0)
+                {
+                    goto L110;
+                }
+                if (ierro == 3)
+                {
+                    abserr += correc;
+                }
+                if (ier == 0)
+                {
+                    ier = 3;
+                }
+                if (result != 0.0 && area != 0.0)
+                {
+                    goto L105;
+                }
+                if (abserr > errsum)
+                {
+                    goto L115;
+                }
+                if (area == 0.0)
+                {
+                    goto L130;
+                }
                 goto L110;
-            }
-            if (ierro == 3)
-            {
-                abserr += correc;
-            }
-            if (ier == 0)
-            {
-                ier = 3;
-            }
-            if (result != 0.0 && area != 0.0)
-            {
-                goto L105;
-            }
-            if (abserr > errsum)
-            {
-                goto L115;
-            }
-            if (area == 0.0)
-            {
-                goto L130;
-            }
-            goto L110;
-        L105:
-            if (abserr / Math.Abs(result) > errsum / Math.Abs(area))
-            {
-                goto L115;
-            }
+            L105:
+                if (abserr / Math.Abs(result) > errsum / Math.Abs(area))
+                {
+                    goto L115;
+                }
 
         /*           test on divergence */
 
         L110:
-            /* Computing MAX */
-            if (ksgn == -1 && Math.Max(Math.Abs(result), Math.Abs(area)) <= defabs * 0.01)
-            {
+                /* Computing MAX */
+                if (ksgn == -1 && Math.Max(Math.Abs(result), Math.Abs(area)) <= defabs * 0.01)
+                {
+                    goto L130;
+                }
+                if (0.01 > result / area || result / area > 100.0 || errsum > Math.Abs(area)
+                    )
+                {
+                    ier = 6;
+                }
                 goto L130;
-            }
-            if (0.01 > result / area || result / area > 100.0 || errsum > Math.Abs(area)
-                )
-            {
-                ier = 6;
-            }
-            goto L130;
 
         /*           compute global integral sum. */
 
         L115:
-            result = 0.0;
-            for (k = 1; k <= last; ++k)
-            {
-                result += rlist[k];
-                /* L120: */
-            }
-            abserr = errsum;
-        L130:
-            neval = last * 30 - 15;
-            if (inf == 2)
-            {
-                neval <<= 1;
-            }
-            if (ier > 2)
-            {
-                --(ier);
+                result = 0.0;
+                for (k = 1; k <= last; ++k)
+                {
+                    result += rlist[k];
+                    /* L120: */
+                }
+                abserr = errsum;
+            L130:
+                neval = last * 30 - 15;
+                if (inf == 2)
+                {
+                    neval <<= 1;
+                }
+                if (ier > 2)
+                {
+                    --(ier);
+                }
             }
 
             return 0;
@@ -943,12 +1016,19 @@ namespace Accord.Math.Integration
             oflow = Single.MaxValue;
             ++(nres);
             abserr = oflow;
+
+            System.Diagnostics.Debug.Assert(n > 0 && n < 52);
+
             result = epstab[n];
             if (n < 3)
             {
                 goto L100;
             }
             limexp = 50;
+
+            System.Diagnostics.Debug.Assert(n > 0 && n < 52);
+            System.Diagnostics.Debug.Assert(n + 2 > 0 && n + 2 < 52);
+
             epstab[n + 2] = epstab[n];
             newelm = (n - 1) / 2;
             epstab[n] = oflow;
@@ -959,6 +1039,10 @@ namespace Accord.Math.Integration
                 k2 = k1 - 1;
                 k3 = k1 - 2;
                 res = epstab[k1 + 2];
+
+                System.Diagnostics.Debug.Assert(k3 > 0 && k3 < 52);
+                System.Diagnostics.Debug.Assert(k2 > 0 && k2 < 52);
+
                 e0 = epstab[k3];
                 e1 = epstab[k2];
                 e2 = res;
@@ -984,6 +1068,9 @@ namespace Accord.Math.Integration
                 /* ***jump out o do-loop */
                 goto L100;
             L10:
+
+                System.Diagnostics.Debug.Assert(k1 > 0 && k1 < 52);
+
                 e3 = epstab[k1];
                 epstab[k1] = e1;
                 delta1 = e1 - e3;
@@ -1018,6 +1105,9 @@ namespace Accord.Math.Integration
 
                 L30:
                 res = e1 + 1.0 / ss;
+
+                System.Diagnostics.Debug.Assert(k1 > 0 && k1 < 52);
+
                 epstab[k1] = res;
                 k1 += -2;
                 error = err2 + Math.Abs(res - e2) + err3;
@@ -1048,6 +1138,10 @@ namespace Accord.Math.Integration
             for (i__ = 1; i__ <= i__1; ++i__)
             {
                 ib2 = ib + 2;
+
+                System.Diagnostics.Debug.Assert(ib > 0 && ib < 52);
+                System.Diagnostics.Debug.Assert(ib2 > 0 && ib2 < 52);
+
                 epstab[ib] = epstab[ib2];
                 ib = ib2;
                 /* L60: */
@@ -1059,6 +1153,9 @@ namespace Accord.Math.Integration
             indx = num - n + 1;
             for (i__ = 1; i__ <= n; ++i__)
             {
+                System.Diagnostics.Debug.Assert(i__ > 0 && i__ < 52);
+                System.Diagnostics.Debug.Assert(indx > 0 && indx < 52);
+
                 epstab[i__] = epstab[indx];
                 ++indx;
                 /* L70: */
@@ -1068,6 +1165,9 @@ namespace Accord.Math.Integration
             {
                 goto L90;
             }
+
+            System.Diagnostics.Debug.Assert(nres > 0 && nres < 4);
+
             res3la[nres] = result;
             abserr = oflow;
             goto L100;
@@ -1114,83 +1214,94 @@ namespace Accord.Math.Integration
             /* Local variables */
             int j;
             double fc;
-            double* fv1 = stackalloc double[7];
-            double* fv2 = stackalloc double[7];
-            double absc, din, resg, resk, fsum, absc1;
-            double absc2, fval1, fval2, hlgth, centr, reskh, uflow;
-            double tabsc1, tabsc2, epmach;
+            double[] fv1_ = new double[7 + 1];
+            double[] fv2_ = new double[7 + 1];
 
-
-            /* ***first executable statement  qk15i */
-            epmach = Constants.SingleEpsilon;
-            uflow = Single.MinValue;
-            din = Math.Min(1, inf);
-
-            centr = (a + b) * .5;
-            hlgth = (b - a) * .5;
-            tabsc1 = boun + din * (1.0 - centr) / centr;
-            fval1 = f(tabsc1);
-
-            if (inf == 2)
-                fval1 += f(-tabsc1);
-
-            fc = fval1 / centr / centr;
-
-            /*           compute the 15-point kronrod approximation to */
-            /*           the integral, and estimate the error. */
-
-            resg = wg[7] * fc;
-            resk = wgk[7] * fc;
-            resabs = Math.Abs(resk);
-            for (j = 1; j <= 7; ++j)
+            fixed (double* fv1 = fv1_)
+            fixed (double* fv2 = fv2_)
             {
-                absc = hlgth * xgk[j - 1];
-                absc1 = centr - absc;
-                absc2 = centr + absc;
-                tabsc1 = boun + din * (1.0 - absc1) / absc1;
-                tabsc2 = boun + din * (1.0 - absc2) / absc2;
+                double absc, din, resg, resk, fsum, absc1;
+                double absc2, fval1, fval2, hlgth, centr, reskh, uflow;
+                double tabsc1, tabsc2, epmach;
+
+
+                /* ***first executable statement  qk15i */
+                epmach = Constants.SingleEpsilon;
+                uflow = Single.MinValue;
+                din = Math.Min(1, inf);
+
+                centr = (a + b) * .5;
+                hlgth = (b - a) * .5;
+                tabsc1 = boun + din * (1.0 - centr) / centr;
                 fval1 = f(tabsc1);
-                fval2 = f(tabsc2);
+
                 if (inf == 2)
-                {
                     fval1 += f(-tabsc1);
-                }
-                if (inf == 2)
+
+                fc = fval1 / centr / centr;
+
+                /*           compute the 15-point kronrod approximation to */
+                /*           the integral, and estimate the error. */
+
+                resg = wg[7] * fc;
+                resk = wgk[7] * fc;
+                resabs = Math.Abs(resk);
+                for (j = 1; j <= 7; ++j)
                 {
-                    fval2 += f(-tabsc2);
+                    absc = hlgth * xgk[j - 1];
+                    absc1 = centr - absc;
+                    absc2 = centr + absc;
+                    tabsc1 = boun + din * (1.0 - absc1) / absc1;
+                    tabsc2 = boun + din * (1.0 - absc2) / absc2;
+                    fval1 = f(tabsc1);
+                    fval2 = f(tabsc2);
+                    if (inf == 2)
+                    {
+                        fval1 += f(-tabsc1);
+                    }
+                    if (inf == 2)
+                    {
+                        fval2 += f(-tabsc2);
+                    }
+                    fval1 = fval1 / absc1 / absc1;
+                    fval2 = fval2 / absc2 / absc2;
+
+                    System.Diagnostics.Debug.Assert(j > 0);
+
+                    fv1[j - 1] = fval1;
+                    fv2[j - 1] = fval2;
+                    fsum = fval1 + fval2;
+                    resg += wg[j - 1] * fsum;
+                    resk += wgk[j - 1] * fsum;
+                    resabs += wgk[j - 1] * (Math.Abs(fval1) + Math.Abs(fval2));
+                    /* L10: */
                 }
-                fval1 = fval1 / absc1 / absc1;
-                fval2 = fval2 / absc2 / absc2;
-                fv1[j - 1] = fval1;
-                fv2[j - 1] = fval2;
-                fsum = fval1 + fval2;
-                resg += wg[j - 1] * fsum;
-                resk += wgk[j - 1] * fsum;
-                resabs += wgk[j - 1] * (Math.Abs(fval1) + Math.Abs(fval2));
-                /* L10: */
-            }
-            reskh = resk * .5;
-            resasc = wgk[7] * Math.Abs(fc - reskh);
-            for (j = 1; j <= 7; ++j)
-            {
-                resasc += wgk[j - 1] * (Math.Abs(fv1[j - 1] - reskh)
-                    + Math.Abs(fv2[j - 1] - reskh));
-                /* L20: */
-            }
-            result = resk * hlgth;
-            resasc *= hlgth;
-            resabs *= hlgth;
-            abserr = Math.Abs((resk - resg) * hlgth);
+                reskh = resk * .5;
+                resasc = wgk[7] * Math.Abs(fc - reskh);
+                for (j = 1; j <= 7; ++j)
+                {
+                    System.Diagnostics.Debug.Assert(j > 0);
 
-            if (resasc != 0.0 && abserr != 0.0)
-            {
-                abserr = resasc * Math.Min(1.0, Math.Pow((abserr * 200.0 / resasc), 1.5));
+                    resasc += wgk[j - 1] * (Math.Abs(fv1[j - 1] - reskh)
+                        + Math.Abs(fv2[j - 1] - reskh));
+                    /* L20: */
+                }
+                result = resk * hlgth;
+                resasc *= hlgth;
+                resabs *= hlgth;
+                abserr = Math.Abs((resk - resg) * hlgth);
+
+                if (resasc != 0.0 && abserr != 0.0)
+                {
+                    abserr = resasc * Math.Min(1.0, Math.Pow((abserr * 200.0 / resasc), 1.5));
+                }
+
+                if (resabs > uflow / (epmach * 50.0))
+                {
+                    abserr = Math.Max(epmach * 50.0 * resabs, abserr);
+                }
             }
 
-            if (resabs > uflow / (epmach * 50.0))
-            {
-                abserr = Math.Max(epmach * 50.0 * resabs, abserr);
-            }
             return 0;
         }
 
