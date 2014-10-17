@@ -56,8 +56,25 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   from it.</para>
     ///   
     /// <code>
-    /// // Create a LLD3 distribution with μ = 0.42, scale = 3, shape = 0.5
-
+    /// // Create a LLD3 distribution with μ = 0.0, scale = 0.42, and shape = 0.1
+    /// var log = new ShiftedLogLogisticDistribution(location: 0, scale: 0.42, shape: 0.1);
+    /// 
+    /// double mean = log.Mean;     // 0.069891101544818923
+    /// double median = log.Median; // 0.0
+    /// double mode = log.Mode;     // -0.083441677069328604
+    /// double var = log.Variance;  // 0.62447259946747213
+    /// 
+    /// double cdf = log.DistributionFunction(x: 1.4); // 0.94668863559417671
+    /// double pdf = log.ProbabilityDensityFunction(x: 1.4); // 0.090123683626808615
+    /// double lpdf = log.LogProbabilityDensityFunction(x: 1.4); // -2.4065722895662613
+    /// 
+    /// double ccdf = log.ComplementaryDistributionFunction(x: 1.4); // 0.053311364405823292
+    /// double icdf = log.InverseDistributionFunction(p: cdf); // 1.4000000037735139
+    /// 
+    /// double hf = log.HazardFunction(x: 1.4); // 1.6905154207038875
+    /// double chf = log.CumulativeHazardFunction(x: 1.4); // 2.9316057546685061
+    /// 
+    /// string str = log.ToString(CultureInfo.InvariantCulture); // LLD3(x; μ = 0, σ = 0.42, ξ = 0.1)
     /// </code>
     /// </example>
     /// 
@@ -142,8 +159,12 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double alpha = Math.PI * ksi;
-                return mu + sigma / ksi * (alpha * Special.Cosec(alpha) - 1);
+                if (ksi == 0)
+                    return mu;
+
+                double b = Math.PI * ksi;
+                double a = sigma / ksi;
+                return mu + a * b * Special.Cosec(b) - a * 1;
             }
         }
 
@@ -186,7 +207,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                System.Diagnostics.Debug.Assert(mu == base.Median);
+                System.Diagnostics.Debug.Assert(mu.IsRelativelyEqual(base.Median, 1e-5));
                 return mu;
             }
         }
@@ -203,24 +224,27 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double alpha = Math.PI * ksi;
+                if (ksi == 0)
+                {
+                    // lim x->0  ((b^2)/(x^2))*(2*pi*x csc(2*pi*x) - (pi*x*csc(pi*x))^2)
+                    // http://www.wolframalpha.com/input/?i=lim+x-%3E0++%28a+%2B+%28%28b%5E2%29%2F%28x%5E2%29%29*%282*pi*x+csc%282*pi*x%29+-+%28pi*x*csc%28pi*x%29%29%5E2%29%29
+                    return sigma * sigma * Math.PI * Math.PI / 3.0;
+                }
+                else
+                {
+                    double pb = Math.PI * ksi;
+                    double a = (sigma * sigma) / (ksi * ksi);
+                    double b = 2 * pb * Special.Cosec(2 * pb);
+                    double c = pb * Special.Cosec(pb);
 
-                double a = (sigma * sigma) / (ksi * ksi);
-                double b = 2 * alpha * Special.Cosec(2 * alpha);
-                double c = alpha * Special.Cosec(alpha);
-
-                return a * (b - c * c);
+                    return a * (b - c * c);
+                }
             }
         }
 
         /// <summary>
         ///   Gets the mode for this distribution.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   In the logistic distribution, the mode is equal
-        ///   to the distribution <see cref="Mean"/> value.
-        /// </remarks>
         /// 
         /// <value>
         ///   The distribution's mode value.
@@ -230,9 +254,10 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double a = sigma / ksi;
-                double b = (1 - ksi) / (1 + ksi);
-                return mu + a * (Math.Pow(b, ksi) - 1);
+                if (ksi == 0)
+                    return mu;
+
+                return mu + (sigma / ksi) * (Math.Pow((1 - ksi) / (1 + ksi), ksi) - 1);
             }
         }
 
@@ -279,11 +304,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            double z = 1 + (ksi * (x - mu)) / sigma;
+            if (ksi > 0 && x < mu - sigma / ksi)
+                return 0;
 
-            double den = 1 + Math.Pow(z, -1 / ksi);
+            double z = (x - mu) / sigma;
 
-            return 1 / den;
+            if (ksi == 0)
+                return 1 / (1 + Math.Exp(-z));
+
+            return 1 / (1 + Math.Pow(1 + ksi * z, -1 / ksi));
         }
 
         /// <summary>
@@ -300,12 +329,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            double z = 1 + (ksi * (x - mu)) / sigma;
+            if (ksi > 0 && x < mu - sigma / ksi)
+                return 0;
 
-            double num = Math.Pow(z, -(1.0 / ksi + 1));
-            double den = 1 + Math.Pow(z, -1 / ksi);
+            double z = (x - mu) / sigma;
 
-            return num / (sigma * den * den);
+            double a, b;
+
+            if (ksi == 0)
+            {
+                a = Math.Exp(-z);
+                b = (1 + a);
+            }
+            else
+            {
+                a = Math.Pow(1 + ksi * z, -1 / ksi - 1);
+                b = 1 + Math.Pow(1 + ksi * z, -1 / ksi);
+            }
+
+            return a / (sigma * b * b);
         }
 
         /// <summary>

@@ -67,10 +67,11 @@ namespace Accord.Tests.Statistics
             double hf = log.HazardFunction(x: 1.4); // 0.57794025683160088
             double chf = log.CumulativeHazardFunction(x: 1.4); // 1.1826298874077226
 
-            string str = log.ToString(CultureInfo.InvariantCulture); // Logistic(x; μ = 0.42, scale = 1.2)
+            string str = log.ToString(CultureInfo.InvariantCulture); // Logistic(x; μ = 0.42, s = 1.2)
 
             Assert.AreEqual(0.41999999999999998, mean);
             Assert.AreEqual(0.41999999999999998, median);
+            Assert.AreEqual(0.41999999999999998, mode);
             Assert.AreEqual(4.737410112522892, var);
             Assert.AreEqual(1.1826298874077226, chf);
             Assert.AreEqual(0.693528308197921, cdf);
@@ -79,7 +80,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.57794025683160088, hf);
             Assert.AreEqual(0.306471691802079, ccdf);
             Assert.AreEqual(1.3999999999999997, icdf);
-            Assert.AreEqual("Logistic(x; μ = 0.42, scale = 1.2)", str);
+            Assert.AreEqual("Logistic(x; μ = 0.42, s = 1.2)", str);
         }
 
     }

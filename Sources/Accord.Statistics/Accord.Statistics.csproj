@@ -202,7 +202,7 @@
     <Compile Include="Distributions\Univariate\Continuous\GeneralContinuousDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LevyDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\FoldedNormalDistribution.cs" />
-    <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogistic.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\SkewNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GumbelDistribution.cs" />

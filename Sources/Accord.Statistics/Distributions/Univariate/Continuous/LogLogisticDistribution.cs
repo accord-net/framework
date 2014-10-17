@@ -64,8 +64,25 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   and compute some of its properties and characteristics.</para>
     ///   
     /// <code>
-    /// // Create a LLD2 distribution with scale = 3, shape = 0.5
-
+    /// // Create a LLD2 distribution with scale = 0.42, shape = 2.2
+    /// var log = new LogLogisticDistribution(scale: 0.42, shape: 2.2);
+    /// 
+    /// double mean = log.Mean;     // 0.60592605102976937
+    /// double median = log.Median; // 0.42
+    /// double mode = log.Mode;     // 0.26892249963239817
+    /// double var = log.Variance;  // 1.4357858982592435
+    /// 
+    /// double cdf = log.DistributionFunction(x: 1.4);           // 0.93393329906725353
+    /// double pdf = log.ProbabilityDensityFunction(x: 1.4);     // 0.096960115938100763
+    /// double lpdf = log.LogProbabilityDensityFunction(x: 1.4); // -2.3334555609306102
+    /// 
+    /// double ccdf = log.ComplementaryDistributionFunction(x: 1.4); // 0.066066700932746525
+    /// double icdf = log.InverseDistributionFunction(p: cdf);       // 1.4000000000000006
+    /// 
+    /// double hf = log.HazardFunction(x: 1.4);            // 1.4676094699628273
+    /// double chf = log.CumulativeHazardFunction(x: 1.4); // 2.7170904270953637
+    /// 
+    /// string str = log.ToString(CultureInfo.InvariantCulture); // LogLogistic(x; α = 0.42, β = 2.2)
     /// </code>
     /// </example>
     /// 
@@ -95,14 +112,14 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with the given scale and unit shape.
         /// </summary>
         /// 
-        /// <param name="scale">The distribution's scale value α (alpha).</param>
+        /// <param name="alpha">The distribution's scale value α (alpha).</param>
         /// 
-        public LogLogisticDistribution(double scale)
+        public LogLogisticDistribution(double alpha)
         {
-            if (scale <= 0)
-                throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
+            if (alpha <= 0)
+                throw new ArgumentOutOfRangeException("alpha", "Alpha must be positive.");
 
-            initialize(scale, 1);
+            initialize(alpha, 1);
         }
 
         /// <summary>
@@ -110,18 +127,18 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with the given scale and shape parameters.
         /// </summary>
         /// 
-        /// <param name="scale">The distribution's scale value α (alpha).</param>
-        /// <param name="shape">The distribution's shape value β (beta).</param>
+        /// <param name="alpha">The distribution's scale value α (alpha).</param>
+        /// <param name="beta">The distribution's shape value β (beta).</param>
         /// 
-        public LogLogisticDistribution(double scale, double shape)
+        public LogLogisticDistribution(double alpha, double beta)
         {
-            if (scale <= 0)
-                throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
+            if (alpha <= 0)
+                throw new ArgumentOutOfRangeException("alpha", "Alpha must be positive.");
 
-            if (shape <= 0)
-                throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
+            if (beta <= 0)
+                throw new ArgumentOutOfRangeException("beta", "Beta must be positive.");
 
-            initialize(scale, shape);
+            initialize(alpha, beta);
         }
 
 
@@ -195,20 +212,18 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (beta <= 2)
                     return Double.NaN;
 
-                double b = Math.PI / beta;
-                double c = b * Math.Sin(b);
-                return alpha * alpha * (2 * b / Math.Sin(2 * b) - c * c);
+                double pb = Math.PI / beta;
+                double a = alpha * alpha;
+                double b = 2 * pb / Math.Sin(2 * pb);
+                double c = pb / Math.Sin(pb);
+
+                return a * (b - c * c);
             }
         }
 
         /// <summary>
         ///   Gets the mode for this distribution.
         /// </summary>
-        /// 
-        /// <remarks>
-        ///   In the logistic distribution, the mode is equal
-        ///   to the distribution <see cref="Mean"/> value.
-        /// </remarks>
         /// 
         /// <value>
         ///   The distribution's mode value.
@@ -219,7 +234,7 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (beta <= 1)
-                    return Double.NaN;
+                    return 0;
                 return alpha * Math.Pow((beta - 1) / (beta + 1), 1 / beta);
             }
         }
@@ -256,6 +271,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
+            if (x < 0)
+                return 0;
+
             double xb = Math.Pow(x, beta);
             double ab = Math.Pow(alpha, beta);
 
@@ -276,6 +294,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
+            if (x < 0)
+                return 0;
+
             double ba = beta / alpha;
             double xa = x / alpha;
 
@@ -336,12 +357,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ComplementaryDistributionFunction(double x)
         {
+            if (x < 0)
+                return 1;
+
             double xa = x / alpha;
             double den = 1 + Math.Pow(xa, beta);
 
             double icdf = 1 / den;
 
-            System.Diagnostics.Debug.Assert(icdf == base.ComplementaryDistributionFunction(x));
+            System.Diagnostics.Debug.Assert(icdf.IsRelativelyEqual(base.ComplementaryDistributionFunction(x), 1e-10));
 
             return icdf;
         }
@@ -366,6 +390,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double HazardFunction(double x)
         {
+            if (x < 0)
+                return 0;
+
             double ba = beta / alpha;
             double xa = x / alpha;
 
@@ -374,7 +401,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double h = num / den;
 
-            System.Diagnostics.Debug.Assert(h == base.HazardFunction(x));
+            System.Diagnostics.Debug.Assert(h.IsRelativelyEqual(base.HazardFunction(x), 1e-10));
 
             return h;
         }
@@ -451,6 +478,24 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             this.alpha = scale;
             this.beta = shape;
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="LogLogisticDistribution"/> using 
+        ///   the location-shape parametrization. In this parametrization,
+        ///   <see cref="Beta"/> is taken as 1 / <paramref name="shape"/>.
+        /// </summary>
+        /// 
+        /// <param name="location">The location parameter μ (mu) [taken as μ = α].</param>
+        /// <param name="shape">The distribution's shape value σ (sigma) [taken as σ = β].</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="LogLogisticDistribution"/> with α = μ  and β = 1/σ.
+        /// </returns>
+        /// 
+        public static LogLogisticDistribution FromLocationShape(double location, double shape)
+        {
+            return new LogLogisticDistribution(alpha: location, beta: 1 / shape);
         }
     }
 }
