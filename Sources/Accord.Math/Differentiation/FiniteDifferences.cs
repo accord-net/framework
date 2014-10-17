@@ -372,8 +372,7 @@ namespace Accord.Math.Differentiation
 
 
 
-        private static double[][,] coefficientCache =
-            FiniteDifferences.CreateCoefficients(3);
+        private static double[][,] coefficientCache = FiniteDifferences.CreateCoefficients(3);
 
 
         /// <summary>
@@ -386,10 +385,9 @@ namespace Accord.Math.Differentiation
         /// 
         /// <returns>The derivative of the function at the point <paramref name="value">x</paramref>.</returns>
         /// 
-        public static double Derivative(Func<double, double> function, double value,
-            int order)
+        public static double Derivative(Func<double, double> function, double value, int order)
         {
-            return Derivative(function, value, order, 3);
+            return Derivative(function, value, order, 0.01);
         }
 
         /// <summary>
@@ -422,8 +420,9 @@ namespace Accord.Math.Differentiation
             double output = function(value);
             double original = value;
 
-            if (original != 0.0)
+            if (Math.Abs(original) > 1e-10)
                 stepSize *= System.Math.Abs(original);
+            else stepSize = 1e-10;
 
 
             // Create the interpolation points
