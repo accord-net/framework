@@ -57,6 +57,10 @@ namespace Accord.Tests.Statistics
 
             double mean = dist.Mean;     // 0.42
             double var = dist.Variance;  // 0.950212931632136
+            try { double median = dist.Median; Assert.Fail(); }
+            catch { }
+            try { double mode = dist.Mode; Assert.Fail(); }
+            catch { }
 
             double pdf = dist.ProbabilityDensityFunction(x: 0.42); // 0.1758330112785475
             double lpdf = dist.LogProbabilityDensityFunction(x: 0.42); // -1.7382205338929015

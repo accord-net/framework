@@ -55,6 +55,15 @@ namespace Accord.Tests.Statistics
         {
             var plog = new PowerLognormalDistribution(power: 4.2, shape: 1.2);
 
+            try { double mean = plog.Mean; Assert.Fail(); }
+            catch { }
+            try { double variance = plog.Variance; Assert.Fail(); }
+            catch { }
+            try { double mode = plog.Mode; Assert.Fail(); }
+            catch { }
+            try { double median = plog.Median; Assert.Fail(); }
+            catch { }
+
             double cdf = plog.DistributionFunction(x: 1.4); // 0.98092157745191766
             double pdf = plog.ProbabilityDensityFunction(x: 1.4); // 0.046958580233533977
             double lpdf = plog.LogProbabilityDensityFunction(x: 1.4); // -3.0584893374471496

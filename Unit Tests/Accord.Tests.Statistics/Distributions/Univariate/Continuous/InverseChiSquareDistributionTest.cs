@@ -56,6 +56,7 @@ namespace Accord.Tests.Statistics
             double mean = invchisq.Mean;     // 0.2
             double median = invchisq.Median; // 6.345811068141737
             double var = invchisq.Variance;  // 75
+            double mode = invchisq.Mode;     // 0.1111111111111111
 
             double cdf = invchisq.DistributionFunction(x: 6.27); // 0.50860033566176044
             double pdf = invchisq.ProbabilityDensityFunction(x: 6.27); // 0.0000063457380298844403
@@ -69,9 +70,10 @@ namespace Accord.Tests.Statistics
 
             string str = invchisq.ToString(); // "Inv-χ²(x; df = 7)"
 
-            Assert.AreEqual(0.2, mean);
+            Assert.AreEqual(0.2, mean, 1e-10);
             Assert.AreEqual(6.345811068141737, median, 1e-6);
             Assert.AreEqual(75, var);
+            Assert.AreEqual(0.1111111111111111, mode);
             Assert.AreEqual(0.71049750196765715, chf);
             Assert.AreEqual(0.50860033566176044, cdf);
             Assert.AreEqual(0.0000063457380298844403, pdf);

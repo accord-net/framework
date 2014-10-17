@@ -59,6 +59,9 @@ namespace Accord.Tests.Statistics
             double median = bs.Median; // 1.0
             double var = bs.Variance;  // 0.21529619999999997
 
+            try { double mode = bs.Mode; Assert.Fail(); }
+            catch { }
+
             double cdf = bs.DistributionFunction(x: 1.4); // 0.78956384911580346
             double pdf = bs.ProbabilityDensityFunction(x: 1.4); // 1.3618433601225426
             double lpdf = bs.LogProbabilityDensityFunction(x: 1.4); // 0.30883919386130815

@@ -77,6 +77,7 @@ namespace Accord.Tests.Statistics
             double mean = gamma.Mean;     // 8.0
             double median = gamma.Median; // 6.7133878418421506
             double var = gamma.Variance;  // 32.0
+            double mode = gamma.Mode;     // 4.0
 
             double cdf = gamma.DistributionFunction(x: 0.27); // 0.002178158242390601
             double pdf = gamma.ProbabilityDensityFunction(x: 0.27); // 0.015773530285395465
@@ -92,6 +93,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(8.0, mean);
             Assert.AreEqual(6.7133878418421506, median, 1e-6);
             Assert.AreEqual(32.0, var);
+            Assert.AreEqual(4.0, mode);
             Assert.AreEqual(0.0021805338793574793, chf);
             Assert.AreEqual(0.002178158242390601, cdf);
             Assert.AreEqual(0.015773530285395465, pdf);

@@ -57,6 +57,7 @@ namespace Accord.Tests.Statistics
             double mean = log.Mean;     // 2.7870954605658511
             double median = log.Median; // 1.5219615583481305
             double var = log.Variance;  // 18.28163603621158
+            double mode = log.Mode;     // 0.45384479528235572
 
             double cdf = log.DistributionFunction(x: 0.27); // 0.057961222885664958
             double pdf = log.ProbabilityDensityFunction(x: 0.27); // 0.39035530085982068
@@ -72,6 +73,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(2.7870954605658511, mean);
             Assert.AreEqual(1.5219615583481305, median, 1e-7);
+            Assert.AreEqual(0.45384479528235572, mode);
             Assert.AreEqual(18.28163603621158, var);
             Assert.AreEqual(0.059708840588116374, chf);
             Assert.AreEqual(0.057961222885664958, cdf);
@@ -79,7 +81,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-0.94069792674674835, lpdf);
             Assert.AreEqual(0.41437285846720867, hf);
             Assert.AreEqual(0.942038777114335, ccdf);
-            Assert.AreEqual(0.26999997937815973, icdf, 1e-7);
+            Assert.AreEqual(0.26999997937815973, icdf, 1e-6);
             Assert.AreEqual("Lognormal(x; μ = 2.79, σ = 1.10)", str);
         }
 

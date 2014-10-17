@@ -65,6 +65,7 @@ namespace Accord.Tests.Statistics
             double mean = exp.Mean;     // 2.3809523809523809
             double median = exp.Median; // 1.6503504299046317
             double var = exp.Variance;  // 5.6689342403628125
+            double mode = exp.Mode;     // 0.0
 
             double cdf = exp.DistributionFunction(x: 0.27); // 0.10720652870550407
             double pdf = exp.ProbabilityDensityFunction(x: 0.27); // 0.3749732579436883
@@ -80,6 +81,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(2.3809523809523809, mean);
             Assert.AreEqual(1.6503504299046317, median);
+            Assert.AreEqual(0.0, mode);
             Assert.AreEqual(5.6689342403628125, var);
             Assert.AreEqual(0.1134, chf);
             Assert.AreEqual(0.10720652870550407, cdf);

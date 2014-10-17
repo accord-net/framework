@@ -74,6 +74,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(6.2674889410753387, mean);
             Assert.AreEqual(5.7299819402593481, median);
+            Assert.AreEqual(4.7949999999999999, mode);
             Assert.AreEqual(10.704745853604138, var);
             Assert.AreEqual(0.022988793482259906, chf);
             Assert.AreEqual(0.17767760424788051, cdf);

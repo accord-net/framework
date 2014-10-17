@@ -73,6 +73,7 @@ namespace Accord.Tests.Statistics
             string str = trig.ToString(CultureInfo.InvariantCulture); // Triangular(x; a = 1, b = 6, c = 3)
 
             Assert.AreEqual(3.3333333333333335, mean);
+            Assert.AreEqual(3.0, mode);
             Assert.AreEqual(3.2613872124741694, median);
             Assert.AreEqual(1.0555555555555556, var);
             Assert.AreEqual(0.10536051565782628, chf);

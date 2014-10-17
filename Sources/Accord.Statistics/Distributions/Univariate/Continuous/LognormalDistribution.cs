@@ -280,6 +280,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
+            if (x <= 0)
+                return 0.0;
+
             double z = (Math.Log(x) - location) / shape;
             return 0.5 * Special.Erfc(-z / Constants.Sqrt2);
         }
@@ -310,6 +313,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
+            if (x <= 0)
+                return 0.0;
+
             double z = (Math.Log(x) - location) / shape;
             return constant * Math.Exp((-z * z) * 0.5) / x;
         }
@@ -337,6 +343,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
+            if (x <= 0)
+                return Double.NegativeInfinity;
+
             double z = (Math.Log(x) - location) / shape;
             return Math.Log(constant) + (-z * z) * 0.5 - Math.Log(x);
         }

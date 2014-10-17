@@ -55,6 +55,14 @@ namespace Accord.Tests.Statistics
         {
             var pnormal = new PowerNormalDistribution(power: 4.2);
 
+            try { double mean = pnormal.Mean; Assert.Fail(); }
+            catch { }
+            try { double variance = pnormal.Variance; Assert.Fail(); }
+            catch { }
+            try { double mode = pnormal.Mode; Assert.Fail(); }
+            catch { }
+            try { double median = pnormal.Median; Assert.Fail(); }
+            catch { }
 
             double cdf = pnormal.DistributionFunction(x: 1.4); // 0.99997428721920678
             double pdf = pnormal.ProbabilityDensityFunction(x: 1.4); // 0.00020022645890003279

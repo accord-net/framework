@@ -55,6 +55,9 @@ namespace Accord.Tests.Statistics
             double median = ks.Median;   // 0.12393613519421857
             double var = ks.Variance; // 0.019154717445778062
 
+            try { double mode = ks.Mode; Assert.Fail(); }
+            catch { }
+
             double cdf = ks.DistributionFunction(x: 0.27); // 0.99659863602996079
 
             double ccdf = ks.ComplementaryDistributionFunction(x: 0.27); // 0.0034013639700392062

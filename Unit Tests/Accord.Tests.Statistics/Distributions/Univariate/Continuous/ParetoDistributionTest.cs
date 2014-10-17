@@ -56,6 +56,7 @@ namespace Accord.Tests.Statistics
             double mean = pareto.Mean;     // 0.63
             double median = pareto.Median; // 0.52916684095584676
             double var = pareto.Variance;  // 0.13229999999999997
+            double mode = pareto.Mode;     // 0.42
 
             double cdf = pareto.DistributionFunction(x: 1.4); // 0.973
             double pdf = pareto.ProbabilityDensityFunction(x: 1.4); // 0.057857142857142857
@@ -72,6 +73,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.63, mean);
             Assert.AreEqual(0.52916684095584676, median);
             Assert.AreEqual(0.13229999999999997, var);
+            Assert.AreEqual(0.42, mode, 1e-10);
             Assert.AreEqual(3.6119184129778072, chf);
             Assert.AreEqual(0.973, cdf);
             Assert.AreEqual(0.057857142857142857, pdf);

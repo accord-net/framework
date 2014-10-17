@@ -136,6 +136,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public override double ProbabilityDensityFunction(double x)
         {
+            if (x <= 0)
+                return 0;
+
             double v = degreesOfFreedom;
             double m1 = Math.Pow(x, (v - 2.0) / 2.0);
             double m2 = Math.Exp(-x / 2.0);
@@ -162,6 +165,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
+            if (x <= 0)
+                return Double.NegativeInfinity;
+
             double v = degreesOfFreedom;
             double m1 = ((v - 2.0) / 2.0) * Math.Log(x);
             double m2 = (-x / 2.0);
@@ -187,6 +193,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
+            if (x <= 0)
+                return 0;
+
             return Gamma.LowerIncomplete(degreesOfFreedom / 2.0, x / 2.0);
         }
 
@@ -210,6 +219,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ComplementaryDistributionFunction(double x)
         {
+            if (x <= 0)
+                return 1;
+
             return Gamma.UpperIncomplete(degreesOfFreedom / 2.0, x / 2.0);
         }
 

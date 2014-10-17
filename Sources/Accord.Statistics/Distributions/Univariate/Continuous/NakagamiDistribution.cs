@@ -260,6 +260,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
+            if (x <= 0)
+                return 0;
+
             return Gamma.LowerIncomplete(mu, (mu / omega) * (x * x));
         }
 
@@ -291,6 +294,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
+            if (x <= 0)
+                return 0;
+
             return constant * Math.Pow(x, twoMu1) * Math.Exp(nratio * x * x);
         }
 
@@ -322,6 +328,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
+            if (x <= 0)
+                return Double.NegativeInfinity;
+
             return Math.Log(constant) + twoMu1 * Math.Log(x) + nratio * x * x;
         }
 

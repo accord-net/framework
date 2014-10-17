@@ -103,6 +103,8 @@ namespace Accord.Tests.Statistics
             double mean = betaDistribution.Mean; // 0.21105527638190955
             double median = betaDistribution.Median; // 0.11577706212908731
             double var = betaDistribution.Variance; // 0.055689279830523512
+            double mode = betaDistribution.Mode;    // 57.999999999999957
+
             double chf = betaDistribution.CumulativeHazardFunction(x: 0.27); // 1.1828193992944409
             double cdf = betaDistribution.DistributionFunction(x: 0.27); // 0.69358638272337991
             double pdf = betaDistribution.ProbabilityDensityFunction(x: 0.27); // 0.94644031936694828
@@ -115,6 +117,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0.21105527638190955, mean);
             Assert.AreEqual(0.11577706212908731, median);
+            Assert.AreEqual(57.999999999999957, mode);
             Assert.AreEqual(0.055689279830523512, var);
             Assert.AreEqual(1.1828193992944409, chf);
             Assert.AreEqual(0.69358638272337991, cdf);

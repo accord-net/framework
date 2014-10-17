@@ -53,8 +53,9 @@ namespace Accord.Tests.Statistics
             var invGaussian = new InverseGaussianDistribution(mean: 0.42, shape: 1.2);
 
             double mean = invGaussian.Mean;     // 0.42
-            double median = invGaussian.Median;   // 0.35856861093990083
-            double var = invGaussian.Variance; // 0.061739999999999989
+            double median = invGaussian.Median; // 0.35856861093990083
+            double var = invGaussian.Variance;  // 0.061739999999999989
+            double mode = invGaussian.Mode;     // 0.23793654141004067
 
             double cdf = invGaussian.DistributionFunction(x: 0.27); // 0.30658791274125458
             double pdf = invGaussian.ProbabilityDensityFunction(x: 0.27); // 2.3461495925760354
@@ -69,15 +70,16 @@ namespace Accord.Tests.Statistics
             string str = invGaussian.ToString(CultureInfo.InvariantCulture); // "N^-1(x; μ = 0.42, λ = 1.2)"
 
             Assert.AreEqual(0.42, mean);
-            Assert.AreEqual(0.35856861093990083, median, 1e-7);
+            Assert.AreEqual(0.35856861093990083, median, 1e-6);
             Assert.AreEqual(0.061739999999999989, var);
             Assert.AreEqual(0.36613081401302111, chf);
+            Assert.AreEqual(0.23793654141004067, mode);
             Assert.AreEqual(0.30658791274125458, cdf);
             Assert.AreEqual(2.3461495925760354, pdf);
             Assert.AreEqual(0.85277551314980737, lpdf);
             Assert.AreEqual(3.383485283406336, hf);
             Assert.AreEqual(0.69341208725874548, ccdf);
-            Assert.AreEqual(0.26999999957543408, icdf, 1e-8);
+            Assert.AreEqual(0.26999999957543408, icdf, 1e-7);
             Assert.AreEqual("N^-1(x; μ = 0.42, λ = 1.2)", str);
         }
 

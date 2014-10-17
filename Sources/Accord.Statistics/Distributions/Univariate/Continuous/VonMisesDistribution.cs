@@ -224,7 +224,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange(-Math.PI, Math.PI); }
+            get { return new DoubleRange(mean - Math.PI, mean + Math.PI); }
         }
 
         /// <summary>
@@ -258,7 +258,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            return constant * Math.Exp(kappa * Math.Cos(x - mean));
+            double z = x - mean;
+
+            if (z < -Math.PI || z > Math.PI)
+                return 0;
+
+            return constant * Math.Exp(kappa * Math.Cos(z));
         }
 
         /// <summary>

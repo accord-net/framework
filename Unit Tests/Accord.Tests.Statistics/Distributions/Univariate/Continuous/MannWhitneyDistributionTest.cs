@@ -58,6 +58,8 @@ namespace Accord.Tests.Statistics
             double mean = mannWhitney.Mean;     // 2.7870954605658511
             double median = mannWhitney.Median; // 1.5219615583481305
             double var = mannWhitney.Variance;  // 18.28163603621158
+            try { double mode = mannWhitney.Mode; Assert.Fail(); }
+            catch { }
 
             double cdf = mannWhitney.DistributionFunction(x: 4); // 0.6
             double pdf = mannWhitney.ProbabilityDensityFunction(x: 4); // 0.2

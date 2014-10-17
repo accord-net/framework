@@ -625,9 +625,9 @@ namespace Accord.Statistics.Distributions.Univariate
             if (p < 0.0 || p > 1.0)
                 throw new ArgumentOutOfRangeException("p", "Value must be between 0 and 1.");
 
-            if (p == 0) 
+            if (p == 0)
                 return Support.Min;
-            else if (p == 1) 
+            else if (p == 1)
                 return Support.Max;
 
             bool lowerBounded = !Double.IsInfinity(Support.Min);
@@ -655,7 +655,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 {
                     while (f > p)
                     {
-                        upper = 2 * upper;
+                        upper += 2 * (upper - lower) + 1;
                         f = DistributionFunction(upper);
                     }
                 }
@@ -663,7 +663,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 {
                     while (f < p)
                     {
-                        upper = 2 * upper;
+                        upper += 2 * (upper - lower) + 1;
                         f = DistributionFunction(upper);
                     }
                 }
@@ -680,7 +680,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 {
                     while (f > p)
                     {
-                        lower = lower - 2 * lower;
+                        lower -= 2 * lower;
                         f = DistributionFunction(lower);
                     }
                 }
@@ -688,7 +688,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 {
                     while (f < p)
                     {
-                        lower = lower - 2 * lower;
+                        lower -= 2 * lower;
                         f = DistributionFunction(lower);
                     }
                 }

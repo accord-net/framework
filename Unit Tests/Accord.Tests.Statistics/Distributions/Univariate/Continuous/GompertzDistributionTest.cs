@@ -52,7 +52,10 @@ namespace Accord.Tests.Statistics
         {
             var gompertz = new GompertzDistribution(eta: 4.2, b: 1.1);
 
+            try { double mean = gompertz.Mean; Assert.Fail(); }
+            catch { }
             double median = gompertz.Median; // 0.13886469671401389
+            double mode = gompertz.Mode;     // 0.0
 
             double cdf = gompertz.DistributionFunction(x: 0.27); // 0.76599768199799145
             double pdf = gompertz.ProbabilityDensityFunction(x: 0.27); // 1.4549484164912097
@@ -65,9 +68,10 @@ namespace Accord.Tests.Statistics
             double chf = gompertz.CumulativeHazardFunction(x: 0.27); // 1.4524242576820101
 
             string str = gompertz.ToString(System.Globalization.CultureInfo.InvariantCulture);
-              // "Gompertz(x; η = 4.2, b = 1.1)"
+            // "Gompertz(x; η = 4.2, b = 1.1)"
 
             Assert.AreEqual(0.13886469671401389, median);
+            Assert.AreEqual(0.0, mode);
             Assert.AreEqual(1.4524242576820101, chf);
             Assert.AreEqual(0.76599768199799145, cdf);
             Assert.AreEqual(1.4549484164912097, pdf);
@@ -76,6 +80,41 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.23400231800200855, ccdf);
             Assert.AreEqual(0.26999999999766749, icdf);
             Assert.AreEqual("Gompertz(x; η = 4.2, b = 1.1)", str);
+        }
+
+        [TestMethod()]
+        public void ConstructorTest2()
+        {
+            var gompertz = new GompertzDistribution(eta: 0.2, b: 1.1);
+
+            try { double mean = gompertz.Mean; Assert.Fail(); }
+            catch { }
+            double median = gompertz.Median; // 1.3603945605494754
+            double mode = gompertz.Mode;     // 1.4631253749400912
+
+            double cdf = gompertz.DistributionFunction(x: 0.27); // 0.066825495660013834
+            double pdf = gompertz.ProbabilityDensityFunction(x: 0.27); // 0.27629371549904269
+            double lpdf = gompertz.LogProbabilityDensityFunction(x: 0.27); // -1.2862907925193949
+
+            double ccdf = gompertz.ComplementaryDistributionFunction(x: 0.27); // 0.93317450433998617
+            double icdf = gompertz.InverseDistributionFunction(p: cdf); // 0.27000016175969527
+
+            double hf = gompertz.HazardFunction(x: 0.27); // 0.29607936587858147
+            double chf = gompertz.CumulativeHazardFunction(x: 0.27); // 0.069163059889619516
+
+            string str = gompertz.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            // "Gompertz(x; η = 4.2, b = 1.1)"
+
+            Assert.AreEqual(1.3603945605494754, median);
+            Assert.AreEqual(1.4631253749400912, mode);
+            Assert.AreEqual(0.069163059889619516, chf);
+            Assert.AreEqual(0.066825495660013834, cdf);
+            Assert.AreEqual(0.27629371549904269, pdf);
+            Assert.AreEqual(-1.2862907925193949, lpdf);
+            Assert.AreEqual(0.29607936587858147, hf);
+            Assert.AreEqual(0.93317450433998617, ccdf);
+            Assert.AreEqual(0.27000016175969527, icdf);
+            Assert.AreEqual("Gompertz(x; η = 0.2, b = 1.1)", str);
         }
 
         [TestMethod()]

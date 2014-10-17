@@ -80,9 +80,11 @@ namespace Accord.Tests.Statistics
             double[] samples = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
             EmpiricalDistribution distribution = new EmpiricalDistribution(samples);
 
-            double mean = distribution.Mean; // 3
+            double mean = distribution.Mean;     // 3
             double median = distribution.Median; // 2.9999993064186787
-            double var = distribution.Variance; // 1.2941176470588236
+            double var = distribution.Variance;  // 1.2941176470588236
+            double mode = distribution.Mode;     // 3
+
             double chf = distribution.CumulativeHazardFunction(x: 4.2); // 2.1972245773362191
             double cdf = distribution.DistributionFunction(x: 4.2); // 0.88888888888888884
             double pdf = distribution.ProbabilityDensityFunction(x: 4.2); // 0.181456280142802
@@ -96,6 +98,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(samples, distribution.Samples);
             Assert.AreEqual(0.67595864392399474, smoothing);
+            Assert.AreEqual(3.0, mode);
             Assert.AreEqual(3.0, mean);
             Assert.AreEqual(2.9999993064186787, median);
             Assert.AreEqual(1.2941176470588236, var);

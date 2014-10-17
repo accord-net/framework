@@ -184,6 +184,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
+            if (x < 0)
+                return 0;
+
             return 1 - Math.Exp(-eta * (Math.Exp(b * x) - 1));
         }
 
@@ -201,7 +204,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            return (b * eta * Math.Exp(eta)) * Math.Exp(b * x) * Math.Exp(-eta * Math.Exp(b * x));
+            if (x < 0)
+                return 0;
+
+            double a1 = b * eta * Math.Exp(eta);
+            double a2 = Math.Exp(b * x);
+            double a3 = Math.Exp(-eta * Math.Exp(b * x));
+            return a1 * a2 * a3;
         }
 
         /// <summary>
@@ -218,7 +227,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
-            return (Math.Log(b * eta) + eta) + b * x - eta * Math.Exp(b * x);
+            if (x < 0)
+                return Double.NegativeInfinity;
+
+            double a1 = Math.Log(b * eta) + eta;
+            double a2 = b * x;
+            double a3 = -eta * Math.Exp(b * x);
+            return a1 + a2 + a3;
         }
 
         /// <summary>

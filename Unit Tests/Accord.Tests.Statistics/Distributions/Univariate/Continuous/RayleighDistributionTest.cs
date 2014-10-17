@@ -63,6 +63,7 @@ namespace Accord.Tests.Statistics
             double mean = rayleigh.Mean;     // 0.52639193767251
             double median = rayleigh.Median; // 0.49451220943852386
             double var = rayleigh.Variance;  // 0.075711527953380237
+            double mode = rayleigh.Mode;     // 0.42
 
             double cdf = rayleigh.DistributionFunction(x: 1.4); // 0.99613407986052716
             double pdf = rayleigh.ProbabilityDensityFunction(x: 1.4); // 0.030681905868831811
@@ -77,6 +78,7 @@ namespace Accord.Tests.Statistics
             string str = rayleigh.ToString(CultureInfo.InvariantCulture); // Rayleigh(x; σ = 0.42)
 
             Assert.AreEqual(0.52639193767251, mean);
+            Assert.AreEqual(0.42, mode);
             Assert.AreEqual(0.49451220943852386, median, 1e-8);
             Assert.AreEqual(0.075711527953380237, var);
             Assert.AreEqual(5.5555555555555456, chf);

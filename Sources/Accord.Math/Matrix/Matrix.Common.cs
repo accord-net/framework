@@ -74,8 +74,12 @@ namespace Accord.Math
             if (a == b)
                 return true;
 
-            double limit = Math.Abs(a) * threshold;
             double delta = Math.Abs(a - b);
+
+            if (a == 0)
+                return delta < threshold;
+
+            double limit = Math.Abs(a) * threshold;
 
             return delta <= limit;
         }

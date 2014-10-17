@@ -64,6 +64,7 @@ namespace Accord.Tests.Statistics
             double mean = nakagami.Mean;     // 1.946082119049118
             double median = nakagami.Median; // 1.9061151110206338
             double var = nakagami.Variance;  // 0.41276438591729486
+            double mode = nakagami.Mode;     // 1.8234582528810468
 
             double cdf = nakagami.DistributionFunction(x: 1.4); // 0.20603416752368109
             double pdf = nakagami.ProbabilityDensityFunction(x: 1.4); // 0.49253215371343023
@@ -79,6 +80,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(1.946082119049118, mean);
             Assert.AreEqual(1.9061151110206338, median, 1e-6);
+            Assert.AreEqual(1.8234582528810468, mode);
             Assert.AreEqual(0.41276438591729486, var);
             Assert.AreEqual(0.23071485080660473, chf);
             Assert.AreEqual(0.20603416752368109, cdf);

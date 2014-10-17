@@ -199,8 +199,8 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (d1 > 2)
                 {
-                    double a = (d1 - 2) / d1;
-                    double b = d2 / (d2 + 2);
+                    double a = (d1 - 2.0) / d1;
+                    double b = d2 / (d2 + 2.0);
                     return a * b;
                 }
 

@@ -56,6 +56,7 @@ namespace Accord.Tests.Statistics
             double mean = chisq.Mean;     // 7
             double median = chisq.Median; // 6.345811195595612
             double var = chisq.Variance;  // 14
+            double mode = chisq.Mode;     // 5.0
 
             double cdf = chisq.DistributionFunction(x: 6.27); // 0.49139966433823956
             double pdf = chisq.ProbabilityDensityFunction(x: 6.27); // 0.11388708001184455
@@ -72,6 +73,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(7, mean);
             Assert.AreEqual(6.345811195595612, median, 1e-6);
             Assert.AreEqual(14, var);
+            Assert.AreEqual(5.0, mode);
             Assert.AreEqual(0.67609276602233315, chf);
             Assert.AreEqual(0.49139966433823956, cdf);
             Assert.AreEqual(0.11388708001184455, pdf);

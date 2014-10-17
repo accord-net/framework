@@ -90,6 +90,7 @@ namespace Accord.Tests.Statistics
             double mean = laplace.Mean;     // 4.0
             double median = laplace.Median; // 4.0
             double var = laplace.Variance;  // 8.0
+            double mode = laplace.Mode;     // 4.0
 
             double cdf = laplace.DistributionFunction(x: 0.27); // 0.077448104942453522
             double pdf = laplace.ProbabilityDensityFunction(x: 0.27); // 0.038724052471226761
@@ -106,6 +107,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4.0, mean);
             Assert.AreEqual(4.0, median);
             Assert.AreEqual(8.0, var);
+            Assert.AreEqual(4.0, mode);
             Assert.AreEqual(0.080611649844768624, chf);
             Assert.AreEqual(0.077448104942453522, cdf);
             Assert.AreEqual(0.038724052471226761, pdf);

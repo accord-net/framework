@@ -194,7 +194,7 @@ namespace Accord.Statistics.Distributions.Univariate
                         double upper = Math.Sqrt((2 * v) / (2 * v + 5)) * u;
                         double lower = Math.Sqrt(v / (v + 1)) * u;
 
-                        if (u > 0)
+                        if (upper > lower)
                         {
                             mode = BrentSearch.Maximize(ProbabilityDensityFunction, lower, upper);
                         }

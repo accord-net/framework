@@ -97,6 +97,7 @@ namespace Accord.Tests.Statistics
             double mean = invGamma.Mean;     // -0.86206896551724133
             double median = invGamma.Median; // 3.1072323347401709
             double var = invGamma.Variance;  // -0.47035626665061164
+            double mode = invGamma.Mode;     // 0.35211267605633806
 
             double cdf = invGamma.DistributionFunction(x: 0.27); // 0.042243552114989695
             double pdf = invGamma.ProbabilityDensityFunction(x: 0.27); // 0.35679850067181362
@@ -112,13 +113,14 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-0.86206896551724133, mean);
             Assert.AreEqual(3.1072323347401709, median, 1e-7);
             Assert.AreEqual(-0.47035626665061164, var);
+            Assert.AreEqual(0.35211267605633806, mode);
             Assert.AreEqual(0.043161763098266373, chf);
             Assert.AreEqual(0.042243552114989695, cdf, 1e-10);
             Assert.AreEqual(0.35679850067181362, pdf);
             Assert.AreEqual(-1.0305840804381006, lpdf);
             Assert.AreEqual(0.3725357333377633, hf);
             Assert.AreEqual(0.95775644788501035, ccdf);
-            Assert.AreEqual(0.27, icdf, 1e-8);
+            Assert.AreEqual(0.27, icdf, 1e-7);
             Assert.AreEqual("Γ^(-1)(x; α = 0.42, β = 0.5)", str);
 
             double p05 = invGamma.DistributionFunction(median);

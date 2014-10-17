@@ -59,6 +59,10 @@ namespace Accord.Tests.Statistics
             double mean = distribution.Mean; // 0.93696461879063664
             double median = distribution.Median; // 3.9999999151458066
             double var = distribution.Variance; // 2.0441627748096289
+
+            try { double mode = distribution.Mode; Assert.Fail(); }
+            catch { }
+
             double chf = distribution.CumulativeHazardFunction(x: 4.2); // 1.55
             double cdf = distribution.DistributionFunction(x: 4.2); // 0.7877520261732569
             double pdf = distribution.ProbabilityDensityFunction(x: 4.2); // 0.046694554241883471

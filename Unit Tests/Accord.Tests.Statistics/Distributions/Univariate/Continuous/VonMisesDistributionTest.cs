@@ -54,6 +54,7 @@ namespace Accord.Tests.Statistics
             double mean = vonMises.Mean;     // 0.42
             double median = vonMises.Median; // 0.42
             double var = vonMises.Variance;  // 0.48721760532782921
+            double mode = vonMises.Mode;     // 0.42
 
             double cdf = vonMises.DistributionFunction(x: 1.4); // 0.81326928491589345
             double pdf = vonMises.ProbabilityDensityFunction(x: 1.4); // 0.2228112141141676
@@ -71,6 +72,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0.42, mean);
             Assert.AreEqual(0.42, median);
+            Assert.AreEqual(0.42, mode);
             Assert.AreEqual(0.42000000260613551, imedian, 1e-8);
             Assert.AreEqual(0.48721760532782921, var);
             Assert.AreEqual(1.6780877262500649, chf);

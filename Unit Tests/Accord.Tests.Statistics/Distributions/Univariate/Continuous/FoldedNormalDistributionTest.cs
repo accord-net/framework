@@ -56,7 +56,7 @@ namespace Accord.Tests.Statistics
             var fn = new FoldedNormalDistribution(mean: 4, stdDev: 4.2);
 
             double mean = fn.Mean;     // 4.765653108337438
-            double median = fn.Median; // 4.2593565881862734
+            double median = fn.Median; // 4.259356588022813
             double mode = fn.Mode;     // 2.0806531871308014
             double var = fn.Variance;  // 10.928550450993715
 
@@ -83,7 +83,7 @@ namespace Accord.Tests.Statistics
             //
 
             Assert.AreEqual(4.765653108337438, mean);
-            Assert.AreEqual(4.2593565881862734, median);
+            Assert.AreEqual(4.2593565884089237, median);
             Assert.AreEqual(2.0806531871308014, mode);
             Assert.AreEqual(10.928550450993715, var);
             Assert.AreEqual(0.18472977144474392, chf);
@@ -92,7 +92,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-2.1203799747969523, lpdf);
             Assert.AreEqual(0.14433039420191671, hf);
             Assert.AreEqual(0.83132890230981193, ccdf);
-            Assert.AreEqual(1.4, icdf, 1e-10);
+            Assert.AreEqual(1.4, icdf, 1e-8);
             Assert.AreEqual("FN(x; μ = 4, σ² = 17.64)", str);
 
         }

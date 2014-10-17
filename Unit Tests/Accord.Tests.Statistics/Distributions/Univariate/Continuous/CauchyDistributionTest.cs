@@ -199,9 +199,10 @@ namespace Accord.Tests.Statistics
 
             CauchyDistribution cauchy = new CauchyDistribution(location, scale);
 
-            double mean = cauchy.Mean; // NaN - Cauchy's mean is undefined.
-            double var = cauchy.Variance; // NaN - Cauchy's variance is undefined.
+            double mean = cauchy.Mean;     // NaN - Cauchy's mean is undefined.
+            double var = cauchy.Variance;  // NaN - Cauchy's variance is undefined.
             double median = cauchy.Median; // 0.42
+            double mode = cauchy.Mode;     // 0.42
 
             double cdf = cauchy.DistributionFunction(x: 0.27); // 0.46968025841608563
             double pdf = cauchy.ProbabilityDensityFunction(x: 0.27); // 0.2009112009763413
@@ -217,7 +218,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Double.IsNaN(mean));
             Assert.IsTrue(Double.IsNaN(var));
             Assert.AreEqual(0.42, median);
-
+            Assert.AreEqual(0.42, mode, 1e-6);
             Assert.AreEqual(0.63427516833243092, chf);
             Assert.AreEqual(0.46968025841608563, cdf);
             Assert.AreEqual(0.2009112009763413, pdf);
