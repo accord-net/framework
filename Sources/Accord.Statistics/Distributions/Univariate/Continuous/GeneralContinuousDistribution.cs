@@ -72,6 +72,7 @@ namespace Accord.Statistics.Distributions.Univariate
             if (distribution == null)
                 throw new ArgumentNullException("distribution");
 
+            this.method = new InfiniteAdaptiveGaussKronrod(100);
             this.pdf = density;
             this.cdf = distribution;
             this.support = support;
@@ -113,8 +114,8 @@ namespace Accord.Statistics.Distributions.Univariate
         public static GeneralContinuousDistribution FromDensityFunction(
             DoubleRange support, Func<double, double> pdf)
         {
-            var method = new InfiniteAdaptiveGaussKronrod(100);
-            return FromDistributionFunction(support, pdf, method);
+            var method = createDefaultIntegrationMethod();
+            return FromDensityFunction(support, pdf, method);
         }
 
         /// <summary>
@@ -132,7 +133,7 @@ namespace Accord.Statistics.Distributions.Univariate
         public static GeneralContinuousDistribution FromDistributionFunction(
             DoubleRange support, Func<double, double> cdf)
         {
-            var method = new InfiniteAdaptiveGaussKronrod(100);
+            var method = createDefaultIntegrationMethod();
             return FromDistributionFunction(support, cdf, method);
         }
 
@@ -156,7 +157,6 @@ namespace Accord.Statistics.Distributions.Univariate
             dist.support = support;
             dist.pdf = pdf;
             dist.method = method;
-            method.Range = support;
             return dist;
         }
 
@@ -180,7 +180,6 @@ namespace Accord.Statistics.Distributions.Univariate
             dist.support = support;
             dist.cdf = cdf;
             dist.method = method;
-            method.Range = support;
             return dist;
         }
 
@@ -211,7 +210,13 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (mean == null)
                 {
-                    method.Function = (x) => x * ProbabilityDensityFunction(x);
+                    method.Function = (x) =>
+                    {
+                        double p = ProbabilityDensityFunction(x);
+                        return x * p;
+                    };
+
+                    method.Range = support;
                     method.Compute();
                     mean = method.Area;
                 }
@@ -233,9 +238,10 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (variance == null)
                 {
                     double u = Mean;
-                    method.Function = (x) => (x - u) * ProbabilityDensityFunction(x);
+                    method.Function = (x) => (x * x) * ProbabilityDensityFunction(x);
+                    method.Range = support;
                     method.Compute();
-                    variance = method.Area;
+                    variance = method.Area - u * u;
                 }
 
                 return variance.Value;
@@ -255,6 +261,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (entropy == null)
                 {
                     method.Function = (x) => ProbabilityDensityFunction(x) * LogProbabilityDensityFunction(x);
+                    method.Range = support;
                     method.Compute();
                     entropy = method.Area;
                 }
@@ -277,9 +284,10 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (mode == null)
                 {
-                    double lowerBound = Double.IsInfinity(Support.Min) ? 1e-300 : Support.Min;
-                    double upperBound = Double.IsInfinity(Support.Max) ? 1e+300 : Support.Max;
-                    mode = BrentSearch.Maximize(ProbabilityDensityFunction, lowerBound, upperBound);
+                    var range = GetRange(0.99);
+                    double lower = range.Min;
+                    double upper = range.Max;
+                    mode = BrentSearch.Maximize(ProbabilityDensityFunction, lower, upper);
                 }
 
                 return mode.Value;
@@ -299,6 +307,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 return cdf(x);
 
             method.Function = pdf;
+            method.Range = new DoubleRange(Double.NegativeInfinity, x);
             method.Compute();
             return method.Area;
         }
@@ -320,7 +329,7 @@ namespace Accord.Statistics.Distributions.Univariate
             if (pdf != null)
                 return pdf(x);
 
-            return FiniteDifferences.Derivative(cdf, x);
+            return FiniteDifferences.Derivative(cdf, x, 1, 1e-6);
         }
 
         /// <summary>
@@ -347,5 +356,12 @@ namespace Accord.Statistics.Distributions.Univariate
         {
         }
 
+
+        private static InfiniteAdaptiveGaussKronrod createDefaultIntegrationMethod()
+        {
+            var method = new InfiniteAdaptiveGaussKronrod(100);
+            method.ToleranceRelative = 1e-5;
+            return method;
+        }
     }
 }
