@@ -56,6 +56,35 @@ namespace Accord.Math.Integration
     ///   Non-Adaptive Gauss-Kronrod integration method. 
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   The algorithm implemented by this class has been based on the original FORTRAN 
+    ///   implementation from QUADPACK. The function implemented the Non-adaptive Gauss-
+    ///   Kronrod integration is <c>qng(f,a,b,epsabs,epsrel,result,abserr,neval,ier)</c>.
+    ///   The original source code is in the public domain, but this version is under the
+    ///   LGPL. The original authors, as long as the original routine description, are 
+    ///   listed below:</para>
+    /// <para>
+    ///   Robert Piessens, Elise de Doncker; Applied Mathematics and Programming Division,
+    ///   K.U.Leuven, Leuvenappl. This routine calculates an approximation result to a given
+    ///   definite integral i = integral of f over (a,b), hopefully satisfying following claim
+    ///   for accuracy abs(i-result).le.max(epsabs,epsrel*abs(i)).</para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/QUADPACK">
+    ///       Wikipedia, The Free Encyclopedia. QUADPACK. Available on: 
+    ///       http://en.wikipedia.org/wiki/QUADPACK </a></description></item>
+    ///     <item><description><a href="http://www.netlib.no/netlib/quadpack/qng.f">
+    ///       Robert Piessens, Elise de Doncker; Non-adaptive integration standard fortran 
+    ///       subroutine (qng.f). Applied Mathematics and Programming Division, K.U.Leuven,
+    ///       Leuvenappl. Available at: http://www.netlib.no/netlib/quadpack/qng.f </a>
+    ///     </description></item>
+    ///   </list>
+    ///  </para>
+    ///  </remarks>
+    /// 
     /// <seealso cref="InfiniteAdaptiveGaussKronrod"/>
     /// 
     public class NonAdaptiveGaussKronrod : IUnivariateIntegration,
@@ -278,6 +307,11 @@ namespace Accord.Math.Integration
 
             double dhlgth, resabs = 0, resasc = 0, fcentr;
             double[] savfun = new double[21];
+
+            /*           machine dependent constants               */
+            /*           ---------------------------               */
+            /*           epmach is the largest relative spacing.   */
+            /*           uflow is the smallest positive magnitude. */
 
             double epmach = Constants.DoubleEpsilon;
             double uflow = Double.Epsilon;

@@ -40,7 +40,19 @@ namespace Accord.Math.Integration
     ///   methods to perform a Monte Carlo integration, such as uniform sampling,
     ///   stratified sampling and importance sampling.
     /// </para>
-    /// </remarks>
+    /// 
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://en.wikipedia.org/wiki/Monte_Carlo_integration">
+    ///       Wikipedia, The Free Encyclopedia. Monte Carlo integration. Available on: 
+    ///       http://en.wikipedia.org/wiki/Monte_Carlo_integration </a></description></item>
+    ///   </list>
+    ///  </para>
+    ///  </remarks>
+    ///  
+    /// <seealso cref="NonAdaptiveGaussKronrod"/>
+    /// <seealso cref="InfiniteAdaptiveGaussKronrod"/>
     /// 
     public class MonteCarloIntegration : INumericalIntegration, IMultidimensionalIntegration
     {
