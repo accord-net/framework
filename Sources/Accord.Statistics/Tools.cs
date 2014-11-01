@@ -1006,97 +1006,6 @@ namespace Accord.Statistics
             return sum / (double)length;
         }
 
-
-        /// <summary>
-        ///   Computes the Mode of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">A number array containing the vector values.</param>
-        /// 
-        /// <returns>The most common value in the given data.</returns>
-        /// 
-        public static double Mode(this double[] values)
-        {
-            int[] itemCount = new int[values.Length];
-            double[] itemArray = new double[values.Length];
-            int count = 0;
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                int index = Array.IndexOf<double>(itemArray, values[i], 0, count);
-
-                if (index >= 0)
-                {
-                    itemCount[index]++;
-                }
-                else
-                {
-                    itemArray[count] = values[i];
-                    itemCount[count] = 1;
-                    count++;
-                }
-            }
-
-            int maxValue = 0;
-            int maxIndex = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                if (itemCount[i] > maxValue)
-                {
-                    maxValue = itemCount[i];
-                    maxIndex = i;
-                }
-            }
-
-            return itemArray[maxIndex];
-        }
-
-        /// <summary>
-        ///   Computes the Mode of the given values.
-        /// </summary>
-        /// 
-        /// <param name="values">A number array containing the vector values.</param>
-        /// 
-        /// <returns>The most common value in the given data.</returns>
-        /// 
-        public static int Mode(this int[] values)
-        {
-            int[] itemCount = new int[values.Length];
-            int[] itemArray = new int[values.Length];
-            int count = 0;
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                int index = Array.IndexOf<int>(itemArray, values[i], 0, count);
-
-                if (index >= 0)
-                {
-                    itemCount[index]++;
-                }
-                else
-                {
-                    itemArray[count] = values[i];
-                    itemCount[count] = 1;
-                    count++;
-                }
-            }
-
-            int maxValue = 0;
-            int maxIndex = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                if (itemCount[i] > maxValue)
-                {
-                    maxValue = itemCount[i];
-                    maxIndex = i;
-                }
-            }
-
-            return itemArray[maxIndex];
-        }
-
         /// <summary>
         ///   Computes the Mode of the given values.
         /// </summary>
@@ -1107,39 +1016,128 @@ namespace Accord.Statistics
         /// 
         public static T Mode<T>(this T[] values)
         {
-            int[] itemCount = new int[values.Length];
-            T[] itemArray = new T[values.Length];
-            int count = 0;
+            int bestCount;
+            return Mode<T>(values, out bestCount, inPlace: false, alreadySorted: false);
+        }
 
-            for (int i = 0; i < values.Length; i++)
+        /// <summary>
+        ///   Computes the Mode of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector values.</param>
+        /// <param name="count">Returns how many times the detected mode happens in the values.</param>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
+        /// 
+        public static T Mode<T>(this T[] values, out int count)
+        {
+            return Mode<T>(values, out count, inPlace: false, alreadySorted: false);
+        }
+
+        /// <summary>
+        ///   Computes the Mode of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector values.</param>
+        /// <param name="inPlace">True to perform the operation in place, altering the original input vector.</param>
+        /// <param name="alreadySorted">Pass true if the list of values is already sorted.</param>
+        /// <param name="count">Returns how many times the detected mode happens in the values.</param>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
+        /// 
+        public static T Mode<T>(this T[] values,
+            bool inPlace, bool alreadySorted = false)
+        {
+            int count;
+            return Mode<T>(values, out count, inPlace: false, alreadySorted: false);
+        }
+
+        /// <summary>
+        ///   Computes the Mode of the given values.
+        /// </summary>
+        /// 
+        /// <param name="values">A number array containing the vector values.</param>
+        /// <param name="inPlace">True to perform the operation in place, altering the original input vector.</param>
+        /// <param name="alreadySorted">Pass true if the list of values is already sorted.</param>
+        /// <param name="count">Returns how many times the detected mode happens in the values.</param>
+        /// 
+        /// <returns>The most common value in the given data.</returns>
+        /// 
+        public static T Mode<T>(this T[] values, out int count,
+            bool inPlace, bool alreadySorted = false)
+        {
+            if (values.Length == 0)
+                throw new ArgumentException("The values vector cannot be empty.", "values");
+
+            if (values[0] is IComparable)
+                return mode_sort<T>(values, inPlace, alreadySorted, out count);
+
+            return mode_bag<T>(values, out count);
+        }
+
+        private static T mode_bag<T>(T[] values, out int bestCount)
+        {
+            var bestValue = values[0];
+            bestCount = 1;
+
+            var set = new Dictionary<T, int>();
+
+            foreach (var v in values)
             {
-                int index = Array.IndexOf<T>(itemArray, values[i], 0, count);
+                int count;
+                if (!set.TryGetValue(v, out count))
+                    count = 1;
+                else
+                    count = count + 1;
 
-                if (index >= 0)
+                set[v] = count;
+
+                if (count > bestCount)
                 {
-                    itemCount[index]++;
+                    bestCount = count;
+                    bestValue = v;
+                }
+            }
+
+            return bestValue;
+        }
+
+        private static T mode_sort<T>(T[] values, bool inPlace, bool alreadySorted, out int bestCount)
+        {
+            if (!alreadySorted)
+            {
+                if (!inPlace)
+                    values = (T[])values.Clone();
+                Array.Sort(values);
+            }
+
+            var currentValue = values[0];
+            var currentCount = 1;
+
+            var bestValue = currentValue;
+            bestCount = currentCount;
+
+
+            for (int i = 1; i < values.Length; i++)
+            {
+                if (currentValue.Equals(values[i]))
+                {
+                    currentCount += 1;
                 }
                 else
                 {
-                    itemArray[count] = values[i];
-                    itemCount[count] = 1;
-                    count++;
+                    currentValue = values[i];
+                    currentCount = 1;
                 }
-            }
 
-            int maxValue = 0;
-            int maxIndex = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                if (itemCount[i] > maxValue)
+                if (currentCount > bestCount)
                 {
-                    maxValue = itemCount[i];
-                    maxIndex = i;
+                    bestCount = currentCount;
+                    bestValue = currentValue;
                 }
             }
 
-            return itemArray[maxIndex];
+            return bestValue;
         }
 
         /// <summary>
@@ -1217,8 +1215,11 @@ namespace Accord.Statistics
         /// 
         public static double Covariance(this double[] vector1, double mean1, double[] vector2, double mean2, bool unbiased = true)
         {
-            if (vector1 == null) throw new ArgumentNullException("vector1");
-            if (vector2 == null) throw new ArgumentNullException("vector2");
+            if (vector1 == null)
+                throw new ArgumentNullException("vector1");
+
+            if (vector2 == null)
+                throw new ArgumentNullException("vector2");
 
             if (vector1.Length != vector2.Length)
                 throw new DimensionMismatchException("vector2");
@@ -1796,7 +1797,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The standard deviation of the given data.</returns>
         /// 
-        public static double WeightedStandardDeviation(this double[] values, double[] weights, double mean, 
+        public static double WeightedStandardDeviation(this double[] values, double[] weights, double mean,
             bool unbiased, WeightType weightType = WeightType.Fraction)
         {
             return Math.Sqrt(WeightedVariance(values, weights, mean, unbiased, weightType));
@@ -2064,7 +2065,7 @@ namespace Accord.Statistics
         /// 
         /// <returns>The variance of the given data.</returns>
         /// 
-        public static double WeightedVariance(this double[] values, int[] weights, double mean, 
+        public static double WeightedVariance(this double[] values, int[] weights, double mean,
             bool unbiased)
         {
             if (values.Length != weights.Length)
@@ -2493,44 +2494,20 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">A number array containing the vector values.</param>
         /// <param name="weights">The number of times each sample should be repeated.</param>
+        /// <param name="inPlace">True to perform the operation in place, altering the original input vector.</param>
+        /// <param name="alreadySorted">Pass true if the list of values is already sorted.</param>
         /// 
         /// <returns>The most common value in the given data.</returns>
         /// 
-        public static double WeightedMode(this double[] values, double[] weights)
+        public static T WeightedMode<T>(this T[] values, double[] weights, bool inPlace = false, bool alreadySorted = false)
         {
-            double[] itemCount = new double[values.Length];
-            double[] itemArray = new double[values.Length];
-            int count = 0;
+            if (values.Length == 0)
+                throw new ArgumentException("The values vector cannot be empty.", "values");
 
-            for (int i = 0; i < values.Length; i++)
-            {
-                int index = Array.IndexOf<double>(itemArray, values[i], 0, count);
+            if (values[0] is IComparable)
+                return weighted_mode_sort<T>(values, weights, inPlace, alreadySorted);
 
-                if (index >= 0)
-                {
-                    itemCount[index] += weights[index];
-                }
-                else
-                {
-                    itemArray[count] = values[i];
-                    itemCount[count] = weights[i];
-                    count++;
-                }
-            }
-
-            double maxValue = 0;
-            int maxIndex = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                if (itemCount[i] > maxValue)
-                {
-                    maxValue = itemCount[i];
-                    maxIndex = i;
-                }
-            }
-
-            return itemArray[maxIndex];
+            return weighted_mode_bag<T>(values, weights);
         }
 
         /// <summary>
@@ -2539,45 +2516,157 @@ namespace Accord.Statistics
         /// 
         /// <param name="values">A number array containing the vector values.</param>
         /// <param name="weights">The number of times each sample should be repeated.</param>
+        /// <param name="inPlace">True to perform the operation in place, altering the original input vector.</param>
+        /// <param name="alreadySorted">Pass true if the list of values is already sorted.</param>
         /// 
         /// <returns>The most common value in the given data.</returns>
         /// 
-        public static double WeightedMode(this double[] values, int[] weights)
+        public static T WeightedMode<T>(this T[] values, int[] weights, bool inPlace = false, bool alreadySorted = false)
         {
-            int[] itemCount = new int[values.Length];
-            double[] itemArray = new double[values.Length];
-            int count = 0;
+            if (values.Length == 0)
+                throw new ArgumentException("The values vector cannot be empty.", "values");
+
+            if (values[0] is IComparable)
+                return weighted_mode_sort<T>(values, weights, inPlace, alreadySorted);
+
+            return weighted_mode_bag<T>(values, weights);
+        }
+
+        private static T weighted_mode_bag<T>(T[] values, double[] weights)
+        {
+            var bestValue = values[0];
+            double bestCount = 1;
+
+            var set = new Dictionary<T, double>();
 
             for (int i = 0; i < values.Length; i++)
             {
-                int index = Array.IndexOf<double>(itemArray, values[i], 0, count);
+                T v = values[i];
 
-                if (index >= 0)
+                double count;
+                if (!set.TryGetValue(v, out count))
+                    count = weights[i];
+                else
+                    count = count + weights[i];
+
+                set[v] = count;
+
+                if (count > bestCount)
                 {
-                    itemCount[index] += weights[index];
+                    bestCount = count;
+                    bestValue = v;
+                }
+            }
+
+            return bestValue;
+        }
+
+        private static T weighted_mode_sort<T>(T[] values, double[] weights, bool inPlace, bool alreadySorted)
+        {
+            if (!alreadySorted)
+            {
+                if (!inPlace)
+                    values = (T[])values.Clone();
+                Array.Sort(values);
+            }
+
+            var currentValue = values[0];
+            double currentCount = weights[0];
+
+            var bestValue = currentValue;
+            double bestCount = currentCount;
+
+
+            for (int i = 1; i < values.Length; i++)
+            {
+                if (currentValue.Equals(values[i]))
+                {
+                    currentCount += weights[i];
                 }
                 else
                 {
-                    itemArray[count] = values[i];
-                    itemCount[count] = weights[i];
-                    count++;
+                    currentValue = values[i];
+                    currentCount = weights[i];
                 }
-            }
 
-            int maxValue = 0;
-            int maxIndex = 0;
-
-            for (int i = 0; i < count; i++)
-            {
-                if (itemCount[i] > maxValue)
+                if (currentCount > bestCount)
                 {
-                    maxValue = itemCount[i];
-                    maxIndex = i;
+                    bestCount = currentCount;
+                    bestValue = currentValue;
                 }
             }
 
-            return itemArray[maxIndex];
+            return bestValue;
         }
+
+        private static T weighted_mode_bag<T>(T[] values, int[] weights)
+        {
+            var bestValue = values[0];
+            int bestCount = 1;
+
+            var set = new Dictionary<T, int>();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                T v = values[i];
+
+                int count;
+                if (!set.TryGetValue(v, out count))
+                    count = weights[i];
+                else
+                    count = count + weights[i];
+
+                set[v] = count;
+
+                if (count > bestCount)
+                {
+                    bestCount = count;
+                    bestValue = v;
+                }
+            }
+
+            return bestValue;
+        }
+
+        private static T weighted_mode_sort<T>(T[] values, int[] weights, bool inPlace, bool alreadySorted)
+        {
+            if (!alreadySorted)
+            {
+                if (!inPlace)
+                    values = (T[])values.Clone();
+                Array.Sort(values);
+            }
+
+            var currentValue = values[0];
+            var currentCount = weights[0];
+
+            var bestValue = currentValue;
+            int bestCount = currentCount;
+
+
+            for (int i = 1; i < values.Length; i++)
+            {
+                if (currentValue.Equals(values[i]))
+                {
+                    currentCount += weights[i];
+                }
+                else
+                {
+                    currentValue = values[i];
+                    currentCount = weights[i];
+                }
+
+                if (currentCount > bestCount)
+                {
+                    bestCount = currentCount;
+                    bestValue = currentValue;
+                }
+            }
+
+            return bestValue;
+        }
+
+
         #endregion
 
 
@@ -3309,109 +3398,26 @@ namespace Accord.Statistics
         /// 
         /// <returns>Returns a vector containing the modes of the given matrix.</returns>
         /// 
-        public static double[] Mode(this double[,] matrix)
+        public static T[] Mode<T>(this T[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
-            double[] mode = new double[cols];
+            T[] mode = new T[cols];
+
+            int bestCount;
 
             for (int i = 0; i < cols; i++)
             {
-                int[] itemCount = new int[rows];
-                double[] itemArray = new double[rows];
-                int count = 0;
+                var col = matrix.GetColumn(i);
 
-                // for each row
-                for (int j = 0; j < rows; j++)
-                {
-                    int index = Array.IndexOf<double>(itemArray, matrix[j, i], 0, count);
-
-                    if (index >= 0)
-                    {
-                        itemCount[index]++;
-                    }
-                    else
-                    {
-                        itemArray[count] = matrix[j, i];
-                        itemCount[count] = 1;
-                        count++;
-                    }
-                }
-
-                int maxValue = 0;
-                int maxIndex = 0;
-
-                for (int j = 0; j < count; j++)
-                {
-                    if (itemCount[j] > maxValue)
-                    {
-                        maxValue = itemCount[j];
-                        maxIndex = j;
-                    }
-                }
-
-                mode[i] = itemArray[maxIndex];
+                mode[i] = Tools.Mode(col, out bestCount, inPlace: true, alreadySorted: false);
             }
 
             return mode;
         }
 
-        /// <summary>
-        ///   Calculates the matrix Modes vector.
-        /// </summary>
-        /// 
-        /// <param name="matrix">A matrix whose modes will be calculated.</param>
-        /// 
-        /// <returns>Returns a vector containing the modes of the given matrix.</returns>
-        /// 
-        public static double[] Mode(this double[][] matrix)
-        {
-            int rows = matrix.Length;
-            int cols = matrix[0].Length;
 
-            double[] mode = new double[cols];
-
-            for (int i = 0; i < cols; i++)
-            {
-                int[] itemCount = new int[rows];
-                double[] itemArray = new double[rows];
-                int count = 0;
-
-                // for each row
-                for (int j = 0; j < matrix.Length; j++)
-                {
-                    int index = Array.IndexOf<double>(itemArray, matrix[j][i], 0, count);
-
-                    if (index >= 0)
-                    {
-                        itemCount[index]++;
-                    }
-                    else
-                    {
-                        itemArray[count] = matrix[j][i];
-                        itemCount[count] = 1;
-                        count++;
-                    }
-                }
-
-                int maxValue = 0;
-                int maxIndex = 0;
-
-                for (int j = 0; j < count; j++)
-                {
-                    if (itemCount[j] > maxValue)
-                    {
-                        maxValue = itemCount[j];
-                        maxIndex = j;
-                    }
-                }
-
-                mode[i] = itemArray[maxIndex];
-            }
-
-            return mode;
-        }
 
         /// <summary>
         ///   Calculates the matrix Modes vector.
@@ -3428,42 +3434,12 @@ namespace Accord.Statistics
 
             T[] mode = new T[cols];
 
+            int bestCount;
             for (int i = 0; i < cols; i++)
             {
-                int[] itemCount = new int[rows];
-                T[] itemArray = new T[rows];
-                int count = 0;
+                var col = matrix.GetColumn(i);
 
-                // for each row
-                for (int j = 0; j < matrix.Length; j++)
-                {
-                    int index = Array.IndexOf<T>(itemArray, matrix[j][i], 0, count);
-
-                    if (index >= 0)
-                    {
-                        itemCount[index]++;
-                    }
-                    else
-                    {
-                        itemArray[count] = matrix[j][i];
-                        itemCount[count] = 1;
-                        count++;
-                    }
-                }
-
-                int maxValue = 0;
-                int maxIndex = 0;
-
-                for (int j = 0; j < count; j++)
-                {
-                    if (itemCount[j] > maxValue)
-                    {
-                        maxValue = itemCount[j];
-                        maxIndex = j;
-                    }
-                }
-
-                mode[i] = itemArray[maxIndex];
+                mode[i] = Tools.Mode(col, out bestCount, inPlace: true, alreadySorted: false);
             }
 
             return mode;

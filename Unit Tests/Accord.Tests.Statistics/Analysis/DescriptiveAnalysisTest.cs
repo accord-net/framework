@@ -99,7 +99,7 @@ namespace Accord.Tests.Statistics
         {
             // Suppose we would like to compute descriptive
             // statistics from the following data samples:
-            double[] data = { 52, 12, 65, 25, 62 };
+            double[] data = { 52, 12, 65, 25, 62, 12 };
 
             // Create the analysis
             DescriptiveAnalysis analysis = new DescriptiveAnalysis(data);
@@ -135,26 +135,27 @@ namespace Accord.Tests.Statistics
             }));
 
             Assert.IsTrue(correlation.IsEqual(new double[,] { { 1 } }));
-            Assert.IsTrue(covariance.IsEqual(new double[,] { { 552.7 } }));
+            Assert.IsTrue(covariance.IsEqual(new double[,] { { 604.39999999999998 } }));
 
             Assert.IsTrue(deviationScores.IsEqual(new double[,] 
             {
-                {   8.7999999999999972 },
-                { -31.200000000000003  },
-                {  21.799999999999997  },
-                { -18.200000000000003  },
-                {  18.799999999999997  }
+                {  14.0  },
+                { -26.0  },
+                {  27.0  },
+                { -13.0  },
+                {  24.0  },
+                { -26.0  }
             }));
 
             Assert.IsTrue(distinct.IsEqual(new int[] { 5 }));
-            Assert.IsTrue(kurtosis.IsEqual(new double[] { -2.213664721197441 }));
-            Assert.IsTrue(means.IsEqual(new double[] { 43.2 }));
-            Assert.IsTrue(medians.IsEqual(new double[] { 52.0 }));
-            Assert.IsTrue(modes.IsEqual(new double[] { 52.0 }));
+            Assert.IsTrue(kurtosis.IsEqual(new double[] { -2.7161799571726601 }));
+            Assert.IsTrue(means.IsEqual(new double[] { 38.0 }));
+            Assert.IsTrue(medians.IsEqual(new double[] { 38.5 }));
+            Assert.IsTrue(modes.IsEqual(new double[] { 12.0 }));
             Assert.IsTrue(ranges.Apply(p => p.Min).IsEqual(new double[] { 12 }));
             Assert.IsTrue(ranges.Apply(p => p.Max).IsEqual(new double[] { 65 }));
-            Assert.IsTrue(samples == 5);
-            Assert.IsTrue(skewness.IsEqual(new double[] { -0.60008123614710385 }));
+            Assert.IsTrue(samples == 6);
+            Assert.IsTrue(skewness.IsEqual(new double[] { -0.022168530787350427 }));
             Assert.IsTrue(source.IsEqual(new double[,] 
             {
                 { 52 },
@@ -162,26 +163,28 @@ namespace Accord.Tests.Statistics
                 { 65 },
                 { 25 },
                 { 62 },
+                { 12 },
             }));
 
-            Assert.IsTrue(standardDeviation.IsEqual(new double[] { 23.509572518444482 }));
-            Assert.IsTrue(standardErrors.IsEqual(new double[] { 10.513800454640558 }));
+            Assert.IsTrue(standardDeviation.IsEqual(new double[] { 24.584547992590792 }));
+            Assert.IsTrue(standardErrors.IsEqual(new double[] { 10.036599689801987 }));
             Assert.IsTrue(standardScores.IsEqual(new double[,] 
             { 
-                {  0.37431561093235277 },
-                { -1.3271189842147058  },
-                {  0.92728185435514676 },
-                { -0.77415274079191176 },
-                {  0.79967425971911732 },
+                {  0.5694633883128245  },
+                { -1.0575748640095313  },
+                {  1.09825082031759    },
+                { -0.52878743200476563 },
+                {  0.97622295139341342 },
+                { -1.0575748640095313  },
             }));
 
-            Assert.IsTrue(sums.IsEqual(new double[] { 216.0 }));
+            Assert.IsTrue(sums.IsEqual(new double[] { 228.0 }));
             Assert.IsTrue(variables == 1);
-            Assert.IsTrue(variances.IsEqual(new double[] { 552.7 }));
+            Assert.IsTrue(variances.IsEqual(new double[] { 604.39999999999998 }));
 
             Assert.AreEqual(1, confidence.Length);
-            Assert.AreEqual(22.593329768263665, confidence[0].Min);
-            Assert.AreEqual(63.806670231736341, confidence[0].Max);
+            Assert.AreEqual(18.328626080742229, confidence[0].Min);
+            Assert.AreEqual(57.671373919257775, confidence[0].Max);
 
             DoubleRange q;
             double q2 = Accord.Statistics.Tools.Quartiles(data, out q, alreadySorted: false);
@@ -190,8 +193,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(q.Min, quartiles[0].Min);
             Assert.AreEqual(q.Max, quartiles[0].Max);
 
-            Assert.AreEqual(18.5, quartiles[0].Min);
-            Assert.AreEqual(63.5, quartiles[0].Max);
+            Assert.AreEqual(12, quartiles[0].Min);
+            Assert.AreEqual(62, quartiles[0].Max);
         }
 
         [TestMethod()]
@@ -319,7 +322,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(kurtosis.IsEqual(new double[] { -3.3333333333333321, -2.213664721197441, double.NaN }));
             Assert.IsTrue(means.IsEqual(new double[] { 1.4, 43.2, 5.0 }));
             Assert.IsTrue(medians.IsEqual(new double[] { 1.0, 52.0, 5.0 }));
-            Assert.IsTrue(modes.IsEqual(new double[] { 1.0, 52.0, 5.0 }));
+            Assert.IsTrue(modes.IsEqual(new double[] { 1.0, 12.0, 5.0 }));
             Assert.IsTrue(ranges.Apply(p => p.Min).IsEqual(new double[] { 1, 12, 5 }));
             Assert.IsTrue(ranges.Apply(p => p.Max).IsEqual(new double[] { 2, 65, 5 }));
             Assert.IsTrue(samples == 5);
@@ -506,7 +509,8 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(kurtosis.IsEqual(new double[] { Double.NaN }));
             Assert.IsTrue(means.IsEqual(new double[] { 47 }));
             Assert.IsTrue(medians.IsEqual(new double[] { 94 }));
-            Assert.IsTrue(modes.IsEqual(new double[] { 52.0 }));
+            Assert.IsTrue(modes.IsEqual(new double[] { 52.0 })
+                       || modes.IsEqual(new double[] { 42.0 }));
             Assert.IsTrue(samples == 2);
             Assert.IsTrue(skewness.IsEqual(new double[] { Double.NaN }));
             Assert.IsTrue(source.IsEqual(new double[,] 
