@@ -43,7 +43,7 @@ namespace Accord.MachineLearning.DecisionTrees
     /// <seealso cref="DecisionTree"/>
     /// 
     [Serializable]
-    public class DecisionNode
+    public class DecisionNode : IEnumerable<DecisionNode>
     {
 
         [NonSerialized]
@@ -267,5 +267,42 @@ namespace Accord.MachineLearning.DecisionTrees
             }
         }
 
+
+        /// <summary>
+        ///   Returns an enumerator that iterates through the node's subtree.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
+        /// </returns>
+        /// 
+        public IEnumerator<DecisionNode> GetEnumerator()
+        {
+            var stack = new Stack<DecisionNode>(new[] { this });
+
+            while (stack.Count != 0)
+            {
+                DecisionNode current = stack.Pop();
+
+                yield return current;
+
+                if (current.Branches != null)
+                    for (int i = current.Branches.Count - 1; i >= 0; i--)
+                        stack.Push(current.Branches[i]);
+            }
+        }
+
+        /// <summary>
+        ///   Returns an enumerator that iterates through the node's subtree.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.
+        /// </returns>
+        /// 
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
     }
 }

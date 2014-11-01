@@ -89,5 +89,58 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(193, nodeCount2);
         }
 
+
+        [TestMethod()]
+        public void RunTest3()
+        {
+            double[][] inputs;
+            int[] outputs;
+
+            int training = 6000;
+            DecisionTree tree = ReducedErrorPruningTest.createNurseryExample(out inputs, out outputs, training);
+
+            double[] actual = new double[10];
+
+            for (int i = 0; i < actual.Length; i++)
+            {
+                int nodeCount2;
+                repeat(inputs, outputs, tree, training, i * 0.1, out nodeCount2);
+
+                actual[i] = nodeCount2;
+            }
+
+            double[] expected = { 447, 193, 145, 140, 124, 117, 109, 103, 95, 87 };
+
+            for (int i = 0; i < actual.Length; i++)
+                Assert.AreEqual(expected[i], actual[i]);
+        }
+
+        private static void repeat(double[][] inputs, int[] outputs, 
+            DecisionTree tree, int training, double threshold, 
+            out int nodeCount2)
+        {
+            int nodeCount = 0;
+            foreach (var node in tree)
+                nodeCount++;
+
+            var pruningInputs = inputs.Submatrix(training, inputs.Length - 1);
+            var pruningOutputs = outputs.Submatrix(training, inputs.Length - 1);
+            ErrorBasedPruning prune = new ErrorBasedPruning(tree, pruningInputs, pruningOutputs);
+
+            prune.Threshold = threshold;
+
+            double lastError;
+            double error = Double.PositiveInfinity;
+
+            do
+            {
+                lastError = error;
+                error = prune.Run();
+            } while (error < lastError);
+
+            nodeCount2 = 0;
+            foreach (var node in tree)
+                nodeCount2++;
+        }
     }
 }

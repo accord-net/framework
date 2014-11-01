@@ -103,7 +103,10 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
         int[] actual;
         double limit = 0.01;
 
-        Dictionary<DecisionNode, List<int>> subsets;
+        // stores the index of the samples that 
+        // are covered by each node's subtree.
+        //
+        Dictionary<DecisionNode, List<int>> subsets; 
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ErrorBasedPruning"/> class.
@@ -124,17 +127,19 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
             // Create the cache to store how many times a sample
             // passes through each decision node of the tree.
             //
-            createCache(tree.Root);
+            foreach (var node in tree)
+                subsets[node] = new List<int>();
 
             // Compute the entire pruning set and track the path
             // taken by each observation during the reasoning.
             //
-            trackDecisions(tree.Root, inputs);
+            for (int i = 0; i < inputs.Length; i++)
+                trackDecisions(tree.Root, inputs[i], i);
         }
 
         /// <summary>
-        ///   Gets or sets the minimum allowed 
-        ///   gain threshold to prune the tree.
+        ///   Gets or sets the minimum allowed gain threshold
+        ///   to prune the tree. Default is 0.01.
         /// </summary>
         /// 
         public double Threshold
@@ -171,16 +176,41 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
             {
                 int actual = tree.Compute(inputs[i]);
                 int expected = outputs[i];
-                if (actual != expected) error++;
+
+                if (actual != expected) 
+                    error++;
             }
 
             return error / (double)inputs.Length;
         }
 
+        /// <summary>
+        ///   Attempts to prune a node's subtrees.
+        /// </summary>
+        /// 
+        /// <returns>Whether the current node was changed or not.</returns>
+        /// 
         private bool compute(DecisionNode node)
         {
             int[] indices = subsets[node].ToArray();
             int[] subset = outputs.Submatrix(indices);
+
+            if (indices.Length == 0)
+            {
+                // The rule employed by this node doesn't cover
+                // any input points. This node could be removed.
+
+                node.Branches = null;
+                node.Output = null;
+
+                foreach (var child in node)
+                    subsets[child].Clear();
+
+                for (int i = 0; i < inputs.Length; i++)
+                    trackDecisions(node, inputs[i], i);
+
+                return true;
+            }
 
             int size = indices.Length;
             int mostCommon = Statistics.Tools.Mode(subset);
@@ -223,8 +253,12 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
                 }
 
                 changed = true;
-                clearCache(node);
-                trackDecisions(node, inputs);
+
+                foreach (var child in node)
+                    subsets[child].Clear();
+
+                for (int i = 0; i < inputs.Length; i++)
+                    trackDecisions(node, inputs[i], i);
             }
 
             return changed;
@@ -301,25 +335,6 @@ namespace Accord.MachineLearning.DecisionTrees.Pruning
             return max;
         }
 
-
-
-        private void createCache(DecisionNode current)
-        {
-            foreach (var node in tree.Traverse(DecisionTreeTraversal.BreadthFirst, current))
-                subsets[node] = new List<int>();
-        }
-
-        private void clearCache(DecisionNode current)
-        {
-            foreach (var node in tree.Traverse(DecisionTreeTraversal.BreadthFirst, current))
-                subsets[node].Clear();
-        }
-
-        private void trackDecisions(DecisionNode current, double[][] input)
-        {
-            for (int i = 0; i < input.Length; i++)
-                trackDecisions(current, input[i], i);
-        }
 
         private void trackDecisions(DecisionNode root, double[] input, int index)
         {
