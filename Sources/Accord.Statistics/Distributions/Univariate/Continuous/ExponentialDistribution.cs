@@ -125,7 +125,16 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Creates a new Exponential distribution with the given rate.
         /// </summary>
         /// 
-        /// <param name="rate">The rate parameter lambda (λ).</param>
+        public ExponentialDistribution()
+            : this(1)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new Exponential distribution with the given rate.
+        /// </summary>
+        /// 
+        /// <param name="rate">The rate parameter lambda (λ). Default is 1.</param>
         /// 
         public ExponentialDistribution(double rate)
         {
@@ -377,8 +386,6 @@ namespace Accord.Statistics.Distributions.Univariate
 
             init(lambda);
         }
-
-        private ExponentialDistribution() { }
 
         /// <summary>
         ///   Estimates a new Exponential distribution from a given set of observations.

@@ -107,6 +107,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public InverseChiSquareDistribution(int degreesOfFreedom)
         {
+            if (degreesOfFreedom <= 0)
+            {
+                throw new ArgumentOutOfRangeException("degreesOfFreedom",
+                    "The number of degrees of freedom must be higher than zero.");
+            }
+
             this.degreesOfFreedom = degreesOfFreedom;
         }
 
@@ -136,6 +142,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public override double ProbabilityDensityFunction(double x)
         {
+            if (x <= 0 || Double.IsPositiveInfinity(x))
+                return 0;
+
             double v = degreesOfFreedom;
             double a = Math.Pow(2, -v / 2);
             double b = Math.Pow(x, -v / 2 - 1);
@@ -157,7 +166,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            return Gamma.UpperIncomplete(degreesOfFreedom / 2.0, x / 2.0);
+            if (x < 0)
+                return 0;
+
+            if (Double.IsPositiveInfinity(x))
+                return 1;
+
+            double cdf = Gamma.UpperIncomplete(degreesOfFreedom / 2.0, x / 2.0);
+
+            return cdf;
         }
 
         /// <summary>

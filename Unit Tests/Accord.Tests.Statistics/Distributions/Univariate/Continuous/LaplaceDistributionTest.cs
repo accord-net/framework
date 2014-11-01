@@ -116,6 +116,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.92255189505754642, ccdf);
             Assert.AreEqual(0.26999999840794775, icdf);
             Assert.AreEqual("Laplace(x; μ = 4, b = 2)", str);
+
+            var range1 = laplace.GetRange(0.95);
+            var range2 = laplace.GetRange(0.99);
+            var range3 = laplace.GetRange(0.01);
+
+            Assert.AreEqual(-0.60517019072231026, range1.Min);
+            Assert.AreEqual(8.6051701894643209, range1.Max);
+            Assert.AreEqual(-3.8240460108561982, range2.Min);
+            Assert.AreEqual(11.824046011144626, range2.Max);
+            Assert.AreEqual(-3.8240460108561951, range3.Min);
+            Assert.AreEqual(11.824046011144626, range3.Max);
         }
 
         [TestMethod()]

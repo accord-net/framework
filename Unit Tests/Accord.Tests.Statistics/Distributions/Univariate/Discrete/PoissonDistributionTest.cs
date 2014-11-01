@@ -102,6 +102,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4, icdf2);
             Assert.AreEqual(7, icdf3);
             Assert.AreEqual("Poisson(x; λ = 4.2)", str);
+
+            var range1 = dist.GetRange(0.95);
+            var range2 = dist.GetRange(0.99);
+            var range3 = dist.GetRange(0.01);
+
+            Assert.AreEqual(1, range1.Min);
+            Assert.AreEqual(8, range1.Max);
+            Assert.AreEqual(1, range2.Min);
+            Assert.AreEqual(10, range2.Max);
+            Assert.AreEqual(1, range3.Min);
+            Assert.AreEqual(10, range3.Max);
         }
 
         [TestMethod()]

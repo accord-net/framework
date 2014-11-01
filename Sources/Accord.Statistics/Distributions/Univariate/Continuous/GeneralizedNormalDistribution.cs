@@ -70,15 +70,15 @@ namespace Accord.Statistics.Distributions.Univariate
     /// double mode = normal.Mode;     // 1
     /// double var = normal.Variance;  // 19200.781700666659
     /// 
-    /// double cdf = normal.DistributionFunction(x: 1.4); // 0.50877105447218995
+    /// double cdf = normal.DistributionFunction(x: 1.4); // 0.51076148867681703
     /// double pdf = normal.ProbabilityDensityFunction(x: 1.4); // 0.024215092283124507
     /// double lpdf = normal.LogProbabilityDensityFunction(x: 1.4); // -3.7207791921441378
     /// 
-    /// double ccdf = normal.ComplementaryDistributionFunction(x: 1.4); // 0.49122894552781005
-    /// double icdf = normal.InverseDistributionFunction(p: cdf); // 1.4000000149740104
+    /// double ccdf = normal.ComplementaryDistributionFunction(x: 1.4); // 0.48923851132318297
+    /// double icdf = normal.InverseDistributionFunction(p: cdf); // 1.4000000149740108
     /// 
-    /// double hf = normal.HazardFunction(x: 1.4); // 0.049294921448706883
-    /// double chf = normal.CumulativeHazardFunction(x: 1.4); // 0.71084497569360638
+    /// double hf = normal.HazardFunction(x: 1.4); // 0.049495474543966168
+    /// double chf = normal.CumulativeHazardFunction(x: 1.4); // 0.7149051552030572
     /// 
     /// string str = normal.ToString(CultureInfo.InvariantCulture); // GGD(x; μ = 1, α = 5, β = 0.42)
     /// </code>
@@ -246,13 +246,24 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
+            if (Double.IsNegativeInfinity(x))
+                return 0;
+
+            if (Double.IsPositiveInfinity(x))
+                return 1;
+
             double z = x - mean;
-            double w = Math.Abs(z / alpha);
+            double w = Math.Abs(z) / alpha;
 
-            double b = Gamma.LowerIncomplete(1.0 / beta, Math.Pow(w, beta));
-            double c = 2 * Gamma.Function(1.0 / beta);
+            double u = Math.Pow(w, beta);
+            double b = Gamma.LowerIncomplete(1.0 / beta, u);
 
-            double r = 0.5 + Math.Sign(z) * (b / c);
+            // The regularized Gamma function P is defined as the incomplete 
+            // Gamma function divided by the Gamma function itself. This is 
+            // exactly part of the formula indicated on Wikipedia's page on 
+            // the Generalized Normal Distribution, in the CDF's section.
+
+            double r = 0.5 + 0.5 * Math.Sign(z) * b;
 
             return r;
         }
@@ -278,6 +289,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///
         public override double ProbabilityDensityFunction(double x)
         {
+            if (Double.IsNegativeInfinity(x))
+                return 0;
+
+            if (Double.IsPositiveInfinity(x))
+                return 1;
+
             double z = Math.Abs(x - mean) / alpha;
 
             double a = beta / (2 * alpha * Gamma.Function(1 / beta));

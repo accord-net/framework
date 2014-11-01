@@ -48,6 +48,68 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        [TestMethod()]
+        public void UsageTest()
+        {
+            // Let's suppose we have a formula that defines a probability distribution
+            // but we dont know much else about it. We don't know the form of its cumulative
+            // distribution function, for example. We would then like to know more about
+            // it, such as the underlying distribution's moments, characteristics, and 
+            // properties.
+
+            // Let's suppose the formula we have is this one:
+            double mu = 5;
+            double sigma = 4.2;
+
+            Func<double, double> df = x => 1.0 / (sigma * Math.Sqrt(2 * Math.PI))
+                * Math.Exp(-Math.Pow(x - mu, 2) / (2 * sigma * sigma));
+
+            // And for the moment, let's also pretend we don't know it is actually the
+            // p.d.f. of a Gaussian distribution with mean 5 and std. deviation of 4.2.
+
+            // So, let's create a distribution based _solely_ on the formula we have:
+            var distribution = GeneralContinuousDistribution.FromDensityFunction(df);
+
+            // Now, we can check everything that we can know about it:
+
+            double mean = distribution.Mean;     // 5
+            double median = distribution.Median; // 5
+            double var = distribution.Variance;  // 17.64
+            double mode = distribution.Mode;     // 5
+
+            double cdf = distribution.DistributionFunction(x: 1.4); // 0.19568296915377595
+            double pdf = distribution.ProbabilityDensityFunction(x: 1.4); // 0.065784567984404935
+            double lpdf = distribution.LogProbabilityDensityFunction(x: 1.4); // -2.7213699972695058
+
+            double ccdf = distribution.ComplementaryDistributionFunction(x: 1.4); // 0.80431703084622408
+            double icdf = distribution.InverseDistributionFunction(p: cdf); // 1.3999999997024655
+
+            double hf = distribution.HazardFunction(x: 1.4); // 0.081789351041333558
+            double chf = distribution.CumulativeHazardFunction(x: 1.4); // 0.21776177055276186
+
+            Assert.AreEqual(5.0000000000000071, mean, 1e-10);
+            Assert.AreEqual(4.9999999999999991, median, 1e-5);
+            Assert.AreEqual(4.9999999992474002, mode, 1e-7);
+            Assert.AreEqual(17.639999999999958, var, 1e-10);
+            Assert.AreEqual(0.21776177055276186, chf, 1e-10);
+            Assert.AreEqual(0.19568296915377595, cdf, 1e-10);
+            Assert.AreEqual(0.065784567984404935, pdf, 1e-10);
+            Assert.AreEqual(-2.7213699972695058, lpdf, 1e-10);
+            Assert.AreEqual(0.081789351041333558, hf, 1e-10);
+            Assert.AreEqual(0.80431703084622408, ccdf, 1e-10);
+            Assert.AreEqual(1.3999999997024655, icdf, 1e-7);
+
+            var range1 = distribution.GetRange(0.95);
+            var range2 = distribution.GetRange(0.99);
+            var range3 = distribution.GetRange(0.01);
+
+            Assert.AreEqual(-1.9083852331957445, range1.Min);
+            Assert.AreEqual(11.908385199564195, range1.Max);
+            Assert.AreEqual(-4.7706612258820975, range2.Min);
+            Assert.AreEqual(14.770661223067844, range2.Max);
+            Assert.AreEqual(-4.7706612258820993, range3.Min);
+            Assert.AreEqual(14.770661223067844, range3.Max);
+        }
 
         [TestMethod()]
         public void ConstructorTest0()

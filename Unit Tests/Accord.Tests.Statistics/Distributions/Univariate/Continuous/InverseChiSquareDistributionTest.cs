@@ -82,6 +82,53 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.49139966433823956, ccdf);
             Assert.AreEqual(6.2699998329362963, icdf, 1e-6);
             Assert.AreEqual("Inv-χ²(x; df = 7)", str);
+
+            var range1 = invchisq.GetRange(0.95);
+            var range2 = invchisq.GetRange(0.99);
+            var range3 = invchisq.GetRange(0.01);
+
+            Assert.AreEqual(2.1673499092513264, range1.Min);
+            Assert.AreEqual(14.067140449765922, range1.Max);
+            Assert.AreEqual(1.2390421125300894, range2.Min);
+            Assert.AreEqual(18.475307115523769, range2.Max);
+            Assert.AreEqual(1.2390421125300894, range3.Min);
+            Assert.AreEqual(18.475307115523773, range3.Max);
+        }
+
+        [TestMethod()]
+        public void GetRangeTest()
+        {
+            var invchisq = new InverseChiSquareDistribution(degreesOfFreedom: 1);
+
+            var range1 = invchisq.GetRange(0.95);
+            var range2 = invchisq.GetRange(0.99);
+            var range3 = invchisq.GetRange(0.01);
+
+            Assert.AreEqual(0.0039321399872199164, range1.Min);
+            Assert.AreEqual(3.8414588207219076, range1.Max);
+
+            Assert.AreEqual(0.00015695842882115102, range2.Min);
+            Assert.AreEqual(6.6348966014931827, range2.Max);
+
+            Assert.AreEqual(0.00015695842882115102, range3.Min);
+            Assert.AreEqual(6.6348966014931854, range3.Max);
+        }
+
+        [TestMethod()]
+        public void GetRangeTest2()
+        {
+            var invchisq = new InverseChiSquareDistribution(degreesOfFreedom: 4200);
+
+            var range1 = invchisq.GetRange(0.95);
+            var range2 = invchisq.GetRange(0.99);
+            var range3 = invchisq.GetRange(0.01);
+
+            Assert.AreEqual(4050.3922378834536, range1.Min);
+            Assert.AreEqual(4351.8817614873615, range1.Max);
+            Assert.AreEqual(3989.7323067750908, range2.Min);
+            Assert.AreEqual(4416.1499610177834, range2.Max);
+            Assert.AreEqual(3989.7323067750908, range3.Min);
+            Assert.AreEqual(4416.1499610177489, range3.Max);
         }
 
         [TestMethod()]

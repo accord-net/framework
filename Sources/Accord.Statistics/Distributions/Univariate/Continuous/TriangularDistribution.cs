@@ -372,7 +372,8 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 if (u < Fc)
                     values[i] = a + Math.Sqrt(u * (b - a) * (c - a));
-                values[i] = b - Math.Sqrt((1 - u) * (b - a) * (b - c));
+                else
+                    values[i] = b - Math.Sqrt((1 - u) * (b - a) * (b - c));
             }
 
             return values;

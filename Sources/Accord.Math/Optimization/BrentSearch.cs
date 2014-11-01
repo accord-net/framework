@@ -234,6 +234,12 @@ namespace Accord.Math.Optimization
         public static double Minimize(Func<double, double> function,
             double lowerBound, double upperBound, double tol = 1e-6)
         {
+            if (Double.IsInfinity(lowerBound))
+                throw new ArgumentOutOfRangeException("lowerBound");
+
+            if (Double.IsInfinity(upperBound))
+                throw new ArgumentOutOfRangeException("upperBound");
+
             double x, v, w; // Abscissas
             double fx;      // f(x)             
             double fv;      // f(v)
@@ -318,7 +324,7 @@ namespace Accord.Math.Optimization
                 {
 
                     double t = x + new_step;     // Tentative point for the min
-                    double ft = function(t);            // recompute f(tentative point)
+                    double ft = function(t);     // recompute f(tentative point)
 
                     if (Double.IsNaN(ft) || Double.IsInfinity(ft))
                         throw new ConvergenceException("Function evaluation didn't return a finite number.");
@@ -389,6 +395,13 @@ namespace Accord.Math.Optimization
         public static double FindRoot(Func<double, double> function,
             double lowerBound, double upperBound, double tol = 1e-6)
         {
+            if (Double.IsInfinity(lowerBound))
+                throw new ArgumentOutOfRangeException("lowerBound");
+
+            if (Double.IsInfinity(upperBound))
+                throw new ArgumentOutOfRangeException("upperBound");
+
+
             double c;               // Abscissas
             double fa;              // f(a)  
             double fb;              // f(b)
@@ -482,6 +495,10 @@ namespace Accord.Math.Optimization
                 // and do a step to a new approximation
                 upperBound += new_step;
                 fb = function(upperBound);
+
+                if (Double.IsNaN(fb) || Double.IsInfinity(fb))
+                    throw new ConvergenceException("Function evaluation didn't return a finite number.");
+
 
                 // Adjust c to have a sign opposite to that of b
                 if ((fb > 0 && fc > 0) || (fb < 0 && fc < 0))

@@ -52,7 +52,6 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void ConstructorTest1()
         {
-
             NormalDistribution normal = new NormalDistribution(4.2, 1.2);
             MultivariateNormalDistribution target = new MultivariateNormalDistribution(new[] { 4.2 }, new[,] { { 1.2 * 1.2 } });
 

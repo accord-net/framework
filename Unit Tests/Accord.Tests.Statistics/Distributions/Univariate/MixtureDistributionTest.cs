@@ -105,6 +105,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("Mixture(x; 0.5*N(x; μ = 5, σ² = 1) + 0.5*N(x; μ = 5, σ² = 1))", str);
 
             Assert.IsFalse(double.IsNaN(icdf1));
+
+            var range1 = mix.GetRange(0.95);
+            var range2 = mix.GetRange(0.99);
+            var range3 = mix.GetRange(0.01);
+
+            Assert.AreEqual(0.71839556342582434, range1.Min);
+            Assert.AreEqual(6.2816044312576365, range1.Max);
+            Assert.AreEqual(-0.053753308211290443, range2.Min);
+            Assert.AreEqual(7.0537533150666105, range2.Max);
+            Assert.AreEqual(-0.053753308211289402, range3.Min);
+            Assert.AreEqual(7.0537533150666105, range3.Max);
         }
 
         [TestMethod()]

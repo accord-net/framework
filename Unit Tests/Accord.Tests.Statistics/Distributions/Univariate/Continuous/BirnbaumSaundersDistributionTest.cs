@@ -85,6 +85,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.21043615088419654, ccdf);
             Assert.AreEqual(2.0618330099769064, icdf);
             Assert.AreEqual("BirnbaumSaunders(x; μ = 0, β = 1, γ = 0.42)", str);
+
+            var range1 = bs.GetRange(0.95);
+            var range2 = bs.GetRange(0.99);
+            var range3 = bs.GetRange(0.01);
+
+            Assert.AreEqual(0.096563470711246477, range1.Min);
+            Assert.AreEqual(3.8243723816964965, range1.Max);
+            Assert.AreEqual(0.0079430014187131717, range2.Min);
+            Assert.AreEqual(5.8345020446298692, range2.Max);
+            Assert.AreEqual(0.0079430014187131717, range3.Min);
+            Assert.AreEqual(5.8345020446298692, range3.Max);
         }
 
     }

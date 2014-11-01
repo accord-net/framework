@@ -84,6 +84,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.000025712780793218926, ccdf);
             Assert.AreEqual(1.3999999999998953, icdf);
             Assert.AreEqual("PND(x; p = 4.2)", str);
+
+            var range1 = pnormal.GetRange(0.95);
+            var range2 = pnormal.GetRange(0.99);
+            var range3 = pnormal.GetRange(0.01);
+
+            Assert.AreEqual(-2.2527196079209415, range1.Min);
+            Assert.AreEqual(0.024970246427532511, range1.Max);
+            Assert.AreEqual(-2.8214873257900464, range2.Min);
+            Assert.AreEqual(0.42876122902825864, range2.Max);
+            Assert.AreEqual(-2.8214873257900464, range3.Min);
+            Assert.AreEqual(0.42876122902825864, range3.Max);
         }
 
     }

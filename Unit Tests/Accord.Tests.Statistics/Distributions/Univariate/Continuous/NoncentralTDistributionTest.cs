@@ -84,6 +84,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.84044259338855276, ccdf);
             Assert.AreEqual(1.4000000000123853, icdf);
             Assert.AreEqual("T(x; df = 4, μ = 2.42)", str);
+
+            var range1 = distribution.GetRange(0.95);
+            var range2 = distribution.GetRange(0.99);
+            var range3 = distribution.GetRange(0.01);
+
+            Assert.AreEqual(0.7641009341279591, range1.Min);
+            Assert.AreEqual(6.6668131011180742, range1.Max);
+            Assert.AreEqual(0.098229727233034247, range2.Min);
+            Assert.AreEqual(10.541194525031729, range2.Max);
+            Assert.AreEqual(0.09822972723303551, range3.Min);
+            Assert.AreEqual(10.541194525031729, range3.Max);
         }
 
         [TestMethod()]

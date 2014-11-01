@@ -82,6 +82,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.50860033566176044, ccdf);
             Assert.AreEqual(6.2700000000852318, icdf, 1e-6);
             Assert.AreEqual("χ²(x; df = 7)", str);
+
+            var range1 = chisq.GetRange(0.95);
+            var range2 = chisq.GetRange(0.99);
+            var range3 = chisq.GetRange(0.01);
+
+            Assert.AreEqual(2.1673499092980579, range1.Min);
+            Assert.AreEqual(14.067140449340167, range1.Max);
+            Assert.AreEqual(1.2390423055679316, range2.Min);
+            Assert.AreEqual(18.475306906582361, range2.Max);
+            Assert.AreEqual(1.2390423055679316, range3.Min);
+            Assert.AreEqual(18.475306906582361, range3.Max);
         }
 
         [TestMethod()]

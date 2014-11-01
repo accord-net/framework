@@ -95,6 +95,18 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.4, icdf, 1e-8);
             Assert.AreEqual("FN(x; μ = 4, σ² = 17.64)", str);
 
+            var range1 = fn.GetRange(0.95);
+            Assert.AreEqual(0.41428977779338388, range1.Min);
+            Assert.AreEqual(10.916197224646602, range1.Max);
+
+            var range2 = fn.GetRange(0.99);
+            Assert.AreEqual(0.082845881461525633, range2.Min);
+            Assert.AreEqual(13.77249095493084, range2.Max);
+
+            var range3 = fn.GetRange(0.01);
+            Assert.AreEqual(0.082845881461525495, range3.Min);
+            Assert.AreEqual(13.77249095493084, range3.Max);
+
         }
 
     }

@@ -81,7 +81,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.60592605102976937, mean);
             Assert.AreEqual(0.41999999999999998, median);
             Assert.AreEqual(0.26892249963239817, mode);
-            Assert.AreEqual(1.4210644953907947, var);
+            Assert.AreEqual(1.4210644953907947, var, 1e-14);
             Assert.AreEqual(2.7170904270953637, chf);
             Assert.AreEqual(0.93393329906725353062, cdf);
             Assert.AreEqual(0.096960115938100735478, pdf, 1e-15);
@@ -90,6 +90,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.066066700932746525, ccdf);
             Assert.AreEqual(1.4000000000000006, icdf);
             Assert.AreEqual("LogLogistic(x; α = 0.42, β = 2.2)", str);
+
+            var range1 = log.GetRange(0.95);
+            var range2 = log.GetRange(0.99);
+            var range3 = log.GetRange(0.01);
+
+            Assert.AreEqual(0.11015333581796467, range1.Min);
+            Assert.AreEqual(1.6014040672496028, range1.Max);
+            Assert.AreEqual(0.052016650554947114, range2.Min);
+            Assert.AreEqual(3.3912218129781762, range2.Max);
+            Assert.AreEqual(0.0520166505549471, range3.Min);
+            Assert.AreEqual(3.3912218129781762, range3.Max);
         }
 
     }

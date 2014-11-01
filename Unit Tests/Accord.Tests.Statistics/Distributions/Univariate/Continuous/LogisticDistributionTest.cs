@@ -81,6 +81,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.306471691802079, ccdf);
             Assert.AreEqual(1.3999999999999997, icdf);
             Assert.AreEqual("Logistic(x; μ = 0.42, s = 1.2)", str);
+
+            var range1 = log.GetRange(0.95);
+            var range2 = log.GetRange(0.99);
+            var range3 = log.GetRange(0.01);
+
+            Assert.AreEqual(-3.1133267749997273, range1.Min);
+            Assert.AreEqual(3.9533267749997272, range1.Max);
+            Assert.AreEqual(-5.0941438201615066, range2.Min);
+            Assert.AreEqual(5.9341438201615064, range2.Max);
+            Assert.AreEqual(-5.0941438201615075, range3.Min);
+            Assert.AreEqual(5.9341438201615064, range3.Max);
         }
 
     }

@@ -33,11 +33,14 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     /// <remarks>
     /// <para>
-    ///  The binomial distribution is the discrete probability distribution of the number of
-    ///  successes in a sequence of <c>>n</c> independent yes/no experiments, each of which 
-    ///  yields success with probability <c>p</c>. Such a success/failure experiment is also
-    ///  called a Bernoulli experiment or Bernoulli trial; when <c>n = 1</c>, the binomial 
-    ///  distribution is a <see cref="BernoulliDistribution">Bernoulli distribution</see>.</para>
+    ///   In mathematics, a degenerate distribution or deterministic distribution is
+    ///   the probability distribution of a random variable which only takes a single
+    ///   value. Examples include a two-headed coin and rolling a die whose sides all 
+    ///   show the same number. While this distribution does not appear random in the
+    ///   everyday sense of the word, it does satisfy the definition of random variable. </para>
+    /// <para> 
+    ///   The degenerate distribution is localized at a point k0 on the real line. The
+    ///   probability mass function is a Delta function at k0.</para>
     ///   
     /// <para>    
     ///   References:
@@ -98,7 +101,18 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Initializes a new instance of the <see cref="DegenerateDistribution"/> class.
         /// </summary>
         /// 
-        /// <param name="value">The only value whose probability is different from zero.</param>
+        public DegenerateDistribution()
+            : this(0)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="DegenerateDistribution"/> class.
+        /// </summary>
+        /// 
+        /// <param name="value">
+        ///   The only value whose probability is different from zero. Default is zero.
+        /// </param>
         /// 
         public DegenerateDistribution(int value)
         {

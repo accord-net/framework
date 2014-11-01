@@ -129,6 +129,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("B(x; α = 0.42, β = 1.57)", str);
 
             Assert.IsFalse(Double.IsNaN(median));
+
+            var range1 = betaDistribution.GetRange(0.95);
+            var range2 = betaDistribution.GetRange(0.99);
+            var range3 = betaDistribution.GetRange(0.01);
+
+            Assert.AreEqual(0.00045925525776717733, range1.Min);
+            Assert.AreEqual(0.72381020663218609, range1.Max);
+            Assert.AreEqual(0.0000099485893745082635, range2.Min);
+            Assert.AreEqual(0.89625688707910811, range2.Max);
+            Assert.AreEqual(0.0000099485893745082432, range3.Min);
+            Assert.AreEqual(0.89625688707910811, range3.Max);
         }
 
         [TestMethod()]

@@ -90,6 +90,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5, icdf2);
             Assert.AreEqual(7, icdf3);
             Assert.AreEqual("Binomial(x; n = 16, p = 0.12)", str);
+
+            var range1 = bin.GetRange(0.95);
+            var range2 = bin.GetRange(0.99);
+            var range3 = bin.GetRange(0.01);
+
+            Assert.AreEqual(0.0, range1.Min);
+            Assert.AreEqual(4.0, range1.Max);
+            Assert.AreEqual(0.0, range2.Min);
+            Assert.AreEqual(5.0, range2.Max);
+            Assert.AreEqual(0.0, range3.Min);
+            Assert.AreEqual(5.0, range3.Max);
         }
 
         [TestMethod()]

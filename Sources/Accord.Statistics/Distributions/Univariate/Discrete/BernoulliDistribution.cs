@@ -103,7 +103,16 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Creates a new <see cref="BernoulliDistribution">Bernoulli</see> distribution.
         /// </summary>
         /// 
-        /// <param name="mean">The probability of an observation being equal to 1.</param>
+        public BernoulliDistribution()
+            : this(0.5)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="BernoulliDistribution">Bernoulli</see> distribution.
+        /// </summary>
+        /// 
+        /// <param name="mean">The probability of an observation being equal to 1. Default is 0.5</param>
         /// 
         public BernoulliDistribution(double mean)
         {
@@ -148,7 +157,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (complement > probability)
                     median = 0;
 
-                else if (complement < probability) 
+                else if (complement < probability)
                     median = 1;
 
                 else median = 0.5;

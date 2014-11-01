@@ -95,14 +95,23 @@ namespace Accord.Statistics.Distributions.Univariate
         private double? mean;
         private double? variance;
 
+        /// <summary>
+        ///   Constructs a F-distribution with
+        ///   the given degrees of freedom.
+        /// </summary>
+        /// 
+        public FDistribution()
+            : this(1, 1)
+        {
+        }
 
         /// <summary>
         ///   Constructs a F-distribution with
         ///   the given degrees of freedom.
         /// </summary>
         /// 
-        /// <param name="degrees1">The first degree of freedom.</param>
-        /// <param name="degrees2">The second degree of freedom.</param>
+        /// <param name="degrees1">The first degree of freedom. Default is 1.</param>
+        /// <param name="degrees2">The second degree of freedom. Default is 1.</param>
         /// 
         public FDistribution(int degrees1, int degrees2)
         {
@@ -250,6 +259,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
+            if (x <= 0)
+                return 0;
+
             double u = (d1 * x) / (d1 * x + d2);
             return Beta.Incomplete(d1 * 0.5, d2 * 0.5, u);
         }
@@ -268,6 +280,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ComplementaryDistributionFunction(double x)
         {
+            if (x <= 0)
+                return 1;
+
             double u = d2 / (d2 + d1 * x);
             return Beta.Incomplete(d2 * 0.5, d1 * 0.5, u);
         }
@@ -334,6 +349,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
+            if (x <= 0)
+                return 0;
+
             double u = Math.Pow(d1 * x, d1) * Math.Pow(d2, d2) /
                 Math.Pow(d1 * x + d2, d1 + d2);
             return Math.Sqrt(u) / (x * b);
@@ -358,6 +376,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
+            if (x <= 0)
+                return Double.NegativeInfinity;
+
             double lnu = d1 * Math.Log(d1 * x) + d2 * Math.Log(d2) -
                 (d1 + d2) * Math.Log(d1 * x + d2);
             return 0.5 * lnu - Math.Log(x * b);

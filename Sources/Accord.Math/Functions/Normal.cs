@@ -143,6 +143,7 @@ namespace Accord.Math
                     return Double.NegativeInfinity;
                 throw new ArgumentOutOfRangeException("y0");
             }
+
             if (y0 >= 1.0)
             {
                 if (y0 == 1)

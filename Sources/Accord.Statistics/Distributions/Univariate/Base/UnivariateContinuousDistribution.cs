@@ -179,12 +179,15 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual DoubleRange GetRange(double percentile)
         {
-            if (percentile <= 0 || percentile >= 1)
+            if (percentile <= 0 || percentile > 1)
                 throw new ArgumentOutOfRangeException("percentile", "The percentile must be between 0 and 1.");
 
             double a = InverseDistributionFunction(1.0 - percentile);
             double b = InverseDistributionFunction(percentile);
-            return new DoubleRange(a, b);
+
+            if (b > a)
+                return new DoubleRange(a, b);
+            return new DoubleRange(b, a);
         }
 
         /// <summary>
@@ -627,6 +630,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             if (p == 0)
                 return Support.Min;
+
             else if (p == 1)
                 return Support.Max;
 
@@ -678,17 +682,17 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 if (f > p)
                 {
-                    while (f > p)
+                    while (f > p && f < 1)
                     {
-                        lower -= 2 * lower;
+                        lower = lower - 2 * lower;
                         f = DistributionFunction(lower);
                     }
                 }
                 else
                 {
-                    while (f < p)
+                    while (f < p && f > 0)
                     {
-                        lower -= 2 * lower;
+                        lower = lower - 2 * lower;
                         f = DistributionFunction(lower);
                     }
                 }

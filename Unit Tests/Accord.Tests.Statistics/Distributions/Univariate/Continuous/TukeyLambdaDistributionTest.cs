@@ -86,6 +86,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.16747052769782034, ccdf);
             Assert.AreEqual(1.4000000000000004, icdf);
             Assert.AreEqual("Tukey(x; λ = 0.14)", str);
+
+            var range1 = tukey.GetRange(0.95);
+            var range2 = tukey.GetRange(0.99);
+            var range3 = tukey.GetRange(0.01);
+
+            Assert.AreEqual(-2.395751074495986, range1.Min);
+            Assert.AreEqual(2.395751074495986, range1.Max);
+            Assert.AreEqual(-3.3841891582663117, range2.Min);
+            Assert.AreEqual(3.3841891582663117, range2.Max);
+            Assert.AreEqual(-3.3841891582663126, range3.Min);
+            Assert.AreEqual(3.3841891582663117, range3.Max);
         }
 
         [TestMethod()]

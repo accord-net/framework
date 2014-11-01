@@ -83,6 +83,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.18673071508410655, ccdf);
             Assert.AreEqual(1.39999999999, icdf, 1e-8);
             Assert.AreEqual("VonMises(x; μ = 0.42, κ = 1.2)", str);
+
+            var range1 = vonMises.GetRange(0.95);
+            var range2 = vonMises.GetRange(0.99);
+            var range3 = vonMises.GetRange(0.01);
+
+            Assert.AreEqual(-1.5990672124935188, range1.Min, 1e-14);
+            Assert.AreEqual(2.4390672124935207, range1.Max, 1e-14);
+            Assert.AreEqual(-2.4355782410688764, range2.Min, 1e-14);
+            Assert.AreEqual(3.2755782410688861, range2.Max, 1e-14);
+            Assert.AreEqual(-2.4355782410688764, range3.Min, 1e-14);
+            Assert.AreEqual(3.2755782410688861, range3.Max, 1e-14);
         }
 
 

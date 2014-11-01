@@ -97,6 +97,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, icdf2);
             Assert.AreEqual(2, icdf3);
             Assert.AreEqual("Categorical(x; p = { 0.25, 0.25, 0.5 })", str);
+
+            var range1 = dist.GetRange(0.95);
+            var range2 = dist.GetRange(0.99);
+            var range3 = dist.GetRange(0.01);
+
+            Assert.AreEqual(0, range1.Min);
+            Assert.AreEqual(2, range1.Max);
+            Assert.AreEqual(0, range2.Min);
+            Assert.AreEqual(2, range2.Max);
+            Assert.AreEqual(0, range3.Min);
+            Assert.AreEqual(2, range3.Max);
         }
 
         [TestMethod()]

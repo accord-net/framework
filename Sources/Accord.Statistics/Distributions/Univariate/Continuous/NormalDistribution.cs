@@ -397,12 +397,21 @@ namespace Accord.Statistics.Distributions.Univariate
         ///
         public override double InverseDistributionFunction(double p)
         {
-            double icdf = mean + stdDev * Normal.Inverse(p);
+            double inv = Normal.Inverse(p);
+
+            double icdf = mean + stdDev * inv;
 
 #if DEBUG
             double baseValue = base.InverseDistributionFunction(p);
-            if (!icdf.IsRelativelyEqual(baseValue, 1e-6))
+            double r1 = DistributionFunction(baseValue);
+            double r2 = DistributionFunction(icdf);
+
+            bool close = r1.IsRelativelyEqual(r2, 1e-6);
+
+            if (!close)
+            {
                 throw new Exception();
+            }
 #endif
 
             return icdf;
@@ -529,7 +538,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public void Fit(double[] observations, double[] weights, NormalOptions options)
         {
-            if (immutable) 
+            if (immutable)
                 throw new InvalidOperationException("NormalDistribution.Standard is immutable.");
 
             double mu, var;

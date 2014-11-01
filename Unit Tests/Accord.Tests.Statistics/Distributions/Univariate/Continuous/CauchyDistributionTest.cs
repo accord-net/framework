@@ -227,6 +227,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.53031974158391437, ccdf);
             Assert.AreEqual(1.5130304686978195, icdf);
             Assert.AreEqual("Cauchy(x; x0 = 0.42, γ = 1.57)", str);
+
+            var range1 = cauchy.GetRange(0.95);
+            var range2 = cauchy.GetRange(0.99);
+            var range3 = cauchy.GetRange(0.01);
+
+            Assert.AreEqual(-9.4925897567183526, range1.Min, 1e-10);
+            Assert.AreEqual(10.332589895085842, range1.Max, 1e-10);
+            Assert.AreEqual(-49.538210069999685, range2.Min, 1e-10);
+            Assert.AreEqual(50.378210075966564, range2.Max, 1e-10);
+            Assert.AreEqual(-49.538210069999892, range3.Min, 1e-10);
+            Assert.AreEqual(50.378210075966564, range3.Max, 1e-10);
         }
 
 

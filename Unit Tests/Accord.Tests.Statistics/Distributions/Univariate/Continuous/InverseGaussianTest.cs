@@ -81,6 +81,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.69341208725874548, ccdf);
             Assert.AreEqual(0.26999999957543408, icdf, 1e-7);
             Assert.AreEqual("N^-1(x; μ = 0.42, λ = 1.2)", str);
+
+            var range1 = invGaussian.GetRange(0.95);
+            var range2 = invGaussian.GetRange(0.99);
+            var range3 = invGaussian.GetRange(0.01);
+
+            Assert.AreEqual(0.14769446268576839, range1.Min);
+            Assert.AreEqual(0.90166590229504751, range1.Max);
+            Assert.AreEqual(0.10646291322190742, range2.Min);
+            Assert.AreEqual(1.2855706686397079, range2.Max);
+            Assert.AreEqual(0.10646291322190739, range3.Min);
+            Assert.AreEqual(1.2855706686397079, range3.Max);
         }
 
         [TestMethod()]

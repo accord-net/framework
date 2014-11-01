@@ -84,6 +84,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.21224797382674304, ccdf);
             Assert.AreEqual(4.3483975243778978, icdf, 1e-8);
             Assert.AreEqual("H(x; v, t)", str);
+
+            var range1 = distribution.GetRange(0.95);
+            var range2 = distribution.GetRange(0.99);
+            var range3 = distribution.GetRange(0.01);
+
+            Assert.AreEqual(1.9999999025499791, range1.Min);
+            Assert.AreEqual(6.0000003654595639, range1.Max);
+            Assert.AreEqual(1.9999997393145033, range2.Min);
+            Assert.AreEqual(9.0000004130107865, range2.Max);
+            Assert.AreEqual(1.9999997393145026, range3.Min);
+            Assert.AreEqual(9.0000004130107865, range3.Max);
         }
 
         [TestMethod()]

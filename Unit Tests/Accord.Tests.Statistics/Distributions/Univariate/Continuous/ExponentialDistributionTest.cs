@@ -91,6 +91,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.89279347129449593, ccdf);
             Assert.AreEqual(0.27, icdf);
             Assert.AreEqual("Exp(x; λ = 0.42)", str);
+
+            var range1 = exp.GetRange(0.95);
+            var range2 = exp.GetRange(0.99);
+            var range3 = exp.GetRange(0.01);
+
+            Assert.AreEqual(0.12212689139892995, range1.Min);
+            Assert.AreEqual(7.1326958894142622, range1.Max);
+            Assert.AreEqual(0.023929371079765359, range2.Min);
+            Assert.AreEqual(10.964690919019265, range2.Max);
+            Assert.AreEqual(0.023929371079765359, range3.Min);
+            Assert.AreEqual(10.964690919019265, range3.Max);
         }
 
         [TestMethod()]

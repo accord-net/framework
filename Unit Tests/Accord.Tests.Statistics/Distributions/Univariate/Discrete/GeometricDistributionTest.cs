@@ -95,6 +95,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, icdf2);
             Assert.AreEqual(3, icdf3);
             Assert.AreEqual("Geometric(x; p = 0.42)", str);
+
+            var range1 = dist.GetRange(0.95);
+            var range2 = dist.GetRange(0.99);
+            var range3 = dist.GetRange(0.01);
+
+            Assert.AreEqual(0, range1.Min);
+            Assert.AreEqual(5, range1.Max);
+            Assert.AreEqual(0, range2.Min);
+            Assert.AreEqual(8, range2.Max);
+            Assert.AreEqual(0, range3.Min);
+            Assert.AreEqual(8, range3.Max);
         }
 
         [TestMethod()]

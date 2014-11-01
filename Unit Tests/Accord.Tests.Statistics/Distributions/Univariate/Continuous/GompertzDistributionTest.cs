@@ -80,6 +80,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.23400231800200855, ccdf);
             Assert.AreEqual(0.26999999999766749, icdf);
             Assert.AreEqual("Gompertz(x; η = 4.2, b = 1.1)", str);
+
+            var range1 = gompertz.GetRange(0.95);
+            var range2 = gompertz.GetRange(0.99);
+            var range3 = gompertz.GetRange(0.01);
+
+            Assert.AreEqual(0.011035174219697141, range1.Min, 1e-6);
+            Assert.AreEqual(0.48945776418276288, range1.Max, 1e-6);
+            Assert.AreEqual(0.002172798720176344, range2.Min, 1e-6);
+            Assert.AreEqual(0.67295877422837591, range2.Max, 1e-6);
+            Assert.AreEqual(0.0021727987201762976, range3.Min, 1e-6);
+            Assert.AreEqual(0.67295877422837591, range3.Max, 1e-6);
         }
 
         [TestMethod()]

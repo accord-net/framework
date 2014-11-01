@@ -105,6 +105,17 @@ namespace Accord.Tests.Statistics
 
             double p05 = gamma.DistributionFunction(median);
             Assert.AreEqual(0.5, p05, 1e-6);
+
+            var range1 = gamma.GetRange(0.95);
+            var range2 = gamma.GetRange(0.99);
+            var range3 = gamma.GetRange(0.01);
+
+            Assert.AreEqual(1.4214460427946485, range1.Min);
+            Assert.AreEqual(18.975458073562308, range1.Max);
+            Assert.AreEqual(0.59421896101306348, range2.Min);
+            Assert.AreEqual(26.553408271975243, range2.Max);
+            Assert.AreEqual(0.59421896101306348, range3.Min);
+            Assert.AreEqual(26.553408271975243, range3.Max);
         }
 
         [TestMethod()]

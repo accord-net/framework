@@ -90,6 +90,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.79396583247631891, ccdf);
             Assert.AreEqual(1.40, icdf, 1e-7);
             Assert.AreEqual("Nakagami(x; μ = 2.4, ω = 4.2)", str);
+
+            var range1 = nakagami.GetRange(0.95);
+            var range2 = nakagami.GetRange(0.99);
+            var range3 = nakagami.GetRange(0.01);
+
+            Assert.AreEqual(0.96015082529305074, range1.Min);
+            Assert.AreEqual(3.0683231810919338, range1.Max);
+            Assert.AreEqual(0.65984207711153242, range2.Min);
+            Assert.AreEqual(3.5903316858157317, range2.Max);
+            Assert.AreEqual(0.6598420771115322, range3.Min);
+            Assert.AreEqual(3.5903316858157317, range3.Max);
         }
 
         [TestMethod()]

@@ -117,7 +117,14 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Constructs a new <see cref="BinomialDistribution">binomial distribution</see>.
         /// </summary>
         /// 
-        /// <param name="trials">The number of trials <c>n</c>.</param>
+        public BinomialDistribution()
+            : this(1, 0) { }
+
+        /// <summary>
+        ///   Constructs a new <see cref="BinomialDistribution">binomial distribution</see>.
+        /// </summary>
+        /// 
+        /// <param name="trials">The number of trials <c>n</c>. Default is 1.</param>
         /// 
         public BinomialDistribution(int trials)
             : this(trials, 0) { }

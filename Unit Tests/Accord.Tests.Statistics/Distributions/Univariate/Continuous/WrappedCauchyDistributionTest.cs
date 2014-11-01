@@ -75,6 +75,12 @@ namespace Accord.Tests.Statistics
 
             Assert.IsFalse(Double.IsNaN(pdf));
             Assert.IsFalse(Double.IsNaN(lpdf));
+
+            bool thrown = false;
+            try { dist.GetRange(0.95); }
+            catch (NotSupportedException) { thrown = true; }
+
+            Assert.IsTrue(thrown);
         }
 
     }

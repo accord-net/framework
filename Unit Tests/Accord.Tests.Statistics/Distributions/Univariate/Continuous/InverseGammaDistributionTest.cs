@@ -125,6 +125,17 @@ namespace Accord.Tests.Statistics
 
             double p05 = invGamma.DistributionFunction(median);
             Assert.AreEqual(0.5, p05, 1e-6);
+
+            var range1 = invGamma.GetRange(0.95);
+            var range2 = invGamma.GetRange(0.99);
+            var range3 = invGamma.GetRange(0.01);
+
+            Assert.AreEqual(0.29141691452733387, range1.Min);
+            Assert.AreEqual(834.10323133076645, range1.Max);
+            Assert.AreEqual(0.16305763832571143, range2.Min);
+            Assert.AreEqual(38513.540845383861, range2.Max);
+            Assert.AreEqual(0.16305763832571132, range3.Min);
+            Assert.AreEqual(38513.540845383861, range3.Max);
         }
 
         [TestMethod()]

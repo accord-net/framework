@@ -83,6 +83,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.29411764705882359, ccdf);
             Assert.AreEqual(0.9, icdf);
             Assert.AreEqual("U(x; a = 0.42, b = 1.1)", str);
+
+            var range1 = uniform.GetRange(0.95);
+            var range2 = uniform.GetRange(0.99);
+            var range3 = uniform.GetRange(0.01);
+
+            Assert.AreEqual(0.45400000000000001, range1.Min);
+            Assert.AreEqual(1.0660000000000001, range1.Max);
+            Assert.AreEqual(0.42680000000000001, range2.Min);
+            Assert.AreEqual(1.0932000000000002, range2.Max);
+            Assert.AreEqual(0.42680000000000001, range3.Min);
+            Assert.AreEqual(1.0932000000000002, range3.Max);
         }
 
         [TestMethod()]

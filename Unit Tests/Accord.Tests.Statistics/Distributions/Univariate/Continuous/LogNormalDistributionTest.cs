@@ -83,6 +83,18 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.942038777114335, ccdf);
             Assert.AreEqual(0.26999997937815973, icdf, 1e-6);
             Assert.AreEqual("Lognormal(x; μ = 2.79, σ = 1.10)", str);
+
+            var range1 = log.GetRange(0.95);
+            Assert.AreEqual(0.24923999017902393, range1.Min);
+            Assert.AreEqual(9.293720885640818, range1.Max);
+
+            var range2 = log.GetRange(0.99);
+            Assert.AreEqual(0.11777446636476178, range2.Min);
+            Assert.AreEqual(19.667797655030668, range2.Max);
+
+            var range3 = log.GetRange(0.01);
+            Assert.AreEqual(0.11777446636476173, range3.Min);
+            Assert.AreEqual(19.667797655030668, range3.Max);
         }
 
         [TestMethod()]

@@ -84,6 +84,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.4, ccdf);
             Assert.AreEqual(3.6666666666666661, icdf);
             Assert.AreEqual("MannWhitney(u; n1 = 2, n2 = 3)", str);
+
+            var range1 = mannWhitney.GetRange(0.95);
+            var range2 = mannWhitney.GetRange(0.99);
+            var range3 = mannWhitney.GetRange(0.01);
+
+            Assert.AreEqual(0.00000095367431640625085, range1.Min);
+            Assert.AreEqual(5.9999995430310555, range1.Max);
+            Assert.AreEqual(0, range2.Min);
+            Assert.AreEqual(6.000000194140088, range2.Max);
+            Assert.AreEqual(0, range3.Min);
+            Assert.AreEqual(6.000000194140088, range3.Max);
         }
 
         [TestMethod()]

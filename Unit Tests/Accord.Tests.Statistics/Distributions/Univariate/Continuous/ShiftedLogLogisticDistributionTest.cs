@@ -72,18 +72,30 @@ namespace Accord.Tests.Statistics
             string str = log.ToString(CultureInfo.InvariantCulture); // LLD3(x; μ = 0, σ = 0.42, ξ = 0.1)
 
 
-            Assert.AreEqual(0.069891101544818923, mean);
+            Assert.AreEqual(0.069891101544818923, mean, 1e-15);
             Assert.AreEqual(0.0, median);
-            Assert.AreEqual(-0.083441677069328604, mode);
-            Assert.AreEqual(0.62447259946747213, var);
-            Assert.AreEqual(2.9316057546685061, chf);
-            Assert.AreEqual(0.94668863559417671, cdf);
-            Assert.AreEqual(0.090123683626808615, pdf);
-            Assert.AreEqual(-2.4065722895662613, lpdf);
-            Assert.AreEqual(1.6905154207038875, hf);
-            Assert.AreEqual(0.053311364405823292, ccdf);
-            Assert.AreEqual(1.4000000001930302, icdf);
+            Assert.AreEqual(-0.083441677069328604, mode, 1e-15);
+            Assert.AreEqual(0.62447259946747213, var, 1e-14);
+            Assert.AreEqual(2.9316057546685061, chf, 1e-15);
+            Assert.AreEqual(0.94668863559417671, cdf, 1e-15);
+            Assert.AreEqual(0.090123683626808615, pdf, 1e-15);
+            Assert.AreEqual(-2.4065722895662613, lpdf, 1e-15);
+            Assert.AreEqual(1.6905154207038875, hf, 1e-15);
+            Assert.AreEqual(0.053311364405823292, ccdf, 1e-15);
+            Assert.AreEqual(1.4000000001930302, icdf, 1e-15);
             Assert.AreEqual("LLD3(x; μ = 0, σ = 0.42, ξ = 0.1)", str);
+
+
+            var range1 = log.GetRange(0.95);
+            var range2 = log.GetRange(0.99);
+            var range3 = log.GetRange(0.01);
+
+            Assert.AreEqual(-1.0712279538154128, range1.Min, 1e-15);
+            Assert.AreEqual(1.43799453428117, range1.Max, 1e-15);
+            Assert.AreEqual(-1.5473143609724813, range2.Min, 1e-15);
+            Assert.AreEqual(2.4498647072756436, range2.Max, 1e-15);
+            Assert.AreEqual(-1.5473143609724815, range3.Min, 1e-15);
+            Assert.AreEqual(2.4498647072756436, range3.Max, 1e-15);
         }
 
         [TestMethod()]

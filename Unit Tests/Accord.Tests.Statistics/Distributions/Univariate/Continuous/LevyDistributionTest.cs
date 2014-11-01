@@ -97,6 +97,17 @@ namespace Accord.Tests.Statistics
             double p = levy.DistributionFunction(levy.Median);
             Assert.AreEqual(0.5, p, 1e-10);
             Assert.IsFalse(Double.IsNaN(p));
+
+            var range1 = levy.GetRange(0.95);
+            var range2 = levy.GetRange(0.99);
+            var range3 = levy.GetRange(0.01);
+
+            Assert.AreEqual(2.0933346408334241, range1.Min);
+            Assert.AreEqual(1069.1206671123464, range1.Max);
+            Assert.AreEqual(1.6330166470647871, range2.Min);
+            Assert.AreEqual(26737.630417446126, range2.Max);
+            Assert.AreEqual(1.6330166470647871, range3.Min);
+            Assert.AreEqual(26737.630417446126, range3.Max);
         }
 
         [TestMethod()]
@@ -146,6 +157,17 @@ namespace Accord.Tests.Statistics
             double p = levy.DistributionFunction(levy.Median);
             Assert.AreEqual(0.5, p, 1e-10);
             Assert.IsFalse(Double.IsNaN(p));
+
+            var range1 = levy.GetRange(0.95);
+            var range2 = levy.GetRange(0.99);
+            var range3 = levy.GetRange(0.01);
+
+            Assert.AreEqual(0.62476265190481373, range1.Min);
+            Assert.AreEqual(610.35466692134071, range1.Max);
+            Assert.AreEqual(0.36172379832273538, range2.Min);
+            Assert.AreEqual(15278.074524254929, range2.Max);
+            Assert.AreEqual(0.36172379832273538, range3.Min);
+            Assert.AreEqual(15278.074524254929, range3.Max);
         }
 
 

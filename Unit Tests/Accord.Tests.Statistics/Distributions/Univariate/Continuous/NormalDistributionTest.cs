@@ -88,6 +88,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(Accord.Math.Normal.Function(normal.ZScore(4.2)), normal.DistributionFunction(4.2));
             Assert.AreEqual(Accord.Math.Normal.Derivative(normal.ZScore(4.2)) / normal.StandardDeviation, normal.ProbabilityDensityFunction(4.2), 1e-16);
             Assert.AreEqual(Accord.Math.Normal.LogDerivative(normal.ZScore(4.2)) - Math.Log(normal.StandardDeviation), normal.LogProbabilityDensityFunction(4.2), 1e-15);
+
+            var range1 = normal.GetRange(0.95);
+            var range2 = normal.GetRange(0.99);
+            var range3 = normal.GetRange(0.01);
+
+            Assert.AreEqual(-2.9083852331961833, range1.Min);
+            Assert.AreEqual(10.908385233196183, range1.Max);
+            Assert.AreEqual(-5.7706610709715314, range2.Min);
+            Assert.AreEqual(13.770661070971531, range2.Max);
+            Assert.AreEqual(-5.7706610709715314, range3.Min);
+            Assert.AreEqual(13.770661070971531, range3.Max);
         }
 
         [TestMethod()]

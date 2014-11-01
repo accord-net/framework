@@ -84,6 +84,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.82232239575211952, ccdf);
             Assert.AreEqual(3.3999999904866245, icdf);
             Assert.AreEqual("Gumbel(x; μ = 4.795, β = 2.55102040816327)", str);
+
+            var range1 = gumbel.GetRange(0.95);
+            var range2 = gumbel.GetRange(0.99);
+            var range3 = gumbel.GetRange(0.01);
+
+            Assert.AreEqual(1.9960492163695556, range1.Min);
+            Assert.AreEqual(12.37202869894511, range1.Max);
+            Assert.AreEqual(0.89913343799046785, range2.Min);
+            Assert.AreEqual(16.530074551002095, range2.Max);
+            Assert.AreEqual(0.8991334379904673, range3.Min);
+            Assert.AreEqual(16.530074551002095, range3.Max);
         }
 
     }

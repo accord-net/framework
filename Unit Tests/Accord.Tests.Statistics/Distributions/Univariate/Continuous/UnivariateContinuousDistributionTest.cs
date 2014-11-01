@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions;
     using System;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Math;
 
     [TestClass()]
     public class UnivariateContinuousDistributionTest
@@ -321,6 +322,53 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(-1, actual.Minimum, 1e-4);
             Assert.AreEqual(4, actual.Maximum, 1e-4);
+        }
+
+        [TestMethod()]
+        public void GetRangeTest()
+        {
+            UnivariateContinuousDistribution target = CreateUnivariateContinuousDistribution();
+
+            var range1 = target.GetRange(0.95);
+            var range2 = target.GetRange(0.99);
+            var range3 = target.GetRange(0.01);
+
+            Assert.AreEqual(19.629053173483637, range1.Min);
+            Assert.AreEqual(26.370946826516363, range1.Max);
+            Assert.AreEqual(18.232405574041742, range2.Min);
+            Assert.AreEqual(27.767594425958258, range2.Max);
+            Assert.AreEqual(18.232405574041742, range3.Min);
+            Assert.AreEqual(27.767594425958258, range3.Max);
+        }
+
+        [TestMethod()]
+        public void GetRangeTest_RangeException()
+        {
+            UnivariateContinuousDistribution target = CreateUnivariateContinuousDistribution();
+
+            bool thrown = false;
+            try { target.GetRange(0 - Double.Epsilon); }
+            catch (ArgumentOutOfRangeException) { thrown = true; }
+            Assert.IsTrue(thrown);
+
+            thrown = false;
+            try { target.GetRange(1.0 + 2 * Constants.DoubleEpsilon); }
+            catch (ArgumentOutOfRangeException) { thrown = true; }
+            Assert.IsTrue(thrown);
+        }
+
+        [TestMethod()]
+        public void GetRangeTest2()
+        {
+            UnivariateContinuousDistribution target = CreateUnivariateContinuousDistribution();
+
+            var range2 = target.GetRange(0.0 + Double.Epsilon);
+            Assert.AreEqual(-55.834722290615161, range2.Min);
+            Assert.AreEqual(Double.PositiveInfinity, range2.Max);
+
+            var range3 = target.GetRange(1.0 - Constants.DoubleEpsilon);
+            Assert.AreEqual(-55.834722290615161, range2.Min);
+            Assert.AreEqual(Double.PositiveInfinity, range2.Max);
         }
     }
 }

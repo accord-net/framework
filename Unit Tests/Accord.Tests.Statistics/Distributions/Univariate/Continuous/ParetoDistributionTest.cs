@@ -82,6 +82,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.027000000000000024, ccdf);
             Assert.AreEqual(1.40, icdf, 1e-7);
             Assert.AreEqual("Pareto(x; xm = 0.42, α = 3)", str);
+
+            var range1 = pareto.GetRange(0.95);
+            var range2 = pareto.GetRange(0.99);
+            var range3 = pareto.GetRange(0.01);
+
+            Assert.AreEqual(0.42724297039643383, range1.Min, 1e-8);
+            Assert.AreEqual(1.1400554029735852, range1.Max, 1e-8);
+            Assert.AreEqual(0.42140940651872005, range2.Min, 1e-8);
+            Assert.AreEqual(1.9494675279346789, range2.Max, 1e-8);
+            Assert.AreEqual(0.42140940651872005, range3.Min, 1e-8);
+            Assert.AreEqual(1.9494675279346789, range3.Max, 1e-8);
         }
 
         [TestMethod()]

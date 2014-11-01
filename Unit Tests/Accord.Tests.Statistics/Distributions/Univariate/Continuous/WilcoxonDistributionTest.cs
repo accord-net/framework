@@ -123,6 +123,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.417236328125, ccdf);
             Assert.AreEqual(42, icdf, 0.05);
             Assert.AreEqual("W+(x; R)", str);
+
+            var range1 = W.GetRange(0.95);
+            var range2 = W.GetRange(0.99);
+            var range3 = W.GetRange(0.01);
+
+            Assert.AreEqual(17.999999736111114, range1.Min);
+            Assert.AreEqual(60.000000315408002, range1.Max);
+            Assert.AreEqual(10.000000351098127, range2.Min);
+            Assert.AreEqual(67.99999981945885, range2.Max);
+            Assert.AreEqual(10.000000351098119, range3.Min);
+            Assert.AreEqual(67.99999981945885, range3.Max);
         }
 
         [TestMethod()]

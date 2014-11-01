@@ -28,6 +28,7 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
+    using Accord.Math;
 
     [TestClass()]
     public class GeneralizedNormalDistributionTest
@@ -60,15 +61,15 @@ namespace Accord.Tests.Statistics
             double mode = normal.Mode;     // 1
             double var = normal.Variance;  // 19200.781700666659
 
-            double cdf = normal.DistributionFunction(x: 1.4); // 0.50877105447218995
+            double cdf = normal.DistributionFunction(x: 1.4); // 0.51076148867681703
             double pdf = normal.ProbabilityDensityFunction(x: 1.4); // 0.024215092283124507
             double lpdf = normal.LogProbabilityDensityFunction(x: 1.4); // -3.7207791921441378
 
-            double ccdf = normal.ComplementaryDistributionFunction(x: 1.4); // 0.49122894552781005
-            double icdf = normal.InverseDistributionFunction(p: cdf); // 1.4000000149740104
+            double ccdf = normal.ComplementaryDistributionFunction(x: 1.4); // 0.48923851132318297
+            double icdf = normal.InverseDistributionFunction(p: cdf); // 1.4000000149740108
 
-            double hf = normal.HazardFunction(x: 1.4); // 0.049294921448706883
-            double chf = normal.CumulativeHazardFunction(x: 1.4); // 0.71084497569360638
+            double hf = normal.HazardFunction(x: 1.4); // 0.049495474543966168
+            double chf = normal.CumulativeHazardFunction(x: 1.4); // 0.7149051552030572
 
             string str = normal.ToString(CultureInfo.InvariantCulture); // GGD(x; μ = 1, α = 5, β = 0.42)
 
@@ -76,14 +77,25 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, median);
             Assert.AreEqual(1, mode);
             Assert.AreEqual(19200.781700666659, var);
-            Assert.AreEqual(0.71084497569360638, chf);
-            Assert.AreEqual(0.50877105447218995, cdf);
+            Assert.AreEqual(0.7149051552030572, chf);
+            Assert.AreEqual(0.51076148867681703, cdf);
             Assert.AreEqual(0.024215092283124507, pdf);
             Assert.AreEqual(-3.7207791921441378, lpdf);
-            Assert.AreEqual(0.049294921448706883, hf);
-            Assert.AreEqual(0.49122894552781005, ccdf);
-            Assert.AreEqual(1.4000000149740104, icdf);
+            Assert.AreEqual(0.049495474543966168, hf);
+            Assert.AreEqual(0.48923851132318297, ccdf);
+            Assert.AreEqual(1.4000000149740108, icdf);
             Assert.AreEqual("GGD(x; μ = 1, α = 5, β = 0.42)", str);
+
+            var range1 = normal.GetRange(0.95);
+            var range2 = normal.GetRange(0.99);
+            var range3 = normal.GetRange(0.01);
+
+            Assert.AreEqual(-173.60070095277663, range1.Min);
+            Assert.AreEqual(175.60070093821949, range1.Max);
+            Assert.AreEqual(-428.92857248354409, range2.Min);
+            Assert.AreEqual(430.92857248354375, range2.Max);
+            Assert.AreEqual(-428.92857248354403, range3.Min);
+            Assert.AreEqual(430.92857248354375, range3.Max);
         }
 
         [TestMethod()]
@@ -96,12 +108,58 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void NormalTest2()
+        {
+            var target = GeneralizedNormalDistribution.Normal(mean: 0.0, stdDev: 2 / Constants.Sqrt2);
+            var normal = new NormalDistribution(mean: 0.0, stdDev: 2 / Constants.Sqrt2);
+
+            test(target, normal);
+
+            var support = target.Support;
+            Assert.AreEqual(normal.Support.Min, support.Min);
+            Assert.AreEqual(normal.Support.Max, support.Max);
+
+            for (double i = 0.01; i <= 1; i += 0.01)
+            {
+                var actual = normal.GetRange(i);
+                var expected = normal.GetRange(i);
+
+                Assert.AreEqual(expected.Min, actual.Min);
+                Assert.AreEqual(expected.Max, actual.Max);
+            }
+        }
+
+        [TestMethod()]
+        public void SupportTest1()
+        {
+            var target = new GeneralizedNormalDistribution(0.0, 10, 2);
+
+            var range = target.Support;
+
+            Assert.AreEqual(double.NegativeInfinity, range.Min);
+            Assert.AreEqual(double.PositiveInfinity, range.Max);
+        }
+
+        [TestMethod()]
         public void LaplaceTest()
         {
             var target = GeneralizedNormalDistribution.Laplace(location: 0.42, scale: 4.2);
             var normal = new LaplaceDistribution(location: 0.42, scale: 4.2);
 
             test(target, normal);
+
+            var support = target.Support;
+            Assert.AreEqual(normal.Support.Min, support.Min);
+            Assert.AreEqual(normal.Support.Max, support.Max);
+
+            for (double i = 0.01; i <= 1.0; i += 0.01)
+            {
+                var actual = normal.GetRange(i);
+                var expected = normal.GetRange(i);
+
+                Assert.AreEqual(expected.Min, actual.Min);
+                Assert.AreEqual(expected.Max, actual.Max);
+            }
         }
 
         private static void test(GeneralizedNormalDistribution target, UnivariateContinuousDistribution normal)
@@ -109,8 +167,8 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(normal.Mean, target.Mean);
             Assert.AreEqual(normal.Variance, target.Variance, 1e-10);
-            Assert.AreEqual(normal.Entropy, target.Entropy,1e-10);
-            Assert.AreEqual(normal.StandardDeviation, target.StandardDeviation);
+            Assert.AreEqual(normal.Entropy, target.Entropy, 1e-10);
+            Assert.AreEqual(normal.StandardDeviation, target.StandardDeviation, 1e-10);
             Assert.AreEqual(normal.Mode, target.Mode);
             Assert.AreEqual(normal.Median, target.Median);
 

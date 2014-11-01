@@ -110,6 +110,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.11111111111111116, ccdf);
             Assert.AreEqual(4.1999999999999993, icdf);
             Assert.AreEqual("Fn(x; S)", str);
+
+            var range1 = distribution.GetRange(0.95);
+            var range2 = distribution.GetRange(0.99);
+            var range3 = distribution.GetRange(0.01);
+
+            Assert.AreEqual(0.99999947547912593, range1.Min);
+            Assert.AreEqual(5.0000002464240794, range1.Max);
+            Assert.AreEqual(0.99999913215637204, range2.Min);
+            Assert.AreEqual(5.0000004605903117, range2.Max);
+            Assert.AreEqual(0.99999913215637204, range3.Min);
+            Assert.AreEqual(5.0000004605903117, range3.Max);
         }
 
         [TestMethod()]

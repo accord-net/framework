@@ -89,6 +89,18 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.0038659201394728449, ccdf);
             Assert.AreEqual(1.40000000, icdf, 1e-8);
             Assert.AreEqual("Rayleigh(x; σ = 0.42)", str);
+
+            var range1 = rayleigh.GetRange(0.95);
+            Assert.AreEqual(0.13452243301684083, range1.Min);
+            Assert.AreEqual(1.0280536793538564, range1.Max);
+
+            var range2 = rayleigh.GetRange(0.99);
+            Assert.AreEqual(0.059546263061601511, range2.Min);
+            Assert.AreEqual(1.2746387879926619, range2.Max);
+
+            var range3 = rayleigh.GetRange(0.01);
+            Assert.AreEqual(0.059546263061601677, range3.Min);
+            Assert.AreEqual(1.2746387879926619, range3.Max);
         }
 
         [TestMethod()]

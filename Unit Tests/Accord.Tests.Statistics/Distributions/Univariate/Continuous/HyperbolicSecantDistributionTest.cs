@@ -81,6 +81,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("Sech(x)", str);
 
             Assert.IsFalse(double.IsNaN(icdf));
+
+            var range1 = sech.GetRange(0.95);
+            var range2 = sech.GetRange(0.99);
+            var range3 = sech.GetRange(0.01);
+
+            Assert.AreEqual(-1.6183450347411152, range1.Min);
+            Assert.AreEqual(1.6183450347411155, range1.Max);
+            Assert.AreEqual(-2.6442035634463368, range2.Min);
+            Assert.AreEqual(2.6442035634463381, range2.Max);
+            Assert.AreEqual(-2.6442035634463372, range3.Min);
+            Assert.AreEqual(2.6442035634463381, range3.Max);
         }
 
     }

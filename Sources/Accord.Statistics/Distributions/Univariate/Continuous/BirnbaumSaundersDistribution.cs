@@ -90,9 +90,21 @@ namespace Accord.Statistics.Distributions.Univariate
 
         /// <summary>
         ///   Constructs a Birnbaum-Saunders distribution
+        ///   with location parameter 0, scale 1, and shape 1.
+        /// </summary>
+        /// 
+        public BirnbaumSaundersDistribution()
+            : this(0, 1, 1)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a Birnbaum-Saunders distribution
         ///   with location parameter 0, scale 1, and the
         ///   given shape.
         /// </summary>
+        /// 
+        /// <param name="shape">The shape parameter gamma (γ). Default is 1.</param>
         /// 
         public BirnbaumSaundersDistribution(double shape)
             : this(0, 1, shape)
@@ -105,9 +117,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with given location, shape and scale parameters.
         /// </summary>
         /// 
-        /// <param name="location">The location parameter μ.</param>
-        /// <param name="scale">The scale parameter beta (β).</param>
-        /// <param name="shape">The shape parameter gamma (γ).</param>
+        /// <param name="location">The location parameter μ. Default is 0.</param>
+        /// <param name="scale">The scale parameter beta (β). Default is 1.</param>
+        /// <param name="shape">The shape parameter gamma (γ). Default is 1.</param>
         /// 
         public BirnbaumSaundersDistribution(double location, double scale, double shape)
         {

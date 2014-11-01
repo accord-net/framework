@@ -96,6 +96,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.22369885565908001, ccdf);
             Assert.AreEqual(1.40, icdf, 1e-6);
             Assert.AreEqual("Weibull(x; λ = 0.42, k = 1.2)", str);
+
+            var range1 = weilbull.GetRange(0.95);
+            var range2 = weilbull.GetRange(0.99);
+            var range3 = weilbull.GetRange(0.01);
+
+            Assert.AreEqual(0.035342687605397792, range1.Min);
+            Assert.AreEqual(1.0479366931850318, range1.Max);
+            Assert.AreEqual(0.0090865355213001313, range2.Min);
+            Assert.AreEqual(1.4995260942223139, range2.Max);
+            Assert.AreEqual(0.0090865355213001677, range3.Min);
+            Assert.AreEqual(1.4995260942223139, range3.Max);
         }
 
         [TestMethod()]

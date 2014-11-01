@@ -136,8 +136,18 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Constructs a Gamma distribution.
         /// </summary>
         /// 
-        /// <param name="theta">The scale parameter θ (theta).</param>
-        /// <param name="k">The shape parameter k.</param>
+        public GammaDistribution()
+            : this(1, 1)
+        {
+            init(theta, k);
+        }
+
+        /// <summary>
+        ///   Constructs a Gamma distribution.
+        /// </summary>
+        /// 
+        /// <param name="theta">The scale parameter θ (theta). Default is 1.</param>
+        /// <param name="k">The shape parameter k. Default is 1.</param>
         /// 
         public GammaDistribution(double theta, double k)
         {
@@ -174,6 +184,11 @@ namespace Accord.Statistics.Distributions.Univariate
 
         private void init(double theta, double k)
         {
+            if (k <= 0)
+                throw new ArgumentOutOfRangeException("k", "Parameter k must be positive.");
+
+            if (theta <= 0)
+                throw new ArgumentOutOfRangeException("theta", "Theta must be positive.");
             this.theta = theta;
             this.k = k;
 
@@ -433,8 +448,6 @@ namespace Accord.Statistics.Distributions.Univariate
 
             init(theta, newK);
         }
-
-        private GammaDistribution() { }
 
         /// <summary>
         ///   Estimates a new Gamma distribution from a given set of observations.

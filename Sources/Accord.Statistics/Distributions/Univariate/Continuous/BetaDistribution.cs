@@ -117,12 +117,22 @@ namespace Accord.Statistics.Distributions.Univariate
         double constant;
         double? entropy;
 
+
         /// <summary>
         ///   Creates a new Beta distribution.
         /// </summary>
         /// 
-        /// <param name="success">The number of success <c>r</c>.</param>
-        /// <param name="trials">The number of trials <c>n</c>.</param>
+        public BetaDistribution()
+            : this(0, 1)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new Beta distribution.
+        /// </summary>
+        /// 
+        /// <param name="success">The number of success <c>r</c>. Default is 0.</param>
+        /// <param name="trials">The number of trials <c>n</c>. Default is 1.</param>
         /// 
         public BetaDistribution(int success, int trials)
         {
@@ -149,10 +159,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public BetaDistribution(double alpha, double beta)
         {
-            if (alpha <= 0) 
+            if (alpha <= 0)
                 throw new ArgumentOutOfRangeException("alpha");
 
-            if (beta <= 0) 
+            if (beta <= 0)
                 throw new ArgumentOutOfRangeException("beta");
 
             init(alpha, beta);

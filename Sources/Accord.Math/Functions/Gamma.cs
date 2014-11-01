@@ -448,12 +448,16 @@ namespace Accord.Math
             double ans, ax, c, yc, r, t, y, z;
             double pk, pkm1, pkm2, qk, qkm1, qkm2;
 
-            if (x <= 0 || a <= 0) return 1.0;
+            if (x <= 0 || a <= 0) 
+                return 1.0;
 
-            if (x < 1.0 || x < a) return 1.0 - LowerIncomplete(a, x);
+            if (x < 1.0 || x < a) 
+                return 1.0 - LowerIncomplete(a, x);
 
             ax = a * Math.Log(x) - x - Log(a);
-            if (ax < -Constants.LogMax) return 0.0;
+
+            if (ax < -Constants.LogMax) 
+                return 0.0;
 
             ax = Math.Exp(ax);
 
@@ -511,20 +515,22 @@ namespace Accord.Math
         /// 
         public static double LowerIncomplete(double a, double x)
         {
-            double ans, ax, c, r;
+            if (x <= 0 || a <= 0)
+                return 0.0;
 
-            if (x <= 0 || a <= 0) return 0.0;
+            if (x > 1.0 && x > a)
+                return 1.0 - UpperIncomplete(a, x);
 
-            if (x > 1.0 && x > a) return 1.0 - UpperIncomplete(a, x);
+            double ax = a * Math.Log(x) - x - Log(a);
 
-            ax = a * Math.Log(x) - x - Log(a);
-            if (ax < -Constants.LogMax) return (0.0);
+            if (ax < -Constants.LogMax)
+                return (0.0);
 
             ax = Math.Exp(ax);
 
-            r = a;
-            c = 1.0;
-            ans = 1.0;
+            double r = a;
+            double c = 1.0;
+            double ans = 1.0;
 
             do
             {
@@ -533,8 +539,7 @@ namespace Accord.Math
                 ans += c;
             } while (c / ans > Constants.DoubleEpsilon);
 
-            return (ans * ax / a);
-
+            return ans * ax / a;
         }
 
         /// <summary>

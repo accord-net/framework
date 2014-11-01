@@ -128,8 +128,8 @@ namespace Accord.Tests.Statistics
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
             double expected = Tools.Variance(original);
 
-            var repeats = new [] { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
-            var samples = new [] { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3.0 };
+            var repeats = new[] { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
+            var samples = new[] { 5, 1, 4, 1, 2, 3, 4, 3, 4, 3, 2, 3.0 };
             double actual = Tools.WeightedVariance(samples, repeats);
 
             Assert.AreEqual(expected, actual);
@@ -333,6 +333,200 @@ namespace Accord.Tests.Statistics
             double[] expected = { 0, 1, 1, 4 };
             double[] actual = Tools.Mode(matrix);
             Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [TestMethod()]
+        public void ModeTest2()
+        {
+            double[] values = { 0, 1, 1, 2 };
+
+            double expected = 1;
+            double actual = Tools.Mode(values);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void ModeTest3()
+        {
+            double[] values = { 0, 1, 2, 2 };
+
+            double expected = 2;
+            double actual = Tools.Mode(values);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void ModeTest_NonComparable()
+        {
+            object a = new object();
+            object b = new object();
+            object c = new object();
+
+            object[] values;
+            object actual;
+
+            values = new[] { a, a, b, c };
+            actual = Tools.Mode(values);
+            Assert.AreEqual(a, actual);
+
+            values = new[] { a, b, b, c };
+            actual = Tools.Mode(values);
+            Assert.AreEqual(b, actual);
+
+            values = new[] { a, b, c, c };
+            actual = Tools.Mode(values);
+            Assert.AreEqual(c, actual);
+
+            int count;
+            values = new[] { a, b, c, a };
+            actual = Tools.Mode(values, out count);
+            Assert.AreEqual(a, actual);
+            Assert.AreEqual(2, count);
+
+            values = new[] { b, a, b, b, c };
+            actual = Tools.Mode(values, out count);
+            Assert.AreEqual(b, actual);
+            Assert.AreEqual(3, count);
+
+            values = new[] { c, c, a, b, c, c };
+            actual = Tools.Mode(values, out count);
+            Assert.AreEqual(c, actual);
+            Assert.AreEqual(4, count);
+        }
+
+        [TestMethod()]
+        public void WeightedModeTest_NonComparable()
+        {
+            object a = new object();
+            object b = new object();
+            object c = new object();
+
+            object[] values;
+            int[] weight;
+            object actual;
+
+            values = new[] { a, a, b, c };
+            weight = new[] { 1, 1, 5, 1 };
+            actual = Tools.WeightedMode(values, weight);
+            Assert.AreEqual(b, actual);
+
+            values = new[] { a, b, b, c };
+            weight = new[] { 5, 1, 1, 1 };
+            actual = Tools.WeightedMode(values, weight);
+            Assert.AreEqual(a, actual);
+
+            values = new[] { a, b, b, c };
+            weight = new[] { 2, 1, 1, 5 };
+            actual = Tools.WeightedMode(values, weight);
+            Assert.AreEqual(c, actual);
+
+            values = new[] { a, b, c, c };
+            weight = new[] { 1, 1, 5, 5 };
+            actual = Tools.WeightedMode(values, weight);
+            Assert.AreEqual(c, actual);
+
+            values = new[] { a, a, b, c };
+            weight = new[] { 1, 1, 1, 1 };
+            actual = Tools.WeightedMode(values, weight);
+            Assert.AreEqual(a, actual);
+
+            values = new[] { a, b, b, c };
+            weight = new[] { 1, 1, 1, 1 };
+            actual = Tools.WeightedMode(values, weight);
+            Assert.AreEqual(b, actual);
+
+            values = new[] { a, b, b, c };
+            weight = new[] { 1, 1, 1, 1 };
+            actual = Tools.WeightedMode(values, weight);
+            Assert.AreEqual(b, actual);
+
+            values = new[] { a, b, c, c };
+            weight = new[] { 1, 1, 1, 1 };
+            actual = Tools.WeightedMode(values, weight);
+            Assert.AreEqual(c, actual);
+        }
+
+        [TestMethod()]
+        public void ModeTest_Comparable()
+        {
+            int a = 1;
+            int b = 10;
+            int c = 100;
+
+            int[] values;
+            int actual;
+
+            values = new[] { a, a, b, c };
+            actual = Tools.Mode(values);
+            Assert.AreEqual(a, actual);
+
+            values = new[] { a, b, b, c };
+            actual = Tools.Mode(values);
+            Assert.AreEqual(b, actual);
+
+            values = new[] { a, b, c, c };
+            actual = Tools.Mode(values);
+            Assert.AreEqual(c, actual);
+
+            int count;
+            values = new[] { a, b, c, a };
+            actual = Tools.Mode(values, out count);
+            Assert.AreEqual(a, actual);
+            Assert.AreEqual(2, count);
+
+            values = new[] { b, a, b, b, c };
+            actual = Tools.Mode(values, out count);
+            Assert.AreEqual(b, actual);
+            Assert.AreEqual(3, count);
+
+            values = new[] { c, c, a, b, c, c };
+            actual = Tools.Mode(values, out count);
+            Assert.AreEqual(c, actual);
+            Assert.AreEqual(4, count);
+        }
+
+        [TestMethod()]
+        public void WeightedModeTest1()
+        {
+            double[] values = { 0, 1, 1, 2 };
+            double[] weights = { 50, 1, 1, 2 };
+
+            double expected = 0;
+            double actual = Tools.WeightedMode(values, weights);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void WeightedModeTest2()
+        {
+            double[] values = { 0, 1, 1, 2 };
+            double[] weights = { 0, 1, 1, 50 };
+
+            double expected = 2;
+            double actual = Tools.WeightedMode(values, weights);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void WeightedCountsModeTest1()
+        {
+            double[] values = { 0, 1, 1, 2 };
+            int[] weights = { 50, 1, 1, 2 };
+
+            double expected = 0;
+            double actual = Tools.WeightedMode(values, weights);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void WeightedCountsModeTest2()
+        {
+            double[] values = { 0, 1, 1, 2 };
+            int[] weights = { 0, 1, 1, 50 };
+
+            double expected = 2;
+            double actual = Tools.WeightedMode(values, weights);
+            Assert.AreEqual(expected, actual);
         }
 
 
@@ -875,7 +1069,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void ModeTest2()
+        public void MatrixModeTest2()
         {
             int[][] matrix = 
             {
@@ -896,7 +1090,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void ModeTest3()
+        public void MatrixModeTest3()
         {
             double[][] matrix = 
             {

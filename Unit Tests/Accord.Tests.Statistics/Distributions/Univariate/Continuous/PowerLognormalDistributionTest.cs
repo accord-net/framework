@@ -84,6 +84,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.019078422548082351, ccdf);
             Assert.AreEqual(1.4000000000000001, icdf);
             Assert.AreEqual("PLD(x; p = 4.2, σ = 1.2)", str);
+
+            var range1 = plog.GetRange(0.95);
+            var range2 = plog.GetRange(0.99);
+            var range3 = plog.GetRange(0.01);
+
+            Assert.AreEqual(0.066986543067356463, range1.Min);
+            Assert.AreEqual(1.0304177429659382, range1.Max);
+            Assert.AreEqual(0.033851065908457677, range2.Min);
+            Assert.AreEqual(1.672824432596103, range2.Max);
+            Assert.AreEqual(0.033851065908457677, range3.Min);
+            Assert.AreEqual(1.672824432596103, range3.Max);
         }
 
     }

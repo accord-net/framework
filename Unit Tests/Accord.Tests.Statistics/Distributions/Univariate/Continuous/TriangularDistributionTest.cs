@@ -26,6 +26,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
 
@@ -53,24 +54,24 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void ConstructorTest1()
         {
-            var trig = new TriangularDistribution(a: 1, b: 6, c: 3);
+            var tri = new TriangularDistribution(a: 1, b: 6, c: 3);
 
-            double mean = trig.Mean;     // 3.3333333333333335
-            double median = trig.Median; // 3.2613872124741694
-            double mode = trig.Mode;     // 3.0
-            double var = trig.Variance;  // 1.0555555555555556
+            double mean = tri.Mean;     // 3.3333333333333335
+            double median = tri.Median; // 3.2613872124741694
+            double mode = tri.Mode;     // 3.0
+            double var = tri.Variance;  // 1.0555555555555556
 
-            double cdf = trig.DistributionFunction(x: 2); // 0.10000000000000001
-            double pdf = trig.ProbabilityDensityFunction(x: 2); // 0.20000000000000001
-            double lpdf = trig.LogProbabilityDensityFunction(x: 2); // -1.6094379124341003
+            double cdf = tri.DistributionFunction(x: 2); // 0.10000000000000001
+            double pdf = tri.ProbabilityDensityFunction(x: 2); // 0.20000000000000001
+            double lpdf = tri.LogProbabilityDensityFunction(x: 2); // -1.6094379124341003
 
-            double ccdf = trig.ComplementaryDistributionFunction(x: 2); // 0.90000000000000002
-            double icdf = trig.InverseDistributionFunction(p: cdf); // 2.0000000655718773
+            double ccdf = tri.ComplementaryDistributionFunction(x: 2); // 0.90000000000000002
+            double icdf = tri.InverseDistributionFunction(p: cdf); // 2.0000000655718773
 
-            double hf = trig.HazardFunction(x: 2); // 0.22222222222222224
-            double chf = trig.CumulativeHazardFunction(x: 2); // 0.10536051565782628
+            double hf = tri.HazardFunction(x: 2); // 0.22222222222222224
+            double chf = tri.CumulativeHazardFunction(x: 2); // 0.10536051565782628
 
-            string str = trig.ToString(CultureInfo.InvariantCulture); // Triangular(x; a = 1, b = 6, c = 3)
+            string str = tri.ToString(CultureInfo.InvariantCulture); // Triangular(x; a = 1, b = 6, c = 3)
 
             Assert.AreEqual(3.3333333333333335, mean);
             Assert.AreEqual(3.0, mode);
@@ -84,12 +85,62 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.90000000000000002, ccdf);
             Assert.AreEqual(2.0000000655718773, icdf);
             Assert.AreEqual("Triangular(x; a = 1, b = 6, c = 3)", str);
+
+            var range1 = tri.GetRange(0.95);
+            var range2 = tri.GetRange(0.99);
+            var range3 = tri.GetRange(0.01);
+
+            Assert.AreEqual(1.7071067704914942, range1.Min);
+            Assert.AreEqual(5.1339745973005186, range1.Max);
+            Assert.AreEqual(1.3162277235820534, range2.Min);
+            Assert.AreEqual(5.6127016687540774, range2.Max);
+            Assert.AreEqual(1.3162277235820532, range3.Min);
+            Assert.AreEqual(5.6127016687540774, range3.Max);
+        }
+
+        [TestMethod()]
+        public void GenerateTest1()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            var target = new TriangularDistribution(-4.2, 7, 1);
+
+            double[] samples = new double[10000000];
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                double u = target.Generate();
+                samples[i] = System.Math.Round(u, 2);
+            }
+
+            double min = samples.Min();
+            double max = samples.Max();
+            double mode = samples.Mode();
+
+            Assert.AreEqual(min, target.A, 1e-2);
+            Assert.AreEqual(max, target.B, 1e-2);
+            Assert.AreEqual(mode, target.C, 0.035);
         }
 
         [TestMethod()]
         public void GenerateTest2()
         {
+            Accord.Math.Tools.SetupGenerator(0);
 
+            var target = new TriangularDistribution(-4.2, 7, 1);
+
+            double[] samples = target.Generate(10000000);
+
+            for (int i = 0; i < samples.Length; i++)
+                samples[i] = System.Math.Round(samples[i], 2);
+
+            double min = samples.Min();
+            double max = samples.Max();
+            double mode = samples.Mode();
+
+            Assert.AreEqual(min, target.A, 1e-2);
+            Assert.AreEqual(max, target.B, 1e-2);
+            Assert.AreEqual(mode, target.C, 0.035);
         }
     }
 }

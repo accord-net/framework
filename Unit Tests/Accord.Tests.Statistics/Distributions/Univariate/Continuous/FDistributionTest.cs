@@ -80,6 +80,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.95053659194273166, ccdf);
             Assert.AreEqual(0.27, icdf);
             Assert.AreEqual("F(x; df1 = 8, df2 = 5)", str);
+
+            var range1 = F.GetRange(0.95);
+            var range2 = F.GetRange(0.99);
+            var range3 = F.GetRange(0.01);
+
+            Assert.AreEqual(0.27118653875813753, range1.Min);
+            Assert.AreEqual(4.8183195356568689, range1.Max);
+            Assert.AreEqual(0.15078805233761733, range2.Min);
+            Assert.AreEqual(10.289311046135927, range2.Max);
+            Assert.AreEqual(0.1507880523376173, range3.Min);
+            Assert.AreEqual(10.289311046135927, range3.Max);
         }
 
         [TestMethod()]

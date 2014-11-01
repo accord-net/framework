@@ -75,6 +75,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.0034013639700392062, ccdf);
             Assert.AreEqual(0.27, icdf, 1e-6);
             Assert.AreEqual("KS(x; n = 42)", str);
+
+            var range1 = ks.GetRange(0.95);
+            var range2 = ks.GetRange(0.99);
+            var range3 = ks.GetRange(0.01);
+
+            Assert.AreEqual(0.076658557134805502, range1.Min);
+            Assert.AreEqual(0.20517007413251875, range1.Max);
+            Assert.AreEqual(0.064613698945741663, range2.Min);
+            Assert.AreEqual(0.24612731591151149, range2.Max);
+            Assert.AreEqual(0.064613698945741649, range3.Min);
+            Assert.AreEqual(0.24612731591151149, range3.Max);
         }
 
         [TestMethod()]

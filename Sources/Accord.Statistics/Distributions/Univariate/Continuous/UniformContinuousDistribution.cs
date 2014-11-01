@@ -395,9 +395,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(int samples)
         {
+            var random = Accord.Math.Tools.Random;
+
             double[] r = new double[samples];
             for (int i = 0; i < r.Length; i++)
-                r[i] = Accord.Math.Tools.Random.NextDouble();
+                r[i] = random.NextDouble();
 
             return r;
         }

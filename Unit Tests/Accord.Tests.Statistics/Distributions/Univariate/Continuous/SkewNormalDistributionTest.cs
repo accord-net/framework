@@ -85,6 +85,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.97983314505747388, ccdf);
             Assert.AreEqual(1.3999998597203041, icdf);
             Assert.AreEqual("Sn(x; ξ = 2, ω = 3, α = 4.2)", str);
+
+            var range1 = skewNormal.GetRange(0.95);
+            var range2 = skewNormal.GetRange(0.99);
+            var range3 = skewNormal.GetRange(0.01);
+
+            Assert.AreEqual(1.7924702650334006, range1.Min);
+            Assert.AreEqual(7.879891951905198, range1.Max);
+            Assert.AreEqual(1.1477106790399794, range2.Min);
+            Assert.AreEqual(9.7274879203457694, range2.Max);
+            Assert.AreEqual(1.1477106790399785, range3.Min);
+            Assert.AreEqual(9.7274879203457694, range3.Max);
         }
 
         [TestMethod()]
