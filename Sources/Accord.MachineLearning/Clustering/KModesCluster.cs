@@ -33,15 +33,24 @@ namespace Accord.MachineLearning
     /// <seealso cref="KModes{T}"/>
     /// 
     [Serializable]
-    public class KModesClusterCollection<TData> : IClusterCollection<TData, KModesCluster<TData>>
-        where TData : ICloneable
+    public class KModesClusterCollection<T>
+        : IClusterCollection<T[], KModesCluster<T>>
     {
 
-        private List<KModesCluster<TData>> clusters;
+        private List<KModesCluster<T>> clusters;
 
         private double[] proportions;
-        private TData[] centroids;
-        private Func<TData, TData, double> distance;
+        private T[][] centroids;
+        private Func<T[], T[], double> distance;
+
+        /// <summary>
+        ///   Gets the dimensionality of the data space.
+        /// </summary>
+        /// 
+        public int Dimension
+        {
+            get { return Centroids[0].Length; }
+        }
 
         /// <summary>
         ///   Gets the proportion of samples in each cluster.
@@ -57,7 +66,7 @@ namespace Accord.MachineLearning
         ///   as a distance metric between data points.
         /// </summary>
         /// 
-        public Func<TData, TData, double> Distance
+        public Func<T[], T[], double> Distance
         {
             get { return distance; }
             set { distance = value; }
@@ -70,7 +79,7 @@ namespace Accord.MachineLearning
         /// 
         /// <value>The clusters' centroids.</value>
         /// 
-        public TData[] Centroids
+        public T[][] Centroids
         {
             get { return centroids; }
             set
@@ -89,7 +98,7 @@ namespace Accord.MachineLearning
                 // Make a deep copy of the
                 // input centroids vector.
                 for (int i = 0; i < k; i++)
-                    centroids[i] = (TData)value[i].Clone();
+                    centroids[i] = (T[])value[i].Clone();
 
                 // Reset derived information
                 proportions = new double[k];
@@ -97,21 +106,22 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="KModesClusterCollection&lt;TData&gt;"/> class.
+        ///   Initializes a new instance of the <see cref="KModesClusterCollection&lt;T&gt;"/> class.
         /// </summary>
         /// 
         /// <param name="k">The number of clusters K.</param>
         /// <param name="distance">The distance metric to use.</param>
         /// 
-        public KModesClusterCollection(int k, Func<TData, TData, double> distance)
+        public KModesClusterCollection(int k, Func<T[], T[], double> distance)
         {
             // To store centroids of the clusters
             this.proportions = new double[k];
-            this.centroids = new TData[k];
+            this.centroids = new T[k][];
             this.distance = distance;
 
-            clusters = new List<KModesCluster<TData>>();
-            for (int i = 0; i < k; i++) clusters.Add(new KModesCluster<TData>(this, i));
+            clusters = new List<KModesCluster<T>>();
+            for (int i = 0; i < k; i++) 
+                clusters.Add(new KModesCluster<T>(this, i));
         }
 
 
@@ -124,7 +134,7 @@ namespace Accord.MachineLearning
         ///   The index of the nearest cluster
         ///   to the given data point. </returns>
         ///   
-        public int Nearest(TData point)
+        public int Nearest(T[] point)
         {
             int min_cluster = 0;
             double min_distance = distance(point, centroids[0]);
@@ -152,7 +162,7 @@ namespace Accord.MachineLearning
         ///   An array containing the index of the nearest cluster
         ///   to the corresponding point in the input array.</returns>
         ///   
-        public int[] Nearest(TData[] points)
+        public int[] Nearest(T[][] points)
         {
             int[] labels = new int[points.Length];
             for (int i = 0; i < points.Length; i++)
@@ -179,14 +189,14 @@ namespace Accord.MachineLearning
         ///   clusters' centroids.
         /// </returns>
         /// 
-        public double Distortion(TData[] data)
+        public double Distortion(T[][] points)
         {
             double error = 0.0;
 
-            for (int i = 0; i < data.Length; i++)
-                error += distance(data[i], centroids[Nearest(data[i])]);
+            for (int i = 0; i < points.Length; i++)
+                error += distance(points[i], centroids[Nearest(points[i])]);
 
-            return error / (double)data.Length;
+            return error / (double)points.Length;
         }
 
         /// <summary>
@@ -206,14 +216,14 @@ namespace Accord.MachineLearning
         ///   clusters' centroids.
         /// </returns>
         /// 
-        public double Distortion(TData[] data, int[] labels)
+        public double Distortion(T[][] points, int[] labels)
         {
             double error = 0.0;
 
-            for (int i = 0; i < data.Length; i++)
-                error += distance(data[i], centroids[labels[i]]);
+            for (int i = 0; i < points.Length; i++)
+                error += distance(points[i], centroids[labels[i]]);
 
-            return error / (double)data.Length;
+            return error / (double)points.Length;
         }
 
         /// <summary>
@@ -233,7 +243,7 @@ namespace Accord.MachineLearning
         /// 
         /// <returns>An object holding information about the selected cluster.</returns>
         /// 
-        public KModesCluster<TData> this[int index]
+        public KModesCluster<T> this[int index]
         {
             get { return clusters[index]; }
         }
@@ -246,7 +256,7 @@ namespace Accord.MachineLearning
         ///   An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
         /// </returns>
         /// 
-        public IEnumerator<KModesCluster<TData>> GetEnumerator()
+        public IEnumerator<KModesCluster<T>> GetEnumerator()
         {
             return clusters.GetEnumerator();
         }
@@ -274,10 +284,9 @@ namespace Accord.MachineLearning
     /// <seealso cref="KModesClusterCollection{T}"/>
     /// 
     [Serializable]
-    public class KModesCluster<TData>
-        where TData : ICloneable
+    public class KModesCluster<T>
     {
-        private KModesClusterCollection<TData> owner;
+        private KModesClusterCollection<T> owner;
         private int index;
 
         /// <summary>
@@ -293,7 +302,7 @@ namespace Accord.MachineLearning
         ///   Gets the cluster's centroid.
         /// </summary>
         /// 
-        public TData Mode
+        public T[] Mode
         {
             get { return owner.Centroids[index]; }
         }
@@ -308,13 +317,13 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="KModesCluster&lt;TData&gt;"/> class.
+        ///   Initializes a new instance of the <see cref="KModesCluster&lt;T&gt;"/> class.
         /// </summary>
         /// 
         /// <param name="owner">The owner.</param>
         /// <param name="index">The cluster index.</param>
         /// 
-        public KModesCluster(KModesClusterCollection<TData> owner, int index)
+        public KModesCluster(KModesClusterCollection<T> owner, int index)
         {
             this.owner = owner;
             this.index = index;
@@ -326,19 +335,19 @@ namespace Accord.MachineLearning
         ///   and its centroid.
         /// </summary>
         /// 
-        /// <param name="data">The input points.</param>
+        /// <param name="points">The input points.</param>
         /// 
         /// <returns>The average distance between all points
         /// in the cluster and the cluster centroid.</returns>
         /// 
-        public double Distortion(TData[] data)
+        public double Distortion(T[][] points)
         {
-            TData centroid = Mode;
+            T[] centroid = Mode;
 
             double error = 0.0;
-            for (int i = 0; i < data.Length; i++)
-                error += owner.Distance(data[i], centroid);
-            return error / (double)data.Length;
+            for (int i = 0; i < points.Length; i++)
+                error += owner.Distance(points[i], centroid);
+            return error / (double)points.Length;
         }
     }
 

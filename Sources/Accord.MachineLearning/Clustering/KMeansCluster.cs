@@ -45,6 +45,15 @@ namespace Accord.MachineLearning
         private double[][,] covariances;
 
         /// <summary>
+        ///   Gets the dimensionality of the data space.
+        /// </summary>
+        /// 
+        public int Dimension
+        {
+            get { return Centroids[0].Length; }
+        }
+
+        /// <summary>
         ///   Gets or sets the distance function used
         ///   as a distance metric between data points.
         /// </summary>

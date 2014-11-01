@@ -32,7 +32,7 @@ namespace Accord.MachineLearning
     /// <typeparam name="TData">The type of the data being clustered, such as <see cref="T:double[]"/>.</typeparam>
     /// 
     /// <seealso cref="KMeans"/>
-    /// <seealso cref="KModes{TData}"/>
+    /// <seealso cref="KModes{T}"/>
     /// <seealso cref="BinarySplit"/>
     /// <seealso cref="GaussianMixtureModel"/>
     /// 

@@ -33,3 +33,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Scope = "member", Target = "Accord.MachineLearning.VectorMachines.SupportVectorMachine.#FromLogisticRegression(Accord.Statistics.Models.Regression.LogisticRegression)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Scope = "member", Target = "Accord.MachineLearning.DecisionTrees.DecisionTree.#GetHeight()")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate", Scope = "member", Target = "Accord.MachineLearning.DecisionTrees.DecisionNode.#GetHeight()")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Scope = "type", Target = "Accord.MachineLearning.DecisionTrees.DecisionNode")]

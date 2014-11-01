@@ -200,7 +200,7 @@ namespace Accord.MachineLearning
         /// 
         public int Dimension
         {
-            get { return clusters.Centroids[0].Length; }
+            get { return clusters.Dimension; }
         }
 
         /// <summary>

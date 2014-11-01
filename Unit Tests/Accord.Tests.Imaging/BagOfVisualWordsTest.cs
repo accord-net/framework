@@ -226,12 +226,11 @@ namespace Accord.Tests.Imaging
 
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector(fast);
 
-            var kmodes = new KModes<byte[]>(5, Distance.BitwiseHamming);
+            var kmodes = new KModes<byte>(5, Distance.BitwiseHamming);
 
             var bow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(freak, kmodes);
 
             bow.Compute(images);
-
 
 
             double[][] expected = new double[images.Length][];

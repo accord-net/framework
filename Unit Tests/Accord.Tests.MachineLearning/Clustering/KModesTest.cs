@@ -62,13 +62,16 @@ namespace Accord.Tests.MachineLearning
             {
                 new int[] { 0, 0   }, // a
                 new int[] { 0, 1   }, // a
+                new int[] { 0, 1   }, // a
                 new int[] { 1, 1   }, // a
  
                 new int[] { 5, 3   }, // b
                 new int[] { 6, 8   }, // b
+                new int[] { 6, 8   }, // b
                 new int[] { 6, 7   }, // b
                 new int[] { 5, 8   }, // b
 
+                new int[] { 12, 14 }, // c
                 new int[] { 12, 14 }, // c
                 new int[] { 13, 14 }, // c
             };
@@ -88,16 +91,19 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(labels[0], labels[1]);
             Assert.AreEqual(labels[0], labels[2]);
+            Assert.AreEqual(labels[0], labels[3]);
 
-            Assert.AreEqual(labels[3], labels[4]);
-            Assert.AreEqual(labels[3], labels[5]);
-            Assert.AreEqual(labels[3], labels[6]);
+            Assert.AreEqual(labels[4], labels[5]);
+            Assert.AreEqual(labels[4], labels[6]);
+            Assert.AreEqual(labels[4], labels[7]);
+            Assert.AreEqual(labels[4], labels[8]);
 
-            Assert.AreEqual(labels[7], labels[8]);
+            Assert.AreEqual(labels[9], labels[10]);
+            Assert.AreEqual(labels[9], labels[11]);
 
-            Assert.AreNotEqual(labels[0], labels[3]);
-            Assert.AreNotEqual(labels[0], labels[7]);
-            Assert.AreNotEqual(labels[3], labels[7]);
+            Assert.AreNotEqual(labels[0], labels[4]);
+            Assert.AreNotEqual(labels[0], labels[9]);
+            Assert.AreNotEqual(labels[4], labels[9]);
 
 
             int[] labels2 = kmodes.Clusters.Nearest(observations);
