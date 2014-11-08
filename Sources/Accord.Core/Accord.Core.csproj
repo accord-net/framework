@@ -99,11 +99,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\ParameterAttributes.cs" />
     <Compile Include="Collections\RedBlackTree`2.cs" />
     <Compile Include="Collections\KeyValuePairComparer`2.cs" />
     <Compile Include="Compatibility\CancellationToken.cs" />

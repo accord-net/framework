@@ -25,6 +25,7 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Distributions;
 
     /// <summary>
     ///   One-sample Kolmogorov-Smirnov (KS) test.
@@ -145,7 +146,7 @@ namespace Accord.Statistics.Testing
         ///   which should have been stated <i>before</i> any measurements.
         /// </summary>
         /// 
-        public UnivariateContinuousDistribution TheoreticalDistribution { get; private set; }
+        public IUnivariateDistribution TheoreticalDistribution { get; private set; }
 
         /// <summary>
         ///   Gets the empirical distribution measured from the sample.
@@ -160,7 +161,7 @@ namespace Accord.Statistics.Testing
         /// <param name="sample">The sample we would like to test as belonging to the <paramref name="hypothesizedDistribution"/>.</param>
         /// <param name="hypothesizedDistribution">A fully specified distribution (which must NOT have been estimated from the data).</param>
         /// 
-        public KolmogorovSmirnovTest(double[] sample, UnivariateContinuousDistribution hypothesizedDistribution)
+        public KolmogorovSmirnovTest(double[] sample, IUnivariateDistribution hypothesizedDistribution)
             : this(sample, hypothesizedDistribution, KolmogorovSmirnovTestHypothesis.SampleIsDifferent) { }
 
         /// <summary>
@@ -171,7 +172,7 @@ namespace Accord.Statistics.Testing
         /// <param name="hypothesizedDistribution">A fully specified distribution (which must NOT have been estimated from the data).</param>
         /// <param name="alternate">The alternative hypothesis (research hypothesis) to test.</param>
         /// 
-        public KolmogorovSmirnovTest(double[] sample, UnivariateContinuousDistribution hypothesizedDistribution,
+        public KolmogorovSmirnovTest(double[] sample, IUnivariateDistribution hypothesizedDistribution,
             KolmogorovSmirnovTestHypothesis alternate = KolmogorovSmirnovTestHypothesis.SampleIsDifferent)
         {
             this.Hypothesis = alternate;

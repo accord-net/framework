@@ -25,6 +25,8 @@ namespace Accord.Statistics.Testing
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Analysis;
+    using Accord.Statistics.Visualizations;
+    using Accord.Statistics.Distributions;
 
     /// <summary>
     ///   Two-Sample (Goodness-of-fit) Chi-Square Test (Upper Tail)
@@ -150,20 +152,7 @@ namespace Accord.Statistics.Testing
             if (observed == null)
                 throw new ArgumentNullException("observed");
 
-
-            // X² = sum(o - e)²
-            //          -----
-            //            e
-
-            double sum = 0.0;
-            for (int i = 0; i < observed.Length; i++)
-            {
-                double d = observed[i] - expected[i];
-
-                if (d != 0)
-                    sum += (d * d) / expected[i];
-            }
-
+            double sum = compute(expected, observed);
 
             Compute(sum, degreesOfFreedom);
         }
@@ -210,6 +199,46 @@ namespace Accord.Statistics.Testing
             Compute(chiSquare, degreesOfFreedom: df);
         }
 
+        /// <summary>
+        ///   Constructs a Chi-Square Test.
+        /// </summary>
+        /// 
+        public ChiSquareTest(double[] observations, IUnivariateDistribution hypothesizedDistribution)
+        {
+            int n = observations.Length;
+            var E = new EmpiricalDistribution(observations);
+            var F = hypothesizedDistribution;
+
+
+            // Create bins with the observations
+            int bins = (int)Math.Ceiling(1 + Math.Log(observations.Length));
+
+            double[] ebins = new double[bins + 1];
+
+            for (int i = 0; i <= bins; i++)
+            {
+                double p = i / (double)bins;
+                ebins[i] = E.InverseDistributionFunction(p);
+            }
+
+            double[] observed = new double[bins - 1];
+            for (int i = 0; i < observed.Length; i++)
+            {
+                observed[i] = E.DistributionFunction(ebins[i + 1], ebins[i + 2]) * n;
+            }
+
+            double[] expected = new double[bins - 1];
+            for (int i = 0; i < expected.Length; i++)
+            {
+                double Fa = F.DistributionFunction(ebins[i + 1]);
+                double Fb = F.DistributionFunction(ebins[i + 2]);
+                expected[i] = (Fb - Fa) * n;
+            }
+
+            double sum = compute(expected, observed);
+
+            Compute(sum, bins - 1);
+        }
 
 
         /// <summary>
@@ -217,6 +246,7 @@ namespace Accord.Statistics.Testing
         /// </summary>
         /// 
         protected ChiSquareTest() { }
+
 
         /// <summary>
         ///   Computes the Chi-Square Test.
@@ -261,7 +291,22 @@ namespace Accord.Statistics.Testing
 
 
 
+        private static double compute(double[] expected, double[] observed)
+        {
+            // X² = sum(o - e)²
+            //          -----
+            //            e
 
+            double sum = 0.0;
+            for (int i = 0; i < observed.Length; i++)
+            {
+                double d = observed[i] - expected[i];
+
+                if (d != 0)
+                    sum += (d * d) / expected[i];
+            }
+            return sum;
+        }
 
         private static double compute(int[,] values, int[] row, int[] col, int samples, bool yatesCorrection)
         {

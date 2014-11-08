@@ -195,6 +195,8 @@
     <Compile Include="Distributions\Multivariate\Continuous\DirichletDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ShapiroWilkDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogLogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\InverseChiSquareDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\HyperbolicSecantDistribution.cs" />
@@ -448,6 +450,8 @@
     <Compile Include="Testing\Contingency\TwoAverageKappaTest.cs" />
     <Compile Include="Testing\Contingency\AverageKappaTest.cs" />
     <Compile Include="Testing\Contingency\FisherExactTest.cs" />
+    <Compile Include="Testing\AndersonDarlingTest.cs" />
+    <Compile Include="Testing\ShapiroWilkTest.cs" />
     <Compile Include="Testing\MultinomialTest.cs" />
     <Compile Include="Testing\Multiple Samples\BartlettTest.cs" />
     <Compile Include="Testing\Multiple Samples\LeveneTest.cs" />
