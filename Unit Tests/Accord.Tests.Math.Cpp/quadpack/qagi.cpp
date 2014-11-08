@@ -13,7 +13,7 @@
 #include "qagi.h"
 
 /* Table of constant values */
-extern "C"
+extern "C" 
 {
 static integer c__26 = 26;
 static integer c__4 = 4;

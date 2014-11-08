@@ -71,6 +71,10 @@
     <ClCompile Include="Quadpack.cpp" />
     <ClCompile Include="quadpack\qagi.cpp" />
     <ClCompile Include="quadpack\r1mach.cpp" />
+    <ClCompile Include="quadprog\achck.cpp" />
+    <ClCompile Include="quadprog\aind.cpp" />
+    <ClCompile Include="quadprog\solve.QP.cpp" />
+    <ClCompile Include="quadprog\util.cpp" />
     <ClInclude Include="Lbfgsb3\lbfgsb.h">
       <FileType>CppCode</FileType>
     </ClInclude>
