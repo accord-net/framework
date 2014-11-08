@@ -1041,7 +1041,6 @@ namespace Accord.Statistics
         /// <param name="values">A number array containing the vector values.</param>
         /// <param name="inPlace">True to perform the operation in place, altering the original input vector.</param>
         /// <param name="alreadySorted">Pass true if the list of values is already sorted.</param>
-        /// <param name="count">Returns how many times the detected mode happens in the values.</param>
         /// 
         /// <returns>The most common value in the given data.</returns>
         /// 
@@ -1049,7 +1048,7 @@ namespace Accord.Statistics
             bool inPlace, bool alreadySorted = false)
         {
             int count;
-            return Mode<T>(values, out count, inPlace: false, alreadySorted: false);
+            return Mode<T>(values, out count, inPlace: inPlace, alreadySorted: alreadySorted);
         }
 
         /// <summary>

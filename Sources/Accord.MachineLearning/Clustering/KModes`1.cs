@@ -116,6 +116,7 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="points">The data to randomize the algorithm.</param>
+        /// <param name="useSeeding">True to use the k-means++ seeding algorithm. False otherwise.</param>
         /// 
         public void Randomize(T[][] points, bool useSeeding = true)
         {

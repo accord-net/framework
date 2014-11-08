@@ -60,7 +60,8 @@ namespace Accord.Math
         public static Random Random { get { return random.Value; } }
 
         /// <summary>
-        ///   Sets a random seed for the internal number generator.
+        ///   Sets a random seed for the framework's main 
+        ///   <see cref="Random">internal number generator</see>.
         /// </summary>
         /// 
         public static void SetupGenerator(int? seed)

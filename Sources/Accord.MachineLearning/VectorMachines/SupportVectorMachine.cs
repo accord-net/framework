@@ -89,7 +89,7 @@ namespace Accord.MachineLearning.VectorMachines
     ///   double error = smo.Run();
     /// 
     ///   // Compute the decision output for one of the input vectors
-    ///   int decision = System.Math.Sign(svm.Compute(inputs[0]));
+    ///   int decision = System.Math.Sign(machine.Compute(inputs[0]));
     ///   </code>
     /// </example>
     ///

@@ -184,6 +184,11 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[,] Source { get; private set; }
 
+        /// <summary>
+        ///   Source data used in the analysis.
+        /// </summary>
+        /// 
+        public double[][] Array { get { return inputData; } }
 
         /// <summary>
         ///   Gets the dependent variable value
@@ -340,8 +345,11 @@ namespace Accord.Statistics.Analysis
         public MultipleLinearRegressionAnalysis(double[][] inputs, double[] outputs, bool intercept = false)
         {
             // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (outputs == null) throw new ArgumentNullException("outputs");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null) 
+                throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
@@ -397,6 +405,13 @@ namespace Accord.Statistics.Analysis
             String[] inputNames, String outputName, bool intercept = false)
             : this(inputs, outputs, intercept)
         {
+            if (inputNames.Length != this.inputNames.Length)
+            {
+                throw new ArgumentException("The input names vector should have the same length"
+                  + " as the number of variables in the analysis. In this analysis, there are " 
+                  + this.inputNames.Length + " variables expected.");
+            }
+
             this.inputNames = inputNames;
             this.outputName = outputName;
         }
