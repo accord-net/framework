@@ -190,7 +190,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="mean">The distribution's mean value μ (mu).</param>
         /// <param name="stdDev">The distribution's standard deviation σ (sigma).</param>
         /// 
-        public NormalDistribution(double mean, double stdDev)
+        public NormalDistribution([Real] double mean, [Positive] double stdDev)
         {
             if (stdDev <= 0)
                 throw new ArgumentOutOfRangeException("stdDev", "Standard deviation must be positive.");
@@ -713,7 +713,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             double[] r = new double[samples];
 
@@ -732,7 +732,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             var g = new AForge.Math.Random.GaussianGenerator(
                 (float)mean, (float)stdDev, Accord.Math.Tools.Random.Next());

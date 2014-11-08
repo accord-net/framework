@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Exponential distribution.
@@ -136,8 +137,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="rate">The rate parameter lambda (λ). Default is 1.</param>
         /// 
-        public ExponentialDistribution(double rate)
+        public ExponentialDistribution([Positive] double rate)
         {
+            if (rate <= 0)
+                throw new ArgumentOutOfRangeException("rate", "The rate must be positive.");
+
             init(rate);
         }
 
@@ -431,7 +435,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             return Random(lambda, samples);
         }
@@ -442,7 +446,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             return Random(lambda);
         }

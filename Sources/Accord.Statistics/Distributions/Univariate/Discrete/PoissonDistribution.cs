@@ -82,7 +82,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class PoissonDistribution : UnivariateDiscreteDistribution,
-        IFittableDistribution<double, IFittingOptions>
+        IFittableDistribution<double, IFittingOptions>,
+        ISampleableDistribution<int>
     {
 
         // Distribution parameters
@@ -94,18 +95,31 @@ namespace Accord.Statistics.Distributions.Univariate
         // Distribution measures
         private double? entropy;
 
+        bool immutable;
+
+
+        /// <summary>
+        ///   Creates a new Poisson distribution with λ = 1.
+        /// </summary>
+        /// 
+        public PoissonDistribution()
+            : this(1)
+        {
+        }
 
         /// <summary>
         ///   Creates a new Poisson distribution with the given λ (lambda).
         /// </summary>
         /// 
-        /// <param name="lambda">The Poisson's λ (lambda) parameter.</param>
+        /// <param name="lambda">The Poisson's λ (lambda) parameter. Default is 1.</param>
         /// 
-        public PoissonDistribution(double lambda)
+        public PoissonDistribution([Positive] double lambda)
         {
             if (lambda <= 0)
-                throw new ArgumentOutOfRangeException("lambda", 
+            {
+                throw new ArgumentOutOfRangeException("lambda",
                     "Poisson's λ must be greater than zero.");
+            }
 
             initialize(lambda);
         }
@@ -191,6 +205,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(int k)
         {
+            if (k < 0)
+                return 0;
+
             return Gamma.LowerIncomplete(k + 1, lambda) / Special.Factorial(k);
         }
 
@@ -213,6 +230,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public override double ProbabilityMassFunction(int k)
         {
+            if (k < 0)
+                return 0;
+
             return (Math.Pow(lambda, k) / Special.Factorial(k)) * epml;
         }
 
@@ -235,6 +255,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityMassFunction(int k)
         {
+            if (k < 0)
+                return Double.NegativeInfinity;
+
             return (k * Math.Log(lambda) - Special.LogFactorial(k)) - lambda;
         }
 
@@ -287,6 +310,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
+            if (immutable)
+                throw new InvalidOperationException("This object can not be modified.");
+
             if (options != null)
                 throw new ArgumentException("No options may be specified.");
 
@@ -312,6 +338,7 @@ namespace Accord.Statistics.Distributions.Univariate
             return new PoissonDistribution(lambda);
         }
 
+        
 
 
         /// <summary>
@@ -366,5 +393,15 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             return String.Format("Poisson(x; λ = {0})", lambda.ToString(format));
         }
+
+        /// <summary>
+        ///   Gets the standard Poisson distribution,
+        ///   with lambda (rate) equal to 1.
+        /// </summary>
+        /// 
+        public static PoissonDistribution Standard { get { return standard; } }
+
+        private static readonly PoissonDistribution standard = new PoissonDistribution() { immutable = true };
+
     }
 }

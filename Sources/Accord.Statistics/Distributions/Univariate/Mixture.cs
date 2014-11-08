@@ -599,7 +599,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             double[] r = new double[samples];
             r.ApplyInPlace(x => Generate());
@@ -612,7 +612,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             // Choose one coefficient at random
             int c = GeneralDiscreteDistribution.Random(coefficients);
@@ -620,7 +620,8 @@ namespace Accord.Statistics.Distributions.Univariate
             // Sample from the chosen coefficient
             var d = components[c] as ISampleableDistribution<double>;
 
-            if (d == null) throw new InvalidOperationException();
+            if (d == null) 
+                throw new InvalidOperationException();
 
             return d.Generate();
         }

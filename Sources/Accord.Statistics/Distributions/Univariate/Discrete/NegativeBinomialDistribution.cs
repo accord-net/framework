@@ -97,7 +97,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="failures">Number of failures <c>r</c>.</param>
         /// <param name="probability">Success probability in each experiment.</param>
         /// 
-        public NegativeBinomialDistribution(int failures, double probability)
+        public NegativeBinomialDistribution([PositiveInteger] int failures, [Unit] double probability)
         {
             if (failures <= 0)
                 throw new ArgumentOutOfRangeException("failures");

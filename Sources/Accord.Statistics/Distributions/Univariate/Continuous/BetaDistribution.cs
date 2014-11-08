@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using AForge;
     using Accord.Statistics.Distributions.Fitting;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Beta Distribution (of the first kind).
@@ -134,12 +135,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="success">The number of success <c>r</c>. Default is 0.</param>
         /// <param name="trials">The number of trials <c>n</c>. Default is 1.</param>
         /// 
-        public BetaDistribution(int success, int trials)
+        public BetaDistribution([NonnegativeInteger] int success, [PositiveInteger] int trials)
         {
             if (success < 0)
                 throw new ArgumentOutOfRangeException("success", "The number of success must be positive");
+
             if (trials <= 0)
-                throw new ArgumentOutOfRangeException("success", "The number of trials must be positive");
+                throw new ArgumentOutOfRangeException("trials", "The number of trials must be positive");
 
             if (success > trials)
             {
@@ -157,13 +159,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="alpha">The shape parameter α (alpha).</param>
         /// <param name="beta">The shape parameter β (beta).</param>
         /// 
-        public BetaDistribution(double alpha, double beta)
+        public BetaDistribution([Positive] double alpha, [Positive] double beta)
         {
             if (alpha <= 0)
-                throw new ArgumentOutOfRangeException("alpha");
+                throw new ArgumentOutOfRangeException("alpha", "The shape parameter alpha must be positive.");
 
             if (beta <= 0)
-                throw new ArgumentOutOfRangeException("beta");
+                throw new ArgumentOutOfRangeException("beta", "The shape parameter beta must be positive.");
 
             init(alpha, beta);
         }

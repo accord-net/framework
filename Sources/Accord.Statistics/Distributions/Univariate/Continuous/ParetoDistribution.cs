@@ -411,7 +411,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="samples">The number of samples to generate.</param>
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             double[] U = UniformContinuousDistribution.Standard.Generate(samples);
 
@@ -427,7 +427,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             double U = UniformContinuousDistribution.Standard.Generate();
 

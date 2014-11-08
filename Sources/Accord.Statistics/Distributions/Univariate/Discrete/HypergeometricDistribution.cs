@@ -141,7 +141,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="successes">The number <c>m</c> of successes in the population.</param>
         /// <param name="samples">The number <c>n</c> of samples drawn from the population.</param>
         /// 
-        public HypergeometricDistribution(int populationSize, int successes, int samples)
+        public HypergeometricDistribution([PositiveInteger] int populationSize, 
+            [NonnegativeInteger] int successes, [PositiveInteger] int samples)
         {
             if (populationSize <= 0)
                 throw new ArgumentOutOfRangeException("populationSize",

@@ -236,6 +236,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         double IDistribution.DistributionFunction(double[] x)
         {
+            if (double.IsNegativeInfinity(x[0]))
+                return DistributionFunction(int.MinValue);
+            else if (double.IsPositiveInfinity(x[0]))
+                return DistributionFunction(int.MaxValue);
+
             return DistributionFunction((int)x[0]);
         }
 
@@ -260,6 +265,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         double IUnivariateDistribution.DistributionFunction(double x)
         {
+            if (double.IsNegativeInfinity(x))
+                return DistributionFunction(int.MinValue);
+            else if (double.IsPositiveInfinity(x))
+                return DistributionFunction(int.MaxValue);
+
             return DistributionFunction((int)x);
         }
 
@@ -294,6 +304,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         double IDistribution.ComplementaryDistributionFunction(double[] x)
         {
+            if (double.IsNegativeInfinity(x[0]))
+                return ComplementaryDistributionFunction(int.MinValue);
+            else if (double.IsPositiveInfinity(x[0]))
+                return ComplementaryDistributionFunction(int.MaxValue);
+
             return ComplementaryDistributionFunction((int)x[0]);
         }
 
@@ -319,6 +334,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         double IDistribution.ProbabilityFunction(double[] x)
         {
+            if (double.IsNegativeInfinity(x[0]))
+                return ProbabilityMassFunction(int.MinValue);
+            else if (double.IsPositiveInfinity(x[0]))
+                return ProbabilityMassFunction(int.MaxValue);
+
             return ProbabilityMassFunction((int)x[0]);
         }
 
@@ -866,6 +886,38 @@ namespace Accord.Statistics.Distributions.Univariate
         public abstract object Clone();
 
 
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public virtual int[] Generate(int samples)
+        {
+            var random = Accord.Math.Tools.Random;
+
+            int[] s = new int[samples];
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                double u = random.NextDouble();
+                s[i] = InverseDistributionFunction(u);
+            }
+
+            return s;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public virtual int Generate()
+        {
+            return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+        }
 
 
         double IDistribution<int>.ProbabilityFunction(int x)
@@ -933,6 +985,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return CumulativeHazardFunction((int)x);
         }
 
-        
+
     }
 }

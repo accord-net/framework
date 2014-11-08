@@ -454,6 +454,9 @@ namespace Accord.Math
             if (x < 1.0 || x < a) 
                 return 1.0 - LowerIncomplete(a, x);
 
+            if (Double.IsPositiveInfinity(x))
+                return 0;
+
             ax = a * Math.Log(x) - x - Log(a);
 
             if (ax < -Constants.LogMax) 

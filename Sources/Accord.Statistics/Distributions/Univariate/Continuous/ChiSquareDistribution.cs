@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Chi-Square (χ²) probability distribution
@@ -107,7 +108,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="degreesOfFreedom">The degrees of freedom for the distribution. Default is 1.</param>
         /// 
-        public ChiSquareDistribution(int degreesOfFreedom)
+        public ChiSquareDistribution([PositiveInteger] int degreesOfFreedom)
         {
             if (degreesOfFreedom <= 0)
             {
@@ -366,7 +367,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="samples">The number of samples to generate.</param>
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2, samples: samples);
         }
@@ -377,7 +378,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             return GammaDistribution.Random(shape: degreesOfFreedom / 2.0, scale: 2);
         }

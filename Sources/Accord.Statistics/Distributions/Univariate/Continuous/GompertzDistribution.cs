@@ -24,6 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using AForge;
+    using System.ComponentModel;
+    using Accord.Math;
 
     /// <summary>
     ///   Gompertz distribution.
@@ -93,8 +95,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="eta">The shape parameter <c>η</c>.</param>
         /// <param name="b">The scale parameter <c>b</c>.</param>
         /// 
-        public GompertzDistribution(double eta, double b)
+        public GompertzDistribution([Positive] double eta, [Positive] double b)
         {
+            if (eta <= 0)
+                throw new ArgumentOutOfRangeException("eta", "The shape eta must be positive.");
+
+            if (b <= 0)
+                throw new ArgumentOutOfRangeException("b", "The scale b must be positive.");
+
             this.eta = eta;
             this.b = b;
         }
@@ -187,7 +195,11 @@ namespace Accord.Statistics.Distributions.Univariate
             if (x < 0)
                 return 0;
 
-            return 1 - Math.Exp(-eta * (Math.Exp(b * x) - 1));
+            double ebx = Math.Exp(b * x);
+            
+            double cdf = 1.0 - Math.Exp(-eta * (ebx - 1.0));
+
+            return cdf;
         }
 
         /// <summary>

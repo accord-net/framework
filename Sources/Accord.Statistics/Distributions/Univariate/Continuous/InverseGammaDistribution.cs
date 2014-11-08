@@ -97,7 +97,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="shape">The shape parameter α (alpha).</param>
         /// <param name="scale">The scale parameter β (beta).</param>
         /// 
-        public InverseGammaDistribution(double shape, double scale)
+        public InverseGammaDistribution([Positive] double shape, [Positive] double scale)
         {
             if (shape <= 0)
                 throw new ArgumentOutOfRangeException("shape");

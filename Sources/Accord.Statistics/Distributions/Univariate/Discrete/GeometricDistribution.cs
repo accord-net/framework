@@ -108,7 +108,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="probabilityOfSuccess">The success probability.</param>
         /// 
-        public GeometricDistribution(double probabilityOfSuccess)
+        public GeometricDistribution([Unit] double probabilityOfSuccess)
         {
             if (probabilityOfSuccess < 0 || probabilityOfSuccess > 1)
                 throw new ArgumentOutOfRangeException("probabilityOfSuccess", 

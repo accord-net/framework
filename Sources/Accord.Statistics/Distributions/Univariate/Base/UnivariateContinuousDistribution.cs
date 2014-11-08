@@ -573,10 +573,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual double DistributionFunction(double a, double b)
         {
-            if (a >= b)
+            if (a > b)
             {
                 throw new ArgumentOutOfRangeException("b",
                     "The start of the interval a must be smaller than b.");
+            }
+            else if (a == b)
+            {
+                return 0;
             }
 
             return DistributionFunction(b) - DistributionFunction(a);
@@ -657,7 +661,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 if (f > p)
                 {
-                    while (f > p)
+                    while (f > p && !Double.IsInfinity(upper))
                     {
                         upper += 2 * (upper - lower) + 1;
                         f = DistributionFunction(upper);
@@ -665,7 +669,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
                 else
                 {
-                    while (f < p)
+                    while (f < p && !Double.IsInfinity(upper))
                     {
                         upper += 2 * (upper - lower) + 1;
                         f = DistributionFunction(upper);
@@ -682,7 +686,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 if (f > p)
                 {
-                    while (f > p && f < 1)
+                    while (f > p && !Double.IsInfinity(lower))
                     {
                         lower = lower - 2 * lower;
                         f = DistributionFunction(lower);
@@ -690,7 +694,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
                 else
                 {
-                    while (f < p && f > 0)
+                    while (f < p && !Double.IsInfinity(lower))
                     {
                         lower = lower - 2 * lower;
                         f = DistributionFunction(lower);
@@ -707,7 +711,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                 if (f > p)
                 {
-                    while (f > p)
+                    while (f > p && !Double.IsInfinity(lower))
                     {
                         upper = lower;
                         lower = 2 * lower - 1;
@@ -716,7 +720,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
                 else
                 {
-                    while (f < p)
+                    while (f < p && !Double.IsInfinity(upper))
                     {
                         lower = upper;
                         upper = 2 * upper + 1;
@@ -987,6 +991,39 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </returns>
         /// 
         public abstract object Clone();
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public virtual double[] Generate(int samples)
+        {
+            var random = Accord.Math.Tools.Random;
+
+            double[] s = new double[samples];
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                double u = random.NextDouble();
+                s[i] = InverseDistributionFunction(u);
+            }
+
+            return s;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public virtual double Generate()
+        {
+            return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+        }
 
 
 

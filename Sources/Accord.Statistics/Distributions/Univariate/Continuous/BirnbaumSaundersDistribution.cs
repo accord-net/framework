@@ -27,6 +27,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Birnbaum-Saunders (Fatigue Life) distribution.
@@ -121,7 +122,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="scale">The scale parameter beta (β). Default is 1.</param>
         /// <param name="shape">The shape parameter gamma (γ). Default is 1.</param>
         /// 
-        public BirnbaumSaundersDistribution(double location, double scale, double shape)
+        public BirnbaumSaundersDistribution([Real] double location,
+            [Positive] double scale, [Positive] double shape)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be greater than zero.");

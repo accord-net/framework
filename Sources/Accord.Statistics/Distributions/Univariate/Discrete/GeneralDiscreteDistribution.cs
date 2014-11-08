@@ -443,7 +443,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public int Generate()
+        public override int Generate()
         {
             return Random(probabilities);
         }
@@ -456,7 +456,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public int[] Generate(int samples)
+        public override int[] Generate(int samples)
         {
             return Random(probabilities, samples);
         }

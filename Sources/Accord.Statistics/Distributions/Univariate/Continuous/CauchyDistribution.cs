@@ -27,6 +27,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math.Optimization;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Cauchy-Lorentz distribution.
@@ -154,7 +155,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with location parameter 0 and scale 1.
         /// </summary>
         /// 
-        public CauchyDistribution() : this(0, 1) { }
+        public CauchyDistribution()
+            : this(0, 1)
+        {
+        }
 
 
         /// <summary>
@@ -165,7 +169,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="location">The location parameter x0.</param>
         /// <param name="scale">The scale parameter gamma (γ).</param>
         /// 
-        public CauchyDistribution(double location, double scale)
+        public CauchyDistribution([Real] double location, [Positive] double scale)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be greater than zero.");
@@ -557,7 +561,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="samples">The number of samples to generate.</param>
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             return Random(location, scale, samples);
         }
@@ -568,7 +572,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             return Random(location, scale);
         }

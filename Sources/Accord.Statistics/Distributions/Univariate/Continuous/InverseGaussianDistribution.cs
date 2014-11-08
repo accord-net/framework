@@ -96,7 +96,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="mean">The mean parameter mu.</param>
         /// <param name="shape">The shape parameter lambda.</param>
         /// 
-        public InverseGaussianDistribution(double mean, double shape)
+        public InverseGaussianDistribution([Real] double mean, [Positive] double shape)
         {
             if (mean <= 0)
                 throw new ArgumentOutOfRangeException("mean");
@@ -378,12 +378,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             return Random(mean, lambda, samples);
         }
-
-        #region ISampleableDistribution<double> Members
 
         /// <summary>
         ///   Generates a random observation from the current distribution.
@@ -391,7 +389,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             return Random(mean, lambda);
         }
@@ -457,7 +455,7 @@ namespace Accord.Statistics.Distributions.Univariate
             return r;
         }
 
-        #endregion
+
 
 
         /// <summary>

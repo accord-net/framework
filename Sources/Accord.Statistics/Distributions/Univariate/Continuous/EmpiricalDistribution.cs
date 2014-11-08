@@ -790,7 +790,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="samples">The number of samples to generate.</param>
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             var generator = Accord.Math.Tools.Random;
 
@@ -830,7 +830,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             var generator = Accord.Math.Tools.Random;
 

@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Gamma distribution.
@@ -131,6 +132,8 @@ namespace Accord.Statistics.Distributions.Univariate
         private double constant;
         private double lnconstant;
 
+        private bool immutable;
+
 
         /// <summary>
         ///   Constructs a Gamma distribution.
@@ -149,8 +152,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="theta">The scale parameter θ (theta). Default is 1.</param>
         /// <param name="k">The shape parameter k. Default is 1.</param>
         /// 
-        public GammaDistribution(double theta, double k)
+        public GammaDistribution([Positive] double theta, [Positive] double k)
         {
+            if (k <= 0)
+                throw new ArgumentOutOfRangeException("k", "Parameter k must be positive.");
+
+            if (theta <= 0)
+                throw new ArgumentOutOfRangeException("theta", "Theta must be positive.");
+
             init(theta, k);
         }
 
@@ -184,11 +193,6 @@ namespace Accord.Statistics.Distributions.Univariate
 
         private void init(double theta, double k)
         {
-            if (k <= 0)
-                throw new ArgumentOutOfRangeException("k", "Parameter k must be positive.");
-
-            if (theta <= 0)
-                throw new ArgumentOutOfRangeException("theta", "Theta must be positive.");
             this.theta = theta;
             this.k = k;
 
@@ -416,6 +420,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
+            if (immutable)
+                throw new InvalidOperationException("This object can not be modified.");
+
             if (options != null)
                 throw new ArgumentException("This method does not accept fitting options.");
 
@@ -493,7 +500,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             return Random(k, theta, samples);
         }
@@ -504,7 +511,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             return Random(k, theta);
         }
@@ -663,5 +670,16 @@ namespace Accord.Statistics.Distributions.Univariate
                 k.ToString(format, formatProvider),
                 theta.ToString(format, formatProvider));
         }
+
+
+        /// <summary>
+        ///   Gets the standard Gamma distribution,
+        ///   with scale θ = 1 and location k = 1.
+        /// </summary>
+        /// 
+        public static GammaDistribution Standard { get { return standard; } }
+
+        private static readonly GammaDistribution standard = new GammaDistribution() { immutable = true };
+
     }
 }

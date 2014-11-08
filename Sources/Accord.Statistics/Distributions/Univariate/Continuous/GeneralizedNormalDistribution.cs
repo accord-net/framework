@@ -104,7 +104,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="scale">The scale parameter α.</param>
         /// <param name="shape">The shape parameter β.</param>
         /// 
-        public GeneralizedNormalDistribution(double location, double scale, double shape)
+        public GeneralizedNormalDistribution([Real] double location, 
+            [Positive] double scale, [Positive] double shape)
         {
             initialize(location, scale, shape);
         }

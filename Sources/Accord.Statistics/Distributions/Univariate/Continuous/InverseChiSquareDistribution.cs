@@ -105,7 +105,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="degreesOfFreedom">The degrees of freedom for the distribution.</param>
         /// 
-        public InverseChiSquareDistribution(int degreesOfFreedom)
+        public InverseChiSquareDistribution([PositiveInteger] int degreesOfFreedom)
         {
             if (degreesOfFreedom <= 0)
             {

@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   F (Fisher-Snedecor) distribution.
@@ -113,7 +114,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="degrees1">The first degree of freedom. Default is 1.</param>
         /// <param name="degrees2">The second degree of freedom. Default is 1.</param>
         /// 
-        public FDistribution(int degrees1, int degrees2)
+        public FDistribution([PositiveInteger] int degrees1, [PositiveInteger] int degrees2)
         {
             if (degrees1 <= 0)
                 throw new ArgumentOutOfRangeException("degrees1", "Degrees of freedom must be positive.");
@@ -416,7 +417,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public double[] Generate(int samples)
+        public override double[] Generate(int samples)
         {
             return Random(d1, d2, samples);
         }
@@ -427,7 +428,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public double Generate()
+        public override double Generate()
         {
             return Random(d1, d2);
         }

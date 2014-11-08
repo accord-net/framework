@@ -113,11 +113,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="a">The starting (minimum) value a.</param>
         /// <param name="b">The ending (maximum) value b.</param>
         /// 
-        public UniformDiscreteDistribution(int a, int b)
+        public UniformDiscreteDistribution([Integer] int a, [Integer] int b)
         {
             if (a > b)
+            {
                 throw new ArgumentOutOfRangeException("b",
                     "The starting number a must be lower than b.");
+            }
 
             this.a = a;
             this.b = b;
@@ -353,7 +355,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public int Generate()
+        public override int Generate()
         {
             return Accord.Math.Tools.Random.Next(a, b);
         }
@@ -366,7 +368,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public int[] Generate(int samples)
+        public override int[] Generate(int samples)
         {
             int[] result = new int[samples];
             for (int i = 0; i < result.Length; i++)

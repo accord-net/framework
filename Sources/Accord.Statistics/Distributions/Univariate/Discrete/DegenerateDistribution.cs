@@ -114,7 +114,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   The only value whose probability is different from zero. Default is zero.
         /// </param>
         /// 
-        public DegenerateDistribution(int value)
+        public DegenerateDistribution([Integer] int value)
         {
             this.k0 = value;
         }

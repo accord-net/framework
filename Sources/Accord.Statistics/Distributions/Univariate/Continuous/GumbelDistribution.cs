@@ -101,7 +101,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </example>
     /// 
     [Serializable]
-    public class GumbelDistribution : UnivariateContinuousDistribution
+    public class GumbelDistribution : UnivariateContinuousDistribution,
+        IFittableDistribution<double>
     {
 
         // Distribution parameters
@@ -111,14 +112,27 @@ namespace Accord.Statistics.Distributions.Univariate
 
         /// <summary>
         ///   Creates a new Gumbel distribution 
+        ///   with location zero and unit scale.
+        /// </summary>
+        /// 
+        public GumbelDistribution()
+            : this(0, 1)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new Gumbel distribution 
         ///   with the given location and scale.
         /// </summary>
         /// 
-        /// <param name="location">The location parameter μ (mu).</param>
-        /// <param name="scale">The scale parameter β (beta).</param>
+        /// <param name="location">The location parameter μ (mu). Default is 0.</param>
+        /// <param name="scale">The scale parameter β (beta). Default is 1.</param>
         /// 
-        public GumbelDistribution(double location, double scale)
+        public GumbelDistribution([Real] double location, [Positive] double scale)
         {
+            if (scale <= 0)
+                throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
+
             init(location, scale);
         }
 
@@ -192,8 +206,13 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double median = mean - beta * Math.Log(Constants.Log2);
-                System.Diagnostics.Debug.Assert(median.IsRelativelyEqual(base.Median, 1e-6));
+                double median = mean - beta * Math.Log(Math.Log(2));
+
+#if DEBUG
+                double expected = base.Median;
+                if (!median.IsRelativelyEqual(expected, 1e-6))
+                    throw new Exception();
+#endif
                 return median;
             }
         }
@@ -236,7 +255,8 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double DistributionFunction(double x)
         {
             double z = (x - mean) / beta;
-            return Math.Exp(-Math.Exp(-z));
+            double cdf = Math.Exp(-Math.Exp(-z));
+            return cdf;
         }
 
         /// <summary>
@@ -287,6 +307,188 @@ namespace Accord.Statistics.Distributions.Univariate
             double z = (x - mean) / beta;
             return Math.Log(1 / beta) - (z + Math.Exp(-z));
         }
+
+        /// <summary>
+        ///   Gets the complementary cumulative distribution function
+        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
+        ///   This function is also known as the Survival function.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <remarks>
+        ///   The Complementary Cumulative Distribution Function (CCDF) is
+        ///   the complement of the Cumulative Distribution Function, or 1
+        ///   minus the CDF.
+        /// </remarks>
+        /// 
+        public override double ComplementaryDistributionFunction(double x)
+        {
+            double z = (x - mean) / beta;
+            double expz = Math.Exp(-z);
+            double cdf = Math.Exp(-expz);
+            return 1.0 - cdf;
+        }
+
+        /// <summary>
+        ///   Gets the cumulative hazard function for this
+        ///   distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The cumulative hazard function <c>H(x)</c>
+        ///   evaluated at <c>x</c> in the current distribution.
+        /// </returns>
+        /// 
+        public override double CumulativeHazardFunction(double x)
+        {
+            double z = (x - mean) / beta;
+            double expz = Math.Exp(-z);
+            return -Math.Log(1.0 - Math.Exp(-expz));
+        }
+
+        /// <summary>
+        ///   Gets the hazard function, also known as the failure rate or
+        ///   the conditional failure density function for this distribution
+        ///   evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The conditional failure density function <c>h(x)</c>
+        ///   evaluated at <c>x</c> in the current distribution.
+        /// </returns>
+        /// 
+        /// <remarks>
+        ///   The hazard function is the ratio of the probability
+        ///   density function f(x) to the survival function, S(x).
+        /// </remarks>
+        /// 
+        public override double HazardFunction(double x)
+        {
+            double alpha = (1.0 / beta);
+            double z = (x - mean) / beta;
+
+            double expz = Math.Exp(-z);
+
+            double h = (alpha * expz) / (Math.Exp(expz) - 1.0);
+
+#if DEBUG
+            double expected = base.HazardFunction(x);
+            if (!h.IsRelativelyEqual(expected, 1e-4))
+                throw new Exception();
+#endif
+
+            return h;
+        }
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c>. This function
+        ///   is also known as the Quantile function.
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>
+        ///   A sample which could original the given probability
+        ///   value when applied in the <see cref="DistributionFunction(double)" />.
+        /// </returns>
+        /// 
+        /// <remarks>
+        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
+        ///   a given probability, the value which the random variable will be at,
+        ///   or below, with that probability.
+        /// </remarks>
+        /// 
+        public override double InverseDistributionFunction(double p)
+        {
+            return mean - beta * Math.Log(-Math.Log(p));
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        /// as regularization constants and additional parameters.</param>
+        /// 
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public override void Fit(double[] observations, double[] weights, IFittingOptions options)
+        {
+            double mean;
+            double stdDev;
+
+            if (weights != null)
+            {
+                mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
+                stdDev = Accord.Statistics.Tools.WeightedStandardDeviation(observations, weights, mean);
+            }
+            else
+            {
+                mean = Accord.Statistics.Tools.Mean(observations);
+                stdDev = Accord.Statistics.Tools.StandardDeviation(observations, mean);
+            }
+
+            double u = mean + 0.45006 * stdDev;
+            double b = (stdDev * Math.Sqrt(6)) / Math.PI;
+
+            this.init(u, b);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        /// elements can be either of type double (for univariate data) or
+        /// type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        /// as regularization constants and additional parameters.</param>
+        /// 
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public override void Fit(double[] observations, int[] weights, IFittingOptions options)
+        {
+            double mean;
+            double stdDev;
+
+            if (weights != null)
+            {
+                mean = Accord.Statistics.Tools.WeightedMean(observations, weights);
+                stdDev = Accord.Statistics.Tools.WeightedStandardDeviation(observations, weights, mean);
+            }
+            else
+            {
+                mean = Accord.Statistics.Tools.Mean(observations);
+                stdDev = Accord.Statistics.Tools.StandardDeviation(observations, mean);
+            }
+
+            double u = mean + 0.45006 * stdDev;
+            double b = (stdDev * Math.Sqrt(6)) / Math.PI;
+
+            this.init(u, b);
+        }
+
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.

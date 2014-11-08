@@ -108,6 +108,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <summary>
         ///   Gets the success probability <c>p</c> for the distribution.
         /// </summary>
+        /// 
         public double ProbabilityOfSuccess
         {
             get { return probability; }
@@ -118,16 +119,20 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         public BinomialDistribution()
-            : this(1, 0) { }
+            : this(1, 0.5)
+        {
+        }
 
         /// <summary>
         ///   Constructs a new <see cref="BinomialDistribution">binomial distribution</see>.
         /// </summary>
         /// 
-        /// <param name="trials">The number of trials <c>n</c>. Default is 1.</param>
+        /// <param name="trials">The number of trials <c>n</c>.</param>
         /// 
-        public BinomialDistribution(int trials)
-            : this(trials, 0) { }
+        public BinomialDistribution([PositiveInteger] int trials)
+            : this(trials, 0.5)
+        {
+        }
 
         /// <summary>
         ///   Constructs a new <see cref="BinomialDistribution">binomial distribution</see>.
@@ -136,7 +141,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="trials">The number of trials <c>n</c>.</param>
         /// <param name="probability">The success probability <c>p</c> in each trial.</param>
         /// 
-        public BinomialDistribution(int trials, double probability)
+        public BinomialDistribution([PositiveInteger] int trials, [Unit] double probability)
         {
             if (trials <= 0)
                 throw new ArgumentOutOfRangeException("trials", "The number of trials should be greater than zero.");

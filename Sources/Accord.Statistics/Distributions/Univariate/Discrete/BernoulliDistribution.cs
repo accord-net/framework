@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using System;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using Accord.Math;
 
     /// <summary>
     ///   Bernoulli probability distribution.
@@ -114,7 +115,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="mean">The probability of an observation being equal to 1. Default is 0.5</param>
         /// 
-        public BernoulliDistribution(double mean)
+        public BernoulliDistribution([Unit] double mean)
         {
             if (mean < 0 || mean > 1)
                 throw new ArgumentOutOfRangeException("mean",
@@ -390,7 +391,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="samples">The number of samples to generate.</param>
         /// <returns>A random vector of observations drawn from this distribution.</returns>
         /// 
-        public int[] Generate(int samples)
+        public override int[] Generate(int samples)
         {
             int[] r = new int[samples];
             for (int i = 0; i < r.Length; i++)
@@ -408,7 +409,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public int Generate()
+        public override int Generate()
         {
             double u = Accord.Math.Tools.Random.NextDouble();
             return u > this.probability ? 1 : 0;
