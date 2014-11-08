@@ -129,6 +129,24 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void ConstructorTest3()
+        {
+            try
+            {
+                new GompertzDistribution(eta: 0, b: 7);
+                Assert.Fail();
+            }
+            catch { }
+
+            try
+            {
+                new GompertzDistribution(eta: 1, b: 0);
+                Assert.Fail();
+            }
+            catch { }
+        }
+
+        [TestMethod()]
         public void MedianTest()
         {
             var target = new GompertzDistribution(eta: 42, b: 4.2);

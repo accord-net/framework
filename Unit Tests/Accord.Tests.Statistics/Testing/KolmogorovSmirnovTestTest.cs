@@ -26,6 +26,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Statistics.Distributions;
 
     [TestClass()]
     public class KolmogorovSmirnovTestTest
@@ -206,7 +207,7 @@ namespace Accord.Tests.Statistics
 
             var target = new KolmogorovSmirnovTest(sample, distribution);
 
-            UnivariateContinuousDistribution actual = target.TheoreticalDistribution;
+            IUnivariateDistribution actual = target.TheoreticalDistribution;
             Assert.AreEqual(distribution, actual);
         }
     }

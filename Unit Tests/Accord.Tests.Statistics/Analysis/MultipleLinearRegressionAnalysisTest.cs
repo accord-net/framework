@@ -260,5 +260,136 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(14.219378746271506, ci.Max);
         }
 
+        [TestMethod()]
+        public void RegressTest7()
+        {
+            double[][] example2 =
+            {
+                new double[] { -0.47, 1.16, -1.25 },
+                new double[] {  0.55, 1.15, -0.78 },
+                new double[] {  1.38, 0.63, -0.84 },
+                new double[] {  0.99, 0.63, -0.81 },
+                new double[] {  1.72, 0.62, -1.59 },
+                new double[] {  1.05, 0.62, -1.05 },
+                new double[] { -0.51, 0.62, -0.98 },
+                new double[] {  1.83, 0.61,  0.86 },
+                new double[] {  1.16, 0.61,  0.15 },
+                new double[] {  0.59, 0.61, -0.28 },
+                new double[] {  0.40, 0.60, -0.30 },
+                new double[] {  0.48, 0.60, -0.41 },
+                new double[] {  1.28, 0.53, -0.31 },
+                new double[] {  0.36, 0.53, -0.41 },
+                new double[] {  0.93, 0.16, -0.19 },
+                new double[] { -0.61, 0.16, -0.32 },
+                new double[] { -0.58, 0.16, -0.01 },
+                new double[] {  0.53, 0.16, -0.13 },
+                new double[] {  1.48, 0.16,  1.12 },
+                new double[] { -0.34, 0.15, -0.10 },
+                new double[] {  0.81, 0.15,  0.14 },
+                new double[] {  0.85, 0.15, -0.02 },
+                new double[] {  0.69, 0.15, -0.16 },
+                new double[] {  0.39, 0.15, -0.33 },
+                new double[] {  0.70, 0.00,  2.00 },
+                new double[] {  0.25, 0.00, -0.01 },
+                new double[] { -0.96, 0.85, -0.19 },
+                new double[] {  1.04, 0.84,  0.35 },
+                new double[] {  0.30, 0.83,  0.05 },
+                new double[] {  0.28, 0.83,  0.84 },
+                new double[] {  0.18, 0.82,  0.06 },
+                new double[] {  0.49, 0.81,  0.41 },
+                new double[] {  0.40, 0.81,  0.50 },
+                new double[] {  0.41, 0.80,  0.00 },
+                new double[] {  0.06, 0.79,  0.39 },
+                new double[] {  0.55, 0.79,  0,55 },
+            };
+
+
+            double[][] inputs = example2.GetColumns(1, 2);
+            double[] outputs = example2.GetColumn(0);
+
+            bool thrown = false;
+
+            MultipleLinearRegressionAnalysis target;
+
+            try
+            {
+                target = new MultipleLinearRegressionAnalysis(inputs, outputs, new string[0], "Test", false);
+            }
+            catch (ArgumentException) { thrown = true; }
+
+            Assert.IsTrue(thrown);
+
+            target = new MultipleLinearRegressionAnalysis(inputs, outputs, new string[2], "Test", false);
+
+            target.Compute();
+
+            Assert.AreEqual(target.Array, inputs);
+            Assert.AreEqual(target.Outputs, outputs);
+
+            Assert.AreEqual(-0.19371930561139417, target.RSquared, 1e-5);
+            Assert.AreEqual(-0.26606593019390279, target.RSquareAdjusted, 1e-5);
+
+            Assert.AreEqual(2, target.Table[0].DegreesOfFreedom);
+            Assert.AreEqual(33, target.Table[1].DegreesOfFreedom);
+            Assert.AreEqual(35, target.Table[2].DegreesOfFreedom);
+
+            Assert.AreEqual(-2.9165797494934651, target.Table[0].SumOfSquares, 1e-10);
+            Assert.AreEqual(17.972279749493463, target.Table[1].SumOfSquares, 1e-10);
+            Assert.AreEqual(15.055699999999998, target.Table[2].SumOfSquares, 1e-10);
+
+            Assert.IsFalse(Double.IsNaN(target.Table[0].SumOfSquares));
+            Assert.IsFalse(Double.IsNaN(target.Table[1].SumOfSquares));
+            Assert.IsFalse(Double.IsNaN(target.Table[2].SumOfSquares));
+
+            Assert.AreEqual(-1.4582898747467326, target.Table[0].MeanSquares, 1e-10);
+            Assert.AreEqual(0.54461453786343827, target.Table[1].MeanSquares, 1e-10);
+
+            Assert.IsFalse(Double.IsNaN(target.Table[0].MeanSquares));
+            Assert.IsFalse(Double.IsNaN(target.Table[1].MeanSquares));
+
+            Assert.AreEqual(-2.6776550630978524, target.Table[0].Statistic.Value, 1e-10);
+            Assert.AreEqual(1, target.Table[0].Significance.PValue, 1e-16);
+            Assert.IsFalse(Double.IsNaN(target.Table[0].Significance.PValue));
+
+            Assert.AreEqual(0.72195200211671728, target.Coefficients[0].Value, 1e-10);
+            Assert.AreEqual(0.15872233321508125, target.Coefficients[1].Value, 1e-10);
+
+            Assert.IsFalse(Double.IsNaN(target.Coefficients[0].Value));
+            Assert.IsFalse(Double.IsNaN(target.Coefficients[1].Value));
+
+            Assert.IsFalse(target.Coefficients[0].IsIntercept);
+            Assert.IsFalse(target.Coefficients[1].IsIntercept);
+
+            Assert.AreEqual(0.20506051379737225, target.Coefficients[0].StandardError, 1e-10);
+            Assert.AreEqual(0.18842330299464302, target.Coefficients[1].StandardError, 1e-10);
+
+            Assert.IsFalse(Double.IsNaN(target.Coefficients[0].StandardError));
+            Assert.IsFalse(Double.IsNaN(target.Coefficients[1].StandardError));
+
+            Assert.AreEqual(3.5206778172325479, target.Coefficients[0].TTest.Statistic, 1e-10);
+            Assert.AreEqual(0.84237103740609942, target.Coefficients[1].TTest.Statistic, 1e-10);
+
+            Assert.IsFalse(Double.IsNaN(target.Coefficients[0].TTest.Statistic));
+            Assert.IsFalse(Double.IsNaN(target.Coefficients[1].TTest.Statistic));
+
+            DoubleRange range;
+
+            range = target.Coefficients[0].TTest.GetConfidenceInterval(0.9);
+            Assert.AreEqual(0.37491572761667513, range.Min, 1e-10);
+            Assert.AreEqual(1.0689882766167593, range.Max, 1e-10);
+
+            range = target.Coefficients[1].TTest.GetConfidenceInterval(0.9);
+            Assert.AreEqual(-0.16015778606945111, range.Min, 1e-10);
+            Assert.AreEqual(0.47760245249961364, range.Max, 1e-10);
+
+
+            MultipleLinearRegression mlr = new MultipleLinearRegression(2, false);
+            mlr.Regress(inputs, outputs);
+            double r2 = mlr.CoefficientOfDetermination(inputs, outputs, false);
+            double r2a = mlr.CoefficientOfDetermination(inputs, outputs, true);
+
+            Assert.AreEqual(r2, target.RSquared);
+            Assert.AreEqual(r2a, target.RSquareAdjusted);
+        }
     }
 }

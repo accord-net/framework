@@ -144,6 +144,7 @@
     <Compile Include="Controls\DataGridBoxTest.cs" />
     <Compile Include="Controls\HistogramViewTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\ShapiroWilkDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogisticDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogLogisticDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LevyDistributionTest.cs" />
@@ -176,6 +177,8 @@
     <Compile Include="Testing\BartlettTestTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistributionTest.cs" />
     <Compile Include="Filters\GroupingFilterTest.cs" />
+    <Compile Include="Testing\AndersonDarlingTestTest.cs" />
+    <Compile Include="Testing\ShapiroWilkTestTest.cs" />
     <Compile Include="Testing\FTestTest.cs" />
     <Compile Include="Testing\LeveneTestTest.cs" />
     <Compile Include="Models\Regression\LogisticGradientDescentTest.cs" />

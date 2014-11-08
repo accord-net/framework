@@ -24,8 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    
-    
+    using Accord.Statistics.Distributions.Univariate;
+
+
     [TestClass()]
     public class ChiSquareTestTest
     {
@@ -64,8 +65,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void ConstructorTest2()
         {
-            double[] observed = { 6,    6,    16,    15,    4,    3};
-            double[] expected = { 6.24, 5.76, 16.12, 14.88, 3.64, 3.36};
+            double[] observed = { 6, 6, 16, 15, 4, 3 };
+            double[] expected = { 6.24, 5.76, 16.12, 14.88, 3.64, 3.36 };
 
             int degreesOfFreedom = 2;
             var chi = new ChiSquareTest(expected, observed, degreesOfFreedom);
@@ -84,15 +85,15 @@ namespace Accord.Tests.Statistics
             // Suppose we would like to test the hypothesis that a random sample of 
             // 100 people has been drawn from a population in which men and women are
             // equal in frequency. 
-            
+
             // Under this hypothesis, the observed number of men and women would be 
             // compared to the theoretical frequencies of 50 men and 50 women. So,
             // after drawing our sample, we found out that there were 44 men and 56
             // women in the sample:
 
             //                     man  woman
-            double[] observed = {  44,   56  };
-            double[] expected = {  50,   50  };
+            double[] observed = { 44, 56 };
+            double[] expected = { 50, 50 };
 
             // If the null hypothesis is true (i.e., men and women are chosen with 
             // equal probability), the test statistic will be drawn from a chi-squared
@@ -110,9 +111,9 @@ namespace Accord.Tests.Statistics
             // probability of observing this difference (or a more extreme difference 
             // than this) if men and women are equally numerous in the population is 
             // approximately 0.23. 
-            
+
             double pvalue = chi.PValue; // 0.23
-            
+
             // This probability is higher than conventional criteria for statistical
             // significance (0.001 or 0.05), so normally we would not reject the null
             // hypothesis that the number of men in the population is the same as the
@@ -122,6 +123,64 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0.23013934044341644, pvalue);
             Assert.IsFalse(significant);
+        }
+
+        [TestMethod()]
+        public void ConstructorTest4()
+        {
+            double[] sample = 
+            { 
+                0.621, 0.503, 0.203, 0.477, 0.710, 0.581, 0.329, 0.480, 0.554, 0.382
+            };
+
+            var distribution = UniformContinuousDistribution.Standard;
+
+            var chi = new ChiSquareTest(sample, distribution);
+
+            Assert.AreEqual(4.8933545256350994, chi.Statistic, 0.015);
+            Assert.AreEqual(3, chi.DegreesOfFreedom);
+            Assert.AreEqual(0.17977489590225362, chi.PValue, 1e-4);
+            Assert.IsFalse(chi.Significant);
+        }
+
+        [TestMethod()]
+        public void ConstructorTest5()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+            double[] unif = UniformContinuousDistribution.Standard.Generate(1000);
+            double[] norm = NormalDistribution.Standard.Generate(1000);
+
+            var u = UniformContinuousDistribution.Standard;
+            var n = NormalDistribution.Standard;
+
+            {
+                var chi = new ChiSquareTest(unif, u);
+                Assert.AreEqual(3.0543712466684418, chi.Statistic, 0.015);
+                Assert.AreEqual(7, chi.DegreesOfFreedom);
+                Assert.AreEqual(0.87992728116902319, chi.PValue, 1e-4);
+                Assert.IsFalse(chi.Significant);
+            }
+            {
+                var chi = new ChiSquareTest(unif, n);
+                Assert.AreEqual(960.66061609840472, chi.Statistic, 0.015);
+                Assert.AreEqual(7, chi.DegreesOfFreedom);
+                Assert.AreEqual(3.7995577895044017E-203, chi.PValue, 1e-4);
+                Assert.IsTrue(chi.Significant);
+            }
+            {
+                var chi = new ChiSquareTest(norm, u);
+                Assert.AreEqual(double.PositiveInfinity, chi.Statistic, 0.015);
+                Assert.AreEqual(7, chi.DegreesOfFreedom);
+                Assert.AreEqual(0, chi.PValue, 1e-4);
+                Assert.IsTrue(chi.Significant);
+            }
+            {
+                var chi = new ChiSquareTest(norm, n);
+                Assert.AreEqual(5.3328172594132619, chi.Statistic, 0.015);
+                Assert.AreEqual(7, chi.DegreesOfFreedom);
+                Assert.AreEqual(0.61941817399126187, chi.PValue, 1e-4);
+                Assert.IsFalse(chi.Significant);
+            }
         }
 
         [TestMethod()]
