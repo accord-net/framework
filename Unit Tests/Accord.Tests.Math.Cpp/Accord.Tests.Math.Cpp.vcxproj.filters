@@ -32,6 +32,9 @@
     <ClInclude Include="quadpack\qagi.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Quadprog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LibLBFGS\lbfgs.cpp">
@@ -80,6 +83,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="quadprog\util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Quadprog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

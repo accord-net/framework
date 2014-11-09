@@ -723,7 +723,6 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < iwnbv.Length; i++)
             {
                 sum = 0.0;
-
                 for (int j = 0; j < n; j++)
                     sum += amat[i, j] * amat[i, j];
 
@@ -754,7 +753,7 @@ namespace Accord.Math.Optimization
 
                 if (i >= meq)
                 {
-                    // this is a inequality constraint
+                    // this is an inequality constraint
                     iwsv[l] = sum;
                 }
                 else
@@ -813,7 +812,6 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < work.Length; i++)
             {
                 sum = 0.0;
-
                 for (int j = 0; j < n; j++)
                     sum += dmat[i, j] * amat[nvl, j];
 
@@ -853,7 +851,7 @@ namespace Accord.Math.Optimization
 
                 iwrv[i] = sum;
 
-                if (iact[i] + 1 < meq)
+                if (iact[i] < meq)
                     continue;
 
                 if (sum <= 0.0)

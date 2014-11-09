@@ -149,6 +149,7 @@
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
     <Compile Include="Optimization\BoundedBroydenFletcherGoldfarbShannoTest.cs" />
+    <Compile Include="Optimization\Quadprog\QuadprogComparisonTest.cs" />
     <Compile Include="Optimization\SubplexTest.cs" />
     <Compile Include="Optimization\NelderMeadTest.cs" />
     <Compile Include="Optimization\NonlinearConjugateGradientTest.cs" />

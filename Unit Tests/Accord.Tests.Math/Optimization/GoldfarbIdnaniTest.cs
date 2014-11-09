@@ -33,7 +33,6 @@ namespace Accord.Tests.Math
     public class GoldfarbIdnaniTest
     {
 
-
         private TestContext testContextInstance;
 
         public TestContext TestContext
@@ -47,8 +46,6 @@ namespace Accord.Tests.Math
                 testContextInstance = value;
             }
         }
-
-
 
         [TestMethod()]
         public void RunTest()
@@ -855,7 +852,6 @@ namespace Accord.Tests.Math
             Assert.IsFalse(success);
         }
 
-
         [TestMethod()]
         public void GoldfarbIdnaniConstructorTest9()
         {
@@ -986,8 +982,7 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod()]
-        [Ignore()] // TODO: Remove this attribute
-        public void GoldfarbIdnaniMinimizeTest1()
+        public void GoldfarbIdnaniMinimizeWithEqualityTest()
         {
             // This test reproduces Issue #33 at Google Code Tracker
             // https://code.google.com/p/accord/issues/detail?id=33
@@ -1020,11 +1015,15 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, "d >= 0"));
             constraints.Add(new LinearConstraint(f, "a >= 0.5"));
 
-            
+            bool psd = Q.IsPositiveDefinite();
 
             double[] b;
             int eq;
             double[,] A = constraints.CreateMatrix(4, out b, out eq);
+
+            // AccordTestsMathCpp2.Quadprog.Compute(A.GetLength(1), A.GetLength(0), 
+            //    A.Reshape(), b, eq, Q.Reshape(), d);
+
 
             // Now we create the quadratic programming solver for 2 variables, using the constraints.
             GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
@@ -1033,24 +1032,21 @@ namespace Accord.Tests.Math
             Assert.IsTrue(solver.Minimize());
             double minValue = solver.Value;
 
-            double[] expected = { 0.5, 0.336259542, 0.163740458, 0 };
+            double[] expected = { 0.50000000000000, 0.30967169476486, 0.19032830523514, 0 };
             double[] actual = solver.Solution;
 
-            double v0 = constraints[0].GetViolation(actual);
-            double v1 = constraints[1].GetViolation(actual);
-            double v2 = constraints[2].GetViolation(actual);
-            double v3 = constraints[3].GetViolation(actual);
-            double v4 = constraints[4].GetViolation(actual);
-            double v5 = constraints[5].GetViolation(actual);
-            double v6 = constraints[6].GetViolation(actual);
+            for (int i = 0; i < constraints.Count; i++)
+            {
+                double error = constraints[i].GetViolation(actual);
+                Assert.AreEqual(0, error, 1e-6);
+            }
 
             for (int i = 0; i < expected.Length; i++)
             {
                 double e = expected[i];
                 double a = actual[i];
-                Assert.AreEqual(e, a);
+                Assert.AreEqual(e, a, 1e-10);
             }
         }
-
     }
 }

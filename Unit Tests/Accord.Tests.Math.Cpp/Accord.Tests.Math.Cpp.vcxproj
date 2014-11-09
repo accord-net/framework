@@ -38,7 +38,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(ProjectDir)LibLBFGS;$(ProjectDir)Lbfgsb3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)LibLBFGS;$(ProjectDir)Lbfgsb3;$(ProjectDir)Quadprog;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -66,11 +66,13 @@
     <ClInclude Include="Libbfgs.h" />
     <ClInclude Include="Quadpack.h" />
     <ClInclude Include="quadpack\qagi.h" />
+    <ClInclude Include="Quadprog.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Quadpack.cpp" />
     <ClCompile Include="quadpack\qagi.cpp" />
     <ClCompile Include="quadpack\r1mach.cpp" />
+    <ClCompile Include="Quadprog.cpp" />
     <ClCompile Include="quadprog\achck.cpp" />
     <ClCompile Include="quadprog\aind.cpp" />
     <ClCompile Include="quadprog\solve.QP.cpp" />

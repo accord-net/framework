@@ -228,10 +228,10 @@ namespace Accord.Math.Optimization
                     return Math.Abs(fx - Value);
 
                 case ConstraintType.GreaterThanOrEqualTo:
-                    return fx - Value;
+                    return Math.Min(fx - Value, 0);
 
                 case ConstraintType.LesserThanOrEqualTo:
-                    return Value - fx;
+                    return Math.Max(Value - fx, 0);
             }
 
             throw new NotSupportedException();
