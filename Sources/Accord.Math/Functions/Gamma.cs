@@ -720,9 +720,11 @@ namespace Accord.Math
             {
                 if (x > x0 || x < x1)
                     goto ihalve;
+
                 yy = Gamma.UpperIncomplete(a, x);
                 if (yy < yl || yy > yh)
                     goto ihalve;
+
                 if (yy < y)
                 {
                     x0 = x;
@@ -755,7 +757,8 @@ namespace Accord.Math
             {
                 if (x <= 0.0)
                     x = 1.0;
-                while (x0 == Double.MaxValue)
+
+                while (x0 == Double.MaxValue && !Double.IsNaN(x))
                 {
                     x = (1.0 + d) * x;
                     yy = Gamma.UpperIncomplete(a, x);
@@ -768,6 +771,7 @@ namespace Accord.Math
                     d = d + d;
                 }
             }
+
             d = 0.5;
             dir = 0;
 
@@ -776,13 +780,18 @@ namespace Accord.Math
                 x = x1 + d * (x0 - x1);
                 yy = Gamma.UpperIncomplete(a, x);
                 lgm = (x0 - x1) / (x1 + x0);
+
                 if (Math.Abs(lgm) < dithresh)
                     break;
+
                 lgm = (yy - y) / y;
+
                 if (Math.Abs(lgm) < dithresh)
                     break;
+
                 if (x <= 0.0)
                     break;
+
                 if (yy >= y)
                 {
                     x1 = x;
@@ -814,6 +823,7 @@ namespace Accord.Math
                     dir -= 1;
                 }
             }
+
             if (x == 0.0)
                 throw new ArithmeticException();
 

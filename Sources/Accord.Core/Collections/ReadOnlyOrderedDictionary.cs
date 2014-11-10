@@ -54,7 +54,7 @@ namespace Accord.Collections
         ///   <see cref="ReadOnlyKeyedCollection&lt;TKey, TValue&gt;"/> class.
         /// </summary>
         /// 
-        protected ReadOnlyKeyedCollection(TValue[] components)
+        protected ReadOnlyKeyedCollection(IList<TValue> components)
             : base(components)
         {
             dictionary = new Dictionary<TKey, TValue>();

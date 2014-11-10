@@ -221,13 +221,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="AForge.IntRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
-        public override DoubleRange Support
+        public override IntRange Support
         {
-            get { return new DoubleRange(Math.Max(0, n + m - N), Math.Min(m, n)); }
+            get { return new IntRange(Math.Max(0, n + m - N), Math.Min(m, n)); }
         }
 
         /// <summary>

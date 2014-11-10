@@ -217,9 +217,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the support interval for this distribution.
         /// </value>
         /// 
-        public override DoubleRange Support
+        public override IntRange Support
         {
-            get { return new DoubleRange(k0, k0); }
+            get { return new IntRange(k0, k0); }
         }
 
         /// <summary>

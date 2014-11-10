@@ -126,6 +126,9 @@ namespace Accord.Statistics.Distributions.Univariate
 
         private void initialize(double lm)
         {
+            if (lm < 1)
+                lm = 1;
+
             this.lambda = lm;
             this.epml = Math.Exp(-lm);
 
@@ -181,13 +184,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="AForge.IntRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
-        public override DoubleRange Support
+        public override IntRange Support
         {
-            get { return new DoubleRange(Double.Epsilon, Double.PositiveInfinity); }
+            get { return new IntRange(0, Int32.MaxValue); }
         }
 
         /// <summary>
@@ -207,6 +210,9 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             if (k < 0)
                 return 0;
+
+            if (k >= Int32.MaxValue)
+                return 1;
 
             return Gamma.LowerIncomplete(k + 1, lambda) / Special.Factorial(k);
         }
@@ -285,6 +291,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </remarks>
         public override int InverseDistributionFunction(double p)
         {
+            if (p == 1)
+                return Support.Max;
+            else if (p == 0)
+                return Support.Min;
+
             double result = Gamma.InverseUpperIncomplete(lambda, 1.0 - p);
 
             return (int)Math.Round(result);

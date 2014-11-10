@@ -27,6 +27,7 @@ namespace Accord.Statistics.Testing
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Visualizations;
     using Accord.Statistics.Distributions;
+    using Accord.Math;
 
     /// <summary>
     ///   Two-Sample (Goodness-of-fit) Chi-Square Test (Upper Tail)
@@ -218,22 +219,51 @@ namespace Accord.Statistics.Testing
             for (int i = 0; i <= bins; i++)
             {
                 double p = i / (double)bins;
-                ebins[i] = E.InverseDistributionFunction(p);
+                ebins[i] = F.InverseDistributionFunction(p);
             }
 
-            double[] observed = new double[bins - 1];
-            for (int i = 0; i < observed.Length; i++)
-            {
-                observed[i] = E.DistributionFunction(ebins[i + 1], ebins[i + 2]) * n;
-            }
 
             double[] expected = new double[bins - 1];
+
+            int size = expected.Length;
             for (int i = 0; i < expected.Length; i++)
             {
-                double Fa = F.DistributionFunction(ebins[i + 1]);
-                double Fb = F.DistributionFunction(ebins[i + 2]);
-                expected[i] = (Fb - Fa) * n;
+                double a = ebins[i];
+                double b = ebins[i + 1];
+
+                if (Double.IsPositiveInfinity(b))
+                    break;
+
+                double Fa = F.DistributionFunction(a);
+                double Fb = F.DistributionFunction(b);
+                double samples = Math.Abs(Fb - Fa) * n;
+
+                expected[i] = samples;
+
+                if (samples < 5)
+                {
+                    size = i + 1;
+                    for (int j = i + 1; j < ebins.Length - 1; j++)
+                        ebins[j] = ebins[j + 1];
+                    ebins[ebins.Length - 1] = Double.PositiveInfinity;
+
+                    i--;
+                }
             }
+
+            
+            ebins = ebins.Submatrix(size + 2);
+            expected = expected.Submatrix(ebins.Length - 2);
+
+            double[] observed = new double[expected.Length];
+            for (int i = 0; i < observed.Length; i++)
+            {
+                double a = ebins[i];
+                double b = ebins[i + 1];
+                observed[i] = E.DistributionFunction(a, b) * n;
+            }
+
+
 
             double sum = compute(expected, observed);
 

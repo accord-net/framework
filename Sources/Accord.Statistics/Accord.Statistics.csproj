@@ -136,6 +136,7 @@
     <Compile Include="Analysis\Contrast Functions\Kurtosis.cs" />
     <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
     <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
+    <Compile Include="Analysis\DistributionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />

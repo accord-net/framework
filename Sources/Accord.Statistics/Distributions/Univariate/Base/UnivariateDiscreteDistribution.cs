@@ -115,7 +115,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <value>A <see cref="AForge.IntRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
-        public abstract DoubleRange Support { get; }
+        public abstract IntRange Support { get; }
 
         /// <summary>
         ///   Gets the mode for this distribution.
@@ -214,6 +214,48 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         #region IDistribution explicit members
+
+        /// <summary>
+        ///   Gets the support interval for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   the support interval for this distribution.
+        /// </value>
+        /// 
+        DoubleRange IUnivariateDistribution.Support
+        {
+            get { return new DoubleRange(Support.Min, Support.Max); }
+        }
+
+        /// <summary>
+        ///   Gets the support interval for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   the support interval for this distribution.
+        /// </value>
+        /// 
+        DoubleRange IUnivariateDistribution<int>.Support
+        {
+            get { return new DoubleRange(Support.Min, Support.Max); }
+        }
+
+        /// <summary>
+        ///   Gets the support interval for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   the support interval for this distribution.
+        /// </value>
+        /// 
+        DoubleRange IUnivariateDistribution<double>.Support
+        {
+            get { return new DoubleRange(Support.Min, Support.Max); }
+        }
 
         /// <summary>
         ///   Gets the probability density function (pdf) for

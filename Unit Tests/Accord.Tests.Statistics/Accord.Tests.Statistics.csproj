@@ -137,6 +137,7 @@
  -->
   <ItemGroup>
     <Compile Include="Analysis\CircularDescriptiveAnalysisTest.cs" />
+    <Compile Include="Analysis\DistributionAnalysisTest.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysisTest.cs" />
     <Compile Include="Analysis\IndependentComponentAnalysisTest.cs" />
     <Compile Include="Analysis\DescriptiveAnalysisTest.cs" />
