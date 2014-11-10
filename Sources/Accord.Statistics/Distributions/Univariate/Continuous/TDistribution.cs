@@ -120,7 +120,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="degreesOfFreedom">The degrees of freedom.</param>
         /// 
-        public TDistribution(double degreesOfFreedom)
+        public TDistribution([Positive] double degreesOfFreedom)
         {
             if (degreesOfFreedom < 1)
                 throw new ArgumentOutOfRangeException("degreesOfFreedom");

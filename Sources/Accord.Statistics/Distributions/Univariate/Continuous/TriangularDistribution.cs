@@ -26,7 +26,6 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using AForge;
 
     /// <summary>
@@ -95,7 +94,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="b">The maximum possible value in the distribution (b).</param>
         /// <param name="c">The most common value in the distribution (c).</param>
         /// 
-        public TriangularDistribution(double a, double b, double c)
+        public TriangularDistribution([Real] double a, [Real] double b, [Real] double c)
         {
             if (a > b)
             {
@@ -130,6 +129,19 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         public double C { get { return c; } }
+
+        /// <summary>
+        ///   Gets the triangular parameter A (the minimum value).
+        /// </summary>
+        /// 
+        public double Min { get { return a; } }
+
+        /// <summary>
+        ///   Gets the triangular parameter B (the maximum value).
+        /// </summary>
+        /// 
+        public double Max { get { return b; } }
+
 
         /// <summary>
         ///   Gets the mean for this distribution, 

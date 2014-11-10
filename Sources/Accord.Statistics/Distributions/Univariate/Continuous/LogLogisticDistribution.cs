@@ -24,9 +24,6 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using AForge;
 
     /// <summary>
@@ -114,7 +111,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="alpha">The distribution's scale value α (alpha).</param>
         /// 
-        public LogLogisticDistribution(double alpha)
+        public LogLogisticDistribution([Positive] double alpha)
         {
             if (alpha <= 0)
                 throw new ArgumentOutOfRangeException("alpha", "Alpha must be positive.");
@@ -130,7 +127,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="alpha">The distribution's scale value α (alpha).</param>
         /// <param name="beta">The distribution's shape value β (beta).</param>
         /// 
-        public LogLogisticDistribution(double alpha, double beta)
+        public LogLogisticDistribution([Positive] double alpha, [Positive] double beta)
         {
             if (alpha <= 0)
                 throw new ArgumentOutOfRangeException("alpha", "Alpha must be positive.");

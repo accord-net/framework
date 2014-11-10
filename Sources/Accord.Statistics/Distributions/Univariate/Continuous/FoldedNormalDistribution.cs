@@ -23,9 +23,9 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
+    using System.ComponentModel;
     using Accord.Math;
     using AForge;
-    using System.ComponentModel;
 
     /// <summary>
     ///   Folded Normal (Gaussian) distribution.
@@ -116,8 +116,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="mean">
         ///   The mean of the original normal distribution that should be folded.</param>
         /// 
-        public FoldedNormalDistribution(
-            [Real, DefaultValue(0)] double mean)
+        public FoldedNormalDistribution([Real] double mean)
         {
             initialize(mean, 1, 1);
         }

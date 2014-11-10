@@ -89,7 +89,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="mu">The mean resultant parameter μ.</param>
         /// <param name="gamma">The gamma parameter γ.</param>
         /// 
-        public WrappedCauchyDistribution(double mu, double gamma)
+        public WrappedCauchyDistribution([Real] double mu, [Positive] double gamma)
         {
             if (gamma <= 0)
                 throw new ArgumentOutOfRangeException("gamma", "Gamma must be positive.");

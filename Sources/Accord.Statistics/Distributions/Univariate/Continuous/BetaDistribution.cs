@@ -24,9 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
     using Accord.Statistics.Distributions.Fitting;
-    using System.ComponentModel;
+    using AForge;
 
     /// <summary>
     ///   Beta Distribution (of the first kind).

@@ -80,7 +80,7 @@ namespace Accord.Statistics.Distributions.Univariate
         IFormattable, ISampleableDistribution<double>
     {
 
-        double xm; // x_m
+        double xm;     // x_m
         double alpha;  // alpha
 
         /// <summary>
@@ -90,8 +90,20 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="scale">The scale parameter x<sub>m</sub>.</param>
         /// <param name="shape">The shape parameter α (alpha).</param>
         /// 
-        public ParetoDistribution(double scale, double shape)
+        public ParetoDistribution([Positive] double scale, [Positive] double shape)
         {
+            if (scale <= 0)
+            {
+                throw new ArgumentOutOfRangeException("scale",
+                    "Scale must be positive.");
+            }
+
+            if (shape <= 0)
+            {
+                throw new ArgumentOutOfRangeException("shape",
+                    "Shape must be positive.");
+            }
+
             init(scale, shape);
         }
 

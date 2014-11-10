@@ -23,7 +23,6 @@
 namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
-    using Accord.Math;
     using AForge;
 
     /// <summary>
@@ -51,7 +50,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples.</param>
         /// 
-        public ShapiroWilkDistribution(int samples)
+        public ShapiroWilkDistribution([PositiveInteger] int samples)
         {
             if (samples < 4)
             {

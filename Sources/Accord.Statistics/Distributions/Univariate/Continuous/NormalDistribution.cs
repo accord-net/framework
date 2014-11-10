@@ -177,7 +177,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="mean">The distribution's mean value μ (mu).</param>
         /// 
-        public NormalDistribution(double mean)
+        public NormalDistribution([Real] double mean)
         {
             initialize(mean, stdDev, stdDev * stdDev);
         }
@@ -193,7 +193,10 @@ namespace Accord.Statistics.Distributions.Univariate
         public NormalDistribution([Real] double mean, [Positive] double stdDev)
         {
             if (stdDev <= 0)
-                throw new ArgumentOutOfRangeException("stdDev", "Standard deviation must be positive.");
+            {
+                throw new ArgumentOutOfRangeException("stdDev",
+                    "Standard deviation must be positive.");
+            }
 
             initialize(mean, stdDev, stdDev * stdDev);
         }

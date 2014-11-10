@@ -24,9 +24,6 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using AForge;
 
     /// <summary>
@@ -121,7 +118,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <returns>A <see cref="GeneralizedNormalDistribution"/> that provides
         ///  a <see cref="LaplaceDistribution"/>.</returns>
         /// 
-        public static GeneralizedNormalDistribution Laplace(double location, double scale)
+        public static GeneralizedNormalDistribution Laplace([Real] double location, [Positive] double scale)
         {
             return new GeneralizedNormalDistribution(location, scale, 1);
         }

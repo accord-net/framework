@@ -24,10 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using Accord.Math.Optimization;
-    using Accord.Statistics.Distributions.Fitting;
     using AForge;
-    using System.ComponentModel;
 
     /// <summary>
     ///   Birnbaum-Saunders (Fatigue Life) distribution.
@@ -107,7 +104,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="shape">The shape parameter gamma (γ). Default is 1.</param>
         /// 
-        public BirnbaumSaundersDistribution(double shape)
+        public BirnbaumSaundersDistribution([Positive] double shape)
             : this(0, 1, shape)
         {
         }

@@ -110,7 +110,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="location">The distribution's location.</param>
         /// 
-        public LevyDistribution(double location)
+        public LevyDistribution([Real] double location)
         {
             initialize(location, 1);
         }
@@ -123,7 +123,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="location">The distribution's location.</param>
         /// <param name="scale">The distribution's scale.</param>
         /// 
-        public LevyDistribution(double location, double scale)
+        public LevyDistribution([Real] double location, [Positive] double scale)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");

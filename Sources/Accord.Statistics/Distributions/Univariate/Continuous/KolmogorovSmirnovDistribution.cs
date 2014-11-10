@@ -130,8 +130,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples.</param>
         /// 
-        public KolmogorovSmirnovDistribution(double samples)
+        public KolmogorovSmirnovDistribution([Positive] double samples)
         {
+            if (samples <= 0)
+            {
+                throw new ArgumentOutOfRangeException("samples",
+                    "The number of samples must be positive.");
+            }
+
             this.NumberOfSamples = samples;
         }
 

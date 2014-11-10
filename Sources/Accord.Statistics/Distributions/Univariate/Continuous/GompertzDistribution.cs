@@ -24,8 +24,6 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using AForge;
-    using System.ComponentModel;
-    using Accord.Math;
 
     /// <summary>
     ///   Gompertz distribution.

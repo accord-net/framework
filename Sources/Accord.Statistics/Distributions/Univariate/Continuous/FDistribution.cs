@@ -26,7 +26,6 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
-    using System.ComponentModel;
 
     /// <summary>
     ///   F (Fisher-Snedecor) distribution.

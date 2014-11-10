@@ -79,7 +79,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="power">The distribution's power p.</param>
         /// <param name="shape">The distribution's shape σ.</param>
         /// 
-        public PowerLognormalDistribution(double power, double shape)
+        public PowerLognormalDistribution([Positive] double power, [Positive] double shape)
         {
             if (power <= 0)
                 throw new ArgumentOutOfRangeException("power", "Power must be positive.");

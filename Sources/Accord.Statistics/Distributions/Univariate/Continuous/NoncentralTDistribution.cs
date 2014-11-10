@@ -24,8 +24,8 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using AForge;
     using Accord.Math.Optimization;
+    using AForge;
 
     /// <summary>
     ///   Noncentral t-distribution.
@@ -107,10 +107,13 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="degreesOfFreedom">The degrees of freedom v.</param>
         /// <param name="noncentrality">The noncentrality parameter μ (mu).</param>
         /// 
-        public NoncentralTDistribution(double degreesOfFreedom, double noncentrality)
+        public NoncentralTDistribution([Positive] double degreesOfFreedom, [Real] double noncentrality)
         {
             if (degreesOfFreedom <= 0)
-                throw new ArgumentOutOfRangeException("degreesOfFreedom");
+            {
+                throw new ArgumentOutOfRangeException("degreesOfFreedom",
+                    "The number of degrees of freedom must be positive.");
+            }
 
             this.v = degreesOfFreedom;
             this.u = noncentrality;

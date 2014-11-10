@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Continuous Uniform Distribution.
@@ -109,7 +110,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="a">The starting number a.</param>
         /// <param name="b">The ending number b.</param>
         /// 
-        public UniformContinuousDistribution(double a, double b)
+        public UniformContinuousDistribution(
+            [Real, DefaultValue(0)] double a,
+            [Real, DefaultValue(1)] double b)
         {
             if (a > b)
             {

@@ -24,11 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using AForge;
-    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Skew Normal distribution.
@@ -111,7 +107,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="location">The distribution's location value ξ (ksi).</param>
         /// 
-        public SkewNormalDistribution(double location)
+        public SkewNormalDistribution([Real] double location)
         {
             initialize(location, omega, alpha);
         }
@@ -124,7 +120,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="location">The distribution's location value ξ (ksi).</param>
         /// <param name="scale">The distribution's scale value ω (omega).</param>
         /// 
-        public SkewNormalDistribution(double location, double scale)
+        public SkewNormalDistribution([Real] double location, [Positive] double scale)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
@@ -141,7 +137,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="scale">The distribution's scale value ω (omega).</param>
         /// <param name="shape">The distribution's shape value α (alpha).</param>
         /// 
-        public SkewNormalDistribution(double location, double scale, double shape)
+        public SkewNormalDistribution([Real] double location, [Positive] double scale, [Real] double shape)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");

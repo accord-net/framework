@@ -124,7 +124,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="scale">The scale parameter λ (lambda).</param>
         /// <param name="shape">The shape parameter k.</param>
         /// 
-        public WeibullDistribution(double shape, double scale)
+        public WeibullDistribution([Positive] double shape, [Positive] double scale)
         {
             if (shape <= 0) // k
                 throw new ArgumentOutOfRangeException("shape", "Shape (k) must be greater than zero.");

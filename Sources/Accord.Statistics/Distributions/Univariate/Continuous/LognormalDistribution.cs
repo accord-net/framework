@@ -120,7 +120,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="location">The distribution's location value μ (mu).</param>
         /// 
-        public LognormalDistribution(double location)
+        public LognormalDistribution([Real] double location)
         {
             initialize(location, shape, shape * shape);
         }
@@ -133,7 +133,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="location">The distribution's location value μ (mu).</param>
         /// <param name="shape">The distribution's shape deviation σ (sigma).</param>
         /// 
-        public LognormalDistribution(double location, double shape)
+        public LognormalDistribution([Real] double location, [Positive] double shape)
         {
             initialize(location, shape, shape * shape);
         }

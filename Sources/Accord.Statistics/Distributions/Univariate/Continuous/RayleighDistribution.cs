@@ -95,8 +95,14 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="sigma">The Rayleigh distribution's σ (sigma).</param>
         /// 
-        public RayleighDistribution(double sigma)
+        public RayleighDistribution([Positive] double sigma)
         {
+            if (sigma < 0)
+            {
+                throw new ArgumentOutOfRangeException("sigma",
+                    "Sigma must be positive.");
+            }
+
             this.sigma = sigma;
         }
 

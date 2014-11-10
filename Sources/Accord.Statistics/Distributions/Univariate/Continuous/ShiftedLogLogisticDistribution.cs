@@ -24,9 +24,6 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using Accord.Math;
-    using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics.Distributions.Multivariate;
     using AForge;
 
     /// <summary>
@@ -107,7 +104,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="location">The distribution's location value μ (mu).</param>
         /// 
-        public ShiftedLogLogisticDistribution(double location)
+        public ShiftedLogLogisticDistribution([Real] double location)
         {
             initialize(location, 1, 0);
         }
@@ -120,7 +117,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="location">The distribution's location value μ (mu).</param>
         /// <param name="scale">The distribution's scale value σ (sigma).</param>
         /// 
-        public ShiftedLogLogisticDistribution(double location, double scale)
+        public ShiftedLogLogisticDistribution([Real] double location, [Positive] double scale)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");
@@ -137,7 +134,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="scale">The distribution's scale value s.</param>
         /// <param name="shape">The distribution's shape value ξ (ksi).</param>
         /// 
-        public ShiftedLogLogisticDistribution(double location, double scale, double shape)
+        public ShiftedLogLogisticDistribution([Real] double location, [Positive] double scale, [Real] double shape)
         {
             if (scale <= 0)
                 throw new ArgumentOutOfRangeException("scale", "Scale must be positive.");

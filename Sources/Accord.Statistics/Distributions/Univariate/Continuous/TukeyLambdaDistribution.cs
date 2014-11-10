@@ -98,7 +98,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with the given lambda (shape) parameter.
         /// </summary>
         /// 
-        public TukeyLambdaDistribution(double lambda)
+        public TukeyLambdaDistribution([Real] double lambda)
         {
             initialize(lambda);
         }

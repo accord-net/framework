@@ -112,12 +112,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="n1">The number of observations in the first sample.</param>
         /// <param name="n2">The number of observations in the second sample.</param>
         /// 
-        public MannWhitneyDistribution(double[] ranks, int n1, int n2)
+        public MannWhitneyDistribution(double[] ranks, 
+            [PositiveInteger] int n1, [PositiveInteger] int n2)
         {
             this.Ranks = ranks;
             this.Samples1 = n1;
             this.Samples2 = n2;
             int nt = n1 + n2;
+
+            if (n1 <= 0)
+            {
+                throw new ArgumentOutOfRangeException("n1",
+                    "The first number of samples must be positive.");
+            }
+
+            if (n2 <= 0)
+            {
+                throw new ArgumentOutOfRangeException("n2",
+                    "The second number of samples must be positive.");
+            }
 
             this.smallSample = (n1 <= 30 && n2 <= 30);
 

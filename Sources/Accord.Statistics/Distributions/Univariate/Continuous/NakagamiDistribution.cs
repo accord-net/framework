@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Nakagami distribution.
@@ -97,13 +98,20 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="shape">The shape parameter μ (mu).</param>
         /// <param name="spread">The spread parameter ω (omega).</param>
         /// 
-        public NakagamiDistribution(double shape, double spread)
+        public NakagamiDistribution([Positive, DefaultValue(0.5)] double shape, 
+            [Positive] double spread)
         {
-            if (shape < 0.5) throw new ArgumentOutOfRangeException("shape",
+            if (shape < 0.5)
+            {
+                throw new ArgumentOutOfRangeException("shape",
                 "Shape parameter (mu) should be greater than or equal to 0.5.");
+            }
 
-            if (spread <= 0) throw new ArgumentOutOfRangeException("spread",
+            if (spread <= 0)
+            {
+                throw new ArgumentOutOfRangeException("spread",
                 "Spread parameter (omega) should be greater than 0.");
+            }
 
             this.mu = shape;
             this.omega = spread;

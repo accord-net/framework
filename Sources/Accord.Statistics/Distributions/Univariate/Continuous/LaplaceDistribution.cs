@@ -100,7 +100,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="location">The location parameter μ (mu).</param>
         /// <param name="scale">The scale parameter b.</param>
         /// 
-        public LaplaceDistribution(double location, double scale)
+        public LaplaceDistribution([Real] double location, [Positive] double scale)
         {
             if (scale <= 0) 
                 throw new ArgumentOutOfRangeException("scale", "Scale must be non-negative.");
