@@ -20,6 +20,8 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
+using Accord.Statistics.Distributions;
+
 namespace Accord.Controls
 {
     using System;
@@ -419,6 +421,20 @@ namespace Accord.Controls
             return show(title, function, range.Min, range.Max, null);
         }
 
+
+        /// <summary>
+        ///   Displays a scatter plot.
+        /// </summary>
+        /// 
+        /// <param name="title">The title for the plot window.</param>
+        /// <param name="function">The function to plot.</param>
+        /// <param name="npoints">The number of points to use during plotting.</param>
+        /// 
+        public static ScatterplotBox Show(String title, Func<double, double> function, int npoints)
+        {
+            return show(title, function, null, null, null, npoints);
+        }
+
         /// <summary>
         ///   Displays a scatter plot.
         /// </summary>
@@ -459,7 +475,8 @@ namespace Accord.Controls
             return show(title, function, min, max, step);
         }
 
-        private static ScatterplotBox show(String title, Func<double, double> function, double? min, double? max, double? step)
+        private static ScatterplotBox show(String title, Func<double, double> function,
+            double? min, double? max, double? step, int? npoints = null)
         {
             if (min == null || max == null)
             {
@@ -476,8 +493,11 @@ namespace Accord.Controls
                 }
             }
 
+            if (npoints == null)
+                npoints = 1000;
+
             if (step == null)
-                step = (max - min) / 1000;
+                step = (max - min) / npoints;
 
             double[] input = Matrix.Interval(min.Value, max.Value, step.Value);
             double[] output = Matrix.Apply(input, function);
@@ -535,10 +555,18 @@ namespace Accord.Controls
             formThread.Join();
         }
 
-        private static bool GetRange(Func<double, double> source, out DoubleRange range)
+        internal static bool GetRange(Func<double, double> source, out DoubleRange range)
         {
             ParameterInfo[] parameters = source.Method.GetParameters();
             ParameterInfo first = parameters[0];
+
+            var obj = source.Target as IUnivariateDistribution;
+
+            if (obj != null && source.Method.Name == "ProbabilityDensityFunction")
+            {
+                range = obj.Support;
+                return true;
+            }
 
             RangeAttribute[] attributes =
                 (RangeAttribute[])first.GetCustomAttributes(typeof(RangeAttribute), false);

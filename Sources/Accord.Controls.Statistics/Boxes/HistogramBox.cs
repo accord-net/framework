@@ -26,6 +26,7 @@ namespace Accord.Controls
     using System.Threading;
     using System.Windows.Forms;
     using Accord.Statistics.Visualizations;
+    using Accord.Math;
 
     /// <summary>
     ///   Histogram Box for quickly displaying a form with a histogram 
@@ -175,9 +176,7 @@ namespace Accord.Controls
         /// 
         public static HistogramBox Show(string title, double[] values)
         {
-            Histogram histogram = new Histogram(title);
-            histogram.Compute(values);
-            return show(histogram);
+            return show(title, values);
         }
 
         /// <summary>
@@ -188,11 +187,11 @@ namespace Accord.Controls
         /// 
         public static HistogramBox Show(Histogram histogram)
         {
-            return show(histogram);
+            return show(histogram.Title, histogram.Values.ToDouble());
         }
 
 
-        private static HistogramBox show(Histogram histogram)
+        private static HistogramBox show(string title, double[] values)
         {
             HistogramBox form = null;
             Thread formThread = null;
@@ -206,9 +205,9 @@ namespace Accord.Controls
 
                 // Show control in a form
                 form = new HistogramBox();
-                form.Text = histogram.Title;
+                form.Text = title;
                 form.formThread = formThread;
-                form.histogramView1.Histogram = histogram;
+                form.histogramView1.DataSource = values;
 
                 stopWaitHandle.Set();
 

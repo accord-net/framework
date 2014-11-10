@@ -139,6 +139,12 @@
     <Compile Include="Bindings\ConfusionMatrixRowView.cs" />
     <Compile Include="Bindings\ConfusionMatrixView.cs" />
     <Compile Include="Bindings\RowNamePropertyDescriptor.cs" />
+    <Compile Include="Boxes\DataBarBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Boxes\DataBarBox.Designer.cs">
+      <DependentUpon>DataBarBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="Boxes\HistogramBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -205,6 +211,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Boxes\DataBarBox.resx">
+      <DependentUpon>DataBarBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Boxes\HistogramBox.resx">
       <DependentUpon>HistogramBox.cs</DependentUpon>
       <SubType>Designer</SubType>
