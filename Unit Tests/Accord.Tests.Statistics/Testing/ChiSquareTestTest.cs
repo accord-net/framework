@@ -137,9 +137,9 @@ namespace Accord.Tests.Statistics
 
             var chi = new ChiSquareTest(sample, distribution);
 
-            Assert.AreEqual(4.8933545256350994, chi.Statistic, 0.015);
+            Assert.AreEqual(0, chi.Statistic, 1e-6);
             Assert.AreEqual(3, chi.DegreesOfFreedom);
-            Assert.AreEqual(0.17977489590225362, chi.PValue, 1e-4);
+            Assert.AreEqual(1, chi.PValue, 1e-4);
             Assert.IsFalse(chi.Significant);
         }
 
@@ -155,30 +155,30 @@ namespace Accord.Tests.Statistics
 
             {
                 var chi = new ChiSquareTest(unif, u);
-                Assert.AreEqual(3.0543712466684418, chi.Statistic, 0.015);
+                Assert.AreEqual(3.2399999999999958, chi.Statistic, 1e-6);
                 Assert.AreEqual(7, chi.DegreesOfFreedom);
-                Assert.AreEqual(0.87992728116902319, chi.PValue, 1e-4);
+                Assert.AreEqual(0.86194834721001945, chi.PValue, 1e-6);
                 Assert.IsFalse(chi.Significant);
             }
             {
                 var chi = new ChiSquareTest(unif, n);
-                Assert.AreEqual(960.66061609840472, chi.Statistic, 0.015);
+                Assert.AreEqual(1547.9120000000009, chi.Statistic, 1e-6);
                 Assert.AreEqual(7, chi.DegreesOfFreedom);
-                Assert.AreEqual(3.7995577895044017E-203, chi.PValue, 1e-4);
+                Assert.AreEqual(0, chi.PValue, 1e-6);
                 Assert.IsTrue(chi.Significant);
             }
             {
                 var chi = new ChiSquareTest(norm, u);
-                Assert.AreEqual(double.PositiveInfinity, chi.Statistic, 0.015);
+                Assert.AreEqual(401.71999999999991, chi.Statistic, 1e-6);
                 Assert.AreEqual(7, chi.DegreesOfFreedom);
-                Assert.AreEqual(0, chi.PValue, 1e-4);
+                Assert.AreEqual(0, chi.PValue, 1e-6);
                 Assert.IsTrue(chi.Significant);
             }
             {
                 var chi = new ChiSquareTest(norm, n);
-                Assert.AreEqual(5.3328172594132619, chi.Statistic, 0.015);
+                Assert.AreEqual(9.7439999999999696, chi.Statistic, 1e-6);
                 Assert.AreEqual(7, chi.DegreesOfFreedom);
-                Assert.AreEqual(0.61941817399126187, chi.PValue, 1e-4);
+                Assert.AreEqual(0.20355084764042014, chi.PValue, 1e-6);
                 Assert.IsFalse(chi.Significant);
             }
         }

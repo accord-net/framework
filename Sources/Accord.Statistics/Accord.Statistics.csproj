@@ -157,6 +157,7 @@
     <Compile Include="Distributions\Density Kernels\Accord.Statistics.Distributions.DensityKernels.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
     <Compile Include="Distributions\Fitting\Accord.Statistics.Distributions.Fitting.cs" />
+    <Compile Include="Distributions\Fitting\TriangularOptions.cs" />
     <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />
     <Compile Include="Distributions\Fitting\EmpiricalOptions.cs" />

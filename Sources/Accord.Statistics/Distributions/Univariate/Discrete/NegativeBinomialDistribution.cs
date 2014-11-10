@@ -173,6 +173,9 @@ namespace Accord.Statistics.Distributions.Univariate
             if (k < 0) 
                 return 0;
 
+            if (k == int.MaxValue)
+                return 1;
+
             return 1.0 - Beta.Incomplete(k + 1, r, p);
         }
 
@@ -218,7 +221,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityMassFunction(int k)
         {
-            if (k <= 0) return Double.NegativeInfinity;
+            if (k <= 0) 
+                return Double.NegativeInfinity;
+
             return Special.LogBinomial(k + r - 1, r - 1) + k * Math.Log(1 - p) + r * Math.Log(p);
         }
 

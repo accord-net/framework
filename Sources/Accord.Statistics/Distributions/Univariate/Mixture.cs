@@ -104,6 +104,7 @@ namespace Accord.Statistics.Distributions.Univariate
         // distributions measures
         private double? mean;
         private double? variance;
+        private DoubleRange? range;
 
         // cache
         IDistribution<double>[] cache;
@@ -168,6 +169,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             this.mean = null;
             this.variance = null;
+            this.range = null;
         }
 
         /// <summary>
@@ -187,6 +189,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get { return coefficients; }
         }
+
 
 
         /// <summary>
@@ -340,8 +343,14 @@ namespace Accord.Statistics.Distributions.Univariate
         public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
             MixtureOptions mixOptions = options as MixtureOptions;
+
             if (options != null && mixOptions == null)
-                throw new ArgumentException("The specified options' type is invalid.", "options");
+            {
+                mixOptions = new MixtureOptions()
+                {
+                    InnerOptions = options
+                };
+            }
 
             Fit(observations, weights, mixOptions);
         }
@@ -534,9 +543,14 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             get
             {
-                double min = Components.Min(p => p.Support.Min);
-                double max = Components.Max(p => p.Support.Max);
-                return new DoubleRange(min, max);
+                if (range == null)
+                {
+                    double min = Components.Min(p => p.Support.Min);
+                    double max = Components.Max(p => p.Support.Max);
+                    range = new DoubleRange(min, max);
+                }
+
+                return range.Value;
             }
         }
 

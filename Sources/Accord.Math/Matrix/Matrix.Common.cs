@@ -854,16 +854,16 @@ namespace Accord.Math
         /// 
         public static bool IsSorted<T>(this T[] values, ComparerDirection direction) where T : IComparable<T>
         {
-            if (direction == ComparerDirection.Descending)
+            if (direction == ComparerDirection.Ascending)
             {
                 for (int i = 1; i < values.Length; i++)
-                    if (values[i - 1].CompareTo(values[i]) >= 0)
+                    if (values[i - 1].CompareTo(values[i]) > 0)
                         return false;
             }
             else
             {
                 for (int i = 1; i < values.Length; i++)
-                    if (values[i - 1].CompareTo(values[i]) <= 0)
+                    if (values[i - 1].CompareTo(values[i]) < 0)
                         return false;
             }
 

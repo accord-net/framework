@@ -126,8 +126,8 @@ namespace Accord.Statistics.Distributions.Univariate
 
         private void initialize(double lm)
         {
-            if (lm < 1)
-                lm = 1;
+            if (lm <= 0)
+                lm = Constants.DoubleEpsilon;
 
             this.lambda = lm;
             this.epml = Math.Exp(-lm);
