@@ -148,7 +148,7 @@ namespace Accord.Statistics.Distributions.Fitting
             var pdf = new IFittableDistribution<TObservation>[components.Length];
 
             for (int i = 0; i < components.Length; i++)
-                pdf[i] = (IFittableDistribution<TObservation>)components[i].Clone();
+                pdf[i] = (IFittableDistribution<TObservation>)components[i];
 
             // Prepare the iteration
             Convergence.NewValue = LogLikelihood(pi, pdf, observations, weights, weightSum);
@@ -247,7 +247,7 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   for a given set of observations.
         /// </summary>
         /// 
-        internal static double LogLikelihood(double[] pi, IDistribution<TObservation>[] pdf,
+        public static double LogLikelihood(double[] pi, IDistribution<TObservation>[] pdf,
             TObservation[] observations)
         {
             return LogLikelihood(pi, pdf, observations, null, 0);
@@ -258,7 +258,7 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   for a given set of observations.
         /// </summary>
         /// 
-        internal static double LogLikelihood(double[] pi, IDistribution<TObservation>[] pdf,
+        public static double LogLikelihood(double[] pi, IDistribution<TObservation>[] pdf,
             TObservation[] observations, double[] weights, double weightSum)
         {
             double logLikelihood = 0.0;
@@ -326,7 +326,7 @@ namespace Accord.Statistics.Distributions.Fitting
 #endif
 
             System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihood));
-            
+
             if (weights != null)
             {
                 System.Diagnostics.Debug.Assert(weightSum != 0);

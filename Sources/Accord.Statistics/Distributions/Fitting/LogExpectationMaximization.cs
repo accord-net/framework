@@ -130,7 +130,7 @@ namespace Accord.Statistics.Distributions.Fitting
             var pdf = new IFittableDistribution<TObservation>[components.Length];
 
             for (int i = 0; i < components.Length; i++)
-                pdf[i] = (IFittableDistribution<TObservation>)components[i].Clone();
+                pdf[i] = (IFittableDistribution<TObservation>)components[i];
 
             // Prepare the iteration
             Convergence.NewValue = LogLikelihood(logPi, pdf, observations);
@@ -234,7 +234,7 @@ namespace Accord.Statistics.Distributions.Fitting
         ///   for a given set of observations.
         /// </summary>
         /// 
-        internal static double LogLikelihood(double[] lnpi, IDistribution<TObservation>[] pdf,
+        public static double LogLikelihood(double[] lnpi, IDistribution<TObservation>[] pdf,
             TObservation[] observations)
         {
             double logLikelihood = 0.0;
