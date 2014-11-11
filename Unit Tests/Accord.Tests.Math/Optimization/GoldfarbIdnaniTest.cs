@@ -27,6 +27,8 @@ namespace Accord.Tests.Math
     using Accord.Math;
     using Accord.Math.Optimization;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.IO;
+    using Accord.Tests.Math.Properties;
 
 
     [TestClass()]
@@ -1047,6 +1049,96 @@ namespace Accord.Tests.Math
                 double a = actual[i];
                 Assert.AreEqual(e, a, 1e-10);
             }
+        }
+
+        [TestMethod()]
+        public void GoldfarbIdnaniLargeSampleTest1()
+        {
+            var Q = readMatrixFile(new StringReader(Resources.dmatFull));
+            var AMat = readMatrixFile(new StringReader(Resources.constraintMatrix11_15));
+            var bvec = readVectorFile(new StringReader(Resources.constraints11_14));
+
+            var dvec = new double[Q.GetLength(0)];
+            double[] b = new double[bvec.Length];
+            bvec.CopyTo(b, 0);
+
+            bool psd = Q.IsPositiveDefinite();
+            Assert.IsTrue(psd);
+
+            GoldfarbIdnani gfI = new GoldfarbIdnani(Q, dvec, AMat, b, 2);
+
+            bool success = gfI.Minimize();
+
+            Assert.IsTrue(success);
+
+            double[] soln = gfI.Solution;
+            double value = Math.Sqrt(Matrix.Multiply(Matrix.Multiply(soln, Q), soln.Transpose())[0]);
+
+            double expectedSol = 0.049316494677822;
+            double actualSol = value;
+
+            double[] expected = 
+            {
+                0.74083116998144, // 2
+                0.14799651298617, // 13
+                0.11117231703249, // 14
+            };
+
+            double[] actual =
+            {
+                soln[1], soln[12], soln[13]
+            };
+
+            Assert.AreEqual(expectedSol, actualSol, 1e-8);
+            for (int i = 0; i < expected.Length; i++)
+                Assert.AreEqual(expected[i], actual[i], 1e-5);
+        }
+
+        private double[,] readMatrixFile(StringReader reader)
+        {
+            string line = null;
+            List<string> str = new List<string>();
+            while ((line = reader.ReadLine()) != null)
+            {
+                str.Add(line);
+            }
+            char[] sep = new char[] { ',' };
+            string[] parts = str[0].Split(sep);
+            double[,] v = new double[str.Count, parts.Length];
+            for (int i = 0; i < str.Count; i++)
+            {
+                parts = str[i].Split(sep);
+                for (int j = 0; j < parts.Length; j++)
+                {
+                    string prt = parts[j];
+                    double prtdbl = double.Parse(prt, System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                    v[i, j] = prtdbl;
+                }
+            }
+            reader.Close();
+            return v;
+
+        }
+
+        private double[] readVectorFile(StringReader reader)
+        {
+            string line = null;
+            List<string> str = new List<string>();
+            while ((line = reader.ReadLine()) != null)
+            {
+                str.Add(line);
+            }
+            char[] sep = new char[] { ',' };
+            double[] v = new double[str.Count];
+            string[] parts = str[0].Split(sep);
+            for (int i = 0; i < str.Count; i++)
+            {
+                parts = str[i].Split(sep);
+                double prtdbl = double.Parse(parts[0], System.Globalization.CultureInfo.GetCultureInfo("en-US"));
+                v[i] = prtdbl;
+            }
+            reader.Close();
+            return v;
         }
     }
 }

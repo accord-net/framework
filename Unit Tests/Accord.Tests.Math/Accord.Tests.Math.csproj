@@ -149,6 +149,7 @@
     <Compile Include="Optimization\BinarySearchTest.cs" />
     <Compile Include="Optimization\CobylaTest.cs" />
     <Compile Include="Optimization\BoundedBroydenFletcherGoldfarbShannoTest.cs" />
+    <Compile Include="Optimization\Quadprog\UnsafeGoldfarbIdnani.cs" />
     <Compile Include="Optimization\Quadprog\QuadprogComparisonTest.cs" />
     <Compile Include="Optimization\SubplexTest.cs" />
     <Compile Include="Optimization\NelderMeadTest.cs" />
@@ -182,6 +183,11 @@
     <Compile Include="Decompositions\NonnegativeMatrixFactorization.cs" />
     <Compile Include="Differentiation\FiniteDifferencesTest.cs" />
     <Compile Include="Decompositions\JaggedLuDecompositionFTest.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ReducedRowEchelonFormTest.cs" />
     <Compile Include="Wavelets\CDF97Test.cs" />
     <Compile Include="Wavelets\HaarTest.cs" />
@@ -265,6 +271,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.snk" />
+    <None Include="Resources\constraintMatrix11_15.csv" />
+    <None Include="Resources\constraints11_14.csv" />
+    <None Include="Resources\dmatFull.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

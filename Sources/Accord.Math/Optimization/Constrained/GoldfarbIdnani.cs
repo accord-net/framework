@@ -242,7 +242,7 @@ namespace Accord.Math.Optimization
     /// </code>
     /// </example>
     /// 
-    public class GoldfarbIdnani : BaseGradientOptimizationMethod, 
+    public class GoldfarbIdnani : BaseGradientOptimizationMethod,
         IOptimizationMethod, IOptimizationMethod<GoldfarbIdnaniStatus>
     {
         private double[,] hessian;
@@ -1060,7 +1060,7 @@ namespace Accord.Math.Optimization
                     for (int j = 0; j < sol.Length; j++)
                         sum += sol[j] * amat[nvl, j];
 
-                    if (nvl >= meq)
+                    if (nvl + 1 > meq)
                     {
                         iwsv[nvl] = sum;
                     }
@@ -1089,7 +1089,7 @@ namespace Accord.Math.Optimization
             // if it1 = nact it is only necessary
             // to update the vector u and nact
 
-            if (it1 == nact - 1)
+            if (it1 + 1 == nact)
                 goto L799;
 
 
@@ -1102,9 +1102,9 @@ namespace Accord.Math.Optimization
             // and l1 will point to element (it1+1,it1+1) of R.
 
             l = ((it1 + 1) * (it1 + 2)) / 2;
-            l1 = l + it1 + 1;
+            l1 = l + (it1 + 1);
 
-            if (iwrm[l1 - 1] == 0.0)
+            if (iwrm[l1] == 0.0)
                 goto L798;
 
             gc = Math.Max(Math.Abs(iwrm[l1 - 1]), Math.Abs(iwrm[l1]));
@@ -1149,7 +1149,7 @@ namespace Accord.Math.Optimization
                 for (int i = it1 + 2; i <= nact; i++)
                 {
                     temp = gc * iwrm[l1 - 1] + gs * iwrm[l1];
-                    iwrm[l1] = nu * (iwrm[l1 - 2] + temp) - iwrm[l1];
+                    iwrm[l1] = nu * (iwrm[l1 - 1] + temp) - iwrm[l1];
                     iwrm[l1 - 1] = temp;
                     l1 += i;
                 }
@@ -1270,6 +1270,6 @@ namespace Accord.Math.Optimization
             return true;
         }
 
-    
+
     }
 }
