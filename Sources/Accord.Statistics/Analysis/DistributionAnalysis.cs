@@ -136,7 +136,7 @@ namespace Accord.Statistics.Analysis
         ///   Computes the analysis.
         /// </summary>
         /// 
-         public void Compute()
+        public void Compute()
         {
             // Step 1. Fit all candidate distributions to the data.
             for (int i = 0; i < Distributions.Length; i++)
@@ -178,13 +178,21 @@ namespace Accord.Statistics.Analysis
                     continue;
 
                 this.DistributionNames[i] = GetName(d.GetType());
-                this.KolmogorovSmirnov[i] = new KolmogorovSmirnovTest(data, d);
-                this.ChiSquare[i] = new ChiSquareTest(data, d);
-                this.AndersonDarling[i] = new AndersonDarlingTest(data, d);
+                try { this.KolmogorovSmirnov[i] = new KolmogorovSmirnovTest(data, d); }
+                catch { }
+                try { this.ChiSquare[i] = new ChiSquareTest(data, d); }
+                catch { }
+                try { this.AndersonDarling[i] = new AndersonDarlingTest(data, d); }
+                catch { }
 
-                ks[i] = KolmogorovSmirnov[i].Statistic;
-                cs[i] = -ChiSquare[i].Statistic;
-                ad[i] = AndersonDarling[i].Statistic;
+                if (KolmogorovSmirnov[i] != null)
+                    ks[i] = KolmogorovSmirnov[i].Statistic;
+
+                if (ChiSquare[i] != null)
+                    cs[i] = -ChiSquare[i].Statistic;
+
+                if (AndersonDarling[i] != null)
+                    ad[i] = AndersonDarling[i].Statistic;
 
                 if (Double.IsNaN(ks[i]))
                     ks[i] = Double.NegativeInfinity;

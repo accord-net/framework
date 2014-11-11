@@ -134,6 +134,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public EmpiricalHazardDistribution()
         {
+            this.Times = new double[0];
+            this.Hazards = new double[0];
         }
 
         /// <summary>
@@ -145,6 +147,18 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public EmpiricalHazardDistribution(double[] time, double[] values)
         {
+            if (time == null)
+                throw new ArgumentNullException("time");
+
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            if (time.Length != values.Length)
+            {
+                throw new DimensionMismatchException("time",
+                    "The time steps and value vectors must have the same length.");
+            }
+
             this.Times = time;
             this.Hazards = values;
         }

@@ -157,7 +157,7 @@ namespace Accord.Tests.Statistics
             for (var i = 0; i < sample.Length; i++)
                 sample[i] = source.InverseDistributionFunction(i * step);
 
-            var target = new ParetoDistribution(0, 0);
+            var target = new ParetoDistribution();
             target.Fit(sample);
 
             Assert.AreEqual(7.12, target.Scale, 1e-6);
@@ -174,7 +174,7 @@ namespace Accord.Tests.Statistics
             for (var i = 0; i < sample.Length; i++)
                 sample[i] = source.InverseDistributionFunction(i * step);
 
-            var target = new ParetoDistribution(0, 0);
+            var target = new ParetoDistribution();
 
             double[] weights = Matrix.Vector(sample.Length, 1.0 / sample.Length);
 

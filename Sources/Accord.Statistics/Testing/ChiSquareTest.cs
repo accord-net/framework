@@ -251,7 +251,7 @@ namespace Accord.Statistics.Testing
                 }
             }
 
-            
+
             ebins = ebins.Submatrix(size + 2);
             expected = expected.Submatrix(ebins.Length - 2);
 

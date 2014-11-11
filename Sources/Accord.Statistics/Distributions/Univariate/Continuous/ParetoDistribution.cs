@@ -87,8 +87,17 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Creates new Pareto distribution.
         /// </summary>
         /// 
-        /// <param name="scale">The scale parameter x<sub>m</sub>.</param>
-        /// <param name="shape">The shape parameter α (alpha).</param>
+        public ParetoDistribution()
+            : this(1, 1)
+        {
+        }
+
+        /// <summary>
+        ///   Creates new Pareto distribution.
+        /// </summary>
+        /// 
+        /// <param name="scale">The scale parameter x<sub>m</sub>. Default is 1.</param>
+        /// <param name="shape">The shape parameter α (alpha). Default is 1.</param>
         /// 
         public ParetoDistribution([Positive] double scale, [Positive] double shape)
         {

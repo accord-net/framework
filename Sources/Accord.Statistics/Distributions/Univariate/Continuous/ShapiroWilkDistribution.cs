@@ -24,6 +24,7 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using AForge;
+    using Range = System.ComponentModel.DataAnnotations.RangeAttribute;
 
     /// <summary>
     ///   Shapiro-Wilk distribution.
@@ -50,7 +51,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples.</param>
         /// 
-        public ShapiroWilkDistribution([PositiveInteger] int samples)
+        public ShapiroWilkDistribution([Range(4, 5000)] int samples)
         {
             if (samples < 4)
             {

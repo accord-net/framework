@@ -99,6 +99,32 @@ namespace Accord.Statistics.Distributions
         DoubleRange Support { get; }
 
         /// <summary>
+        ///   Gets the Quartiles for this distribution.
+        /// </summary>
+        /// 
+        /// <value>A <see cref="DoubleRange"/> object containing the first quartile
+        /// (Q1) as its minimum value, and the third quartile (Q2) as the maximum.</value>
+        /// 
+        DoubleRange Quartiles { get; }
+
+        /// <summary>
+        ///   Gets the distribution range within a given percentile.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If <c>0.25</c> is passed as the <paramref name="percentile"/> argument, 
+        ///   this function returns the same as the <see cref="Quartiles"/> function.
+        /// </remarks>
+        /// 
+        /// <param name="percentile">
+        ///   The percentile at which the distribution ranges will be returned.</param>
+        /// 
+        /// <value>A <see cref="DoubleRange"/> object containing the minimum value
+        /// for the distribution value, and the third quartile (Q2) as the maximum.</value>
+        /// 
+        DoubleRange GetRange(double percentile);
+
+        /// <summary>
         ///   Gets the cumulative distribution function (cdf) for
         ///   this distribution evaluated at point <c>x</c>.
         /// </summary>

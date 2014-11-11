@@ -200,17 +200,17 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <value>A <see cref="DoubleRange"/> object containing the minimum value
         /// for the distribution value, and the third quartile (Q2) as the maximum.</value>
         /// 
-        public virtual DoubleRange GetRange(double percentile)
+        public virtual IntRange GetRange(double percentile)
         {
             if (percentile <= 0 || percentile >= 1)
                 throw new ArgumentOutOfRangeException("percentile", "The percentile must be between 0 and 1.");
 
-            double a = InverseDistributionFunction(1.0 - percentile);
-            double b = InverseDistributionFunction(percentile);
+            int a = InverseDistributionFunction(1.0 - percentile);
+            int b = InverseDistributionFunction(percentile);
 
             if (b > a)
-                return new DoubleRange(a, b);
-            return new DoubleRange(b, a);
+                return new IntRange(a, b);
+            return new IntRange(b, a);
         }
 
         #region IDistribution explicit members
@@ -255,6 +255,27 @@ namespace Accord.Statistics.Distributions.Univariate
         DoubleRange IUnivariateDistribution<double>.Support
         {
             get { return new DoubleRange(Support.Min, Support.Max); }
+        }
+
+        /// <summary>
+        ///   Gets the distribution range within a given percentile.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   If <c>0.25</c> is passed as the <paramref name="percentile"/> argument, 
+        ///   this function returns the same as the <see cref="Quartiles"/> function.
+        /// </remarks>
+        /// 
+        /// <param name="percentile">
+        ///   The percentile at which the distribution ranges will be returned.</param>
+        /// 
+        /// <value>A <see cref="DoubleRange"/> object containing the minimum value
+        /// for the distribution value, and the third quartile (Q2) as the maximum.</value>
+        /// 
+        DoubleRange IUnivariateDistribution.GetRange(double percentile)
+        {
+            IntRange range = GetRange(percentile);
+            return new DoubleRange(range.Min, range.Max);
         }
 
         /// <summary>

@@ -96,7 +96,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="mean">The mean parameter mu.</param>
         /// <param name="shape">The shape parameter lambda.</param>
         /// 
-        public InverseGaussianDistribution([Real] double mean, [Positive] double shape)
+        public InverseGaussianDistribution([Positive] double mean, [Positive] double shape)
         {
             if (mean <= 0)
                 throw new ArgumentOutOfRangeException("mean");
