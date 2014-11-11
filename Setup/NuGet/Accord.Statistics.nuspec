@@ -15,8 +15,8 @@
     <summary>Accord.NET Statistics Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework statistics kernel methods pca kpca least squares markov models conditional random fields hmm crf hcrf</tags>
     <dependencies>
-      <dependency id="Accord"      version="2.13.0" />
-      <dependency id="Accord.Math" version="2.13.0" />
+      <dependency id="Accord"      version="$version$" />
+      <dependency id="Accord.Math" version="$version$" />
       
       <dependency id="AForge"      version="2.2.5" />
       <dependency id="AForge.Math" version="2.2.5" />

@@ -17,8 +17,8 @@
     <dependencies>
       <dependency id="SharpDX"     version="2.6.2" />
       
-      <dependency id="Accord"      version="2.13.0" />
-      <dependency id="Accord.Math" version="2.13.0" />
+      <dependency id="Accord"      version="$version$" />
+      <dependency id="Accord.Math" version="$version$" />
       
       <dependency id="AForge"      version="2.2.5" />
       <dependency id="AForge.Math" version="2.2.5" />

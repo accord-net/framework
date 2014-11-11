@@ -15,7 +15,7 @@
     <summary>Accord.NET Imaging Controls Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework computer image processing filters winforms controls</tags>
     <dependencies>
-      <dependency id="Accord"          version="2.13.0" />
+      <dependency id="Accord"          version="$version$" />
       
       <dependency id="AForge"          version="2.2.5" />
       <dependency id="AForge.Controls" version="2.2.5" />

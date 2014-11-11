@@ -15,8 +15,8 @@
     <summary>Accord.NET IO (data formats) Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework statistics mnist libsvm excel mat-file matlab octave matrix</tags>
     <dependencies>
-      <dependency id="Accord"      version="2.13.0" />
-      <dependency id="Accord.Math" version="2.13.0" />
+      <dependency id="Accord"      version="$version$" />
+      <dependency id="Accord.Math" version="$version$" />
     </dependencies>
   </metadata>
   <files>

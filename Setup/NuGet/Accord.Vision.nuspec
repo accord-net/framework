@@ -15,11 +15,11 @@
     <summary>Accord.NET Vision Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework computer vision object detection tracking</tags>
     <dependencies>
-      <dependency id="Accord"                 version="2.13.0" />
-      <dependency id="Accord.Imaging"         version="2.13.0" />
-      <dependency id="Accord.MachineLearning" version="2.13.0" />
-      <dependency id="Accord.Math"            version="2.13.0" />
-      <dependency id="Accord.Statistics"      version="2.13.0" />
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Imaging"         version="$version$" />
+      <dependency id="Accord.MachineLearning" version="$version$" />
+      <dependency id="Accord.Math"            version="$version$" />
+      <dependency id="Accord.Statistics"      version="$version$" />
       
       <dependency id="AForge"                 version="2.2.5" />
       <dependency id="AForge.Imaging"         version="2.2.5" />
