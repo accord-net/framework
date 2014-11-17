@@ -82,7 +82,7 @@ namespace Accord.Tests.Math
             { // Function test
                 for (int i = 0; i < x.Length; i++)
                 {
-                    double expected = 0.5 * 
+                    double expected = 0.5 *
                         (x[i].Multiply(quadraticTerms)).InnerProduct(x[i])
                         + linearTerms.InnerProduct(x[i]);
 
@@ -136,7 +136,7 @@ namespace Accord.Tests.Math
             { // Function test
                 for (int i = 0; i < x.Length; i++)
                 {
-                    double expected = 0.5 * 
+                    double expected = 0.5 *
                         (x[i].Multiply(quadraticTerms)).InnerProduct(x[i])
                         + linearTerms.InnerProduct(x[i]);
 
@@ -261,6 +261,245 @@ namespace Accord.Tests.Math
                     Assert.AreEqual(e, a, 1e-10);
                     Assert.IsFalse(Double.IsNaN(a));
                     Assert.IsFalse(Double.IsNaN(e));
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void FunctionTest2()
+        {
+            double x = 0;
+            double y = 0;
+            double z = 0;
+
+            Func<double> expected = () => -2 * x * x + x * y - y * y - 10 * x * z + z * z;
+            var actual = new QuadraticObjectiveFunction("-2x² + xy - y² - 10xz + z²");
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        x = (i - 5) / 10.0;
+                        y = (j - 5) / 10.0;
+                        z = (k - 5) / 10.0;
+
+                        double a = actual.Function(new[] { x, y, z });
+                        double e = expected();
+
+                        Assert.AreEqual(e, a, 1e-10);
+                        Assert.IsFalse(Double.IsNaN(a));
+                        Assert.IsFalse(Double.IsNaN(e));
+                    }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void FunctionTest3()
+        {
+            double x = 0;
+
+            Func<double> expected = () => x * x + 1;
+            var actual = new QuadraticObjectiveFunction("x² + 1");
+
+            for (int i = 0; i < 10; i++)
+            {
+                x = (i - 5) / 10.0;
+
+                double a = actual.Function(new[] { x });
+                double e = expected();
+
+                Assert.AreEqual(e, a, 1e-10);
+                Assert.IsFalse(Double.IsNaN(a));
+                Assert.IsFalse(Double.IsNaN(e));
+            }
+        }
+
+        [TestMethod()]
+        public void FunctionTest4()
+        {
+            double x = 0;
+            double y = 0;
+            double z = 0;
+
+            Func<double> expected = () => -x * y + y * z;
+            var actual = new QuadraticObjectiveFunction("-x*y + y*z");
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        x = (i - 5) / 10.0;
+                        y = (j - 5) / 10.0;
+                        z = (k - 5) / 10.0;
+
+                        double a = actual.Function(new[] { x, y, z });
+                        double e = expected();
+
+                        Assert.AreEqual(e, a, 1e-10);
+                        Assert.IsFalse(Double.IsNaN(a));
+                        Assert.IsFalse(Double.IsNaN(e));
+                    }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void LambdaFunctionTest()
+        {
+            double x = 0;
+            double y = 0;
+
+            Func<double> expected = () => -2 * x * x + x * y - y * y + 5 * y;
+            var actual = new QuadraticObjectiveFunction(() => -2 * x * x + x * y - y * y + 5 * y);
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    x = (i - 5) / 10.0;
+                    y = (j - 5) / 10.0;
+
+                    double a = actual.Function(new[] { x, y });
+                    double e = expected();
+
+                    Assert.AreEqual(e, a, 1e-10);
+                    Assert.IsFalse(Double.IsNaN(a));
+                    Assert.IsFalse(Double.IsNaN(e));
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void LambdaFunctionTest2()
+        {
+            double x = 0;
+            double y = 0;
+            double z = 0;
+
+            Func<double> expected = () => -2 * x * x + x * y - y * y - 10 * x * z + z * z;
+            var actual = new QuadraticObjectiveFunction(() => -2 * x * x + x * y - y * y - 10 * x * z + z * z);
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        x = (i - 5) / 10.0;
+                        y = (j - 5) / 10.0;
+                        z = (k - 5) / 10.0;
+
+                        double a = actual.Function(new[] { x, y, z });
+                        double e = expected();
+
+                        Assert.AreEqual(e, a, 1e-10);
+                        Assert.IsFalse(Double.IsNaN(a));
+                        Assert.IsFalse(Double.IsNaN(e));
+                    }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void LambdaFunctionTest3()
+        {
+            double x = 0;
+
+            Func<double> expected = () => x * x + 1;
+            var actual = new QuadraticObjectiveFunction(() => x * x + 1);
+
+            for (int i = 0; i < 10; i++)
+            {
+                x = (i - 5) / 10.0;
+
+                double a = actual.Function(new[] { x });
+                double e = expected();
+
+                Assert.AreEqual(e, a, 1e-10);
+                Assert.IsFalse(Double.IsNaN(a));
+                Assert.IsFalse(Double.IsNaN(e));
+            }
+        }
+
+        [TestMethod()]
+        public void LambdaFunctionTest4()
+        {
+            double x = 0;
+            double y = 0;
+            double z = 0;
+
+            Func<double> expected = () => -x * y + y * z;
+            var actual = new QuadraticObjectiveFunction(() => -x * y + y * z);
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        x = (i - 5) / 10.0;
+                        y = (j - 5) / 10.0;
+                        z = (k - 5) / 10.0;
+
+                        double a = actual.Function(new[] { x, y, z });
+                        double e = expected();
+
+                        Assert.AreEqual(e, a, 1e-10);
+                        Assert.IsFalse(Double.IsNaN(a));
+                        Assert.IsFalse(Double.IsNaN(e));
+                    }
+                }
+            }
+        }
+
+        [TestMethod()]
+        public void FunctionTest5()
+        {
+            var f1 = new QuadraticObjectiveFunction("x² + 1");
+            var f2 = new QuadraticObjectiveFunction("-x*y + y*z");
+            var f3 = new QuadraticObjectiveFunction("-2x² + xy - y² - 10xz + z²");
+            var f4 = new QuadraticObjectiveFunction("-2x² + xy - y² + 5y");
+
+            double x = 0, y = 0, z = 0;
+            var g1 = new QuadraticObjectiveFunction(() => x * x + 1);
+            var g2 = new QuadraticObjectiveFunction(() => -x * y + y * z);
+            var g3 = new QuadraticObjectiveFunction(() => -2 * x * x + x * y - y * y - 10 * x * z + z * z);
+            var g4 = new QuadraticObjectiveFunction(() => -2 * x * x + x * y - y * y + 5 * y);
+            
+
+            QuadraticObjectiveFunction[] f = { f1, f2, f3, f4 };
+            QuadraticObjectiveFunction[] g = { g1, g2, g3, g4 };
+
+            for (int l = 0; l < f.Length; l++)
+            {
+                var fl = f[l];
+                var gl = g[l];
+
+                Assert.AreEqual(fl.NumberOfVariables, gl.NumberOfVariables);
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        for (int k = 0; k < 10; k++)
+                        {
+                            x = (i - 5) / 10.0;
+                            y = (j - 5) / 10.0;
+                            z = (k - 5) / 10.0;
+
+                            double a = fl.Function(new[] { x, y, z }.Submatrix(fl.NumberOfVariables));
+                            double e = gl.Function(new[] { x, y, z }.Submatrix(fl.NumberOfVariables));
+
+                            Assert.AreEqual(e, a, 1e-10);
+                            Assert.IsFalse(Double.IsNaN(a));
+                            Assert.IsFalse(Double.IsNaN(e));
+                        }
+                    }
                 }
             }
         }

@@ -201,6 +201,32 @@ namespace Accord.Tests.Math
         }
 
         [TestMethod()]
+        public void IntervalTest3()
+        {
+            double[] actual;
+
+            actual = Matrix.Interval(0.0, 0.0, 1);
+            Assert.AreEqual(0, actual[0]);
+
+            actual = Matrix.Interval(0.0, 0.0, 5);
+            Assert.AreEqual(0, actual[0]);
+            Assert.AreEqual(actual.Length, 1);
+        }
+
+        [TestMethod()]
+        public void IntervalTest4()
+        {
+            double[] actual;
+
+            actual = Matrix.Interval(0.0, 0.0, 1.0);
+            Assert.AreEqual(0, actual[0]);
+
+            actual = Matrix.Interval(0.0, 0.0, 5.0);
+            Assert.AreEqual(0, actual[0]);
+            Assert.AreEqual(actual.Length, 1);
+        }
+
+        [TestMethod()]
         public void IntervalTest2Inverse()
         {
             double from = 10;

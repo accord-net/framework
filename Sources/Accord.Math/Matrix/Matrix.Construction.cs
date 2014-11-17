@@ -695,6 +695,11 @@ namespace Accord.Math
         /// 
         public static int[] Interval(int from, int to)
         {
+            if (from == to)
+            {
+                return new int[] { from };
+            }
+
             int[] vector;
 
             if (to > from)
@@ -743,7 +748,7 @@ namespace Accord.Math
             else
             {
                 double range = to - from;
-                int steps = (int)Math.Ceiling(range / stepSize) + 1;
+                int steps = (int)Math.Ceiling(range == 0 ? 0 : range / stepSize) + 1;
 
                 r = new double[steps];
                 for (int i = 0; i < r.Length; i++)
@@ -775,7 +780,7 @@ namespace Accord.Math
             else
             {
                 double range = to - from;
-                int steps = (int)Math.Ceiling(range / stepSize) + 1;
+                int steps = (int)Math.Ceiling(range == 0 ? 0 : range / stepSize) + 1;
 
                 r = new float[steps];
                 for (int i = 0; i < r.Length; i++)
@@ -801,6 +806,11 @@ namespace Accord.Math
         /// 
         public static double[] Interval(double from, double to, int steps)
         {
+            if (from == to)
+            {
+                return new double[] { from };
+            }
+
             if (steps == Int32.MaxValue)
             {
                 throw new ArgumentOutOfRangeException("steps",
