@@ -39,6 +39,8 @@
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.effectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnIncreaseVolume = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnDecreaseVolume = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -107,9 +109,26 @@
             // 
             // effectsToolStripMenuItem
             // 
+            this.effectsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnIncreaseVolume,
+            this.btnDecreaseVolume});
             this.effectsToolStripMenuItem.Name = "effectsToolStripMenuItem";
             this.effectsToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
             this.effectsToolStripMenuItem.Text = "Effects";
+            // 
+            // btnIncreaseVolume
+            // 
+            this.btnIncreaseVolume.Name = "btnIncreaseVolume";
+            this.btnIncreaseVolume.Size = new System.Drawing.Size(209, 22);
+            this.btnIncreaseVolume.Text = "Increase volume (by 25%)";
+            this.btnIncreaseVolume.Click += new System.EventHandler(this.btnIncreaseVolume_Click);
+            // 
+            // btnDecreaseVolume
+            // 
+            this.btnDecreaseVolume.Name = "btnDecreaseVolume";
+            this.btnDecreaseVolume.Size = new System.Drawing.Size(209, 22);
+            this.btnDecreaseVolume.Text = "Decrease volume";
+            this.btnDecreaseVolume.Click += new System.EventHandler(this.btnDecreaseVolume_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -292,5 +311,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem btnIncreaseVolume;
+        private System.Windows.Forms.ToolStripMenuItem btnDecreaseVolume;
     }
 }

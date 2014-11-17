@@ -37,6 +37,7 @@ using System.Windows.Forms;
 using Accord.Audio;
 using Accord.Audio.Formats;
 using Accord.DirectSound;
+using Accord.Audio.Filters;
 
 namespace Recorder
 {
@@ -380,6 +381,35 @@ namespace Recorder
             Close();
         }
 
+        private void btnIncreaseVolume_Click(object sender, EventArgs e)
+        {
+            adjustVolume(1.25f);
+        }
+
+        private void btnDecreaseVolume_Click(object sender, EventArgs e)
+        {
+            adjustVolume(0.75f);
+        }
+
+        private void adjustVolume(float value)
+        {
+            // First, we rewind the stream
+            stream.Seek(0, SeekOrigin.Begin);
+
+            // Then we create a decoder for it
+            decoder = new WaveDecoder(stream);
+
+            var signal = decoder.Decode();
+
+            // We apply the volume filter
+            var volume = new VolumeFilter(value);
+            volume.ApplyInPlace(signal);
+
+            // Then we store it again
+            stream.Seek(0, SeekOrigin.Begin);
+            encoder = new WaveEncoder(stream);
+            encoder.Encode(signal);
+        }
 
     }
 }

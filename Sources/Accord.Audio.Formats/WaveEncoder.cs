@@ -278,13 +278,14 @@ namespace Accord.Audio.Formats
             duration += signal.Duration;
 
             // Navigate to start position
+            long position = waveStream.Position;
             waveStream.Seek(0, SeekOrigin.Begin);
 
             // Update headers
             updateHeaders();
 
             // Go back to previous position
-            waveStream.Seek(0, SeekOrigin.End);
+            waveStream.Seek(position, SeekOrigin.Begin);
 
             // Write the current signal data
             waveStream.Write(signal.RawData, 0, signal.RawData.Length);

@@ -145,6 +145,9 @@
     <Compile Include="ComplexFilters\EnvelopeFilter.cs" />
     <Compile Include="ComplexFilters\Base\IComplexFilter.cs" />
     <Compile Include="ComplexFilters\IComplexFilterBank.cs" />
+    <Compile Include="Filters\Base\BaseInPlaceFilter.cs" />
+    <Compile Include="Filters\Base\IInPlaceFilter.cs" />
+    <Compile Include="Filters\VolumeFilter.cs" />
     <Compile Include="Filters\EnvelopeFilter.cs" />
     <Compile Include="Filters\ExtractChannel.cs" />
     <Compile Include="Filters\HighPassFilter.cs" />

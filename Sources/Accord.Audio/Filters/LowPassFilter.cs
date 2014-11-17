@@ -28,6 +28,7 @@ namespace Accord.Audio.Filters
     /// <summary>
     ///   Low band pass filter.
     /// </summary>
+    /// 
     public class LowPassFilter : BaseFilter
     {
 
@@ -36,11 +37,14 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Format translations dictionary.
         /// </summary>
+        /// 
         /// <value>The format translations.</value>
+        /// 
         /// <remarks>
         ///   The dictionary defines which sample formats are supported for
         ///   source signals and which sample format will be used for resulting signal.
         /// </remarks>
+        /// 
         public override Dictionary<SampleFormat, SampleFormat> FormatTranslations
         {
             get { return formatTranslations; }
@@ -49,12 +53,15 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Gets or sets the low-pass alpha.
         /// </summary>
+        /// 
         public float Alpha { get; set; }
 
         /// <summary>
         ///   Constructs a new Low-Pass Filter using the given alpha.
         /// </summary>
+        /// 
         /// <param name="alpha">Band pass alpha.</param>
+        /// 
         public LowPassFilter(float alpha)
         {
             Alpha = alpha;
@@ -65,6 +72,7 @@ namespace Accord.Audio.Filters
         /// <summary>
         ///   Processes the filter.
         /// </summary>
+        /// 
         protected unsafe override void ProcessFilter(Signal sourceData, Signal destinationData)
         {
             SampleFormat format = sourceData.SampleFormat;

@@ -26,30 +26,26 @@ namespace Accord.Audio.Filters
     using Accord;
 
     /// <summary>
-    ///   Audio processing filter interface.
+    ///   In-place audio processing filter interface.
     /// </summary>
     /// 
     /// <remarks>The interface defines the set of methods, which should be
     /// provided by all signal processing filters. Methods of this interface
-    /// keep the source signal unchanged and return the result of signal processing
-    /// filter as new signal.</remarks>
+    /// operate in-place and alter the original source signal.</remarks>
     /// 
-    public interface IFilter
+    public interface IInPlaceFilter : IFilter
     {
-    	
+
         /// <summary>
         ///   Apply filter to an audio signal.
         /// </summary>
         /// 
         /// <param name="signal">Source signal to apply filter to.</param>
         /// 
-        /// <returns>Returns filter's result obtained by applying the filter to
-        /// the source sample.</returns>
-        /// 
-        /// <remarks>The method keeps the source sample unchanged and returns the
-        /// the result of the signal processing filter as new sample.</remarks> 
+        /// <remarks>The method alters the original signal to store 
+        /// the result of this signal processing filter.</remarks> 
         ///
-        Signal Apply(Signal signal);
+        void ApplyInPlace(Signal signal);
 
         /// <summary>
         ///   Apply filter to a windowed audio signal.
@@ -57,13 +53,10 @@ namespace Accord.Audio.Filters
         /// 
         /// <param name="signal">Source signal to apply filter to.</param>
         /// 
-        /// <returns>Returns filter's result obtained by applying the filter to
-        /// the source sample.</returns>
-        /// 
-        /// <remarks>The method keeps the source sample unchanged and returns the
-        /// the result of the signal processing filter as new sample.</remarks> 
+        /// <remarks>The method alters the original signal to store 
+        /// the result of this signal processing filter.</remarks> 
         ///
-        Signal[] Apply(params Signal[] signal);
-        
+        void ApplyInPlace(params Signal[] signal);
+
     }
 }

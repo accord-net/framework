@@ -22,14 +22,14 @@
 
 namespace Accord.Audio.Filters
 {
+    using System;
     using System.Collections.Generic;
-    using AForge.Math;
 
     /// <summary>
-    ///   Wave Rectifier filter.
+    ///   Volume adjustment filter.
     /// </summary>
     /// 
-    public class WaveRectifier : BaseFilter
+    public class VolumeFilter : BaseInPlaceFilter
     {
 
         private Dictionary<SampleFormat, SampleFormat> formatTranslations = new Dictionary<SampleFormat, SampleFormat>();
@@ -51,53 +51,75 @@ namespace Accord.Audio.Filters
         }
 
         /// <summary>
-        ///   Gets or sets whether half rectification should be performed.
+        ///   Gets or sets the volume multiplier.
         /// </summary>
         /// 
-        public bool Half { get; set; }
+        public float Volume { get; set; }
 
         /// <summary>
-        ///   Constructs a new Wave rectifier.
+        ///   Constructs a new Volume adjustment filter using the given alpha.
         /// </summary>
         /// 
-        public WaveRectifier(bool halfRectificationOnly)
+        /// <param name="volume">Volume multiplier.</param>
+        /// 
+        public VolumeFilter(float volume)
         {
-            Half = halfRectificationOnly;
+            Volume = volume;
 
-            formatTranslations[SampleFormat.Format128BitComplex] = SampleFormat.Format128BitComplex;
             formatTranslations[SampleFormat.Format32BitIeeeFloat] = SampleFormat.Format32BitIeeeFloat;
         }
 
+
         /// <summary>
-        ///   Applies the filter to a signal.
+        ///   Processes the filter.
         /// </summary>
         /// 
-        protected unsafe override void ProcessFilter(Signal sourceData, Signal destinationData)
+        protected override void ProcessFilter(Signal sourceData, Signal destinationData)
         {
             SampleFormat format = sourceData.SampleFormat;
-            int samples = sourceData.Samples;
+            int channels = sourceData.Channels;
+            int length = sourceData.Length;
 
             if (format == SampleFormat.Format32BitIeeeFloat)
             {
-                float* src = (float*)sourceData.Data.ToPointer();
-                float* dst = (float*)destinationData.Data.ToPointer();
-
-                for (int i = 0; i < samples; i++, dst++, src++)
-                    *dst = System.Math.Abs(*src);
-            }
-            else if (format == SampleFormat.Format128BitComplex)
-            {
-                Complex* src = (Complex*)sourceData.Data.ToPointer();
-                Complex* dst = (Complex*)destinationData.Data.ToPointer();
-
-                Complex c = new Complex();
-
-                for (int i = 0; i < samples; i++, dst++, src++)
+                unsafe
                 {
-                    c.Re = (*src).Magnitude;
-                    *dst = c;
+                    float* src = (float*)sourceData.Data.ToPointer();
+                    float* dst = (float*)destinationData.Data.ToPointer();
+
+                    for (int i = 0; i < length * channels; i++, src++, dst++)
+                    {
+                        *dst = Volume * (*src);
+                    }
                 }
             }
+            else if (format == SampleFormat.Format16Bit)
+            {
+                unsafe
+                {
+                    short* src = (short*)sourceData.Data.ToPointer();
+                    short* dst = (short*)destinationData.Data.ToPointer();
+
+                    for (int i = 0; i < length * channels; i++, src++, dst++)
+                    {
+                        *dst = (short)(Volume * (*src));
+                    }
+                }
+            }
+            else if (format == SampleFormat.Format32Bit)
+            {
+                unsafe
+                {
+                    int* src = (int*)sourceData.Data.ToPointer();
+                    int* dst = (int*)destinationData.Data.ToPointer();
+
+                    for (int i = 0; i < length * channels; i++, src++, dst++)
+                    {
+                        *dst = (int)(Volume * (*src));
+                    }
+                }
+            }
+
         }
 
     }
