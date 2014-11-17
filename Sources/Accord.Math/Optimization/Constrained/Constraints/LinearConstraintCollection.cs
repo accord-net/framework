@@ -72,6 +72,23 @@ namespace Accord.Math.Optimization
         /// 
         public double[,] CreateMatrix(int numberOfVariables, out double[] b, out int equalities)
         {
+            double[] tolerances;
+            return CreateMatrix(numberOfVariables, out b, out tolerances, out equalities);
+        }
+
+        /// <summary>
+        ///   Creates a matrix of linear constraints in canonical form.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of variables in the objective function.</param>
+        /// <param name="b">The vector of independent terms (the right hand side of the constraints).</param>
+        /// <param name="tolerances">The amount each constraint can be violated before the answer is declared close enough.</param>
+        /// <param name="equalities">The number of equalities in the matrix.</param>
+        /// <returns>The matrix <c>A</c> of linear constraints.</returns>
+        /// 
+        public double[,] CreateMatrix(int numberOfVariables, out double[] b, 
+            out double[] tolerances, out int equalities)
+        {
             // First of all, separate the equality constraints from the inequalities.
             LinearConstraint[] constraintArray = this.ToArray();
             constraintArray.StableSort((c1, c2) => c1.ShouldBe.CompareTo(c2.ShouldBe));
@@ -79,6 +96,7 @@ namespace Accord.Math.Optimization
             int numberOfConstraints = constraintArray.Length;
             double[,] A = new double[numberOfConstraints, numberOfVariables];
             b = new double[numberOfConstraints];
+            tolerances = new double[numberOfConstraints];
             equalities = 0;
 
             for (int i = 0; i < constraintArray.Length; i++)
@@ -100,14 +118,18 @@ namespace Accord.Math.Optimization
                     {
                         A[i, k] = constraint.CombinedAs[j];
                         b[i] = constraint.Value;
+                        tolerances[i] = constraint.Tolerance;
                     }
                     else if (constraint.ShouldBe == ConstraintType.LesserThanOrEqualTo)
                     {
                         A[i, k] = -constraint.CombinedAs[j];
                         b[i] = -constraint.Value;
+                        tolerances[i] = constraint.Tolerance;
                     }
                     else
+                    {
                         throw new ArgumentException("The provided constraint type is not supported.");
+                    }
                 }
 
                 if (constraint.ShouldBe == ConstraintType.EqualTo)

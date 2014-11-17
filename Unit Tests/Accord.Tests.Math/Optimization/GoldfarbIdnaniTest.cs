@@ -1094,20 +1094,67 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-5);
         }
 
+        [TestMethod()]
+        public void GoldfarbIdnaniLargeSampleTest2()
+        {
+            var Q = readMatrixFile(new StringReader(Resources.dmatFull));
+            var AMat = readMatrixFile(new StringReader(Resources.constraintMatrix11_15_2));
+            var bvec = readVectorFile(new StringReader(Resources.constraints11_14_2));
+
+            var dvec = new double[Q.GetLength(0)];
+            double[] b = new double[bvec.Length];
+            bvec.CopyTo(b, 0);
+
+            bool psd = Q.IsPositiveDefinite();
+            Assert.IsTrue(psd);
+
+            GoldfarbIdnani gfI = new GoldfarbIdnani(Q, dvec, AMat, b, 2);
+
+            for (int i = 0; i < gfI.ConstraintTolerances.Length; i++)
+                gfI.ConstraintTolerances[i] = 1e-10;
+
+            bool success = gfI.Minimize();
+
+            Assert.IsTrue(success);
+
+            double[] soln = gfI.Solution;
+            double value = Math.Sqrt(Matrix.Multiply(Matrix.Multiply(soln, Q), soln.Transpose())[0]);
+
+            double expectedSol = 0.048224950997808;
+            double actualSol = value;
+
+            double[] expected = 
+            {
+                0.41144782323407, // 2
+                0.27310552838116, // 13
+                0.31544664838498, // 14
+            };
+
+            double[] actual =
+            {
+                soln[1], soln[12], soln[13]
+            };
+
+            Assert.AreEqual(expectedSol, actualSol, 1e-8);
+            for (int i = 0; i < expected.Length; i++)
+                Assert.AreEqual(expected[i], actual[i], 1e-5);
+        }
+
         private double[,] readMatrixFile(StringReader reader)
         {
             string line = null;
             List<string> str = new List<string>();
             while ((line = reader.ReadLine()) != null)
             {
-                str.Add(line);
+                if (line.Length != 0)
+                    str.Add(line);
             }
             char[] sep = new char[] { ',' };
-            string[] parts = str[0].Split(sep);
+            string[] parts = str[0].Split(sep, StringSplitOptions.RemoveEmptyEntries);
             double[,] v = new double[str.Count, parts.Length];
             for (int i = 0; i < str.Count; i++)
             {
-                parts = str[i].Split(sep);
+                parts = str[i].Split(sep, StringSplitOptions.RemoveEmptyEntries);
                 for (int j = 0; j < parts.Length; j++)
                 {
                     string prt = parts[j];
@@ -1117,7 +1164,6 @@ namespace Accord.Tests.Math
             }
             reader.Close();
             return v;
-
         }
 
         private double[] readVectorFile(StringReader reader)

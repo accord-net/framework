@@ -122,6 +122,13 @@ namespace Accord.Math.Optimization
         public double Value { get; set; }
 
         /// <summary>
+        ///   Gets the violation tolerance for the constraint. Equality
+        ///   constraints should set this to a small positive value.
+        /// </summary>
+        /// 
+        public double Tolerance { get; set; }
+
+        /// <summary>
         ///   Constructs a new linear constraint.
         /// </summary>
         /// 

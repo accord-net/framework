@@ -159,8 +159,11 @@ namespace Accord.Math.Optimization
         {
             int equalities;
 
+            double[] tolerances;
+
             // Create the constraint matrix A from the specified constraint list
-            double[,] A = constraints.CreateMatrix(function.NumberOfVariables, out constraintValues, out equalities);
+            double[,] A = constraints.CreateMatrix(function.NumberOfVariables,
+                out constraintValues, out tolerances, out equalities);
 
             System.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
 

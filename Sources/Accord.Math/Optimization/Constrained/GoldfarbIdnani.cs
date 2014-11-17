@@ -250,6 +250,7 @@ namespace Accord.Math.Optimization
 
         private double[,] constraintMatrix;
         private double[] constraintValues;
+        private double[] constraintTolerances;
 
         //private double[] work;
         private int r;
@@ -280,6 +281,14 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         public int Iterations { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations that should be 
+        ///   performed before the method terminates. If set to zero, the 
+        ///   method will run to completion. Default is 0.
+        /// </summary>
+        /// 
+        public int MaxIterations { get; set; }
 
         /// <summary>
         ///   Gets the total number of constraint removals performed
@@ -324,6 +333,15 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
+        ///   Gets the constraint tolerances <c>b</c> for the problem.
+        /// </summary>
+        /// 
+        public double[] ConstraintTolerances
+        {
+            get { return constraintTolerances; }
+        }
+
+        /// <summary>
         ///   Gets the matrix of quadratic terms of
         ///   the quadratic optimization problem.
         /// </summary>
@@ -355,6 +373,7 @@ namespace Accord.Math.Optimization
         public GoldfarbIdnani(QuadraticObjectiveFunction function, IEnumerable<LinearConstraint> constraints)
             : this(function, new LinearConstraintCollection(constraints))
         {
+
         }
 
         /// <summary>
@@ -370,7 +389,8 @@ namespace Accord.Math.Optimization
             int equalities;
 
             // Create the constraint matrix A from the specified constraint list
-            double[,] A = constraints.CreateMatrix(function.NumberOfVariables, out constraintValues, out equalities);
+            double[,] A = constraints.CreateMatrix(function.NumberOfVariables,
+                out constraintValues, out constraintTolerances, out equalities);
 
             System.Diagnostics.Debug.Assert(A.GetLength(1) == function.NumberOfVariables);
 
@@ -404,6 +424,8 @@ namespace Accord.Math.Optimization
 
             if (numberOfEqualities < 0 || numberOfEqualities > constraintValues.Length)
                 throw new ArgumentOutOfRangeException("numberOfEqualities");
+
+            constraintTolerances = new double[constraintValues.Length];
 
             initialize(function.NumberOfVariables, function.QuadraticTerms,
                 function.LinearTerms, constraintMatrix, constraintValues, numberOfEqualities);
@@ -738,6 +760,9 @@ namespace Accord.Math.Optimization
 
             Iterations++;
 
+            if (MaxIterations > 0 && Iterations > MaxIterations)
+                return;
+
             // calculate all constraints and check which are still violated 
             // for the equality constraints we have to check whether the normal 
             // vector has to be negated (as well as bvec in that case) 
@@ -760,6 +785,7 @@ namespace Accord.Math.Optimization
                 {
                     // this is an equality constraint
                     iwsv[l] = -Math.Abs(sum);
+
                     if (sum > 0.0)
                     {
                         for (int j = 0; j < n; j++)
@@ -787,7 +813,10 @@ namespace Accord.Math.Optimization
             double temp = 0.0;
             for (int i = 0; i < iwnbv.Length; i++)
             {
-                if (iwsv[i] < temp * iwnbv[i])
+                double w = temp * iwnbv[i];
+                double tol = constraintTolerances[i];
+
+                if (iwsv[i] < w - tol)
                 {
                     nvl = i;
                     temp = iwsv[i] / iwnbv[i];
@@ -854,7 +883,7 @@ namespace Accord.Math.Optimization
                 if (iact[i] < meq)
                     continue;
 
-                if (sum <= 0.0)
+                if (sum < 0.0)
                     continue;
 
                 if (Double.IsNaN(sum))
@@ -863,6 +892,7 @@ namespace Accord.Math.Optimization
                 t1inf = false;
                 it1 = i;
             }
+
 
             // if r has positive elements, find the partial step length t1, which is 
             // the maximum step in dual space without violating dual feasibility. 
@@ -1000,7 +1030,7 @@ namespace Accord.Math.Optimization
 
                             gc = Math.Max(Math.Abs(work[i - 1]), Math.Abs(work[i]));
                             gs = Math.Min(Math.Abs(work[i - 1]), Math.Abs(work[i]));
-                            temp = Special.Sign(gc * Math.Sqrt(1.0 + gs * gs / (gc * gc)), work[i - 1]);
+                            temp = Special.Sign(gc * Math.Sqrt(1.0 + (gs * gs) / (gc * gc)), work[i - 1]);
                             gc = work[i - 1] / temp;
                             gs = work[i] / temp;
 
