@@ -26,6 +26,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Globalization;
+    using Accord.Math;
 
     [TestClass()]
     public class GammaDistributionTest

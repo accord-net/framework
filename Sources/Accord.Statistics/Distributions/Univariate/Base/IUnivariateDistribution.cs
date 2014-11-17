@@ -243,7 +243,16 @@ namespace Accord.Statistics.Distributions
         ///   evaluated at <c>x</c> in the current distribution.</returns>
         /// 
         double CumulativeHazardFunction(double x);
-        
+
+        /// <summary>
+        ///   Gets the first derivative of the <see cref="InverseDistributionFunction">
+        ///   inverse distribution function</see> (icdf) for this distribution evaluated
+        ///   at probability <c>p</c>. 
+        /// </summary>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        double QuantileDensityFunction(double p);
     }
 
     /// <summary>

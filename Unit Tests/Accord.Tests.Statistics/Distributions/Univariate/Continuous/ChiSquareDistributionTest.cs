@@ -104,6 +104,23 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void InverseCumulativeFunctionTest()
+        {
+            double a;
+
+            var target = new ChiSquareDistribution();
+
+            a = target.InverseDistributionFunction(0);
+            Assert.AreEqual(0.0, a, 1e-5);
+            Assert.IsFalse(double.IsNaN(a));
+
+            a = target.InverseDistributionFunction(1);
+            Assert.AreEqual(double.PositiveInfinity, a, 1e-5);
+            Assert.IsFalse(double.IsNaN(a));
+        }
+
+
+        [TestMethod()]
         public void ProbabilityDensityFunctionTest()
         {
             int degreesOfFreedom;

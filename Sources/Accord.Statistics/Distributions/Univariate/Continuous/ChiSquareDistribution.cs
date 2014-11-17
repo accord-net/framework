@@ -255,6 +255,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double InverseDistributionFunction(double p)
         {
+            if (p <= 0)
+                return Support.Min;
+            else if (p >= 1)
+                return Support.Max;
+
             return Gamma.InverseLowerIncomplete(degreesOfFreedom / 2.0, p) * 2.0;
         }
 
