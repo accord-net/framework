@@ -71,6 +71,38 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   double s = regression.Slope;
     ///   double c = regression.Intercept;
     ///   </code>
+    ///   
+    /// <para>
+    ///   Now, let's say we would like to perform a regression using an
+    ///   intermediary transformation, such as for example logarithmic
+    ///   regression. In this case, all we have to do is to first transform
+    ///   the input variables into the desired domain, then apply the
+    ///   regression as normal:</para>
+    ///   
+    /// <code>
+    ///   // This is the same data from the example available at
+    ///   // http://mathbits.com/MathBits/TISection/Statistics2/logarithmic.htm
+    ///   
+    ///   // Declare your inputs and output data
+    ///   double[] inputs = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+    ///   double[] outputs = { 6, 9.5, 13, 15, 16.5, 17.5, 18.5, 19, 19.5, 19.7, 19.8 };
+    ///   
+    ///   // Transform inputs to logarithms
+    ///   double[] logx = Matrix.Log(inputs);
+    ///   
+    ///   // Compute a simple linear regression
+    ///   var lr = new SimpleLinearRegression();
+    ///   
+    ///   // Compute with the log-transformed data
+    ///   double error = lr.Regress(logx, outputs);
+    ///   
+    ///   // Get an expression representing the learned regression model
+    ///   // We just have to remember that 'x' will actually mean 'log(x)'
+    ///   string result = lr.ToString("N4", CultureInfo.InvariantCulture);
+    ///   
+    ///   // Result will be "y(x) = 6.1082x + 6.0993"
+    /// </code>
+    /// </para>
     /// </example>
     /// 
     [Serializable]
@@ -251,11 +283,11 @@ namespace Accord.Statistics.Models.Regression.Linear
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            string a = format != null ? 
+            string a = format != null ?
                 Slope.ToString(format, formatProvider) :
                 Slope.ToString(formatProvider);
 
-            string b = format != null ? 
+            string b = format != null ?
                 Intercept.ToString(format, formatProvider) :
                 Intercept.ToString(formatProvider);
 
