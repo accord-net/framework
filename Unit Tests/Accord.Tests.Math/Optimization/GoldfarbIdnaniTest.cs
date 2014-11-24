@@ -29,6 +29,7 @@ namespace Accord.Tests.Math
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
     using Accord.Tests.Math.Properties;
+    using System.Globalization;
 
 
     [TestClass()]
@@ -981,6 +982,120 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual(-5 / 8.0, solver.Solution[0]);
             Assert.AreEqual(5 / 8.0, solver.Solution[1]);
+        }
+
+        [TestMethod()]
+        public void GoldfarbIdnaniParseGlobalizationTestBase()
+        {
+            // minimize 0.5x² + 0.2y² + 0.3xy s.t. 0.01x + 0.02y - 0.03 = 0 AND x + y = 100
+            // http://www.wolframalpha.com/input/?i=minimize+0.5x%C2%B2+%2B+0.2y%C2%B2+%2B+0.3xy+s.t.+0.01x+%2B+0.02y+-+0.03+%3D+0+AND+x+%2B+y+%3D+100
+
+            String strObjective = "0.5x² + 0.2y² + 0.3xy";
+
+            String[] strConstraints = 
+            { 
+                "0.01x + 0.02y - 0.03 = 0", 
+                "x + y = 100" 
+            };
+
+            QuadraticObjectiveFunction function = new QuadraticObjectiveFunction(strObjective);
+            LinearConstraintCollection cst = new LinearConstraintCollection();
+            foreach (var tmpCst in strConstraints)
+                cst.Add(new LinearConstraint(function, tmpCst));
+
+            var classSolver = new Accord.Math.Optimization.GoldfarbIdnani(function, cst);
+            bool status = classSolver.Minimize();
+            double result = classSolver.Value;
+
+            Assert.IsTrue(status);
+            Assert.AreEqual(15553.60, result, 1e-10);
+        }
+
+        [TestMethod()]
+        public void GoldfarbIdnaniParseGlobalizationTest()
+        {
+            var fr = CultureInfo.GetCultureInfo("fr-FR");
+
+            Assert.AreEqual(",", fr.NumberFormat.NumberDecimalSeparator);
+
+            String strObjective = 0.5.ToString(fr)
+                + "x² +" + 0.2.ToString(fr) + "y² +"
+                + 0.3.ToString(fr) + "xy";
+
+            String[] strConstraints = 
+            { 
+                0.01.ToString(fr) + "x" + " + " + 
+                0.02.ToString(fr) + "y - " + 
+                0.03.ToString(fr) + " = 0", 
+                "x + y = 100" 
+            };
+
+            QuadraticObjectiveFunction function = new QuadraticObjectiveFunction(strObjective, fr);
+            LinearConstraintCollection cst = new LinearConstraintCollection();
+            foreach (var tmpCst in strConstraints)
+                cst.Add(new LinearConstraint(function, tmpCst, fr));
+
+            var classSolver = new Accord.Math.Optimization.GoldfarbIdnani(function, cst);
+            bool status = classSolver.Minimize();
+            double result = classSolver.Value;
+
+            Assert.IsTrue(status);
+            Assert.AreEqual(15553.60, result, 1e-10);
+        }
+
+        [TestMethod()]
+        public void GoldfarbIdnaniParseGlobalizationTest2()
+        {
+            String strObjective = 0.5.ToString(CultureInfo.InvariantCulture)
+                + "x² +" + 0.2.ToString(CultureInfo.InvariantCulture) + "y² +"
+                + 0.3.ToString(CultureInfo.InvariantCulture) + "xy";
+
+            String[] strConstraints = 
+            { 
+                0.01.ToString(CultureInfo.InvariantCulture) + "x" + " + " + 
+                0.02.ToString(CultureInfo.InvariantCulture) + "y - " + 
+                0.03.ToString(CultureInfo.InvariantCulture) + " = 0", 
+                "x + y = 100" 
+            };
+
+            QuadraticObjectiveFunction function = new QuadraticObjectiveFunction(strObjective);
+            LinearConstraintCollection cst = new LinearConstraintCollection();
+            foreach (var tmpCst in strConstraints)
+                cst.Add(new LinearConstraint(function, tmpCst));
+
+            var classSolver = new Accord.Math.Optimization.GoldfarbIdnani(function, cst);
+            bool status = classSolver.Minimize();
+            double result = classSolver.Value;
+
+            Assert.IsTrue(status);
+            Assert.AreEqual(15553.60, result, 1e-10);
+        }
+
+        [TestMethod()]
+        public void GoldfarbIdnaniParseTest()
+        {
+            var s = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
+            String strObjective = "0" + s + "5x² + 0" + s + "2y² + 0" + s + "3xy";
+
+            String[] strConstraints = 
+            { 
+                "0" + s + "01x + 0" + s + "02y - 0" + s + "03 = 0", 
+                "x + y = 100" 
+            };
+
+            // Now we can start creating our function:
+            QuadraticObjectiveFunction function = new QuadraticObjectiveFunction(strObjective, CultureInfo.CurrentCulture);
+            LinearConstraintCollection cst = new LinearConstraintCollection();
+            foreach (var tmpCst in strConstraints)
+                cst.Add(new LinearConstraint(function, tmpCst, CultureInfo.CurrentCulture));
+
+            var classSolver = new Accord.Math.Optimization.GoldfarbIdnani(function, cst);
+            bool status = classSolver.Minimize();
+            double result = classSolver.Value;
+
+            Assert.IsTrue(status);
+            Assert.AreEqual(15553.60, result, 1e-10);
         }
 
         [TestMethod()]

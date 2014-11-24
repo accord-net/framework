@@ -27,6 +27,7 @@ namespace Accord.Math.Optimization
     using System.Linq.Expressions;
     using System.Text;
     using System.Text.RegularExpressions;
+    using System.Globalization;
 
     /// <summary>
     ///   Quadratic objective function.
@@ -214,8 +215,20 @@ namespace Accord.Math.Optimization
         /// the function in the form similar to "ax²+b".</param>
         /// 
         public QuadraticObjectiveFunction(string function)
+            : this(function, CultureInfo.InvariantCulture)
         {
-            var terms = parseString(function);
+        }
+
+        /// <summary>
+        ///   Creates a new objective function specified through a string.
+        /// </summary>
+        /// 
+        /// <param name="function">A <see cref="System.String"/> containing
+        /// the function in the form similar to "ax²+b".</param>
+        /// 
+        public QuadraticObjectiveFunction(string function, CultureInfo culture)
+        {
+            var terms = parseString(function, culture);
 
             initialize(terms);
         }
@@ -373,7 +386,7 @@ namespace Accord.Math.Optimization
 
 
 
-        private static Dictionary<Tuple<string, string>, double> parseString(string f)
+        private static Dictionary<Tuple<string, string>, double> parseString(string f, CultureInfo culture)
         {
             f = f.Replace("*", String.Empty).Replace(" ", String.Empty);
 
@@ -383,8 +396,10 @@ namespace Accord.Math.Optimization
             f = replaceQuad.Replace(f, "$1$1");
 
 
-            Regex r = new Regex(@"[\-\+]?[\s]*((\d*\.{0,1}\d+)|[a-zA-Z][²]?)+");
-            Regex number = new Regex(@"\d*\.{0,1}\d+");
+            string separator = culture.NumberFormat.NumberDecimalSeparator;
+
+            Regex r = new Regex(@"[\-\+]?[\s]*((\d*\" + separator + @"{0,1}\d+)|[a-zA-Z][²]?)+");
+            Regex number = new Regex(@"\d*\" + separator + @"{0,1}\d+");
             Regex symbol = new Regex(@"[a-zA-Z]");
 
 
@@ -400,7 +415,7 @@ namespace Accord.Math.Optimization
                 MatchCollection coeff = number.Matches(term);
 
                 foreach (Match c in coeff)
-                    scalar *= Double.Parse(c.Value);
+                    scalar *= Double.Parse(c.Value, culture);
 
                 // Extract symbols
                 MatchCollection symbols = symbol.Matches(term);

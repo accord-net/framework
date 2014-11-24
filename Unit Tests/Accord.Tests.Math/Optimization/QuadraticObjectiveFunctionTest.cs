@@ -464,16 +464,18 @@ namespace Accord.Tests.Math
             var f2 = new QuadraticObjectiveFunction("-x*y + y*z");
             var f3 = new QuadraticObjectiveFunction("-2x² + xy - y² - 10xz + z²");
             var f4 = new QuadraticObjectiveFunction("-2x² + xy - y² + 5y");
+            var f5 = new QuadraticObjectiveFunction("2x² -5");
 
             double x = 0, y = 0, z = 0;
             var g1 = new QuadraticObjectiveFunction(() => x * x + 1);
             var g2 = new QuadraticObjectiveFunction(() => -x * y + y * z);
             var g3 = new QuadraticObjectiveFunction(() => -2 * x * x + x * y - y * y - 10 * x * z + z * z);
             var g4 = new QuadraticObjectiveFunction(() => -2 * x * x + x * y - y * y + 5 * y);
+            var g5 = new QuadraticObjectiveFunction(() => 2 * x * x - 5);
             
 
-            QuadraticObjectiveFunction[] f = { f1, f2, f3, f4 };
-            QuadraticObjectiveFunction[] g = { g1, g2, g3, g4 };
+            QuadraticObjectiveFunction[] f = { f1, f2, f3, f4, f5 };
+            QuadraticObjectiveFunction[] g = { g1, g2, g3, g4, g5 };
 
             for (int l = 0; l < f.Length; l++)
             {

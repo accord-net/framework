@@ -27,6 +27,7 @@ namespace Accord.Math.Optimization
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
     using System.Text;
+    using System.Globalization;
 
     /// <summary>
     ///   Constraint type.
@@ -179,12 +180,33 @@ namespace Accord.Math.Optimization
         ///   using the dot (.) as the decimal separator.
         /// </remarks>
         /// 
-        public LinearConstraint(IObjectiveFunction function, string constraint)
+        public LinearConstraint(IObjectiveFunction function, string constraint, CultureInfo format)
         {
-            parseString(function, constraint);
+            parseString(function, constraint, format);
 
             this.Function = compute;
             this.Gradient = gradient;
+        }
+
+        /// <summary>
+        ///   Constructs a new linear constraint.
+        /// </summary>
+        /// 
+        /// <param name="function">The objective function to which
+        ///   this constraint refers to.</param>
+        /// <param name="constraint">A <see cref="System.String"/> 
+        ///   specifying this constraint, such as "ax + b = c".</param>
+        /// 
+        /// <remarks>
+        ///   The constraint string is always parsed using 
+        ///   <see cref="System.Globalization.CultureInfo.InvariantCulture"/>.
+        ///   This means numbers should be written using the English format, 
+        ///   using the dot (.) as the decimal separator.
+        /// </remarks>
+        /// 
+        public LinearConstraint(IObjectiveFunction function, string constraint)
+            : this(function, constraint, CultureInfo.InvariantCulture)
+        {
         }
 
         /// <summary>
@@ -295,7 +317,7 @@ namespace Accord.Math.Optimization
         }
 
 
-        private void parseString(IObjectiveFunction function, string constraint)
+        private void parseString(IObjectiveFunction function, string constraint, CultureInfo culture)
         {
             if (String.IsNullOrEmpty(constraint))
                 throw new FormatException("Constraint is empty.");
@@ -322,8 +344,10 @@ namespace Accord.Math.Optimization
 
             var terms = new Dictionary<string, double>();
 
-            Regex r = new Regex(@"[\-\+][\s]*(\d*\.{0,1}\d+)?[\s]*[a-zA-Z]");
-            Regex number = new Regex(@"\d*\.{0,1}\d+");
+            string separator = culture.NumberFormat.NumberDecimalSeparator;
+
+            Regex r = new Regex(@"[\-\+][\s]*(\d*\" + separator + @"{0,1}\d+)?[\s]*([a-zA-Z])*");
+            Regex number = new Regex(@"\d*\" + separator + @"{0,1}\d+");
             Regex symbol = new Regex(@"[a-zA-Z]");
             Regex comp = new Regex(@"(>=|<=|=)");
 
@@ -332,7 +356,7 @@ namespace Accord.Math.Optimization
             lhs = sides[0];
             rhs = sides[2];
 
-            double value = Double.Parse(rhs, System.Globalization.CultureInfo.InvariantCulture);
+            double value = Double.Parse(rhs, culture);
 
             MatchCollection matches = r.Matches(lhs, 0);
 
@@ -346,15 +370,22 @@ namespace Accord.Math.Optimization
                 MatchCollection coeff = number.Matches(term);
 
                 foreach (Match c in coeff)
-                    scalar *= Double.Parse(c.Value, System.Globalization.CultureInfo.InvariantCulture);
+                    scalar *= Double.Parse(c.Value, culture);
 
                 // Extract symbols
                 MatchCollection symbols = symbol.Matches(term);
 
                 if (symbols.Count == 1)
+                {
                     terms.Add(symbols[0].Value, scalar);
+                }
                 else
-                    throw new FormatException("Unexpected expression.");
+                {
+                    if (coeff.Count == 1)
+                        value = -scalar;
+                    else if (term != "+")
+                        throw new FormatException("Unexpected expression.");
+                }
             }
 
             List<int> indices = new List<int>();
