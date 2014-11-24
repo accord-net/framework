@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic (mono)", "Genetic (mono).csproj", "{0270DFC1-1143-4F39-A066-316C79C99AAE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0270DFC1-1143-4F39-A066-316C79C99AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0270DFC1-1143-4F39-A066-316C79C99AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0270DFC1-1143-4F39-A066-316C79C99AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0270DFC1-1143-4F39-A066-316C79C99AAE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Genetic (mono).csproj
+	EndGlobalSection
+EndGlobal

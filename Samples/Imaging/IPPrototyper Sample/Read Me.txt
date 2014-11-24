@@ -1,0 +1,6 @@
+1) Open solution file in VS.NET (C# Express Edition 2008 is fine).
+
+2) Run solution hitting F5.
+
+3) When application started, use "File->Open folder" menu option and
+   navigate to "Images" folder provided with the solution.

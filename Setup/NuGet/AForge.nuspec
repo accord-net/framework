@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AForge</id>
+    <version>2.2.5</version>
+    <title>AForge (core library)</title>
+    <authors>AForge.NET</authors>
+    <owners>AForge.NET</owners>
+    <licenseUrl>http://www.aforgenet.com/framework/license.html</licenseUrl>
+    <projectUrl>http://www.aforgenet.com/framework/</projectUrl>
+    <iconUrl>http://www.aforgenet.com/img/aforgenet_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The AForge library is a core library of AForge.NET framework, which contains core classes used by other libraries of the framework and classes, which can be used independently for various purposes.</description>
+    <summary>Core library of the AForge.NET framework</summary>
+    <tags>aforge.net framework</tags>
+  </metadata>
+  <files>
+    <file src="..\..\Release\AForge.dll" target="lib\AForge.dll" />
+    <file src="..\..\Release\AForge.xml" target="lib\AForge.xml" />
+  </files>
+</package>

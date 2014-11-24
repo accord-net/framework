@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging.Formats (mono)", "Imaging.Formats (mono).csproj", "{C2FE85F5-37A4-4E44-87C7-4DF77CD13C74}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C2FE85F5-37A4-4E44-87C7-4DF77CD13C74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2FE85F5-37A4-4E44-87C7-4DF77CD13C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2FE85F5-37A4-4E44-87C7-4DF77CD13C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2FE85F5-37A4-4E44-87C7-4DF77CD13C74}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Imaging.Formats (mono).csproj
+	EndGlobalSection
+EndGlobal

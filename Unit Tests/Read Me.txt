@@ -1,0 +1,22 @@
+All the AForge.NET framework’s unit tests are based on Gallio Automation Platform:
+http://www.gallio.org/
+
+
+
+How to run unit tests:
+1) Download and install Gallio.
+
+2) Build AForge.NET framework (use “Build All.sln” solution file from “Sources” folder),
+   so you have “Release” folder with all framework’s assemblies. Note: this step can be
+   skipped if you installed the framework from installation package, since framework’s
+   built is provided with installation.
+
+3) Build unit tests (use “Unit Tests\Build All Tests.sln” solution file), so you have
+   “Unit Tests\Build” folder with tests’ assemblies.
+
+4) Run “Gallo Icarus” application from Gallio installation and open “All Tests.gallio”
+   project. Use “Start” button to run all unit tests.
+
+
+
+NOTE: Provided unit tests do not cover entire AForge.NET framework so far.

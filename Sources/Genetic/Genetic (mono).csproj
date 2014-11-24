@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0270DFC1-1143-4F39-A066-316C79C99AAE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AForge.Genetic</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG,MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Release\Mono</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyKeyFile>AForge.Genetic.snk</AssemblyKeyFile>
+    <DefineConstants>MONO</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="AForge.Math, Version=2.0.0.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Chromosomes\GP\ExtendedGeneFunction.cs" />
+    <Compile Include="Chromosomes\GP\GEPChromosome.cs" />
+    <Compile Include="Chromosomes\GP\GPTreeChromosome.cs" />
+    <Compile Include="Chromosomes\GP\GPTreeNode.cs" />
+    <Compile Include="Chromosomes\GP\IGPGene.cs" />
+    <Compile Include="Chromosomes\GP\SimpleGeneFunction.cs" />
+    <Compile Include="Chromosomes\BinaryChromosome.cs" />
+    <Compile Include="Chromosomes\ChromosomeBase.cs" />
+    <Compile Include="Chromosomes\DoubleArrayChromosome.cs" />
+    <Compile Include="Chromosomes\IChromosome.cs" />
+    <Compile Include="Chromosomes\PermutationChromosome.cs" />
+    <Compile Include="Chromosomes\ShortArrayChromosome.cs" />
+    <Compile Include="Fitness Functions\IFitnessFunction.cs" />
+    <Compile Include="Fitness Functions\OptimizationFunction1D.cs" />
+    <Compile Include="Fitness Functions\OptimizationFunction2D.cs" />
+    <Compile Include="Fitness Functions\SymbolicRegressionFitness.cs" />
+    <Compile Include="Fitness Functions\TimeSeriesPredictionFitness.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Selection Algorithms\EliteSelection.cs" />
+    <Compile Include="Selection Algorithms\ISelectionMethod.cs" />
+    <Compile Include="Selection Algorithms\RankSelection.cs" />
+    <Compile Include="Selection Algorithms\RouletteWheelSelection.cs" />
+    <Compile Include="Population.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AForge.Genetic.snk" />
+  </ItemGroup>
+</Project>

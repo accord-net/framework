@@ -1,0 +1,297 @@
+﻿<project schemaVersion="1.6.0.7">
+    <assemblies>
+        <assembly assemblyPath="..\..\Release\AForge.Controls.dll" xmlCommentsPath="..\..\Release\AForge.Controls.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.dll" xmlCommentsPath="..\..\Release\AForge.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Fuzzy.dll" xmlCommentsPath="..\..\Release\AForge.Fuzzy.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Genetic.dll" xmlCommentsPath="..\..\Release\AForge.Genetic.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Imaging.dll" xmlCommentsPath="..\..\Release\AForge.Imaging.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Imaging.Formats.dll" xmlCommentsPath="..\..\Release\AForge.Imaging.Formats.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.MachineLearning.dll" xmlCommentsPath="..\..\Release\AForge.MachineLearning.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Math.dll" xmlCommentsPath="..\..\Release\AForge.Math.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Neuro.dll" xmlCommentsPath="..\..\Release\AForge.Neuro.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Robotics.Lego.dll" xmlCommentsPath="..\..\Release\AForge.Robotics.Lego.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Robotics.Surveyor.dll" xmlCommentsPath="..\..\Release\AForge.Robotics.Surveyor.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Robotics.TeRK.dll" xmlCommentsPath="..\..\Release\AForge.Robotics.TeRK.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Video.DirectShow.dll" xmlCommentsPath="..\..\Release\AForge.Video.DirectShow.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Video.dll" xmlCommentsPath="..\..\Release\AForge.Video.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Video.FFMPEG.dll" xmlCommentsPath="..\..\Release\AForge.Video.FFMPEG.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Video.Kinect.dll" xmlCommentsPath="..\..\Release\AForge.Video.Kinect.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Video.VFW.dll" xmlCommentsPath="..\..\Release\AForge.Video.VFW.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Video.Ximea.dll" xmlCommentsPath="..\..\Release\AForge.Video.Ximea.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\AForge.Vision.dll" xmlCommentsPath="..\..\Release\AForge.Vision.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\Glacier2.dll" xmlCommentsPath="" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Release\Ice.dll" xmlCommentsPath="" commentsOnly="False" />
+        <assembly assemblyPath="..\..\Externals\TeRK\TeRK.dll" xmlCommentsPath="" commentsOnly="False" />
+    </assemblies>
+    <namespaceSummaries>
+        <namespaceSummaryItem name="" isDocumented="False" />
+        <namespaceSummaryItem name="AForge" isDocumented="True">The &lt;b&gt;AForge&lt;/b&gt; namespace is a core namespace of &lt;b&gt;AForge.NET&lt;/b&gt; framework, which contains core classes used by other namespaces of the framework and classes, which can be used independently for various purposes.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Controls" isDocumented="True">The &lt;b&gt;AForge.Controls&lt;/b&gt; namespace contains different useful UI controls, which may be used together with other classes of &lt;b&gt;AForge.NET&lt;/b&gt; framework.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Fuzzy" isDocumented="True">The &lt;b&gt;AForge.Fuzzy&lt;/b&gt; namespace contains set of interfaces and classes to operate with fuzzy sets.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Genetic" isDocumented="True">The &lt;b&gt;AForge.Genetic&lt;/b&gt; namespace contains interfaces and classes for genetic computations. The namespace and its sub namespaces contain classes, which allows to solve many different problems (optimization, approximation, prediction, etc) with the help of Genetic Algorithms (GA), Genetic Programming (GP), Gene Expression Programming (GEP).</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Imaging" isDocumented="True">The &lt;b&gt;AForge.Imaging&lt;/b&gt; namespace contains interfaces and classes for different image processing routines.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Imaging.ColorReduction" isDocumented="True">The &lt;b&gt;AForge.Imaging.ColorReduction&lt;/b&gt; namespace contains set of classes aimed to perform color reduction in color images, which include color quantization classes, color re-coding functionality and color dithering algorithms.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Imaging.ComplexFilters" isDocumented="True">The &lt;b&gt;AForge.Imaging&lt;/b&gt; namespace contains interfaces and classes for different image processing routines, which are done on complex Fourier transformed images.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Imaging.Filters" isDocumented="True">The &lt;b&gt;AForge.Imaging.Filters&lt;/b&gt; namespace contains collection of interfaces and classes, which provide different image processing filters. Classes of this namespace allow to do different transformation of a source image, doing it directly on the source image or providing new image as a result of image processing routine.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Imaging.Formats" isDocumented="True">The &lt;b&gt;AForge.Imaging.Formats&lt;/b&gt; namespace contains interfaces and classes, which are used to handle different image file formats.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Imaging.Textures" isDocumented="True">The &lt;b&gt;AForge.Imaging.Textures&lt;/b&gt; namespace contains collection of classes, which generate different type of textures used for creating different effects.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.MachineLearning" isDocumented="True">The &lt;b&gt;AForge.MachineLearning&lt;/b&gt; namespace contains interfaces and classes for different algorithms of machine learning.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Math" isDocumented="True">The &lt;b&gt;AForge.Math&lt;/b&gt; namespace contains set of math utilities, which are used by other &lt;b&gt;AForge.NET&lt;/b&gt; framework's namespaces or may be used individually.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Math.Geometry" isDocumented="True">The &lt;b&gt;AForge.Math.Geometry&lt;/b&gt; namespace contains set of geometry utilities, which are used by other &lt;b&gt;AForge.NET&lt;/b&gt; namespaces or may be used individually.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Math.Metrics" isDocumented="True">The &lt;b&gt;AForge.Math.Metrics&lt;/b&gt; namespace contains set of classes, which implement different difference and similarity metrics.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Math.Random" isDocumented="True">The &lt;b&gt;AForge.Math.Random&lt;/b&gt; namespace contains interfaces and classes for random numbers generation.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Neuro" isDocumented="True">The &lt;b&gt;AForge.Neuro&lt;/b&gt; namespace contains interfaces and classes for neural networks computations. The namespace and its sub namespaces contain classes, which allow as creating of popular neural network architectures, as classes to train these networks.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Neuro.Learning" isDocumented="True">The&lt;b&gt;AForge.Neuro.Learning&lt;/b&gt; namespace contains interfaces and classes for neurons and neural networks learning. The namespace contains classes as for supervised learning, as for unsupervised learning.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Robotics.Lego" isDocumented="True">The &lt;b&gt;AForge.Robotics.Lego&lt;/b&gt; namespace contains set of classes, which allow to manipulate different Lego Mindstorm robotics devices. The list of supported devices includes Lego Minstorm RCX and Lego Mindstorm NXT.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Robotics.Surveyor" isDocumented="True">The &lt;b&gt;AForge.Robotics.Surveyor&lt;/b&gt; namespace contains set of classes, which are aimed to control robotics kits provided by &lt;a href="http://www.surveyor.com/"&gt;Surveyor&lt;/a&gt; company, such as SRV-1 camera/robot and SVS (Stereo Vision System) board.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Robotics.TeRK" isDocumented="True">The &lt;b&gt;AForge.Robotics.TeRK&lt;/b&gt; namespace contains set of classes, which are aimed to control TeRK (&lt;a href="http://www.terk.ri.cmu.edu/"&gt;Telepresence Robot Kit&lt;/a&gt;) based robots, such as Qwerk.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Video" isDocumented="True">The &lt;b&gt;AForge.Video&lt;/b&gt; namespace contains interfaces and classes to access different video sources.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Video.DirectShow" isDocumented="True">The &lt;b&gt;AForge.Video.DirectShow&lt;/b&gt; namespace contains classes, which allow to access video sources using &lt;i&gt;DirectShow&lt;/i&gt; interface.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Video.FFMPEG" isDocumented="True">The &lt;b&gt;AForge.Video.FFMPEG&lt;/b&gt; namespace contains classes, which allow reading and writing video files through &lt;a href="http://www.ffmpeg.org/"&gt;FFmpeg&lt;/a&gt; library. This is an experimental namespace which is aimed to provider better API for writing/reading video file and replace &lt;b&gt;AForge.Video.VFW&lt;/b&gt; at some point in time. &lt;b&gt;Note:&lt;/b&gt; the API allows writing and reading video data only. Reading and writing of sound data is not supported and is not planned for now.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Video.Kinect" isDocumented="True">The &lt;b&gt;AForge.Video.Kinect&lt;/b&gt; namespace contains classes, which allow to access to video and depth data of Microsoft’s Xbox &lt;a href="http://en.wikipedia.org/wiki/Kinect"&gt;Kinect&lt;/a&gt; device.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Video.VFW" isDocumented="True">The &lt;b&gt;AForge.Video.VFW&lt;/b&gt; namespace contains classes, which allow reading and writing of AVI files using &lt;i&gt;Video for Windows&lt;/i&gt; interface.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Video.Ximea" isDocumented="True">The &lt;b&gt;AForge.Video.Ximea&lt;/b&gt; namespace contains classes, which allow capturing images from &lt;a href="http://www.ximea.com/"&gt;XIMEA&lt;/a&gt; cameras.</namespaceSummaryItem>
+        <namespaceSummaryItem name="AForge.Vision.Motion" isDocumented="True">The &lt;b&gt;AForge.Vision.Motion&lt;/b&gt; namespace contains interfaces and classes used for motion detection and processing in video streams.</namespaceSummaryItem>
+        <namespaceSummaryItem name="Glacier2" isDocumented="False" />
+        <namespaceSummaryItem name="Ice" isDocumented="False" />
+        <namespaceSummaryItem name="IceInternal" isDocumented="False" />
+        <namespaceSummaryItem name="IceUtilInternal" isDocumented="False" />
+        <namespaceSummaryItem name="peer" isDocumented="False" />
+        <namespaceSummaryItem name="TeRK" isDocumented="False" />
+    </namespaceSummaries>
+    <additionalContent contentSiteMap="" topicFileTransform="">
+        <contentItem sourcePath="..\..\Sources\Robotics.Lego\Images\nxt.jpg" destPath="img\robotics\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Robotics.Lego\Images\rcx.jpg" destPath="img\robotics\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\grayscale.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample1.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\threshold.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\difference.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\intersect.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\merge.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\move_towards.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample6.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample7.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\blobs_filtering.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample2.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hor_histogram.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ver_histogram.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\shrink.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\crop.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hough_circles.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hough_lines.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample8.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\resize_nearest.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\rotate_nearest.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample9.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\add.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\subtract.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\salt_noise.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\additive_noise.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\rotate_channels.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sepia.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample5.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\equalized.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ordered_dithering.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\bayer_dithering.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\floyd_steinberg.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\burkes.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\jarvis_judice_ninke.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sierra.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\stucki.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\threshold_carry.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\mirror.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\biggest_blob.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Neuro\Images\sigmoid.bmp" destPath="img\neuro\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Neuro\Images\sigmoid_bipolar.bmp" destPath="img\neuro\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Neuro\Images\threshold.bmp" destPath="img\neuro\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\histogram.jpg" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\invert.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\rotate_bilinear.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\rotate_bicubic.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\deskew.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample10.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\euclidean_filtering.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\channel_filtering.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\color_filtering.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hsl_filtering.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ycbcr_filtering.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\pixellate.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\pointed_color_fill.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\pointed_mean_fill.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\resize_bicubic.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\resize_bilinear.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ycbcr_linear.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ycbcr_replace_channel.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hsl_filtering2.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hue_modifier.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\difference_edges.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\homogenity_edges.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sobel_edges.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\emboss.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\blur.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\edges.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sharpen.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\gaussian_blur.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\gaussian_sharpen.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\canny_edges.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\slider_gradient.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\slider_inner_gradient.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\slider_outer_gradient.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\slider_threshold.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\extract_channel.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\iterative_threshold.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\otsu_threshold.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample11.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sis_threshold.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\replace_channel.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\color_remapping.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\levels_linear.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\contrast_stretch.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\gamma.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\brightness_correction.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\contrast_correction.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hsl_linear.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\saturation_correction.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\morph.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\bottomhat.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\closing.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\dilatation.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\erosion.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\opening.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample12.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\tophat.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hit-and-miss.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\labeling.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\susan_corners.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ebm_result.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ebm_sample1.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ebm_sample2.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\adaptive_smooth.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\conservative_smoothing.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\median.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample13.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\mean.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\wood_texture.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\marble_texture.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\clouds_texture.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\labyrinth_texture.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\textile_texture.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\texturer.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\textured_merge1.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\textured_merge2.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\textured_filter1.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\textured_filter2.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\jitter.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\oil_painting.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\fourier.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\frequency_filter.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample3.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\bg.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\flat_field.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample4.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\canvas_crop.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\canvas_move.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample14.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\thinning.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\simple_skeletonization.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Robotics.TeRK\Images\qwerk_board.jpg" destPath="img\robotics\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\posterization.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample15.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\anaglyph.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\anaglyph_glasses.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample16_left.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample16_right.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\quadrilateral_finder.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample17.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\quadrilateral_bilinear.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\quadrilateral_nearest.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample18.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Robotics.Surveyor\Images\srv1-robot.jpg" destPath="img\robotics\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Robotics.Surveyor\Images\svs.jpg" destPath="img\robotics\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\manipulator_round.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\manipulator_square.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\slider_control.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\water_wave.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\image_warp.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Math\Images\flat_angles_optimizer.png" destPath="img\math\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Math\Images\line_straightening_optimizer.png" destPath="img\math\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Math\Images\close_points_merging_optimizer.png" destPath="img\math\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\quadrilateral_ex_bilinear.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\backward_quadrilateral.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\icon.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\filled_holes.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample19.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\color_burkes.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\color_floyd_steinberg.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\color_jarvis_judice_ninke.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\color_sierra.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\color_stucki.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\reduced_colors.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\background.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\object.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\thresholded_difference.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\thresholded_euclidean_difference.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Math\Images\potential_corners.png" destPath="img\math\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\bradley_local_thresholding.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample20.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\from_polar.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\polar.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample21.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample22.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\hue_picker1.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Controls\Images\hue_picker2.png" destPath="img\controls\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Video.Kinect\Images\kinect.jpg" destPath="img\video\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\bayer_filter.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample23.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\ordered_color_dithering.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Video.Ximea\Images\HW_SW_buffers.png" destPath="img\video\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Video.DirectShow\Images\VideoCaptureDeviceForm.png" destPath="img\video\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\mask.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\masked_image.jpg" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\hrls.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\sample24.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\vrls.png" destPath="img\imaging\" excludeItems="False" />
+        <contentItem sourcePath="..\..\Sources\Imaging\Images\bilateral.jpg" destPath="img\imaging\" excludeItems="False" />
+    </additionalContent>
+    <ProjectSummary>&lt;b&gt;AForge.NET Framework&lt;/b&gt; is a C# framework designed for developers and researchers in the fields of Computer Vision and Artificial Intelligence - image processing, computer vision, neural networks, genetic algorithms, machine learning, etc. </ProjectSummary>
+    <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, Namespace, TypeParameter</MissingTags>
+    <VisibleItems>InheritedMembers, Protected</VisibleItems>
+    <HtmlHelp1xCompilerPath path="" />
+    <HtmlHelp2xCompilerPath path="" />
+    <OutputPath>..\..\Docs\</OutputPath>
+    <SandcastlePath path="" />
+    <WorkingPath path="" />
+    <CleanIntermediates>True</CleanIntermediates>
+    <KeepLogFile>True</KeepLogFile>
+    <BuildLogFile path="" />
+    <HelpFileFormat>HtmlHelp1x</HelpFileFormat>
+    <CppCommentsFixup>False</CppCommentsFixup>
+    <FrameworkVersion>2.0.50727</FrameworkVersion>
+    <IndentHtml>False</IndentHtml>
+    <Preliminary>False</Preliminary>
+    <RootNamespaceContainer>True</RootNamespaceContainer>
+    <RootNamespaceTitle>AForge.NET Framework</RootNamespaceTitle>
+    <HelpTitle>AForge.NET Framework</HelpTitle>
+    <HtmlHelpName>AForge.NET</HtmlHelpName>
+    <Language>en-US</Language>
+    <CopyrightHref />
+    <CopyrightText />
+    <FeedbackEMailAddress>contacts@aforgenet.com</FeedbackEMailAddress>
+    <FeedbackEMailLinkText>Feedback Contact</FeedbackEMailLinkText>
+    <HeaderText />
+    <FooterText>&lt;a href="http://www.aforgenet.com/" target="_blank"&gt;AForge.NET&lt;/a&gt; © 2006-2013</FooterText>
+    <ProjectLinkType>Local</ProjectLinkType>
+    <SdkLinkType>Msdn</SdkLinkType>
+    <SdkLinkTarget>Blank</SdkLinkTarget>
+    <PresentationStyle>vs2005</PresentationStyle>
+    <NamingMethod>Guid</NamingMethod>
+    <SyntaxFilters>CSharp</SyntaxFilters>
+    <ShowFeedbackControl>False</ShowFeedbackControl>
+    <BinaryTOC>True</BinaryTOC>
+    <IncludeFavorites>False</IncludeFavorites>
+    <CollectionTocStyle>Hierarchical</CollectionTocStyle>
+    <IncludeStopWordList>True</IncludeStopWordList>
+    <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
+    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+</project>

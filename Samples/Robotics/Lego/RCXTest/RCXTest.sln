@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCXTest", "RCXTest.csproj", "{FC6E1E54-1D42-44B2-8060-13BDD7CEE3EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC6E1E54-1D42-44B2-8060-13BDD7CEE3EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC6E1E54-1D42-44B2-8060-13BDD7CEE3EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC6E1E54-1D42-44B2-8060-13BDD7CEE3EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC6E1E54-1D42-44B2-8060-13BDD7CEE3EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

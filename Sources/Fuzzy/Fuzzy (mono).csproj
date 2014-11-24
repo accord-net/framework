@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EE9833F9-57C7-41CD-8DAA-CC66F36813C7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AForge.Fuzzy</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <RootNamespace>AForge.Fuzzy</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG,MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Release\Mono</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyKeyFile>AForge.Fuzzy.snk</AssemblyKeyFile>
+    <DefineConstants>MONO</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="AForge, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Clause.cs" />
+    <Compile Include="Defuzzification\CentroidDefuzzifier.cs" />
+    <Compile Include="Defuzzification\IDefuzzifier.cs" />
+    <Compile Include="FuzzyOutput.cs" />
+    <Compile Include="InferenceSystem.cs" />
+    <Compile Include="Membership Functions\SingletonFunction.cs" />
+    <Compile Include="Operators\NotOperator.cs" />
+    <Compile Include="Operators\IUnaryOperator.cs" />
+    <Compile Include="Rulebase.cs" />
+    <Compile Include="Database.cs" />
+    <Compile Include="Operators\MaximumCoNorm.cs" />
+    <Compile Include="Rule.cs" />
+    <Compile Include="LinguisticVariable.cs" />
+    <Compile Include="FuzzySet.cs" />
+    <Compile Include="Membership Functions\IMembershipFunction.cs" />
+    <Compile Include="Membership Functions\PiecewiseLinearFunction.cs" />
+    <Compile Include="Membership Functions\TrapezoidalFunction.cs" />
+    <Compile Include="Operators\ProductNorm.cs" />
+    <Compile Include="Operators\ICoNorm.cs" />
+    <Compile Include="Operators\INorm.cs" />
+    <Compile Include="Operators\MinimumNorm.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AForge.Fuzzy.snk" />
+  </ItemGroup>
+</Project>

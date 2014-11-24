@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vision (mono)", "Vision (mono).csproj", "{836C860D-180F-4760-BC4F-9CE02730D46F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{836C860D-180F-4760-BC4F-9CE02730D46F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{836C860D-180F-4760-BC4F-9CE02730D46F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{836C860D-180F-4760-BC4F-9CE02730D46F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{836C860D-180F-4760-BC4F-9CE02730D46F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Vision (mono).csproj
+	EndGlobalSection
+EndGlobal

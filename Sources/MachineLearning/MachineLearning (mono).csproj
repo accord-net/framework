@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F5A910B0-8AE9-4067-A0BB-05A6404A17B7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AForge.MachineLearning</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <RootNamespace>AForge.MachineLearning</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG,MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Release\Mono</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyKeyFile>AForge.MachineLearning.snk</AssemblyKeyFile>
+    <DefineConstants>MONO</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Exploration Policy\BoltzmannExploration.cs" />
+    <Compile Include="Exploration Policy\EpsilonGreedyExploration.cs" />
+    <Compile Include="Exploration Policy\IExplorationPolicy.cs" />
+    <Compile Include="Exploration Policy\RouletteWheelExploration.cs" />
+    <Compile Include="Exploration Policy\TabuSearchExploration.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLearning.cs" />
+    <Compile Include="Sarsa.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AForge.MachineLearning.snk" />
+  </ItemGroup>
+</Project>

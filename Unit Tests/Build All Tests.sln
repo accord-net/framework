@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AForge.Math.Tests", "AForge.Math.Tests\AForge.Math.Tests.csproj", "{8CE6D122-788B-47C3-8749-15FD584C26F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AForge.Tests", "AForge.Tests\AForge.Tests.csproj", "{72B5500A-624D-4590-8C85-4318EFB57D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AForge.Imaging.Tests", "AForge.Imaging.Tests\AForge.Imaging.Tests.csproj", "{539229BC-D68C-4FF0-84BC-904A90ECEBE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CE6D122-788B-47C3-8749-15FD584C26F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CE6D122-788B-47C3-8749-15FD584C26F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CE6D122-788B-47C3-8749-15FD584C26F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CE6D122-788B-47C3-8749-15FD584C26F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72B5500A-624D-4590-8C85-4318EFB57D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72B5500A-624D-4590-8C85-4318EFB57D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72B5500A-624D-4590-8C85-4318EFB57D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72B5500A-624D-4590-8C85-4318EFB57D76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{539229BC-D68C-4FF0-84BC-904A90ECEBE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{539229BC-D68C-4FF0-84BC-904A90ECEBE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{539229BC-D68C-4FF0-84BC-904A90ECEBE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{539229BC-D68C-4FF0-84BC-904A90ECEBE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1E7E3A00-57A6-48C4-A19E-926BADC501B6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AForge.Math</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG,MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Release\Mono</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyKeyFile>AForge.Math.snk</AssemblyKeyFile>
+    <DefineConstants>MONO</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="AForge, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Complex.cs" />
+    <Compile Include="ContinuousHistogram.cs" />
+    <Compile Include="FourierTransform.cs" />
+    <Compile Include="Gaussian.cs" />
+    <Compile Include="Geometry\ClosePointsMergingOptimizer.cs" />
+    <Compile Include="Geometry\CoplanarPosit.cs" />
+    <Compile Include="Geometry\FlatAnglesOptimizer.cs" />
+    <Compile Include="Geometry\GeometryTools.cs" />
+    <Compile Include="Geometry\GrahamConvexHull.cs" />
+    <Compile Include="Geometry\IConvexHullAlgorithm.cs" />
+    <Compile Include="Geometry\IShapeOptimizer.cs" />
+    <Compile Include="Geometry\Line.cs" />
+    <Compile Include="Geometry\LineStraighteningOptimizer.cs" />
+    <Compile Include="Geometry\LineSegment.cs" />
+    <Compile Include="Geometry\PointsCloud.cs" />
+    <Compile Include="Geometry\POSIT.cs" />
+    <Compile Include="Geometry\ShapeType.cs" />
+    <Compile Include="Geometry\SimpleShapeChecker.cs" />
+    <Compile Include="Histogram.cs" />
+    <Compile Include="Matrix3x3.cs" />
+    <Compile Include="Matrix4x4.cs" />
+    <Compile Include="Metrics\CosineDistance.cs" />
+    <Compile Include="Metrics\CosineSimilarity.cs" />
+    <Compile Include="Metrics\EuclideanDistance.cs" />
+    <Compile Include="Metrics\EuclideanSimilarity.cs" />
+    <Compile Include="Metrics\HammingDistance.cs" />
+    <Compile Include="Metrics\IDistance.cs" />
+    <Compile Include="Metrics\ISimilarity.cs" />
+    <Compile Include="Metrics\JaccardDistance.cs" />
+    <Compile Include="Metrics\ManhattanDistance.cs" />
+    <Compile Include="Metrics\PearsonCorrelation.cs" />
+    <Compile Include="PerlinNoise.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Random\ExponentialGenerator.cs" />
+    <Compile Include="Random\GaussianGenerator.cs" />
+    <Compile Include="Random\IRandomNumberGenerator.cs" />
+    <Compile Include="Random\StandardGenerator.cs" />
+    <Compile Include="Random\UniformGenerator.cs" />
+    <Compile Include="Random\UniformOneGenerator.cs" />
+    <Compile Include="Statistics.cs" />
+    <Compile Include="SVD.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="Vector3.cs" />
+    <Compile Include="Vector4.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AForge.Math.snk" />
+  </ItemGroup>
+</Project>

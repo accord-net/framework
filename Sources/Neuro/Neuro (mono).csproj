@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{81CCAD97-7643-4995-AB8C-84F731631E78}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AForge.Neuro</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <RootNamespace>AForge.Neuro</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG,MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Release\Mono</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyKeyFile>AForge.Neuro.snk</AssemblyKeyFile>
+    <DefineConstants>MONO</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="AForge.Genetic, Version=2.0.0.0, Culture=neutral, PublicKeyToken=4336634eeb41b69b">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.Genetic.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.0.0.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Activation Functions\BipolarSigmoidFunction.cs" />
+    <Compile Include="Activation Functions\IActivationFunction.cs" />
+    <Compile Include="Activation Functions\SigmoidFunction.cs" />
+    <Compile Include="Activation Functions\ThresholdFunction.cs" />
+    <Compile Include="Layers\ActivationLayer.cs" />
+    <Compile Include="Layers\DistanceLayer.cs" />
+    <Compile Include="Layers\Layer.cs" />
+    <Compile Include="Learning\BackPropagationLearning.cs" />
+    <Compile Include="Learning\DeltaRuleLearning.cs" />
+    <Compile Include="Learning\ElasticNetworkLearning.cs" />
+    <Compile Include="Learning\EvolutionaryFitness.cs" />
+    <Compile Include="Learning\EvolutionaryLearning.cs" />
+    <Compile Include="Learning\ISupervisedLearning.cs" />
+    <Compile Include="Learning\IUnsupervisedLearning.cs" />
+    <Compile Include="Learning\PerceptronLearning.cs" />
+    <Compile Include="Learning\ResilientBackPropagationLearning.cs" />
+    <Compile Include="Learning\SOMLearning.cs" />
+    <Compile Include="Networks\ActivationNetwork.cs" />
+    <Compile Include="Networks\DistanceNetwork.cs" />
+    <Compile Include="Networks\Network.cs" />
+    <Compile Include="Neurons\ActivationNeuron.cs" />
+    <Compile Include="Neurons\DistanceNeuron.cs" />
+    <Compile Include="Neurons\Neuron.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AForge.Neuro.snk" />
+  </ItemGroup>
+</Project>

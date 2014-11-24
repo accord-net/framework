@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0E6DFEB9-E4C4-46DB-BB5F-424F7275D114}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AssemblyName>AForge.Imaging</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG,MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Release\Mono</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyKeyFile>AForge.Imaging.snk</AssemblyKeyFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>MONO</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="AForge, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math, Version=2.0.0.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Release\Mono\AForge.Math.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Blob.cs" />
+    <Compile Include="BlobCounter.cs" />
+    <Compile Include="BlobCounterBase.cs" />
+    <Compile Include="BlockMatch.cs" />
+    <Compile Include="Color Reduction\BurkesColorDithering.cs" />
+    <Compile Include="Color Reduction\ColorErrorDiffusionToAdjacentNeighbors.cs" />
+    <Compile Include="Color Reduction\ColorImageQuantizer.cs" />
+    <Compile Include="Color Reduction\ErrorDiffusionColorDithering.cs" />
+    <Compile Include="Color Reduction\FloydSteinbergColorDithering.cs" />
+    <Compile Include="Color Reduction\IColorQuantizer.cs" />
+    <Compile Include="Color Reduction\JarvisJudiceNinkeColorDithering.cs" />
+    <Compile Include="Color Reduction\MedianCutCube.cs" />
+    <Compile Include="Color Reduction\MedianCutQuantizer.cs" />
+    <Compile Include="Color Reduction\OrderedColorDithering.cs" />
+    <Compile Include="Color Reduction\SierraColorDithering.cs" />
+    <Compile Include="Color Reduction\StuckiColorDithering.cs" />
+    <Compile Include="ColorConverter.cs" />
+    <Compile Include="Complex Filters\FrequencyFilter.cs" />
+    <Compile Include="Complex Filters\IComplexFilter.cs" />
+    <Compile Include="ComplexImage.cs" />
+    <Compile Include="DocumentSkewChecker.cs" />
+    <Compile Include="Drawing.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="ExhaustiveBlockMatching.cs" />
+    <Compile Include="ExhaustiveTemplateMatching.cs" />
+    <Compile Include="Filters\2 Source filters\Add.cs" />
+    <Compile Include="Filters\2 Source filters\Difference.cs" />
+    <Compile Include="Filters\2 Source filters\Intersect.cs" />
+    <Compile Include="Filters\2 Source filters\Merge.cs" />
+    <Compile Include="Filters\2 Source filters\Morph.cs" />
+    <Compile Include="Filters\2 Source filters\MoveTowards.cs" />
+    <Compile Include="Filters\2 Source filters\StereoAnaglyph.cs" />
+    <Compile Include="Filters\2 Source filters\Subtract.cs" />
+    <Compile Include="Filters\2 Source filters\ThresholdedDifference.cs" />
+    <Compile Include="Filters\2 Source filters\ThresholdedEuclideanDifference.cs" />
+    <Compile Include="Filters\Adaptive Binarization\BradleyLocalThresholding.cs" />
+    <Compile Include="Filters\Adaptive Binarization\IterativeThreshold.cs" />
+    <Compile Include="Filters\Adaptive Binarization\OtsuThreshold.cs" />
+    <Compile Include="Filters\Adaptive Binarization\SISThreshold.cs" />
+    <Compile Include="Filters\Base classes\BaseFilter.cs" />
+    <Compile Include="Filters\Base classes\BaseFilter2.cs" />
+    <Compile Include="Filters\Base classes\BaseInPlaceFilter.cs" />
+    <Compile Include="Filters\Base classes\BaseInPlacePartialFilter.cs" />
+    <Compile Include="Filters\Base classes\BaseInPlaceFilter2.cs" />
+    <Compile Include="Filters\Base classes\BaseResizeFilter.cs" />
+    <Compile Include="Filters\Base classes\BaseRotateFilter.cs" />
+    <Compile Include="Filters\Base classes\BaseTransformationFilter.cs" />
+    <Compile Include="Filters\Base classes\BaseUsingCopyPartialFilter.cs" />
+    <Compile Include="Filters\Binarization\BayerDithering.cs" />
+    <Compile Include="Filters\Binarization\BurkesDithering.cs" />
+    <Compile Include="Filters\Binarization\ErrorDiffusionDithering.cs" />
+    <Compile Include="Filters\Binarization\ErrorDiffusionToAdjacentNeighbors.cs" />
+    <Compile Include="Filters\Binarization\FloydSteinbergDithering.cs" />
+    <Compile Include="Filters\Binarization\JarvisJudiceNinkeDithering.cs" />
+    <Compile Include="Filters\Binarization\OrderedDithering.cs" />
+    <Compile Include="Filters\Binarization\SierraDithering.cs" />
+    <Compile Include="Filters\Binarization\StuckiDithering.cs" />
+    <Compile Include="Filters\Binarization\Threshold.cs" />
+    <Compile Include="Filters\Binarization\ThresholdWithCarry.cs" />
+    <Compile Include="Filters\Color Filters\BayerFilter.cs" />
+    <Compile Include="Filters\Color Filters\BrightnessCorrection.cs" />
+    <Compile Include="Filters\Color Filters\ChannelFiltering.cs" />
+    <Compile Include="Filters\Color Filters\ColorFiltering.cs" />
+    <Compile Include="Filters\Color Filters\ColorRemapping.cs" />
+    <Compile Include="Filters\Color Filters\ContrastCorrection.cs" />
+    <Compile Include="Filters\Color Filters\ContrastStretch.cs" />
+    <Compile Include="Filters\Color Filters\BayerFilterOptimized.cs" />
+    <Compile Include="Filters\Color Filters\EuclideanColorFiltering.cs" />
+    <Compile Include="Filters\Color Filters\ExtractChannel.cs" />
+    <Compile Include="Filters\Color Filters\GammaCorrection.cs" />
+    <Compile Include="Filters\Color Filters\Grayscale.cs" />
+    <Compile Include="Filters\Color Filters\GrayscaleBT709.cs" />
+    <Compile Include="Filters\Color Filters\GrayscaleRMY.cs" />
+    <Compile Include="Filters\Color Filters\GrayscaleToRGB.cs" />
+    <Compile Include="Filters\Color Filters\GrayscaleY.cs" />
+    <Compile Include="Filters\Color Filters\HistogramEqualization.cs" />
+    <Compile Include="Filters\Color Filters\Invert.cs" />
+    <Compile Include="Filters\Color Filters\LevelsLinear.cs" />
+    <Compile Include="Filters\Color Filters\LevelsLinear16bpp.cs" />
+    <Compile Include="Filters\Color Filters\ReplaceChannel.cs" />
+    <Compile Include="Filters\Color Filters\RotateChannels.cs" />
+    <Compile Include="Filters\Color Filters\Sepia.cs" />
+    <Compile Include="Filters\Color Segmentation\SimplePosterization.cs" />
+    <Compile Include="Filters\Convolution\Blur.cs" />
+    <Compile Include="Filters\Convolution\Convolution.cs" />
+    <Compile Include="Filters\Convolution\Edges.cs" />
+    <Compile Include="Filters\Convolution\GaussianBlur.cs" />
+    <Compile Include="Filters\Convolution\Mean.cs" />
+    <Compile Include="Filters\Convolution\Sharpen.cs" />
+    <Compile Include="Filters\Convolution\SharpenEx.cs" />
+    <Compile Include="Filters\Edge Detectors\CannyEdgeDetector.cs" />
+    <Compile Include="Filters\Edge Detectors\DifferenceEdgeDetector.cs" />
+    <Compile Include="Filters\Edge Detectors\HomogenityEdgeDetector.cs" />
+    <Compile Include="Filters\Edge Detectors\SobelEdgeDetector.cs" />
+    <Compile Include="Filters\FilterIterator.cs" />
+    <Compile Include="Filters\FiltersSequence.cs" />
+    <Compile Include="Filters\Flood Fillers\PointedMeanFloodFill.cs" />
+    <Compile Include="Filters\HSL Filters\HSLFiltering.cs" />
+    <Compile Include="Filters\HSL Filters\HSLLinear.cs" />
+    <Compile Include="Filters\HSL Filters\HueModifier.cs" />
+    <Compile Include="Filters\HSL Filters\SaturationCorrection.cs" />
+    <Compile Include="Filters\IFilter.cs" />
+    <Compile Include="Filters\IFilterInformation.cs" />
+    <Compile Include="Filters\IInPlaceFilter.cs" />
+    <Compile Include="Filters\IInPlacePartialFilter.cs" />
+    <Compile Include="Filters\IlluminationCorrection\FlatFieldCorrection.cs" />
+    <Compile Include="Filters\Morphology\BottomHat.cs" />
+    <Compile Include="Filters\Morphology\Closing.cs" />
+    <Compile Include="Filters\Morphology\Dilatation.cs" />
+    <Compile Include="Filters\Morphology\Erosion.cs" />
+    <Compile Include="Filters\Morphology\HitAndMiss.cs" />
+    <Compile Include="Filters\Morphology\Opening.cs" />
+    <Compile Include="Filters\Morphology\Specific Optimizations\BinaryDilatation3x3.cs" />
+    <Compile Include="Filters\Morphology\Specific Optimizations\BinaryErosion3x3.cs" />
+    <Compile Include="Filters\Morphology\Specific Optimizations\Dilatation3x3.cs" />
+    <Compile Include="Filters\Morphology\Specific Optimizations\Erosion3.x3.cs" />
+    <Compile Include="Filters\Morphology\TopHat.cs" />
+    <Compile Include="Filters\Noise generation\AdditiveNoise.cs" />
+    <Compile Include="Filters\Noise generation\SaltAndPepperNoise.cs" />
+    <Compile Include="Filters\Normalized RGB\ExtractNormalizedRGBChannel.cs" />
+    <Compile Include="Filters\Other\ApplyMask.cs" />
+    <Compile Include="Filters\Other\BlobsFiltering.cs" />
+    <Compile Include="Filters\Other\CanvasCrop.cs" />
+    <Compile Include="Filters\Other\CanvasFill.cs" />
+    <Compile Include="Filters\Other\CanvasMove.cs" />
+    <Compile Include="Filters\Other\ConnectedComponentsLabeling.cs" />
+    <Compile Include="Filters\Other\CornersMarker.cs" />
+    <Compile Include="Filters\Other\ExtractBiggestBlob.cs" />
+    <Compile Include="Filters\Other\FillHoles.cs" />
+    <Compile Include="Filters\Other\HorizontalRunLengthSmoothing.cs" />
+    <Compile Include="Filters\Other\ImageWarp.cs" />
+    <Compile Include="Filters\Other\Jitter.cs" />
+    <Compile Include="Filters\Other\MaskedFilter.cs" />
+    <Compile Include="Filters\Other\Mirror.cs" />
+    <Compile Include="Filters\Other\OilPainting.cs" />
+    <Compile Include="Filters\Other\Pixellate.cs" />
+    <Compile Include="Filters\Flood Fillers\PointedColorFloodFill.cs" />
+    <Compile Include="Filters\Other\SimpleSkeletonization.cs" />
+    <Compile Include="Filters\Other\TexturedFilter.cs" />
+    <Compile Include="Filters\Other\TexturedMerge.cs" />
+    <Compile Include="Filters\Other\Texturer.cs" />
+    <Compile Include="Filters\Other\VerticalRunLengthSmoothing.cs" />
+    <Compile Include="Filters\Other\WaterWave.cs" />
+    <Compile Include="Filters\Smooting\AdaptiveSmooth.cs" />
+    <Compile Include="Filters\Smooting\BilateralSmoothing.cs" />
+    <Compile Include="Filters\Smooting\ConservativeSmoothing.cs" />
+    <Compile Include="Filters\Smooting\Median.cs" />
+    <Compile Include="Filters\Transform\BackwardQuadrilateralTransformation.cs" />
+    <Compile Include="Filters\Transform\Crop.cs" />
+    <Compile Include="Filters\Transform\Quad.cs" />
+    <Compile Include="Filters\Transform\QuadrilateralTransformation.cs" />
+    <Compile Include="Filters\Transform\QuadrilateralTransformationBilinear.cs" />
+    <Compile Include="Filters\Transform\QuadrilateralTransformationNearestNeighbor.cs" />
+    <Compile Include="Filters\Transform\ResizeBicubic.cs" />
+    <Compile Include="Filters\Transform\ResizeBilinear.cs" />
+    <Compile Include="Filters\Transform\ResizeNearestNeighbor.cs" />
+    <Compile Include="Filters\Transform\RotateBicubic.cs" />
+    <Compile Include="Filters\Transform\RotateBilinear.cs" />
+    <Compile Include="Filters\Transform\RotateNearestNeighbor.cs" />
+    <Compile Include="Filters\Transform\Shrink.cs" />
+    <Compile Include="Filters\Transform\SimpleQuadrilateralTransformation.cs" />
+    <Compile Include="Filters\Transform\TransformFromPolar.cs" />
+    <Compile Include="Filters\Transform\TransformToPolar.cs" />
+    <Compile Include="Filters\YCbCr Filters\YCbCrExtractChannel.cs" />
+    <Compile Include="Filters\YCbCr Filters\YCbCrFiltering.cs" />
+    <Compile Include="Filters\YCbCr Filters\YCbCrLinear.cs" />
+    <Compile Include="Filters\YCbCr Filters\YCbCrReplaceChannel.cs" />
+    <Compile Include="HorizontalIntensityStatistics.cs" />
+    <Compile Include="HoughCircleTransformation.cs" />
+    <Compile Include="HoughLineTransformation.cs" />
+    <Compile Include="IBlobsFilter.cs" />
+    <Compile Include="IBlockMatching.cs" />
+    <Compile Include="ICornersDetector.cs" />
+    <Compile Include="Image.cs" />
+    <Compile Include="ImageStatistics.cs" />
+    <Compile Include="ImageStatisticsHSL.cs" />
+    <Compile Include="ImageStatisticsYCbCr.cs" />
+    <Compile Include="IntegralImage.cs" />
+    <Compile Include="Interpolation.cs" />
+    <Compile Include="ITemplateMatching.cs" />
+    <Compile Include="MemoryManager.cs" />
+    <Compile Include="MoravecCornersDetector.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuadrilateralFinder.cs" />
+    <Compile Include="RecursiveBlobCounter.cs" />
+    <Compile Include="SusanCornersDetector.cs" />
+    <Compile Include="TemplateMatch.cs" />
+    <Compile Include="Textures\CloudsTexture.cs" />
+    <Compile Include="Textures\ITextureGenerator.cs" />
+    <Compile Include="Textures\LabyrinthTexture.cs" />
+    <Compile Include="Textures\MarbleTexture.cs" />
+    <Compile Include="Textures\TextileTexture.cs" />
+    <Compile Include="Textures\Texture.cs" />
+    <Compile Include="Textures\WoodTexture.cs" />
+    <Compile Include="UnmanagedImage.cs" />
+    <Compile Include="VerticalIntensityStatistics.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AForge.Imaging.snk" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <TextStylePolicy FileWidth="120" TabWidth="4" TabsToSpaces="True" NoTabsAfterNonTabs="False" RemoveTrailingWhitespace="True" EolMarker="Windows" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>

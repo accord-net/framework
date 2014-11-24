@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AForge.Genetic</id>
+    <version>2.2.5</version>
+    <title>AForge.Genetic</title>
+    <authors>AForge.NET</authors>
+    <owners>AForge.NET</owners>
+    <licenseUrl>http://www.aforgenet.com/framework/license.html</licenseUrl>
+    <projectUrl>http://www.aforgenet.com/framework/</projectUrl>
+    <iconUrl>http://www.aforgenet.com/img/aforgenet_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The AForge.Genetic library contains classes to run Genetic Algorithms (GA), Genetic Programming (GP) and Gene Expression Programming (GEP). Set of chromosome and selection classes are provided. Full list of features is available on the project's web site.</description>
+    <summary>AForge.Genetic library from the AForge.NET framework</summary>
+    <tags>aforge.net framework genetic algorithms programming</tags>
+    <dependencies>
+      <dependency id="AForge" version="2.2.5" />
+      <dependency id="AForge.Math" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\AForge.Genetic.dll" target="lib\AForge.Genetic.dll" />
+    <file src="..\..\Release\AForge.Genetic.xml" target="lib\AForge.Genetic.xml" />
+  </files>
+</package>

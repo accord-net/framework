@@ -1,0 +1,10 @@
+* IPPrototyper
+  - Information about the tool:
+    http://www.aforgenet.com/framework/tools/ipprototyper.html
+    
+  - Sample of the tool usage can be found in "Samples/Imaging/IPPrototyper Sample"
+
+
+* Debugger Visualizers
+  - Information about the tool:
+    http://www.aforgenet.com/framework/tools/debug_visualizer.html
