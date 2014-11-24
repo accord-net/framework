@@ -256,7 +256,6 @@ namespace Accord.Statistics.Models.Markov.Learning
 
             // Initialize the model log-likelihoods
             double newLogLikelihood = Double.NegativeInfinity;
-            double oldLogLikelihood = Double.NegativeInfinity;
             convergence.NewValue = Double.NegativeInfinity;
 
 
@@ -300,7 +299,6 @@ namespace Accord.Statistics.Models.Markov.Learning
                     ComputeKsi(i, lnFwd, lnBwd);
 
                     // Compute log-likelihood for the given sequence
-                    newLogLikelihood = Double.NegativeInfinity;
                     for (int j = 0; j < states; j++)
                         newLogLikelihood = Special.LogSum(newLogLikelihood, lnFwd[T - 1, j]);
                 }
@@ -317,7 +315,6 @@ namespace Accord.Statistics.Models.Markov.Learning
                     // We haven't converged yet
 
                     // 3. Continue with parameter re-estimation
-                    oldLogLikelihood = newLogLikelihood;
                     newLogLikelihood = Double.NegativeInfinity;
 
                     // 3.1 Re-estimation of initial state probabilities 
