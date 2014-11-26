@@ -137,7 +137,8 @@ namespace Accord.Imaging
         {
             return new KMeans(numberOfWords)
             {
-                ComputeInformation = false
+                ComputeInformation = false,
+                UseCentroidSeeding = false
             };
         }
     }

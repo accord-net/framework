@@ -175,7 +175,11 @@ namespace Accord.MachineLearning
             double error;
 
             // Create a new K-Means algorithm
-            KMeans kmeans = new KMeans(clusters.Count);
+            KMeans kmeans = new KMeans(clusters.Count)
+            {
+                ComputeInformation = true,
+                UseCentroidSeeding = false
+            };
 
             // Compute the K-Means
             kmeans.Compute(data, threshold, out error);
