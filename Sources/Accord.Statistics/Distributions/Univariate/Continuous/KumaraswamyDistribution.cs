@@ -79,7 +79,11 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         double a;
         double b;
 
-        public KumaraswamyDistribution(double a, double b) {
+        public KumaraswamyDistribution([Positive] double a, [Positive] double b)
+        {
+            if (a <= 0.0d || b < 0.0d) {
+                throw new ArgumentOutOfRangeException(string.Format("a and b must be positive: a={0}, b={1}", a, b));
+            }
             this.a = a;
             this.b = b;
         }
@@ -120,15 +124,15 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         {
             get
             {
-                return 
-                    (
-                        (( a >= 1.0d ) && ( b >= 1.0d ) && ( a != 1.0d && b != 1.0d)) ?
-                            Math.Pow( 
-                            ( a - 1.0d) /
-                            ( a * b  - 1.0d)
-                            , 1.0d / a)  :
-                        double.NaN
-                     );
+
+                if ((a >= 1.0d) && (b >= 1.0d) && (a != 1.0d && b != 1.0d))
+                {
+                    return Math.Pow(
+                    (a - 1.0d) /
+                    (a * b - 1.0d)
+                    , 1.0d / a);
+                }
+                return double.NaN;
             }
         }
 
