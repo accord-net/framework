@@ -27,6 +27,8 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Drawing.Imaging;
+    using Accord.Controls;
 
     [TestClass]
     public class NiblackTest
@@ -74,6 +76,8 @@ namespace Accord.Tests.Imaging
             // Create a new Variance filter
             NiblackThreshold filter = new NiblackThreshold();
 
+            Assert.AreEqual(PixelFormat.Format8bppIndexed, input.PixelFormat);
+
             // Apply the filter
             Bitmap output = filter.Apply(input);
 
@@ -81,11 +85,13 @@ namespace Accord.Tests.Imaging
 
             new ImageToMatrix().Convert(output, out actual);
 
+            Assert.AreEqual(PixelFormat.Format8bppIndexed, output.PixelFormat);
+
             string str = actual.ToString(CSharpMatrixFormatProvider.InvariantCulture);
 
-            double[,] expected = 
+            double[,] expected = new double[,] 
             {
-                { 0, 0, 0, 0, 0 },
+                { 0, 0, 1, 1, 0 },
                 { 0, 1, 1, 0, 0 },
                 { 1, 1, 0, 0, 0 },
                 { 1, 0, 0, 0, 1 },
@@ -93,6 +99,52 @@ namespace Accord.Tests.Imaging
             };
 
             Assert.IsTrue(expected.IsEqual(actual, 1e-6));
+        }
+
+        [TestMethod]
+        public void NiblackTest3()
+        {
+            double[,] diag = Matrix.Magic(5);
+
+            Bitmap input;
+            new MatrixToImage()
+                {
+                    Format = PixelFormat.Format32bppRgb,
+                }.Convert(diag, out input);
+
+            Assert.AreEqual(PixelFormat.Format32bppRgb, input.PixelFormat);
+
+            // Create a new Variance filter
+            NiblackThreshold filter = new NiblackThreshold();
+
+            // Apply the filter
+            Bitmap output = filter.Apply(input);
+
+            Assert.AreEqual(PixelFormat.Format32bppRgb, output.PixelFormat);
+
+            double[,] actual;
+
+            for (int i = 0; i < 3; i++)
+            {
+
+                new ImageToMatrix()
+                {
+                    Channel = i
+                }.Convert(output, out actual);
+
+                string str = actual.ToString(CSharpMatrixFormatProvider.InvariantCulture);
+
+                double[,] expected = new double[,] 
+                {
+                    { 0, 0, 1, 1, 0 },
+                    { 0, 1, 1, 0, 0 },
+                    { 1, 1, 0, 0, 0 },
+                    { 1, 0, 0, 0, 1 },
+                    { 1, 0, 0, 1, 1 } 
+                };
+
+                Assert.IsTrue(expected.IsEqual(actual, 1e-6));
+            }
         }
 
     }

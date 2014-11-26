@@ -163,7 +163,7 @@ namespace Accord.Imaging.Filters
 
 
             // do the processing job
-            if (destinationData.PixelFormat == PixelFormat.Format8bppIndexed)
+            if (sourceData.PixelFormat == PixelFormat.Format8bppIndexed)
             {
                 // for each line
                 for (int y = 0; y < height; y++)

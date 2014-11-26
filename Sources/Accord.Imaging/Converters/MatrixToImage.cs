@@ -139,87 +139,6 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
-        public void Convert(double[,] input, out Bitmap output)
-        {
-            int width = input.GetLength(1);
-            int height = input.GetLength(0);
-
-            if (Format == PixelFormat.Format8bppIndexed)
-                output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
-            else output = new Bitmap(width, height, Format);
-
-            BitmapData data = output.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.WriteOnly, output.PixelFormat);
-
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(Format) / 8;
-
-            int offset = data.Stride - width * pixelSize;
-
-            unsafe
-            {
-                byte* dst = (byte*)data.Scan0.ToPointer();
-
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++, dst += pixelSize)
-                        *dst = (byte)Accord.Math.Tools.Scale(Min, Max, 0, 255, input[y, x]);
-
-                    dst += offset;
-                }
-            }
-
-            output.UnlockBits(data);
-        }
-
-        /// <summary>
-        ///   Converts an image from one representation to another.
-        /// </summary>
-        /// 
-        /// <param name="input">The input image to be converted.</param>
-        /// <param name="output">The converted image.</param>
-        /// 
-        public void Convert(float[,] input, out Bitmap output)
-        {
-            int width = input.GetLength(1);
-            int height = input.GetLength(0);
-
-            if (Format == PixelFormat.Format8bppIndexed)
-                output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
-            else output = new Bitmap(width, height, Format);
-
-            BitmapData data = output.LockBits(new Rectangle(0, 0, width, height),
-                ImageLockMode.WriteOnly, output.PixelFormat);
-
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(Format) / 8;
-
-            int offset = data.Stride - width * pixelSize;
-
-            float min = (float)Min;
-            float max = (float)Max;
-
-            unsafe
-            {
-                byte* dst = (byte*)data.Scan0.ToPointer();
-
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++, dst += pixelSize)
-                        *dst = (byte)Accord.Math.Tools.Scale(min, max, 0, 255, input[y, x]);
-
-                    dst += offset;
-                }
-            }
-
-            output.UnlockBits(data);
-        }
-
-        /// <summary>
-        ///   Converts an image from one representation to another.
-        /// </summary>
-        /// 
-        /// <param name="input">The input image to be converted.</param>
-        /// <param name="output">The converted image.</param>
-        /// 
         public void Convert(double[,] input, out UnmanagedImage output)
         {
             Bitmap image;
@@ -268,6 +187,121 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
+        public void Convert(double[,] input, out Bitmap output)
+        {
+            int width = input.GetLength(1);
+            int height = input.GetLength(0);
+
+            if (Format == PixelFormat.Format8bppIndexed)
+                output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            else output = new Bitmap(width, height, Format);
+
+            BitmapData data = output.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.WriteOnly, output.PixelFormat);
+
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(Format) / 8;
+
+            int offset = data.Stride - width * pixelSize;
+
+            unsafe
+            {
+                byte* dst = (byte*)data.Scan0.ToPointer();
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        byte value = (byte)Accord.Math.Tools.Scale(Min, Max, 0, 255, input[y, x]);
+
+                        for (int c = 0; c < pixelSize; c++, dst++)
+                            *dst = value;
+                    }
+
+                    dst += offset;
+                }
+
+                if (pixelSize == 4)
+                {
+                    dst = (byte*)data.Scan0.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, dst += pixelSize)
+                            dst[RGB.A] = 0;
+                        dst += offset;
+                    }
+                }
+            }
+
+            output.UnlockBits(data);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
+        public void Convert(float[,] input, out Bitmap output)
+        {
+            int width = input.GetLength(1);
+            int height = input.GetLength(0);
+
+            if (Format == PixelFormat.Format8bppIndexed)
+                output = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            else output = new Bitmap(width, height, Format);
+
+            BitmapData data = output.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.WriteOnly, output.PixelFormat);
+
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(Format) / 8;
+
+            int offset = data.Stride - width * pixelSize;
+
+            float min = (float)Min;
+            float max = (float)Max;
+
+            unsafe
+            {
+                byte* dst = (byte*)data.Scan0.ToPointer();
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        byte value = (byte)Accord.Math.Tools.Scale(Min, Max, 0, 255, input[y, x]);
+
+                        for (int c = 0; c < pixelSize; c++, dst++)
+                            *dst = value;
+                    }
+
+                    dst += offset;
+                }
+
+                if (pixelSize == 4)
+                {
+                    dst = (byte*)data.Scan0.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, dst += pixelSize)
+                            dst[RGB.A] = 0;
+                        dst += offset;
+                    }
+                }
+            }
+
+            output.UnlockBits(data);
+        }
+
+        /// <summary>
+        ///   Converts an image from one representation to another.
+        /// </summary>
+        /// 
+        /// <param name="input">The input image to be converted.</param>
+        /// <param name="output">The converted image.</param>
+        /// 
         public void Convert(byte[,] input, out Bitmap output)
         {
             int width = input.GetLength(1);
@@ -290,10 +324,27 @@ namespace Accord.Imaging.Converters
 
                 for (int y = 0; y < height; y++)
                 {
-                    for (int x = 0; x < width; x++, dst += pixelSize)
-                        *dst = (byte)input[y, x];
+                    for (int x = 0; x < width; x++)
+                    {
+                        byte value = (byte)Accord.Math.Tools.Scale(Min, Max, 0, 255, input[y, x]);
+
+                        for (int c = 0; c < pixelSize; c++, dst++)
+                            *dst = value;
+                    }
 
                     dst += offset;
+                }
+
+                if (pixelSize == 4)
+                {
+                    dst = (byte*)data.Scan0.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, dst += pixelSize)
+                            dst[RGB.A] = 0;
+                        dst += offset;
+                    }
                 }
             }
 
