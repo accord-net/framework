@@ -326,7 +326,7 @@ namespace Accord.Imaging.Converters
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        byte value = (byte)Accord.Math.Tools.Scale(Min, Max, 0, 255, input[y, x]);
+                        byte value = input[y, x];
 
                         for (int c = 0; c < pixelSize; c++, dst++)
                             *dst = value;
