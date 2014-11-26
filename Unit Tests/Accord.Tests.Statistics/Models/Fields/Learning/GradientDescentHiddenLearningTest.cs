@@ -88,8 +88,8 @@ namespace Accord.Tests.Statistics.Models.Fields
                 expected[i] = outputs[i];
             }
 
-            Assert.AreEqual(-0.00046872579976353634, ll0, 1e-10);
-            Assert.AreEqual(0.00027018722449589916, error, 1e-10);
+            Assert.AreEqual(-0.0019419916698781847, ll0, 1e-10);
+            Assert.AreEqual(0.00053970993162644199, error, 1e-10);
             Assert.IsFalse(Double.IsNaN(ll0));
             Assert.IsFalse(Double.IsNaN(error));
 

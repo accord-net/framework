@@ -199,7 +199,7 @@ namespace Accord.Tests.Statistics
             double p1 = System.Math.Exp(l1);
             double p2 = System.Math.Exp(l2);
 
-            Assert.AreEqual(0.49788370872923726, pl, 1e-10);
+            Assert.AreEqual(0.82996841576789704, pl, 1e-10);
             Assert.AreEqual(0.014012065043262294, p0, 1e-10);
             Assert.AreEqual(0.016930905415294094, p1, 1e-10);
             Assert.AreEqual(0.001936595918966074, p2, 1e-10);
@@ -331,7 +331,7 @@ namespace Accord.Tests.Statistics
             l5 = System.Math.Exp(l5);
             l6 = System.Math.Exp(l6);
 
-            Assert.AreEqual(0.95151126952069587, ll, 1e-4);
+            Assert.AreEqual(1.2114235662225779, ll, 1e-4);
             Assert.AreEqual(0.4999419764097881, l1, 1e-4);
             Assert.AreEqual(0.1145702973735144, l2, 1e-4);
             Assert.AreEqual(0.0000529972606821, l3, 1e-4);
@@ -392,7 +392,7 @@ namespace Accord.Tests.Statistics
             double p5 = System.Math.Exp(l5);
             double p6 = System.Math.Exp(l6);
 
-            Assert.AreEqual(0.95151126952069587, pl, 1e-6);
+            Assert.AreEqual(1.2114235662225779, pl, 1e-6);
             Assert.AreEqual(0.99996863060890995, p1, 1e-6);
             Assert.AreEqual(0.91667240076011669, p2, 1e-6);
             Assert.AreEqual(0.00002335133758386, p3, 1e-6);

@@ -458,7 +458,7 @@ namespace Accord.Tests.Statistics
             double p1 = System.Math.Exp(l1);
             double p2 = System.Math.Exp(l2);
 
-            Assert.AreEqual(0.49788370872923726, pl, 1e-6);
+            Assert.AreEqual(0.82996841576789704, pl, 1e-6);
             Assert.AreEqual(0.014012065043262257, p0, 1e-6);
             Assert.AreEqual(0.016930905415294066, p1, 1e-6);
             Assert.AreEqual(0.0019365959189660638, p2, 1e-6);
@@ -529,7 +529,7 @@ namespace Accord.Tests.Statistics
             double p1 = System.Math.Exp(l1);
             double p2 = System.Math.Exp(l2);
 
-            Assert.AreEqual(0.49788370872923726, pl, 1e-6);
+            Assert.AreEqual(0.82996841576789704, pl, 1e-6);
             Assert.AreEqual(0.014012065043262257, p0, 1e-6);
             Assert.AreEqual(0.016930905415294066, p1, 1e-6);
             Assert.AreEqual(0.0019365959189660638, p2, 1e-6);
@@ -613,7 +613,7 @@ namespace Accord.Tests.Statistics
             l5 = System.Math.Exp(l5);
             l6 = System.Math.Exp(l6);
 
-            Assert.AreEqual(0.95151018769760853, ll, 1e-4);
+            Assert.AreEqual(1.2114235662225716, ll, 1e-4);
             Assert.AreEqual(0.4999419764097881, l1, 1e-4);
             Assert.AreEqual(0.1145702973735144, l2, 1e-4);
             Assert.AreEqual(0.0000529972606821, l3, 1e-4);
@@ -679,7 +679,7 @@ namespace Accord.Tests.Statistics
             double l6 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 })); // 0.034
 
 
-            Assert.AreEqual(0.95151018769760853, ll, 1e-4);
+            Assert.AreEqual(1.2114235662225716, ll, 1e-4);
             Assert.AreEqual(0.99996863060890995, l1, 1e-4);
             Assert.AreEqual(0.91667240076011669, l2, 1e-4);
             Assert.AreEqual(0.00002335133758386, l3, 1e-4);
@@ -751,7 +751,7 @@ namespace Accord.Tests.Statistics
 
             Assert.IsTrue(states.IsEqual(0, 1, 0, 1, 0, 1));
 
-            Assert.AreEqual(1.1341500279562791, likelihood, 1e-10);
+            Assert.AreEqual(1.496360383340358, likelihood, 1e-10);
             Assert.AreEqual(0.8798587580029778, a1, 1e-10);
             Assert.AreEqual(1.0117804233450216, a2, 1e-10);
             Assert.AreEqual(1.8031545195073828E-130, a3, 1e-10);
@@ -1442,7 +1442,7 @@ namespace Accord.Tests.Statistics
             double logLikelihood = teacher.Run(sequences);
             double likelihood = Math.Exp(logLikelihood);
 
-            Assert.AreEqual(5.2175219394269385, logLikelihood, 1e-15);
+            Assert.AreEqual(5.3782215178437722, logLikelihood, 1e-15);
             Assert.IsFalse(double.IsNaN(logLikelihood));
 
             Assert.AreEqual(0.0001, (teacher.FittingOptions as NormalOptions).Regularization);

@@ -306,7 +306,6 @@ namespace Accord.Statistics.Models.Markov.Learning
 
                 // Average the likelihood for all sequences
                 newLogLikelihood /= observations.Length;
-
                 convergence.NewValue = newLogLikelihood;
 
                 // Check for convergence

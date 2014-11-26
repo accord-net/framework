@@ -321,7 +321,7 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(3, crossvalidation.K);
             Assert.AreEqual(0, result.Training.Mean);
-            Assert.AreEqual(0, result.Validation.Mean);
+            Assert.AreEqual(0.055555555555555552, result.Validation.Mean);
 
             Assert.AreEqual(3, crossvalidation.Folds.Length);
             Assert.AreEqual(3, result.Models.Length);

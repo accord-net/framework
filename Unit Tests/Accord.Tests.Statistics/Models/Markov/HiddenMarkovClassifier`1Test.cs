@@ -612,7 +612,7 @@ namespace Accord.Tests.Statistics
             // Train the sequence classifier using the algorithm
             double likelihood = teacher.Run(inputs, outputs);
 
-            Assert.AreEqual(-1.4974364451133668, likelihood);
+            Assert.AreEqual(-0.84036002169162149, likelihood);
 
             likelihood = testThresholdModel(inputs, outputs, classifier, likelihood);
         }
@@ -658,15 +658,15 @@ namespace Accord.Tests.Statistics
             int c = classifier.Compute(r0, out logRejection);
 
             Assert.AreEqual(-1, c);
-            Assert.AreEqual(0.99679830920309676, logRejection);
+            Assert.AreEqual(0.99993993054384978, logRejection);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             logRejection = threshold.Evaluate(r0);
-            Assert.AreEqual(-5.8034358403003425, logRejection);
+            Assert.AreEqual(-5.6367018741984483, logRejection);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             threshold.Decode(r0, out logRejection);
-            Assert.AreEqual(-8.169190831822867, logRejection);
+            Assert.AreEqual(-8.1618027917853073, logRejection);
             Assert.IsFalse(double.IsNaN(logRejection));
 
             foreach (var model in classifier.Models)
