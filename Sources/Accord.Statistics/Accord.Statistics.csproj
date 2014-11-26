@@ -198,6 +198,7 @@
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\KumaraswamyDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShapiroWilkDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogLogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\InverseChiSquareDistribution.cs" />
