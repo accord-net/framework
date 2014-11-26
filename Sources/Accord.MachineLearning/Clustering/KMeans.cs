@@ -214,6 +214,12 @@ namespace Accord.MachineLearning
             set { clusters.Distance = value; }
         }
 
+        public bool ComputeInformation { get; set; }
+        public bool UseCentroidSeeding { get; set; }
+        public int MaxIterations { get; set; }
+        public double Tolerance { get; set; }
+        public int Iterations { get; private set; }
+
         /// <summary>
         ///   Initializes a new instance of the K-Means algorithm
         /// </summary>
@@ -235,6 +241,7 @@ namespace Accord.MachineLearning
         {
             if (k <= 0)
                 throw new ArgumentOutOfRangeException("k");
+
             if (distance == null)
                 throw new ArgumentNullException("distance");
 
@@ -256,9 +263,11 @@ namespace Accord.MachineLearning
             if (points == null)
                 throw new ArgumentNullException("points");
 
+            this.UseCentroidSeeding = useSeeding;
+
             double[][] centroids = clusters.Centroids;
 
-            if (useSeeding)
+            if (UseCentroidSeeding)
             {
                 // Initialize using K-Means++
                 // http://en.wikipedia.org/wiki/K-means%2B%2B
@@ -345,6 +354,10 @@ namespace Accord.MachineLearning
             if (threshold < 0)
                 throw new ArgumentException("Threshold should be a positive number.", "threshold");
 
+            this.ComputeInformation = computeInformation;
+            this.Tolerance = threshold;
+            this.Iterations = 0;
+
             // TODO: Implement a faster version using the triangle
             // inequality to reduce the number of distance calculations
             //
@@ -359,9 +372,10 @@ namespace Accord.MachineLearning
 
             // Perform a random initialization of the clusters
             // if the algorithm has not been initialized before.
+            //
             if (this.Clusters.Centroids[0] == null)
             {
-                Randomize(data, useSeeding: false);
+                Randomize(data);
             }
 
 
@@ -383,7 +397,7 @@ namespace Accord.MachineLearning
             }
 
 
-            if (computeInformation)
+            if (ComputeInformation)
             {
                 // Compute cluster information (optional)
                 for (int i = 0; i < centroids.Length; i++)
@@ -546,8 +560,13 @@ namespace Accord.MachineLearning
         /// <returns>Returns <see langword="true"/> if all centroids had a percentage change
         ///    less than <see param="threshold"/>. Returns <see langword="false"/> otherwise.</returns>
         ///    
-        private static bool converged(double[][] centroids, double[][] newCentroids, double threshold)
+        private bool converged(double[][] centroids, double[][] newCentroids, double threshold)
         {
+            Iterations++;
+
+            if (Iterations > MaxIterations)
+                return true;
+
             for (int i = 0; i < centroids.Length; i++)
             {
                 double[] centroid = centroids[i];
@@ -559,6 +578,7 @@ namespace Accord.MachineLearning
                         return false;
                 }
             }
+
             return true;
         }
 

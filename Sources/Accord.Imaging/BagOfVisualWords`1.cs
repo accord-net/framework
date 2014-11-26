@@ -117,7 +117,7 @@ namespace Accord.Imaging
         /// <param name="numberOfWords">The number of codewords.</param>
         /// 
         public BagOfVisualWords(IFeatureDetector<TPoint> detector, int numberOfWords)
-            : base(detector, new KMeans(numberOfWords))
+            : base(detector, kmeans(numberOfWords))
         {
         }
 
@@ -131,6 +131,14 @@ namespace Accord.Imaging
         public BagOfVisualWords(IFeatureDetector<TPoint> detector, IClusteringAlgorithm<double[]> algorithm)
             : base(detector, algorithm)
         {
+        }
+
+        private static KMeans kmeans(int numberOfWords)
+        {
+            return new KMeans(numberOfWords)
+            {
+                ComputeInformation = false
+            };
         }
     }
 
