@@ -33,6 +33,137 @@ namespace Accord.Math
     /// 
     public static class Distance
     {
+
+        /// <summary>
+        /// Gets the Bray Curtis distance between two points.
+        /// </summary>
+        /// <param name="x">A point in space.</param>
+        /// <param name="y">A point in space.</param>
+        /// <returns>The Bray Curtis distance between x and y.</returns>
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double BrayCurtis(this double[] x, double[] y)
+        {
+            double sumP, sumN;
+            sumP = sumN = 0;
+
+            for (int i = 0; i < x.GetLength(0); i++)
+            {
+                sumN += Math.Abs(x[i] - y[i]);
+                sumP += Math.Abs(x[i] + y[i]);
+            }
+
+            return sumN / sumP;
+        }
+
+        /// <summary>
+        /// Gets the Canberra distance between two points.
+        /// </summary>
+        /// <param name="x">A point in space.</param>
+        /// <param name="y">A point in space.</param>
+        /// <returns>The Canberra distance between x and y.</returns>
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Canberra(this double[] x, double[] y)
+        {
+            double distance = 0;
+
+            for (int i = 0; i < x.GetLength(0); i++)
+            {
+                distance += Math.Abs(x[i] - y[i]) / (Math.Abs(x[i]) + Math.Abs(y[i]));
+            }
+
+            return distance;
+        }
+
+        /// <summary>
+        /// Gets the Chessboard distance between two points.
+        /// </summary>
+        /// <param name="x">A point in space.</param>
+        /// <param name="y">A point in space.</param>
+        /// <returns>The Chessboard distance between x and y.</returns>
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Chessboard(this double[] x, double[] y)
+        {
+            double d = 0;
+            for (int i = 0; i < x.GetLength(0); i++)
+            {
+                d = Math.Max(d, x[i] - y[i]);
+            }
+
+            return d;
+        }
+
+        /// <summary>
+        /// Gets the Correlation distance between two points.
+        /// </summary>
+        /// <param name="x">A point in space.</param>
+        /// <param name="y">A point in space.</param>
+        /// <returns>The Correlation distance between x and y.</returns>
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Correlation(this double[] x, double[] y)
+        {
+            double p = 0;
+            double q = 0;
+
+            for (int i = 0; i < x.GetLength(0); i++)
+            {
+                p += -x[i];
+                q += -y[i];
+            }
+
+            p /= x.GetLength(0);
+            q /= y.GetLength(0);
+
+            double num = 0;
+            double den1 = 0;
+            double den2 = 0;
+            for (int i = 0; i < x.GetLength(0); i++)
+            {
+                num += (x[i] + p) * (y[i] + q);
+
+                den1 += Math.Abs(Math.Pow(x[i] + p, 2));
+                den2 += Math.Abs(Math.Pow(y[i] + p, 2));
+            }
+
+            return 1 - (num / (Math.Sqrt(den1) * Math.Sqrt(den2)));
+        }
+
+        /// <summary>
+        /// Gets the Cosine distance between two points.
+        /// </summary>
+        /// <param name="x">A point in space.</param>
+        /// <param name="y">A point in space.</param>
+        /// <returns>The Cosine distance between x and y.</returns>
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Cosine(this double[] x, double[] y)
+        {
+            double sumProduct = 0;
+            double sumP = 0, sumQ = 0;
+
+            for (int i = 0; i < x.GetLength(0); i++)
+            {
+                sumProduct += x[i] * y[i];
+                sumP += Math.Pow(Math.Abs(x[i]), 2);
+                sumQ += Math.Pow(Math.Abs(y[i]), 2);
+            }
+
+            sumP = Math.Sqrt(sumP);
+            sumQ = Math.Sqrt(sumQ);
+
+            double result = 1 - (sumProduct / (sumP * sumQ));
+
+            return result;
+        }
+
         /// <summary>
         ///   Gets the Square Mahalanobis distance between two points.
         /// </summary>
@@ -172,6 +303,29 @@ namespace Accord.Math
             for (int i = 0; i < x.Length; i++)
                 sum += System.Math.Abs(x[i] - y[i]);
             return sum;
+        }
+
+        /// <summary>
+        ///   Gets the Minkowski distance between two points.
+        /// </summary>
+        /// 
+        /// <param name="x">A point in space.</param>
+        /// <param name="y">A point in space.</param>
+        /// <param name="r">Factor.</param>
+        /// 
+        /// <returns>The Minkowski distance between x and y.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Minkowski(this double[] x, double[] y, int r)
+        {
+            double distance = 0;
+            for (int i = 0; i < x.GetLength(0); i++)
+            {
+                distance += Math.Pow(Math.Abs(x[i] - y[i]), r);
+            }
+            return Math.Pow(distance, 1 / r);
         }
 
         /// <summary>
