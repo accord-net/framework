@@ -174,7 +174,7 @@ namespace Accord.Imaging.Filters
                         long sum = 0;
                         int count = 0;
 
-                        for (int i = 0; i < radius; i++)
+                        for (int i = 0; i < size; i++)
                         {
                             int ir = i - radius;
                             int t = y + ir;
@@ -198,7 +198,7 @@ namespace Accord.Imaging.Filters
                         double mean = sum / (double)count;
                         double variance = 0;
 
-                        for (int i = 0; i < radius; i++)
+                        for (int i = 0; i < size; i++)
                         {
                             int ir = i - radius;
                             int t = y + ir;
