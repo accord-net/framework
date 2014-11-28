@@ -123,7 +123,7 @@ namespace AForge.Math.Geometry.Tests
         
         [TestCase( 0, 0, 1, 1, 2, 2, 3, 3 )]
         [TestCase( 0, 1, 0, 2, 0, 3, 0, 4 )]
-        [TestCase( 0, 0, -1, 1, -2, 2, -3, 3, -4, 4 )]
+        [TestCase( 0, 0, -1, 1, -2, 2, -3, 3 )]
         [TestCase( 1, 0, 2, 0, 3, 0, 4, 0 )]
         [TestCase(0, 0, 0, 1, 0, 2, 0, 3 )]
         public void CollinearIntersectionPointTest(float ax1, float ay1, float ax2, float ay2, float bx1, float by1, float bx2, float by2)
