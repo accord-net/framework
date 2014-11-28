@@ -120,7 +120,7 @@ namespace AForge.Math.Geometry.Tests
             Assert.AreEqual( null, segA.GetIntersectionWith( segB ) );
         }
 
-/*        
+        
         [TestCase( 0, 0, 1, 1, 2, 2, 3, 3 )]
         [TestCase( 0, 1, 0, 2, 0, 3, 0, 4 )]
         [TestCase( 0, 0, -1, 1, -2, 2, -3, 3, -4, 4 )]
@@ -187,5 +187,5 @@ namespace AForge.Math.Geometry.Tests
             Assert.Throws<InvalidOperationException>( ( ) => segB.GetIntersectionWith( segA ) );
             Assert.Throws<InvalidOperationException>( ( ) => segA.GetIntersectionWith( segB ) );
         }
-*/    }
+    }
 }

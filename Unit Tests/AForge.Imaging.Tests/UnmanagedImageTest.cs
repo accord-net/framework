@@ -210,7 +210,7 @@ namespace AForge.Imaging.Tests
         public void SetPixelTest( PixelFormat pixelFormat )
         {
             UnmanagedImage image = UnmanagedImage.Create( 320, 240, pixelFormat );
-            Color color = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
+            Color color = Color.White;
             byte value = 255;
 
             image.SetPixel( 0, 0, color );
@@ -307,7 +307,7 @@ namespace AForge.Imaging.Tests
         public void SetPixelsTest( PixelFormat pixelFormat )
         {
             UnmanagedImage image = UnmanagedImage.Create( 320, 240, pixelFormat );
-            Color color = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
+            Color color = Color.White;
             List<IntPoint> points = new List<IntPoint>( );
 
             points.Add( new IntPoint( 0, 0 ) );
