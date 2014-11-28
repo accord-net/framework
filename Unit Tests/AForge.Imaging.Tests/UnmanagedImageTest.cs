@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using AForge;
 using AForge.Imaging;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace AForge.Imaging.Tests
 {
@@ -58,16 +58,16 @@ namespace AForge.Imaging.Tests
             // check all pixel values
             for ( int i = 0, n = horizontalValues.Length; i < n; i++ )
             {
-                Assert.AreEqual<byte>( 128, horizontalValues[i] );
-                Assert.AreEqual<byte>( 0, horizontalUValues[i] );
-                Assert.AreEqual<byte>( 0, horizontalDValues[i] );
+                Assert.AreEqual( 128, horizontalValues[i] );
+                Assert.AreEqual( 0, horizontalUValues[i] );
+                Assert.AreEqual( 0, horizontalDValues[i] );
             }
 
             for ( int i = 0, n = verticalValues.Length; i < n; i++ )
             {
-                Assert.AreEqual<byte>( 64, verticalValues[i] );
-                Assert.AreEqual<byte>( 0, verticalLValues[i] );
-                Assert.AreEqual<byte>( 0, verticalRValues[i] );
+                Assert.AreEqual( 64, verticalValues[i] );
+                Assert.AreEqual( 0, verticalLValues[i] );
+                Assert.AreEqual( 0, verticalRValues[i] );
             }
         }
 
@@ -118,32 +118,32 @@ namespace AForge.Imaging.Tests
             // check all pixel values
             for ( int i = 0, n = horizontalValues.Length; i < n; i += 3 )
             {
-                Assert.AreEqual<byte>( 128, horizontalValues[i] );
-                Assert.AreEqual<byte>( 129, horizontalValues[i + 1] );
-                Assert.AreEqual<byte>( 130, horizontalValues[i + 2] );
+                Assert.AreEqual( 128, horizontalValues[i] );
+                Assert.AreEqual( 129, horizontalValues[i + 1] );
+                Assert.AreEqual( 130, horizontalValues[i + 2] );
 
-                Assert.AreEqual<byte>( 0, horizontalUValues[i] );
-                Assert.AreEqual<byte>( 0, horizontalUValues[i + 1] );
-                Assert.AreEqual<byte>( 0, horizontalUValues[i + 2] );
+                Assert.AreEqual( 0, horizontalUValues[i] );
+                Assert.AreEqual( 0, horizontalUValues[i + 1] );
+                Assert.AreEqual( 0, horizontalUValues[i + 2] );
 
-                Assert.AreEqual<byte>( 0, horizontalDValues[i] );
-                Assert.AreEqual<byte>( 0, horizontalDValues[i + 1] );
-                Assert.AreEqual<byte>( 0, horizontalDValues[i + 2] );
+                Assert.AreEqual( 0, horizontalDValues[i] );
+                Assert.AreEqual( 0, horizontalDValues[i + 1] );
+                Assert.AreEqual( 0, horizontalDValues[i + 2] );
             }
 
             for ( int i = 0, n = verticalValues.Length; i < n; i += 3 )
             {
-                Assert.AreEqual<byte>( 64, verticalValues[i] );
-                Assert.AreEqual<byte>( 65, verticalValues[i + 1] );
-                Assert.AreEqual<byte>( 66, verticalValues[i + 2] );
+                Assert.AreEqual( 64, verticalValues[i] );
+                Assert.AreEqual( 65, verticalValues[i + 1] );
+                Assert.AreEqual( 66, verticalValues[i + 2] );
 
-                Assert.AreEqual<byte>( 0, verticalLValues[i] );
-                Assert.AreEqual<byte>( 0, verticalLValues[i + 1] );
-                Assert.AreEqual<byte>( 0, verticalLValues[i + 2] );
+                Assert.AreEqual( 0, verticalLValues[i] );
+                Assert.AreEqual( 0, verticalLValues[i + 1] );
+                Assert.AreEqual( 0, verticalLValues[i + 2] );
 
-                Assert.AreEqual<byte>( 0, verticalRValues[i] );
-                Assert.AreEqual<byte>( 0, verticalRValues[i + 1] );
-                Assert.AreEqual<byte>( 0, verticalRValues[i + 2] );
+                Assert.AreEqual( 0, verticalRValues[i] );
+                Assert.AreEqual( 0, verticalRValues[i + 1] );
+                Assert.AreEqual( 0, verticalRValues[i + 2] );
             }
         }
 
@@ -165,8 +165,8 @@ namespace AForge.Imaging.Tests
             List<IntPoint> pixels24 = image24.CollectActivePixels( );
             List<IntPoint> pixels8  = image8.CollectActivePixels( );
 
-            Assert.AreEqual<int>( pixels24.Count, 24 );
-            Assert.AreEqual<int>( pixels8.Count, 24 );
+            Assert.AreEqual( pixels24.Count, 24 );
+            Assert.AreEqual( pixels8.Count, 24 );
 
             for ( int i = 1; i < 6; i++ )
             {
@@ -183,8 +183,8 @@ namespace AForge.Imaging.Tests
             pixels24 = image24.CollectActivePixels( new Rectangle( 1, 0, 5, 4 ) );
             pixels8 = image8.CollectActivePixels( new Rectangle( 1, 0, 5, 4 ) );
 
-            Assert.AreEqual<int>( pixels24.Count, 14 );
-            Assert.AreEqual<int>( pixels8.Count, 14 );
+            Assert.AreEqual( pixels24.Count, 14 );
+            Assert.AreEqual( pixels8.Count, 14 );
 
             for ( int i = 1; i < 4; i++ )
             {
@@ -199,19 +199,18 @@ namespace AForge.Imaging.Tests
             }
         }
 
-        [Test]
-        [Row( PixelFormat.Format8bppIndexed )]
-        [Row( PixelFormat.Format24bppRgb )]
-        [Row( PixelFormat.Format32bppArgb)]
-        [Row( PixelFormat.Format32bppRgb )]
-        [Row( PixelFormat.Format16bppGrayScale )]
-        [Row( PixelFormat.Format48bppRgb )]
-        [Row( PixelFormat.Format64bppArgb )]
-        [Row( PixelFormat.Format32bppPArgb, ExpectedException = typeof( UnsupportedImageFormatException ) )]
+        [TestCase( PixelFormat.Format8bppIndexed )]
+        [TestCase( PixelFormat.Format24bppRgb )]
+        [TestCase( PixelFormat.Format32bppArgb)]
+        [TestCase( PixelFormat.Format32bppRgb )]
+        [TestCase( PixelFormat.Format16bppGrayScale )]
+        [TestCase( PixelFormat.Format48bppRgb )]
+        [TestCase( PixelFormat.Format64bppArgb )]
+        [TestCase( PixelFormat.Format32bppPArgb, ExpectedException = typeof( UnsupportedImageFormatException ) )]
         public void SetPixelTest( PixelFormat pixelFormat )
         {
             UnmanagedImage image = UnmanagedImage.Create( 320, 240, pixelFormat );
-            Color color = Color.White;
+            Color color = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
             byte value = 255;
 
             image.SetPixel( 0, 0, color );
@@ -227,7 +226,7 @@ namespace AForge.Imaging.Tests
 
             List<IntPoint> pixels = image.CollectActivePixels( );
 
-            Assert.AreEqual<int>( 5, pixels.Count );
+            Assert.AreEqual( 5, pixels.Count );
 
             Assert.IsTrue( pixels.Contains( new IntPoint( 0, 0 ) ) );
             Assert.IsTrue( pixels.Contains( new IntPoint( 319, 0 ) ) );
@@ -249,23 +248,22 @@ namespace AForge.Imaging.Tests
             Color color2 = image.GetPixel( 319, 0 );
             Color color3 = image.GetPixel( 0, 239 );
 
-            Assert.AreEqual<int>( 255, color1.R );
-            Assert.AreEqual<int>( 255, color1.G );
-            Assert.AreEqual<int>( 255, color1.B );
+            Assert.AreEqual( 255, color1.R );
+            Assert.AreEqual( 255, color1.G );
+            Assert.AreEqual( 255, color1.B );
 
-            Assert.AreEqual<int>( 127, color2.R );
-            Assert.AreEqual<int>( 127, color2.G );
-            Assert.AreEqual<int>( 127, color2.B );
+            Assert.AreEqual( 127, color2.R );
+            Assert.AreEqual( 127, color2.G );
+            Assert.AreEqual( 127, color2.B );
 
-            Assert.AreEqual<int>( 64, color3.R );
-            Assert.AreEqual<int>( 64, color3.G );
-            Assert.AreEqual<int>( 64, color3.B );
+            Assert.AreEqual( 64, color3.R );
+            Assert.AreEqual( 64, color3.G );
+            Assert.AreEqual( 64, color3.B );
         }
 
-        [Test]
-        [Row( PixelFormat.Format24bppRgb )]
-        [Row( PixelFormat.Format32bppArgb )]
-        [Row( PixelFormat.Format32bppRgb )]
+        [TestCase( PixelFormat.Format24bppRgb )]
+        [TestCase( PixelFormat.Format32bppArgb )]
+        [TestCase( PixelFormat.Format32bppRgb )]
         public void SetGetPixelColor( PixelFormat pixelFormat )
         {
             UnmanagedImage image = UnmanagedImage.Create( 320, 240, pixelFormat );
@@ -278,39 +276,38 @@ namespace AForge.Imaging.Tests
             Color color2 = image.GetPixel( 319, 0 );
             Color color3 = image.GetPixel( 0, 239 );
 
-            Assert.AreEqual<int>( 10, color1.R );
-            Assert.AreEqual<int>( 20, color1.G );
-            Assert.AreEqual<int>( 30, color1.B );
+            Assert.AreEqual( 10, color1.R );
+            Assert.AreEqual( 20, color1.G );
+            Assert.AreEqual( 30, color1.B );
 
-            Assert.AreEqual<int>( 110, color2.R );
-            Assert.AreEqual<int>( 120, color2.G );
-            Assert.AreEqual<int>( 130, color2.B );
+            Assert.AreEqual( 110, color2.R );
+            Assert.AreEqual( 120, color2.G );
+            Assert.AreEqual( 130, color2.B );
 
-            Assert.AreEqual<int>( 210, color3.R );
-            Assert.AreEqual<int>( 220, color3.G );
-            Assert.AreEqual<int>( 230, color3.B );
+            Assert.AreEqual( 210, color3.R );
+            Assert.AreEqual( 220, color3.G );
+            Assert.AreEqual( 230, color3.B );
 
             if ( pixelFormat == PixelFormat.Format32bppArgb )
             {
-                Assert.AreEqual<int>( 255, color1.A );
-                Assert.AreEqual<int>( 127, color2.A );
-                Assert.AreEqual<int>( 64, color3.A );
+                Assert.AreEqual( 255, color1.A );
+                Assert.AreEqual( 127, color2.A );
+                Assert.AreEqual( 64, color3.A );
             }
         }
 
-        [Test]
-        [Row( PixelFormat.Format8bppIndexed )]
-        [Row( PixelFormat.Format24bppRgb )]
-        [Row( PixelFormat.Format32bppArgb )]
-        [Row( PixelFormat.Format32bppRgb )]
-        [Row( PixelFormat.Format16bppGrayScale )]
-        [Row( PixelFormat.Format48bppRgb )]
-        [Row( PixelFormat.Format64bppArgb )]
-        [Row( PixelFormat.Format32bppPArgb, ExpectedException = typeof( UnsupportedImageFormatException ) )]
+        [TestCase( PixelFormat.Format8bppIndexed )]
+        [TestCase( PixelFormat.Format24bppRgb )]
+        [TestCase( PixelFormat.Format32bppArgb )]
+        [TestCase( PixelFormat.Format32bppRgb )]
+        [TestCase( PixelFormat.Format16bppGrayScale )]
+        [TestCase( PixelFormat.Format48bppRgb )]
+        [TestCase( PixelFormat.Format64bppArgb )]
+        [TestCase( PixelFormat.Format32bppPArgb, ExpectedException = typeof( UnsupportedImageFormatException ) )]
         public void SetPixelsTest( PixelFormat pixelFormat )
         {
             UnmanagedImage image = UnmanagedImage.Create( 320, 240, pixelFormat );
-            Color color = Color.White;
+            Color color = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
             List<IntPoint> points = new List<IntPoint>( );
 
             points.Add( new IntPoint( 0, 0 ) );
@@ -328,7 +325,7 @@ namespace AForge.Imaging.Tests
 
             List<IntPoint> pixels = image.CollectActivePixels( );
 
-            Assert.AreEqual<int>( 5, pixels.Count );
+            Assert.AreEqual( 5, pixels.Count );
 
             Assert.IsTrue( pixels.Contains( new IntPoint( 0, 0 ) ) );
             Assert.IsTrue( pixels.Contains( new IntPoint( 319, 0 ) ) );
@@ -337,30 +334,29 @@ namespace AForge.Imaging.Tests
             Assert.IsTrue( pixels.Contains( new IntPoint( 160, 120 ) ) );
         }
 
-        [Test]
-        [Row( PixelFormat.Format24bppRgb,   1,   1, 240,   0,   0 )]
-        [Row( PixelFormat.Format24bppRgb, 318,   1,   0, 240,   0 )]
-        [Row( PixelFormat.Format24bppRgb, 318, 238, 240, 240,   0 )]
-        [Row( PixelFormat.Format24bppRgb,   1, 238,   0,   0, 240 )]
-        [Row( PixelFormat.Format24bppRgb, 160, 120, 240, 240, 240 )]
+        [TestCase( PixelFormat.Format24bppRgb,   1,   1, 240,   0,   0 )]
+        [TestCase( PixelFormat.Format24bppRgb, 318,   1,   0, 240,   0 )]
+        [TestCase( PixelFormat.Format24bppRgb, 318, 238, 240, 240,   0 )]
+        [TestCase( PixelFormat.Format24bppRgb,   1, 238,   0,   0, 240 )]
+        [TestCase( PixelFormat.Format24bppRgb, 160, 120, 240, 240, 240 )]
 
-        [Row( PixelFormat.Format32bppArgb,   1,   1, 240,   0,   0 )]
-        [Row( PixelFormat.Format32bppArgb, 318,   1,   0, 240,   0 )]
-        [Row( PixelFormat.Format32bppArgb, 318, 238, 240, 240,   0 )]
-        [Row( PixelFormat.Format32bppArgb,   1, 238,   0,   0, 240 )]
-        [Row( PixelFormat.Format32bppArgb, 160, 120, 240, 240, 240 )]
+        [TestCase( PixelFormat.Format32bppArgb,   1,   1, 240,   0,   0 )]
+        [TestCase( PixelFormat.Format32bppArgb, 318,   1,   0, 240,   0 )]
+        [TestCase( PixelFormat.Format32bppArgb, 318, 238, 240, 240,   0 )]
+        [TestCase( PixelFormat.Format32bppArgb,   1, 238,   0,   0, 240 )]
+        [TestCase( PixelFormat.Format32bppArgb, 160, 120, 240, 240, 240 )]
 
-        [Row( PixelFormat.Format32bppRgb,   1,   1, 240,   0,   0 )]
-        [Row( PixelFormat.Format32bppRgb, 318,   1,   0, 240,   0 )]
-        [Row( PixelFormat.Format32bppRgb, 318, 238, 240, 240,   0 )]
-        [Row( PixelFormat.Format32bppRgb,   1, 238,   0,   0, 240 )]
-        [Row( PixelFormat.Format32bppRgb, 160, 120, 240, 240, 240 )]
+        [TestCase( PixelFormat.Format32bppRgb,   1,   1, 240,   0,   0 )]
+        [TestCase( PixelFormat.Format32bppRgb, 318,   1,   0, 240,   0 )]
+        [TestCase( PixelFormat.Format32bppRgb, 318, 238, 240, 240,   0 )]
+        [TestCase( PixelFormat.Format32bppRgb,   1, 238,   0,   0, 240 )]
+        [TestCase( PixelFormat.Format32bppRgb, 160, 120, 240, 240, 240 )]
 
-        [Row( PixelFormat.Format8bppIndexed,   1,   1, 128, 128, 128 )]
-        [Row( PixelFormat.Format8bppIndexed, 318,   1,  96,  96,  96 )]
-        [Row( PixelFormat.Format8bppIndexed, 318, 238, 192, 192, 192 )]
-        [Row( PixelFormat.Format8bppIndexed,   1, 238,  32,  32,  32 )]
-        [Row( PixelFormat.Format8bppIndexed, 160, 120, 255, 255, 255 )]
+        [TestCase( PixelFormat.Format8bppIndexed,   1,   1, 128, 128, 128 )]
+        [TestCase( PixelFormat.Format8bppIndexed, 318,   1,  96,  96,  96 )]
+        [TestCase( PixelFormat.Format8bppIndexed, 318, 238, 192, 192, 192 )]
+        [TestCase( PixelFormat.Format8bppIndexed,   1, 238,  32,  32,  32 )]
+        [TestCase( PixelFormat.Format8bppIndexed, 160, 120, 255, 255, 255 )]
 
         public void ToManagedImageTest( PixelFormat pixelFormat, int x, int y, byte red, byte green, byte blue )
         {
@@ -371,13 +367,13 @@ namespace AForge.Imaging.Tests
             Bitmap bitmap = image.ToManagedImage( );
 
             // check colors of pixels
-            Assert.AreEqual<Color>( Color.FromArgb( 255, red, green, blue ), bitmap.GetPixel( x, y ) );
+            Assert.AreEqual( Color.FromArgb( 255, red, green, blue ), bitmap.GetPixel( x, y ) );
 
             // make sure there are only 1 pixel
             UnmanagedImage temp = UnmanagedImage.FromManagedImage( bitmap );
 
             List<IntPoint> pixels = temp.CollectActivePixels( );
-            Assert.AreEqual<int>( 1, pixels.Count );
+            Assert.AreEqual( 1, pixels.Count );
 
             image.Dispose( );
             bitmap.Dispose( );

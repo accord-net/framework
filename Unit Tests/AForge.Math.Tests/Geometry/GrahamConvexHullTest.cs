@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using AForge;
 using AForge.Math.Geometry;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace AForge.Math.Geometry.Tests
 {
@@ -104,7 +104,7 @@ namespace AForge.Math.Geometry.Tests
             expectedHulls.Add( expectedHull8 );
         }
 
-        [Test]
+        [Test]        
         public void FindHullTest( )
         {
             GrahamConvexHull grahamHull = new GrahamConvexHull( );
@@ -117,13 +117,13 @@ namespace AForge.Math.Geometry.Tests
 
         private void ComparePointsLists( List<IntPoint> list1, List<IntPoint> list2 )
         {
-            Assert.AreEqual<int>( list1.Count, list2.Count );
+            Assert.AreEqual( list1.Count, list2.Count );
 
             if ( list1.Count == list2.Count )
             {
                 for ( int i = 0, n = list1.Count; i < n; i++ )
                 {
-                    Assert.AreEqual<IntPoint>( list2[i], list1[i] );
+                    Assert.AreEqual( list2[i], list1[i] );
                 }
             }
         }
