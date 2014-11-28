@@ -151,3 +151,20 @@ $RECYCLE.BIN/
 
 # Mac crap
 .DS_Store
+Sources/Controls/AForge.Controls.xml
+Sources/Core/AForge.xml
+Sources/Fuzzy/AForge.Fuzzy.xml
+Sources/Genetic/AForge.Genetic.xml
+Sources/Imaging.Formats/AForge.Imaging.Formats.xml
+Sources/Imaging/AForge.Imaging.xml
+Sources/MachineLearning/AForge.MachineLearning.xml
+Sources/Math/AForge.Math.xml
+Sources/Neuro/AForge.Neuro.xml
+Sources/Robotics.Lego/AForge.Robotics.Lego.xml
+Sources/Robotics.Surveyor/AForge.Robotics.Surveyor.xml
+Sources/Video.DirectShow/AForge.Video.DirectShow.xml
+Sources/Video.Kinect/AForge.Video.Kinect.xml
+Sources/Video.VFW/AForge.Video.VFW.xml
+Sources/Video.Ximea/AForge.Video.Ximea.xml
+Sources/Video/AForge.Video.xml
+Sources/Vision/AForge.Vision.xml
