@@ -204,7 +204,7 @@ namespace Accord.Tests.MachineLearning
 
 
             var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
-            var tree = new DecisionTree(attributes, outputClasses: 5);
+            var tree = new DecisionTree(attributes, classes: 5);
 
 
             C45Learning c45 = new C45Learning(tree);

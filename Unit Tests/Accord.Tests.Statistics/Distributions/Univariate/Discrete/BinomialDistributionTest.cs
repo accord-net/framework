@@ -315,6 +315,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void OverflowTest()
         {
+            // http://stackoverflow.com/questions/23222097/accord-net-binomial-probability-mass-function-result-differs-from-excel-result
             var binom = new BinomialDistribution(3779, 0.0638);
 
             double expected = 0.021944019794458;

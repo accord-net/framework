@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
+    using System;
     using System.Data;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
@@ -29,7 +30,6 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
 
     [TestClass()]
     public class ID3LearningTest

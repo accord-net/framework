@@ -115,7 +115,7 @@ namespace Accord.Tests.MachineLearning
             outputs = symbols.ToArray<int>(outputColumn);
 
             var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
-            var tree = new DecisionTree(attributes, outputClasses: 5);
+            var tree = new DecisionTree(attributes, classes: 5);
 
             C45Learning c45 = new C45Learning(tree);
             double error = c45.Run(inputs.Submatrix(first), outputs.Submatrix(first));

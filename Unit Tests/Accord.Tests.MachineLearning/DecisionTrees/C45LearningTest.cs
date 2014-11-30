@@ -214,7 +214,7 @@ namespace Accord.Tests.MachineLearning
             // From now on, we can start creating the decision tree.
             //
             var attributes = DecisionVariable.FromCodebook(codebook, inputColumns);
-            DecisionTree tree = new DecisionTree(attributes, outputClasses: 5);
+            DecisionTree tree = new DecisionTree(attributes, classes: 5);
 
 
             // Now, let's create the C4.5 algorithm

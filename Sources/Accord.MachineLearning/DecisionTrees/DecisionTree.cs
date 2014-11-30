@@ -78,29 +78,29 @@ namespace Accord.MachineLearning.DecisionTrees
 
         /// <summary>
         ///   Creates a new <see cref="DecisionTree"/> to process
-        ///   the given <paramref name="attributes"/> and the given
-        ///   number of possible <paramref name="outputClasses"/>.
+        ///   the given <paramref name="inputs"/> and the given
+        ///   number of possible <paramref name="classes"/>.
         /// </summary>
         /// 
-        /// <param name="attributes">An array specifying the attributes to be processed by this tree.</param>
-        /// <param name="outputClasses">The number of possible output classes for the given attributes.</param>
+        /// <param name="inputs">An array specifying the attributes to be processed by this tree.</param>
+        /// <param name="classes">The number of possible output classes for the given attributes.</param>
         /// 
-        public DecisionTree(IList<DecisionVariable> attributes, int outputClasses)
+        public DecisionTree(IList<DecisionVariable> inputs, int classes)
         {
-            if (outputClasses <= 0)
+            if (classes <= 0)
                 throw new ArgumentOutOfRangeException("outputClasses");
 
-            if (attributes == null)
+            if (inputs == null)
                 throw new ArgumentNullException("attributes");
 
-            for (int i = 0; i < attributes.Count; i++)
-                if (attributes[i].Range.Length == 0)
+            for (int i = 0; i < inputs.Count; i++)
+                if (inputs[i].Range.Length == 0)
                     throw new ArgumentException("Attribute " + i + " is a constant.");
 
 
-            this.Attributes = new DecisionVariableCollection(attributes);
-            this.InputCount = attributes.Count;
-            this.OutputClasses = outputClasses;
+            this.Attributes = new DecisionVariableCollection(inputs);
+            this.InputCount = inputs.Count;
+            this.OutputClasses = classes;
         }
 
 
