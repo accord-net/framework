@@ -193,6 +193,7 @@
     <Compile Include="Distributions\Multivariate\MultivariateMixture.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\MultinomialDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BetaDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\BetaPrimeDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\CauchyDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\DirichletDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\HiddenMarkovDistribution.cs" />
