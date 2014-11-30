@@ -144,6 +144,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
         private double[] gradient;
         private double[] previous;
 
+        private double lambda = 1e-10;
+
 
         private bool computeStandardErrors = true;
         private ISolverMatrixDecomposition<double> decomposition;
@@ -197,6 +199,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
             set { computeStandardErrors = value; }
         }
 
+        public double Regularization
+        {
+            get { return lambda; }
+            set { lambda = value; }
+        }
 
         /// <summary>
         ///   Constructs a new Iterative Reweighted Least Squares.
@@ -313,6 +320,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
             //  - Bishop, Christopher M.; Pattern Recognition 
             //    and Machine Learning. Springer; 1st ed. 2006.
 
+            if (inputs.Length != outputs.Length)
+            {
+                throw new DimensionMismatchException("outputs",
+                    "The number of input vectors and their associated output values must have the same size.");
+            }
 
             // Initial definitions and memory allocations
             int N = inputs.Length;
@@ -355,6 +367,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 }
             }
 
+            
 
             // Reset Hessian matrix and gradient
             Array.Clear(gradient, 0, gradient.Length);
@@ -374,6 +387,15 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     for (int i = 0; i < row.Length; i++)
                         hessian[j, i] += row[i] * row[j] * weights[k];
             }
+
+
+            double w = coefficients.SquareEuclidean();
+
+            for (int i = 0; i < gradient.Length; i++)
+                gradient[i] -= lambda * w;
+
+            for (int i = 0; i < parameterCount; i++)
+                hessian[i, i] -= lambda;
 
 
             // Decompose to solve the linear system. Usually the Hessian will
@@ -397,6 +419,8 @@ namespace Accord.Statistics.Models.Regression.Fitting
             decomposition = new SingularValueDecomposition(hessian);
             deltas = decomposition.Solve(gradient);
 
+            if (deltas.HasNaN())
+                throw new Exception();
 
             previous = (double[])coefficients.Clone();
 

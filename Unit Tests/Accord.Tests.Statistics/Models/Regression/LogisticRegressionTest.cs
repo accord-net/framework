@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
 
     [TestClass()]
     public class LogisticRegressionTest
@@ -117,7 +118,7 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
-            Assert.AreEqual(5.8584748789881331, smokeOdds,1e-10);
+            Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-10);
             Assert.IsFalse(double.IsNaN(ageOdds));
             Assert.IsFalse(double.IsNaN(smokeOdds));
 
@@ -161,7 +162,7 @@ namespace Accord.Tests.Statistics
                 { 2, 0 }, // observation of product 2 in class 0
             };
 
-             
+
             // Fit using extended data
             double[][] inputs = Matrix.ColumnVector(inputExtended.GetColumn(0)).ToArray();
             double[] outputs = inputExtended.GetColumn(1);
@@ -281,8 +282,8 @@ namespace Accord.Tests.Statistics
             } while (delta > 0.001);
 
 
-            double ageOdds = regression.GetOddsRatio(1); 
-            double smokeOdds = regression.GetOddsRatio(2); 
+            double ageOdds = regression.GetOddsRatio(1);
+            double smokeOdds = regression.GetOddsRatio(2);
 
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-10);
@@ -294,6 +295,125 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-2.4577464307294092, regression.Coefficients[0]);
             Assert.AreEqual(0.020645118265359252, regression.Coefficients[1]);
             Assert.AreEqual(1.7678893101571855, regression.Coefficients[2]);
+        }
+
+        [TestMethod()]
+        public void LargeCoefficientsTest()
+        {
+            double[,] data =
+            {
+                { 48, 1, 4.40, 0 },
+                { 60, 0, 7.89, 1 },
+                { 51, 0, 3.48, 0 },
+                { 66, 0, 8.41, 1 },
+                { 40, 1, 3.05, 0 },
+                { 44, 1, 4.56, 0 },
+                { 80, 0, 6.91, 1 },
+                { 52, 0, 5.69, 0 },
+                { 58, 0, 4.01, 0 },
+                { 58, 0, 4.48, 0 },
+                { 72, 1, 5.97, 0 },
+                { 57, 0, 6.71, 1 },
+                { 55, 1, 5.36, 0 },
+                { 71, 0, 5.68, 0 },
+                { 44, 1, 4.61, 0 },
+                { 65, 1, 4.80, 0 },
+                { 38, 0, 5.06, 0 },
+                { 50, 0, 6.40, 0 },
+                { 80, 0, 6.67, 1 },
+                { 69, 1, 5.79, 0 },
+                { 39, 0, 5.42, 0 },
+                { 68, 0, 7.61, 1 },
+                { 47, 1, 3.24, 0 },
+                { 45, 1, 4.29, 0 },
+                { 79, 1, 7.44, 1 },
+                { 41, 1, 4.60, 0 },
+                { 45, 0, 5.91, 0 },
+                { 54, 0, 4.77, 0 },
+                { 43, 1, 5.62, 0 },
+                { 62, 1, 7.92, 1 },
+                { 72, 1, 7.92, 1 },
+                { 57, 1, 6.19, 0 },
+                { 39, 1, 2.37, 0 },
+                { 51, 0, 5.84, 0 },
+                { 73, 1, 5.94, 0 },
+                { 41, 1, 3.82, 0 },
+                { 35, 0, 2.35, 0 },
+                { 69, 0, 6.57, 1 },
+                { 75, 1, 7.96, 1 },
+                { 51, 1, 3.96, 0 },
+                { 61, 1, 4.36, 0 },
+                { 55, 0, 3.84, 0 },
+                { 45, 1, 3.02, 0 },
+                { 48, 0, 4.65, 0 },
+                { 77, 0, 7.93, 1 },
+                { 40, 1, 2.46, 0 },
+                { 37, 1, 2.32, 0 },
+                { 78, 0, 7.88, 1 },
+                { 39, 1, 4.55, 0 },
+                { 41, 0, 2.45, 0 },
+                { 54, 1, 5.62, 0 },
+                { 59, 1, 5.03, 0 },
+                { 78, 0, 8.08, 1 },
+                { 56, 1, 6.96, 1 },
+                { 49, 1, 3.07, 0 },
+                { 48, 0, 4.75, 0 },
+                { 63, 1, 5.64, 0 },
+                { 50, 0, 3.35, 0 },
+                { 59, 1, 5.08, 0 },
+                { 60, 0, 6.58, 1 },
+                { 64, 0, 5.19, 0 },
+                { 76, 1, 6.69, 1 },
+                { 58, 0, 5.18, 0 },
+                { 48, 1, 4.47, 0 },
+                { 72, 0, 8.70, 1 },
+                { 40, 1, 5.14, 0 },
+                { 53, 0, 3.40, 0 },
+                { 79, 0, 9.77, 1 },
+                { 61, 1, 7.79, 1 },
+                { 59, 0, 7.42, 1 },
+                { 44, 0, 2.55, 0 },
+                { 52, 1, 3.71, 0 },
+                { 80, 1, 7.56, 1 },
+                { 76, 0, 7.80, 1 },
+                { 51, 0, 5.94, 0 },
+                { 46, 1, 5.52, 0 },
+                { 48, 0, 3.25, 0 },
+                { 58, 1, 4.71, 0 },
+                { 44, 1, 2.52, 0 }, 
+                { 68, 0, 8.38, 1 },
+            };
+
+            double[][] input = data.Submatrix(null, 0, 2).ToArray();
+            double[] output = data.GetColumn(3);
+
+            LogisticRegression regression = new LogisticRegression(3);
+
+            var teacher = new IterativeReweightedLeastSquares(regression);
+
+            teacher.Regularization = 1e-5;
+
+            var errors = new List<double>();
+            for (int i = 0; i < 1000; i++)
+                errors.Add(teacher.Run(input, output));
+
+            double error = 0;
+            for (int i = 0; i < output.Length; i++)
+            {
+                double expected = output[i];
+                double actual = System.Math.Round(regression.Compute(input[i]));
+
+                if (expected != actual)
+                    error++;
+            }
+
+            error /= output.Length;
+
+            Assert.AreEqual(error, 0);
+            Assert.AreEqual(-58.817944701474687, regression.Coefficients[0]);
+            Assert.AreEqual(0.13783960821658245, regression.Coefficients[1]);
+            Assert.AreEqual(-1.532885090757945, regression.Coefficients[2]);
+            Assert.AreEqual(7.9460105648631973, regression.Coefficients[3]);
         }
     }
 }
