@@ -172,13 +172,9 @@ namespace Accord.Math.Optimization
         ///   this constraint refers to.</param>
         /// <param name="constraint">A <see cref="System.String"/> 
         ///   specifying this constraint, such as "ax + b = c".</param>
-        /// 
-        /// <remarks>
-        ///   The constraint string is always parsed using 
-        ///   <see cref="System.Globalization.CultureInfo.InvariantCulture"/>.
-        ///   This means numbers should be written using the English format, 
-        ///   using the dot (.) as the decimal separator.
-        /// </remarks>
+        /// <param name="format">The culture information specifying how
+        ///   numbers written in the <paramref name="constraint"/> should
+        ///   be parsed. Default is CultureInfo.InvariantCulture.</param>
         /// 
         public LinearConstraint(IObjectiveFunction function, string constraint, CultureInfo format)
         {
@@ -196,13 +192,6 @@ namespace Accord.Math.Optimization
         ///   this constraint refers to.</param>
         /// <param name="constraint">A <see cref="System.String"/> 
         ///   specifying this constraint, such as "ax + b = c".</param>
-        /// 
-        /// <remarks>
-        ///   The constraint string is always parsed using 
-        ///   <see cref="System.Globalization.CultureInfo.InvariantCulture"/>.
-        ///   This means numbers should be written using the English format, 
-        ///   using the dot (.) as the decimal separator.
-        /// </remarks>
         /// 
         public LinearConstraint(IObjectiveFunction function, string constraint)
             : this(function, constraint, CultureInfo.InvariantCulture)
@@ -278,14 +267,35 @@ namespace Accord.Math.Optimization
         /// <returns><c>true</c> if the function could be parsed
         ///   from the string, <c>false</c> otherwise.</returns>
         /// 
-        public static bool TryParse(string str, IObjectiveFunction function,
-            out LinearConstraint constraint)
+        public static bool TryParse(string str, 
+            IObjectiveFunction function, out LinearConstraint constraint)
+        {
+            return TryParse(str, CultureInfo.InvariantCulture, function, out constraint);
+        }
+
+        /// <summary>
+        ///   Attempts to create a <see cref="LinearConstraint"/>
+        ///   from a <see cref="System.String"/> representation.
+        /// </summary>
+        /// 
+        /// <param name="str">The string containing the constraint in textual form.</param>
+        /// <param name="function">The objective function to which this constraint refers to.</param>
+        /// <param name="constraint">The resulting constraint, if it could be parsed.</param>
+        /// <param name="culture">The culture information specifying how
+        ///   numbers written in the <paramref name="constraint"/> should
+        ///   be parsed. Default is CultureInfo.InvariantCulture.</param>
+        /// 
+        /// <returns><c>true</c> if the function could be parsed
+        ///   from the string, <c>false</c> otherwise.</returns>
+        /// 
+        public static bool TryParse(string str, CultureInfo culture,
+            IObjectiveFunction function, out LinearConstraint constraint)
         {
             // TODO: implement this method without the try-catch block.
 
             try
             {
-                constraint = new LinearConstraint(function, str);
+                constraint = new LinearConstraint(function, str, culture);
             }
             catch (FormatException)
             {

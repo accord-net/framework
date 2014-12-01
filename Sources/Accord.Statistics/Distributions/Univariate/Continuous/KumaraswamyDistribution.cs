@@ -43,7 +43,9 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
     ///   Kumaraswamy for variables that are lower and upper bounded.</para>
     ///
     /// <para>
-    ///   A good example of the use of the Kumaraswamy distribution is the storage volume of a reservoir of capacity zmax whose upper bound is zmax and lower bound is 0 (Fletcher & Ponnambalam, 1996).</para>
+    ///   A good example of the use of the Kumaraswamy distribution is the storage volume of a 
+    ///   reservoir of capacity z<sub>max</sub> whose upper bound is z<sub>max</sub> and lower 
+    ///   bound is 0 (Fletcher and Ponnambalam, 1996).</para>
     ///
     ///   
     /// <para>
@@ -95,15 +97,15 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// </summary>
         /// 
         /// <param name="a">The distribution's non-negative shape parameter a.</param>
-        /// <param name="a">The distribution's non-negative shape parameter b.</param>
+        /// <param name="b">The distribution's non-negative shape parameter b.</param>
         /// 
         public KumaraswamyDistribution([Positive] double a, [Positive] double b)
         {
             if (a <= 0)
-                throw new ArgumentOutOfRangeException("The shape parameter a must be positive.");
+                throw new ArgumentOutOfRangeException("a", "The shape parameter a must be positive.");
 
             if (b < 0)
-                throw new ArgumentOutOfRangeException("The shape parameter b must be positive.");
+                throw new ArgumentOutOfRangeException("b", "The shape parameter b must be positive.");
 
             this.a = a;
             this.b = b;
@@ -146,7 +148,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
             }
         }
 
-        private double momentGeneratingFunction(int n, double a, double b)
+        private static double momentGeneratingFunction(int n, double a, double b)
         {
             return (b * Beta.Function(1.0d + ((double)n) / a, b));
         }
@@ -194,7 +196,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
 
         /// <summary>
         ///   Not supported.
-        /// </value>
+        /// </summary>
         /// 
         public override double Entropy
         {

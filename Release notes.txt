@@ -1,3 +1,92 @@
+Accord.NET Framework 2.13.2 release notes
+-----------------------------------------
+15.12.2014.
+
+Version updates and fixes:
+  - GH-29: HiddenConditionalRandomField is not correctly serialized;
+  - GH-31: Add new HMM methods to compute the probability of an state inside an observation sequence.
+  - GH-36: Extensions class collides with the Accord.NET Extensions Framework;
+  - GH-35: Distribution issue with .NET 3.5 assemblies.
+  - GH-37: Adding Taylor series functions and dissimilarity functions;
+  - GH-42: Adding new contributed distance functions;
+  - GH-46: Optimization functions and constraints to now support different cultures;
+  - GH-48: Fix calculation of log likelihoods for BaumWelch learning algorithm;
+  - GC-33: GoldfarbIdnaniQuadraticSolver class failed to give correct answer
+  - GC-103: Compute probability that a given position in the sequence has an underlying state
+
+* Accord.Core
+  - Introducing a new Accord.Collections namespace;
+  - Adding Red-Black trees and a Red-Black dictionary based on those trees
+    with support for efficiently searching for maximum and minimum elements.
+
+* Accord.IO
+  - Updating the IDX reader to automatically convert between different data types;
+
+* Accord.Math
+  - Adding first versions of the Nelder-Mead and Subplex optimization algorithms.
+  - Adding better specifications to Gamma functions.
+  - Adding a method for padding matrices (adding extra rows and columns with zeros).
+  - Adding a tolerance parameter for Quadratic constraints.
+
+* Accord.Statistics
+  - Updating ChiSquare and Gamma distributions to explicitly implement InverseDistributionFunction.
+  - Updating Logistic Regression and Proportional Hazards to avoid computing 
+    the LR-ratio tests unless strictly necessary by using lazy evaluation;
+  - Correcting the MarkovMultivariateFunction constructor for explicit Independent<NormalDistribution> hidden Markov models;
+  - Adding weighted measures based on element repetitions rather than importance (percentage).
+  - Adding regularization support in iterative reweighted least squares for logistic regression.
+  - adding CDF for multivariate empirical distributions
+  - Updating statistical distributions so they can also be fit using repeat-style weights.
+  - Updating empirical distributions to support weighted samples.
+  - Updating Statistics.Tools to explicitly ask for unbiased or biased variances.
+  - Updating Hidden Conditional Random Fields' specialized factor functions to have a single form;
+  - Updating Output feature functions to activate only once per sequence;
+  - Correcting the discrete Viterbi learning convergence check and 
+    Viterbi implementations for discrete and continuous variables;
+  - Updating univariate distributions to support computing CDFs over an interval rather than a single value.
+  - Updating Mixture distributions to support querying for individual component's probability functions.
+  - Completing General Continuous Distribution (for defining custom distributions based solely on the CDF, PDF, or both), and re-enabling its related unit tests.
+  - Updating Mode calculation so an optimum method is chosen depending on whether the provided data values implement IComparable.
+  - Adding the new range attributes for some distribution constructors;
+  - Adding a general Generate method for all distributions.
+  - Updating ChiSquare Test to support testing against continuous distributions.
+  - Adding first version of the distribution analysis, for estimating likely distributions from observed data;
+  - Adding Quantile Density Functions for univariate discrete distributions.
+  - Fix calculation of log likelihoods for BaumWelch learning
+  - Adding Anderson-Daring, Shapiro-Wilk, Inverse Chi-Square, Lévy, Folded 
+    Normal, Shifted Log-Logistic, Kumaraswamy, and BetaPrime distributions;
+  - Adding Anderson-Daring and Shapiro-Wilk hypothesis tests.
+
+* Accord.MachineLearning
+  - Updating ID3 learning algorithm to allow attributes to join multiple times the decision process.
+  - Adding a named constructor in Naive Bayes to build Gaussian models more easily.
+  - Updating the Naive Bayes classifiers to estimate their component variables in parallel.
+  - Correcting the descriptive analysis measures so they can be data-bounded to DataGridViews again.
+  - Updating Bag-of-Visual-Words to avoid computing costly cluster informations after the clustering is done.
+  - Preparing K-Means to support setting algorithm options through its class itself, and not through function arguments, while attempting not to break backward compatibility.
+  - Updating k-nearest neighbor feature matching to make proper use of the kd-tree structure used in double-valued k-NN.
+  - Updating error-based pruning to avoid computing modes when there are no elements covered by a node.
+  - Updating K-Modes to select modes per column, instead of entire elements. This also enables the use of the Kmeans++ initialization scheme in KModes.
+ 
+* Accord.Neuro
+  - Adding Rectified Linear activation functions.
+
+* Accord.Controls
+  - Updating other visualizations to offer better flexibility to customize ZedGraph panels;
+  - Adding a data bar visualization box.
+
+* Accord.Audio
+  - Adding a Volume adjustment filter for audio signals.
+
+* Accord.Imaging
+  - Fixing Niblack and Sauvola thresholding algorithms for 8bpp images.
+
+* Sample applications
+  - Adding support for adjusting volume in the Recorder sample application.
+
+
+
+
 Accord.NET Framework 2.13.1 release notes
 -----------------------------------------
 30.08.2014.

@@ -13,6 +13,7 @@
   - Antonino Porcino 
   - Antonis Kalapodis 
   - Andrew Kirillov
+  - Ashley Messer
   - Benjamin Collins
   - Darko Juric 
   - David Durrleman

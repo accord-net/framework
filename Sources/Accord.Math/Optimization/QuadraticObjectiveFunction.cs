@@ -224,7 +224,10 @@ namespace Accord.Math.Optimization
         /// </summary>
         /// 
         /// <param name="function">A <see cref="System.String"/> containing
-        /// the function in the form similar to "ax²+b".</param>
+        ///   the function in the form similar to "ax²+b".</param>
+        /// <param name="culture">The culture information specifying how
+        ///   numbers written in the <paramref name="function"/> should
+        ///   be parsed. Default is CultureInfo.InvariantCulture.</param>
         /// 
         public QuadraticObjectiveFunction(string function, CultureInfo culture)
         {
@@ -671,11 +674,30 @@ namespace Accord.Math.Optimization
         /// 
         public static bool TryParse(string str, out QuadraticObjectiveFunction function)
         {
+            return TryParse(str, CultureInfo.InvariantCulture, out function);
+        }
+
+        /// <summary>
+        ///   Attempts to create a <see cref="QuadraticObjectiveFunction"/>
+        ///   from a <see cref="System.String"/> representation.
+        /// </summary>
+        /// 
+        /// <param name="str">The string containing the function in textual form.</param>
+        /// <param name="function">The resulting function, if it could be parsed.</param>
+        /// <param name="culture">The culture information specifying how
+        ///   numbers written in the <paramref name="function"/> should
+        ///   be parsed. Default is CultureInfo.InvariantCulture.</param>
+        ///   
+        /// <returns><c>true</c> if the function could be parsed
+        ///   from the string, <c>false</c> otherwise.</returns>
+        /// 
+        public static bool TryParse(string str, CultureInfo culture, out QuadraticObjectiveFunction function)
+        {
             // TODO: implement this method without the try-catch block.
 
             try
             {
-                function = new QuadraticObjectiveFunction(str);
+                function = new QuadraticObjectiveFunction(str, culture);
             }
             catch (FormatException)
             {

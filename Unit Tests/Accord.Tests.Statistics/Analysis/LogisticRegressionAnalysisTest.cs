@@ -203,17 +203,17 @@ namespace Accord.Tests.Statistics
 
             // For those inputs, the answer probability is approximately 75%.
 
-            Assert.AreEqual(0.085627701183146374, odds[0], 1e-10);
-            Assert.AreEqual(1.0208597029292648, odds[1], 1e-10);
-            Assert.AreEqual(5.8584748981777919, odds[2], 1e-10);
+            Assert.AreEqual(0.085627701183146374, odds[0], 1e-8);
+            Assert.AreEqual(1.0208597029292648, odds[1], 1e-8);
+            Assert.AreEqual(5.8584748981777919, odds[2], 1e-8);
             Assert.IsFalse(odds.HasNaN());
 
-            Assert.AreEqual(2.1590686019473897, stde[0], 1e-10);
-            Assert.AreEqual(0.033790422321041035, stde[1], 1e-10);
-            Assert.AreEqual(1.4729903935788211, stde[2], 1e-10);
+            Assert.AreEqual(2.1590686019473897, stde[0], 1e-8);
+            Assert.AreEqual(0.033790422321041035, stde[1], 1e-8);
+            Assert.AreEqual(1.4729903935788211, stde[2], 1e-8);
             Assert.IsFalse(stde.HasNaN());
 
-            Assert.AreEqual(0.75143272858389798, y, 1e-10);
+            Assert.AreEqual(0.75143272858389798, y, 1e-8);
             Assert.IsFalse(Double.IsNaN(y));
         }
 

@@ -214,10 +214,42 @@ namespace Accord.MachineLearning
             set { clusters.Distance = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets whether covariance matrices for
+        ///   the clusters should be computed at the end of
+        ///   an iteration. Default is true.
+        /// </summary>
+        /// 
         public bool ComputeInformation { get; set; }
+
+        /// <summary>
+        ///   Gets or sets whether to use the k-means++ seeding
+        ///   algorithm to improve the initial solution of the
+        ///   clustering. Default is true.
+        /// </summary>
+        /// 
         public bool UseCentroidSeeding { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations to
+        ///   be performed by the method. If set to zero, no
+        ///   iteration limit will be imposed. Default is 0.
+        /// </summary>
+        /// 
         public int MaxIterations { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the relative convergence threshold
+        ///   for stopping the algorithm. Default is 1e-5.
+        /// </summary>
+        /// 
         public double Tolerance { get; set; }
+
+        /// <summary>
+        ///   Gets the number of iterations performed in the
+        ///   last call to this class' Compute methods.
+        /// </summary>
+        /// 
         public int Iterations { get; private set; }
 
         /// <summary>
@@ -259,7 +291,6 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="points">The data to randomize the algorithm.</param>
-        /// <param name="useSeeding">True to use the k-means++ seeding algorithm. False otherwise.</param>
         /// 
         public void Randomize(double[][] points)
         {
@@ -338,8 +369,6 @@ namespace Accord.MachineLearning
         /// </summary>     
         /// 
         /// <param name="points">The data where to compute the algorithm.</param>
-        /// <param name="threshold">The relative convergence threshold
-        ///   for the algorithm. Default is 1e-5.</param>
         /// 
         public int[] Compute(double[][] points)
         {
@@ -533,9 +562,6 @@ namespace Accord.MachineLearning
         /// </summary>  
         /// 
         /// <param name="data">The data where to compute the algorithm.</param>
-        /// <param name="computeInformation">Pass <c>true</c> to compute additional information
-        ///   when the algorithm finishes, such as cluster variances and proportions; false
-        ///   otherwise. Default is true.</param>
         /// <param name="error">
         ///   The average square distance from the
         ///   data points to the clusters' centroids.
@@ -571,9 +597,6 @@ namespace Accord.MachineLearning
         /// <param name="data">The data where to compute the algorithm.</param>
         /// <param name="threshold">The relative convergence threshold
         /// for the algorithm. Default is 1e-5.</param>
-        /// <param name="computeInformation">Pass <c>true</c> to compute additional information
-        ///   when the algorithm finishes, such as cluster variances and proportions; false
-        ///   otherwise. Default is true.</param>
         /// <param name="error">
         ///   The average square distance from the
         ///   data points to the clusters' centroids.

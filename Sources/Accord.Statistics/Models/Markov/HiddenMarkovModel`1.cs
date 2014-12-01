@@ -838,9 +838,9 @@ namespace Accord.Statistics.Models.Markov
         /// <param name="observations">A sequence of observations. Predictions will be made regarding 
         ///   the next observations that should be coming after the last observation in this sequence.</param>
         /// <param name="next">The number of observations to be predicted. Default is 1.</param>
-        /// <param name="probabilities">The continuous probability distribution describing the next observations
-        ///   that are likely to be generated. Taking the mode of this distribution might give the most likely
-        ///   next value in the observed sequence.</param>
+        /// <param name="logLikelihood">The log-likelihood of the given sequence, plus the predicted
+        ///   next observation. Exponentiate this value (use the System.Math.Exp function) to obtain
+        ///   a <c>likelihood</c> value.</param>
         /// 
         public double[][] Predict(double[][] observations, int next, out double logLikelihood)
         {

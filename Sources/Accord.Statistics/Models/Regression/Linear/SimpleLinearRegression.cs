@@ -102,7 +102,6 @@ namespace Accord.Statistics.Models.Regression.Linear
     ///   
     ///   // Result will be "y(x) = 6.1082x + 6.0993"
     /// </code>
-    /// </para>
     /// </example>
     /// 
     [Serializable]

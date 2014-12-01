@@ -88,10 +88,10 @@ namespace Accord.MachineLearning.DecisionTrees
         public DecisionTree(IList<DecisionVariable> inputs, int classes)
         {
             if (classes <= 0)
-                throw new ArgumentOutOfRangeException("outputClasses");
+                throw new ArgumentOutOfRangeException("classes");
 
             if (inputs == null)
-                throw new ArgumentNullException("attributes");
+                throw new ArgumentNullException("inputs");
 
             for (int i = 0; i < inputs.Count; i++)
                 if (inputs[i].Range.Length == 0)

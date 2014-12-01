@@ -199,6 +199,12 @@ namespace Accord.Statistics.Models.Regression.Fitting
             set { computeStandardErrors = value; }
         }
 
+        /// <summary>
+        ///   Gets or sets the regularization value to be
+        ///   added in the objective function. Default is
+        ///   1e-10.
+        /// </summary>
+        /// 
         public double Regularization
         {
             get { return lambda; }
@@ -391,11 +397,14 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             double w = coefficients.SquareEuclidean();
 
-            for (int i = 0; i < gradient.Length; i++)
-                gradient[i] -= lambda * w;
+            if (!Double.IsInfinity(w))
+            {
+                for (int i = 0; i < gradient.Length; i++)
+                    gradient[i] -= lambda * w;
 
-            for (int i = 0; i < parameterCount; i++)
-                hessian[i, i] -= lambda;
+                for (int i = 0; i < parameterCount; i++)
+                    hessian[i, i] -= lambda;
+            }
 
 
             // Decompose to solve the linear system. Usually the Hessian will
@@ -418,9 +427,6 @@ namespace Accord.Statistics.Models.Regression.Fitting
             // Hessian Matrix is singular, try pseudo-inverse solution
             decomposition = new SingularValueDecomposition(hessian);
             deltas = decomposition.Solve(gradient);
-
-            if (deltas.HasNaN())
-                throw new Exception();
 
             previous = (double[])coefficients.Clone();
 

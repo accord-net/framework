@@ -114,7 +114,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.03293, regression.Coefficients[1], 1e-4);
 
             Assert.AreEqual(2, regression.StandardErrors.Length);
-            Assert.AreEqual(9.2731983954911374, regression.StandardErrors[0], 1e-6);
+            Assert.AreEqual(9.2731983954911374, regression.StandardErrors[0], 1e-5);
             Assert.AreEqual(0.016768779446085, regression.StandardErrors[1], 1e-6);
         }
 
@@ -155,15 +155,15 @@ namespace Accord.Tests.Statistics
 
 
             Assert.AreEqual(3, regression.Coefficients.Length);
-            Assert.AreEqual(-1.4807594445304693, regression.Coefficients[0],1e-10);
-            Assert.AreEqual(0.012417175632016827, regression.Coefficients[1], 1e-10);
-            Assert.AreEqual(1.072665379969842, regression.Coefficients[2], 1e-10);
+            Assert.AreEqual(-1.4807594445304693, regression.Coefficients[0],1e-8);
+            Assert.AreEqual(0.012417175632016827, regression.Coefficients[1], 1e-8);
+            Assert.AreEqual(1.072665379969842, regression.Coefficients[2], 1e-8);
             Assert.IsFalse(regression.Coefficients.HasNaN());
 
             Assert.AreEqual(3, regression.StandardErrors.Length);
-            Assert.AreEqual(1.6402037052797314, regression.StandardErrors[0], 1e-10);
-            Assert.AreEqual(0.026119425452145524, regression.StandardErrors[1], 1e-10);
-            Assert.AreEqual(1.1297252500874606, regression.StandardErrors[2], 1e-10);
+            Assert.AreEqual(1.6402037052797314, regression.StandardErrors[0], 1e-8);
+            Assert.AreEqual(0.026119425452145524, regression.StandardErrors[1], 1e-8);
+            Assert.AreEqual(1.1297252500874606, regression.StandardErrors[2], 1e-8);
             Assert.IsFalse(regression.StandardErrors.HasNaN());
         }
 
