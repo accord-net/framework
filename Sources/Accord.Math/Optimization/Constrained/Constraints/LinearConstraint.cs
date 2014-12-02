@@ -246,10 +246,10 @@ namespace Accord.Math.Optimization
                     return Math.Abs(fx - Value);
 
                 case ConstraintType.GreaterThanOrEqualTo:
-                    return Math.Min(fx - Value, 0);
+                    return fx - Value;
 
                 case ConstraintType.LesserThanOrEqualTo:
-                    return Math.Max(Value - fx, 0);
+                    return Value - fx;
             }
 
             throw new NotSupportedException();
@@ -267,7 +267,7 @@ namespace Accord.Math.Optimization
         /// <returns><c>true</c> if the function could be parsed
         ///   from the string, <c>false</c> otherwise.</returns>
         /// 
-        public static bool TryParse(string str, 
+        public static bool TryParse(string str,
             IObjectiveFunction function, out LinearConstraint constraint)
         {
             return TryParse(str, CultureInfo.InvariantCulture, function, out constraint);
@@ -392,7 +392,7 @@ namespace Accord.Math.Optimization
                 else
                 {
                     if (coeff.Count == 1)
-                        value = -scalar;
+                        value -= scalar;
                     else if (term != "+")
                         throw new FormatException("Unexpected expression.");
                 }
@@ -435,10 +435,11 @@ namespace Accord.Math.Optimization
 
             BinaryExpression b = constraint.Body as BinaryExpression;
             var terms = new Dictionary<string, double>();
-            parse(terms, b.Left);
+            double value = 0;
+            parse(terms, b.Left, ref value);
 
             ConstantExpression c = b.Right as ConstantExpression;
-            double value = (double)c.Value;
+            value = (double)c.Value - value;
 
             List<int> indices = new List<int>();
             List<double> scalars = new List<double>();
@@ -456,7 +457,7 @@ namespace Accord.Math.Optimization
             Value = value;
         }
 
-        private static string parse(Dictionary<string, double> terms, Expression expr)
+        private static string parse(Dictionary<string, double> terms, Expression expr, ref double value)
         {
             if (expr == null)
                 return null;
@@ -485,7 +486,7 @@ namespace Accord.Math.Optimization
                         // This is a constant times an expression
                         double scalar = (double)a.Value;
 
-                        string term = parse(terms, (Expression)m ?? (Expression)u);
+                        string term = parse(terms, (Expression)m ?? (Expression)u, ref value);
                         terms[term] = scalar;
 
                         return term;
@@ -498,22 +499,42 @@ namespace Accord.Math.Optimization
                     BinaryExpression lb = eb.Left as BinaryExpression;
                     MemberExpression lm = eb.Left as MemberExpression;
                     UnaryExpression lu = eb.Left as UnaryExpression;
+                    ConstantExpression lc = eb.Left as ConstantExpression;
 
                     BinaryExpression rb = eb.Right as BinaryExpression;
                     MemberExpression rm = eb.Right as MemberExpression;
+                    ConstantExpression rc = eb.Right as ConstantExpression;
 
                     if (lb != null)
-                        parse(terms, lb);
+                    {
+                        parse(terms, lb, ref value);
+                    }
                     else if (lm != null)
+                    {
                         terms[lm.Member.Name] = 1;
+                    }
                     else if (lu != null)
-                        parse(terms, lu);
+                    {
+                        parse(terms, lu, ref value);
+                    }
+                    else if (lc != null)
+                    {
+                        value += (double)lc.Value;
+                    }
                     else throw new FormatException("Unexpected expression.");
 
                     if (rb != null)
-                        parse(terms, rb);
+                    {
+                        parse(terms, rb, ref value);
+                    }
                     else if (rm != null)
-                        terms[lm.Member.Name] = 1;
+                    {
+                        terms[rm.Member.Name] = 1;
+                    }
+                    else if (rc != null)
+                    {
+                        value += (double)rc.Value;
+                    }
                     else throw new FormatException("Unexpected expression.");
                 }
                 else if (expr.NodeType == ExpressionType.Subtract)
@@ -526,22 +547,29 @@ namespace Accord.Math.Optimization
                     BinaryExpression rb = eb.Right as BinaryExpression;
                     MemberExpression rm = eb.Right as MemberExpression;
                     UnaryExpression ru = eb.Right as UnaryExpression;
+                    ConstantExpression rc = eb.Right as ConstantExpression;
 
                     if (lb != null)
-                        parse(terms, lb);
+                        parse(terms, lb, ref value);
                     else if (lm != null)
                         terms[lm.Member.Name] = 1;
                     else if (lu != null)
-                        parse(terms, lu);
+                        parse(terms, lu, ref value);
                     else throw new FormatException("Unexpected expression.");
 
                     if (rb != null)
                     {
-                        var term = parse(terms, rb);
+                        var term = parse(terms, rb, ref value);
                         terms[term] = -terms[term];
                     }
                     else if (rm != null)
+                    {
                         terms[rm.Member.Name] = -1;
+                    }
+                    else if (rc != null)
+                    {
+                        value -= (double)rc.Value;
+                    }
                     else throw new FormatException("Unexpected expression.");
                 }
             }
@@ -551,24 +579,40 @@ namespace Accord.Math.Optimization
                 {
                     BinaryExpression lb = eu.Operand as BinaryExpression;
                     MemberExpression lm = eu.Operand as MemberExpression;
+                    ConstantExpression lc = eu.Operand as ConstantExpression;
 
                     if (lm != null)
+                    {
                         terms[lm.Member.Name] = 1;
+                    }
                     else if (lb != null)
-                        parse(terms, lb);
+                    {
+                        parse(terms, lb, ref value);
+                    }
+                    else if (lc != null)
+                    {
+                        value += (double)lc.Value;
+                    }
                     else throw new FormatException("Unexpected expression.");
                 }
                 else if (expr.NodeType == ExpressionType.Negate)
                 {
                     BinaryExpression lb = eu.Operand as BinaryExpression;
                     MemberExpression lm = eu.Operand as MemberExpression;
+                    ConstantExpression lc = eu.Operand as ConstantExpression;
 
                     if (lm != null)
+                    {
                         terms[lm.Member.Name] = -1;
+                    }
                     else if (lb != null)
                     {
-                        var term = parse(terms, lb);
+                        var term = parse(terms, lb, ref value);
                         terms[term] = -terms[term];
+                    }
+                    else if (lc != null)
+                    {
+                        value -= (double)lc.Value;
                     }
                     else throw new FormatException("Unexpected expression.");
                 }

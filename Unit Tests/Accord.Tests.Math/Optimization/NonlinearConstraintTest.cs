@@ -112,5 +112,35 @@ namespace Accord.Tests.Math
             }
         }
 
+        [TestMethod]
+        public void GetViolationTest2()
+        {
+            NonlinearConstraint[] targets =
+            {
+                new NonlinearConstraint(1, x => x[0] - 1 >= 1),
+                new NonlinearConstraint(1, x => x[0] - 1 <= 1)
+            };
+
+            double[] expected;
+
+            expected = new double[] { -1.5, 1.5 };
+            for (int i = 0; i < targets.Length; i++)
+            {
+                double e = expected[i];
+                double a = targets[i].GetViolation(new double[] { 0.5 });
+
+                Assert.AreEqual(e, a);
+            }
+
+            expected = new double[] { 0.5, -0.5 };
+            for (int i = 0; i < targets.Length; i++)
+            {
+                double e = expected[i];
+                double a = targets[i].GetViolation(new double[] { 2.5 });
+
+                Assert.AreEqual(e, a);
+            }
+        }
+
     }
 }

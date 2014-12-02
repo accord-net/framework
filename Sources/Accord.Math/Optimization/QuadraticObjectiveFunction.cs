@@ -525,7 +525,8 @@ namespace Accord.Math.Optimization
                     else if (lm != null)
                     {
                         var term = Tuple.Create(lm.Member.Name, (string)null);
-                        if (!dontAdd) terms[term] = scalar;
+                        if (!dontAdd) 
+                            terms[term] = scalar;
                     }
                     else if (lu != null)
                     {
@@ -533,20 +534,23 @@ namespace Accord.Math.Optimization
                     }
                     else throw new FormatException("Unexpected expression.");
 
+                    scalar = 1;
                     if (rb != null)
                     {
                         parseExpression(terms, rb, out scalar);
                     }
                     else if (rm != null)
                     {
-                        var term = Tuple.Create(lm.Member.Name, (string)null);
-                        if (!dontAdd) terms[term] = scalar;
+                        var term = Tuple.Create(rm.Member.Name, (string)null);
+                        if (!dontAdd)
+                            terms[term] = scalar;
                     }
                     else if (rc != null)
                     {
                         scalar = (double)rc.Value;
                         var term = Tuple.Create((string)null, (string)null);
-                        if (!dontAdd) terms[term] = scalar;
+                        if (!dontAdd) 
+                            terms[term] = scalar;
                     }
                     else throw new FormatException("Unexpected expression.");
 

@@ -1132,6 +1132,11 @@ namespace Accord.Tests.Math
             constraints.Add(new LinearConstraint(f, "d >= 0"));
             constraints.Add(new LinearConstraint(f, "a >= 0.5"));
 
+            Assert.AreEqual(1, constraints[6].CombinedAs[0]);
+            Assert.AreEqual(0.5, constraints[6].Value);
+            Assert.AreEqual(0.1, constraints[6].GetViolation(new double[] { 0.6 }), 1e-10);
+            Assert.AreEqual(-0.1, constraints[6].GetViolation(new double[] { 0.4 }), 1e-10);
+
             bool psd = Q.IsPositiveDefinite();
 
             double[] b;
@@ -1155,7 +1160,7 @@ namespace Accord.Tests.Math
             for (int i = 0; i < constraints.Count; i++)
             {
                 double error = constraints[i].GetViolation(actual);
-                Assert.AreEqual(0, error, 1e-6);
+                Assert.IsTrue(error >= 0);
             }
 
             for (int i = 0; i < expected.Length; i++)
@@ -1165,6 +1170,76 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(e, a, 1e-10);
             }
         }
+
+        [TestMethod()]
+        public void GoldfarbIdnaniMinimizeLessThanWithEqualityTest()
+        {
+            // This test reproduces Issue #33 at Google Code Tracker
+            // https://code.google.com/p/accord/issues/detail?id=33
+
+            // Create objective function using the
+            // Hessian Q and linear terms vector d.
+
+            double[,] Q =
+            {
+                { 0.12264004,  0.011579293, 0.103326825, 0.064073439 },
+                { 0.011579293, 0.033856,    0.014311947, 0.014732381 },
+                { 0.103326825, 0.014311947, 0.17715681,  0.067615114 },
+                { 0.064073439, 0.014732381, 0.067615114, 0.11539609  }
+            };
+
+            Assert.IsTrue(Q.IsPositiveDefinite());
+
+            double[] d = { 0, 0, 0, 0 };
+
+            var f = new QuadraticObjectiveFunction(Q, d, "a", "b", "c", "d");
+
+            // Now, create the constraints
+            var constraints = new LinearConstraintCollection();
+
+            constraints.Add(new LinearConstraint(f, "0.0732 * a + 0.0799 * b + 0.1926 * c + 0.0047 * d = 0.098"));
+            constraints.Add(new LinearConstraint(f, "a + b + c + d = 1"));
+            constraints.Add(new LinearConstraint(f, "-a <= 0"));
+            constraints.Add(new LinearConstraint(f, "-b <= 0"));
+            constraints.Add(new LinearConstraint(f, "-c <= 0"));
+            constraints.Add(new LinearConstraint(f, "-d <= 0"));
+            constraints.Add(new LinearConstraint(f, "-a + 0.5 <= 0.0"));
+
+            Assert.AreEqual(-1, constraints[6].CombinedAs[0]);
+            Assert.AreEqual(-0.5, constraints[6].Value);
+            Assert.AreEqual(0.1, constraints[6].GetViolation(new double[] { 0.6 }), 1e-10);
+            Assert.AreEqual(-0.1, constraints[6].GetViolation(new double[] { 0.4 }), 1e-10);
+
+            bool psd = Q.IsPositiveDefinite();
+
+            double[] b;
+            int eq;
+            double[,] A = constraints.CreateMatrix(4, out b, out eq);
+
+            // Now we create the quadratic programming solver for 2 variables, using the constraints.
+            GoldfarbIdnani solver = new GoldfarbIdnani(f, constraints);
+
+            // And attempt to solve it.
+            Assert.IsTrue(solver.Minimize());
+            double minValue = solver.Value;
+
+            double[] expected = { 0.50000000000000, 0.30967169476486, 0.19032830523514, 0 };
+            double[] actual = solver.Solution;
+
+            for (int i = 0; i < constraints.Count; i++)
+            {
+                double error = constraints[i].GetViolation(actual);
+                Assert.IsTrue(error >= 0);
+            }
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                double e = expected[i];
+                double a = actual[i];
+                Assert.AreEqual(e, a, 1e-10);
+            }
+        }
+
 
         [TestMethod()]
         public void GoldfarbIdnaniLargeSampleTest1()
