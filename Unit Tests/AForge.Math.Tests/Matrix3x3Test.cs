@@ -1,7 +1,7 @@
 ﻿using System;
 using AForge;
 using AForge.Math;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace AForge.Math.Tests
 {
@@ -63,7 +63,7 @@ namespace AForge.Math.Tests
 
             for ( int i = 0; i < 9; i++ )
             {
-                Assert.AreEqual<float>( array[i], (float) ( i + 1 ) );
+                Assert.AreEqual( array[i], (float) ( i + 1 ) );
             }
         }
 
@@ -79,12 +79,12 @@ namespace AForge.Math.Tests
 
             for ( int i = 0; i < 9; i++ )
             {
-                Assert.AreEqual<float>( array[i], (float) ( i + 1 ) );
+                Assert.AreEqual( array[i], (float) ( i + 1 ) );
             }
 
-            Assert.AreEqual<Vector3>( row0, matrix.GetRow( 0 ) );
-            Assert.AreEqual<Vector3>( row1, matrix.GetRow( 1 ) );
-            Assert.AreEqual<Vector3>( row2, matrix.GetRow( 2 ) );
+            Assert.AreEqual( row0, matrix.GetRow( 0 ) );
+            Assert.AreEqual( row1, matrix.GetRow( 1 ) );
+            Assert.AreEqual( row2, matrix.GetRow( 2 ) );
 
             Assert.Throws<ArgumentException>( ( ) =>
             {
@@ -111,12 +111,12 @@ namespace AForge.Math.Tests
 
             for ( int i = 0; i < 9; i++ )
             {
-                Assert.AreEqual<float>( array[i], (float) ( i + 1 ) );
+                Assert.AreEqual( array[i], (float) ( i + 1 ) );
             }
 
-            Assert.AreEqual<Vector3>( column0, matrix.GetColumn( 0 ) );
-            Assert.AreEqual<Vector3>( column1, matrix.GetColumn( 1 ) );
-            Assert.AreEqual<Vector3>( column2, matrix.GetColumn( 2 ) );
+            Assert.AreEqual( column0, matrix.GetColumn( 0 ) );
+            Assert.AreEqual( column1, matrix.GetColumn( 1 ) );
+            Assert.AreEqual( column2, matrix.GetColumn( 2 ) );
 
             Assert.Throws<ArgumentException>( ( ) =>
             {
@@ -131,15 +131,15 @@ namespace AForge.Math.Tests
             );
         }
 
-        [Test]
-        [Row( 0 )]
-        [Row( 30 )]
-        [Row( 45 )]
-        [Row( 60 )]
-        [Row( 90 )]
-        [Row( -30 )]
-        [Row( -90 )]
-        [Row( -180 )]
+        
+        [TestCase( 0 )]
+        [TestCase( 30 )]
+        [TestCase( 45 )]
+        [TestCase( 60 )]
+        [TestCase( 90 )]
+        [TestCase( -30 )]
+        [TestCase( -90 )]
+        [TestCase( -180 )]
         public void CreateRotationYTest( float angle )
         {
             float radians = (float) ( angle * System.Math.PI / 180 );
@@ -156,15 +156,15 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, expectedArray );
         }
 
-        [Test]
-        [Row( 0 )]
-        [Row( 30 )]
-        [Row( 45 )]
-        [Row( 60 )]
-        [Row( 90 )]
-        [Row( -30 )]
-        [Row( -90 )]
-        [Row( -180 )]
+        
+        [TestCase( 0 )]
+        [TestCase( 30 )]
+        [TestCase( 45 )]
+        [TestCase( 60 )]
+        [TestCase( 90 )]
+        [TestCase( -30 )]
+        [TestCase( -90 )]
+        [TestCase( -180 )]
         public void CreateRotationXTest( float angle )
         {
             float radians = (float) ( angle * System.Math.PI / 180 );
@@ -181,15 +181,15 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, expectedArray );
         }
 
-        [Test]
-        [Row( 0 )]
-        [Row( 30 )]
-        [Row( 45 )]
-        [Row( 60 )]
-        [Row( 90 )]
-        [Row( -30 )]
-        [Row( -90 )]
-        [Row( -180 )]
+        
+        [TestCase( 0 )]
+        [TestCase( 30 )]
+        [TestCase( 45 )]
+        [TestCase( 60 )]
+        [TestCase( 90 )]
+        [TestCase( -30 )]
+        [TestCase( -90 )]
+        [TestCase( -180 )]
         public void CreateRotationZTest( float angle )
         {
             float radians = (float) ( angle * System.Math.PI / 180 );
@@ -206,15 +206,15 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, expectedArray );
         }
 
-        [Test]
-        [Row( 0, 0, 0 )]
-        [Row( 30, 45, 60 )]
-        [Row( 45, 60, 30 )]
-        [Row( 60, 30, 45 )]
-        [Row( 90, 90, 90 )]
-        [Row( -30, -60, -90 )]
-        [Row( -90, -135, -180 )]
-        [Row( -180, -30, -60 )]
+        
+        [TestCase( 0, 0, 0 )]
+        [TestCase( 30, 45, 60 )]
+        [TestCase( 45, 60, 30 )]
+        [TestCase( 60, 30, 45 )]
+        [TestCase( 90, 90, 90 )]
+        [TestCase( -30, -60, -90 )]
+        [TestCase( -90, -135, -180 )]
+        [TestCase( -180, -30, -60 )]
         public void CreateFromYawPitchRollTest( float yaw, float pitch, float roll )
         {
             float radiansYaw   = (float) ( yaw   * System.Math.PI / 180 );
@@ -232,12 +232,12 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, rotationMatrix.ToArray( ) );
         }
 
-        [Test]
-        [Row( 0, 0, 0 )]
-        [Row( 30, 45, 60 )]
-        [Row( 45, 60, 30 )]
-        [Row( 60, 30, 45 )]
-        [Row( -30, -60, -90 )]
+        
+        [TestCase( 0, 0, 0 )]
+        [TestCase( 30, 45, 60 )]
+        [TestCase( 45, 60, 30 )]
+        [TestCase( 60, 30, 45 )]
+        [TestCase( -30, -60, -90 )]
         public void ExtractYawPitchRollTest( float yaw, float pitch, float roll )
         {
             float radiansYaw   = (float) ( yaw   * System.Math.PI / 180 );
@@ -252,14 +252,14 @@ namespace AForge.Math.Tests
 
             matrix.ExtractYawPitchRoll( out extractedYaw, out extractedPitch, out extractedRoll );
 
-            Assert.AreApproximatelyEqual<float, float>( radiansYaw,   extractedYaw,   Epsilon );
-            Assert.AreApproximatelyEqual<float, float>( radiansPitch, extractedPitch, Epsilon );
-            Assert.AreApproximatelyEqual<float, float>( radiansRoll,  extractedRoll,  Epsilon );
+            Assert.AreEqual( radiansYaw,   extractedYaw,   Epsilon );
+            Assert.AreEqual( radiansPitch, extractedPitch, Epsilon );
+            Assert.AreEqual( radiansRoll,  extractedRoll,  Epsilon );
         }
 
-        [Test]
-        [Row( 1, 2, 3 )]
-        [Row( -1, -2, -3 )]
+        
+        [TestCase( 1, 2, 3 )]
+        [TestCase( -1, -2, -3 )]
         public void CreateDiagonalTest( float v00, float v11, float v22 )
         {
             Vector3 diagonal = new Vector3( v00, v11, v22 );
@@ -270,11 +270,11 @@ namespace AForge.Math.Tests
             CompareMatrixWithArray( matrix, expectedArray );
         }
 
-        [Test]
-        [Row( 1, 1, 0, 0, 0, 1, 0, 0, 0, 1 )]
-        [Row( 0, 1, 0, 0, 0, 1, 0, 1, 0, 0 )]
-        [Row( 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 )]
-        [Row( -3, 1, 3, 2, 2, 2, 1, 2, 1, 1 )]
+        
+        [TestCase( 1, 1, 0, 0, 0, 1, 0, 0, 0, 1 )]
+        [TestCase( 0, 1, 0, 0, 0, 1, 0, 1, 0, 0 )]
+        [TestCase( 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 )]
+        [TestCase( -3, 1, 3, 2, 2, 2, 1, 2, 1, 1 )]
         public void DeterminantTest( float expectedDeterminant,
             float v00, float v01, float v02,
             float v10, float v11, float v12,
@@ -294,14 +294,14 @@ namespace AForge.Math.Tests
             matrix.V21 = v21;
             matrix.V22 = v22;
 
-            Assert.AreEqual<float>( expectedDeterminant, matrix.Determinant );
+            Assert.AreEqual( expectedDeterminant, matrix.Determinant );
         }
 
-        [Test]
-        [Row( 1, 0, 0, 0, 1, 0, 0, 0, 1)]
-        [Row( 1, 0, 0, 0, 1, 0, 1, 0, 0, ExpectedException = typeof( ArgumentException ) )]
-        [Row( 2, 0, 0, 0, 4, 0, 0, 0, 3 )]
-        [Row( 1, 4, 2, 2, 2, 1, 2, 1, 1 )]
+        
+        [TestCase( 1, 0, 0, 0, 1, 0, 0, 0, 1)]
+        [TestCase( 1, 0, 0, 0, 1, 0, 1, 0, 0, ExpectedException = typeof( ArgumentException ) )]
+        [TestCase( 2, 0, 0, 0, 4, 0, 0, 0, 3 )]
+        [TestCase( 1, 4, 2, 2, 2, 1, 2, 1, 1 )]
         public void InverseTest( float v00, float v01, float v02, float v10, float v11, float v12, float v20, float v21, float v22 )
         {
             Matrix3x3 matrix = new Matrix3x3( );
@@ -321,7 +321,7 @@ namespace AForge.Math.Tests
             Matrix3x3 inverse = matrix.Inverse( );
             Matrix3x3 identity = matrix * inverse;
 
-            Assert.AreEqual<bool>( true, ApproximateEquals( identity, Matrix3x3.Identity ) );
+            Assert.AreEqual( true, ApproximateEquals( identity, Matrix3x3.Identity ) );
         }
 
         [Test]
@@ -343,7 +343,7 @@ namespace AForge.Math.Tests
 
             Matrix3x3 result = a1 + a2;
 
-            Assert.AreEqual<bool>( true, ApproximateEquals( result, expectedResult ) );
+            Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
         }
 
         [Test]
@@ -365,7 +365,7 @@ namespace AForge.Math.Tests
 
             Matrix3x3 result = a1 - a2;
 
-            Assert.AreEqual<bool>( true, ApproximateEquals( result, expectedResult ) );
+            Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
         }
 
         [Test]
@@ -387,7 +387,7 @@ namespace AForge.Math.Tests
 
             Matrix3x3 result = a1 * a2;
 
-            Assert.AreEqual<bool>( true, ApproximateEquals( result, expectedResult ) );
+            Assert.AreEqual( true, ApproximateEquals( result, expectedResult ) );
         }
 
         private void CompareMatrixWithArray( Matrix3x3 matrix, float[] array )
@@ -396,7 +396,7 @@ namespace AForge.Math.Tests
 
             for ( int i = 0; i < 9; i++ )
             {
-                Assert.AreEqual<float>( matrixArray[i], array[i] );
+                Assert.AreEqual( matrixArray[i], array[i] );
             }
         }
 

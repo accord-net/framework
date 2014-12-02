@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using AForge;
 using AForge.Math.Geometry;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace AForge.Math.Geometry.Tests
 {
