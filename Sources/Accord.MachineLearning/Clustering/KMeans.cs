@@ -372,7 +372,9 @@ namespace Accord.MachineLearning
         /// 
         public int[] Compute(double[][] points)
         {
+#pragma warning disable 0618
             return Compute(points, Tolerance, ComputeInformation);
+#pragma warning restore 0618
         }
 
         /// <summary>
@@ -383,6 +385,7 @@ namespace Accord.MachineLearning
         /// <param name="threshold">The relative convergence threshold
         ///   for the algorithm. Default is 1e-5.</param>
         /// 
+        [Obsolete("Please set the 'Tolerance' property instead of passing the 'threshold' parameter.")]
         public int[] Compute(double[][] points, double threshold)
         {
             return Compute(points, threshold, ComputeInformation);
@@ -399,6 +402,7 @@ namespace Accord.MachineLearning
         ///   when the algorithm finishes, such as cluster variances and proportions; false
         ///   otherwise. Default is true.</param>
         ///   
+        [Obsolete("Please set the 'Tolerance' and 'ComputeInformation' properties instead of using this overload.")]
         public int[] Compute(double[][] data, double threshold, bool computeInformation)
         {
             // Initial argument checking
@@ -569,7 +573,9 @@ namespace Accord.MachineLearning
         /// 
         public int[] Compute(double[][] data, out double error)
         {
+#pragma warning disable 0618
             return Compute(data, Tolerance, out error, ComputeInformation);
+#pragma warning restore 0618
         }
 
         /// <summary>
@@ -585,6 +591,7 @@ namespace Accord.MachineLearning
         ///   data points to the clusters' centroids.
         /// </param>
         /// 
+        [Obsolete("Please set the 'ComputeInformation' property instead of passing the 'computeInformation' parameter.")]
         public int[] Compute(double[][] data, out double error, bool computeInformation)
         {
             return Compute(data, Tolerance, out error, computeInformation);
@@ -602,6 +609,7 @@ namespace Accord.MachineLearning
         ///   data points to the clusters' centroids.
         /// </param>
         /// 
+        [Obsolete("Please set the 'Tolerance' property instead of passing the 'threshold' parameter.")]
         public int[] Compute(double[][] data, double threshold, out double error)
         {
             return Compute(data, threshold, out error, ComputeInformation);
@@ -622,6 +630,7 @@ namespace Accord.MachineLearning
         ///   data points to the clusters' centroids.
         /// </param>
         /// 
+        [Obsolete("Please set the 'Tolerance' property instead of passing the 'threshold' parameter.")]
         public int[] Compute(double[][] data, double threshold, out double error, bool computeInformation)
         {
             // Initial argument checking
@@ -716,7 +725,5 @@ namespace Accord.MachineLearning
         #endregion
 
     }
-
-
 
 }

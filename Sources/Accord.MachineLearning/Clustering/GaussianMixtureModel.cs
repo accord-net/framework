@@ -178,11 +178,12 @@ namespace Accord.MachineLearning
             KMeans kmeans = new KMeans(clusters.Count)
             {
                 ComputeInformation = true,
-                UseCentroidSeeding = false
+                UseCentroidSeeding = false,
+                Tolerance = threshold
             };
 
             // Compute the K-Means
-            kmeans.Compute(data, threshold, out error);
+            kmeans.Compute(data, out error);
 
             // Initialize the model with K-Means
             Initialize(kmeans);

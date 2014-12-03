@@ -212,7 +212,10 @@ namespace Accord.MachineLearning
         {
             kmeans.Randomize(cluster, useSeeding: false);
 
-            int[] idx = kmeans.Compute(cluster, threshold, false);
+            kmeans.Tolerance = threshold;
+            kmeans.ComputeInformation = false;
+
+            int[] idx = kmeans.Compute(cluster);
 
             List<double[]> a = new List<double[]>();
             List<double[]> b = new List<double[]>();
