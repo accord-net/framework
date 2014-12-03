@@ -13,7 +13,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Process, transforms, filters and handle audio signals for machine learning and statistical applications. This package is part of the Accord.NET Framework.</description>    
     <summary>Accord.NET Audio Library from the Accord.NET Framework</summary>
-    <tags>accord.net aforge.net framework computer audition audio processing</tags>
+    <tags>accord.net aforge.net framework computer audition audio processing fft spectral classification extraction beat detection</tags>
     <dependencies>
       <dependency id="SharpDX"     version="2.6.2" />
       

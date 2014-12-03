@@ -5,7 +5,7 @@
 // Copyright © Diego Catalano, 2014
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2014
+// Copyright © César Souza, 2009-2015
 // cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or

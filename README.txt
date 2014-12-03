@@ -9,15 +9,19 @@
  
   The GitHub repository at https://github.com/accord-net/framework is the official 
   home of the project after release 2.10 was finished. As such, new releases will 
-  only be made available on this repository, but the code will also bt replicated 
-  in the Google Code repository for those who still would like to use SVN instead.
-
-    - http://code.google.com/p/accord/
+  only be made available on this repository.
 
  
 
  Installing the framework
  ------------------------
+
+0) Download the framework through NuGet:
+
+     https://www.nuget.org/packages?q=accord.net
+
+   or, alternatively, perform a manual install by following
+   the steps described below.
 
 1) Download the AForge.NET Framework 2.2.5 from 
    https://code.google.com/p/aforge/downloads/list

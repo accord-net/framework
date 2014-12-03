@@ -13,7 +13,7 @@
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>Contains neural learning algorithms such as Levenberg-Marquardt, Parallel Resilient Backpropagation, initialization procedures such as Nguyen-Widrow and other neural network related methods. This package is part of the Accord.NET Framework.</description>
     <summary>Accord.NET Neuro Library from the Accord.NET Framework</summary>
-    <tags>accord.net aforge.net framework artificial neural networks levenberg-marquardt nguyen-widrow</tags>
+    <tags>accord.net aforge.net framework artificial neural networks levenberg-marquardt nguyen-widrow deep-learning ann neuron</tags>
     <dependencies>
       <dependency id="Accord"       version="$version$" />
       <dependency id="Accord.Math"  version="$version$" />

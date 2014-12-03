@@ -2,7 +2,7 @@
 // The Accord.NET Framework (LGPL) 
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2014
+// Copyright © César Souza, 2009-2015
 // cesarsouza at gmail.com
 //
 // Copyright © Masakazu Ohtsuka, 2008
