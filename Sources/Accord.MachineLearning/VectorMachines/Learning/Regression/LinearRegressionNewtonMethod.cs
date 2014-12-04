@@ -260,7 +260,6 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             for (int i = 0; i < Machine.Weights.Length; i++)
                 Machine.Weights[i] = weights[i];
             Machine.Threshold = weights[biasIndex];
-            Machine.Link = new LogLinkFunction();
         }
     }
 }

@@ -49,20 +49,17 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
     ///     <item><description><a href="http://www.seas.gwu.edu/~dorpjr/Publications/JournalPapers/Metrika2003VanDorp.pdf">
     ///       J. René van Dorp, Samuel Kotz, Trapezoidal distribution. Available on: 
     ///       http://www.seas.gwu.edu/~dorpjr/Publications/JournalPapers/Metrika2003VanDorp.pdf </a></description></item>
-    ///   <list type="bullet">
     ///     <item><description>
     ///       Powell MR, Wilson JD (1997). Risk Assessment for National Natural Resource
     ///       Conservation Programs, Discussion Paper 97-49. Resources for the Future, Washington
     ///       D.C.</description></item>
-    ///   <list type="bullet">
     ///     <item><description>
     ///       Chen SJ, Hwang CL (1992). Fuzzy Multiple Attribute Decision-Making: Methods and
     ///       Applications, Springer-Verlag, Berlin, New York.</description></item>
-    ///   </list></para>     
-    ///   <list type="bullet">
     ///     <item><description>
     ///       Flehinger BJ, Kimmel M (1987). The natural history of lung cancer in periodically 
     ///       screened population. Biometrics 1987, 43, 127-144.</description></item>
+    ///   </list></para>     
     /// </remarks>
     /// 
     /// <example>
@@ -129,7 +126,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// <param name="c">The end of the stability region c.</param>
         /// <param name="d">The maximum value d.</param>
         /// <param name="n1">The growth slope between points <paramref name="a"/> and <paramref name="b"/>.</param>
-        /// <param name="n1">The growth slope between points <paramref name="c"/> and <paramref name="d"/>.</param>
+        /// <param name="n3">The growth slope between points <paramref name="c"/> and <paramref name="d"/>.</param>
         /// 
         public TrapezoidalDistribution([Real] double a, [Real] double b, [Real] double c,
             [Real] double d, [Positive] double n1, [Positive] double n3)
