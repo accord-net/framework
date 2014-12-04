@@ -199,6 +199,7 @@
     <Compile Include="DecisionTrees\DecisionTreeTraversal.cs" />
     <Compile Include="VectorMachines\Accord.MachineLearning.VectorMachines.cs" />
     <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorLearning.cs" />
+    <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorRegression.cs" />
     <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
     <Compile Include="VectorMachines\Learning\LinearCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticCoordinateDescent.cs" />
@@ -206,6 +207,8 @@
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticNewtonMethod.cs" />
     <Compile Include="VectorMachines\Learning\LinearNewtonMethod.cs" />
     <Compile Include="VectorMachines\Learning\MultilabelSupportVectorLearning.cs" />
+    <Compile Include="VectorMachines\Learning\Regression\LinearRegressionCoordinateDescent.cs" />
+    <Compile Include="VectorMachines\Learning\Regression\LinearRegressionNewtonMethod.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorLearningHelper.cs" />
     <Compile Include="VectorMachines\Learning\SupportVectorReduction.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorMachine.cs" />

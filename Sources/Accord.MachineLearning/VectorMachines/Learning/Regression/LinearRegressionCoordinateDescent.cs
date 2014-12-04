@@ -63,30 +63,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Diagnostics;
     using System.Threading;
 
-    /// <summary>
-    ///   Different categories of loss functions that can be used to learn 
-    ///   <see cref="SupportVectorMachine">support vector machines</see>.
-    /// </summary>
-    /// 
-    public enum Loss
-    {
-        /// <summary>
-        ///   Hinge-loss function. 
-        /// </summary>
-        /// 
-        L1,
-
-        /// <summary>
-        ///   Squared hinge-loss function.
-        /// </summary>
-        /// 
-        L2
-    };
-
-
 
     /// <summary>
-    ///   L2-regularized, L1 or L2-loss dual formulation Support Vector Machine learning.
+    ///   Coordinate descent algorithm for the L1 or L2-loss linear Support 
+    ///   Vector Regression (epsilon-SVR) learning problem in the dual form.
     /// </summary>
     /// 
     /// <remarks>
@@ -99,14 +79,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </para>
     /// 
     /// <para>
-    ///   Liblinear's solver <c>-s 1</c>: <c>L2R_L2LOSS_SVC_DUAL</c> and <c>-s 3</c>: 
-    ///   <c>L2R_L1LOSS_SVC_DUAL</c>. A coordinate descent algorithm for L1-loss and 
-    ///   L2-loss SVM problems in the dual.
+    ///   Liblinear's solver <c>-s 12</c>: <c>L2R_L2LOSS_SVR_DUAL</c> and <c>-s 13</c>: 
+    ///   <c>L2R_L1LOSS_SVR_DUAL</c>. A coordinate descent algorithm for L1-loss and 
+    ///   L2-loss linear epsilon-vector regression (epsilon-SVR).
     /// </para>
     /// 
     /// <code>
-    ///  min_\alpha  0.5(\alpha^T (Q + D)\alpha) - e^T \alpha,
-    ///    s.t.      0 &lt;= \alpha_i &lt;= upper_bound_i,
+    ///   min_\beta  0.5\beta^T (Q + diag(lambda)) \beta - p \sum_{i=1}^l|\beta_i| + \sum_{i=1}^l yi\beta_i,
+    ///     s.t.     -upper_bound_i &lt;= \beta_i &lt;= upper_bound_i,
     /// </code>
     /// 
     /// <para>
@@ -116,29 +96,27 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// <para>
     /// In L1-SVM case:</para>
     /// <code>
-    ///         upper_bound_i = Cp if y_i = 1
-    ///         upper_bound_i = Cn if y_i = -1
-    ///         D_ii = 0
+    ///    upper_bound_i = C
+    ///    lambda_i = 0
     /// </code>
     /// <para>
     /// In L2-SVM case:</para>
     /// <code>
-    ///         upper_bound_i = INF
-    ///         D_ii = 1/(2*Cp)	if y_i = 1
-    ///         D_ii = 1/(2*Cn)	if y_i = -1
+    ///    upper_bound_i = INF
+    ///    lambda_i = 1/(2*C)
     /// </code>
     /// 
     /// <para>
-    /// Given: x, y, Cp, Cn, and eps as the stopping tolerance</para>
+    /// Given: x, y, p, C and eps as the stopping tolerance</para>
     ///
     /// <para>
-    /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
+    /// See Algorithm 4 of Ho and Lin, 2012.</para>
     /// </remarks>
     /// 
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
     /// 
-    public class LinearCoordinateDescent : BaseSupportVectorLearning,
+    public class LinearRegressionCoordinateDescent : BaseSupportVectorRegression,
         ISupportVectorMachineLearning, ISupportCancellation
     {
 
@@ -147,6 +125,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         private double eps = 0.1;
 
         private double[] alpha;
+        private double[] beta;
         private double[] weights;
         private double bias;
 
@@ -160,7 +139,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// <param name="inputs">The input data points as row vectors.</param>
         /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
         /// 
-        public LinearCoordinateDescent(SupportVectorMachine machine, double[][] inputs, int[] outputs)
+        public LinearRegressionCoordinateDescent(SupportVectorMachine machine, double[][] inputs, double[] outputs)
             : base(machine, inputs, outputs)
         {
             int samples = inputs.Length;
@@ -171,6 +150,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Lagrange multipliers
             this.alpha = new double[samples];
+            this.beta = new double[samples];
             this.weights = new double[dimension];
         }
 
@@ -225,78 +205,68 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         {
             double[] w = weights;
             double[][] x = Inputs;
-            int[] y = Outputs;
+            double[] y = Outputs;
 
             var random = Accord.Math.Tools.Random;
 
             // Lagrange multipliers
             Array.Clear(alpha, 0, alpha.Length);
+            Array.Clear(beta, 0, beta.Length);
             Array.Clear(w, 0, w.Length);
             bias = 0;
 
 
+            double C = Complexity;
+            double p = Epsilon;
+            double eps = Tolerance;
             int iter = 0;
-            double[] QD = new double[x.Length];
+            int active_size = x.Length;
             int[] index = new int[x.Length];
 
-            int active_size = x.Length;
+            double d, G, H;
+            double Gmax_old = Double.PositiveInfinity;
+            double Gmax_new, Gnorm1_new;
+            double Gnorm1_init = -1.0; // Gnorm1_init is initialized at the first iteration
+            double[] QD = new double[x.Length];
 
-            // PG: projected gradient, for shrinking and stopping
-            double PG;
-            double PGmax_old = Double.PositiveInfinity;
-            double PGmin_old = Double.NegativeInfinity;
-            double PGmax_new, PGmin_new;
+            // L2R_L2LOSS_SVR_DUAL
+            double lambda = 0.5 / C;
+            double upper_bound = Double.PositiveInfinity;
 
-            // default solver_type: L2R_L2LOSS_SVC_DUAL
-            // double[] diag = { 0.5 / Cn, 0, 0.5 / Cp };
-            // double[] upper_bound = { Double.PositiveInfinity, 0, Double.PositiveInfinity };
-
-            double[] diag = new double[c.Length];
-            double[] upper_bound = new double[c.Length];
-
-            if (Loss == Loss.L2)
+            if (loss == Loss.L1)
             {
-                // Default
-                for (int i = 0; i < diag.Length; i++)
-                    diag[i] = 0.5 / c[i];
-
-                for (int i = 0; i < upper_bound.Length; i++)
-                    upper_bound[i] = Double.PositiveInfinity;
-            }
-            else
-            {
-                // diag remains zero, and
-                upper_bound = c;
+                lambda = 0;
+                upper_bound = C;
             }
 
 
             for (int i = 0; i < x.Length; i++)
             {
-                QD[i] = diag[i];
+                QD[i] = 0;
 
                 double[] xi = x[i];
+
                 for (int j = 0; j < xi.Length; j++)
                 {
                     double val = xi[j];
                     QD[i] += val * val;
-                    w[j] += y[i] * alpha[i] * val;
+                    w[j] += beta[i] * val;
                 }
-
-                QD[i] += 1;
-                bias += y[i] * alpha[i];
 
                 index[i] = i;
             }
+
 
             while (iter < max_iter)
             {
                 if (token.IsCancellationRequested)
                     break;
 
-                PGmax_new = double.NegativeInfinity;
-                PGmin_new = double.PositiveInfinity;
+                int i;
+                Gmax_new = 0;
+                Gnorm1_new = 0;
 
-                for (int i = 0; i < active_size; i++)
+                for (i = 0; i < active_size; i++)
                 {
                     int j = i + random.Next() % (active_size - i);
 
@@ -307,23 +277,29 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
                 for (int s = 0; s < active_size; s++)
                 {
-                    int i = index[s];
-                    int yi = y[i];
+                    i = index[s];
+                    G = -y[i] + lambda * beta[i];
+                    H = QD[i] + lambda;
+
                     double[] xi = x[i];
-
-                    double G = bias;
                     for (int j = 0; j < xi.Length; j++)
-                        G += w[j] * xi[j];
+                        G += xi[j] * w[j];
 
-                    G = G * yi - 1;
+                    double Gp = G + p;
+                    double Gn = G - p;
+                    double violation = 0;
 
-                    double C = upper_bound[i];
-                    G += alpha[i] * diag[i];
-
-                    PG = 0;
-                    if (alpha[i] == 0)
+                    if (beta[i] == 0)
                     {
-                        if (G > PGmax_old)
+                        if (Gp < 0)
+                        {
+                            violation = -Gp;
+                        }
+                        else if (Gn > 0)
+                        {
+                            violation = Gn;
+                        }
+                        else if (Gp > Gmax_old && Gn < -Gmax_old)
                         {
                             active_size--;
 
@@ -333,15 +309,15 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
                             s--;
                             continue;
-                        }
-                        else if (G < 0)
-                        {
-                            PG = G;
                         }
                     }
-                    else if (alpha[i] == C)
+                    else if (beta[i] >= upper_bound)
                     {
-                        if (G < PGmin_old)
+                        if (Gp > 0)
+                        {
+                            violation = Gp;
+                        }
+                        else if (Gp < -Gmax_old)
                         {
                             active_size--;
 
@@ -352,59 +328,91 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             s--;
                             continue;
                         }
-                        else if (G > 0)
+                    }
+                    else if (beta[i] <= -upper_bound)
+                    {
+                        if (Gn < 0)
                         {
-                            PG = G;
+                            violation = -Gn;
                         }
+                        else if (Gn > Gmax_old)
+                        {
+                            active_size--;
+
+                            var old = index[s];
+                            index[s] = index[active_size];
+                            index[active_size] = old;
+
+                            s--;
+                            continue;
+                        }
+                    }
+                    else if (beta[i] > 0)
+                    {
+                        violation = Math.Abs(Gp);
                     }
                     else
                     {
-                        PG = G;
+                        violation = Math.Abs(Gn);
                     }
 
-                    PGmax_new = Math.Max(PGmax_new, PG);
-                    PGmin_new = Math.Min(PGmin_new, PG);
+                    Gmax_new = Math.Max(Gmax_new, violation);
+                    Gnorm1_new += violation;
 
-                    if (Math.Abs(PG) > 1.0e-12)
+                    // obtain Newton direction d
+                    if (Gp < H * beta[i])
                     {
-                        double alpha_old = alpha[i];
+                        d = -Gp / H;
+                    }
+                    else if (Gn > H * beta[i])
+                    {
+                        d = -Gn / H;
+                    }
+                    else
+                    {
+                        d = -beta[i];
+                    }
 
-                        alpha[i] = Math.Min(Math.Max(alpha[i] - G / QD[i], 0.0), C);
+                    if (Math.Abs(d) < 1.0e-12)
+                        continue;
 
-                        double d = (alpha[i] - alpha_old) * yi;
+                    double beta_old = beta[i];
+                    beta[i] = Math.Min(Math.Max(beta[i] + d, -upper_bound), upper_bound);
+                    d = beta[i] - beta_old;
 
+                    if (d != 0)
+                    {
                         xi = x[i];
+
                         for (int j = 0; j < xi.Length; j++)
                             w[j] += d * xi[j];
-                        bias += d;
                     }
                 }
+
+                if (iter == 0)
+                    Gnorm1_init = Gnorm1_new;
 
                 iter++;
 
                 if (iter % 10 == 0)
                     Debug.WriteLine(".");
 
-                if (PGmax_new - PGmin_new <= eps)
+                if (Gnorm1_new <= eps * Gnorm1_init)
                 {
                     if (active_size == x.Length)
+                    {
                         break;
-
-                    active_size = x.Length;
-                    Debug.WriteLine("*");
-                    PGmax_old = Double.PositiveInfinity;
-                    PGmin_old = Double.NegativeInfinity;
-                    continue;
+                    }
+                    else
+                    {
+                        active_size = x.Length;
+                        Debug.WriteLine("*");
+                        Gmax_old = Double.PositiveInfinity;
+                        continue;
+                    }
                 }
 
-                PGmax_old = PGmax_new;
-                PGmin_old = PGmin_new;
-
-                if (PGmax_old <= 0)
-                    PGmax_old = Double.PositiveInfinity;
-
-                if (PGmin_old >= 0)
-                    PGmin_old = Double.NegativeInfinity;
+                Gmax_old = Gmax_new;
             }
 
             Debug.WriteLine("optimization finished, #iter = " + iter);
@@ -412,8 +420,27 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             if (iter >= max_iter)
             {
                 Debug.WriteLine("WARNING: reaching max number of iterations");
-                Debug.WriteLine("Using -s 2 may be faster (also see FAQ)");
+                Debug.WriteLine("Using -s 11 may be faster (also see FAQ)");
             }
+
+            // calculate objective value
+            double v = 0;
+            int nSV = 0;
+
+            for (int i = 0; i < w.Length; i++)
+                v += w[i] * w[i];
+            v = 0.5 * v;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                v += p * Math.Abs(beta[i]) - y[i] * beta[i] + 0.5 * lambda * beta[i] * beta[i];
+
+                if (beta[i] != 0)
+                    nSV++;
+            }
+
+            Debug.WriteLine("Objective value = " + v);
+            Debug.WriteLine("nSV = " + nSV);
 
 
             Machine.Weights = new double[Machine.Inputs];

@@ -1,4 +1,4 @@
-﻿// Accord Machine Learning Library
+﻿// Accord Statistics Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -54,35 +54,37 @@
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
     using System;
-    using Accord.Math.Optimization;
     using System.Threading;
+    using Accord.Math.Optimization;
+    using Accord.Statistics.Links;
+    using System.Diagnostics;
 
     /// <summary>
-    ///   L2-regularized L2-loss linear support vector classification (primal).
+    ///   L2-regularized L2-loss linear support vector regression
+    ///   (SVR) learning algorithm in the primal formulation.
     /// </summary>
     /// 
     /// <remarks>
     /// <para>
-    ///   This class implements a L2-regularized L2-loss support vector machine
-    ///   learning algorithm that operates in the primal form of the optimization
-    ///   problem. This method has been based on liblinear's <c>l2r_l2_svc_fun</c>
-    ///   problem specification, optimized using a <see cref="TrustRegionNewtonMethod">
-    ///   Trust-region Newton method</see>. This method might be faster than the often
-    ///   preferred <see cref="LinearCoordinateDescent"/>. </para>
-    ///   
-    /// <para>
-    ///   Liblinear's solver <c>-s 2</c>: <c>L2R_L2LOSS_SVC</c>. A trust region newton
-    ///   algorithm for the primal of L2-regularized, L2-loss linear support vector 
-    ///   classification.
-    /// </para>
+    ///   This class implements a L2-regularized L2-loss support vector regression (SVR)
+    ///   learning algorithm that operates in the primal form of the optimization problem.
+    ///   This method has been based on liblinear's <c>l2r_l2_svr_fun</c> problem specification,
+    ///   optimized using a <see cref="TrustRegionNewtonMethod"> Trust-region Newton method</see>.</para>
     /// </remarks>
+    /// 
+    /// <para>
+    ///   Liblinear's solver <c>-s 11</c>: <c>L2R_L2LOSS_SVR</c>. A trust region newton algorithm
+    ///   for the primal of L2-regularized, L2-loss linear epsilon-vector regression (epsilon-SVR).
+    /// </para>
     /// 
     /// <seealso cref="SequentialMinimalOptimization"/>
     /// <seealso cref="LinearCoordinateDescent"/>
+    /// <seealso cref="LinearRegressionCoordinateDescent"/>
     /// 
-    public class LinearNewtonMethod : BaseSupportVectorLearning,
+    public class LinearRegressionNewtonMethod : BaseSupportVectorRegression,
         ISupportVectorMachineLearning, ISupportCancellation
     {
+
         TrustRegionNewtonMethod tron;
 
         double[] z;
@@ -97,16 +99,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         private double[] C;
 
+
         /// <summary>
         ///   Constructs a new Newton method algorithm for L2-regularized
-        ///   Support Vector Classification problems in the primal form.
+        ///   support vector regression (SVR-SVMs) primal problems.
         /// </summary>
         /// 
         /// <param name="machine">A support vector machine.</param>
         /// <param name="inputs">The input data points as row vectors.</param>
-        /// <param name="outputs">The output label for each input point. Values must be either -1 or +1.</param>
+        /// <param name="outputs">The output value for each input point.</param>
         /// 
-        public LinearNewtonMethod(SupportVectorMachine machine, double[][] inputs, int[] outputs)
+        public LinearRegressionNewtonMethod(SupportVectorMachine machine, double[][] inputs, double[] outputs)
             : base(machine, inputs, outputs)
         {
             if (!IsLinear)
@@ -127,22 +130,17 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Convergence tolerance. Default value is 0.1.
+        ///   Convergence tolerance. Default value is 0.01.
         /// </summary>
         /// 
         /// <remarks>
-        ///   The criterion for completing the model training process. The default is 0.1.
+        ///   The criterion for completing the model training process. The default is 0.01.
         /// </remarks>
         /// 
         public double Tolerance
         {
-            get { return this.tron.Tolerance; }
-            set
-            {
-                if (value <= 0)
-                    throw new ArgumentOutOfRangeException("value");
-                this.tron.Tolerance = value;
-            }
+            get { return tron.Tolerance; }
+            set { tron.Tolerance = value; }
         }
 
         /// <summary>
@@ -152,50 +150,65 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         public int MaximumIterations
         {
-            get { return this.tron.MaxIterations; }
-            set { this.tron.MaxIterations = value; }
+            get { return tron.MaxIterations; }
+            set { tron.MaxIterations = value; }
         }
 
 
 
         private double objective(double[] w)
         {
-            int[] y = Outputs;
+            double[] y = Outputs;
+            double p = Epsilon;
 
-            Xv(Inputs, biasIndex, w, z);
+            LinearNewtonMethod.Xv(Inputs, biasIndex, w, z);
 
             double f = 0;
             for (int i = 0; i < w.Length; i++)
                 f += w[i] * w[i];
-            f /= 2.0;
+            f /= 2;
 
             for (int i = 0; i < y.Length; i++)
             {
-                z[i] = y[i] * z[i];
-                double d = 1 - z[i];
-                if (d > 0)
-                    f += C[i] * d * d;
+                double d = z[i] - y[i];
+
+                if (d < -p)
+                    f += C[i] * (d + p) * (d + p);
+
+                else if (d > p)
+                    f += C[i] * (d - p) * (d - p);
             }
 
             return f;
         }
 
+
         private double[] gradient(double[] w)
         {
-            int[] y = Outputs;
+            double[] y = Outputs;
+            double p = Epsilon;
 
             sizeI = 0;
             for (int i = 0; i < y.Length; i++)
             {
-                if (z[i] < 1)
+                double d = z[i] - y[i];
+
+                // generate index set I
+                if (d < -p)
                 {
-                    z[sizeI] = C[i] * y[i] * (z[i] - 1);
+                    z[sizeI] = C[i] * (d + p);
+                    I[sizeI] = i;
+                    sizeI++;
+                }
+                else if (d > p)
+                {
+                    z[sizeI] = C[i] * (d - p);
                     I[sizeI] = i;
                     sizeI++;
                 }
             }
 
-            subXTv(Inputs, biasIndex, I, sizeI, z, g);
+            LinearNewtonMethod.subXTv(Inputs, biasIndex, I, sizeI, z, g);
 
             for (int i = 0; i < w.Length; i++)
                 g[i] = w[i] + 2 * g[i];
@@ -203,66 +216,22 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             return g;
         }
 
+
         private double[] hessian(double[] s)
         {
-            subXv(Inputs, biasIndex, I, sizeI, s, wa);
+            LinearNewtonMethod.subXv(Inputs, biasIndex, I, sizeI, s, wa);
+
             for (int i = 0; i < sizeI; i++)
                 wa[i] = C[I[i]] * wa[i];
 
-            subXTv(Inputs, biasIndex, I, sizeI, wa, h);
+            LinearNewtonMethod.subXTv(Inputs, biasIndex, I, sizeI, wa, h);
             for (int i = 0; i < s.Length; i++)
                 h[i] = s[i] + 2 * h[i];
 
             return h;
         }
 
-        internal static void Xv(double[][] x, int biasIndex, double[] v, double[] Xv)
-        {
-            for (int i = 0; i < x.Length; i++)
-            {
-                double[] s = x[i];
-
-                System.Diagnostics.Debug.Assert(s.Length == v.Length - 1);
-
-                double sum = v[biasIndex];
-                for (int j = 0; j < s.Length; j++)
-                    sum += v[j] * s[j];
-                Xv[i] = sum;
-            }
-        }
-
-        internal static void subXv(double[][] x, int biasIndex, int[] I, int sizeI, double[] v, double[] Xv)
-        {
-            for (int i = 0; i < sizeI; i++)
-            {
-                double[] s = x[I[i]];
-
-                System.Diagnostics.Debug.Assert(s.Length == v.Length - 1);
-
-                double sum = v[biasIndex];
-                for (int j = 0; j < s.Length; j++)
-                    sum += v[j] * s[j];
-                Xv[i] = sum;
-            }
-        }
-
-        internal static void subXTv(double[][] x, int biasIndex, int[] I, int sizeI, double[] v, double[] XTv)
-        {
-            for (int i = 0; i < XTv.Length; i++)
-                XTv[i] = 0;
-
-            for (int i = 0; i < sizeI; i++)
-            {
-                double[] s = x[I[i]];
-
-                System.Diagnostics.Debug.Assert(s.Length == XTv.Length - 1);
-
-                for (int j = 0; j < s.Length; j++)
-                    XTv[j] += v[i] * s[j];
-
-                XTv[biasIndex] += v[i];
-            }
-        }
+       
 
 
         /// <summary>
@@ -291,7 +260,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             for (int i = 0; i < Machine.Weights.Length; i++)
                 Machine.Weights[i] = weights[i];
             Machine.Threshold = weights[biasIndex];
+            Machine.Link = new LogLinkFunction();
         }
-
     }
 }

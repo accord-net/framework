@@ -234,12 +234,14 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         ///   Insensitivity zone ε. Increasing the value of ε can result in fewer support
         ///   vectors in the created model. Default value is 1e-3.
         /// </summary>
+        /// 
         /// <remarks>
         ///   Parameter ε controls the width of the ε-insensitive zone, used to fit the training
         ///   data. The value of ε can affect the number of support vectors used to construct the
         ///   regression function. The bigger ε, the fewer support vectors are selected. On the
         ///   other hand, bigger ε-values results in more flat estimates.
         /// </remarks>
+        /// 
         public double Epsilon
         {
             get { return this.epsilon; }

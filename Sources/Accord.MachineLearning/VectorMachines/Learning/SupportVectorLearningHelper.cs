@@ -43,6 +43,39 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 throw new DimensionMismatchException("outputs",
                     "The number of input vectors and output labels does not match.");
 
+            checkInputs(machine, inputs);
+
+            for (int i = 0; i < outputs.Length; i++)
+            {
+                if (outputs[i] != 1 && outputs[i] != -1)
+                {
+                    throw new ArgumentOutOfRangeException("outputs",
+                        "The output label at index " + i + " should be either +1 or -1.");
+                }
+            }
+        }
+
+        public static void CheckArgs(SupportVectorMachine machine, double[][] inputs, double[] outputs)
+        {
+            // Initial argument checking
+            if (machine == null)
+                throw new ArgumentNullException("machine");
+
+            if (inputs == null)
+                throw new ArgumentNullException("inputs");
+
+            if (outputs == null)
+                throw new ArgumentNullException("outputs");
+
+            if (inputs.Length != outputs.Length)
+                throw new DimensionMismatchException("outputs",
+                    "The number of input vectors and output labels does not match.");
+
+            checkInputs(machine, inputs);
+        }
+
+        private static void checkInputs(SupportVectorMachine machine, double[][] inputs)
+        {
             if (inputs.Length == 0)
                 throw new ArgumentOutOfRangeException("inputs",
                     "Training algorithm needs at least one training vector.");
@@ -69,20 +102,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     for (int j = 0; j < inputs[i].Length; j++)
                     {
                         if (Double.IsNaN(inputs[i][j]))
-                            throw new ArgumentException("The input vector at index "+ i + " contains NaN values.");
+                            throw new ArgumentException("The input vector at index " + i + " contains NaN values.");
 
                         if (Double.IsInfinity(inputs[i][j]))
                             throw new ArgumentException("The input vector at index " + i + " contains infinity values.");
                     }
-                }
-            }
-
-            for (int i = 0; i < outputs.Length; i++)
-            {
-                if (outputs[i] != 1 && outputs[i] != -1)
-                {
-                    throw new ArgumentOutOfRangeException("outputs",
-                        "The output label at index " + i + " should be either +1 or -1.");
                 }
             }
         }
