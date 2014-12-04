@@ -94,15 +94,27 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         double alpha; //boundary ratio
 
         public TrapezoidalDistribution(
-                                        double a, //left bottom boundary
-                                        double b, //left top boundary
-                                        double c, //right top boundary
-                                        double d, //right bottom boundary
-                                        double n1, //growth rate
-                                        double n3, //decay rate
-                                        double alpha //boundary ratio
+                                       [Real] double a, //left bottom boundary
+                                       [Real] double b, //left top boundary
+                                       [Real] double c, //right top boundary
+                                       [Real] double d, //right bottom boundary
+                                       [Positive] double n1, //growth rate
+                                       [Positive] double n3, //decay rate
+                                       [Positive] double alpha //boundary ratio
                                        )
         {
+
+            //boundary validation
+            if (!(a < b && b < c && c < d)) {
+                throw new ArgumentOutOfRangeException(string.Format("boundary parameter inequality must be valid, a < b < c < d: (a={0}, b={1}, c={2}, d={3}", a, b, c, d));
+            }
+
+            //mixing/ratio validation
+            if( !(n1 > 0  && n3 > 0 && alpha > 0)){
+                throw new ArgumentOutOfRangeException(string.Format("mixing and ratio parameters must be positive, n1 > 1, n3, > 0, alpha > 0: (n1={0}, n3={1}, alpha={2}, d={3}", n1, n3, alpha));            
+            }
+
+
             this.a = a;
             this.b = b;
             this.c = c;

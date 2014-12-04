@@ -23,7 +23,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
         }
 
         [TestMethod]
-        public void BetaDistributionConstructorTest()
+        public void TrapezoidalDistributionConstructorTest()
         {
             double x = 0.75d;
 
