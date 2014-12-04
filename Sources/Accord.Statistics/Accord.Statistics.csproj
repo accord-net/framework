@@ -216,6 +216,7 @@
     <Compile Include="Distributions\Univariate\Continuous\PowerLognormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralizedNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\PowerNormalDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\UQuadraticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\WrappedCauchyDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\InverseGammaDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LaplaceDistribution.cs" />
