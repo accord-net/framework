@@ -22,7 +22,6 @@
 namespace Accord.Statistics.Distributions.Univariate.Continuous
 {
     using System;
-    using Accord.Math;
     using AForge;
 
     /// <summary>
@@ -31,20 +30,18 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
     /// 
     /// <remarks>
     /// <para>
-    /// Trapezoidal distributions have been advocated in risk analysis problems by Pouliquen
-    /// (1970) and more recently by Powell and Wilson (1997). They have also found application
-    /// as membership functions in fuzzy set theory (see, e.g. Chen and Hwang (1992)).</para>
+    ///   Trapezoidal distributions have been used in many areas and studied under varying
+    ///   scopes, such as in the excellent work of (van Dorp and Kotz, 2003), risk analysis
+    ///   (Pouliquen, 1970) and (Powell and Wilson, 1997), fuzzy set theory (Chen and Hwang,
+    ///   1992), applied phyisics, and biomedical applications (Flehinger and Kimmel, 1987).
+    /// </para>
     /// 
     /// <para>        
-    ///      ...trapezoidal distributions
-    /// have been used in the screening and detection of cancer (see, e.g. Flehinger and Kimmel,
-    /// (1987) and Brown (1999)).
-    /// Trapezoidal distributions seem to be appropriate for modeling the duration and the
-    /// form of a phenomenon which may be represented by three stages. The first stage can beviewed as a growth-stage, the second corresponds to a relative stability and the third
-    /// represents a decline (decay). These distributions however are restricted since the growth
-    /// and decay (in the first and third stages) are limited in the trapezoidal case to linear forms
-    /// and the second stage represents complete stability rather than a possible mild incline or
-    /// decline. </para>
+    ///   Trapezoidal distributions are appropriate for modeling events that are comprised
+    ///   by three different stages: one growth stage, where probability grows up until a
+    ///   plateau is reached; a stability stage, where probability stays more or less the same;
+    ///   and a decline stage, where probability decreases until zero (van Dorp and Kotz, 2003).
+    /// </para>
     ///   
     /// <para>
     ///   References:
@@ -52,7 +49,20 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
     ///     <item><description><a href="http://www.seas.gwu.edu/~dorpjr/Publications/JournalPapers/Metrika2003VanDorp.pdf">
     ///       J. René van Dorp, Samuel Kotz, Trapezoidal distribution. Available on: 
     ///       http://www.seas.gwu.edu/~dorpjr/Publications/JournalPapers/Metrika2003VanDorp.pdf </a></description></item>
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Powell MR, Wilson JD (1997). Risk Assessment for National Natural Resource
+    ///       Conservation Programs, Discussion Paper 97-49. Resources for the Future, Washington
+    ///       D.C.</description></item>
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Chen SJ, Hwang CL (1992). Fuzzy Multiple Attribute Decision-Making: Methods and
+    ///       Applications, Springer-Verlag, Berlin, New York.</description></item>
     ///   </list></para>     
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Flehinger BJ, Kimmel M (1987). The natural history of lung cancer in periodically 
+    ///       screened population. Biometrics 1987, 43, 127-144.</description></item>
     /// </remarks>
     /// 
     /// <example>
@@ -61,59 +71,84 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
     ///   of a Trapezoidal distribution given its parameters: </para>
     ///   
     /// <code>
-    /// // Create a new Trapezoidal distribution 
-    ///     double x = 0.75d;
+    /// // Create a new trapezoidal distribution with linear growth between
+    /// // 0 and 2, stability between 2 and 8, and decrease between 8 and 10.
+    /// //
+    /// //
+    /// //            +-----------+
+    /// //           /|           |\
+    /// //          / |           | \
+    /// //         /  |           |  \
+    /// //  -------+---+-----------+---+-------
+    /// //   ...   0   2   4   6   8   10  ...
+    /// //
+    /// var trapz = new TrapezoidalDistribution(a: 0, b: 2, c: 8, d: 10, n1: 1, n3: 1);
     /// 
-    ///     double a = 0;
-    ///     double b = (1.0d/3.0d);
-    ///     double c = (2.0d/3.0d);
-    ///     double d = 1.0d;
-    ///     double n1 = 2.0d;
-    ///     double n3 = 2.0d;
-    ///     double alpha = 1.0d;
+    /// double mean = trapz.Mean;     // 2.25
+    /// double median = trapz.Median; // 3.0
+    /// double mode = trapz.Mode;     // 3.1353457616424696
+    /// double var = trapz.Variance;  // 17.986666666666665
     /// 
-    ///     var trapDist = new TrapezoidalDistribution(a, b, c, d, n1, n3, alpha);
-    ///     double mean = trapDist.Mean; //0.62499999999999989
-    ///     double variance = trapDist.Variance; //0.37103174603174593
-    ///     double pdf = trapDist.ProbabilityDensityFunction(x); //1.1249999999999998
-    ///     double cdf = trapDist.DistributionFunction(x); //1.28125
-    ///     string tostr = trapDist.ToString();//"Trapezoidal(x; a=0, b=0.333333333333333, c=0.666666666666667, d=1, n1=2, n3=2, α = 1)"
+    /// double cdf = trapz.DistributionFunction(x: 1.4);           // 0.13999999999999999
+    /// double pdf = trapz.ProbabilityDensityFunction(x: 1.4);     // 0.10000000000000001
+    /// double lpdf = trapz.LogProbabilityDensityFunction(x: 1.4); // -2.3025850929940455
+    /// 
+    /// double ccdf = trapz.ComplementaryDistributionFunction(x: 1.4); // 0.85999999999999999
+    /// double icdf = trapz.InverseDistributionFunction(p: cdf);       // 1.3999999999999997
+    /// 
+    /// double hf = trapz.HazardFunction(x: 1.4);            // 0.11627906976744187
+    /// double chf = trapz.CumulativeHazardFunction(x: 1.4); // 0.15082288973458366
+    /// 
+    /// string str = trapz.ToString(CultureInfo.InvariantCulture); // Trapezoidal(x; a=0, b=2, c=8, d=10, n1=1, n3=1, α = 1)
     /// </code>
     /// </example>
     /// 
     [Serializable]
     public class TrapezoidalDistribution : UnivariateContinuousDistribution
     {
-        //parameters
-        double a; //left bottom boundary
-        double b; //left top boundary
-        double c; //right top boundary
-        double d; //right bottom boundary
-        double n1; //growth rate
-        double n3; //decay rate
-        double alpha; //boundary ratio
+        // distribution parameters
+        double a;  // left   bottom boundary
+        double b;  // left   top boundary
+        double c;  // right  top boundary
+        double d;  // right  bottom boundary
+        double n1; // growth rate
+        double n3; // decay  rate
 
-        public TrapezoidalDistribution(
-                                       [Real] double a, //left bottom boundary
-                                       [Real] double b, //left top boundary
-                                       [Real] double c, //right top boundary
-                                       [Real] double d, //right bottom boundary
-                                       [Positive] double n1, //growth rate
-                                       [Positive] double n3, //decay rate
-                                       [Positive] double alpha //boundary ratio
-                                       )
+        double alpha = 1;
+
+        // derived measures
+        double constant;
+
+
+        /// <summary>
+        ///   Creates a new trapezoidal distribution.
+        /// </summary>
+        /// 
+        /// <param name="a">The minimum value a.</param>
+        /// <param name="b">The beginning of the stability region b.</param>
+        /// <param name="c">The end of the stability region c.</param>
+        /// <param name="d">The maximum value d.</param>
+        /// <param name="n1">The growth slope between points <paramref name="a"/> and <paramref name="b"/>.</param>
+        /// <param name="n1">The growth slope between points <paramref name="c"/> and <paramref name="d"/>.</param>
+        /// 
+        public TrapezoidalDistribution([Real] double a, [Real] double b, [Real] double c,
+            [Real] double d, [Positive] double n1, [Positive] double n3)
         {
+            // boundary validation
+            if (a > b)
+                throw new ArgumentOutOfRangeException("b", "Argument b must be higher than a.");
 
-            //boundary validation
-            if (!(a < b && b < c && c < d)) {
-                throw new ArgumentOutOfRangeException(string.Format("boundary parameter inequality must be valid, a < b < c < d: (a={0}, b={1}, c={2}, d={3}", a, b, c, d));
-            }
+            if (b > c)
+                throw new ArgumentOutOfRangeException("c", "Argument c must be higher than b.");
 
-            //mixing/ratio validation
-            if( !(n1 > 0  && n3 > 0 && alpha > 0)){
-                throw new ArgumentOutOfRangeException(string.Format("mixing and ratio parameters must be positive, n1 > 1, n3, > 0, alpha > 0: (n1={0}, n3={1}, alpha={2}, d={3}", n1, n3, alpha));            
-            }
+            if (d < c)
+                throw new ArgumentOutOfRangeException("d", "Argument d must be higher than c.");
 
+            if (n1 <= 0)
+                throw new ArgumentOutOfRangeException("n1", "Slope n1 must be positive.");
+
+            if (n3 <= 0)
+                throw new ArgumentOutOfRangeException("n3", "Slope n3 must be positive.");
 
             this.a = a;
             this.b = b;
@@ -121,36 +156,57 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
             this.d = d;
             this.n1 = n1;
             this.n3 = n3;
-            this.alpha = alpha;
+
+            double num = 2 * n1 * n3;
+            double den = 2 * alpha * (b - a) * n3
+                + (alpha + 1) * (c - b) * n1 * n3
+                + 2 * (d - c) * n1;
+
+            this.constant = num / den;
         }
 
+        /// <summary>
+        ///   Gets the mean for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mean value.
+        /// </value>
+        /// 
         public override double Mean
         {
-            get 
-            { 
-                double expectationX1;
-                double expectationX2;
-                double expectationX3;
- 
-                expectationX1 = ( a + n1 * b ) / ( n1 + 1.0d );
-                expectationX2 = ( (-2.0d / 3.0d ) * ( alpha - 1.0d ) * ( Math.Pow( c, 3.0d )  - Math.Pow( b, 3.0d )) + ( alpha * c - b ) * ( Math.Pow( c, 2.0d ) - Math.Pow( b, 2.0d ) ) ) /
-                                (  Math.Pow( c - b, 2.0d ) * ( alpha + 1.0d ) );
-                expectationX3 = ( n3 * c + d ) / ( n3 + 1.0d ); 
+            get
+            {
+                double expectationX1 = (a + n1 * b) / (n1 + 1);
+                double expectationX3 = (n3 * c + d) / (n3 + 1);
 
-                return  (
-                            ( 2.0d * alpha * (b - a) * n3 * expectationX1 ) +
-                            ( n1 * n3 * ( expectationX2 ) ) +
-                            ( 2.0d * ( d - c ) * n1 * expectationX3 )
-                        ) / 
-                        (
-                            ( 2.0d * alpha * ( b - a ) * n3 ) +
-                            ( ( alpha + 1.0d ) * ( c - b ) * n1 * n3 ) +
-                            ( 2.0d * ( d - c ) * n1 )
-                        );
+                double num = (-2 / 3.0) * (alpha - 1) * (Math.Pow(c, 3)
+                    - Math.Pow(b, 3)) + (alpha * c - b) * (Math.Pow(c, 2) - Math.Pow(b, 2));
+                double den = Math.Pow(c - b, 2) * (alpha + 1);
 
+                double expectationX2 = num / den;
+
+
+                num = (2 * alpha * (b - a) * n3 * expectationX1)
+                   + (n1 * n3 * (expectationX2))
+                   + (2 * (d - c) * n1 * expectationX3);
+
+                den = (2 * alpha * (b - a) * n3)
+                    + ((alpha + 1) * (c - b) * n1 * n3)
+                    + (2 * (d - c) * n1);
+
+                return num / den;
             }
         }
 
+        /// <summary>
+        ///   Gets the variance for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's variance.
+        /// </value>
+        /// 
         public override double Variance
         {
             get
@@ -159,128 +215,169 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
                 double expectationX2_2;
                 double expectationX3_2;
 
-                expectationX1_2 =   ( 2.0d * a * a  + 2.0d * n1 * a * b + n1 * ( n1 + 1.0d ) * b * b ) /
-                                    ( ( n1 + 2.0d ) + ( n1 + 1.0d ) );
-                expectationX2_2 =   ( ( -1.0d  / 2.0d ) * ( alpha - 1.0d ) * ( Math.Pow( c, 4.0d) - Math.Pow( b, 4.0d ) ) + ( 2.0d / 3.0d ) * ( alpha * c - b ) * ( Math.Pow(c, 3.0d) - Math.Pow( b, 3.0d ) ) ) /
-                                    ( Math.Pow( c - b, 2.0d ) * ( alpha + 1.0d ) );
-                expectationX3_2 =   ( 2.0d * d * d + 2.0d * n3 * c * d + n3 * ( n3 + 1.0d ) * c * c ) / 
-                                    ( ( n3 + 2.0d ) * ( n3 + 1.0d) );
+                {
+                    double num = 2 * a * a + 2 * n1 * a * b + n1 * (n1 + 1) * b * b;
+                    double den = (n1 + 2) + (n1 + 1);
+                    expectationX1_2 = num / den;
+                }
 
-                return  (
-                          (
-                            ( 2.0d * alpha * ( b - a ) * n3 ) /
-                            ( 2.0d * alpha * ( b - a ) * n3 + ( alpha + 1.0d ) * ( c - b ) * n1 * n3 + 2.0d * ( d - c ) * n1)
-                          ) * expectationX1_2 +
-                          (
-                            ( n1 * n3 ) /
-                            ( 2.0d * alpha * ( b - a ) * n3 + ( alpha + 1.0d ) * ( c - b ) * n1 * n3 + 2.0d * ( d - c ) * n1)
-                          ) * expectationX2_2 +
-                          (
-                            ( 2.0d * ( d - c ) * n1 ) /
-                            ( 2.0d * alpha * ( b - a ) * n3 + ( alpha + 1.0d ) * ( c - b ) * n1 * n3 + 2.0d * ( d - c ) * n1)
-                          ) * expectationX3_2 
-                        );
+                {
+                    double num = -0.5 * (alpha - 1) * (Math.Pow(c, 4) - Math.Pow(b, 4))
+                        + (2 / 3.0) * (alpha * c - b) * (Math.Pow(c, 3)
+                        - Math.Pow(b, 3));
+
+                    double den = Math.Pow(c - b, 2) * (alpha + 1);
+                    expectationX2_2 = num / den;
+                }
+
+                {
+                    double num = 2 * d * d + 2 * n3 * c * d + n3 * (n3 + 1) * c * c;
+                    double den = (n3 + 2) * (n3 + 1);
+                    expectationX3_2 = num / den;
+                }
+
+                double x = (2 * alpha * (b - a) * n3)
+                    / (2 * alpha * (b - a) * n3 + (alpha + 1) * (c - b) * n1 * n3 + 2 * (d - c) * n1);
+
+                double y = (n1 * n3)
+                    / (2 * alpha * (b - a) * n3 + (alpha + 1) * (c - b) * n1 * n3 + 2 * (d - c) * n1);
+
+                double z = (2 * (d - c) * n1)
+                    / (2 * alpha * (b - a) * n3 + (alpha + 1) * (c - b) * n1 * n3 + 2 * (d - c) * n1);
+
+
+                return x * expectationX1_2 + y * expectationX2_2 + z * expectationX3_2;
             }
         }
 
+        /// <summary>
+        ///   Not supported.
+        /// </summary>
+        /// 
         public override double Entropy
         {
             get { return double.NaN; }
         }
 
+
+        /// <summary>
+        ///   Gets the support interval for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   the support interval for this distribution.
+        /// </value>
+        /// 
         public override DoubleRange Support
         {
-            get { return new DoubleRange( double.MinValue, double.MaxValue ); }
+            get { return new DoubleRange(a, d); }
         }
 
+        /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
         public override double DistributionFunction(double x)
         {
             if (x < a)
+                return 0;
+
+            if (x > d)
+                return 1;
+
+            if (x < b)
             {
-                return 0.0d;
-            }
-            else if (x < b)
-            {
-                return (
-                            ( 2.0d * alpha * ( b - a ) * n3 ) / 
-                            ( 
-                                ( 2.0d * alpha * ( b - a ) * n3 ) +
-                                ( ( alpha + 1.0d ) * ( c - b ) * n1 * n3 ) +
-                                ( 2.0d * ( d - c ) * n1)
-                            )
-                        ) * Math.Pow( ( x - a ) / ( b - a ), n1 );
-            }
-            else if (x < c)
-            {
-                return  (
-                            ( 2.0d * alpha * ( b - a ) * n3 ) +
-                            ( 2.0d * ( x - b ) * n1 * n3 *
-                                ( 1.0d + 
-                                    ( (alpha - 1.0d) * ( 2.0d * c - b - x) ) /
-                                    ( 2.0d * ( c - b ) ) 
-                                )
-                            ) 
-                        ) /
-                        (
-                            ( 2.0d * alpha * ( b - a ) * n3 ) +
-                            ( ( alpha + 1.0d ) * ( c - b ) * n1 * n3 ) +
-                            ( 2.0d * ( c - d ) * n1 )
-                        );
-            }
-            else if (x < d)
-            {
-                return  ( 1.0d -
-                            (
-                                ( 2.0d * ( c - d ) * n1 ) /
-                                (
-                                    ( 2.0d * alpha * ( b - a ) * n3 ) +
-                                    ( ( alpha + 1.0d ) * ( c - b ) * n1 * n3 ) +
-                                    ( 2.0d * ( c - d ) * n1 )
-                                ) *
-                                Math.Pow(  ( d - x ) / ( d - c ), n3 )                                    
-                            )
-                        );
+                double num = 2 * alpha * (b - a) * n3;
+                double den = 2 * alpha * (b - a) * n3
+                    + (alpha + 1) * (c - b) * n1 * n3
+                    + 2 * (d - c) * n1;
+
+                return (num / den) * Math.Pow((x - a) / (b - a), n1);
             }
 
-            return 1.0d;
+            if (x < c)
+            {
+                double num = 2 * alpha * (b - a) * n3
+                    + 2 * (x - b) * n1 * n3 * (1 + ((alpha - 1) * (2 * c - b - x)) / (2 * (c - b)));
+
+                double den = 2 * alpha * (b - a) * n3
+                    + (alpha + 1) * (c - b) * n1 * n3
+                    + 2 * (c - d) * n1;
+
+                return num / den;
+            }
+
+            if (x < d)
+            {
+                double num = 2 * (c - d) * n1;
+                double den = 2 * alpha * (b - a) * n3
+                    + (alpha + 1) * (c - b) * n1 * n3
+                    + 2 * (c - d) * n1;
+
+                return 1 - num / den * Math.Pow((d - x) / (d - c), n3);
+            }
+
+            return 1;
         }
 
+        /// <summary>
+        ///   Gets the probability density function (pdf) for
+        ///   this distribution evaluated at point <c>x</c>.
+        /// </summary>
+        /// 
+        /// <param name="x">A single point in the distribution range.</param>
+        /// 
+        /// <returns>
+        ///   The probability of <c>x</c> occurring
+        ///   in the current distribution.
+        /// </returns>
+        /// 
+        /// <remarks>
+        ///   The Probability Density Function (PDF) describes the
+        ///   probability that a given value <c>x</c> will occur.
+        /// </remarks>
+        /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            if ( x < a ) {
-                return 0.0d;
-            }
-            else if (x < b) {
-                return DensityConstant() * alpha * Math.Pow((x - a) / (b - a), n1 - 1.0d);
-            }
-            else if (x < c) {
-                return DensityConstant() * ( ( ( alpha - 1.0d ) * ( c - x ) / ( c - b ) ) + 1.0d );
-            }
-            else if (x < d) {
-                return DensityConstant() * Math.Pow((d - x) / (d - c), n3 - 1.0d);            
-            }
+            if (x < a)
+                return 0;
 
-            return 0.0d;
+            if (x > d)
+                return 0;
+
+            if (x < b)
+                return constant * alpha * Math.Pow((x - a) / (b - a), n1 - 1);
+
+            if (x < c)
+                return constant * (((alpha - 1) * (c - x) / (c - b)) + 1);
+
+            if (x < d)
+                return constant * Math.Pow((d - x) / (d - c), n3 - 1);
+
+            return 0;
         }
 
-        private double DensityConstant() { 
-            return  ( 2.0d * n1 * n3 ) /
-                    (   2.0d * alpha * ( b - a ) * n3 +
-                        ( alpha + 1 ) * ( c - b ) * n1 * n3 +
-                        2.0d * ( d - c ) * n1
-                    );
-        }
 
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
         public override object Clone()
         {
-            return new TrapezoidalDistribution(
-                                            this.a,
-                                            this.b,
-                                            this.c,
-                                            this.d,
-                                            this.n1,
-                                            this.n3,
-                                            this.alpha);
+            return new TrapezoidalDistribution(a, b, c, d, n1, n3);
         }
 
         /// <summary>
@@ -293,7 +390,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// 
         public override string ToString()
         {
-            return String.Format("Trapezoidal(x; a={0}, b={1}, c={2}, d={3}, n1={4}, n3={5}, α = {6})",
+            return String.Format("Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
                 a, b, c, d, n1, n3, alpha);
         }
 
@@ -307,7 +404,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// 
         public string ToString(IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "Trapezoidal(x; a={0}, b={1}, c={2}, d={3}, n1={4}, n3={5}, α = {6})",
+            return String.Format(formatProvider, "Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
                 a, b, c, d, n1, n3, alpha);
         }
 
@@ -321,7 +418,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Trapezoidal(x; a={0}, b={1}, c={2}, d={3}, n1={4}, n3={5}, α = {6})",
+            return String.Format("Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
                 a.ToString(format, formatProvider),
                 b.ToString(format, formatProvider),
                 c.ToString(format, formatProvider),
