@@ -210,6 +210,7 @@
     <Compile Include="Distributions\Univariate\Continuous\FoldedNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\SkewNormalDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\TrapezoidalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GumbelDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TukeyLambdaDistribution.cs" />
