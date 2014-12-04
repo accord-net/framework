@@ -9,8 +9,13 @@ using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
 using Accord.Statistics.Kernels;
+using Accord.Statistics.Models.Regression;
+using Accord.Statistics.Models.Regression.Fitting;
+using System;
+using AForge.Neuro;
+using Accord.Neuro.Learning;
 
-namespace accord_net_classification
+namespace ClassificationSample
 {
     class Program
     {
@@ -34,6 +39,95 @@ namespace accord_net_classification
             linearSvm(inputs, outputs);
 
             kernelSvm(inputs, outputs);
+
+            logistic(inputs, outputs);
+
+            network(inputs, outputs);
+        }
+
+        private static void network(double[][] inputs, int[] outputs)
+        {
+            // Since we would like to learn binary outputs in the form
+            // [-1,+1], we can use a bipolar sigmoid activation function
+            IActivationFunction function = new BipolarSigmoidFunction();
+
+            // In our problem, we have 2 inputs (x, y pairs), and we will 
+            // be creating a network with 5 hidden neurons and 1 output:
+            //
+            var network = new ActivationNetwork(function,
+                inputsCount: 2, neuronsCount: new[] { 5, 1 });
+
+            // Create a Levenberg-Marquardt algorithm
+            var teacher = new LevenbergMarquardtLearning(network)
+            {
+                UseRegularization = true
+            };
+
+
+            // Because the network is expecting multiple outputs,
+            // we have to convert our single variable into arrays
+            //
+            var y = outputs.ToDouble().ToArray();
+
+            // Iterate until stop criteria is met
+            double error = double.PositiveInfinity;
+            double previous;
+
+            do
+            {
+                previous = error;
+
+                // Compute one learning iteration
+                error = teacher.RunEpoch(inputs, y);
+
+            } while (Math.Abs(previous - error) < 1e-10 * previous);
+
+
+            // Classify the samples using the model
+            int[] answers = inputs.Apply(network.Compute).GetColumn(0).ToInt32();
+
+            // Plot the results
+            ScatterplotBox.Show("Expected results", inputs, outputs);
+            ScatterplotBox.Show("Network results", inputs, answers)
+                .Hold();
+        }
+
+        private static void logistic(double[][] inputs, int[] outputs)
+        {
+            // In our problem, we have 2 inputs (x, y pairs)
+            var logistic = new LogisticRegression(inputs: 2);
+
+            // Create a iterative re-weighted least squares algorithm
+            var teacher = new IterativeReweightedLeastSquares(logistic);
+
+
+            // Logistic Regression expects the output labels 
+            // to range from 0 to k, so we convert -1 to be 0:
+            //
+            outputs = outputs.Apply(x => x < 0 ? 0 : x);
+
+
+            // Iterate until stop criteria is met
+            double error = double.PositiveInfinity;
+            double previous;
+
+            do
+            {
+                previous = error;
+
+                // Compute one learning iteration
+                error = teacher.Run(inputs, outputs);
+
+            } while (Math.Abs(previous - error) < 1e-10 * previous);
+
+
+            // Classify the samples using the model
+            int[] answers = inputs.Apply(logistic.Compute).Apply(Math.Round).ToInt32();
+
+            // Plot the results
+            ScatterplotBox.Show("Expected results", inputs, outputs);
+            ScatterplotBox.Show("Logistic Regression results", inputs, answers)
+                .Hold();
         }
 
         private static void linearSvm(double[][] inputs, int[] outputs)
@@ -59,7 +153,7 @@ namespace accord_net_classification
             ScatterplotBox.Show("LinearSVM results", inputs, answers);
 
             // Grab the index of multipliers higher than 0
-            int[] idx = teacher.Lagrange.Find(x => x > 0); 
+            int[] idx = teacher.Lagrange.Find(x => x > 0);
 
             // Select the input vectors for those
             double[][] sv = inputs.Submatrix(idx);
