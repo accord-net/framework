@@ -29,9 +29,10 @@ namespace Accord.Tests.Statistics
     using System.Data;
     using Accord.Controls;
     using System;
+    using Accord.Statistics.Distributions.Univariate;
 
     [TestClass()]
-    public class DataGridBoxText
+    public class HistogramBoxText
     {
 
         private TestContext testContextInstance;
@@ -51,9 +52,11 @@ namespace Accord.Tests.Statistics
         [TestMethod, Ignore]
         public void ComputeTest1()
         {
-            double[,] data = Matrix.Identity(5);
+            // Generate some normally distributed samples
+            double[] data = NormalDistribution.Standard.Generate(100);
 
-            DataGridBox.Show(data).Hold();
+            HistogramBox.Show(data).Hold();
         }
+
     }
 }

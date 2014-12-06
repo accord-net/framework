@@ -23,15 +23,14 @@
 namespace Accord.Controls
 {
     using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
     using System.Threading;
     using System.Windows.Forms;
-    using Accord.Statistics.Visualizations;
-    using ZedGraph;
-    using System.Drawing;
     using Accord.Math;
-    using System.Linq;
     using AForge;
-    using System.Collections.Generic;
+    using ZedGraph;
 
     /// <summary>
     ///   Data Series Box for quickly displaying a form with a time

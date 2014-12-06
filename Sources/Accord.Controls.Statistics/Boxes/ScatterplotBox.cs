@@ -20,8 +20,6 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Distributions;
-
 namespace Accord.Controls
 {
     using System;
@@ -30,14 +28,39 @@ namespace Accord.Controls
     using System.Threading;
     using System.Windows.Forms;
     using Accord.Math;
+    using Accord.Statistics.Distributions;
     using Accord.Statistics.Visualizations;
     using AForge;
 
     /// <summary>
-    ///   Scatter plot Box for quickly displaying a form with a scatter plot on it
-    ///   in the same spirit as System.Windows.Forms.MessageBox.
+    ///   Scatter plot Box for quickly displaying a form with a scatter 
+    ///   plot on it in the same spirit as System.Windows.Forms.MessageBox.
     /// </summary>
     /// 
+    /// <example>
+    /// <code>
+    /// // Create unlabeled (x,y) points
+    /// double[,] points = 
+    /// {
+    ///     { 1, 1 }, { 1, 4 },
+    ///     { 4, 1 }, { 4, 4 },
+    /// };
+    /// 
+    /// // Display them onscreen
+    /// ScatterplotBox.Show(points).Hold();
+    /// 
+    /// // Create labels for the points
+    /// int[] classes = { 0, 1, 0, 1 };
+    /// 
+    /// // Display it onscreen with labels
+    /// ScatterplotBox.Show(points, classes).Hold();
+    /// </code>
+    ///   
+    /// <img src="../images/visualizations/scatterplot-box-1.png"/>
+    /// <img src="../images/visualizations/scatterplot-box-2.png"/>
+    /// 
+    /// </example>
+    ///            
     public partial class ScatterplotBox : Form
     {
 

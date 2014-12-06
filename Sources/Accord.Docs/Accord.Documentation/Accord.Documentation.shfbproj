@@ -312,6 +312,7 @@
     <Folder Include="diagrams\classes\" />
     <Folder Include="images\filters\" />
     <Folder Include="images\hmm\" />
+    <Folder Include="images\visualizations" />
     <Folder Include="resources\" />
     <Folder Include="diagrams\" />
   </ItemGroup>
@@ -442,10 +443,6 @@
     <Content Include="images\one-way-anova.png">
       <ImageId>one-way-anova</ImageId>
       <AlternateText>one-way-anova</AlternateText>
-    </Content>
-    <Content Include="images\scatterplot-box.png">
-      <ImageId>scatterplot-box</ImageId>
-      <AlternateText>scatterplot-box</AlternateText>
     </Content>
     <Content Include="images\image-to-matrix-string.png">
       <ImageId>image-to-matrix-string</ImageId>
@@ -712,6 +709,30 @@
     <Content Include="diagrams\classes\Accord.Statistics.Distributions.Univariate.png">
       <ImageId>Accord.Statistics.Distributions.Univariate</ImageId>
       <AlternateText>Accord.Statistics.Distributions.Univariate</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\databar-box.png">
+      <ImageId>databar-box</ImageId>
+      <AlternateText>databar-box</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\datagrid-box.png">
+      <ImageId>datagrid-box</ImageId>
+      <AlternateText>datagrid-box</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\histogram-box.png">
+      <ImageId>histogram-box</ImageId>
+      <AlternateText>histogram-box</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\scatterplot-box-1.png">
+      <ImageId>scatterplot-box-1</ImageId>
+      <AlternateText>scatterplot-box-1</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\scatterplot-box-2.png">
+      <ImageId>scatterplot-box-2</ImageId>
+      <AlternateText>scatterplot-box-2</AlternateText>
+    </Content>
+    <Content Include="images\visualizations\scatterplot-box.png">
+      <ImageId>scatterplot-box</ImageId>
+      <AlternateText>scatterplot-box</AlternateText>
     </Content>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>

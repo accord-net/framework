@@ -31,7 +31,7 @@ namespace Accord.Tests.Statistics
     using System;
 
     [TestClass()]
-    public class DataGridBoxText
+    public class DataBarBoxText
     {
 
         private TestContext testContextInstance;
@@ -51,9 +51,12 @@ namespace Accord.Tests.Statistics
         [TestMethod, Ignore]
         public void ComputeTest1()
         {
-            double[,] data = Matrix.Identity(5);
+            double[] data = new double[] { 100.0, 150.0, 42.0 };
+            string[] labels = { "1", "2", "3" };
 
-            DataGridBox.Show(data).Hold();
+            DataBarBox.Show(labels, data)
+                .Hold();
         }
+
     }
 }

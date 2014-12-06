@@ -164,18 +164,18 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   // from the model. The commented values on the right are the 
     ///   // likelihoods computed by taking an exp(x) of the log-likelihoods
     ///   // returned by the Evaluate method.
-    ///   double l1 = hmm.Evaluate(new double[] { 0, 1 });       // 0.999
-    ///   double l2 = hmm.Evaluate(new double[] { 0, 1, 1, 1 }); // 0.916
+    ///   double l1 = Math.Exp(hmm.Evaluate(new double[] { 0, 1 }));       // 0.999
+    ///   double l2 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 1, 1 })); // 0.916
     ///   
     ///   // Sequences which do not start with zero have much lesser probability.
-    ///   double l3 = hmm.Evaluate(new double[] { 1, 1 });       // 0.000
-    ///   double l4 = hmm.Evaluate(new double[] { 1, 0, 0, 0 }); // 0.000
+    ///   double l3 = Math.Exp(hmm.Evaluate(new double[] { 1, 1 }));       // 0.000
+    ///   double l4 = Math.Exp(hmm.Evaluate(new double[] { 1, 0, 0, 0 })); // 0.000
     ///   
     ///   // Sequences which contains few errors have higher probability
     ///   //  than the ones which do not start with zero. This shows some
     ///   //  of the temporal elasticity and error tolerance of the HMMs.
-    ///   double l5 = hmm.Evaluate(new double[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 }); // 0.034
-    ///   double l6 = hmm.Evaluate(new double[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 }); // 0.034
+    ///   double l5 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 0, 1, 1, 1, 1, 1, 1 })); // 0.034
+    ///   double l6 = Math.Exp(hmm.Evaluate(new double[] { 0, 1, 1, 1, 1, 1, 1, 0, 1 })); // 0.034
     ///   </code>
     ///   
     /// <para>

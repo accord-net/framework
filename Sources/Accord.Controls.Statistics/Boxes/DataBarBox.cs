@@ -39,6 +39,19 @@ namespace Accord.Controls
     ///   series plot on it in the same spirit as System.Windows.Forms.MessageBox.
     /// </summary>
     /// 
+    /// <example>
+    /// <code>
+    /// // Create some data
+    /// string[] labels = {  "1",   "2",   "3" };
+    /// double[] data =   { 100.0, 150.0, 42.0 };
+    /// 
+    /// // Display it onscreen
+    /// DataBarBox.Show(labels, data).Hold();
+    /// </code>
+    ///   
+    /// <img src="../images/visualizations/databar-box.png"/>
+    /// </example>
+    /// 
     public partial class DataBarBox : Form
     {
 
@@ -169,7 +182,6 @@ namespace Accord.Controls
                 form.zedGraphControl.GraphPane.Title.Text = title;
                 form.zedGraphControl.GraphPane.XAxis.Type = AxisType.Text;
                 form.zedGraphControl.GraphPane.XAxis.Scale.TextLabels = labels;
-                //form.zedGraphControl.GraphPane.XAxis.Scale.MinorStep = 1;
                 form.zedGraphControl.GraphPane.XAxis.Scale.MajorStep = 1;
                 form.zedGraphControl.GraphPane.AxisChange();
 

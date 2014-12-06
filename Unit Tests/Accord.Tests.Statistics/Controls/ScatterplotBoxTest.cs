@@ -22,17 +22,14 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics;
+    using Accord.Statistics.Visualizations;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math;
-    using Accord;
-    using System.Data;
     using Accord.Controls;
-    using System;
 
     [TestClass()]
-    public class DataGridBoxText
+    public class ScatterplotBoxTest
     {
+
 
         private TestContext testContextInstance;
 
@@ -48,12 +45,26 @@ namespace Accord.Tests.Statistics
             }
         }
 
+
         [TestMethod, Ignore]
         public void ComputeTest1()
         {
-            double[,] data = Matrix.Identity(5);
+            double[,] points = 
+            {
+                { 1, 1 }, { 1, 4 },
+                { 4, 1 }, { 4, 4 },
+            };
 
-            DataGridBox.Show(data).Hold();
+            ScatterplotBox.Show(points).Hold();
+
+            int[] classes = 
+            {
+                0, 1,
+                0, 1,
+            };
+
+            ScatterplotBox.Show(points, classes).Hold();
         }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿// Accord Unit Tests
+﻿// Accord Core Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -20,40 +20,21 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Tests.Statistics
+namespace Accord.MachineLearning.DecisionTrees.Learning
 {
-    using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math;
-    using Accord;
-    using System.Data;
-    using Accord.Controls;
-    using System;
+    using System.Runtime.CompilerServices;
 
-    [TestClass()]
-    public class DataGridBoxText
+    /// <summary>
+    ///  Contains learning algorithms for inducing 
+    ///  <see cref="Accord.MachineLearning.DecisionTrees">Decision Trees</see>.
+    /// </summary>
+    /// 
+    /// <seealso cref="Accord.MachineLearning.DecisionTrees"/>
+    /// <seealso cref="Accord.MachineLearning.DecisionTrees.Prunning"/>
+    /// <seealso cref="Accord.MachineLearning.DecisionTrees.Rules"/>
+    /// 
+    [CompilerGenerated]
+    class NamespaceDoc
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        [TestMethod, Ignore]
-        public void ComputeTest1()
-        {
-            double[,] data = Matrix.Identity(5);
-
-            DataGridBox.Show(data).Hold();
-        }
     }
 }

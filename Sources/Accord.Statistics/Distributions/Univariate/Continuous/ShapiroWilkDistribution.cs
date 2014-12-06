@@ -51,7 +51,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples.</param>
         /// 
-        public ShapiroWilkDistribution([Range(4, 5000)] int samples)
+        public ShapiroWilkDistribution(int samples)
         {
             if (samples < 4)
             {

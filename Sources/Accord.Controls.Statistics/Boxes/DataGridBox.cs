@@ -34,15 +34,15 @@ namespace Accord.Controls
     /// </summary>
     /// 
     /// <example>
+    /// <code>
+    /// // Create some data
+    /// double[,] data = Matrix.Identity(5);
     ///   
-    ///   <code>
-    ///   // Create some data
-    ///   double[,] data = ...;
+    /// // Display it onscreen
+    /// DataGridBox.Show(data).Hold();
+    /// </code>
     ///   
-    ///   // Display it onscreen
-    ///   DataGridBox.Show(data);</code>
-    ///   
-    ///   <img src="../images/scatterplot-box.png"/>
+    /// <img src="../images/visualizations/datagrid-box.png"/>
     /// </example>
     /// 
     public partial class DataGridBox : Form

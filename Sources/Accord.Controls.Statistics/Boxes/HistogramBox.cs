@@ -25,13 +25,25 @@ namespace Accord.Controls
     using System;
     using System.Threading;
     using System.Windows.Forms;
-    using Accord.Statistics.Visualizations;
     using Accord.Math;
+    using Accord.Statistics.Visualizations;
 
     /// <summary>
     ///   Histogram Box for quickly displaying a form with a histogram 
     ///   on it in the same spirit as System.Windows.Forms.MessageBox.
     /// </summary>
+    /// 
+    /// <example>
+    /// <code>
+    /// // Generate some normally distributed samples
+    /// double[] data = NormalDistribution.Standard.Generate(100);
+    ///   
+    /// // Display it onscreen
+    /// HistogramBox.Show(data).Hold();
+    /// </code>
+    ///   
+    /// <img src="../images/visualizations/histogram-box.png"/>
+    /// </example>
     /// 
     public partial class HistogramBox : Form
     {
