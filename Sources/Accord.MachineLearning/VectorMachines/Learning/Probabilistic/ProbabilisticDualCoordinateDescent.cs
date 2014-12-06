@@ -60,7 +60,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
     /// <summary>
     ///   L2-regularized logistic regression (probabilistic support 
-    ///   vector machine) learning algorithm in the dual form.
+    ///   vector machine) learning algorithm in the dual form (-s 7).
     /// </summary>
     /// 
     /// <remarks>

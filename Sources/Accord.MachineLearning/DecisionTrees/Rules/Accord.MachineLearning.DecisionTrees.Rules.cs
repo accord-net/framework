@@ -32,6 +32,7 @@ namespace Accord.MachineLearning.DecisionTrees.Prunning
     /// 
     /// <seealso cref="Accord.MachineLearning.DecisionTrees"/>
     /// <seealso cref="Accord.MachineLearning.DecisionTrees.Prunning"/>
+    /// <seealso cref="Accord.MachineLearning.DecisionTrees.Learning"/>
     /// 
     [CompilerGenerated]
     class NamespaceDoc

@@ -66,7 +66,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
     /// <summary>
     ///   Coordinate descent algorithm for the L1 or L2-loss linear Support 
-    ///   Vector Regression (epsilon-SVR) learning problem in the dual form.
+    ///   Vector Regression (epsilon-SVR) learning problem in the dual form
+    ///   (-s 12 and -s 13).
     /// </summary>
     /// 
     /// <remarks>

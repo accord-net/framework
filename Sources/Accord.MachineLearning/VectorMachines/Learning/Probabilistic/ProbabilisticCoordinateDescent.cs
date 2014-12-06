@@ -59,7 +59,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Statistics.Links;
 
     /// <summary>
-    ///   L1-regularized logistic regression (probabilistic SVM) learning algorithm.
+    ///   L1-regularized logistic regression (probabilistic SVM) 
+    ///   learning algorithm (-s 6).
     /// </summary>
     /// 
     /// <remarks>

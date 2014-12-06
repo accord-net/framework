@@ -79,7 +79,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </para>
     /// 
     /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="LinearCoordinateDescent"/>
+    /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class ProbabilisticNewtonMethod : BaseSupportVectorLearning,
         ISupportVectorMachineLearning, ISupportCancellation
@@ -98,8 +98,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
 
         /// <summary>
-        ///   Constructs a new Newton method algorithm for L2-regularized
-        ///   logistic regression (probabilistic linear SVMs) primal problems.
+        ///   Constructs a new Newton method algorithm for L2-regularized logistic 
+        ///   regression (probabilistic linear SVMs) primal problems (-s 0).
         /// </summary>
         /// 
         /// <param name="machine">A support vector machine.</param>

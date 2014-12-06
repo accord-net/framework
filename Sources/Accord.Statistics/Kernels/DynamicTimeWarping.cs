@@ -26,6 +26,7 @@ namespace Accord.Statistics.Kernels
     using System;
     using System.Threading;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     /// <summary>
     ///   Dynamic Time Warping Sequence Kernel.
@@ -179,8 +180,7 @@ namespace Accord.Statistics.Kernels
         private int degree = 1;     // polynomial kernel degree
 
         [NonSerialized]
-        private ThreadLocal<Locals> locals =
-            new ThreadLocal<Locals>(() => new Locals());
+        private ThreadLocal<Locals> locals;
 
         /// <summary>
         ///   Gets or sets the length for the feature vectors
@@ -225,6 +225,7 @@ namespace Accord.Statistics.Kernels
         public DynamicTimeWarping(int length)
         {
             this.length = length;
+            this.initialize();
         }
 
         /// <summary>
@@ -244,6 +245,7 @@ namespace Accord.Statistics.Kernels
         {
             this.length = length;
             this.alpha = alpha;
+            this.initialize();
         }
 
         /// <summary>
@@ -268,6 +270,12 @@ namespace Accord.Statistics.Kernels
             this.alpha = alpha;
             this.degree = degree;
             this.length = length;
+            this.initialize();
+        }
+
+        private void initialize()
+        {
+            locals = new ThreadLocal<Locals>(() => new Locals());
         }
 
 
@@ -281,7 +289,8 @@ namespace Accord.Statistics.Kernels
         /// 
         public override double Function(double[] x, double[] y)
         {
-            if (x == y) return 1.0;
+            if (x == y) 
+                return 1.0;
 
             Locals m = locals.Value;
 
@@ -421,16 +430,20 @@ namespace Accord.Statistics.Kernels
         }
 
 
+        [OnDeserialized]
+        private void onDeserialized(StreamingContext context)
+        {
+            this.initialize();
+        }
+
         private class Locals
         {
             public double[,] DTW;
             public int m;
             public int n;
-            // Dictionary<double[], double[]> vectors;
 
             public Locals()
             {
-                // vectors = new Dictionary<double[], double[]>();
             }
 
             public void Create(int n, int m)

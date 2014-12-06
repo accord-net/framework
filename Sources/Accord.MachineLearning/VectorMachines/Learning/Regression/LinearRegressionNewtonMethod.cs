@@ -61,7 +61,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
     /// <summary>
     ///   L2-regularized L2-loss linear support vector regression
-    ///   (SVR) learning algorithm in the primal formulation.
+    ///   (SVR) learning algorithm in the primal formulation (-s 11).
     /// </summary>
     /// 
     /// <remarks>
@@ -78,7 +78,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </para>
     /// 
     /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="LinearCoordinateDescent"/>
+    /// <seealso cref="LinearDualCoordinateDescent"/>
     /// <seealso cref="LinearRegressionCoordinateDescent"/>
     /// 
     public class LinearRegressionNewtonMethod : BaseSupportVectorRegression,

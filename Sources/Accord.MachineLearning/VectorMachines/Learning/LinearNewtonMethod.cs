@@ -68,7 +68,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     ///   problem. This method has been based on liblinear's <c>l2r_l2_svc_fun</c>
     ///   problem specification, optimized using a <see cref="TrustRegionNewtonMethod">
     ///   Trust-region Newton method</see>. This method might be faster than the often
-    ///   preferred <see cref="LinearCoordinateDescent"/>. </para>
+    ///   preferred <see cref="LinearDualCoordinateDescent"/>. </para>
     ///   
     /// <para>
     ///   Liblinear's solver <c>-s 2</c>: <c>L2R_L2LOSS_SVC</c>. A trust region newton
@@ -78,7 +78,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     /// </remarks>
     /// 
     /// <seealso cref="SequentialMinimalOptimization"/>
-    /// <seealso cref="LinearCoordinateDescent"/>
+    /// <seealso cref="LinearDualCoordinateDescent"/>
     /// 
     public class LinearNewtonMethod : BaseSupportVectorLearning,
         ISupportVectorMachineLearning, ISupportCancellation
@@ -99,7 +99,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Constructs a new Newton method algorithm for L2-regularized
-        ///   Support Vector Classification problems in the primal form.
+        ///   Support Vector Classification problems in the primal form (-s 2).
         /// </summary>
         /// 
         /// <param name="machine">A support vector machine.</param>
