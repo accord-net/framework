@@ -280,8 +280,10 @@
     <None Include="Accord.snk" />
     <None Include="Resources\constraintMatrix11_15_2.csv" />
     <None Include="Resources\constraintMatrix11_15.csv" />
+    <None Include="Resources\constraintMatrix11_15_3.csv" />
     <None Include="Resources\constraints11_14_2.csv" />
     <None Include="Resources\constraints11_14.csv" />
+    <None Include="Resources\constraints11_14_3.csv" />
     <None Include="Resources\dmatFull.csv" />
   </ItemGroup>
   <ItemGroup>

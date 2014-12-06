@@ -92,6 +92,23 @@ namespace Accord.Tests.Math.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 0.013536929,0.015367282,0.015147829,0.01631566,0.014605351,0.013309429,0.014501944,0.012816008,0.015075137,0.014385416,0.013365123,0.012091525,0.01357307,0.013290642,0.013151717,0.014212722,0.013137819,0.01530685,0.015975065
+        ///1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+        ///1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+        ///0,0,0,1,0, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string constraintMatrix11_15_3 {
+            get {
+                return ResourceManager.GetString("constraintMatrix11_15_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 0.01487088
         ///1
         ///0
@@ -188,6 +205,69 @@ namespace Accord.Tests.Math.Properties {
         internal static string constraints11_14_2 {
             get {
                 return ResourceManager.GetString("constraints11_14_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 0.015732506
+        ///1
+        ///0
+        ///-1
+        ///0
+        ///-0.4
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///0
+        ///-1
+        ///.
+        /// </summary>
+        internal static string constraints11_14_3 {
+            get {
+                return ResourceManager.GetString("constraints11_14_3", resourceCulture);
             }
         }
         

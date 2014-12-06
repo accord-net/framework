@@ -1330,6 +1330,55 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-5);
         }
 
+        [TestMethod()]
+        public void GoldfarbIdnaniLargeSampleTest3_InfiniteLoop()
+        {
+            var Q = readMatrixFile(new StringReader(Resources.dmatFull));
+            var AMat = readMatrixFile(new StringReader(Resources.constraintMatrix11_15_3));
+            var bvec = readVectorFile(new StringReader(Resources.constraints11_14_3));
+
+            var dvec = new double[Q.GetLength(0)];
+            double[] b = new double[bvec.Length];
+            bvec.CopyTo(b, 0);
+
+            bool psd = Q.IsPositiveDefinite();
+            Assert.IsTrue(psd);
+
+            GoldfarbIdnani gfI = new GoldfarbIdnani(Q, dvec, AMat, b, 2);
+
+            for (int i = 0; i < gfI.ConstraintTolerances.Length; i++)
+                gfI.ConstraintTolerances[i] = 1e-10;
+
+            bool success = gfI.Minimize();
+
+            Assert.IsTrue(success);
+
+            double[] soln = gfI.Solution;
+            double value = Math.Sqrt(Matrix.Multiply(Matrix.Multiply(soln, Q), soln.Transpose())[0]);
+
+            double expectedSol = 0.052870914138455;
+            double actualSol = value;
+
+            double[] expected = 
+            {
+                0.4, // 2
+                0.0016271524831373, // 4
+                0, // 5
+                0, // 13
+                0, // 14
+                0.59837284751680053 // 19     
+            };
+
+            double[] actual =
+            {
+                soln[1], soln[3], soln[4], soln[12], soln[13], soln[18]
+            };
+
+            Assert.AreEqual(expectedSol, actualSol, 1e-8);
+            for (int i = 0; i < expected.Length; i++)
+                Assert.AreEqual(expected[i], actual[i], 1e-5);
+        }
+
         private double[,] readMatrixFile(StringReader reader)
         {
             string line = null;
