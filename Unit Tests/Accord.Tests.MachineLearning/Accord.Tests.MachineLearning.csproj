@@ -176,6 +176,7 @@
     <Compile Include="Clustering\KModesTest.cs" />
     <Compile Include="KNearestNeighborTest.cs" />
     <Compile Include="VectorMachines\LinearCoordinateDescentTest.cs" />
+    <Compile Include="VectorMachines\LinearDualCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\LinearNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\LeastSquaresLearningTest.cs" />
     <Compile Include="VectorMachines\Probabilistic\ProbabilisticCoordinateDescentTest.cs" />

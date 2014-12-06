@@ -142,6 +142,7 @@
     <Compile Include="DecisionTrees\Accord.MachineLearning.DecisionTrees.cs" />
     <Compile Include="DecisionTrees\ComparisonKind.cs" />
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
+    <Compile Include="DecisionTrees\Learning\Accord.MachineLearning.DecisionTrees.Learning.cs" />
     <Compile Include="DecisionTrees\Pruning\Accord.MachineLearning.DecisionTrees.Prunning.cs" />
     <Compile Include="DecisionTrees\Rules\Accord.MachineLearning.DecisionTrees.Rules.cs" />
     <Compile Include="DecisionTrees\Rules\Antecedent.cs" />
@@ -200,8 +201,9 @@
     <Compile Include="VectorMachines\Accord.MachineLearning.VectorMachines.cs" />
     <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorLearning.cs" />
     <Compile Include="VectorMachines\Learning\Base\BaseSupportVectorRegression.cs" />
-    <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
     <Compile Include="VectorMachines\Learning\LinearCoordinateDescent.cs" />
+    <Compile Include="VectorMachines\Learning\LeastSquaresLearning.cs" />
+    <Compile Include="VectorMachines\Learning\LinearDualCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticDualCoordinateDescent.cs" />
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticNewtonMethod.cs" />

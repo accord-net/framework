@@ -64,93 +64,50 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Threading;
 
     /// <summary>
-    ///   Different categories of loss functions that can be used to learn 
-    ///   <see cref="SupportVectorMachine">support vector machines</see>.
-    /// </summary>
-    /// 
-    public enum Loss
-    {
-        /// <summary>
-        ///   Hinge-loss function. 
-        /// </summary>
-        /// 
-        L1,
-
-        /// <summary>
-        ///   Squared hinge-loss function.
-        /// </summary>
-        /// 
-        L2
-    };
-
-
-
-    /// <summary>
-    ///   L2-regularized, L1 or L2-loss dual formulation Support Vector Machine learning.
+    ///   L1-regularized L2-loss support vector 
+    ///   Support Vector Machine learning (-s 5).
     /// </summary>
     /// 
     /// <remarks>
     /// <para>
     ///   This class implements a <see cref="SupportVectorMachine"/> learning algorithm
-    ///   specifically crafted for linear machines only. It provides a L2-regularized, L1
-    ///   or L2-loss coordinate descent learning algorithm for optimizing the dual form of
-    ///   learning. The code has been based on liblinear's method <c>solve_l2r_l1l2_svc</c>
+    ///   specifically crafted for linear machines only. It provides a L1-regularized, 
+    ///   L2-loss coordinate descent learning algorithm for optimizing the primal form of
+    ///   learning. The code has been based on liblinear's method <c>solve_l1r_l2_svc</c>
     ///   method, whose original description is provided below.
     /// </para>
     /// 
     /// <para>
-    ///   Liblinear's solver <c>-s 1</c>: <c>L2R_L2LOSS_SVC_DUAL</c> and <c>-s 3</c>: 
-    ///   <c>L2R_L1LOSS_SVC_DUAL</c>. A coordinate descent algorithm for L1-loss and 
-    ///   L2-loss SVM problems in the dual.
+    ///   Liblinear's solver <c>-s 5</c>: <c>L1R_L2LOSS_svc</c>. A coordinate descent 
+    ///   algorithm for L2-loss SVM problems in the primal.
     /// </para>
     /// 
     /// <code>
-    ///  min_\alpha  0.5(\alpha^T (Q + D)\alpha) - e^T \alpha,
-    ///    s.t.      0 &lt;= \alpha_i &lt;= upper_bound_i,
+    ///  min_w \sum |wj| + C \sum max(0, 1-yi w^T xi)^2,
     /// </code>
     /// 
     /// <para>
-    ///  where Qij = yi yj xi^T xj and
-    ///  D is a diagonal matrix </para>
+    ///   Given: x, y, Cp, Cn and eps as the stopping tolerance</para>
     ///
     /// <para>
-    /// In L1-SVM case:</para>
-    /// <code>
-    ///         upper_bound_i = Cp if y_i = 1
-    ///         upper_bound_i = Cn if y_i = -1
-    ///         D_ii = 0
-    /// </code>
-    /// <para>
-    /// In L2-SVM case:</para>
-    /// <code>
-    ///         upper_bound_i = INF
-    ///         D_ii = 1/(2*Cp)	if y_i = 1
-    ///         D_ii = 1/(2*Cn)	if y_i = -1
-    /// </code>
-    /// 
-    /// <para>
-    /// Given: x, y, Cp, Cn, and eps as the stopping tolerance</para>
-    ///
-    /// <para>
-    /// See Algorithm 3 of Hsieh et al., ICML 2008.</para>
+    ///   See Yuan et al. (2010) and appendix of LIBLINEAR paper, Fan et al. (2008)</para>
     /// </remarks>
     /// 
     /// <see cref="SequentialMinimalOptimization"/>
     /// <see cref="LinearNewtonMethod"/>
+    /// <see cref="LinearDualCoordinateDescent"/>
     /// 
     public class LinearCoordinateDescent : BaseSupportVectorLearning,
         ISupportVectorMachineLearning, ISupportCancellation
     {
 
-        int max_iter = 1000;
-
-        private double eps = 0.1;
+        double eps = 0.1;
 
         private double[] alpha;
         private double[] weights;
-        private double bias;
+        private double[] bias;
+        private int biasIndex;
 
-        private Loss loss = Loss.L2;
 
         /// <summary>
         ///   Constructs a new coordinate descent algorithm for L1-loss and L2-loss SVM dual problems.
@@ -171,20 +128,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             // Lagrange multipliers
             this.alpha = new double[samples];
-            this.weights = new double[dimension];
-        }
-
-
-        /// <summary>
-        ///   Gets or sets the <see cref="Loss"/> cost function that
-        ///   should be optimized. Default is 
-        ///   <see cref="Accord.MachineLearning.VectorMachines.Learning.Loss.L2"/>.
-        /// </summary>
-        /// 
-        public Loss Loss
-        {
-            get { return loss; }
-            set { loss = value; }
+            this.weights = new double[dimension + 1];
+            this.bias = new double[samples];
+            this.biasIndex = dimension;
         }
 
         /// <summary>
@@ -232,116 +178,119 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             // Lagrange multipliers
             Array.Clear(alpha, 0, alpha.Length);
             Array.Clear(w, 0, w.Length);
-            bias = 0;
 
+            int s, iter = 0;
+            int max_iter = 1000;
+            int active_size = w.Length;
+            int max_num_linesearch = 20;
 
-            int iter = 0;
-            double[] QD = new double[x.Length];
-            int[] index = new int[x.Length];
+            double sigma = 0.01;
+            double d, G_loss, G, H;
+            double Gmax_old = Double.PositiveInfinity;
+            double Gmax_new, Gnorm1_new;
+            double Gnorm1_init = -1.0; // Gnorm1_init is initialized at the first iteration
+            double d_old, d_diff;
+            double loss_old = 0, loss_new;
+            double appxcond, cond;
 
-            int active_size = x.Length;
+            int[] index = new int[w.Length];
+            double[] b = new double[x.Length]; // b = 1-ywTx
+            double[] xj_sq = new double[w.Length];
 
-            // PG: projected gradient, for shrinking and stopping
-            double PG;
-            double PGmax_old = Double.PositiveInfinity;
-            double PGmin_old = Double.NegativeInfinity;
-            double PGmax_new, PGmin_new;
+            for (int i = 0; i < bias.Length; i++)
+                bias[i] = 1;
 
-            // default solver_type: L2R_L2LOSS_SVC_DUAL
-            // double[] diag = { 0.5 / Cn, 0, 0.5 / Cp };
-            // double[] upper_bound = { Double.PositiveInfinity, 0, Double.PositiveInfinity };
+            for (int j = 0; j < b.Length; j++)
+                b[j] = 1;
 
-            double[] diag = new double[c.Length];
-            double[] upper_bound = new double[c.Length];
-
-            if (Loss == Loss.L2)
+            for (int j = 0; j < w.Length; j++)
             {
-                // Default
-                for (int i = 0; i < diag.Length; i++)
-                    diag[i] = 0.5 / c[i];
+                index[j] = j;
+                xj_sq[j] = 0;
 
-                for (int i = 0; i < upper_bound.Length; i++)
-                    upper_bound[i] = Double.PositiveInfinity;
-            }
-            else
-            {
-                // diag remains zero, and
-                upper_bound = c;
-            }
-
-
-            for (int i = 0; i < x.Length; i++)
-            {
-                QD[i] = diag[i];
-
-                double[] xi = x[i];
-                for (int j = 0; j < xi.Length; j++)
+                if (j == biasIndex)
                 {
-                    double val = xi[j];
-                    QD[i] += val * val;
-                    w[j] += y[i] * alpha[i] * val;
+                    for (int i = 0; i < x.Length; i++)
+                    {
+                        bias[i] *= y[i]; // x->value stores yi*xij
+                        b[i] -= w[j];
+                        xj_sq[j] += c[i];
+                    }
                 }
-
-                QD[i] += 1;
-                bias += y[i] * alpha[i];
-
-                index[i] = i;
+                else
+                {
+                    for (int i = 0; i < x.Length; i++)
+                    {
+                        x[i][j] *= y[i]; // x->value stores yi*xij
+                        double val = x[i][j];
+                        b[i] -= w[j] * val;
+                        xj_sq[j] += c[i] * val * val;
+                    }
+                }
             }
 
             while (iter < max_iter)
             {
-                if (token.IsCancellationRequested)
-                    break;
+                Gmax_new = 0;
+                Gnorm1_new = 0;
+                int j;
 
-                PGmax_new = double.NegativeInfinity;
-                PGmin_new = double.PositiveInfinity;
-
-                for (int i = 0; i < active_size; i++)
+                for (j = 0; j < active_size; j++)
                 {
-                    int j = i + random.Next() % (active_size - i);
-
+                    int i = j + random.Next() % (active_size - j);
                     var old = index[i];
                     index[i] = index[j];
                     index[j] = old;
                 }
 
-                for (int s = 0; s < active_size; s++)
+                for (s = 0; s < active_size; s++)
                 {
-                    int i = index[s];
-                    int yi = y[i];
-                    double[] xi = x[i];
+                    j = index[s];
+                    G_loss = 0;
+                    H = 0;
 
-                    double G = bias;
-                    for (int j = 0; j < xi.Length; j++)
-                        G += w[j] * xi[j];
-
-                    G = G * yi - 1;
-
-                    double C = upper_bound[i];
-                    G += alpha[i] * diag[i];
-
-                    PG = 0;
-                    if (alpha[i] == 0)
+                    for (int i = 0; i < x.Length; i++)
                     {
-                        if (G > PGmax_old)
+                        if (b[i] > 0)
                         {
-                            active_size--;
-
-                            var old = index[s];
-                            index[s] = index[active_size];
-                            index[active_size] = old;
-
-                            s--;
-                            continue;
-                        }
-                        else if (G < 0)
-                        {
-                            PG = G;
+                            if (j == biasIndex)
+                            {
+                                double val = bias[i];
+                                double tmp = c[i] * val;
+                                G_loss -= tmp * b[i];
+                                H += tmp * val;
+                            }
+                            else
+                            {
+                                double val = x[i][j];
+                                double tmp = c[i] * val;
+                                G_loss -= tmp * b[i];
+                                H += tmp * val;
+                            }
                         }
                     }
-                    else if (alpha[i] == C)
+
+                    G_loss *= 2;
+
+                    G = G_loss;
+                    H *= 2;
+                    H = Math.Max(H, 1e-12);
+
+                    double Gp = G + 1;
+                    double Gn = G - 1;
+                    double violation = 0;
+
+                    if (w[j] == 0)
                     {
-                        if (G < PGmin_old)
+                        if (Gp < 0)
+                        {
+                            violation = -Gp;
+                        }
+                        else if (Gn > 0)
+                        {
+                            violation = Gn;
+                        }
+                        else if (Gp > Gmax_old / x.Length && Gn < -Gmax_old / x.Length)
                         {
                             active_size--;
 
@@ -352,74 +301,229 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                             s--;
                             continue;
                         }
-                        else if (G > 0)
-                        {
-                            PG = G;
-                        }
+                    }
+                    else if (w[j] > 0)
+                    {
+                        violation = Math.Abs(Gp);
                     }
                     else
                     {
-                        PG = G;
+                        violation = Math.Abs(Gn);
                     }
 
-                    PGmax_new = Math.Max(PGmax_new, PG);
-                    PGmin_new = Math.Min(PGmin_new, PG);
+                    Gmax_new = Math.Max(Gmax_new, violation);
+                    Gnorm1_new += violation;
 
-                    if (Math.Abs(PG) > 1.0e-12)
+                    // obtain Newton direction d
+                    if (Gp < H * w[j])
+                        d = -Gp / H;
+                    else if (Gn > H * w[j])
+                        d = -Gn / H;
+                    else
+                        d = -w[j];
+
+                    if (Math.Abs(d) < 1.0e-12)
+                        continue;
+
+                    double delta = Math.Abs(w[j] + d) - Math.Abs(w[j]) + G * d;
+                    d_old = 0;
+
+                    int num_linesearch;
+                    for (num_linesearch = 0; num_linesearch < max_num_linesearch; num_linesearch++)
                     {
-                        double alpha_old = alpha[i];
+                        d_diff = d_old - d;
+                        cond = Math.Abs(w[j] + d) - Math.Abs(w[j]) - sigma * delta;
 
-                        alpha[i] = Math.Min(Math.Max(alpha[i] - G / QD[i], 0.0), C);
+                        appxcond = xj_sq[j] * d * d + G_loss * d + cond;
 
-                        double d = (alpha[i] - alpha_old) * yi;
+                        if (appxcond <= 0)
+                        {
+                            if (j == biasIndex)
+                            {
+                                for (int i = 0; i < b.Length; i++)
+                                    b[i] += d_diff * bias[i];
+                            }
+                            else
+                            {
+                                for (int i = 0; i < b.Length; i++)
+                                    b[i] += d_diff * x[i][j];
+                            }
 
-                        xi = x[i];
-                        for (int j = 0; j < xi.Length; j++)
-                            w[j] += d * xi[j];
-                        bias += d;
+                            break;
+                        }
+
+                        if (num_linesearch == 0)
+                        {
+                            loss_old = 0;
+                            loss_new = 0;
+
+                            if (j == biasIndex)
+                            {
+                                for (int i = 0; i < x.Length; i++)
+                                {
+                                    if (b[i] > 0)
+                                        loss_old += c[i] * b[i] * b[i];
+
+                                    double b_new = b[i] + d_diff * bias[i];
+                                    b[i] = b_new;
+
+                                    if (b_new > 0)
+                                        loss_new += c[i] * b_new * b_new;
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < x.Length; i++)
+                                {
+                                    if (b[i] > 0)
+                                        loss_old += c[i] * b[i] * b[i];
+
+                                    double b_new = b[i] + d_diff * x[i][j];
+
+                                    b[i] = b_new;
+
+                                    if (b_new > 0)
+                                        loss_new += c[i] * b_new * b_new;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            loss_new = 0;
+
+                            if (j == biasIndex)
+                            {
+                                for (int i = 0; i < x.Length; i++)
+                                {
+                                    double b_new = b[i] + d_diff * bias[i];
+
+                                    b[i] = b_new;
+
+                                    if (b_new > 0)
+                                        loss_new += c[i] * b_new * b_new;
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < x.Length; i++)
+                                {
+                                    double b_new = b[i] + d_diff * x[i][j];
+                                    b[i] = b_new;
+
+                                    if (b_new > 0)
+                                        loss_new += c[i] * b_new * b_new;
+                                }
+                            }
+                        }
+
+                        cond = cond + loss_new - loss_old;
+
+                        if (cond <= 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            d_old = d;
+                            d *= 0.5;
+                            delta *= 0.5;
+                        }
+                    }
+
+                    w[j] += d;
+
+                    // recompute b[] if line search takes too many steps
+                    if (num_linesearch >= max_num_linesearch)
+                    {
+                        Debug.WriteLine("#");
+                        for (int i = 0; i < b.Length; i++)
+                            b[i] = 1;
+
+                        for (int i = 0; i < w.Length; i++)
+                        {
+                            if (w[i] == 0)
+                                continue;
+
+                            if (i == biasIndex)
+                            {
+                                for (int k = 0; k < x.Length; k++)
+                                    b[k] -= w[i] * bias[k];
+                            }
+                            else
+                            {
+                                for (int k = 0; k < x.Length; k++)
+                                    b[k] -= w[i] * x[k][i];
+                            }
+                        }
                     }
                 }
 
-                iter++;
+                if (iter == 0)
+                    Gnorm1_init = Gnorm1_new;
 
+                iter++;
                 if (iter % 10 == 0)
                     Debug.WriteLine(".");
 
-                if (PGmax_new - PGmin_new <= eps)
+                if (Gnorm1_new <= eps * Gnorm1_init)
                 {
-                    if (active_size == x.Length)
+                    if (active_size == w.Length)
                         break;
 
-                    active_size = x.Length;
-                    Debug.WriteLine("*");
-                    PGmax_old = Double.PositiveInfinity;
-                    PGmin_old = Double.NegativeInfinity;
-                    continue;
+                    else
+                    {
+                        active_size = w.Length;
+                        Debug.WriteLine("*");
+                        Gmax_old = Double.PositiveInfinity;
+                        continue;
+                    }
                 }
 
-                PGmax_old = PGmax_new;
-                PGmin_old = PGmin_new;
-
-                if (PGmax_old <= 0)
-                    PGmax_old = Double.PositiveInfinity;
-
-                if (PGmin_old >= 0)
-                    PGmin_old = Double.NegativeInfinity;
+                Gmax_old = Gmax_new;
             }
 
             Debug.WriteLine("optimization finished, #iter = " + iter);
-
             if (iter >= max_iter)
-            {
                 Debug.WriteLine("WARNING: reaching max number of iterations");
-                Debug.WriteLine("Using -s 2 may be faster (also see FAQ)");
+
+            // calculate objective value
+
+            double v = 0;
+            int nnz = 0;
+            for (int j = 0; j < w.Length; j++)
+            {
+
+                if (j == biasIndex)
+                {
+                    for (int i = 0; i < x.Length; i++)
+                        bias[i] *= y[i]; // restore x->value
+                }
+                else
+                {
+                    for (int i = 0; i < x.Length; i++)
+                        x[i][j] *= y[i]; // restore x->value
+                }
+
+                if (w[j] != 0)
+                {
+                    v += Math.Abs(w[j]);
+                    nnz++;
+                }
             }
 
+            for (int j = 0; j < c.Length; j++)
+            {
+                if (b[j] > 0)
+                    v += c[j] * b[j] * b[j];
+            }
+
+            Debug.WriteLine("Objective value = " + v);
+            Debug.WriteLine("#nonzeros/#features = " + nnz + "/" + w.Length);
 
             Machine.Weights = new double[Machine.Inputs];
             for (int i = 0; i < Machine.Weights.Length; i++)
                 Machine.Weights[i] = w[i];
-            Machine.Threshold = bias;
+            Machine.Threshold = w[biasIndex];
         }
 
     }

@@ -58,7 +58,7 @@ namespace Accord.IO
         ///   in the dual (-s 1, L2R_L2LOSS_SVC_DUAL, the default).
         /// </summary>
         /// 
-        /// <seealso cref="LinearCoordinateDescent"/>
+        /// <seealso cref="LinearDualCoordinateDescent"/>
         /// 
         [Description("L2R_L2LOSS_SVC_DUAL")]
         L2RegularizedL2LossSvcDual = 1,
@@ -78,7 +78,7 @@ namespace Accord.IO
         ///   in the dual (-s 3, L2R_L1LOSS_SVC_DUAL).
         /// </summary>
         /// 
-        /// <seealso cref="LinearCoordinateDescent"/>
+        /// <seealso cref="LinearDualCoordinateDescent"/>
         /// 
         [Description("L2R_L1LOSS_SVC_DUAL")]
         L2RegularizedL1LossSvcDual = 3,
@@ -278,28 +278,35 @@ namespace Accord.IO
 
             switch (type)
             {
-                case LibSvmSolverType.L2RegularizedLogisticRegression:
+                case LibSvmSolverType.L2RegularizedLogisticRegression: // -s 0
                     return new ProbabilisticNewtonMethod(machine, inputs, outputs);
 
-                case LibSvmSolverType.L1RegularizedLogisticRegression:
-                    return new ProbabilisticCoordinateDescent(machine, inputs, outputs);
+                case LibSvmSolverType.L2RegularizedL2LossSvcDual: // -s 1
+                    return new LinearDualCoordinateDescent(machine, inputs, outputs) { Loss = Loss.L2 };
 
-                case LibSvmSolverType.L2RegularizedLogisticRegressionDual:
-                    return new ProbabilisticDualCoordinateDescent(machine, inputs, outputs);
-
-                case LibSvmSolverType.L2RegularizedL2LossSvc:
+                case LibSvmSolverType.L2RegularizedL2LossSvc: // -s 2
                     return new LinearNewtonMethod(machine, inputs, outputs);
 
-                case LibSvmSolverType.L2RegularizedL1LossSvcDual:
-                    return new LinearCoordinateDescent(machine, inputs, outputs) { Loss = Loss.L1 };
+                case LibSvmSolverType.L2RegularizedL1LossSvcDual: // -s 3
+                    return new LinearDualCoordinateDescent(machine, inputs, outputs) { Loss = Loss.L1 };
 
-                case LibSvmSolverType.L2RegularizedL2LossSvcDual:
-                    return new LinearCoordinateDescent(machine, inputs, outputs) { Loss = Loss.L2 };
+                case LibSvmSolverType.L1RegularizedL2LossSvc: // -s 5
+                    return new LinearCoordinateDescent(machine, inputs, outputs);
 
-                case LibSvmSolverType.L1RegularizedL2LossSvc:
-                case LibSvmSolverType.L2RegularizedL2LossSvr:
-                case LibSvmSolverType.L2RegularizedL2LossSvrDual:
-                case LibSvmSolverType.L2RegularizedL1LossSvrDual:
+                case LibSvmSolverType.L1RegularizedLogisticRegression: // -s 6
+                    return new ProbabilisticCoordinateDescent(machine, inputs, outputs);
+
+                case LibSvmSolverType.L2RegularizedLogisticRegressionDual: // -s 7
+                    return new ProbabilisticDualCoordinateDescent(machine, inputs, outputs);
+
+                case LibSvmSolverType.L2RegularizedL2LossSvr: // -11
+                // return new LinearRegressionNewtonMethod(machine, inputs, outputs);
+
+                case LibSvmSolverType.L2RegularizedL2LossSvrDual: // -12
+                // return new LinearRegressionCoordinateDescent(machine, inputs, outputs);  { Loss = Loss.L2 };
+
+                case LibSvmSolverType.L2RegularizedL1LossSvrDual: // -13
+                // return new LinearRegressionCoordinateDescent(machine, inputs, outputs) { Loss = Loss.L1 };
                     break;
             }
 

@@ -98,73 +98,30 @@ namespace Accord.Tests.MachineLearning
             double[][] inputs = dataset.Submatrix(null, 0, 1).ToArray();
             int[] labels = dataset.GetColumn(2).ToInt32();
 
-            var kernel = new Polynomial(2, 0);
+            var kernel = new Polynomial(2, 1);
 
+            Accord.Math.Tools.SetupGenerator(0);
+            var projection = inputs.Apply(kernel.Transform);
+            var machine = new SupportVectorMachine(projection[0].Length);
+            var smo = new LinearCoordinateDescent(machine, projection, labels)
             {
-                var machine = new KernelSupportVectorMachine(kernel, inputs[0].Length);
-                var smo = new SequentialMinimalOptimization(machine, inputs, labels);
-                smo.UseComplexityHeuristic = true;
+                Complexity = 1000000,
+                Tolerance = 1e-15
+            };
 
-                double error = smo.Run();
+            double error = smo.Run();
 
-                Assert.AreEqual(0.11714451552090824, smo.Complexity);
+            Assert.AreEqual(1000000.0, smo.Complexity, 1e-15);
 
-                int[] actual = new int[labels.Length];
-                for (int i = 0; i < actual.Length; i++)
-                    actual[i] = Math.Sign(machine.Compute(inputs[i]));
+            int[] actual = new int[labels.Length];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = Math.Sign(machine.Compute(projection[i]));
 
-                ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
-                Assert.AreEqual(20, matrix.FalseNegatives);
-                Assert.AreEqual(0, matrix.FalsePositives);
-                Assert.AreEqual(30, matrix.TruePositives);
-                Assert.AreEqual(50, matrix.TrueNegatives);
-            }
-
-            {
-                Accord.Math.Tools.SetupGenerator(0);
-                var projection = inputs.Apply(kernel.Transform);
-                var machine = new SupportVectorMachine(projection[0].Length);
-                var smo = new LinearCoordinateDescent(machine, projection, labels);
-                smo.UseComplexityHeuristic = true;
-                smo.Tolerance = 0.01;
-
-                double error = smo.Run();
-
-                Assert.AreEqual(0.11714451552090821, smo.Complexity, 1e-15);
-
-                int[] actual = new int[labels.Length];
-                for (int i = 0; i < actual.Length; i++)
-                    actual[i] = Math.Sign(machine.Compute(projection[i]));
-
-                ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
-                Assert.AreEqual(17, matrix.FalseNegatives);
-                Assert.AreEqual(1, matrix.FalsePositives);
-                Assert.AreEqual(33, matrix.TruePositives);
-                Assert.AreEqual(49, matrix.TrueNegatives);
-            }
-
-            {
-                Accord.Math.Tools.SetupGenerator(0);
-                var projection = inputs.Apply(kernel.Transform);
-                var machine = new SupportVectorMachine(projection[0].Length);
-                var smo = new LinearCoordinateDescent(machine, projection, labels);
-                smo.UseComplexityHeuristic = true;
-                smo.Loss = Loss.L1;
-
-                double error = smo.Run();
-
-                Assert.AreEqual(0.11714451552090821, smo.Complexity, 1e-15);
-
-                int[] actual = new int[labels.Length];
-                for (int i = 0; i < actual.Length; i++)
-                    actual[i] = Math.Sign(machine.Compute(kernel.Transform(inputs[i])));
-
-                ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
-                Assert.AreEqual(20, matrix.FalseNegatives);
-                Assert.AreEqual(0, matrix.FalsePositives);
-                Assert.AreEqual(30, matrix.TruePositives);
-                Assert.AreEqual(50, matrix.TrueNegatives);
-            }
+            ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
+            Assert.AreEqual(6, matrix.FalseNegatives);
+            Assert.AreEqual(7, matrix.FalsePositives);
+            Assert.AreEqual(44, matrix.TruePositives);
+            Assert.AreEqual(43, matrix.TrueNegatives);
         }
     }
 }
