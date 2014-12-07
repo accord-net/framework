@@ -48,6 +48,7 @@ namespace Accord.Tests.MachineLearning.GPL
         [TestMethod()]
         public void TrainTest()
         {
+            Accord.Math.Tools.SetupGenerator(0);
 
             // Example regression problem. Suppose we are trying
             // to model the following equation: f(x, y) = 2x + y
@@ -66,14 +67,17 @@ namespace Accord.Tests.MachineLearning.GPL
 
             double[] outputs = // f(x, y)
             {
-                    1, 11, 8, 6, 13, 14, 20, 8
+                    1, 11, 8, 6, 13, 14, 19, 8
             };
 
             // Create Kernel Support Vector Machine with a Polynomial Kernel of 2nd degree
             var machine = new KernelSupportVectorMachine(new Polynomial(2), inputs: 2);
 
             // Create the sequential minimal optimization teacher
-            var learn = new SequentialMinimalOptimizationRegression(machine, inputs, outputs);
+            var learn = new SequentialMinimalOptimizationRegression(machine, inputs, outputs)
+            {
+                Complexity = 100
+            };
 
             // Run the learning algorithm
             double error = learn.Run();
@@ -86,9 +90,9 @@ namespace Accord.Tests.MachineLearning.GPL
             for (int i = 0; i < answers.Length; i++)
                 answers[i] = machine.Compute(inputs[i]);
 
-            Assert.AreEqual(1.0003849827673186, fxy);
+            Assert.AreEqual(1.0, fxy, 1e-2);
             for (int i = 0; i < outputs.Length; i++)
-                Assert.AreEqual(outputs[i], answers[i], 1.0);
+                Assert.AreEqual(outputs[i], answers[i], 1e-2);
         }
     }
 }
