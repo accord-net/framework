@@ -371,7 +371,7 @@ namespace Liblinear
                 case LibSvmSolverType.L2RegularizedL2LossSvcDual:
 
                     // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L2LOSS_SVC_DUAL);
-                    teacher = new LinearCoordinateDescent(svm, inputs, labels)
+                    teacher = new LinearDualCoordinateDescent(svm, inputs, labels)
                     {
                         Loss = Loss.L2,
                         PositiveWeight = Cp,
@@ -382,7 +382,7 @@ namespace Liblinear
                 case LibSvmSolverType.L2RegularizedL1LossSvcDual:
 
                     // solve_l2r_l1l2_svc(prob, w, eps, Cp, Cn, L2R_L1LOSS_SVC_DUAL);
-                    teacher = new LinearCoordinateDescent(svm, inputs, labels)
+                    teacher = new LinearDualCoordinateDescent(svm, inputs, labels)
                     {
                         Loss = Loss.L1,
                         PositiveWeight = Cp,
