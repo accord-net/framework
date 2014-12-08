@@ -1,4 +1,4 @@
-Accord.NET Framework 2.13.2 release notes
+Accord.NET Framework 2.14.0 release notes
 -----------------------------------------
 15.12.2014.
 
@@ -40,6 +40,7 @@ Version updates and fixes:
   - Correcting discrete Viterbi learning convergence check and unifying 
     the Viterbi implementations for discrete and continuous variables;
   - Correcting the calculation of log likelihoods in Baum Welch learning;
+  - Correcting serialization issue with DynamicTimeWarping kernel;
   - Updating all distribution functions constructors to offer Range attributes
     that can be used to automatically determine valid values for its parameters;
   - Updating Logistic Regression and Cox's Proportional Hazards 
