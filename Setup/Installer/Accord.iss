@@ -59,6 +59,7 @@ Source: "..\..\Release notes.txt";   DestDir: "{app}";               Components:
 Source: "..\..\Contributors.txt";    DestDir: "{app}";               Components: libs
 Source: "..\..\Docs\*.chm";          DestDir: "{app}\Docs";          Components: docs;     Flags: skipifsourcedoesntexist; Excludes: "*.~*"
 Source: "..\..\Sources\*";           DestDir: "{app}\Sources";       Components: sources;  Flags: recursesubdirs; Excludes: "*.~*,\TestResults,*\bin,*\obj,*.sdf,*.suo,*.user,*.vsp,*.shfbproj_*,*.pidb"
+Source: "..\..\Unit Tests\*";        DestDir: "{app}\Unit Tests";    Components: sources;  Flags: recursesubdirs; Excludes: "*.~*,\TestResults,*\bin,*\obj,*.sdf,*.suo,*.user,*.vsp,*.shfbproj_*,*.pidb"
 Source: "..\..\Samples\*";           DestDir: "{app}\Samples";       Components: samples;  Flags: recursesubdirs; Excludes: "*.~*,*\obj,*\bin\x64\,*\bin\Debug,*\bin\Release,*\bin\x86\Debug,*\bin\x86\Release 3.5,*.pdb,*.user,*.pidb"
 Source: "..\..\Setup\*";             DestDir: "{app}\Setup";         Components: sources;  Flags: recursesubdirs; Excludes: "\bin,\obj,*.user,*.vsp"
 Source: "..\..\Externals\*";         DestDir: "{app}\Externals";     Components: libs;     Flags: recursesubdirs; Excludes: "*.~*,*.pdb"
@@ -72,8 +73,8 @@ Source: "..\..\Release\net40\GPL\*"; DestDir: "{app}\Release\net40"; Components:
 Source: "..\..\Release\net35\GPL\*"; DestDir: "{app}\Release\net35"; Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 
 ; Extra Noncommercial libraries:
-Source: "..\..\Release\net40\Noncommercial\*"; DestDir: "{app}\Release\net40\Noncommercial\*"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
-Source: "..\..\Release\net35\Noncommercial\*"; DestDir: "{app}\Release\net35\Noncommercial\*"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
+Source: "..\..\Release\net40\Noncommercial\*"; DestDir: "{app}\Release\net40\Noncommercial\"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
+Source: "..\..\Release\net35\Noncommercial\*"; DestDir: "{app}\Release\net35\Noncommercial\"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 
 
 [Registry]
