@@ -22,14 +22,15 @@
 
 namespace Accord.Tests.Math
 {
-    using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.Collections.Generic;
     using System;
+    using System.Collections.Generic;
     using System.Data;
-    using AForge;
     using System.Linq;
+    using Accord.Math;
     using Accord.Math.Decompositions;
+    using AForge;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord.Controls;
 
     [TestClass()]
     public partial class MatrixTest
@@ -2766,6 +2767,130 @@ namespace Accord.Tests.Math
             double[][] actual = Matrix.Mesh(rowRange, colRange, rowSteps, colSteps);
 
             Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [TestMethod()]
+        public void MeshTest2()
+        {
+            // The Mesh method generates all possible (x,y) pairs
+            // between two vector of points. For example, let's
+            // suppose we have the values:
+            //
+            double[] a = { 0, 1 };
+            double[] b = { 0, 1 };
+
+            // We can create a grid as
+            double[][] grid = a.Mesh(b);
+
+            // result will be:
+            //
+            double[][] expected =
+            {
+                new double[] { 0, 0 },
+                new double[] { 0, 1 },
+                new double[] { 1, 0 },
+                new double[] { 1, 1 },
+            };
+
+            Assert.IsTrue(expected.IsEqual(grid));
+        }
+
+        [TestMethod()]
+        public void MeshTest3()
+        {
+            // The Mesh method can be used to generate all
+            // possible (x,y) pairs between two ranges. 
+
+            // We can create a grid as
+            double[][] grid = Matrix.Mesh
+            (
+                rowMin: 0, rowMax: 1, rowStepSize: 0.3,
+                colMin: 0, colMax: 1, colStepSize: 0.1
+            );
+
+            // Now we can plot the points on-screen
+            // ScatterplotBox.Show("Grid (step size)", grid).Hold();
+
+            Assert.AreEqual(55, grid.Length);
+        }
+
+        [TestMethod()]
+        public void MeshTest4()
+        {
+            // The Mesh method can be used to generate all
+            // possible (x,y) pairs between two ranges. 
+
+            // We can create a grid as
+            double[][] grid = Matrix.Mesh
+            (
+                rowMin: 0, rowMax: 1, rowSteps: 10,
+                colMin: 0, colMax: 1, colSteps: 5
+            );
+
+            // Now we can plot the points on-screen
+            // ScatterplotBox.Show("Grid (fixed steps)", grid).Hold();
+
+            Assert.AreEqual(66, grid.Length);
+        }
+
+        [TestMethod()]
+        public void MeshGridTest1()
+        {
+            // The MeshGrid method generates two matrices that can be
+            // used to generate all possible (x,y) pairs between two
+            // vector of points. For example, let's suppose we have
+            // the values:
+            //
+            double[] a = { 1, 2, 3 };
+            double[] b = { 4, 5, 6 };
+
+            // We can create a grid
+            var grid = a.MeshGrid(b);
+
+            // get the x-axis values
+            double[,] x = grid.Item1;
+
+            // get the y-axis values
+            double[,] y = grid.Item2;
+
+
+            // we can either use those matrices separately (such as for plotting 
+            // purposes) or we can also generate a grid of all the (x,y) pairs as
+            //
+            double[,][] xy = x.ApplyWithIndex((v, i, j) => new[] { x[i, j], y[i, j] });
+
+            double[,] ex =
+            {
+                { 1, 1, 1 },
+                { 2, 2, 2 },
+                { 3, 3, 3 },
+            };
+
+            double[,] ey =
+            {
+                { 4, 5, 6 },
+                { 4, 5, 6 },
+                { 4, 5, 6 },
+            };
+
+            double[, ,] expected =
+            {
+                { { 1, 4 }, { 1, 5 }, { 1, 6 } },
+                { { 2, 4 }, { 2, 5 }, { 2, 6 } },
+                { { 3, 4 }, { 3, 5 }, { 3, 6 } },
+            };
+
+            Assert.IsTrue(ex.IsEqual(x));
+            Assert.IsTrue(ey.IsEqual(y));
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    Assert.AreEqual(expected[i, j, 0], xy[i, j][0]);
+                    Assert.AreEqual(expected[i, j, 1], xy[i, j][1]);
+                }
+            }
         }
 
 

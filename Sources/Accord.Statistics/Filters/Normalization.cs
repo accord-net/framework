@@ -97,7 +97,9 @@ namespace Accord.Statistics.Filters
         ///   Creates a new data normalization filter.
         /// </summary>
         /// 
-        public Normalization() { }
+        public Normalization()
+        {
+        }
 
         /// <summary>
         ///   Creates a new data normalization filter.

@@ -843,41 +843,218 @@ namespace Accord.Math
         ///   Creates a bi-dimensional mesh matrix.
         /// </summary>
         /// 
-        public static double[][] Mesh(DoubleRange rowRange, DoubleRange colRange,
-            double rowSteps, double colSteps)
+        /// <example>
+        /// <code>
+        /// // The Mesh method can be used to generate all
+        /// // possible (x,y) pairs between two ranges. 
+        /// 
+        /// // We can create a grid as
+        /// double[][] grid = Matrix.Mesh
+        /// (
+        ///     rowMin: 0, rowMax: 1, rowStepSize: 0.3,
+        ///     colMin: 0, colMax: 1, colStepSize: 0.1
+        /// );
+        /// 
+        /// // Now we can plot the points on-screen
+        /// ScatterplotBox.Show("Grid (step size)", grid).Hold();
+        /// </code>
+        /// 
+        /// <para>
+        ///   The resulting image is shown below. </para>
+        ///   <img src="..\images\grid-step-size.png" /> 
+        /// </example>
+        /// 
+        public static double[][] Mesh(
+            double rowMin, double rowMax, double rowStepSize,
+            double colMin, double colMax, double colStepSize)
         {
             double[][] mesh = Matrix.CartesianProduct(
-                Matrix.Interval(rowRange, rowSteps),
-                Matrix.Interval(colRange, colSteps));
+                Matrix.Interval(rowMin, rowMax, rowStepSize),
+                Matrix.Interval(colMin, colMax, colStepSize));
 
             return mesh;
         }
-        #endregion
+
+        /// <summary>
+        ///   Creates a bi-dimensional mesh matrix.
+        /// </summary>
+        /// 
+        public static int[][] Mesh(
+            int rowMin, int rowMax,
+            int colMin, int colMax)
+        {
+            int[][] mesh = Matrix.CartesianProduct(
+                Matrix.Interval(rowMin, rowMax),
+                Matrix.Interval(colMin, colMax));
+
+            return mesh;
+        }
+
+        /// <summary>
+        ///   Creates a bi-dimensional mesh matrix.
+        /// </summary>
+        /// 
+        /// <example>
+        /// <code>
+        /// // The Mesh method can be used to generate all
+        /// // possible (x,y) pairs between two ranges. 
+        /// 
+        /// // We can create a grid as
+        /// double[][] grid = Matrix.Mesh
+        /// (
+        ///     rowMin: 0, rowMax: 1, rowSteps: 10,
+        ///     colMin: 0, colMax: 1, colSteps: 5
+        /// );
+        ///
+        /// // Now we can plot the points on-screen
+        /// ScatterplotBox.Show("Grid (fixed steps)", grid).Hold();
+        /// </code>
+        /// 
+        /// <para>
+        ///   The resulting image is shown below. </para>
+        ///   <img src="..\images\grid-fixed-steps.png" /> 
+        /// </example>
+        /// 
+        public static double[][] Mesh(
+            double rowMin, double rowMax, int rowSteps,
+            double colMin, double colMax, int colSteps)
+        {
+            double[][] mesh = Matrix.CartesianProduct(
+                Matrix.Interval(rowMin, rowMax, rowSteps),
+                Matrix.Interval(colMin, colMax, colSteps));
+
+            return mesh;
+        }
+
+        /// <summary>
+        ///   Creates a bi-dimensional mesh matrix.
+        /// </summary>
+        /// 
+        /// <example>
+        /// <code>
+        /// // The Mesh method can be used to generate all
+        /// // possible (x,y) pairs between two ranges. 
+        /// 
+        /// // We can create a grid as
+        /// double[][] grid = Matrix.Mesh
+        /// (
+        ///     rowRange: new DoubleRange(0, 1), rowStepSize: 0.3,
+        ///     colRange: new DoubleRange(0, 1), colStepSize: 0.1
+        /// );
+        /// 
+        /// // Now we can plot the points on-screen
+        /// ScatterplotBox.Show("Grid (step size)", grid).Hold();
+        /// </code>
+        /// 
+        /// <para>
+        ///   The resulting image is shown below. </para>
+        ///   <img src="..\images\grid-step-size.png" /> 
+        /// </example>
+        /// 
+        public static double[][] Mesh(
+            DoubleRange rowRange, DoubleRange colRange,
+            double rowStepSize, double colStepSize)
+        {
+            double[][] mesh = Matrix.CartesianProduct(
+                Matrix.Interval(rowRange, rowStepSize),
+                Matrix.Interval(colRange, colStepSize));
+
+            return mesh;
+        }
+
+        /// <summary>
+        ///   Creates a bi-dimensional mesh matrix.
+        /// </summary>
+        /// 
+        /// <param name="x">The values to be replicated vertically.</param>
+        /// <param name="y">The values to be replicated horizontally.</param>
+        /// 
+        /// <example>
+        /// <code>
+        /// // The Mesh method generates all possible (x,y) pairs
+        /// // between two vector of points. For example, let's
+        /// // suppose we have the values:
+        /// //
+        /// double[] a = { 0, 1 };
+        /// double[] b = { 0, 1 };
+        /// 
+        /// // We can create a grid as
+        /// double[][] grid = a.Mesh(b);
+        /// 
+        /// // the result will be:
+        /// double[][] expected =
+        /// {
+        ///     new double[] { 0, 0 },
+        ///     new double[] { 0, 1 },
+        ///     new double[] { 1, 0 },
+        ///     new double[] { 1, 1 },
+        /// };
+        /// </code>
+        /// </example>
+        /// 
+        public static T[][] Mesh<T>(this T[] x, T[] y)
+        {
+            return Matrix.CartesianProduct(x, y);
+        }
 
         /// <summary>
         ///   Generates a 2-D mesh grid from two vectors <c>a</c> and <c>b</c>,
         ///   generating two matrices <c>len(a)</c> x <c>len(b)</c> with all
-        ///   all possible combinations of values between the two vectors.
+        ///   all possible combinations of values between the two vectors. This
+        ///   method is analogous to MATLAB/Octave's <c>meshgrid</c> function.
         /// </summary>
         ///
         /// <returns>A tuple containing two matrices: the first containing values
         /// for the x-coordinates and the second for the y-coordinates.</returns>
+        /// 
+        /// <example>
+        /// // The MeshGrid method generates two matrices that can be
+        /// // used to generate all possible (x,y) pairs between two
+        /// // vector of points. For example, let's suppose we have
+        /// // the values:
+        /// //
+        /// double[] a = { 1, 2, 3 };
+        /// double[] b = { 4, 5, 6 };
+        /// 
+        /// // We can create a grid
+        /// var grid = a.MeshGrid(b);
+        /// 
+        /// // get the x-axis values     //        | 1   1   1 |
+        /// double[,] x = grid.Item1;    //  x =   | 2   2   2 |
+        ///                              //        | 3   3   3 |
+        /// 
+        /// // get the y-axis values     //        | 4   5   6 |
+        /// double[,] y = grid.Item2;    //  y =   | 4   5   6 |
+        ///                              //        | 4   5   6 |
+        /// 
+        /// // we can either use those matrices separately (such as for plotting 
+        /// // purposes) or we can also generate a grid of all the (x,y) pairs as
+        /// //
+        /// double[,][] xy = x.ApplyWithIndex((v, i, j) => new[] { x[i, j], y[i, j] });
         ///
-        public static Tuple<T[,], T[,]> MeshGrid<T>(this T[] sequence1, T[] sequence2)
+        /// // The result will be
+        /// // 
+        /// //         |  (1, 4)   (1, 5)   (1, 6)  |
+        /// //  xy  =  |  (2, 4)   (2, 5)   (2, 6)  |
+        /// //         |  (3, 4)   (3, 5)   (3, 6)  |
+        /// </example>
+        ///
+        public static Tuple<T[,], T[,]> MeshGrid<T>(this T[] x, T[] y)
         {
-            T[,] x = new T[sequence1.Length, sequence2.Length];
-            T[,] y = new T[sequence1.Length, sequence2.Length];
-            for (int i = 0; i < sequence1.Length; i++)
+            var X = new T[x.Length, y.Length];
+            var Y = new T[x.Length, y.Length];
+            for (int i = 0; i < x.Length; i++)
             {
-                for (int j = 0; j < sequence2.Length; j++)
+                for (int j = 0; j < y.Length; j++)
                 {
-                    x[i, j] = sequence1[i];
-                    y[i, j] = sequence2[j];
+                    X[i, j] = x[i];
+                    Y[i, j] = y[j];
                 }
             }
 
-            return Tuple.Create(x, y);
+            return Tuple.Create(X, Y);
         }
+        #endregion
 
 
         #region Combine

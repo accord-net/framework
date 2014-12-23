@@ -162,6 +162,7 @@
     <Compile Include="KDTreeTest.cs" />
     <Compile Include="RansacLineTest.cs" />
     <Compile Include="RansacPlaneTest.cs" />
+    <Compile Include="Signals\TemporalSupportVectorMachineTest.cs" />
     <Compile Include="SplitSetTest.cs" />
     <Compile Include="DecisionTrees\C45LearningTest.cs" />
     <Compile Include="DecisionTrees\DecisionTreeCompilerTest.cs" />
@@ -184,7 +185,7 @@
     <Compile Include="VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\Regression\LinearRegressionCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\Regression\LinearRegressionNewtonMethodTest.cs" />
-    <Compile Include="VectorMachines\SequentialMinimalOptimizationRegressionTest.cs" />
+    <Compile Include="VectorMachines\Regression\SequentialMinimalOptimizationRegressionTest.cs" />
     <Compile Include="VectorMachines\SupportVectorReductionTest.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorLearningTest.cs" />
     <Compile Include="VectorMachines\ProbabilisticOutputLearningTest.cs" />
@@ -201,6 +202,10 @@
     <Compile Include="VectorMachines\KernelSupportVectorMachineTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Sources\Accord.Audio\Accord.Audio.csproj">
+      <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
+      <Name>Accord.Audio</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
       <Project>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</Project>
       <Name>Accord.Controls.Imaging</Name>
