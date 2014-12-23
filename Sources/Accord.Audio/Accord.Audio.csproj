@@ -128,6 +128,8 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Generators\SignalGenerator.cs" />
+    <Compile Include="Generators\SineGenerator.cs" />
     <Compile Include="AudioSourceMixer.cs" />
     <Compile Include="Events\AudioOutputErrorEventArgs.cs" />
     <Compile Include="Events\PlayFrameEventArgs.cs" />
@@ -203,5 +205,8 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Analysis\" />
   </ItemGroup>
 </Project>

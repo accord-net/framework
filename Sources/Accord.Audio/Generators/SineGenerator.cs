@@ -25,22 +25,22 @@ namespace Accord.Audio.Generators
     using System;
 
     /// <summary>
-    ///   Cosine signal generator.
+    ///   Sine signal generator.
     /// </summary>
     /// 
-    public class CosineGenerator : ISignalGenerator
+    public class SineGenerator : ISignalGenerator
     {
         private double theta;
 
 
         /// <summary>
-        ///   Gets or sets the Frequency of the cosine signal.
+        ///   Gets or sets the Frequency of the sine signal.
         /// </summary>
         /// 
         public double Frequency { get; set; }
 
         /// <summary>
-        ///   Gets or sets the Amplitude of the cosine signal.
+        ///   Gets or sets the Amplitude of the sine signal.
         /// </summary>
         /// 
         public double Amplitude { get; set; }
@@ -64,21 +64,21 @@ namespace Accord.Audio.Generators
         public SampleFormat Format { get; set; }
 
         /// <summary>
-        ///   Constructs a new cosine Signal Generator.
+        ///   Constructs a new Cosine Signal Generator.
         /// </summary>
         /// 
-        public CosineGenerator(double frequency, double amplitude, int samplingRate)
+        public SineGenerator()
         {
-            init(frequency, amplitude, samplingRate);
+            init(1.0 / (2.0 * Math.PI), 1, 1);
         }
 
         /// <summary>
-        ///   Constructs a new cosine Signal Generator.
+        ///   Constructs a new Cosine Signal Generator.
         /// </summary>
         /// 
-        public CosineGenerator()
+        public SineGenerator(double frequency, double amplitude, int samplingRate)
         {
-            init(1, 1, 1);
+            init(frequency, amplitude, samplingRate);
         }
 
         private void init(double frequency, double amplitude, int samplingRate)
@@ -104,14 +104,14 @@ namespace Accord.Audio.Generators
                 var dst = (float*)signal.Data.ToPointer();
                 for (int i = 0; i < signal.Samples; i++)
                     for (int c = 0; c < signal.Channels; c++, dst++)
-                        *dst = (float)(Amplitude * Math.Cos(i * theta));
+                        *dst = (float)(Amplitude * Math.Sin(i * theta));
             }
             else if (Format == SampleFormat.Format64BitIeeeFloat)
             {
                 var dst = (double*)signal.Data.ToPointer();
                 for (int i = 0; i < signal.Samples; i++)
                     for (int c = 0; c < signal.Channels; c++, dst++)
-                        *dst = (Amplitude * Math.Cos(i * theta));
+                        *dst = (Amplitude * Math.Sin(i * theta));
             }
             else
             {
@@ -120,7 +120,6 @@ namespace Accord.Audio.Generators
 
             return signal;
         }
-
 
     }
 }

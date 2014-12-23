@@ -80,7 +80,7 @@ namespace Accord.Audio
     }
 
     /// <summary>
-    ///   Represents a PCM sound discrete signal (measured in time).
+    ///   Represents a discrete signal (measured in time).
     /// </summary>
     /// 
     /// <remarks>

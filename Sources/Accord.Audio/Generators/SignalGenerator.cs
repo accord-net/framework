@@ -25,25 +25,18 @@ namespace Accord.Audio.Generators
     using System;
 
     /// <summary>
-    ///   Cosine signal generator.
+    ///   Custom function signal generator.
     /// </summary>
     /// 
-    public class CosineGenerator : ISignalGenerator
+    public class SignalGenerator : ISignalGenerator
     {
-        private double theta;
-
 
         /// <summary>
-        ///   Gets or sets the Frequency of the cosine signal.
+        ///   Gets or sets the windowing function to be
+        ///   applied to each element in the window.
         /// </summary>
         /// 
-        public double Frequency { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the Amplitude of the cosine signal.
-        /// </summary>
-        /// 
-        public double Amplitude { get; set; }
+        public Func<double, double> Function { get; set; }
 
         /// <summary>
         ///   Gets or sets the Sampling Rate of the generated signals.
@@ -64,31 +57,15 @@ namespace Accord.Audio.Generators
         public SampleFormat Format { get; set; }
 
         /// <summary>
-        ///   Constructs a new cosine Signal Generator.
+        ///   Constructs a new signal generator.
         /// </summary>
         /// 
-        public CosineGenerator(double frequency, double amplitude, int samplingRate)
+        public SignalGenerator(Func<double, double> func)
         {
-            init(frequency, amplitude, samplingRate);
-        }
-
-        /// <summary>
-        ///   Constructs a new cosine Signal Generator.
-        /// </summary>
-        /// 
-        public CosineGenerator()
-        {
-            init(1, 1, 1);
-        }
-
-        private void init(double frequency, double amplitude, int samplingRate)
-        {
-            this.Frequency = frequency;
-            this.Amplitude = amplitude;
-            this.Format = SampleFormat.Format32BitIeeeFloat;
+            this.Function = func;
             this.Channels = 1;
-
-            this.theta = 2.0 * Math.PI * frequency / samplingRate;
+            this.SamplingRate = 1;
+            this.Format = SampleFormat.Format32BitIeeeFloat;
         }
 
         /// <summary>
@@ -104,14 +81,14 @@ namespace Accord.Audio.Generators
                 var dst = (float*)signal.Data.ToPointer();
                 for (int i = 0; i < signal.Samples; i++)
                     for (int c = 0; c < signal.Channels; c++, dst++)
-                        *dst = (float)(Amplitude * Math.Cos(i * theta));
+                        *dst = (float)(Function(i));
             }
             else if (Format == SampleFormat.Format64BitIeeeFloat)
             {
                 var dst = (double*)signal.Data.ToPointer();
                 for (int i = 0; i < signal.Samples; i++)
                     for (int c = 0; c < signal.Channels; c++, dst++)
-                        *dst = (Amplitude * Math.Cos(i * theta));
+                        *dst = (double)(Function(i));
             }
             else
             {
@@ -120,7 +97,6 @@ namespace Accord.Audio.Generators
 
             return signal;
         }
-
 
     }
 }

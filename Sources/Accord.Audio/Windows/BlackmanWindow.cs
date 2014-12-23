@@ -60,7 +60,6 @@ namespace Accord.Audio.Windows
             double a1 = 0.5;
             double a2 = alpha / 2.0;
 
-
             for (int i = 0; i < length; i++)
                 this[i] = (float)(a0 - a1 * Math.Cos((2.0 * System.Math.PI * i) / (length - 1))
                     + a2 * Math.Cos((4.0 * System.Math.PI * i) / (length - 1)));
