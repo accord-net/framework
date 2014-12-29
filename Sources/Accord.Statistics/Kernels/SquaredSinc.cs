@@ -39,7 +39,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class SquaredSinc : KernelBase, IKernel, ICloneable
+    public sealed class SquaredSinc : KernelBase, IKernel, IRadialBasisKernel, ICloneable
     {
         private double gamma;
 
@@ -72,15 +72,31 @@ namespace Accord.Statistics.Kernels
         /// 
         public override double Function(double[] x, double[] y)
         {
-            double norm = 0.0, d;
+            double norm = 0.0;
             for (int i = 0; i < x.Length; i++)
             {
-                d = x[i] - y[i];
+                double d = x[i] - y[i];
                 norm += d * d;
             }
 
             double num = gamma * Math.Sqrt(norm);
             double den = gamma * gamma * norm;
+
+            return Math.Sin(num) / den;
+        }
+
+        /// <summary>
+        ///   Squared Sine Kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            double num = gamma * z;
+            double den = gamma * gamma * z * z;
 
             return Math.Sin(num) / den;
         }

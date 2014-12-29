@@ -100,20 +100,14 @@ namespace Accord.Statistics.Kernels
 
 
             if (pi == 0)
-            {
                 return a + k;
-            }
-            else if (ni == 0 || mi == 0)
-            {
-                return a;
-            }
-            else
-            {
-                // Retrieve the value from the cache
-                return a + k * K[ni - 1, mi - 1, pi - 1];
-            }
-        }
 
+            if (ni == 0 || mi == 0)
+                return a;
+
+            // Retrieve the value from the cache
+            return a + k * K[ni - 1, mi - 1, pi - 1];
+        }
 
     }
 }

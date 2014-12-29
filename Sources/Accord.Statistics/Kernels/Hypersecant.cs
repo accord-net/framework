@@ -39,7 +39,8 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Hypersecant : KernelBase, IKernel, ICloneable
+    public sealed class Hypersecant : KernelBase, IKernel, 
+        IRadialBasisKernel, ICloneable
     {
         private double gamma;
 
@@ -69,20 +70,34 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
         {
-            double norm = 0.0, d;
+            double norm = 0.0;
             for (int i = 0; i < x.Length; i++)
             {
-                d = x[i] - y[i];
+                double d = x[i] - y[i];
                 norm += d * d;
             }
 
             norm = Math.Sqrt(norm);
 
             return 2.0 / Math.Exp(gamma * norm) + Math.Exp(-gamma * norm);
+        }
+
+        /// <summary>
+        ///   Hyperbolic Secant Kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return 2.0 / Math.Exp(gamma * z) + Math.Exp(-gamma * z);
         }
 
         /// <summary>

@@ -39,8 +39,9 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class SymmetricTriangle : KernelBase, IKernel, ICloneable
+    public sealed class SymmetricTriangle : KernelBase, IKernel, IRadialBasisKernel, ICloneable
     {
+
         private double gamma;
 
 
@@ -69,20 +70,36 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
         {
-            double norm = 0.0, d;
+            double norm = 0.0;
             for (int i = 0; i < x.Length; i++)
             {
-                d = x[i] - y[i];
+                double d = x[i] - y[i];
                 norm += d * d;
             }
 
             double z = 1.0 - gamma * Math.Sqrt(norm);
 
             return (z > 0) ? z : 0;
+        }
+
+        /// <summary>
+        ///   Symmetric Triangle Kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            double zz = 1.0 - gamma * z;
+
+            return (zz > 0) ? zz : 0;
         }
 
         /// <summary>

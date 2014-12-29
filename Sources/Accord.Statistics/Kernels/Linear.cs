@@ -81,6 +81,19 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
+        ///   Linear kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return z + constant;
+        }
+
+        /// <summary>
         ///   Computes the squared distance in input space
         ///   between two points given in feature space.
         /// </summary>

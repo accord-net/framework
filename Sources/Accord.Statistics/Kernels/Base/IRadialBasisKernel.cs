@@ -22,39 +22,41 @@
 
 namespace Accord.Statistics.Kernels
 {
-    using System;
 
     /// <summary>
-    ///   Custom Kernel.
+    ///   Interface for Radial Basis Function kernels.
     /// </summary>
     /// 
-    [Serializable]
-    public sealed class Custom : KernelBase, IKernel
+    /// <remarks>
+    /// <para>
+    ///   A radial basis function (RBF) is a real-valued function whose value depends only 
+    ///   on the distance from the origin, so that <c>ϕ(x) = ϕ(||x||)</c>; or alternatively 
+    ///   on the distance from some other point <c>c</c>, called a center, so that 
+    ///   <c>ϕ(x,c) = ϕ(||x−c||)</c>. Any function ϕ that satisfies the property 
+    ///   <c>ϕ(x) = ϕ(||x||)</c> is a radial function. The norm is usually Euclidean distance,
+    ///   although other distance functions are also possible. </para>
+    ///   
+    /// <para>
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description>
+    ///       Wikipedia, The Free Encyclopedia. Radial basis functions. Available on:
+    ///       https://en.wikipedia.org/wiki/Radial_basis_function </description></item>
+    ///    </list></para>
+    /// </remarks>
+    /// 
+    public interface IRadialBasisKernel : IKernel
     {
-        private Func<double[], double[], double> func;
 
         /// <summary>
-        ///   Constructs a new Custom kernel.
+        ///   The kernel function.
         /// </summary>
         /// 
-        public Custom(Func<double[], double[], double> function)
-        {
-            this.func = function;
-        }
-
-        /// <summary>
-        ///   Custom kernel function.
-        /// </summary>
-        /// 
-        /// <param name="x">Vector <c>x</c> in input space.</param>
-        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// <param name="z">Distance <c>z</c> between two vectors in input space.</param>
         /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
-        public override double Function(double[] x, double[] y)
-        {
-            return func(x, y);
-        }
+        double Function(double z);
 
     }
 }

@@ -35,7 +35,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class RationalQuadratic : KernelBase, IKernel, ICloneable
+    public sealed class RationalQuadratic : KernelBase, IKernel, IRadialBasisKernel, ICloneable
     {
         double constant;
 
@@ -78,6 +78,19 @@ namespace Accord.Statistics.Kernels
             }
 
             return 1.0 - (norm / (norm - constant));
+        }
+
+        /// <summary>
+        ///   Rational Quadratic Kernel Function
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return 1.0 - (z / (z - constant));
         }
 
         /// <summary>

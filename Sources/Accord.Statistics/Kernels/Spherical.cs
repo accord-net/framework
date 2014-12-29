@@ -34,7 +34,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Spherical : KernelBase, IKernel, ICloneable
+    public sealed class Spherical : KernelBase, IKernel, IRadialBasisKernel, ICloneable
     {
         private double sigma;
 
@@ -65,6 +65,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
@@ -79,14 +80,27 @@ namespace Accord.Statistics.Kernels
             norm = System.Math.Sqrt(norm);
 
             if (norm >= sigma)
-            {
                 return 0;
-            }
-            else
-            {
-                norm = norm / sigma;
-                return 1.0 - 1.5 * norm + 0.5 * norm * norm * norm;
-            }
+
+            norm = norm / sigma;
+            return 1.0 - 1.5 * norm + 0.5 * norm * norm * norm;
+        }
+
+        /// <summary>
+        ///   Spherical Kernel Function
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            if (z >= sigma)
+                return 0;
+
+            double norm = z / sigma;
+            return 1.0 - 1.5 * norm + 0.5 * norm * norm * norm;
         }
 
         /// <summary>

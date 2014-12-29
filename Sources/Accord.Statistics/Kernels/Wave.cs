@@ -33,7 +33,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Wave : KernelBase, IKernel, ICloneable
+    public sealed class Wave : KernelBase, IKernel, IRadialBasisKernel, ICloneable
     {
         private double sigma;
 
@@ -64,6 +64,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
@@ -74,12 +75,29 @@ namespace Accord.Statistics.Kernels
                 double d = x[i] - y[i];
                 norm += d * d;
             }
+
             norm = System.Math.Sqrt(norm);
 
             if (sigma == 0 || norm == 0)
                 return 0;
-            else
-                return (sigma / norm) * System.Math.Sin(norm / sigma);
+
+            return (sigma / norm) * System.Math.Sin(norm / sigma);
+        }
+
+        /// <summary>
+        ///   Wave Kernel Function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            if (sigma == 0 || z == 0)
+                return 0;
+
+            return (sigma / z) * System.Math.Sin(z / sigma);
         }
 
         /// <summary>
