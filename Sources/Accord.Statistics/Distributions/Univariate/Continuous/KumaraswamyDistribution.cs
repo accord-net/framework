@@ -231,8 +231,11 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// 
         public override double DistributionFunction(double x)
         {
-            if (x > 1) return 1;
-            if (x < 0) return 0;
+            if (x > 1) 
+                return 1;
+
+            if (x < 0) 
+                return 0;
 
             double xa = Math.Pow(x, a);
             return 1 - Math.Pow(1 - xa, b);
@@ -257,8 +260,11 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            if (x > 1) return 0;
-            if (x < 0) return 0;
+            if (x > 1) 
+                return 0;
+
+            if (x < 0) 
+                return 0;
 
             return a * b * Math.Pow(x, a - 1) * Math.Pow(1 - Math.Pow(x, a), b - 1);
         }
@@ -284,35 +290,9 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Kumaraswamy(x; a = {0}, b = {1})", a, b);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Kumaraswamy(x; a = {0}, b = {1})", a, b);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("Kumaraswamy(x; a = {0}, b = {1})",
+            return String.Format(formatProvider, "Kumaraswamy(x; a = {0}, b = {1})",
                 a.ToString(format, formatProvider),
                 b.ToString(format, formatProvider));
         }

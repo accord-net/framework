@@ -600,18 +600,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return new NormalDistribution(mean, stdDev);
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString()
-        {
-            return String.Format("N(x; μ = {0}, σ² = {1})", mean, variance);
-        }
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -621,38 +609,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "N(x; μ = {0}, σ² = {1})", mean, variance);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "N(x; μ = {0}, σ² = {1})",
                 mean.ToString(format, formatProvider),
                 variance.ToString(format, formatProvider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("N(x; μ = {0}, σ² = {1})",
-                mean.ToString(format), variance.ToString(format));
         }
 
 

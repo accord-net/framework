@@ -367,52 +367,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("LLD3(x; μ = {0}, σ = {1}, ξ = {2})", mu, sigma, ksi);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "LLD3(x; μ = {0}, σ = {1}, ξ = {2})", mu, sigma, ksi);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "LLD3(x; μ = {0}, σ = {1}, ξ = {2})",
                 mu.ToString(format, formatProvider),
                 sigma.ToString(format, formatProvider),
                 ksi.ToString(format, formatProvider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("LLD3(x; μ = {0}, σ = {1}, ξ = {2})",
-                mu.ToString(format), sigma.ToString(format), ksi.ToString(format));
         }
 
 

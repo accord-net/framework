@@ -287,7 +287,9 @@ namespace Accord.Statistics.Distributions.Univariate
             sigma = Math.Sqrt(1.0 / (2.0 * observations.Length) * sum);
         }
 
+
         private RayleighDistribution() { }
+
 
         /// <summary>
         ///   Estimates a new Gamma distribution from a given set of observations.
@@ -386,50 +388,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("Rayleigh(x; σ = {0})", sigma);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Rayleigh(x; σ = {0})", sigma);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "Rayleigh(x; σ = {0})",
                 sigma.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("Rayleigh(x; σ = {0})",
-                sigma.ToString(format));
-        }
     }
 }

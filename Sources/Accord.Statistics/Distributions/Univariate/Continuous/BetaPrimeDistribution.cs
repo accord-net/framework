@@ -302,36 +302,9 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("BetaPrime(x; α = {0}, β = {1})", alpha, beta);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "BetaPrime(x; α = {0}, β = {1})",
-                alpha, beta);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("BetaPrime(x; α = {0}, β = {1})",
                 alpha.ToString(format, formatProvider),
                 beta.ToString(format, formatProvider));
         }

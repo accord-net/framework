@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
+    using System.Globalization;
 
     /// <summary>
     ///   Abstract class for Multivariate Probability Distributions.
@@ -60,7 +61,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     /// 
     [Serializable]
     public abstract class MultivariateContinuousDistribution : DistributionBase,
-        IMultivariateDistribution, IMultivariateDistribution<double[]>
+        IMultivariateDistribution, IMultivariateDistribution<double[]>, IFormattable
     {
 
         private int dimension;
@@ -393,18 +394,6 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
 
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public abstract object Clone();
-
-
-
         double IDistribution<double[]>.ProbabilityFunction(double[] x)
         {
             return ProbabilityDensityFunction(x);
@@ -416,5 +405,4 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
     }
-
 }

@@ -351,7 +351,6 @@ namespace Accord.Statistics.Distributions.Univariate
 
         
 
-
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
@@ -360,50 +359,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("Poisson(x; λ = {0})", lambda);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Poisson(x; λ = {0})", lambda);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format("Poisson(x; λ = {0})",
                 lambda.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("Poisson(x; λ = {0})", lambda.ToString(format));
-        }
 
         /// <summary>
         ///   Gets the standard Poisson distribution,

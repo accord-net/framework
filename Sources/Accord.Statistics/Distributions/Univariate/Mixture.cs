@@ -634,7 +634,7 @@ namespace Accord.Statistics.Distributions.Univariate
             // Sample from the chosen coefficient
             var d = components[c] as ISampleableDistribution<double>;
 
-            if (d == null) 
+            if (d == null)
                 throw new InvalidOperationException();
 
             return d.Generate();
@@ -651,40 +651,22 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("Mixture(x; ");
 
             for (int i = 0; i < coefficients.Length; i++)
             {
-                sb.AppendFormat("{0}*{1}", coefficients[0], components[1].ToString());
-                if (i < coefficients.Length - 1)
-                    sb.Append(" + ");
-            }
-            sb.Append(")");
+                sb.AppendFormat("{0}*",
+                    coefficients[0].ToString(format, formatProvider));
 
-            return sb.ToString();
-        }
+                var fmt = components[1] as IFormattable;
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Mixture(x; ");
-
-            for (int i = 0; i < coefficients.Length; i++)
-            {
-                sb.AppendFormat("{0}*{1}",
-                    coefficients[0].ToString(formatProvider),
-                    components[1].ToString());
+                if (fmt != null)
+                    sb.AppendFormat(fmt.ToString(format, formatProvider));
+                else
+                    sb.AppendFormat(fmt.ToString());
 
                 if (i < coefficients.Length - 1)
                     sb.Append(" + ");
@@ -694,58 +676,5 @@ namespace Accord.Statistics.Distributions.Univariate
             return sb.ToString();
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Mixture(x; ");
-
-            for (int i = 0; i < coefficients.Length; i++)
-            {
-                sb.AppendFormat("{0}*{1}",
-                    coefficients[0].ToString(format, formatProvider),
-                    components[1].ToString());
-
-                if (i < coefficients.Length - 1)
-                    sb.Append(" + ");
-            }
-            sb.Append(")");
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("Mixture(x; ");
-
-            for (int i = 0; i < coefficients.Length; i++)
-            {
-                sb.AppendFormat("{0}*{1}",
-                    coefficients[0].ToString(format),
-                    components[1].ToString());
-
-                if (i < coefficients.Length - 1)
-                    sb.Append(" + ");
-            }
-            sb.Append(")");
-
-            return sb.ToString();
-        }
     }
 }

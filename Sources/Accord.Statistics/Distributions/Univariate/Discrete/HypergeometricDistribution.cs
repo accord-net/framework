@@ -397,52 +397,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("HyperGeometric(x; N = {0}, m = {1}, n = {2})", N, m, n);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "HyperGeometric(x; N = {0}, m = {1}, n = {2})", N, m, n);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("HyperGeometric(x; N = {0}, m = {1}, n = {2})",
+            return String.Format(formatProvider, "HyperGeometric(x; N = {0}, m = {1}, n = {2})",
                 N.ToString(format, formatProvider),
                 m.ToString(format, formatProvider),
                 n.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("HyperGeometric(x; N = {0}, m = {1}, n = {2})",
-                N.ToString(format), m.ToString(format), n.ToString(format));
-        }
     }
 }

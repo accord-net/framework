@@ -466,50 +466,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("B(x; α = {0}, β = {1})", a, b);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "B(x; α = {0}, β = {1})", a, b);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("B(x; α = {0}, β = {1})",
+            return String.Format(formatProvider, "B(x; α = {0}, β = {1})",
                 a.ToString(format, formatProvider), b.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("B(x; α = {0}, β = {1})",
-                a.ToString(format), b.ToString(format));
-        }
     }
 }

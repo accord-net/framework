@@ -503,18 +503,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return new GumbelDistribution(mean, beta);
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString()
-        {
-            return String.Format("Gumbel(x; μ = {0}, β = {1})", mean, beta);
-        }
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -524,23 +512,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "Gumbel(x; μ = {0}, β = {1})",
-                mean, beta);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("Gumbel(x; μ = {0}, β = {1})",
                 mean.ToString(format, formatProvider),
                 beta.ToString(format, formatProvider));
         }

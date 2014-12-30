@@ -142,7 +142,8 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations, weights, options);
 
-            Assert.AreEqual(4.0 / trials, target.ProbabilityOfSuccess);
+            Assert.AreEqual(observations.Length, target.NumberOfTrials);
+            Assert.AreEqual(4.0 / target.NumberOfTrials, target.ProbabilityOfSuccess);
         }
 
         [TestMethod()]

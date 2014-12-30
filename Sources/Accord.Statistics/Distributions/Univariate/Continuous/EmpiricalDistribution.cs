@@ -683,9 +683,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string  ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Fn(x; S)");
+            return String.Format(formatProvider, "Fn(x; S)");
         }
 
 

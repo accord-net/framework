@@ -377,19 +377,6 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
             return new TrapezoidalDistribution(a, b, c, d, n1, n3);
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString()
-        {
-            return String.Format("Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
-                a, b, c, d, n1, n3, alpha);
-        }
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -399,21 +386,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
-                a, b, c, d, n1, n3, alpha);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format("Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
                 a.ToString(format, formatProvider),

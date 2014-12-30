@@ -294,6 +294,7 @@ namespace Accord.Statistics.Distributions.Univariate
             return new PowerLognormalDistribution(power, sigma);
         }
 
+       
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
@@ -302,53 +303,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("PKD(x; p = {0}, σ = {1})", power, sigma);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "PLD(x; p = {0}, σ = {1})",
-                power, sigma);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "PLD(x; p = {0}, σ = {1})",
                 power.ToString(format, formatProvider),
                 sigma.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("PLD(x; p = {0}, σ = {1})",
-                power.ToString(format), sigma.ToString(format));
-        }
 
 
         private void initialize(double power, double sigma)

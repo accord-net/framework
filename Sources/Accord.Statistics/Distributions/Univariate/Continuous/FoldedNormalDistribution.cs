@@ -291,51 +291,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("FN(x; μ = {0}, σ² = {1})", mu, sigma2);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "FN(x; μ = {0}, σ² = {1})", mu, sigma2);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "FN(x; μ = {0}, σ² = {1})",
                 mu.ToString(format, formatProvider),
                 sigma2.ToString(format, formatProvider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("FN(x; μ = {0}, σ² = {1})",
-                mu.ToString(format), sigma2.ToString(format));
         }
 
 
@@ -345,7 +305,5 @@ namespace Accord.Statistics.Distributions.Univariate
             this.sigma = dev;
             this.sigma2 = var;
         }
-
-
     }
 }

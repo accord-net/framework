@@ -366,6 +366,8 @@ namespace Accord.Statistics.Distributions.Univariate
             int successes = 0;
             for (int i = 0; i < observations.Length; i++)
                 if (observations[i] == 1) successes++;
+
+            this.numberOfTrials = observations.Length;
             this.probability = successes / (double)numberOfTrials;
         }
 
@@ -382,7 +384,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return new BinomialDistribution(numberOfTrials, probability);
         }
 
-
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
@@ -391,35 +392,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Binomial(x; n = {0}, p = {1})", numberOfTrials, probability);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Binomial(x; n = {0}, p = {1})", numberOfTrials, probability);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("Binomial(x; n = {0}, p = {1})",
+            return String.Format(formatProvider, "Binomial(x; n = {0}, p = {1})",
                 numberOfTrials.ToString(format, formatProvider),
                 probability.ToString(format, formatProvider));
         }

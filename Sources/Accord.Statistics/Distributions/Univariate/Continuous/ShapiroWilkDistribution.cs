@@ -24,7 +24,6 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using AForge;
-    using Range = System.ComponentModel.DataAnnotations.RangeAttribute;
 
     /// <summary>
     ///   Shapiro-Wilk distribution.
@@ -51,7 +50,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         /// <param name="samples">The number of samples.</param>
         /// 
-        public ShapiroWilkDistribution(int samples)
+        public ShapiroWilkDistribution([PositiveInteger] int samples)
         {
             if (samples < 4)
             {
@@ -233,33 +232,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("SW(x; n = {0})", NumberOfSamples);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "SW(x; n = {0})", NumberOfSamples);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format("SW(x; n = {0})",
                 NumberOfSamples.ToString(format, formatProvider));

@@ -68,7 +68,8 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public abstract class UnivariateContinuousDistribution : DistributionBase,
-        IDistribution, IUnivariateDistribution, IUnivariateDistribution<double>
+        IDistribution, IUnivariateDistribution, IUnivariateDistribution<double>,
+        IFormattable
     {
         [NonSerialized]
         private double? median;
@@ -982,15 +983,6 @@ namespace Accord.Statistics.Distributions.Univariate
             }
         }
 
-        /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
-        /// 
-        public abstract object Clone();
 
         /// <summary>
         ///   Generates a random vector of observations from the current distribution.
@@ -1037,7 +1029,5 @@ namespace Accord.Statistics.Distributions.Univariate
             return LogProbabilityDensityFunction(x);
         }
 
-
     }
-
 }

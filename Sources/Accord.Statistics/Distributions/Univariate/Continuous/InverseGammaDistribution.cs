@@ -202,7 +202,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            if (x == 0) return 0;
+            if (x == 0) 
+                return 0;
+
             return Gamma.UpperIncomplete(a, b / x);
         }
 
@@ -229,7 +231,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            if (x <= 0) return 0;
+            if (x <= 0) 
+                return 0;
 
             return constant * Math.Pow(x, -a - 1) * Math.Exp(-b / x);
         }
@@ -257,7 +260,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
-            if (x <= 0) return 0;
+            if (x <= 0) 
+                return 0;
 
             double lnx = Math.Log(x);
             return Math.Log(constant) + (-a - 1) * lnx + (-b / x);
@@ -284,35 +288,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Γ^(-1)(x; α = {0}, β = {1})", a, b);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Γ^(-1)(x; α = {0}, β = {1})", a, b);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("Γ^(-1)(x; α = {0}, β = {1})",
+            return String.Format(formatProvider, "Γ^(-1)(x; α = {0}, β = {1})",
                 a.ToString(format, formatProvider),
                 b.ToString(format, formatProvider));
         }

@@ -27,6 +27,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using System.Threading.Tasks;
+    using System.Text;
 
     /// <summary>
     ///   Mixture of multivariate probability distributions.
@@ -580,5 +581,39 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         #endregion
+
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Mixture(X; ");
+
+            for (int i = 0; i < coefficients.Length; i++)
+            {
+                sb.AppendFormat("{0}*",
+                    coefficients[0].ToString(format, formatProvider));
+
+                var fmt = components[1] as IFormattable;
+
+                if (fmt != null)
+                    sb.AppendFormat(fmt.ToString(format, formatProvider));
+                else
+                    sb.AppendFormat(fmt.ToString());
+
+                if (i < coefficients.Length - 1)
+                    sb.Append(" + ");
+            }
+            sb.Append(")");
+
+            return sb.ToString();
+        }
     }
 }

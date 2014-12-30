@@ -65,7 +65,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             Assert.AreEqual(median, 0);
             Assert.AreEqual(pdf, 0);
             Assert.AreEqual(cdf, 0.5);
-            Assert.AreEqual(tostr, "UQuadratic(x; a = -2, b = 2)");
+            Assert.AreEqual(tostr, "U-Quadratic(x; a = -2, b = 2)");
         }
 
         [TestMethod()]
@@ -101,7 +101,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             Assert.AreEqual(0.3310263776442936, hf);
             Assert.AreEqual(0.55580958187268203, ccdf);
             Assert.AreEqual(1.3999998213768274, icdf);
-            Assert.AreEqual("UQuadratic(x; a = 0.42, b = 4.2)", str);
+            Assert.AreEqual("U-Quadratic(x; a = 0.42, b = 4.2)", str);
 
             var range1 = u2.GetRange(0.95);
             var range2 = u2.GetRange(0.99);

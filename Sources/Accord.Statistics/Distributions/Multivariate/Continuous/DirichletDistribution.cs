@@ -100,9 +100,11 @@ namespace Accord.Statistics.Distributions.Multivariate
         public DirichletDistribution(int dimension, double concentration)
             : base(dimension)
         {
-            if (concentration <= 0) 
+            if (concentration <= 0)
+            {
                 throw new ArgumentOutOfRangeException("concentration",
-                "Concentration parameter must be higher than 0.");
+                "Concentration parameter α must be higher than 0.");
+            }
 
             this.alphas = new double[dimension];
             for (int i = 0; i < this.alphas.Length; i++)
@@ -285,6 +287,22 @@ namespace Accord.Statistics.Distributions.Multivariate
         public override object Clone()
         {
             return new DirichletDistribution(alphas);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <param name="format">The format.</param>
+        /// <param name="formatProvider">The format provider.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            return String.Format(formatProvider, "Dirichlet(X)");
         }
     }
 }
