@@ -690,6 +690,30 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a index vector.
+        /// </summary>
+        /// 
+        public static IEnumerable<int[]> Indices(this Array array)
+        {
+            int[] dimensions = array.GetDimensions();
+            return Combinatorics.Sequences(dimensions, inPlace: true);
+        }
+
+        /// <summary>
+        ///   Gets the dimensions of an array.
+        /// </summary>
+        /// 
+        public static int[] GetDimensions(this Array array)
+        {
+            int[] vector = new int[array.Rank];
+
+            for (int i = 0; i < vector.Length; i++)
+                vector[i] = array.GetUpperBound(i);
+
+            return vector;
+        }
+
+        /// <summary>
         ///   Creates an interval vector.
         /// </summary>
         /// 
