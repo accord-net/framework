@@ -87,8 +87,7 @@ namespace Accord.Tests.IO.Properties {
         ///-1 4:1 6:1 18:1 19:1 39:1 41:1 51:1 62:1 67:1 73:1 74:1 77:1 80:1 83:1 
         ///-1 4:1 6:1 17:1 21:1 35:1 42:1 54:1 66:1 67:1 73:1 74:1 76:1 80:1 86:1 
         ///-1 4:1 11:1 14:1 25:1 38:1 40:1 48:1 63:1 67:1 73:1 74:1 76:1 80:1 83:1 
-        ///-1 4:1 6:1 17:1 33:1 35:1 40:1 54:1 63:1 67:1 73:1 74:1 76:1 80:1 103:1 
-        ///-1 2 [rest of string was truncated]&quot;;.
+        ///-1 4:1 6:1 17:1 33:1 35:1 40:1 54:1 63:1 67:1 73:1 74:1 76:1 80:1 103:1 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string a9a_test {
             get {
@@ -103,8 +102,7 @@ namespace Accord.Tests.IO.Properties {
         ///-1 5:1 6:1 17:1 21:1 35:1 40:1 53:1 63:1 71:1 73:1 74:1 76:1 80:1 83:1 
         ///-1 2:1 6:1 18:1 19:1 39:1 40:1 52:1 61:1 71:1 72:1 74:1 76:1 80:1 95:1 
         ///-1 3:1 6:1 18:1 29:1 39:1 40:1 51:1 61:1 67:1 72:1 74:1 76:1 80:1 83:1 
-        ///-1 4:1 6:1 16:1 26:1 35:1 45:1 49:1 64:1 71:1 72:1 74:1 76:1 78:1 101:1 
-        ///+1 5:1 [rest of string was truncated]&quot;;.
+        ///-1 4:1 6:1 16:1 26:1 35:1 45:1 49:1 64:1 71:1 72:1 74:1 76:1 78:1 101:1         /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string a9a1_train {
             get {
@@ -129,6 +127,196 @@ namespace Accord.Tests.IO.Properties {
             get {
                 object obj = ResourceManager.GetObject("cell", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to first,last,address,city,zip
+        ///John,Doe,120 any st.,&quot;Anytown, WW&quot;,08123.
+        /// </summary>
+        internal static string csv_comma_in_quotes {
+            get {
+                return ResourceManager.GetString("csv_comma_in_quotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;a&quot;	&quot;b&quot;	&quot;c&quot;
+        ///&quot;1&quot;	&quot;a&quot;b&quot;2&quot;	&quot;3&quot;
+        ///&quot;7&quot;	&quot;8&quot;	&quot;9&quot;
+        ///.
+        /// </summary>
+        internal static string csv_double_quotes {
+            get {
+                return ResourceManager.GetString("csv_double_quotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b,c
+        ///1,&quot;&quot;,&quot;&quot;
+        ///2,3,4.
+        /// </summary>
+        internal static string csv_empty {
+            get {
+                return ResourceManager.GetString("csv_empty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b,c
+        ///1,&quot;&quot;,&quot;&quot;
+        ///2,3,4.
+        /// </summary>
+        internal static string csv_empty_crlf {
+            get {
+                return ResourceManager.GetString("csv_empty_crlf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b,c
+        ///1,2,3
+        ///4,  6
+        ///7,8,9
+        ///.
+        /// </summary>
+        internal static string csv_error_recovery {
+            get {
+                return ResourceManager.GetString("csv_error_recovery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b
+        ///1,&quot;ha &quot;&quot;ha&quot;&quot; ha&quot;
+        ///3,4
+        ///.
+        /// </summary>
+        internal static string csv_escaped_quotes {
+            get {
+                return ResourceManager.GetString("csv_escaped_quotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a;b;c
+        ///0,52;2,52;3,5
+        ///4;5;6.
+        /// </summary>
+        internal static string csv_french {
+            get {
+                return ResourceManager.GetString("csv_french", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to key,val
+        ///1,&quot;{&quot;&quot;type&quot;&quot;: &quot;&quot;Point&quot;&quot;, &quot;&quot;coordinates&quot;&quot;: [102.0, 0.5]}&quot;
+        ///.
+        /// </summary>
+        internal static string csv_json {
+            get {
+                return ResourceManager.GetString("csv_json", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b,c
+        ///1,2,3
+        ///&quot;Once upon 
+        ///a time&quot;,5,6
+        ///7,8,9
+        ///.
+        /// </summary>
+        internal static string csv_newlines {
+            get {
+                return ResourceManager.GetString("csv_newlines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b,c
+        ///1,2,3
+        ///&quot;Once upon 
+        ///a time&quot;,5,6
+        ///7,8,9
+        ///.
+        /// </summary>
+        internal static string csv_newlines_crlf {
+            get {
+                return ResourceManager.GetString("csv_newlines_crlf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a|b|c
+        ///1|2|3
+        ///7|8|9
+        ///.
+        /// </summary>
+        internal static string csv_pipes {
+            get {
+                return ResourceManager.GetString("csv_pipes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b
+        ///1,&quot;ha 
+        ///&quot;&quot;ha&quot;&quot; 
+        ///ha&quot;
+        ///3,4
+        ///.
+        /// </summary>
+        internal static string csv_quotes_and_newlines {
+            get {
+                return ResourceManager.GetString("csv_quotes_and_newlines", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b,c
+        ///1,2,3
+        ///.
+        /// </summary>
+        internal static string csv_simple {
+            get {
+                return ResourceManager.GetString("csv_simple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b,c
+        ///1,2,3
+        ///.
+        /// </summary>
+        internal static string csv_simple_crlf {
+            get {
+                return ResourceManager.GetString("csv_simple_crlf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a	b	c
+        ///1	2	3
+        ///7	8	9
+        ///.
+        /// </summary>
+        internal static string csv_tabs {
+            get {
+                return ResourceManager.GetString("csv_tabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to a,b,c
+        ///1,2,3
+        ///4,5,ʤ.
+        /// </summary>
+        internal static string csv_utf8 {
+            get {
+                return ResourceManager.GetString("csv_utf8", resourceCulture);
             }
         }
         

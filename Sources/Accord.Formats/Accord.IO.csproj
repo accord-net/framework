@@ -143,7 +143,11 @@
     <Compile Include="Csv\CsvReader.cs" />
     <Compile Include="Csv\MissingFieldAction.cs" />
     <Compile Include="Csv\ParseErrorAction.cs" />
-    <Compile Include="Resources\ExceptionMessage.Designer.cs" />
+    <Compile Include="Resources\ExceptionMessage.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExceptionMessage.resx</DependentUpon>
+    </Compile>
     <Compile Include="SparseReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Csv\ValueTrimmingOptions.cs" />
@@ -193,6 +197,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\ExceptionMessage.resx" />
+    <EmbeddedResource Include="Resources\ExceptionMessage.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ExceptionMessage.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

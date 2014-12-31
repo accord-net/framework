@@ -408,7 +408,7 @@ namespace Accord.Math
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    if (!objA[i, j].Equals(objB[i, j]))
+                    if (!Object.Equals(objA[i, j], objB[i, j]))
                         return false;
                 }
             }

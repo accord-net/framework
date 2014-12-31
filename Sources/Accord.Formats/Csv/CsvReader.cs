@@ -80,6 +80,9 @@ namespace Accord.IO.Csv
         public const char DefaultComment = '#';
 
 
+        private char[] common_delimiters = { ',', ';', '\t', '|', ';', '^' };
+
+
         private static readonly StringComparer _fieldHeaderComparer =
             StringComparer.CurrentCultureIgnoreCase;
 
@@ -707,10 +710,7 @@ namespace Accord.IO.Csv
         /// </exception>
         public virtual string this[int field]
         {
-            get
-            {
-                return ReadField(field, false, false);
-            }
+            get { return ReadField(field, false, false); }
         }
 
 
@@ -1002,13 +1002,57 @@ namespace Accord.IO.Csv
 
             if (_bufferLength > 0)
                 return true;
-            else
-            {
-                _eof = true;
-                _buffer = null;
 
-                return false;
+            _eof = true;
+            _buffer = null;
+
+            return false;
+        }
+
+        private void GuessDelimiterFromBuffer()
+        {
+            // Find first unquoted end line
+            int lineEndIndex = _buffer.Length - 1;
+
+            bool inquote = false;
+            for (int i = 0; i < _buffer.Length; i++)
+            {
+                if (_buffer[i] == _quote)
+                    inquote = !inquote;
+
+                if (!inquote && _buffer[i] == '\n')
+                {
+                    lineEndIndex = i;
+                    break;
+                }
             }
+
+            int imax = 0;
+            int max = 0;
+            inquote = false;
+
+            for (int i = 0; i < common_delimiters.Length; i++)
+            {
+                char delimiter = common_delimiters[i];
+
+                int count = 0;
+                for (int j = 0; j < lineEndIndex; j++)
+                {
+                    if (_buffer[j] == _quote)
+                        inquote = !inquote;
+
+                    if (!inquote && _buffer[j] == delimiter)
+                        count++;
+                }
+
+                if (count > max)
+                {
+                    max = count;
+                    imax = i;
+                }
+            }
+
+            this._delimiter = common_delimiters[imax];
         }
 
         /// <summary>
@@ -1050,7 +1094,8 @@ namespace Accord.IO.Csv
                 // Directly return field if cached
                 if (_fields[field] != null)
                     return _fields[field];
-                else if (_missingFieldFlag)
+
+                if (_missingFieldFlag)
                     return HandleMissingField(null, field, ref _nextFieldStart);
             }
 
@@ -1068,6 +1113,11 @@ namespace Accord.IO.Csv
 
                     // Possible EOF will be handled later (see Handle_EOF1)
                     ReadBuffer();
+                }
+
+                if (initializing)
+                {
+                    GuessDelimiterFromBuffer();
                 }
 
                 string value = null;
@@ -1139,23 +1189,23 @@ namespace Accord.IO.Csv
                                     break;
                                 }
                                 else
+                                {
                                     pos++;
+                                }
                             }
 
                             if (pos < _bufferLength)
                                 break;
-                            else
-                            {
-                                if (!discardValue)
-                                    value += new string(_buffer, start, pos - start);
 
-                                start = 0;
-                                pos = 0;
-                                _nextFieldStart = 0;
+                            if (!discardValue)
+                                value += new string(_buffer, start, pos - start);
 
-                                if (!ReadBuffer())
-                                    break;
-                            }
+                            start = 0;
+                            pos = 0;
+                            _nextFieldStart = 0;
+
+                            if (!ReadBuffer())
+                                break;
                         }
 
                         if (!discardValue)
@@ -1179,7 +1229,9 @@ namespace Accord.IO.Csv
                                         value += new string(_buffer, start, pos - start);
                                 }
                                 else
+                                {
                                     pos = -1;
+                                }
 
                                 // If pos <= 0, that means the trimming went past buffer start,
                                 // and the concatenated value needs to be trimmed too.
@@ -1266,20 +1318,18 @@ namespace Accord.IO.Csv
 
                             if (!quoted)
                                 break;
-                            else
+
+                            if (!discardValue && !escaped)
+                                value += new string(_buffer, start, pos - start);
+
+                            start = 0;
+                            pos = 0;
+                            _nextFieldStart = 0;
+
+                            if (!ReadBuffer())
                             {
-                                if (!discardValue && !escaped)
-                                    value += new string(_buffer, start, pos - start);
-
-                                start = 0;
-                                pos = 0;
-                                _nextFieldStart = 0;
-
-                                if (!ReadBuffer())
-                                {
-                                    HandleParseError(new MalformedCsvException(GetCurrentRawData(), _nextFieldStart, Math.Max(0, _currentRecordIndex), index), ref _nextFieldStart);
-                                    return null;
-                                }
+                                HandleParseError(new MalformedCsvException(GetCurrentRawData(), _nextFieldStart, Math.Max(0, _currentRecordIndex), index), ref _nextFieldStart);
+                                return null;
                             }
                         }
 
@@ -1322,9 +1372,11 @@ namespace Accord.IO.Csv
                             if (!_eof && !delimiterSkipped && (initializing || index == _fieldCount - 1))
                                 _eol = ParseNewLine(ref _nextFieldStart);
 
-                            // If no delimiter is present after the quoted field and it is not the last field, then it is a parsing error
+                            // If no delimiter is present after the quoted field and it is not the last field, then
+                            // either we might be using the wrong the wrong field delimiter or it's a parsing error
                             if (!delimiterSkipped && !_eof && !(_eol || IsNewLine(_nextFieldStart)))
                                 HandleParseError(new MalformedCsvException(GetCurrentRawData(), _nextFieldStart, Math.Max(0, _currentRecordIndex), index), ref _nextFieldStart);
+
                         }
 
                         if (!discardValue)
@@ -1347,11 +1399,11 @@ namespace Accord.IO.Csv
                     {
                         if (_eol || _eof)
                             return null;
-                        else
-                            return string.IsNullOrEmpty(value) ? string.Empty : value;
+
+                        return string.IsNullOrEmpty(value) ? string.Empty : value;
                     }
-                    else
-                        return value;
+                    
+                    return value;
                 }
 
                 index++;
@@ -1643,7 +1695,7 @@ namespace Accord.IO.Csv
         /// </summary>
         /// <param name="pos">
         /// The position in the buffer where to start parsing. 
-        /// Will contains the resulting position after the operation.
+        /// Will contain the resulting position after the operation.
         /// </param>
         /// <returns><see langword="true"/> if the end of the reader has not been reached; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="T:System.ComponentModel.ObjectDisposedException">

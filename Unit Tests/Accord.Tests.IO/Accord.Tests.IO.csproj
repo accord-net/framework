@@ -136,6 +136,7 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="CsvReaderTest.cs" />
     <Compile Include="LibSvmModelTest.cs" />
     <Compile Include="MatReaderTest.cs" />
     <Compile Include="IdxReaderTest.cs" />
@@ -206,6 +207,22 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\csv\comma_in_quotes.csv" />
+    <None Include="Resources\csv\new\pipes.csv" />
+    <None Include="Resources\csv\new\double_quotes.csv" />
+    <None Include="Resources\csv\new\tabs.csv" />
+    <None Include="Resources\csv\new\french.csv" />
+    <None Include="Resources\csv\new\error_recovery.csv" />
+    <None Include="Resources\csv\empty.csv" />
+    <None Include="Resources\csv\empty_crlf.csv" />
+    <None Include="Resources\csv\escaped_quotes.csv" />
+    <None Include="Resources\csv\json.csv" />
+    <None Include="Resources\csv\newlines.csv" />
+    <None Include="Resources\csv\newlines_crlf.csv" />
+    <None Include="Resources\csv\quotes_and_newlines.csv" />
+    <None Include="Resources\csv\simple.csv" />
+    <None Include="Resources\csv\simple_crlf.csv" />
+    <None Include="Resources\csv\utf8.csv" />
     <None Include="Resources\iris.scale.txt" />
   </ItemGroup>
   <ItemGroup>
