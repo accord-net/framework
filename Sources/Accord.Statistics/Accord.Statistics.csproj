@@ -563,6 +563,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Reflection\" />
     <Folder Include="Running\Markov\Base\" />
   </ItemGroup>
 </Project>
