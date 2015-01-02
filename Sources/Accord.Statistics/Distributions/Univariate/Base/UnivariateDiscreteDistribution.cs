@@ -66,8 +66,9 @@ namespace Accord.Statistics.Distributions.Univariate
     [Serializable]
     public abstract class UnivariateDiscreteDistribution : DistributionBase,
         IUnivariateDistribution<int>, IUnivariateDistribution,
-        IUnivariateDistribution<double>, IDistribution<double[]>, 
-        IDistribution<double>, IFormattable
+        IUnivariateDistribution<double>, IDistribution<double[]>,
+        IDistribution<double>, ISampleableDistribution<double>, ISampleableDistribution<int>,
+        IFormattable
     {
 
         double? median;
@@ -982,6 +983,16 @@ namespace Accord.Statistics.Distributions.Univariate
         public virtual int Generate()
         {
             return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+        }
+
+        double[] ISampleableDistribution<double>.Generate(int samples)
+        {
+            return Generate(samples).ToDouble();
+        }
+
+        double ISampleableDistribution<double>.Generate()
+        {
+            return (double)Generate();
         }
 
 

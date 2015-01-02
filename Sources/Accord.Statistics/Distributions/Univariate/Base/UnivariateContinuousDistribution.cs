@@ -69,7 +69,7 @@ namespace Accord.Statistics.Distributions.Univariate
     [Serializable]
     public abstract class UnivariateContinuousDistribution : DistributionBase,
         IDistribution, IUnivariateDistribution, IUnivariateDistribution<double>,
-        IFormattable
+        ISampleableDistribution<double>, IFormattable
     {
         [NonSerialized]
         private double? median;
@@ -632,6 +632,9 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             if (p < 0.0 || p > 1.0)
                 throw new ArgumentOutOfRangeException("p", "Value must be between 0 and 1.");
+
+            if (Double.IsNaN(p))
+                throw new ArgumentOutOfRangeException("p", "Value is Not-a-Number (NaN).");
 
             if (p == 0)
                 return Support.Min;
