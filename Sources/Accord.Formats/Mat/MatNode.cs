@@ -20,15 +20,15 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.IO
+namespace Accord.IO.Mat
 {
-    using Accord.Math;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
     using System.IO.Compression;
     using System.Runtime.InteropServices;
+    using Accord.Math;
 
     /// <summary>
     ///   Node object contained in <see cref="MatReader">.MAT file</see>. 

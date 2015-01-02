@@ -152,7 +152,7 @@ namespace Accord.IO.Csv
 
             string[] columnNames;
 
-            if (_hasHeaders)
+            if (HasHeaders)
             {
                 columnNames = _fieldHeaders;
             }
@@ -297,12 +297,13 @@ namespace Accord.IO.Csv
             ValidateDataReader(DataReaderValidations.IsNotClosed);
 
             if (i < 0 || i >= _fieldCount)
-                throw new ArgumentOutOfRangeException("i", i, string.Format(CultureInfo.InvariantCulture, ExceptionMessage.FieldIndexOutOfRange, i));
+                throw new ArgumentOutOfRangeException("i", i, String.Format(
+                    CultureInfo.InvariantCulture, ExceptionMessage.FieldIndexOutOfRange, i));
 
-            if (_hasHeaders)
+            if (HasHeaders)
                 return _fieldHeaders[i];
-            else
-                return "Column" + i.ToString(CultureInfo.InvariantCulture);
+
+            return "Column" + i.ToString(CultureInfo.InvariantCulture);
         }
 
         long IDataRecord.GetInt64(int i)

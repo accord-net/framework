@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.IO
+namespace Accord.IO.Mat
 {
     using System;
     using System.Collections.Generic;
@@ -176,11 +176,24 @@ namespace Accord.IO
         ///   have been stored differently from .NET's default row-major order. Default is <c>true</c>.</param>
         /// 
         public MatReader(Stream input, bool autoTranspose)
+            : this(new BinaryReader(input), autoTranspose)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new <see cref="MatReader"/>.
+        /// </summary>
+        /// 
+        /// <param name="reader">A reader for input stream containing the MAT file.</param>
+        /// <param name="autoTranspose">Pass <c>true</c> to automatically transpose matrices if they 
+        ///   have been stored differently from .NET's default row-major order. Default is <c>true</c>.</param>
+        /// 
+        public MatReader(BinaryReader reader, bool autoTranspose)
         {
             this.autoTranspose = autoTranspose;
 
-            long startOffset = input.Position;
-            reader = new BinaryReader(input);
+            long startOffset = reader.BaseStream.Position;
+            this.reader = reader;
 
             char[] title = reader.ReadChars(116);
             long subOffset = reader.ReadInt64();

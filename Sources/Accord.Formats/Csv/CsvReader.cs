@@ -59,7 +59,7 @@ namespace Accord.IO.Csv
         ///   Defines the default delimiter character separating each field.
         /// </summary>
         /// 
-        public const char DefaultDelimiter = ',';
+        public const char DefaultDelimiter = '\0';
 
         /// <summary>
         ///   Defines the default quote character wrapping every field.
@@ -80,8 +80,7 @@ namespace Accord.IO.Csv
         public const char DefaultComment = '#';
 
 
-        private char[] common_delimiters = { ',', ';', '\t', '|', ';', '^' };
-
+        private char[] delimiters = { ',', ';', '\t', '|', ';', '^' };
 
         private static readonly StringComparer _fieldHeaderComparer =
             StringComparer.CurrentCultureIgnoreCase;
@@ -89,22 +88,8 @@ namespace Accord.IO.Csv
 
         private TextReader _reader; // pointing to the CSV file
         private int _bufferSize;
-        private char _comment; // comment character indicating that a line is commented out.
-        private char _escape; // escape character that lets insert quotation characters inside a quoted field.
-        private char _delimiter; // delimiter character separating each field
-        private char _quote; // quotation character wrapping every field.
-
-        private ValueTrimmingOptions _trimmingOptions; // Determines which values should be trimmed.
-
-        private bool _hasHeaders; // if field names are located on the first non commented line.
-        private ParseErrorAction _defaultParseErrorAction; // default action to take when a parsing error has occurred.
-        private MissingFieldAction _missingFieldAction; // action to take when a field is missing.
-
-        private bool _supportsMultiline; // if the reader supports multiline
-        private bool _skipEmptyLines; // if the reader will skip empty lines.
 
         private bool _initialized; // if the class is initialized.
-
         private string[] _fieldHeaders; // the field headers.
 
         //  Dictionary of field indexes by header. The key 
@@ -148,15 +133,8 @@ namespace Accord.IO.Csv
         /// <param name="reader">A <see cref="T:TextReader"/> pointing to the CSV file.</param>
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// 
-        /// <exception cref="T:ArgumentNullException">
-        ///    <paramref name="reader"/> is a <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="T:ArgumentException">
-        ///    Cannot read from <paramref name="reader"/>.
-        /// </exception>
-        /// 
         public CsvReader(TextReader reader, bool hasHeaders)
-            : this(reader, hasHeaders, DefaultDelimiter, DefaultQuote, DefaultEscape, DefaultComment, ValueTrimmingOptions.UnquotedOnly, DefaultBufferSize)
+            : this(reader, hasHeaders, DefaultDelimiter, DefaultBufferSize)
         {
         }
 
@@ -167,15 +145,9 @@ namespace Accord.IO.Csv
         /// <param name="reader">A <see cref="T:TextReader"/> pointing to the CSV file.</param>
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
         /// <param name="bufferSize">The buffer size in bytes.</param>
-        /// <exception cref="T:ArgumentNullException">
-        ///		<paramref name="reader"/> is a <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="T:ArgumentException">
-        ///		Cannot read from <paramref name="reader"/>.
-        /// </exception>
         /// 
         public CsvReader(TextReader reader, bool hasHeaders, int bufferSize)
-            : this(reader, hasHeaders, DefaultDelimiter, DefaultQuote, DefaultEscape, DefaultComment, ValueTrimmingOptions.UnquotedOnly, bufferSize)
+            : this(reader, hasHeaders, DefaultDelimiter, bufferSize)
         {
         }
 
@@ -185,16 +157,11 @@ namespace Accord.IO.Csv
         /// 
         /// <param name="reader">A <see cref="T:TextReader"/> pointing to the CSV file.</param>
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
-        /// <param name="delimiter">The delimiter character separating each field (default is ',').</param>
-        /// <exception cref="T:ArgumentNullException">
-        ///		<paramref name="reader"/> is a <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="T:ArgumentException">
-        ///		Cannot read from <paramref name="reader"/>.
-        /// </exception>
+        /// <param name="delimiter">The delimiter character separating each field. If set to zero, the
+        ///   delimiter will be detected from the file automatically. Default is '\0' (zero).</param>
         /// 
         public CsvReader(TextReader reader, bool hasHeaders, char delimiter)
-            : this(reader, hasHeaders, delimiter, DefaultQuote, DefaultEscape, DefaultComment, ValueTrimmingOptions.UnquotedOnly, DefaultBufferSize)
+            : this(reader, hasHeaders, delimiter, DefaultBufferSize)
         {
         }
 
@@ -204,69 +171,11 @@ namespace Accord.IO.Csv
         /// 
         /// <param name="reader">A <see cref="T:TextReader"/> pointing to the CSV file.</param>
         /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
-        /// <param name="delimiter">The delimiter character separating each field (default is ',').</param>
+        /// <param name="delimiter">The delimiter character separating each field. If set to zero, the
+        ///   delimiter will be detected from the file automatically. Default is '\0' (zero).</param>
         /// <param name="bufferSize">The buffer size in bytes.</param>
-        /// <exception cref="T:ArgumentNullException">
-        ///		<paramref name="reader"/> is a <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="T:ArgumentException">
-        ///		Cannot read from <paramref name="reader"/>.
-        /// </exception>
         /// 
         public CsvReader(TextReader reader, bool hasHeaders, char delimiter, int bufferSize)
-            : this(reader, hasHeaders, delimiter, DefaultQuote, DefaultEscape, DefaultComment, ValueTrimmingOptions.UnquotedOnly, bufferSize)
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the CsvReader class.
-        /// </summary>
-        /// 
-        /// <param name="reader">A <see cref="T:TextReader"/> pointing to the CSV file.</param>
-        /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
-        /// <param name="delimiter">The delimiter character separating each field (default is ',').</param>
-        /// <param name="quote">The quotation character wrapping every field (default is ''').</param>
-        /// <param name="escape">
-        /// The escape character letting insert quotation characters inside a quoted field (default is '\').
-        /// If no escape character, set to '\0' to gain some performance.
-        /// </param>
-        /// <param name="comment">The comment character indicating that a line is commented out (default is '#').</param>
-        /// <param name="trimmingOptions">Determines which values should be trimmed.</param>
-        /// <exception cref="T:ArgumentNullException">
-        ///		<paramref name="reader"/> is a <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="T:ArgumentException">
-        ///		Cannot read from <paramref name="reader"/>.
-        /// </exception>
-        /// 
-        public CsvReader(TextReader reader, bool hasHeaders, char delimiter, char quote, char escape, char comment, ValueTrimmingOptions trimmingOptions)
-            : this(reader, hasHeaders, delimiter, quote, escape, comment, trimmingOptions, DefaultBufferSize)
-        {
-        }
-
-        /// <summary>
-        ///   Initializes a new instance of the CsvReader class.
-        /// </summary>
-        /// 
-        /// <param name="reader">A <see cref="T:TextReader"/> pointing to the CSV file.</param>
-        /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
-        /// <param name="delimiter">The delimiter character separating each field (default is ',').</param>
-        /// <param name="quote">The quotation character wrapping every field (default is ''').</param>
-        /// <param name="escape">
-        /// The escape character letting insert quotation characters inside a quoted field (default is '\').
-        /// If no escape character, set to '\0' to gain some performance.
-        /// </param>
-        /// <param name="comment">The comment character indicating that a line is commented out (default is '#').</param>
-        /// <param name="trimmingOptions">Determines which values should be trimmed.</param>
-        /// <param name="bufferSize">The buffer size in bytes.</param>
-        /// <exception cref="T:ArgumentNullException">
-        ///		<paramref name="reader"/> is a <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        ///		<paramref name="bufferSize"/> must be 1 or more.
-        /// </exception>
-        /// 
-        public CsvReader(TextReader reader, bool hasHeaders, char delimiter, char quote, char escape, char comment, ValueTrimmingOptions trimmingOptions, int bufferSize)
         {
 #if DEBUG
             _allocStack = new System.Diagnostics.StackTrace();
@@ -295,19 +204,31 @@ namespace Accord.IO.Csv
             }
 
             _reader = reader;
-            _delimiter = delimiter;
-            _quote = quote;
-            _escape = escape;
-            _comment = comment;
+            Delimiter = delimiter;
+            Quote = DefaultQuote;
+            Escape = DefaultEscape;
+            Comment = DefaultComment;
 
-            _hasHeaders = hasHeaders;
-            _trimmingOptions = trimmingOptions;
-            _supportsMultiline = true;
-            _skipEmptyLines = true;
+            HasHeaders = hasHeaders;
+            TrimmingOption = ValueTrimmingOptions.UnquotedOnly;
+            SupportsMultiline = true;
+            SkipEmptyLines = true;
             this.DefaultHeaderName = "Column";
 
             _currentRecordIndex = -1;
-            _defaultParseErrorAction = ParseErrorAction.RaiseEvent;
+            DefaultParseErrorAction = ParseErrorAction.RaiseEvent;
+        }
+
+        /// <summary>
+        ///   Creates a new CsvReader to read from a string.
+        /// </summary>
+        /// 
+        /// <param name="text">The text containing the fields in the CSV format.</param>
+        /// <param name="hasHeaders"><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</param>
+        /// 
+        public static CsvReader FromText(string text, bool hasHeaders)
+        {
+            return new CsvReader(new StringReader(text), hasHeaders, text.Length);
         }
 
 
@@ -336,36 +257,42 @@ namespace Accord.IO.Csv
 
 
         /// <summary>
-        ///   Gets the comment character indicating that a line is commented out.
+        ///   Gets the comment character indicating that 
+        ///   a line is commented out. Default is '#'.
         /// </summary>
         /// 
         /// <value>The comment character indicating that a line is commented out.</value>
         /// 
-        public char Comment { get { return _comment; } }
+        public char Comment { get; set; }
 
         /// <summary>
-        ///   Gets the escape character letting insert quotation characters inside a quoted field.
+        ///   Gets the escape character letting insert quotation 
+        ///   characters inside a quoted field. Default is '"'.
         /// </summary>
         /// 
         /// <value>The escape character letting insert quotation characters inside a quoted field.</value>
         /// 
-        public char Escape { get { return _escape; } }
+        public char Escape { get; set; }
 
         /// <summary>
-        ///   Gets the delimiter character separating each field.
+        ///   Gets the delimiter character separating each field. If
+        ///   set to zero ('\0') the reader will try to guess the
+        ///   delimiter character automatically from the first line
+        ///   of the file.
         /// </summary>
         /// 
         /// <value>The delimiter character separating each field.</value>
         /// 
-        public char Delimiter { get { return _delimiter; } }
+        public char Delimiter { get; set; }
 
         /// <summary>
-        ///   Gets the quotation character wrapping every field.
+        ///   Gets the quotation character wrapping 
+        ///   every field. Default is '"'.
         /// </summary>
         /// 
         /// <value>The quotation character wrapping every field.</value>
         /// 
-        public char Quote { get { return _quote; } }
+        public char Quote { get; set; }
 
         /// <summary>
         ///   Indicates if field names are located on the first non commented line.
@@ -373,15 +300,16 @@ namespace Accord.IO.Csv
         /// 
         /// <value><see langword="true"/> if field names are located on the first non commented line, otherwise, <see langword="false"/>.</value>
         /// 
-        public bool HasHeaders { get { return _hasHeaders; } }
+        public bool HasHeaders { get; private set; }
 
         /// <summary>
-        ///   Indicates if spaces at the start and end of a field are trimmed.
+        ///   Indicates if spaces at the start and end of a field 
+        ///   are trimmed. Default is to trim unquoted fields only.
         /// </summary>
         /// 
         /// <value><see langword="true"/> if spaces at the start and end of a field are trimmed, otherwise, <see langword="false"/>.</value>
         /// 
-        public ValueTrimmingOptions TrimmingOption { get { return _trimmingOptions; } }
+        public ValueTrimmingOptions TrimmingOption { get; set; }
 
         /// <summary>
         ///   Gets the buffer size.
@@ -395,11 +323,7 @@ namespace Accord.IO.Csv
         /// 
         /// <value>The default action to take when a parsing error has occured.</value>
         /// 
-        public ParseErrorAction DefaultParseErrorAction
-        {
-            get { return _defaultParseErrorAction; }
-            set { _defaultParseErrorAction = value; }
-        }
+        public ParseErrorAction DefaultParseErrorAction { get; set; }
 
         /// <summary>
         ///   Gets or sets the action to take when a field is missing.
@@ -407,11 +331,7 @@ namespace Accord.IO.Csv
         /// 
         /// <value>The action to take when a field is missing.</value>
         /// 
-        public MissingFieldAction MissingFieldAction
-        {
-            get { return _missingFieldAction; }
-            set { _missingFieldAction = value; }
-        }
+        public MissingFieldAction MissingFieldAction { get; set; }
 
         /// <summary>
         ///   Gets or sets a value indicating if the reader supports multiline fields.
@@ -419,11 +339,7 @@ namespace Accord.IO.Csv
         /// 
         /// <value>A value indicating if the reader supports multiline field.</value>
         /// 
-        public bool SupportsMultiline
-        {
-            get { return _supportsMultiline; }
-            set { _supportsMultiline = value; }
-        }
+        public bool SupportsMultiline { get; set; }
 
         /// <summary>
         ///   Gets or sets a value indicating if the reader will skip empty lines.
@@ -431,11 +347,7 @@ namespace Accord.IO.Csv
         /// 
         /// <value>A value indicating if the reader will skip empty lines.</value>
         /// 
-        public bool SkipEmptyLines
-        {
-            get { return _skipEmptyLines; }
-            set { _skipEmptyLines = value; }
-        }
+        public bool SkipEmptyLines { get; set; }
 
         /// <summary>
         ///   Gets or sets the default header name when it is an empty string or only whitespaces.
@@ -525,6 +437,7 @@ namespace Accord.IO.Csv
         {
             get { return _parseErrorFlag; }
         }
+
 
 
         /// <summary>
@@ -641,6 +554,7 @@ namespace Accord.IO.Csv
         /// <exception cref="T:System.ComponentModel.ObjectDisposedException">
         ///	The instance has been disposed of.
         /// </exception>
+        /// 
         public string this[int record, int field]
         {
             get
@@ -680,7 +594,7 @@ namespace Accord.IO.Csv
                 if (string.IsNullOrEmpty(field))
                     throw new ArgumentNullException("field");
 
-                if (!_hasHeaders)
+                if (!HasHeaders)
                     throw new InvalidOperationException(ExceptionMessage.NoHeaders);
 
                 int index = GetFieldIndex(field);
@@ -835,7 +749,7 @@ namespace Accord.IO.Csv
         private bool IsWhiteSpace(char c)
         {
             // Handle cases where the delimiter is a whitespace (e.g. tab)
-            if (c == _delimiter)
+            if (c == Delimiter)
                 return false;
 
             // See char.IsLatin1(char c) in Reflector
@@ -848,13 +762,17 @@ namespace Accord.IO.Csv
 
 
         /// <summary>
-        /// Moves to the specified record index.
+        ///   Moves to the specified record index.
         /// </summary>
+        /// 
         /// <param name="record">The record index.</param>
+        /// 
         /// <returns><c>true</c> if the operation was successful; otherwise, <c>false</c>.</returns>
+        /// 
         /// <exception cref="T:System.ComponentModel.ObjectDisposedException">
-        ///	The instance has been disposed of.
+        ///   The instance has been disposed of.
         /// </exception>
+        /// 
         public virtual bool MoveTo(long record)
         {
             if (record < _currentRecordIndex)
@@ -875,12 +793,15 @@ namespace Accord.IO.Csv
         }
 
         /// <summary>
-        /// Reads the next record.
+        ///   Reads the next record.
         /// </summary>
+        /// 
         /// <returns><see langword="true"/> if a record has been successfully reads; otherwise, <see langword="false"/>.</returns>
+        /// 
         /// <exception cref="T:System.ComponentModel.ObjectDisposedException">
-        ///	The instance has been disposed of.
+        ///   The instance has been disposed of.
         /// </exception>
+        /// 
         public bool ReadNextRecord()
         {
             return ReadNextRecord(false, false);
@@ -888,13 +809,17 @@ namespace Accord.IO.Csv
 
 
         /// <summary>
-        /// Parses a new line delimiter.
+        ///   Parses a new line delimiter.
         /// </summary>
+        /// 
         /// <param name="pos">The starting position of the parsing. Will contain the resulting end position.</param>
+        /// 
         /// <returns><see langword="true"/> if a new line delimiter was found; otherwise, <see langword="false"/>.</returns>
+        /// 
         /// <exception cref="T:System.ComponentModel.ObjectDisposedException">
-        ///	The instance has been disposed of.
+        ///   The instance has been disposed of.
         /// </exception>
+        /// 
         private bool ParseNewLine(ref int pos)
         {
             Debug.Assert(pos <= _bufferLength);
@@ -912,7 +837,7 @@ namespace Accord.IO.Csv
 
             // Treat \r as new line only if it's not the delimiter
 
-            if (c == '\r' && _delimiter != '\r')
+            if (c == '\r' && Delimiter != '\r')
             {
                 pos++;
 
@@ -977,7 +902,7 @@ namespace Accord.IO.Csv
             if (c == '\n')
                 return true;
 
-            if (c == '\r' && _delimiter != '\r')
+            if (c == '\r' && Delimiter != '\r')
                 return true;
 
             return false;
@@ -1017,7 +942,7 @@ namespace Accord.IO.Csv
             bool inquote = false;
             for (int i = 0; i < _buffer.Length; i++)
             {
-                if (_buffer[i] == _quote)
+                if (_buffer[i] == Quote)
                     inquote = !inquote;
 
                 if (!inquote && _buffer[i] == '\n')
@@ -1031,14 +956,14 @@ namespace Accord.IO.Csv
             int max = 0;
             inquote = false;
 
-            for (int i = 0; i < common_delimiters.Length; i++)
+            for (int i = 0; i < delimiters.Length; i++)
             {
-                char delimiter = common_delimiters[i];
+                char delimiter = delimiters[i];
 
                 int count = 0;
                 for (int j = 0; j < lineEndIndex; j++)
                 {
-                    if (_buffer[j] == _quote)
+                    if (_buffer[j] == Quote)
                         inquote = !inquote;
 
                     if (!inquote && _buffer[j] == delimiter)
@@ -1052,7 +977,7 @@ namespace Accord.IO.Csv
                 }
             }
 
-            this._delimiter = common_delimiters[imax];
+            this.Delimiter = delimiters[imax];
         }
 
         /// <summary>
@@ -1151,7 +1076,7 @@ namespace Accord.IO.Csv
                 else
                 {
                     // Trim spaces at start
-                    if ((_trimmingOptions & ValueTrimmingOptions.UnquotedOnly) != 0)
+                    if ((TrimmingOption & ValueTrimmingOptions.UnquotedOnly) != 0)
                         SkipWhiteSpaces(ref _nextFieldStart);
 
                     if (_eof)
@@ -1162,7 +1087,7 @@ namespace Accord.IO.Csv
                         if (field < _fieldCount)
                             _missingFieldFlag = true;
                     }
-                    else if (_buffer[_nextFieldStart] != _quote)
+                    else if (_buffer[_nextFieldStart] != Quote)
                     {
                         // Non-quoted field
 
@@ -1175,7 +1100,7 @@ namespace Accord.IO.Csv
                             {
                                 char c = _buffer[pos];
 
-                                if (c == _delimiter)
+                                if (c == Delimiter)
                                 {
                                     _nextFieldStart = pos + 1;
 
@@ -1210,7 +1135,7 @@ namespace Accord.IO.Csv
 
                         if (!discardValue)
                         {
-                            if ((_trimmingOptions & ValueTrimmingOptions.UnquotedOnly) == 0)
+                            if ((TrimmingOption & ValueTrimmingOptions.UnquotedOnly) == 0)
                             {
                                 if (!_eof && pos > start)
                                     value += new string(_buffer, start, pos - start);
@@ -1282,7 +1207,7 @@ namespace Accord.IO.Csv
                         bool quoted = true;
                         bool escaped = false;
 
-                        if ((_trimmingOptions & ValueTrimmingOptions.QuotedOnly) != 0)
+                        if ((TrimmingOption & ValueTrimmingOptions.QuotedOnly) != 0)
                         {
                             SkipWhiteSpaces(ref start);
                             pos = start;
@@ -1300,14 +1225,14 @@ namespace Accord.IO.Csv
                                     start = pos;
                                 }
                                 // IF current char is escape AND (escape and quote are different OR next char is a quote)
-                                else if (c == _escape && (_escape != _quote || (pos + 1 < _bufferLength && _buffer[pos + 1] == _quote) || (pos + 1 == _bufferLength && _reader.Peek() == _quote)))
+                                else if (c == Escape && (Escape != Quote || (pos + 1 < _bufferLength && _buffer[pos + 1] == Quote) || (pos + 1 == _bufferLength && _reader.Peek() == Quote)))
                                 {
                                     if (!discardValue)
                                         value += new string(_buffer, start, pos - start);
 
                                     escaped = true;
                                 }
-                                else if (c == _quote)
+                                else if (c == Quote)
                                 {
                                     quoted = false;
                                     break;
@@ -1339,7 +1264,7 @@ namespace Accord.IO.Csv
                             if (!discardValue && pos > start)
                                 value += new string(_buffer, start, pos - start);
 
-                            if (!discardValue && value != null && (_trimmingOptions & ValueTrimmingOptions.QuotedOnly) != 0)
+                            if (!discardValue && value != null && (TrimmingOption & ValueTrimmingOptions.QuotedOnly) != 0)
                             {
                                 int newLength = value.Length;
                                 while (newLength > 0 && IsWhiteSpace(value[newLength - 1]))
@@ -1357,7 +1282,7 @@ namespace Accord.IO.Csv
 
                             // Skip delimiter
                             bool delimiterSkipped;
-                            if (_nextFieldStart < _bufferLength && _buffer[_nextFieldStart] == _delimiter)
+                            if (_nextFieldStart < _bufferLength && _buffer[_nextFieldStart] == Delimiter)
                             {
                                 _nextFieldStart++;
                                 delimiterSkipped = true;
@@ -1402,7 +1327,7 @@ namespace Accord.IO.Csv
 
                         return string.IsNullOrEmpty(value) ? string.Empty : value;
                     }
-                    
+
                     return value;
                 }
 
@@ -1495,7 +1420,7 @@ namespace Accord.IO.Csv
                 _initialized = true;
 
                 // If headers are present, call ReadNextRecord again
-                if (_hasHeaders)
+                if (HasHeaders)
                 {
                     // Don't count first record as it was the headers
                     _currentRecordIndex = -1;
@@ -1558,7 +1483,7 @@ namespace Accord.IO.Csv
                     // If not already at end of record, move there
                     if (!_eol && !_eof)
                     {
-                        if (!_supportsMultiline)
+                        if (!SupportsMultiline)
                         {
                             SkipToNextLine(ref _nextFieldStart);
                         }
@@ -1575,7 +1500,7 @@ namespace Accord.IO.Csv
                 if (!_firstRecordInCache && !SkipEmptyAndCommentedLines(ref _nextFieldStart))
                     return false;
 
-                if (_hasHeaders || !_firstRecordInCache)
+                if (HasHeaders || !_firstRecordInCache)
                     _eol = false;
 
                 // Check to see if the first record is in cache.
@@ -1625,7 +1550,9 @@ namespace Accord.IO.Csv
                     DoSkipEmptyAndCommentedLines(ref pos);
                 }
                 else
+                {
                     return false;
+                }
             }
 
             return !_eof;
@@ -1646,15 +1573,17 @@ namespace Accord.IO.Csv
         {
             while (pos < _bufferLength)
             {
-                if (_buffer[pos] == _comment)
+                if (_buffer[pos] == Comment)
                 {
                     pos++;
                     SkipToNextLine(ref pos);
                 }
-                else if (_skipEmptyLines && ParseNewLine(ref pos))
+                else if (SkipEmptyLines && ParseNewLine(ref pos))
+                {
                     continue;
-                else
-                    break;
+                }
+
+                break;
             }
         }
 
@@ -1726,7 +1655,7 @@ namespace Accord.IO.Csv
 
             _parseErrorFlag = true;
 
-            switch (_defaultParseErrorAction)
+            switch (DefaultParseErrorAction)
             {
                 case ParseErrorAction.ThrowException:
                     throw error;
@@ -1761,7 +1690,7 @@ namespace Accord.IO.Csv
                     break;
 
                 default:
-                    throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, ExceptionMessage.ParseErrorActionNotSupported, _defaultParseErrorAction), error);
+                    throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, ExceptionMessage.ParseErrorActionNotSupported, DefaultParseErrorAction), error);
             }
         }
 
@@ -1791,7 +1720,7 @@ namespace Accord.IO.Csv
                 return value;
             else
             {
-                switch (_missingFieldAction)
+                switch (MissingFieldAction)
                 {
                     case MissingFieldAction.ParseError:
                         HandleParseError(new MissingFieldCsvException(GetCurrentRawData(), currentPosition, Math.Max(0, _currentRecordIndex), fieldIndex), ref currentPosition);
@@ -1804,7 +1733,8 @@ namespace Accord.IO.Csv
                         return null;
 
                     default:
-                        throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, ExceptionMessage.MissingFieldActionNotSupported, _missingFieldAction));
+                        throw new NotSupportedException(String.Format(CultureInfo.InvariantCulture,
+                            ExceptionMessage.MissingFieldActionNotSupported, MissingFieldAction));
                 }
             }
         }

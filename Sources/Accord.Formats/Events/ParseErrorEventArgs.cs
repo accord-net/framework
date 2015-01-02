@@ -46,7 +46,7 @@ namespace Accord.IO.Csv
         ///   Initializes a new instance of the ParseErrorEventArgs class.
         /// </summary>
         /// 
-        /// <param name="error">The error that occured.</param>
+        /// <param name="error">The error that occurred.</param>
         /// <param name="defaultAction">The default action to take.</param>
         /// 
         public ParseErrorEventArgs(MalformedCsvException error, ParseErrorAction defaultAction)

@@ -129,14 +129,14 @@
     <Compile Include="Exceptions\MalformedCsvException.cs" />
     <Compile Include="Exceptions\MissingFieldCsvException.cs" />
     <Compile Include="LibSvmModel.cs" />
-    <Compile Include="MatSparse.cs" />
+    <Compile Include="Mat\MatSparse.cs" />
     <Compile Include="Mat\MatArrayFlags.cs" />
     <Compile Include="Mat\MatArrayType.cs" />
     <Compile Include="Mat\MatDataType.cs" />
     <Compile Include="Mat\MatDataTag.cs" />
     <Compile Include="Mat\MatHeader.cs" />
-    <Compile Include="MatNode.cs" />
-    <Compile Include="MatReader.cs" />
+    <Compile Include="Mat\MatNode.cs" />
+    <Compile Include="Mat\MatReader.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IdxReader.cs" />
     <Compile Include="ExcelReader.cs" />

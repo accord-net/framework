@@ -26,6 +26,7 @@ namespace Accord.IO.Csv
     using System.Data;
     using System.Globalization;
     using System.IO;
+    using System.Text;
 
     /// <summary>
     ///   Writer for CSV data.
@@ -49,7 +50,7 @@ namespace Accord.IO.Csv
         /// 
         /// <value>The comment character indicating that a line is commented out.</value>
         /// 
-        public string Comment { get; set; }
+        public char Comment { get; set; }
 
         /// <summary>
         ///   Gets or sets the escape character letting insert quotation characters inside a quoted field.
@@ -57,7 +58,7 @@ namespace Accord.IO.Csv
         /// 
         /// <value>The escape character letting insert quotation characters inside a quoted field.</value>
         /// 
-        public string Escape { get; set; }
+        public char Escape { get; set; }
 
         /// <summary>
         ///   Gets or sets the delimiter character separating each field.
@@ -65,7 +66,7 @@ namespace Accord.IO.Csv
         /// 
         /// <value>The delimiter character separating each field.</value>
         /// 
-        public string Delimiter { get; set; }
+        public char Delimiter { get; set; }
 
         /// <summary>
         ///   Gets or sets the quotation character wrapping every field.
@@ -73,7 +74,7 @@ namespace Accord.IO.Csv
         /// 
         /// <value>The quotation character wrapping every field.</value>
         /// 
-        public string Quote { get; set; }
+        public char Quote { get; set; }
 
         /// <summary>
         ///   Gets or sets the format provider to use when converting 
@@ -94,13 +95,56 @@ namespace Accord.IO.Csv
         /// <param name="writer">A <see cref="T:TextWriter"/> pointing to the CSV file.</param>
         /// 
         public CsvWriter(TextWriter writer)
+            : this(writer, CsvReader.DefaultDelimiter)
+        {
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CsvWriter"/> class.
+        /// </summary>
+        /// 
+        /// <param name="writer">A <see cref="T:TextWriter"/> pointing to the CSV file.</param>
+        /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
+        ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
+        /// 
+        public CsvWriter(TextWriter writer, char delimiter)
         {
             this.Writer = writer;
-            this.Quote = CsvReader.DefaultQuote.ToString();
-            this.Delimiter = CsvReader.DefaultDelimiter.ToString();
-            this.Comment = CsvReader.DefaultComment.ToString();
-            this.Escape = CsvReader.DefaultEscape.ToString();
+            this.Quote = CsvReader.DefaultQuote;
+
+            this.Comment = CsvReader.DefaultComment;
+            this.Escape = CsvReader.DefaultEscape;
             this.FormatProvider = System.Globalization.CultureInfo.InvariantCulture;
+            this.Delimiter = delimiter;
+
+            if (delimiter == '\0')
+                this.Delimiter = CultureInfo.CurrentCulture.TextInfo.ListSeparator[0];
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CsvWriter"/> 
+        ///   class to write the CSV fields to a in-memory string.
+        /// </summary>
+        /// 
+        /// <param name="builder">A <see cref="T:StringBuilder"/> to write to.</param>
+        /// 
+        public static CsvWriter ToText(StringBuilder builder)
+        {
+            return new CsvWriter(new StringWriter(builder));
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="CsvWriter"/> 
+        ///   class to write the CSV fields to a in-memory string.
+        /// </summary>
+        /// 
+        /// <param name="builder">A <see cref="T:StringBuilder"/> to write to.</param>
+        /// <param name="delimiter">The field delimiter character to separate values in the CSV file.
+        ///   If set to zero, will use the system's default text separator. Default is '\0' (zero).</param>
+        /// 
+        public static CsvWriter ToText(StringBuilder builder, char delimiter)
+        {
+            return new CsvWriter(new StringWriter(builder), delimiter);
         }
 
         /// <summary>
@@ -174,6 +218,8 @@ namespace Accord.IO.Csv
         /// 
         public void Write(DataTable table)
         {
+            WriteHeaders(table);
+
             string[] items = new string[table.Columns.Count];
 
             foreach (DataRow row in table.Rows)
@@ -221,7 +267,7 @@ namespace Accord.IO.Csv
 
         private void write(string[] fields, string comment)
         {
-            Writer.Write(String.Join(Delimiter, fields));
+            Writer.Write(String.Join(Delimiter.ToString(), fields));
 
             if (!String.IsNullOrEmpty(comment))
                 Writer.Write(" {0} {1}", Comment, comment);
@@ -233,7 +279,7 @@ namespace Accord.IO.Csv
         {
             string text = String.Format(FormatProvider, "{0}", obj);
 
-            text = text.Replace(Quote, Escape + Quote);
+            text = text.Replace(Quote.ToString(), new String(new[] { Escape, Quote }));
 
             return text;
         }

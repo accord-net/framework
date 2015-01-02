@@ -83,16 +83,43 @@ namespace Accord.IO
 
         private string strConnection;
 
+        private string[] worksheets;
+
         /// <summary>
         ///   Creates a new spreadsheet reader.
         /// </summary>
         /// 
         /// <param name="stream">The stream containing the spreadsheet file.</param>
-        /// <param name="xlsx">True if the file should be treated as .xlsx file, false otherwise.</param>
-        /// <param name="hasHeaders">True if the spreadsheet contains headers, false otherwise.</param>
-        /// <param name="hasMixedData">True to read "intermixed" data columns as text, false otherwise.</param>
+        /// <param name="xlsx">True if the file should be treated as .xlsx file, false otherwise. Default is true.</param>
         /// 
-        public ExcelReader(Stream stream, bool xlsx = true, bool hasHeaders = true, bool hasMixedData = true)
+        public ExcelReader(Stream stream, bool xlsx)
+            : this(stream, xlsx, true)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new spreadsheet reader.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream containing the spreadsheet file.</param>
+        /// <param name="xlsx">True if the file should be treated as .xlsx file, false otherwise. Default is true.</param>
+        /// <param name="hasHeaders">True if the spreadsheet contains headers, false otherwise. Default is true.</param>
+        /// 
+        public ExcelReader(Stream stream, bool xlsx, bool hasHeaders)
+            : this(stream, xlsx, hasHeaders, true)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new spreadsheet reader.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream containing the spreadsheet file.</param>
+        /// <param name="xlsx">True if the file should be treated as .xlsx file, false otherwise. Default is true.</param>
+        /// <param name="hasHeaders">True if the spreadsheet contains headers, false otherwise. Default is true.</param>
+        /// <param name="hasMixedData">True to read "intermixed" data columns as text, false otherwise. Default is true.</param>
+        /// 
+        public ExcelReader(Stream stream, bool xlsx, bool hasHeaders, bool hasMixedData)
         {
             string tempFileName = Path.GetTempFileName();
             string withExtension = Path.ChangeExtension(tempFileName, xlsx ? ".xlsx" : ".xls");
@@ -113,10 +140,33 @@ namespace Accord.IO
         /// </summary>
         /// 
         /// <param name="path">The path of for the spreadsheet file.</param>
-        /// <param name="hasHeaders">True if the spreadsheet contains headers, false otherwise.</param>
-        /// <param name="hasMixedData">True to read "intermixed" data columns as text, false otherwise.</param>
         /// 
-        public ExcelReader(string path, bool hasHeaders = true, bool hasMixedData = true)
+        public ExcelReader(string path)
+            : this(path, true, true)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new spreadsheet reader.
+        /// </summary>
+        /// 
+        /// <param name="path">The path of for the spreadsheet file.</param>
+        /// <param name="hasHeaders">True if the spreadsheet contains headers, false otherwise. Default is true.</param>
+        /// 
+        public ExcelReader(string path, bool hasHeaders)
+            : this(path, hasHeaders, true)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new spreadsheet reader.
+        /// </summary>
+        /// 
+        /// <param name="path">The path of for the spreadsheet file.</param>
+        /// <param name="hasHeaders">True if the spreadsheet contains headers, false otherwise. Default is true.</param>
+        /// <param name="hasMixedData">True to read "intermixed" data columns as text, false otherwise. Default is true.</param>
+        /// 
+        public ExcelReader(string path, bool hasHeaders, bool hasMixedData)
         {
             initialize(path, hasHeaders, hasMixedData);
         }
@@ -183,13 +233,26 @@ namespace Accord.IO
         public bool HasMixedData { get; private set; }
 
         /// <summary>
+        ///   Gets the names of the distinct sheets
+        ///   that are contained in the Excel file.
+        /// </summary>
+        /// 
+        public string[] WorksheetNames
+        {
+            get
+            {
+                if (worksheets == null)
+                    GetWorksheetList();
+                return worksheets;
+            }
+        }
+
+        /// <summary>
         ///   Gets the list of worksheets in the spreadsheet.
         /// </summary>
         /// 
         public string[] GetWorksheetList()
         {
-            string[] worksheets;
-
             OleDbConnection connection = new OleDbConnection(strConnection);
             connection.Open();
             DataTable tableWorksheets = connection.GetSchema("Tables");
@@ -206,7 +269,6 @@ namespace Accord.IO
                 while (worksheets[i].EndsWith("$", StringComparison.Ordinal))
                     worksheets[i] = worksheets[i].Remove(worksheets[i].Length - 1).Trim('"', '\'');
             }
-
 
             return worksheets;
         }
@@ -257,6 +319,17 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Gets an worksheet as a data table.
+        /// </summary>
+        /// 
+        public DataTable GetWorksheet(int worksheetIndex)
+        {
+            string name = WorksheetNames[worksheetIndex];
+
+            return GetWorksheet(name);
+        }
+
+        /// <summary>
         ///   Gets the entire worksheet as a data set.
         /// </summary>
         /// 
@@ -265,7 +338,7 @@ namespace Accord.IO
             DataSet dataset = new DataSet("Excel Workbook");
             dataset.Locale = CultureInfo.InvariantCulture;
 
-            foreach (string sheet in GetWorksheetList())
+            foreach (string sheet in WorksheetNames)
             {
                 DataTable table = GetWorksheet(sheet);
                 dataset.Tables.Add(table);

@@ -20,13 +20,14 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.IO
+namespace Accord.IO.Mat
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Runtime.InteropServices;
+    using System.Diagnostics.CodeAnalysis;
 
     [StructLayout(LayoutKind.Explicit, Pack = 1, Size = 8)]
     internal struct ArrayFlags
@@ -34,11 +35,11 @@ namespace Accord.IO
         [FieldOffset(0)]
         public MatArrayType Class;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [FieldOffset(1)]
         public ArrayFlagsType Flags;
 
-
+        [SuppressMessage("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")]
         [FieldOffset(4)]
         public int NonZeroElements;
     }

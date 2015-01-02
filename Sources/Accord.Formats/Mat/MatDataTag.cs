@@ -20,14 +20,12 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-
-namespace Accord.IO
+namespace Accord.IO.Mat
 {
+
+    using System;
+    using System.Runtime.InteropServices;
+
     /*
           
      0   |   1   |   2   |   3   |   4   |   5   |   6   |   7    
