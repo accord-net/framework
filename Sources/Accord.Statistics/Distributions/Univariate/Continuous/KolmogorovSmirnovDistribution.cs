@@ -369,6 +369,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double CumulativeFunction(double n, double x)
         {
+            if (Double.IsNaN(x))
+                throw new ArgumentOutOfRangeException("x");
+
             double nxx = n * x * x; // nx²
 
             int nn = (int)Math.Ceiling(n);

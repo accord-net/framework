@@ -159,5 +159,6 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
             }
         }
+
     }
 }

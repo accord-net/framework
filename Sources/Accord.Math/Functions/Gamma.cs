@@ -518,7 +518,10 @@ namespace Accord.Math
         /// 
         public static double LowerIncomplete(double a, double x)
         {
-            if (x <= 0 || a <= 0)
+            if (a <= 0)
+                return 1.0;
+
+            if (x <= 0)
                 return 0.0;
 
             if (x > 1.0 && x > a)
@@ -527,7 +530,7 @@ namespace Accord.Math
             double ax = a * Math.Log(x) - x - Log(a);
 
             if (ax < -Constants.LogMax)
-                return (0.0);
+                return 0.0;
 
             ax = Math.Exp(ax);
 
@@ -622,10 +625,17 @@ namespace Accord.Math
                     z /= x;
                     x += 1.0;
                 }
-                if (z < 0.0) z = -z;
-                if (x == 2.0) return System.Math.Log(z);
+
+                if (z < 0.0) 
+                    z = -z;
+
+                if (x == 2.0) 
+                    return System.Math.Log(z);
+
                 x -= 2.0;
+
                 p = x * Special.Polevl(x, B, 5) / Special.P1evl(x, C, 6);
+
                 return (Math.Log(z) + p);
             }
 
@@ -633,9 +643,12 @@ namespace Accord.Math
                 throw new OverflowException();
 
             q = (x - 0.5) * Math.Log(x) - x + 0.91893853320467274178;
-            if (x > 1.0e8) return (q);
+
+            if (x > 1.0e8) 
+                return (q);
 
             p = 1.0 / (x * x);
+
             if (x >= 1000.0)
             {
                 q += ((7.9365079365079365079365e-4 * p
@@ -656,8 +669,11 @@ namespace Accord.Math
         /// 
         public static double Log(double x, int p)
         {
-            if (p < 1) throw new ArgumentOutOfRangeException("p", "Parameter p must be higher than 1.");
-            if (p == 1) return Log(x);
+            if (p < 1) 
+                throw new ArgumentOutOfRangeException("p", "Parameter p must be higher than 1.");
+
+            if (p == 1) 
+                return Log(x);
 
             double sum = Constants.LogPI / p;
             for (int i = 0; i < p; i++)
@@ -699,24 +715,21 @@ namespace Accord.Math
 
         private static double inverse(double a, double y)
         {
-            double x0, x1, x, yl, yh, yy, d, lgm, dithresh;
-            int i, dir;
-
             // bound the solution
-            x0 = Double.MaxValue;
-            yl = 0;
-            x1 = 0;
-            yh = 1.0;
-            dithresh = 5.0 * Constants.DoubleEpsilon;
+            double x0 = Double.MaxValue;
+            double yl = 0;
+            double x1 = 0;
+            double yh = 1.0;
+            double dithresh = 5.0 * Constants.DoubleEpsilon;
 
             // approximation to inverse function
-            d = 1.0 / (9.0 * a);
-            yy = (1.0 - d - Normal.Inverse(y) * Math.Sqrt(d));
-            x = a * yy * yy * yy;
+            double d = 1.0 / (9.0 * a);
+            double yy = (1.0 - d - Normal.Inverse(y) * Math.Sqrt(d));
+            double x = a * yy * yy * yy;
 
-            lgm = Gamma.Log(a);
+            double lgm = Gamma.Log(a);
 
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 if (x > x0 || x < x1)
                     goto ihalve;
@@ -773,11 +786,16 @@ namespace Accord.Math
             }
 
             d = 0.5;
-            dir = 0;
+            double dir = 0;
 
-            for (i = 0; i < 400; i++)
+            for (int i = 0; i < 400; i++)
             {
-                x = x1 + d * (x0 - x1);
+                double t = x1 + d * (x0 - x1);
+
+                if (Double.IsNaN(t))
+                    break;
+
+                x = t;
                 yy = Gamma.UpperIncomplete(a, x);
                 lgm = (x0 - x1) / (x1 + x0);
 
@@ -824,7 +842,7 @@ namespace Accord.Math
                 }
             }
 
-            if (x == 0.0)
+            if (x == 0.0 || Double.IsNaN(x))
                 throw new ArithmeticException();
 
             return x;

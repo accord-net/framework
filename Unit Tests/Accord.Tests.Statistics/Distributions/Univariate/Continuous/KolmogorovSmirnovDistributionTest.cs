@@ -25,6 +25,7 @@ namespace Accord.Tests.Statistics
 
     ﻿using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass()]
     public class KolmogorovSmirnovDistributionTest
@@ -224,6 +225,41 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-12);
         }
 
+        [TestMethod()]
+        public void NaN_Test()
+        {
+            var ks = new KolmogorovSmirnovDistribution(samples: 42);
+
+            double nan = double.NaN;
+
+            try
+            {
+                ks.DistributionFunction(x: nan);
+                Assert.Fail();
+            }
+            catch (ArgumentOutOfRangeException) { }
+
+            try
+            {
+                ks.ComplementaryDistributionFunction(x: nan);
+                Assert.Fail();
+            }
+            catch (ArgumentOutOfRangeException) { }
+
+            try
+            {
+                ks.InverseDistributionFunction(p: nan);
+                Assert.Fail();
+            }
+            catch (ArgumentOutOfRangeException) { }
+            try
+            {
+                ks.CumulativeHazardFunction(x: nan);
+                Assert.Fail();
+            }
+            catch (ArgumentOutOfRangeException) { }
+
+        }
 
 
         static double[][] test =
