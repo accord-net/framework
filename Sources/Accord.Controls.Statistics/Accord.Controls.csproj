@@ -251,15 +251,9 @@
       <Name>Accord.Core</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Accord.Imaging\Accord.Imaging.csproj">
-      <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
-      <Name>Accord.Imaging</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Accord.MachineLearning\Accord.MachineLearning.csproj">
       <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
       <Name>Accord.MachineLearning</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
