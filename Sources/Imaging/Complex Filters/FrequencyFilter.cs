@@ -11,6 +11,7 @@ namespace AForge.Imaging.ComplexFilters
     using System;
     using AForge;
     using AForge.Math;
+    using System.Numerics;
 
     /// <summary>
     /// Filtering of frequencies outside of specified range in complex Fourier
@@ -44,7 +45,7 @@ namespace AForge.Imaging.ComplexFilters
     /// 
     public class FrequencyFilter : IComplexFilter
     {
-        private IntRange frequencyRange = new IntRange( 0, 1024 );
+        private IntRange frequencyRange = new IntRange(0, 1024);
 
         /// <summary>
         /// Range of frequencies to keep.
@@ -65,7 +66,7 @@ namespace AForge.Imaging.ComplexFilters
         /// Initializes a new instance of the <see cref="FrequencyFilter"/> class.
         /// </summary>
         /// 
-        public FrequencyFilter( ) { }
+        public FrequencyFilter() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FrequencyFilter"/> class.
@@ -73,7 +74,7 @@ namespace AForge.Imaging.ComplexFilters
         /// 
         /// <param name="frequencyRange">Range of frequencies to keep.</param>
         /// 
-        public FrequencyFilter( IntRange frequencyRange )
+        public FrequencyFilter(IntRange frequencyRange)
         {
             this.frequencyRange = frequencyRange;
         }
@@ -86,16 +87,16 @@ namespace AForge.Imaging.ComplexFilters
         /// 
         /// <exception cref="ArgumentException">The source complex image should be Fourier transformed.</exception>
         /// 
-        public void Apply( ComplexImage complexImage )
+        public void Apply(ComplexImage complexImage)
         {
-            if ( !complexImage.FourierTransformed )
+            if (!complexImage.FourierTransformed)
             {
-                throw new ArgumentException( "The source complex image should be Fourier transformed." );
+                throw new ArgumentException("The source complex image should be Fourier transformed.");
             }
 
             // get image dimenstion
-            int width   = complexImage.Width;
-            int height  = complexImage.Height;
+            int width = complexImage.Width;
+            int height = complexImage.Height;
 
             // half of dimensions
             int hw = width >> 1;
@@ -109,20 +110,19 @@ namespace AForge.Imaging.ComplexFilters
             Complex[,] data = complexImage.Data;
 
             // process all data
-            for ( int i = 0; i < height; i++ )
+            for (int i = 0; i < height; i++)
             {
                 int y = i - hh;
 
-                for ( int j = 0; j < width; j++ )
+                for (int j = 0; j < width; j++)
                 {
                     int x = j - hw;
-                    int d = (int) Math.Sqrt( x * x + y * y );
+                    int d = (int)Math.Sqrt(x * x + y * y);
 
                     // filter values outside the range
-                    if ( ( d > max ) || ( d < min ) )
+                    if ((d > max) || (d < min))
                     {
-                        data[i, j].Re = 0;
-                        data[i, j].Im = 0;
+                        data[i, j] = Complex.Zero;
                     }
                 }
             }

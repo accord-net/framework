@@ -13,6 +13,7 @@ namespace AForge.Imaging
     using System.Drawing.Imaging;
     using AForge;
     using AForge.Math;
+    using System.Numerics;
 
     /// <summary>
     /// Complex image.
@@ -41,9 +42,11 @@ namespace AForge.Imaging
     {
         // image complex data
         private Complex[,] data;
+
         // image dimension
         private int width;
         private int height;
+
         // current state of the image (transformed with Fourier ot not)
         private bool fourierTransformed = false;
 
@@ -97,7 +100,7 @@ namespace AForge.Imaging
         /// class directly. To create an instance of this class <see cref="FromBitmap(Bitmap)"/> or
         /// <see cref="FromBitmap(BitmapData)"/> method should be used.</remarks>
         ///
-        protected ComplexImage( int width, int height )
+        protected ComplexImage(int width, int height)
         {
             this.width = width;
             this.height = height;
@@ -111,15 +114,15 @@ namespace AForge.Imaging
         /// 
         /// <returns>Returns copy of the complex image.</returns>
         /// 
-        public object Clone( )
+        public object Clone()
         {
             // create new complex image
-            ComplexImage dstImage = new ComplexImage( width, height );
+            ComplexImage dstImage = new ComplexImage(width, height);
             Complex[,] data = dstImage.data;
 
-            for ( int i = 0; i < height; i++ )
+            for (int i = 0; i < height; i++)
             {
-                for ( int j = 0; j < width; j++ )
+                for (int j = 0; j < width; j++)
                 {
                     data[i, j] = this.data[i, j];
                 }
@@ -142,29 +145,29 @@ namespace AForge.Imaging
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Image width and height should be power of 2.</exception>
         /// 
-        public static ComplexImage FromBitmap( Bitmap image )
+        public static ComplexImage FromBitmap(Bitmap image)
         {
             // check image format
-            if ( image.PixelFormat != PixelFormat.Format8bppIndexed )
+            if (image.PixelFormat != PixelFormat.Format8bppIndexed)
             {
-                throw new UnsupportedImageFormatException( "Source image can be graysclae (8bpp indexed) image only." );
+                throw new UnsupportedImageFormatException("Source image can be graysclae (8bpp indexed) image only.");
             }
 
             // lock source bitmap data
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed);
 
             ComplexImage complexImage;
 
             try
             {
-                complexImage = FromBitmap( imageData );
+                complexImage = FromBitmap(imageData);
             }
             finally
             {
                 // unlock source images
-                image.UnlockBits( imageData );
+                image.UnlockBits(imageData);
             }
 
             return complexImage;
@@ -181,42 +184,42 @@ namespace AForge.Imaging
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// <exception cref="InvalidImagePropertiesException">Image width and height should be power of 2.</exception>
         /// 
-        public static ComplexImage FromBitmap( BitmapData imageData )
+        public static ComplexImage FromBitmap(BitmapData imageData)
         {
             // check image format
-            if ( imageData.PixelFormat != PixelFormat.Format8bppIndexed )
+            if (imageData.PixelFormat != PixelFormat.Format8bppIndexed)
             {
-                throw new UnsupportedImageFormatException( "Source image can be graysclae (8bpp indexed) image only." );
+                throw new UnsupportedImageFormatException("Source image can be graysclae (8bpp indexed) image only.");
             }
 
             // get source image size
-            int width  = imageData.Width;
+            int width = imageData.Width;
             int height = imageData.Height;
             int offset = imageData.Stride - width;
 
             // check image size
-            if ( ( !Tools.IsPowerOf2( width ) ) || ( !Tools.IsPowerOf2( height ) ) )
+            if ((!Tools.IsPowerOf2(width)) || (!Tools.IsPowerOf2(height)))
             {
-                throw new InvalidImagePropertiesException( "Image width and height should be power of 2." );
+                throw new InvalidImagePropertiesException("Image width and height should be power of 2.");
             }
 
             // create new complex image
-            ComplexImage complexImage = new ComplexImage( width, height );
+            ComplexImage complexImage = new ComplexImage(width, height);
+
             Complex[,] data = complexImage.data;
 
             // do the job
             unsafe
             {
-                byte* src = (byte*) imageData.Scan0.ToPointer( );
+                byte* src = (byte*)imageData.Scan0.ToPointer();
 
                 // for each line
-                for ( int y = 0; y < height; y++ )
+                for (int y = 0; y < height; y++)
                 {
                     // for each pixel
-                    for ( int x = 0; x < width; x++, src++ )
-                    {
-                        data[y, x].Re = (float) *src / 255;
-                    }
+                    for (int x = 0; x < width; x++, src++)
+                        data[y, x] = new Complex((float)*src / 255, data[y, x].Imaginary);
+
                     src += offset;
                 }
             }
@@ -230,35 +233,35 @@ namespace AForge.Imaging
         /// 
         /// <returns>Returns grayscale bitmap.</returns>
         /// 
-        public Bitmap ToBitmap( )
+        public Bitmap ToBitmap()
         {
             // create new image
-            Bitmap dstImage = AForge.Imaging.Image.CreateGrayscaleImage( width, height );
+            Bitmap dstImage = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
 
             // lock destination bitmap data
             BitmapData dstData = dstImage.LockBits(
-                new Rectangle( 0, 0, width, height ),
-                ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed );
+                new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
 
             int offset = dstData.Stride - width;
-            double scale = ( fourierTransformed ) ? Math.Sqrt( width * height ) : 1;
+            double scale = (fourierTransformed) ? Math.Sqrt(width * height) : 1;
 
             // do the job
             unsafe
             {
-                byte* dst = (byte*) dstData.Scan0.ToPointer( );
+                byte* dst = (byte*)dstData.Scan0.ToPointer();
 
-                for ( int y = 0; y < height; y++ )
+                for (int y = 0; y < height; y++)
                 {
-                    for ( int x = 0; x < width; x++, dst++ )
+                    for (int x = 0; x < width; x++, dst++)
                     {
-                        *dst = (byte) System.Math.Max( 0, System.Math.Min( 255, data[y, x].Magnitude * scale * 255 ) );
+                        *dst = (byte)System.Math.Max(0, System.Math.Min(255, data[y, x].Magnitude * scale * 255));
                     }
                     dst += offset;
                 }
             }
             // unlock destination images
-            dstImage.UnlockBits( dstData );
+            dstImage.UnlockBits(dstData);
 
             return dstImage;
         }
@@ -267,23 +270,20 @@ namespace AForge.Imaging
         /// Applies forward fast Fourier transformation to the complex image.
         /// </summary>
         /// 
-        public void ForwardFourierTransform( )
+        public void ForwardFourierTransform()
         {
-            if ( !fourierTransformed )
+            if (!fourierTransformed)
             {
-                for ( int y = 0; y < height; y++ )
+                for (int y = 0; y < height; y++)
                 {
-                    for ( int x = 0; x < width; x++ )
+                    for (int x = 0; x < width; x++)
                     {
-                        if ( ( ( x + y ) & 0x1 ) != 0 )
-                        {
-                            data[y, x].Re *= -1;
-                            data[y, x].Im *= -1;
-                        }
+                        if (((x + y) & 0x1) != 0)
+                            data[y, x] *= -1;
                     }
                 }
 
-                FourierTransform.FFT2( data, FourierTransform.Direction.Forward );
+                FourierTransform.FFT2(data, FourierTransform.Direction.Forward);
                 fourierTransformed = true;
             }
         }
@@ -292,22 +292,19 @@ namespace AForge.Imaging
         /// Applies backward fast Fourier transformation to the complex image.
         /// </summary>
         /// 
-        public void BackwardFourierTransform( )
+        public void BackwardFourierTransform()
         {
-            if ( fourierTransformed )
+            if (fourierTransformed)
             {
-                FourierTransform.FFT2( data, FourierTransform.Direction.Backward );
+                FourierTransform.FFT2(data, FourierTransform.Direction.Backward);
                 fourierTransformed = false;
 
-                for ( int y = 0; y < height; y++ )
+                for (int y = 0; y < height; y++)
                 {
-                    for ( int x = 0; x < width; x++ )
+                    for (int x = 0; x < width; x++)
                     {
-                        if ( ( ( x + y ) & 0x1 ) != 0 )
-                        {
-                            data[y, x].Re *= -1;
-                            data[y, x].Im *= -1;
-                        }
+                        if (((x + y) & 0x1) != 0)
+                            data[y, x] *= -1;
                     }
                 }
             }
