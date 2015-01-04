@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
         [TestMethod, Ignore]
-        public void ComputeTest1()
+        public void ScatterplotBox_ShowTest1()
         {
             double[,] points = 
             {

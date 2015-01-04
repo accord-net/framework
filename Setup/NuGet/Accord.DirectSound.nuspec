@@ -28,8 +28,11 @@
   <files>
     <file src="..\..\Release\net35\Accord.DirectSound.dll" target="lib\net35\Accord.DirectSound.dll" />
     <file src="..\..\Release\net35\Accord.DirectSound.xml" target="lib\net35\Accord.DirectSound.xml" />
-    
+
     <file src="..\..\Release\net40\Accord.DirectSound.dll" target="lib\net40\Accord.DirectSound.dll" />
     <file src="..\..\Release\net40\Accord.DirectSound.xml" target="lib\net40\Accord.DirectSound.xml" />
+
+    <file src="..\..\Release\net45\Accord.DirectSound.dll" target="lib\net45\Accord.DirectSound.dll" />
+    <file src="..\..\Release\net45\Accord.DirectSound.xml" target="lib\net45\Accord.DirectSound.xml" />
   </files>
 </package>

@@ -25,8 +25,11 @@
   <files>
     <file src="..\..\Release\net35\Accord.Controls.Imaging.dll" target="lib\net35\Accord.Controls.Imaging.dll" />
     <file src="..\..\Release\net35\Accord.Controls.Imaging.xml" target="lib\net35\Accord.Controls.Imaging.xml" />
-    
+
     <file src="..\..\Release\net40\Accord.Controls.Imaging.dll" target="lib\net40\Accord.Controls.Imaging.dll" />
     <file src="..\..\Release\net40\Accord.Controls.Imaging.xml" target="lib\net40\Accord.Controls.Imaging.xml" />
+
+    <file src="..\..\Release\net45\Accord.Controls.Imaging.dll" target="lib\net45\Accord.Controls.Imaging.dll" />
+    <file src="..\..\Release\net45\Accord.Controls.Imaging.xml" target="lib\net45\Accord.Controls.Imaging.xml" />
   </files>
 </package>

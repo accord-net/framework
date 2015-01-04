@@ -30,6 +30,7 @@ namespace Accord.Tests.Imaging
     using Accord.Tests.Imaging.Properties;
     using Accord.Controls;
     using System.Windows.Forms;
+    using Accord.Math;
 
 
     [TestClass]
@@ -52,9 +53,10 @@ namespace Accord.Tests.Imaging
         }
 
         [TestMethod]
-        [Ignore]
-        public void Example1()
+        public void Panorama_Example1()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // Let's start with two pictures that have been
             // taken from slightly different points of view:
             //
@@ -62,8 +64,8 @@ namespace Accord.Tests.Imaging
             Bitmap img2 = Resources.dc_right;
 
             // Those pictures are shown below:
-            ImageBox.Show(img1, PictureBoxSizeMode.Zoom, 640, 480);
-            ImageBox.Show(img2, PictureBoxSizeMode.Zoom, 640, 480);
+            // ImageBox.Show(img1, PictureBoxSizeMode.Zoom, 640, 480);
+            // ImageBox.Show(img2, PictureBoxSizeMode.Zoom, 640, 480);
 
 
             // Step 1: Detect feature points using Surf Corners Detector
@@ -88,7 +90,13 @@ namespace Accord.Tests.Imaging
             Bitmap result = blend.Apply(img2);
 
             // Show on screen
-            ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
+            // ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
+
+#pragma warning disable 618
+            double[,] expected = Properties.Resources.blend_result.ToDoubleMatrix(0);
+            double[,] actual = result.ToDoubleMatrix(0);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+#pragma warning restore 618
         }
 
 

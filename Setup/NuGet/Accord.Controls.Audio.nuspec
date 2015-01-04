@@ -28,8 +28,11 @@
   <files>
     <file src="..\..\Release\net35\Accord.Controls.Audio.dll" target="lib\net35\Accord.Controls.Audio.dll" />
     <file src="..\..\Release\net35\Accord.Controls.Audio.xml" target="lib\net35\Accord.Controls.Audio.xml" />
-    
+
     <file src="..\..\Release\net40\Accord.Controls.Audio.dll" target="lib\net40\Accord.Controls.Audio.dll" />
     <file src="..\..\Release\net40\Accord.Controls.Audio.xml" target="lib\net40\Accord.Controls.Audio.xml" />
+
+    <file src="..\..\Release\net45\Accord.Controls.Audio.dll" target="lib\net45\Accord.Controls.Audio.dll" />
+    <file src="..\..\Release\net45\Accord.Controls.Audio.xml" target="lib\net45\Accord.Controls.Audio.xml" />
   </files>
 </package>

@@ -254,7 +254,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void LargeLearningTest1()
         {
             // Create large input vectors

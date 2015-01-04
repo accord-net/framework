@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod, Ignore]
-        public void ComputeTest1()
+        public void DataBarBox_ShowTest1()
         {
             double[] data = new double[] { 100.0, 150.0, 42.0 };
             string[] labels = { "1", "2", "3" };

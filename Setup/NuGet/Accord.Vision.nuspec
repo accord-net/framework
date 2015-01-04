@@ -31,8 +31,11 @@
   <files>
     <file src="..\..\Release\net35\Accord.Vision.dll" target="lib\net35\Accord.Vision.dll" />
     <file src="..\..\Release\net35\Accord.Vision.xml" target="lib\net35\Accord.Vision.xml" />
-    
+
     <file src="..\..\Release\net40\Accord.Vision.dll" target="lib\net40\Accord.Vision.dll" />
     <file src="..\..\Release\net40\Accord.Vision.xml" target="lib\net40\Accord.Vision.xml" />
+
+    <file src="..\..\Release\net45\Accord.Vision.dll" target="lib\net45\Accord.Vision.dll" />
+    <file src="..\..\Release\net45\Accord.Vision.xml" target="lib\net45\Accord.Vision.xml" />
   </files>
 </package>

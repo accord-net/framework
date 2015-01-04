@@ -358,7 +358,8 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Ignore, TestMethod()]
+        [TestMethod]
+        [Ignore]
         public void HighSampleTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

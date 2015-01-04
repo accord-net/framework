@@ -36,5 +36,8 @@
 
     <file src="..\..\Release\net40\Accord.Controls.Vision.dll" target="lib\net40\Accord.Controls.Vision.dll" />
     <file src="..\..\Release\net40\Accord.Controls.Vision.xml" target="lib\net40\Accord.Controls.Vision.xml" />
+
+    <file src="..\..\Release\net45\Accord.Controls.Vision.dll" target="lib\net45\Accord.Controls.Vision.dll" />
+    <file src="..\..\Release\net45\Accord.Controls.Vision.xml" target="lib\net45\Accord.Controls.Vision.xml" />
   </files>
 </package>

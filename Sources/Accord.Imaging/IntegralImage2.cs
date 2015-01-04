@@ -27,6 +27,7 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using System.Runtime.InteropServices;
     using AForge.Imaging;
+    using System.Security;
 
     /// <summary>
     ///   Joint representation of both Integral Image and Squared Integral Image.
@@ -39,6 +40,7 @@ namespace Accord.Imaging
     ///   computed using a specified color channel. This avoids costly conversions.
     /// </remarks>
     /// 
+    [SecurityCritical]
     public unsafe class IntegralImage2 : IDisposable
     {
 

@@ -95,8 +95,10 @@ namespace Accord.Tests.Imaging
             target.Backward = true;
             Bitmap org = target.Apply(dst);
 
+#pragma warning disable 0618
             double[,] actual = org.ToDoubleMatrix(0);
             double[,] expected = src.ToDoubleMatrix(0);
+#pragma warning restore 0618
 
             Assert.IsTrue(actual.IsEqual(expected, 0.102));
         }

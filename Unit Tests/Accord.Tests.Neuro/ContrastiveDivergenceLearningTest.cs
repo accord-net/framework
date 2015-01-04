@@ -54,9 +54,6 @@ namespace Accord.Tests.Neuro
 
 
         [TestMethod()]
-#if !DEBUG
-        [Ignore]
-#endif
         public void RunTest()
         {
             // Example from Edwin Chen, Introduction to Restricted Boltzmann Machines

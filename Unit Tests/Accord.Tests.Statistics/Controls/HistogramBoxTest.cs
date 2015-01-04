@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod, Ignore]
-        public void ComputeTest1()
+        public void HistogramBox_ShowTest1()
         {
             // Generate some normally distributed samples
             double[] data = NormalDistribution.Standard.Generate(100);

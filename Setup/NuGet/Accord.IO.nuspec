@@ -25,5 +25,8 @@
 
     <file src="..\..\Release\net40\Accord.IO.dll" target="lib\net40\Accord.IO.dll" />
     <file src="..\..\Release\net40\Accord.IO.xml" target="lib\net40\Accord.IO.xml" />
+
+    <file src="..\..\Release\net45\Accord.IO.dll" target="lib\net45\Accord.IO.dll" />
+    <file src="..\..\Release\net45\Accord.IO.xml" target="lib\net45\Accord.IO.xml" />
   </files>
 </package>

@@ -48,7 +48,7 @@ namespace Accord.Tests.Imaging
             }
         }
 
-
+#pragma warning disable 0618
 
         [TestMethod()]
         public void GetSumTest()
@@ -363,6 +363,8 @@ namespace Accord.Tests.Imaging
 
             return expected;
         }
+
+#pragma warning restore 0618
 
     }
 }

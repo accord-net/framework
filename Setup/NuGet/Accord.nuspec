@@ -21,5 +21,8 @@
 
     <file src="..\..\Release\net40\Accord.dll" target="lib\net40\Accord.dll" />
     <file src="..\..\Release\net40\Accord.xml" target="lib\net40\Accord.xml" />
+
+    <file src="..\..\Release\net45\Accord.dll" target="lib\net45\Accord.dll" />
+    <file src="..\..\Release\net45\Accord.xml" target="lib\net45\Accord.xml" />
   </files>
 </package>

@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod, Ignore]
-        public void ComputeTest1()
+        public void DataGridBox_ShowTest1()
         {
             double[,] data = Matrix.Identity(5);
 

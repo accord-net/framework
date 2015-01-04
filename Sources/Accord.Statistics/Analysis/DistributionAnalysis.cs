@@ -225,6 +225,9 @@ namespace Accord.Statistics.Analysis
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
         private static void run(Action a, int timeoutMilliseconds)
         {
+#if NET35
+            a();
+#else
             var task = Task.Factory.StartNew(() =>
             {
                 try
@@ -237,6 +240,7 @@ namespace Accord.Statistics.Analysis
             });
 
             task.Wait(timeoutMilliseconds);
+#endif
         }
 
         private int[] getRank(double[] ks)

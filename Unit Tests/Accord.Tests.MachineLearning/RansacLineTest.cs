@@ -109,7 +109,6 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Ignore]
         [TestMethod]
         public void RansacLineConstructorTest2()
         {
@@ -128,7 +127,7 @@ namespace Accord.Tests.MachineLearning
             Line line = ransac.Estimate(cloud);
 
             Bitmap result = new LineMarker(line).Apply(image);
-            ImageBox.Show(result);
+            //ImageBox.Show(result);
 
             Assert.Fail();
         }

@@ -239,7 +239,6 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [Ignore]
         [TestMethod]
         public void ProcessImageTest4()
         {
@@ -286,10 +285,17 @@ namespace Accord.Tests.Imaging
                 var img1 = new FeaturesMarker(actual).Apply(img);
                 var img2 = new FeaturesMarker(expected).Apply(img);
 
-                ImageBox.Show(new Concatenate(img1).Apply(img2), PictureBoxSizeMode.Zoom);
+                // ImageBox.Show(new Concatenate(img1).Apply(img2), PictureBoxSizeMode.Zoom);
 
 
                 current++;
+
+                for (int i = 0; i < expected.Count; i++)
+                {
+                    var e = expected[i];
+                    var a = actual[i];
+                    Assert.AreEqual(e, a);
+                }
             }
         }
 
