@@ -20,19 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-namespace Accord.Math.ComplexExtensions
+namespace Accord.Math
 {
     using AForge;
     using AForge.Math;
     using System;
 
     /// <summary>
-    ///  Static class ComplexMatrix. Defines a set of extension methods
+    ///  Static class ComplexExtensions. Defines a set of extension methods
     ///  that operates mainly on multidimensional arrays and vectors of
     ///  AForge.NET's <seealso cref="Complex"/> data type.
     /// </summary>
     /// 
-    public static class ComplexMatrix
+    public static class ComplexExtensions
     {
 
         /// <summary>
@@ -134,13 +134,30 @@ namespace Accord.Math.ComplexExtensions
         /// 
         /// <returns>A vector of scalars with the real part of the complex numbers.</returns>
         /// 
-        public static double[] Re(this Complex[] c)
+        public static double[] Real(this Complex[] c)
         {
             if (c == null) throw new ArgumentNullException("c");
 
             double[] re = new double[c.Length];
             for (int i = 0; i < c.Length; i++)
                 re[i] = c[i].Re;
+
+            return re;
+        }
+
+        /// <summary>
+        /// Returns the real matrix part of the complex matrix c.
+        /// </summary>
+        /// <param name="c">A matrix of complex numbers.</param>
+        /// <returns>A matrix of scalars with the real part of the complex numbers.</returns>
+        public static double[,] Real(this Complex[,] c)
+        {
+            if (c == null) throw new ArgumentNullException("c");
+
+            double[,] re = new double[c.GetLength(0), c.GetLength(1)];
+            for (int i = 0; i < c.GetLength(0); i++)
+                for (int j = 0; i < c.GetLength(1); j++)
+                    re[i, j] = c[i, j].Re;
 
             return re;
         }
@@ -153,13 +170,30 @@ namespace Accord.Math.ComplexExtensions
         /// 
         /// <returns>A vector of scalars with the imaginary part of the complex numbers.</returns>
         /// 
-        public static double[] Im(this Complex[] c)
+        public static double[] Imaginary(this Complex[] c)
         {
             if (c == null) throw new ArgumentNullException("c");
 
             double[] im = new double[c.Length];
             for (int i = 0; i < c.Length; i++)
                 im[i] = c[i].Im;
+
+            return im;
+        }
+
+        /// <summary>
+        /// Returns the imaginary matrix part of the complex matrix c.
+        /// </summary>
+        /// <param name="c">A matrix of complex numbers.</param>
+        /// <returns>A matrix of scalars with the imaginary part of the complex numbers.</returns>
+        public static double[,] Imaginary(this Complex[,] c)
+        {
+            if (c == null) throw new ArgumentNullException("c");
+
+            double[,] im = new double[c.GetLength(0), c.GetLength(1)];
+            for (int i = 0; i < c.GetLength(0); i++)
+                for (int j = 0; i < c.GetLength(1); j++)
+                    im[i, j] = c[i, j].Im;
 
             return im;
         }
