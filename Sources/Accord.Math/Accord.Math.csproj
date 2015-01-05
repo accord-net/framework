@@ -302,7 +302,7 @@
     <Compile Include="Matrix\ReducedRowEchelonForm.cs" />
     <Compile Include="Matrix\Matrix.Construction.cs" />
     <Compile Include="Matrix\Matrix.Parsing.cs" />
-    <Compile Include="Matrix\Matrix.Complex.cs" />
+    <Compile Include="Extensions\ComplexExtensions.cs" />
     <Compile Include="Matrix\Matrix.Elementwise.cs" />
     <Compile Include="Matrix\Matrix.Linear.cs" />
     <Compile Include="Matrix\Matrix.Conversions.cs" />
