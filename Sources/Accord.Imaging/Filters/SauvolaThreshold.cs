@@ -255,7 +255,7 @@ namespace Accord.Imaging.Filters
                                 t = x + jr;
 
                                 if (t < 0) continue;
-                                if (t >= height) continue;
+                                if (t >= width) continue;
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
@@ -290,7 +290,7 @@ namespace Accord.Imaging.Filters
                                 t = x + jr;
 
                                 if (t < 0) continue;
-                                if (t >= height) continue;
+                                if (t >= width) continue;
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
