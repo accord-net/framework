@@ -44,13 +44,13 @@ namespace Accord.Imaging
     public unsafe class IntegralImage2 : IDisposable
     {
 
-        private int[,] nSumImage; // normal  integral image
-        private int[,] sSumImage; // squared integral image
-        private int[,] tSumImage; // tilted  integral image
+        private long[,] nSumImage; // normal  integral image
+        private long[,] sSumImage; // squared integral image
+        private long[,] tSumImage; // tilted  integral image
 
-        private int* nSum; // normal  integral image
-        private int* sSum; // squared integral image
-        private int* tSum; // tilted  integral image
+        private long* nSum; // normal  integral image
+        private long* sSum; // squared integral image
+        private long* tSum; // tilted  integral image
 
         private GCHandle nSumHandle;
         private GCHandle sSumHandle;
@@ -88,7 +88,7 @@ namespace Accord.Imaging
         ///   Gets the Integral Image for values' sum.
         /// </summary>
         /// 
-        public int[,] Image
+        public long[,] Image
         {
             get { return nSumImage; }
         }
@@ -97,7 +97,7 @@ namespace Accord.Imaging
         ///   Gets the Integral Image for values' squared sum.
         /// </summary>
         /// 
-        public int[,] Squared
+        public long[,] Squared
         {
             get { return sSumImage; }
         }
@@ -106,7 +106,7 @@ namespace Accord.Imaging
         ///   Gets the Integral Image for tilted values' sum.
         /// </summary>
         /// 
-        public int[,] Rotated
+        public long[,] Rotated
         {
             get { return tSumImage; }
         }
@@ -126,19 +126,19 @@ namespace Accord.Imaging
             this.tWidth = width + 2;
             this.tHeight = height + 2;
 
-            this.nSumImage = new int[nHeight, nWidth];
+            this.nSumImage = new long[nHeight, nWidth];
             this.nSumHandle = GCHandle.Alloc(nSumImage, GCHandleType.Pinned);
-            this.nSum = (int*)nSumHandle.AddrOfPinnedObject().ToPointer();
+            this.nSum = (long*)nSumHandle.AddrOfPinnedObject().ToPointer();
 
-            this.sSumImage = new int[nHeight, nWidth];
+            this.sSumImage = new long[nHeight, nWidth];
             this.sSumHandle = GCHandle.Alloc(sSumImage, GCHandleType.Pinned);
-            this.sSum = (int*)sSumHandle.AddrOfPinnedObject().ToPointer();
+            this.sSum = (long*)sSumHandle.AddrOfPinnedObject().ToPointer();
 
             if (computeTilted)
             {
-                this.tSumImage = new int[tHeight, tWidth];
+                this.tSumImage = new long[tHeight, tWidth];
                 this.tSumHandle = GCHandle.Alloc(tSumImage, GCHandleType.Pinned);
-                this.tSum = (int*)tSumHandle.AddrOfPinnedObject().ToPointer();
+                this.tSum = (long*)tSumHandle.AddrOfPinnedObject().ToPointer();
             }
         }
 
@@ -378,7 +378,9 @@ namespace Accord.Imaging
 
             // create integral image
             IntegralImage2 im = new IntegralImage2(width, height, computeTilted);
-            int* nSum = im.nSum, sSum = im.sSum, tSum = im.tSum;
+            long* nSum = im.nSum;
+            long* sSum = im.sSum;
+            long* tSum = im.tSum;
 
             int nWidth = im.nWidth, nHeight = im.nHeight;
             int tWidth = im.tWidth, tHeight = im.tHeight;
@@ -400,8 +402,8 @@ namespace Accord.Imaging
                 // for each pixel
                 for (int x = 1; x <= width; x++, src += pixelSize)
                 {
-                    int p1 = *src;
-                    int p2 = p1 * p1;
+                    long p1 = *src;
+                    long p2 = p1 * p1;
 
                     int r = yy + (x);
                     int a = yy + (x - 1);
@@ -497,7 +499,7 @@ namespace Accord.Imaging
         /// <returns>The sum of all pixels contained in the rectangle, computed
         ///   as I[y, x] + I[y + h, x + w] - I[y + h, x] - I[y, x + w].</returns>
         /// 
-        public int GetSum(int x, int y, int width, int height)
+        public long GetSum(int x, int y, int width, int height)
         {
             int a = nWidth * (y) + (x);
             int b = nWidth * (y + height) + (x + width);
@@ -519,7 +521,7 @@ namespace Accord.Imaging
         /// <returns>The sum of all pixels contained in the rectangle, computed
         ///   as I²[y, x] + I²[y + h, x + w] - I²[y + h, x] - I²[y, x + w].</returns>
         /// 
-        public int GetSum2(int x, int y, int width, int height)
+        public long GetSum2(int x, int y, int width, int height)
         {
             int a = nWidth * (y) + (x);
             int b = nWidth * (y + height) + (x + width);
@@ -542,7 +544,7 @@ namespace Accord.Imaging
         /// <returns>The sum of all pixels contained in the rectangle, computed
         ///   as T[y + w, x + w + 1] + T[y + h, x - h + 1] - T[y, x + 1] - T[y + w + h, x + w - h + 1].</returns>
         /// 
-        public int GetSumT(int x, int y, int width, int height)
+        public long GetSumT(int x, int y, int width, int height)
         {
             int a = tWidth * (y + width) + (x + width + 1);
             int b = tWidth * (y + height) + (x - height + 1);

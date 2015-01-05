@@ -261,9 +261,12 @@ namespace Accord.Imaging
                         var p = descriptionPairs[m];
                         byte[] descriptor = points[k].Descriptor;
 
-                        if (pointsValues[p.i] > pointsValues[p.j])
-                            descriptor[m / 8] |= (byte)(1 << m % 8);
-                        else descriptor[m / 8] &= (byte)~(1 << m % 8);
+                        unchecked
+                        {
+                            if (pointsValues[p.i] > pointsValues[p.j])
+                                descriptor[m / 8] |= (byte)(1 << m % 8);
+                            else descriptor[m / 8] &= (byte)~(1 << m % 8);
+                        }
 
                     }
                 }
@@ -277,9 +280,12 @@ namespace Accord.Imaging
                         {
                             byte[] descriptor = points[k].Descriptor;
 
-                            if (pointsValues[i] > pointsValues[j])
-                                descriptor[m / 8] |= (byte)(1 << m % 8);
-                            else descriptor[m / 8] &= (byte)~(1 << m % 8);
+                            unchecked
+                            {
+                                if (pointsValues[i] > pointsValues[j])
+                                    descriptor[m / 8] |= (byte)(1 << m % 8);
+                                else descriptor[m / 8] &= (byte)~(1 << m % 8);
+                            }
                         }
                     }
                 }

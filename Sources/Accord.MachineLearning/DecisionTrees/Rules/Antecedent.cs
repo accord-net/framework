@@ -175,9 +175,9 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public override int GetHashCode()
         {
-            return Comparison.GetHashCode() +
+            return unchecked(Comparison.GetHashCode() +
                 13 * Index.GetHashCode() +
-                13 * Value.GetHashCode();
+                13 * Value.GetHashCode());
         }
 
         /// <summary>

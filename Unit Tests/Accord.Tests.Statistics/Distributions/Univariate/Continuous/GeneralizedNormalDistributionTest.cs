@@ -190,7 +190,6 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        [Ignore]
         public void DistributionFunctionTest1()
         {
             var target = GeneralizedNormalDistribution.Normal(mean: 0.42, stdDev: 4.2);
@@ -200,7 +199,7 @@ namespace Accord.Tests.Statistics
             {
                 double actual = target.DistributionFunction(x);
                 double expected = normal.DistributionFunction(x);
-                Assert.AreEqual(expected, actual, 1e-15);
+                Assert.AreEqual(expected, actual, 1e-10);
                 Assert.IsFalse(Double.IsNaN(actual));
             }
         }

@@ -80,7 +80,7 @@ namespace Accord.Math.Optimization
         ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
         ///   property.</returns>
         ///  
-        public  override bool Maximize()
+        public override bool Maximize()
         {
             if (Gradient == null)
                 throw new InvalidOperationException("gradient");
@@ -107,7 +107,7 @@ namespace Accord.Math.Optimization
         ///   In this case, the found value will also be available at the <see cref="IOptimizationMethod.Value"/>
         ///   property.</returns>
         ///  
-        public  override bool Minimize()
+        public override bool Minimize()
         {
             if (Gradient == null)
                 throw new InvalidOperationException("gradient");
@@ -118,6 +118,6 @@ namespace Accord.Math.Optimization
         }
 
 
-        
+
     }
 }

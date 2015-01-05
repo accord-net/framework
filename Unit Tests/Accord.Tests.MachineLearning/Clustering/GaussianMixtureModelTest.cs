@@ -358,9 +358,8 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod]
-        [Ignore]
-        public void HighSampleTest()
+        [TestMethod, Ignore]
+        public void LargeSampleTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
@@ -368,7 +367,6 @@ namespace Accord.Tests.MachineLearning
             Func<double> b = () => Tools.Random.NextDouble() > 0.3 ? 1 : -1;
 
             // Test Samples
-
             int thousand = 1000;
             int million = thousand * thousand;
             double[][] samples = new double[5 * million][];

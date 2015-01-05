@@ -37,7 +37,7 @@ namespace Accord.Math
 
         #region Framework-wide random number generator
         
-#if NET45
+#if !NET35 && !NET40
         private static ThreadLocal<Random> random = new ThreadLocal<Random>(create, true);
 #else
         private static ThreadLocal<Random> random = new ThreadLocal<Random>(create);
@@ -68,7 +68,7 @@ namespace Accord.Math
         {
             Tools.seed = seed;
 
-#if NET45
+#if !NET35 && !NET40
             lock (random)
             {
                 for (int i = 0; i < random.Values.Count; i++)
@@ -345,7 +345,8 @@ namespace Accord.Math
         /// 
         public static double Scale(double fromMin, double fromMax, double toMin, double toMax, double x)
         {
-            if (fromMax - fromMin == 0) return 0;
+            if (fromMax - fromMin == 0) 
+                return 0;
             return (toMax - toMin) * (x - fromMin) / (fromMax - fromMin) + toMin;
         }
 
