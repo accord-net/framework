@@ -32,12 +32,13 @@ namespace Accord.Math
     ///  AForge.NET's <seealso cref="Complex"/> data type.
     /// </summary>
     /// 
-    public static class ComplexExtensions
+    public static class ComplexMatrix
     {
 
         /// <summary>
         ///   Computes the absolute value of an array of complex numbers.
         /// </summary>
+        /// 
         public static Complex[] Abs(this Complex[] x)
         {
             if (x == null) throw new ArgumentNullException("x");
@@ -51,6 +52,7 @@ namespace Accord.Math
         /// <summary>
         ///   Computes the sum of an array of complex numbers.
         /// </summary>
+        /// 
         public static Complex Sum(this Complex[] x)
         {
             if (x == null) throw new ArgumentNullException("x");
@@ -64,6 +66,7 @@ namespace Accord.Math
         /// <summary>
         ///   Elementwise multiplication of two complex vectors.
         /// </summary>
+        /// 
         public static Complex[] Multiply(this Complex[] a, Complex[] b)
         {
             if (a == null) throw new ArgumentNullException("a");
@@ -134,7 +137,7 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of scalars with the real part of the complex numbers.</returns>
         /// 
-        public static double[] Real(this Complex[] c)
+        public static double[] Re(this Complex[] c)
         {
             if (c == null) throw new ArgumentNullException("c");
 
@@ -146,13 +149,17 @@ namespace Accord.Math
         }
 
         /// <summary>
-        /// Returns the real matrix part of the complex matrix c.
+        ///   Returns the real matrix part of the complex matrix c.
         /// </summary>
+        /// 
         /// <param name="c">A matrix of complex numbers.</param>
+        /// 
         /// <returns>A matrix of scalars with the real part of the complex numbers.</returns>
-        public static double[,] Real(this Complex[,] c)
+        /// 
+        public static double[,] Re(this Complex[,] c)
         {
-            if (c == null) throw new ArgumentNullException("c");
+            if (c == null) 
+                throw new ArgumentNullException("c");
 
             double[,] re = new double[c.GetLength(0), c.GetLength(1)];
             for (int i = 0; i < c.GetLength(0); i++)
@@ -170,9 +177,10 @@ namespace Accord.Math
         /// 
         /// <returns>A vector of scalars with the imaginary part of the complex numbers.</returns>
         /// 
-        public static double[] Imaginary(this Complex[] c)
+        public static double[] Im(this Complex[] c)
         {
-            if (c == null) throw new ArgumentNullException("c");
+            if (c == null) 
+                throw new ArgumentNullException("c");
 
             double[] im = new double[c.Length];
             for (int i = 0; i < c.Length; i++)
@@ -186,9 +194,10 @@ namespace Accord.Math
         /// </summary>
         /// <param name="c">A matrix of complex numbers.</param>
         /// <returns>A matrix of scalars with the imaginary part of the complex numbers.</returns>
-        public static double[,] Imaginary(this Complex[,] c)
+        public static double[,] Im(this Complex[,] c)
         {
-            if (c == null) throw new ArgumentNullException("c");
+            if (c == null) 
+                throw new ArgumentNullException("c");
 
             double[,] im = new double[c.GetLength(0), c.GetLength(1)];
             for (int i = 0; i < c.GetLength(0); i++)
@@ -206,7 +215,8 @@ namespace Accord.Math
         /// <param name="c">An array of complex numbers.</param>
         public static double[,] ToArray(this Complex[] c)
         {
-            if (c == null) throw new ArgumentNullException("c");
+            if (c == null) 
+                throw new ArgumentNullException("c");
 
             double[,] arr = new double[c.Length, 2];
             for (int i = 0; i < c.GetLength(0); i++)
@@ -227,7 +237,8 @@ namespace Accord.Math
         /// 
         public static DoubleRange Range(this Complex[] array)
         {
-            if (array == null) throw new ArgumentNullException("array");
+            if (array == null) 
+                throw new ArgumentNullException("array");
 
             double min = array[0].SquaredMagnitude;
             double max = array[0].SquaredMagnitude;

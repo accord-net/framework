@@ -281,7 +281,8 @@ namespace Accord.Imaging.Filters
             }
             else
             {
-                throw new UnsupportedImageFormatException();
+                // We should never reach here.
+                throw new InvalidOperationException("Pixel format should have been validated before.");
             }
         }
 

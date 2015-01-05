@@ -103,8 +103,8 @@ namespace Accord.Math.Optimization
             variables = new Dictionary<string, int>();
             indices = new Dictionary<int, string>();
 
-            readOnlyVariables = new Accord.Collections.ReadOnlyDictionary<string, int>(variables);
-            readOnlyIndices = new Accord.Collections.ReadOnlyDictionary<int, string>(indices);
+            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
+            readOnlyIndices = new ReadOnlyDictionary<int, string>(indices);
         }
 
         /// <summary>

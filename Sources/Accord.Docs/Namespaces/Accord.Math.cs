@@ -66,7 +66,6 @@ namespace Accord.Math
     /// </remarks>
     /// 
     /// <seealso cref="Accord.Math.Comparers"/>
-    /// <seealso cref="Accord.Math.ComplexExtensions"/>
     /// <seealso cref="Accord.Math.Decompositions"/>
     /// <seealso cref="Accord.Math.Differentiation"/>
     /// <seealso cref="Accord.Math.Environments"/>
