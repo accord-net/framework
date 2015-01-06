@@ -62,7 +62,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Data" /> 
+    <Reference Include="System.Data" />
     <Reference Include="System.Design" />
     <Reference Include="System.Xml" />
   </ItemGroup>

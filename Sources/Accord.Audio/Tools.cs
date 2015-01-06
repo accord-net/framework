@@ -24,8 +24,8 @@ namespace Accord.Audio
 {
     using System;
     using System.Runtime.InteropServices;
-    using Accord.Math.ComplexExtensions;
     using AForge.Math;
+    using Accord.Math;
 
     /// <summary>
     ///   Tool functions for audio processing.
@@ -71,7 +71,7 @@ namespace Accord.Audio
         /// 
         public static double[] GetMagnitudeSpectrum(Complex[] fft)
         {
-            if (fft == null) 
+            if (fft == null)
                 throw new ArgumentNullException("fft");
 
             // assumes fft is symmetric

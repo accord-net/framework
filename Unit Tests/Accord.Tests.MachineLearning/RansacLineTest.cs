@@ -112,24 +112,28 @@ namespace Accord.Tests.MachineLearning
         [TestMethod]
         public void RansacLineConstructorTest2()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             Bitmap image = Properties.Resources.noise_line;
 
-            ImageBox.Show(image); 
+            //ImageBox.Show(image); 
 
             var detector = new SusanCornersDetector();
 
             List<IntPoint> cloud = detector.ProcessImage(image);
+            Assert.AreEqual(211, cloud.Count);
 
             Bitmap marks = new PointsMarker(cloud, Color.Pink).Apply(image);
-            ImageBox.Show(marks);
+            //ImageBox.Show(marks);
 
             RansacLine ransac = new RansacLine(5, 1e-10);
             Line line = ransac.Estimate(cloud);
 
-            Bitmap result = new LineMarker(line).Apply(image);
-            //ImageBox.Show(result);
+            Assert.AreEqual(0.501134932f, line.Intercept);
+            Assert.AreEqual(-0.865369201f, line.Slope);
 
-            Assert.Fail();
+            //Bitmap result = new LineMarker(line).Apply(image);
+            //ImageBox.Show(result);
         }
 
     }

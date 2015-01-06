@@ -152,12 +152,26 @@ namespace Accord.Tests.Math
 
             var tree = KDTree.FromData<int>(points);
 
+            // The sorting algorithm has changed from .NET 4.0
+            // to 4.5. Since the framework doesn't do stable sorts,
+            // tests involving equal elements have changed.
 
             Assert.AreEqual(2, tree.Root.Position[0]);
-            Assert.AreEqual(3, tree.Root.Position[1]);
 
-            Assert.AreEqual(2, tree.Root.Left.Position[0]);
-            Assert.AreEqual(4, tree.Root.Left.Position[1]);
+            if (tree.Root.Position[1] == 3)
+            {
+                Assert.AreEqual(2, tree.Root.Left.Position[0]);
+                Assert.AreEqual(4, tree.Root.Left.Position[1]);
+            }
+            else if (tree.Root.Position[1] == 4)
+            {
+                Assert.AreEqual(2, tree.Root.Left.Position[0]);
+                Assert.AreEqual(3, tree.Root.Left.Position[1]);
+            }
+            else
+            {
+                Assert.Fail();
+            }
 
             Assert.AreEqual(4, tree.Root.Right.Position[0]);
             Assert.AreEqual(3, tree.Root.Right.Position[1]);
@@ -275,17 +289,36 @@ namespace Accord.Tests.Math
             Assert.AreEqual(3, tree.Root.Position[0]);
             Assert.AreEqual(3, tree.Root.Position[1]);
 
-            Assert.AreEqual(3, tree.Root.Left.Position[0]);
-            Assert.AreEqual(4, tree.Root.Left.Position[1]);
+            if (tree.Root.Left.Position[0] == 2)
+            {
+                Assert.AreEqual(2, tree.Root.Left.Position[0]);
+                Assert.AreEqual(3, tree.Root.Left.Position[1]);
 
-            Assert.AreEqual(4, tree.Root.Right.Position[0]);
-            Assert.AreEqual(3, tree.Root.Right.Position[1]);
+                Assert.AreEqual(3, tree.Root.Right.Position[0]);
+                Assert.AreEqual(4, tree.Root.Right.Position[1]);
 
-            Assert.AreEqual(2, tree.Root.Left.Left.Position[0]);
-            Assert.AreEqual(3, tree.Root.Left.Left.Position[1]);
+                Assert.AreEqual(3, tree.Root.Left.Left.Position[0]);
+                Assert.AreEqual(2, tree.Root.Left.Left.Position[1]);
 
-            Assert.AreEqual(3, tree.Root.Right.Left.Position[0]);
-            Assert.AreEqual(2, tree.Root.Right.Left.Position[1]);
+                Assert.AreEqual(4, tree.Root.Right.Left.Position[0]);
+                Assert.AreEqual(3, tree.Root.Right.Left.Position[1]);
+            }
+            else
+            {
+                Assert.AreEqual(3, tree.Root.Left.Position[0]);
+                Assert.AreEqual(4, tree.Root.Left.Position[1]);
+
+                Assert.AreEqual(4, tree.Root.Right.Position[0]);
+                Assert.AreEqual(3, tree.Root.Right.Position[1]);
+
+                Assert.AreEqual(2, tree.Root.Left.Left.Position[0]);
+                Assert.AreEqual(3, tree.Root.Left.Left.Position[1]);
+
+                Assert.AreEqual(3, tree.Root.Right.Left.Position[0]);
+                Assert.AreEqual(2, tree.Root.Right.Left.Position[1]);
+            }
+
+           
 
             var result = tree.Nearest(new double[] { 3, 3 }, 5);
 

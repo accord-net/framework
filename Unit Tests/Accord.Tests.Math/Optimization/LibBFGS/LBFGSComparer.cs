@@ -82,6 +82,11 @@ namespace Accord.Tests.Math.Optimization
 
             NativeCode = Wrapper.Libbfgs((double[])problem.Start.Clone(), function, gradient, param);
 
+            // Convergence and success have the same
+            // enumeration value in the original code
+            if (NativeCode == "LBFGS_CONVERGENCE")
+                NativeCode = "LBFGS_SUCCESS";
+
             return Wrapper.list.ToArray();
         }
 

@@ -82,6 +82,17 @@ namespace Accord.Tests.Imaging
             var ransac = new RansacHomographyEstimator(0.001, 0.99);
             MatrixH homographyMatrix = ransac.Estimate(matches);
 
+            Assert.AreEqual(1.13583624f, homographyMatrix.Elements[0], 1e-5);
+            Assert.AreEqual(-0.0229569562f, homographyMatrix.Elements[1], 1e-5);
+            Assert.AreEqual(-255.243988f, homographyMatrix.Elements[2], 1e-2);
+            Assert.AreEqual(0.080111593f, homographyMatrix.Elements[3], 1e-5);
+            Assert.AreEqual(1.11404252f, homographyMatrix.Elements[4], 1e-5);
+            Assert.AreEqual(-167.362167f, homographyMatrix.Elements[5], 1e-2);
+            Assert.AreEqual(0.00011207442f, homographyMatrix.Elements[6], 1e-5);
+            Assert.AreEqual(0.0000529394056f, homographyMatrix.Elements[7], 1e-5);
+            Assert.AreEqual(8, homographyMatrix.Elements.Length);
+
+
             // Step 4: Project and blend using the homography
             Blend blend = new Blend(homographyMatrix, img1);
 
@@ -95,7 +106,7 @@ namespace Accord.Tests.Imaging
 #pragma warning disable 618
             double[,] expected = Properties.Resources.blend_result.ToDoubleMatrix(0);
             double[,] actual = result.ToDoubleMatrix(0);
-            Assert.IsTrue(Matrix.IsEqual(expected, actual));
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.1));
 #pragma warning restore 618
         }
 

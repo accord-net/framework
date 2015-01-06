@@ -211,7 +211,8 @@ namespace Accord.Imaging.Converters
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        byte value = (byte)Accord.Math.Tools.Scale(Min, Max, 0, 255, input[y, x]);
+                        double v = 255 * (input[y, x] - Min) / (Max - Min);
+                        byte value = unchecked((byte)v);
 
                         for (int c = 0; c < pixelSize; c++, dst++)
                             *dst = value;

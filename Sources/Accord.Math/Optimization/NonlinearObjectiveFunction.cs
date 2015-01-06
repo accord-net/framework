@@ -27,7 +27,7 @@ namespace Accord.Math.Optimization
     using System.Collections.ObjectModel;
     using System.Linq.Expressions;
 
-#if !NET45
+#if NET35 || NET40
     using Accord.Collections;
 #endif
 
@@ -103,8 +103,8 @@ namespace Accord.Math.Optimization
             variables = new Dictionary<string, int>();
             indices = new Dictionary<int, string>();
 
-            readOnlyVariables = new Accord.Collections.ReadOnlyDictionary<string, int>(variables);
-            readOnlyIndices = new Accord.Collections.ReadOnlyDictionary<int, string>(indices);
+            readOnlyVariables = new ReadOnlyDictionary<string, int>(variables);
+            readOnlyIndices = new ReadOnlyDictionary<int, string>(indices);
         }
 
         /// <summary>

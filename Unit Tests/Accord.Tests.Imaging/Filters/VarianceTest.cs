@@ -27,6 +27,7 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Drawing.Imaging;
 
     [TestClass]
     public class VarianceFilterTest
@@ -53,13 +54,19 @@ namespace Accord.Tests.Imaging
         public void VarianceTest1()
         {
             Bitmap image = Properties.Resources.lena512;
-
             Variance variance = new Variance();
-
             Bitmap result = variance.Apply(image);
-
-            //ImageBox.Show(result);
             Assert.IsNotNull(result);
+        }
+
+        [TestMethod()]
+        public void VarianceColorRotate()
+        {
+            Bitmap image = Properties.Resources.wiki_flower;
+            Bitmap expected = Properties.Resources.variance_color_expected;
+
+            bool answer = ImageUtils.RotateTest32bpp(new Variance(), image, expected);
+            Assert.IsTrue(answer);
         }
 
         [TestMethod]

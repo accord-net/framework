@@ -72,8 +72,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Numerics">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
@@ -302,7 +304,7 @@
     <Compile Include="Matrix\ReducedRowEchelonForm.cs" />
     <Compile Include="Matrix\Matrix.Construction.cs" />
     <Compile Include="Matrix\Matrix.Parsing.cs" />
-    <Compile Include="Extensions\ComplexExtensions.cs" />
+    <Compile Include="Matrix\Matrix.Complex.cs" />
     <Compile Include="Matrix\Matrix.Elementwise.cs" />
     <Compile Include="Matrix\Matrix.Linear.cs" />
     <Compile Include="Matrix\Matrix.Conversions.cs" />
@@ -427,5 +429,7 @@
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Compatibility\" />
+  </ItemGroup>
 </Project>

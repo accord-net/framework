@@ -226,7 +226,7 @@ namespace Accord.Imaging
                     }
 
                     // Find the next candidate neighbor pixel
-                    byte* neighbor = current + windowOffset[direction];
+                    byte* neighbor = unchecked(current + windowOffset[direction]);
 
                     // Check if it is a colored pixel
                     if (*neighbor <= Threshold)
@@ -252,7 +252,7 @@ namespace Accord.Imaging
                 {
                     // Navigate to neighbor pixel
                     previous = current;
-                    current = current + windowOffset[direction];
+                    current = unchecked(current + windowOffset[direction]);
 
                     // Add to the contour
                     prevPosition += positionOffset[direction];

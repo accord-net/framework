@@ -239,7 +239,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ProcessImageTest4()
         {
             Bitmap[] bitmaps = 
