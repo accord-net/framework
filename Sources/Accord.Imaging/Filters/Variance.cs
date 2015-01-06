@@ -243,15 +243,12 @@ namespace Accord.Imaging.Filters
                                 int jr = j - radius;
                                 t = x + jr;
 
-<<<<<<< HEAD
                                 if (t < 0) continue;
                                 if (t >= width) continue;
-=======
                                 if (t < 0) 
                                     continue;
                                 if (t >= width) 
                                     continue;
->>>>>>> cf6d14470ff0fc498bb277c209bbdb9324c98305
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
@@ -287,15 +284,12 @@ namespace Accord.Imaging.Filters
                                 int jr = j - radius;
                                 t = x + jr;
 
-<<<<<<< HEAD
                                 if (t < 0) continue;
                                 if (t >= width) continue;
-=======
                                 if (t < 0) 
                                     continue;
                                 if (t >= width) 
                                     continue;
->>>>>>> cf6d14470ff0fc498bb277c209bbdb9324c98305
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
