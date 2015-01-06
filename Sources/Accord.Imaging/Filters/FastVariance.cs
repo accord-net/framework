@@ -5,7 +5,6 @@
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
-//
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
 //    License as published by the Free Software Foundation; either
@@ -35,9 +34,9 @@ namespace Accord.Imaging.Filters
     /// 
     /// <remarks>
     ///   The Fast Variance filter replaces each pixel in an image by its
-    ///   neighborhood online variance. The end result can be regarded as an
-    ///   border enhancement, making the Variance filter suitable to
-    ///   be used as an edge detection mechanism.
+    ///   neighborhood online variance. This filter differs from the
+    ///   <see cref="Variance" />filter because it uses only a single pass
+    ///   over the image.
     /// </remarks>
     /// 
     /// <example>
@@ -165,27 +164,35 @@ namespace Accord.Imaging.Filters
                             int ir = i - radius;
                             int t = y + ir;
 
-                            if (t < 0) continue;
-                            if (t >= height) break;
+                            if (t < 0) 
+                                continue;
+                            if (t >= height) 
+                                break;
 
                             for (int j = 0; j < size; j++)
                             {
                                 int jr = j - radius;
                                 t = x + jr;
 
-                                if (t < 0) continue;
-                                if (t >= width) continue;
+                                if (t < 0) 
+                                    continue;
+                                if (t >= width) 
+                                    continue;
 
-                                n++;
                                 double delta = src[ir * srcStride + jr] - mean;
+
+                                n++; // update statistics
                                 mean += delta / (double)n;
                                 m2 += delta * (src[ir * srcStride + jr] - mean);
                             }
                         }
 
+
                         double variance = m2 / ((double)n - 1);
+
                         *dst = (byte)((variance > 255) ? 255 : ((variance < 0) ? 0 : variance));
                     }
+
                     src += srcOffset;
                     dst += dstOffset;
                 }
@@ -212,20 +219,24 @@ namespace Accord.Imaging.Filters
                             int ir = i - radius;
                             int t = y + ir;
 
-                            if (t < 0) continue;
-                            if (t >= height) break;
+                            if (t < 0) 
+                                continue;
+                            if (t >= height) 
+                                break;
 
                             for (int j = 0; j < size; j++)
                             {
                                 int jr = j - radius;
                                 t = x + jr;
 
-                                if (t < 0) continue;
-                                if (t >= width) continue;
+                                if (t < 0) 
+                                    continue;
+                                if (t >= width) 
+                                    continue;
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
-                                n++;
+                                n++; // Update statistics
                                 double deltaR = p[RGB.R] - meanR;
                                 double deltaG = p[RGB.G] - meanG;
                                 double deltaB = p[RGB.B] - meanB;
@@ -253,6 +264,7 @@ namespace Accord.Imaging.Filters
                         if (pixelSize == 4)
                             dst[RGB.A] = src[RGB.A];
                     }
+
                     src += srcOffset;
                     dst += dstOffset;
                 }

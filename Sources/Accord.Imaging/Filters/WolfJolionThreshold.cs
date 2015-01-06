@@ -5,7 +5,6 @@
 // Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
-//
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
 //    License as published by the Free Software Foundation; either
@@ -21,12 +20,6 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Accord.Imaging.Filters
 {
     using System;
@@ -36,13 +29,13 @@ namespace Accord.Imaging.Filters
     using AForge.Imaging.Filters;
 
     /// <summary>
-    ///   WolfJoulion Threshold.
+    ///   Wolf Jolion Threshold.
     /// </summary>
     /// 
     /// <remarks>
     ///   <para>
-    ///   The WolfJoulion filter is a variation of the <see cref="SauvolaThreshold"/>
-    ///   thresholding filter.</para>
+    ///   The Wolf-Jolion threshold filter is a variation 
+    ///   of the <see cref="SauvolaThreshold"/> filter.</para>
     ///   
     /// <para>
     ///  This filter implementation has been contributed by Diego Catalano.</para>
@@ -51,8 +44,11 @@ namespace Accord.Imaging.Filters
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
-    ///         Sauvola, Jaakko, and Matti Pietikäinen. "Adaptive document image binarization."
-    ///         Pattern Recognition 33.2 (2000): 225-236.</description></item>
+    ///     <a href="http://liris.cnrs.fr/christian.wolf/papers/icpr2002v.pdf">
+    ///         C. Wolf, J.M. Jolion, F. Chassaing. "Text Localization, Enhancement and 
+    ///         Binarization in Multimedia Documents." Proceedings of the 16th International 
+    ///         Conference on Pattern Recognition, 2002. 
+    ///         Available in http://liris.cnrs.fr/christian.wolf/papers/icpr2002v.pdf </a></description></item>
     ///   </list></para>   
     /// </remarks>
     /// 
@@ -60,27 +56,21 @@ namespace Accord.Imaging.Filters
     /// <code>
     /// Bitmap image = ... // Lena's picture
     /// 
-    /// // Create a new Sauvola threshold:
-    /// var sauvola = new SauvolaThreshold();
+    /// // Create a new Wolf-Joulion threshold:
+    /// var wolfJoulion = new WolfJoulionThreshold();
     /// 
     /// // Compute the filter
-    /// Bitmap result = sauvola.Apply(image);
+    /// Bitmap result = wolfJoulion.Apply(image);
     /// 
     /// // Show on the screen
     /// ImageBox.Show(result);
     /// </code>
-    /// 
-    /// <para>
-    ///   The resulting image is shown below:</para>
-    /// 
-    ///   <img src="..\images\sauvola.png" />
-    /// 
     /// </example>
     /// 
     /// <seealso cref="NiblackThreshold"/>
     /// <seealso cref="SauvolaThreshold"/>
     /// 
-    public class WolfJoulionThreshold : BaseFilter
+    public class WolfJolionThreshold : BaseFilter
     {
         private Dictionary<PixelFormat, PixelFormat> formatTranslations;
 
@@ -131,10 +121,10 @@ namespace Accord.Imaging.Filters
         }
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="WolfJoulionThreshold"/> class.
+        ///   Initializes a new instance of the <see cref="WolfJolionThreshold"/> class.
         /// </summary>
         /// 
-        public WolfJoulionThreshold()
+        public WolfJolionThreshold()
         {
             formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
@@ -156,8 +146,6 @@ namespace Accord.Imaging.Filters
             int width = sourceData.Width;
             int height = sourceData.Height;
 
-            int size = width * height;
-
             int pixelSize = System.Drawing.Image.GetPixelFormatSize(sourceData.PixelFormat) / 8;
 
             int srcStride = sourceData.Stride;
@@ -169,121 +157,82 @@ namespace Accord.Imaging.Filters
             byte* src = (byte*)sourceData.ImageData.ToPointer();
             byte* dst = (byte*)destinationData.ImageData.ToPointer();
 
-            //Mean filter
-            int[,] kernel = Accord.Math.Matrix.Create(radius*2+1, radius*2+1,1);
-
+            // TODO: Move or cache the creation of those filters
+            int[,] kernel = Accord.Math.Matrix.Create(radius * 2 + 1, radius * 2 + 1, 1);
             Convolution conv = new Convolution(kernel);
+            FastVariance fv = new FastVariance(radius);
+
+            // Mean filter
             UnmanagedImage mean = conv.Apply(sourceData);
 
-            //Variance filter
-            FastVariance fv = new FastVariance(radius);
+            // Variance filter
             UnmanagedImage var = fv.Apply(sourceData);
 
             // do the processing job
             if (sourceData.PixelFormat == PixelFormat.Format8bppIndexed)
             {
-
-                //Store maximum value from variance.
                 byte* srcVar = (byte*)var.ImageData.ToPointer();
                 byte* srcMean = (byte*)mean.ImageData.ToPointer();
 
-                int maxV = 0;
-                for (int i = 0; i < size; i++)
-                    if (srcVar[i] > maxV)
-                        maxV = srcVar[i];
+                // Store maximum value from variance.
+                int maxV = Max(width, height, srcVar, srcOffset);
 
+                // Store minimum value from image.
+                int minG = Min(width, height, src, srcOffset);
 
-                //Store minimum value from original image.
-                int minG = 255;
-                for (int i = 0; i < size; i++)
-                    if (src[i] < (byte)minG)
-                        minG = src[i];
-
-                //Do the job
-                for (int i = 0; i < size; i++)
+                for (int y = 0; y < height; y++)
                 {
-                    double p = src[i];
-                    double mP = srcMean[i];
-                    double vP = srcVar[i];
+                    for (int x = 0; x < width; x++, src++, srcMean++, srcVar++, dst++)
+                    {
+                        double p = *src;
+                        double mP = *srcMean;
+                        double vP = *srcVar;
 
-                    int g = (p > (mP + k * ((Math.Sqrt(vP) / (double)maxV - 1.0) * (mP - (double)minG)))) ? 255 : 0;
+                        double threshold = (mP + k * ((Math.Sqrt(vP) / (double)maxV - 1.0) * (mP - (double)minG)));
 
-                    dst[i] = (byte)g;
+                        *dst = (byte)(*src > threshold ? 255 : 0);
+                    }
+
+                    src += srcOffset;
+                    srcMean += srcOffset;
+                    srcVar += srcOffset;
+                    dst += dstOffset;
                 }
-
             }
-            else
+        }
+
+        unsafe private static int Max(int width, int height, byte* src, int offset)
+        {
+            int max = 0;
+            for (int y = 0; y < height; y++)
             {
-
-                //Store maximum value from variance.
-                byte* srcVar = (byte*)var.ImageData.ToPointer();
-                byte* srcMean = (byte*)mean.ImageData.ToPointer();
-
-                int maxVR = 0;
-                int maxVG = 0;
-                int maxVB = 0;
-                for (int i = 0; i < size; i++)
+                for (int x = 0; x < width; x++, src++)
                 {
-                    byte* p = &srcVar[i];
-                    if (p[RGB.R] > maxVR)
-                        maxVR = p[RGB.R];
-
-                    if (p[RGB.G] > maxVG)
-                        maxVG = p[RGB.G];
-
-                    if (p[RGB.B] > maxVB)
-                        maxVB = p[RGB.B];
+                    if (*src > max)
+                        max = *src;
                 }
 
-
-                //Store minimum value from original image.
-                int minR = 255;
-                int minG = 255;
-                int minB = 255;
-                for (int i = 0; i < size; i++)
-                {
-                    byte* p = &src[i];
-                    if (p[RGB.R] < minR)
-                        minR = p[RGB.R];
-
-                    if (p[RGB.G] < minG)
-                        minG = p[RGB.G];
-
-                    if (p[RGB.B] < minB)
-                        minB = p[RGB.B];
-                }
-
-                //Pointers
-                for (int i = 0; i < size; i++)
-                {
-                    byte* p = &src[i];
-                    byte* mP = &srcMean[i];
-                    byte* vP = &srcVar[i];
-
-                    double rP = p[RGB.R];
-                    double gP = p[RGB.G];
-                    double bP = p[RGB.B];
-
-                    double rmP = mP[RGB.R];
-                    double gmP = mP[RGB.G];
-                    double bmP = mP[RGB.B];
-
-                    double rvP = vP[RGB.R];
-                    double gvP = vP[RGB.G];
-                    double bvP = vP[RGB.B];
-
-                    int r = (rP > (rmP + k * ((Math.Sqrt(rvP) / (double)maxVR - 1.0) * (rmP - (double)minR)))) ? 255 : 0;
-                    int g = (gP > (gmP + k * ((Math.Sqrt(gvP) / (double)maxVG - 1.0) * (gmP - (double)minG)))) ? 255 : 0;
-                    int b = (bP > (bmP + k * ((Math.Sqrt(bvP) / (double)maxVB - 1.0) * (bmP - (double)minB)))) ? 255 : 0;
-
-                    dst[RGB.R] = (byte)r;
-                    dst[RGB.G] = (byte)g;
-                    dst[RGB.B] = (byte)b;
-
-                    //TODO: Need to move dst pointer.
-
-                }
+                src += offset;
             }
+
+            return max;
+        }
+
+        unsafe private static int Min(int width, int height, byte* src, int offset)
+        {
+            int max = 255;
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++, src++)
+                {
+                    if (*src > max)
+                        max = *src;
+                }
+
+                src += offset;
+            }
+
+            return max;
         }
     }
 }
