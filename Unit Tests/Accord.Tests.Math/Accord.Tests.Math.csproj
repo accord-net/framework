@@ -94,6 +94,7 @@
     <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />
     <Compile Include="Collections\RedBlackTreeTest.cs" />
     <Compile Include="Functions\OwensTTest.cs" />
+    <Compile Include="FourierTransformTest.cs" />
     <Compile Include="Integration\IntegralTest.cs" />
     <Compile Include="Convergence\AbsoluteConvergenceTest.cs" />
     <Compile Include="Comparers\ElementComparerTest.cs" />
