@@ -96,6 +96,7 @@
     <Compile Include="BagOfVisualWords`1.cs" />
     <Compile Include="BagOfVisualWords`2.cs" />
     <Compile Include="Filters\DifferenceOfGaussians.cs" />
+    <Compile Include="Filters\FastVariance.cs" />
     <Compile Include="Filters\HighBoost.cs" />
     <Compile Include="Filters\SauvolaThreshold.cs" />
     <Compile Include="Filters\LineMarker.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Filters\WhitePatch.cs" />
     <Compile Include="Filters\GrayWorld.cs" />
     <Compile Include="Filters\Kuwahara.cs" />
+    <Compile Include="Filters\WolfJoulionThreshold.cs" />
     <Compile Include="Interest Points\Base\IFeatureDescriptor.cs" />
     <Compile Include="Interest Points\FeatureDescriptor.cs" />
     <Compile Include="Interest Points\Matching\KNearestNeighborMatching`1.cs" />

@@ -2,11 +2,9 @@
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © Diego Catalano, 2013
+// Copyright © Diego Catalano, 2015
 // diego.catalano at live.com
 //
-// Copyright © César Souza, 2009-2015
-// cesarsouza at gmail.com
 //
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
@@ -32,12 +30,12 @@ namespace Accord.Imaging.Filters
     using AForge.Imaging.Filters;
 
     /// <summary>
-    ///   Variance filter.
+    ///   Fast Variance filter.
     /// </summary>
     /// 
     /// <remarks>
-    ///   The Variance filter replaces each pixel in an image by its
-    ///   neighborhood variance. The end result can be regarded as an
+    ///   The Fast Variance filter replaces each pixel in an image by its
+    ///   neighborhood online variance. The end result can be regarded as an
     ///   border enhancement, making the Variance filter suitable to
     ///   be used as an edge detection mechanism.
     /// </remarks>
@@ -47,7 +45,7 @@ namespace Accord.Imaging.Filters
     /// Bitmap image = ... // Lena's picture
     /// 
     /// // Create a new Variance filter:
-    /// var variance = new Variance();
+    /// var variance = new FastVariance();
     /// 
     /// // Compute the filter
     /// Bitmap result = variance.Apply(image);
@@ -63,7 +61,7 @@ namespace Accord.Imaging.Filters
     /// 
     /// </example>
     /// 
-    public class Variance : BaseFilter
+    public class FastVariance : BaseFilter
     {
 
         private int radius = 2;
@@ -89,7 +87,7 @@ namespace Accord.Imaging.Filters
         ///   Initializes a new instance of the <see cref="Variance"/> class.
         /// </summary>
         /// 
-        public Variance()
+        public FastVariance()
         {
             formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
@@ -104,7 +102,7 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="radius">The radius neighborhood used to compute a pixel's local variance.</param>
         /// 
-        public Variance(int radius)
+        public FastVariance(int radius)
             : this()
         {
             if (radius < 1)
@@ -158,8 +156,9 @@ namespace Accord.Imaging.Filters
                     // for each pixel
                     for (int x = 0; x < width; x++, src++, dst++)
                     {
-                        long sum = 0;
-                        int count = 0;
+                        double mean = 0;
+                        double m2 = 0;
+                        int n = 0;
 
                         for (int i = 0; i < radius; i++)
                         {
@@ -177,40 +176,16 @@ namespace Accord.Imaging.Filters
                                 if (t < 0) continue;
                                 if (t >= width) continue;
 
-                                sum += src[ir * srcStride + jr];
-                                count++;
+                                n++;
+                                double delta = src[ir * srcStride + jr] - mean;
+                                mean += delta / (double)n;
+                                m2 += delta * (src[ir * srcStride + jr] - mean);
                             }
                         }
 
-                        double mean = sum / (double)count;
-                        double variance = 0;
-
-                        for (int i = 0; i < radius; i++)
-                        {
-                            int ir = i - radius;
-                            int t = y + ir;
-
-                            if (t < 0) continue;
-                            if (t >= height) break;
-
-                            for (int j = 0; j < size; j++)
-                            {
-                                int jr = j - radius;
-                                t = x + jr;
-
-                                if (t < 0) continue;
-                                if (t >= width) continue;
-
-                                byte val = src[ir * srcStride + jr];
-                                variance += (val - mean) * (val - mean);
-                            }
-                        }
-
-                        variance /= count - 1;
-
+                        double variance = m2 / ((double)n - 1);
                         *dst = (byte)((variance > 255) ? 255 : ((variance < 0) ? 0 : variance));
                     }
-
                     src += srcOffset;
                     dst += dstOffset;
                 }
@@ -223,20 +198,22 @@ namespace Accord.Imaging.Filters
                     // for each pixel
                     for (int x = 0; x < width; x++, src += pixelSize, dst += pixelSize)
                     {
-                        long sumR = 0;
-                        long sumG = 0;
-                        long sumB = 0;
-                        int count = 0;
+                        double meanR = 0;
+                        double meanG = 0;
+                        double meanB = 0;
+
+                        double m2R = 0;
+                        double m2G = 0;
+                        double m2B = 0;
+                        int n = 0;
 
                         for (int i = 0; i < size; i++)
                         {
                             int ir = i - radius;
                             int t = y + ir;
 
-                            if (t < 0) 
-                                continue;
-                            if (t >= height) 
-                                break;
+                            if (t < 0) continue;
+                            if (t >= height) break;
 
                             for (int j = 0; j < size; j++)
                             {
@@ -245,65 +222,28 @@ namespace Accord.Imaging.Filters
 
                                 if (t < 0) continue;
                                 if (t >= width) continue;
-                                if (t < 0) 
-                                    continue;
-                                if (t >= width) 
-                                    continue;
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
-                                count++;
+                                n++;
+                                double deltaR = p[RGB.R] - meanR;
+                                double deltaG = p[RGB.G] - meanG;
+                                double deltaB = p[RGB.B] - meanB;
 
-                                sumR += p[RGB.R];
-                                sumG += p[RGB.G];
-                                sumB += p[RGB.B];
+                                meanR += deltaR / (double)n;
+                                meanG += deltaG / (double)n;
+                                meanB += deltaB / (double)n;
+
+                                m2R += deltaR * (p[RGB.R] - meanR);
+                                m2G += deltaG * (p[RGB.G] - meanG);
+                                m2B += deltaB * (p[RGB.B] - meanB);
+
                             }
                         }
 
-                        double meanR = sumR / (double)count;
-                        double meanG = sumG / (double)count;
-                        double meanB = sumB / (double)count;
-
-                        double varR = 0;
-                        double varG = 0;
-                        double varB = 0;
-
-                        for (int i = 0; i < size; i++)
-                        {
-                            int ir = i - radius;
-                            int t = y + ir;
-
-                            if (t < 0) 
-                                continue;
-                            if (t >= height) 
-                                break;
-
-                            // for each kernel column
-                            for (int j = 0; j < size; j++)
-                            {
-                                int jr = j - radius;
-                                t = x + jr;
-
-                                if (t < 0) continue;
-                                if (t >= width) continue;
-                                if (t < 0) 
-                                    continue;
-                                if (t >= width) 
-                                    continue;
-
-                                byte* p = &src[ir * srcStride + jr * pixelSize];
-
-                                count++;
-
-                                varR += (p[RGB.R] - meanR) * (p[RGB.R] - meanR);
-                                varG += (p[RGB.G] - meanG) * (p[RGB.G] - meanG);
-                                varB += (p[RGB.B] - meanB) * (p[RGB.B] - meanB);
-                            }
-                        }
-
-                        varR /= count - 1;
-                        varG /= count - 1;
-                        varB /= count - 1;
+                        double varR = m2R / ((double)n - 1);
+                        double varG = m2G / ((double)n - 1);
+                        double varB = m2B / ((double)n - 1);
 
                         dst[RGB.R] = (byte)((varR > 255) ? 255 : ((varR < 0) ? 0 : varR));
                         dst[RGB.G] = (byte)((varG > 255) ? 255 : ((varG < 0) ? 0 : varG));

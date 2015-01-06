@@ -321,7 +321,5 @@ namespace Accord.Imaging.Filters
                 }
             }
         }
-
     }
 }
-
