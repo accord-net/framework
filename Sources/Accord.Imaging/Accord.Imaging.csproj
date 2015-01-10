@@ -110,6 +110,7 @@
     <Compile Include="Interest Points\Base\IFeatureDescriptor.cs" />
     <Compile Include="Interest Points\FeatureDescriptor.cs" />
     <Compile Include="Interest Points\Matching\KNearestNeighborMatching`1.cs" />
+    <Compile Include="ObjectiveFidelity.cs" />
     <Compile Include="UnsafeTools.cs" />
     <Compile Include="Filters\CompassConvolution.cs" />
     <Compile Include="Filters\Exponential.cs" />
