@@ -28,7 +28,6 @@ namespace Accord.Tests.IO
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
-    using Accord.IO.Mat;
 
     [TestClass()]
     public class MatReaderTest

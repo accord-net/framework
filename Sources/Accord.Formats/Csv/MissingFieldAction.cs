@@ -31,7 +31,7 @@
 //    ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-namespace Accord.IO.Csv
+namespace Accord.IO
 {
     /// <summary>
     ///   Specifies the action to take when a field is missing.

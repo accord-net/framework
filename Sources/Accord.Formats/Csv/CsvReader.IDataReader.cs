@@ -31,15 +31,13 @@
 //    ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-namespace Accord.IO.Csv
+namespace Accord.IO
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
     using Accord.IO.Resources;
+    using System;
     using System.Data;
-    using System.Globalization;
     using System.Data.Common;
+    using System.Globalization;
 
     public partial class CsvReader
     {
@@ -73,19 +71,13 @@ namespace Accord.IO.Csv
 
         int IDataReader.RecordsAffected
         {
-            get
-            {
-                // For SELECT statements, -1 must be returned.
-                return -1;
-            }
+            // For SELECT statements, -1 must be returned.
+            get { return -1; }
         }
 
         bool IDataReader.IsClosed
         {
-            get
-            {
-                return _eof;
-            }
+            get { return _eof; }
         }
 
         bool IDataReader.NextResult()

@@ -26,7 +26,6 @@ namespace Accord.Tests.IO
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Data;
     using Accord.Math;
-    using Accord.IO.Csv;
     using System.IO;
 
     [TestClass()]
