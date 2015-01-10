@@ -250,7 +250,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (!maxTimes.HasValue)
-                    maxTimes = Matrix.Max(Times);
+                {
+                    maxTimes = 0;
+                    if (Times.Length > 0)
+                        maxTimes = Matrix.Max(Times);
+                }
 
                 return new DoubleRange(0, maxTimes.Value);
             }
