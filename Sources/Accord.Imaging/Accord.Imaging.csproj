@@ -98,6 +98,7 @@
     <Compile Include="Filters\DifferenceOfGaussians.cs" />
     <Compile Include="Filters\FastVariance.cs" />
     <Compile Include="Filters\HighBoost.cs" />
+    <Compile Include="Filters\RGChromacity.cs" />
     <Compile Include="Filters\SauvolaThreshold.cs" />
     <Compile Include="Filters\LineMarker.cs" />
     <Compile Include="Filters\NiblackThreshold.cs" />
