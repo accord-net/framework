@@ -218,7 +218,7 @@ namespace Accord.Imaging
 
             for (int y = 0; y < height; y++)
             {
-                for (int x = 0; x < width; x++, o += pixelSize, r += pixelSize)
+                for (int x = 0; x < width; x++, o++, r++)
                 {
                     //Error total
                     int error = *r - *o;
@@ -286,18 +286,22 @@ namespace Accord.Imaging
             double sumGradDiff = 0;
             for (int y = 0; y < height - 1; y++)
             {
-                for (int x = 0; x < width - 1; x++)
+                for (int x = 0; x < width - 1; x++, o++, r++)
                 {
+                    int a = *o;
+                    int b = o[+stride];
+                    int c = o[+1];
+
                     //Original image
-                    int gradO = System.Math.Abs(o[x + stride * y] - o[x + stride * (y + 1)]) + System.Math.Abs(o[x + stride * y] - o[(x + 1) + stride * y]);
+                    int gradO = System.Math.Abs(*o - o[+stride]) + System.Math.Abs(*o - o[+1]);
                     sumGradO += gradO * gradO;
 
                     //Reconstructed image
-                    int gradR = System.Math.Abs(r[x + stride * y] - r[x + stride * (y + 1)]) + System.Math.Abs(r[x + stride * y] - r[(x + 1) + stride * y]);
+                    int gradR = System.Math.Abs(*r - r[+stride]) + System.Math.Abs(*r - r[+1]);
                     sumGradDiff += System.Math.Pow(gradO - gradR, 2);
                 }
-                o += offset;
-                r += offset;
+                o += offset + 1;
+                r += offset + 1;
             }
 
             if (sumGradDiff == 0) return 0;
