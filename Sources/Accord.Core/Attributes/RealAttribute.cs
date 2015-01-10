@@ -31,13 +31,21 @@ namespace Accord
     /// </summary>
     /// 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class PositiveAttribute : RangeAttribute
+    public sealed class PositiveAttribute : RealAttribute
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="PositiveAttribute"/> class.
         /// </summary>
         /// 
-        public PositiveAttribute() : base(double.Epsilon, double.MaxValue) { }
+        public PositiveAttribute()
+            : base(double.Epsilon, double.MaxValue) { }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="PositiveAttribute"/> class.
+        /// </summary>
+        /// 
+        public PositiveAttribute(double minimum)
+            : base(minimum, double.MaxValue) { }
     }
 
     /// <summary>
@@ -46,13 +54,21 @@ namespace Accord
     /// </summary>
     /// 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class NegativeAttribute : RangeAttribute
+    public sealed class NegativeAttribute : RealAttribute
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="NegativeAttribute"/> class.
         /// </summary>
         /// 
-        public NegativeAttribute() : base(double.MinValue, -double.Epsilon) { }
+        public NegativeAttribute()
+            : base(double.MinValue, -double.Epsilon) { }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="NegativeAttribute"/> class.
+        /// </summary>
+        /// 
+        public NegativeAttribute(double maximum)
+            : base(double.MinValue, maximum) { }
     }
 
     /// <summary>
@@ -61,13 +77,14 @@ namespace Accord
     /// </summary>
     /// 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class NonpositiveAttribute : RangeAttribute
+    public sealed class NonpositiveAttribute : RealAttribute
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="NonpositiveAttribute"/> class.
         /// </summary>
         /// 
-        public NonpositiveAttribute() : base(double.MinValue, 0) { }
+        public NonpositiveAttribute()
+            : base(double.MinValue, 0) { }
     }
 
     /// <summary>
@@ -82,7 +99,8 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="NonnegativeAttribute"/> class.
         /// </summary>
         /// 
-        public NonnegativeAttribute() : base(0, double.MaxValue) { }
+        public NonnegativeAttribute()
+            : base(0, double.MaxValue) { }
     }
 
     /// <summary>
@@ -91,13 +109,33 @@ namespace Accord
     /// </summary>
     /// 
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class RealAttribute : RangeAttribute
+    public class RealAttribute : RangeAttribute
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="RealAttribute"/> class.
         /// </summary>
         /// 
-        public RealAttribute() : base(double.MinValue, double.MaxValue) { }
+        public RealAttribute()
+            : base(double.MinValue, double.MaxValue) { }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="RealAttribute"/> class.
+        /// </summary>
+        /// 
+        public RealAttribute(double minimum, double maximum)
+            : base(minimum, maximum) { }
+
+        /// <summary>
+        ///   Gets the minimum allowed field value.
+        /// </summary>
+        /// 
+        public new double Minimum { get { return (double)base.Minimum; } }
+
+        /// <summary>
+        ///   Gets the maximum allowed field value.
+        /// </summary>
+        /// 
+        public new double Maximum { get { return (double)base.Maximum; } }
     }
 
     /// <summary>
@@ -112,81 +150,8 @@ namespace Accord
         ///   Initializes a new instance of the <see cref="UnitAttribute"/> class.
         /// </summary>
         /// 
-        public UnitAttribute() : base(0, 1) { }
+        public UnitAttribute()
+            : base(0, 1) { }
     }
 
-    /// <summary>
-    ///   Specifies that an argument, in a method or function,
-    ///   must be an integer bigger than zero.
-    /// </summary>
-    /// 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class PositiveIntegerAttribute : RangeAttribute
-    {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="PositiveIntegerAttribute"/> class.
-        /// </summary>
-        /// 
-        public PositiveIntegerAttribute() : base(1, int.MaxValue) { }
-    }
-
-    /// <summary>
-    ///   Specifies that an argument, in a method or function,
-    ///   must be an integer less than zero.
-    /// </summary>
-    /// 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class NegativeIntegerAttribute : RangeAttribute
-    {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="NegativeIntegerAttribute"/> class.
-        /// </summary>
-        /// 
-        public NegativeIntegerAttribute() : base(int.MinValue, -1) { }
-    }
-
-    /// <summary>
-    ///   Specifies that an argument, in a method or function,
-    ///   must be an integer smaller than or equal to zero.
-    /// </summary>
-    /// 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class NonpositiveIntegerAttribute : RangeAttribute
-    {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="NonpositiveIntegerAttribute"/> class.
-        /// </summary>
-        /// 
-        public NonpositiveIntegerAttribute() : base(int.MinValue, 0) { }
-    }
-
-    /// <summary>
-    ///   Specifies that an argument, in a method or function,
-    ///   must be an integer bigger than or equal to zero.
-    /// </summary>
-    /// 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class NonnegativeIntegerAttribute : RangeAttribute
-    {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="NonnegativeIntegerAttribute"/> class.
-        /// </summary>
-        /// 
-        public NonnegativeIntegerAttribute() : base(0, int.MaxValue) { }
-    }
-
-    /// <summary>
-    ///   Specifies that an argument, in a method or function,
-    ///   must be an integer.
-    /// </summary>
-    /// 
-    [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public sealed class IntegerAttribute : RangeAttribute
-    {
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="IntegerAttribute"/> class.
-        /// </summary>
-        /// 
-        public IntegerAttribute() : base(int.MinValue, int.MaxValue) { }
-    }
 }

@@ -67,7 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\ParameterAttributes.cs" />
+    <Compile Include="Attributes\RealAttribute.cs" />
+    <Compile Include="Attributes\IntegerAttribute.cs" />
     <Compile Include="Collections\RedBlackTree`2.cs" />
     <Compile Include="Collections\KeyValuePairComparer`2.cs" />
     <Compile Include="Compatibility\CancellationToken.cs" />
