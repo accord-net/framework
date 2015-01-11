@@ -4,11 +4,9 @@
     <ProjectGuid>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</ProjectGuid>
     <RootNamespace>Accord.Statistics</RootNamespace>
     <AssemblyName>Accord.Statistics</AssemblyName>
-	
-		
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -17,17 +15,17 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
     <OldToolsVersion>3.5</OldToolsVersion>
-	<CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <MapFileExtensions>true</MapFileExtensions>
-	<CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <FileAlignment>4096</FileAlignment>
-	<Optimize>true</Optimize>
+    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
-	<RunCodeAnalysis>true</RunCodeAnalysis>
-	<CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -35,7 +33,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-	<RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>..\..\Debug\</OutputPath>
@@ -45,24 +43,23 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-	<DocumentationFile>..\..\Release\net35\Accord.Statistics.XML</DocumentationFile>
-	<CodeAnalysisLogFile>..\..\Release\net35\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>..\..\Release\net35\Accord.Statistics.XML</DocumentationFile>
+    <CodeAnalysisLogFile>..\..\Release\net35\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>..\..\Release\net40</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>..\..\Release\net40\Accord.Statistics.XML</DocumentationFile>
-	<CodeAnalysisLogFile>..\..\Release\net40\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>..\..\Release\net40\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>..\..\Release\net45</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	<DocumentationFile>..\..\Release\net45\Accord.Statistics.XML</DocumentationFile>
-	<CodeAnalysisLogFile>..\..\Release\net45\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>..\..\Release\net45\Accord.Statistics.XML</DocumentationFile>
+    <CodeAnalysisLogFile>..\..\Release\net45\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Reference Include="AForge">

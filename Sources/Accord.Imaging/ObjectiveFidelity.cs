@@ -32,18 +32,19 @@ using System.Threading.Tasks;
 namespace Accord.Imaging
 {
     /// <summary>
-    /// Objective Fidelity Criteria.
+    ///   Objective Fidelity Criteria.
+    /// </summary>
     /// 
+    /// <remarks>
     /// <para>
     ///   References:
     ///   <list type="bullet">
     ///     <item><description>
-    ///     <a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=381101&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D381101">
     ///         H.T. Yalazan, J.D. Yucel. "A new objective fidelity criterion
     ///         for image processing." Proceedings of the 16th International 
-    ///         Conference on Pattern Recognition, 2002.
-    ///         Available in http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=381101&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D381101 </a></description></item>
+    ///         Conference on Pattern Recognition, 2002.</description></item>
     ///   </list></para>  
+    /// </remarks>
     ///   
     /// <example>
     /// <code>
@@ -61,8 +62,7 @@ namespace Accord.Imaging
     /// double dsnr = of.DerivativeSignalNoiseRatio;
     /// </code>
     /// </example>
-    /// </remarks>
-    /// </summary>
+    /// 
     public class ObjectiveFidelity
     {
         private long errorTotal;
@@ -74,43 +74,49 @@ namespace Accord.Imaging
         private int level = 256;
 
         /// <summary>
-        /// Error total.
+        ///   Error total.
         /// </summary>
         public long ErrorTotal { get { return errorTotal; } set { errorTotal = value; } }
 
         /// <summary>
-        /// Root mean square error.
+        ///   Root mean square error.
         /// </summary>
+        /// 
         public double MeanSquareError { get { return mse; } set { mse = value; } }
 
         /// <summary>
-        /// Signal to noise ratio.
+        ///   Signal to noise ratio.
         /// </summary>
+        /// 
         public double SignalToNoiseRatio { get { return snr; } set { snr = value; } }
 
         /// <summary>
-        /// PEAK signal to noise ratio.
+        ///   PEAK signal to noise ratio.
         /// </summary>
+        /// 
         public double PeakSignalToNoiseRatio { get { return psnr; } set { psnr = value; } }
 
         /// <summary>
-        /// Derivative signal to noise ratio.
+        ///   Derivative signal to noise ratio.
         /// </summary>
+        /// 
         public double DerivativeSignalNoiseRatio { get { return dsnr; } set { dsnr = value; } }
 
         /// <summary>
-        /// Level used in PEAK signal to noise ratio.
+        ///   Level used in PEAK signal to noise ratio.
         /// </summary>
+        /// 
         public int Level { get { return level; } set { psnr = System.Math.Max(System.Math.Min(value, 256), 1); } }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
+        ///   Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
         /// </summary>
+        /// 
         /// <param name="original">Original image.</param>
         /// <param name="reconstructed">Reconstructed image.</param>
+        /// 
         public ObjectiveFidelity(Bitmap original, Bitmap reconstructed)
         {
-
             // check image format
             if (!(original.PixelFormat == PixelFormat.Format8bppIndexed ||
                 reconstructed.PixelFormat == PixelFormat.Format8bppIndexed))
@@ -141,14 +147,15 @@ namespace Accord.Imaging
                 ImageLockMode.ReadOnly, reconstructed.PixelFormat);
 
             Compute(new UnmanagedImage(dataOriginal), new UnmanagedImage(dataReconstructed));
-
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
+        ///   Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
         /// </summary>
+        /// 
         /// <param name="original">Original bitmap data.</param>
         /// <param name="reconstructed">Reconstructed bitmap data.</param>
+        /// 
         public ObjectiveFidelity(BitmapData original, BitmapData reconstructed)
         {
             // check image format
@@ -176,20 +183,24 @@ namespace Accord.Imaging
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
+        ///   Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
         /// </summary>
+        /// 
         /// <param name="original">Original unmanaged image.</param>
         /// <param name="reconstructed">Reconstructed unmanaged image.</param>
+        /// 
         public ObjectiveFidelity(UnmanagedImage original, UnmanagedImage reconstructed)
         {
             Compute(original, reconstructed);
         }
 
         /// <summary>
-        /// Compute objective fidelity metrics.
+        ///   Compute objective fidelity metrics.
         /// </summary>
+        /// 
         /// <param name="original">Original image.</param>
         /// <param name="reconstructed">Reconstructed image.</param>
+        /// 
         public unsafe void Compute(UnmanagedImage original, UnmanagedImage reconstructed)
         {
             int width = original.Width;
@@ -270,7 +281,7 @@ namespace Accord.Imaging
             dsnr = DerivativeSNR(original, reconstructed);
         }
 
-        private unsafe double DerivativeSNR(UnmanagedImage original, UnmanagedImage reconstructed)
+        private static unsafe double DerivativeSNR(UnmanagedImage original, UnmanagedImage reconstructed)
         {
             int width = original.Width;
             int height = original.Height;

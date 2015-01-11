@@ -35,7 +35,8 @@ namespace Accord.Imaging.Filters
     /// <summary>
     ///   RG Chromaticity.
     /// </summary>
-    ///   
+    /// 
+    /// <remarks>
     /// <para>
     ///   References:
     ///   <list type="bullet">
@@ -45,6 +46,7 @@ namespace Accord.Imaging.Filters
     ///   </list>
     /// </para>
     /// </remarks>
+    /// 
     public class RGChromacity : BaseInPlaceFilter
     {
         Dictionary<PixelFormat, PixelFormat> formatTranslations;
