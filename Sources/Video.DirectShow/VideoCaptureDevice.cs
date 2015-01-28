@@ -1396,6 +1396,8 @@ namespace AForge.Video.DirectShow
                         SetResolution( streamConfig, resolutionToSet );
                     }
                 }
+
+                Marshal.ReleaseComObject( streamConfigObject );
             }
 
             // if failed resolving capabilities, then just create empty capabilities array,
