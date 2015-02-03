@@ -125,6 +125,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, tree.Root.Branches[0].Branches.Count);
             Assert.IsFalse(tree.Root.Branches[0].Branches[0].IsLeaf);
             Assert.IsTrue(tree.Root.Branches[0].Branches[1].IsLeaf);
+            Assert.IsFalse(tree.Root.Branches[0].Branches[2].IsLeaf);
 
             Assert.AreEqual(84, tree.Root.Branches[1].Value); // Temperature > 84.0
             Assert.AreEqual(0, tree.Root.Branches[1].Output.Value); // Output is "No"
@@ -133,13 +134,25 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, tree.Root.Branches[1].Branches.Count);
             Assert.IsTrue(tree.Root.Branches[1].IsLeaf);
 
-            Assert.AreEqual(0, tree.Root.Branches[0].Branches[0].Value); // Outlook <= 0
+            Assert.AreEqual(0, tree.Root.Branches[0].Branches[0].Value); // Temperature <= 84.0 && Outlook == 0
             Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[0].Comparison);
-            Assert.AreEqual(3, tree.Root.Branches[0].Branches.Count);
             Assert.AreEqual(2, tree.Root.Branches[0].Branches[0].Branches.AttributeIndex); // Decide over Humidity
-            Assert.AreEqual(70, tree.Root.Branches[0].Branches[0].Branches[0].Value);
+            Assert.AreEqual(72.5, tree.Root.Branches[0].Branches[0].Branches[0].Value);
+            Assert.AreEqual(72.5, tree.Root.Branches[0].Branches[0].Branches[1].Value);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[0].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[0].Branches[1].IsLeaf);
             Assert.AreEqual(ComparisonKind.LessThanOrEqual, tree.Root.Branches[0].Branches[0].Branches[0].Comparison);
             Assert.AreEqual(ComparisonKind.GreaterThan, tree.Root.Branches[0].Branches[0].Branches[1].Comparison);
+
+            Assert.AreEqual(2, tree.Root.Branches[0].Branches[2].Value); // Temperature <= 84.0 && Outlook == 2
+            Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[2].Comparison);
+            Assert.AreEqual(3, tree.Root.Branches[0].Branches[2].Branches.AttributeIndex); // Decide over Wind
+            Assert.AreEqual(0, tree.Root.Branches[0].Branches[2].Branches[0].Value);
+            Assert.AreEqual(1, tree.Root.Branches[0].Branches[2].Branches[1].Value);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[2].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[2].Branches[1].IsLeaf);
+            Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[2].Branches[0].Comparison);
+            Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[2].Branches[1].Comparison);
         }
 
 

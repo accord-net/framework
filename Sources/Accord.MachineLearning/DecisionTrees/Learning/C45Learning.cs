@@ -24,6 +24,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Accord.Math;
     using AForge;
     using Parallel = System.Threading.Tasks.Parallel;
@@ -259,16 +260,25 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                     double[] v = inputs.GetColumn(i);
                     int[] o = (int[])outputs.Clone();
 
-                    Array.Sort(v, o);
+                    IGrouping<double, int>[] sortedValueToClassesMapping =
+                        v.
+                            Select((value, index) => new KeyValuePair<double, int>(value, o[index])).
+                            GroupBy(keyValuePair => keyValuePair.Key, keyValuePair => keyValuePair.Value).
+                            OrderBy(keyValuePair => keyValuePair.Key).
+                            ToArray();
 
-                    for (int j = 0; j < v.Length - 1; j++)
+                    for (int j = 0; j < sortedValueToClassesMapping.Length - 1; j++)
                     {
-                        // Add as candidate thresholds only adjacent values v[i] and v[i+1]
-                        // belonging to different classes, following the results by Fayyad
-                        // and Irani (1992). See footnote on Quinlan (1996).
-
-                        if (o[j] != o[j + 1])
-                            candidates.Add((v[j] + v[j + 1]) / 2.0);
+                        // Following the results by Fayyad and Irani (1992) (see footnote on Quinlan (1996)):
+                        // "If all cases of adjacent values V[i] and V[i+1] belong to the same class, 
+                        // a threshold between them cannot lead to a partition that has the maximum value of
+                        // the criterion." i.e no reason the add the threshold as a candidate
+                        
+                        IGrouping<double, int> currentValueToClasses = sortedValueToClassesMapping[j];
+                        IGrouping<double, int> nextValueToClasses = sortedValueToClassesMapping[j + 1];
+                        if (nextValueToClasses.Key - currentValueToClasses.Key > Constants.DoubleEpsilon &&
+                            currentValueToClasses.Union(nextValueToClasses).Count() > 1)
+                            candidates.Add((currentValueToClasses.Key + nextValueToClasses.Key) / 2.0);
                     }
 
 
