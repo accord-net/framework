@@ -155,6 +155,8 @@ namespace Accord.Statistics.Analysis
         private double[,] sourceMatrix;
         private double[] result;
 
+        double regularization = 1e-10;
+
         private LogisticCoefficientCollection coefficientCollection;
 
         private int iterations = 50;
@@ -176,6 +178,7 @@ namespace Accord.Statistics.Analysis
             // Initial argument checking
             if (inputs == null)
                 throw new ArgumentNullException("inputs");
+
             if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
@@ -264,6 +267,18 @@ namespace Accord.Statistics.Analysis
         {
             get { return tolerance; }
             set { tolerance = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the regularization value to be
+        ///   added in the objective function. Default is
+        ///   1e-10.
+        /// </summary>
+        /// 
+        public double Regularization
+        {
+            get { return regularization; }
+            set { regularization = value; }
         }
 
         /// <summary>
@@ -539,6 +554,8 @@ namespace Accord.Statistics.Analysis
 
             var learning = new IterativeReweightedLeastSquares(regression);
 
+            learning.Regularization = regularization;
+
             do // learning iterations until convergence
             {
                 delta = learning.Run(inputData, outputData);
@@ -565,6 +582,8 @@ namespace Accord.Statistics.Analysis
             // Perform likelihood-ratio tests against diminished nested models
             var innerModel = new LogisticRegression(inputCount - 1);
             var learning = new IterativeReweightedLeastSquares(innerModel);
+
+            learning.Regularization = regularization;
 
             for (int i = 0; i < inputCount; i++)
             {

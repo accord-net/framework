@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.IO;
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Models.Regression;
@@ -86,6 +87,8 @@ namespace Accord.Tests.Statistics
             // Next, we are going to estimate this model. For this, we
             // will use the Iteratively Reweighted Least Squares method.
             var teacher = new IterativeReweightedLeastSquares(regression);
+
+            teacher.Regularization = 0;
 
             // Now, we will iteratively estimate our model. The Run method returns
             // the maximum relative change in the model parameters and we will use
@@ -273,6 +276,8 @@ namespace Accord.Tests.Statistics
 
             var teacher = new IterativeReweightedLeastSquares(regression);
 
+            teacher.Regularization = 0;
+
 
             double delta = 0;
             do
@@ -391,7 +396,7 @@ namespace Accord.Tests.Statistics
 
             var teacher = new IterativeReweightedLeastSquares(regression);
 
-            teacher.Regularization = 1e-5;
+            teacher.Regularization = 1e-10;
 
             var errors = new List<double>();
             for (int i = 0; i < 1000; i++)
@@ -410,10 +415,47 @@ namespace Accord.Tests.Statistics
             error /= output.Length;
 
             Assert.AreEqual(error, 0);
-            Assert.AreEqual(-58.817944701474687, regression.Coefficients[0]);
-            Assert.AreEqual(0.13783960821658245, regression.Coefficients[1]);
-            Assert.AreEqual(-1.532885090757945, regression.Coefficients[2]);
-            Assert.AreEqual(7.9460105648631973, regression.Coefficients[3]);
+            Assert.AreEqual(-355.59378247276379, regression.Coefficients[0]);
+            Assert.AreEqual(1.2646432605797491, regression.Coefficients[1]);
+            Assert.AreEqual(-10.710529810144157, regression.Coefficients[2]);
+            Assert.AreEqual(44.089493151268726, regression.Coefficients[3]);
         }
+
+        [TestMethod()]
+        public void RegularizationTest2()
+        {
+            CsvReader reader = CsvReader.FromText(Properties.Resources.regression, true);
+
+            double[][] data = reader.ToTable().ToArray();
+
+            double[][] inputs = data.GetColumns(0, 1);
+
+            double[] output = data.GetColumn(2);
+
+            var regression = new LogisticRegression(2);
+            var irls = new IterativeReweightedLeastSquares(regression);
+
+            double error = irls.Run(inputs, output);
+            double newError = 0;
+
+            for (int i = 0; i < 50; i++)
+                newError = irls.Run(inputs, output);
+
+            double actual = irls.ComputeError(inputs, output);
+            Assert.AreEqual(30.507262964894068, actual, 1e-8);
+
+            Assert.AreEqual(3, regression.Coefficients.Length);
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0]);
+            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1]);
+            Assert.AreEqual(17.275849279015059, regression.Coefficients[2]);
+
+            for (int i = 0; i < 50; i++)
+                newError = irls.Run(inputs, output);
+
+            Assert.AreEqual(-0.38409721299838279, regression.Coefficients[0], 1e-8);
+            Assert.AreEqual(0.1065137931017601, regression.Coefficients[1], 1e-8);
+            Assert.AreEqual(17.275849279015059, regression.Coefficients[2], 1e-8);
+        }
+
     }
 }

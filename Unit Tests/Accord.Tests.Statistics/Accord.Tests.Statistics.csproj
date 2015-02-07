@@ -372,6 +372,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\iris.scale.txt" />
+    <None Include="Resources\regression.csv" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

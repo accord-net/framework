@@ -273,7 +273,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             for (int i = 0; i < outputs.Length; i++)
                 output[i] = outputs[i][0] > 0 ? 1.0 : 0.0;
             return Run(inputs, output);
-        } 
+        }
 
         /// <summary>
         ///   Runs one iteration of the Reweighted Least Squares algorithm.
@@ -295,7 +295,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
             return Run(inputs, output);
         }
- 
+
         /// <summary>
         ///   Runs one iteration of the Reweighted Least Squares algorithm.
         /// </summary>
@@ -373,7 +373,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
                 }
             }
 
-            
+
 
             // Reset Hessian matrix and gradient
             Array.Clear(gradient, 0, gradient.Length);
@@ -383,7 +383,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
             // (Re-) Compute error gradient
             for (int j = 0; j < design.Length; j++)
                 for (int i = 0; i < gradient.Length; i++)
-                    gradient[i] += design[j][i] * errors[j];
+                    gradient[i] += design[j][i] * errors[j] + lambda * coefficients[i];
 
             // (Re-) Compute weighted "Hessian" matrix 
             for (int k = 0; k < weights.Length; k++)
@@ -394,17 +394,6 @@ namespace Accord.Statistics.Models.Regression.Fitting
                         hessian[j, i] += row[i] * row[j] * weights[k];
             }
 
-
-            double w = coefficients.SquareEuclidean();
-
-            if (!Double.IsInfinity(w))
-            {
-                for (int i = 0; i < gradient.Length; i++)
-                    gradient[i] -= lambda * w;
-
-                for (int i = 0; i < parameterCount; i++)
-                    hessian[i, i] -= lambda;
-            }
 
 
             // Decompose to solve the linear system. Usually the Hessian will

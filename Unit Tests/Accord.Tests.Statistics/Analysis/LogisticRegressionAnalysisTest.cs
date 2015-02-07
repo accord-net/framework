@@ -56,7 +56,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs = training.Submatrix(null, 0, 3);
             double[] outputs = training.GetColumn(4);
 
-            LogisticRegressionAnalysis regression = new LogisticRegressionAnalysis(inputs, outputs);
+            var regression = new LogisticRegressionAnalysis(inputs, outputs);
 
             bool converged = regression.Compute();
             Assert.IsTrue(converged);
@@ -94,6 +94,8 @@ namespace Accord.Tests.Statistics
             double[] testInput = { 0, 0.2 };
 
             LogisticRegressionAnalysis target = new LogisticRegressionAnalysis(trainInput, trainOutput);
+
+            target.Regularization = 0;
 
             target.Compute();
 
@@ -178,6 +180,8 @@ namespace Accord.Tests.Statistics
 
             // Create a Logistic Regression analysis
             var regression = new LogisticRegressionAnalysis(inputs, output);
+
+            regression.Regularization = 0;
 
             regression.Compute(); // compute the analysis.
 

@@ -1341,6 +1341,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void BigSampleLearnTest13()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             var list = new List<double[][]>();
 
             for (int i = 0; i < 1000000; i++)
