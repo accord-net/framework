@@ -11,11 +11,11 @@ echo.
 call ..\version.cmd
 
 set inno="C:\Program Files (x86)\Inno Setup 5\Compil32.exe"
-set rar="C:\Program Files\WinRAR\rar"
 
-set opts=a -m0 -s
+rem set rar="C:\Program Files\WinRAR\rar"
+rem set opts=a -m0 -s
 
 timeout /T 5
 
 %inno% /cc Accord.iss
-%rar% %opts% ..\bin\Accord.NET-%version%-installer.rar ..\bin\Accord.NET-%version%-installer.exe
+rem %rar% %opts% ..\bin\Accord.NET-%version%-installer.rar ..\bin\Accord.NET-%version%-installer.exe
