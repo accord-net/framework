@@ -42,7 +42,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         private double[] sampleWeights;
 
-        private bool useComplexityHeuristic;
+        private bool useComplexityHeuristic = true;
         private bool useClassLabelProportion;
 
         private double complexity = 1;
@@ -87,7 +87,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             else
             {
                 Linear linear = ksvm.Kernel as Linear;
-                isLinear = linear != null && linear.Constant == 0;
+                isLinear = linear != null;
                 kernel = ksvm.Kernel;
             }
 
@@ -116,7 +116,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 if (value <= 0)
                     throw new ArgumentOutOfRangeException("value");
+
                 this.complexity = value;
+                this.useComplexityHeuristic = false;
             }
         }
 

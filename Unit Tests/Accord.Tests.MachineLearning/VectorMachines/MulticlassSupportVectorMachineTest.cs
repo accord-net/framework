@@ -129,7 +129,10 @@ namespace Accord.Tests.MachineLearning
             var msvm = new MulticlassSupportVectorMachine(5, kernel, 4);
             var smo = new MulticlassSupportVectorLearning(msvm, inputs, outputs);
             smo.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-                new SequentialMinimalOptimization(svm, classInputs, classOutputs);
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
 
             Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
 
@@ -192,15 +195,18 @@ namespace Accord.Tests.MachineLearning
 
 
             // Create the Multi-class Support Vector Machine using the selected Kernel
-            MulticlassSupportVectorMachine msvm = new MulticlassSupportVectorMachine(inputs, kernel, classes);
+            var msvm = new MulticlassSupportVectorMachine(inputs, kernel, classes);
 
             // Create the learning algorithm using the machine and the training data
-            MulticlassSupportVectorLearning ml = new MulticlassSupportVectorLearning(msvm, input, output);
+            var ml = new MulticlassSupportVectorLearning(msvm, input, output);
 
             // Configure the learning algorithm
             ml.Algorithm = (svm, classInputs, classOutputs, i, j) =>
             {
-                var smo = new SequentialMinimalOptimization(svm, classInputs, classOutputs);
+                var smo = new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
                 return smo;
             };
 
@@ -213,8 +219,11 @@ namespace Accord.Tests.MachineLearning
 
             int[] evals = new int[input.Length];
             int[] evalexp = { 8, 8, 7, 7, 7, 7, 6, 6 };
-
+#if NET35
+            AForge.Parallel.For(0, input.Length, i =>
+#else
             Parallel.For(0, input.Length, i =>
+#endif
             {
                 double[] data = input[i];
                 double[] responses;
@@ -228,7 +237,11 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < evals.Length; i++)
                 Assert.AreEqual(evals[i], evalexp[i]);
 
+#if NET35
+            AForge.Parallel.For(0, input.Length, i =>
+#else
             Parallel.For(0, input.Length, i =>
+#endif
             {
                 double[] data = input[i];
                 double[] responses;

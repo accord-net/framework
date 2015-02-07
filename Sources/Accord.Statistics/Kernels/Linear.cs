@@ -50,7 +50,7 @@ namespace Accord.Statistics.Kernels
         /// </summary>
         /// 
         public Linear()
-            : this(1) { }
+            : this(0) { }
 
         /// <summary>
         ///   Gets or sets the kernel's intercept term.

@@ -125,9 +125,9 @@ namespace Accord.Tests.MachineLearning
 
             Assert.AreEqual(0.12, error);
             Assert.AreEqual(3, weights.Length);
-            Assert.AreEqual(-1.3231203367770932, weights[0]);
-            Assert.AreEqual(-3.0227742288788493, weights[1]);
-            Assert.AreEqual(-0.73074823290553259, weights[2]);
+            Assert.AreEqual(-1.3231203367770932, weights[0], 1e-8);
+            Assert.AreEqual(-3.0227742288788493, weights[1], 1e-8);
+            Assert.AreEqual(-0.73074823290553259, weights[2], 1e-8);
 
             Assert.AreEqual(svm.Threshold, weights[0]);
         }

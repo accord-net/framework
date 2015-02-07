@@ -228,7 +228,10 @@ namespace Accord.Tests.Statistics
             // Configure the learning algorithm to use SMO to train the
             //  underlying SVMs in each of the binary class subproblems.
             teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-                new SequentialMinimalOptimization(svm, classInputs, classOutputs);
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
 
             // Run the learning algorithm
             double error = teacher.Run();

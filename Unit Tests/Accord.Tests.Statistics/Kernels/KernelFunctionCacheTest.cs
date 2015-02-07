@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void KernelFunctionCacheConstructorTest()
         {
-            IKernel kernel = new Linear();
+            IKernel kernel = new Linear(1);
 
             int cacheSize = 0;
 
@@ -86,7 +86,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void KernelFunctionCacheConstructorTest2()
         {
-            IKernel kernel = new Linear();
+            IKernel kernel = new Linear(1);
 
             int cacheSize = inputs.Length;
 
@@ -193,7 +193,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void KernelFunctionCacheConstructorTest5()
         {
-            IKernel kernel = new Linear();
+            IKernel kernel = new Linear(1);
 
             int cacheSize = inputs.Length;
 
@@ -299,7 +299,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void KernelFunctionCacheConstructorTest3()
         {
-            IKernel kernel = new Linear();
+            IKernel kernel = new Linear(1);
 
             int cacheSize = 5;
 

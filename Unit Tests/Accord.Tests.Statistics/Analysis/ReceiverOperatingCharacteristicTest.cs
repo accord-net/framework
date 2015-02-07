@@ -267,11 +267,14 @@ namespace Accord.Tests.Statistics
                 +1, +1, +1, +1, +1, +1, +1, +1  // last eight from class +1
             };
 
-            // Create a linear Support Vector Machine with 4 inputs
-            SupportVectorMachine machine = new SupportVectorMachine(inputs: 3);
+            // Create a linear Support Vector Machine with 3 inputs
+            var machine = new SupportVectorMachine(inputs: 3);
 
             // Create the sequential minimal optimization teacher
-            SequentialMinimalOptimization learn = new SequentialMinimalOptimization(machine, inputs, outputs);
+            var learn = new SequentialMinimalOptimization(machine, inputs, outputs)
+            {
+                Complexity = 1
+            };
 
             // Run the learning algorithm
             double error = learn.Run();

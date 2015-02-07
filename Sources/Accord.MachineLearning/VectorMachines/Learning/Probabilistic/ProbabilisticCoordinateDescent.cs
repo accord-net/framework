@@ -57,6 +57,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Diagnostics;
     using System.Threading;
     using Accord.Statistics.Links;
+    using Accord.Statistics.Kernels;
 
     /// <summary>
     ///   L1-regularized logistic regression (probabilistic SVM) 
@@ -116,7 +117,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         public ProbabilisticCoordinateDescent(SupportVectorMachine machine, 
             double[][] inputs, int[] outputs) : base(machine, inputs, outputs)
         {
-            if (!IsLinear)
+            if (!IsLinear || (Kernel as Linear).Constant != 0)
                 throw new ArgumentException("Only linear machines are supported.", "machine");
 
             this.weights = new double[machine.Inputs + 1];

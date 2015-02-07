@@ -22,8 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    extern alias AccordCore;
-
     using System;
     using System.Data;
     using System.IO;
@@ -34,7 +32,6 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Tests.MachineLearning.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using AccordCore.Accord;
 
     [TestClass()]
     public class GaussianMixtureModelTest

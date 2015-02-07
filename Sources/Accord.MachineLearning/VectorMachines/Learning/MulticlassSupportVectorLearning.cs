@@ -324,22 +324,29 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                 throw excp;
             }
 
-            
+
             int classes = msvm.Classes;
             int total = (classes * (classes - 1)) / 2;
             int progress = 0;
 
+            var pairs = new Tuple<int, int>[total];
+            for (int i = 0, k = 0; i < classes; i++)
+                for (int j = 0; j < i; j++, k++)
+                    pairs[k] = Tuple.Create(i, j);
+
             msvm.Reset();
 
 
-            // For each class i
-            Parallel.For(0, msvm.Classes, i =>
+            try
             {
-                // For each class j
-                Parallel.For(0, i, j =>
+                // For each class i
+                Parallel.For(0, total, k =>
                 {
-                    if (token.IsCancellationRequested) 
+                    if (token.IsCancellationRequested)
                         return;
+
+                    int i = pairs[k].Item1;
+                    int j = pairs[k].Item2;
 
                     // We will start the binary sub-problem
                     var args = new SubproblemEventArgs(i, j);
@@ -364,7 +371,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                     var canCancel = (subproblem as ISupportCancellation);
 
                     if (canCancel != null)
-                        canCancel.Run(false, token); 
+                        canCancel.Run(false, token);
                     else subproblem.Run(false);
 
 
@@ -374,7 +381,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
                     OnSubproblemFinished(args);
                 });
-            });
+            }
+            catch (AggregateException ae)
+            {
+                if (ae.InnerException is ConvergenceException)
+                    throw ae.InnerException;
+                throw;
+            }
 
             // Compute error if required.
             return (computeError) ? ComputeError(inputs, outputs) : 0.0;

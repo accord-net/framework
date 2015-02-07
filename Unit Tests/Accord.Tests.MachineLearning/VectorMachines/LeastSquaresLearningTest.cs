@@ -113,6 +113,7 @@ namespace Accord.Tests.MachineLearning
 
 
         [TestMethod]
+        [Ignore] // Usually takes 6 mins
         public void LargeLearningTest1()
         {
             // Create large input vectors

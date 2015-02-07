@@ -29,6 +29,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Accord;
 
     [TestClass()]
     public class SequentialMinimalOptimizationTest
@@ -125,15 +126,11 @@ namespace Accord.Tests.MachineLearning
                 bool sou = output[i] >= 0;
                 Assert.AreEqual(sor, sou);
             }
-
-
         }
-
 
         [TestMethod()]
         public void LearnTest3()
         {
-
             double[][] inputs =
             {
                 new double[] { -1, -1 },
@@ -363,17 +360,17 @@ namespace Accord.Tests.MachineLearning
                 ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
 
                 Assert.AreEqual(43, matrix.TruePositives); // both classes are
-                Assert.AreEqual(43, matrix.TrueNegatives); // well equilibrated
+                Assert.AreEqual(44, matrix.TrueNegatives); // well equilibrated
                 Assert.AreEqual(7, matrix.FalseNegatives);
-                Assert.AreEqual(7, matrix.FalsePositives);
+                Assert.AreEqual(6, matrix.FalsePositives);
 
                 Assert.AreEqual(1.0, smo.Complexity);
                 Assert.AreEqual(1.0, smo.WeightRatio);
                 Assert.AreEqual(1.0, smo.NegativeWeight);
                 Assert.AreEqual(1.0, smo.PositiveWeight);
-                Assert.AreEqual(0.14, error);
+                Assert.AreEqual(0.13, error);
                 Assert.AreEqual(0.001, smo.Tolerance);
-                Assert.AreEqual(31, machine.SupportVectors.Length);
+                Assert.AreEqual(33, machine.SupportVectors.Length);
             }
 
             {
@@ -394,17 +391,17 @@ namespace Accord.Tests.MachineLearning
                 ConfusionMatrix matrix = new ConfusionMatrix(actual, labels);
 
                 Assert.AreEqual(50, matrix.TruePositives); // has more importance
-                Assert.AreEqual(23, matrix.TrueNegatives);
+                Assert.AreEqual(27, matrix.TrueNegatives);
                 Assert.AreEqual(0, matrix.FalseNegatives); // has more importance
-                Assert.AreEqual(27, matrix.FalsePositives);
+                Assert.AreEqual(23, matrix.FalsePositives);
 
                 Assert.AreEqual(1.0, smo.Complexity);
                 Assert.AreEqual(100, smo.WeightRatio);
                 Assert.AreEqual(1.0, smo.NegativeWeight);
                 Assert.AreEqual(100, smo.PositiveWeight);
                 Assert.AreEqual(0.001, smo.Tolerance);
-                Assert.AreEqual(0.27, error);
-                Assert.AreEqual(41, machine.SupportVectors.Length);
+                Assert.AreEqual(0.23, error);
+                Assert.AreEqual(43, machine.SupportVectors.Length);
             }
 
             {
@@ -779,7 +776,7 @@ namespace Accord.Tests.MachineLearning
         {
             var inputs = yinyang.Submatrix(null, 0, 1).ToArray();
             var labels = yinyang.GetColumn(2).ToInt32();
-            
+
             ConfusionMatrix actual, expected;
             SequentialMinimalOptimization a, b;
 
@@ -817,6 +814,35 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(expected.TruePositives, actual.TruePositives);
             Assert.AreEqual(expected.FalseNegatives, actual.FalseNegatives);
             Assert.AreEqual(expected.FalsePositives, actual.FalsePositives);
+        }
+
+        [TestMethod()]
+        public void FSharpTest1()
+        {
+            try
+            {
+                FSharpSvmTest.Run(1);
+                Assert.Fail();
+            }
+            catch (ConvergenceException)
+            {
+            }
+
+            double classification = FSharpSvmTest.Run(0.1);
+            double error = FSharpSvmTest.error;
+
+            Assert.AreEqual(0.9, classification);
+            Assert.AreEqual(0, error);
+        }
+
+        [TestMethod()]
+        public void FSharpTest_AutoComplexity()
+        {
+            double classification = FSharpSvmTest.Run(0);
+            double error = FSharpSvmTest.error;
+
+            Assert.AreEqual(0.92, classification);
+            Assert.AreEqual(0, error);
         }
 
         public static double[,] yinyang =
