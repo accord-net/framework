@@ -50,7 +50,6 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void ApplyTest()
         {
-
             DataTable input = new DataTable("Sample data");
 
             input.Columns.Add("Age", typeof(int));

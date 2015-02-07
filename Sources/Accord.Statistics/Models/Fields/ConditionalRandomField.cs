@@ -96,6 +96,8 @@ namespace Accord.Statistics.Models.Fields
 
         /// <summary>
         ///   Computes the log-likelihood of the model for the given observations.
+        ///   This method is equivalent to the <see cref="Accord.Statistics.Models.Markov.HiddenMarkovModel.Evaluate(int[], int[])"/>
+        ///   method.
         /// </summary>
         /// 
         public double LogLikelihood(T[] observations, int[] labels)

@@ -500,7 +500,7 @@ namespace Accord.Tests.MachineLearning
         public void IrisDatasetTest()
         {
             string[][] text = Resources.iris_data.Split(
-                new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
                 .Apply(x => x.Split(','));
 
             double[][] inputs = new double[text.Length][];
@@ -540,7 +540,7 @@ namespace Accord.Tests.MachineLearning
 
             // TODO: implement this assertion properly, actually checking
             // the text contents once the feature is completely finished.
-            Assert.AreEqual(570, ruleText.Length);
+            Assert.AreEqual(596, ruleText.Length);
         }
 
         public double ComputeError(DecisionSet rules, double[][] inputs, int[] outputs)
