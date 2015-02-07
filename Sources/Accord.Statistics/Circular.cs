@@ -295,7 +295,8 @@ namespace Accord.Statistics
         public static double Variance(int samples, double cos, double sin)
         {
             double rho = Math.Sqrt(sin * sin + cos * cos);
-            return 1.0 - rho / samples;
+            double var = 1.0 - rho / samples;
+            return var;
         }
 
         /// <summary>
@@ -392,7 +393,8 @@ namespace Accord.Statistics
         public static double AngularDeviation(int samples, double cos, double sin)
         {
             double rho = Math.Sqrt(sin * sin + cos * cos);
-            return Math.Sqrt(-2.0 * (1.0 - rho / samples));
+            double var = 1.0 - rho / samples;
+            return Math.Sqrt(2 * var);
         }
 
         /// <summary>

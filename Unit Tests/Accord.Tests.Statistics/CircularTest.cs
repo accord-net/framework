@@ -29,6 +29,7 @@ namespace Accord.Tests.Statistics
     using System.Data;
     using Accord.Controls;
     using AForge;
+    using System;
 
     [TestClass()]
     public class CircularTest
@@ -59,6 +60,8 @@ namespace Accord.Tests.Statistics
             0.093206440, 0.392279489, 0.601228848
         };
 
+        // Tests performed against the Circular Statistics Toolbox (Directional Statistics)
+        // http://fr.mathworks.com/matlabcentral/fileexchange/10676-circular-statistics-toolbox--directional-statistics-
 
         [TestMethod()]
         public void WeightedKappaTest()
@@ -125,11 +128,21 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void CirtularDeviationTest()
+        public void CircularDeviationTest()
         {
+            /* angles = [ 0.003898633 5.956808760 0.318487983 5.887227832 0.641802182, 4.640345741, 0.931996171, 0.426819547, 0.624824460, 0.247553652, 6.282827901, 0.313780766,  0.093206440, 0.392279489, 0.601228848 ]
+            */
+            
+            // Compared against R's circular package
+            /* angles <- c(0.003898633, 5.956808760, 0.318487983, 5.887227832, 0.641802182, 4.640345741, 0.931996171, 0.426819547, 0.624824460, 0.247553652, 6.282827901, 0.313780766,  0.093206440, 0.392279489, 0.601228848)
+               angular.deviation(angles)
+               0.541637471528937930465
+             */ 
+
             double expected = 5.4163747152893815251e-01;
             double actual = Circular.AngularDeviation(angles);
 
+            Assert.IsFalse(Double.IsNaN(actual));
             Assert.AreEqual(expected, actual, 1e-15);
         }
 
