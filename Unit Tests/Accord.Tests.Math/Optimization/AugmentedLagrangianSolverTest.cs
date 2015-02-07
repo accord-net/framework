@@ -98,6 +98,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(solver.Minimize());
             double minValue = solver.Value;
 
+            Assert.IsFalse(Double.IsNaN(minValue));
             Assert.AreEqual(1, minValue, 1e-5);
             Assert.AreEqual(0, solver.Solution[0], 1e-5);
             Assert.AreEqual(0, solver.Solution[1], 1e-5);
