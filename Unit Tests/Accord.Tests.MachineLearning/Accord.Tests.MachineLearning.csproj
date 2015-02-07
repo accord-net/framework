@@ -5,8 +5,7 @@
     <RootNamespace>Accord.Tests.MachineLearning</RootNamespace>
     <AssemblyName>Accord.Tests.MachineLearning</AssemblyName>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-	
-   <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -19,17 +18,16 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkProfile />
-	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<Optimize>true</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
-	<ErrorReport>prompt</ErrorReport>
+    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	<SignAssembly>true</SignAssembly>
-	<AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -49,7 +47,6 @@
     <OutputPath>bin\Release\net45</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
   </PropertyGroup>
-  
   <ItemGroup>
     <Reference Include="AForge">
       <SpecificVersion>False</SpecificVersion>
@@ -164,7 +161,7 @@
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
-      <Aliases>AccordCore</Aliases>
+      <Aliases>global</Aliases>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Formats\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
@@ -189,6 +186,10 @@
     <ProjectReference Include="..\..\Sources\Extras\Accord.MachineLearning.GPL\Accord.MachineLearning %28GPL%29.csproj">
       <Project>{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}</Project>
       <Name>Accord.MachineLearning %28GPL%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Tests.MachineLearning.FSharp\Accord.Tests.MachineLearning.FSharp.fsproj">
+      <Project>{a6775b59-6919-4d7c-a960-7e875f0bd81a}</Project>
+      <Name>Accord.Tests.MachineLearning.FSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
