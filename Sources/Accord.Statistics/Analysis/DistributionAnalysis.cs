@@ -226,7 +226,13 @@ namespace Accord.Statistics.Analysis
         private static void run(Action a, int timeoutMilliseconds)
         {
 #if NET35
-            a();
+            try
+            {
+                a();
+            }
+            catch
+            {
+            }
 #else
             var task = Task.Factory.StartNew(() =>
             {
