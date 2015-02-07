@@ -22,8 +22,8 @@
       
       <dependency id="AForge"                 version="2.2.5" />
       <dependency id="AForge.Math"            version="2.2.5" />
-      
-      <dependency id="ZedGraph"               version="5.1.6"
+
+      <dependency id="ZedGraph"               version="5.1.6" />
     </dependencies>
   </metadata>
   <files>
