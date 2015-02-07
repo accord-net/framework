@@ -302,8 +302,11 @@ namespace Accord.Statistics.Distributions.Univariate
             if (k < 0 || k > numberOfTrials)
                 return 0;
 
-            double log = Special.LogBinomial(numberOfTrials, k) + k * Math.Log(probability)
-                   + (numberOfTrials - k) * Math.Log(1 - probability);
+            double a = Special.LogBinomial(numberOfTrials, k);
+            double b = k == 0 ? 0 : k * Math.Log(probability);
+            double c = (numberOfTrials - k);
+            double d = Math.Log(1 - probability);
+            double log = a + b + c * d;
 
             return Math.Exp(log);
         }
@@ -330,8 +333,13 @@ namespace Accord.Statistics.Distributions.Univariate
             if (k < 0 || k > numberOfTrials)
                 return Double.NegativeInfinity;
 
-            return Special.LogBinomial(numberOfTrials, k) + k * Math.Log(probability)
-                + (numberOfTrials - k) * Math.Log(1 - probability);
+            double a = Special.LogBinomial(numberOfTrials, k);
+            double b = k == 0 ? 0 : k * Math.Log(probability);
+            double c = (numberOfTrials - k);
+            double d = Math.Log(1 - probability);
+            double log = a + b + c * d;
+
+            return log;
         }
 
         /// <summary>

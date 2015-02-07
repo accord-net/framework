@@ -87,7 +87,8 @@ namespace Accord.Tests.Math
                 else
                 {
                     double actual = Gamma.Function(xi);
-
+                    if (Double.IsNaN(actual))
+                        throw new Exception();
                     Assert.AreEqual(expectedi, actual, System.Math.Abs(expectedi) * 1e-12);
                 }
             }

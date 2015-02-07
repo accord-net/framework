@@ -131,6 +131,7 @@ namespace Accord.Math
                 4.94214826801497100753E-1,
                 9.99999999999999996796E-1
             };
+
             double[] Q =
             {
                -2.31581873324120129819E-5,
@@ -214,7 +215,8 @@ namespace Accord.Math
                 x += 1.0;
             }
 
-            if ((x == 2.0) || (x == 3.0)) return z;
+            if ((x == 2.0) || (x == 3.0))
+                return z;
 
             x -= 2.0;
             p = Special.Polevl(x, P, 6);
@@ -421,7 +423,16 @@ namespace Accord.Math
             if (x > MAXSTIR)
             {
                 double v = Math.Pow(x, 0.5 * x - 0.25);
-                y = v * (v / y);
+
+                if (Double.IsPositiveInfinity(v) && Double.IsPositiveInfinity(y))
+                {
+                    // lim x -> inf { (x^(0.5*x - 0.25)) * (x^(0.5*x - 0.25) / exp(x))  }
+                    y = Double.PositiveInfinity;
+                }
+                else
+                {
+                    y = v * (v / y);
+                }
             }
             else
             {
@@ -448,10 +459,10 @@ namespace Accord.Math
             double ans, ax, c, yc, r, t, y, z;
             double pk, pkm1, pkm2, qk, qkm1, qkm2;
 
-            if (x <= 0 || a <= 0) 
+            if (x <= 0 || a <= 0)
                 return 1.0;
 
-            if (x < 1.0 || x < a) 
+            if (x < 1.0 || x < a)
                 return 1.0 - LowerIncomplete(a, x);
 
             if (Double.IsPositiveInfinity(x))
@@ -459,7 +470,7 @@ namespace Accord.Math
 
             ax = a * Math.Log(x) - x - Log(a);
 
-            if (ax < -Constants.LogMax) 
+            if (ax < -Constants.LogMax)
                 return 0.0;
 
             ax = Math.Exp(ax);
@@ -626,10 +637,10 @@ namespace Accord.Math
                     x += 1.0;
                 }
 
-                if (z < 0.0) 
+                if (z < 0.0)
                     z = -z;
 
-                if (x == 2.0) 
+                if (x == 2.0)
                     return System.Math.Log(z);
 
                 x -= 2.0;
@@ -644,7 +655,7 @@ namespace Accord.Math
 
             q = (x - 0.5) * Math.Log(x) - x + 0.91893853320467274178;
 
-            if (x > 1.0e8) 
+            if (x > 1.0e8)
                 return (q);
 
             p = 1.0 / (x * x);
@@ -669,10 +680,10 @@ namespace Accord.Math
         /// 
         public static double Log(double x, int p)
         {
-            if (p < 1) 
+            if (p < 1)
                 throw new ArgumentOutOfRangeException("p", "Parameter p must be higher than 1.");
 
-            if (p == 1) 
+            if (p == 1)
                 return Log(x);
 
             double sum = Constants.LogPI / p;

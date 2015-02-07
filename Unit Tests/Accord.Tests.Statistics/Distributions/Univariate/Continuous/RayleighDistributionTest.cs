@@ -143,20 +143,22 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void GenerateTest()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             RayleighDistribution target = new RayleighDistribution(2.5);
 
             double[] samples = target.Generate(1000000);
 
             var actual = RayleighDistribution.Estimate(samples);
-            actual.Fit(samples);
 
-            Assert.AreEqual(2, actual.Mean, 0.01);
-            Assert.AreEqual(5, actual.Variance, 0.01);
+            Assert.AreEqual(2.5, actual.Scale, 1e-3);
         }
 
         [TestMethod()]
         public void GenerateTest2()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             RayleighDistribution target = new RayleighDistribution(4.2);
 
             double[] samples = new double[1000000];
@@ -164,10 +166,8 @@ namespace Accord.Tests.Statistics
                 samples[i] = target.Generate();
 
             var actual = RayleighDistribution.Estimate(samples);
-            actual.Fit(samples);
 
-            Assert.AreEqual(4, actual.Mean, 0.01);
-            Assert.AreEqual(2, actual.Variance, 0.01);
+            Assert.AreEqual(4.2, actual.Scale, 1e-3);
         }
 
         [TestMethod()]
