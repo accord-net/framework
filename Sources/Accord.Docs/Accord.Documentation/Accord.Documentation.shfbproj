@@ -61,96 +61,97 @@
     <FeedbackEMailAddress>feedback%40accord-framework.net</FeedbackEMailAddress>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="(global)" isDocumented="True">&lt;b&gt;Accord.NET Framework&lt;/b&gt;</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Audio" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Audio.ComplexFilters" isDocumented="True">Contains frequency-domain signal filters.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Audio.Filters" isDocumented="True">Contains time-domain signal processing filters.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Audio.Generators" isDocumented="True">Contains specialized signal generators. Generate square signals, sinusoids, pulse and other filters for use in signal processing.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Audio.Windows" isDocumented="True">Contains audio window functions which can be used to split signals in time.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Math" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Math.Decompositions" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Audition.Beat" isDocumented="True">Contains beat detection algorithms and related methods.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Audition.Tempo" isDocumented="True">Contains tempo detection algorithms and related methods.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Controls" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Audio.Formats" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.DirectSound" isDocumented="True">Contains audio devices to reproduce and capture sounds exposed through DirectSound.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Imaging" isDocumented="True">Contains Interest point detectors (i.e. Harris, SURF and FAST), image matching and image stitching methods.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Imaging.Filters" isDocumented="True">Contains the image processing filters such as the Wavelet transform, stereo rectification, image blending and point markers.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.MachineLearning" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines.Learning" isDocumented="True">Contains algorithms for training Support Vector Machines (SVMs).</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Neuro" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Neuro.Learning" isDocumented="True">Contains neural network learning algorithms such as the Levenberg-Marquardt (LM) with Bayesian Regularization and the Resilient Backpropagation (RProp) for multi-layer networks. This namespace extends the AForge.Neuro namespace of the AForge.NET project.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Analysis" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Distributions" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Filters" isDocumented="True">Contains data processing filters, such as data normalization, discretization, equalization, selection and projection filters.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Kernels" isDocumented="True">Contains more than 30+ kernel functions for machine learning and statistical applications. Kernel functions are used in kernel methods such as the Support Vector Machine (SVM).</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Models" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Models.Regression" isDocumented="True">Contains statistical regression models such as logistic and linear regressions.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Models.Regression.Linear" isDocumented="True">Linear statistical regression models such as simple, polynomial, multiple and multivariate linear regressions.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Testing" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Visualizations" isDocumented="True">Contains classes for statistical visualization such as Histograms and Scatterplots.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Wavelets" isDocumented="True">The &lt;b&gt;Accord.Wavelets&lt;/b&gt; namespace contains 1D and 2D wavelets transforms suitable for signal and imaging processing tasks.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="AForge" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Imaging" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Imaging.ComplexFilters" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Imaging.Filters" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Imaging.Textures" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Math" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Math.Geometry" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Math.Random" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Neuro" isDocumented="False" />
-<NamespaceSummaryItem name="AForge.Neuro.Learning" isDocumented="False" />
-<NamespaceSummaryItem name="Accord.Vision" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Vision.Detection" isDocumented="True">Contains object detectors such as the Viola-Jones (Haar feature) method. The Haar cascades are completely compatible with OpenCV generated definitions and the assembly comes with direct support for bundled definitions for face and nose templates.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Vision.Tracking" isDocumented="True">Contains classes for object tracking. Include the Camshift algorithm, color segmentation-based trackers and dynamic template matching trackers.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Controls.Imaging" isDocumented="True">Windows Forms controls to show and handle images. Contains a convenient ImageBox? control which mimics the traditional MessageBox behavior for quickly displaying or inspecting images.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Models.Fields" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Models.Markov" isDocumented="True">Contains classes related to Hidden Markov Models and their learning algorithms. Offers support for both discrete and continuous-density models, as well as Markov classifiers and threshold models for sequence rejection.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Controls.Vision" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Imaging.Converters" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Imaging.Moments" isDocumented="True">Contains image moments calculators such as central and raw moments,</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.MachineLearning.Bayes" isDocumented="True">Contains discrete and continuous density Naive Bayes models for pattern recognition and concept learning. Supports a wide diversity of probabilistic distributions.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Learning" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Math.ComplexExtensions" isDocumented="True">Contains extension methods to operate over Complex numbers.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Math.Differentiation" isDocumented="True">Contains methods for the automatic differentiation of mathematical formulas, such as the Finite Differences method.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Math.Formats" isDocumented="True">Contains methods and classes to convert to and from various matrix formats, such as the formats used by Octave (MATLAB-compatible) and Mathematica.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Math.Geometry" isDocumented="True">Contains geometry-related classes. Can identify convex-hulls, detect curvatures and extract convexity defects. When used together with the Imaging and Vision namespaces, can create finger detection components.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Math.Optimization" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Math.Wavelets" isDocumented="True">Contains Wavelet transforms such as the Cohen-Daubechies-Feauveau and the Haar Wavelet transforms.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Analysis.ContrastFunctions" isDocumented="True">Contains contrast functions to be used with Independent Component Analysis (ICA).</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Distributions.Fitting" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Distributions.Multivariate" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Distributions.Univariate" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Formats" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Kernels.Sparse" isDocumented="True">Contains kernel function able to deal with sparse data in LibSVM's format.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Links" isDocumented="True">Contains link functions for generalized linear models, such as the Logit, the Probit and Cauchit link functions.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Features" isDocumented="True">Contains CRF feature functions such as Emission, Transition, First and Second Moments features.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Functions" isDocumented="True">Contains potential functions for CRFs and HCRFs.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Learning" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.Statistics.Models.Markov.Learning" isDocumented="True">Contains learning algorithms such as Baum-Welch.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Models.Markov.Topology" isDocumented="True">Contains topologies for HMMs, such as Forward-only and Ergodic topologies.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Models.Regression.Fitting" isDocumented="True">Fitting (learning) algorithms for regression models, such as the Iterative Reweighted Least Squares for standard logistic regressors and the Lower-Bound approximator for multinomial logistic regression.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Moving" isDocumented="True">Contains classes to estimate moving statistics, i.e. statistics computed within a time frame window.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Running" isDocumented="True">Contains classes to estimate running statistics, i.e. statistics which should be computed and updated as soon as new data becomes available.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Vision.Detection.Cascades" isDocumented="True">Built-in Haar cascade definitions to use with the Haar feature object detector. Those definitions can be called directly from code without need for loading XML files.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.MachineLearning.Boosting" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.MachineLearning.Boosting.Learners" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Prunning" isDocumented="False" />
-<NamespaceSummaryItem name="Accord.MachineLearning.Geometry" isDocumented="True">Contains methods for robust estimation of geometry entities.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.MachineLearning.Structures" isDocumented="True">Contains specialized search structures, such as K-dimensional Trees.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Math.Environments" isDocumented="True">Contains algorithm environments you can inherit from and let your code be similar to famous environments such as R and Octave.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Math.Kinematics" isDocumented="True">Contains classes to model complex kinematic chains, useful for robotic applications.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Neuro.ActivationFunctions" isDocumented="True">Contains different activation functions for artificial neurons.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Neuro.Layers" isDocumented="True">Contains different layer architecures for artificial neural networks.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Neuro.Networks" isDocumented="True">Contains different neural network architectures, such as specialized architectures for deep learning and Boltzmann machines.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Neuro.Neurons" isDocumented="True">Contains different kinds of artificial neurons.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Neuro.Visualization" isDocumented="True">Contains methods to visualize information drawn from neural networks.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Accord.Statistics.Testing.Power" isDocumented="True" />
-<NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Pruning" isDocumented="True" />
-<NamespaceSummaryItem name="System.Collections.Generic" isDocumented="False" /></NamespaceSummaries>
+      <NamespaceSummaryItem name="Accord.Audio" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Audio.ComplexFilters" isDocumented="True">Contains frequency-domain signal filters.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audio.Filters" isDocumented="True">Contains time-domain signal processing filters.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audio.Generators" isDocumented="True">Contains specialized signal generators. Generate square signals, sinusoids, pulse and other filters for use in signal processing.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audio.Windows" isDocumented="True">Contains audio window functions which can be used to split signals in time.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Math.Decompositions" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Audition.Beat" isDocumented="True">Contains beat detection algorithms and related methods.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Audition.Tempo" isDocumented="True">Contains tempo detection algorithms and related methods.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Controls" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Audio.Formats" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.DirectSound" isDocumented="True">Contains audio devices to reproduce and capture sounds exposed through DirectSound.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Imaging" isDocumented="True">Contains Interest point detectors (i.e. Harris, SURF and FAST), image matching and image stitching methods.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Imaging.Filters" isDocumented="True">Contains the image processing filters such as the Wavelet transform, stereo rectification, image blending and point markers.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.VectorMachines.Learning" isDocumented="True">Contains algorithms for training Support Vector Machines (SVMs).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Neuro.Learning" isDocumented="True">Contains neural network learning algorithms such as the Levenberg-Marquardt (LM) with Bayesian Regularization and the Resilient Backpropagation (RProp) for multi-layer networks. This namespace extends the AForge.Neuro namespace of the AForge.NET project.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Analysis" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Distributions" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Filters" isDocumented="True">Contains data processing filters, such as data normalization, discretization, equalization, selection and projection filters.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Kernels" isDocumented="True">Contains more than 30+ kernel functions for machine learning and statistical applications. Kernel functions are used in kernel methods such as the Support Vector Machine (SVM).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Regression" isDocumented="True">Contains statistical regression models such as logistic and linear regressions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Regression.Linear" isDocumented="True">Linear statistical regression models such as simple, polynomial, multiple and multivariate linear regressions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Testing" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Visualizations" isDocumented="True">Contains classes for statistical visualization such as Histograms and Scatterplots.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Wavelets" isDocumented="True">The &lt;b&gt;Accord.Wavelets&lt;/b&gt; namespace contains 1D and 2D wavelets transforms suitable for signal and imaging processing tasks.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="AForge" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Imaging" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Imaging.ComplexFilters" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Imaging.Filters" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Imaging.Textures" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Math" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Math.Geometry" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Math.Random" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Neuro" isDocumented="False" />
+      <NamespaceSummaryItem name="AForge.Neuro.Learning" isDocumented="False" />
+      <NamespaceSummaryItem name="Accord.Vision" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Vision.Detection" isDocumented="True">Contains object detectors such as the Viola-Jones (Haar feature) method. The Haar cascades are completely compatible with OpenCV generated definitions and the assembly comes with direct support for bundled definitions for face and nose templates.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Vision.Tracking" isDocumented="True">Contains classes for object tracking. Include the Camshift algorithm, color segmentation-based trackers and dynamic template matching trackers.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Controls.Imaging" isDocumented="True">Windows Forms controls to show and handle images. Contains a convenient ImageBox? control which mimics the traditional MessageBox behavior for quickly displaying or inspecting images.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Fields" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Markov" isDocumented="True">Contains classes related to Hidden Markov Models and their learning algorithms. Offers support for both discrete and continuous-density models, as well as Markov classifiers and threshold models for sequence rejection.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Controls.Vision" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Imaging.Converters" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Imaging.Moments" isDocumented="True">Contains image moments calculators such as central and raw moments,</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning.Bayes" isDocumented="True">Contains discrete and continuous density Naive Bayes models for pattern recognition and concept learning. Supports a wide diversity of probabilistic distributions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Learning" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Math.ComplexExtensions" isDocumented="True">Contains extension methods to operate over Complex numbers.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Differentiation" isDocumented="True">Contains methods for the automatic differentiation of mathematical formulas, such as the Finite Differences method.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Formats" isDocumented="True">Contains methods and classes to convert to and from various matrix formats, such as the formats used by Octave (MATLAB-compatible) and Mathematica.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Geometry" isDocumented="True">Contains geometry-related classes. Can identify convex-hulls, detect curvatures and extract convexity defects. When used together with the Imaging and Vision namespaces, can create finger detection components.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Optimization" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Math.Wavelets" isDocumented="True">Contains Wavelet transforms such as the Cohen-Daubechies-Feauveau and the Haar Wavelet transforms.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Analysis.ContrastFunctions" isDocumented="True">Contains contrast functions to be used with Independent Component Analysis (ICA).</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Distributions.Fitting" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Distributions.Multivariate" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Distributions.Univariate" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Formats" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Kernels.Sparse" isDocumented="True">Contains kernel function able to deal with sparse data in LibSVM's format.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Links" isDocumented="True">Contains link functions for generalized linear models, such as the Logit, the Probit and Cauchit link functions.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Features" isDocumented="True">Contains CRF feature functions such as Emission, Transition, First and Second Moments features.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Functions" isDocumented="True">Contains potential functions for CRFs and HCRFs.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Fields.Learning" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Markov.Learning" isDocumented="True">Contains learning algorithms such as Baum-Welch.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Markov.Topology" isDocumented="True">Contains topologies for HMMs, such as Forward-only and Ergodic topologies.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Models.Regression.Fitting" isDocumented="True">Fitting (learning) algorithms for regression models, such as the Iterative Reweighted Least Squares for standard logistic regressors and the Lower-Bound approximator for multinomial logistic regression.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Moving" isDocumented="True">Contains classes to estimate moving statistics, i.e. statistics computed within a time frame window.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Running" isDocumented="True">Contains classes to estimate running statistics, i.e. statistics which should be computed and updated as soon as new data becomes available.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Vision.Detection.Cascades" isDocumented="True">Built-in Haar cascade definitions to use with the Haar feature object detector. Those definitions can be called directly from code without need for loading XML files.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning.Boosting" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.Boosting.Learners" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Prunning" isDocumented="False" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.Geometry" isDocumented="True">Contains methods for robust estimation of geometry entities.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.MachineLearning.Structures" isDocumented="True">Contains specialized search structures, such as K-dimensional Trees.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Environments" isDocumented="True">Contains algorithm environments you can inherit from and let your code be similar to famous environments such as R and Octave.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Math.Kinematics" isDocumented="True">Contains classes to model complex kinematic chains, useful for robotic applications.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.ActivationFunctions" isDocumented="True">Contains different activation functions for artificial neurons.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.Layers" isDocumented="True">Contains different layer architecures for artificial neural networks.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.Networks" isDocumented="True">Contains different neural network architectures, such as specialized architectures for deep learning and Boltzmann machines.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.Neurons" isDocumented="True">Contains different kinds of artificial neurons.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Neuro.Visualization" isDocumented="True">Contains methods to visualize information drawn from neural networks.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Accord.Statistics.Testing.Power" isDocumented="True" />
+      <NamespaceSummaryItem name="Accord.MachineLearning.DecisionTrees.Pruning" isDocumented="True" />
+      <NamespaceSummaryItem name="System.Collections.Generic" isDocumented="False" />
+    </NamespaceSummaries>
     <ProjectSummary>&amp;lt%3bpara&amp;gt%3b
   Accord.NET provides statistical analysis, machine learning, image processing and computer vision methods for .NET applications. The Accord.NET Framework extends the popular AForge.NET with new features, adding to a more complete environment for scientific computing in .NET. &amp;lt%3b/para&amp;gt%3b
 
@@ -253,13 +254,13 @@
     <HelpFileFormat>HtmlHelp1, Website</HelpFileFormat>
     <ComponentConfigurations>
       <ComponentConfig id="Code Block Component" enabled="True">
-        <component id="Code Block Component" type="SandcastleBuilder.Components.CodeBlockComponent" assembly="{@SHFBFolder}SandcastleBuilder.Components.dll">
-          <basePath value="{@HtmlEncProjectFolder}" />
-          <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
-          <allowMissingSource value="false" />
-          <removeRegionMarkers value="false" />
-          <colorizer syntaxFile="{@SHFBFolder}Colorizer\highlight.xml" styleFile="{@SHFBFolder}Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}Colorizer\highlight.css" scriptFile="{@SHFBFolder}Colorizer\highlight.js" language="cs" tabSize="0" numberLines="false" outlining="false" keepSeeTags="false" defaultTitle="true" />
-        </component>
+        <component id="Code Block Component">
+  <basePath value="{@HtmlEncProjectFolder}" />
+  <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
+  <allowMissingSource value="false" />
+  <removeRegionMarkers value="false" />
+  <colorizer syntaxFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xml" styleFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}PresentationStyles\Colorizer\highlight.css" scriptFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="0" numberLines="false" outlining="false" keepSeeTags="false" defaultTitle="true" />
+</component>
       </ComponentConfig>
     </ComponentConfigurations>
     <CleanIntermediates>True</CleanIntermediates>
@@ -267,7 +268,7 @@
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
     <HelpFileVersion>2.14.0.0</HelpFileVersion>
-    <FrameworkVersion>.NET Framework 4.0</FrameworkVersion>
+    <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, SealedProtected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
     <CollectionTocStyle>Flat</CollectionTocStyle>
