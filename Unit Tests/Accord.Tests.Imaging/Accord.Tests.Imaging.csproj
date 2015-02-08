@@ -187,6 +187,7 @@
     <None Include="Resources\image1.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\SURF\surf-bug-1.bmp" />
     <None Include="Resources\wiki-flower.png" />
     <None Include="Resources\tt4.png" />
     <None Include="Resources\tt3.png" />

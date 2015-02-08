@@ -113,7 +113,6 @@ namespace Accord.Imaging
         private bool computeOrientation = true;
 
 
-        #region Constructors
         /// <summary>
         ///   Initializes a new instance of the <see cref="SpeededUpRobustFeaturesDetector"/> class.
         /// </summary>
@@ -155,11 +154,8 @@ namespace Accord.Imaging
             this.octaves = octaves;
             this.initial = initial;
         }
-        #endregion
 
 
-
-        #region Properties
 
         /// <summary>
         ///   Gets or sets a value indicating whether all feature points
@@ -252,7 +248,7 @@ namespace Accord.Imaging
                 }
             }
         }
-        #endregion
+
 
         /// <summary>
         ///   Process image looking for interest points.
@@ -279,6 +275,11 @@ namespace Accord.Imaging
                 throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
+            return processImage(image);
+        }
+
+        private List<SpeededUpRobustFeaturePoint> processImage(UnmanagedImage image)
+        {
             // make sure we have grayscale image
             UnmanagedImage grayImage = null;
 
@@ -330,8 +331,6 @@ namespace Accord.Imaging
                 int tstep = top.Step;
                 int mstep = mid.Size - bot.Size;
 
-                int mscale = mid.Width / top.Width;
-                int bscale = bot.Width / top.Width;
 
                 int r = 1;
 
@@ -341,6 +340,9 @@ namespace Accord.Imaging
                     // for each pixel
                     for (int x = border + 1; x < top.Width - border; x++)
                     {
+                        int mscale = mid.Width / top.Width;
+                        int bscale = bot.Width / top.Width;
+
                         double currentValue = mid.Responses[y * mscale, x * mscale];
 
                         // for each windows' row
@@ -436,7 +438,7 @@ namespace Accord.Imaging
         /// 
         public List<SpeededUpRobustFeaturePoint> ProcessImage(BitmapData imageData)
         {
-            return ProcessImage(new UnmanagedImage(imageData));
+            return processImage(new UnmanagedImage(imageData));
         }
 
         /// <summary>
@@ -474,7 +476,7 @@ namespace Accord.Imaging
             try
             {
                 // process the image
-                corners = ProcessImage(new UnmanagedImage(imageData));
+                corners = processImage(new UnmanagedImage(imageData));
             }
             finally
             {

@@ -239,6 +239,24 @@ namespace Accord.Tests.Imaging
         }
 
 
+        [TestMethod()]
+        public void ZeroWidthTest()
+        {
+            Bitmap img = Properties.Resources.surf_bug_1;
+
+            var iimg = OpenSURFcs.IntegralImage.FromImage(img);
+            var expected = OpenSURFcs.FastHessian.getIpoints(0.0002f, 5, 2, iimg);
+            OpenSURFcs.SurfDescriptor.DecribeInterestPoints(expected, false, false, iimg);
+
+
+            var surf = new SpeededUpRobustFeaturesDetector();
+            var actual = surf.ProcessImage(img);
+
+            Assert.AreEqual(0, expected.Count);
+            Assert.AreEqual(0, actual.Count);
+        }
+
+
         [TestMethod, Ignore]
         public void ProcessImageTest4()
         {
