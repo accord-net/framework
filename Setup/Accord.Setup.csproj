@@ -14,7 +14,7 @@
   <ItemGroup>
     <None Include="Archiver\Build.cmd" />
     <None Include="Archiver\Samples.cmd" />
-    <None Include="Build all.cmd" />
+    <None Include="Compile.cmd" />
     <None Include="Installer\Build.cmd" />
     <None Include="NuGet\Accord.DirectSound.nuspec" />
     <None Include="NuGet\Accord.Audio.nuspec">
@@ -39,6 +39,8 @@
     <None Include="NuGet\Push.cmd" />
     <None Include="NuGet\Update.cmd" />
     <None Include="NuGet\NuGet.exe" />
+    <None Include="Package.cmd" />
+    <None Include="Publish.cmd" />
     <None Include="version.cmd" />
   </ItemGroup>
   <ItemGroup />

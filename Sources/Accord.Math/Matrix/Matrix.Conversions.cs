@@ -853,7 +853,10 @@ namespace Accord.Math
             for (int j = 0; j < table.Columns.Count; j++)
             {
                 for (int i = 0; i < table.Rows.Count; i++)
-                    m[i][j] = (T)System.Convert.ChangeType(table.Rows[i][j], typeof(T));
+                {
+                    var value = table.Rows[i][j];
+                    m[i][j] = (T)System.Convert.ChangeType(value, typeof(T));
+                }
 
                 columnNames[j] = table.Columns[j].Caption;
             }

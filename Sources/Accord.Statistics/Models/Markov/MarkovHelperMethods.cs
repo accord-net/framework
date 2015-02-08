@@ -63,9 +63,14 @@ namespace Accord.Statistics.Models.Markov
                 if (multivariate != null)
                 {
                     for (int i = 0; i < multivariate.Length; i++)
+                    {
                         if (multivariate[i].Length != dimension)
+                        {
                             throw new DimensionMismatchException("observations",
                                 "This model expects observations of length " + dimension);
+                        }
+                    }
+
                     return multivariate;
                 }
 
@@ -74,8 +79,11 @@ namespace Accord.Statistics.Models.Markov
                 if (univariate != null)
                 {
                     if (dimension != 1)
-                        throw new DimensionMismatchException("observations", 
+                    {
+                        throw new DimensionMismatchException("observations",
                             "This model expects univariate observations");
+                    }
+
                     return Accord.Math.Matrix.Split(univariate, dimension);
                 }
             }
@@ -86,9 +94,14 @@ namespace Accord.Statistics.Models.Markov
                 if (multivariate != null)
                 {
                     for (int i = 0; i < multivariate.Length; i++)
+                    {
                         if (multivariate[i].Length != dimension)
+                        {
                             throw new DimensionMismatchException("observations",
                                 "This model expects observations of length " + dimension);
+                        }
+                    }
+
                     return multivariate.ToDouble();
                 }
 
@@ -97,8 +110,11 @@ namespace Accord.Statistics.Models.Markov
                 if (univariate != null)
                 {
                     if (dimension != 1)
+                    {
                         throw new DimensionMismatchException("observations",
                             "This model expects univariate observations");
+                    }
+
                     return Accord.Math.Matrix.Split(univariate, dimension).ToDouble();
                 }
             }

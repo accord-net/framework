@@ -1085,6 +1085,71 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void LearnTest10_Independent()
+        {
+            // Let's say we have 2 meteorological sensors gathering data
+            // from different time periods of the day. Those periods are
+            // represented below:
+
+            double[][][] data =
+            {
+                new double[][] // first sequence (we just repeated the measurements 
+                {              //  once, so there is only one observation sequence)
+
+                    new double[] { 1, 2 }, // Day 1, 15:00 pm
+                    new double[] { 6, 7 }, // Day 1, 16:00 pm
+                    new double[] { 2, 3 }, // Day 1, 17:00 pm
+                    new double[] { 2, 2 }, // Day 1, 18:00 pm
+                    new double[] { 9, 8 }, // Day 1, 19:00 pm
+                    new double[] { 1, 0 }, // Day 1, 20:00 pm
+                    new double[] { 1, 3 }, // Day 1, 21:00 pm
+                    new double[] { 8, 9 }, // Day 1, 22:00 pm
+                    new double[] { 3, 3 }, // Day 1, 23:00 pm
+                    new double[] { 1, 3 }, // Day 2, 00:00 am
+                    new double[] { 1, 1 }, // Day 2, 01:00 am
+                }
+            };
+
+            // Let's assume those sensors are unrelated (for simplicity). As
+            // such, let's assume the data gathered from the sensors may reside
+            // into circular centroids denoting each state the underlying system
+            // might be in.
+            NormalDistribution[] initial_components = 
+            {
+                new NormalDistribution(), // initial value for the first variable's distribution
+                new NormalDistribution()  // initial value for the second variable's distribution
+            };
+
+            // Specify a initial independent normal distribution for the samples.
+            var density = new Independent<NormalDistribution>(initial_components);
+
+            // Creates a continuous hidden Markov Model with two states organized in an Ergodic
+            //  topology and an underlying independent Normal distribution as probability density.
+            var model = new HiddenMarkovModel<Independent<NormalDistribution>>(new Ergodic(2), density);
+
+            // Configure the learning algorithms to train the sequence classifier until the
+            // difference in the average log-likelihood changes only by as little as 0.0001
+            var teacher = new BaumWelchLearning<Independent<NormalDistribution>>(model)
+            {
+                Tolerance = 0.0001,
+                Iterations = 0,
+            };
+
+            // Fit the model
+            double error = teacher.Run(data);
+
+            // Get the hidden state associated with each observation
+            //
+            double logLikelihood; // log-likelihood of the Viterbi path
+            int[] hidden_states = model.Decode(data[0], out logLikelihood);
+
+            Assert.AreEqual(-33.978800850637882, error);
+            Assert.AreEqual(-33.9788008509802, logLikelihood);
+            Assert.AreEqual(11, hidden_states.Length);
+        }
+
+
+        [TestMethod()]
         public void LearnTest11()
         {
 
@@ -1713,7 +1778,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-         [TestMethod()]
+        [TestMethod()]
         public void PosteriorTest1()
         {
             // Example from http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf
@@ -1768,15 +1833,15 @@ namespace Accord.Tests.Statistics
 
             int loaded = 0;
             for (int i = 0; i < start; i++)
-			 if (p[i][1] > 0.95)
-                 loaded++;
-                
+                if (p[i][1] > 0.95)
+                    loaded++;
+
             Assert.AreEqual(0, loaded);
 
             loaded = 0;
             for (int i = start; i < end; i++)
-			 if (p[i][1] > 0.95)
-                 loaded++;
+                if (p[i][1] > 0.95)
+                    loaded++;
 
             Assert.IsTrue(loaded > 15);
 
