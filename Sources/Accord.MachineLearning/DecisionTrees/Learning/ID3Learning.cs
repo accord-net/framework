@@ -180,7 +180,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         public int MaxHeight
         {
             get { return maxHeight; }
-            set {  maxHeight = value; }
+            set
+            {
+                if (maxHeight <= 0)
+                {
+                    throw new ArgumentOutOfRangeException("value",
+                        "The height must be greater than zero.");
+                }
+
+                maxHeight = value;
+            }
         }
 
         /// <summary>
@@ -201,7 +210,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         public int Join
         {
             get { return join; }
-            set { join = value; }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentOutOfRangeException("value",
+                        "The number of times must be greater than zero.");
+                }
+
+                join = value;
+            }
         }
 
         /// <summary>

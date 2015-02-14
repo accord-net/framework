@@ -543,6 +543,55 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(596, ruleText.Length);
         }
 
+        [TestMethod]
+        public void AttributeReuseTest1()
+        {
+            string[][] text = Resources.iris_data.Split(
+                new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                .Apply(x => x.Split(','));
+
+            double[][] inputs = new double[text.Length][];
+            for (int i = 0; i < inputs.Length; i++)
+                inputs[i] = text[i].Submatrix(4).Convert(Double.Parse);
+
+            string[] labels = text.GetColumn(4);
+
+            Codification codebook = new Codification("Label", labels);
+
+            int[] outputs = codebook.Translate("Label", labels);
+
+
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("sepal length", DecisionVariableKind.Continuous), 
+                new DecisionVariable("sepal width", DecisionVariableKind.Continuous), 
+                new DecisionVariable("petal length", DecisionVariableKind.Continuous), 
+                new DecisionVariable("petal width", DecisionVariableKind.Continuous), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, codebook.Columns[0].Symbols);
+
+            C45Learning teacher = new C45Learning(tree);
+
+            teacher.Join = 3;
+
+            double error = teacher.Run(inputs, outputs);
+            Assert.AreEqual(0.02, error, 1e-10);
+
+            DecisionSet rules = tree.ToRules();
+
+            double newError = ComputeError(rules, inputs, outputs);
+            Assert.AreEqual(0.02, newError, 1e-10);
+
+            string ruleText = rules.ToString(codebook,
+                System.Globalization.CultureInfo.InvariantCulture);
+
+            // TODO: implement this assertion properly, actually checking
+            // the text contents once the feature is completely finished.
+            Assert.AreEqual(600, ruleText.Length);
+        }
+
         public double ComputeError(DecisionSet rules, double[][] inputs, int[] outputs)
         {
             int miss = 0;
