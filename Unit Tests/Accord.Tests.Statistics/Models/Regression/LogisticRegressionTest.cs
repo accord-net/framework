@@ -426,7 +426,7 @@ namespace Accord.Tests.Statistics
         {
             CsvReader reader = CsvReader.FromText(Properties.Resources.regression, true);
 
-            double[][] data = reader.ToTable().ToArray();
+            double[][] data = reader.ToTable().ToArray(System.Globalization.CultureInfo.InvariantCulture);
 
             double[][] inputs = data.GetColumns(0, 1);
 
