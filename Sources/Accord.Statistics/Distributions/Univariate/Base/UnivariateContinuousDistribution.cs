@@ -733,6 +733,11 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
+            if (Double.IsNegativeInfinity(lower))
+                lower = Double.MinValue;
+
+            if (Double.IsPositiveInfinity(upper))
+                upper = Double.MaxValue;
 
             double value = BrentSearch.Find(DistributionFunction, p, lower, upper);
 

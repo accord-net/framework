@@ -24,17 +24,66 @@ namespace Accord.Statistics.Distributions.Univariate
 {
     using System;
     using AForge;
+    using Accord.Statistics.Testing;
 
     /// <summary>
     ///   Shapiro-Wilk distribution.
     /// </summary>
+    ///
+    /// <remarks>
+    /// <para>
+    ///   The Shapiro-Wilk distribution models the distribution of <see cref="ShapiroWilkTest">
+    ///   Shapiro-Wilk's</see> <see cref="IHypothesisTest">test statistic</see>. </para>  
+    ///   
+    ///   
+    /// <para>    
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://sci2s.ugr.es/keel/pdf/algorithm/articulo/royston1982.pdf">
+    ///       Royston, P. "Algorithm AS 181: The W test for Normality", Applied Statistics (1982),
+    ///       Vol. 31, pp. 176–180. </a></description></item>    
+    ///     <item><description><a href="http://lib.stat.cmu.edu/apstat/R94">
+    ///       Royston, P. "Remark AS R94", Applied Statistics (1995), Vol. 44, No. 4, pp. 547-551.
+    ///       Available at http://lib.stat.cmu.edu/apstat/R94 </a></description></item>
+    ///     <item><description>
+    ///       Royston, P. "Approximating the Shapiro-Wilk W-test for non-normality",
+    ///       Statistics and Computing (1992), Vol. 2, pp. 117-119. </description></item>
+    ///     <item><description>
+    ///       Royston, P. "An Extension of Shapiro and Wilk's W Test for Normality to Large
+    ///       Samples", Journal of the Royal Statistical Society Series C (1982a), Vol. 31,
+    ///       No. 2, pp. 115-124. </description></item>
+    ///   </list></para>
+    /// </remarks>
     /// 
-
+    /// <example>
+    /// <code>
+    /// // Create a new Shapiro-Wilk's W for 5 samples
+    /// var sw = new ShapiroWilkDistribution(samples: 5);
+    /// 
+    /// double mean = sw.Mean;     // 0.81248567196628929
+    /// double median = sw.Median; // 0.81248567196628929
+    /// double mode = sw.Mode;     // 0.81248567196628929
+    /// 
+    /// double cdf = sw.DistributionFunction(x: 0.84); // 0.83507812080728383
+    /// double pdf = sw.ProbabilityDensityFunction(x: 0.84); // 0.82021062372326459
+    /// double lpdf = sw.LogProbabilityDensityFunction(x: 0.84); // -0.1981941135071546
+    /// 
+    /// double ccdf = sw.ComplementaryDistributionFunction(x: 0.84); // 0.16492187919271617
+    /// double icdf = sw.InverseDistributionFunction(p: cdf); // 0.84000000194587177
+    /// 
+    /// double hf = sw.HazardFunction(x: 0.84); // 4.9733281462602292
+    /// double chf = sw.CumulativeHazardFunction(x: 0.84); // 1.8022833766369502
+    /// 
+    /// string str = sw.ToString(CultureInfo.InvariantCulture); // W(x; n = 12)
+    /// </code>
+    /// </example>
+    /// 
     [Serializable]
     public class ShapiroWilkDistribution : UnivariateContinuousDistribution, IFormattable
     {
 
-        Func<double, double> g;
+        Func<double, double> g; // forward transformation
+        Func<double, double> h; // inverse transformation
         NormalDistribution normal;
 
 
@@ -66,7 +115,9 @@ namespace Accord.Statistics.Distributions.Univariate
                 double n2 = n * n;
                 double n3 = n2 * n;
 
-                this.g = w => -Math.Log(0.459 * n - 2.273 - Math.Log(1 - w));
+                double alpha = 0.459 * n - 2.273;
+                this.g = w => -Math.Log(alpha - Math.Log(1 - w));
+                this.h = w => Math.Exp(-Math.Exp(alpha)) * (Math.Exp(Math.Exp(-alpha)) - Math.Exp(w));
                 double mean = -0.0006714 * n3 + 0.0250540 * n2 - 0.39978 * n + 0.54400;
                 double sigma = Math.Exp(-0.0020322 * n3 + 0.0627670 * n2 - 0.77857 * n + 1.38220);
 
@@ -78,39 +129,56 @@ namespace Accord.Statistics.Distributions.Univariate
                 double u2 = u * u;
                 double u3 = u2 * u;
 
-                this.g = w => Math.Log(1.0 - w);
-                double mean = 0.00389150 * u3 - 0.083751 * u2 - 0.31082 * u - 1.5861; // 1.5861?
+                this.g = w => Math.Log(1 - w);
+                this.h = w => 1 - Math.Exp(w);
+                double mean = 0.00389150 * u3 - 0.083751 * u2 - 0.31082 * u - 1.5861;
                 double sigma = Math.Exp(0.00303020 * u2 - 0.082676 * u - 0.48030);
 
                 this.normal = new NormalDistribution(mean, sigma);
             }
         }
 
+
         /// <summary>
-        ///   Not supported.
+        ///   Gets the support interval for this distribution.
         /// </summary>
+        /// 
+        /// <value>
+        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   the support interval for this distribution.
+        /// </value>
         /// 
         public override DoubleRange Support
         {
-            get { throw new NotSupportedException(); }
+            get { return new DoubleRange(0, Double.PositiveInfinity); }
         }
 
+
         /// <summary>
-        ///   Not supported.
+        ///   Gets the mean for this distribution.
         /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mean value.
+        /// </value>
         /// 
         public override double Mean
         {
-            get { throw new NotSupportedException(); }
+            get { return h(normal.Mean); }
         }
 
+
         /// <summary>
-        ///   Not supported.
+        ///   Gets the mode for this distribution.
         /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's mode value.
+        /// </value>
         /// 
         public override double Mode
         {
-            get { throw new NotSupportedException(); }
+            get { return h(normal.Mode); }
         }
 
         /// <summary>
@@ -120,6 +188,19 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double Variance
         {
             get { throw new NotSupportedException(); }
+        }
+
+        /// <summary>
+        ///   Gets the median for this distribution.
+        /// </summary>
+        /// 
+        /// <value>
+        ///   The distribution's median value.
+        /// </value>
+        /// 
+        public override double Median
+        {
+            get { return h(normal.Median); }
         }
 
         /// <summary>
@@ -149,7 +230,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            return normal.DistributionFunction(g(x));
+            if (x <= 0) return 1;
+            if (x >= 1) return 0;
+
+            double z = g(x);
+            double cdf = normal.DistributionFunction(z);
+            return cdf;
         }
 
         /// <summary>
@@ -168,7 +254,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ComplementaryDistributionFunction(double x)
         {
-            return normal.ComplementaryDistributionFunction(g(x));
+            if (x <= 0) return 0;
+            if (x >= 1) return 1;
+
+            double z = g(x);
+            return normal.ComplementaryDistributionFunction(z);
         }
 
         /// <summary>
@@ -190,7 +280,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            return normal.ProbabilityDensityFunction(g(x));
+            if (x <= 0 || x >= 1)
+                return 0;
+
+            double z = g(x);
+            return normal.ProbabilityDensityFunction(z);
         }
 
         /// <summary>
@@ -199,7 +293,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
-            return normal.LogProbabilityDensityFunction(g(x));
+            if (x <= 0 || x >= 1)
+                return Double.NegativeInfinity;
+
+            double z = g(x);
+            return normal.LogProbabilityDensityFunction(z);
         }
 
 
@@ -234,10 +332,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("SW(x; n = {0})",
+            return String.Format("W(x; n = {0})",
                 NumberOfSamples.ToString(format, formatProvider));
         }
-
 
     }
 }
