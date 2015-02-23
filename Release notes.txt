@@ -1,3 +1,64 @@
+Accord.NET Framework 2.15.0 release notes
+-----------------------------------------
+dd.mm.2015.
+
+Version updates and fixes:
+  - GC-56:  Reuse decision attributes in the C4.5 algorithm for decision trees;
+  - GC-109: The GoldfarbIdnani optimizer does not optimize well some problems;
+  - GH-57:  Decision trees created using C4.5 depends on the sorting order;
+  - GH-58:  SURF detector might generate Divide By Zero exceptions;
+  - GH-60:  Regularization breaks LogisticRegressionAnalysis in 2.14;
+  - GH-61:  SVM code that worked with version 2.11 now fails to converge.
+  
+* General
+  - Upgrading solution to VS2013 and adding support for .NET 4.5.
+
+* Accord.Statistics
+  - Correcting Circular statistics' AngularDeviation method;
+  - Improving the precision of the Binomial distribution;
+  - Improving sample generation for Poisson and Rayleigh distributions;
+  - Updating all univariate distributions to support sample generation;
+  - Making sure all probability distributions implement IFormattable;
+  - Adding all missing Shapiro-Wilk distribtion's methods;
+  - Adding a common interface for radial basis function kernels;
+  - Adding a new generic Gaussian kernel for creating composite kernels;
+  - Adding a Windowing filter in the Statistics filters namespace.
+
+* Accord.Math
+  - Updating Augmented Lagragian to detect situations where the 
+    inner optimization algorithm has diverged more accurately;
+  - Adding a new Fast Fourier Transform (FFT) implementation for general 
+    matrices and vectors whose dimensions are not necessarily powers of 2.
+
+* Accord.MachineLearning
+  - Tree inducing algorithms (ID3 and C4.5) can now reuse decision 
+    variables multiple times when creating a decision tree;
+  - Correcting Levenberg-Marquardt's chain-rule Jacobian calculation 
+    when there are many output neurons in the learned neural network;
+  - Updating the way SVM learning algorithms detect whether a machine is linear or not;
+  - Updating SVM learning algorithms to use an heuristic value for 
+    C by default unless it has been manually specified by the user;
+  - Updating the linear kernels so they are created without a constant term by default;
+  - Improving multi-class SVM to generate more user-friendly stack traces when
+    an exception occurs during the learning of one of the binary sub-problems.
+
+* Accord.Imaging
+  - Updating IntegralImage to work with In64 matrices to avoid overflows;
+  - Correcting Variance, Sauvola and Niblack threshold filters;
+  - Adding Fast Variance, Wolf-Joulion Threshold, RG Chromaticity and 
+    Objective fidelity filters.
+
+* Accord.IO
+  - Integrating and repackaging Sebastien Lorion's Fast CSV Reader into the Accord.IO
+    namespace with an added support for auto-detecting the file's field delimiter;
+
+* Accord.Audio
+  - Adding IWindow apply overloads to operate directly on double[] vectors;
+  - Adding Sine and Custom signal generators and correcting existing ones.
+  
+
+
+
 Accord.NET Framework 2.14.0 release notes
 -----------------------------------------
 15.12.2014.
