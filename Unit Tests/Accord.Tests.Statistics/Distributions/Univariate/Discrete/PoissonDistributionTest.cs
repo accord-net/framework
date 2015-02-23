@@ -160,5 +160,31 @@ namespace Accord.Tests.Statistics
             }
         }
 
+        [TestMethod()]
+        public void GenerateTest()
+        {
+            double lambda = 1.11022302462516E-16;
+            var target = new PoissonDistribution(lambda) as ISampleableDistribution<double>;
+
+            double[] values = target.Generate(10000);
+
+            for (int i = 0; i < values.Length; i++)
+                Assert.AreEqual(0, values[i]);
+        }
+
+        [TestMethod()]
+        public void GenerateTest2()
+        {
+            double lambda = 1.11022302462516E-16;
+            var target = new PoissonDistribution(lambda) as ISampleableDistribution<double>;
+
+            double[] values = new double[10000];
+            for (int i = 0; i < values.Length; i++)
+                values[i] = target.Generate();
+
+            for (int i = 0; i < values.Length; i++)
+                Assert.AreEqual(0, values[i]);
+        }
+
     }
 }

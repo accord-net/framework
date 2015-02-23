@@ -136,6 +136,15 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Gets the Poisson's parameter λ (lambda).
+        /// </summary>
+        /// 
+        public double Lambda
+        {
+            get { return lambda; }
+        }
+
+        /// <summary>
         ///   Gets the mean for this distribution.
         /// </summary>
         /// 
@@ -337,6 +346,66 @@ namespace Accord.Statistics.Distributions.Univariate
             initialize(mean);
         }
 
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public override int[] Generate(int samples)
+        {
+            var random = Accord.Math.Tools.Random;
+
+            int[] s = new int[samples];
+
+            if (lambda > 30)
+            {
+                for (int i = 0; i < s.Length; i++)
+                {
+                    double u = random.NextDouble();
+                    s[i] = InverseDistributionFunction(u);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < s.Length; i++)
+                    s[i] = knuth(random, lambda);
+            }
+
+            return s;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public override int Generate()
+        {
+            if (lambda > 30)
+                return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+
+            return knuth(Accord.Math.Tools.Random, lambda);
+        }
+
+        private static int knuth(Random random, double lambda)
+        {
+            // Knuth, 1969.
+            double p = 1.0;
+            double L = Math.Exp(-lambda);
+
+            int k;
+
+            for (k = 0; p > L; k++)
+                p *= random.NextDouble();
+
+            return k - 1;
+        }
+
+
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -349,7 +418,7 @@ namespace Accord.Statistics.Distributions.Univariate
             return new PoissonDistribution(lambda);
         }
 
-        
+
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
