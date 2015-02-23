@@ -5648,23 +5648,89 @@ namespace Accord.Statistics
         ///   Expands a grouped data into a full observation matrix.
         /// </summary>
         /// 
-        public static double[][] Expand(int[] classes)
+        /// <param name="labels">The class labels.</param>
+        /// 
+        /// <returns>A jagged matrix where each row corresponds to each element 
+        ///   given in the <paramref name="labels"/> parameter, and each row has
+        ///   the same length as the number of <paramref name="labels"/> in the
+        ///   problem. Each row contains the value 1 on the position corresponding
+        ///   to the label index.</returns>
+        /// 
+        public static double[][] Expand(int[] labels)
         {
-            return Expand(classes, classes.Max() + 1);
+            return Expand(labels, labels.Max() + 1);
         }
 
         /// <summary>
         ///   Expands a grouped data into a full observation matrix.
         /// </summary>
         /// 
-        public static double[][] Expand(int[] classes, int max)
+        /// <param name="labels">The class labels.</param>
+        /// <param name="negative">The negative value to indicate the absence of the class.</param>
+        /// <param name="positive">The positive value to indicate the presence of the class.</param>
+        /// 
+        /// <returns>A jagged matrix where each row corresponds to each element 
+        ///   given in the <paramref name="labels"/> parameter, and each row has
+        ///   the same length as the number of <paramref name="labels"/> in the
+        ///   problem. Each row contains the positive value on the position corresponding
+        ///   to the label index, and the negative value on all others.</returns>
+        /// 
+        public static double[][] Expand(int[] labels, double negative, double positive)
         {
-            double[][] outputs = new double[classes.Length][];
+            return Expand(labels, labels.Max() + 1, negative, positive);
+        }
 
-            for (int i = 0; i < classes.Length; i++)
+        /// <summary>
+        ///   Expands a grouped data into a full observation matrix.
+        /// </summary>
+        /// 
+        /// <param name="labels">The class labels.</param>
+        /// <param name="classes">The number of classes.</param>
+        /// 
+        /// <returns>A jagged matrix where each row corresponds to each element 
+        ///   given in the <paramref name="labels"/> parameter, and each row has
+        ///   the same length as the number of <paramref name="classes"/> in the
+        ///   problem. Each row contains the positive value on the position corresponding
+        ///   to the label index, and the negative value on all others.</returns>
+        /// 
+        public static double[][] Expand(int[] labels, int classes)
+        {
+            double[][] outputs = new double[labels.Length][];
+
+            for (int i = 0; i < labels.Length; i++)
             {
-                outputs[i] = new double[max];
-                outputs[i][classes[i]] = 1.0;
+                outputs[i] = new double[classes];
+                outputs[i][labels[i]] = 1.0;
+            }
+
+            return outputs;
+        }
+
+        /// <summary>
+        ///   Expands a grouped data into a full observation matrix.
+        /// </summary>
+        /// 
+        /// <param name="labels">The class labels.</param>
+        /// <param name="classes">The number of classes.</param>
+        /// <param name="negative">The negative value to indicate the absence of the class.</param>
+        /// <param name="positive">The positive value to indicate the presence of the class.</param>
+        /// 
+        /// <returns>A jagged matrix where each row corresponds to each element 
+        ///   given in the <paramref name="labels"/> parameter, and each row has
+        ///   the same length as the number of <paramref name="classes"/> in the
+        ///   problem. Each row contains the value 1 on the position corresponding
+        ///   to the label index.</returns>
+        /// 
+        public static double[][] Expand(int[] labels, int classes, double negative, double positive)
+        {
+            double[][] outputs = new double[labels.Length][];
+
+            for (int i = 0; i < labels.Length; i++)
+            {
+                var row = outputs[i] = new double[classes];
+                for (int j = 0; j < row.Length; j++)
+                    row[j] = negative;
+                row[labels[i]] = positive;
             }
 
             return outputs;
