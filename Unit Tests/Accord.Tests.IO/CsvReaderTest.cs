@@ -375,5 +375,53 @@ namespace Accord.Tests.IO
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
+
+        [TestMethod()]
+        public void CsvReader_Spaces()
+        {
+            string text = "\n"
+                + "0.111\t2.222\n"
+                + "0.333\t4.111\n"
+                + "2.421\t3.141\n";
+
+            var stream = new StringReader(text);
+
+            CsvReader reader = new CsvReader(stream, false);
+
+            var actual = reader.ReadToEnd().ToArray().ToMatrix();
+
+            string[,] expected =
+            {
+                { "0.111", "2.222" },
+                { "0.333", "4.111" },
+                { "2.421", "3.141" },
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+        [TestMethod, Ignore]
+        public void CsvReader_Comma()
+        {
+            string text = "\n"
+                + "0,111\t2,222\n"
+                + "0,333\t4,111\n"
+                + "2,421\t3,141\n";
+
+            var stream = new StringReader(text);
+
+            CsvReader reader = new CsvReader(stream, false);
+
+            var actual = reader.ReadToEnd().ToArray().ToMatrix();
+
+            string[,] expected =
+            {
+                { "0,111", "2,222" },
+                { "0,333", "4,111" },
+                { "2,421", "3,141" },
+            };
+
+            Assert.IsTrue(expected.IsEqual(actual));
+        }
     }
 }

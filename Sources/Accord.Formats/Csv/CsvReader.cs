@@ -936,11 +936,18 @@ namespace Accord.IO
 
         private void GuessDelimiterFromBuffer()
         {
-            // Find first unquoted end line
+            if (_buffer == null)
+                return;
+
+            // Find first unquoted non-empty end line
             int lineEndIndex = _buffer.Length - 1;
 
+            int start = 0;
+
+            while (_buffer[start] == '\r' || _buffer[start] == '\n') start++;
+
             bool inquote = false;
-            for (int i = 0; i < _buffer.Length; i++)
+            for (int i = start; i < _buffer.Length; i++)
             {
                 if (_buffer[i] == Quote)
                     inquote = !inquote;
@@ -961,7 +968,7 @@ namespace Accord.IO
                 char delimiter = delimiters[i];
 
                 int count = 0;
-                for (int j = 0; j < lineEndIndex; j++)
+                for (int j = start; j < lineEndIndex; j++)
                 {
                     if (_buffer[j] == Quote)
                         inquote = !inquote;
