@@ -131,24 +131,24 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Creates a new Beta distribution.
         /// </summary>
         /// 
-        /// <param name="success">The number of success <c>r</c>. Default is 0.</param>
+        /// <param name="successes">The number of success <c>r</c>. Default is 0.</param>
         /// <param name="trials">The number of trials <c>n</c>. Default is 1.</param>
         /// 
-        public BetaDistribution([NonnegativeInteger] int success, [PositiveInteger] int trials)
+        public BetaDistribution([NonnegativeInteger] int successes, [PositiveInteger] int trials)
         {
-            if (success < 0)
-                throw new ArgumentOutOfRangeException("success", "The number of success must be positive");
+            if (successes < 0)
+                throw new ArgumentOutOfRangeException("successes", "The number of success must be positive");
 
             if (trials <= 0)
                 throw new ArgumentOutOfRangeException("trials", "The number of trials must be positive");
 
-            if (success > trials)
+            if (successes > trials)
             {
-                throw new ArgumentOutOfRangeException("success",
+                throw new ArgumentOutOfRangeException("successes",
                     "The number of successes should be lesser than or equal to the number of trials");
             }
 
-            init(success + 1, trials - success + 1);
+            init(successes + 1, trials - successes + 1);
         }
 
         /// <summary>
@@ -194,6 +194,24 @@ namespace Accord.Statistics.Distributions.Univariate
         public double Beta
         {
             get { return b; }
+        }
+
+        /// <summary>
+        ///   Gets the number of successes <c>r</c>.
+        /// </summary>
+        /// 
+        public double Successes
+        {
+            get { return a - 1; }
+        }
+
+        /// <summary>
+        ///   Gets the number of trials <c>n</c>.
+        /// </summary>
+        /// 
+        public double Trials
+        {
+            get { return b + Successes - 1; }
         }
 
         /// <summary>

@@ -112,6 +112,18 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         }
 
         /// <summary>
+        ///   Gets the distribution's non-negative shape parameter a.
+        /// </summary>
+        /// 
+        public double A { get { return a;  } }
+
+        /// <summary>
+        ///   Gets the distribution's non-negative shape parameter b.
+        /// </summary>
+        /// 
+        public double B { get { return b; } }
+
+        /// <summary>
         ///   Gets the mean for this distribution.
         /// </summary>
         /// 

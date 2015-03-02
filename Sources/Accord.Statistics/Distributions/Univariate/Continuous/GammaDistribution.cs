@@ -193,10 +193,10 @@ namespace Accord.Statistics.Distributions.Univariate
         private void init(double theta, double k)
         {
             if (Double.IsNaN(theta))
-            {
-                theta = 1;
-                k = 1;
-            }
+                throw new ArgumentOutOfRangeException("theta", "Theta contains a value that is Not-a-Number.");
+
+            if (Double.IsNaN(k))
+                throw new ArgumentOutOfRangeException("theta", "The shape parameter k contains a value that is Not-a-Number.");
 
             this.theta = theta;
             this.k = k;
@@ -446,6 +446,9 @@ namespace Accord.Statistics.Distributions.Univariate
             double mean = observations.Mean();
 
             double s = Math.Log(mean) - lnsum / observations.Length;
+
+            if (Double.IsNaN(s))
+                throw new ArgumentException("Observation vector contains negative values.", "observations");
 
             // initial approximation
             double newK = (3 - s + Math.Sqrt((s - 3) * (s - 3) + 24 * s)) / (12 * s);

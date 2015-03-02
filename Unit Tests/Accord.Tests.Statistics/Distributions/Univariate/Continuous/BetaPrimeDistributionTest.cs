@@ -92,6 +92,9 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
 
             string str = betaPrime.ToString(CultureInfo.InvariantCulture); // BetaPrime(x; α = 4, β = 2)
 
+            Assert.AreEqual(4, betaPrime.Alpha);
+            Assert.AreEqual(2, betaPrime.Beta);
+
             Assert.AreEqual(4.0, mean);
             Assert.AreEqual(2.1866398762435981, median);
             Assert.AreEqual(1.0, mode);
