@@ -126,7 +126,11 @@ namespace Accord.Statistics.Distributions.Univariate
             initialize(location, scale);
         }
 
-
+        /// <summary>
+        ///   Gets the location value μ (mu).
+        /// </summary>
+        /// 
+        public double Location { get { return mu; } }
 
         /// <summary>
         ///   Gets the location value μ (mu).

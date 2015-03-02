@@ -116,6 +116,23 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
             this.beta = beta;
         }
 
+        /// <summary>
+        ///   Gets the distribution's non-negative shape parameter a.
+        /// </summary>
+        /// 
+        public double Alpha
+        {
+            get { return alpha; }
+        }
+
+        /// <summary>
+        ///   Gets the distribution's non-negative shape parameter b.
+        /// </summary>
+        /// 
+        public double Beta
+        {
+            get { return beta; }
+        }
 
         /// <summary>
         ///   Gets the mean for this distribution.
@@ -224,7 +241,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
             if (x <= 0)
                 return 0;
 
-            return Beta.Incomplete(alpha, beta, x / (1 + x));
+            return Accord.Math.Beta.Incomplete(alpha, beta, x / (1 + x));
         }
 
         /// <summary>
@@ -250,7 +267,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
                 return 0;
 
             double num = Math.Pow(x, alpha - 1) * Math.Pow(1 + x, -alpha - beta);
-            double den = Beta.Function(alpha, beta);
+            double den = Accord.Math.Beta.Function(alpha, beta);
             return num / den;
         }
 
@@ -277,7 +294,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
                 return Double.NegativeInfinity;
 
             double num = (alpha - 1) * Math.Log(x) + (-alpha - beta) * Math.Log(1 + x);
-            double den = Beta.Log(alpha, beta);
+            double den = Accord.Math.Beta.Log(alpha, beta);
             return num - den;
         }
 

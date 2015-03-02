@@ -94,6 +94,7 @@
     <Compile Include="Controls\ScatterplotViewTest.cs" />
     <Compile Include="Controls\DataGridBoxTest.cs" />
     <Compile Include="Controls\HistogramViewTest.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShapiroWilkDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogisticDistributionTest.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="Distributions\Univariate\Continuous\TrapezoidalDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\UQuadraticDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Discrete\DegenerateDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\UnivariateDistributionTest.cs" />
     <Compile Include="Filters\BranchingFilterTest.cs" />
     <Compile Include="Kernels\GaussianLinearTest.cs" />
     <Compile Include="Kernels\GaussianDtwTest.cs" />

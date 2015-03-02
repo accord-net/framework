@@ -23,11 +23,8 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using Accord.Statistics.Distributions.Multivariate;
-    using System.Globalization;
 
     [TestClass()]
     public class GeneralContinuousDistributionTest

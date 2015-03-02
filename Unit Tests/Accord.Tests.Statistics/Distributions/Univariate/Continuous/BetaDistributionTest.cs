@@ -157,6 +157,10 @@ namespace Accord.Tests.Statistics
 
             string str = betaDistribution.ToString();
 
+            Assert.AreEqual(trials, betaDistribution.Trials);
+            Assert.AreEqual(successes, betaDistribution.Successes);
+
+
             Assert.AreEqual(0.06187249616697166, mean);
             Assert.AreEqual(0.06187069085946604, median, 1e-6);
             Assert.AreEqual(0.06070354581334864, p025, 1e-6);

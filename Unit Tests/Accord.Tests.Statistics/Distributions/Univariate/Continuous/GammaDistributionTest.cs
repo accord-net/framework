@@ -219,5 +219,22 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4, actual.Scale, 0.01);
             Assert.AreEqual(2, actual.Shape, 0.01);
         }
+
+
+        [TestMethod()]
+        public void NegativeValueTest()
+        {
+            double[] samples = NormalDistribution.Standard.Generate(100);
+
+            try
+            {
+                GammaDistribution.Estimate(samples);
+                Assert.Fail();
+            }
+            catch (ArgumentException)
+            {
+
+            }
+        }
     }
 }
