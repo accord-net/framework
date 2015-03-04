@@ -19,7 +19,7 @@ Version updates and fixes:
   - Improving sample generation for Poisson and Rayleigh distributions;
   - Updating all univariate distributions to support sample generation;
   - Making sure all probability distributions implement IFormattable;
-  - Adding all missing Shapiro-Wilk distribtion's methods;
+  - Adding all missing Shapiro-Wilk distribution's methods;
   - Adding a common interface for radial basis function kernels;
   - Adding a new generic Gaussian kernel for creating composite kernels;
   - Adding a Windowing filter in the Statistics filters namespace.
