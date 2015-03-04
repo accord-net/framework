@@ -62,7 +62,7 @@ namespace Accord.Statistics.Analysis
         ///   The estimated distributions.
         /// </value>
         /// 
-        public IUnivariateDistribution[] Distributions { get; private set; }
+        public IFittableDistribution<double>[] Distributions { get; private set; }
 
         /// <summary>
         ///   Gets the <see cref="KolmogorovSmirnovTest">Kolmogorov-Smirnov tests</see>
@@ -123,7 +123,7 @@ namespace Accord.Statistics.Analysis
         {
             this.data = observations;
 
-            Distributions = new IUnivariateDistribution[]
+            Distributions = new IFittableDistribution<double>[]
             {
                 new NormalDistribution(),
                 new UniformContinuousDistribution(),
@@ -174,7 +174,7 @@ namespace Accord.Statistics.Analysis
                 cs[i] = Double.NegativeInfinity;
                 ad[i] = Double.NegativeInfinity;
 
-                var d = this.Distributions[i];
+                var d = this.Distributions[i] as IUnivariateDistribution;
 
                 if (d == null)
                     continue;
@@ -369,7 +369,7 @@ namespace Accord.Statistics.Analysis
         ///   The distribution associated with this good-of-fit measure.
         /// </value>
         /// 
-        public IUnivariateDistribution Distribution
+        public IFittableDistribution<double> Distribution
         {
             get { return analysis.Distributions[index]; }
         }
@@ -384,7 +384,12 @@ namespace Accord.Statistics.Analysis
         /// 
         public double KolmogorovSmirnov
         {
-            get { return analysis.KolmogorovSmirnov[index].Statistic; }
+            get
+            {
+                if (analysis.KolmogorovSmirnov[index] == null)
+                    return Double.NaN;
+                return analysis.KolmogorovSmirnov[index].Statistic;
+            }
         }
 
         /// <summary>
@@ -411,7 +416,12 @@ namespace Accord.Statistics.Analysis
         /// 
         public double ChiSquare
         {
-            get { return analysis.ChiSquare[index].Statistic; }
+            get
+            {
+                if (analysis.ChiSquare[index] == null)
+                    return Double.NaN;
+                return analysis.ChiSquare[index].Statistic;
+            }
         }
 
         /// <summary>
@@ -438,7 +448,12 @@ namespace Accord.Statistics.Analysis
         /// 
         public double AndersonDarling
         {
-            get { return analysis.AndersonDarling[index].Statistic; }
+            get
+            {
+                if (analysis.AndersonDarling[index] == null)
+                    return Double.NaN;
+                return analysis.AndersonDarling[index].Statistic;
+            }
         }
 
         /// <summary>
