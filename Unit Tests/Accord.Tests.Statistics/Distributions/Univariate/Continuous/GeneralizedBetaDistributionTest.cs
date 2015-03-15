@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics
     using Accord.Math.Differentiation;
 
     [TestClass()]
-    public class BetaDistributionTest
+    public class GeneralizedBetaDistributionTest
     {
 
 
@@ -56,7 +56,7 @@ namespace Accord.Tests.Statistics
             double expected, actual;
 
             {
-                BetaDistribution target = new BetaDistribution(1.73, 4.2);
+                var target = new GeneralizedBetaDistribution(1.73, 4.2);
                 actual = target.ProbabilityDensityFunction(-1);
                 expected = 0;
                 Assert.AreEqual(expected, actual, 1e-7);
@@ -90,7 +90,7 @@ namespace Accord.Tests.Statistics
             double alpha = 0.42;
             double beta = 1.57;
 
-            BetaDistribution target = new BetaDistribution(alpha, beta);
+            var target = new GeneralizedBetaDistribution(alpha, beta);
 
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
@@ -101,7 +101,7 @@ namespace Accord.Tests.Statistics
             double alpha = 0.42;
             double beta = 1.57;
 
-            BetaDistribution betaDistribution = new BetaDistribution(alpha, beta);
+            var betaDistribution = new GeneralizedBetaDistribution(alpha, beta);
 
             double mean = betaDistribution.Mean; // 0.21105527638190955
             double median = betaDistribution.Median; // 0.11577706212908731
@@ -129,7 +129,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.0887671630877072, hf);
             Assert.AreEqual(0.30641361727662009, ccdf);
             Assert.AreEqual(0.27, icdf, 1e-10);
-            Assert.AreEqual("B(x; α = 0.42, β = 1.57)", str);
+            Assert.AreEqual("B(x; α = 0.42, β = 1.57, min = 0, max = 1)", str);
 
             Assert.IsFalse(Double.IsNaN(median));
 
@@ -146,12 +146,175 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void NoncentralBetaMeanTest()
+        {
+            // Create a 4-parameter Beta distribution with the following parameters (α, β, a, b):
+            var beta = new GeneralizedBetaDistribution(alpha: 1.42, beta: 1.57, min: 1, max: 4.2);
+
+            double mean = beta.Mean;     // 2.5197324414715716
+            double median = beta.Median; // 2.4997705845160225
+            double var = beta.Variance;  // 0.19999664152943961
+            double mode = beta.Mode;     // 2.3575757575757574
+            double h = beta.Entropy;     // -0.050654548091478513
+
+            double cdf = beta.DistributionFunction(x: 2.27);           // 0.40828630817664596
+            double pdf = beta.ProbabilityDensityFunction(x: 2.27);     // 1.2766172921464953
+            double lpdf = beta.LogProbabilityDensityFunction(x: 2.27); // 0.2442138392176838
+
+            double chf = beta.CumulativeHazardFunction(x: 2.27);       // 0.5247323897609667
+            double hf = beta.HazardFunction(x: 2.27);                  // 2.1574915534109484
+
+            double ccdf = beta.ComplementaryDistributionFunction(x: 2.27); // 0.59171369182335409
+            double icdf = beta.InverseDistributionFunction(p: cdf);        // 2.27
+
+            string str = beta.ToString(System.Globalization.CultureInfo.InvariantCulture); // "B(x; α = 1.42, β = 1.57, min = 1, max = 4.2)"
+
+            Assert.AreEqual(2.5197324414715716, mean);
+            Assert.AreEqual(2.4997705845160225, median);
+            Assert.AreEqual(2.3575757575757574, mode);
+            Assert.AreEqual(-0.050654548091478513, h);
+            Assert.AreEqual(0.19999664152943961, var);
+            Assert.AreEqual(0.5247323897609667, chf);
+            Assert.AreEqual(0.40828630817664596, cdf);
+            Assert.AreEqual(1.2766172921464953, pdf);
+            Assert.AreEqual(0.2442138392176838, lpdf);
+            Assert.AreEqual(2.1574915534109484, hf);
+            Assert.AreEqual(0.59171369182335409, ccdf);
+            Assert.AreEqual(2.27, icdf, 1e-10);
+            Assert.AreEqual("B(x; α = 1.42, β = 1.57, min = 1, max = 4.2)", str);
+
+            Assert.IsFalse(Double.IsNaN(median));
+
+            var range1 = beta.GetRange(0.95);
+            var range2 = beta.GetRange(0.99);
+            var range3 = beta.GetRange(0.01);
+
+            Assert.AreEqual(1.2650560572620337, range1.Min);
+            Assert.AreEqual(3.8411806104750186, range1.Max);
+            Assert.AreEqual(1.0841613594568846, range2.Min);
+            Assert.AreEqual(4.0728683052205534, range2.Max);
+            Assert.AreEqual(1.0841613594568846, range3.Min);
+            Assert.AreEqual(4.0728683052205534, range3.Max);
+        }
+
+        [TestMethod()]
+        public void BetaPERTTest()
+        {
+            // Create a Beta from a minimum, maximum and most likely value
+            var b = GeneralizedBetaDistribution.Pert(min: 1, max: 3, mode: 2);
+
+            double mean = b.Mean;     // 2
+            double median = b.Median; // 2
+            double mode = b.Mode;     // 2
+            double var = b.Variance;  // 0.071428571428571425
+
+            double min = b.Min;
+            double max = b.Max;
+            double alpha = b.Alpha;
+            double beta = b.Beta;
+
+            Assert.AreEqual(mean, median);
+            Assert.AreEqual(mean, mode);
+
+            Assert.AreEqual(2, mean);
+            Assert.AreEqual(2, median);
+            Assert.AreEqual(2.0, mode);
+
+            Assert.AreEqual(0.071428571428571425, var);
+            Assert.AreEqual(1.0, min);
+            Assert.AreEqual(3, max);
+            Assert.AreEqual(3, alpha);
+            Assert.AreEqual(3, beta);
+        }
+
+        [TestMethod()]
+        public void BetaPERTTest2()
+        {
+            // Create a Beta from a minimum, maximum and most likely value
+            var b = GeneralizedBetaDistribution.Pert(min: 1, max: 3, mode: 1.5);
+
+            double mean = b.Mean;     // 1.6666666666666667
+            double median = b.Median; // 1.6276203409113952
+            double var = b.Variance;  // 0.063492063492063516
+            double mode = b.Mode;     // 1.5
+
+            double min = b.Min;       // 1.0
+            double max = b.Max;       // 3.0
+            double alpha = b.Alpha;   // 1.9999999999999993
+            double beta = b.Beta;     // 3.9999999999999982
+
+            Assert.AreEqual(1.6666666666666667, mean);
+            Assert.AreEqual(1.6276203409113952, median);
+            Assert.AreEqual(0.063492063492063516, var);
+            Assert.AreEqual(1.5, mode);
+            Assert.AreEqual(1.0, min);
+            Assert.AreEqual(3.0, max);
+            Assert.AreEqual(1.9999999999999993, alpha);
+            Assert.AreEqual(3.9999999999999982, beta);
+        }
+
+        [TestMethod()]
+        public void BetaVosePERTTest()
+        {
+            // Create a Beta from a minimum, maximum and most likely value
+            var b = GeneralizedBetaDistribution.Vose(min: 1, max: 3, mode: 1.42);
+
+            double mean = b.Mean;     // 1.6133333333333333
+            double median = b.Median; // 1.5727889200146494
+            double mode = b.Mode;     // 1.4471823077804513
+            double var = b.Variance;  // 0.055555555555555546
+
+            double min = b.Min;
+            double max = b.Max;
+            double alpha = b.Alpha;
+            double beta = b.Beta;
+
+            Assert.AreEqual(1.6133333333333333, mean);
+            Assert.AreEqual(1.5727889200146494, median);
+            Assert.AreEqual(0.055555555555555546, var);
+            Assert.AreEqual(1.4471823077804513, mode);
+            Assert.AreEqual(1, min);
+            Assert.AreEqual(3, max);
+            Assert.AreEqual(2.0406826666666666, alpha);
+            Assert.AreEqual(4.6137173333333337, beta);
+        }
+
+        [TestMethod()]
+        public void BetaVosePERTTest_ModeEqualMean()
+        {
+            // Create a Beta from a minimum, maximum and most likely value
+            var b = GeneralizedBetaDistribution.Vose(min: 1, max: 3, mode: 2);
+
+            double mean = b.Mean;     
+            double median = b.Median; 
+            double var = b.Variance;  
+            double mode = b.Mode;     
+
+            double min = b.Min;
+            double max = b.Max;
+            double alpha = b.Alpha;
+            double beta = b.Beta;
+
+            Assert.AreEqual(mean, median);
+            Assert.AreEqual(mean, mode);
+
+            Assert.AreEqual(2, mean);
+            Assert.AreEqual(2, median);
+            Assert.AreEqual(2, mode);
+            Assert.AreEqual(0.055555555555555552, var);
+            Assert.AreEqual(1, min);
+            Assert.AreEqual(3, max);
+            Assert.AreEqual(4, alpha);
+            Assert.AreEqual(4, beta);
+        }
+
+        [TestMethod()]
         public void BetaMeanTest2()
         {
             int trials = 161750;
             int successes = 10007;
 
-            BetaDistribution betaDistribution = new BetaDistribution(successes, trials);
+            var betaDistribution = GeneralizedBetaDistribution.Standard(successes, trials);
 
             double mean = betaDistribution.Mean; // 0.06187249616697166
             double median = betaDistribution.Median; // 0.06187069085946604
@@ -160,15 +323,11 @@ namespace Accord.Tests.Statistics
 
             string str = betaDistribution.ToString();
 
-            Assert.AreEqual(trials, betaDistribution.Trials);
-            Assert.AreEqual(successes, betaDistribution.Successes);
-
-
             Assert.AreEqual(0.06187249616697166, mean);
             Assert.AreEqual(0.06187069085946604, median, 1e-6);
             Assert.AreEqual(0.06070354581334864, p025, 1e-6);
             Assert.AreEqual(0.0630517079399996, p975, 1e-6);
-            Assert.AreEqual("B(x; α = 10008, β = 151744)", str);
+            Assert.AreEqual("B(x; α = 10008, β = 151744, min = 0, max = 1)", str);
         }
 
         [TestMethod()]
@@ -177,7 +336,7 @@ namespace Accord.Tests.Statistics
             int trials = 100;
             int successes = 78;
 
-            BetaDistribution betaDistribution = new BetaDistribution(successes, trials);
+            var betaDistribution = GeneralizedBetaDistribution.Standard(successes, trials);
 
             double mean = betaDistribution.Mean; // 0.77450980392156865
             double median = betaDistribution.Median; // 0.77630912598534851
@@ -200,12 +359,12 @@ namespace Accord.Tests.Statistics
         {
             double[] x = { 0.1, 0.5, 0.3, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9, 0.9 };
 
-            BetaDistribution target = new BetaDistribution(0, 1);
+            var target = GeneralizedBetaDistribution.Standard(0, 1);
 
             target.Fit(x);
 
-            Assert.AreEqual(1.1810718232044195, target.Alpha);
-            Assert.AreEqual(0.60843093922651903, target.Beta);
+            Assert.AreEqual(1.1810718232044195, target.Alpha, 1e-10);
+            Assert.AreEqual(0.60843093922651903, target.Beta, 1e-10);
         }
 
         [TestMethod()]
@@ -214,7 +373,7 @@ namespace Accord.Tests.Statistics
             double[] x = { 1.0, 0.1, 0.5, 0.3, 0.5, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9 };
             int[] w = { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 2 };
 
-            BetaDistribution target = new BetaDistribution(0, 1);
+            var target = new GeneralizedBetaDistribution(1, 1);
 
             target.Fit(x, w.ToDouble());
 
@@ -228,7 +387,8 @@ namespace Accord.Tests.Statistics
             double[] x = { 1.0, 0.1, 0.5, 0.3, 0.5, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9 };
             int[] w = { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 2 };
 
-            BetaDistribution target = new BetaDistribution(0, 1);
+            var target = new GeneralizedBetaDistribution(1, 1);
+            var options = new GeneralizedBetaOptions() { Method = BetaEstimationMethod.Moments };
 
             target.Fit(x, w);
 
@@ -242,7 +402,7 @@ namespace Accord.Tests.Statistics
             double[] x = samples;
 
             {
-                BetaDistribution target = new BetaDistribution(0, 1);
+                var target = GeneralizedBetaDistribution.Standard(1, 1);
                 var options = new BetaOptions() { Method = BetaEstimationMethod.Moments };
                 target.Fit(x, options);
 
@@ -251,7 +411,7 @@ namespace Accord.Tests.Statistics
             }
 
             {
-                BetaDistribution target = new BetaDistribution(0, 1);
+                var target = GeneralizedBetaDistribution.Standard(0, 1);
                 var options = new BetaOptions() { Method = BetaEstimationMethod.MaximumLikelihood };
                 target.Fit(x, options);
 
@@ -266,7 +426,7 @@ namespace Accord.Tests.Statistics
             double[] x = { 1.0, 0.1, 0.5, 0.3, 0.5, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9 };
             int[] w = { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 2 };
 
-            BetaDistribution target = new BetaDistribution(0, 1);
+            var target = new GeneralizedBetaDistribution(1, 1);
 
 
             var options = new BetaOptions()
@@ -286,7 +446,7 @@ namespace Accord.Tests.Statistics
             double[] x = { 1.0, 0.1, 0.5, 0.3, 0.5, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9 };
             int[] w = { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 2 };
 
-            BetaDistribution target = new BetaDistribution(0, 1);
+            var target = GeneralizedBetaDistribution.Standard(0, 1);
 
 
             var options = new BetaOptions()
@@ -301,57 +461,18 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void LogLikelihoodTest()
-        {
-            var target = new BetaDistribution(3.0, 2.0);
-
-            double sum = 0;
-            for (int i = 0; i < samples.Length; i++)
-                sum -= target.LogProbabilityDensityFunction(samples[i]);
-
-            double expected = sum;
-            double actual = BetaDistribution.LogLikelihood(samples, target.Alpha, target.Beta);
-
-            Assert.AreEqual(expected, actual, 1e-10);
-        }
-
-        [TestMethod()]
-        public void GradientTest()
-        {
-            for (double a = 0.1; a < 3; a += 0.1)
-            {
-                for (double b = 0.1; b < 3; b += 0.1)
-                {
-                    var target = new BetaDistribution(a, b);
-
-                    Assert.AreEqual(a, target.Alpha);
-                    Assert.AreEqual(b, target.Beta);
-
-                    FiniteDifferences fd = new FiniteDifferences(2);
-                    fd.Function = (double[] parameters) => BetaDistribution.LogLikelihood(samples, parameters[0], parameters[1]);
-
-                    double[] expected = fd.Compute(a, b);
-                    double[] actual = BetaDistribution.Gradient(samples, a, b);
-
-                    Assert.IsTrue(expected[0].IsRelativelyEqual(actual[0], 0.05));
-                    Assert.IsTrue(expected[1].IsRelativelyEqual(actual[1], 0.05));
-                }
-            }
-        }
-
-        [TestMethod()]
         public void BetaGenerateTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
             int n = 100000;
 
-            double[] samples = BetaDistribution
-                .Random(alpha: 2, beta: 3, samples: n);
+            double[] samples = GeneralizedBetaDistribution
+                .Random(alpha: 2, beta: 3, min: 0, max: 1, samples: n);
 
             Assert.AreEqual(n, samples.Length);
 
-            var actual = BetaDistribution.Estimate(samples);
+            var actual = GeneralizedBetaDistribution.Estimate(samples, 0, 1);
 
             Assert.AreEqual(2, actual.Alpha, 1e-2);
             Assert.AreEqual(3, actual.Beta, 1e-2);
@@ -364,13 +485,19 @@ namespace Accord.Tests.Statistics
 
             int n = 100000;
 
-            double[] samples = BetaDistribution
-                .Random(alpha: 2, beta: 3,  samples: n);
+            double[] samples = GeneralizedBetaDistribution
+                .Random(alpha: 2, beta: 3, min: 10, max: 15, samples: n);
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                Assert.IsTrue(samples[i] > 10);
+                Assert.IsTrue(samples[i] < 15);
+            }
 
             Assert.AreEqual(n, samples.Length);
 
-            var actual = BetaDistribution.Estimate(samples,
-                new BetaOptions { Method = BetaEstimationMethod.MaximumLikelihood });
+            var actual = GeneralizedBetaDistribution.Estimate(samples, 10, 15,
+                new GeneralizedBetaOptions { Method = BetaEstimationMethod.MaximumLikelihood });
 
             Assert.AreEqual(2, actual.Alpha, 0.015);
             Assert.AreEqual(3, actual.Beta, 0.03);

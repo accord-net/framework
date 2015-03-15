@@ -388,6 +388,23 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting,
+        ///   such as regularization constants and additional parameters.</param>
+        /// 
+        public override void Fit(double[] observations, int[] weights, IFittingOptions options)
+        {
+            Fit(observations, weights, options as TriangularOptions);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
         /// <param name="observations">The array of observations to fit the model against.
         ///   The array elements can be either of type double (for univariate data) or type
         ///   double[] (for multivariate data).
@@ -398,9 +415,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   
         public void Fit(double[] observations, double[] weights, TriangularOptions options)
         {
-            bool fixMax = false;
-            bool fixMin = false;
+            bool fixMax = true;
+            bool fixMin = true;
             bool sorted = false;
+            int imax = -1;
+            int imin = -1;
             TriangularEstimationMethod method = TriangularEstimationMethod.MeanMaxMin;
 
             if (options != null)
@@ -409,120 +428,329 @@ namespace Accord.Statistics.Distributions.Univariate
                 fixMin = options.FixMin;
                 method = options.Method;
                 sorted = options.IsSorted;
+                imin = options.MinIndex;
+                imax = options.MaxIndex;
             }
 
             double min = this.A;
             double max = this.B;
             double mode = this.C;
 
-            int imax = -1;
-            int imin = -1;
 
             if (!sorted)
                 Array.Sort(observations, weights);
 
             if (!fixMin)
-            {
-                if (weights == null)
-                {
-                    imin = 0;
-                }
-                else
-                {
-                    // Look for the first value whose weight is different from zero
-                    for (int i = 0; i < weights.Length; i++)
-                    {
-                        if (weights[i] > 0)
-                        {
-                            imin = i;
-                            break;
-                        }
-                    }
-                }
-
-                min = observations[imin];
-            }
+                min = GetMin(observations, weights, out imin);
 
             if (!fixMax)
-            {
-                if (weights == null)
-                {
-                    imax = observations.Length - 1;
-                }
-                else
-                {
-                    // Look for the last value whose weight is different from zero
-                    for (int i = weights.Length - 1; i >= 0; i--)
-                    {
-                        if (weights[i] > 0)
-                        {
-                            imax = i;
-                            break;
-                        }
-                    }
-                }
+                max = GetMax(observations, weights, out imax);
 
-                max = observations[imax];
+            if (imin == -1)
+                imin = FindMin(observations, min);
+
+            if (imax == -1)
+                imax = FindMax(observations, max);
+
+
+            mode = GetMode(observations, weights, method, min, max, mode, imax, imin);
+
+            initialize(min, max, mode);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against.
+        ///   The array elements can be either of type double (for univariate data) or type
+        ///   double[] (for multivariate data).
+        /// </param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, 
+        ///   such as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(double[] observations, int[] weights, TriangularOptions options)
+        {
+            bool fixMax = true;
+            bool fixMin = true;
+            bool sorted = false;
+            int imax = -1;
+            int imin = -1;
+            TriangularEstimationMethod method = TriangularEstimationMethod.MeanMaxMin;
+
+            if (options != null)
+            {
+                fixMax = options.FixMax;
+                fixMin = options.FixMin;
+                method = options.Method;
+                sorted = options.IsSorted;
+                imin = options.MinIndex;
+                imax = options.MaxIndex;
             }
 
+            double min = this.A;
+            double max = this.B;
+            double mode = this.C;
+
+
+            if (!sorted)
+                Array.Sort(observations, weights);
+
+            if (!fixMin)
+                min = GetMin(observations, weights, out imin);
+
+            if (!fixMax)
+                max = GetMax(observations, weights, out imax);
+
+            if (imin == -1)
+                imin = FindMin(observations, min);
+
+            if (imax == -1)
+                imax = FindMax(observations, max);
+
+
+            mode = GetMode(observations, weights, method, min, max, mode, imax, imin);
+
+            initialize(min, max, mode);
+        }
+
+        /// <summary>
+        ///   Gets the minimum value in a set of weighted observations.
+        /// </summary>
+        /// 
+        public static double GetMin(double[] observations, double[] weights, out int imin)
+        {
+            imin = 0;
+            if (weights == null)
+                return observations[imin];
+
+            return observations.WeightedMin(weights, out imin, alreadySorted: true);
+        }
+
+        /// <summary>
+        ///   Gets the maximum value in a set of weighted observations.
+        /// </summary>
+        /// 
+        public static double GetMax(double[] observations, double[] weights, out int imax)
+        {
+            imax = observations.Length - 1;
+            if (weights == null)
+                return observations[imax];
+
+            return observations.WeightedMax(weights, out imax, alreadySorted: true);
+        }
+
+        /// <summary>
+        ///   Finds the index of the last largest value in a set of observations.
+        /// </summary>
+        /// 
+        public static int FindMax(double[] observations, double max)
+        {
+            int imax = observations.Length - 1;
+            while (observations[imax] > max)
+                imax++;
+            return imax;
+        }
+
+        /// <summary>
+        ///   Finds the index of the first smallest value in a set of observations.
+        /// </summary>
+        /// 
+        public static int FindMin(double[] observations, double min)
+        {
+            int imin = 0;
+            while (observations[imin] < min)
+                imin++;
+            return imin;
+        }
+
+        /// <summary>
+        ///   Finds the index of the first smallest value in a set of weighted observations.
+        /// </summary>
+        /// 
+        public static double GetMin(double[] observations, int[] weights, out int imin)
+        {
+            imin = 0;
+            if (weights == null)
+                return observations[imin];
+
+            return observations.WeightedMin(weights, out imin, alreadySorted: true);
+        }
+
+        /// <summary>
+        ///   Finds the index of the last largest value in a set of weighted observations.
+        /// </summary>
+        /// 
+        public static double GetMax(double[] observations, int[] weights, out int imax)
+        {
+            imax = observations.Length - 1;
+            if (weights == null)
+                return observations[imax];
+
+            return observations.WeightedMax(weights, out imax, alreadySorted: true);
+        }
+
+
+
+
+        private static double GetMode(double[] observations, double[] weights, TriangularEstimationMethod method,
+            double min, double max, double mode, int imax, int imin)
+        {
             if (method == TriangularEstimationMethod.MeanMaxMin)
             {
-                if (imin == -1)
-                {
-                    for (int i = 0; i < observations.Length; i++)
-                    {
-                        if (observations[i] >= min)
-                        {
-                            imin = i;
-                            break;
-                        }
-                    }
-                }
-
-                if (imax == -1)
-                {
-                    for (int i = observations.Length - 1; i >= 0; i--)
-                    {
-                        if (observations[i] <= max)
-                        {
-                            imax = i;
-                            break;
-                        }
-                    }
-                }
-
-                double mean;
-
-                if (weights == null)
-                {
-                    double sum = 0;
-                    for (int i = imin; i < imax; i++)
-                        sum += observations[i];
-                    mean = sum / (imax - imin);
-                }
-                else
-                {
-                    double sum = 0;
-                    double weightSum = 0;
-                    for (int i = imin; i < imax; i++)
-                    {
-                        sum += weights[i] * observations[i];
-                        weightSum += weights[i];
-                    }
-
-                    mean = sum / weightSum;
-                }
-
-                mode = 3 * mean - max - min;
-
-                initialize(min, max, mode);
+                mode = MeanMaxMin(observations, weights, min, max, mode, imax, imin);
+            }
+            else if (method == TriangularEstimationMethod.Standard)
+            {
+                mode = WeightedMode(observations, weights, mode, imax, imin);
             }
             else
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
+            }
+            return mode;
+        }
+
+
+        private static double GetMode(double[] observations, int[] weights, TriangularEstimationMethod method,
+         double min, double max, double mode, int imax, int imin)
+        {
+            if (method == TriangularEstimationMethod.MeanMaxMin)
+            {
+                mode = MeanMaxMin(observations, weights, min, max, mode, imax, imin);
+            }
+            else if (method == TriangularEstimationMethod.Standard)
+            {
+                mode = WeightedMode(observations, weights, mode, imax, imin);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+            return mode;
+        }
+
+        private static double WeightedMode(double[] observations, double[] weights, double mode, int imax, int imin)
+        {
+            var currentValue = observations[imin];
+            double currentCount = weights[imin];
+
+            var bestValue = currentValue;
+            double bestCount = currentCount;
+
+
+            for (int i = imin + 1; i <= imax; i++)
+            {
+                if (currentValue.Equals(observations[i]))
+                {
+                    currentCount += weights[i];
+                }
+                else
+                {
+                    currentValue = observations[i];
+                    currentCount = weights[i];
+                }
+
+                if (currentCount > bestCount)
+                {
+                    bestCount = currentCount;
+                    bestValue = currentValue;
+                }
             }
 
+            mode = bestValue;
+            return mode;
+        }
 
+        private static double WeightedMode(double[] observations, int[] weights, double mode, int imax, int imin)
+        {
+            var currentValue = observations[imin];
+            double currentCount = weights[imin];
+
+            var bestValue = currentValue;
+            double bestCount = currentCount;
+
+
+            for (int i = imin + 1; i <= imax; i++)
+            {
+                if (currentValue.Equals(observations[i]))
+                {
+                    currentCount += weights[i];
+                }
+                else
+                {
+                    currentValue = observations[i];
+                    currentCount = weights[i];
+                }
+
+                if (currentCount > bestCount)
+                {
+                    bestCount = currentCount;
+                    bestValue = currentValue;
+                }
+            }
+
+            mode = bestValue;
+            return mode;
+        }
+
+        private static double MeanMaxMin(double[] observations, double[] weights, double min, double max, double mode, int imax, int imin)
+        {
+            double mean;
+
+            if (weights == null)
+            {
+                double sum = 0;
+                for (int i = imin; i <= imax; i++)
+                    sum += observations[i];
+                mean = sum / (imax - imin);
+            }
+            else
+            {
+                double sum = 0;
+                double weightSum = 0;
+                for (int i = imin; i <= imax; i++)
+                {
+                    sum += weights[i] * observations[i];
+                    weightSum += weights[i];
+                }
+
+                mean = sum / weightSum;
+            }
+
+            mode = 3 * mean - max - min;
+
+            return mode;
+        }
+
+        private static double MeanMaxMin(double[] observations, int[] weights, double min, double max, double mode, int imax, int imin)
+        {
+            double mean;
+
+            if (weights == null)
+            {
+                double sum = 0;
+                for (int i = imin; i <= imax; i++)
+                    sum += observations[i];
+                mean = sum / (imax - imin);
+            }
+            else
+            {
+                double sum = 0;
+                double weightSum = 0;
+                for (int i = imin; i <= imax; i++)
+                {
+                    sum += weights[i] * observations[i];
+                    weightSum += weights[i];
+                }
+
+                mean = sum / weightSum;
+            }
+
+            mode = 3 * mean - max - min;
+
+            return mode;
         }
     }
 }

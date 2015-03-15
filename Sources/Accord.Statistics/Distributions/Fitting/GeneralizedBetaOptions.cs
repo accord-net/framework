@@ -25,39 +25,32 @@ namespace Accord.Statistics.Distributions.Fitting
     using System;
 
     /// <summary>
-    ///   Triangular distribution's mode estimation method.
+    ///   BetaPERT's distribution estimation method.
     /// </summary>
     /// 
-    public enum TriangularEstimationMethod
+    public enum BetaPertMethod
     {
         /// <summary>
-        ///   Estimates the mode using the mean-maximum-minimum method.
+        ///   Estimates the mode using the classic method.
         /// </summary>
         /// 
-        MeanMaxMin,
+        Classic,
 
         /// <summary>
-        ///   Estimates the mode using the standard algorithm.
+        ///   Estimates the mode using the Vose method.
         /// </summary>
         /// 
-        Standard,
-        
-        /// <summary>
-        ///   Estimates the mode using the bisection algorithm.
-        /// </summary>
-        /// 
-        Bisection
+        Vose
     }
 
     /// <summary>
-    ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.TriangularDistribution">
-    ///   Triangular distributions</see>. 
+    ///   Estimation options for <see cref="Accord.Statistics.Distributions.Univariate.GeneralizedBetaDistribution">
+    ///   Beta PERT distributions</see>. 
     /// </summary>
     /// 
     [Serializable]
-    public class TriangularOptions : IFittingOptions
+    public class GeneralizedBetaOptions : IFittingOptions
     {
-
         /// <summary>
         ///   Gets or sets the index of the minimum observed 
         ///   value, if already known. Default is -1.
@@ -73,6 +66,13 @@ namespace Accord.Statistics.Distributions.Fitting
         public int MaxIndex { get; set; }
 
         /// <summary>
+        ///   Gets or sets which estimation method should be used by the fitting 
+        ///   algorithm. Default is <see cref="BetaEstimationMethod.Moments"/>.
+        /// </summary>
+        /// 
+        public BetaEstimationMethod Method { get; set; }
+
+        /// <summary>
         ///   Gets or sets a value indicating whether the observations are already sorted.
         /// </summary>
         /// 
@@ -81,13 +81,6 @@ namespace Accord.Statistics.Distributions.Fitting
         /// </value>
         /// 
         public bool IsSorted { get; set; }
-
-        /// <summary>
-        ///   Gets or sets the mode estimation method to use. Default 
-        ///   is <see cref="TriangularEstimationMethod.MeanMaxMin"/>.
-        /// </summary>
-        /// 
-        public TriangularEstimationMethod Method { get; set; }
 
         /// <summary>
         ///   Gets or sets a value indicating whether the maximum
@@ -107,17 +100,17 @@ namespace Accord.Statistics.Distributions.Fitting
 
 
         /// <summary>
-        ///   Initializes a new instance of the <see cref="TriangularOptions"/> class.
+        ///   Initializes a new instance of the <see cref="GeneralizedBetaOptions"/> class.
         /// </summary>
         /// 
-        public TriangularOptions()
+        public GeneralizedBetaOptions()
         {
-            IsSorted = false;
-            Method = TriangularEstimationMethod.MeanMaxMin;
             MinIndex = -1;
             MaxIndex = -1;
+            IsSorted = false;
             FixMin = true;
             FixMax = true;
+            Method = BetaEstimationMethod.Moments;
         }
 
     }
