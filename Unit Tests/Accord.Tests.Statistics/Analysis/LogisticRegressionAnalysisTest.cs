@@ -224,30 +224,79 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void FromSummaryTest1()
         {
+            // Suppose we have a (fictitious) data set about patients who 
+            // underwent cardiac surgery. The first column gives the number
+            // of arterial bypasses performed during the surgery. The second
+            // column gives the number of patients whose surgery went well,
+            // while the third column gives the number of patients who had
+            // at least one complication during the surgery.
+            // 
             int[,] data =
             {
-                { 1, 140, 45 },
-                { 2, 130, 60 },
-                { 3, 150, 31 },
-                { 4,  96, 65 }
+                // # of stents       success     complications
+                {       1,             140,           45       },
+                {       2,             130,           60       },
+                {       3,             150,           31       },
+                {       4,              96,           65       }
             };
 
 
+            double[][] inputs = data.GetColumn(0).ToDouble().ToArray();
+
+            int[] positive = data.GetColumn(1);
+            int[] negative = data.GetColumn(2);
+
+            // Create a new Logistic Regression Analysis from the summary data
+            var regression = LogisticRegressionAnalysis.FromSummary(inputs, positive, negative);
+
+            regression.Compute(); // compute the analysis.
+
+            // Now we can show a summary of the analysis
+            // DataGridBox.Show(regression.Coefficients);
+
+
+            // We can also investigate all parameters individually. For
+            // example the coefficients values will be available at the
+            // vector
+
+            double[] coef = regression.CoefficientValues;
+
+            // The first value refers to the model's intercept term. We
+            // can also retrieve the odds ratios and standard errors:
+
+            double[] odds = regression.OddsRatios;
+            double[] stde = regression.StandardErrors;
+
+
+            // Finally, we can use it to estimate risk for a new patient
+            double y = regression.Regression.Compute(new double[] { 4 });
+
+
+
+
+            Assert.AreEqual(3.7586367581050162, odds[0], 1e-8);
+            Assert.AreEqual(0.85772731075090014, odds[1], 1e-8);
+            Assert.IsFalse(odds.HasNaN());
+
+            Assert.AreEqual(0.20884336554629004, stde[0], 1e-8);
+            Assert.AreEqual(0.075837785246620285, stde[1], 1e-8);
+            Assert.IsFalse(stde.HasNaN());
+
+            Assert.AreEqual(0.67044096045332713, y, 1e-8);
+            Assert.IsFalse(Double.IsNaN(y));
+
             LogisticRegressionAnalysis expected;
-            LogisticRegressionAnalysis actual;
 
 
             {
                 int[] qtr = data.GetColumn(0);
-                int[] positive = data.GetColumn(1);
-                int[] negative = data.GetColumn(2);
 
                 var expanded = Accord.Statistics.Tools.Expand(qtr, positive, negative);
 
-                double[][] inputs = expanded.GetColumn(0).ToDouble().ToArray();
+                double[][] inp = expanded.GetColumn(0).ToDouble().ToArray();
                 double[] outputs = expanded.GetColumn(1).ToDouble();
 
-                expected = new LogisticRegressionAnalysis(inputs, outputs);
+                expected = new LogisticRegressionAnalysis(inp, outputs);
 
                 expected.Compute();
 
@@ -260,17 +309,8 @@ namespace Accord.Tests.Statistics
             }
 
 
-            {
-                double[][] qtr = data.GetColumn(0).ToDouble().ToArray();
 
-                int[] positive = data.GetColumn(1);
-                int[] negative = data.GetColumn(2);
-
-                actual = LogisticRegressionAnalysis.FromSummary(qtr, positive, negative);
-
-                actual.Compute();
-            }
-
+            var actual = regression;
             Assert.AreEqual(expected.Coefficients[0].Value, actual.Coefficients[0].Value, 1e-8);
             Assert.AreEqual(expected.Coefficients[1].Value, actual.Coefficients[1].Value, 1e-8);
 

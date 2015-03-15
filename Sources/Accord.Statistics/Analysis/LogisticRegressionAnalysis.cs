@@ -62,6 +62,12 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
+    /// <para>
+    ///   The following example shows to create a Logistic regresion analysis using a full
+    ///   dataset composed of input vectors and a binary output vector. Each input vector
+    ///   has an associated label (1 or 0) in the output vector, where 1 represents a positive
+    ///   label (yes, or true) and 0 represents a negative label (no, or false).</para>
+    ///   
     /// <code>
     /// // Suppose we have the following data about some patients.
     /// // The first variable is continuous and represent patient
@@ -125,6 +131,62 @@ namespace Accord.Statistics.Analysis
     ///             
     /// // For those inputs, the answer probability is approximately 75%.
     /// </code>
+    /// 
+    /// <para>
+    ///   The analysis can also be created from data given in a summary form. Instead of having
+    ///   one input vector associated with one positive or negative label, each input vector is
+    ///   associated with the proportion of positive to negative labels in the original dataset.
+    /// </para>
+    /// 
+    /// <code>
+    /// // Suppose we have a (fictitious) data set about patients who 
+    /// // underwent cardiac surgery. The first column gives the number
+    /// // of arterial bypasses performed during the surgery. The second
+    /// // column gives the number of patients whose surgery went well,
+    /// // while the third column gives the number of patients who had
+    /// // at least one complication during the surgery.
+    /// // 
+    /// int[,] data =
+    /// {
+    ///     // # of stents       success     complications
+    ///     {       1,             140,           45       },
+    ///     {       2,             130,           60       },
+    ///     {       3,             150,           31       },
+    ///     {       4,              96,           65       }
+    /// };
+    /// 
+    /// 
+    /// double[][] inputs = data.GetColumn(0).ToDouble().ToArray();
+    /// 
+    /// int[] positive = data.GetColumn(1);
+    /// int[] negative = data.GetColumn(2);
+    /// 
+    /// // Create a new Logistic Regression Analysis from the summary data
+    /// var regression = LogisticRegressionAnalysis.FromSummary(inputs, positive, negative);
+    /// 
+    /// regression.Compute(); // compute the analysis.
+    /// 
+    /// // Now we can show a summary of the analysis
+    /// DataGridBox.Show(regression.Coefficients);
+    /// 
+    /// 
+    /// // We can also investigate all parameters individually. For
+    /// // example the coefficients values will be available at the
+    /// // vector
+    /// 
+    /// double[] coef = regression.CoefficientValues;
+    /// 
+    /// // The first value refers to the model's intercept term. We
+    /// // can also retrieve the odds ratios and standard errors:
+    /// 
+    /// double[] odds = regression.OddsRatios;
+    /// double[] stde = regression.StandardErrors;
+    /// 
+    /// 
+    /// // Finally, we can use it to estimate risk for a new patient
+    /// double y = regression.Regression.Compute(new double[] { 4 });
+    /// </code>
+    ///   
     /// </example>
     /// 
     [Serializable]
