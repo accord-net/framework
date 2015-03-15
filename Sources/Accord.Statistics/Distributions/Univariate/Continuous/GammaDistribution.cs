@@ -551,9 +551,8 @@ namespace Accord.Statistics.Distributions.Univariate
                 for (int i = 0; i < r.Length; i++)
                 {
                     double U = Accord.Math.Tools.Random.Next();
-                    r[i] = scale * rgama(d, c) * Math.Pow(U, 1.0 / shape);
+                    r[i] = scale * Gamma.Random(d, c) * Math.Pow(U, 1.0 / shape);
                 }
-
             }
             else
             {
@@ -561,9 +560,7 @@ namespace Accord.Statistics.Distributions.Univariate
                 double c = 1.0 / Math.Sqrt(9 * d);
 
                 for (int i = 0; i < r.Length; i++)
-                {
-                    r[i] = scale * rgama(d, c);
-                }
+                    r[i] = scale * Gamma.Random(d, c);
             }
 
             return r;
@@ -587,58 +584,17 @@ namespace Accord.Statistics.Distributions.Univariate
                 double c = 1.0 / Math.Sqrt(9 * d);
 
                 double U = Accord.Math.Tools.Random.Next();
-                return scale * rgama(d, c) * Math.Pow(U, 1.0 / shape);
+                return scale * Gamma.Random(d, c) * Math.Pow(U, 1.0 / shape);
             }
             else
             {
                 double d = shape - 1.0 / 3.0;
                 double c = 1.0 / Math.Sqrt(9 * d);
 
-                return scale * rgama(d, c);
+                return scale * Gamma.Random(d, c);
             }
         }
 
-
-
-        /// <summary>
-        ///   Marsaglia's Simple Method
-        /// </summary>
-        /// 
-        private static double rgama(double d, double c)
-        {
-            // References:
-            //
-            // - Marsaglia, G. A Simple Method for Generating Gamma Variables, 2000
-            //
-
-            while (true)
-            {
-                // 2. Generate v = (1+cx)^3 with x normal
-                double x, t, v;
-
-                do
-                {
-                    x = NormalDistribution.Standard.Generate();
-                    t = (1.0 + c * x);
-                    v = t * t * t;
-                } while (v <= 0);
-
-
-                // 3. Generate uniform U
-                double U = Accord.Math.Tools.Random.NextDouble();
-
-                // 4. If U < 1-0.0331*x^4 return d*v.
-                double x2 = x * x;
-                if (U < 1 - 0.0331 * x2 * x2)
-                    return d * v;
-
-                // 5. If log(U) < 0.5*x^2 + d*(1-v+log(v)) return d*v.
-                if (Math.Log(U) < 0.5 * x2 + d * (1.0 - v + Math.Log(v)))
-                    return d * v;
-
-                // 6. Goto step 2
-            }
-        }
 
         #endregion
 

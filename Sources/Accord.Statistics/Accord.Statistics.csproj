@@ -118,6 +118,8 @@
     <Compile Include="Distributions\Density Kernels\Accord.Statistics.Distributions.DensityKernels.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
     <Compile Include="Distributions\Fitting\Accord.Statistics.Distributions.Fitting.cs" />
+    <Compile Include="Distributions\Fitting\GeneralizedBetaOptions.cs" />
+    <Compile Include="Distributions\Fitting\BetaOptions.cs" />
     <Compile Include="Distributions\Fitting\TriangularOptions.cs" />
     <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />
@@ -172,6 +174,7 @@
     <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\SkewNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TrapezoidalDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GeneralizedBetaDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GumbelDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TukeyLambdaDistribution.cs" />
@@ -299,6 +302,7 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
+    <Compile Include="Measures\Tools.Vectors.Weighted.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
     <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />
@@ -467,7 +471,7 @@
     <Compile Include="Testing\WaldTest.cs" />
     <Compile Include="Testing\ZTest.cs" />
     <Compile Include="Testing\Base\HypothesisTypes.cs" />
-    <Compile Include="Tools.cs" />
+    <Compile Include="Measures\Tools.cs" />
     <Compile Include="Visualizations\ScatterplotClassValueCollection.cs" />
     <Compile Include="Visualizations\HistogramBinCollection.cs" />
     <Compile Include="Visualizations\HistogramBin.cs" />
