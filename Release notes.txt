@@ -19,20 +19,25 @@ Version updates and fixes:
   - Improving sample generation for Poisson and Rayleigh distributions;
   - Updating all univariate distributions to support sample generation;
   - Making sure all probability distributions implement IFormattable;
+  - Adding Generalized Beta distribution with PERT estimation;
+  - Adding sample generation in Beta and Generalized Beta distributions;
+  - Adding estimation using the Method-of-moments and Maximum Likelihood;
+  - Adding support for weighted samples in LogisticRegressionAnalysis;
+  - Adding a named constructor to create an Analysis from summary data;
   - Adding all missing Shapiro-Wilk distribution's methods;
   - Adding a common interface for radial basis function kernels;
   - Adding a new generic Gaussian kernel for creating composite kernels;
   - Adding a Windowing filter in the Statistics filters namespace.
 
 * Accord.Math
-  - Updating Augmented Lagragian to detect situations where the 
-    inner optimization algorithm has diverged more accurately;
+  - Updating Augmented Lagragian to detect more accurately 
+    when the inner optimization algorithm has diverged;
   - Adding a new Fast Fourier Transform (FFT) implementation for general 
     matrices and vectors whose dimensions are not necessarily powers of 2.
 
 * Accord.MachineLearning
-  - Tree inducing algorithms (ID3 and C4.5) can now reuse decision 
-    variables multiple times when creating a decision tree;
+  - Updating tree inducing algorithms (ID3 and C4.5) se they can reuse
+    decision variables multiple times when creating a decision tree;
   - Correcting Levenberg-Marquardt's chain-rule Jacobian calculation 
     when there are many output neurons in the learned neural network;
   - Updating the way SVM learning algorithms detect whether a machine is linear or not;
