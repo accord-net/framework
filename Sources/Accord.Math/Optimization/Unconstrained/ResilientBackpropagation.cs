@@ -53,7 +53,7 @@ namespace Accord.Math.Optimization
         // update values, also known as deltas
         private double[] weightsUpdates;
 
-        
+
 
         /// <summary>
         ///   Occurs when the current learning progress has changed.
@@ -138,6 +138,31 @@ namespace Accord.Math.Optimization
             set { convergence.Iterations = value; }
         }
 
+        /// <summary>
+        ///   Creates a new instance of the L-BFGS optimization algorithm.
+        /// </summary>
+        /// 
+        /// <param name="function">The function to be optimized.</param>
+        /// 
+        public ResilientBackpropagation(NonlinearObjectiveFunction function)
+            : this(function.NumberOfVariables, function.Function, function.Gradient)
+        {
+        }
+
+        /// <summary>
+        ///   Creates a new instance of the L-BFGS optimization algorithm.
+        /// </summary>
+        /// 
+        /// <param name="numberOfVariables">The number of free parameters in the function to be optimized.</param>
+        /// <param name="function">The function to be optimized.</param>
+        /// <param name="gradient">The gradient of the function.</param>
+        /// 
+        public ResilientBackpropagation(int numberOfVariables,
+            Func<double[], double> function, Func<double[], double[]> gradient)
+            : base(numberOfVariables, function, gradient)
+        {
+            init(numberOfVariables);
+        }
 
         /// <summary>
         ///   Creates a new <see cref="ResilientBackpropagation"/> function optimizer.
@@ -147,6 +172,11 @@ namespace Accord.Math.Optimization
         /// 
         public ResilientBackpropagation(int numberOfVariables)
             : base(numberOfVariables)
+        {
+            init(numberOfVariables);
+        }
+
+        private void init(int numberOfVariables)
         {
             convergence = new RelativeConvergence();
 
@@ -178,7 +208,7 @@ namespace Accord.Math.Optimization
         }
 
 
-    
+
 
         private double runEpoch()
         {
