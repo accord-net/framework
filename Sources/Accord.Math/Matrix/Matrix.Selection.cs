@@ -658,6 +658,21 @@ namespace Accord.Math
         ///   Gets the maximum element in a vector.
         /// </summary>
         /// 
+        public static T Max<T>(this T[] values, out int imax, bool alreadySorted) where T : IComparable
+        {
+            if (alreadySorted)
+            { 
+                imax = values.Length - 1;
+                return values[values.Length - 1];
+            }
+
+            return Max(values, out imax);
+        }
+
+        /// <summary>
+        ///   Gets the maximum element in a vector.
+        /// </summary>
+        /// 
         public static T Max<T>(this T[] values) where T : IComparable
         {
             int imax;
