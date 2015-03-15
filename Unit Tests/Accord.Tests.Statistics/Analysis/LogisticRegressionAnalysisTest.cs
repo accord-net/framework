@@ -221,6 +221,68 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(y));
         }
 
+        [TestMethod()]
+        public void FromSummaryTest1()
+        {
+            int[,] data =
+            {
+                { 1, 140, 45 },
+                { 2, 130, 60 },
+                { 3, 150, 31 },
+                { 4,  96, 65 }
+            };
+
+
+            LogisticRegressionAnalysis expected;
+            LogisticRegressionAnalysis actual;
+
+
+            {
+                int[] qtr = data.GetColumn(0);
+                int[] positive = data.GetColumn(1);
+                int[] negative = data.GetColumn(2);
+
+                var expanded = Accord.Statistics.Tools.Expand(qtr, positive, negative);
+
+                double[][] inputs = expanded.GetColumn(0).ToDouble().ToArray();
+                double[] outputs = expanded.GetColumn(1).ToDouble();
+
+                expected = new LogisticRegressionAnalysis(inputs, outputs);
+
+                expected.Compute();
+
+                double slope = expected.Coefficients[1].Value; // should return -0.153
+                double inter = expected.Coefficients[0].Value;
+                double value = expected.ChiSquare.PValue;      // should return 0.042
+                Assert.AreEqual(-0.15346904821339602, slope);
+                Assert.AreEqual(1.324056323049271, inter);
+                Assert.AreEqual(0.042491262992507946, value);
+            }
+
+
+            {
+                double[][] qtr = data.GetColumn(0).ToDouble().ToArray();
+
+                int[] positive = data.GetColumn(1);
+                int[] negative = data.GetColumn(2);
+
+                actual = LogisticRegressionAnalysis.FromSummary(qtr, positive, negative);
+
+                actual.Compute();
+            }
+
+            Assert.AreEqual(expected.Coefficients[0].Value, actual.Coefficients[0].Value, 1e-8);
+            Assert.AreEqual(expected.Coefficients[1].Value, actual.Coefficients[1].Value, 1e-8);
+
+            Assert.AreEqual(expected.ChiSquare.PValue, actual.ChiSquare.PValue, 1e-8);
+            Assert.AreEqual(expected.WaldTests[0].PValue, actual.WaldTests[0].PValue, 1e-8);
+            Assert.AreEqual(expected.WaldTests[1].PValue, actual.WaldTests[1].PValue, 1e-8);
+
+            Assert.AreEqual(expected.Confidences[0].Max, actual.Confidences[0].Max, 1e-6);
+            Assert.AreEqual(expected.Confidences[0].Min, actual.Confidences[0].Min, 1e-6);
+            Assert.AreEqual(expected.Confidences[1].Max, actual.Confidences[1].Max, 1e-6);
+            Assert.AreEqual(expected.Confidences[1].Min, actual.Confidences[1].Min, 1e-6);
+        }
 
         private static double[][] training = new double[][]
         {
