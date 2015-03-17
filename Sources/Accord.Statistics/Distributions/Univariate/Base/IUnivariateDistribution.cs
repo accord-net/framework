@@ -137,6 +137,22 @@ namespace Accord.Statistics.Distributions
         double DistributionFunction(double x);
 
         /// <summary>
+        ///   Gets the cumulative distribution function (cdf) for this
+        ///   distribution in the semi-closed interval (a; b] given as
+        ///   <c>P(a &lt; X ≤ b)</c>.
+        /// </summary>
+        /// 
+        /// <param name="a">The start of the semi-closed interval (a; b].</param>
+        /// <param name="b">The end of the semi-closed interval (a; b].</param>
+        /// 
+        /// <remarks>
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
+        /// </remarks>
+        /// 
+        double DistributionFunction(double a, double b);
+
+        /// <summary>
         ///   Gets the probability density function (pdf) for
         ///   this distribution evaluated at point <c>x</c>.
         /// </summary>
@@ -189,7 +205,7 @@ namespace Accord.Statistics.Distributions
         /// <param name="p">A probability value between 0 and 1.</param>
         /// 
         /// <returns>A sample which could original the given probability 
-        ///   value when applied in the <see cref="DistributionFunction"/>.</returns>
+        ///   value when applied in the <see cref="DistributionFunction(double)"/>.</returns>
         /// 
         double InverseDistributionFunction(double p);
 

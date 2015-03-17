@@ -307,25 +307,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return DistributionFunction((int)x[0]);
         }
 
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">
-        ///   A single point in the distribution range. For a 
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.</returns>
-        ///   
         double IUnivariateDistribution.DistributionFunction(double x)
         {
             if (double.IsNegativeInfinity(x))
@@ -336,35 +317,30 @@ namespace Accord.Statistics.Distributions.Univariate
             return DistributionFunction((int)x);
         }
 
-        /// <summary>
-        ///   Gets the inverse of the cumulative distribution function (icdf) for
-        ///   this distribution evaluated at probability <c>p</c>. This function 
-        ///   is also known as the Quantile function.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
-        ///   a given probability, the value which the random variable will be at,
-        ///   or below, with that probability.
-        /// </remarks>
-        /// 
+        double IUnivariateDistribution.DistributionFunction(double a, double b)
+        {
+            int ia;
+            if (double.IsNegativeInfinity(a))
+                ia = int.MinValue;
+            else if (double.IsPositiveInfinity(a))
+                ia = int.MaxValue;
+            else ia = (int)a;
+
+            int ib;
+            if (double.IsNegativeInfinity(b))
+                ib = int.MinValue;
+            else if (double.IsPositiveInfinity(b))
+                ib = int.MaxValue;
+            else ib = (int)b;
+
+            return DistributionFunction(ia, ib);
+        }
+
         double IUnivariateDistribution.InverseDistributionFunction(double p)
         {
             return InverseDistributionFunction(p);
         }
 
-        /// <summary>
-        ///   Gets the complementary cumulative distribution function
-        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
-        ///   This function is also known as the Survival function.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The Complementary Cumulative Distribution Function (CCDF) is
-        ///   the complement of the Cumulative Distribution Function, or 1
-        ///   minus the CDF.
-        /// </remarks>
-        /// 
         double IDistribution.ComplementaryDistributionFunction(double[] x)
         {
             if (double.IsNegativeInfinity(x[0]))
@@ -375,26 +351,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return ComplementaryDistributionFunction((int)x[0]);
         }
 
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">
-        ///   A single point in the distribution range. For a 
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        ///   
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.</returns>
-        ///   
         double IDistribution.ProbabilityFunction(double[] x)
         {
             if (double.IsNegativeInfinity(x[0]))
@@ -405,21 +361,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return ProbabilityMassFunction((int)x[0]);
         }
 
-        /// <summary>
-        ///   Gets the log-probability density function (pdf)
-        ///   for this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range. For a
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        /// 
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c>
-        ///   occurring in the current distribution.
-        /// </returns>
-        /// 
         double IDistribution.LogProbabilityFunction(double[] x)
         {
             return LogProbabilityMassFunction((int)x[0]);
