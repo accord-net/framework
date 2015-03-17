@@ -476,10 +476,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public void Fit(double[] observations, double[] weights, EmpiricalHazardOptions options)
         {
+            if (options == null) 
+                throw new ArgumentNullException("options", "Options can't be null");
 
-            if (options == null) throw new ArgumentNullException("options", "Options can't be null");
-
-            if (weights != null) throw new ArgumentException("Weights are not supported.", "weights");
+            if (weights != null) 
+                throw new ArgumentException("Weights are not supported.", "weights");
 
 
             double[] output = options.Output;
@@ -536,8 +537,6 @@ namespace Accord.Statistics.Distributions.Univariate
 
                     values[i] = 1.0 - Math.Pow(1.0 - num / den, 1.0 / num);
                 }
-
-
             }
 
             this.Times = (double[])time.Clone();
