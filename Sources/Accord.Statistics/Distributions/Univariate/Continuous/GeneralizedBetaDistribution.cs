@@ -28,6 +28,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
     using Accord.Math.Optimization;
+    using System.ComponentModel;
 
     /// <summary>
     ///   The 4-parameter Beta distribution.
@@ -204,7 +205,8 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="min">The minimum possible value a.</param>
         /// <param name="max">The maximum possible value b.</param>
         /// 
-        public GeneralizedBetaDistribution([Positive] double alpha, [Positive] double beta, [Real] double min, [Real] double max)
+        public GeneralizedBetaDistribution([Positive] double alpha, [Positive] double beta,
+            [Real, DefaultValue(0)] double min, [Real, DefaultValue(1)] double max)
         {
             if (min > max)
             {
