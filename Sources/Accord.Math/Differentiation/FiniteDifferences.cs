@@ -41,6 +41,12 @@ namespace Accord.Math.Differentiation
     ///   of derivatives by finite differences plays a central role in finite difference methods 
     ///   for the numerical solution of differential equations, especially boundary value problems.
     /// </para>
+    /// 
+    /// <para>
+    ///   This class implements Newton's finite differences method for approximating the derivatives 
+    ///   of a multivariate function. A simplified version of the class is also available for 
+    ///   <see cref="Derivative(System.Func{double, double}, double, int)">univariate functions through
+    ///   its Derivative static methods</see>.</para>
     ///   
     /// <para>
     ///   References:
@@ -58,7 +64,7 @@ namespace Accord.Math.Differentiation
     /// 
     /// <example>
     /// <code>
-    /// // Create a simple function with two parameters: f(x,y) = x² + y
+    /// // Create a simple function with two parameters: f(x, y) = x² + y
     /// Func &lt;double[], double> function = x => Math.Pow(x[0], 2) + x[1];
     /// 
     /// // The gradient function should be g(x,y) = &lt;2x, 1>
@@ -70,6 +76,8 @@ namespace Accord.Math.Differentiation
     /// double[] result = calculator.Compute(2, -1); // answer is (4, 1)
     /// </code>
     /// </example>
+    /// 
+    /// <seealso cref="Accord.Math.Integration"/>
     /// 
     public class FiniteDifferences
     {
