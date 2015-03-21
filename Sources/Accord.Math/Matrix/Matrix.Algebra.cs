@@ -137,8 +137,8 @@ namespace Accord.Math
     ///                     { 5, 6 },
     ///                  }";
     ///                  
-    ///   matrix[,] mdimensional = Matrix.Parse(str, CSharpMatrixFormatProvider.InvariantCulture);
-    ///   matrix[,] jagged = Matrix.ParseJagged(str, CSharpMatrixFormatProvider.InvariantCulture);
+    ///   double[,] multid = Matrix.Parse(str, CSharpMatrixFormatProvider.InvariantCulture);
+    ///   double[,] jagged = Matrix.ParseJagged(str, CSharpMatrixFormatProvider.InvariantCulture);
     ///  </code>
     ///  
     ///  <para>
@@ -147,7 +147,7 @@ namespace Accord.Math
     ///  <code>
     ///   string str = "[1 2; 3 4]";
     ///                  
-    ///   matrix[,] matrix = Matrix.Parse(str, OctaveMatrixFormatProvider.InvariantCulture);
+    ///   double[,] matrix = Matrix.Parse(str, OctaveMatrixFormatProvider.InvariantCulture);
     ///  </code>
     ///  
     ///  <para>

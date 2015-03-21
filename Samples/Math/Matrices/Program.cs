@@ -53,18 +53,18 @@ namespace MatrixOperations
 
             // 1.1 Using standard .NET declaration
             double[,] A = 
-            {
-                {1, 2, 3},
-                {6, 2, 0},
-                {0, 0, 1}
-            };
+        {
+            {1, 2, 3},
+            {6, 2, 0},
+            {0, 0, 1}
+        };
 
             double[,] B = 
-            {
-                {2, 0, 0},
-                {0, 2, 0},
-                {0, 0, 2}
-            };
+        {
+            {2, 0, 0},
+            {0, 2, 0},
+            {0, 0, 2}
+        };
 
             {
                 // 1.2 Using Accord extension methods

@@ -66,7 +66,7 @@ namespace Accord.Math.Optimization
     /// // we have to find its root, maximum and minimum inside 
     /// // the interval [-4,3]. First, we express this function
     /// // as a lambda expression:
-    /// Func&gt;double, double> function = x => x * x * x + 2 * x * x - 10 * x;
+    /// Func&lt;double, double> function = x => x * x * x + 2 * x * x - 10 * x;
     /// 
     /// // And now we can create the search algorithm:
     /// BrentSearch search = new BrentSearch(function, -4, 3);

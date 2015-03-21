@@ -48,6 +48,50 @@ namespace Accord.Math.Integration
     ///  </para>
     ///  </remarks>
     ///  
+    /// <example>
+    /// <para>
+    ///   Let's say we would like to compute the definite integral of the function 
+    ///   <c>f(x) = cos(x)</c> in the interval -1 to +1 using a variety of integration 
+    ///   methods, including the <see cref="TrapezoidalRule"/>, <see cref="RombergMethod"/>
+    ///   and <see cref="NonAdaptiveGaussKronrod"/>. Those methods can compute definite
+    ///   integrals where the integration interval is finite:
+    /// </para>
+    /// 
+    /// <code>
+    /// // Declare the function we want to integrate
+    /// Func&lt;double, double> f = (x) => Math.Cos(x);
+    ///
+    /// // We would like to know its integral from -1 to +1
+    /// double a = -1, b = +1;
+    ///
+    /// // Integrate!
+    /// double trapez  = TrapezoidalRule.Integrate(f, a, b, steps: 1000); // 1.6829414
+    /// double romberg = RombergMethod.Integrate(f, a, b);                // 1.6829419
+    /// double nagk    = NonAdaptiveGaussKronrod.Integrate(f, a, b);      // 1.6829419
+    /// </code>
+    /// 
+    /// <para>
+    ///   Moreover, it is also possible to calculate the value of improper integrals
+    ///   (it is, integrals with infinite bounds) using <see cref="InfiniteAdaptiveGaussKronrod"/>,
+    ///   as shown below. Let's say we would like to compute the area under the Gaussian
+    ///   curve from -infinite to +infinite. While this function has infinite bounds, this
+    ///   function is known to integrate to 1.</para>
+    ///   
+    /// <code>
+    /// // Declare the Normal distribution's density function (which is the Gaussian's bell curve)
+    /// Func&lt;double, double> g = (x) => (1 / Math.Sqrt(2 * Math.PI)) * Math.Exp(-(x * x) / 2);
+    ///
+    /// // Integrate!
+    /// double iagk = InfiniteAdaptiveGaussKronrod.Integrate(g,
+    ///     Double.NegativeInfinity, Double.PositiveInfinity);   // Result should be 0.99999...
+    /// </code>
+    /// </example>
+    /// 
+    /// <seealso cref="RombergMethod"/>
+    /// <seealso cref="NonAdaptiveGaussKronrod"/>
+    /// <seealso cref="InfiniteAdaptiveGaussKronrod"/>
+    /// <seealso cref="MonteCarloIntegration"/>
+    /// 
     public class TrapezoidalRule : INumericalIntegration, IUnivariateIntegration
     {
         private DoubleRange range;
