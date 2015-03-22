@@ -63,11 +63,11 @@ namespace Accord.Tests.Math
             double[] from = { -1, -1 };
             double[] to = { +1, +1 };
 
-            int samples = 100000;
+            int samples = 1000000;
 
             double area = MonteCarloIntegration.Integrate(x => H(x[0], x[1]), from, to, samples);
 
-            Assert.AreEqual(Math.PI, area, 1e-3);
+            Assert.AreEqual(Math.PI, area, 5e-3);
         }
 
 

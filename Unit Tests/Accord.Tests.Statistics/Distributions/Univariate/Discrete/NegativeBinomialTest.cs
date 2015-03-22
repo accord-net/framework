@@ -81,6 +81,10 @@ namespace Accord.Tests.Statistics
             // String representation
             string str = dist.ToString(CultureInfo.InvariantCulture); // "NegativeBinomial(x; r = 7, p = 0.42)"
 
+            double[] probabilities = new double[10];
+            for (int i = 0; i < probabilities.Length; i++)
+                probabilities[i] = dist.DistributionFunction(i);
+
             Assert.AreEqual(5.068965517241379, mean);
             Assert.AreEqual(5.0, median);
             Assert.AreEqual(8.7395957193816862, var);

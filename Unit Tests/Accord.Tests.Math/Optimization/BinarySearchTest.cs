@@ -59,11 +59,20 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void ConstructorTest()
         {
-            Func<int, double> function = x => x * x * x + 2 * x * x - 10 * x + 1;
-            BinarySearch search = new BinarySearch(function, -4, 3);
-            double root = search.FindRoot();
+            // https://www.wolframalpha.com/input/?i=%28x%2B1%29+*+%28x%2B1%29+*+%28x%2B1%29+%2B+2+*+%28x%2B1%29+*+%28x%2B1%29+%3D+0%2C+x+is+integer
 
-            Assert.AreEqual(0, root);
+            Func<int, double> function = x => (x + 1) * (x + 1) * (x + 1) + 2 * (x + 1) * (x + 1);
+
+            // Possible roots are -3 or -1
+
+            BinarySearch search;
+            search = new BinarySearch(function, -2, 3);
+            double r1 = search.FindRoot();
+            Assert.AreEqual(-1, r1);
+
+            search = new BinarySearch(function, -10, -2);
+            double r2 = search.FindRoot();
+            Assert.AreEqual(-3, r2);
         }
 
         [TestMethod()]

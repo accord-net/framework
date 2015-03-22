@@ -90,45 +90,27 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   with the given parameters a, b and c.
         /// </summary>
         /// 
-        /// <param name="a">The minimum possible value in the distribution (a).</param>
-        /// <param name="b">The maximum possible value in the distribution (b).</param>
-        /// <param name="c">The most common value in the distribution (c).</param>
+        /// <param name="min">The minimum possible value in the distribution (a).</param>
+        /// <param name="max">The maximum possible value in the distribution (b).</param>
+        /// <param name="mode">The most common value in the distribution (c).</param>
         /// 
-        public TriangularDistribution([Real] double a, [Real] double b, [Real] double c)
+        public TriangularDistribution([Real] double min, [Real] double max, [Real] double mode)
         {
-            if (a > b)
+            if (min > max)
             {
-                throw new ArgumentOutOfRangeException("b",
-                    "The maximum value 'b' must be greater than the minimum value 'a'.");
+                throw new ArgumentOutOfRangeException("max",
+                    "The maximum value 'max' must be greater than the minimum value 'min'.");
             }
 
-            if (c < a || c > b)
+            if (mode < min || mode > max)
             {
-                throw new ArgumentOutOfRangeException("c",
-                    "The most common value 'c' must be between 'a' and 'b'.");
+                throw new ArgumentOutOfRangeException("mode",
+                    "The most common value 'mode' must be between 'min' and 'max'.");
             }
 
-            initialize(a, b, c);
+            initialize(min, max, mode);
         }
 
-
-        /// <summary>
-        ///   Gets the triangular parameter A (the minimum value).
-        /// </summary>
-        /// 
-        public double A { get { return a; } }
-
-        /// <summary>
-        ///   Gets the triangular parameter B (the maximum value).
-        /// </summary>
-        /// 
-        public double B { get { return b; } }
-
-        /// <summary>
-        ///   Gets the triangular parameter C (the most probable value).
-        /// </summary>
-        /// 
-        public double C { get { return c; } }
 
         /// <summary>
         ///   Gets the triangular parameter A (the minimum value).
@@ -203,7 +185,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
         /// <summary>
         ///   Gets the mode for this distribution,
-        ///   which is defined as <see cref="C"/>.
+        ///   also known as the triangular's <c>c</c>.
         /// </summary>
         /// 
         /// <value>
@@ -216,7 +198,7 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the distribution support, defined as (<see cref="A"/>, <see cref="B"/>).
+        ///   Gets the distribution support, defined as (<see cref="Min"/>, <see cref="Max"/>).
         /// </summary>
         /// 
         public override DoubleRange Support
@@ -227,7 +209,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
         /// <summary>
         ///   Gets the entropy for this distribution, 
-        ///   defined as 0.5 + log((b-a)/2)).
+        ///   defined as 0.5 + log((max-min)/2)).
         /// </summary>
         /// 
         /// <value>
@@ -432,9 +414,9 @@ namespace Accord.Statistics.Distributions.Univariate
                 imax = options.MaxIndex;
             }
 
-            double min = this.A;
-            double max = this.B;
-            double mode = this.C;
+            double min = this.Min;
+            double max = this.Max;
+            double mode = this.Mode;
 
 
             if (!sorted)
@@ -489,9 +471,9 @@ namespace Accord.Statistics.Distributions.Univariate
                 imax = options.MaxIndex;
             }
 
-            double min = this.A;
-            double max = this.B;
-            double mode = this.C;
+            double min = this.Min;
+            double max = this.Max;
+            double mode = this.Mode;
 
 
             if (!sorted)

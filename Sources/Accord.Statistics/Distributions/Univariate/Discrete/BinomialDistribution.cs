@@ -275,8 +275,11 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
-            System.Diagnostics.Debug.Assert(result == base.InverseDistributionFunction(p));
-
+#if DEBUG
+            double expected = base.InverseDistributionFunction(p);
+            if (result != expected)
+                throw new Exception();
+#endif
             return result;
         }
 
