@@ -36,7 +36,7 @@ namespace Accord.Tests.Statistics
 
         private TestContext testContextInstance;
 
-       
+
         public TestContext TestContext
         {
             get
@@ -388,6 +388,17 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(q, target.DistributionFunction(+0.5));
             Assert.AreEqual(1, target.DistributionFunction(+1.0));
             Assert.AreEqual(1, target.DistributionFunction(+1.1));
+        }
+
+        [TestMethod()]
+        public void GetRangeTest()
+        {
+            var u = new UniformDiscreteDistribution(-8, 7);
+
+            var range = u.GetRange(0.99);
+
+            Assert.AreEqual(-8, range.Min);
+            Assert.AreEqual(7, range.Max);
         }
     }
 }

@@ -1001,6 +1001,6 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             return CumulativeHazardFunction((int)x);
         }
-       
+
     }
 }

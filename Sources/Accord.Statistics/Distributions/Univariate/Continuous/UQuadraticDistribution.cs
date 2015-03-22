@@ -93,7 +93,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// <param name="a">Parameter a.</param>
         /// <param name="b">Parameter b.</param>
         /// 
-        public UQuadraticDistribution([Nonnegative] double a, [Real] double b)
+        public UQuadraticDistribution([Nonnegative] double a, [Positive] double b)
         {
             if (b < a)
             {

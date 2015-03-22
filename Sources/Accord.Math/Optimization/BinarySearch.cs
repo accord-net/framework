@@ -123,33 +123,32 @@ namespace Accord.Math.Optimization
         {
             int start = lowerBound;
             int end = upperBound;
-            int middle = 0;
 
-            while (start < end)
+            int m = (int)(((long)start + (long)end) / 2);
+            double v = function(m);
+
+            while (end >= start)
             {
-                int m = (int)(((long)start + (long)end) / 2);
-
-                if (m == middle)
-                    return middle;
-                middle = m;
-
-                double v = function(middle);
-
-                if (v > value)
+                if (v < value)
                 {
-                    end = middle;
+                    start = m + 1;
                 }
-                else if (v < value)
+                else if (v > value)
                 {
-                    start = middle + 1;
+                    end = m - 1;
                 }
                 else
                 {
-                    return middle;
+                    return m;
                 }
+
+                m = (int)(((long)start + (long)end) / 2);
+                v = function(m);
             }
 
-            return start;
+            if (v > value || m == upperBound)
+                return m;
+            return m + 1;
         }
 
     }

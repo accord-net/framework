@@ -75,6 +75,10 @@ namespace Accord.Tests.Statistics
 
             string str = bin.ToString(CultureInfo.InvariantCulture); // "Binomial(x; n = 16, p = 0.12)"
 
+            double[] probabilities = new double[10];
+            for (int i = 0; i < probabilities.Length; i++)
+                probabilities[i] = bin.ProbabilityMassFunction(i);
+
             Assert.AreEqual(1.92, mean);
             Assert.AreEqual(2, median);
             Assert.AreEqual(2, mode);
@@ -90,6 +94,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5, icdf2);
             Assert.AreEqual(7, icdf3);
             Assert.AreEqual("Binomial(x; n = 16, p = 0.12)", str);
+
+
 
             var range1 = bin.GetRange(0.95);
             var range2 = bin.GetRange(0.99);
