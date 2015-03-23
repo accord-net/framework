@@ -596,6 +596,63 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
+        public void TransformTest_Jagged()
+        {
+            double[][] sourceMatrix = new double[][]
+            {
+                new double[] { 2.5,  2.4 },
+                new double[] { 0.5,  0.7 },
+                new double[] { 2.2,  2.9 },
+                new double[] { 1.9,  2.2 },
+                new double[] { 3.1,  3.0 },
+                new double[] { 2.3,  2.7 },
+                new double[] { 2.0,  1.6 },
+                new double[] { 1.0,  1.1 },
+                new double[] { 1.5,  1.6 },
+                new double[] { 1.1,  0.9 }
+            };
+
+            // Create a new linear kernel
+            IKernel kernel = new Linear();
+
+            // Creates the Kernel Principal Component Analysis of the given data
+            var kpca = new KernelPrincipalComponentAnalysis(sourceMatrix, kernel);
+
+            // Compute the Kernel Principal Component Analysis
+            kpca.Compute();
+
+            // The following statement throws an exception:
+            // An unhandled exception of type 'System.IndexOutOfRangeException' occurred in Accord.Math.dll
+            double[] actual1 = kpca.Transform(sourceMatrix[0]);
+
+            double[][] actual = kpca.Transform(sourceMatrix);
+
+            double[][] expected = 
+            {
+                new double[] { -0.827970186,  0.175115307 },
+                new double[] {  1.77758033,  -0.142857227 },
+                new double[] { -0.992197494, -0.384374989 },
+                new double[] { -0.274210416, -0.130417207 },
+                new double[] { -1.67580142,   0.209498461 },
+                new double[] { -0.912949103, -0.175282444 },
+                new double[] {  0.099109437,  0.349824698 },
+                new double[] {  1.14457216,  -0.046417258 },
+                new double[] {  0.438046137, -0.017764629 },
+                new double[] {  1.22382056,   0.162675287 },
+            };
+
+            Assert.IsTrue(Matrix.IsEqual(expected[0], expected[0]));
+
+            // Verify both are equal with 0.001 tolerance value
+            Assert.IsTrue(Matrix.IsEqual(actual, expected, 0.0001));
+
+            // Assert the result equals the transformation of the input
+            double[,] result = kpca.Result;
+            double[,] projection = kpca.Transform(data);
+            Assert.IsTrue(Matrix.IsEqual(result, projection, 0.000001));
+        }
+
+        [TestMethod()]
         public void RevertTest()
         {
             // Using a linear kernel should be equivalent to standard PCA
@@ -642,7 +699,7 @@ namespace Accord.Tests.Statistics
             IKernel kernel = new Gaussian(5);
 
             // Create analysis
-            KernelPrincipalComponentAnalysis target = new KernelPrincipalComponentAnalysis(matrix, 
+            KernelPrincipalComponentAnalysis target = new KernelPrincipalComponentAnalysis(matrix,
                 kernel, AnalysisMethod.Center, centerInFeatureSpace: false);
 
             target.Compute();

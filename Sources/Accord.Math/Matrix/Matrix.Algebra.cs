@@ -437,8 +437,8 @@ namespace Accord.Math
             //     throw new ArgumentException("Matrix dimensions must match");
 
             int n = a.GetLength(1);
-            int m = result.GetLength(0); //a.GetLength(0);
-            int p = result.GetLength(1); //b.GetLength(1);
+            int m = a.GetLength(0);
+            int p = b.GetLength(1);
 
 
             fixed (double* ptrA = a)
