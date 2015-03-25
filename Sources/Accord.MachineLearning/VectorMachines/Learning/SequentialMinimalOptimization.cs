@@ -806,6 +806,11 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
             else
             {
+#if NET35
+                foreach (int i in activeExamples)
+                    sum += alpha[i] * Outputs[i] * kernelCache.GetOrCompute(i, j);
+#else
+
                 object lockObject = new object();
                 Parallel.ForEach(activeExamples,
                     // The local initial partial result
@@ -823,6 +828,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
                         lock (lockObject)
                             sum += localPartialSum;
                     });
+#endif
+
             }
 
             return sum;

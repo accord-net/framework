@@ -172,6 +172,11 @@ namespace Accord.MachineLearning.VectorMachines
             }
             else
             {
+                
+#if NET35
+                for (int i = 0; i < SupportVectors.Length; i++)
+                    output += Weights[i] * kernel.Function(SupportVectors[i], inputs);
+#else
                 double sum = Threshold;
                 object lockObject = new object();
                 Parallel.For(0, SupportVectors.Length,
@@ -191,6 +196,7 @@ namespace Accord.MachineLearning.VectorMachines
                             sum += localPartialSum;
                     });
                 output = sum;
+#endif
             }
 
             if (IsProbabilistic)
