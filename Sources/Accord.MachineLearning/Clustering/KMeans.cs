@@ -329,6 +329,22 @@ namespace Accord.MachineLearning
                     double sum = 0;
                     double[] D = new double[points.Length];
 
+#if NET35
+                    for (int i = 0; i < D.Length; i++)
+                    {
+                        double[] x = points[i];
+
+                        double min = Distance(x, centroids[0]);
+                        for (int j = 1; j < c; j++)
+                        {
+                            double d = Distance(x, centroids[j]);
+                            if (d < min) min = d;
+                        }
+
+                        D[i] = min;
+                        sum += min;
+                    }
+#else
                     object lockObject = new object();
                     Parallel.For(0, points.Length,
                         // The local initial partial result
@@ -357,6 +373,7 @@ namespace Accord.MachineLearning
                             lock (lockObject)
                                 sum += localPartialSum;
                         });
+#endif
 
                     for (int i = 0; i < D.Length; i++)
                         D[i] /= sum;
