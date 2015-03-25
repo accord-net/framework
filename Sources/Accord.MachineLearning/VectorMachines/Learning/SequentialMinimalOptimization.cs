@@ -27,6 +27,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using System.Threading;
     using Accord.Math;
     using Accord.Statistics.Kernels;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Gets the selection strategy to be used in SMO.
@@ -805,8 +806,30 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             }
             else
             {
+#if NET35
                 foreach (int i in activeExamples)
                     sum += alpha[i] * Outputs[i] * kernelCache.GetOrCompute(i, j);
+#else
+
+                object lockObject = new object();
+                Parallel.ForEach(activeExamples,
+                    // The local initial partial result
+                    () => 0.0d,
+
+                    // The Compute body
+                    (i, loopState, partialSum) =>
+                    {
+                        return alpha[i] * Outputs[i] * kernelCache.GetOrCompute(i, j) + partialSum;
+                    },
+
+                    // The final step of each local context            
+                    (localPartialSum) =>
+                    {
+                        lock (lockObject)
+                            sum += localPartialSum;
+                    });
+#endif
+
             }
 
             return sum;
