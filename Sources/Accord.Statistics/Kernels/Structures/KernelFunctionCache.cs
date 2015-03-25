@@ -225,65 +225,74 @@ namespace Accord.Statistics.Kernels
             int key = (i * (i - 1)) / 2 + j;
 
             double value;
+            bool found;
+            lock (data)
+            {
+                found = data.TryGetValue(key, out value);
+
+                if(found)
+                {
+                    // It is. Update the LRU list to 
+                    // indicate the item has been used.
+
+                    var node = lruIndicesLookupTable[key];
+
+                    // Remove from middle and add to the end
+                    lruIndices.Remove(node);
+                    lruIndices.AddLast(node);
+
+                    // Update the lookup table
+                    lruIndicesLookupTable[key] = node;
+
+                    hits++;
+                }
+            }
 
             // Check if the data is in the cache
-            if (!data.TryGetValue(key, out value))
+            if (!found)
             {
                 // It is not. Compute the function and update
                 value = kernel.Function(inputs[i], inputs[j]);
 
-                // Save evaluation
-                data[key] = value;
-
-                // If we are over capacity,
-                if (data.Count > capacity)
+                lock (data)
                 {
-                    // The first entry must be removed to leave
-                    // room for the previously computed value
+                    // Save evaluation
+                    data[key] = value;
 
-                    var first = lruIndices.First;
-                    int discardedKey = first.Value;
+                    // If we are over capacity,
+                    if (data.Count > capacity)
+                    {
+                        // The first entry must be removed to leave
+                        // room for the previously computed value
 
-                    // Remove the cached value for
-                    // the least recently used key
+                        var first = lruIndices.First;
+                        int discardedKey = first.Value;
 
-                    data.Remove(discardedKey);
-                    lruIndicesLookupTable.Remove(discardedKey);
+                        // Remove the cached value for
+                        // the least recently used key
 
-                    // Avoid allocating memory by reusing the
-                    // previously first node to hold the new
-                    // data value and re-insert it at the end
+                        data.Remove(discardedKey);
+                        lruIndicesLookupTable.Remove(discardedKey);
 
-                    lruIndices.RemoveFirst();
-                    first.Value = key;
-                    lruIndices.AddLast(first);
+                        // Avoid allocating memory by reusing the
+                        // previously first node to hold the new
+                        // data value and re-insert it at the end
 
-                    // Update the index lookup table
-                    lruIndicesLookupTable[key] = first;
+                        lruIndices.RemoveFirst();
+                        first.Value = key;
+                        lruIndices.AddLast(first);
+
+                        // Update the index lookup table
+                        lruIndicesLookupTable[key] = first;
+                    }
+                    else
+                    {
+                        // Register the use of the variable in the LRU list
+                        lruIndicesLookupTable[key] = lruIndices.AddLast(key);
+                    }
+
+                    misses++;
                 }
-                else
-                {
-                    // Register the use of the variable in the LRU list
-                    lruIndicesLookupTable[key] = lruIndices.AddLast(key);
-                }
-
-                misses++;
-            }
-            else
-            {
-                // It is. Update the LRU list to 
-                // indicate the item has been used.
-
-                var node = lruIndicesLookupTable[key];
-
-                // Remove from middle and add to the end
-                lruIndices.Remove(node);
-                lruIndices.AddLast(node);
-
-                // Update the lookup table
-                lruIndicesLookupTable[key] = node;
-
-                hits++;
             }
 
             return value;
