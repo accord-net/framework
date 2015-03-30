@@ -36,11 +36,24 @@ namespace Accord.Math
     {
 
         #region Framework-wide random number generator
-        
+
 #if !NET35 && !NET40
-        private static ThreadLocal<Random> random = new ThreadLocal<Random>(create, true);
+        private static readonly ThreadLocal<Random> random;
+        
+        static Tools()
+        {
+            try
+            {
+                random = new ThreadLocal<Random>(create, true);
+            }
+            catch (NotImplementedException)
+            {
+                // Deal with a temporary shortcoming when targeting Mono runtime.
+                random = new ThreadLocal<Random>(create);
+            }
+        }
 #else
-        private static ThreadLocal<Random> random = new ThreadLocal<Random>(create);
+        private static readonly ThreadLocal<Random> random = new ThreadLocal<Random>(create);
 #endif
 
         private static int? seed;
