@@ -277,7 +277,7 @@ namespace Accord.MachineLearning
         /// 
         public int[] Compute(double[][] points, double threshold = 1e-3)
         {
-            return Compute(points, threshold, 100);
+            return Compute(points, null, threshold, 100);
         }
 
         /// <summary>
@@ -285,12 +285,24 @@ namespace Accord.MachineLearning
         /// </summary>     
         /// 
         /// <param name="points">The data where to compute the algorithm.</param>
+        /// <param name="weights">The weight of each data point, set to null for equal weight for each point</param>
         /// <param name="threshold">The relative convergence threshold
         /// for the algorithm. Default is 1e-3.</param>
         /// <param name="maxIterations">The maximum number of iterations. Default is 100.</param>
         /// 
-        public int[] Compute(double[][] points, double threshold, int maxIterations = 100)
+        public int[] Compute(double[][] points, double[] weights, double threshold, int maxIterations = 100)
         {
+            if (points == null)
+                throw new ArgumentException("points", "Points must not be null");
+            if (weights != null && weights.Length != points.Length)
+                throw new ArgumentException("weights", "Weights must have the same length as points");
+
+            if (weights == null)
+                weights = Enumerable.Repeat(1.0, points.GetLength(0)).ToArray();
+
+            // normalize weights
+            weights = weights.Divide(weights.Sum() + Double.Epsilon, false);
+
             // first, select initial points
             double[][] pointsTmp = new double[points.Length][];
 
@@ -309,12 +321,12 @@ namespace Accord.MachineLearning
             if (UseParallelProcessing)
             {
                 Parallel.For(0, pointsTmp.Length, (index) =>
-                    iterate(threshold, maxIterations, pointsTmp, modeCandidates, index));
+                    iterate(threshold, maxIterations, pointsTmp, weights, modeCandidates, index));
             }
             else
             {
                 for (int index = 0; index < pointsTmp.Length; index++)
-                    iterate(threshold, maxIterations, pointsTmp, modeCandidates, index);
+                    iterate(threshold, maxIterations, pointsTmp, weights, modeCandidates, index);
             }
 
             // suppress non-maximum points
@@ -352,6 +364,7 @@ namespace Accord.MachineLearning
             double threshold,
             int maxIterations,
             double[][] points,
+            double[] weights,
             ConcurrentDictionary<double[], List<int>> maxcandidates,
             int index)
         {
@@ -369,7 +382,7 @@ namespace Accord.MachineLearning
             while (!finished)
             {
                 // compute the shifted mean 
-                computeMeanShift(point, mean);
+                computeMeanShift(point, weights, mean);
 
                 // extract the mean shift vector
                 for (int j = 0; j < mean.Length; j++)
@@ -432,7 +445,7 @@ namespace Accord.MachineLearning
             return null;
         }
 
-        private void computeMeanShift(double[] originalPosition, double[] shiftedPosition)
+        private void computeMeanShift(double[] originalPosition, double[] pointWeights, double[] shiftedPosition)
         {
             // Get points near the current point
             ICollection<KDTreeNodeDistance<int>> neighbors;
@@ -458,12 +471,13 @@ namespace Accord.MachineLearning
                 foreach (KDTreeNodeDistance<int> neighbor in neighbors)
                 {
                     double distance = neighbor.Distance;
+                    double weight = pointWeights[neighbor.Node.Value];
                     double[] neighborPosition = neighbor.Node.Position;
 
                     double u = distance / Bandwidth;
 
-                    // Compute g = -k'(||(x-xi)/h||²)
-                    double g = -kernel.Derivative(u);
+                    // Compute g = -k'(||(x-xi)/h||²) * weight
+                    double g = -kernel.Derivative(u) * weight;
 
                     for (int i = 0; i < shiftedPosition.Length; i++)
                         shiftedPosition[i] += g * neighborPosition[i];
