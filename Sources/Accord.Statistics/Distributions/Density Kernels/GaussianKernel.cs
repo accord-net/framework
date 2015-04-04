@@ -132,7 +132,7 @@ namespace Accord.Statistics.Distributions.DensityKernels
         /// 
         public double Derivative(double x)
         {
-            return -Math.Sqrt(x) * Profile(x);
+            return -x * Profile(x);
         }
     }
 }
