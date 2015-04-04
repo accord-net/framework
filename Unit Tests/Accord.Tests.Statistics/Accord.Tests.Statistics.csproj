@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="Analysis\CircularDescriptiveAnalysisTest.cs" />
     <Compile Include="Analysis\DistributionAnalysisTest.cs" />
+    <Compile Include="Analysis\MultinomialLogisticRegressionAnalysisTest.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysisTest.cs" />
     <Compile Include="Analysis\IndependentComponentAnalysisTest.cs" />
     <Compile Include="Analysis\DescriptiveAnalysisTest.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Distributions\Univariate\Continuous\BetaPrimeDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TrapezoidalDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\UQuadraticDistributionTest.cs" />
+    <Compile Include="Distributions\Univariate\Discrete\RademacherDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Discrete\DegenerateDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\UnivariateDistributionTest.cs" />
     <Compile Include="Filters\BranchingFilterTest.cs" />
