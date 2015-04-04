@@ -23,12 +23,16 @@
 namespace Accord.MachineLearning
 {
     using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
-    using Accord.MachineLearning.Structures;
+    using System.Collections.Generic;
+    using System.Collections.Concurrent;
+
     using Accord.Math;
     using Accord.Math.Comparers;
+    using Accord.MachineLearning.Structures;
+    using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.DensityKernels;
 
     /// <summary>
@@ -157,18 +161,14 @@ namespace Accord.MachineLearning
     [Serializable]
     public class MeanShift : IClusteringAlgorithm<double[]>
     {
-
-        private int dimension;
-        private double bandwidth;
         private int maximum;
+        private int dimension;
         private bool cut = true;
-
+        private double bandwidth;
         private KDTree<int> tree;
-
         private IRadiallySymmetricKernel kernel;
         private MeanShiftClusterCollection clusters;
         private Func<double[], double[], double> distance;
-
 
         /// <summary>
         ///   Gets the clusters found by Mean Shift.
@@ -245,6 +245,10 @@ namespace Accord.MachineLearning
             get { return dimension; }
         }
 
+        IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
+        {
+            get { return clusters; }
+        }
 
         /// <summary>
         ///   Creates a new <see cref="MeanShift"/> algorithm.
@@ -256,11 +260,11 @@ namespace Accord.MachineLearning
         /// 
         public MeanShift(int dimension, IRadiallySymmetricKernel kernel, double bandwidth)
         {
-            this.dimension = dimension;
             this.kernel = kernel;
             this.Bandwidth = bandwidth;
-            this.distance = Accord.Math.Distance.SquareEuclidean;
+            this.dimension = dimension;
             this.UseParallelProcessing = true;
+            this.distance = Accord.Math.Distance.SquareEuclidean;
         }
 
         /// <summary>
@@ -273,7 +277,7 @@ namespace Accord.MachineLearning
         /// 
         public int[] Compute(double[][] points, double threshold = 1e-3)
         {
-            return Compute(points, threshold, 100);
+            return Compute(points, null, threshold, 100);
         }
 
         /// <summary>
@@ -281,15 +285,34 @@ namespace Accord.MachineLearning
         /// </summary>     
         /// 
         /// <param name="points">The data where to compute the algorithm.</param>
+        /// <param name="weights">The weight of each data point, set to null for equal weight for each point</param>
         /// <param name="threshold">The relative convergence threshold
         /// for the algorithm. Default is 1e-3.</param>
         /// <param name="maxIterations">The maximum number of iterations. Default is 100.</param>
         /// 
-        public int[] Compute(double[][] points, double threshold, int maxIterations = 100)
+        public int[] Compute(double[][] points, double[] weights, double threshold, int maxIterations = 100)
         {
+            if (points == null)
+                throw new ArgumentException("points", "Points must not be null");
+            if (weights != null && weights.Length != points.Length)
+                throw new ArgumentException("weights", "Weights must have the same length as points");
+
+            if (weights == null)
+                weights = Enumerable.Repeat(1.0, points.GetLength(0)).ToArray();
+
+            // normalize weights
+            weights = weights.Divide(weights.Sum() + Double.Epsilon, false);
+
             // first, select initial points
-            double[][] seeds = createSeeds(points, 2 * Bandwidth);
-            var maxcandidates = new ConcurrentStack<double[]>();
+            double[][] pointsTmp = new double[points.Length][];
+
+            for (int i = 0; i < pointsTmp.Length; i++)
+            {
+                pointsTmp[i] = new double[Dimension];
+                Array.Copy(points[i], pointsTmp[i], Dimension);
+            }
+
+            var modeCandidates = new ConcurrentDictionary<double[], List<int>>();
 
             // construct map of the data
             tree = KDTree.FromData<int>(points, distance);
@@ -297,259 +320,287 @@ namespace Accord.MachineLearning
             // now, for each initial point 
             if (UseParallelProcessing)
             {
-                Parallel.For(0, seeds.Length, (index) => 
-                    iterate(threshold, maxIterations, seeds, maxcandidates, index));
+                Parallel.For(0, pointsTmp.Length, (index) =>
+                    iterate(threshold, maxIterations, pointsTmp, weights, modeCandidates, index));
             }
             else
             {
-                for (int index = 0; index < seeds.Length; index++)
-                    iterate(threshold, maxIterations, seeds, maxcandidates, index);
+                for (int index = 0; index < pointsTmp.Length; index++)
+                    iterate(threshold, maxIterations, pointsTmp, weights, modeCandidates, index);
             }
 
-
             // suppress non-maximum points
-            double[][] maximum = cut ? maxcandidates.ToArray() : supress(seeds);
+            // pool points that are too close together to a single mode
+            Dictionary<double[], List<int>> finalModes = merge(modeCandidates, bandwidth / 4);
+
+            // convert modes to labels names and label each point
+            int label = 0;
+
+            List<double[]> modes = new List<double[]>();
+
+            int[] pointsLabels = new int[points.GetLength(0)];
+
+            foreach (var mode in finalModes.Keys)
+            {
+                foreach (var index in finalModes[mode])
+                    pointsLabels[index] = label;
+
+                modes.Add(mode);
+
+                label++;
+            }
 
             // create a decision map using seeds
-            int[] seedLabels = classifySeeds(seeds, maximum);
-            tree = KDTree.FromData(seeds, seedLabels, distance);
+            tree = KDTree.FromData(pointsTmp, pointsLabels, distance);
 
             // create the cluster structure
-            clusters = new MeanShiftClusterCollection(tree, maximum);
+            clusters = new MeanShiftClusterCollection(tree, modes.ToArray());
 
             // label each point
-            return clusters.Nearest(points);
+            return pointsLabels;
         }
 
-        private void iterate(double threshold, int maxIterations, double[][] seeds, ConcurrentStack<double[]> maxcandidates, int index)
+        private void iterate(
+            double threshold,
+            int maxIterations,
+            double[][] points,
+            double[] weights,
+            ConcurrentDictionary<double[], List<int>> maxcandidates,
+            int index)
         {
-            double[] point = seeds[index];
+            bool finished = false;
+            bool pointAdded = false;
+            double[] point = points[index];
             double[] mean = new double[point.Length];
             double[] delta = new double[point.Length];
 
             // we will keep moving it in the
             // direction of the density modes
-
             int iterations = 0;
 
             // until convergence or max iterations reached
-            while (iterations < maxIterations)
+            while (!finished)
             {
-                iterations++;
-
                 // compute the shifted mean 
-                computeMeanShift(point, mean);
+                computeMeanShift(point, weights, mean);
 
                 // extract the mean shift vector
                 for (int j = 0; j < mean.Length; j++)
                     delta[j] = point[j] - mean[j];
 
                 // update the point towards a mode
-                for (int j = 0; j < mean.Length; j++)
-                    point[j] = mean[j];
+                Array.Copy(mean, point, mean.Length);
 
                 // Check if we are already near any maximum point
-                if (cut && nearest(point, maxcandidates) != null)
-                    break;
+                if (cut)
+                {
+                    lock (maxcandidates)
+                    {
+                        double[] tmpMode = nearest(point, maxcandidates, bandwidth / 4);
+
+                        if (tmpMode != null)
+                        {
+                            maxcandidates[tmpMode].Add(index);
+                            finished = true;
+                            pointAdded = true;
+                        }
+                    }
+                }
 
                 // check for convergence: magnitude of the mean shift
                 // vector converges to zero (Comaniciu 2002, page 606)
-                if (Norm.Euclidean(delta) < threshold * Bandwidth)
-                    break;
+                if (Norm.SquareEuclidean(delta) < threshold * bandwidth)
+                    finished = true;
+
+                if (iterations >= maxIterations)
+                    finished = true;
+
+                iterations++;
             }
 
-            if (cut)
+            // group together points that too close together
+            if (pointAdded == false)
             {
-                double[] match = nearest(point, maxcandidates);
-
-                if (match != null)
-                    seeds[index] = match;
-
-                else maxcandidates.Push(point);
+                lock (maxcandidates)
+                {
+                    if (maxcandidates.ContainsKey(point))
+                        maxcandidates[point].Add(index);
+                    else
+                        maxcandidates.TryAdd(point, new List<int>() { index });
+                }
             }
         }
 
-        private double[] nearest(double[] point, ConcurrentStack<double[]> candidates)
+        private double[] nearest(
+            double[] point,
+            ConcurrentDictionary<double[], List<int>> candidates,
+            Double minDistance)
         {
-            foreach (double[] seed in candidates)
-            {
-                // compute the distance between points
-                // if they are near, they are duplicates
-                if (distance(point, seed) < Bandwidth)
-                    return seed;
-            }
+            // compute the distance between points
+            // if they are near, they are duplicates
+            foreach (double[] candidate in candidates.Keys)
+                if (distance(point, candidate) < minDistance)
+                    return candidate;
 
             return null;
         }
 
-        private void computeMeanShift(double[] x, double[] shift)
+        private void computeMeanShift(double[] originalPosition, double[] pointWeights, double[] shiftedPosition)
         {
             // Get points near the current point
             ICollection<KDTreeNodeDistance<int>> neighbors;
 
-            if (maximum > 0)
-                neighbors = tree.Nearest(x, Bandwidth * 3, maximum);
-            else neighbors = tree.Nearest(x, Bandwidth * 3);
+            if (maximum == 0)
+                neighbors = tree.Nearest(originalPosition, radius: bandwidth * 4);
+            else
+                neighbors = tree.Nearest(originalPosition, radius: bandwidth * 4, maximum: maximum);
 
-            double sum = 0;
-            Array.Clear(shift, 0, shift.Length);
+            Array.Clear(shiftedPosition, 0, shiftedPosition.Length);
 
-            // Compute weighted mean
-            foreach (KDTreeNodeDistance<int> neighbor in neighbors)
+            // special case, no neighbors found
+            // return same point
+            if (neighbors.Count == 0)
             {
-                double distance = neighbor.Distance;
-                double[] p = neighbor.Node.Position;
-
-                double u = distance / Bandwidth;
-
-                // Compute g = -k'(||(x-xi)/h||²)
-                double g = -kernel.Derivative(u * u);
-
-                for (int i = 0; i < shift.Length; i++)
-                    shift[i] += g * p[i];
-
-                sum += g;
-            }
-
-            // Normalize
-            if (sum != 0)
-            {
-                for (int i = 0; i < shift.Length; i++)
-                    shift[i] /= sum;
-            }
-        }
-
-        private double[][] createSeeds(double[][] points, double binSize)
-        {
-            if (binSize == 0)
-            {
-                double[][] seeds = new double[points.Length][];
-                for (int i = 0; i < seeds.Length; i++)
-                {
-                    seeds[i] = new double[Dimension];
-                    for (int j = 0; j < seeds[i].Length; j++)
-                        seeds[i][j] = points[i][j];
-                }
-
-                return seeds;
+                Array.Copy(originalPosition, shiftedPosition, shiftedPosition.Length);
             }
             else
             {
-                int minBin = 1;
+                double sum = 0.0;
 
-                // Create bins as suggested by (Conrad Lee, 2011):
-                //
-                // The dictionary holds the positions of the bins as keys and the
-                // number of occurrences of a given point as the value associated 
-                // with this key. The comparer tells the dictionary how to compare
-                // integer vectors on an element-by-element basis.
-
-                var bins = new Dictionary<int[], int>(new ArrayComparer<int>());
-
-                // for each point
-                foreach (var point in points)
+                // Compute weighted mean
+                foreach (KDTreeNodeDistance<int> neighbor in neighbors)
                 {
-                    // create a indexing key
-                    int[] key = new int[Dimension];
-                    for (int j = 0; j < point.Length; j++)
-                        key[j] = (int)(point[j] / binSize);
+                    double distance = neighbor.Distance;
+                    double weight = pointWeights[neighbor.Node.Value];
+                    double[] neighborPosition = neighbor.Node.Position;
 
-                    // increase the counter in the key
-                    int previous;
-                    if (bins.TryGetValue(key, out previous))
-                        bins[key] = previous + 1;
-                    else bins[key] = 1;
+                    double u = distance / Bandwidth;
+
+                    // Compute g = -k'(||(x-xi)/h||²) * weight
+                    double g = -kernel.Derivative(u) * weight;
+
+                    for (int i = 0; i < shiftedPosition.Length; i++)
+                        shiftedPosition[i] += g * neighborPosition[i];
+
+                    sum += Math.Abs(g);
                 }
 
-                // now, read the dictionary and create seeds
-                // for bins which contain more than one point
-
-                var seeds = new List<double[]>();
-
-                // for each bin-count pair
-                foreach (var pair in bins)
-                {
-                    if (pair.Value >= minBin)
-                    {
-                        // recreate the point
-                        int[] bin = pair.Key;
-
-                        double[] point = new double[Dimension];
-                        for (int i = 0; i < point.Length; i++)
-                            point[i] = bin[i] * binSize;
-
-                        seeds.Add(point);
-                    }
-                }
-
-                return seeds.ToArray();
+                // Normalize weighted average of shifted position
+                if (sum > 0)
+                    shiftedPosition.Divide(sum, true);
             }
         }
 
-        private int[] classifySeeds(double[][] seeds, double[][] modes)
+        /// <summary>
+        /// Weighted average of modes
+        /// </summary>
+        /// <param name="modes"></param>
+        /// <param name="weights"></param>
+        /// <returns></returns>
+        private double[] meanMode(double[][] modes, double[] weights)
         {
-            // classify seeds using a minimum distance classifier
+            double sumWeights = weights.Sum() + Double.Epsilon;
+            double[] meanModeWeighted = new double[modes[0].Length];
 
-            int[] labels = new int[seeds.Length];
-            for (int i = 0; i < seeds.Length; i++)
+            for (int i = 0; i < modes.Length; i++)
             {
-                int imin = 0;
-                double dmin = Double.PositiveInfinity;
-                for (int j = 0; j < modes.Length; j++)
-                {
-                    double d = distance(modes[j], seeds[i]);
-
-                    if (d < dmin)
-                    {
-                        imin = j;
-                        dmin = d;
-                    }
-                }
-
-                labels[i] = imin;
+                var tmpVector = modes[i].Multiply(weights[i] / sumWeights);
+                meanModeWeighted = meanModeWeighted.Add(tmpVector);
             }
 
-            return labels;
+            return meanModeWeighted;
         }
 
-        private double[][] supress(double[][] seeds)
+        /// <summary>
+        /// Merge candidates that are too close
+        /// </summary>
+        /// <param name="modeCandidates"></param>
+        /// <param name="radius">Radius to merge in SquareEuclidean distance</param>
+        /// <returns></returns>
+        private Dictionary<double[], List<int>> merge(
+            ConcurrentDictionary<double[], List<int>> modeCandidates,
+            double radius)
         {
-            // According to Comaniciu et al (2002), local maxima points are 
-            // defined according the Capture Theorem as unique stationary
-            // points within some small open sphere.
+            return merge(
+                modeCandidates.ToDictionary(kvp => kvp.Key,kvp => kvp.Value), 
+                radius);
+        }
 
-            bool[] duplicate = new bool[seeds.Length];
+        /// <summary>
+        /// Merge candidates that are too close
+        /// </summary>
+        /// <param name="modeCandidates"></param>
+        /// <param name="radius">Radius to merge in SquareEuclidean distance</param>
+        /// <returns></returns>
+        private Dictionary<double[], List<int>> merge(
+            Dictionary<double[], List<int>> modeCandidates, 
+            double radius)
+        {
+            List<double[]> tmpModes = new List<double[]>();
 
-            // for each unique point
-            for (int i = 0; i < seeds.Length; i++)
+            // indicates a node that has been used in a merge
+            Dictionary<double[], bool> usedFlags = new Dictionary<double[], bool>();
+            Dictionary<double[], List<int>> finalModes = new Dictionary<double[], List<int>>();
+
+            foreach (var modeCandidate in modeCandidates.Keys)
             {
-                if (duplicate[i]) continue;
+                tmpModes.Add(modeCandidate);
+                usedFlags.Add(modeCandidate, false);
+            }
 
-                // against all other unique points
-                for (int j = i + 1; j < seeds.Length; j++)
+            KDTree<int> modeTree = KDTree.FromData<int>(tmpModes.ToArray(), distance);
+
+            // create an ordered list of the mode candidates
+            // based on their number of points
+            List<Double[]> modeCandidatesOrdered = modeCandidates
+                .OrderByDescending(x => x.Value.Count)
+                .Select(x => x.Key)
+                .ToList();
+
+            // start merging mode candidates, 
+            // start from the mode candidates
+            // with the highest amount of points
+            foreach (var modeCandidate in modeCandidatesOrdered)
+            {
+                // select all neighbors 
+                // that were not used in a already
+                var neighbors = modeTree
+                    .Nearest(modeCandidate, radius: radius)
+                    .FindAll(x => !usedFlags[x.Node.Position]);
+
+                if (neighbors.Count == 0)
+                    continue;
+
+                double[][] neighborModeCandidates = neighbors
+                    .Select(x => x.Node.Position)
+                    .ToArray();
+
+                // the weight of each neighbor is equal to the number of 
+                // of points that are stationary in the mean shift sense 
+                // to its position
+                double[] neighborModeWeights = Array.ConvertAll(
+                    neighbors
+                    .Select(x => modeCandidates[x.Node.Position].Count)
+                    .ToArray(), Convert.ToDouble);
+
+                // weighted average of the neighboring modes 
+                double[] tmpMode = meanMode(neighborModeCandidates, neighborModeWeights);
+
+                finalModes.Add(tmpMode, new List<int>());
+
+                // add all the points to the final mode 
+                // raise the flag for each of the neighbors
+                foreach (var neighbor in neighbors)
                 {
-                    if (duplicate[j]) continue;
+                    // add all the neighbors points to the new mode
+                    finalModes[tmpMode].AddRange(modeCandidates[neighbor.Node.Position]);
 
-                    // compute the distance between kernels
-                    double d = distance(seeds[i], seeds[j]);
-
-                    // if they are near, they are duplicates
-                    if (d < Bandwidth) duplicate[j] = true;
+                    // raise flag indicating the candidate neighbor mode cannot be reused
+                    usedFlags[neighbor.Node.Position] = true;
                 }
             }
 
-            // Create a list containing only unique points
-            List<double[]> maximum = new List<double[]>();
-            for (int i = 0; i < duplicate.Length; i++)
-                if (!duplicate[i])
-                    maximum.Add(seeds[i]);
-
-            return maximum.ToArray();
-        }
-
-        IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
-        {
-            get { return clusters; }
+            return finalModes;
         }
     }
 }
