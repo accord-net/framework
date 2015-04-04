@@ -88,7 +88,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class BinomialDistribution : UnivariateDiscreteDistribution,
-        IFittableDistribution<double, IFittingOptions>
+        IFittableDistribution<double>, IFittableDistribution<int>
     {
 
         // Distribution parameters
@@ -241,8 +241,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(int k)
         {
-            if (k < 0) return 0;
-            if (k >= numberOfTrials) return 1;
+            if (k < 0)
+                return 0;
+            if (k >= numberOfTrials)
+                return 1;
 
             double x = 1.0 - probability;
             double a = numberOfTrials - k;
@@ -371,15 +373,44 @@ namespace Accord.Statistics.Distributions.Univariate
             if (options != null)
                 throw new ArgumentException("No options may be specified.");
 
-            // The maximum likelihood estimator for p is the
-            // number of successes over the number of trials
-
-            int successes = 0;
+            double sum = 0;
             for (int i = 0; i < observations.Length; i++)
-                if (observations[i] == 1) successes++;
+                sum += observations[i] / (double)numberOfTrials;
 
-            this.numberOfTrials = observations.Length;
-            this.probability = successes / (double)numberOfTrials;
+            this.probability = sum / observations.Length;
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        /// 
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public override void Fit(int[] observations, double[] weights, Fitting.IFittingOptions options)
+        {
+            if (weights != null)
+                throw new NotSupportedException("Weighted estimation is not supported.");
+
+            if (options != null)
+                throw new ArgumentException("No options may be specified.");
+
+            double sum = 0;
+            for (int i = 0; i < observations.Length; i++)
+                sum += observations[i] /  (double)numberOfTrials;
+
+            this.probability = sum / observations.Length;
         }
 
         /// <summary>

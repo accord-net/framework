@@ -93,13 +93,10 @@ namespace Accord.Tests.Statistics
         public void ConstructorTest4()
         {
             // Create a multivariate Gaussian distribution 
-            var dist = new MultivariateNormalDistribution(
-
+            var dist = new MultivariateNormalDistribution
+            (
                 // mean vector mu
-                mean: new double[] 
-                {
-                    4, 2 
-                },
+                mean: new double[]  { 4, 2  },
 
                 // covariance matrix sigma
                 covariance: new double[,] 
@@ -110,27 +107,32 @@ namespace Accord.Tests.Statistics
             );
 
             // Common measures
-            double[] mean = dist.Mean;     // { 4, 2 }
-            double[] median = dist.Median; // { 4, 2 }
-            double[] var = dist.Variance;  // { 0.3, 0.7 } (diagonal from cov)
+            double[] mean = dist.Mean;       // { 4, 2 }
+            double[] median = dist.Median;   // { 4, 2 }
+            double[] mode = dist.Mode;       // { 4, 2 }
             double[,] cov = dist.Covariance; // { { 0.3, 0.1 }, { 0.1, 0.7 } }
+            double[] var = dist.Variance;    // { 0.3, 0.7 } (diagonal from cov)
+            int dimensions = dist.Dimension; // 2
 
-            // Probability mass functions
-            double pdf1 = dist.ProbabilityDensityFunction(new double[] { 2, 5 });
-            double pdf2 = dist.ProbabilityDensityFunction(new double[] { 4, 2 });
-            double pdf3 = dist.ProbabilityDensityFunction(new double[] { 3, 7 });
-            double lpdf = dist.LogProbabilityDensityFunction(new double[] { 3, 7 });
+            // Probability density functions
+            double pdf1 = dist.ProbabilityDensityFunction(2, 5);    // 0.000000018917884164743237
+            double pdf2 = dist.ProbabilityDensityFunction(4, 2);    // 0.35588127170858852
+            double pdf3 = dist.ProbabilityDensityFunction(3, 7);    // 0.000000000036520107734505265
+            double lpdf = dist.LogProbabilityDensityFunction(3, 7); // -24.033158110192296
 
             // Cumulative distribution function (for up to two dimensions)
+            double cdf = dist.DistributionFunction(3, 5); // 0.033944035782101534
+            double ccdf = dist.ComplementaryDistributionFunction(3, 5); // 0.00016755510356109232
+
 
             // compared against R package mnormt: install.packages("mnormt")
             // pmnorm(c(3,5), mean=c(4,2), varcov=matrix(c(0.3,0.1,0.1,0.7), 2,2))
-            double cdf = dist.DistributionFunction(new double[] { 3, 5 });
-            double ccdf = dist.ComplementaryDistributionFunction(new double[] { 3, 5 });
 
 
             Assert.AreEqual(4, mean[0]);
             Assert.AreEqual(2, mean[1]);
+            Assert.AreEqual(4, mode[0]);
+            Assert.AreEqual(2, mode[1]);
             Assert.AreEqual(4, median[0]);
             Assert.AreEqual(2, median[1]);
             Assert.AreEqual(0.3, var[0]);

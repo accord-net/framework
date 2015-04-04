@@ -141,6 +141,12 @@ namespace Accord.Statistics.Distributions.Univariate
                 if (median == null)
                     median = InverseDistributionFunction(0.5);
 
+#if DEBUG
+                double expected = this.BaseInverseDistributionFunction(0.5);
+                if (median != expected)
+                    throw new Exception();
+#endif
+
                 return median.Value;
             }
         }
@@ -482,6 +488,26 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
+        /// <example>
+        /// <code>
+        /// // Compute P(X = k) 
+        /// double equal = dist.ProbabilityMassFunction(k: 1);
+        /// 
+        /// // Compute P(X &lt; k) 
+        /// double less = dist.DistributionFunction(k: 1, inclusive: false);
+        /// 
+        /// // Compute P(X ≤ k) 
+        /// double lessThanOrEqual = dist.DistributionFunction(k: 1, inclusive: true);
+        /// 
+        /// // Compute P(X > k) 
+        /// double greater = dist.ComplementaryDistributionFunction(k: 1);
+        /// 
+        /// // Compute P(X ≥ k) 
+        /// double greaterThanOrEqual = dist.ComplementaryDistributionFunction(k: 1, inclusive: true);
+        /// </code>
+        /// </example>
+        /// 
+        /// 
         public virtual double DistributionFunction(int k, bool inclusive)
         {
             if (inclusive)
@@ -533,6 +559,28 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   value when applied in the <see cref="DistributionFunction(int)"/>.</returns>
         /// 
         public virtual int InverseDistributionFunction(double p)
+        {
+            return BaseInverseDistributionFunction(p);
+        }
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c> using a numerical
+        ///   approximation based on binary search.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
+        ///   a given probability, the value which the random variable will be at,
+        ///   or below, with that probability.
+        /// </remarks>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>A sample which could original the given probability 
+        ///   value when applied in the <see cref="DistributionFunction(int)"/>.</returns>
+        /// 
+        protected int BaseInverseDistributionFunction(double p)
         {
             bool lowerBounded = !Double.IsInfinity(Support.Min);
             bool upperBounded = !Double.IsInfinity(Support.Max);
@@ -665,6 +713,25 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the complement of the Cumulative Distribution Function, or 1
         ///   minus the CDF.
         /// </remarks>
+        /// 
+        /// <example>
+        /// <code>
+        /// // Compute P(X = k) 
+        /// double equal = dist.ProbabilityMassFunction(k: 1);
+        /// 
+        /// // Compute P(X &lt; k) 
+        /// double less = dist.DistributionFunction(k: 1, inclusive: false);
+        /// 
+        /// // Compute P(X ≤ k) 
+        /// double lessThanOrEqual = dist.DistributionFunction(k: 1, inclusive: true);
+        /// 
+        /// // Compute P(X > k) 
+        /// double greater = dist.ComplementaryDistributionFunction(k: 1);
+        /// 
+        /// // Compute P(X ≥ k) 
+        /// double greaterThanOrEqual = dist.ComplementaryDistributionFunction(k: 1, inclusive: true);
+        /// </code>
+        /// </example>
         /// 
         public virtual double ComplementaryDistributionFunction(int k, bool inclusive)
         {
@@ -881,6 +948,89 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   as regularization constants and additional parameters.</param>
         ///   
         public virtual void Fit(double[] observations, int[] weights, IFittingOptions options)
+        {
+            if (weights == null)
+            {
+                Fit(observations, (double[])null, options);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        ///   
+        public virtual void Fit(int[] observations)
+        {
+            Fit(observations, (IFittingOptions)null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        ///   
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public virtual void Fit(int[] observations, IFittingOptions options)
+        {
+            Fit(observations, (double[])null, options);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).
+        /// </param>
+        /// 
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public virtual void Fit(int[] observations, double[] weights, IFittingOptions options)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).
+        /// </param>
+        /// 
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public virtual void Fit(int[] observations, int[] weights, IFittingOptions options)
         {
             if (weights == null)
             {

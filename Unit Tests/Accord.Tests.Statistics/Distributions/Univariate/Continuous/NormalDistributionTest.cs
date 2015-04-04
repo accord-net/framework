@@ -415,7 +415,6 @@ namespace Accord.Tests.Statistics
             double[] samples = target.Generate(1000000);
 
             var actual = NormalDistribution.Estimate(samples);
-            actual.Fit(samples);
 
             Assert.AreEqual(2, actual.Mean, 0.01);
             Assert.AreEqual(5, actual.StandardDeviation, 0.01);
