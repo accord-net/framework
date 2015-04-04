@@ -259,6 +259,23 @@ namespace Accord.Math
             return X;
         }
 
+        /// <summary>
+        ///   Returns a new matrix with a new column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[,] InsertColumn<T>(this T[,] matrix)
+        {
+            return InsertColumn(matrix, new T[matrix.Length], matrix.GetLength(1));
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a new column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[][] InsertColumn<T>(this T[][] matrix)
+        {
+            return InsertColumn(matrix, new T[matrix.Length], matrix[0].Length);
+        }
 
         /// <summary>
         ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
@@ -294,6 +311,24 @@ namespace Accord.Math
         public static T[][] InsertRow<T>(this T[][] matrix, T[] row)
         {
             return InsertRow(matrix, row, matrix.Length);
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a new row vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[,] InsertRow<T>(this T[,] matrix)
+        {
+            return InsertRow(matrix, new T[matrix.GetLength(1)], matrix.GetLength(0));
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a new row vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[][] InsertRow<T>(this T[][] matrix)
+        {
+            return InsertRow(matrix, new T[matrix[0].Length], matrix.Length);
         }
 
 
