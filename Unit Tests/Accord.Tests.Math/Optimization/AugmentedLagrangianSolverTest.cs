@@ -371,7 +371,7 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void AugmentedLagrangianSolverConstructorTest6()
         {
-            test1(new ConjugateGradient(2), 1e-3);
+            test1(new ConjugateGradient(2), 5e-3);
             test1(new BoundedBroydenFletcherGoldfarbShanno(2), 1e-4);
             test1(new BroydenFletcherGoldfarbShanno(2), 1e-4);
             test1(new ResilientBackpropagation(2), 1e-2);
