@@ -297,6 +297,24 @@ namespace Accord.Statistics.Analysis
             this.outputName = outputName;
         }
 
+        /// <summary>
+        ///   Constructs a Logistic Regression Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data for the analysis.</param>
+        /// <param name="outputs">The output, binary data for the analysis.</param>
+        /// <param name="inputNames">The names of the input variables.</param>
+        /// <param name="outputName">The name of the output variable.</param>
+        /// <param name="weights">The weights associated with each input vector.</param>
+        /// 
+        public LogisticRegressionAnalysis(double[][] inputs, double[] outputs, double[] weights,
+            String[] inputNames, String outputName)
+            : this(inputs, outputs, weights)
+        {
+            this.inputNames = inputNames;
+            this.outputName = outputName;
+        }
+
         private void initialize(double[][] inputs, double[] outputs)
         {
             this.inputCount = inputs[0].Length;

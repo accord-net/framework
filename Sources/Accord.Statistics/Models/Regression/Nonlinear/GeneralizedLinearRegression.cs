@@ -228,6 +228,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <param name="input">The input vector.</param>
+        /// 
         /// <returns>The output value.</returns>
         /// 
         public double Compute(double[] input)
@@ -245,6 +246,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <param name="input">The array of input vectors.</param>
+        /// 
         /// <returns>The array of output values.</returns>
         /// 
         public double[] Compute(double[][] input)

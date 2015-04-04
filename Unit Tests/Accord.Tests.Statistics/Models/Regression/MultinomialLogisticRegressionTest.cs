@@ -33,30 +33,13 @@ namespace Accord.Tests.Statistics
     public class MultinomialLogisticRegressionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [TestMethod]
         public void RegressTest2()
         {
             double[][] inputs;
             int[] outputs;
 
-            createInputOutputsExample1(out inputs, out outputs);
+            CreateInputOutputsExample1(out inputs, out outputs);
 
             // Create a new Multinomial Logistic Regression for 3 categories
             var mlr = new MultinomialLogisticRegression(inputs: 2, categories: 3);
@@ -79,7 +62,7 @@ namespace Accord.Tests.Statistics
 
             } while (iteration < 100 && delta > 1e-6);
 
-
+            Assert.AreEqual(52, iteration);
             Assert.IsFalse(double.IsNaN(mlr.Coefficients[0][0]));
             Assert.IsFalse(double.IsNaN(mlr.Coefficients[0][1]));
             Assert.IsFalse(double.IsNaN(mlr.Coefficients[0][2]));
@@ -236,7 +219,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs;
             int[] outputs;
 
-            createInputOutputsExample1(out inputs, out outputs);
+            CreateInputOutputsExample1(out inputs, out outputs);
 
             MultinomialLogisticRegression target = createExample1();
 
@@ -279,7 +262,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs;
             int[] outputs;
 
-            createInputOutputsExample1(out inputs, out outputs);
+            CreateInputOutputsExample1(out inputs, out outputs);
 
             double expected = -702.97;
             double actual = mlr.GetLogLikelihood(inputs, outputs);
@@ -315,7 +298,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs;
             int[] outputs;
 
-            createInputOutputsExample1(out inputs, out outputs);
+            CreateInputOutputsExample1(out inputs, out outputs);
 
             WaldTest actual;
 
@@ -375,9 +358,15 @@ namespace Accord.Tests.Statistics
             return mlr;
         }
 
-        private static void createInputOutputsExample1(out double[][] inputs, out int[] outputs)
+        public static void CreateInputOutputsExample1(out double[][] inputs, out int[] outputs)
         {
             inputs = example1.Submatrix(null, 1, 2).ToArray();
+            outputs = example1.Submatrix(null, 0, 0).Reshape(0).Select(x => (int)x - 1).ToArray();
+        }
+
+        public static void CreateInputOutputsExample2(out double[][] inputs, out int[] outputs)
+        {
+            inputs = example1.Submatrix(null, 1, 2).ToArray().InsertColumn().InsertColumn().InsertColumn();
             outputs = example1.Submatrix(null, 0, 0).Reshape(0).Select(x => (int)x - 1).ToArray();
         }
 

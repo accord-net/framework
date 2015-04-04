@@ -119,6 +119,26 @@ namespace Accord.Tests.Statistics
             //   fictional and for demonstration purposes only).
             double smokeOdds = regression.GetOddsRatio(2); // 5.8584748789881331
 
+            double[] actual = new double[output.Length];
+            for (int i = 0; i < input.Length; i++)
+                actual[i] = regression.Compute(input[i]);
+
+            double[] expected = 
+            {
+                0.21044171560168326,
+                0.13242527535212373,
+                0.65747803433771812,
+                0.18122484822324372,
+                0.74755661773156912,
+                0.61450041841477232,
+                0.33116705418194975,
+                0.14474110902457912,
+                0.43627109657399382,
+                0.54419383282533118
+            };
+
+            for (int i = 0; i < actual.Length; i++)
+                Assert.AreEqual(expected[i], actual[i]);
 
             Assert.AreEqual(1.0208597028836701, ageOdds, 1e-10);
             Assert.AreEqual(5.8584748789881331, smokeOdds, 1e-8);

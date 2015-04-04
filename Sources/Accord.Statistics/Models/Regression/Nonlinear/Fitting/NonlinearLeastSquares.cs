@@ -122,6 +122,11 @@ namespace Accord.Statistics.Models.Regression.Fitting
                     regression.StandardErrors[i] = solver.StandardErrors[i];
             }
 
+#if DEBUG
+            if (Double.IsNaN(error) || Double.IsInfinity(error))
+                throw new Exception();
+#endif
+
             return error;
         }
 

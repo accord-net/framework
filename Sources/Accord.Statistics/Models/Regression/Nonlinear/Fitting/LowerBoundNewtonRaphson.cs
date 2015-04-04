@@ -403,7 +403,9 @@ namespace Accord.Statistics.Models.Regression.Fitting
             for (int i = 0; i < deltas.Length; i++)
                 deltas[i] = Math.Abs(deltas[i]) / Math.Abs(previous[i]);
 
-            return Matrix.Max(deltas);
+            double max = Matrix.Max(deltas);
+
+            return max;
         }
 
 
