@@ -22,14 +22,14 @@
 
 namespace Accord.MachineLearning
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Accord.MachineLearning.Structures;
     using Accord.Math;
     using Accord.Math.Comparers;
     using Accord.Statistics.Distributions.DensityKernels;
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     /// <summary>
     ///   Mean shift clustering algorithm.
@@ -245,6 +245,21 @@ namespace Accord.MachineLearning
             get { return dimension; }
         }
 
+        /// <summary>
+        ///   Gets or sets the maximum number of iterations to
+        ///   be performed by the method. If set to zero, no
+        ///   iteration limit will be imposed. Default is 0.
+        /// </summary>
+        /// 
+        public int MaxIterations { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the relative convergence threshold
+        ///   for stopping the algorithm. Default is 1e-5.
+        /// </summary>
+        /// 
+        public double Tolerance { get; set; }
+
 
         /// <summary>
         ///   Creates a new <see cref="MeanShift"/> algorithm.
@@ -259,8 +274,21 @@ namespace Accord.MachineLearning
             this.dimension = dimension;
             this.kernel = kernel;
             this.Bandwidth = bandwidth;
-            this.distance = Accord.Math.Distance.SquareEuclidean;
+            this.distance = Accord.Math.Distance.Euclidean;
             this.UseParallelProcessing = true;
+            this.MaxIterations = 100;
+            this.Tolerance = 1e-3;
+        }
+
+        /// <summary>
+        ///   Divides the input data into clusters. 
+        /// </summary>     
+        /// 
+        /// <param name="points">The data where to compute the algorithm.</param>
+        /// 
+        public int[] Compute(double[][] points)
+        {
+            return compute(points);
         }
 
         /// <summary>
@@ -271,9 +299,12 @@ namespace Accord.MachineLearning
         /// <param name="threshold">The relative convergence threshold
         /// for the algorithm. Default is 1e-3.</param>
         /// 
+        [Obsolete("Please set the 'Tolerance' property instead of passing the 'threshold' parameter.")]
         public int[] Compute(double[][] points, double threshold = 1e-3)
         {
-            return Compute(points, threshold, 100);
+            Tolerance = threshold;
+            MaxIterations = 100;
+            return compute(points);
         }
 
         /// <summary>
@@ -285,7 +316,15 @@ namespace Accord.MachineLearning
         /// for the algorithm. Default is 1e-3.</param>
         /// <param name="maxIterations">The maximum number of iterations. Default is 100.</param>
         /// 
+        [Obsolete("Please set the 'Tolerance' property instead of passing the 'threshold' parameter.")]
         public int[] Compute(double[][] points, double threshold, int maxIterations = 100)
+        {
+            Tolerance = threshold;
+            MaxIterations = maxIterations;
+            return compute(points);
+        }
+
+        private int[] compute(double[][] points)
         {
             // first, select initial points
             double[][] seeds = createSeeds(points, 2 * Bandwidth);
@@ -297,13 +336,13 @@ namespace Accord.MachineLearning
             // now, for each initial point 
             if (UseParallelProcessing)
             {
-                Parallel.For(0, seeds.Length, (index) => 
-                    iterate(threshold, maxIterations, seeds, maxcandidates, index));
+                Parallel.For(0, seeds.Length, (index) =>
+                    iterate(seeds, maxcandidates, index));
             }
             else
             {
                 for (int index = 0; index < seeds.Length; index++)
-                    iterate(threshold, maxIterations, seeds, maxcandidates, index);
+                    iterate(seeds, maxcandidates, index);
             }
 
 
@@ -321,7 +360,7 @@ namespace Accord.MachineLearning
             return clusters.Nearest(points);
         }
 
-        private void iterate(double threshold, int maxIterations, double[][] seeds, ConcurrentStack<double[]> maxcandidates, int index)
+        private void iterate(double[][] seeds, ConcurrentStack<double[]> maxcandidates, int index)
         {
             double[] point = seeds[index];
             double[] mean = new double[point.Length];
@@ -333,7 +372,7 @@ namespace Accord.MachineLearning
             int iterations = 0;
 
             // until convergence or max iterations reached
-            while (iterations < maxIterations)
+            while (iterations < MaxIterations)
             {
                 iterations++;
 
@@ -354,7 +393,7 @@ namespace Accord.MachineLearning
 
                 // check for convergence: magnitude of the mean shift
                 // vector converges to zero (Comaniciu 2002, page 606)
-                if (Norm.Euclidean(delta) < threshold * Bandwidth)
+                if (Norm.Euclidean(delta) < Tolerance * Bandwidth)
                     break;
             }
 
@@ -394,21 +433,39 @@ namespace Accord.MachineLearning
             double sum = 0;
             Array.Clear(shift, 0, shift.Length);
 
-            // Compute weighted mean
-            foreach (KDTreeNodeDistance<int> neighbor in neighbors)
+            if (kernel is UniformKernel)
             {
-                double distance = neighbor.Distance;
-                double[] p = neighbor.Node.Position;
+                // Optimization for the uniform case
+                foreach (KDTreeNodeDistance<int> neighbor in neighbors)
+                {
+                    double[] p = neighbor.Node.Position;
 
-                double u = distance / Bandwidth;
+                    for (int i = 0; i < shift.Length; i++)
+                        shift[i] += p[i];
+                }
 
-                // Compute g = -k'(||(x-xi)/h||²)
-                double g = -kernel.Derivative(u * u);
+                sum = neighbors.Count;
+            }
+            else
+            {
+                double h = Bandwidth * Bandwidth;
 
-                for (int i = 0; i < shift.Length; i++)
-                    shift[i] += g * p[i];
+                // Compute weighted mean
+                foreach (KDTreeNodeDistance<int> neighbor in neighbors)
+                {
+                    double distance = neighbor.Distance; // ||(x-xi)||
+                    double[] p = neighbor.Node.Position;
 
-                sum += g;
+                    double u = distance * distance;
+
+                    // Compute g = -k'(||(x-xi)/h||²)
+                    double g = -kernel.Derivative(u / h);
+
+                    for (int i = 0; i < shift.Length; i++)
+                        shift[i] += g * p[i];
+
+                    sum += g;
+                }
             }
 
             // Normalize

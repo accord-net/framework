@@ -109,14 +109,23 @@ namespace Accord.Statistics.Distributions.DensityKernels
         ///   Computes the kernel profile function.
         /// </summary>
         /// 
-        /// <param name="x">The point estimate <c>x</c>.</param>
+        /// <param name="x">The squared point estimate <c>x²</c>.</param>
         /// 
         /// <returns>
-        ///   The value of the profile function at point <paramref name="x"/>.
+        ///   The value of the profile function at point <paramref name="x"/>².
         /// </returns>
         /// 
         public double Profile(double x)
         {
+#if DEBUG
+            if (x < 0)
+                throw new Exception();
+#endif
+
+            // Equation 9 in (Comaniciu & Meer)
+            // https://courses.csail.mit.edu/6.869/handouts/PAMIMeanshift.pdf
+            // and http://www.serc.iisc.ernet.in/~venky/SE263/slides/Mean-Shift-Theory.pdf
+
             return Math.Exp(-0.5 * x);
         }
 
@@ -132,7 +141,12 @@ namespace Accord.Statistics.Distributions.DensityKernels
         /// 
         public double Derivative(double x)
         {
-            return -x * Profile(x);
+#if DEBUG
+            if (x < 0)
+                throw new Exception();
+#endif
+
+            return -0.5 * Math.Exp(-0.5 * x);
         }
     }
 }
