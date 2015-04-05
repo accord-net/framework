@@ -26,34 +26,20 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Linq;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     [TestClass()]
     public class KMeansTest
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [TestMethod()]
         public void KMeansConstructorTest()
         {
-
             Accord.Math.Tools.SetupGenerator(0);
-
 
             // Declare some observations
             double[][] observations = 
@@ -106,9 +92,7 @@ namespace Accord.Tests.MachineLearning
         [TestMethod()]
         public void KMeansConstructorTest2()
         {
-
             Accord.Math.Tools.SetupGenerator(0);
-
 
             // Declare some observations
             double[][] observations = 
@@ -211,5 +195,30 @@ namespace Accord.Tests.MachineLearning
 
             Assert.IsTrue(thrown);
         }
+
+        [TestMethod()]
+        public void DeserializationTest1()
+        {
+
+            MemoryStream stream = new MemoryStream(Properties.Resources.kmeans);
+
+            BinaryFormatter bf = new BinaryFormatter();
+            object o = bf.DeserializeAnyVersion(stream);
+
+            KMeans kmeans = (KMeans)o;
+
+
+            KMeans kbase = new KMeans(3);
+
+            Assert.AreEqual(kbase.Iterations, kmeans.Iterations);
+            Assert.AreEqual(kbase.MaxIterations, kmeans.MaxIterations);
+            Assert.AreEqual(kbase.Tolerance, kmeans.Tolerance);
+
+            Assert.AreEqual(kbase.UseCentroidSeeding, kmeans.UseCentroidSeeding);
+            Assert.AreEqual(kbase.ComputeInformation, kmeans.ComputeInformation);
+
+            Assert.AreEqual(kbase.Distance, kmeans.Distance);
+        }
+
     }
 }

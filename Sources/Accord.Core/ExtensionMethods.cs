@@ -29,6 +29,7 @@ namespace Accord
     using System.IO;
     using System.Runtime.InteropServices;
     using System.Globalization;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -127,7 +128,7 @@ namespace Accord
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
 
             // The current position in the buffer of decoded characters
-            int charPos = (int)reader.GetType().InvokeMember("charPos", 
+            int charPos = (int)reader.GetType().InvokeMember("charPos",
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
 
@@ -135,12 +136,50 @@ namespace Accord
             int numReadBytes = reader.CurrentEncoding.GetByteCount(charBuffer, 0, charPos);
 
             // The number of encoded bytes that are in the current buffer
-            int byteLen = (int)reader.GetType().InvokeMember("byteLen", 
+            int byteLen = (int)reader.GetType().InvokeMember("byteLen",
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
 
             return reader.BaseStream.Position - byteLen + numReadBytes;
         }
 
+
+        private static readonly Object lockObj = new Object();
+
+        /// <summary>
+        ///   Deserializes the specified stream into an object graph, but locates
+        ///   types by searching all loaded assemblies and ignoring their versions.
+        /// </summary>
+        /// 
+        /// <param name="formatter">The binary formatter.</param>
+        /// <param name="stream">The stream from which to deserialize the object graph.</param>
+        /// 
+        /// <returns>The top (root) of the object graph.</returns>
+        /// 
+        public static object DeserializeAnyVersion(this BinaryFormatter formatter, Stream stream)
+        {
+            lock (lockObj)
+            {
+                try
+                {
+                    AppDomain.CurrentDomain.AssemblyResolve += resolve;
+                    return formatter.Deserialize(stream);
+                }
+                finally
+                {
+                    AppDomain.CurrentDomain.AssemblyResolve -= resolve;
+                }
+            }
+        }
+
+        private static Assembly resolve(object sender, ResolveEventArgs args)
+        {
+            var display = new AssemblyName(args.Name);
+
+            if (display.Name == args.Name)
+                return null;
+
+            return ((AppDomain)sender).Load(display.Name);
+        }
     }
 }

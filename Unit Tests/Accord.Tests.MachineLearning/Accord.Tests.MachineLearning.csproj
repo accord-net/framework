@@ -225,6 +225,7 @@
     <Content Include="Resources\iris.data.txt" />
     <Content Include="Resources\iris.scale.txt" />
     <None Include="Accord.snk" />
+    <None Include="Resources\kmeans.bin" />
     <None Include="Resources\noise-line.png" />
     <None Include="Resources\CircleWithWeights.xls" />
     <None Include="Resources\nursery.data">
