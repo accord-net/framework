@@ -22,13 +22,13 @@
 
 namespace Accord.Imaging
 {
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Drawing.Imaging;
     using AForge;
     using AForge.Imaging;
     using AForge.Imaging.Filters;
     using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
 
     /// <summary>
     ///   SURF Feature descriptor types.
@@ -189,7 +189,7 @@ namespace Accord.Imaging
 
         /// <summary>
         ///   Gets or sets the scale used when building 
-        ///   the feature descriptor. Default is 0.22f.
+        ///   the feature descriptor. Default is 22.
         /// </summary>
         /// 
         public float Scale

@@ -67,11 +67,11 @@ namespace Accord.Tests.MachineLearning
             for (int i = 5; i < samples.Length; i++)
                 Assert.AreEqual(b, labels[i]);
 
-            Assert.AreEqual(1.1922811512028066, meanShift.Clusters.Modes[a][0], 1e-5);
-            Assert.AreEqual(1.2567196159235963, meanShift.Clusters.Modes[a][1], 1e-5);
+            Assert.AreEqual(1.1922811512028066, meanShift.Clusters.Modes[a][0], 1e-3);
+            Assert.AreEqual(1.2567196159235963, meanShift.Clusters.Modes[a][1], 1e-3);
 
-            Assert.AreEqual(5.2696337859175868, meanShift.Clusters.Modes[b][0], 1e-5);
-            Assert.AreEqual(1.4380326532534968, meanShift.Clusters.Modes[b][1], 1e-5);
+            Assert.AreEqual(5.2696337859175868, meanShift.Clusters.Modes[b][0], 1e-3);
+            Assert.AreEqual(1.4380326532534968, meanShift.Clusters.Modes[b][1], 1e-3);
 
             Assert.AreEqual(2, meanShift.Clusters.Count);
             Assert.AreEqual(2, meanShift.Clusters.Modes.Length);
