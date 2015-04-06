@@ -22,30 +22,13 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Statistics;
     using Accord.Statistics.Running;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System;
-    using Accord.Statistics;  
+    using Microsoft.VisualStudio.TestTools.UnitTesting;  
     
     [TestClass()]
     public class RunningNormalStatisticsTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void ClearTest()

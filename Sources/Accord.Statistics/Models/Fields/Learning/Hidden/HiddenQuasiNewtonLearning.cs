@@ -32,6 +32,13 @@ namespace Accord.Statistics.Models.Fields.Learning
     /// 
     /// <typeparam name="T">The type of the observations.</typeparam>
     /// 
+    /// <example>
+    /// <para>
+    ///   For an example on how to learn Hidden Conditional Random Fields, please see the
+    ///   <see cref="HiddenResilientGradientLearning{T}">Hidden Resilient Gradient Learning</see>
+    ///   page. All learning algorithms can be utilized in a similar manner.</para>
+    /// </example>
+    /// 
     /// <seealso cref="HiddenResilientGradientLearning{T}"/>
     /// 
     public class HiddenQuasiNewtonLearning<T> : IHiddenConditionalRandomFieldLearning<T>,

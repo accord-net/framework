@@ -203,8 +203,9 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///   </code>
     /// </example>
     /// 
-    /// <see cref="HiddenMarkovClassifierLearning"/>
-    /// <see cref="HiddenMarkovClassifier{TDistribution}"/>
+    /// <seealso cref="HiddenMarkovClassifier{TDistribution}"/>
+    /// <seealso cref="HiddenMarkovClassifier"/>
+    /// <seealso cref="HiddenMarkovClassifierLearning"/>
     /// 
     public class HiddenMarkovClassifierLearning<TDistribution> :
         BaseHiddenMarkovClassifierLearning<HiddenMarkovClassifier<TDistribution>,

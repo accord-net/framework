@@ -31,6 +31,14 @@ namespace Accord.Statistics.Models.Fields.Learning
     ///   Hidden Conditional Hidden Fields</see>.
     /// </summary>
     /// 
+    /// <example>
+    /// <para>
+    ///   For an example on how to learn Hidden Conditional Random Fields, please see the
+    ///   <see cref="HiddenResilientGradientLearning{T}">Hidden Resilient Gradient Learning</see>
+    ///   page. All learning algorithms can be utilized in a similar manner.</para>
+    /// </example>
+    /// 
+    /// 
     public class HiddenConjugateGradientLearning<T> : IHiddenConditionalRandomFieldLearning<T>,
         IConvergenceLearning, IDisposable
     {

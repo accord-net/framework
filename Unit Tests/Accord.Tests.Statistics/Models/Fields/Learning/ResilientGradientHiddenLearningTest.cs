@@ -22,32 +22,16 @@
 
 namespace Accord.Tests.Statistics.Models.Fields
 {
-    using System;
     using Accord.Statistics.Models.Fields;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Fields.Learning;
     using Accord.Statistics.Models.Markov;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass()]
     public class ResilientGradientHiddenLearningTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void RunTest()

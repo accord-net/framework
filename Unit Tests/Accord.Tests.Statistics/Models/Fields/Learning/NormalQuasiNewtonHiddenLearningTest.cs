@@ -23,32 +23,15 @@
 
 namespace Accord.Tests.Statistics.Models.Fields
 {
-    using System;
-    using Accord.Math.Differentiation;
     using Accord.Statistics.Models.Fields;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Fields.Learning;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass()]
     public class NormalQuasiNewtonHiddenLearningTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         public static double[][] inputs = new double[][] 
         {

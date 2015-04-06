@@ -22,34 +22,17 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Math;
     using Accord;
-    using System.Data;
-    using Accord.Controls;
+    using Accord.Math;
+    using Accord.Statistics;
     using AForge;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Data;
 
     [TestClass()]
     public class CircularTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         private double[] angles = 
         {

@@ -28,12 +28,222 @@ namespace Accord.Statistics.Models.Fields
     using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Statistics.Models.Fields.Learning;
 
     /// <summary>
     ///   Hidden Conditional Random Field (HCRF).
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   Conditional random fields (CRFs) are a class of statistical modeling method often applied 
+    ///   in pattern recognition and machine learning, where they are used for structured prediction. 
+    ///   Whereas an ordinary classifier predicts a label for a single sample without regard to "neighboring"
+    ///   samples, a CRF can take context into account; e.g., the linear chain CRF popular in natural 
+    ///   language processing predicts sequences of labels for sequences of input samples.</para>
+    ///   
+    /// <para>
+    ///   While Conditional Random Fields can be seen as a generalization of Markov models, Hidden
+    ///   Conditional Random Fields can be seen as a generalization of Hidden Markov Model Classifiers.
+    ///   The (linear-chain) Conditional Random Field is the discriminative counterpart of the Markov model.
+    ///   An observable Markov Model assumes the sequences of states y to be visible, rather than hidden.
+    ///   Thus they can be used in a different set of problems than the hidden Markov models. Those models
+    ///   are often used for sequence component labeling, also known as part-of-sequence tagging. After a model
+    ///   has been trained, they are mostly used to tag parts of a sequence using the Viterbi algorithm.
+    ///   This is very handy to perform, for example, classification of parts of a speech utterance, such as 
+    ///   classifying phonemes inside an audio signal.  </para>
+    ///   
+    /// <para>    
+    ///   References:
+    ///   <list type="bullet">
+    ///     <item><description><a href="http://www.codeproject.com/Articles/559535/Sequence-Classifiers-in-Csharp-Part-II-Hidden-Cond">
+    ///       C. Souza, Sequence Classifiers in C# - Part II: Hidden Conditional Random Fields. CodeProject. Available at:
+    ///       http://www.codeproject.com/Articles/559535/Sequence-Classifiers-in-Csharp-Part-II-Hidden-Cond </a></description></item>
+    ///     <item><description>
+    ///       Chan, Tony F.; Golub, Gene H.; LeVeque, Randall J. (1983). Algorithms for 
+    ///       Computing the Sample Variance: Analysis and Recommendations. The American
+    ///       Statistician 37, 242-247.</description></item>
+    ///   </list></para>
+    /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   In this example, we will create a sequence classifier using a hidden Markov
+    ///   classifier. Afterwards, we will transform this Markov classifier into an
+    ///   equivalent Hidden Conditional Random Field by choosing a suitable feature
+    ///   function.</para>
+    ///   
+    /// <code>
+    /// // Let's say we would like to do a very simple mechanism for
+    /// // gesture recognition. In this example, we will be trying to
+    /// // create a classifier that can distinguish between the words
+    /// // "hello", "car", and "wardrobe". 
+    ///             
+    /// // Let's say we decided to acquire some data, and we asked some
+    /// // people to perform those words in front of a Kinect camera, and,
+    /// // using Microsoft's SDK, we were able to captured the x and y
+    /// // coordinates of each hand while the word was being performed.
+    /// 
+    /// // Let's say we decided to represent our frames as:
+    /// // 
+    /// //    double[] frame = { leftHandX, leftHandY, rightHandX, rightHandY };
+    /// //
+    /// // Since we captured words, this means we captured sequences of
+    /// // frames as we described above. Let's write some of those as 
+    /// // rough examples to explain how gesture recognition can be done:
+    /// 
+    /// double[][] hello =
+    /// {
+    ///     new double[] { 1.0, 0.1, 0.0, 0.0 }, // let's say the word
+    ///     new double[] { 0.0, 1.0, 0.1, 0.1 }, // hello took 6 frames
+    ///     new double[] { 0.0, 1.0, 0.1, 0.1 }, // to be recorded.
+    ///     new double[] { 0.0, 0.0, 1.0, 0.0 },
+    ///     new double[] { 0.0, 0.0, 1.0, 0.0 },
+    ///     new double[] { 0.0, 0.0, 0.1, 1.1 },
+    /// };
+    /// 
+    /// double[][] car =
+    /// {
+    ///     new double[] { 0.0, 0.0, 0.0, 1.0 }, // the car word
+    ///     new double[] { 0.1, 0.0, 1.0, 0.1 }, // took only 4.
+    ///     new double[] { 0.0, 0.0, 0.1, 0.0 },
+    ///     new double[] { 1.0, 0.0, 0.0, 0.0 },
+    /// };
+    /// 
+    /// double[][] wardrobe =
+    /// {
+    ///     new double[] { 0.0, 0.0, 1.0, 0.0 }, // same for the
+    ///     new double[] { 0.1, 0.0, 1.0, 0.1 }, // wardrobe word.
+    ///     new double[] { 0.0, 0.1, 1.0, 0.0 },
+    ///     new double[] { 0.1, 0.0, 1.0, 0.1 },
+    /// };
+    /// 
+    /// // Here, please note that a real-world example would involve *lots*
+    /// // of samples for each word. Here, we are considering just one from
+    /// // each class which is clearly sub-optimal and should _never_ be done
+    /// // on practice. For example purposes, however, please disregard this.
+    /// 
+    /// // Those are the words we have in our vocabulary:
+    /// //
+    /// double[][][] words = { hello, car, wardrobe }; 
+    /// 
+    /// // Now, let's associate integer labels with them. This is needed
+    /// // for the case where there are multiple samples for each word.
+    /// //
+    /// int[] labels = { 0, 1, 2 };
+    /// 
+    /// 
+    /// // We will create our classifiers assuming an independent
+    /// // Gaussian distribution for each component in our feature
+    /// // vectors (like assuming a Naive Bayes assumption).
+    /// 
+    /// var initial = new Independent&lt;NormalDistribution>
+    /// (
+    ///     new NormalDistribution(0, 1), 
+    ///     new NormalDistribution(0, 1), 
+    ///     new NormalDistribution(0, 1), 
+    ///     new NormalDistribution(0, 1)  
+    /// );
+    /// 
+    /// 
+    /// // Now, we can proceed and create our classifier. 
+    /// //
+    /// int numberOfWords = 3;  // we are trying to distinguish between 3 words
+    /// int numberOfStates = 5; // this value can be found by trial-and-error
+    /// 
+    /// var hmm = new HiddenMarkovClassifier&lt;Independent&lt;NormalDistribution>>
+    /// (
+    ///     classes: numberOfWords, 
+    ///     topology: new Forward(numberOfStates), // word classifiers should use a forward topology
+    ///     initial: initial
+    /// );
+    /// 
+    /// // Create a new learning algorithm to train the sequence classifier
+    /// var teacher = new HiddenMarkovClassifierLearning&lt;Independent&lt;NormalDistribution>>(hmm,
+    /// 
+    ///     // Train each model until the log-likelihood changes less than 0.001
+    ///     modelIndex => new BaumWelchLearning&lt;Independent&lt;NormalDistribution>>(hmm.Models[modelIndex])
+    ///     {
+    ///         Tolerance = 0.001,
+    ///         Iterations = 100,
+    /// 
+    ///         // This is necessary so the code doesn't blow up when it realize
+    ///         // there is only one sample per word class. But this could also be
+    ///         // needed in normal situations as well.
+    ///         //
+    ///         FittingOptions = new IndependentOptions()
+    ///         {
+    ///             InnerOption = new NormalOptions() { Regularization = 1e-5 }
+    ///         }
+    ///     }
+    /// );
+    /// 
+    /// // Finally, we can run the learning algorithm!
+    /// double logLikelihood = teacher.Run(words, labels);
+    /// 
+    /// // At this point, the classifier should be successfully 
+    /// // able to distinguish between our three word classes:
+    /// //
+    /// int tc1 = hmm.Compute(hello);    // should be 0
+    /// int tc2 = hmm.Compute(car);      // should be 1
+    /// int tc3 = hmm.Compute(wardrobe); // should be 2
+    /// 
+    /// 
+    /// // Now, we can use the Markov classifier to initialize a HCRF
+    /// var function = new MarkovMultivariateFunction(hmm);
+    /// var hcrf = new HiddenConditionalRandomField&lt;double[]>(function);
+    /// 
+    /// // We can check that both are equivalent, although they have
+    /// // formulations that can be learned with different methods
+    /// //
+    /// for (int i = 0; i &lt; words.Length; i++)
+    /// {
+    ///     // Should be the same
+    ///     int expected = hmm.Compute(words[i]);
+    ///     int actual = hcrf.Compute(words[i]);
+    /// 
+    ///     // Should be the same
+    ///     double h0 = hmm.LogLikelihood(words[i], 0);
+    ///     double c0 = hcrf.LogLikelihood(words[i], 0);
+    /// 
+    ///     double h1 = hmm.LogLikelihood(words[i], 1);
+    ///     double c1 = hcrf.LogLikelihood(words[i], 1);
+    /// 
+    ///     double h2 = hmm.LogLikelihood(words[i], 2);
+    ///     double c2 = hcrf.LogLikelihood(words[i], 2);
+    /// }
+    /// 
+    ///
+    /// // Now we can learn the HCRF using one of the best learning
+    /// // algorithms available, Resilient Backpropagation learning:
+    /// 
+    /// // Create a learning algorithm
+    /// var rprop = new HiddenResilientGradientLearning&lt;double[]>(hcrf)
+    /// {
+    ///     Iterations = 50,
+    ///     Tolerance = 1e-5
+    /// };
+    ///
+    /// // Run the algorithm and learn the models
+    /// double error = rprop.Run(words, labels);
+    ///
+    /// // At this point, the HCRF should be successfully 
+    /// // able to distinguish between our three word classes:
+    /// //
+    /// int hc1 = hcrf.Compute(hello);    // Should be 0
+    /// int hc2 = hcrf.Compute(car);      // Should be 1
+    /// int hc3 = hcrf.Compute(wardrobe); // Should be 2
+    /// </code>
+    /// 
+    /// <para>
+    ///   In order to see how this HCRF can be trained to the data, please take a look 
+    ///   at the <see cref="HiddenResilientGradientLearning{T}"/> page. Resilient Propagation
+    ///   is one of the best algorithms for HCRF training.</para>
+    /// </example>
+    /// 
     /// <typeparam name="T">The type of the observations modeled by the field.</typeparam>
+    /// 
+    /// <see cref="HiddenResilientGradientLearning{T}"/>
     /// 
     [Serializable]
     public class HiddenConditionalRandomField<T> : ICloneable
@@ -243,7 +453,7 @@ namespace Accord.Statistics.Models.Fields
             System.Diagnostics.Debug.Assert(!Double.IsNaN(logZx));
             System.Diagnostics.Debug.Assert(!Double.IsNaN(logZxy));
             System.Diagnostics.Debug.Assert(!Double.IsNaN(logLikelihoods[output]));
-           // System.Diagnostics.Debug.Assert(!Double.IsInfinity(logZx));
+            // System.Diagnostics.Debug.Assert(!Double.IsInfinity(logZx));
 
             // Return the marginal
             if (logZx == logZxy)

@@ -22,38 +22,22 @@
 
 namespace Accord.Tests.Statistics.Models.Fields
 {
+    using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Fields;
     using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Statistics.Models.Fields.Learning;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.IO;
-    using Accord.Math;
-    using System;
 
     [TestClass()]
     public class HiddenConditionalRandomFieldTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [TestMethod()]
@@ -201,18 +185,18 @@ namespace Accord.Tests.Statistics.Models.Fields
             int numberOfWords = 3;  // we are trying to distinguish between 3 words
             int numberOfStates = 5; // this value can be found by trial-and-error
 
-            var classifier = new HiddenMarkovClassifier<Independent<NormalDistribution>>
+            var hmm = new HiddenMarkovClassifier<Independent<NormalDistribution>>
             (
-               classes: numberOfWords, 
-               topology: new Forward(numberOfStates), // word classifiers should use a forward topology
-               initial: initial
+                classes: numberOfWords, 
+                topology: new Forward(numberOfStates), // word classifiers should use a forward topology
+                initial: initial
             );
 
             // Create a new learning algorithm to train the sequence classifier
-            var teacher = new HiddenMarkovClassifierLearning<Independent<NormalDistribution>>(classifier,
+            var teacher = new HiddenMarkovClassifierLearning<Independent<NormalDistribution>>(hmm,
 
                 // Train each model until the log-likelihood changes less than 0.001
-                modelIndex => new BaumWelchLearning<Independent<NormalDistribution>>(classifier.Models[modelIndex])
+                modelIndex => new BaumWelchLearning<Independent<NormalDistribution>>(hmm.Models[modelIndex])
                 {
                     Tolerance = 0.001,
                     Iterations = 100,
@@ -234,30 +218,37 @@ namespace Accord.Tests.Statistics.Models.Fields
             // At this point, the classifier should be successfully 
             // able to distinguish between our three word classes:
             //
-            int tc1 = classifier.Compute(hello);
-            int tc2 = classifier.Compute(car);
-            int tc3 = classifier.Compute(wardrobe);
+            int tc1 = hmm.Compute(hello);
+            int tc2 = hmm.Compute(car);
+            int tc3 = hmm.Compute(wardrobe);
 
             Assert.AreEqual(0, tc1);
             Assert.AreEqual(1, tc2);
             Assert.AreEqual(2, tc3);
 
-            var function = new MarkovMultivariateFunction(classifier);
-            var target = new HiddenConditionalRandomField<double[]>(function);
+            // Now, we can use the Markov classifier to initialize a HCRF
+            var function = new MarkovMultivariateFunction(hmm);
+            var hcrf = new HiddenConditionalRandomField<double[]>(function);
 
+
+            // We can check that both are equivalent, although they have
+            // formulations that can be learned with different methods
+            //
             for (int i = 0; i < words.Length; i++)
             {
-                int expected = classifier.Compute(words[i]);
+                // Should be the same
+                int expected = hmm.Compute(words[i]);
+                int actual = hcrf.Compute(words[i]);
 
-                int actual = target.Compute(words[i]);
+                // Should be the same
+                double h0 = hmm.LogLikelihood(words[i], 0);
+                double c0 = hcrf.LogLikelihood(words[i], 0);
 
-                double h0 = classifier.LogLikelihood(words[i], 0);
-                double h1 = classifier.LogLikelihood(words[i], 1);
-                double h2 = classifier.LogLikelihood(words[i], 2);
+                double h1 = hmm.LogLikelihood(words[i], 1);
+                double c1 = hcrf.LogLikelihood(words[i], 1);
 
-                double c0 = target.LogLikelihood(words[i], 0);
-                double c1 = target.LogLikelihood(words[i], 1);
-                double c2 = target.LogLikelihood(words[i], 2);
+                double h2 = hmm.LogLikelihood(words[i], 2);
+                double c2 = hcrf.LogLikelihood(words[i], 2);
 
                 Assert.AreEqual(expected, actual);
                 Assert.AreEqual(h0, c0, 1e-10);
@@ -268,6 +259,31 @@ namespace Accord.Tests.Statistics.Models.Fields
                 Assert.IsFalse(double.IsNaN(c1));
                 Assert.IsFalse(double.IsNaN(c2));
             }
+
+
+            // Now we can learn the HCRF using one of the best learning
+            // algorithms available, Resilient Backpropagation learning:
+
+            // Create a learning algorithm
+            var rprop = new HiddenResilientGradientLearning<double[]>(hcrf)
+            {
+                Iterations = 50,
+                Tolerance = 1e-5
+            };
+
+            // Run the algorithm and learn the models
+            double error = rprop.Run(words, labels);
+
+            // At this point, the HCRF should be successfully 
+            // able to distinguish between our three word classes:
+            //
+            int hc1 = hcrf.Compute(hello);
+            int hc2 = hcrf.Compute(car);
+            int hc3 = hcrf.Compute(wardrobe);
+
+            Assert.AreEqual(0, hc1);
+            Assert.AreEqual(1, hc2);
+            Assert.AreEqual(2, hc3);
         }
 
 
