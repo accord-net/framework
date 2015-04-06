@@ -16,11 +16,11 @@
  Installing the framework
  ------------------------
 
-0) Download the framework through NuGet:
+1) Download the framework through NuGet:
    https://www.nuget.org/packages?q=accord.net
 
 
-1) Follow the Getting Started Guide
+2) Follow the Getting Started Guide
    http://accord-framework.net/get-started.html
    
 
@@ -31,9 +31,8 @@
    
      C:\Program Files (x86)\Accord.NET\Framework\Samples
    
-   You can open the Samples.sln solution on Visual Studio to check
-   the sample applications for examples. Complete documentation is
-   also available online at
+   You can open the Samples.sln solution on Visual Studio and check the sample 
+   applications for examples. Complete documentation is also available online at
    
      http://accord-framework.net/docs/Index.html
 	 
