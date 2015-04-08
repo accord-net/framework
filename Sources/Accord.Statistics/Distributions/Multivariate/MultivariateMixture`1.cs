@@ -22,11 +22,10 @@
 
 namespace Accord.Statistics.Distributions.Multivariate
 {
-    using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using System.Threading.Tasks;
+    using System;
     using System.Text;
 
     /// <summary>
@@ -53,6 +52,10 @@ namespace Accord.Statistics.Distributions.Multivariate
     ///   
     /// <typeparam name="T">
     ///   The type of the multivariate component distributions.</typeparam>
+    ///   
+    /// <seealso cref="Mixture{T}"/>
+    /// <seealso cref="ExpectationMaximization{T}"/>
+    /// <seealso cref="LogExpectationMaximization{T}"/>
     ///   
     [Serializable]
     public class MultivariateMixture<T> : MultivariateContinuousDistribution, IMixture<T>,

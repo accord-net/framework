@@ -796,5 +796,21 @@ namespace Accord.Statistics.Distributions.Multivariate
             return String.Format(formatProvider, "Normal(X; μ, Σ)");
         }
 
+        /// <summary>
+        ///   Generates a random vector of observations from a distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
+        /// <param name="covariance">The covariance matrix Σ (sigma) for the distribution.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public static double[][] Generate(int samples, double[] mean, double[,] covariance)
+        {
+            var normal = new MultivariateNormalDistribution(mean, covariance);
+            return normal.Generate(samples);
+        }
+
     }
 }

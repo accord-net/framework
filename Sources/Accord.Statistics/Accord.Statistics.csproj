@@ -154,7 +154,7 @@
     <Compile Include="Distributions\Fitting\MixtureOptions.cs" />
     <Compile Include="Distributions\Fitting\NormalOptions.cs" />
     <Compile Include="Distributions\Multivariate\Independent`1.cs" />
-    <Compile Include="Distributions\Multivariate\MultivariateMixture.cs" />
+    <Compile Include="Distributions\Multivariate\MultivariateMixture`1.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\MultinomialDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BetaDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BetaPrimeDistribution.cs" />
@@ -216,7 +216,7 @@
     <Compile Include="Distributions\Univariate\Continuous\FDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GompertzDistribution.cs" />
-    <Compile Include="Distributions\Univariate\Mixture.cs" />
+    <Compile Include="Distributions\Univariate\Mixture`1.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\GeneralDiscreteDistribution.cs" />
     <Compile Include="Distributions\Univariate\Base\UnivariateContinuousDistribution.cs" />
@@ -498,7 +498,6 @@
     <None Include="Analysis\Accord.Statistics.Analysis.cd" />
     <None Include="Distributions\Accord.Statistics.Distributions.cd" />
     <None Include="Distributions\Multivariate\Accord.Statistics.Distributions.Multivariate.cd" />
-    <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate %28simpler%29.cd" />
     <None Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cd" />
     <None Include="Kernels\Accord.Statistics.Kernels.cd" />
     <None Include="Models\Accord.Statistics.Models.cd">
