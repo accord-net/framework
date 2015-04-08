@@ -13,7 +13,7 @@ echo.
 :: Settings for complete and (libs-only) package creation
 :: ---------------------------------------------------------
 set rar="C:\Program Files\WinRAR\winrar"
-set opts=a -m5 -s -afzip -ibck
+set opts=a -m5 -s
 set sampleDir=..\..\Samples\
 set outputDir=..\bin\samples\
 set sampleBin=\bin\x86\Release\
@@ -51,6 +51,7 @@ echo ---------------------------------------------------------
 
 
 :: Remove old files
+forfiles /p %outputDir% /m *.rar /c "cmd /c del @file"
 forfiles /p %outputDir% /m *.zip /c "cmd /c del @file"
 
 :: For each sample application project
@@ -67,7 +68,7 @@ for /r %sampleDir% %%f in (*.csproj) do (
    for %%c in ("A=a" "B=b" "C=c" "D=d" "E=e" "F=f" "G=g" "H=h" "I=i" "J=j" "K=k" "L=l" "M=m" "N=n" "O=o" "P=p" "Q=q" "R=r" "S=s" "T=t" "U=u" "V=v" "W=w" "X=x" "Y=y" "Z=z" " =-") do set fileName=!fileName:%%~c!
    
    :: Create the binary package
-   set binFileName=!fileName!.zip
+   set binFileName=!fileName!.rar
    
    :: Get the binary files folder
    set binFolder=!cur!%sampleBin%
@@ -80,7 +81,7 @@ for /r %sampleDir% %%f in (*.csproj) do (
    popd
    
    :: Create the sources package
-   set srcFileName=!fileName!.zip
+   set srcFileName=!fileName!.rar
    
    :: Get the binary files folder
    set srcFolder=!cur!
