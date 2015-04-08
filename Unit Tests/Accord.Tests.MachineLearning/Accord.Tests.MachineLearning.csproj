@@ -107,7 +107,8 @@
     <Compile Include="DecisionTrees\SimplificationTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="KDTreeTest.cs" />
+    <Compile Include="KNearestNeighbors\KnnPerformanceTest.cs" />
+    <Compile Include="Structures\KDTreeTest.cs" />
     <Compile Include="RansacLineTest.cs" />
     <Compile Include="RansacPlaneTest.cs" />
     <Compile Include="Signals\TemporalSupportVectorMachineTest.cs" />
@@ -123,7 +124,8 @@
     <Compile Include="Kernels\DynamicTimeWarpingTest.cs" />
     <Compile Include="Clustering\KMeansTest.cs" />
     <Compile Include="Clustering\KModesTest.cs" />
-    <Compile Include="KNearestNeighborTest.cs" />
+    <Compile Include="KNearestNeighbors\KNearestNeighborTest.cs" />
+    <Compile Include="KNearestNeighbors\NaiveNearestNeighbors.cs" />
     <Compile Include="VectorMachines\LinearCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\LinearDualCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\LinearNewtonMethodTest.cs" />

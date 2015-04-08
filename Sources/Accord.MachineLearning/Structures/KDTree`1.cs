@@ -121,12 +121,12 @@ namespace Accord.MachineLearning.Structures
     /// 
     /// Dim points =
     /// {
-    ///     New Double() {2, 3},
-    ///     New Double() {5, 4},
-    ///     New Double() {9, 6},
-    ///     New Double() {4, 7},
-    ///     New Double() {8, 1},
-    ///     New Double() {7, 2}
+    ///     New Double() { 2, 3 },
+    ///     New Double() { 5, 4 },
+    ///     New Double() { 9, 6 },
+    ///     New Double() { 4, 7 },
+    ///     New Double() { 8, 1 },
+    ///     New Double() { 7, 2 }
     /// }
     /// 
     /// ' To create a tree from a set of points, we use
@@ -172,7 +172,7 @@ namespace Accord.MachineLearning.Structures
         private int leaves;
 
         private KDTreeNode<T> root;
-        private Func<double[], double[], double> distance;
+        private Func<double[], double[], double> distance = Accord.Math.Distance.Euclidean;
 
 
         /// <summary>
@@ -202,7 +202,12 @@ namespace Accord.MachineLearning.Structures
         public Func<double[], double[], double> Distance
         {
             get { return distance; }
-            set { distance = value; }
+            set
+            {
+                if (!Accord.Math.Distance.IsMetric(value))
+                    throw new ArgumentException("The tree needs a real distance metric that respects the Triangle inequality.");
+                distance = value;
+            }
         }
 
         /// <summary>
@@ -236,7 +241,6 @@ namespace Accord.MachineLearning.Structures
         public KDTree(int dimensions)
         {
             this.dimensions = dimensions;
-            this.distance = Accord.Math.Distance.SquareEuclidean;
         }
 
         /// <summary>
@@ -566,6 +570,11 @@ namespace Accord.MachineLearning.Structures
 
 
         #region Recursive methods
+
+        /// <summary>
+        ///   Radius search.
+        /// </summary>
+        /// 
         private void nearest(KDTreeNode<T> current, double[] position,
             double radius, ICollection<KDTreeNodeDistance<T>> list)
         {
@@ -583,71 +592,64 @@ namespace Accord.MachineLearning.Structures
 
             double value = position[current.Axis];
             double median = current.Position[current.Axis];
+            double u = value - median;
 
-            if (value < median)
+            if (u <= 0)
             {
                 if (current.Left != null)
                     nearest(current.Left, position, radius, list);
 
-                if (current.Right != null)
-                    if (Math.Abs(value - median) <= radius)
-                        nearest(current.Right, position, radius, list);
+                if (current.Right != null && Math.Abs(u) <= radius)
+                    nearest(current.Right, position, radius, list);
             }
             else
             {
                 if (current.Right != null)
                     nearest(current.Right, position, radius, list);
 
-                if (current.Left != null)
-                    if (Math.Abs(value - median) <= radius)
-                        nearest(current.Left, position, radius, list);
+                if (current.Left != null && Math.Abs(u) <= radius)
+                    nearest(current.Left, position, radius, list);
             }
         }
 
+        /// <summary>
+        ///   k-nearest neighbors search.
+        /// </summary>
+        /// 
         private void nearest(KDTreeNode<T> current, double[] position, KDTreeNodeCollection<T> list)
         {
             // Compute distance from this node to the point
             double d = distance(position, current.Position);
 
-            if (current.IsLeaf)
+
+            list.Add(current, d);
+
+
+            // Check for leafs on the opposite sides of 
+            // the subtrees to nearest possible neighbors.
+
+            // Prepare for recursion. The following null checks
+            // will be used to avoid function calls if possible
+
+            double value = position[current.Axis];
+            double median = current.Position[current.Axis];
+            double u = value - median;
+
+            if (u <= 0)
             {
-                // Base: node is leaf
-                list.Add(current, d);
+                if (current.Left != null)
+                    nearest(current.Left, position, list);
+
+                if (current.Right != null && Math.Abs(u) <= list.Maximum)
+                    nearest(current.Right, position, list);
             }
             else
             {
-                // Check for leafs on the opposite sides of 
-                // the subtrees to nearest possible neighbors.
+                if (current.Right != null)
+                    nearest(current.Right, position, list);
 
-                // Prepare for recursion. The following null checks
-                // will be used to avoid function calls if possible
-
-                double value = position[current.Axis];
-                double median = current.Position[current.Axis];
-                double u = (value - median);
-
-                if (u < 0)
-                {
-                    if (current.Left != null)
-                        nearest(current.Left, position, list);
-
-                    list.Add(current, d);
-
-                    if (current.Right != null)
-                        if ((u * u) < list.Distance.Max)
-                            nearest(current.Right, position, list);
-                }
-                else
-                {
-                    if (current.Right != null)
-                        nearest(current.Right, position, list);
-
-                    list.Add(current, d);
-
-                    if (current.Left != null)
-                        if ((u * u) < list.Distance.Max)
-                            nearest(current.Left, position, list);
-                }
+                if (current.Left != null && Math.Abs(u) <= list.Maximum)
+                    nearest(current.Left, position, list);
             }
         }
 
@@ -656,61 +658,37 @@ namespace Accord.MachineLearning.Structures
             // Compute distance from this node to the point
             double d = distance(position, current.Position);
 
-            if (current.IsLeaf)
+            if (d < minDistance)
             {
-                // Base: node is leaf
-                if (d < minDistance)
-                {
-                    minDistance = d;
-                    match = current;
-                }
+                minDistance = d;
+                match = current;
+            }
+
+            // Check for leafs on the opposite sides of 
+            // the subtrees to nearest possible neighbors.
+
+            // Prepare for recursion. The following null checks
+            // will be used to avoid function calls if possible
+
+            double value = position[current.Axis];
+            double median = current.Position[current.Axis];
+            double u = value - median;
+
+            if (u <= 0)
+            {
+                if (current.Left != null)
+                    nearest(current.Left, position, ref match, ref minDistance);
+
+                if (current.Right != null && u <= minDistance)
+                    nearest(current.Right, position, ref match, ref minDistance);
             }
             else
             {
-                // Check for leafs on the opposite sides of 
-                // the subtrees to nearest possible neighbors.
+                if (current.Right != null)
+                    nearest(current.Right, position, ref match, ref minDistance);
 
-                // Prepare for recursion. The following null checks
-                // will be used to avoid function calls if possible
-
-                double value = position[current.Axis];
-                double median = current.Position[current.Axis];
-                double u = (value - median);
-
-                if (u < 0)
-                {
-                    if (current.Left != null)
-                        nearest(current.Left, position, ref match, ref minDistance);
-
-                    if (d < minDistance)
-                    {
-                        minDistance = d;
-                        match = current;
-                    }
-
-                    if (current.Right != null)
-                    {
-                        if ((u * u) < minDistance)
-                            nearest(current.Right, position, ref match, ref minDistance);
-                    }
-                }
-                else
-                {
-                    if (current.Right != null)
-                        nearest(current.Right, position, ref match, ref minDistance);
-
-                    if (d < minDistance)
-                    {
-                        minDistance = d;
-                        match = current;
-                    }
-
-                    if (current.Left != null)
-                    {
-                        if ((u * u) < minDistance)
-                            nearest(current.Left, position, ref match, ref minDistance);
-                    }
-                }
+                if (current.Left != null && u <= minDistance)
+                    nearest(current.Left, position, ref match, ref minDistance);
             }
         }
 
@@ -721,53 +699,40 @@ namespace Accord.MachineLearning.Structures
             // Compute distance from this node to the point
             double d = distance(position, current.Position);
 
-            if (current.IsLeaf)
+            list.Add(current, d);
+
+            if (++visited > maxLeaves)
+                return true;
+
+
+            // Check for leafs on the opposite sides of 
+            // the subtrees to nearest possible neighbors.
+
+            // Prepare for recursion. The following null checks
+            // will be used to avoid function calls if possible
+
+            double value = position[current.Axis];
+            double median = current.Position[current.Axis];
+            double u = value - median;
+
+            if (u <= 0)
             {
-                // Base: node is leaf
-                list.Add(current, d);
+                if (current.Left != null)
+                    if (approximate(current.Left, position, list, maxLeaves, ref visited))
+                        return true;
 
-                visited++;
-
-                if (visited > maxLeaves)
-                    return true;
+                if (current.Right != null && Math.Abs(u) <= list.Maximum)
+                    if (approximate(current.Right, position, list, maxLeaves, ref visited))
+                        return true;
             }
             else
             {
-                // Check for leafs on the opposite sides of 
-                // the subtrees to nearest possible neighbors.
+                if (current.Right != null)
+                    approximate(current.Right, position, list, maxLeaves, ref visited);
 
-                // Prepare for recursion. The following null checks
-                // will be used to avoid function calls if possible
-
-                double value = position[current.Axis];
-                double median = current.Position[current.Axis];
-                double u = (value - median);
-
-                if (u < 0)
-                {
-                    if (current.Left != null)
-                        if (approximate(current.Left, position, list, maxLeaves, ref visited))
-                            return true;
-
-                    list.Add(current, d);
-
-                    if (current.Right != null)
-                        if ((u * u) < list.Distance.Max)
-                            if (approximate(current.Right, position, list, maxLeaves, ref visited))
-                                return true;
-                }
-                else
-                {
-                    if (current.Right != null)
-                        approximate(current.Right, position, list, maxLeaves, ref visited);
-
-                    list.Add(current, d);
-
-                    if (current.Left != null)
-                        if ((u * u) < list.Distance.Max)
-                            if (approximate(current.Left, position, list, maxLeaves, ref visited))
-                                return true;
-                }
+                if (current.Left != null && Math.Abs(u) <= list.Maximum)
+                    if (approximate(current.Left, position, list, maxLeaves, ref visited))
+                        return true;
             }
 
             return false;
@@ -779,69 +744,46 @@ namespace Accord.MachineLearning.Structures
             // Compute distance from this node to the point
             double d = distance(position, current.Position);
 
-            if (current.IsLeaf)
+            // Base: node is leaf
+            if (d < minDistance)
             {
-                // Base: node is leaf
-                if (d < minDistance)
-                {
-                    minDistance = d;
-                    match = current;
-                }
+                minDistance = d;
+                match = current;
+            }
 
-                visited++;
+            if (++visited > maxLeaves)
+                return true;
 
-                if (visited > maxLeaves)
-                    return true;
+
+            // Check for leafs on the opposite sides of 
+            // the subtrees to nearest possible neighbors.
+
+            // Prepare for recursion. The following null checks
+            // will be used to avoid function calls if possible
+
+            double value = position[current.Axis];
+            double median = current.Position[current.Axis];
+            double u = value - median;
+
+            if (u <= 0)
+            {
+                if (current.Left != null)
+                    if (approximateNearest(current.Left, position, ref match, ref minDistance, maxLeaves, ref visited))
+                        return true;
+
+                if (current.Right != null && Math.Abs(u) <= minDistance)
+                    if (approximateNearest(current.Right, position, ref match, ref minDistance, maxLeaves, ref visited))
+                        return true;
             }
             else
             {
-                // Check for leafs on the opposite sides of 
-                // the subtrees to nearest possible neighbors.
+                if (current.Right != null)
+                    approximateNearest(current.Right, position,
+                        ref match, ref minDistance, maxLeaves, ref visited);
 
-                // Prepare for recursion. The following null checks
-                // will be used to avoid function calls if possible
-
-                double value = position[current.Axis];
-                double median = current.Position[current.Axis];
-                double u = (value - median);
-
-                if (value < median)
-                {
-                    if (current.Left != null)
-                        if (approximateNearest(current.Left, position,
-                            ref match, ref minDistance, maxLeaves, ref visited))
-                            return true;
-
-                    if (u < 0)
-                    {
-                        minDistance = d;
-                        match = current;
-                    }
-
-                    if (current.Right != null)
-                        if ((u * u) < minDistance)
-                            if (approximateNearest(current.Right, position,
-                                ref match, ref minDistance, maxLeaves, ref visited))
-                                return true;
-                }
-                else
-                {
-                    if (current.Right != null)
-                        approximateNearest(current.Right, position,
-                            ref match, ref minDistance, maxLeaves, ref visited);
-
-                    if (d < minDistance)
-                    {
-                        minDistance = d;
-                        match = current;
-                    }
-
-                    if (current.Left != null)
-                        if ((u * u) < minDistance)
-                            if (approximateNearest(current.Left, position,
-                                ref match, ref minDistance, maxLeaves, ref visited))
-                                return true;
-                }
+                if (current.Left != null && Math.Abs(u) <= minDistance)
+                    if (approximateNearest(current.Left, position, ref match, ref minDistance, maxLeaves, ref visited))
+                        return true;
             }
 
             return false;

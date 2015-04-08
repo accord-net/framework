@@ -344,7 +344,30 @@ namespace Accord.MachineLearning
             return result;
         }
 
+        /// <summary>
+        ///   Gets the top <see cref="KNearestNeighbors{T}.K"/> points that are the closest
+        ///   to a given <paramref name="input"> reference point</paramref>.
+        /// </summary>
+        /// 
+        /// <param name="input">The query point whose neighbors will be found.</param>
+        /// <param name="labels">The label for each neighboring point.</param>
+        /// 
+        /// <returns>
+        ///   An array containing the top <see cref="KNearestNeighbors{T}.K"/> points that are 
+        ///   at the closest possible distance to <paramref name="input"/>.
+        /// </returns>
+        /// 
+        public virtual T[] GetNearestNeighbors(T input, out int[] labels)
+        {
+            // Compute all distances
+            for (int i = 0; i < inputs.Length; i++)
+                distances[i] = distance(input, inputs[i]);
 
+            int[] idx = distances.Bottom(k, inPlace: true);
+
+            labels = outputs.Submatrix(idx);
+            return inputs.Submatrix(idx);
+        }
 
 
 
