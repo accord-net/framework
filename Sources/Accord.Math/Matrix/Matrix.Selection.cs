@@ -547,17 +547,36 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the indices of the first element matching a certain criteria.
         /// </summary>
+        /// 
         /// <typeparam name="T">The type of the array.</typeparam>
+        /// 
         /// <param name="data">The array to search inside.</param>
         /// <param name="func">The search criteria.</param>
+        /// 
         public static int First<T>(this T[] data, Func<T, bool> func)
         {
             return Find(data, func, true)[0];
+        }
+        /// <summary>
+        ///   Searches for the specified value and returns the index of the first occurrence within the array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the array.</typeparam>
+        /// 
+        /// <param name="data">The array to search.</param>
+        /// <param name="value">The value to be searched.</param>
+        /// 
+        /// <returns>The index of the searched value within the array, or -1 if not found.</returns>
+        /// 
+        public static int IndexOf<T>(this T[] data, T value)
+        {
+            return Array.IndexOf(data, value);
         }
 
         /// <summary>
         ///   Gets the indices of all elements matching a certain criteria.
         /// </summary>
+        /// 
         /// <typeparam name="T">The type of the array.</typeparam>
         /// <param name="data">The array to search inside.</param>
         /// <param name="func">The search criteria.</param>

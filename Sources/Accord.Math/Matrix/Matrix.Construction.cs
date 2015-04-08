@@ -1257,6 +1257,24 @@ namespace Accord.Math
         ///   Combines vectors vertically.
         /// </summary>
         /// 
+        public static T[,] Stack<T>(this T[] a, T[] b)
+        {
+            return Stack(a, b);
+        }
+
+        /// <summary>
+        ///   Combines vectors vertically.
+        /// </summary>
+        /// 
+        public static T[][] Stack<T>(this T[][] a, T[][] b)
+        {
+            return Stack(new T[][][] { a, b });
+        }
+
+        /// <summary>
+        ///   Combines vectors vertically.
+        /// </summary>
+        /// 
         public static T[,] Stack<T>(params T[][] vectors)
         {
             return vectors.ToMatrix();
@@ -1275,7 +1293,7 @@ namespace Accord.Math
         ///   Combines vectors vertically.
         /// </summary>
         /// 
-        public static T[,] Stack<T>(T[] vector, T element)
+        public static T[,] Stack<T>(this T[] vector, T element)
         {
             return vector.Concatenate(element).Transpose();
         }
@@ -1316,7 +1334,7 @@ namespace Accord.Math
         ///   Combines matrices vertically.
         /// </summary>
         /// 
-        public static T[,] Stack<T>(T[,] matrix, T[] vector)
+        public static T[,] Stack<T>(this T[,] matrix, T[] vector)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);

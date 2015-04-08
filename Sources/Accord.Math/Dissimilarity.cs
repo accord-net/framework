@@ -71,24 +71,27 @@ namespace Accord.Math
 
             for (int i = 0; i < x.Length; i++)
             {
-                if (x[i] == 1 && y[i] == 0) tf++;
-                if (x[i] == 0 && y[i] == 1) ft++;
-                if (x[i] == 1 && y[i] == 1) tt++;
+                if (x[i] != 0 && y[i] == 0) tf++;
+                if (x[i] == 0 && y[i] != 0) ft++;
+                if (x[i] != 0 && y[i] != 0) tt++;
             }
 
-            return (tf + ft) / (double)(tt + ft + tf);
+            double den = tt + ft + tf;
+            double num = tf + ft;
+            
+            return num / den;
         }
 
         /// <summary>
-        ///   Computes the Kulsinsk dissimilarity between two vectors.
+        ///   Computes the Kulczynski dissimilarity between two vectors.
         /// </summary>
         /// 
         /// <param name="x">A vector.</param>
         /// <param name="y">A vector.</param>
         /// 
-        /// <returns>The Kulsinsk dissimilarity between x and y.</returns>
+        /// <returns>The Kulczynski dissimilarity between x and y.</returns>
         /// 
-        public static double Kulsinsk(int[] x, int[] y)
+        public static double Kulczynski(int[] x, int[] y)
         {
             int tf = 0;
             int ft = 0;
@@ -96,12 +99,14 @@ namespace Accord.Math
 
             for (int i = 0; i < x.Length; i++)
             {
-                if (x[i] == 1 && y[i] == 0) tf++;
-                if (x[i] == 0 && y[i] == 1) ft++;
-                if (x[i] == 1 && y[i] == 1) tt++;
+                if (x[i] != 0 && y[i] == 0) tf++;
+                if (x[i] == 0 && y[i] != 0) ft++;
+                if (x[i] != 0 && y[i] != 0) tt++;
             }
 
-            return (tf + ft - tt + x.Length) / (double)(ft + tf + x.Length);
+            double num = tf + ft - tt + x.Length;
+            double den = ft + tf + x.Length;
+            return num / den;
         }
 
         /// <summary>
@@ -167,11 +172,8 @@ namespace Accord.Math
         public static double RusselRao(int[] x, int[] y)
         {
             int tt = 0;
-
             for (int i = 0; i < x.Length; i++)
-            {
-                if (x[i] == 1 && y[i] == 1) tt++;
-            }
+                if (x[i] != 0 && y[i] != 0) tt++;
 
             return (x.Length - tt) / (double)(x.Length);
         }

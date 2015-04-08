@@ -22,11 +22,12 @@
 
 namespace Accord.Math
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading;
     using Accord.Math.Comparers;
     using AForge;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading;
 
     /// <summary>
     ///   Set of mathematical tools.
@@ -39,7 +40,13 @@ namespace Accord.Math
 
 #if !NET35 && !NET40
         private static readonly ThreadLocal<Random> random;
-        
+
+        // This static constructor is being used to address an issue with the Mono runtime. 
+        // The problem is that the runtime currently does not implement the "trackAllValues"
+        // overload for ThreadLocal, even if the API offers such constructor. The following
+        // CA suppression rule could be removed once Mono adds support for it.
+        //
+        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
         static Tools()
         {
             try
