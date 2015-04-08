@@ -129,16 +129,24 @@ namespace Clustering.K_Means
             double[][] pixels; imageToArray.Convert(image, out pixels);
 
 
-            // Create a MeanShift algorithm using given bandwidth
-            //   and a Gaussian density kernel as kernel function.
-            MeanShift meanShift = new MeanShift(pixelSize, 
-                new GaussianKernel(pixelSize), sigma);
+            // Create a MeanShift algorithm using the given bandwidth
+            // and a Gaussian density kernel as the kernel function:
+
+            IRadiallySymmetricKernel kernel = new GaussianKernel(pixelSize);
             
-            // Compute the mean-shift algorithm until the difference in
-            //  shifting means between two iterations is below 0.05
-            int[] idx = meanShift.Compute(pixels, 0.05, maxIterations: 10);
+            var meanShift = new MeanShift(pixelSize, kernel, sigma)
+            {
+                Tolerance = 0.05,
+                MaxIterations = 10
+            };
 
             
+            // Compute the mean-shift algorithm until the difference 
+            // in shift vectors between two iterations is below 0.05
+            
+            int[] idx = meanShift.Compute(pixels);
+
+
             // Replace every pixel with its corresponding centroid
             pixels.ApplyInPlace((x, i) => meanShift.Clusters.Modes[idx[i]]);
 
