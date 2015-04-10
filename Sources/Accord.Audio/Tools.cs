@@ -26,6 +26,7 @@ namespace Accord.Audio
     using System.Runtime.InteropServices;
     using AForge.Math;
     using Accord.Math;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   Tool functions for audio processing.
@@ -242,6 +243,48 @@ namespace Accord.Audio
             }
 
             return max;
+        }
+
+        /// <summary>
+        ///   Finds the peaks of a signal.
+        /// </summary>
+        /// 
+        /// <param name="samples">The samples.</param>
+        /// 
+        /// <returns>The index of the peaks found in the sample.</returns>
+        /// 
+        public static int[] FindPeaks(this double[] samples)
+        {
+            var peaks = new List<int>();
+
+            for (int i = 1; i < samples.Length - 1; i++)
+            {
+                if (samples[i] > samples[i - 1] && samples[i] > samples[i + 1])
+                    peaks.Add(i);
+            }
+
+            return peaks.ToArray();
+        }
+
+        /// <summary>
+        ///   Finds the peaks of a signal.
+        /// </summary>
+        /// 
+        /// <param name="samples">The samples.</param>
+        /// 
+        /// <returns>The index of the peaks found in the sample.</returns>
+        /// 
+        public static int[] FindPeaks(this float[] samples)
+        {
+            var peaks = new List<int>();
+
+            for (int i = 1; i < samples.Length - 1; i++)
+            {
+                if (samples[i] > samples[i - 1] && samples[i] > samples[i + 1])
+                    peaks.Add(i);
+            }
+
+            return peaks.ToArray();
         }
 
         /// <summary>
