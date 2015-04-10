@@ -40,32 +40,44 @@ namespace Accord.Neuro.Learning
     ///   Resilient Backpropagation learning algorithm.
     /// </summary>
     /// 
-    /// <remarks><para>This class implements the resilient backpropagation (RProp)
-    /// learning algorithm. The RProp learning algorithm is one of the fastest learning
-    /// algorithms for feed-forward learning networks which use only first-order
-    /// information.</para>
+    /// <remarks>
+    /// <para>
+    ///   This class implements the resilient backpropagation (RProp)
+    ///   learning algorithm. The RProp learning algorithm is one of the fastest learning
+    ///   algorithms for feed-forward learning networks which use only first-order
+    ///   information.</para>
+    /// </remarks>
     /// 
-    /// <para>Sample usage (training network to calculate XOR function):</para>
+    /// <example>
+    /// <para>
+    ///   Sample usage (training network to calculate XOR function):</para>
+    /// 
     /// <code>
     /// // initialize input and output values
-    /// double[][] input = new double[4][] {
+    /// double[][] input = 
+    /// {
     ///     new double[] {0, 0}, new double[] {0, 1},
     ///     new double[] {1, 0}, new double[] {1, 1}
     /// };
-    /// double[][] output = new double[4][] {
+    /// 
+    /// double[][] output = 
+    /// {
     ///     new double[] {0}, new double[] {1},
     ///     new double[] {1}, new double[] {0}
     /// };
+    /// 
     /// // create neural network
     /// ActivationNetwork   network = new ActivationNetwork(
-    ///     SigmoidFunction( 2 ),
+    ///     SigmoidFunction(2),
     ///     2, // two inputs in the network
     ///     2, // two neurons in the first layer
     ///     1 ); // one neuron in the second layer
+    ///     
     /// // create teacher
-    /// ResilientBackpropagationLearning teacher = new ResilientBackpropagationLearning( network );
+    /// var teacher = new ResilientBackpropagationLearning(network);
+    /// 
     /// // loop
-    /// while ( !needToStop )
+    /// while (!needToStop)
     /// {
     ///     // run epoch of learning procedure
     ///     double error = teacher.RunEpoch( input, output );
@@ -73,7 +85,78 @@ namespace Accord.Neuro.Learning
     ///     // ...
     /// }
     /// </code>
-    /// </remarks>
+    /// 
+    /// <para>
+    ///   The following example shows how to use Rprop to solve a multi-class
+    ///   classification problem.</para>
+    ///   
+    /// <code>
+    /// // Suppose we would like to teach a network to recognize 
+    /// // the following input vectors into 3 possible classes:
+    /// //
+    /// double[][] inputs =
+    /// {
+    ///     new double[] { 0, 1, 1, 0 }, // 0
+    ///     new double[] { 0, 1, 0, 0 }, // 0
+    ///     new double[] { 0, 0, 1, 0 }, // 0
+    ///     new double[] { 0, 1, 1, 0 }, // 0
+    ///     new double[] { 0, 1, 0, 0 }, // 0
+    ///     new double[] { 1, 0, 0, 0 }, // 1
+    ///     new double[] { 1, 0, 0, 0 }, // 1
+    ///     new double[] { 1, 0, 0, 1 }, // 1
+    ///     new double[] { 0, 0, 0, 1 }, // 1
+    ///     new double[] { 0, 0, 0, 1 }, // 1
+    ///     new double[] { 1, 1, 1, 1 }, // 2
+    ///     new double[] { 1, 0, 1, 1 }, // 2
+    ///     new double[] { 1, 1, 0, 1 }, // 2
+    ///     new double[] { 0, 1, 1, 1 }, // 2
+    ///     new double[] { 1, 1, 1, 1 }, // 2
+    /// };
+    /// 
+    /// int[] classes =
+    /// {
+    ///     0, 0, 0, 0, 0,
+    ///     1, 1, 1, 1, 1,
+    ///     2, 2, 2, 2, 2,
+    /// };
+    /// 
+    /// // First we have to convert this problem into a way that  the neural
+    /// // network can handle. The first step is to expand the classes into 
+    /// // indicator vectors, where a 1 into a position signifies that this
+    /// // position indicates the class the sample belongs to.
+    /// //
+    /// double[][] outputs = Accord.Statistics.Tools.Expand(classes, -1, +1);
+    /// 
+    /// // Create an activation function for the net
+    /// var function = new BipolarSigmoidFunction();
+    /// 
+    /// // Create an activation network with the function and
+    /// //  4 inputs, 5 hidden neurons and 3 possible outputs:
+    /// var network = new ActivationNetwork(function, 4, 5, 3);
+    /// 
+    /// // Randomly initialize the network
+    /// new NguyenWidrow(network).Randomize();
+    /// 
+    /// // Teach the network using parallel Rprop:
+    /// var teacher = new ParallelResilientBackpropagationLearning(network);
+    /// 
+    /// double error = 1.0;
+    /// while (error > 1e-5)
+    ///     error = teacher.RunEpoch(inputs, outputs);
+    /// 
+    /// 
+    /// // Checks if the network has learned
+    /// for (int i = 0; i &lt; inputs.Length; i++)
+    /// {
+    ///     double[] answer = network.Compute(inputs[i]);
+    /// 
+    ///     int expected = classes[i];
+    ///     int actual; answer.Max(out actual);
+    /// 
+    ///     // actual should be equal to expected
+    /// }
+    /// </code>
+    /// </example>
     /// 
     /// <seealso cref="LevenbergMarquardtLearning"/>
     /// 

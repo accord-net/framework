@@ -343,7 +343,8 @@ namespace Accord.Math
         /// 
         public static int Scale(this IntRange from, IntRange to, int x)
         {
-            if (from.Length == 0) return 0;
+            if (from.Length == 0) 
+                return 0;
             return (to.Length) * (x - from.Min) / from.Length + to.Min;
         }
 
@@ -505,7 +506,8 @@ namespace Accord.Math
         /// 
         public static float Scale(float fromMin, float fromMax, float toMin, float toMax, float x)
         {
-            if (fromMax - fromMin == 0) return 0;
+            if (fromMax - fromMin == 0)
+                return 0;
             return (toMax - toMin) * (x - fromMin) / (fromMax - fromMin) + toMin;
         }
 
@@ -516,7 +518,8 @@ namespace Accord.Math
         /// 
         public static double Scale(IntRange from, DoubleRange to, int x)
         {
-            if (from.Length == 0) return 0;
+            if (from.Length == 0) 
+                return 0;
             return (to.Length) * (x - from.Min) / from.Length + to.Min;
         }
         #endregion

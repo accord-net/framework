@@ -22,34 +22,20 @@
 
 namespace Accord.Tests.Neuro
 {
-    using System;
+    using Accord.Math;
+    using Accord.Neuro;
     using Accord.Neuro.Learning;
     using AForge;
     using AForge.Neuro;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass()]
     public class ResilientBackPropagationLearningTest
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-#if NET35
+#if !NET35
         [TestMethod()]
         public void RunEpochTest1()
         {
@@ -88,6 +74,77 @@ namespace Accord.Tests.Neuro
 
                 Assert.AreEqual(expected, actual, 0.01);
                 Assert.IsFalse(Double.IsNaN(actual));
+            }
+        }
+
+        [TestMethod()]
+        public void MulticlassTest1()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            // Suppose we would like to teach a network to recognize 
+            // the following input vectors into 3 possible classes:
+            //
+            double[][] inputs =
+            {
+                new double[] { 0, 1, 1, 0 }, // 0
+                new double[] { 0, 1, 0, 0 }, // 0
+                new double[] { 0, 0, 1, 0 }, // 0
+                new double[] { 0, 1, 1, 0 }, // 0
+                new double[] { 0, 1, 0, 0 }, // 0
+                new double[] { 1, 0, 0, 0 }, // 1
+                new double[] { 1, 0, 0, 0 }, // 1
+                new double[] { 1, 0, 0, 1 }, // 1
+                new double[] { 0, 0, 0, 1 }, // 1
+                new double[] { 0, 0, 0, 1 }, // 1
+                new double[] { 1, 1, 1, 1 }, // 2
+                new double[] { 1, 0, 1, 1 }, // 2
+                new double[] { 1, 1, 0, 1 }, // 2
+                new double[] { 0, 1, 1, 1 }, // 2
+                new double[] { 1, 1, 1, 1 }, // 2
+            };
+
+            int[] classes =
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // First we have to convert this problem into a way that  the neural
+            // network can handle. The first step is to expand the classes into 
+            // indicator vectors, where a 1 into a position signifies that this
+            // position indicates the class the sample belongs to.
+            //
+            double[][] outputs = Accord.Statistics.Tools.Expand(classes, -1, +1);
+
+            // Create an activation function for the net
+            var function = new BipolarSigmoidFunction();
+
+            // Create an activation network with the function and
+            //  4 inputs, 5 hidden neurons and 3 possible outputs:
+            var network = new ActivationNetwork(function, 4, 5, 3);
+
+            // Randomly initialize the network
+            new NguyenWidrow(network).Randomize();
+
+            // Teach the network using parallel Rprop:
+            var teacher = new ParallelResilientBackpropagationLearning(network);
+
+            double error = 1.0;
+            while (error > 1e-5)
+                error = teacher.RunEpoch(inputs, outputs);
+
+
+            // Checks if the network has learned
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                double[] answer = network.Compute(inputs[i]);
+
+                int expected = classes[i];
+                int actual; answer.Max(out actual);
+
+                Assert.AreEqual(expected, actual, 0.01);
             }
         }
 #endif
