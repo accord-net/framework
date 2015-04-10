@@ -47,6 +47,9 @@ namespace Liblinear
         {
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 
+            if (args.Length == 0)
+                return;
+
             if (args[0] == "--self")
                 ExecuteTestAndExit(args);
 

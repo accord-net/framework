@@ -171,35 +171,45 @@ namespace Classification.BoW
         private void btnBagOfWords_Click(object sender, EventArgs e)
         {
             int numberOfWords = (int)numWords.Value;
-            
+
 
             // Create a Binary-Split clustering algorithm
             BinarySplit binarySplit = new BinarySplit(numberOfWords);
 
-            // Create bag-of-words (BoW) with the given algorithm
-            BagOfVisualWords bow = new BagOfVisualWords(binarySplit);
-
-            if (cbExtended.Checked)
-                bow.Detector.ComputeDescriptors = SpeededUpRobustFeatureDescriptorType.Extended;
-
             Stopwatch sw1 = Stopwatch.StartNew();
 
-            // Compute the BoW codebook using training images only
-            var points = bow.Compute(originalTrainImages.Values.ToArray());
+            IBagOfWords<Bitmap> bow;
 
-            sw1.Stop();
+            if (rbSurf.Checked)
+            {
+                // Create bag-of-words (BoW) with the given algorithm
+                var surfBow = new BagOfVisualWords(binarySplit);
 
-            /*
+                // Compute the BoW codebook using training images only
+                surfBow.Compute(originalTrainImages.Values.ToArray());
+
+                bow = surfBow;
+            }
+
+            else
+            {
+
                 // Alternative creation using the FREAK detector
-             
-                // Create a Binary-Split clustering algorithm
-                var kmodes = new KModes<byte[]>(numberOfWords, Distance.BitwiseHamming);
 
-                FastRetinaKeypointDetector detector = new FastRetinaKeypointDetector();
+                // Create a Binary-Split clustering algorithm
+                var kmodes = new KModes<byte>(numberOfWords, Distance.BitwiseHamming);
+                var detector = new FastRetinaKeypointDetector();
 
                 // Create bag-of-words (BoW) with the given algorithm
-                var bow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(detector, kmodes);   
-            */
+                var freakBow = new BagOfVisualWords<FastRetinaKeypoint, byte[]>(detector, kmodes);
+
+                // Compute the BoW codebook using training images only
+                freakBow.Compute(originalTrainImages.Values.ToArray());
+
+                bow = freakBow;
+            }
+
+            sw1.Stop();
 
             Stopwatch sw2 = Stopwatch.StartNew();
 
@@ -259,17 +269,13 @@ namespace Classification.BoW
             // Configure the learning algorithm
             ml.Algorithm = (svm, classInputs, classOutputs, i, j) =>
             {
-                var smo = new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                return new SequentialMinimalOptimization(svm, classInputs, classOutputs)
                 {
                     Complexity = complexity,
                     Tolerance = tolerance,
                     CacheSize = cacheSize,
                     Strategy = strategy,
                 };
-
-                if (kernel is Linear) 
-                    smo.Compact = true;
-                return smo;
             };
 
 
@@ -456,7 +462,7 @@ namespace Classification.BoW
             throw new Exception();
         }
 
-       
+
 
         private void listView1_ItemActivate(object sender, EventArgs e)
         {

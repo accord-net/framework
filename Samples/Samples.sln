@@ -118,6 +118,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9ED3BF
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature Selection (SVMs)", "MachineLearning\Feature Selection (SVMs)\Feature Selection (SVMs).csproj", "{19906CFC-8E1C-4F11-98E6-92A73C4F097E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -312,6 +314,10 @@ Global
 		{1E055676-77A0-4C5B-B449-FF58CA5066E0}.Debug|x86.Build.0 = Debug|x86
 		{1E055676-77A0-4C5B-B449-FF58CA5066E0}.Release|x86.ActiveCfg = Release|x86
 		{1E055676-77A0-4C5B-B449-FF58CA5066E0}.Release|x86.Build.0 = Release|x86
+		{19906CFC-8E1C-4F11-98E6-92A73C4F097E}.Debug|x86.ActiveCfg = Debug|x86
+		{19906CFC-8E1C-4F11-98E6-92A73C4F097E}.Debug|x86.Build.0 = Debug|x86
+		{19906CFC-8E1C-4F11-98E6-92A73C4F097E}.Release|x86.ActiveCfg = Release|x86
+		{19906CFC-8E1C-4F11-98E6-92A73C4F097E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -364,6 +370,7 @@ Global
 		{41B33248-828B-4D62-83A0-2FFFE89582B0} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{07337787-AD77-4061-A0A0-C8D83AF3B977} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{1E055676-77A0-4C5B-B449-FF58CA5066E0} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
+		{19906CFC-8E1C-4F11-98E6-92A73C4F097E} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi
