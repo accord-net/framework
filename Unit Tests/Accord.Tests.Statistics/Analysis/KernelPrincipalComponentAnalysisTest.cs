@@ -22,33 +22,16 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Kernels;
-    using Accord.Math;
-    using System.Diagnostics;
     using Accord.IO;
+    using Accord.Math;
+    using Accord.Statistics.Analysis;
+    using Accord.Statistics.Kernels;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Data;
 
     [TestClass()]
     public class KernelPrincipalComponentAnalysisTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         // Lindsay's tutorial data
         private static double[,] data =
@@ -102,6 +85,10 @@ namespace Accord.Tests.Statistics
             double[,] result = target.Result;
             double[,] projection = target.Transform(data);
             Assert.IsTrue(Matrix.IsEqual(result, projection, 0.000001));
+
+            Assert.AreEqual(2, target.Eigenvalues.Length);
+            Assert.AreEqual(10, target.ComponentMatrix.GetLength(0));
+            Assert.AreEqual(2, target.ComponentMatrix.GetLength(1));
         }
 
         [TestMethod()]
