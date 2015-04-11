@@ -93,6 +93,8 @@
   <ItemGroup>
     <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />
     <Compile Include="Collections\RedBlackTreeTest.cs" />
+    <Compile Include="Decompositions\JaggedEigenvalueDecompositionTest.cs" />
+    <Compile Include="Decompositions\JaggedQrDecompositionTest.cs" />
     <Compile Include="Functions\OwensTTest.cs" />
     <Compile Include="FourierTransformTest.cs" />
     <Compile Include="Integration\MonteCarloTest.cs" />

@@ -325,8 +325,18 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a jagged magic square matrix.
+        /// </summary>
+        /// 
+        public static double[][] JaggedMagic(int size)
+        {
+            return Magic(size).ToArray();
+        }
+
+        /// <summary>
         ///   Creates a magic square matrix.
         /// </summary>
+        /// 
         public static double[,] Magic(int size)
         {
             if (size < 3) throw new ArgumentOutOfRangeException("size", size,
@@ -413,6 +423,7 @@ namespace Accord.Math
         ///   form <c>(I - 1N)</c> where <c>1N</c> is a matrix with 
         ///   all elements equal to <c>1 / N</c>.
         /// </summary>
+        /// 
         public static double[,] Centering(int size)
         {
             if (size < 0) throw new ArgumentOutOfRangeException("size", size,

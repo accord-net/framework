@@ -31,20 +31,6 @@ namespace Accord.Tests.Math
     public class JaggedLuDecompositionTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         [TestMethod()]
         public void InverseTestNaN()
         {

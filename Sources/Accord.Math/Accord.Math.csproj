@@ -82,6 +82,30 @@
     <Compile Include="Convergence\Base\IConvergence.cs" />
     <Compile Include="Convergence\GeneralConvergence.cs" />
     <Compile Include="Decompositions\Accord.Math.Decompositions.cs" />
+    <Compile Include="Decompositions\JaggedEigenvalueDecomposition.cs">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedEigenvalueDecompositionF.cs">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecomposition.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecompositionD.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecompositionF.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecomposition.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecompositionD.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecompositionF.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Dissimilarity.cs" />
     <Compile Include="Functions\OwensT.cs" />
     <Compile Include="Integration\Accord.Math.Integration.cs" />
@@ -126,15 +150,6 @@
     </Compile>
     <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
       <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\QrDecomposition.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\QrDecompositionD.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\QrDecompositionF.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
     </Compile>
     <Compile Include="Decompositions\SingularValueDecomposition.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
@@ -194,6 +209,15 @@
       <LastGenOutput>CholeskyDecomposition.txt</LastGenOutput>
     </None>
     <None Include="Decompositions\Accord.Math.Decompositions.cd" />
+    <None Include="Decompositions\JaggedEigenvalueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedEigenvalueDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\JaggedEigenvalueDecomposition.cs
+.\JaggedEigenvalueDecomposition.txt
+.\JaggedEigenvalueDecompositionF.cs
+</LastOutputs>
+    </None>
     <None Include="Decompositions\JaggedCholeskyDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JaggedCholeskyDecomposition.txt</LastGenOutput>
@@ -258,12 +282,22 @@
 </LastOutputs>
       <LastGenOutput>JaggedSingularValueDecomposition.txt</LastGenOutput>
     </None>
+    <None Include="Decompositions\JaggedQrDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedQrDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\JaggedQrDecomposition.cs
+.\JaggedQrDecomposition.txt
+.\JaggedQrDecompositionD.cs
+.\JaggedQrDecompositionF.cs
+</LastOutputs>
+    </None>
     <None Include="Decompositions\QrDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>QrDecomposition.txt</LastGenOutput>
       <LastOutputs>
 .\QrDecomposition.cs
-.\QrDecomposition1.cs
+.\QrDecomposition.txt
 .\QrDecompositionD.cs
 .\QrDecompositionF.cs
 </LastOutputs>
@@ -390,6 +424,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
     </Content>
+    <Content Include="Decompositions\JaggedEigenvalueDecomposition.txt">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Content>
     <Content Include="Decompositions\EigenvalueDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -414,6 +453,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LuDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\JaggedQrDecomposition.txt">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Content>
     <Content Include="Decompositions\QrDecomposition.txt">
       <AutoGen>True</AutoGen>

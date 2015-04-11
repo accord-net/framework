@@ -27,7 +27,7 @@ namespace Accord.Tests.Math
     using Accord.Math;
 
     [TestClass()]
-    public class EigenvalueDecompositionTest
+    public class JaggedEigenvalueDecompositionTest
     {
 
         [TestMethod()]
@@ -41,11 +41,11 @@ namespace Accord.Tests.Math
             {
                 for (int j = 0; j < n; j++)
                 {
-                    double[,] value = Matrix.Magic(n);
+                    double[][] value = Matrix.JaggedMagic(n);
 
-                    value[i, j] = double.NaN;
+                    value[i][j] = double.NaN;
 
-                    var target = new EigenvalueDecomposition(value);
+                    var target = new JaggedEigenvalueDecomposition(value);
                 }
             }
         }
@@ -54,27 +54,27 @@ namespace Accord.Tests.Math
         public void EigenvalueDecompositionConstructorTest()
         {
             // Symmetric test
-            double[,] A =
+            double[][] A =
             {
-                { 4, 2 },
-                { 2, 4 }
+                new double[] { 4, 2 },
+                new double[] { 2, 4 }
             };
 
-            EigenvalueDecomposition target = new EigenvalueDecomposition(A);
+            var target = new JaggedEigenvalueDecomposition(A);
 
             var D = target.DiagonalMatrix;
             var Q = target.Eigenvectors;
 
-            double[,] expectedD =
+            double[][] expectedD =
             { 
-                { 2, 0 },
-                { 0, 6 }
+                new double[] { 2, 0 },
+                new double[] { 0, 6 }
             };
 
-            double[,] expectedQ = 
+            double[][] expectedQ = 
             {
-               {  0.7071, 0.7071 },
-               { -0.7071, 0.7071 }
+               new double[] {  0.7071, 0.7071 },
+               new double[] { -0.7071, 0.7071 }
             };
 
 
@@ -96,22 +96,22 @@ namespace Accord.Tests.Math
         public void EigenvalueDecompositionConstructorTest2()
         {
             // Asymmetric test
-            double[,] A =
+            double[][] A =
             {
-                {  5, 2, 1 },
-                {  1, 4, 1 },
-                { -1, 2, 3 }
+                new double[] {  5, 2, 1 },
+                new double[] {  1, 4, 1 },
+                new double[] { -1, 2, 3 }
             };
 
-            EigenvalueDecomposition target = new EigenvalueDecomposition(A);
+            var target = new JaggedEigenvalueDecomposition(A);
             var D = target.DiagonalMatrix;
             var Q = target.Eigenvectors;
 
-            double[,] expectedD =
+            double[][] expectedD =
             { 
-                { 6, 0, 0 },
-                { 0, 4, 0 },
-                { 0, 0, 2 }
+                new double[] { 6, 0, 0 },
+                new double[] { 0, 4, 0 },
+                new double[] { 0, 0, 2 }
             };
 
             // Decomposition identity
