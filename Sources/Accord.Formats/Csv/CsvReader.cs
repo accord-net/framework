@@ -1935,6 +1935,15 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Closes the <see cref="T:System.Data.IDataReader" /> Object.
+        /// </summary>
+        /// 
+        public void Close()
+        {
+            this.Dispose();
+        }
+
+        /// <summary>
         /// Releases the unmanaged resources used by this instance and optionally releases the managed resources.
         /// </summary>
         /// <param name="disposing">

@@ -95,6 +95,7 @@
     <Compile Include="Controls\ScatterplotViewTest.cs" />
     <Compile Include="Controls\DataGridBoxTest.cs" />
     <Compile Include="Controls\HistogramViewTest.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\VonMisesFisherDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GeneralizedBetaDistributionTest.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistributionTest.cs" />

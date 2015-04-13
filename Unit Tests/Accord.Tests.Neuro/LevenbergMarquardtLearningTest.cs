@@ -22,33 +22,19 @@
 
 namespace Accord.Tests.Neuro
 {
-    using Accord.Neuro.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using AForge.Neuro;
+    using Accord.IO;
     using Accord.Math;
-    using AForge.Neuro.Learning;
     using Accord.Neuro;
-    using System;
+    using Accord.Neuro.Learning;
     using AForge;
+    using AForge.Neuro;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using System.IO;
 
     [TestClass()]
     public class LevenbergMarquardtLearningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         [TestMethod()]
         public void MulticlassTest1()
@@ -707,6 +693,105 @@ namespace Accord.Tests.Neuro
         }
 
 
+        [TestMethod()]
+        public void ZeroLambdaTest()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            double[,] data = null;
+
+            // open selected file
+            using (TextReader stream = new StringReader(Properties.Resources.ZeroLambda))
+            using (CsvReader reader = new CsvReader(stream, false))
+            {
+                data = reader.ToTable().ToMatrix();
+            }
+
+            // number of learning samples
+            int samples = data.GetLength(0);
+
+            var ranges = data.Range(dimension: 0);
+
+            Assert.AreEqual(2, ranges.Length);
+
+            var rangeX = ranges[0];
+            var rangeY = ranges[1];
+
+            // data transformation factor
+            double yFactor = 1.7 / rangeY.Length;
+            double yMin = rangeY.Min;
+            double xFactor = 2.0 / rangeX.Length;
+            double xMin = rangeX.Min;
+
+            // prepare learning data
+            double[][] input = new double[samples][];
+            double[][] output = new double[samples][];
+
+            for (int i = 0; i < samples; i++)
+            {
+                input[i] = new double[1];
+                output[i] = new double[1];
+
+                input[i][0] = (data[i, 0] - xMin) * xFactor - 1.0; // set input
+                output[i][0] = (data[i, 1] - yMin) * yFactor - 0.85; // set output
+            }
+
+            // create multi-layer neural network
+            ActivationNetwork network = new ActivationNetwork(
+                new BipolarSigmoidFunction(5),
+                1, 12, 1);
+
+            // create teacher
+            LevenbergMarquardtLearning teacher = new LevenbergMarquardtLearning(network, true);
+
+            teacher.LearningRate = 1;
+
+            // iterations
+            int iteration = 1;
+            int iterations = 2000;
+
+            // solution array
+            double[,] solution = new double[samples, 2];
+            double[] networkInput = new double[1];
+
+            bool needToStop = false;
+
+            double learningError = 0;
+
+            // loop
+            while (!needToStop)
+            {
+                Assert.AreNotEqual(0, teacher.LearningRate);
+
+                // run epoch of learning procedure
+                double error = teacher.RunEpoch(input, output) / samples;
+
+                // calculate solution
+                for (int j = 0; j < samples; j++)
+                {
+                    networkInput[0] = (solution[j, 0] - xMin) * xFactor - 1.0;
+                    solution[j, 1] = (network.Compute(networkInput)[0] + 0.85) / yFactor + yMin;
+                }
+
+
+                // calculate error
+                learningError = 0.0;
+                for (int j = 0; j < samples; j++)
+                {
+                    networkInput[0] = input[j][0];
+                    learningError += Math.Abs(data[j, 1] - ((network.Compute(networkInput)[0] + 0.85) / yFactor + yMin));
+                }
+
+                // increase current iteration
+                iteration++;
+
+                // check if we need to stop
+                if ((iterations != 0) && (iteration > iterations))
+                    break;
+            }
+
+            Assert.IsTrue(learningError < 0.13);
+        }
 
 
         public static double[,] yinyang =

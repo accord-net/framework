@@ -251,28 +251,32 @@ namespace Accord.Neuro.Learning
 
 
         /// <summary>
-        ///   Levenberg's damping factor, also known as lambda. Default is 0.1.
+        ///   Levenberg's damping factor (lambda). This 
+        ///   value  must be positive. Default is 0.1.
         /// </summary>
         /// 
-        /// <remarks><para>The value determines speed of learning.</para>
-        /// 
-        /// <para>Default value is <b>0.1</b>.</para>
+        /// <remarks>
+        ///   The value determines speed of learning. Default value is <b>0.1</b>.
         /// </remarks>
         ///
         public double LearningRate
         {
             get { return lambda; }
-            set { lambda = value; }
+            set
+            {
+                if (lambda <= 0)
+                    throw new ArgumentOutOfRangeException("value", "Value must be positive.");
+                lambda = value;
+            }
         }
 
         /// <summary>
-        ///   Learning rate adjustment. 
+        ///   Learning rate adjustment. Default value is 10.
         /// </summary>
         /// 
-        /// <remarks><para>The value by which the learning rate
-        /// is adjusted when searching for the minimum cost surface.</para>
-        /// 
-        /// <para>Default value is <b>10</b>.</para>
+        /// <remarks>
+        ///   The value by which the learning rate is adjusted when searching 
+        ///   for the minimum cost surface. Default value is 10.
         /// </remarks>
         ///
         public double Adjustment
@@ -308,6 +312,7 @@ namespace Accord.Neuro.Learning
         ///   Gets or sets the importance of the squared sum of network
         ///   weights in the cost function. Used by the regularization.
         /// </summary>
+        /// 
         /// <remarks>
         ///   This is the first Bayesian hyperparameter. The default
         ///   value is 0.
@@ -323,6 +328,7 @@ namespace Accord.Neuro.Learning
         ///   Gets or sets the importance of the squared sum of network
         ///   errors in the cost function. Used by the regularization.
         /// </summary>
+        /// 
         /// <remarks>
         ///   This is the second Bayesian hyperparameter. The default
         ///   value is 1.
@@ -682,9 +688,12 @@ namespace Accord.Neuro.Learning
                 //  is tried again using a greater damping factor.
             }
 
-            // If this iteration caused a error drop, then next iteration
-            //  will use a smaller damping factor.
+            // If this iteration caused a error drop, then next
+            // iteration will use a smaller damping factor.
             lambda /= v;
+
+            if (lambda < 1e-300)
+                lambda = 1e-300;
 
 
             // If we are using Bayesian regularization, we need to
