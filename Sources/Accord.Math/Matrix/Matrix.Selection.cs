@@ -22,11 +22,11 @@
 
 namespace Accord.Math
 {
+    using Accord.Math.Comparers;
+    using AForge;
     using System;
     using System.Collections.Generic;
-    using AForge;
     using System.Linq;
-    using Accord.Math.Comparers;
 
     public static partial class Matrix
     {
@@ -1205,20 +1205,23 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values in a vector.
         /// </summary>
-        public static DoubleRange Range(this double[] array)
+        /// 
+        /// <param name="values">The matrix whose ranges should be computed.</param>
+        /// 
+        public static DoubleRange Range(this double[] values)
         {
-            if (array.Length == 0)
+            if (values.Length == 0)
                 return new DoubleRange(0, 0);
 
-            double min = array[0];
-            double max = array[0];
+            double min = values[0];
+            double max = values[0];
 
-            for (int i = 1; i < array.Length; i++)
+            for (int i = 1; i < values.Length; i++)
             {
-                if (min > array[i])
-                    min = array[i];
-                if (max < array[i])
-                    max = array[i];
+                if (min > values[i])
+                    min = values[i];
+                if (max < values[i])
+                    max = values[i];
             }
 
             return new DoubleRange(min, max);
@@ -1228,20 +1231,22 @@ namespace Accord.Math
         ///   Gets the range of the values in a vector.
         /// </summary>
         /// 
-        public static IntRange Range(this int[] array)
+        /// <param name="values">The matrix whose ranges should be computed.</param>
+        /// 
+        public static IntRange Range(this int[] values)
         {
-            if (array.Length == 0)
+            if (values.Length == 0)
                 return new IntRange(0, 0);
 
-            int min = array[0];
-            int max = array[0];
+            int min = values[0];
+            int max = values[0];
 
-            for (int i = 1; i < array.Length; i++)
+            for (int i = 1; i < values.Length; i++)
             {
-                if (min > array[i])
-                    min = array[i];
-                if (max < array[i])
-                    max = array[i];
+                if (min > values[i])
+                    min = values[i];
+                if (max < values[i])
+                    max = values[i];
             }
 
             return new IntRange(min, max);
@@ -1250,6 +1255,8 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values across a matrix.
         /// </summary>
+        /// 
+        /// <param name="value">The matrix whose ranges should be computed.</param>
         /// 
         public static IntRange Range(this int[,] value)
         {
@@ -1272,6 +1279,8 @@ namespace Accord.Math
         ///   Gets the range of the values across a matrix.
         /// </summary>
         /// 
+        /// <param name="value">The matrix whose ranges should be computed.</param>
+        /// 
         public static DoubleRange Range(this double[,] value)
         {
             if (value.Length == 0)
@@ -1292,6 +1301,12 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values across the columns of a matrix.
         /// </summary>
+        /// 
+        /// <param name="value">The matrix whose ranges should be computed.</param>
+        /// <param name="dimension">
+        ///   Pass 0 if the range should be computed for each of the columns. Pass 1
+        ///   if the range should be computed for each row. Default is 0.
+        /// </param>
         /// 
         public static DoubleRange[] Range(this double[,] value, int dimension)
         {
@@ -1348,6 +1363,12 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values across the columns of a matrix.
         /// </summary>
+        /// 
+        /// <param name="value">The matrix whose ranges should be computed.</param>
+        /// <param name="dimension">
+        ///   Pass 0 if the range should be computed for each of the columns. Pass 1
+        ///   if the range should be computed for each row. Default is 0.
+        /// </param>
         /// 
         public static DoubleRange[] Range(this double[][] value, int dimension)
         {

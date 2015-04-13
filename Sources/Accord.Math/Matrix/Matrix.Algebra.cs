@@ -2576,6 +2576,98 @@ namespace Accord.Math
 
 
         /// <summary>
+        ///   Normalizes a vector to have unit length.
+        /// </summary>
+        /// 
+        /// <param name="vector">A vector.</param>
+        /// <param name="norm">A norm to use. Default is <see cref="Norm.Euclidean(double[])"/>.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        ///   overwriting the original array; false to return a new array.</param>
+        /// 
+        /// <returns>A multiple of vector <c>a</c> where <c>||a|| = 1</c>.</returns>
+        /// 
+        public static double[] Normalize(this double[] vector, Func<double[], double> norm, bool inPlace = false)
+        {
+            double[] r = inPlace ? vector : new double[vector.Length];
+
+            double w = norm(vector);
+
+            if (w == 0)
+            {
+                for (int i = 0; i < vector.Length; i++)
+                    r[i] = vector[i];
+            }
+            else
+            {
+                for (int i = 0; i < vector.Length; i++)
+                    r[i] = vector[i] / w;
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Normalizes a vector to have unit length.
+        /// </summary>
+        /// 
+        /// <param name="vector">A vector.</param>
+        /// <param name="norm">A norm to use. Default is <see cref="Norm.Euclidean(float[])"/>.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original array; false to return a new array.</param>
+        /// 
+        /// <returns>A multiple of vector <c>a</c> where <c>||a|| = 1</c>.</returns>
+        /// 
+        public static float[] Normalize(this float[] vector, Func<float[], float> norm, bool inPlace = false)
+        {
+            float[] r = inPlace ? vector : new float[vector.Length];
+
+            double w = norm(vector);
+
+            if (w == 0)
+            {
+                for (int i = 0; i < vector.Length; i++)
+                    r[i] = vector[i];
+            }
+            else
+            {
+                for (int i = 0; i < vector.Length; i++)
+                    r[i] = (float)(vector[i] / w);
+            }
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Normalizes a vector to have unit length.
+        /// </summary>
+        /// 
+        /// <param name="vector">A vector.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original array; false to return a new array.</param>
+        /// 
+        /// <returns>A multiple of vector <c>a</c> where <c>||a|| = 1</c>.</returns>
+        /// 
+        public static double[] Normalize(this double[] vector, bool inPlace = false)
+        {
+            return Normalize(vector, Norm.Euclidean, inPlace);
+        }
+
+        /// <summary>
+        ///   Normalizes a vector to have unit length.
+        /// </summary>
+        /// 
+        /// <param name="vector">A vector.</param>
+        /// <param name="inPlace">True to perform the operation in-place,
+        /// overwriting the original array; false to return a new array.</param>
+        /// 
+        /// <returns>A multiple of vector <c>a</c> where <c>||a|| = 1</c>.</returns>
+        /// 
+        public static float[] Normalize(this float[] vector, bool inPlace = false)
+        {
+            return Normalize(vector, Norm.Euclidean, inPlace);
+        }
+
+        /// <summary>
         ///   Multiplies a matrix by itself <c>n</c> times.
         /// </summary>
         /// 

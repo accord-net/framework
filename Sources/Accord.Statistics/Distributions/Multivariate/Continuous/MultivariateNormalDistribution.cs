@@ -180,11 +180,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateNormalDistribution(int dimension)
             : this(dimension, true) { }
 
-        /// <summary>
-        ///   Constructs a multivariate Gaussian distribution
-        ///   with zero mean vector and identity covariance matrix.
-        /// </summary>
-        /// 
+
         private MultivariateNormalDistribution(int dimension, bool init)
             : base(dimension)
         {

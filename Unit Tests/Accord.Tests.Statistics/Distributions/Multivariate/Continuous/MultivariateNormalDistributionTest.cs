@@ -33,22 +33,6 @@ namespace Accord.Tests.Statistics
     public class MultivariateNormalDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [TestMethod()]
         public void ConstructorTest1()
         {
@@ -67,12 +51,12 @@ namespace Accord.Tests.Statistics
             double acdf = target.DistributionFunction(new double[] { 3 });
             double accdf = target.ComplementaryDistributionFunction(new double[] { 3 });
 
-            double epdf1 = target.ProbabilityDensityFunction(new double[] { 2 });
-            double epdf2 = target.ProbabilityDensityFunction(new double[] { 4 });
-            double epdf3 = target.ProbabilityDensityFunction(new double[] { 3 });
-            double elpdf = target.LogProbabilityDensityFunction(new double[] { 3 });
-            double ecdf = target.DistributionFunction(new double[] { 3 });
-            double eccdf = target.ComplementaryDistributionFunction(new double[] { 3 });
+            double epdf1 = normal.ProbabilityDensityFunction(2);
+            double epdf2 = normal.ProbabilityDensityFunction(4);
+            double epdf3 = normal.ProbabilityDensityFunction(3);
+            double elpdf = normal.LogProbabilityDensityFunction(3);
+            double ecdf = normal.DistributionFunction(3);
+            double eccdf = normal.ComplementaryDistributionFunction(3);
 
 
             Assert.AreEqual(normal.Mean, target.Mean[0]);
@@ -96,7 +80,7 @@ namespace Accord.Tests.Statistics
             var dist = new MultivariateNormalDistribution
             (
                 // mean vector mu
-                mean: new double[]  { 4, 2  },
+                mean: new double[] { 4, 2 },
 
                 // covariance matrix sigma
                 covariance: new double[,] 

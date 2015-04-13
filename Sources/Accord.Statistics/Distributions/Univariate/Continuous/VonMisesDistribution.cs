@@ -22,10 +22,10 @@
 
 namespace Accord.Statistics.Distributions.Univariate
 {
-    using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using System;
 
     /// <summary>
     ///   von-Mises (Circular Normal) distribution.
@@ -105,6 +105,16 @@ namespace Accord.Statistics.Distributions.Univariate
         // Derived measures
         private double constant;
 
+        /// <summary>
+        ///   Constructs a von-Mises distribution with zero mean.
+        /// </summary>
+        /// 
+        /// <param name="concentration">The concentration value κ (kappa).</param>
+        /// 
+        public VonMisesDistribution(double concentration)
+        {
+            initialize(mean, concentration);
+        }
 
         /// <summary>
         ///   Constructs a von-Mises distribution.
@@ -370,7 +380,22 @@ namespace Accord.Statistics.Distributions.Univariate
             initialize(m, k);
         }
 
-
+        /// <summary>
+        ///   Creates a new circular uniform distribution by creating a
+        ///   new <see cref="VonMisesDistribution"/> with zero kappa.
+        /// </summary>
+        /// 
+        /// <param name="mean">The mean value μ (mu).</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="VonMisesDistribution"/> with zero kappa, which
+        ///   is equivalent to creating an uniform circular distribution.
+        /// </returns>
+        /// 
+        public static VonMisesDistribution CircularUniform(double mean)
+        {
+            return new VonMisesDistribution(mean, 0);
+        }
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
