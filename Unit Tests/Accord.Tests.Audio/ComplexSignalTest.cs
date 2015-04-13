@@ -29,7 +29,6 @@ namespace Accord.Tests.Audio
     using Accord.Math;
     using AForge.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Controls;
     using System;
 
     [TestClass()]

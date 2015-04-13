@@ -28,7 +28,6 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Analysis;
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Controls;
 
     [TestClass()]
     public class CircularDescriptiveAnalysisTest
@@ -398,7 +397,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(m0, analysis.Measures["Column 0"]);
             Assert.AreEqual(m1, analysis.Measures["Column 1"]);
 
-            // var box = DataGridBox.Show(analysis.Measures);
+            // var box = Accord.Controls.DataGridBox.Show(analysis.Measures);
             // Assert.AreEqual(23, box.DataGridView.Columns.Count);
         }
     }
