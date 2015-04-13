@@ -35,16 +35,18 @@
 //   http://www.aforgenet.com/framework/
 //
 
-using System;
-using System.Drawing;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms;
+using Accord.IO;
+using Accord.Math;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using AForge;
 using AForge.Controls;
 using AForge.Neuro;
+using System;
+using System.Drawing;
+using System.IO;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace Samples.LM
 {
@@ -139,6 +141,7 @@ namespace Samples.LM
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Approximation));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataList = new System.Windows.Forms.ListView();
             this.xColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -177,9 +180,9 @@ namespace Samples.LM
             // 
             this.groupBox1.Controls.Add(this.dataList);
             this.groupBox1.Controls.Add(this.loadDataButton);
-            this.groupBox1.Location = new System.Drawing.Point(10, 10);
+            this.groupBox1.Location = new System.Drawing.Point(16, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(180, 320);
+            this.groupBox1.Size = new System.Drawing.Size(288, 467);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data";
@@ -191,9 +194,9 @@ namespace Samples.LM
             this.yColumnHeader});
             this.dataList.FullRowSelect = true;
             this.dataList.GridLines = true;
-            this.dataList.Location = new System.Drawing.Point(10, 20);
+            this.dataList.Location = new System.Drawing.Point(16, 29);
             this.dataList.Name = "dataList";
-            this.dataList.Size = new System.Drawing.Size(160, 255);
+            this.dataList.Size = new System.Drawing.Size(256, 373);
             this.dataList.TabIndex = 0;
             this.dataList.UseCompatibleStateImageBehavior = false;
             this.dataList.View = System.Windows.Forms.View.Details;
@@ -208,9 +211,9 @@ namespace Samples.LM
             // 
             // loadDataButton
             // 
-            this.loadDataButton.Location = new System.Drawing.Point(10, 285);
+            this.loadDataButton.Location = new System.Drawing.Point(16, 417);
             this.loadDataButton.Name = "loadDataButton";
-            this.loadDataButton.Size = new System.Drawing.Size(75, 23);
+            this.loadDataButton.Size = new System.Drawing.Size(120, 33);
             this.loadDataButton.TabIndex = 1;
             this.loadDataButton.Text = "&Load";
             this.loadDataButton.Click += new System.EventHandler(this.loadDataButton_Click);
@@ -223,18 +226,20 @@ namespace Samples.LM
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.chart);
-            this.groupBox2.Location = new System.Drawing.Point(200, 10);
+            this.groupBox2.Location = new System.Drawing.Point(320, 15);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(300, 320);
+            this.groupBox2.Size = new System.Drawing.Size(480, 467);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Function";
             // 
             // chart
             // 
-            this.chart.Location = new System.Drawing.Point(10, 20);
+            this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.Size = new System.Drawing.Size(280, 290);
+            this.chart.RangeX = ((AForge.Range)(resources.GetObject("chart.RangeX")));
+            this.chart.RangeY = ((AForge.Range)(resources.GetObject("chart.RangeY")));
+            this.chart.Size = new System.Drawing.Size(448, 424);
             this.chart.TabIndex = 0;
             // 
             // groupBox3
@@ -251,9 +256,9 @@ namespace Samples.LM
             this.groupBox3.Controls.Add(this.iterationsBox);
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Location = new System.Drawing.Point(510, 10);
+            this.groupBox3.Location = new System.Drawing.Point(816, 15);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(195, 195);
+            this.groupBox3.Size = new System.Drawing.Size(312, 285);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Settings";
@@ -261,9 +266,9 @@ namespace Samples.LM
             // cbNguyenWidrow
             // 
             this.cbNguyenWidrow.AutoSize = true;
-            this.cbNguyenWidrow.Location = new System.Drawing.Point(13, 120);
+            this.cbNguyenWidrow.Location = new System.Drawing.Point(21, 175);
             this.cbNguyenWidrow.Name = "cbNguyenWidrow";
-            this.cbNguyenWidrow.Size = new System.Drawing.Size(166, 17);
+            this.cbNguyenWidrow.Size = new System.Drawing.Size(241, 24);
             this.cbNguyenWidrow.TabIndex = 26;
             this.cbNguyenWidrow.Text = "Use Nguyen-Widrow Weights";
             this.cbNguyenWidrow.UseVisualStyleBackColor = true;
@@ -271,87 +276,87 @@ namespace Samples.LM
             // cbRegularization
             // 
             this.cbRegularization.AutoSize = true;
-            this.cbRegularization.Location = new System.Drawing.Point(13, 97);
+            this.cbRegularization.Location = new System.Drawing.Point(21, 142);
             this.cbRegularization.Name = "cbRegularization";
-            this.cbRegularization.Size = new System.Drawing.Size(161, 17);
+            this.cbRegularization.Size = new System.Drawing.Size(239, 24);
             this.cbRegularization.TabIndex = 26;
             this.cbRegularization.Text = "Use Bayesian Regularization";
             this.cbRegularization.UseVisualStyleBackColor = true;
             // 
             // neuronsBox
             // 
-            this.neuronsBox.Location = new System.Drawing.Point(124, 71);
+            this.neuronsBox.Location = new System.Drawing.Point(198, 104);
             this.neuronsBox.Name = "neuronsBox";
-            this.neuronsBox.Size = new System.Drawing.Size(60, 20);
+            this.neuronsBox.Size = new System.Drawing.Size(96, 26);
             this.neuronsBox.TabIndex = 7;
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(9, 73);
+            this.label4.Location = new System.Drawing.Point(14, 107);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(115, 15);
+            this.label4.Size = new System.Drawing.Size(184, 22);
             this.label4.TabIndex = 6;
             this.label4.Text = "Neurons in first layer:";
             // 
             // alphaBox
             // 
-            this.alphaBox.Location = new System.Drawing.Point(124, 46);
+            this.alphaBox.Location = new System.Drawing.Point(198, 67);
             this.alphaBox.Name = "alphaBox";
-            this.alphaBox.Size = new System.Drawing.Size(60, 20);
+            this.alphaBox.Size = new System.Drawing.Size(96, 26);
             this.alphaBox.TabIndex = 5;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(9, 48);
+            this.label2.Location = new System.Drawing.Point(14, 70);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 15);
+            this.label2.Size = new System.Drawing.Size(192, 22);
             this.label2.TabIndex = 4;
             this.label2.Text = "Sigmoid\'s alpha value:";
             // 
             // learningRateBox
             // 
-            this.learningRateBox.Location = new System.Drawing.Point(125, 20);
+            this.learningRateBox.Location = new System.Drawing.Point(200, 29);
             this.learningRateBox.Name = "learningRateBox";
-            this.learningRateBox.Size = new System.Drawing.Size(60, 20);
+            this.learningRateBox.Size = new System.Drawing.Size(96, 26);
             this.learningRateBox.TabIndex = 1;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(10, 22);
+            this.label1.Location = new System.Drawing.Point(16, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 14);
+            this.label1.Size = new System.Drawing.Size(125, 21);
             this.label1.TabIndex = 0;
             this.label1.Text = "Learning rate:";
             // 
             // label8
             // 
             this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label8.Location = new System.Drawing.Point(10, 147);
+            this.label8.Location = new System.Drawing.Point(16, 215);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(175, 2);
+            this.label8.Size = new System.Drawing.Size(280, 3);
             this.label8.TabIndex = 22;
             // 
             // iterationsBox
             // 
-            this.iterationsBox.Location = new System.Drawing.Point(125, 155);
+            this.iterationsBox.Location = new System.Drawing.Point(200, 227);
             this.iterationsBox.Name = "iterationsBox";
-            this.iterationsBox.Size = new System.Drawing.Size(60, 20);
+            this.iterationsBox.Size = new System.Drawing.Size(96, 26);
             this.iterationsBox.TabIndex = 9;
             // 
             // label10
             // 
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(126, 175);
+            this.label10.Location = new System.Drawing.Point(202, 256);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(58, 14);
+            this.label10.Size = new System.Drawing.Size(92, 20);
             this.label10.TabIndex = 25;
             this.label10.Text = "( 0 - inifinity )";
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(10, 157);
+            this.label9.Location = new System.Drawing.Point(16, 229);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(70, 16);
+            this.label9.Size = new System.Drawing.Size(112, 24);
             this.label9.TabIndex = 8;
             this.label9.Text = "Iterations:";
             // 
@@ -361,51 +366,51 @@ namespace Samples.LM
             this.groupBox4.Controls.Add(this.label3);
             this.groupBox4.Controls.Add(this.currentIterationBox);
             this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Location = new System.Drawing.Point(510, 210);
+            this.groupBox4.Location = new System.Drawing.Point(816, 307);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(195, 75);
+            this.groupBox4.Size = new System.Drawing.Size(312, 110);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Current iteration";
             // 
             // currentErrorBox
             // 
-            this.currentErrorBox.Location = new System.Drawing.Point(125, 45);
+            this.currentErrorBox.Location = new System.Drawing.Point(200, 66);
             this.currentErrorBox.Name = "currentErrorBox";
             this.currentErrorBox.ReadOnly = true;
-            this.currentErrorBox.Size = new System.Drawing.Size(60, 20);
+            this.currentErrorBox.Size = new System.Drawing.Size(96, 26);
             this.currentErrorBox.TabIndex = 3;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(10, 47);
+            this.label3.Location = new System.Drawing.Point(16, 69);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(70, 16);
+            this.label3.Size = new System.Drawing.Size(112, 23);
             this.label3.TabIndex = 2;
             this.label3.Text = "Error:";
             // 
             // currentIterationBox
             // 
-            this.currentIterationBox.Location = new System.Drawing.Point(125, 20);
+            this.currentIterationBox.Location = new System.Drawing.Point(200, 29);
             this.currentIterationBox.Name = "currentIterationBox";
             this.currentIterationBox.ReadOnly = true;
-            this.currentIterationBox.Size = new System.Drawing.Size(60, 20);
+            this.currentIterationBox.Size = new System.Drawing.Size(96, 26);
             this.currentIterationBox.TabIndex = 1;
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(10, 22);
+            this.label5.Location = new System.Drawing.Point(16, 32);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(70, 16);
+            this.label5.Size = new System.Drawing.Size(112, 24);
             this.label5.TabIndex = 0;
             this.label5.Text = "Iteration:";
             // 
             // stopButton
             // 
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(630, 305);
+            this.stopButton.Location = new System.Drawing.Point(1008, 446);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.Size = new System.Drawing.Size(120, 33);
             this.stopButton.TabIndex = 8;
             this.stopButton.Text = "S&top";
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
@@ -413,17 +418,18 @@ namespace Samples.LM
             // startButton
             // 
             this.startButton.Enabled = false;
-            this.startButton.Location = new System.Drawing.Point(540, 305);
+            this.startButton.Location = new System.Drawing.Point(864, 446);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.Size = new System.Drawing.Size(120, 33);
             this.startButton.TabIndex = 7;
             this.startButton.Text = "&Start";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
-            // MainForm
+            // Approximation
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(714, 338);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(1146, 500);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.groupBox4);
@@ -432,7 +438,7 @@ namespace Samples.LM
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "MainForm";
+            this.Name = "Approximation";
             this.Text = "Approximation using Multi-Layer Neural Network (Levenberg-Marquardt)";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
             this.groupBox1.ResumeLayout(false);
@@ -446,18 +452,14 @@ namespace Samples.LM
         }
         #endregion
 
-      
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
 
         // Thread safe updating of control's text property
-        private void SetText(System.Windows.Forms.Control control, string text)
+        private void SetText(Control control, string text)
         {
             if (control.InvokeRequired)
             {
-                SetTextCallback d = new SetTextCallback(SetText);
-                Invoke(d, new object[] { control, text });
+                Invoke((Action)(() => SetText(control, text)));
             }
             else
             {
@@ -492,60 +494,32 @@ namespace Samples.LM
             // show file selection dialog
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                StreamReader reader = null;
-                // read maximum 50 points
-                double[,] tempData = new double[50, 2];
-                double minX = double.MaxValue;
-                double maxX = double.MinValue;
+                data = null;
 
                 try
                 {
                     // open selected file
-                    reader = File.OpenText(openFileDialog.FileName);
-                    string str = null;
-                    int i = 0;
-
-                    // read the data
-                    while ((i < 50) && ((str = reader.ReadLine()) != null))
+                    using (TextReader stream = new StreamReader(openFileDialog.FileName))
+                    using (CsvReader reader = new CsvReader(stream, false))
                     {
-                        string[] strs = str.Split(';');
-                        if (strs.Length == 1)
-                            strs = str.Split(',');
-                        // parse X
-                        tempData[i, 0] = double.Parse(strs[0]);
-                        tempData[i, 1] = double.Parse(strs[1]);
-
-                        // search for min value
-                        if (tempData[i, 0] < minX)
-                            minX = tempData[i, 0];
-                        // search for max value
-                        if (tempData[i, 0] > maxX)
-                            maxX = tempData[i, 0];
-
-                        i++;
+                        data = reader.ToTable().ToMatrix();
                     }
 
-                    // allocate and set data
-                    data = new double[i, 2];
-                    Array.Copy(tempData, 0, data, 0, i * 2);
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                finally
-                {
-                    // close file
-                    if (reader != null)
-                        reader.Close();
-                }
+
+                DoubleRange[] ranges = data.Range(dimension: 0);
 
                 // update list and chart
                 UpdateDataListView();
-                chart.RangeX = new Range((float)minX, (float)maxX);
+                chart.RangeX = new Range((float)ranges[0].Min, (float)ranges[0].Max);
                 chart.UpdateDataSeries("data", data);
                 chart.UpdateDataSeries("solution", null);
+
                 // enable "Start" button
                 startButton.Enabled = true;
             }
@@ -564,16 +538,13 @@ namespace Samples.LM
             }
         }
 
-        // Delegates to enable async calls for setting controls properties
-        private delegate void EnableCallback(bool enable);
 
         // Enable/disable controls (safe for threading)
         private void EnableControls(bool enable)
         {
             if (InvokeRequired)
             {
-                EnableCallback d = new EnableCallback(EnableControls);
-                Invoke(d, new object[] { enable });
+                Invoke((Action)(()=>EnableControls(enable)));
             }
             else
             {
@@ -637,6 +608,7 @@ namespace Samples.LM
         {
             // number of learning samples
             int samples = data.GetLength(0);
+
             // data transformation factor
             double yFactor = 1.7 / chart.RangeY.Length;
             double yMin = chart.RangeY.Min;
@@ -652,10 +624,8 @@ namespace Samples.LM
                 input[i] = new double[1];
                 output[i] = new double[1];
 
-                // set input
-                input[i][0] = (data[i, 0] - xMin) * xFactor - 1.0;
-                // set output
-                output[i][0] = (data[i, 1] - yMin) * yFactor - 0.85;
+                input[i][0] = (data[i, 0] - xMin) * xFactor - 1.0; // set input
+                output[i][0] = (data[i, 1] - yMin) * yFactor - 0.85; // set output
             }
 
             // create multi-layer neural network
@@ -665,8 +635,7 @@ namespace Samples.LM
 
             if (useNguyenWidrow)
             {
-                NguyenWidrow initializer = new NguyenWidrow(network);
-                initializer.Randomize();
+                new NguyenWidrow(network).Randomize();
             }
 
             // create teacher
@@ -679,14 +648,13 @@ namespace Samples.LM
             int iteration = 1;
 
             // solution array
-            double[,] solution = new double[50, 2];
+            double[,] solution = new double[samples, 2];
             double[] networkInput = new double[1];
 
             // calculate X values to be used with solution function
-            for (int j = 0; j < 50; j++)
-            {
+            for (int j = 0; j < samples; j++)
                 solution[j, 0] = chart.RangeX.Min + (double)j * chart.RangeX.Length / 49;
-            }
+
 
             // loop
             while (!needToStop)
@@ -695,15 +663,17 @@ namespace Samples.LM
                 double error = teacher.RunEpoch(input, output) / samples;
 
                 // calculate solution
-                for (int j = 0; j < 50; j++)
+                for (int j = 0; j < samples; j++)
                 {
                     networkInput[0] = (solution[j, 0] - xMin) * xFactor - 1.0;
                     solution[j, 1] = (network.Compute(networkInput)[0] + 0.85) / yFactor + yMin;
                 }
+
                 chart.UpdateDataSeries("solution", solution);
+
                 // calculate error
                 double learningError = 0.0;
-                for (int j = 0, k = data.GetLength(0); j < k; j++)
+                for (int j = 0; j < samples; j++)
                 {
                     networkInput[0] = input[j][0];
                     learningError += Math.Abs(data[j, 1] - ((network.Compute(networkInput)[0] + 0.85) / yFactor + yMin));
