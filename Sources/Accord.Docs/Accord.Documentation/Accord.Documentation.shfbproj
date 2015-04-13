@@ -735,6 +735,14 @@
       <ImageId>scatterplot-box</ImageId>
       <AlternateText>scatterplot-box</AlternateText>
     </Content>
+    <Image Include="images\grid-fixed-steps.png">
+      <ImageId>grid-fixed-steps</ImageId>
+      <AlternateText>grid-fixed-steps</AlternateText>
+    </Image>
+    <Image Include="images\grid-step-size.png">
+      <ImageId>grid-step-size</ImageId>
+      <AlternateText>grid-step-size</AlternateText>
+    </Image>
     <Image Include="resources\Accord.NET.png">
       <CopyToMedia>True</CopyToMedia>
       <AlternateText>Accord.NET</AlternateText>
