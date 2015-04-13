@@ -27,8 +27,6 @@ namespace Accord.Tests.Statistics
     using AForge;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
-    using System.Windows.Forms;
-    using Accord.Controls;
 
     [TestClass()]
     public class DescriptiveAnalysisTest
@@ -648,7 +646,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(m1, analysis.Measures["Column 1"]);
             Assert.AreEqual(m2, analysis.Measures["Column 2"]);
 
-            // var box = DataGridBox.Show(analysis.Measures);
+            // var box = Accord.Controls.DataGridBox.Show(analysis.Measures);
             // Assert.AreEqual(21, box.DataGridView.Columns.Count);
         }
     }

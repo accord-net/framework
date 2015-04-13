@@ -24,7 +24,6 @@ namespace Accord.Tests.MachineLearning
 {
     using System.Collections.Generic;
     using System.Drawing;
-    using Accord.Controls;
     using Accord.Imaging.Filters;
     using Accord.MachineLearning.Geometry;
     using AForge;
@@ -116,7 +115,7 @@ namespace Accord.Tests.MachineLearning
 
             Bitmap image = Properties.Resources.noise_line;
 
-            //ImageBox.Show(image); 
+            //Accord.Controls.ImageBox.Show(image); 
 
             var detector = new SusanCornersDetector();
 
@@ -124,7 +123,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(211, cloud.Count);
 
             Bitmap marks = new PointsMarker(cloud, Color.Pink).Apply(image);
-            //ImageBox.Show(marks);
+            //Accord.Controls.ImageBox.Show(marks);
 
             RansacLine ransac = new RansacLine(5, 1e-10);
             Line line = ransac.Estimate(cloud);
@@ -132,8 +131,8 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.501134932f, line.Intercept);
             Assert.AreEqual(-0.865369201f, line.Slope);
 
-            //Bitmap result = new LineMarker(line).Apply(image);
-            //ImageBox.Show(result);
+            //var result = new LineMarker(line).Apply(image);
+            //Accord.Controls.ImageBox.Show(result);
         }
 
     }

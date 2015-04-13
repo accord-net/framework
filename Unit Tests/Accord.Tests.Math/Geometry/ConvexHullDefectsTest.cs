@@ -30,7 +30,6 @@ namespace Accord.Tests.Math
     using Accord.Math.Geometry;
     using AForge.Math.Geometry;
     using Accord.Imaging.Filters;
-    using Accord.Controls;
 
     [TestClass()]
     public class ConvexHullDefectsTest
@@ -79,7 +78,7 @@ namespace Accord.Tests.Math
             PointsMarker marker = new PointsMarker(contour);
             var bitmap = AForge.Imaging.Image.CreateGrayscaleImage(max + 1, max + 1);
             bitmap = marker.Apply(bitmap);
-            // ImageBox.Show(bitmap);
+            // Accord.Controls.ImageBox.Show(bitmap);
 
             GrahamConvexHull graham = new GrahamConvexHull();
             List<IntPoint> hull = graham.FindHull(contour);

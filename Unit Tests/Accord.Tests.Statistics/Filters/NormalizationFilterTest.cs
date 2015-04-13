@@ -22,7 +22,6 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Controls;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -171,7 +170,7 @@ namespace Accord.Tests.Statistics
             // in which any column named "Age" will have been normalized
             // using the previously detected mean and standard deviation:
 
-            // DataGridBox.Show(result);
+            // Accord.Controls.DataGridBox.Show(result);
 
             Assert.AreEqual(25.555555555555557, mean);
             Assert.AreEqual(23.297591673342072, sdev);

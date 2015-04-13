@@ -20,7 +20,6 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Controls;
 using Accord.Statistics.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Accord.Math;
@@ -85,7 +84,7 @@ namespace Accord.Tests.Statistics
             // illustrate, we could use Accord.NET's DataGridBox to inspect the
             // table's contents.
 
-            // DataGridBox.Show(anova.Table);
+            // Accord.Controls.DataGridBox.Show(anova.Table);
 
             // The p-level for the analysis is about 0.002, meaning the test is
             // significant at the 5% significance level. The experimenter would

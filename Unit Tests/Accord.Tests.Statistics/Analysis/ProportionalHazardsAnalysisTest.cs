@@ -26,7 +26,6 @@ namespace Accord.Tests.Statistics
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Accord.Math;
-    using Accord.Controls;
     using Accord.Statistics.Testing;
 
     [TestClass()]
@@ -89,7 +88,7 @@ namespace Accord.Tests.Statistics
             cox.Compute(); // compute the analysis
 
             // Now we can show an analysis summary
-            // DataGridBox.Show(cox.Coefficients);
+            // Accord.Controls.DataGridBox.Show(cox.Coefficients);
 
 
             // We can also investigate all parameters individually. For
