@@ -22,37 +22,18 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using System.Windows.Forms;
-    using Accord.Controls;
     using Accord.Imaging;
-    using Accord.Imaging.Filters;
     using Accord.Math.Geometry;
     using AForge;
     using AForge.Imaging.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
 
     [TestClass()]
     public class KCurvatureTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [TestMethod()]
@@ -91,6 +72,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(11, peaks[1].Y);
         }
 
+/*
         private static void show(Bitmap hand, List<IntPoint> contour, List<IntPoint> peaks, List<IntPoint> supports)
         {
             PointsMarker cmarker = new PointsMarker(contour, Color.White, 1);
@@ -104,7 +86,7 @@ namespace Accord.Tests.Imaging
 
             ImageBox.Show(hand, PictureBoxSizeMode.Zoom);
         }
-
+*/
 
         [TestMethod()]
         public void FindPeaksTest2()

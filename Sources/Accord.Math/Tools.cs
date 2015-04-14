@@ -23,11 +23,10 @@
 namespace Accord.Math
 {
     using Accord.Math.Comparers;
+    using Accord.Math.Random;
     using AForge;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
 
     /// <summary>
     ///   Set of mathematical tools.
@@ -36,69 +35,24 @@ namespace Accord.Math
     public static class Tools
     {
 
-        #region Framework-wide random number generator
-
-#if !NET35 && !NET40
-        private static readonly ThreadLocal<Random> random;
-
-        // This static constructor is being used to address an issue with the Mono runtime. 
-        // The problem is that the runtime currently does not implement the "trackAllValues"
-        // overload for ThreadLocal, even if the API offers such constructor. The following
-        // CA suppression rule could be removed once Mono adds support for it.
-        //
-        [SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline")]
-        static Tools()
-        {
-            try
-            {
-                random = new ThreadLocal<Random>(create, true);
-            }
-            catch (NotImplementedException)
-            {
-                // Deal with a temporary shortcoming when targeting Mono runtime.
-                random = new ThreadLocal<Random>(create);
-            }
-        }
-#else
-        private static readonly ThreadLocal<Random> random = new ThreadLocal<Random>(create);
-#endif
-
-        private static int? seed;
-
-        private static Random create()
-        {
-            if (seed.HasValue)
-                return new Random(seed.Value);
-            return new Random();
-        }
-
         /// <summary>
         ///   Gets a reference to the random number generator used
         ///   internally by the Accord.NET classes and methods.
         /// </summary>
         /// 
-        public static Random Random { get { return random.Value; } }
+        // TODO: Mark as obsolete
+        public static System.Random Random { get { return Generator.Random; } }
 
         /// <summary>
         ///   Sets a random seed for the framework's main 
         ///   <see cref="Random">internal number generator</see>.
         /// </summary>
-        /// 
+        ///
+        // TODO: Mark as obsolete
         public static void SetupGenerator(int? seed)
         {
-            Tools.seed = seed;
-
-#if !NET35 && !NET40
-            lock (random)
-            {
-                for (int i = 0; i < random.Values.Count; i++)
-                    random.Values[i] = create();
-            }
-#endif
-            
-            Tools.random.Value = create();
+            Generator.Seed = seed;
         }
-        #endregion
 
 
         /// <summary>
@@ -172,11 +126,14 @@ namespace Accord.Math
         }
 
         /// <summary>
-        /// Gets the greatest common divisor between two integers.
+        ///   Gets the greatest common divisor between two integers.
         /// </summary>
+        /// 
         /// <param name="a">First value.</param>
         /// <param name="b">Second value.</param>
+        /// 
         /// <returns>The greatest common divisor.</returns>
+        /// 
         public static int GreatestCommonDivisor(int a, int b)
         {
             int x = a - b * (int)Math.Floor((double)(a / b));
@@ -194,6 +151,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="x">Input value x.</param>
+        /// 
         /// <returns>Returns the next power of 2 after the input value x.</returns>
         /// 
         public static int NextPowerOf2(int x)
@@ -212,6 +170,7 @@ namespace Accord.Math
         /// </summary>
         /// 
         /// <param name="x">Input value x.</param>
+        /// 
         /// <returns>Returns the previous power of 2 after the input value x.</returns>
         /// 
         public static int PreviousPowerOf2(int x)
@@ -226,6 +185,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">First value</param>
         /// <param name="b">Second value</param>
+        /// 
         /// <returns>The hypotenuse Sqrt(a^2 + b^2)</returns>
         /// 
         public static double Hypotenuse(double a, double b)
@@ -254,6 +214,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">first value</param>
         /// <param name="b">second value</param>
+        /// 
         /// <returns>The hypotenuse Sqrt(a^2 + b^2)</returns>
         /// 
         public static decimal Hypotenuse(decimal a, decimal b)
@@ -282,6 +243,7 @@ namespace Accord.Math
         /// 
         /// <param name="a">first value</param>
         /// <param name="b">second value</param>
+        /// 
         /// <returns>The hypotenuse Sqrt(a^2 + b^2)</returns>
         /// 
         public static float Hypotenuse(float a, float b)
@@ -341,6 +303,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static int Scale(this IntRange from, IntRange to, int x)
         {
             if (from.Length == 0) 
@@ -353,6 +316,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double Scale(this DoubleRange from, DoubleRange to, double x)
         {
             if (from.Length == 0) return 0;
@@ -364,6 +328,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double Scale(double fromMin, double fromMax, double toMin, double toMax, double x)
         {
             if (fromMax - fromMin == 0) 
@@ -376,6 +341,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double[] Scale(double fromMin, double fromMax, double toMin, double toMax, double[] x)
         {
             double[] result = new double[x.Length];
@@ -390,6 +356,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static float[] Scale(float fromMin, float fromMax, float toMin, float toMax, float[] x)
         {
             float[] result = new float[x.Length];
@@ -404,6 +371,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double[] Scale(double toMin, double toMax, double[] x)
         {
             return Scale(Matrix.Min(x), Matrix.Max(x), toMin, toMax, x);
@@ -414,6 +382,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double[][] Scale(double[] fromMin, double[] fromMax, double[] toMin, double[] toMax, double[][] x)
         {
             int rows = x.Length;
@@ -437,6 +406,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double[][] Scale(double fromMin, double fromMax, double toMin, double toMax, double[][] x)
         {
             int rows = x.Length;
@@ -459,6 +429,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double[][] Scale(double[] fromMin, double[] fromMax, double toMin, double toMax, double[][] x)
         {
             int rows = x.Length;
@@ -482,6 +453,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double[][] Scale(double[] toMin, double[] toMax, double[][] x)
         {
             var min = Matrix.Min(x, 0);
@@ -494,6 +466,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double[][] Scale(double toMin, double toMax, double[][] x)
         {
             return Scale(Matrix.Min(x, 0), Matrix.Max(x, 0), toMin, toMax, x);
@@ -504,6 +477,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static float Scale(float fromMin, float fromMax, float toMin, float toMax, float x)
         {
             if (fromMax - fromMin == 0)
@@ -516,6 +490,7 @@ namespace Accord.Math
         ///   'from') to another value measured in the scale 'to'.
         /// </summary>
         /// 
+        // TODO: Move to Scale class
         public static double Scale(IntRange from, DoubleRange to, int x)
         {
             if (from.Length == 0) 
@@ -615,42 +590,32 @@ namespace Accord.Math
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static void StableSort<T>(this T[] values, Comparison<T> comparison)
         {
-            var keys = new KeyValuePair<int, T>[values.Length];
-            for (var i = 0; i < values.Length; i++)
-                keys[i] = new KeyValuePair<int, T>(i, values[i]);
-            Array.Sort(keys, values, new StableComparer<T>(comparison));
+            Vector.Sort(values, comparison, true);
         }
 
         /// <summary>
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static void StableSort<T>(this T[] values)
             where T : IComparable<T>
         {
-            var keys = new KeyValuePair<int, T>[values.Length];
-            for (var i = 0; i < values.Length; i++)
-                keys[i] = new KeyValuePair<int, T>(i, values[i]);
-            Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
+            Vector.Sort(values, true);
         }
 
         /// <summary>
         ///   Sorts the elements of an entire one-dimensional array using the given comparison.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static void StableSort<T>(this T[] values, out int[] order)
             where T : IComparable<T>
         {
-            var keys = new KeyValuePair<int, T>[values.Length];
-            for (var i = 0; i < values.Length; i++)
-                keys[i] = new KeyValuePair<int, T>(i, values[i]);
-            Array.Sort(keys, values, new StableComparer<T>((a, b) => a.CompareTo(b)));
-
-            order = new int[values.Length];
-            for (int i = 0; i < keys.Length; i++)
-                order[i] = keys[i].Key;
+            Vector.Sort(values, out order, true);
         }
 
         /// <summary>
@@ -710,6 +675,33 @@ namespace Accord.Math
             else
             {
                 if (c > b)
+                    return c;
+                return b;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the minimum value among three values.
+        /// </summary>
+        /// 
+        /// <param name="a">The first value <c>a</c>.</param>
+        /// <param name="b">The second value <c>b</c>.</param>
+        /// <param name="c">The third value <c>c</c>.</param>
+        /// 
+        /// <returns>The minimum value among <paramref name="a"/>, 
+        ///   <paramref name="b"/> and <paramref name="c"/>.</returns>
+        /// 
+        public static double Min(double a, double b, double c)
+        {
+            if (a < b)
+            {
+                if (c < a)
+                    return c;
+                return a;
+            }
+            else
+            {
+                if (c < b)
                     return c;
                 return b;
             }

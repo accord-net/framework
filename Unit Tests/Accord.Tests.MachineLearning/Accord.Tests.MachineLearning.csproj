@@ -52,10 +52,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
     </Reference>
-    <Reference Include="AForge.Imaging">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.Imaging.dll</HintPath>
-    </Reference>
     <Reference Include="AForge.Math">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
@@ -71,15 +67,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
     </Reference>
@@ -107,11 +95,13 @@
     <Compile Include="DecisionTrees\SimplificationTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IO\LibSvmModelTest.cs" />
     <Compile Include="KNearestNeighbors\KnnPerformanceTest.cs" />
+    <Compile Include="Statistics\CodificationFilterSvmTest.cs" />
+    <Compile Include="Statistics\ReceiverOperatingCharacteristicSvmTest.cs" />
     <Compile Include="Structures\KDTreeTest.cs" />
     <Compile Include="RansacLineTest.cs" />
     <Compile Include="RansacPlaneTest.cs" />
-    <Compile Include="Signals\TemporalSupportVectorMachineTest.cs" />
     <Compile Include="SplitSetTest.cs" />
     <Compile Include="DecisionTrees\C45LearningTest.cs" />
     <Compile Include="DecisionTrees\DecisionTreeCompilerTest.cs" />
@@ -135,7 +125,6 @@
     <Compile Include="VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\Regression\LinearRegressionCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\Regression\LinearRegressionNewtonMethodTest.cs" />
-    <Compile Include="VectorMachines\Regression\SequentialMinimalOptimizationRegressionTest.cs" />
     <Compile Include="VectorMachines\SupportVectorReductionTest.cs" />
     <Compile Include="VectorMachines\MultilabelSupportVectorLearningTest.cs" />
     <Compile Include="VectorMachines\ProbabilisticOutputLearningTest.cs" />
@@ -156,10 +145,6 @@
       <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
       <Name>Accord.Audio</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
-      <Project>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</Project>
-      <Name>Accord.Controls.Imaging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
@@ -168,10 +153,6 @@
     <ProjectReference Include="..\..\Sources\Accord.Formats\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
       <Name>Accord.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Imaging\Accord.Imaging.csproj">
-      <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
-      <Name>Accord.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
       <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
@@ -184,10 +165,6 @@
     <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Extras\Accord.MachineLearning.GPL\Accord.MachineLearning %28GPL%29.csproj">
-      <Project>{6DD1A48C-D7A8-4B39-9C06-5A71FEEC70B9}</Project>
-      <Name>Accord.MachineLearning %28GPL%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Tests.MachineLearning.FSharp\Accord.Tests.MachineLearning.FSharp.fsproj">
       <Project>{a6775b59-6919-4d7c-a960-7e875f0bd81a}</Project>
@@ -226,9 +203,13 @@
   <ItemGroup>
     <Content Include="Resources\iris.data.txt" />
     <Content Include="Resources\iris.scale.txt" />
+    <Content Include="Resources\liblinear\L1R_LR_a9a.txt" />
+    <Content Include="Resources\liblinear\L1R_LR_DUAL_a9a.txt" />
+    <Content Include="Resources\liblinear\L2R_LR_a9a.txt" />
     <None Include="Accord.snk" />
     <None Include="Resources\kmeans.bin" />
-    <None Include="Resources\noise-line.png" />
+    <None Include="Resources\liblinear\a9a.test" />
+    <None Include="Resources\liblinear\a9a.train" />
     <None Include="Resources\CircleWithWeights.xls" />
     <None Include="Resources\nursery.data">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

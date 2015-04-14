@@ -63,6 +63,26 @@ namespace Accord.Tests.MachineLearning.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] a9a {
+            get {
+                object obj = ResourceManager.GetObject("a9a", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] a9a1 {
+            get {
+                object obj = ResourceManager.GetObject("a9a1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] CircleWithWeights {
             get {
                 object obj = ResourceManager.GetObject("CircleWithWeights", resourceCulture);
@@ -127,12 +147,109 @@ namespace Accord.Tests.MachineLearning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        ///   Looks up a localized string similar to solver_type L1R_LR
+        ///nr_class 2
+        ///label 1 -1
+        ///nr_feature 123
+        ///bias -1
+        ///w
+        ///-1.582078049646382 
+        ///-0.642353059177759 
+        ///-0.03749159485897963 
+        ///0.2771411674145598 
+        ///0.2653433548837567 
+        ///0.3415826259468487 
+        ///-0.05175901290550707 
+        ///0.664475778321269 
+        ///0.7785762379454263 
+        ///0.09938683894685095 
+        ///-0.01638170625676196 
+        ///-1.966943713947588 
+        ///0 
+        ///-0.1943487933572316 
+        ///0 
+        ///-0.01427068979115089 
+        ///0.03436343933761782 
+        ///0.04405623496590667 
+        ///-0.2671859968627904 
+        ///-0.01805747891909384 
+        ///0.5658635598535398 
+        ///-0.0537062769164528 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static System.Drawing.Bitmap noise_line {
+        internal static string L1R_LR_a9a {
             get {
-                object obj = ResourceManager.GetObject("noise_line", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
+                return ResourceManager.GetString("L1R_LR_a9a", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to solver_type L2R_LR_DUAL
+        ///nr_class 2
+        ///label 1 -1
+        ///nr_feature 123
+        ///bias -1
+        ///w
+        ///-1.405596634889423 
+        ///-0.4682987280699869 
+        ///0.1362273112085996 
+        ///0.4516040100290368 
+        ///0.4397429641456089 
+        ///0.272482453321021 
+        ///-0.1217525960452402 
+        ///0.5962470393736309 
+        ///0.7108778470314801 
+        ///0.03166299694157991 
+        ///-0.08715708783925695 
+        ///-1.562896506360786 
+        ///-0.02139030753647175 
+        ///-0.3382697411537578 
+        ///-0.1436454586051658 
+        ///-0.158018625811767 
+        ///-0.1082888685320367 
+        ///-0.09809838347343289 
+        ///-0.3160611630691131 
+        ///-0.07754472720078702 
+        ///0 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string L1R_LR_DUAL_a9a {
+            get {
+                return ResourceManager.GetString("L1R_LR_DUAL_a9a", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to solver_type L2R_LR
+        ///nr_class 2
+        ///label 1 -1
+        ///nr_feature 123
+        ///bias -1
+        ///w
+        ///-1.405593570756399 
+        ///-0.4682982165167073 
+        ///0.1362269824284654 
+        ///0.4516048066243797 
+        ///0.4397435311249124 
+        ///0.2724719817246115 
+        ///-0.1217614569900122 
+        ///0.5962417430762274 
+        ///0.7108655149246425 
+        ///0.03165199851783248 
+        ///-0.08716940324504513 
+        ///-1.562633240080652 
+        ///-0.02069166908905111 
+        ///-0.3382687747906431 
+        ///-0.1436446656368442 
+        ///-0.1580178401378353 
+        ///-0.1082880043250483 
+        ///-0.09809718219307877 
+        ///-0.3160631343954948 
+        ///-0.07754631581577116 
+        ///0.3853373136642239 
+        ///-0.2536167 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string L2R_LR_a9a {
+            get {
+                return ResourceManager.GetString("L2R_LR_a9a", resourceCulture);
             }
         }
         

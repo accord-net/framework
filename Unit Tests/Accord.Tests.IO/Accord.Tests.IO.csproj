@@ -48,24 +48,11 @@
     <DefineConstants>TRACE;NET45</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Neuro">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.Neuro.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
@@ -84,17 +71,15 @@
  -->
   <ItemGroup>
     <Compile Include="CsvReaderTest.cs" />
-    <Compile Include="LibSvmModelTest.cs" />
-    <Compile Include="MatReaderTest.cs" />
     <Compile Include="IdxReaderTest.cs" />
     <Compile Include="ExcelReaderTest.cs" />
-    <Compile Include="SparseReaderTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SparseReaderTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Accord.Controls.Statistics\Accord.Controls.csproj">
@@ -108,23 +93,6 @@
     <ProjectReference Include="..\..\Sources\Accord.Formats\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
       <Name>Accord.IO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.MachineLearning\Accord.MachineLearning.csproj">
-      <Project>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</Project>
-      <Name>Accord.MachineLearning</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
-      <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
-      <Name>Accord.Math</Name>
-      <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Neuro\Accord.Neuro.csproj">
-      <Project>{179F3045-8757-4F4B-9508-F48327BA11E3}</Project>
-      <Name>Accord.Neuro</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Statistics\Accord.Statistics.csproj">
-      <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
-      <Name>Accord.Statistics</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -173,25 +141,7 @@
     <None Include="app.config" />
     <None Include="Resources\liblinear\a9a.test" />
     <None Include="Resources\liblinear\a9a.train" />
-    <None Include="Resources\mat\A64.mat" />
-    <None Include="Resources\mat\bigsparse.mat" />
-    <None Include="Resources\mat\cell.mat" />
-    <None Include="Resources\mat\int32.mat" />
-    <None Include="Resources\mat\int64.mat" />
-    <None Include="Resources\mat\int8.mat" />
-    <None Include="Resources\mat\java.mat" />
-    <None Include="Resources\mat\logical.mat" />
-    <None Include="Resources\mat\matnativedouble.mat" />
-    <None Include="Resources\mat\matnativedouble2.mat" />
-    <None Include="Resources\mat\nan.mat" />
-    <None Include="Resources\mat\object.mat" />
-    <None Include="Resources\mat\simplestruct.mat" />
-    <None Include="Resources\mat\single.mat" />
-    <None Include="Resources\mat\sparse.mat" />
     <None Include="Resources\t10k-images-idx3-ubyte.gz" />
-    <None Include="Resources\mat\uint32.mat" />
-    <None Include="Resources\mat\uint64.mat" />
-    <None Include="Resources\mat\uint8.mat" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -199,11 +149,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\liblinear\L1R_LR_a9a.txt" />
-    <Content Include="Resources\liblinear\L1R_LR_DUAL_a9a.txt" />
-    <Content Include="Resources\liblinear\L2R_LR_a9a.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

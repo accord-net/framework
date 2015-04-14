@@ -89,6 +89,52 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   // Mixture(x; 0.5 * N(x; μ = 5, σ² = 1) + 0.5 * N(x; μ = 5, σ² = 1))
     ///   string str = mix.ToString(CultureInfo.InvariantCulture);
     /// </code>
+    /// 
+    /// <para>
+    ///   The following example shows how to estimate (fit) a Mixture of Normal distributions
+    ///   from weighted data:</para>
+    ///   
+    /// <code>
+    /// // Randomly initialize some mixture components
+    /// NormalDistribution[] components = new NormalDistribution[2];
+    /// components[0] = new NormalDistribution(2, 1);
+    /// components[1] = new NormalDistribution(5, 1);
+    /// 
+    /// // Create an initial mixture
+    /// var mixture = new Mixture&lt;NormalDistribution>(components);
+    /// 
+    /// // Now, suppose we have a weighted data
+    /// // set. Those will be the input points:
+    /// 
+    /// double[] points = { 0, 3, 1, 7, 3, 5, 1, 2, -1, 2, 7, 6, 8, 6 }; // (14 points)
+    /// 
+    /// // And those are their respective unnormalized weights:
+    /// double[] weights = { 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 2, 3, 1, 1 }; // (14 weights)
+    /// 
+    /// // Let's normalize the weights so they sum up to one:
+    /// weights = weights.Divide(weights.Sum());
+    /// 
+    /// // Now we can fit our model to the data:
+    /// mixture.Fit(points, weights);   // done!
+    /// 
+    /// // Our model will be:
+    /// double mean1 = mixture.Components[0].Mean; // 1.41126
+    /// double mean2 = mixture.Components[1].Mean; // 6.53301
+    /// 
+    /// // With mixture weights
+    /// double pi1 = mixture.Coefficients[0]; // 0.51408
+    /// double pi2 = mixture.Coefficients[0]; // 0.48591
+    /// 
+    /// // If we need the GaussianMixtureModel functionality, we can
+    /// // use the estimated mixture to initialize a new model:
+    /// GaussianMixtureModel gmm = new GaussianMixtureModel(mixture);
+    /// 
+    /// mean1 = gmm.Gaussians[0].Mean[0]; // 1.41126 (same)
+    /// mean2 = gmm.Gaussians[1].Mean[0]; // 6.53301 (same)
+    /// 
+    /// p1 = gmm.Gaussians[0].Proportion; // 0.51408 (same)
+    /// p2 = gmm.Gaussians[1].Proportion; // 0.48591 (same)
+    /// </code>
     /// </example>
     /// 
     /// <seealso cref="MultivariateMixture{T}"/>

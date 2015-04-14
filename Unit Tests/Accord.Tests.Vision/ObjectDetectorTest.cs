@@ -25,31 +25,12 @@ namespace Accord.Tests.Vision
     using Accord.Vision;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Drawing;
-    using Accord.Controls;
     using Accord.Vision.Detection;
     using Accord.Vision.Detection.Cascades;
 
     [TestClass()]
     public class ObjectDetectorTest
     {
-
-
-        private TestContext testContextInstance;
-
-     
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void ProcessFrame()

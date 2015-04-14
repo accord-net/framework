@@ -355,9 +355,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            double cdf = Normal.Function((x - mean) / stdDev);
-
-            return cdf;
+            return Normal.Function((x - mean) / stdDev);
         }
 
         /// <summary>
@@ -370,9 +368,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ComplementaryDistributionFunction(double x)
         {
-            double ccdf = Normal.Complemented((x - mean) / stdDev);
-
-            return ccdf;
+            return Normal.Complemented((x - mean) / stdDev);
         }
 
 

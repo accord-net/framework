@@ -22,35 +22,16 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Windows.Forms;
-    using Accord.Controls;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Tests.Imaging.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
+    using System.Drawing;
 
     [TestClass()]
     public class SpeededUpRobustFeaturesDetectorTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void ProcessImageTest()

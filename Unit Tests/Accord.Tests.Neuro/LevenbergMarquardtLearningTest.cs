@@ -173,8 +173,6 @@ namespace Accord.Tests.Neuro
         [TestMethod()]
         public void RunEpochTest3()
         {
-            Accord.Math.Tools.SetupGenerator(0);
-
             double[,] dataset = yinyang;
 
             double[][] input = dataset.GetColumns(0, 1).ToArray();
@@ -696,8 +694,6 @@ namespace Accord.Tests.Neuro
         [TestMethod()]
         public void ZeroLambdaTest()
         {
-            Accord.Math.Tools.SetupGenerator(0);
-
             double[,] data = null;
 
             // open selected file

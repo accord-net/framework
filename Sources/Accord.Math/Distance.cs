@@ -22,11 +22,10 @@
 
 namespace Accord.Math
 {
+    using Accord.Math.Decompositions;
     using System;
     using System.Collections;
-    using Accord.Math.Decompositions;
     using System.Runtime.CompilerServices;
-    using System.Collections.Generic;
 
     /// <summary>
     ///   Static class Distance. Defines a set of extension methods defining distance measures.

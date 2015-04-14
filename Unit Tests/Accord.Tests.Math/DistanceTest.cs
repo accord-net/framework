@@ -32,35 +32,6 @@ namespace Accord.Tests.Math
     public class DistanceTest
     {
 
-
-        [TestMethod()]
-        public void MahalanobisTest()
-        {
-            double[] x = { 1, 0 };
-            double[,] y = 
-            {
-                { 1, 0 },
-                { 0, 8 },
-                { 0, 5 }
-            };
-
-            // Computing the mean of y
-            double[] meanY = Statistics.Tools.Mean(y);
-
-            // Computing the covariance matrix of y
-            double[,] covY = Statistics.Tools.Covariance(y, meanY);
-
-            // Inverting the covariance matrix
-            double[,] precision = covY.Inverse();
-
-            // Run actual test
-            double expected = 1.33333;
-            double actual = Distance.SquareMahalanobis(x, meanY, precision);
-
-            Assert.AreEqual(expected, actual, 0.0001);
-        }
-
-
         [TestMethod()]
         public void MahalanobisTest2()
         {

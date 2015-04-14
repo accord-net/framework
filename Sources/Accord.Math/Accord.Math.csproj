@@ -78,6 +78,16 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Indices.cs" />
+    <Compile Include="IO\Mat\MatArrayFlags.cs" />
+    <Compile Include="IO\Mat\MatArrayType.cs" />
+    <Compile Include="IO\Mat\MatDataTag.cs" />
+    <Compile Include="IO\Mat\MatDataType.cs" />
+    <Compile Include="IO\Mat\MatHeader.cs" />
+    <Compile Include="IO\Mat\MatNode.cs" />
+    <Compile Include="IO\Mat\MatReader.cs" />
+    <Compile Include="IO\Mat\MatSparse.cs" />
+    <Compile Include="Random\Generator.cs" />
     <Compile Include="Comparers\Accord.Math.Comparers.cs" />
     <Compile Include="Convergence\Base\IConvergence.cs" />
     <Compile Include="Convergence\GeneralConvergence.cs" />
@@ -368,6 +378,7 @@
     <Compile Include="Functions\Bessel.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vector.cs" />
     <Compile Include="Wavelets\CDF97.cs" />
     <Compile Include="Wavelets\Haar.cs" />
     <Compile Include="Wavelets\Base\IWavelet.cs" />
@@ -470,7 +481,5 @@
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Compatibility\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

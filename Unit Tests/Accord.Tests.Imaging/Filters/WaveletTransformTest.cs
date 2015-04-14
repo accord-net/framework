@@ -20,37 +20,19 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Imaging.Filters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Accord.Math.Wavelets;
-using System.Drawing;
-using Accord.Math;
 using Accord.Imaging;
-using Accord.Controls;
+using Accord.Imaging.Filters;
+using Accord.Math;
+using Accord.Math.Wavelets;
 using AForge.Imaging.Filters;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Drawing;
 
 namespace Accord.Tests.Imaging
 {
-
-
     [TestClass()]
     public class WaveletTransformTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         [TestMethod()]
         public void Example1()
