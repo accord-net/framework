@@ -22,12 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System.Collections.Generic;
-    using System.Drawing;
-    using Accord.Imaging.Filters;
     using Accord.MachineLearning.Geometry;
-    using AForge;
-    using AForge.Imaging;
     using AForge.Math.Geometry;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Point = AForge.Point;
@@ -35,23 +30,6 @@ namespace Accord.Tests.MachineLearning
     [TestClass()]
     public class RansacLineTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void RansacLineConstructorTest()
@@ -106,33 +84,6 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(1.0, actual.Slope, 1e-3);
                 Assert.AreEqual(0.0, actual.Intercept, 1e-2);
             }
-        }
-
-        [TestMethod]
-        public void RansacLineConstructorTest2()
-        {
-            Accord.Math.Tools.SetupGenerator(0);
-
-            Bitmap image = Properties.Resources.noise_line;
-
-            //Accord.Controls.ImageBox.Show(image); 
-
-            var detector = new SusanCornersDetector();
-
-            List<IntPoint> cloud = detector.ProcessImage(image);
-            Assert.AreEqual(211, cloud.Count);
-
-            Bitmap marks = new PointsMarker(cloud, Color.Pink).Apply(image);
-            //Accord.Controls.ImageBox.Show(marks);
-
-            RansacLine ransac = new RansacLine(5, 1e-10);
-            Line line = ransac.Estimate(cloud);
-
-            Assert.AreEqual(0.501134932f, line.Intercept);
-            Assert.AreEqual(-0.865369201f, line.Slope);
-
-            //var result = new LineMarker(line).Apply(image);
-            //Accord.Controls.ImageBox.Show(result);
         }
 
     }

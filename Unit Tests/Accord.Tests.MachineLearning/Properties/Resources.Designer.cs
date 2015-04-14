@@ -254,16 +254,6 @@ namespace Accord.Tests.MachineLearning.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap noise_line {
-            get {
-                object obj = ResourceManager.GetObject("noise_line", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to usual,proper,complete,1,convenient,convenient,nonprob,recommended,recommend
         ///usual,proper,complete,1,convenient,convenient,nonprob,priority,priority
         ///usual,proper,complete,1,convenient,convenient,nonprob,not_recom,not_recom
