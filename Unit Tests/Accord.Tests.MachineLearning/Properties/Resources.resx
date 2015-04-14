@@ -118,6 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="a9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\a9a.test;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="a9a1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\a9a.train;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="CircleWithWeights" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\circlewithweights.xls;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -129,6 +135,15 @@
   </data>
   <data name="kmeans" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\kmeans.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="L1R_LR_a9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\l1r_lr_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="L1R_LR_DUAL_a9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\l1r_lr_dual_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="L2R_LR_a9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\liblinear\l2r_lr_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="noise_line" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\noise-line.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

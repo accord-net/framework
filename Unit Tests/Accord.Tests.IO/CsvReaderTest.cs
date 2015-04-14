@@ -24,8 +24,8 @@ namespace Accord.Tests.IO
 {
     using Accord.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
     using System.Data;
-    using Accord.Math;
     using System.IO;
 
     [TestClass()]
@@ -33,22 +33,6 @@ namespace Accord.Tests.IO
     {
 
         // Tests from https://github.com/maxogden/csv-spectrum
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [TestMethod()]
         public void CsvReader_Simple_NoHeaders()
@@ -422,6 +406,48 @@ namespace Accord.Tests.IO
             };
 
             Assert.IsTrue(expected.IsEqual(actual));
+        }
+    }
+
+    internal static class Extensions
+    {
+        public static T[,] ToMatrix<T>(this T[][] array)
+        {
+            int rows = array.Length;
+            int cols = array[0].Length;
+
+            T[,] m;
+
+            m = new T[rows, cols];
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    m[i, j] = array[i][j];
+
+            return m;
+        }
+
+        public static bool IsEqual<T>(this T[,] objA, T[,] objB)
+        {
+            if (objA == objB)
+                return true;
+
+            if (objA.GetLength(0) != objB.GetLength(0) ||
+                objA.GetLength(1) != objB.GetLength(1))
+                return false;
+
+            int rows = objA.GetLength(0);
+            int cols = objA.GetLength(1);
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (!Object.Equals(objA[i, j], objB[i, j]))
+                        return false;
+                }
+            }
+
+            return true;
         }
     }
 }

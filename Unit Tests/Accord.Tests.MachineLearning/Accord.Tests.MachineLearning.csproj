@@ -107,6 +107,7 @@
     <Compile Include="DecisionTrees\SimplificationTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IO\LibSvmModelTest.cs" />
     <Compile Include="KNearestNeighbors\KnnPerformanceTest.cs" />
     <Compile Include="Structures\KDTreeTest.cs" />
     <Compile Include="RansacLineTest.cs" />
@@ -226,8 +227,13 @@
   <ItemGroup>
     <Content Include="Resources\iris.data.txt" />
     <Content Include="Resources\iris.scale.txt" />
+    <Content Include="Resources\liblinear\L1R_LR_a9a.txt" />
+    <Content Include="Resources\liblinear\L1R_LR_DUAL_a9a.txt" />
+    <Content Include="Resources\liblinear\L2R_LR_a9a.txt" />
     <None Include="Accord.snk" />
     <None Include="Resources\kmeans.bin" />
+    <None Include="Resources\liblinear\a9a.test" />
+    <None Include="Resources\liblinear\a9a.train" />
     <None Include="Resources\noise-line.png" />
     <None Include="Resources\CircleWithWeights.xls" />
     <None Include="Resources\nursery.data">
