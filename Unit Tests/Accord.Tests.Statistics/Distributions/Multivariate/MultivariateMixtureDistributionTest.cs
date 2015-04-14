@@ -25,7 +25,6 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Multivariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
-    using Accord.MachineLearning;
     using Accord.IO;
     using Accord.Tests.Statistics.Properties;
     using System.IO;
@@ -34,22 +33,6 @@ namespace Accord.Tests.Statistics
     [TestClass()]
     public class MultivariateMixtureDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [TestMethod()]
         public void ConstructorTest1()
@@ -293,7 +276,7 @@ namespace Accord.Tests.Statistics
             double[][] points = new double[] { 0, 3, 1, 7, 3, 5, 1, 2, -1, 2, 7, 6, 8, 6 } // (14 points)
                 .ToArray();
 
-            // And those are their respective unormalized weights:
+            // And those are their respective unnormalized weights:
             double[] weights = { 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 2, 3, 1, 1 }; // (14 weights)
 
             // Let's normalize the weights so they sum up to one:
@@ -306,6 +289,17 @@ namespace Accord.Tests.Statistics
             double mean1 = mixture.Components[0].Mean[0]; // 1.41126
             double mean2 = mixture.Components[1].Mean[0]; // 6.53301
 
+            // With mixture coefficients
+            double pi1 = mixture.Coefficients[0]; // 0.51408489193241225
+            double pi2 = mixture.Coefficients[1]; // 0.48591510806758775
+
+            Assert.AreEqual(1.4112610766836409, mean1);
+            Assert.AreEqual(6.5330177004151064, mean2);
+
+            Assert.AreEqual(0.51408489193241214, pi1);
+            Assert.AreEqual(0.48591510806758781, pi2);
+
+/*
             // If we need the GaussianMixtureModel functionality, we can
             // use the estimated mixture to initialize a new model:
             GaussianMixtureModel gmm = new GaussianMixtureModel(mixture);
@@ -318,6 +312,7 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(mixture.Coefficients[0], gmm.Gaussians[0].Proportion);
             Assert.AreEqual(mixture.Coefficients[1], gmm.Gaussians[1].Proportion);
+ */ 
         }
 
         [TestMethod]

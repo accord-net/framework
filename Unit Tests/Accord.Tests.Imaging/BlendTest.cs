@@ -22,35 +22,18 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Drawing.Imaging;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Math;
+    using Accord.Tests.Imaging.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Drawing;
-    using Accord.Tests.Imaging.Properties;
-    using Accord.Controls;
-    using System.Windows.Forms;
-    using Accord.Math;
+    using System.Drawing.Imaging;
 
 
     [TestClass]
     public class BlendTest
     {
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         [TestMethod]
         public void Panorama_Example1()

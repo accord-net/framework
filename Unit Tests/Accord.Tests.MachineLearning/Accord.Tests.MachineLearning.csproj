@@ -109,6 +109,8 @@
     </Compile>
     <Compile Include="IO\LibSvmModelTest.cs" />
     <Compile Include="KNearestNeighbors\KnnPerformanceTest.cs" />
+    <Compile Include="Statistics\CodificationFilterSvmTest.cs" />
+    <Compile Include="Statistics\ReceiverOperatingCharacteristicSvmTest.cs" />
     <Compile Include="Structures\KDTreeTest.cs" />
     <Compile Include="RansacLineTest.cs" />
     <Compile Include="RansacPlaneTest.cs" />

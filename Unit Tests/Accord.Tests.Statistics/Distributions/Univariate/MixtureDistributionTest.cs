@@ -26,29 +26,11 @@ namespace Accord.Tests.Statistics
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
-    using Accord.MachineLearning;
     using System.Globalization;
 
     [TestClass()]
     public class MixtureDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void ConstructorTest()
@@ -58,9 +40,9 @@ namespace Accord.Tests.Statistics
                 new NormalDistribution(2, 1), new NormalDistribution(5, 1));
 
             // Common measures
-            double mean   = mix.Mean;     // 3.5
+            double mean = mix.Mean;     // 3.5
             double median = mix.Median;   // 3.4999998506015895
-            double var    = mix.Variance; // 3.25
+            double var = mix.Variance; // 3.25
 
             // Cumulative distribution functions
             double cdf = mix.DistributionFunction(x: 4.2);              // 0.59897597553494908
@@ -200,8 +182,8 @@ namespace Accord.Tests.Statistics
 
             var target = new Mixture<NormalDistribution>(coefficients, components);
 
-            double[] values =  { 12512, 1, 1, 0, 1, 6, 6, 5, 7, 5 };
-            double[] weights = {     0, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+            double[] values = { 12512, 1, 1, 0, 1, 6, 6, 5, 7, 5 };
+            double[] weights = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
             weights = weights.Divide(weights.Sum());
             double[] part1 = values.Submatrix(1, 4);
             double[] part2 = values.Submatrix(5, 9);
@@ -340,7 +322,7 @@ namespace Accord.Tests.Statistics
 
             double[] points = { 0, 3, 1, 7, 3, 5, 1, 2, -1, 2, 7, 6, 8, 6 }; // (14 points)
 
-            // And those are their respective unormalized weights:
+            // And those are their respective unnormalized weights:
             double[] weights = { 1, 1, 1, 2, 2, 1, 1, 1, 2, 1, 2, 3, 1, 1 }; // (14 weights)
 
             // Let's normalize the weights so they sum up to one:
@@ -353,18 +335,30 @@ namespace Accord.Tests.Statistics
             double mean1 = mixture.Components[0].Mean; // 1.41126
             double mean2 = mixture.Components[1].Mean; // 6.53301
 
-            // If we need the GaussianMixtureModel functionality, we can
-            // use the estimated mixture to initialize a new model:
-            GaussianMixtureModel gmm = new GaussianMixtureModel(mixture);
+            // With mixture coefficients
+            double pi1 = mixture.Coefficients[0]; // 0.51408489193241225
+            double pi2 = mixture.Coefficients[1]; // 0.48591510806758775
 
-            Assert.AreEqual(mean1, gmm.Gaussians[0].Mean[0]);
-            Assert.AreEqual(mean2, gmm.Gaussians[1].Mean[0]);
+            Assert.AreEqual(1.4112610766836411, mean1);
+            Assert.AreEqual(6.5330177004151064, mean2);
 
-            Assert.AreEqual(mean1, 1.4112610766836404, 1e-15);
-            Assert.AreEqual(mean2, 6.5330177004151082, 1e-14);
+            Assert.AreEqual(0.51408489193241225, pi1);
+            Assert.AreEqual(0.48591510806758775, pi2);
 
-            Assert.AreEqual(mixture.Coefficients[0], gmm.Gaussians[0].Proportion);
-            Assert.AreEqual(mixture.Coefficients[1], gmm.Gaussians[1].Proportion);
+            /*
+                        // If we need the GaussianMixtureModel functionality, we can
+                        // use the estimated mixture to initialize a new model:
+                        GaussianMixtureModel gmm = new GaussianMixtureModel(mixture);
+
+                        Assert.AreEqual(mean1, gmm.Gaussians[0].Mean[0]);
+                        Assert.AreEqual(mean2, gmm.Gaussians[1].Mean[0]);
+
+                        Assert.AreEqual(mean1, 1.4112610766836404, 1e-15);
+                        Assert.AreEqual(mean2, 6.5330177004151082, 1e-14);
+
+                        Assert.AreEqual(mixture.Coefficients[0], gmm.Gaussians[0].Proportion);
+                        Assert.AreEqual(mixture.Coefficients[1], gmm.Gaussians[1].Proportion);
+            */
         }
     }
 }
