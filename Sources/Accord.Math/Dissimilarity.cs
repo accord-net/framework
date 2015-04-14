@@ -29,6 +29,7 @@ namespace Accord.Math
     /// 
     public static class Dissimilarity
     {
+
         /// <summary>
         ///   Computes the Dice dissimilarity between two vectors.
         /// </summary>

@@ -33,23 +33,6 @@ namespace Accord.Tests.Statistics
     public class NormalDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [TestMethod()]
         public void ConstructorTest5()
         {

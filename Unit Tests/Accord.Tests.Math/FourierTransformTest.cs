@@ -32,24 +32,6 @@ namespace Accord.Tests.Math
     public class FourierTransformTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-
         [TestMethod()]
         public void FFTTest()
         {
@@ -247,10 +229,10 @@ namespace Accord.Tests.Math
         }
 
 
-        private static Random random = new Random();
-
         private static double[] randomReals(int size)
         {
+            var random = Accord.Math.Random.Generator.Random;
+
             double[] result = new double[size];
             for (int i = 0; i < result.Length; i++)
                 result[i] = random.NextDouble() * 2 - 1;

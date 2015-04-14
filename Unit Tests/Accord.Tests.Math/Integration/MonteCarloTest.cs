@@ -22,30 +22,13 @@
 
 namespace Accord.Tests.Math
 {
-    using System;
     using Accord.Math.Integration;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Distributions.Univariate;
+    using System;
 
     [TestClass()]
     public class MonteCarloIntegralTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [TestMethod()]
         public void MonteCarloTest()

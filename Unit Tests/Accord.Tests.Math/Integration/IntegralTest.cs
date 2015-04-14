@@ -22,31 +22,15 @@
 
 namespace Accord.Tests.Math
 {
-    using System;
+    using Accord.Math;
     using Accord.Math.Integration;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Distributions.Univariate;
     using AccordTestsMathCpp2;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass()]
     public class IntegralTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         private static double function1(double x)
         {
@@ -156,14 +140,12 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void InfiniteGaussKronrodTest()
         {
-            NormalDistribution norm;
-
             for (int i = -10; i < 10; i++)
             {
-                norm = new NormalDistribution(i, 1);
+                Func<double, double> pdf = (x) => Normal.Derivative(x - i);
 
-                Func<double, double> E = (x) => x * norm.ProbabilityDensityFunction(x);
-                UFunction UE = (x) => x * norm.ProbabilityDensityFunction(x);
+                Func<double, double> E = (x) => x * pdf(x);
+                UFunction UE = (x) => x * pdf(x);
 
                 double expected = Quadpack.Integrate(UE,
                     Double.NegativeInfinity, Double.PositiveInfinity);
@@ -172,7 +154,7 @@ namespace Accord.Tests.Math
                     Double.NegativeInfinity, Double.PositiveInfinity);
 
                 Assert.AreEqual(expected, actual, 1e-3);
-                Assert.AreEqual(norm.Mean, actual, 1e-3);
+                Assert.AreEqual(i, actual, 1e-3);
             }
         }
 

@@ -2270,48 +2270,6 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
-        public void CenteringTest()
-        {
-
-            double[,] C2 = Matrix.Centering(2);
-
-            Assert.IsTrue(Matrix.IsEqual(C2, new double[,] { 
-                                                             {  0.5, -0.5 },
-                                                             { -0.5,  0.5 }
-                                                           }));
-
-            double[,] X = {
-                              { 1, 5, 2, 0   },
-                              { 6, 2, 3, 100 },
-                              { 2, 5, 8, 2   },
-                          };
-
-
-
-            double[,] CX = Matrix.Centering(3).Multiply(X); // Remove means from rows
-            double[,] XC = X.Multiply(Matrix.Centering(4)); // Remove means from columns
-
-            double[] colMean = Statistics.Tools.Mean(X, 1);
-            double[] rowMean = Statistics.Tools.Mean(X, 0);
-
-            Assert.IsTrue(rowMean.IsEqual(new double[] { 3.0, 4.0, 4.3333, 34.0 }, 0.001));
-            Assert.IsTrue(colMean.IsEqual(new double[] { 2.0, 27.75, 4.25 }, 0.001));
-
-
-            double[,] Xr = X.Subtract(rowMean, 0);          // Remove means from rows
-            double[,] Xc = X.Subtract(colMean, 1);          // Remove means from columns
-
-            Assert.IsTrue(Matrix.IsEqual(XC, Xc));
-            Assert.IsTrue(Matrix.IsEqual(CX, Xr, 0.00001));
-
-            double[,] S1 = XC.Multiply(X.Transpose());
-            double[,] S2 = Xc.Multiply(Xc.Transpose());
-            double[,] S3 = Statistics.Tools.Scatter(X, colMean, 1);
-
-            Assert.IsTrue(Matrix.IsEqual(S1, S2));
-            Assert.IsTrue(Matrix.IsEqual(S2, S3));
-        }
 
         [TestMethod()]
         public void MagicTest()

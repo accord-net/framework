@@ -113,6 +113,7 @@
     <Compile Include="KNearestNeighborMatchingTest.cs" />
     <Compile Include="FastRetinaKeypointDetectorTest.cs" />
     <Compile Include="HuMomentsTest.cs" />
+    <Compile Include="Math\ConvexHullDefectsTest.cs" />
     <Compile Include="OpenSURF\FastHessian.cs" />
     <Compile Include="OpenSURF\IntegralImage.cs" />
     <Compile Include="OpenSURF\IPoint.cs" />

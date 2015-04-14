@@ -137,13 +137,13 @@ namespace Accord.Math
         /// 
         public static bool IsEqual(this float[,] objA, float[,] objB, double threshold)
         {
-            if (objA == objB) 
+            if (objA == objB)
                 return true;
 
-            if (objA == null) 
+            if (objA == null)
                 throw new ArgumentNullException("objA");
 
-            if (objB == null) 
+            if (objB == null)
                 throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.GetLength(0); i++)
@@ -242,13 +242,13 @@ namespace Accord.Math
         /// 
         public static bool IsEqual(this float[] objA, float[] objB, double threshold)
         {
-            if (objA == objB) 
+            if (objA == objB)
                 return true;
 
             if (objA == null)
                 throw new ArgumentNullException("objA");
 
-            if (objB == null) 
+            if (objB == null)
                 throw new ArgumentNullException("objB");
 
             for (int i = 0; i < objA.Length; i++)
@@ -287,7 +287,7 @@ namespace Accord.Math
         /// 
         public static bool IsEqual(this double[,] matrix, double scalar)
         {
-            if (matrix == null) 
+            if (matrix == null)
                 throw new ArgumentNullException("matrix");
 
             if (matrix.Length == 0)
@@ -329,7 +329,7 @@ namespace Accord.Math
         /// 
         public static bool IsEqual(this double[,] matrix, double scalar, double threshold)
         {
-            if (matrix == null) 
+            if (matrix == null)
                 throw new ArgumentNullException("matrix");
 
             if (matrix.Length == 0)
@@ -843,6 +843,64 @@ namespace Accord.Math
 
 
         #region Matrix Characteristics
+
+        /// <summary>
+        ///   Gets the number of rows in a multidimensional matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of rows must be computed.</param>
+        /// 
+        /// <returns>The number of rows in the matrix.</returns>
+        /// 
+        public static int Rows<T>(this T[,] matrix)
+        {
+            return matrix.GetLength(0);
+        }
+
+        /// <summary>
+        ///   Gets the number of columns in a multidimensional matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of columns must be computed.</param>
+        /// 
+        /// <returns>The number of columns in the matrix.</returns>
+        /// 
+        public static int Columns<T>(this T[,] matrix)
+        {
+            return matrix.GetLength(1);
+        }
+
+        /// <summary>
+        ///   Gets the number of rows in a jagged matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of rows must be computed.</param>
+        /// 
+        /// <returns>The number of rows in the matrix.</returns>
+        /// 
+        public static int Rows<T>(this T[][] matrix)
+        {
+            return matrix.Length;
+        }
+
+        /// <summary>
+        ///   Gets the number of columns in a jagged matrix.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the elements in the matrix.</typeparam>
+        /// <param name="matrix">The matrix whose number of columns must be computed.</param>
+        /// 
+        /// <returns>The number of columns in the matrix.</returns>
+        /// 
+        public static int Columns<T>(this T[][] matrix)
+        {
+            if (matrix.Length == 0)
+                return 0;
+            return matrix[0].Length;
+        }
 
         /// <summary>
         ///   Returns true if a vector of real-valued observations
@@ -1605,7 +1663,7 @@ namespace Accord.Math
         /// 
         public static double Sum(this double[] vector)
         {
-            if (vector == null) 
+            if (vector == null)
                 throw new ArgumentNullException("vector");
 
             double sum = 0.0;
