@@ -120,6 +120,7 @@
     <Compile Include="VectorMachines\LinearDualCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\LinearNewtonMethodTest.cs" />
     <Compile Include="VectorMachines\LeastSquaresLearningTest.cs" />
+    <Compile Include="VectorMachines\OneclassSupportVectorLearningTest.cs" />
     <Compile Include="VectorMachines\Probabilistic\ProbabilisticCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\Probabilistic\ProbabilisticDualCoordinateDescentTest.cs" />
     <Compile Include="VectorMachines\Probabilistic\ProbabilisticNewtonMethodTest.cs" />

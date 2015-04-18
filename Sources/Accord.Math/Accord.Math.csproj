@@ -87,6 +87,7 @@
     <Compile Include="IO\Mat\MatNode.cs" />
     <Compile Include="IO\Mat\MatReader.cs" />
     <Compile Include="IO\Mat\MatSparse.cs" />
+    <Compile Include="Optimization\Unconstrained\FanChenLinQuadraticOptimization.cs" />
     <Compile Include="Random\Generator.cs" />
     <Compile Include="Comparers\Accord.Math.Comparers.cs" />
     <Compile Include="Convergence\Base\IConvergence.cs" />
@@ -378,6 +379,7 @@
     <Compile Include="Functions\Bessel.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Jagged.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="Wavelets\CDF97.cs" />
     <Compile Include="Wavelets\Haar.cs" />

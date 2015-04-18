@@ -182,6 +182,7 @@
     <Compile Include="VectorMachines\MulticlassSupportVectorMachine.cs" />
     <Compile Include="VectorMachines\Learning\MulticlassSupportVectorLearning.cs" />
     <Compile Include="VectorMachines\Learning\Probabilistic\ProbabilisticOutputCalibration.cs" />
+    <Compile Include="VectorMachines\Learning\OneclassSupportVectorLearning.cs" />
     <Compile Include="VectorMachines\SupportVectorMachine.cs" />
   </ItemGroup>
   <ItemGroup>
