@@ -45,9 +45,12 @@
             // 
             // tbObjective
             // 
-            this.tbObjective.Location = new System.Drawing.Point(69, 20);
+            this.tbObjective.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbObjective.Location = new System.Drawing.Point(104, 30);
+            this.tbObjective.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbObjective.Name = "tbObjective";
-            this.tbObjective.Size = new System.Drawing.Size(241, 20);
+            this.tbObjective.Size = new System.Drawing.Size(360, 26);
             this.tbObjective.TabIndex = 0;
             this.tbObjective.Text = "2x² + xy + y² - 5y";
             this.tbObjective.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -55,9 +58,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(42, 27);
+            this.label1.Location = new System.Drawing.Point(63, 40);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(0, 13);
+            this.label1.Size = new System.Drawing.Size(0, 20);
             this.label1.TabIndex = 1;
             // 
             // comboBox1
@@ -67,29 +71,38 @@
             this.comboBox1.Items.AddRange(new object[] {
             "max",
             "min"});
-            this.comboBox1.Location = new System.Drawing.Point(15, 20);
+            this.comboBox1.Location = new System.Drawing.Point(22, 30);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(48, 21);
+            this.comboBox1.Size = new System.Drawing.Size(70, 28);
             this.comboBox1.TabIndex = 2;
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.tbObjective);
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(18, 18);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(325, 56);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Size = new System.Drawing.Size(488, 84);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Objective";
             // 
             // groupBox2
             // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.tbConstraints);
-            this.groupBox2.Location = new System.Drawing.Point(12, 74);
+            this.groupBox2.Location = new System.Drawing.Point(18, 111);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(325, 144);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Size = new System.Drawing.Size(488, 216);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Constraints";
@@ -97,18 +110,21 @@
             // tbConstraints
             // 
             this.tbConstraints.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbConstraints.Location = new System.Drawing.Point(3, 16);
+            this.tbConstraints.Location = new System.Drawing.Point(4, 23);
+            this.tbConstraints.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbConstraints.Multiline = true;
             this.tbConstraints.Name = "tbConstraints";
-            this.tbConstraints.Size = new System.Drawing.Size(319, 125);
+            this.tbConstraints.Size = new System.Drawing.Size(480, 189);
             this.tbConstraints.TabIndex = 0;
             this.tbConstraints.Text = "x + y <= 2\r\nx + y >= 0\r\nx >= 0\r\ny >= 0";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(343, 12);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(514, 18);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(72, 206);
+            this.button1.Size = new System.Drawing.Size(108, 309);
             this.button1.TabIndex = 5;
             this.button1.Text = "Compute";
             this.button1.UseVisualStyleBackColor = true;
@@ -117,32 +133,39 @@
             // tbSolution
             // 
             this.tbSolution.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbSolution.Location = new System.Drawing.Point(3, 16);
+            this.tbSolution.Location = new System.Drawing.Point(4, 23);
+            this.tbSolution.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tbSolution.Multiline = true;
             this.tbSolution.Name = "tbSolution";
-            this.tbSolution.Size = new System.Drawing.Size(394, 116);
+            this.tbSolution.Size = new System.Drawing.Size(592, 175);
             this.tbSolution.TabIndex = 6;
             // 
             // groupBox3
             // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox3.Controls.Add(this.tbSolution);
-            this.groupBox3.Location = new System.Drawing.Point(12, 224);
+            this.groupBox3.Location = new System.Drawing.Point(18, 336);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(400, 135);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Size = new System.Drawing.Size(600, 202);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Solution";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 371);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(640, 556);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.Text = "Constrained Optimization Solver";
             this.groupBox1.ResumeLayout(false);
