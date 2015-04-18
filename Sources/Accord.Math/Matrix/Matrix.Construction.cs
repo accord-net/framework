@@ -426,7 +426,7 @@ namespace Accord.Math
         /// 
         public static double[,] Centering(int size)
         {
-            if (size < 0) 
+            if (size < 0)
             {
                 throw new ArgumentOutOfRangeException("size", size,
                 "The size of the centering matrix must be a positive integer.");
@@ -447,10 +447,10 @@ namespace Accord.Math
         /// </summary>
         public static double[,] Random(int rows, int cols)
         {
-            if (rows < 0) 
+            if (rows < 0)
                 throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
 
-            if (cols < 0) 
+            if (cols < 0)
                 throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
 
             return Random(rows, cols, 0, 1);
@@ -462,7 +462,7 @@ namespace Accord.Math
         /// 
         public static double[,] Random(int size, bool symmetric, double minValue, double maxValue)
         {
-            if (size < 0) 
+            if (size < 0)
                 throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
 
             double[,] matrix = new double[size, size];
@@ -497,7 +497,7 @@ namespace Accord.Math
             if (rows < 0)
                 throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
 
-            if (cols < 0) 
+            if (cols < 0)
                 throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
 
             double[,] matrix = new double[rows, cols];
@@ -517,10 +517,10 @@ namespace Accord.Math
             if (generator == null)
                 throw new ArgumentNullException("generator");
 
-            if (rows < 0) 
+            if (rows < 0)
                 throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
 
-            if (cols < 0) 
+            if (cols < 0)
                 throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
 
             double[,] matrix = new double[rows, cols];
@@ -537,7 +537,7 @@ namespace Accord.Math
         /// 
         public static float[] Random(int size, float minValue, float maxValue)
         {
-            if (size < 0) 
+            if (size < 0)
                 throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
 
             float[] vector = new float[size];
@@ -568,10 +568,10 @@ namespace Accord.Math
         /// 
         public static double[] Random(int size, IRandomNumberGenerator generator)
         {
-            if (generator == null) 
+            if (generator == null)
                 throw new ArgumentNullException("generator");
 
-            if (size < 0) 
+            if (size < 0)
                 throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
 
             double[] vector = new double[size];
@@ -1304,7 +1304,7 @@ namespace Accord.Math
         /// 
         public static T[,] Stack<T>(this T[] a, T[] b)
         {
-            return Stack(a, b);
+            return Stack(new[] { a, b });
         }
 
         /// <summary>

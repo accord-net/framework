@@ -130,5 +130,162 @@ namespace Accord.Math
             for (int i = 0; i < keys.Length; i++)
                 order[i] = keys[i].Key;
         }
+
+        /// <summary>
+        ///   Creates a zero-valued vector.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the vector to be created.</typeparam>
+        /// <param name="size">The number of elements in the vector.</param>
+        /// 
+        /// <returns>A vector of the specified size.</returns>
+        /// 
+        public static T[] Zeros<T>(int size)
+        {
+            return new T[size];
+        }
+
+        /// <summary>
+        ///   Creates a zero-valued vector.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the vector to be created.</typeparam>
+        /// <param name="size">The number of elements in the vector.</param>
+        /// 
+        /// <returns>A vector of the specified size.</returns>
+        /// 
+        public static T[] Ones<T>(int size) where T : struct
+        {
+            var v = new T[size];
+            for (int i = 0; i < v.Length; i++)
+                v[i] = (T)Convert.ChangeType(1, typeof(T));
+            return v;
+        }
+
+        /// <summary>
+        ///   Creates a zero-valued vector.
+        /// </summary>
+        /// 
+        /// <param name="size">The number of elements in the vector.</param>
+        /// 
+        /// <returns>A vector of the specified size.</returns>
+        /// 
+        public static double[] Zeros(int size)
+        {
+            return Zeros<double>(size);
+        }
+
+        /// <summary>
+        ///   Creates a zero-valued vector.
+        /// </summary>
+        /// 
+        /// <param name="size">The number of elements in the vector.</param>
+        /// 
+        /// <returns>A vector of the specified size.</returns>
+        /// 
+        public static double[] Ones(int size)
+        {
+            return Ones<double>(size);
+        }
+
+
+        /// <summary>
+        ///   Creates a vector with the given dimension and starting values.
+        /// </summary>
+        /// 
+        /// <param name="size">The number of elements in the vector.</param>
+        /// <param name="values">The initial values for the vector.</param>
+        /// 
+        public static T[] Create<T>(int size, T[] values)
+        {
+            T[] vector = new T[size];
+
+            if (values != null)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    vector[i] = values[i];
+            }
+
+            return vector;
+        }
+
+        /// <summary>
+        ///   Creates a vector with the given dimension and starting values.
+        /// </summary>
+        /// 
+        /// <param name="size">The number of elements in the vector.</param>
+        /// <param name="value">The initial value for the elements in the vector.</param>
+        /// 
+        public static T[] Create<T>(int size, T value)
+        {
+            T[] vector = new T[size];
+
+            for (int i = 0; i < size; i++)
+                vector[i] = value;
+
+            return vector;
+        }
+
+        /// <summary>
+        ///   Creates a vector containing a given range of values.
+        /// </summary>
+        /// 
+        /// <param name="a">The starting value in the range.</param>
+        /// <param name="b">The ending value in the range.</param>
+        /// <param name="increment">The size of the increment between two elements in the vector.</param>
+        /// 
+        public static double[] Create(double a, double b, double increment)
+        {
+            List<double> list = new List<double>();
+
+            for (double i = a; i < b; i += increment)
+                list.Add(i);
+
+            if (list[list.Count - 1] != b)
+                list.Add(b);
+
+            return list.ToArray();
+        }
+
+        /// <summary>
+        ///   Creates a vector containing a given range of values.
+        /// </summary>
+        /// 
+        /// <param name="a">The starting value in the range.</param>
+        /// <param name="b">The ending value in the range.</param>
+        /// <param name="increment">The size of the increment between two elements in the vector.</param>
+        /// 
+        public static int[] Create(int a, int b, int increment)
+        {
+            List<int> list = new List<int>();
+
+            for (int i = a; i < b; i += increment)
+                list.Add(i);
+
+            if (list[list.Count - 1] != b)
+                list.Add(b);
+
+            return list.ToArray();
+        }
+
+
+        /// <summary>
+        ///   Creates a vector containing a given range of values.
+        /// </summary>
+        /// 
+        /// <param name="size">The number of elements in the vector.</param>
+        /// <param name="a">The starting value in the range.</param>
+        /// <param name="b">The ending value in the range.</param>
+        /// 
+        public static double[] Create(int size, double a, double b)
+        {
+            double[] list = new double[size];
+            double increment = (b - a) / size;
+
+            for (int i = 0; i < list.Length; i++)
+                list[i] = increment * i;
+
+            return list;
+        }
     }
 }

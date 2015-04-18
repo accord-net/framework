@@ -55,6 +55,7 @@ namespace Accord.MachineLearning.VectorMachines
     /// <summary>
     ///   One-against-one Multi-class Kernel Support Vector Machine Classifier.
     /// </summary>
+    /// 
     /// <remarks>
     /// <para>
     ///   The Support Vector Machine is by nature a binary classifier. One of the ways

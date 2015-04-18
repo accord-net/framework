@@ -22,11 +22,11 @@
 
 namespace Accord.MachineLearning.VectorMachines.Learning
 {
+    using Accord.Math;
+    using Accord.Statistics.Kernels;
     using System;
     using System.Collections.Generic;
     using System.Threading;
-    using Accord.Math;
-    using Accord.Statistics.Kernels;
 
     /// <summary>
     ///   Gets the selection strategy to be used in SMO.
