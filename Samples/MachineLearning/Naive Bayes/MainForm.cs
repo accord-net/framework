@@ -30,12 +30,6 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
 using Accord.Controls;
 using Accord.IO;
 using Accord.MachineLearning.Bayes;
@@ -43,10 +37,20 @@ using Accord.Math;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Distributions.Univariate;
 using Components;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using ZedGraph;
 
 namespace Classification.Bayes
 {
+    /// <summary>
+    ///   Classification using Naive Bayes.
+    /// </summary>
+    /// 
     public partial class MainForm : Form
     {
 
@@ -67,6 +71,110 @@ namespace Classification.Bayes
         }
 
 
+
+        /// <summary>
+        ///   Creates and learns a Naive Bayes classifier to recognize
+        ///   the previously loaded dataset using the current settings.
+        /// </summary>
+        /// 
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            if (dgvLearningSource.DataSource == null)
+            {
+                MessageBox.Show("Please load some data first.");
+                return;
+            }
+
+            classNames = new string[] { "G1", "G2" };
+
+
+            // Finishes and save any pending changes to the given data
+            dgvLearningSource.EndEdit();
+
+            // Creates a matrix from the source data table
+            double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
+
+            // Get only the input vector values
+            double[][] inputs = table.Submatrix(null, 0, 1).ToArray();
+
+            // Get only the label outputs
+            int[] outputs = table.GetColumn(2).ToInt32();
+            string[] colNames = columnNames.Submatrix(first: 2);
+
+
+            // Create the Bayes classifier and perform classification
+            bayes = new NaiveBayes<NormalDistribution>(2, 2, new NormalDistribution());
+
+            // Estimate the model parameters from the data
+            double error = bayes.Estimate(inputs, outputs);
+
+
+            // Show the estimated distributions and class probabilities
+            dataGridView1.DataSource = new ArrayDataView(bayes.Distributions, colNames);
+
+
+            // Generate samples for class 1
+            var x1 = bayes.Distributions[0, 0].Generate(1000);
+            var y1 = bayes.Distributions[0, 1].Generate(1000);
+
+            // Generate samples for class 2
+            var x2 = bayes.Distributions[1, 0].Generate(1000);
+            var y2 = bayes.Distributions[1, 1].Generate(1000);
+
+            // Combine in a single graph
+            var w1 = Matrix.Stack(x1, y1).Transpose();
+            var w2 = Matrix.Stack(x2, y2).Transpose();
+
+            var z = Matrix.Vector(2000, value: 1.0);
+            for (int i = 0; i < 1000; i++) z[i] = 0;
+
+            var graph = Matrix.Stack(w1, w2).Concatenate(z);
+
+            CreateScatterplot(zedGraphControl2, graph);
+
+
+            lbStatus.Text = "Classifier created! See the other tabs for details!";
+        }
+
+
+        private void btnTestingRun_Click(object sender, EventArgs e)
+        {
+            if (bayes == null || dgvTestingSource.DataSource == null)
+            {
+                MessageBox.Show("Please create a classifier first.");
+                return;
+            }
+
+
+            // Creates a matrix from the source data table
+            double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix();
+
+
+            // Get only the input vector values
+            double[][] inputs = table.Submatrix(null, 0, 1).ToArray();
+
+            // Get only the label outputs
+            int[] expected = new int[table.GetLength(0)];
+            for (int i = 0; i < expected.Length; i++)
+                expected[i] = (int)table[i, 2];
+
+            // Compute the machine outputs
+            int[] output = new int[inputs.Length];
+            for (int i = 0; i < inputs.Length; i++)
+                output[i] = bayes.Compute(inputs[i]);
+
+
+            // Use confusion matrix to compute some statistics.
+            ConfusionMatrix confusionMatrix = new ConfusionMatrix(output, expected, 1, 0);
+            dgvPerformance.DataSource = new List<ConfusionMatrix> { confusionMatrix };
+
+            foreach (DataGridViewColumn col in dgvPerformance.Columns)
+                col.Visible = true;
+            Column1.Visible = Column2.Visible = false;
+
+            // Create performance scatter plot
+            CreateResultScatterplot(zedGraphControl1, inputs, expected.ToDouble(), output.ToDouble());
+        }
 
 
         private void MenuFileOpen_Click(object sender, EventArgs e)
@@ -105,104 +213,6 @@ namespace Classification.Bayes
 
             lbStatus.Text = "Data loaded! Click the 'learn' button to continue!";
         }
-
-
-        private void btnCreate_Click(object sender, EventArgs e)
-        {
-            if (dgvLearningSource.DataSource == null)
-            {
-                MessageBox.Show("Please load some data first.");
-                return;
-            }
-
-            classNames = new string[] { "G1", "G2" };
-
-
-            // Finishes and save any pending changes to the given data
-            dgvLearningSource.EndEdit();
-
-            // Creates a matrix from the source data table
-            double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix(out columnNames);
-
-            // Get only the input vector values
-            double[][] inputs = table.Submatrix(null, 0, 1).ToArray();
-
-            // Get only the label outputs
-            int[] outputs = table.GetColumn(2).ToInt32();
-            string[] colNames = columnNames.Submatrix(first: 2);
-
-
-            // Create the Bayes classifier and perform classification
-            bayes = new NaiveBayes<NormalDistribution>(2, 2, new NormalDistribution());
-
-            // Estimate the model parameters from the data
-            double error = bayes.Estimate(inputs, outputs);
-
-
-            // Show the estimated distributions and class probabilities
-            dataGridView1.DataSource = new ArrayDataView(bayes.Distributions, colNames, classNames);
-
-
-            // Generate samples for class 1
-            var x1 = bayes.Distributions[0, 0].Generate(1000);
-            var y1 = bayes.Distributions[0, 1].Generate(1000);
-
-            // Generate samples for class 2
-            var x2 = bayes.Distributions[1, 0].Generate(1000);
-            var y2 = bayes.Distributions[1, 1].Generate(1000);
-
-            // Combine in a single graph
-            var w1 = Matrix.Stack(x1, y1).Transpose();
-            var w2 = Matrix.Stack(x2, y2).Transpose();
-
-            var z = Matrix.Vector(2000, value: 1.0);
-            for (int i = 0; i < 1000; i++) z[i] = 0;
-
-            var graph = Matrix.Stack(w1, w2).Concatenate(z);
-
-            CreateScatterplot(zedGraphControl2, graph);
-        }
-
-
-        private void btnTestingRun_Click(object sender, EventArgs e)
-        {
-            if (bayes == null || dgvTestingSource.DataSource == null)
-            {
-                MessageBox.Show("Please create a machine first.");
-                return;
-            }
-
-
-            // Creates a matrix from the source data table
-            double[,] table = (dgvLearningSource.DataSource as DataTable).ToMatrix();
-
-
-            // Get only the input vector values
-            double[][] inputs = table.Submatrix(null, 0, 1).ToArray();
-
-            // Get only the label outputs
-            int[] expected = new int[table.GetLength(0)];
-            for (int i = 0; i < expected.Length; i++)
-                expected[i] = (int)table[i, 2];
-
-            // Compute the machine outputs
-            int[] output = new int[inputs.Length];
-            for (int i = 0; i < inputs.Length; i++)
-                output[i] = bayes.Compute(inputs[i]);
-
-
-            // Use confusion matrix to compute some statistics.
-            ConfusionMatrix confusionMatrix = new ConfusionMatrix(output, expected, 1, 0);
-            dgvPerformance.DataSource = new List<ConfusionMatrix> { confusionMatrix };
-
-            foreach (DataGridViewColumn col in dgvPerformance.Columns)
-                col.Visible = true;
-            Column1.Visible = Column2.Visible = false;
-
-            // Create performance scatter plot
-            CreateResultScatterplot(zedGraphControl1, inputs, expected.ToDouble(), output.ToDouble());
-        }
-
 
 
         public void CreateScatterplot(ZedGraphControl zgc, double[,] graph)

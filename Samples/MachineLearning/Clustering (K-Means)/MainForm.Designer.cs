@@ -47,18 +47,21 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox.Image = global::Clustering.K_Means.Properties.Resources.leaf;
-            this.pictureBox.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox.Location = new System.Drawing.Point(18, 18);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(500, 333);
+            this.pictureBox.Size = new System.Drawing.Size(750, 500);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
             // 
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(433, 351);
+            this.button1.Location = new System.Drawing.Point(650, 526);
+            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(112, 34);
             this.button1.TabIndex = 1;
             this.button1.Text = "Run";
             this.button1.UseVisualStyleBackColor = true;
@@ -67,9 +70,10 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(12, 351);
+            this.button2.Location = new System.Drawing.Point(18, 526);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(43, 23);
+            this.button2.Size = new System.Drawing.Size(64, 34);
             this.button2.TabIndex = 2;
             this.button2.Text = "Reset";
             this.button2.UseVisualStyleBackColor = true;
@@ -78,7 +82,8 @@
             // numClusters
             // 
             this.numClusters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numClusters.Location = new System.Drawing.Point(176, 354);
+            this.numClusters.Location = new System.Drawing.Point(264, 531);
+            this.numClusters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numClusters.Maximum = new decimal(new int[] {
             25,
             0,
@@ -90,7 +95,7 @@
             0,
             0});
             this.numClusters.Name = "numClusters";
-            this.numClusters.Size = new System.Drawing.Size(50, 20);
+            this.numClusters.Size = new System.Drawing.Size(75, 26);
             this.numClusters.TabIndex = 3;
             this.numClusters.Value = new decimal(new int[] {
             5,
@@ -107,12 +112,13 @@
             0,
             0,
             131072});
-            this.numBandwidth.Location = new System.Drawing.Point(352, 354);
+            this.numBandwidth.Location = new System.Drawing.Point(528, 531);
+            this.numBandwidth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numBandwidth.Name = "numBandwidth";
-            this.numBandwidth.Size = new System.Drawing.Size(50, 20);
+            this.numBandwidth.Size = new System.Drawing.Size(75, 26);
             this.numBandwidth.TabIndex = 3;
             this.numBandwidth.Value = new decimal(new int[] {
-            4,
+            10,
             0,
             0,
             131072});
@@ -122,9 +128,10 @@
             this.radioClusters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioClusters.AutoSize = true;
             this.radioClusters.Checked = true;
-            this.radioClusters.Location = new System.Drawing.Point(61, 354);
+            this.radioClusters.Location = new System.Drawing.Point(92, 533);
+            this.radioClusters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioClusters.Name = "radioClusters";
-            this.radioClusters.Size = new System.Drawing.Size(109, 17);
+            this.radioClusters.Size = new System.Drawing.Size(160, 24);
             this.radioClusters.TabIndex = 5;
             this.radioClusters.TabStop = true;
             this.radioClusters.Text = "K-Means clusters:";
@@ -134,9 +141,10 @@
             // 
             this.radioRadius.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.radioRadius.AutoSize = true;
-            this.radioRadius.Location = new System.Drawing.Point(236, 354);
+            this.radioRadius.Location = new System.Drawing.Point(354, 533);
+            this.radioRadius.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioRadius.Name = "radioRadius";
-            this.radioRadius.Size = new System.Drawing.Size(110, 17);
+            this.radioRadius.Size = new System.Drawing.Size(163, 24);
             this.radioRadius.TabIndex = 5;
             this.radioRadius.TabStop = true;
             this.radioRadius.Text = "Mean-Shift radius:";
@@ -144,9 +152,9 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 381);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(780, 572);
             this.Controls.Add(this.radioRadius);
             this.Controls.Add(this.radioClusters);
             this.Controls.Add(this.numBandwidth);
@@ -155,6 +163,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.Text = "K-Means and Mean-Shift Color Clustering";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();

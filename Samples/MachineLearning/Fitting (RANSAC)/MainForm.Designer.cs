@@ -78,7 +78,7 @@
             this.toolStripMenuItem6});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(771, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(798, 24);
             this.menuStrip1.TabIndex = 15;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -147,8 +147,8 @@
             // splitContainer7.Panel2
             // 
             this.splitContainer7.Panel2.Controls.Add(this.groupBox15);
-            this.splitContainer7.Size = new System.Drawing.Size(771, 395);
-            this.splitContainer7.SplitterDistance = 218;
+            this.splitContainer7.Size = new System.Drawing.Size(798, 430);
+            this.splitContainer7.SplitterDistance = 225;
             this.splitContainer7.TabIndex = 16;
             // 
             // groupBox7
@@ -157,7 +157,7 @@
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox7.Location = new System.Drawing.Point(0, 0);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(218, 230);
+            this.groupBox7.Size = new System.Drawing.Size(225, 265);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Samples";
@@ -171,7 +171,7 @@
             this.dgvAnalysisSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvAnalysisSource.Location = new System.Drawing.Point(3, 16);
             this.dgvAnalysisSource.Name = "dgvAnalysisSource";
-            this.dgvAnalysisSource.Size = new System.Drawing.Size(212, 211);
+            this.dgvAnalysisSource.Size = new System.Drawing.Size(219, 246);
             this.dgvAnalysisSource.TabIndex = 5;
             // 
             // groupBox6
@@ -186,9 +186,9 @@
             this.groupBox6.Controls.Add(this.label2);
             this.groupBox6.Controls.Add(this.btnSampleRunAnalysis);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox6.Location = new System.Drawing.Point(0, 230);
+            this.groupBox6.Location = new System.Drawing.Point(0, 265);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(218, 165);
+            this.groupBox6.Size = new System.Drawing.Size(225, 165);
             this.groupBox6.TabIndex = 6;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Settings";
@@ -209,7 +209,7 @@
             0,
             0});
             this.numMaxTrials.Name = "numMaxTrials";
-            this.numMaxTrials.Size = new System.Drawing.Size(110, 20);
+            this.numMaxTrials.Size = new System.Drawing.Size(117, 20);
             this.numMaxTrials.TabIndex = 7;
             this.numMaxTrials.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numMaxTrials.Value = new decimal(new int[] {
@@ -229,7 +229,7 @@
             0});
             this.numSamples.Location = new System.Drawing.Point(102, 77);
             this.numSamples.Name = "numSamples";
-            this.numSamples.Size = new System.Drawing.Size(110, 20);
+            this.numSamples.Size = new System.Drawing.Size(117, 20);
             this.numSamples.TabIndex = 7;
             this.numSamples.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numSamples.Value = new decimal(new int[] {
@@ -250,7 +250,7 @@
             65536});
             this.numThreshold.Location = new System.Drawing.Point(102, 51);
             this.numThreshold.Name = "numThreshold";
-            this.numThreshold.Size = new System.Drawing.Size(110, 20);
+            this.numThreshold.Size = new System.Drawing.Size(117, 20);
             this.numThreshold.TabIndex = 7;
             this.numThreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numThreshold.Value = new decimal(new int[] {
@@ -276,7 +276,7 @@
             0,
             0});
             this.numProbability.Name = "numProbability";
-            this.numProbability.Size = new System.Drawing.Size(109, 20);
+            this.numProbability.Size = new System.Drawing.Size(116, 20);
             this.numProbability.TabIndex = 7;
             this.numProbability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numProbability.Value = new decimal(new int[] {
@@ -338,7 +338,7 @@
             this.groupBox15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox15.Location = new System.Drawing.Point(0, 0);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Size = new System.Drawing.Size(549, 395);
+            this.groupBox15.Size = new System.Drawing.Size(569, 430);
             this.groupBox15.TabIndex = 7;
             this.groupBox15.TabStop = false;
             this.groupBox15.Text = "Scatter Plot";
@@ -355,16 +355,16 @@
             this.graphInput.ScrollMinX = 0D;
             this.graphInput.ScrollMinY = 0D;
             this.graphInput.ScrollMinY2 = 0D;
-            this.graphInput.Size = new System.Drawing.Size(543, 376);
+            this.graphInput.Size = new System.Drawing.Size(563, 411);
             this.graphInput.TabIndex = 5;
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lbStatus});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 419);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 454);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(771, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(798, 22);
             this.statusStrip1.TabIndex = 17;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -376,9 +376,9 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(771, 441);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(798, 476);
             this.Controls.Add(this.splitContainer7);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);

@@ -17,7 +17,7 @@ namespace Handwriting.SVMs
         public static Bitmap Extract(string text)
         {
             Bitmap bitmap = new Bitmap(32, 32, PixelFormat.Format32bppRgb);
-            string[] lines = text.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = text.Split(new String[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < 32; i++)
             {
                 for (int j = 0; j < 32; j++)

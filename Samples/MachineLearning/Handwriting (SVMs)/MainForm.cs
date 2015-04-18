@@ -30,16 +30,16 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
 using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
 using Accord.Statistics.Kernels;
 using Handwriting.SVMs.Properties;
+using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using ZedGraph;
 
 namespace Handwriting.SVMs
@@ -371,7 +371,7 @@ namespace Handwriting.SVMs
             int testingSet = 0;
             while (true)
             {
-                char[] buffer = new char[(32 + 2) * 32];
+                char[] buffer = new char[(32 + 1) * 32]; // 32 chars + '\n'
                 int read = reader.ReadBlock(buffer, 0, buffer.Length);
                 string label = reader.ReadLine();
 
@@ -415,7 +415,7 @@ namespace Handwriting.SVMs
 
                 // Classify the input vector
                 double[] responses;
-                int num = ksvm.Compute(input, out responses);
+                int num = ksvm.Compute(input, MulticlassComputeMethod.Elimination, out responses);
 
                 if (!ksvm.IsProbabilistic)
                 {

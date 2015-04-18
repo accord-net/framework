@@ -492,5 +492,10 @@ namespace Classification.SVMs
         {
             new AboutBox().ShowDialog(this);
         }
+
+        private void numPolyConstant_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

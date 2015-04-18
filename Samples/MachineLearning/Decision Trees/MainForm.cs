@@ -30,11 +30,6 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
 using Accord.IO;
 using Accord.MachineLearning.DecisionTrees;
 using Accord.MachineLearning.DecisionTrees.Learning;
@@ -42,6 +37,11 @@ using Accord.Math;
 using Accord.Statistics.Analysis;
 using AForge;
 using Components;
+using System;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using ZedGraph;
 
 namespace Classification.Trees
@@ -235,7 +235,7 @@ namespace Classification.Trees
             PointPairList list2 = new PointPairList(); // Z = 1
             for (int i = 0; i < graph.GetLength(0); i++)
             {
-                if (graph[i, 2] == 0)
+                if (graph[i, 2] <= 0)
                     list1.Add(graph[i, 0], graph[i, 1]);
                 if (graph[i, 2] == 1)
                     list2.Add(graph[i, 0], graph[i, 1]);
