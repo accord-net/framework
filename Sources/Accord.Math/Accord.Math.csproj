@@ -380,7 +380,8 @@
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Jagged.cs" />
-    <Compile Include="Vector.cs" />
+    <Compile Include="Vector\Vector.Scale.cs" />
+    <Compile Include="Vector\Vector.cs" />
     <Compile Include="Wavelets\CDF97.cs" />
     <Compile Include="Wavelets\Haar.cs" />
     <Compile Include="Wavelets\Base\IWavelet.cs" />

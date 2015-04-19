@@ -117,7 +117,7 @@ namespace Accord.IO
                 Array src = Value as Array;
                 Array dst = Array.CreateInstance(targetType, dimensions);
 
-                foreach (int[] idx in Matrix.Indices(src))
+                foreach (int[] idx in Indices.From(src))
                     dst.SetValue(Convert.ChangeType(src.GetValue(idx), targetType), idx);
 
                 return (T)Convert.ChangeType(dst, typeof(T));

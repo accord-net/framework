@@ -54,7 +54,7 @@ namespace Accord.Tests.MachineLearning
 		        -0.61046308279037476
 	        };
 
-            double[][] inputs = Jagged.Column(x);
+            double[][] inputs = Jagged.ColumnVector(x);
 
             IKernel kernel = new Linear();
 

@@ -48,7 +48,7 @@ namespace Accord.Math
             double sumP, sumN;
             sumP = sumN = 0;
 
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 sumN += Math.Abs(x[i] - y[i]);
                 sumP += Math.Abs(x[i] + y[i]);
@@ -70,7 +70,7 @@ namespace Accord.Math
         {
             double distance = 0;
 
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 distance += Math.Abs(x[i] - y[i]) / (Math.Abs(x[i]) + Math.Abs(y[i]));
             }
@@ -90,7 +90,7 @@ namespace Accord.Math
         public static double Chessboard(this double[] x, double[] y)
         {
             double d = 0;
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 d = Math.Max(d, x[i] - y[i]);
             }
@@ -112,19 +112,19 @@ namespace Accord.Math
             double p = 0;
             double q = 0;
 
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 p += -x[i];
                 q += -y[i];
             }
 
-            p /= x.GetLength(0);
-            q /= y.GetLength(0);
+            p /= x.Length;
+            q /= y.Length;
 
             double num = 0;
             double den1 = 0;
             double den2 = 0;
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 num += (x[i] + p) * (y[i] + q);
 
@@ -149,7 +149,7 @@ namespace Accord.Math
             double sumProduct = 0;
             double sumP = 0, sumQ = 0;
 
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 sumProduct += x[i] * y[i];
                 sumP += Math.Pow(Math.Abs(x[i]), 2);
@@ -321,7 +321,7 @@ namespace Accord.Math
         public static double Minkowski(this double[] x, double[] y, int r)
         {
             double distance = 0;
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
                 distance += Math.Pow(Math.Abs(x[i] - y[i]), r);
             return Math.Pow(distance, 1 / r);
         }
@@ -789,10 +789,11 @@ namespace Accord.Math
         #region Private methods
         private static double[] mean(double[,] matrix)
         {
-            double[] mean = new double[matrix.GetLength(1)];
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
-            double N = matrix.GetLength(0);
+
+            double[] mean = new double[cols];
+            double N = rows;
 
             for (int j = 0; j < cols; j++)
             {

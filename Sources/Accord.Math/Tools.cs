@@ -22,11 +22,9 @@
 
 namespace Accord.Math
 {
-    using Accord.Math.Comparers;
     using Accord.Math.Random;
     using AForge;
     using System;
-    using System.Collections.Generic;
 
     /// <summary>
     ///   Set of mathematical tools.
@@ -306,9 +304,7 @@ namespace Accord.Math
         // TODO: Move to Scale class
         public static int Scale(this IntRange from, IntRange to, int x)
         {
-            if (from.Length == 0) 
-                return 0;
-            return (to.Length) * (x - from.Min) / from.Length + to.Min;
+            return Accord.Math.Vector.Scale(x, from, to);
         }
 
         /// <summary>
@@ -319,8 +315,7 @@ namespace Accord.Math
         // TODO: Move to Scale class
         public static double Scale(this DoubleRange from, DoubleRange to, double x)
         {
-            if (from.Length == 0) return 0;
-            return (to.Length) * (x - from.Min) / from.Length + to.Min;
+            return Accord.Math.Vector.Scale(x, from, to);
         }
 
         /// <summary>
@@ -331,9 +326,7 @@ namespace Accord.Math
         // TODO: Move to Scale class
         public static double Scale(double fromMin, double fromMax, double toMin, double toMax, double x)
         {
-            if (fromMax - fromMin == 0) 
-                return 0;
-            return (toMax - toMin) * (x - fromMin) / (fromMax - fromMin) + toMin;
+            return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
         }
 
         /// <summary>
@@ -344,11 +337,40 @@ namespace Accord.Math
         // TODO: Move to Scale class
         public static double[] Scale(double fromMin, double fromMax, double toMin, double toMax, double[] x)
         {
-            double[] result = new double[x.Length];
-            for (int i = 0; i < x.Length; i++)
-                result[i] = (toMax - toMin) * (x[i] - fromMin) / (fromMax - fromMin) + toMin;
+            return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
+        }
 
-            return result;
+        /// <summary>
+        ///   Converts the value x (which is measured in the scale
+        ///   'from') to another value measured in the scale 'to'.
+        /// </summary>
+        /// 
+        // TODO: Move to Scale class
+        public static int[] Scale(int fromMin, int fromMax, int toMin, int toMax, int[] x)
+        {
+            return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
+        }
+
+        /// <summary>
+        ///   Converts the value x (which is measured in the scale
+        ///   'from') to another value measured in the scale 'to'.
+        /// </summary>
+        /// 
+        // TODO: Move to Scale class
+        public static int[] Scale(IntRange from, IntRange to, int[] x)
+        {
+            return Accord.Math.Vector.Scale(x, from, to);
+        }
+
+        /// <summary>
+        ///   Converts the value x (which is measured in the scale
+        ///   'from') to another value measured in the scale 'to'.
+        /// </summary>
+        /// 
+        // TODO: Move to Scale class
+        public static double[] Scale(DoubleRange from, DoubleRange to, double[] x)
+        {
+            return Accord.Math.Vector.Scale(x, from, to);
         }
 
         /// <summary>
@@ -359,11 +381,18 @@ namespace Accord.Math
         // TODO: Move to Scale class
         public static float[] Scale(float fromMin, float fromMax, float toMin, float toMax, float[] x)
         {
-            float[] result = new float[x.Length];
-            for (int i = 0; i < x.Length; i++)
-                result[i] = (toMax - toMin) * (x[i] - fromMin) / (fromMax - fromMin) + toMin;
+            return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
+        }
 
-            return result;
+        /// <summary>
+        ///   Converts the value x (which is measured in the scale
+        ///   'from') to another value measured in the scale 'to'.
+        /// </summary>
+        /// 
+        // TODO: Move to Scale class
+        public static float[] Scale(Range from, Range to, float[] x)
+        {
+            return Accord.Math.Vector.Scale(x, from, to);
         }
 
         /// <summary>
@@ -374,7 +403,7 @@ namespace Accord.Math
         // TODO: Move to Scale class
         public static double[] Scale(double toMin, double toMax, double[] x)
         {
-            return Scale(Matrix.Min(x), Matrix.Max(x), toMin, toMax, x);
+            return Accord.Math.Vector.Scale(x, toMin, toMax);
         }
 
         /// <summary>
@@ -480,9 +509,7 @@ namespace Accord.Math
         // TODO: Move to Scale class
         public static float Scale(float fromMin, float fromMax, float toMin, float toMax, float x)
         {
-            if (fromMax - fromMin == 0)
-                return 0;
-            return (toMax - toMin) * (x - fromMin) / (fromMax - fromMin) + toMin;
+            return Accord.Math.Vector.Scale(x, fromMin, fromMax, toMin, toMax);
         }
 
         /// <summary>
@@ -493,9 +520,7 @@ namespace Accord.Math
         // TODO: Move to Scale class
         public static double Scale(IntRange from, DoubleRange to, int x)
         {
-            if (from.Length == 0) 
-                return 0;
-            return (to.Length) * (x - from.Min) / from.Length + to.Min;
+            return Accord.Math.Vector.Scale(x, from, to);
         }
         #endregion
 

@@ -38,18 +38,78 @@ namespace Accord.Math
             return matrix;
         }
 
-        public static T[][] Row<T>(params T[] values)
+        public static T[][] RowVector<T>(params T[] values)
         {
             return new T[][] { values };
         }
 
-        public static T[][] Column<T>(params T[] values)
+        public static T[][] ColumnVector<T>(params T[] values)
         {
             T[][] column = new T[values.Length][];
             for (int i = 0; i < column.Length; i++)
                 column[i] = new[] { values[i] };
 
             return column;
+        }
+
+        /// <summary>
+        ///   Returns the Identity matrix of the given size.
+        /// </summary>
+        /// 
+        public static double[][] Identity(int size)
+        {
+            return Diagonal(size, 1.0);
+        }
+
+        /// <summary>
+        ///   Creates a jagged magic square matrix.
+        /// </summary>
+        /// 
+        public static double[][] Magic(int size)
+        {
+            return Matrix.Magic(size).ToArray();
+        }
+
+        /// <summary>
+        ///   Returns a square diagonal matrix of the given size.
+        /// </summary>
+        /// 
+        public static T[][] Diagonal<T>(int size, T value)
+        {
+            if (size < 0)
+            {
+                throw new ArgumentOutOfRangeException("size", size,
+                "Square matrix's size must be a positive integer.");
+            }
+
+            var matrix = new T[size][];
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                matrix[i] = new T[size];
+                matrix[i][i] = value;
+            }
+
+            return matrix;
+        }
+
+        /// <summary>
+        ///   Return a jagged matrix with a vector of values on its diagonal.
+        /// </summary>
+        /// 
+        // TODO: Mark as obsolete
+        public static T[][] Diagonal<T>(T[] values)
+        {
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            T[][] matrix = new T[values.Length][];
+            for (int i = 0; i < values.Length; i++)
+            {
+                matrix[i] = new T[values.Length];
+                matrix[i][i] = values[i];
+            }
+
+            return matrix;
         }
     }
 }

@@ -226,44 +226,20 @@ namespace Accord.Math
         ///   Return a jagged matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static T[][] JaggedDiagonal<T>(T[] values)
         {
-            if (values == null)
-                throw new ArgumentNullException("values");
-
-            T[][] matrix = new T[values.Length][];
-
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                matrix[i] = new T[values.Length];
-                matrix[i][i] = values[i];
-            }
-
-            return matrix;
+            return Accord.Math.Jagged.Diagonal(values);
         }
 
         /// <summary>
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static T[][] JaggedDiagonal<T>(int size, T value)
         {
-            if (size < 0)
-            {
-                throw new ArgumentOutOfRangeException("size", size,
-                "Square matrix's size must be a positive integer.");
-            }
-
-            var matrix = new T[size][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                matrix[i] = new T[size];
-                matrix[i][i] = value;
-            }
-
-            return matrix;
+            return Accord.Math.Jagged.Diagonal(size, value);
         }
 
         /// <summary>
@@ -535,37 +511,27 @@ namespace Accord.Math
         ///   Creates a vector with uniformly distributed random data.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static float[] Random(int size, float minValue, float maxValue)
         {
-            if (size < 0)
-                throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
-
-            float[] vector = new float[size];
-            for (int i = 0; i < size; i++)
-                vector[i] = (float)(Accord.Math.Tools.Random.NextDouble() * (maxValue - minValue) + minValue);
-
-            return vector;
+            return Accord.Math.Vector.Random(size, minValue, maxValue);
         }
 
         /// <summary>
         ///   Creates a vector with uniformly distributed random data.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static double[] Random(int size, double minValue, double maxValue)
         {
-            if (size < 0) throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
-
-            double[] vector = new double[size];
-            for (int i = 0; i < size; i++)
-                vector[i] = Accord.Math.Tools.Random.NextDouble() * (maxValue - minValue) + minValue;
-
-            return vector;
+            return Accord.Math.Vector.Random(size, minValue, maxValue);
         }
 
         /// <summary>
         ///   Creates a vector with random data drawn from a given distribution.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static double[] Random(int size, IRandomNumberGenerator generator)
         {
             if (generator == null)
@@ -594,7 +560,6 @@ namespace Accord.Math
                 throw new ArgumentNullException("values");
 
             T[,] matrix = new T[1, values.Length];
-
             for (int i = 0; i < values.Length; i++)
                 matrix[0, i] = values[i];
 
@@ -611,7 +576,6 @@ namespace Accord.Math
                 throw new ArgumentNullException("values");
 
             T[,] matrix = new T[values.Length, 1];
-
             for (int i = 0; i < values.Length; i++)
                 matrix[i, 0] = values[i];
 
@@ -622,31 +586,21 @@ namespace Accord.Math
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static T[] Vector<T>(int n, T[] values)
         {
-            T[] vector = new T[n];
-
-            if (values != null)
-            {
-                for (int i = 0; i < values.Length; i++)
-                    vector[i] = values[i];
-            }
-
-            return vector;
+            return Accord.Math.Vector.Create(n, values);
         }
 
         /// <summary>
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static T[] Vector<T>(int n, T value)
         {
-            T[] vector = new T[n];
+            return Accord.Math.Vector.Create(n, value);
 
-            for (int i = 0; i < n; i++)
-                vector[i] = value;
-
-            return vector;
         }
 
         /// <summary>
@@ -655,48 +609,27 @@ namespace Accord.Math
         /// 
         public static double[] Vector(double a, double b, double increment = 1)
         {
-            List<double> list = new List<double>();
-
-            for (double i = a; i < b; i += increment)
-                list.Add(i);
-
-            if (list[list.Count - 1] != b)
-                list.Add(b);
-
-            return list.ToArray();
+            return Accord.Math.Vector.Interval(a, b, (double)increment);
         }
 
         /// <summary>
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static int[] Vector(int a, int b, int increment = 1)
         {
-            List<int> list = new List<int>();
-
-            for (int i = a; i < b; i += increment)
-                list.Add(i);
-
-            if (list[list.Count - 1] != b)
-                list.Add(b);
-
-            return list.ToArray();
+            return Accord.Math.Vector.Interval(a, b, (double)increment);
         }
 
         /// <summary>
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static double[] Vector(double a, double b, int points)
         {
-            double[] list = new double[points];
-
-            double increment = (b - a) / points;
-
-            for (int i = 0; i < list.Length; i++)
-                list[i] = increment * i;
-
-            return list;
+            return Accord.Math.Vector.Interval(a, b, points);
         }
         #endregion
 
@@ -705,43 +638,20 @@ namespace Accord.Math
         ///   Creates a index vector.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static int[] Indices(int from, int to)
         {
-            int[] vector;
-
-            if (to > from)
-            {
-                vector = new int[to - from];
-                for (int i = 0; i < vector.Length; i++)
-                    vector[i] = from++;
-            }
-            else
-            {
-                vector = new int[from - to];
-                for (int i = 0; i < vector.Length; i++)
-                    vector[i] = from-- - 1;
-            }
-
-            return vector;
+            return Accord.Math.Indices.Range(from, to);
         }
 
         /// <summary>
         ///   Creates a index vector.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static int[] Indices(int to)
         {
-            return Indices(0, to);
-        }
-
-        /// <summary>
-        ///   Creates a index vector.
-        /// </summary>
-        /// 
-        public static IEnumerable<int[]> Indices(this Array array)
-        {
-            int[] dimensions = array.GetDimensions();
-            return Combinatorics.Sequences(dimensions, inPlace: true);
+            return Accord.Math.Indices.Until(to);
         }
 
         /// <summary>
@@ -764,27 +674,7 @@ namespace Accord.Math
         /// 
         public static int[] Interval(int from, int to)
         {
-            if (from == to)
-            {
-                return new int[] { from };
-            }
-
-            int[] vector;
-
-            if (to > from)
-            {
-                vector = new int[to - from + 1];
-                for (int i = 0; i < vector.Length; i++)
-                    vector[i] = from++;
-            }
-            else
-            {
-                vector = new int[from - to + 1];
-                for (int i = 0; i < vector.Length; i++)
-                    vector[i] = from--;
-            }
-
-            return vector;
+            return Accord.Math.Vector.Interval(from, to);
         }
 
         /// <summary>
@@ -802,30 +692,7 @@ namespace Accord.Math
         /// 
         public static double[] Interval(double from, double to, double stepSize)
         {
-            double[] r;
-
-            if (from > to)
-            {
-                double range = from - to;
-                int steps = (int)Math.Ceiling(range / stepSize) + 1;
-
-                r = new double[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = from - i * stepSize;
-                r[steps - 1] = to;
-            }
-            else
-            {
-                double range = to - from;
-                int steps = (int)Math.Ceiling(range == 0 ? 0 : range / stepSize) + 1;
-
-                r = new double[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = from + i * stepSize;
-                r[steps - 1] = to;
-            }
-
-            return r;
+            return Accord.Math.Vector.Interval(from, to, stepSize);
         }
 
         /// <summary>
@@ -834,30 +701,7 @@ namespace Accord.Math
         /// 
         public static float[] Interval(float from, float to, double stepSize)
         {
-            float[] r;
-
-            if (from > to)
-            {
-                double range = from - to;
-                int steps = (int)Math.Ceiling(range / stepSize) + 1;
-
-                r = new float[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = (float)(from - i * stepSize);
-                r[steps - 1] = to;
-            }
-            else
-            {
-                double range = to - from;
-                int steps = (int)Math.Ceiling(range == 0 ? 0 : range / stepSize) + 1;
-
-                r = new float[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = (float)(from + i * stepSize);
-                r[steps - 1] = to;
-            }
-
-            return r;
+            return Accord.Math.Vector.Interval(from, to, (float)stepSize);
         }
 
         /// <summary>
@@ -866,7 +710,7 @@ namespace Accord.Math
         /// 
         public static double[] Interval(DoubleRange range, int steps)
         {
-            return Interval(range.Min, range.Max, steps);
+            return Accord.Math.Vector.Interval(range, steps);
         }
 
         /// <summary>
@@ -875,37 +719,7 @@ namespace Accord.Math
         /// 
         public static double[] Interval(double from, double to, int steps)
         {
-            if (from == to)
-            {
-                return new double[] { from };
-            }
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            double[] r = new double[steps + 1];
-
-            if (from > to)
-            {
-                double range = from - to;
-                double stepSize = range / steps;
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = from - i * stepSize;
-                r[steps] = to;
-            }
-            else
-            {
-                double range = to - from;
-                double stepSize = range / steps;
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = from + i * stepSize;
-                r[steps] = to;
-            }
-
-            return r;
+            return Accord.Math.Vector.Interval(from, to, steps);
         }
 
         /// <summary>
