@@ -44,6 +44,7 @@ using AForge.Controls;
 using AForge.Neuro;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -100,6 +101,9 @@ namespace Samples.LM
         private CheckBox cbRegularization;
         private CheckBox cbNguyenWidrow;
         private volatile bool needToStop = false;
+
+        DoubleRange xRange;
+        DoubleRange yRange;
 
         // Constructor
         public Approximation()
@@ -502,7 +506,7 @@ namespace Samples.LM
                     using (TextReader stream = new StreamReader(openFileDialog.FileName))
                     using (CsvReader reader = new CsvReader(stream, false))
                     {
-                        data = reader.ToTable().ToMatrix();
+                        data = reader.ToTable().ToMatrix(CultureInfo.InvariantCulture);
                     }
 
                 }
@@ -514,9 +518,12 @@ namespace Samples.LM
 
                 DoubleRange[] ranges = data.Range(dimension: 0);
 
+                xRange = ranges[0];
+                yRange = ranges[1];
+
                 // update list and chart
                 UpdateDataListView();
-                chart.RangeX = new Range((float)ranges[0].Min, (float)ranges[0].Max);
+                chart.RangeX = new Range((float)xRange.Min, (float)xRange.Max);
                 chart.UpdateDataSeries("data", data);
                 chart.UpdateDataSeries("solution", null);
 
@@ -530,8 +537,9 @@ namespace Samples.LM
         {
             // remove all current records
             dataList.Items.Clear();
+
             // add new records
-            for (int i = 0, n = data.GetLength(0); i < n; i++)
+            for (int i = 0; i < data.GetLength(0); i++)
             {
                 dataList.Items.Add(data[i, 0].ToString());
                 dataList.Items[i].SubItems.Add(data[i, 1].ToString());
@@ -544,7 +552,7 @@ namespace Samples.LM
         {
             if (InvokeRequired)
             {
-                Invoke((Action)(()=>EnableControls(enable)));
+                Invoke((Action)(() => EnableControls(enable)));
             }
             else
             {
@@ -609,24 +617,11 @@ namespace Samples.LM
             // number of learning samples
             int samples = data.GetLength(0);
 
-            // data transformation factor
-            double yFactor = 1.7 / chart.RangeY.Length;
-            double yMin = chart.RangeY.Min;
-            double xFactor = 2.0 / chart.RangeX.Length;
-            double xMin = chart.RangeX.Min;
-
             // prepare learning data
-            double[][] input = new double[samples][];
-            double[][] output = new double[samples][];
+            DoubleRange unit = new DoubleRange(-1, 1);
+            double[][] input = Tools.Scale(from: xRange, to: unit, x: data.GetColumn(0)).ToArray();
+            double[][] output = Tools.Scale(from: yRange, to: unit, x: data.GetColumn(1)).ToArray();
 
-            for (int i = 0; i < samples; i++)
-            {
-                input[i] = new double[1];
-                output[i] = new double[1];
-
-                input[i][0] = (data[i, 0] - xMin) * xFactor - 1.0; // set input
-                output[i][0] = (data[i, 1] - yMin) * yFactor - 0.85; // set output
-            }
 
             // create multi-layer neural network
             ActivationNetwork network = new ActivationNetwork(
@@ -639,7 +634,7 @@ namespace Samples.LM
             }
 
             // create teacher
-            LevenbergMarquardtLearning teacher = new LevenbergMarquardtLearning(network, useRegularization);
+            var teacher = new LevenbergMarquardtLearning(network, useRegularization);
 
             // set learning rate and momentum
             teacher.LearningRate = learningRate;
@@ -649,11 +644,6 @@ namespace Samples.LM
 
             // solution array
             double[,] solution = new double[samples, 2];
-            double[] networkInput = new double[1];
-
-            // calculate X values to be used with solution function
-            for (int j = 0; j < samples; j++)
-                solution[j, 0] = chart.RangeX.Min + (double)j * chart.RangeX.Length / 49;
 
 
             // loop
@@ -665,8 +655,10 @@ namespace Samples.LM
                 // calculate solution
                 for (int j = 0; j < samples; j++)
                 {
-                    networkInput[0] = (solution[j, 0] - xMin) * xFactor - 1.0;
-                    solution[j, 1] = (network.Compute(networkInput)[0] + 0.85) / yFactor + yMin;
+                    double x = input[j][0];
+                    double y = network.Compute(new[] { x })[0];
+                    solution[j, 0] = Tools.Scale(from: unit, to: xRange, x: x);
+                    solution[j, 1] = Tools.Scale(from: unit, to: yRange, x: y);
                 }
 
                 chart.UpdateDataSeries("solution", solution);
@@ -675,8 +667,10 @@ namespace Samples.LM
                 double learningError = 0.0;
                 for (int j = 0; j < samples; j++)
                 {
-                    networkInput[0] = input[j][0];
-                    learningError += Math.Abs(data[j, 1] - ((network.Compute(networkInput)[0] + 0.85) / yFactor + yMin));
+                    double x = input[j][0];
+                    double expected = data[j, 1];
+                    double actual = network.Compute(new[] { x })[0];
+                    learningError += Math.Abs(expected - actual);
                 }
 
                 // set current iteration's info

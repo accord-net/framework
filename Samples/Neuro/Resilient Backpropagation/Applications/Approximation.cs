@@ -44,6 +44,7 @@ using AForge.Controls;
 using AForge.Neuro;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -95,6 +96,10 @@ namespace Samples.Rprop
         private Thread workerThread = null;
         private CheckBox cbNguyenWidrow;
         private volatile bool needToStop = false;
+
+        DoubleRange xRange;
+        DoubleRange yRange;
+
 
         // Constructor
         public Approximation()
@@ -484,7 +489,7 @@ namespace Samples.Rprop
                     using (TextReader stream = new StreamReader(openFileDialog.FileName))
                     using (CsvReader reader = new CsvReader(stream, false))
                     {
-                        data = reader.ToTable().ToMatrix();
+                        data = reader.ToTable().ToMatrix(CultureInfo.InvariantCulture);
                     }
 
                 }
@@ -495,6 +500,9 @@ namespace Samples.Rprop
                 }
 
                 DoubleRange[] ranges = data.Range(dimension: 0);
+
+                xRange = ranges[0];
+                yRange = ranges[1];
 
                 // update list and chart
                 UpdateDataListView();
@@ -590,24 +598,11 @@ namespace Samples.Rprop
             // number of learning samples
             int samples = data.GetLength(0);
 
-            // data transformation factor
-            double yFactor = 1.7 / chart.RangeY.Length;
-            double yMin = chart.RangeY.Min;
-            double xFactor = 2.0 / chart.RangeX.Length;
-            double xMin = chart.RangeX.Min;
-
             // prepare learning data
-            double[][] input = new double[samples][];
-            double[][] output = new double[samples][];
+            DoubleRange unit = new DoubleRange(-1, 1);
+            double[][] input = Tools.Scale(from: xRange, to: unit, x: data.GetColumn(0)).ToArray();
+            double[][] output = Tools.Scale(from: yRange, to: unit, x: data.GetColumn(1)).ToArray();
 
-            for (int i = 0; i < samples; i++)
-            {
-                input[i] = new double[1];
-                output[i] = new double[1];
-
-                input[i][0] = (data[i, 0] - xMin) * xFactor - 1.0; // set input
-                output[i][0] = (data[i, 1] - yMin) * yFactor - 0.85; // set output
-            }
 
             // create multi-layer neural network
             ActivationNetwork network = new ActivationNetwork(
@@ -627,11 +622,7 @@ namespace Samples.Rprop
 
             // solution array
             double[,] solution = new double[samples, 2];
-            double[] networkInput = new double[1];
 
-            // calculate X values to be used with solution function
-            for (int j = 0; j < samples; j++)
-                solution[j, 0] = chart.RangeX.Min + (double)j * chart.RangeX.Length / 49;
 
             // loop
             while (!needToStop)
@@ -642,8 +633,10 @@ namespace Samples.Rprop
                 // calculate solution
                 for (int j = 0; j < samples; j++)
                 {
-                    networkInput[0] = (solution[j, 0] - xMin) * xFactor - 1.0;
-                    solution[j, 1] = (network.Compute(networkInput)[0] + 0.85) / yFactor + yMin;
+                    double x = input[j][0];
+                    double y = network.Compute(new[] { x })[0];
+                    solution[j, 0] = Tools.Scale(from: unit, to: xRange, x: x);
+                    solution[j, 1] = Tools.Scale(from: unit, to: yRange, x: y);
                 }
 
                 chart.UpdateDataSeries("solution", solution);
@@ -652,8 +645,10 @@ namespace Samples.Rprop
                 double learningError = 0.0;
                 for (int j = 0; j < samples; j++)
                 {
-                    networkInput[0] = input[j][0];
-                    learningError += Math.Abs(data[j, 1] - ((network.Compute(networkInput)[0] + 0.85) / yFactor + yMin));
+                    double x = input[j][0];
+                    double expected = data[j, 1];
+                    double actual = network.Compute(new[] { x })[0];
+                    learningError += Math.Abs(expected - actual);
                 }
 
                 // set current iteration's info

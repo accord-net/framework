@@ -44,6 +44,9 @@ using Accord.Neuro.Learning;
 using AForge;
 using AForge.Controls;
 using AForge.Neuro;
+using Accord.IO;
+using System.Globalization;
+using Accord.Math;
 
 namespace Samples.Rprop
 {
@@ -484,7 +487,7 @@ namespace Samples.Rprop
         }
         #endregion
 
-      
+
 
         // Delegates to enable async calls for setting controls properties
         private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
@@ -546,55 +549,35 @@ namespace Samples.Rprop
             // show file selection dialog
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                StreamReader reader = null;
-                // read maximum 50 points
-                double[] tempData = new double[50];
+                data = null;
 
                 try
                 {
                     // open selected file
-                    reader = File.OpenText(openFileDialog.FileName);
-                    string str = null;
-                    int i = 0;
-
-                    // read the data
-                    while ((i < 50) && ((str = reader.ReadLine()) != null))
+                    using (TextReader stream = new StreamReader(openFileDialog.FileName))
+                    using (CsvReader reader = new CsvReader(stream, false))
                     {
-                        // parse the value
-                        tempData[i] = double.Parse(str);
-
-                        i++;
+                        data = reader.ToTable().ToMatrix(CultureInfo.InvariantCulture).GetColumn(0);
                     }
 
-                    // allocate and set data
-                    data = new double[i];
-                    dataToShow = new double[i, 2];
-                    Array.Copy(tempData, 0, data, 0, i);
-                    for (int j = 0; j < i; j++)
-                    {
-                        dataToShow[j, 0] = j;
-                        dataToShow[j, 1] = data[j];
-                    }
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                finally
-                {
-                    // close file
-                    if (reader != null)
-                        reader.Close();
-                }
+
+                dataToShow = Matrix.Stack(Matrix.Indices(0, data.Length).ToDouble(), data).Transpose();
 
                 // update list and chart
                 UpdateDataListView();
                 chart.RangeX = new Range(0, data.Length - 1);
                 chart.UpdateDataSeries("data", dataToShow);
                 chart.UpdateDataSeries("solution", null);
+
                 // set delimiters
                 UpdateDelimiters();
+
                 // enable "Start" button
                 startButton.Enabled = true;
             }
