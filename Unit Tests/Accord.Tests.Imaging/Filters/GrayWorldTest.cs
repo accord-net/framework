@@ -22,34 +22,16 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Drawing;
-    using System.Drawing.Imaging;
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Controls;
+    using System.Drawing;
+    using System.Drawing.Imaging;
 
     [TestClass]
     public class GrayWorldTest
     {
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void ApplyTest1()

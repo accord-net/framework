@@ -138,14 +138,6 @@
     <Compile Include="Filters\WaveletTransformTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sources\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
-      <Project>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</Project>
-      <Name>Accord.Controls.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Controls.Statistics\Accord.Controls.csproj">
-      <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
-      <Name>Accord.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
