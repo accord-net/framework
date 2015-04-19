@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabSamples = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
@@ -90,7 +89,7 @@
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.lbHaveYouDrawn = new System.Windows.Forms.Label();
-            this.menuFile = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuFile = new System.Windows.Forms.ContextMenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.button4 = new System.Windows.Forms.Button();
@@ -237,7 +236,7 @@
             0,
             0});
             this.numThreshold.Name = "numThreshold";
-            this.numThreshold.Size = new System.Drawing.Size(82, 20);
+            this.numThreshold.Size = new System.Drawing.Size(82, 26);
             this.numThreshold.TabIndex = 7;
             this.numThreshold.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.numThreshold.Value = new decimal(new int[] {
@@ -508,7 +507,7 @@
             this.tbPenWidth.Minimum = 1;
             this.tbPenWidth.Name = "tbPenWidth";
             this.tbPenWidth.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.tbPenWidth.Size = new System.Drawing.Size(45, 128);
+            this.tbPenWidth.Size = new System.Drawing.Size(69, 128);
             this.tbPenWidth.TabIndex = 5;
             this.tbPenWidth.Value = 3;
             // 
@@ -549,9 +548,9 @@
             // 
             this.label8.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 99.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(3, 16);
+            this.label8.Location = new System.Drawing.Point(3, 22);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(192, 148);
+            this.label8.Size = new System.Drawing.Size(192, 142);
             this.label8.TabIndex = 3;
             this.label8.Text = "0";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -584,7 +583,7 @@
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
-            this.trackBar1.Size = new System.Drawing.Size(45, 128);
+            this.trackBar1.Size = new System.Drawing.Size(69, 128);
             this.trackBar1.TabIndex = 5;
             this.trackBar1.Value = 3;
             // 
@@ -631,17 +630,19 @@
             this.panelUserLabeling.Controls.Add(this.label7);
             this.panelUserLabeling.Controls.Add(this.cbClasses);
             this.panelUserLabeling.Controls.Add(this.lbWhat);
-            this.panelUserLabeling.Location = new System.Drawing.Point(39, 365);
+            this.panelUserLabeling.Location = new System.Drawing.Point(58, 548);
+            this.panelUserLabeling.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelUserLabeling.Name = "panelUserLabeling";
-            this.panelUserLabeling.Size = new System.Drawing.Size(461, 74);
+            this.panelUserLabeling.Size = new System.Drawing.Size(690, 110);
             this.panelUserLabeling.TabIndex = 23;
             this.panelUserLabeling.Visible = false;
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(222, 8);
+            this.btnClear.Location = new System.Drawing.Point(333, 12);
+            this.btnClear.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnClear.Name = "btnClear";
-            this.btnClear.Size = new System.Drawing.Size(225, 21);
+            this.btnClear.Size = new System.Drawing.Size(338, 32);
             this.btnClear.TabIndex = 27;
             this.btnClear.Text = "Forget my drawing, clear the screen.";
             this.btnClear.UseVisualStyleBackColor = true;
@@ -649,9 +650,10 @@
             // 
             // btnInsert
             // 
-            this.btnInsert.Location = new System.Drawing.Point(222, 30);
+            this.btnInsert.Location = new System.Drawing.Point(333, 45);
+            this.btnInsert.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnInsert.Name = "btnInsert";
-            this.btnInsert.Size = new System.Drawing.Size(225, 35);
+            this.btnInsert.Size = new System.Drawing.Size(338, 52);
             this.btnInsert.TabIndex = 27;
             this.btnInsert.Text = "Insert my drawing into the database!";
             this.btnInsert.UseVisualStyleBackColor = true;
@@ -660,9 +662,10 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 38);
+            this.label7.Location = new System.Drawing.Point(16, 57);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(64, 20);
+            this.label7.Size = new System.Drawing.Size(96, 28);
             this.label7.TabIndex = 26;
             this.label7.Text = "I\'ve drawn a";
             this.label7.UseCompatibleTextRendering = true;
@@ -671,18 +674,20 @@
             // 
             this.cbClasses.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cbClasses.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.cbClasses.Location = new System.Drawing.Point(81, 35);
+            this.cbClasses.Location = new System.Drawing.Point(122, 52);
+            this.cbClasses.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cbClasses.Name = "cbClasses";
-            this.cbClasses.Size = new System.Drawing.Size(101, 21);
+            this.cbClasses.Size = new System.Drawing.Size(150, 31);
             this.cbClasses.TabIndex = 23;
             // 
             // lbWhat
             // 
             this.lbWhat.AutoSize = true;
             this.lbWhat.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbWhat.Location = new System.Drawing.Point(8, 11);
+            this.lbWhat.Location = new System.Drawing.Point(12, 16);
+            this.lbWhat.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbWhat.Name = "lbWhat";
-            this.lbWhat.Size = new System.Drawing.Size(183, 27);
+            this.lbWhat.Size = new System.Drawing.Size(274, 38);
             this.lbWhat.TabIndex = 25;
             this.lbWhat.Text = "What have you drawn?";
             this.lbWhat.UseCompatibleTextRendering = true;
@@ -691,11 +696,13 @@
             // 
             this.lbIdle.AutoSize = true;
             this.lbIdle.BackColor = System.Drawing.Color.White;
-            this.lbIdle.Location = new System.Drawing.Point(174, 202);
+            this.lbIdle.Location = new System.Drawing.Point(261, 303);
+            this.lbIdle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbIdle.Name = "lbIdle";
-            this.lbIdle.Size = new System.Drawing.Size(170, 13);
+            this.lbIdle.Size = new System.Drawing.Size(251, 23);
             this.lbIdle.TabIndex = 32;
             this.lbIdle.Text = "Click here and draw something!";
+            this.lbIdle.Click += new System.EventHandler(this.lbIdle_Click);
             // 
             // panelClassification
             // 
@@ -704,17 +711,19 @@
             this.panelClassification.Controls.Add(this.button3);
             this.panelClassification.Controls.Add(this.button2);
             this.panelClassification.Controls.Add(this.lbHaveYouDrawn);
-            this.panelClassification.Location = new System.Drawing.Point(39, 21);
+            this.panelClassification.Location = new System.Drawing.Point(58, 32);
+            this.panelClassification.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panelClassification.Name = "panelClassification";
-            this.panelClassification.Size = new System.Drawing.Size(461, 74);
+            this.panelClassification.Size = new System.Drawing.Size(690, 110);
             this.panelClassification.TabIndex = 23;
             this.panelClassification.Visible = false;
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(107, 43);
+            this.button3.Location = new System.Drawing.Point(160, 64);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(112, 34);
             this.button3.TabIndex = 26;
             this.button3.Text = "No...";
             this.button3.UseVisualStyleBackColor = true;
@@ -722,9 +731,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(26, 43);
+            this.button2.Location = new System.Drawing.Point(39, 64);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(112, 34);
             this.button2.TabIndex = 26;
             this.button2.Text = "Yes!";
             this.button2.UseVisualStyleBackColor = true;
@@ -736,32 +746,34 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lbHaveYouDrawn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHaveYouDrawn.Location = new System.Drawing.Point(8, 11);
+            this.lbHaveYouDrawn.Location = new System.Drawing.Point(12, 16);
+            this.lbHaveYouDrawn.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lbHaveYouDrawn.Name = "lbHaveYouDrawn";
-            this.lbHaveYouDrawn.Size = new System.Drawing.Size(437, 25);
+            this.lbHaveYouDrawn.Size = new System.Drawing.Size(656, 38);
             this.lbHaveYouDrawn.TabIndex = 25;
             this.lbHaveYouDrawn.Text = "Have you drawn a {Foo} ?";
             this.lbHaveYouDrawn.UseCompatibleTextRendering = true;
             // 
             // menuFile
             // 
+            this.menuFile.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuFile.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.toolStripMenuItem2});
             this.menuFile.Name = "contextMenuStrip1";
-            this.menuFile.Size = new System.Drawing.Size(104, 48);
+            this.menuFile.Size = new System.Drawing.Size(129, 64);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(103, 22);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(128, 30);
             this.toolStripMenuItem1.Text = "Open";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.openDataStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(103, 22);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(128, 30);
             this.toolStripMenuItem2.Text = "Save";
             this.toolStripMenuItem2.Click += new System.EventHandler(this.saveDataStripMenuItem_Click);
             // 
@@ -769,9 +781,10 @@
             // 
             this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button4.Image = ((System.Drawing.Image)(resources.GetObject("button4.Image")));
-            this.button4.Location = new System.Drawing.Point(527, 452);
+            this.button4.Location = new System.Drawing.Point(790, 678);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(174, 40);
+            this.button4.Size = new System.Drawing.Size(261, 60);
             this.button4.TabIndex = 36;
             this.button4.Text = "Database";
             this.button4.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -793,9 +806,10 @@
             this.colImage,
             this.colClassification});
             this.gridSamples.GridColor = System.Drawing.SystemColors.ControlLight;
-            this.gridSamples.Location = new System.Drawing.Point(527, 12);
+            this.gridSamples.Location = new System.Drawing.Point(790, 18);
+            this.gridSamples.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.gridSamples.Name = "gridSamples";
-            this.gridSamples.Size = new System.Drawing.Size(174, 434);
+            this.gridSamples.Size = new System.Drawing.Size(261, 651);
             this.gridSamples.TabIndex = 34;
             // 
             // colImage
@@ -819,9 +833,10 @@
             // 
             this.btnLearnSVM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnLearnSVM.Enabled = false;
-            this.btnLearnSVM.Location = new System.Drawing.Point(12, 452);
+            this.btnLearnSVM.Location = new System.Drawing.Point(18, 678);
+            this.btnLearnSVM.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLearnSVM.Name = "btnLearnSVM";
-            this.btnLearnSVM.Size = new System.Drawing.Size(163, 40);
+            this.btnLearnSVM.Size = new System.Drawing.Size(244, 60);
             this.btnLearnSVM.TabIndex = 35;
             this.btnLearnSVM.Text = "Create a Multiclass Kernel Support Vector Machine";
             this.btnLearnSVM.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
@@ -834,19 +849,20 @@
             this.canvas.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.canvas.BackColor = System.Drawing.Color.White;
-            this.canvas.Location = new System.Drawing.Point(12, 12);
-            this.canvas.MinimumSize = new System.Drawing.Size(128, 128);
+            this.canvas.Location = new System.Drawing.Point(18, 18);
+            this.canvas.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.canvas.MinimumSize = new System.Drawing.Size(192, 192);
             this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(516, 434);
+            this.canvas.Size = new System.Drawing.Size(774, 651);
             this.canvas.TabIndex = 19;
             this.canvas.MouseDown += new System.Windows.Forms.MouseEventHandler(this.canvas_MouseDown);
             this.canvas.MouseUp += new System.Windows.Forms.MouseEventHandler(this.inputCanvas_MouseUp);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(720, 499);
+            this.ClientSize = new System.Drawing.Size(1080, 748);
             this.Controls.Add(this.panelUserLabeling);
             this.Controls.Add(this.panelClassification);
             this.Controls.Add(this.gridSamples);
@@ -856,6 +872,7 @@
             this.Controls.Add(this.button4);
             this.Font = new System.Drawing.Font("Segoe UI", 8.25F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainForm";
             this.Text = "Dynamic Time Warping Support Vector Machines for Sequence Recognition";
             this.Load += new System.EventHandler(this.MainForm_Load);

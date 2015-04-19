@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.zedGraphControl = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
             // 
@@ -35,6 +36,7 @@
             // 
             this.zedGraphControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zedGraphControl.Location = new System.Drawing.Point(0, 0);
+            this.zedGraphControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.zedGraphControl.Name = "zedGraphControl";
             this.zedGraphControl.ScrollGrace = 0D;
             this.zedGraphControl.ScrollMaxX = 0D;
@@ -43,16 +45,17 @@
             this.zedGraphControl.ScrollMinX = 0D;
             this.zedGraphControl.ScrollMinY = 0D;
             this.zedGraphControl.ScrollMinY2 = 0D;
-            this.zedGraphControl.Size = new System.Drawing.Size(354, 224);
+            this.zedGraphControl.Size = new System.Drawing.Size(531, 345);
             this.zedGraphControl.TabIndex = 5;
             // 
             // ScatterplotView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.zedGraphControl);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "ScatterplotView";
-            this.Size = new System.Drawing.Size(354, 224);
+            this.Size = new System.Drawing.Size(531, 345);
             this.ResumeLayout(false);
 
         }

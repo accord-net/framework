@@ -1,7 +1,13 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
-namespace Handwriting.KDA
+namespace Handwriting
 {
     public partial class Canvas : UserControl
     {
@@ -32,7 +38,7 @@ namespace Handwriting.KDA
         {
             for (int i = 0; i < 32; i++)
                 for (int j = 0; j < 32; j++)
-                    digit[i,j] = bmp.GetPixel(i,j).R == 255 ? 0 : 1;
+                    digit[i, j] = bmp.GetPixel(i, j).R == 255 ? 0 : 1;
 
             this.Refresh();
         }
@@ -51,6 +57,9 @@ namespace Handwriting.KDA
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            float scaleX = this.Width / 32f;
+            float scaleY = this.Height / 32f;
+
             if (!this.DesignMode)
             {
                 Brush black = Brushes.Black;
@@ -63,7 +72,7 @@ namespace Handwriting.KDA
                     {
                         if (digit[i, j] == 1)
                         {
-                            e.Graphics.FillRectangle(black, i * 4, j * 4, 4, 4);
+                            e.Graphics.FillRectangle(black, i * scaleX, j * scaleY, scaleX, scaleY);
                         }
                     }
                 }
@@ -86,19 +95,22 @@ namespace Handwriting.KDA
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
+            double scaleX = this.Width / 32.0;
+            double scaleY = this.Height / 32.0;
+
             if (capturing)
             {
                 if (e.X > 0 && e.Y > 0)
                 {
-                    int x = (int)System.Math.Floor((double)e.X /4.0);
-                    int y = (int)System.Math.Floor((double)e.Y /4.0);
+                    int x = (int)System.Math.Floor((double)e.X / scaleX);
+                    int y = (int)System.Math.Floor((double)e.Y / scaleY);
 
                     for (int i = 0; i < size; i++)
                     {
                         for (int j = 0; j < size; j++)
                         {
                             if (x + i < 32 && y + j < 32)
-                            digit[x + i, y + j] = 1;
+                                digit[x + i, y + j] = 1;
                         }
                     }
 

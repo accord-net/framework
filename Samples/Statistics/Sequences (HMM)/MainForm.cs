@@ -30,15 +30,18 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System;
-using System.Data;
-using System.IO;
-using System.Windows.Forms;
 using Accord.Controls;
 using Accord.IO;
 using Accord.Statistics.Models.Markov;
 using Accord.Statistics.Models.Markov.Learning;
 using Components;
+using System;
+using System.Data;
+using Accord.Math;
+using System.IO;
+using System.Windows.Forms;
+using System.Linq;
+using Accord.Statistics.Analysis;
 
 namespace Sequences.HMMs
 {
@@ -81,15 +84,18 @@ namespace Sequences.HMMs
             }
 
 
+            // Creates a new hidden Markov classifier for the number of classes
             hmmc = new HiddenMarkovClassifier(classes, states, 3, categories);
 
+            // Show the untrained model onscreen
             dgvModels.DataSource = hmmc.Models;
         }
 
 
         /// <summary>
-        ///   Trains the ensemble
+        ///   Trains the hidden Markov classifier
         /// </summary>
+        /// 
         private void btnTrain_Click(object sender, EventArgs e)
         {
             DataTable source = dgvSequenceSource.DataSource as DataTable;
@@ -105,22 +111,18 @@ namespace Sequences.HMMs
             int[][] sequences = new int[rows][];
             int[] labels = new int[rows];
 
+            // Foreach row in the datagridview
             for (int i = 0; i < rows; i++)
             {
+                // Get the row at the index
                 DataRow row = source.Rows[i];
 
+                // Get the label associated with this sequence
                 string label = row["Label"] as string;
 
-                for (int j = 0; j < hmmc.Models.Length; j++)
-                {
-                    if (hmmc.Models[j].Tag.Equals(label))
-                    {
-                        labels[i] = j;
-                        break;
-                    }
-                }
-
+                // Extract the sequence and the expected label for it
                 sequences[i] = decode(row["Sequences"] as string);
+                labels[i] = hmmc.Models.Find(x => x.Tag as string == label)[0];
             }
 
 
@@ -137,16 +139,17 @@ namespace Sequences.HMMs
                 iterations = 0;
             }
 
-            // Train the ensemble
-
+            // Create a new hidden Markov model learning algorithm
             var teacher = new HiddenMarkovClassifierLearning(hmmc, i =>
-                new BaumWelchLearning(hmmc.Models[i])
+            {
+                return new BaumWelchLearning(hmmc.Models[i])
                 {
-                        Iterations = iterations,
-                        Tolerance = limit
-                }
-            );
+                    Iterations = iterations,
+                    Tolerance = limit
+                };
+            });
 
+            // Learn the classifier
             teacher.Run(sequences, labels);
 
 
@@ -161,23 +164,40 @@ namespace Sequences.HMMs
         {
             int rows = dgvTesting.Rows.Count - 1;
 
+            int[] expected = new int[rows];
+            int[] actual = new int[rows];
 
             // Gets the input sequences
             int[][] sequences = new int[rows][];
+
+            // For each row in the testing data
             for (int i = 0; i < rows; i++)
             {
+                // Get the row at the current index
                 DataGridViewRow row = dgvTesting.Rows[i];
-                string sequence = row.Cells["colTestSequence"].Value as string;
-                String trueLabel = row.Cells["colTestTrueClass"].Value as string;
+
+                // Get the training sequence to feed the model
+                int[] sequence = decode(row.Cells["colTestSequence"].Value as string);
+
+                // Get the label associated with this sequence
+                string label = row.Cells["colTestTrueClass"].Value as string;
+                expected[i] = hmmc.Models.Find(x => x.Tag as string == label)[0];
+
+
+                // Compute the model output for this sequence and
+                // get its associated likelihood.
 
                 double likelihood;
-                int label = hmmc.Compute(decode(sequence), out likelihood);
-                string assignedLabel = hmmc.Models[label].Tag as string;
+                actual[i] = hmmc.Compute(sequence, out likelihood);
 
-                row.Cells["colTestAssignedClass"].Value = assignedLabel;
+                row.Cells["colTestAssignedClass"].Value = hmmc.Models[actual[i]].Tag as string;
                 row.Cells["colTestLikelihood"].Value = likelihood;
-                row.Cells["colTestMatch"].Value = trueLabel == assignedLabel;
+                row.Cells["colTestMatch"].Value = actual[i] == expected[i];
             }
+
+
+            // Use confusion matrix to compute some performance metrics
+            dgvPerformance.DataSource = new[] { new GeneralConfusionMatrix(hmmc.Classes, actual, expected) };
         }
 
         /// <summary>

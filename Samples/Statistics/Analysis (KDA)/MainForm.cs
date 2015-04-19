@@ -30,17 +30,17 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
 using Accord.Controls;
 using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Kernels;
 using Components;
+using System;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using ZedGraph;
 
 namespace Analysis.KDA
@@ -348,6 +348,9 @@ namespace Analysis.KDA
 
         private void graphMapInput_MouseMove(object sender, MouseEventArgs e)
         {
+            if (kda == null)
+                return;
+
             double x;
             double y;
             graphMapInput.GraphPane.ReverseTransform(new PointF(e.X, e.Y), out x, out y);
@@ -395,6 +398,11 @@ namespace Analysis.KDA
             double[,] inputs = sourceMatrix.GetColumns(0, 1);
 
             numSigma.Value = (decimal)Gaussian.Estimate(inputs.ToArray()).Sigma;
+        }
+
+        private void splitContainer12_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
 
     }
