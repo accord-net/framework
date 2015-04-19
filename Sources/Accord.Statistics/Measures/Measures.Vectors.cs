@@ -1227,7 +1227,7 @@ namespace Accord.Statistics
         /// 
         public static double Skewness(this double[] values, double mean, bool unbiased = true)
         {
-            int n = values.Length;
+            double n = values.Length;
 
             double s2 = 0;
             double s3 = 0;
@@ -1251,10 +1251,8 @@ namespace Accord.Statistics
                 double b = n - 2;
                 return (a / b) * g;
             }
-            else
-            {
-                return g;
-            }
+
+            return g;
         }
 
         /// <summary>
@@ -1300,7 +1298,7 @@ namespace Accord.Statistics
         {
             // http://www.ats.ucla.edu/stat/mult_pkg/faq/general/kurtosis.htm
 
-            int n = values.Length;
+            double n = values.Length;
 
             double s2 = 0;
             double s4 = 0;
@@ -1320,9 +1318,9 @@ namespace Accord.Statistics
             {
                 double v = s2 / (n - 1);
 
-                double a = (n * (n + 1)) / (double)((n - 1) * (n - 2) * (n - 3));
+                double a = (n * (n + 1)) / ((n - 1) * (n - 2) * (n - 3));
                 double b = s4 / (v * v);
-                double c = ((n - 1) * (n - 1)) / (double)((n - 2) * (n - 3));
+                double c = ((n - 1) * (n - 1)) / ((n - 2) * (n - 3));
 
                 return a * b - 3 * c;
             }

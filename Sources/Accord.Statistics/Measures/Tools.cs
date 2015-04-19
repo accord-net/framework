@@ -326,7 +326,7 @@ namespace Accord.Statistics
         public static int[] RandomSample(int n, int k)
         {
             // TODO: Mark as obsolete
-            return Accord.Math.Indices.Random(n, k);
+            return Accord.Math.Indices.Random(k, n);
         }
 
         /// <summary>

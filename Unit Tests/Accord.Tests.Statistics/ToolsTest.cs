@@ -1042,6 +1042,24 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod()]
+        public void KurtosisTest2()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+            double[] values = Accord.Math.Vector.Random(10000000);
+            double actual = Tools.Kurtosis(values, true);
+            Assert.AreEqual(-1.1997826610738631, actual);
+        }
+
+        [TestMethod()]
+        public void SkewnessTest2()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+            double[] values = Accord.Math.Vector.Random(10000000);
+            double actual = Tools.Skewness(values, true);
+            Assert.AreEqual(0.00046129386638486271, actual);
+        }
+
 
         [TestMethod()]
         public void WhiteningTest()
@@ -1212,7 +1230,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void KurtosisTest1()
+        public void KurtosisMatrixTest1()
         {
             double[,] matrix = 
             {
@@ -1241,7 +1259,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void KurtosisTest2()
+        public void KurtosisMatrixTest2()
         {
             double[][] matrix = 
             {
@@ -1270,7 +1288,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void SkewnessTest1()
+        public void SkewnessMatrixTest1()
         {
             double[,] matrix = 
             {
@@ -1298,7 +1316,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void SkewnessTest2()
+        public void SkewnessMatrixTest()
         {
             double[][] matrix = 
             {
