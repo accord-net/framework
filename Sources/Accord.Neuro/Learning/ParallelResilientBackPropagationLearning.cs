@@ -626,7 +626,6 @@ namespace Accord.Neuro.Learning
 
             // 1. Calculate for last layer first
             double[] errors = networkErrors[0];
-            double[] outputs = networkOutputs[0];
             double[][] layerWeightsDerivatives = weightsDerivatives[0];
             double[] layerThresholdDerivatives = thresholdsDerivatives[0];
 
@@ -648,7 +647,6 @@ namespace Accord.Neuro.Learning
             for (int k = 1; k < weightsDerivatives.Length; k++)
             {
                 errors = networkErrors[k];
-                outputs = networkOutputs[k];
 
                 layerWeightsDerivatives = weightsDerivatives[k];
                 layerThresholdDerivatives = thresholdsDerivatives[k];

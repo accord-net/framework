@@ -180,7 +180,7 @@ namespace Accord.Neuro.Learning
 
                 for (int i = 0; i < inputs.Length; i++)
                 {
-                    double[] responses = network.Compute(inputs[i]);
+                    network.Compute(inputs[i]); // double[] responses = 
                     outputs[i] = network.Machines[layerIndex - 1].Hidden.Output;
                 }
 

@@ -201,13 +201,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public static bool operator ==(Antecedent a, Antecedent b)
         {
-            if ((object)a == null && (object)b == null)
-                return true;
-
-            if ((object)a != null)
-                return a.Equals(b);
-
-            return b.Equals(a);
+            return a.Equals(b);
         }
 
         /// <summary>
@@ -216,13 +210,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public static bool operator !=(Antecedent a, Antecedent b)
         {
-            if ((object)a == null && (object)b == null)
-                return false;
-
-            if ((object)a != null)
-                return !a.Equals(b);
-
-            return !b.Equals(a);
+            return !a.Equals(b);
         }
 
     }
