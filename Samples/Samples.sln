@@ -120,6 +120,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{9ED3BF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Feature Selection (SVMs)", "MachineLearning\Feature Selection (SVMs)\Feature Selection (SVMs).csproj", "{19906CFC-8E1C-4F11-98E6-92A73C4F097E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification (MLR)", "Statistics\Classification (MLR)\Classification (MLR).csproj", "{E0E753EE-4A27-491C-A914-6942A772AAF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -318,6 +320,10 @@ Global
 		{19906CFC-8E1C-4F11-98E6-92A73C4F097E}.Debug|x86.Build.0 = Debug|x86
 		{19906CFC-8E1C-4F11-98E6-92A73C4F097E}.Release|x86.ActiveCfg = Release|x86
 		{19906CFC-8E1C-4F11-98E6-92A73C4F097E}.Release|x86.Build.0 = Release|x86
+		{E0E753EE-4A27-491C-A914-6942A772AAF2}.Debug|x86.ActiveCfg = Debug|x86
+		{E0E753EE-4A27-491C-A914-6942A772AAF2}.Debug|x86.Build.0 = Debug|x86
+		{E0E753EE-4A27-491C-A914-6942A772AAF2}.Release|x86.ActiveCfg = Release|x86
+		{E0E753EE-4A27-491C-A914-6942A772AAF2}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -371,6 +377,7 @@ Global
 		{07337787-AD77-4061-A0A0-C8D83AF3B977} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{1E055676-77A0-4C5B-B449-FF58CA5066E0} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
 		{19906CFC-8E1C-4F11-98E6-92A73C4F097E} = {A0409E80-C6CE-4DEA-9825-92A2A6BDDC45}
+		{E0E753EE-4A27-491C-A914-6942A772AAF2} = {473A7C08-02A2-473A-BEC6-891F035674FD}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi

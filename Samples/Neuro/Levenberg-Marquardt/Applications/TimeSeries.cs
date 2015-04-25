@@ -837,7 +837,7 @@ namespace Samples.LM
                         networkInput[j] = (data[i + j] - yMin) * factor - 0.85;
                     }
 
-                    // evalue the function
+                    // evaluate the function
                     solution[i, 1] = (network.Compute(networkInput)[0] + 0.85) / factor + yMin;
 
                     // calculate prediction error

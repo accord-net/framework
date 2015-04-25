@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -228,7 +227,7 @@
             this.tabControl.Controls.Add(this.tabPage4);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 35);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(1258, 761);
@@ -238,9 +237,9 @@
             // 
             this.tabSamples.Controls.Add(this.splitContainer7);
             this.tabSamples.Location = new System.Drawing.Point(4, 29);
-            this.tabSamples.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabSamples.Margin = new System.Windows.Forms.Padding(4);
             this.tabSamples.Name = "tabSamples";
-            this.tabSamples.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabSamples.Padding = new System.Windows.Forms.Padding(4);
             this.tabSamples.Size = new System.Drawing.Size(1250, 728);
             this.tabSamples.TabIndex = 0;
             this.tabSamples.Text = "Samples (Input)";
@@ -250,7 +249,7 @@
             // 
             this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer7.Location = new System.Drawing.Point(4, 4);
-            this.splitContainer7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer7.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer7.Name = "splitContainer7";
             // 
             // splitContainer7.Panel1
@@ -270,9 +269,9 @@
             this.groupBox7.Controls.Add(this.dgvLearningSource);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox7.Location = new System.Drawing.Point(0, 0);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox7.Size = new System.Drawing.Size(349, 720);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
@@ -294,7 +293,7 @@
             this.dgvLearningSource.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvLearningSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvLearningSource.Location = new System.Drawing.Point(4, 23);
-            this.dgvLearningSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvLearningSource.Margin = new System.Windows.Forms.Padding(4);
             this.dgvLearningSource.Name = "dgvLearningSource";
             this.dgvLearningSource.Size = new System.Drawing.Size(341, 693);
             this.dgvLearningSource.TabIndex = 5;
@@ -304,9 +303,9 @@
             this.groupBox15.Controls.Add(this.graphInput);
             this.groupBox15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox15.Location = new System.Drawing.Point(0, 0);
-            this.groupBox15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox15.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox15.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox15.Size = new System.Drawing.Size(887, 720);
             this.groupBox15.TabIndex = 7;
             this.groupBox15.TabStop = false;
@@ -333,9 +332,9 @@
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(1250, 728);
             this.tabPage2.TabIndex = 13;
             this.tabPage2.Text = "Machine Creation";
@@ -343,15 +342,13 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.zedGraphControl2);
-            this.groupBox4.Location = new System.Drawing.Point(411, 4);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox4.Location = new System.Drawing.Point(402, 4);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox4.Size = new System.Drawing.Size(831, 713);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox4.Size = new System.Drawing.Size(844, 720);
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Visualization";
@@ -369,7 +366,7 @@
             this.zedGraphControl2.ScrollMinX = 0D;
             this.zedGraphControl2.ScrollMinY = 0D;
             this.zedGraphControl2.ScrollMinY2 = 0D;
-            this.zedGraphControl2.Size = new System.Drawing.Size(823, 686);
+            this.zedGraphControl2.Size = new System.Drawing.Size(836, 693);
             this.zedGraphControl2.TabIndex = 3;
             // 
             // groupBox3
@@ -404,9 +401,9 @@
             this.groupBox3.Controls.Add(this.numSigma);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox3.Location = new System.Drawing.Point(4, 4);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(398, 720);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
@@ -417,7 +414,7 @@
             this.btnEstimateSig.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEstimateSig.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEstimateSig.Location = new System.Drawing.Point(291, 356);
-            this.btnEstimateSig.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEstimateSig.Margin = new System.Windows.Forms.Padding(4);
             this.btnEstimateSig.Name = "btnEstimateSig";
             this.btnEstimateSig.Size = new System.Drawing.Size(98, 72);
             this.btnEstimateSig.TabIndex = 1;
@@ -431,7 +428,7 @@
             this.btnEstimateLaplacian.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEstimateLaplacian.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEstimateLaplacian.Location = new System.Drawing.Point(291, 270);
-            this.btnEstimateLaplacian.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEstimateLaplacian.Margin = new System.Windows.Forms.Padding(4);
             this.btnEstimateLaplacian.Name = "btnEstimateLaplacian";
             this.btnEstimateLaplacian.Size = new System.Drawing.Size(98, 32);
             this.btnEstimateLaplacian.TabIndex = 1;
@@ -445,7 +442,7 @@
             this.btnEstimateGaussian.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEstimateGaussian.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEstimateGaussian.Location = new System.Drawing.Point(291, 63);
-            this.btnEstimateGaussian.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEstimateGaussian.Margin = new System.Windows.Forms.Padding(4);
             this.btnEstimateGaussian.Name = "btnEstimateGaussian";
             this.btnEstimateGaussian.Size = new System.Drawing.Size(98, 32);
             this.btnEstimateGaussian.TabIndex = 1;
@@ -459,7 +456,7 @@
             this.btnEstimateC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEstimateC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEstimateC.Location = new System.Drawing.Point(303, 460);
-            this.btnEstimateC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEstimateC.Margin = new System.Windows.Forms.Padding(4);
             this.btnEstimateC.Name = "btnEstimateC";
             this.btnEstimateC.Size = new System.Drawing.Size(86, 32);
             this.btnEstimateC.TabIndex = 1;
@@ -473,7 +470,7 @@
             this.btnSampleRunAnalysis.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSampleRunAnalysis.Location = new System.Drawing.Point(9, 650);
-            this.btnSampleRunAnalysis.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSampleRunAnalysis.Margin = new System.Windows.Forms.Padding(4);
             this.btnSampleRunAnalysis.Name = "btnSampleRunAnalysis";
             this.btnSampleRunAnalysis.Size = new System.Drawing.Size(380, 60);
             this.btnSampleRunAnalysis.TabIndex = 1;
@@ -493,7 +490,7 @@
             0,
             65536});
             this.numT.Location = new System.Drawing.Point(141, 540);
-            this.numT.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numT.Margin = new System.Windows.Forms.Padding(4);
             this.numT.Name = "numT";
             this.numT.Size = new System.Drawing.Size(248, 26);
             this.numT.TabIndex = 7;
@@ -509,7 +506,7 @@
             this.rbGaussian.AutoSize = true;
             this.rbGaussian.Checked = true;
             this.rbGaussian.Location = new System.Drawing.Point(28, 28);
-            this.rbGaussian.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbGaussian.Margin = new System.Windows.Forms.Padding(4);
             this.rbGaussian.Name = "rbGaussian";
             this.rbGaussian.Size = new System.Drawing.Size(151, 24);
             this.rbGaussian.TabIndex = 6;
@@ -543,7 +540,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numSigB.DecimalPlaces = 6;
             this.numSigB.Location = new System.Drawing.Point(144, 398);
-            this.numSigB.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numSigB.Margin = new System.Windows.Forms.Padding(4);
             this.numSigB.Minimum = new decimal(new int[] {
             100,
             0,
@@ -570,7 +567,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numSigAlpha.DecimalPlaces = 7;
             this.numSigAlpha.Location = new System.Drawing.Point(144, 357);
-            this.numSigAlpha.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numSigAlpha.Margin = new System.Windows.Forms.Padding(4);
             this.numSigAlpha.Name = "numSigAlpha";
             this.numSigAlpha.Size = new System.Drawing.Size(138, 26);
             this.numSigAlpha.TabIndex = 7;
@@ -607,7 +604,7 @@
             0,
             65536});
             this.numNegativeWeight.Location = new System.Drawing.Point(267, 501);
-            this.numNegativeWeight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numNegativeWeight.Margin = new System.Windows.Forms.Padding(4);
             this.numNegativeWeight.Name = "numNegativeWeight";
             this.numNegativeWeight.Size = new System.Drawing.Size(122, 26);
             this.numNegativeWeight.TabIndex = 7;
@@ -627,7 +624,7 @@
             0,
             65536});
             this.numPositiveWeight.Location = new System.Drawing.Point(141, 501);
-            this.numPositiveWeight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numPositiveWeight.Margin = new System.Windows.Forms.Padding(4);
             this.numPositiveWeight.Name = "numPositiveWeight";
             this.numPositiveWeight.Size = new System.Drawing.Size(117, 26);
             this.numPositiveWeight.TabIndex = 7;
@@ -649,7 +646,7 @@
             0,
             65536});
             this.numC.Location = new System.Drawing.Point(141, 460);
-            this.numC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numC.Margin = new System.Windows.Forms.Padding(4);
             this.numC.Name = "numC";
             this.numC.Size = new System.Drawing.Size(153, 26);
             this.numC.TabIndex = 7;
@@ -666,7 +663,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numPolyConstant.DecimalPlaces = 7;
             this.numPolyConstant.Location = new System.Drawing.Point(135, 188);
-            this.numPolyConstant.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numPolyConstant.Margin = new System.Windows.Forms.Padding(4);
             this.numPolyConstant.Name = "numPolyConstant";
             this.numPolyConstant.Size = new System.Drawing.Size(141, 26);
             this.numPolyConstant.TabIndex = 7;
@@ -683,7 +680,7 @@
             this.numDegree.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numDegree.Location = new System.Drawing.Point(135, 148);
-            this.numDegree.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numDegree.Margin = new System.Windows.Forms.Padding(4);
             this.numDegree.Name = "numDegree";
             this.numDegree.Size = new System.Drawing.Size(141, 26);
             this.numDegree.TabIndex = 7;
@@ -718,7 +715,7 @@
             // 
             this.rbSigmoid.AutoSize = true;
             this.rbSigmoid.Location = new System.Drawing.Point(28, 322);
-            this.rbSigmoid.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbSigmoid.Margin = new System.Windows.Forms.Padding(4);
             this.rbSigmoid.Name = "rbSigmoid";
             this.rbSigmoid.Size = new System.Drawing.Size(140, 24);
             this.rbSigmoid.TabIndex = 6;
@@ -730,7 +727,7 @@
             // 
             this.rbLaplacian.AutoSize = true;
             this.rbLaplacian.Location = new System.Drawing.Point(28, 240);
-            this.rbLaplacian.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbLaplacian.Margin = new System.Windows.Forms.Padding(4);
             this.rbLaplacian.Name = "rbLaplacian";
             this.rbLaplacian.Size = new System.Drawing.Size(151, 24);
             this.rbLaplacian.TabIndex = 6;
@@ -742,7 +739,7 @@
             // 
             this.rbPolynomial.AutoSize = true;
             this.rbPolynomial.Location = new System.Drawing.Point(28, 114);
-            this.rbPolynomial.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.rbPolynomial.Margin = new System.Windows.Forms.Padding(4);
             this.rbPolynomial.Name = "rbPolynomial";
             this.rbPolynomial.Size = new System.Drawing.Size(158, 24);
             this.rbPolynomial.TabIndex = 6;
@@ -776,7 +773,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numLaplacianSigma.DecimalPlaces = 7;
             this.numLaplacianSigma.Location = new System.Drawing.Point(135, 270);
-            this.numLaplacianSigma.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numLaplacianSigma.Margin = new System.Windows.Forms.Padding(4);
             this.numLaplacianSigma.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -798,7 +795,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.numSigma.DecimalPlaces = 7;
             this.numSigma.Location = new System.Drawing.Point(135, 64);
-            this.numSigma.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.numSigma.Margin = new System.Windows.Forms.Padding(4);
             this.numSigma.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -818,9 +815,9 @@
             // 
             this.tabOverview.Controls.Add(this.splitContainer2);
             this.tabOverview.Location = new System.Drawing.Point(4, 29);
-            this.tabOverview.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabOverview.Margin = new System.Windows.Forms.Padding(4);
             this.tabOverview.Name = "tabOverview";
-            this.tabOverview.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabOverview.Padding = new System.Windows.Forms.Padding(4);
             this.tabOverview.Size = new System.Drawing.Size(1250, 728);
             this.tabOverview.TabIndex = 1;
             this.tabOverview.Text = "Support Vectors";
@@ -830,7 +827,7 @@
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(4, 4);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer2.Name = "splitContainer2";
             // 
             // splitContainer2.Panel1
@@ -850,9 +847,9 @@
             this.groupBox1.Controls.Add(this.dgvSupportVectors);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(395, 720);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
@@ -885,7 +882,7 @@
             this.dgvSupportVectors.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvSupportVectors.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvSupportVectors.Location = new System.Drawing.Point(4, 23);
-            this.dgvSupportVectors.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvSupportVectors.Margin = new System.Windows.Forms.Padding(4);
             this.dgvSupportVectors.Name = "dgvSupportVectors";
             this.dgvSupportVectors.ReadOnly = true;
             this.dgvSupportVectors.RowHeadersVisible = false;
@@ -899,9 +896,9 @@
             this.groupBox5.Controls.Add(this.graphSupportVectors);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox5.Location = new System.Drawing.Point(0, 0);
-            this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox5.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox5.Size = new System.Drawing.Size(841, 720);
             this.groupBox5.TabIndex = 4;
             this.groupBox5.TabStop = false;
@@ -927,9 +924,9 @@
             // 
             this.tabPage4.Controls.Add(this.splitContainer1);
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage4.Size = new System.Drawing.Size(1250, 728);
             this.tabPage4.TabIndex = 12;
             this.tabPage4.Text = "Model Testing";
@@ -939,7 +936,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(4, 4);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -961,9 +958,9 @@
             this.groupBox2.Controls.Add(this.dgvTestingSource);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(395, 628);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
@@ -996,7 +993,7 @@
             this.dgvTestingSource.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvTestingSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTestingSource.Location = new System.Drawing.Point(4, 23);
-            this.dgvTestingSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvTestingSource.Margin = new System.Windows.Forms.Padding(4);
             this.dgvTestingSource.Name = "dgvTestingSource";
             this.dgvTestingSource.ReadOnly = true;
             this.dgvTestingSource.RowHeadersVisible = false;
@@ -1009,7 +1006,7 @@
             // 
             this.btnTestingRun.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnTestingRun.Location = new System.Drawing.Point(0, 628);
-            this.btnTestingRun.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTestingRun.Margin = new System.Windows.Forms.Padding(4);
             this.btnTestingRun.Name = "btnTestingRun";
             this.btnTestingRun.Size = new System.Drawing.Size(395, 92);
             this.btnTestingRun.TabIndex = 3;
@@ -1022,9 +1019,9 @@
             this.groupBox11.Controls.Add(this.zedGraphControl1);
             this.groupBox11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox11.Location = new System.Drawing.Point(0, 0);
-            this.groupBox11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox11.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox11.Size = new System.Drawing.Size(841, 610);
             this.groupBox11.TabIndex = 4;
             this.groupBox11.TabStop = false;
@@ -1051,9 +1048,9 @@
             this.groupBox6.Controls.Add(this.dgvPerformance);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox6.Location = new System.Drawing.Point(0, 610);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox6.Size = new System.Drawing.Size(841, 110);
             this.groupBox6.TabIndex = 5;
             this.groupBox6.TabStop = false;
@@ -1095,7 +1092,7 @@
             this.dgvPerformance.DefaultCellStyle = dataGridViewCellStyle9;
             this.dgvPerformance.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPerformance.Location = new System.Drawing.Point(4, 23);
-            this.dgvPerformance.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvPerformance.Margin = new System.Windows.Forms.Padding(4);
             this.dgvPerformance.Name = "dgvPerformance";
             this.dgvPerformance.ReadOnly = true;
             this.dgvPerformance.RowHeadersVisible = false;
@@ -1187,7 +1184,7 @@
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(1154, 788);
             this.Name = "MainForm";
             this.Text = "Kernel Support Vector Machines (for Classification)";

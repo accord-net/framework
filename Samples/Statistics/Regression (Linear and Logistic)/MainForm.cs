@@ -30,17 +30,17 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Accord.Controls;
+using Accord.IO;
+using Accord.Math;
+using Accord.Statistics.Analysis;
+using Components;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Accord.Controls;
-using Accord.IO;
-using Accord.Math;
-using Accord.Statistics.Analysis;
-using Components;
 
 namespace Regression.Linear
 {
@@ -141,7 +141,8 @@ namespace Regression.Linear
             double[,] sourceMatrix = sourceTable.ToMatrix(independentNames);
 
             // Creates the Simple Descriptive Analysis of the given source
-            DescriptiveAnalysis sda = new DescriptiveAnalysis(sourceMatrix, independentNames);
+            var sda = new DescriptiveAnalysis(sourceMatrix, independentNames);
+
             sda.Compute();
 
             // Populates statistics overview tab with analysis data
