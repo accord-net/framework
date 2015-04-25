@@ -204,10 +204,21 @@ namespace Accord.Math
         {
             T[] vector = new T[size];
             int min = System.Math.Min(size, values.Length);
-            for (int i = 0; i < size; i++)
+            for (int i = 0; i < min; i++)
                 vector[i] = values[i];
 
             return vector;
+        }
+
+        /// <summary>
+        ///   Creates a vector with the given dimension default value.
+        /// </summary>
+        /// 
+        /// <param name="size">The number of elements in the vector.</param>
+        /// 
+        public static T[] Create<T>(int size)
+        {
+            return new T[size];
         }
 
         /// <summary>

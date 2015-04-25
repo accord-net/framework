@@ -92,9 +92,6 @@ namespace Accord.Statistics.Testing
             double[] Vx = positiveAccuracies;
             double[] Vy = negativeAccuracies;
 
-            double meanVx = Statistics.Tools.Mean(Vx);
-            double meanVy = Statistics.Tools.Mean(Vy);
-
             double varVx = Statistics.Tools.Variance(Vx);
             double varVy = Statistics.Tools.Variance(Vy);
 

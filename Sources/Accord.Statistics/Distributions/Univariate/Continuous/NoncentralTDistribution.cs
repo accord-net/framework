@@ -22,10 +22,10 @@
 
 namespace Accord.Statistics.Distributions.Univariate
 {
-    using System;
     using Accord.Math;
     using Accord.Math.Optimization;
     using AForge;
+    using System;
 
     /// <summary>
     ///   Noncentral t-distribution.
@@ -363,19 +363,16 @@ namespace Accord.Statistics.Distributions.Univariate
                     "Degrees of freedom must be positive.");
             }
 
-            double tt;
             double del;
             bool negdel;
 
             if (t < 0.0)
             {
-                tt = -t;
                 del = -delta;
                 negdel = true;
             }
             else
             {
-                tt = t;
                 del = delta;
                 negdel = false;
             }

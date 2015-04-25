@@ -787,6 +787,9 @@ namespace Accord.Statistics
         {
             double q1, q3;
             double q2 = Quartiles(angles, out q1, out q3, median, wrap);
+
+            System.Diagnostics.Debug.Assert(q2 == median);
+
             range = new DoubleRange(q1, q3);
             return median;
         }
@@ -818,7 +821,7 @@ namespace Accord.Statistics
                 x[i] = (x[i] > +Math.PI) ? (x[i] - (2 * Math.PI)) : (x[i]);
             }
 
-            double newMedian = Tools.Quartiles(x, out q1, out q3, alreadySorted: false);
+            Tools.Quartiles(x, out q1, out q3, alreadySorted: false);
 
             q1 = q1 + median;
             q3 = q3 + median;
@@ -987,7 +990,6 @@ namespace Accord.Statistics
         public static double Skewness(double[] angles)
         {
             // compute necessary values
-            double R = Circular.Resultant(angles);
             double theta = Circular.Mean(angles);
 
             Complex m = CentralMoments(angles, 2);
@@ -1024,7 +1026,6 @@ namespace Accord.Statistics
         public static double Kurtosis(double[] angles)
         {
             // Compute mean direction
-            double R = Circular.Resultant(angles);
             double theta = Circular.Mean(angles);
 
             // Compute central moments

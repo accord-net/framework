@@ -22,12 +22,12 @@
 
 namespace Accord.Statistics.Distributions.Univariate
 {
-    using System;
     using Accord.Math;
+    using Accord.Math.Optimization;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
-    using Accord.Math.Optimization;
+    using System;
     using System.ComponentModel;
 
     /// <summary>
@@ -304,7 +304,6 @@ namespace Accord.Statistics.Distributions.Univariate
         public static GeneralizedBetaDistribution Pert(double min, double max, double mode, double scale)
         {
             double mu = (min + scale * mode + max) / (scale + 2);
-            double sd = (max - min) / (scale + 2);
 
             double alpha = 1 + scale / 2;
 

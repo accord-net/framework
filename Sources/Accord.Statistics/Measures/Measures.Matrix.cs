@@ -22,12 +22,9 @@
 
 namespace Accord.Statistics
 {
-    using System;
-    using System.Collections.Generic;
     using Accord.Math;
-    using Accord.Math.Decompositions;
-    using Accord.Statistics.Kernels;
     using AForge;
+    using System;
 
     // TODO: Rename to Measures
     public static partial class Tools
@@ -757,7 +754,6 @@ namespace Accord.Statistics
         /// 
         public static T[] Mode<T>(this T[,] matrix)
         {
-            int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
 
             T[] mode = new T[cols];
@@ -786,7 +782,6 @@ namespace Accord.Statistics
         /// 
         public static T[] Mode<T>(this T[][] matrix)
         {
-            int rows = matrix.Length;
             int cols = matrix[0].Length;
 
             T[] mode = new T[cols];

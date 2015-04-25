@@ -24,10 +24,6 @@ namespace Accord.Statistics
 {
     using System;
     using System.Collections.Generic;
-    using Accord.Math;
-    using Accord.Math.Decompositions;
-    using Accord.Statistics.Kernels;
-    using AForge;
 
     // TODO: Rename to Measures
     static partial class Tools
@@ -540,7 +536,6 @@ namespace Accord.Statistics
                 return new double[0];
 
             int cols = matrix[0].Length;
-            double N = rows;
 
             double[] variance = new double[cols];
 
@@ -664,8 +659,6 @@ namespace Accord.Statistics
                     "The values and weight vectors must have the same length.");
             }
 
-            double N = rows;
-
             double[] variance = new double[cols];
 
             // for each column (for each variable)
@@ -751,7 +744,6 @@ namespace Accord.Statistics
                 return new double[0];
 
             int cols = matrix[0].Length;
-            double N = rows;
 
             double[] variance = new double[cols];
 
@@ -837,8 +829,6 @@ namespace Accord.Statistics
                 throw new DimensionMismatchException("weights",
                     "The values and weight vectors must have the same length.");
             }
-
-            double N = rows;
 
             double[] variance = new double[cols];
 

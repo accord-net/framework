@@ -22,13 +22,13 @@
 
 namespace Accord.Statistics.Models.Fields
 {
+    using Accord.Math;
+    using Accord.Statistics.Models.Fields.Functions;
+    using Accord.Statistics.Models.Fields.Learning;
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
-    using Accord.Math;
-    using Accord.Statistics.Models.Fields.Functions;
-    using Accord.Statistics.Models.Fields.Learning;
 
     /// <summary>
     ///   Hidden Conditional Random Field (HCRF).
@@ -361,8 +361,6 @@ namespace Accord.Statistics.Models.Fields
             // Induction
             for (int t = 1; t < observations.Length; t++)
             {
-                T observation = observations[t];
-
                 for (int j = 0; j < states; j++)
                 {
                     maxState = 0;

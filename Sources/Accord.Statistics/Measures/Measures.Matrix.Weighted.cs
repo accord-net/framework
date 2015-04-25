@@ -22,12 +22,8 @@
 
 namespace Accord.Statistics
 {
-    using System;
-    using System.Collections.Generic;
     using Accord.Math;
-    using Accord.Math.Decompositions;
-    using Accord.Statistics.Kernels;
-    using AForge;
+    using System;
 
     // TODO: Rename to Measures
     public static partial class Tools

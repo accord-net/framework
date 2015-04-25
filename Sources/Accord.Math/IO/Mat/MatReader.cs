@@ -196,7 +196,7 @@ namespace Accord.IO
             this.reader = reader;
 
             char[] title = reader.ReadChars(116);
-            long subOffset = reader.ReadInt64();
+            reader.ReadInt64(); // long subOffset
             short version = reader.ReadInt16();
             char[] endian = reader.ReadChars(2);
 

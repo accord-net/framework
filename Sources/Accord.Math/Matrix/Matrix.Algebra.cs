@@ -1312,8 +1312,6 @@ namespace Accord.Math
         /// 
         public unsafe static void Multiply(this double[,] matrix, double x, double[,] result)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
             int length = matrix.Length;
 
             fixed (double* ptrA = matrix, ptrR = result)
@@ -1335,8 +1333,6 @@ namespace Accord.Math
         /// 
         public unsafe static void Multiply(this float[,] matrix, float x, float[,] result)
         {
-            int rows = matrix.GetLength(0);
-            int cols = matrix.GetLength(1);
             int length = matrix.Length;
 
             fixed (float* ptrA = matrix, ptrR = result)

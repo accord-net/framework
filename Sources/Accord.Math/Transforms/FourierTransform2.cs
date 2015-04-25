@@ -251,7 +251,6 @@ namespace Accord.Math.Transforms
             int m = data[0].Length;
 
             // process rows
-            var row = new Complex[m];
             for (int i = 0; i < data.Length; i++)
             {
                 // transform it

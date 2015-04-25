@@ -103,9 +103,6 @@ namespace Accord.Math
             if (a == null)
                 throw new ArgumentNullException("a");
 
-            int rows = a.Rows();
-            int cols = a.Columns();
-
             double norm = 0.0;
             for (int i = 0; i < a.Length; i++)
             {

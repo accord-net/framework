@@ -67,7 +67,6 @@ namespace Accord.Statistics.Testing
             int a = mat[0, 0];
             int b = mat[0, 1];
             int c = mat[1, 0];
-            int d = mat[1, 1];
 
 
             int N = matrix.Samples; // total number in population

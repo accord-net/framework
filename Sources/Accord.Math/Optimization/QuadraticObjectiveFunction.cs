@@ -564,7 +564,6 @@ namespace Accord.Math.Optimization
 
                     BinaryExpression rb = eb.Right as BinaryExpression;
                     MemberExpression rm = eb.Right as MemberExpression;
-                    UnaryExpression ru = eb.Right as UnaryExpression;
 
                     ConstantExpression rc = eb.Right as ConstantExpression;
 

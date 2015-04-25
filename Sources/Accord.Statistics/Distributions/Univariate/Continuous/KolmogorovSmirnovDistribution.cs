@@ -556,7 +556,6 @@ namespace Accord.Statistics.Distributions.Univariate
             double z2 = z * z;
             double z3 = z2 * z;
             double z4 = z2 * z2;
-            double z5 = z4 * z;
             double z6 = z4 * z2;
             double z7 = z4 * z3;
             double z8 = z4 * z4;

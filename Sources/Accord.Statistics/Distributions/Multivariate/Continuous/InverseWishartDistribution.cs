@@ -361,8 +361,6 @@ namespace Accord.Statistics.Distributions.Multivariate
             double[,] Vx = chol.Solve(inverseScaleMatrix);
 
             double z = -0.5 * Vx.Trace();
-            double a = Math.Pow(det, power);
-            double b = Math.Exp(z);
 
             return Math.Log(constant) + power * Math.Log(det) + z;
         }

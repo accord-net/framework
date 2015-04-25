@@ -120,7 +120,7 @@ namespace Accord.Statistics.Testing
                 {
                     if (i == j)
                     {
-                        double u = (rowMarginals[i] - colMarginals[i]);
+                        // double u = (rowMarginals[i] - colMarginals[i]);
                         double pii = matrix.Matrix[i, i];
 
                         S[i, i] = rowMarginals[i] + colMarginals[i] - 2.0 * pii;

@@ -349,7 +349,6 @@ namespace Accord.Math
             int cols = matrix.GetLength(1);
 
             int maxRows = System.Math.Max(rows, column.Length);
-            int minRows = System.Math.Min(rows, column.Length);
 
             T[,] X = new T[maxRows, cols + 1];
 
@@ -384,7 +383,6 @@ namespace Accord.Math
             int cols = matrix[0].Length;
 
             int maxRows = System.Math.Max(rows, column.Length);
-            int minRows = System.Math.Min(rows, column.Length);
 
             T[][] X = new T[maxRows][];
             for (int i = 0; i < X.Length; i++)
@@ -422,7 +420,6 @@ namespace Accord.Math
             int cols = matrix.GetLength(1);
 
             int maxCols = System.Math.Max(cols, row.Length);
-            int minCols = System.Math.Min(cols, row.Length);
 
             var X = new T[rows + 1, maxCols];
 
@@ -456,8 +453,8 @@ namespace Accord.Math
 
             int rows = matrix.Length;
             int cols = matrix[0].Length;
+
             int maxCols = System.Math.Max(cols, row.Length);
-            int minCols = System.Math.Min(cols, row.Length);
 
             var X = new T[rows + 1][];
             for (int i = 0; i < X.Length; i++)
@@ -1601,7 +1598,7 @@ namespace Accord.Math
             for (int i = 0; i < idx.Length; i++)
                 idx[i] = i;
 
-            int pivot = select(work, idx, 0, values.Length - 1, count, true);
+            select(work, idx, 0, values.Length - 1, count, true);
 
             int[] result = new int[count];
             for (int i = 0; i < result.Length; i++)
@@ -1635,7 +1632,7 @@ namespace Accord.Math
             for (int i = 0; i < idx.Length; i++)
                 idx[i] = i;
 
-            int pivot = select(work, idx, 0, values.Length - 1, count, false);
+            select(work, idx, 0, values.Length - 1, count, false);
 
             int[] result = new int[count];
             for (int i = 0; i < result.Length; i++)
