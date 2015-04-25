@@ -22,16 +22,14 @@
 
 namespace Accord.Statistics.Analysis
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using Accord.Math;
-    using Accord.Statistics.Models.Regression.Linear;
-    using Accord.Statistics.Testing;
-    using AForge;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
+    using Accord.Statistics.Testing;
+    using AForge;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Multinomial Logistic Regression Analysis
@@ -164,6 +162,11 @@ namespace Accord.Statistics.Analysis
             set { tolerance = value; }
         }
 
+        /// <summary>
+        ///  Gets the number of outputs in the regression problem.
+        /// </summary>
+        /// 
+        public int OutputCount { get { return outputCount; } }
 
         /// <summary>
         ///   Gets the Standard Error for each coefficient
@@ -383,12 +386,19 @@ namespace Accord.Statistics.Analysis
             regression = new MultinomialLogisticRegression(inputCount, outputCount);
 
             // Create additional structures
-            this.coefficientCount = regression.Coefficients.Length;
+            this.coefficientCount = regression.Coefficients[0].Length;
             this.coefficients = regression.Coefficients;
             this.standardErrors = regression.StandardErrors;
-            this.confidences = new DoubleRange[coefficientCount][];
-            this.oddsRatios = new double[coefficientCount][];
-            this.waldTests = new WaldTest[coefficientCount][];
+            this.confidences = new DoubleRange[outputCount - 1][];
+            this.oddsRatios = new double[outputCount - 1][];
+            this.waldTests = new WaldTest[outputCount - 1][];
+
+            for (int i = 0; i < confidences.Length; i++)
+            {
+                this.confidences[i] = new DoubleRange[coefficientCount];
+                this.oddsRatios[i] = new double[coefficientCount];
+                this.waldTests[i] = new WaldTest[coefficientCount];
+            }
 
 
             this.inputNames = new string[inputCount];
@@ -401,9 +411,10 @@ namespace Accord.Statistics.Analysis
 
 
             // Create object-oriented structure to represent the analysis
-            var coefs = new MultinomialCoefficient[outputCount * coefficientCount];
-            for (int k = 0, i = 0; i < coefficientCount; i++)
-                for (int j = 0; j < outputCount; j++, k++)
+            var coefs = new MultinomialCoefficient[(outputCount - 1) * coefficientCount + 1];
+            coefs[0] = new MultinomialCoefficient(this, 0, 0);
+            for (int k = 1, j = 1; j < outputCount; j++)
+                for (int i = 0; i < coefficientCount; i++, k++)
                     coefs[k] = new MultinomialCoefficient(this, j, i);
 
             this.coefficientCollection = new MultinomialCoefficientCollection(coefs);
@@ -522,21 +533,32 @@ namespace Accord.Statistics.Analysis
         }
 
         /// <summary>
+        ///   Gets the name of the category that this coefficient belongs to.
+        /// </summary>
+        /// 
+        public string Class
+        {
+            get
+            {
+                return analysis.OutputNames[category];
+            }
+        }
+
+        /// <summary>
         ///   Gets the name for the current coefficient.
         /// </summary>
         /// 
         public string Name
         {
-            get { return analysis.Inputs[index]; }
-        }
+            get
+            {
+                if (category == 0)
+                    return "(baseline)";
 
-        /// <summary>
-        ///   Gets the name of the category that this coefficient belongs to.
-        /// </summary>
-        /// 
-        public string Output
-        {
-            get { return analysis.OutputNames[category]; }
+                if (index == 0)
+                    return "Intercept";
+                return analysis.Inputs[index - 1];
+            }
         }
 
         /// <summary>
@@ -544,14 +566,32 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [DisplayName("Value")]
-        public double Value { get { return Analysis.regression.Coefficients[category][index]; } }
+        public double Value
+        {
+            get
+            {
+                if (category == 0)
+                    return 0.0;
+
+                return Analysis.regression.Coefficients[category - 1][index];
+            }
+        }
 
         /// <summary>
         ///   Gets the Standard Error for the current coefficient.
         /// </summary>
         /// 
         [DisplayName("Std. Error")]
-        public double StandardError { get { return Analysis.StandardErrors[category][index]; } }
+        public double StandardError
+        {
+            get
+            {
+                if (category == 0)
+                    return 0.0;
+
+                return Analysis.StandardErrors[category - 1][index];
+            }
+        }
 
         /// <summary>
         ///   Gets the confidence interval (C.I.) for the current coefficient.
@@ -560,7 +600,12 @@ namespace Accord.Statistics.Analysis
         [Browsable(false)]
         public DoubleRange Confidence
         {
-            get { return analysis.Confidences[category][index]; }
+            get
+            {
+                if (category == 0)
+                    return new DoubleRange(0, 0);
+                return analysis.Confidences[category - 1][index];
+            }
         }
 
         /// <summary>
@@ -568,14 +613,45 @@ namespace Accord.Statistics.Analysis
         /// </summary>
         /// 
         [DisplayName("Upper confidence limit")]
-        public double ConfidenceUpper { get { return Analysis.Confidences[category][index].Max; } }
+        public double ConfidenceUpper
+        {
+            get
+            {
+                if (category == 0)
+                    return 0.0;
+                return Analysis.Confidences[category - 1][index].Max;
+            }
+        }
 
         /// <summary>
         ///   Gets the lower limit for the confidence interval.
         /// </summary>
         /// 
         [DisplayName("Lower confidence limit")]
-        public double ConfidenceLower { get { return Analysis.Confidences[category][index].Min; } }
+        public double ConfidenceLower
+        {
+            get
+            {
+                if (category == 0)
+                    return 0.0;
+                return Analysis.Confidences[category - 1][index].Min;
+            }
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString()
+        {
+            if (category == 0)
+                return Class + " (baseline)";
+            return String.Format("{0}, {1}; {2} ({3}, {4})", Class, Name, Value, ConfidenceLower, ConfidenceUpper);
+        }
 
     }
 

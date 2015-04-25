@@ -824,8 +824,9 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                if (index == 0) return "Intercept";
-                else return analysis.Inputs[index - 1];
+                if (index == 0)
+                    return "Intercept";
+                return analysis.Inputs[index - 1];
             }
         }
 
@@ -913,6 +914,20 @@ namespace Accord.Statistics.Analysis
         {
             get { return analysis.LikelihoodRatioTests[index]; }
         }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString()
+        {
+            return String.Format("{0}; {1} ({2}, {3})", Name, Value, ConfidenceLower, ConfidenceUpper);
+        }
+
 
     }
 
