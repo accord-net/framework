@@ -303,6 +303,8 @@ namespace Accord.Controls
                     zedGraphControl.ZoomPane(zedGraphControl.GraphPane, 1.1, PointF.Empty, false);
                 else zedGraphControl.RestoreScale(zedGraphControl.GraphPane);
             }
+
+            zedGraphControl.RestoreScale(zedGraphControl.GraphPane);
         }
 
 
