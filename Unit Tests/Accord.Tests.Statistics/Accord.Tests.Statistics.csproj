@@ -353,6 +353,7 @@
     <None Include="Resources\examples.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\hsbdemo.csv" />
     <None Include="Resources\intrusion.xls" />
     <None Include="Resources\sample.xls">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

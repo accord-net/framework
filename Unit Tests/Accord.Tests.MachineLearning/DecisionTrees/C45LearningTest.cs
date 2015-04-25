@@ -22,8 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
-    using System.Data;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.MachineLearning.DecisionTrees.Rules;
@@ -31,27 +29,12 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using Accord.Tests.MachineLearning.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using System.Data;
 
     [TestClass()]
     public class C45LearningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         public static void CreateMitchellExample(out DecisionTree tree, out double[][] inputs, out int[] outputs)
         {

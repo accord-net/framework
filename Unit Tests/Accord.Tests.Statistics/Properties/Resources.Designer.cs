@@ -71,6 +71,22 @@ namespace Accord.Tests.Statistics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to id,female,ses,schtyp,prog,read,write,math,science,socst,honors,awards,cid
+        ///45,&quot;female&quot;,&quot;low&quot;,&quot;public&quot;,&quot;vocation&quot;,34,35,41,29,26,&quot;not enrolled&quot;,0,1
+        ///108,&quot;male&quot;,&quot;middle&quot;,&quot;public&quot;,&quot;general&quot;,34,33,41,36,36,&quot;not enrolled&quot;,0,1
+        ///15,&quot;male&quot;,&quot;high&quot;,&quot;public&quot;,&quot;vocation&quot;,39,39,44,26,42,&quot;not enrolled&quot;,0,1
+        ///67,&quot;male&quot;,&quot;low&quot;,&quot;public&quot;,&quot;vocation&quot;,37,37,42,33,32,&quot;not enrolled&quot;,0,1
+        ///153,&quot;male&quot;,&quot;middle&quot;,&quot;public&quot;,&quot;vocation&quot;,39,31,40,39,51,&quot;not enrolled&quot;,0,1
+        ///51,&quot;female&quot;,&quot;high&quot;,&quot;public&quot;,&quot;general&quot;,42,36,42,31,39,&quot;not enrolled&quot;,0,1
+        ///164,&quot;m [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string hsbdemo {
+            get {
+                return ResourceManager.GetString("hsbdemo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In1,In2,Out
         ///15.3,0,1
         ///15,0,1

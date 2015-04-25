@@ -22,12 +22,12 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System.Linq;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Linq;
 
     [TestClass()]
     public class MultinomialLogisticRegressionTest
@@ -73,7 +73,7 @@ namespace Accord.Tests.Statistics
 
             // This is the same example given in R Data Analysis Examples for
             // Multinomial Logistic Regression: http://www.ats.ucla.edu/stat/r/dae/mlogit.htm
-            
+
             // brand 2
             Assert.AreEqual(-11.774655, mlr.Coefficients[0][0], 1e-4); // intercept
             Assert.AreEqual(0.523814, mlr.Coefficients[0][1], 1e-4); // female
@@ -92,16 +92,16 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(mlr.StandardErrors[1][1]));
             Assert.IsFalse(double.IsNaN(mlr.StandardErrors[1][2]));
 
-           /*
-            // Using the standard Hessian estimation
-            Assert.AreEqual(1.774612, mlr.StandardErrors[0][0], 1e-6);
-            Assert.AreEqual(0.194247, mlr.StandardErrors[0][1], 1e-6);
-            Assert.AreEqual(0.055003, mlr.StandardErrors[0][2], 1e-6);
+            /*
+             // Using the standard Hessian estimation
+             Assert.AreEqual(1.774612, mlr.StandardErrors[0][0], 1e-6);
+             Assert.AreEqual(0.194247, mlr.StandardErrors[0][1], 1e-6);
+             Assert.AreEqual(0.055003, mlr.StandardErrors[0][2], 1e-6);
 
-            Assert.AreEqual(2.058028, mlr.StandardErrors[1][0], 1e-6);
-            Assert.AreEqual(0.226090, mlr.StandardErrors[1][1], 1e-6);
-            Assert.AreEqual(0.062627, mlr.StandardErrors[1][2], 1e-6);
-            */
+             Assert.AreEqual(2.058028, mlr.StandardErrors[1][0], 1e-6);
+             Assert.AreEqual(0.226090, mlr.StandardErrors[1][1], 1e-6);
+             Assert.AreEqual(0.062627, mlr.StandardErrors[1][2], 1e-6);
+             */
 
             // Using the lower-bound approximation
             Assert.AreEqual(1.047378039787443, mlr.StandardErrors[0][0], 1e-6);
@@ -335,7 +335,7 @@ namespace Accord.Tests.Statistics
         {
             MultinomialLogisticRegression mlr = new MultinomialLogisticRegression(2, 3);
 
-            
+
             // brand 2
             mlr.Coefficients[0][0] = -11.774655; // intercept
             mlr.Coefficients[0][1] = 0.523814; // female
