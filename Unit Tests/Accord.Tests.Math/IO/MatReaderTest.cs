@@ -163,7 +163,7 @@ namespace Accord.Tests.IO
         [TestMethod()]
         public void readInt64_2()
         {
-            MemoryStream file = new MemoryStream(Resources.A64);
+            MemoryStream file = new MemoryStream(Resources.a64);
             MatReader reader = new MatReader(file);
 
             Assert.AreEqual(

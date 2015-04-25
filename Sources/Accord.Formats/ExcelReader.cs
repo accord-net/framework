@@ -24,6 +24,7 @@ namespace Accord.IO
 {
     using System;
     using System.Data;
+    using System.Data.Common;
     using System.Data.OleDb;
     using System.Globalization;
     using System.IO;
@@ -197,11 +198,10 @@ namespace Accord.IO
                 Provider = "Microsoft.Jet.OLEDB.4.0";   // for x86/95-2003
             else Provider = "Microsoft.ACE.OLEDB.12.0"; // for x64/95-2007+
 
-            OleDbConnectionStringBuilder strBuilder
-                = new OleDbConnectionStringBuilder();
+            var strBuilder = new DbConnectionStringBuilder();
 
-            strBuilder.Provider = Provider;
-            strBuilder.DataSource = tempFileName;
+            strBuilder.Add("Provider", Provider);
+            strBuilder.Add("Data Source", tempFileName);
             strBuilder.Add("Extended Properties", Version + ";" +
                 "HDR=" + (HasHeaders ? "Yes" : "No") + ';' +
                 "Imex=" + (HasMixedData ? "2" : "0") + ';');

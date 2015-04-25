@@ -210,7 +210,7 @@
     <None Include="Resources\constraints11_14.csv" />
     <None Include="Resources\constraints11_14_3.csv" />
     <None Include="Resources\dmatFull.csv" />
-    <None Include="Resources\mat\A64.mat" />
+    <None Include="Resources\mat\a64.mat" />
     <None Include="Resources\mat\bigsparse.mat" />
     <None Include="Resources\mat\cell.mat" />
     <None Include="Resources\mat\int32.mat" />

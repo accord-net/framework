@@ -73,9 +73,9 @@ namespace Accord.Tests.Math.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] A64 {
+        internal static byte[] a64 {
             get {
-                object obj = ResourceManager.GetObject("A64", resourceCulture);
+                object obj = ResourceManager.GetObject("a64", resourceCulture);
                 return ((byte[])(obj));
             }
         }

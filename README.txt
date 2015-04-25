@@ -35,4 +35,26 @@
    applications for examples. Complete documentation is also available online at
    
      http://accord-framework.net/docs/Index.html
-	 
+
+
+
+Building with Visual Studio
+---------------------------
+
+1) Clone the repository
+2) Double-click Sources/Accord.sln
+
+
+
+Building in Linux with Mono
+---------------------------
+
+  # Install Mono
+  sudo apt-get install mono-complete
+
+  # Clone the repository
+  git clone https://github.com/accord-net/framework.git
+
+  # Build the framework solution using Mono
+  xbuild framework/Sources/Accord.NET.Mono.sln
+
