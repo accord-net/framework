@@ -38,16 +38,16 @@
 
 
 
-Building with Visual Studio
----------------------------
+ Building with Visual Studio
+ ---------------------------
 
-1) Clone the repository
-2) Double-click Sources/Accord.sln
+1) Clone the repository (SmartGit is the best Git tool available for Windows)
+2) Open Sources/Accord.NET.sln in Visual Studio (works with Express versions)
 
 
 
-Building in Linux with Mono
----------------------------
+ Building in Linux with Mono
+ ---------------------------
 
   # Install Mono
   sudo apt-get install mono-complete
