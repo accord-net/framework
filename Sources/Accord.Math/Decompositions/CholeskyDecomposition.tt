@@ -50,8 +50,9 @@ namespace Accord.Math.Decompositions
     using System;
 
     /// <summary>
-    ///     Cholesky Decomposition of a symmetric, positive definite matrix.
+    ///   Cholesky Decomposition of a symmetric, positive definite matrix.
     /// </summary>
+    ///
     /// <remarks>
     ///   <para>
     ///     For a symmetric, positive definite matrix <c>A</c>, the Cholesky decomposition is a

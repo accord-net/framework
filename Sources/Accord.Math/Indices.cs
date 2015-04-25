@@ -147,11 +147,11 @@ namespace Accord.Math
         {
             var random = Accord.Math.Random.Generator.Random;
 
-            T[] idx = new T[size];
+            var idx = new T[size];
             for (int i = 0; i < idx.Length; i++)
                 idx[i] = cast<T>(i);
 
-            double[] x = new double[size];
+            var x = new double[size];
             for (int i = 0; i < x.Length; i++)
                 x[i] = random.NextDouble();
 

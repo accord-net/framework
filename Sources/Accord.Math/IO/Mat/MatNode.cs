@@ -163,7 +163,7 @@ namespace Accord.IO
             // TODO: Completely refactor this method.
             this.matReader = matReader;
 
-            int originalBytes = tag.NumberOfBytes;
+            // int originalBytes = tag.NumberOfBytes;
             contents = new Dictionary<string, MatNode>();
 
             this.startOffset = offset;

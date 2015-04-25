@@ -14,9 +14,6 @@ using System.Runtime.InteropServices;
 // If you need to expose a type to COM, use [ComVisible(true)] on that type.
 [assembly: ComVisible(false)]
 
-// Mark the assembly as CLS compliant since it exposes external types
-[assembly: CLSCompliant(true)]
-
 [assembly: InternalsVisibleTo("Accord.Tests.Math, PublicKey=" +
     "0024000004800000940000000602000000240000525341310004000001000100039880a76dac76" +
     "cddb9c85704c8a0e516773c28c0b202d9e0ae60b623b7bc554c7258bbf54ed6d98082964036109" +

@@ -212,7 +212,7 @@
     <None Include="Decompositions\CholeskyDecomposition.tt">
       <LastOutputs>
 .\CholeskyDecomposition.cs
-.\CholeskyDecomposition.cs
+.\CholeskyDecomposition.txt
 .\CholeskyDecompositionD.cs
 .\CholeskyDecompositionF.cs
 </LastOutputs>
@@ -234,7 +234,7 @@
       <LastGenOutput>JaggedCholeskyDecomposition.txt</LastGenOutput>
       <LastOutputs>
 .\JaggedCholeskyDecomposition.cs
-.\JaggedCholeskyDecomposition1.cs
+.\JaggedCholeskyDecomposition.txt
 .\JaggedCholeskyDecompositionD.cs
 .\JaggedCholeskyDecompositionF.cs
 </LastOutputs>

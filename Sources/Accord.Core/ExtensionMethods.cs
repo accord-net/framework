@@ -22,13 +22,13 @@
 
 namespace Accord
 {
-    using System.Data;
     using System;
-    using System.Reflection;
     using System.ComponentModel;
-    using System.IO;
-    using System.Runtime.InteropServices;
+    using System.Data;
     using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
     using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
@@ -107,6 +107,23 @@ namespace Accord
             handle.Free();
 
             return true;
+        }
+
+        /// <summary>
+        ///   Converts an object into another type, irrespective of whether
+        ///   the conversion can be done at compile time or not. This can be
+        ///   used to convert generic types to numeric types during runtime.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The destination type.</typeparam>
+        /// 
+        /// <param name="value">The value to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static T To<T>(this object value)
+        {
+            return (T)System.Convert.ChangeType(value, typeof(T));
         }
 
         /// <summary>

@@ -21,12 +21,11 @@
 //
 
 #if NET35
-namespace System.Collections.Generic
+namespace Accord
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     /// <summary>
     ///   Minimum SortedSet implementation for .NET 3.5 to

@@ -281,7 +281,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
         /// </summary>
         /// 
-        public static T[,] InsertColumn<T>(this T[,] matrix, T[] column)
+        public static T[,] InsertColumn<T, TSource>(this T[,] matrix, TSource[] column)
         {
             return InsertColumn(matrix, column, matrix.GetLength(1));
         }
@@ -290,7 +290,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
         /// </summary>
         /// 
-        public static T[][] InsertColumn<T>(this T[][] matrix, T[] column)
+        public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource[] column)
         {
             return InsertColumn(matrix, column, matrix[0].Length);
         }
@@ -299,7 +299,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given row vector inserted at the end of the original matrix.
         /// </summary>
         /// 
-        public static T[,] InsertRow<T>(this T[,] matrix, T[] row)
+        public static T[,] InsertRow<T, TSource>(this T[,] matrix, TSource[] row)
         {
             return InsertRow(matrix, row, matrix.GetLength(0));
         }
@@ -308,9 +308,9 @@ namespace Accord.Math
         ///   Returns a new matrix with a given row vector inserted at the end of the original matrix.
         /// </summary>
         /// 
-        public static T[][] InsertRow<T>(this T[][] matrix, T[] row)
+        public static T[][] InsertRow<T, TSource>(this T[][] matrix, TSource[] row)
         {
-            return InsertRow(matrix, row, matrix.Length);
+            return InsertRow<T, TSource>(matrix, row, matrix.Length);
         }
 
         /// <summary>
@@ -337,10 +337,11 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at a given index.
         /// </summary>
         /// 
-        public static T[,] InsertColumn<T>(this T[,] matrix, T[] column, int index)
+        public static T[,] InsertColumn<T, TSource>(this T[,] matrix, TSource[] column, int index)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
+
             if (column == null)
                 throw new ArgumentNullException("column");
 
@@ -363,7 +364,7 @@ namespace Accord.Math
 
             // Copy additional column
             for (int i = 0; i < column.Length; i++)
-                X[i, index] = column[i];
+                X[i, index] = cast<T>(column[i]);
 
             return X;
         }
@@ -372,7 +373,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at a given index.
         /// </summary>
         /// 
-        public static T[][] InsertColumn<T>(this T[][] matrix, T[] column, int index)
+        public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource[] column, int index)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -401,7 +402,7 @@ namespace Accord.Math
 
             // Copy additional column
             for (int i = 0; i < column.Length; i++)
-                X[i][index] = column[i];
+                X[i][index] = cast<T>(column[i]);
 
             return X;
         }
@@ -410,7 +411,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given row vector inserted at a given index.
         /// </summary>
         /// 
-        public static T[,] InsertRow<T>(this T[,] matrix, T[] row, int index)
+        public static T[,] InsertRow<T, TSource>(this T[,] matrix, TSource[] row, int index)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -437,7 +438,7 @@ namespace Accord.Math
 
             // Copy additional column
             for (int i = 0; i < row.Length; i++)
-                X[index, i] = row[i];
+                X[index, i] = cast<T>(row[i]);
 
             return X;
         }
@@ -446,7 +447,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given row vector inserted at a given index.
         /// </summary>
         /// 
-        public static T[][] InsertRow<T>(this T[][] matrix, T[] row, int index)
+        public static T[][] InsertRow<T, TSource>(this T[][] matrix, TSource[] row, int index)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -474,7 +475,7 @@ namespace Accord.Math
 
             // Copy additional column
             for (int i = 0; i < row.Length; i++)
-                X[index][i] = row[i];
+                X[index][i] = cast<T>(row[i]);
 
             return X;
         }
@@ -715,7 +716,7 @@ namespace Accord.Math
         public static T Max<T>(this T[] values, out int imax, bool alreadySorted) where T : IComparable
         {
             if (alreadySorted)
-            { 
+            {
                 imax = values.Length - 1;
                 return values[values.Length - 1];
             }
@@ -1713,7 +1714,14 @@ namespace Accord.Math
 
         private static void swap<T>(ref T a, ref T b)
         {
-            T aux = a; a = b; b = aux;
+            T aux = a;
+            a = b;
+            b = aux;
+        }
+
+        static T cast<T>(this object value)
+        {
+            return (T)System.Convert.ChangeType(value, typeof(T));
         }
     }
 }

@@ -625,7 +625,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static double[,] ToMatrix(this DataTable table, string[] columnNames)
+        public static double[,] ToMatrix(this DataTable table, params string[] columnNames)
         {
             return ToMatrix<double>(table, columnNames);
         }
@@ -694,7 +694,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static T[,] ToMatrix<T>(this DataTable table, string[] columnNames)
+        public static T[,] ToMatrix<T>(this DataTable table, params string[] columnNames)
         {
             T[,] m = new T[table.Rows.Count, columnNames.Length];
 
@@ -711,7 +711,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static T[,] ToMatrix<T>(this DataTable table, string[] columnNames, IFormatProvider provider)
+        public static T[,] ToMatrix<T>(this DataTable table, IFormatProvider provider, params string[] columnNames)
         {
             T[,] m = new T[table.Rows.Count, columnNames.Length];
 
@@ -742,7 +742,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static DataTable ToTable(this double[,] matrix, string[] columnNames)
+        public static DataTable ToTable(this double[,] matrix, params string[] columnNames)
         {
             DataTable table = new DataTable();
             table.Locale = CultureInfo.CurrentCulture;
@@ -777,7 +777,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static DataTable ToTable(this double[][] matrix, string[] columnNames)
+        public static DataTable ToTable(this double[][] matrix, params string[] columnNames)
         {
             DataTable table = new DataTable();
             table.Locale = CultureInfo.CurrentCulture;
@@ -896,9 +896,9 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static double[][] ToArray(this DataTable table, out string[] columnNames, IFormatProvider provider)
+        public static double[][] ToArray(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
-            return ToArray<double>(table, out columnNames, provider);
+            return ToArray<double>(table, provider, out columnNames);
         }
 
         /// <summary>
@@ -927,7 +927,7 @@ namespace Accord.Math
         public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider)
         {
             String[] names;
-            return ToArray<T>(table, out names, provider);
+            return ToArray<T>(table, provider, out names);
         }
 
         /// <summary>
@@ -960,7 +960,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static T[][] ToArray<T>(this DataTable table, out string[] columnNames, IFormatProvider provider)
+        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
             T[][] m = new T[table.Rows.Count][];
             columnNames = new string[table.Columns.Count];

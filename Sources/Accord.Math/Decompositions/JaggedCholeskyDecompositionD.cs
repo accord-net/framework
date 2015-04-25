@@ -1,11 +1,12 @@
+ï»¿
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright Â© CÃ©sar Souza, 2009-2015
 // cesarsouza at gmail.com
 //
-// Original work copyright © Lutz Roeder, 2000
+// Original work copyright Â© Lutz Roeder, 2000
 //  Adapted from Mapack for .NET, September 2000
 //  Adapted from Mapack for COM and Jama routines
 //  http://www.aisto.com/roeder/dotnet
@@ -31,27 +32,28 @@ namespace Accord.Math.Decompositions
     using System.Threading.Tasks;
 
     /// <summary>
-    ///        Cholesky Decomposition of a symmetric, positive definite matrix.
-    ///    </summary>
+    ///   Cholesky Decomposition of a symmetric, positive definite matrix.
+    /// </summary>
+    ///
     /// <remarks>
-    ///   <para>
-    ///        For a symmetric, positive definite matrix <c>A</c>, the Cholesky decomposition is a
-    ///        lower triangular matrix <c>L</c> so that <c>A = L * L'</c>. The presented algorithm
-    ///        only checks the upper triangular part of the matrix given as parameter and assumes
-    ///        it is symmetric. If the matrix is not positive definite, the constructor returns a 
-    ///        partial decomposition and sets two internal variables that can be queried using the
-    ///        <see cref="PositiveDefinite"/> properties.</para>
-    ///   <para>
-    ///     Any square matrix A with non-zero pivots can be written as the product of a
-    ///     lower triangular matrix L and an upper triangular matrix U; this is called
-    ///     the LU decomposition. However, if A is symmetric and positive definite, we
-    ///     can choose the factors such that U is the transpose of L, and this is called
-    ///     the Cholesky decomposition. Both the LU and the Cholesky decomposition are
-    ///     used to solve systems of linear equations.</para>
-    ///   <para>
-    ///     When it is applicable, the Cholesky decomposition is twice as efficient
-    ///     as the LU decomposition.</para>
-    ///    </remarks>
+    /// <para>
+    ///   For a symmetric, positive definite matrix <c>A</c>, the Cholesky decomposition is a
+    ///   lower triangular matrix <c>L</c> so that <c>A = L * L'</c>. The presented algorithm
+    ///   only checks the upper triangular part of the matrix given as parameter and assumes
+    ///   it is symmetric. If the matrix is not positive definite, the constructor returns a 
+    ///   partial decomposition and sets two internal variables that can be queried using the
+    ///   <see cref="PositiveDefinite"/> properties.</para>
+    /// <para>
+    ///   Any square matrix A with non-zero pivots can be written as the product of a
+    ///   lower triangular matrix L and an upper triangular matrix U; this is called
+    ///   the LU decomposition. However, if A is symmetric and positive definite, we
+    ///   can choose the factors such that U is the transpose of L, and this is called
+    ///   the Cholesky decomposition. Both the LU and the Cholesky decomposition are
+    ///   used to solve systems of linear equations.</para>
+    /// <para>
+    ///   When it is applicable, the Cholesky decomposition is twice as efficient
+    ///   as the LU decomposition.</para>
+    /// </remarks>
     ///    
     [Serializable]
     public sealed class JaggedCholeskyDecompositionD : ICloneable, ISolverArrayDecomposition<Decimal>

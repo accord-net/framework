@@ -455,6 +455,17 @@ namespace Accord.IO
         }
 
         /// <summary>
+        ///   Reads the entire stream into a DataTable.
+        /// </summary>
+        /// 
+        /// <returns>A System.DataTable containing the read values.</returns>
+        /// 
+        public DataTable ToTable(params string[] columnNames)
+        {
+            return new DataView(ToTable()).ToTable(false, columnNames);
+        }
+
+        /// <summary>
         ///   Reads the entire stream into a list of records.
         /// </summary>
         /// 
