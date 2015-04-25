@@ -27,6 +27,42 @@ namespace Accord.Statistics.Filters
     using System.Data;
     using System.ComponentModel;
     using Accord.Math;
+    using Accord.Collections;
+
+    /// <summary>
+    ///   Codification type.
+    /// </summary>
+    /// 
+    public enum CodificationVariable
+    {
+        /// <summary>
+        ///   The variable should be codified as an ordinal variable,
+        ///   meaning they will be translated to symbols 0, 1, 2, ... n,
+        ///   where n is the total number of distinct symbols this variable
+        ///   can assume.
+        /// </summary>
+        /// 
+        Ordinal, 
+        
+        /// <summary>
+        ///   This variable should be codified as a 1-of-n vector by creating
+        ///   one column for each symbol this variable can assume, and marking
+        ///   the column corresponding to the current symbol as 1 and the rest
+        ///   as zero.
+        /// </summary>
+        /// 
+        Categorical, 
+        
+        /// <summary>
+        ///   This variable should be codified as a 1-of-(n-1) vector by creating
+        ///   one column for each symbol this variable can assume, except the
+        ///   first. This is the same as as <see cref="CodificationVariable.Categorical"/>,
+        ///   but the first symbol is handled as a baseline (and should be indicated by
+        ///   a zero in every column).
+        /// </summary>
+        /// 
+        CategoricalWithBaseline
+    }
 
     /// <summary>
     ///   Codification Filter class.
@@ -499,9 +535,56 @@ namespace Accord.Statistics.Filters
             // For each column having a mapping
             foreach (Options options in Columns)
             {
-                // Change its type from string to integer
-                result.Columns[options.ColumnName].MaxLength = -1;
-                result.Columns[options.ColumnName].DataType = typeof(int);
+                if (!result.Columns.Contains(options.ColumnName))
+                    continue;
+
+                // If we are just converting strings to integer codes
+                if (options.VariableType == CodificationVariable.Ordinal)
+                {
+                    // Change its type from string to integer
+                    result.Columns[options.ColumnName].MaxLength = -1;
+                    result.Columns[options.ColumnName].DataType = typeof(int);
+                }
+
+                // If we want to avoid implying an order relationship between them
+                else if (options.VariableType == CodificationVariable.Categorical)
+                {
+                    // Create extra columns for each possible value
+                    for (int i = 0; i < options.Symbols; i++)
+                    {
+                        // Except for the first, that should be the baseline value
+                        string symbolName = options.Mapping.Reverse[i];
+                        string factorName = getFactorName(options, symbolName);
+
+                        result.Columns.Add(new DataColumn(factorName, typeof(int))
+                        {
+                            DefaultValue = 0
+                        });
+                    }
+
+                    // Remove the column from the schema
+                    result.Columns.Remove(options.ColumnName);
+                }
+
+                 // If we want to avoid implying an order relationship between them
+                else if (options.VariableType == CodificationVariable.CategoricalWithBaseline)
+                {
+                    // Create extra columns for each possible value
+                    for (int i = 1; i < options.Symbols; i++)
+                    {
+                        // Except for the first, that should be the baseline value
+                        string symbolName = options.Mapping.Reverse[i];
+                        string factorName = getFactorName(options, symbolName);
+
+                        result.Columns.Add(new DataColumn(factorName, typeof(int))
+                        {
+                            DefaultValue = 0
+                        });
+                    }
+
+                    // Remove the column from the schema
+                    result.Columns.Remove(options.ColumnName);
+                }
             }
 
 
@@ -519,16 +602,37 @@ namespace Accord.Statistics.Filters
                     // If the column has a mapping
                     if (Columns.Contains(name))
                     {
-                        var map = Columns[name].Mapping;
+                        var options = Columns[name];
+                        var map = options.Mapping;
 
                         // Retrieve string value
                         string label = inputRow[name] as string;
 
-                        // Get its corresponding integer
-                        int value = map[label];
+                        if (options.VariableType == CodificationVariable.Ordinal)
+                        {
+                            // Get its corresponding integer
+                            int value = map[label];
 
-                        // Set the row to the integer
-                        resultRow[name] = value;
+                            // Set the row to the integer
+                            resultRow[name] = value;
+                        }
+                        else if (options.VariableType == CodificationVariable.CategoricalWithBaseline)
+                        {
+                            if (options.Mapping[label] > 0)
+                            {
+                                // Find the corresponding column
+                                var factorName = getFactorName(options, label);
+
+                                resultRow[factorName] = 1;
+                            }
+                        }
+                        else if (options.VariableType == CodificationVariable.Categorical)
+                        {
+                            // Find the corresponding column
+                            var factorName = getFactorName(options, label);
+
+                            resultRow[factorName] = 1;
+                        }
                     }
                     else
                     {
@@ -543,6 +647,11 @@ namespace Accord.Statistics.Filters
             }
 
             return result;
+        }
+
+        private static string getFactorName(Options options, string name)
+        {
+            return options.ColumnName + ": " + name;
         }
 
         /// <summary>
@@ -600,10 +709,10 @@ namespace Accord.Statistics.Filters
             string[] distinct = values.Distinct();
 
             var map = new Dictionary<string, int>();
-            Columns.Add(new Options(name, map));
-
             for (int j = 0; j < distinct.Length; j++)
                 map.Add(distinct[j], j);
+
+            Columns.Add(new Options(name, map));
         }
 
         private void parseColumn(DataTable data, DataColumn column)
@@ -614,7 +723,6 @@ namespace Accord.Statistics.Filters
                 // We'll create a mapping
                 string name = column.ColumnName;
                 var map = new Dictionary<string, int>();
-                Columns.Add(new Options(name, map));
 
                 // Do a select distinct to get distinct values
                 DataTable d = data.DefaultView.ToTable(true, name);
@@ -625,6 +733,8 @@ namespace Accord.Statistics.Filters
                     // And register the String->Integer mapping
                     map.Add(d.Rows[i][0] as string, i);
                 }
+
+                Columns.Add(new Options(name, map));
             }
         }
 
@@ -640,13 +750,50 @@ namespace Accord.Statistics.Filters
             ///   integer labels to the original string labels.
             /// </summary>
             /// 
-            public Dictionary<string, int> Mapping { get; private set; }
+            public TwoWayDictionary<string, int> Mapping { get; private set; }
 
             /// <summary>
             ///   Gets the number of symbols used to code this variable.
             /// </summary>
             /// 
             public int Symbols { get { return Mapping.Count; } }
+
+            /// <summary>
+            ///   Gets the codification type that should be used for this variable.
+            /// </summary>
+            /// 
+            public CodificationVariable VariableType { get; set; }
+
+            /// <summary>
+            ///   Gets the values associated with each symbol, in the order of the symbols.
+            /// </summary>
+            /// 
+            public string[] Values
+            {
+                get
+                {
+                    string[] values = new string[Mapping.Count];
+                    for (int i = 0; i < values.Length; i++)
+                        values[i] = Mapping.Reverse[i];
+                    return values;
+                }
+            }
+
+            /// <summary>
+            ///   Forces the given key to have a specific symbol value.
+            /// </summary>
+            /// 
+            /// <param name="key">The key.</param>
+            /// <param name="value">The value that should be associated with this key.</param>
+            /// 
+            public void Remap(string key, int value)
+            {
+                int oldValue = Mapping[key];
+                string oldKey = Mapping.Reverse[value];
+
+                Mapping[key] = value;
+                Mapping[oldKey] = oldValue;
+            }
 
             /// <summary>
             ///   Constructs a new Options object for the given column.
@@ -659,7 +806,7 @@ namespace Accord.Statistics.Filters
             public Options(String name)
                 : base(name)
             {
-                this.Mapping = new Dictionary<string, int>();
+                this.Mapping = new TwoWayDictionary<string, int>();
             }
 
             /// <summary>
@@ -675,7 +822,7 @@ namespace Accord.Statistics.Filters
             public Options(String name, Dictionary<string, int> map)
                 : base(name)
             {
-                this.Mapping = map;
+                this.Mapping = new TwoWayDictionary<string, int>(map);
             }
 
             /// <summary>
