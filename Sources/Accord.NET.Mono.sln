@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\Contributors.txt = ..\Contributors.txt
 		..\Copyright.txt = ..\Copyright.txt
 		..\License.txt = ..\License.txt
+		..\README.txt = ..\README.txt
 		..\Release notes.txt = ..\Release notes.txt
 	EndProjectSection
 EndProject

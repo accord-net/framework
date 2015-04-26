@@ -50,11 +50,14 @@
  ---------------------------
 
 # Install Mono
-sudo apt-get install mono-complete
+sudo apt-get install mono-complete monodevelop monodevelop-nunit
 
 # Clone the repository
 git clone https://github.com/accord-net/framework.git
 
+# Enter the directory
+cd framework
+
 # Build the framework solution using Mono
-xbuild framework/Sources/Accord.NET.Mono.sln
+mdtool build -c:"NET40" Sources/Accord.NET.Mono.sln
 

@@ -40,27 +40,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
+      <HintPath>..\..\packages\Accord.2.14.5-alpha\lib\net40\Accord.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Controls, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Accord.Controls.2.14.0\lib\net40\Accord.Controls.dll</HintPath>
+    <Reference Include="Accord.Controls">
+      <HintPath>..\..\packages\Accord.Controls.2.14.5-alpha\lib\net40\Accord.Controls.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Controls.Imaging, Version=2.14.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\packages\Accord.Controls.Imaging.2.14.0\lib\net40\Accord.Controls.Imaging.dll</HintPath>
+    <Reference Include="Accord.Controls.Imaging">
+      <HintPath>..\..\packages\Accord.Controls.Imaging.2.14.5-alpha\lib\net40\Accord.Controls.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Imaging">
-      <HintPath>..\..\packages\Accord.Imaging.2.14.0\lib\net40\Accord.Imaging.dll</HintPath>
+      <HintPath>..\..\packages\Accord.Imaging.2.14.5-alpha\lib\net40\Accord.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="Accord.MachineLearning">
-      <HintPath>..\..\packages\Accord.MachineLearning.2.14.0\lib\net40\Accord.MachineLearning.dll</HintPath>
+      <HintPath>..\..\packages\Accord.MachineLearning.2.14.5-alpha\lib\net40\Accord.MachineLearning.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math">
-      <HintPath>..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
+      <HintPath>..\..\packages\Accord.Math.2.14.5-alpha\lib\net40\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics">
-      <HintPath>..\..\packages\Accord.Statistics.2.14.0\lib\net40\Accord.Statistics.dll</HintPath>
+      <HintPath>..\..\packages\Accord.Statistics.2.14.5-alpha\lib\net40\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="AForge">
       <HintPath>..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
@@ -87,6 +85,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="ZedGraph">
+      <HintPath>..\..\packages\ZedGraph.5.1.6\lib\net35-Client\ZedGraph.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.cs">
@@ -134,6 +135,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="framework.ico" />
+    <Content Include="License-LGPL.txt" />
     <Content Include="Resources\Cats\image_0001.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
