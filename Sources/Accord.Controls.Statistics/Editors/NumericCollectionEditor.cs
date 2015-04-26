@@ -23,16 +23,12 @@
 namespace Accord.Controls
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Drawing.Design;
-    using System.ComponentModel.Design;
     using System.Collections;
-    using System.Windows.Forms.Design;
     using System.ComponentModel;
-    using System.Windows.Forms;
+    using System.Drawing.Design;
     using System.Reflection;
+    using System.Windows.Forms;
+    using System.Windows.Forms.Design;
 
     /// <summary>
     ///   Type editor for numeric collections.
@@ -84,8 +80,6 @@ namespace Accord.Controls
         {
             if (context != null && context.Instance != null && provider != null)
             {
-                object originalValue = value;
-
                 this.editorService = (IWindowsFormsEditorService)provider
                     .GetService(typeof(IWindowsFormsEditorService));
 

@@ -664,7 +664,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
 
             int rwidth = rectangle.Width;
             int rheight = rectangle.Height;
@@ -929,7 +928,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
 
             int rwidth = rectangle.Width;
             int rheight = rectangle.Height;
@@ -985,7 +983,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
 
             int rwidth = rectangle.Width;
             int rheight = rectangle.Height;
@@ -1035,7 +1032,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
 
             int max = 0;
 
@@ -1072,7 +1068,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
             int pixelSize = System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             int max = 0;
@@ -1100,7 +1095,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
             int pixelSize = System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             int min = int.MaxValue;
@@ -1176,7 +1170,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
 
             int rwidth = rectangle.Width;
             int rheight = rectangle.Height;
@@ -1245,7 +1238,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
 
             int rwidth = rectangle.Width;
             int rheight = rectangle.Height;

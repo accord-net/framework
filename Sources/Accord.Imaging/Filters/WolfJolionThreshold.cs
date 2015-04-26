@@ -22,11 +22,11 @@
 
 namespace Accord.Imaging.Filters
 {
+    using AForge.Imaging;
+    using AForge.Imaging.Filters;
     using System;
     using System.Collections.Generic;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
 
     /// <summary>
     ///   Wolf Jolion Threshold.
@@ -184,7 +184,6 @@ namespace Accord.Imaging.Filters
                 {
                     for (int x = 0; x < width; x++, src++, srcMean++, srcVar++, dst++)
                     {
-                        double p = *src;
                         double mP = *srcMean;
                         double vP = *srcVar;
 

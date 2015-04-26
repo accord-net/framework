@@ -22,11 +22,11 @@
 
 namespace Accord.Imaging
 {
+    using AForge.Imaging;
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Runtime.InteropServices;
-    using AForge.Imaging;
     using System.Security;
 
     /// <summary>
@@ -382,8 +382,8 @@ namespace Accord.Imaging
             long* sSum = im.sSum;
             long* tSum = im.tSum;
 
-            int nWidth = im.nWidth, nHeight = im.nHeight;
-            int tWidth = im.tWidth, tHeight = im.tHeight;
+            int nWidth = im.nWidth;
+            int tWidth = im.tWidth;
 
             if (image.PixelFormat == PixelFormat.Format8bppIndexed && channel != 0)
                 throw new ArgumentException("Only the first channel is available for 8 bpp images.", "channel");

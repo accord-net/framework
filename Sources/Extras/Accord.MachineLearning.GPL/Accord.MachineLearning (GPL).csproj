@@ -60,6 +60,12 @@
     <CodeAnalysisLogFile>..\..\..\Release\net45\GPL\Accord.MachineLearning.GPL.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Math">
+      <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>

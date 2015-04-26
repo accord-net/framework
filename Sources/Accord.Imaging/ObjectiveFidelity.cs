@@ -20,17 +20,17 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using AForge.Imaging;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Accord.Imaging
 {
+    using AForge.Imaging;
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     /// <summary>
     ///   Objective Fidelity Criteria.
     /// </summary>
@@ -65,259 +65,306 @@ namespace Accord.Imaging
     /// 
     public class ObjectiveFidelity
     {
-        private long errorTotal;
+        private long totalError;
+        private double meanError;
         private double mse;
-        private double snr;
-        private double psnr;
-        private double dsnr;
+        private double signalNoiseRatio;
+        private double peakSignalNoiseRatio;
+        private double derivativeSignalNoiseRatio;
 
         private int level = 256;
 
         /// <summary>
-        ///   Error total.
-        /// </summary>
-        public long ErrorTotal { get { return errorTotal; } set { errorTotal = value; } }
-
-        /// <summary>
-        ///   Root mean square error.
+        ///  Gets the total error between the two images.
         /// </summary>
         /// 
-        public double MeanSquareError { get { return mse; } set { mse = value; } }
-
-        /// <summary>
-        ///   Signal to noise ratio.
-        /// </summary>
-        /// 
-        public double SignalToNoiseRatio { get { return snr; } set { snr = value; } }
-
-        /// <summary>
-        ///   PEAK signal to noise ratio.
-        /// </summary>
-        /// 
-        public double PeakSignalToNoiseRatio { get { return psnr; } set { psnr = value; } }
-
-        /// <summary>
-        ///   Derivative signal to noise ratio.
-        /// </summary>
-        /// 
-        public double DerivativeSignalNoiseRatio { get { return dsnr; } set { dsnr = value; } }
-
-        /// <summary>
-        ///   Level used in PEAK signal to noise ratio.
-        /// </summary>
-        /// 
-        public int Level { get { return level; } set { psnr = System.Math.Max(System.Math.Min(value, 256), 1); } }
-
-        /// <summary>
-        ///   Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
-        /// </summary>
-        /// 
-        /// <param name="original">Original image.</param>
-        /// <param name="reconstructed">Reconstructed image.</param>
-        /// 
-        public ObjectiveFidelity(Bitmap original, Bitmap reconstructed)
+        public long AbsoluteError
         {
-            // check image format
-            if (!(original.PixelFormat == PixelFormat.Format8bppIndexed ||
-                reconstructed.PixelFormat == PixelFormat.Format8bppIndexed))
+            get { return totalError; }
+        }
+
+        /// <summary>
+        ///   Gets the average error between the two images.
+        /// </summary>
+        /// 
+        public double MeanError
+        {
+            get { return meanError; }
+        }
+
+        /// <summary>
+        ///   Gets the root mean square error between the two images.
+        /// </summary>
+        /// 
+        public double MeanSquareError
+        {
+            get { return mse; }
+        }
+
+        /// <summary>
+        ///   Gets the signal to noise ratio.
+        /// </summary>
+        /// 
+        public double SignalToNoiseRatio
+        {
+            get { return signalNoiseRatio; }
+        }
+
+        /// <summary>
+        ///   Gets the peak signal to noise ratio.
+        /// </summary>
+        /// 
+        public double PeakSignalToNoiseRatio
+        {
+            get { return peakSignalNoiseRatio; }
+        }
+
+        /// <summary>
+        ///   Gets the derivative signal to noise ratio.
+        /// </summary>
+        /// 
+        public double DerivativeSignalNoiseRatio
+        {
+            get { return derivativeSignalNoiseRatio; }
+        }
+
+        /// <summary>
+        ///   Gets the level used in peak signal to noise ratio.
+        /// </summary>
+        /// 
+        public int Level
+        {
+            get { return level; }
+            set
             {
-                throw new UnsupportedImageFormatException("Only grayscale images are supported.");
+                if (value < 0 || value > 255)
+                    throw new ArgumentOutOfRangeException("value", "Value must be between 0 and 255.");
+                level = value;
             }
-
-            // check image format
-            if (!(original.PixelFormat == PixelFormat.Format8bppIndexed &&
-                reconstructed.PixelFormat == PixelFormat.Format8bppIndexed))
-            {
-                throw new UnsupportedImageFormatException("The both images must be in the same pixel format.");
-            }
-
-            // check image size
-            if ((original.Width != reconstructed.Width) || (original.Height != reconstructed.Height))
-            {
-                throw new ArgumentException("The both images must be in the same size.");
-            }
-
-            // lock source image
-            BitmapData dataOriginal = original.LockBits(
-                new Rectangle(0, 0, original.Width, original.Height),
-                ImageLockMode.ReadOnly, original.PixelFormat);
-
-            BitmapData dataReconstructed = reconstructed.LockBits(
-                new Rectangle(0, 0, reconstructed.Width, reconstructed.Height),
-                ImageLockMode.ReadOnly, reconstructed.PixelFormat);
-
-            Compute(new UnmanagedImage(dataOriginal), new UnmanagedImage(dataReconstructed));
         }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
         /// </summary>
         /// 
-        /// <param name="original">Original bitmap data.</param>
-        /// <param name="reconstructed">Reconstructed bitmap data.</param>
-        /// 
-        public ObjectiveFidelity(BitmapData original, BitmapData reconstructed)
+        public ObjectiveFidelity()
         {
-            // check image format
-            if (!(original.PixelFormat == PixelFormat.Format8bppIndexed ||
-                reconstructed.PixelFormat == PixelFormat.Format8bppIndexed))
-            {
-                throw new UnsupportedImageFormatException("Only grayscale images are supported.");
-            }
-
-            // check image format
-            if (!(original.PixelFormat == PixelFormat.Format8bppIndexed &&
-                reconstructed.PixelFormat == PixelFormat.Format8bppIndexed))
-            {
-                throw new UnsupportedImageFormatException("The both images must be in the same pixel format.");
-            }
-
-            // check image size
-            if ((original.Width != reconstructed.Width) || (original.Height != reconstructed.Height))
-            {
-                throw new ArgumentException("The both images must be in the same size.");
-            }
-
-            Compute(new UnmanagedImage(original), new UnmanagedImage(reconstructed));
-
         }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
         /// </summary>
         /// 
-        /// <param name="original">Original unmanaged image.</param>
-        /// <param name="reconstructed">Reconstructed unmanaged image.</param>
+        /// <param name="a">The first image to be compared.</param>
+        /// <param name="b">The second image that will be compared.</param>
         /// 
-        public ObjectiveFidelity(UnmanagedImage original, UnmanagedImage reconstructed)
+        public ObjectiveFidelity(Bitmap a, Bitmap b)
         {
-            Compute(original, reconstructed);
+            Compute(a, b);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
+        /// </summary>
+        /// 
+        /// <param name="a">The first image to be compared.</param>
+        /// <param name="b">The second image that will be compared.</param>
+        /// 
+        public ObjectiveFidelity(BitmapData a, BitmapData b)
+        {
+            Compute(a, b);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="ObjectiveFidelity"/> class.
+        /// </summary>
+        /// 
+        /// <param name="a">The first image to be compared.</param>
+        /// <param name="b">The second image that will be compared.</param>
+        /// 
+        public ObjectiveFidelity(UnmanagedImage a, UnmanagedImage b)
+        {
+            Compute(a, b);
         }
 
         /// <summary>
         ///   Compute objective fidelity metrics.
         /// </summary>
         /// 
-        /// <param name="original">Original image.</param>
-        /// <param name="reconstructed">Reconstructed image.</param>
+        /// <param name="a">The first image to be compared.</param>
+        /// <param name="b">The second image that will be compared.</param>
         /// 
-        public unsafe void Compute(UnmanagedImage original, UnmanagedImage reconstructed)
+        public unsafe void Compute(Bitmap a, Bitmap b)
         {
-            int width = original.Width;
-            int height = original.Height;
+            // lock source image
+            BitmapData dataOriginal = a.LockBits(
+                new Rectangle(0, 0, a.Width, a.Height),
+                ImageLockMode.ReadOnly, a.PixelFormat);
 
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(original.PixelFormat) / 8;
-            int stride = original.Stride;
-            int offset = stride - original.Width * pixelSize;
+            BitmapData dataReconstructed = b.LockBits(
+                new Rectangle(0, 0, b.Width, b.Height),
+                ImageLockMode.ReadOnly, b.PixelFormat);
 
-            byte* o = (byte*)original.ImageData.ToPointer();
-            byte* r = (byte*)reconstructed.ImageData.ToPointer();
+            Compute(new UnmanagedImage(dataOriginal), new UnmanagedImage(dataReconstructed));
 
-            //Compute all metrics bellow
-            // Error total
-            long errorT = 0;
-
-            //Root mean square
-            double sumError = 0;
-
-            //Signal to noise ratio
-            double squareImg = 0;
-            double squareRecon = 0;
-
-            //PEAK signal to noise ratio
-            double sum = 0;
-
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++, o++, r++)
-                {
-                    //Error total
-                    int error = *r - *o;
-                    errorT += error;
-
-                    //Root mean square
-                    double squareDiff = System.Math.Pow(error, 2);
-                    sumError += squareDiff;
-
-                    //Signal to noise ratio
-                    squareRecon += *r * *r;
-                    squareImg += System.Math.Pow(*r - *o, 2);
-
-                    //PEAK signal to noise ratio
-                    sum += System.Math.Pow(*r - *o, 2);
-
-                }
-                o += offset;
-                r += offset;
-            }
-            
-            //Error total
-            errorTotal = errorT;
-
-            //Root mean square
-            double size = 1D/(double)(height * width);
-            mse = System.Math.Sqrt(size * sumError);
-
-            //Signal to noise ratio
-            if (squareImg == 0)
-                snr = 0;
-            else
-                snr = System.Math.Sqrt(squareRecon / squareImg);
-
-            //PEAK signal to noise ratio
-            size = original.Width * original.Height;
-            if (sum == 0)
-            {
-                psnr = 0;
-            }
-            else
-            {
-                sum = (1D / (double)size) * sum;
-                sum = level * level / sum;
-                psnr = 10D * System.Math.Log10(sum);
-            }
-
-            //Derivative signal noise ratio
-            dsnr = DerivativeSNR(original, reconstructed);
+            a.UnlockBits(dataOriginal);
+            a.UnlockBits(dataReconstructed);
         }
 
-        private static unsafe double DerivativeSNR(UnmanagedImage original, UnmanagedImage reconstructed)
+        /// <summary>
+        ///   Compute objective fidelity metrics.
+        /// </summary>
+        /// 
+        /// <param name="a">The first image to be compared.</param>
+        /// <param name="b">The second image that will be compared.</param>
+        /// 
+        public unsafe void Compute(BitmapData a, BitmapData b)
         {
-            int width = original.Width;
-            int height = original.Height;
+            Compute(new UnmanagedImage(a), new UnmanagedImage(b));
+        }
 
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize(original.PixelFormat) / 8;
-            int stride = original.Stride;
-            int offset = stride - original.Width * pixelSize;
-
-            byte* o = (byte*)original.ImageData.ToPointer();
-            byte* r = (byte*)reconstructed.ImageData.ToPointer();
-
-            double sumGradO = 0;
-            double sumGradDiff = 0;
-            for (int y = 0; y < height - 1; y++)
+        /// <summary>
+        ///   Compute objective fidelity metrics.
+        /// </summary>
+        /// 
+        /// <param name="a">The first image to be compared.</param>
+        /// <param name="b">The second image that will be compared.</param>
+        /// 
+        public unsafe void Compute(UnmanagedImage a, UnmanagedImage b)
+        {
+            // check image format
+            if (!(a.PixelFormat == PixelFormat.Format8bppIndexed ||
+                b.PixelFormat == PixelFormat.Format8bppIndexed))
             {
-                for (int x = 0; x < width - 1; x++, o++, r++)
-                {
-                    int a = *o;
-                    int b = o[+stride];
-                    int c = o[+1];
-
-                    //Original image
-                    int gradO = System.Math.Abs(*o - o[+stride]) + System.Math.Abs(*o - o[+1]);
-                    sumGradO += gradO * gradO;
-
-                    //Reconstructed image
-                    int gradR = System.Math.Abs(*r - r[+stride]) + System.Math.Abs(*r - r[+1]);
-                    sumGradDiff += System.Math.Pow(gradO - gradR, 2);
-                }
-                o += offset + 1;
-                r += offset + 1;
+                throw new UnsupportedImageFormatException("Only grayscale images are supported.");
             }
 
-            if (sumGradDiff == 0) return 0;
-            double result = sumGradO / sumGradDiff;
-            return 10 * System.Math.Log10(result);
+            // check image format
+            if (!(a.PixelFormat == PixelFormat.Format8bppIndexed &&
+                b.PixelFormat == PixelFormat.Format8bppIndexed))
+            {
+                throw new UnsupportedImageFormatException("The both images must be in the same pixel format.");
+            }
+
+            // check image size
+            if ((a.Width != b.Width) || (a.Height != b.Height))
+            {
+                throw new ArgumentException("The both images must be in the same size.");
+            }
+
+
+            int width = a.Width;
+            int height = a.Height;
+
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(a.PixelFormat) / 8;
+            int stride = a.Stride;
+            int offset = stride - a.Width * pixelSize;
+
+            byte* ptrA = (byte*)a.ImageData.ToPointer();
+            byte* ptrB = (byte*)b.ImageData.ToPointer();
+
+
+            // Total error
+            long sum = 0;
+            double sumOfSquares = 0;
+            double imageSumOfSquares = 0;
+
+
+            // Compute all metrics above
+            for (int y = 0; y < height; y++)
+            {
+                for (int x = 0; x < width; x++, ptrA++, ptrB++)
+                {
+                    long pA = *ptrA;
+                    long pB = *ptrB;
+
+                    long error = pB - pA;
+                    long square = error * error;
+
+                    // total error 
+                    sum += error;
+
+                    // root mean square
+                    sumOfSquares += square;
+
+                    // signal to noise ratio
+                    imageSumOfSquares += pB * pB;
+                }
+
+                ptrA += offset;
+                ptrB += offset;
+            }
+
+
+            double size = height * width;
+
+
+            // total error
+            this.totalError = sum;
+
+            // mean error
+            this.meanError = sumOfSquares / size;
+
+            // root mean square
+            this.mse = System.Math.Sqrt(meanError);
+
+
+            // signal to noise ratio
+            if (sumOfSquares != 0)
+            {
+                // Signal to noise ratio
+                this.signalNoiseRatio = System.Math.Sqrt(imageSumOfSquares / sumOfSquares);
+
+                // peak signal to noise ratio
+                this.peakSignalNoiseRatio = 10 * Math.Log10((level * level) / meanError);
+            }
+            else
+            {
+                this.signalNoiseRatio = 0;
+                this.peakSignalNoiseRatio = 0;
+            }
+
+            // derivative signal noise ratio
+            this.derivativeSignalNoiseRatio = derivativeSNR(a, b);
+        }
+
+
+        private static unsafe double derivativeSNR(UnmanagedImage a, UnmanagedImage b)
+        {
+            int width = a.Width;
+            int height = a.Height;
+
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(a.PixelFormat) / 8;
+            int stride = a.Stride;
+            int offset = stride - a.Width * pixelSize;
+
+            byte* ptrA = (byte*)a.ImageData.ToPointer();
+            byte* ptrB = (byte*)b.ImageData.ToPointer();
+
+            double sum1 = 0;
+            double sum2 = 0;
+
+            for (int y = 0; y < height - 1; y++)
+            {
+                for (int x = 0; x < width - 1; x++, ptrA++, ptrB++)
+                {
+                    // original image
+                    int gradO = System.Math.Abs(*ptrA - ptrA[+stride]) + System.Math.Abs(*ptrA - ptrA[+1]);
+                    sum1 += gradO * gradO;
+
+                    // reconstructed image
+                    int gradR = System.Math.Abs(*ptrB - ptrB[+stride]) + System.Math.Abs(*ptrB - ptrB[+1]);
+                    sum2 += gradR * gradR;
+                }
+
+                ptrA += offset + 1;
+                ptrB += offset + 1;
+            }
+
+            if (sum2 == 0)
+                return 0;
+
+            return 10 * System.Math.Log10(sum1 / sum2);
         }
     }
 }
