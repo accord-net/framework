@@ -45,8 +45,11 @@ namespace Accord.Controls.Vision
         IBindableComponent, INotifyPropertyChanged
     {
 
-        private PointF rawPosition;
-        private PointF currentPosition;
+        private float rawX;
+        private float rawY;
+
+        private float currentX;
+        private float currentY;
 
         private DoubleRange xaxisRange = new DoubleRange(+0.65, -0.65);
         private DoubleRange yaxisRange = new DoubleRange(+0.35, -0.10);
@@ -61,12 +64,11 @@ namespace Accord.Controls.Vision
         private MovingNormalStatistics ysmooth = new MovingNormalStatistics(5);
 
 
-        #region Properties
-
         /// <summary>
         ///   Gets or sets the object used to marshal event-handler calls that
         ///   are issued when the head object position has been updated.
         /// </summary>
+        /// 
         /// <value>The <see cref="ISynchronizeInvoke"/> representing the object
         /// used to marshal the event-handler calls that are issued when the head
         /// position has been updated. The default is null.</value>
@@ -101,6 +103,7 @@ namespace Accord.Controls.Vision
         /// <summary>
         ///   Gets or sets the video device used to track objects.
         /// </summary>
+        /// 
         /// <value>The <see cref="IVideoSource"/> used to track objects.</value>
         /// 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -126,6 +129,7 @@ namespace Accord.Controls.Vision
         ///   Gets the <see cref="IObjectTracker"/> used to
         ///   track the head object in the video stream.
         /// </summary>
+        /// 
         /// <value>The active object tracker.</value>
         /// 
         [Browsable(false)]
@@ -138,6 +142,7 @@ namespace Accord.Controls.Vision
         ///   Gets the <see cref="IObjectDetector"/> used to
         ///   detect the head object in the video stream.
         /// </summary>
+        /// 
         /// <value>The active object detector.</value>
         /// 
         [Browsable(false)]
@@ -153,7 +158,7 @@ namespace Accord.Controls.Vision
         [Browsable(false)]
         public PointF FacePosition
         {
-            get { return currentPosition; }
+            get { return new PointF(currentX, currentY); }
         }
 
 
@@ -225,6 +230,7 @@ namespace Accord.Controls.Vision
         ///   Gets a value indicating whether this instance is
         ///   attempting to detect faces in the video stream.
         /// </summary>
+        /// 
         /// <value>
         /// 	<c>true</c> if this instance is detecting; otherwise, <c>false</c>.
         /// </value>
@@ -236,6 +242,7 @@ namespace Accord.Controls.Vision
         ///   Gets a value indicating whether this instance is
         ///   actually tracking an object in the video stream.
         /// </summary>
+        /// 
         /// <value>
         /// 	<c>true</c> if this instance is tracking; otherwise, <c>false</c>.
         /// </value>
@@ -247,6 +254,7 @@ namespace Accord.Controls.Vision
         ///   Gets a value indicating whether this instance
         ///   is currently processing and sending events.
         /// </summary>
+        /// 
         /// <value>
         /// 	<c>true</c> if this instance is processing
         /// 	and sending events; otherwise, <c>false</c>.
@@ -254,25 +262,25 @@ namespace Accord.Controls.Vision
         /// 
         [Browsable(false)]
         public bool IsRunning { get; private set; }
-        #endregion
 
 
-        #region Events
         /// <summary>
         ///   Occurs when the face moves in the video scene.
         /// </summary>
+        /// 
         public event EventHandler<FaceEventArgs> FaceMove;
 
         /// <summary>
         ///   Occurs when a face enters the video scene.
         /// </summary>
+        /// 
         public event EventHandler<FaceEventArgs> FaceEnter;
 
         /// <summary>
         ///   Occurs when a face leaves the video scene.
         /// </summary>
+        /// 
         public event EventHandler<EventArgs> FaceLeave;
-        #endregion
 
 
 
@@ -297,30 +305,31 @@ namespace Accord.Controls.Vision
 
 
 
-        #region Public methods
 
         /// <summary>
         ///   Calibrates the specified movement using current positions.
         /// </summary>
+        /// 
         /// <param name="movement">The movement to be calibrated.</param>
+        /// 
         public virtual void Calibrate(FaceMovement movement)
         {
             switch (movement)
             {
                 case FaceMovement.Left:
-                    XAxisMin = rawPosition.X;
+                    XAxisMin = rawX;
                     break;
 
                 case FaceMovement.Right:
-                    XAxisMax = rawPosition.X;
+                    XAxisMax = rawX;
                     break;
 
                 case FaceMovement.Up:
-                    YAxisMax = rawPosition.Y;
+                    YAxisMax = rawY;
                     break;
 
                 case FaceMovement.Down:
-                    YAxisMin = rawPosition.Y;
+                    YAxisMin = rawY;
                     break;
             }
         }
@@ -357,7 +366,6 @@ namespace Accord.Controls.Vision
             IsTracking = false;
             IsDetecting = true;
         }
-        #endregion
 
 
         #region Private methods
@@ -400,7 +408,7 @@ namespace Accord.Controls.Vision
                         // Update initial position
                         computeCurrentPosition(width, height);
 
-                        OnFaceEnter(new FaceEventArgs(currentPosition));
+                        OnFaceEnter(new FaceEventArgs(currentX, currentY));
                     }
                     else
                     {
@@ -426,7 +434,7 @@ namespace Accord.Controls.Vision
 
                     else
                     {
-                        OnFaceMove(new FaceEventArgs(currentPosition));
+                        OnFaceMove(new FaceEventArgs(currentX, currentY));
                     }
                 }
 
@@ -442,11 +450,11 @@ namespace Accord.Controls.Vision
             DoubleRange scaleY = new DoubleRange(0, height);
             DoubleRange unit = new DoubleRange(-1, 1);
 
-            rawPosition.X = (float)Tools.Scale(scaleX, unit, obj.Center.X);
-            rawPosition.Y = (float)Tools.Scale(scaleY, unit, obj.Center.Y);
+            this.rawX = (float)Tools.Scale(scaleX, unit, obj.Center.X);
+            this.rawY = (float)Tools.Scale(scaleY, unit, obj.Center.Y);
 
-            double newPositionX = Tools.Scale(xaxisRange, unit, rawPosition.X);
-            double newPositionY = Tools.Scale(yaxisRange, unit, rawPosition.Y);
+            double newPositionX = Tools.Scale(xaxisRange, unit, rawX);
+            double newPositionY = Tools.Scale(yaxisRange, unit, rawY);
 
             xsmooth.Push(newPositionX);
             ysmooth.Push(newPositionY);
@@ -454,8 +462,8 @@ namespace Accord.Controls.Vision
             newPositionX = xsmooth.Mean;
             newPositionY = ysmooth.Mean;
 
-            currentPosition.X = (float)(Math.Round(newPositionX, 1));
-            currentPosition.Y = (float)(Math.Round(newPositionY, 1));
+            this.currentX = (float)(Math.Round(newPositionX, 1));
+            this.currentY = (float)(Math.Round(newPositionY, 1));
         }
         #endregion
 
@@ -464,6 +472,7 @@ namespace Accord.Controls.Vision
         /// <summary>
         ///   Called when the face being tracked leaves the scene.
         /// </summary>
+        /// 
         protected virtual void OnFaceLeave(EventArgs args)
         {
             IsTracking = false;
@@ -487,6 +496,7 @@ namespace Accord.Controls.Vision
         /// <summary>
         ///   Called when a face enters the scene.
         /// </summary>
+        /// 
         protected virtual void OnFaceEnter(FaceEventArgs args)
         {
             IsTracking = true;
@@ -510,6 +520,7 @@ namespace Accord.Controls.Vision
         /// <summary>
         ///   Called when a head movement is detected.
         /// </summary>
+        /// 
         protected virtual void OnFaceMove(FaceEventArgs args)
         {
             if (FaceMove != null)
@@ -527,6 +538,8 @@ namespace Accord.Controls.Vision
             }
         }
         #endregion
+
+
 
 
         #region IBindableComponent Implementation
