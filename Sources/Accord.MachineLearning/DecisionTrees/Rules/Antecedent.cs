@@ -129,9 +129,6 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public bool Equals(Antecedent other)
         {
-            if (other == null)
-                return false;
-
             if (Comparison != other.Comparison)
                 return false;
 

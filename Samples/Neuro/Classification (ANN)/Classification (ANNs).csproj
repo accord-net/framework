@@ -43,6 +43,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Release\net40\Accord.dll</HintPath>
     </Reference>
+    <Reference Include="Accord.Controls">
+      <HintPath>..\..\..\Release\net40\Accord.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="Accord.IO">
       <HintPath>..\..\..\Release\net40\Accord.IO.dll</HintPath>
     </Reference>
@@ -84,8 +87,9 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ZedGraph">
-      <HintPath>..\..\packages\ZedGraph.5.1.6\lib\net35-Client\ZedGraph.dll</HintPath>
+    <Reference Include="ZedGraph, Version=5.1.6.417, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Externals\ZedGraph\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -131,7 +135,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -147,7 +150,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="framework.ico" />
-    <Content Include="License-LGPL.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

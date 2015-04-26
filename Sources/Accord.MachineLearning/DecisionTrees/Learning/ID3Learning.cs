@@ -339,7 +339,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    best explains the data sample subset.
 
             double[] scores = new double[candidateCount];
-            double[] entropies = new double[candidateCount];
             int[][][] partitions = new int[candidateCount][][];
             int[][][] outputSubs = new int[candidateCount][][];
 
@@ -370,7 +369,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             int maxGainIndex; scores.Max(out maxGainIndex);
             var maxGainPartition = partitions[maxGainIndex];
             var maxGainOutputs = outputSubs[maxGainIndex];
-            var maxGainEntropy = entropies[maxGainIndex];
             var maxGainAttribute = candidates[maxGainIndex];
             var maxGainRange = inputRanges[maxGainAttribute];
 

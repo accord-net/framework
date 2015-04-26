@@ -30,13 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,10 +51,19 @@
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.dgvLearningSource = new System.Windows.Forms.DataGridView();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.graphInput = new ZedGraph.ZedGraphControl();
+            this.graphInput = new Accord.Controls.ScatterplotView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
+            this.zedGraphControl2 = new Accord.Controls.ScatterplotView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.currentElapsed = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.currentErrorBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.currentIterationBox = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbSameWeights = new System.Windows.Forms.CheckBox();
@@ -70,14 +79,6 @@
             this.iterationsBox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.startButton = new System.Windows.Forms.Button();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.currentElapsed = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.currentErrorBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.currentIterationBox = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -97,7 +98,6 @@
             this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.menuStrip1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabSamples.SuspendLayout();
@@ -110,8 +110,9 @@
             this.groupBox15.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -122,7 +123,6 @@
             this.groupBox11.SuspendLayout();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPerformance)).BeginInit();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -196,7 +196,7 @@
             this.tabControl.Controls.Add(this.tabPage4);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 35);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(4);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(1208, 681);
@@ -206,9 +206,9 @@
             // 
             this.tabSamples.Controls.Add(this.splitContainer7);
             this.tabSamples.Location = new System.Drawing.Point(4, 29);
-            this.tabSamples.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabSamples.Margin = new System.Windows.Forms.Padding(4);
             this.tabSamples.Name = "tabSamples";
-            this.tabSamples.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabSamples.Padding = new System.Windows.Forms.Padding(4);
             this.tabSamples.Size = new System.Drawing.Size(1200, 648);
             this.tabSamples.TabIndex = 0;
             this.tabSamples.Text = "Samples (Input)";
@@ -218,7 +218,7 @@
             // 
             this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer7.Location = new System.Drawing.Point(4, 4);
-            this.splitContainer7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer7.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer7.Name = "splitContainer7";
             // 
             // splitContainer7.Panel1
@@ -238,9 +238,9 @@
             this.groupBox7.Controls.Add(this.dgvLearningSource);
             this.groupBox7.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox7.Location = new System.Drawing.Point(0, 0);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox7.Size = new System.Drawing.Size(300, 640);
             this.groupBox7.TabIndex = 6;
             this.groupBox7.TabStop = false;
@@ -251,17 +251,17 @@
             this.dgvLearningSource.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dgvLearningSource.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvLearningSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvLearningSource.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvLearningSource.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgvLearningSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvLearningSource.Location = new System.Drawing.Point(4, 23);
-            this.dgvLearningSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvLearningSource.Margin = new System.Windows.Forms.Padding(4);
             this.dgvLearningSource.Name = "dgvLearningSource";
             this.dgvLearningSource.Size = new System.Drawing.Size(292, 613);
             this.dgvLearningSource.TabIndex = 5;
@@ -271,9 +271,9 @@
             this.groupBox15.Controls.Add(this.graphInput);
             this.groupBox15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox15.Location = new System.Drawing.Point(0, 0);
-            this.groupBox15.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox15.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox15.Name = "groupBox15";
-            this.groupBox15.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox15.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox15.Size = new System.Drawing.Size(886, 640);
             this.groupBox15.TabIndex = 7;
             this.groupBox15.TabStop = false;
@@ -282,17 +282,13 @@
             // graphInput
             // 
             this.graphInput.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.graphInput.LinesVisible = false;
             this.graphInput.Location = new System.Drawing.Point(4, 23);
             this.graphInput.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.graphInput.Name = "graphInput";
-            this.graphInput.ScrollGrace = 0D;
-            this.graphInput.ScrollMaxX = 0D;
-            this.graphInput.ScrollMaxY = 0D;
-            this.graphInput.ScrollMaxY2 = 0D;
-            this.graphInput.ScrollMinX = 0D;
-            this.graphInput.ScrollMinY = 0D;
-            this.graphInput.ScrollMinY2 = 0D;
+            this.graphInput.ScaleTight = false;
             this.graphInput.Size = new System.Drawing.Size(878, 613);
+            this.graphInput.SymbolSize = 7F;
             this.graphInput.TabIndex = 4;
             // 
             // tabPage2
@@ -300,9 +296,9 @@
             this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage2.Size = new System.Drawing.Size(1200, 648);
             this.tabPage2.TabIndex = 13;
             this.tabPage2.Text = "Network Creation";
@@ -313,9 +309,9 @@
             this.groupBox3.Controls.Add(this.zedGraphControl2);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox3.Location = new System.Drawing.Point(292, 4);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox3.Size = new System.Drawing.Size(904, 640);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
@@ -324,24 +320,116 @@
             // zedGraphControl2
             // 
             this.zedGraphControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.zedGraphControl2.LinesVisible = false;
             this.zedGraphControl2.Location = new System.Drawing.Point(4, 23);
             this.zedGraphControl2.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.zedGraphControl2.Name = "zedGraphControl2";
-            this.zedGraphControl2.ScrollGrace = 0D;
-            this.zedGraphControl2.ScrollMaxX = 0D;
-            this.zedGraphControl2.ScrollMaxY = 0D;
-            this.zedGraphControl2.ScrollMaxY2 = 0D;
-            this.zedGraphControl2.ScrollMinX = 0D;
-            this.zedGraphControl2.ScrollMinY = 0D;
-            this.zedGraphControl2.ScrollMinY2 = 0D;
+            this.zedGraphControl2.ScaleTight = true;
             this.zedGraphControl2.Size = new System.Drawing.Size(896, 613);
+            this.zedGraphControl2.SymbolSize = 7F;
             this.zedGraphControl2.TabIndex = 3;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.groupBox4);
+            this.panel1.Controls.Add(this.startButton);
+            this.panel1.Controls.Add(this.stopButton);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(4, 4);
+            this.panel1.Name = "panel1";
+            this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 6, 0);
+            this.panel1.Size = new System.Drawing.Size(288, 640);
+            this.panel1.TabIndex = 11;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.currentElapsed);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.currentErrorBox);
+            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Controls.Add(this.currentIterationBox);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox4.Location = new System.Drawing.Point(0, 328);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox4.Size = new System.Drawing.Size(282, 158);
+            this.groupBox4.TabIndex = 7;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Current iteration";
+            // 
+            // currentElapsed
+            // 
+            this.currentElapsed.Location = new System.Drawing.Point(129, 110);
+            this.currentElapsed.Margin = new System.Windows.Forms.Padding(4);
+            this.currentElapsed.Name = "currentElapsed";
+            this.currentElapsed.ReadOnly = true;
+            this.currentElapsed.Size = new System.Drawing.Size(146, 26);
+            this.currentElapsed.TabIndex = 3;
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(15, 112);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(105, 26);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Elapsed:";
+            // 
+            // currentErrorBox
+            // 
+            this.currentErrorBox.Location = new System.Drawing.Point(129, 69);
+            this.currentErrorBox.Margin = new System.Windows.Forms.Padding(4);
+            this.currentErrorBox.Name = "currentErrorBox";
+            this.currentErrorBox.ReadOnly = true;
+            this.currentErrorBox.Size = new System.Drawing.Size(146, 26);
+            this.currentErrorBox.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.Location = new System.Drawing.Point(15, 72);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(105, 26);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Error:";
+            // 
+            // currentIterationBox
+            // 
+            this.currentIterationBox.Location = new System.Drawing.Point(129, 32);
+            this.currentIterationBox.Margin = new System.Windows.Forms.Padding(4);
+            this.currentIterationBox.Name = "currentIterationBox";
+            this.currentIterationBox.ReadOnly = true;
+            this.currentIterationBox.Size = new System.Drawing.Size(146, 26);
+            this.currentIterationBox.TabIndex = 1;
+            // 
+            // label5
+            // 
+            this.label5.Location = new System.Drawing.Point(15, 34);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(105, 26);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Iteration:";
+            // 
+            // startButton
+            // 
+            this.startButton.Enabled = false;
+            this.startButton.Location = new System.Drawing.Point(5, 516);
+            this.startButton.Margin = new System.Windows.Forms.Padding(4);
+            this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(116, 34);
+            this.startButton.TabIndex = 9;
+            this.startButton.Text = "&Start";
+            this.startButton.Click += new System.EventHandler(this.btnCreate_Click);
             // 
             // stopButton
             // 
             this.stopButton.Enabled = false;
             this.stopButton.Location = new System.Drawing.Point(129, 516);
-            this.stopButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.stopButton.Margin = new System.Windows.Forms.Padding(4);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(155, 34);
             this.stopButton.TabIndex = 10;
@@ -365,9 +453,9 @@
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox1.Size = new System.Drawing.Size(282, 328);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
@@ -378,7 +466,7 @@
             this.cbSameWeights.AutoSize = true;
             this.cbSameWeights.Enabled = false;
             this.cbSameWeights.Location = new System.Drawing.Point(20, 220);
-            this.cbSameWeights.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbSameWeights.Margin = new System.Windows.Forms.Padding(4);
             this.cbSameWeights.Name = "cbSameWeights";
             this.cbSameWeights.Size = new System.Drawing.Size(243, 24);
             this.cbSameWeights.TabIndex = 26;
@@ -389,7 +477,7 @@
             // 
             this.cbNguyenWidrow.AutoSize = true;
             this.cbNguyenWidrow.Location = new System.Drawing.Point(20, 184);
-            this.cbNguyenWidrow.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbNguyenWidrow.Margin = new System.Windows.Forms.Padding(4);
             this.cbNguyenWidrow.Name = "cbNguyenWidrow";
             this.cbNguyenWidrow.Size = new System.Drawing.Size(241, 24);
             this.cbNguyenWidrow.TabIndex = 26;
@@ -401,7 +489,7 @@
             // 
             this.cbRegularization.AutoSize = true;
             this.cbRegularization.Location = new System.Drawing.Point(20, 148);
-            this.cbRegularization.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbRegularization.Margin = new System.Windows.Forms.Padding(4);
             this.cbRegularization.Name = "cbRegularization";
             this.cbRegularization.Size = new System.Drawing.Size(239, 24);
             this.cbRegularization.TabIndex = 26;
@@ -411,7 +499,7 @@
             // neuronsBox
             // 
             this.neuronsBox.Location = new System.Drawing.Point(186, 110);
-            this.neuronsBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.neuronsBox.Margin = new System.Windows.Forms.Padding(4);
             this.neuronsBox.Name = "neuronsBox";
             this.neuronsBox.Size = new System.Drawing.Size(88, 26);
             this.neuronsBox.TabIndex = 7;
@@ -428,7 +516,7 @@
             // alphaBox
             // 
             this.alphaBox.Location = new System.Drawing.Point(186, 70);
-            this.alphaBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.alphaBox.Margin = new System.Windows.Forms.Padding(4);
             this.alphaBox.Name = "alphaBox";
             this.alphaBox.Size = new System.Drawing.Size(88, 26);
             this.alphaBox.TabIndex = 5;
@@ -445,7 +533,7 @@
             // learningRateBox
             // 
             this.learningRateBox.Location = new System.Drawing.Point(188, 32);
-            this.learningRateBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.learningRateBox.Margin = new System.Windows.Forms.Padding(4);
             this.learningRateBox.Name = "learningRateBox";
             this.learningRateBox.Size = new System.Drawing.Size(88, 26);
             this.learningRateBox.TabIndex = 1;
@@ -471,7 +559,7 @@
             // iterationsBox
             // 
             this.iterationsBox.Location = new System.Drawing.Point(129, 272);
-            this.iterationsBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.iterationsBox.Margin = new System.Windows.Forms.Padding(4);
             this.iterationsBox.Name = "iterationsBox";
             this.iterationsBox.Size = new System.Drawing.Size(146, 26);
             this.iterationsBox.TabIndex = 9;
@@ -495,96 +583,13 @@
             this.label9.TabIndex = 8;
             this.label9.Text = "Iterations:";
             // 
-            // startButton
-            // 
-            this.startButton.Enabled = false;
-            this.startButton.Location = new System.Drawing.Point(5, 516);
-            this.startButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(116, 34);
-            this.startButton.TabIndex = 9;
-            this.startButton.Text = "&Start";
-            this.startButton.Click += new System.EventHandler(this.btnCreate_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.currentElapsed);
-            this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Controls.Add(this.currentErrorBox);
-            this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Controls.Add(this.currentIterationBox);
-            this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox4.Location = new System.Drawing.Point(0, 328);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox4.Size = new System.Drawing.Size(282, 158);
-            this.groupBox4.TabIndex = 7;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Current iteration";
-            // 
-            // currentElapsed
-            // 
-            this.currentElapsed.Location = new System.Drawing.Point(129, 110);
-            this.currentElapsed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.currentElapsed.Name = "currentElapsed";
-            this.currentElapsed.ReadOnly = true;
-            this.currentElapsed.Size = new System.Drawing.Size(146, 26);
-            this.currentElapsed.TabIndex = 3;
-            // 
-            // label6
-            // 
-            this.label6.Location = new System.Drawing.Point(15, 112);
-            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(105, 26);
-            this.label6.TabIndex = 2;
-            this.label6.Text = "Elapsed:";
-            // 
-            // currentErrorBox
-            // 
-            this.currentErrorBox.Location = new System.Drawing.Point(129, 69);
-            this.currentErrorBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.currentErrorBox.Name = "currentErrorBox";
-            this.currentErrorBox.ReadOnly = true;
-            this.currentErrorBox.Size = new System.Drawing.Size(146, 26);
-            this.currentErrorBox.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.Location = new System.Drawing.Point(15, 72);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 26);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Error:";
-            // 
-            // currentIterationBox
-            // 
-            this.currentIterationBox.Location = new System.Drawing.Point(129, 32);
-            this.currentIterationBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.currentIterationBox.Name = "currentIterationBox";
-            this.currentIterationBox.ReadOnly = true;
-            this.currentIterationBox.Size = new System.Drawing.Size(146, 26);
-            this.currentIterationBox.TabIndex = 1;
-            // 
-            // label5
-            // 
-            this.label5.Location = new System.Drawing.Point(15, 34);
-            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(105, 26);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Iteration:";
-            // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.splitContainer1);
             this.tabPage4.Location = new System.Drawing.Point(4, 29);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
             this.tabPage4.Size = new System.Drawing.Size(1200, 648);
             this.tabPage4.TabIndex = 12;
             this.tabPage4.Text = "Model Testing";
@@ -594,7 +599,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(4, 4);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -616,9 +621,9 @@
             this.groupBox2.Controls.Add(this.dgvTestingSource);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox2.Size = new System.Drawing.Size(300, 548);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
@@ -632,31 +637,31 @@
             this.dgvTestingSource.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTestingSource.BackgroundColor = System.Drawing.Color.White;
             this.dgvTestingSource.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle9.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle9.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvTestingSource.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTestingSource.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTestingSource.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvTestingSource.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvTestingSource.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvTestingSource.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvTestingSource.Location = new System.Drawing.Point(4, 23);
-            this.dgvTestingSource.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvTestingSource.Margin = new System.Windows.Forms.Padding(4);
             this.dgvTestingSource.Name = "dgvTestingSource";
             this.dgvTestingSource.ReadOnly = true;
             this.dgvTestingSource.RowHeadersVisible = false;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgvTestingSource.RowsDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvTestingSource.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvTestingSource.Size = new System.Drawing.Size(292, 521);
             this.dgvTestingSource.TabIndex = 1;
             // 
@@ -664,7 +669,7 @@
             // 
             this.btnTestingRun.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnTestingRun.Location = new System.Drawing.Point(0, 548);
-            this.btnTestingRun.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTestingRun.Margin = new System.Windows.Forms.Padding(4);
             this.btnTestingRun.Name = "btnTestingRun";
             this.btnTestingRun.Size = new System.Drawing.Size(300, 92);
             this.btnTestingRun.TabIndex = 3;
@@ -677,9 +682,9 @@
             this.groupBox11.Controls.Add(this.zedGraphControl1);
             this.groupBox11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox11.Location = new System.Drawing.Point(0, 0);
-            this.groupBox11.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox11.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox11.Size = new System.Drawing.Size(886, 530);
             this.groupBox11.TabIndex = 4;
             this.groupBox11.TabStop = false;
@@ -706,9 +711,9 @@
             this.groupBox6.Controls.Add(this.dgvPerformance);
             this.groupBox6.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox6.Location = new System.Drawing.Point(0, 530);
-            this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox6.Size = new System.Drawing.Size(886, 110);
             this.groupBox6.TabIndex = 5;
             this.groupBox6.TabStop = false;
@@ -722,14 +727,14 @@
             this.dgvPerformance.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvPerformance.BackgroundColor = System.Drawing.Color.White;
             this.dgvPerformance.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle12.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPerformance.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPerformance.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.dgvPerformance.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvPerformance.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -742,22 +747,22 @@
             this.Column8,
             this.Column10,
             this.Column9});
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvPerformance.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPerformance.DefaultCellStyle = dataGridViewCellStyle6;
             this.dgvPerformance.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPerformance.Location = new System.Drawing.Point(4, 23);
-            this.dgvPerformance.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvPerformance.Margin = new System.Windows.Forms.Padding(4);
             this.dgvPerformance.Name = "dgvPerformance";
             this.dgvPerformance.ReadOnly = true;
             this.dgvPerformance.RowHeadersVisible = false;
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dgvPerformance.RowsDefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dgvPerformance.RowsDefaultCellStyle = dataGridViewCellStyle7;
             this.dgvPerformance.Size = new System.Drawing.Size(878, 83);
             this.dgvPerformance.TabIndex = 2;
             // 
@@ -841,19 +846,6 @@
             this.Column9.ReadOnly = true;
             this.Column9.Visible = false;
             // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.groupBox4);
-            this.panel1.Controls.Add(this.startButton);
-            this.panel1.Controls.Add(this.stopButton);
-            this.panel1.Controls.Add(this.groupBox1);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(4, 4);
-            this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 6, 0);
-            this.panel1.Size = new System.Drawing.Size(288, 640);
-            this.panel1.TabIndex = 11;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
@@ -862,7 +854,7 @@
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "MainForm";
             this.Text = "Levenberg Marquardt Neural Network Learning";
             this.menuStrip1.ResumeLayout(false);
@@ -878,10 +870,11 @@
             this.groupBox15.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -892,7 +885,6 @@
             this.groupBox11.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvPerformance)).EndInit();
-            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -919,7 +911,6 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.DataGridView dgvLearningSource;
         private System.Windows.Forms.GroupBox groupBox15;
-        private ZedGraph.ZedGraphControl graphInput;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.GroupBox groupBox11;
@@ -954,13 +945,14 @@
         private System.Windows.Forms.TextBox currentIterationBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox3;
-        private ZedGraph.ZedGraphControl zedGraphControl2;
+        private Accord.Controls.ScatterplotView zedGraphControl2;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.TextBox currentElapsed;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox cbSameWeights;
         private System.Windows.Forms.Panel panel1;
+        private Accord.Controls.ScatterplotView graphInput;
     }
 }
 

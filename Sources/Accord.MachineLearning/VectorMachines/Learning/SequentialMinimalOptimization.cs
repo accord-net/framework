@@ -505,9 +505,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         /// 
         private bool examineExample(int i2)
         {
-            double[] p2 = Inputs[i2]; // Input point at index i2
+            // double[] p2 = Inputs[i2]; // Input point at index i2
             double y2 = Outputs[i2];  // Classification label for p2
-            double alph2 = alpha[i2]; // Lagrange multiplier for p2
+            // double alph2 = alpha[i2]; // Lagrange multiplier for p2
 
             double e2; // SVM output on p2 - y2. Check if it has already been computed
 

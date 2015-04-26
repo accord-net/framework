@@ -22,12 +22,11 @@
 
 namespace Accord.DirectSound
 {
-    using System;
-    using System.Threading;
     using Accord.Audio;
     using SharpDX.DirectSound;
     using SharpDX.Multimedia;
-    using System.Collections.Generic;
+    using System;
+    using System.Threading;
 
     /// <summary>
     ///   Audio source for local audio capture device (i.e. a microphone).
@@ -303,7 +302,7 @@ namespace Accord.DirectSound
             if (thread == null)
             {
                 // check source
-                if (device == null)
+                if (device == Guid.Empty)
                     throw new ArgumentException("Audio source is not specified");
 
                 framesReceived = 0;

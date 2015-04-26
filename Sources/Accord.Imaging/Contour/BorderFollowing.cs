@@ -22,11 +22,11 @@
 
 namespace Accord.Imaging
 {
+    using AForge;
+    using AForge.Imaging;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge;
-    using AForge.Imaging;
 
     /// <summary>
     ///   Border following algorithm for contour extraction.
@@ -144,7 +144,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
 
             byte* src = (byte*)image.ImageData.ToPointer();
 

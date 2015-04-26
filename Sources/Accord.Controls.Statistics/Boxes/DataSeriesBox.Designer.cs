@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.zedGraphControl = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
             // 
@@ -35,6 +36,7 @@
             // 
             this.zedGraphControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.zedGraphControl.Location = new System.Drawing.Point(0, 0);
+            this.zedGraphControl.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.zedGraphControl.Name = "zedGraphControl";
             this.zedGraphControl.ScrollGrace = 0D;
             this.zedGraphControl.ScrollMaxX = 0D;
@@ -43,15 +45,16 @@
             this.zedGraphControl.ScrollMinX = 0D;
             this.zedGraphControl.ScrollMinY = 0D;
             this.zedGraphControl.ScrollMinY2 = 0D;
-            this.zedGraphControl.Size = new System.Drawing.Size(484, 362);
+            this.zedGraphControl.Size = new System.Drawing.Size(726, 557);
             this.zedGraphControl.TabIndex = 6;
             // 
             // DataSeriesBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 362);
+            this.ClientSize = new System.Drawing.Size(726, 557);
             this.Controls.Add(this.zedGraphControl);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "DataSeriesBox";
             this.Text = "Data Series";
             this.ResumeLayout(false);
@@ -61,6 +64,7 @@
         #endregion
 
         private ZedGraph.ZedGraphControl zedGraphControl;
+
 
 
 

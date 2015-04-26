@@ -22,11 +22,11 @@
 
 namespace Accord.MachineLearning.DecisionTrees.Rules
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
+    using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     ///   Decision rule simplification algorithm.
@@ -137,7 +137,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
                 }
             }
 
-            double start = computeError(inputs, outputs, list);
+            // double start = computeError(inputs, outputs, list);
 
             for (int i = 0; i < list.Length; i++)
             {
@@ -171,7 +171,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
 
             List<DecisionRule> newList = new List<DecisionRule>(list);
 
-            double middle = computeError(inputs, outputs, list);
+            // double middle = computeError(inputs, outputs, list);
 
             // 2. Eliminate redundant rules from the set
 
@@ -201,7 +201,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
             }
 
 
-            double final = computeError(inputs, outputs, newList);
+            // double final = computeError(inputs, outputs, newList);
 
             decisionList.Clear();
             decisionList.AddRange(newList);

@@ -198,6 +198,13 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             machine.Threshold = s.Rho;
 
+            if (success == false)
+            {
+                throw new ConvergenceException("Convergence could not be attained. " +
+                            "Please reduce the cost of misclassification errors by reducing " +
+                            "the complexity parameter C or try a different kernel function.");
+            }
+
             if (computeError)
                 return ComputeError(inputs);
             return 0.0;
