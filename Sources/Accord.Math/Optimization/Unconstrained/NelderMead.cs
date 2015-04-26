@@ -51,10 +51,10 @@
 
 namespace Accord.Math.Optimization
 {
-    using System;
-    using System.Collections.Generic;
     using Accord.Collections;
     using Accord.Math.Convergence;
+    using System;
+    using System.Collections.Generic;
 
     /// <summary>
     ///   <see cref="NelderMead"/> exit codes.

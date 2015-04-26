@@ -14,6 +14,7 @@
   <ItemGroup>
     <None Include="Archiver\Build.cmd" />
     <None Include="Archiver\Samples.cmd" />
+    <None Include="Compile.sh" />
     <None Include="Compile.cmd" />
     <None Include="Installer\Build.cmd" />
     <None Include="NuGet\Accord.DirectSound.nuspec" />
