@@ -828,16 +828,16 @@ namespace Accord.Math.Decompositions
                     case 4:
                         {
                             // Make the singular values positive.
-                            //if (s[k] <= 0.0)
-                            //{
-                            //    s[k] = (s[k] < 0 ? -s[k] : (Single)0);
+                            if (s[k] <= 0.0)
+                            {
+                                s[k] = (s[k] < 0 ? -s[k] : (Single)0);
 
-                            //    if (wantv)
-                            //    {
-                            //        for (int i = 0; i <= pp; i++) 
-                            //            v[i][k] = -v[i][k];
-                            //    }
-                            //}
+                                if (wantv)
+                                {
+                                    for (int i = 0; i <= pp; i++) 
+                                        v[i][k] = -v[i][k];
+                                }
+                            }
    
                             // Order the singular values.
                             while (k < pp)
