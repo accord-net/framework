@@ -100,7 +100,7 @@
       <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
       <Name>Accord.DirectSound</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.Formats\Accord.IO.csproj">
+    <ProjectReference Include="..\..\Accord.IO\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
       <Name>Accord.IO</Name>
     </ProjectReference>

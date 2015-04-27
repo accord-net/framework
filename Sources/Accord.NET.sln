@@ -80,7 +80,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Math (Noncommercial)
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Non-LGPL", "Non-LGPL", "{54EB52AC-52D0-4046-BDB6-276A5C7ED0F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.IO", "Accord.Formats\Accord.IO.csproj", "{63184EBD-6B28-4066-AAEE-5B99431E31F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.IO", "Accord.IO\Accord.IO.csproj", "{63184EBD-6B28-4066-AAEE-5B99431E31F4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accord.Tests.IO", "..\Unit Tests\Accord.Tests.IO\Accord.Tests.IO.csproj", "{2562C6B4-088E-48AC-B408-15BC99AE6760}"
 EndProject

@@ -8,7 +8,7 @@
       <Method Name="mean" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AoAAAAAAAAAECAABAAAAAQCgACQAAACBAAAAAgAABAA=</HashCode>
+      <HashCode>AoAAAQAEAAAMCAABAAAAAQCgACYAAACBAAAAAiAABAA=</HashCode>
       <FileName>Distance.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -25,7 +25,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>Ac4n0RACidiCyR20mcJXJCYIyAxJDfBVidAI4GpREYY=</HashCode>
+      <HashCode>Ac4n0RACifjCy128mcJXJCYIyAxJDfBVidAI4WpREYY=</HashCode>
       <FileName>Matrix\Matrix.Algebra.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -35,7 +35,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAEBABQkABFAEZAAgAAAOgAJAAAgACSAAGACgICA=</HashCode>
+      <HashCode>AAAAAEBARQkABFAEZAAgAAAOgALAAAgACSAAGACgICA=</HashCode>
       <FileName>Special.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -45,12 +45,12 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAIAAAAABAAQAAEQCIAAAAAAAYABABAAURAUAAgACQ=</HashCode>
+      <HashCode>AAAIAAAAABAAAAAEUCIAAAAIAAYABABAAUAAUAAgACQ=</HashCode>
       <FileName>Tools.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Norm">
-    <Position X="10" Y="7" Width="2.5" />
+    <Position X="10" Y="8.25" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AgAAAAAAIEAEAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Norm.cs</FileName>
@@ -126,12 +126,12 @@
   <Class Name="Accord.Math.Gamma">
     <Position X="10.25" Y="0.5" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAACAAAAAAABAAAAIAAAIgAAgAAAAAAEAAgAAAAAQ=</HashCode>
+      <HashCode>AAAAACAAAAAAAhAAAAIAQAIgAAgABAAABEAAgAAAAAQ=</HashCode>
       <FileName>Functions\Gamma.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Normal">
-    <Position X="10.25" Y="3.75" Width="2.25" />
+    <Position X="10.25" Y="4.5" Width="2.25" />
     <TypeIdentifier>
       <HashCode>IAAAAAAAEAAgAAAABAIAAIIAAAAAAAgAAAAAAACAAAQ=</HashCode>
       <FileName>Functions\Normal.cs</FileName>
@@ -142,13 +142,6 @@
     <TypeIdentifier>
       <HashCode>AQIAAAAQAAAIAAAAAAAIgCgCAgAAIAAAAgEAAAAwAQA=</HashCode>
       <FileName>Constants.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Accord.Math.ComplexExtensions.ComplexMatrix">
-    <Position X="4" Y="11.75" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAQAAAACgAAgQABAAAAAAAAAAAAAAAAAAFABAQ=</HashCode>
-      <FileName>Matrix\Matrix.Complex.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Math.Combinatorics">

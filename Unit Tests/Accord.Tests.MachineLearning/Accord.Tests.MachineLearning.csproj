@@ -151,7 +151,7 @@
       <Name>Accord.Core</Name>
       <Aliases>global</Aliases>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Formats\Accord.IO.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
       <Name>Accord.IO</Name>
     </ProjectReference>

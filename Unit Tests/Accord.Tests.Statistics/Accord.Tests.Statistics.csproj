@@ -305,7 +305,7 @@
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.Formats\Accord.IO.csproj">
+    <ProjectReference Include="..\..\Sources\Accord.IO\Accord.IO.csproj">
       <Project>{63184ebd-6b28-4066-aaee-5b99431e31f4}</Project>
       <Name>Accord.IO</Name>
     </ProjectReference>
