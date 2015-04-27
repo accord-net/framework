@@ -60,7 +60,7 @@ Source: "..\..\Contributors.txt";    DestDir: "{app}";               Components:
 Source: "..\..\Docs\*.chm";          DestDir: "{app}\Docs";          Components: docs;     Flags: skipifsourcedoesntexist; Excludes: "*.~*"
 Source: "..\..\Sources\*";           DestDir: "{app}\Sources";       Components: sources;  Flags: recursesubdirs; Excludes: "*.~*,\TestResults,*\bin,*\obj,*.sdf,*.suo,*.user,*.vsp,*.shfbproj_*,*.pidb"
 Source: "..\..\Unit Tests\*";        DestDir: "{app}\Unit Tests";    Components: sources;  Flags: recursesubdirs; Excludes: "*.~*,\TestResults,*\bin,*\obj,*.sdf,*.suo,*.user,*.vsp,*.shfbproj_*,*.pidb"
-Source: "..\..\Samples\*";           DestDir: "{app}\Samples";       Components: samples;  Flags: recursesubdirs; Excludes: "*.~*,*\obj,*\bin\x64\,*\bin\Debug,*\bin\Release,*\bin\x86\Debug,*\bin\x86\Release 3.5,*.pdb,*.user,*.pidb"
+Source: "..\..\Samples\*";           DestDir: "{app}\Samples";       Components: samples;  Flags: recursesubdirs; Excludes: "*.~*,*\obj,*\bin\x64\,*\bin\Debug,*\bin\Release,*\bin\x86\Debug,*\bin\x86\Release 3.5,*.pdb,*.user,*.pidb,\packages"
 Source: "..\..\Setup\*";             DestDir: "{app}\Setup";         Components: sources;  Flags: recursesubdirs; Excludes: "\bin,\obj,*.user,*.vsp"
 Source: "..\..\Externals\*";         DestDir: "{app}\Externals";     Components: libs;     Flags: recursesubdirs; Excludes: "*.~*,*.pdb"
 
