@@ -265,7 +265,7 @@ namespace Accord.Math.Optimization
         /// <summary>
         ///   Gets or sets the accuracy with which the solution
         ///   is to be found. Default value is 1e5. Smaller values
-        ///   up until zero result in higher accuracy.
+        ///   up until zero result in higher accuracy. 
         /// </summary>
         /// 
         /// <remarks>
@@ -296,8 +296,8 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
-        ///   Gets or sets a tolerance value when detecting
-        ///   convergence of the gradient vector steps. 
+        ///   Gets or sets a tolerance value when detecting convergence 
+        ///   of the gradient vector steps. Default is 0.
         /// </summary>
         /// 
         /// <remarks>

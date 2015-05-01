@@ -22,35 +22,16 @@
 
 namespace Accord.Tests.Imaging
 {
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
+    using Accord.Tests.Imaging.Properties;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Collections.Generic;
     using System.Drawing;
-    using Accord.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Tests.Imaging.Properties;
-    using Accord.Math;
-    using AForge;
-    using System.Linq;
-    using Accord.Controls;
-    using Accord.Imaging.Filters;
 
     [TestClass()]
     public class FastRetinaKeypointDetectorTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [TestMethod()]
         public void ExampleTest()

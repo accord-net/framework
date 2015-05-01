@@ -298,7 +298,6 @@ namespace Accord.Statistics.Models.Markov
             int states = model.States;
             var A = Matrix.Exp(model.Transitions);
             var B = Matrix.Exp(model.Emissions);
-            var pi = Matrix.Exp(model.Probabilities);
 
             int T = observations.Length;
 
@@ -337,7 +336,6 @@ namespace Accord.Statistics.Models.Markov
             int states = model.States;
             var A = Matrix.Exp(model.Transitions);
             var B = Matrix.Exp(model.Emissions);
-            var pi = Matrix.Exp(model.Probabilities);
 
             int T = observations.Length;
             double[,] bwd = new double[T, states];
@@ -402,7 +400,6 @@ namespace Accord.Statistics.Models.Markov
             int states = model.States;
             var A = Matrix.Exp(model.Transitions);
             var B = model.Emissions;
-            var pi = Matrix.Exp(model.Probabilities);
 
             int T = observations.Length;
 

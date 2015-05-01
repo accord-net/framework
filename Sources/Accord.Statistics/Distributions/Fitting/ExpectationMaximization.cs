@@ -22,8 +22,8 @@
 
 namespace Accord.Statistics.Distributions.Fitting
 {
-    using System;
     using Accord.Math;
+    using System;
     using System.Threading.Tasks;
 
     /// <summary>

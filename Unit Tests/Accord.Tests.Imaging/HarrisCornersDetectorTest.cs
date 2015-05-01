@@ -21,47 +21,17 @@
 //
 
 using Accord.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AForge.Imaging;
 using AForge;
+using AForge.Imaging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using System.Drawing;
-using Accord.Controls;
-using System.Windows.Forms;
-using Accord.Imaging.Filters;
 
 namespace Accord.Tests.Imaging
 {
 
-
-    /// <summary>
-    ///This is a test class for HarrisCornersDetectorTest and is intended
-    ///to contain all HarrisCornersDetectorTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class HarrisCornersDetectorTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void ProcessImageTest()

@@ -16,7 +16,6 @@
     <tags>accord.net aforge.net framework statistics mnist libsvm excel mat-file matlab octave matrix</tags>
     <dependencies>
       <dependency id="Accord"      version="$version$" />
-      <dependency id="Accord.Math" version="$version$" />
     </dependencies>
   </metadata>
   <files>
@@ -25,5 +24,8 @@
 
     <file src="..\..\Release\net40\Accord.IO.dll" target="lib\net40\Accord.IO.dll" />
     <file src="..\..\Release\net40\Accord.IO.xml" target="lib\net40\Accord.IO.xml" />
+
+    <file src="..\..\Release\net45\Accord.IO.dll" target="lib\net45\Accord.IO.dll" />
+    <file src="..\..\Release\net45\Accord.IO.xml" target="lib\net45\Accord.IO.xml" />
   </files>
 </package>

@@ -180,7 +180,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         public int MaxHeight
         {
             get { return maxHeight; }
-            set {  maxHeight = value; }
+            set
+            {
+                if (maxHeight <= 0)
+                {
+                    throw new ArgumentOutOfRangeException("value",
+                        "The height must be greater than zero.");
+                }
+
+                maxHeight = value;
+            }
         }
 
         /// <summary>
@@ -201,7 +210,16 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         public int Join
         {
             get { return join; }
-            set { join = value; }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentOutOfRangeException("value",
+                        "The number of times must be greater than zero.");
+                }
+
+                join = value;
+            }
         }
 
         /// <summary>
@@ -321,7 +339,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             //    best explains the data sample subset.
 
             double[] scores = new double[candidateCount];
-            double[] entropies = new double[candidateCount];
             int[][][] partitions = new int[candidateCount][][];
             int[][][] outputSubs = new int[candidateCount][][];
 
@@ -352,7 +369,6 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             int maxGainIndex; scores.Max(out maxGainIndex);
             var maxGainPartition = partitions[maxGainIndex];
             var maxGainOutputs = outputSubs[maxGainIndex];
-            var maxGainEntropy = entropies[maxGainIndex];
             var maxGainAttribute = candidates[maxGainIndex];
             var maxGainRange = inputRanges[maxGainAttribute];
 

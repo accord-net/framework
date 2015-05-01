@@ -115,8 +115,13 @@ namespace Accord.Statistics.Distributions.DensityKernels
         /// 
         public double Profile(double x)
         {
+#if DEBUG
+            if (x < 0)
+                throw new Exception();
+#endif
+
             if (x <= 1)
-                return constant;
+                return 1;
             return 0;
         }
 
@@ -132,7 +137,12 @@ namespace Accord.Statistics.Distributions.DensityKernels
         /// 
         public double Derivative(double x)
         {
-            return 1;
+#if DEBUG
+            if (x < 0)
+                throw new Exception();
+#endif
+
+            return 0;
         }
     }
 }

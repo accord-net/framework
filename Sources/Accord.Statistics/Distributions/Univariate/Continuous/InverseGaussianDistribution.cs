@@ -456,36 +456,6 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
 
-
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString()
-        {
-            return String.Format("N^-1(x; μ = {0}, λ = {1})", mean, lambda);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <param name="formatProvider">The format provider.</param>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "N^-1(x; μ = {0}, λ = {1})", mean, lambda);
-        }
-
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
@@ -497,9 +467,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("N^-1(x; μ = {0}, λ = {1})",
+            return String.Format(formatProvider, "N^-1(x; μ = {0}, λ = {1})",
                 mean.ToString(format, formatProvider),
                 lambda.ToString(format, formatProvider));
         }

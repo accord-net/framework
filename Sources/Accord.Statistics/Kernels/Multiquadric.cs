@@ -33,7 +33,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Multiquadric : KernelBase, IKernel, ICloneable
+    public sealed class Multiquadric : KernelBase, IRadialBasisKernel, IKernel, ICloneable
     {
 
         private double constant;
@@ -71,6 +71,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
@@ -83,6 +84,19 @@ namespace Accord.Statistics.Kernels
             }
 
             return -(norm + constant * constant);
+        }
+
+        /// <summary>
+        ///   Multiquadric Kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return -(z + constant * constant);
         }
 
         /// <summary>

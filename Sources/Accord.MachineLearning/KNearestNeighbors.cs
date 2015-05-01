@@ -133,6 +133,37 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        ///   Gets the top <see cref="KNearestNeighbors{T}.K"/> points that are the closest
+        ///   to a given <paramref name="input">reference point</paramref>.
+        /// </summary>
+        /// 
+        /// <param name="input">The query point whose neighbors will be found.</param>
+        /// <param name="labels">The label for each neighboring point.</param>
+        /// 
+        /// <returns>
+        ///   An array containing the top <see cref="KNearestNeighbors{T}.K"/> points that are 
+        ///   at the closest possible distance to <paramref name="input"/>.
+        /// </returns>
+        /// 
+        public override double[][] GetNearestNeighbors(double[] input, out int[] labels)
+        {
+            KDTreeNodeCollection<int> neighbors = tree.Nearest(input, this.K);
+
+            double[][] points = new double[neighbors.Count][];
+            labels = new int[points.Length];
+
+            int k = 0;
+            foreach (KDTreeNodeDistance<int> point in neighbors)
+            {
+                points[k] = point.Node.Position;
+                labels[k] = point.Node.Value;
+                k++;
+            }
+
+            return points;
+        }
+
+        /// <summary>
         ///   Creates a new <see cref="KNearestNeighbors"/> algorithm from an existing
         ///   <see cref="KDTree{T}"/>. The tree must have been created using the input
         ///   points and the point's class labels as the associated node information.

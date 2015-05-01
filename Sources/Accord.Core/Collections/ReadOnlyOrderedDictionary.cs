@@ -42,8 +42,11 @@ namespace Accord.Collections
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
     /// 
     [Serializable]
-    public abstract class ReadOnlyKeyedCollection<TKey, TValue> : ReadOnlyCollection<TValue>,
-        IReadOnlyCollection<TValue>, IDictionary<TKey, TValue>, IList<TValue>
+    public abstract class ReadOnlyKeyedCollection<TKey, TValue> 
+        : ReadOnlyCollection<TValue>, IDictionary<TKey, TValue>, IList<TValue>
+#if NET45
+        , IReadOnlyCollection<TValue>
+#endif
     {
 
         Dictionary<TKey, TValue> dictionary;

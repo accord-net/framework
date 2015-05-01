@@ -27,7 +27,6 @@ namespace Accord.Tests.Statistics
     using System.Data;
     using Accord;
     using Accord.Math;
-    using Accord.Controls;
 
     [TestClass()]
     public class ProjectionFilterTest
@@ -69,7 +68,7 @@ namespace Accord.Tests.Statistics
             DataTable table = CreateTable();
 
             // Show the start data
-            // DataGridBox.Show(table);
+            // Accord.Controls.DataGridBox.Show(table);
 
             // Create a new data projection (column) filter
             var filter = new Projection("Floors", "Finished");
@@ -78,7 +77,7 @@ namespace Accord.Tests.Statistics
             DataTable result = filter.Apply(table);
 
             // Show it
-            // DataGridBox.Show(result);
+            // Accord.Controls.DataGridBox.Show(result);
 
             Assert.AreEqual(2, result.Columns.Count);
             Assert.AreEqual(5, result.Rows.Count);

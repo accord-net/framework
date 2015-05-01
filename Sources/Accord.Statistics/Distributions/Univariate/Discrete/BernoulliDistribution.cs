@@ -285,8 +285,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ComplementaryDistributionFunction(int k)
         {
-            if (k < 0) return 1;
-            if (k >= 1) return 0;
+            if (k < 0) 
+                return 1;
+
+            if (k >= 1) 
+                return 0;
+
             return probability;
         }
 
@@ -308,8 +312,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityMassFunction(int k)
         {
-            if (k == 1) return probability;
-            if (k == 0) return complement;
+            if (k == 1)
+                return probability;
+
+            if (k == 0) 
+                return complement;
+
             return 0;
         }
 
@@ -332,8 +340,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityMassFunction(int k)
         {
-            if (k == 1) return Math.Log(probability);
-            if (k == 0) return Math.Log(complement);
+            if (k == 1) 
+                return Math.Log(probability);
+
+            if (k == 0) 
+                return Math.Log(complement);
+
             return double.NegativeInfinity;
         }
 
@@ -426,35 +438,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Bernoulli(x; p = {0}, q = {1})", probability, complement);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Bernoulli(x; p = {0}, q = {1})", probability, complement);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("Bernoulli(x; p = {0}, q = {1})",
+            return String.Format(formatProvider, "Bernoulli(x; p = {0}, q = {1})",
                 probability.ToString(format, formatProvider),
                 complement.ToString(format, formatProvider));
         }

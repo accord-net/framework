@@ -27,5 +27,8 @@
 
     <file src="..\..\Release\net40\Accord.Math.dll" target="lib\net40\Accord.Math.dll" />
     <file src="..\..\Release\net40\Accord.Math.xml" target="lib\net40\Accord.Math.xml" />
+
+    <file src="..\..\Release\net45\Accord.Math.dll" target="lib\net45\Accord.Math.dll" />
+    <file src="..\..\Release\net45\Accord.Math.xml" target="lib\net45\Accord.Math.xml" />
   </files>
 </package>

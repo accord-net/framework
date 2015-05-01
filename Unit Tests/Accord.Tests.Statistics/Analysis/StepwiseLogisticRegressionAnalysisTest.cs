@@ -22,12 +22,10 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
-    using System;
-    using Accord.Controls;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass()]
     public class StepwiseLogisticRegressionAnalysisTest

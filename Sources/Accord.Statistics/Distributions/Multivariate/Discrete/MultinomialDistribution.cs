@@ -346,67 +346,15 @@ namespace Accord.Statistics.Distributions.Multivariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            var provider = new CSharpArrayFormatProvider(CultureInfo.CurrentCulture,
-                includeTypeName: false, includeSemicolon: false);
-
-            return String.Format("Multinomial(x; n = {0}, p = {1})",
-                N.ToString(provider), probabilities.ToString(provider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             var provider = new CSharpArrayFormatProvider(formatProvider,
                 includeTypeName: false, includeSemicolon: false);
 
-            return String.Format("Multinomial(x; n = {0}, p = {1})",
-                N.ToString(provider),
-                probabilities.ToString(provider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            var provider = new CSharpArrayFormatProvider(formatProvider,
-                includeTypeName: false, includeSemicolon: false);
-
-            return String.Format("Multinomial(x; n = {0}, p = {1})",
+            return String.Format(formatProvider, "Multinomial(x; n = {0}, p = {1})",
                 N.ToString(format, provider),
                 probabilities.ToString(format, provider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            var provider = new CSharpArrayFormatProvider(CultureInfo.CurrentCulture,
-                includeTypeName: false, includeSemicolon: false);
-
-            return String.Format("Multinomial(x; n = {0}, p = {1})",
-                N.ToString(format, provider),
-                probabilities.ToString(format, provider));
-        }
     }
 }

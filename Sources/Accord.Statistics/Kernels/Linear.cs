@@ -50,7 +50,7 @@ namespace Accord.Statistics.Kernels
         /// </summary>
         /// 
         public Linear()
-            : this(1) { }
+            : this(0) { }
 
         /// <summary>
         ///   Gets or sets the kernel's intercept term.
@@ -78,6 +78,19 @@ namespace Accord.Statistics.Kernels
                 sum += x[i] * y[i];
 
             return sum;
+        }
+
+        /// <summary>
+        ///   Linear kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return z + constant;
         }
 
         /// <summary>

@@ -24,6 +24,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Accord.Math;
     using AForge;
     using Parallel = System.Threading.Tasks.Parallel;
@@ -168,7 +169,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private IntRange[] inputRanges;
         private int outputClasses;
 
-        private bool[] attributes;
+        private int join = 1;
+        private int[] attributeUsageCount;
 
 
         /// <summary>
@@ -181,9 +183,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             get { return maxHeight; }
             set
             {
-                if (maxHeight <= 0 || maxHeight > attributes.Length)
+                if (maxHeight <= 0)
+                {
                     throw new ArgumentOutOfRangeException("value",
-                        "The height must be greater than zero and less than the number of variables in the tree.");
+                        "The height must be greater than zero.");
+                }
+
                 maxHeight = value;
             }
         }
@@ -200,9 +205,34 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             set
             {
                 if (value <= 0)
+                {
                     throw new ArgumentOutOfRangeException("value",
                         "The split step must be greater than zero.");
+                }
+
                 splitStep = value;
+            }
+        }
+
+        /// <summary>
+        ///   Gets or sets how many times one single variable can be
+        ///   integrated into the decision process. In the original
+        ///   ID3 algorithm, a variable can join only one time per
+        ///   decision path (path from the root to a leaf).
+        /// </summary>
+        /// 
+        public int Join
+        {
+            get { return join; }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new ArgumentOutOfRangeException("value",
+                        "The number of times must be greater than zero.");
+                }
+
+                join = value;
             }
         }
 
@@ -219,10 +249,10 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 throw new ArgumentNullException("tree");
 
             this.tree = tree;
-            this.attributes = new bool[tree.InputCount];
+            this.attributeUsageCount = new int[tree.InputCount];
             this.inputRanges = new IntRange[tree.InputCount];
             this.outputClasses = tree.OutputClasses;
-            this.maxHeight = attributes.Length;
+            this.maxHeight = tree.InputCount;
             this.splitStep = 1;
 
             for (int i = 0; i < inputRanges.Length; i++)
@@ -244,8 +274,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // Initial argument check
             checkArgs(inputs, outputs);
 
-            for (int i = 0; i < attributes.Length; i++)
-                attributes[i] = false;
+            // Reset the usage of all attributes
+            for (int i = 0; i < attributeUsageCount.Length; i++)
+            {
+                // a[i] has never been used
+                attributeUsageCount[i] = 0;
+            }
 
             thresholds = new double[tree.Attributes.Count][];
 
@@ -259,16 +293,25 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                     double[] v = inputs.GetColumn(i);
                     int[] o = (int[])outputs.Clone();
 
-                    Array.Sort(v, o);
+                    IGrouping<double, int>[] sortedValueToClassesMapping =
+                        v.
+                            Select((value, index) => new KeyValuePair<double, int>(value, o[index])).
+                            GroupBy(keyValuePair => keyValuePair.Key, keyValuePair => keyValuePair.Value).
+                            OrderBy(keyValuePair => keyValuePair.Key).
+                            ToArray();
 
-                    for (int j = 0; j < v.Length - 1; j++)
+                    for (int j = 0; j < sortedValueToClassesMapping.Length - 1; j++)
                     {
-                        // Add as candidate thresholds only adjacent values v[i] and v[i+1]
-                        // belonging to different classes, following the results by Fayyad
-                        // and Irani (1992). See footnote on Quinlan (1996).
-
-                        if (o[j] != o[j + 1])
-                            candidates.Add((v[j] + v[j + 1]) / 2.0);
+                        // Following the results by Fayyad and Irani (1992) (see footnote on Quinlan (1996)):
+                        // "If all cases of adjacent values V[i] and V[i+1] belong to the same class, 
+                        // a threshold between them cannot lead to a partition that has the maximum value of
+                        // the criterion." i.e no reason the add the threshold as a candidate
+                        
+                        IGrouping<double, int> currentValueToClasses = sortedValueToClassesMapping[j];
+                        IGrouping<double, int> nextValueToClasses = sortedValueToClassesMapping[j + 1];
+                        if (nextValueToClasses.Key - currentValueToClasses.Key > Constants.DoubleEpsilon &&
+                            currentValueToClasses.Union(nextValueToClasses).Count() > 1)
+                            candidates.Add((currentValueToClasses.Key + nextValueToClasses.Key) / 2.0);
                     }
 
 
@@ -281,7 +324,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 1. Create a root node for the tree
             tree.Root = new DecisionNode(tree);
 
-            split(tree.Root, inputs, outputs);
+            split(tree.Root, inputs, outputs, 0);
 
             return ComputeError(inputs, outputs);
         }
@@ -308,7 +351,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             return (double)miss / inputs.Length;
         }
 
-        private void split(DecisionNode root, double[][] input, int[] output)
+        private void split(DecisionNode root, double[][] input, int[] output, int height)
         {
 
             // 2. If all examples are for the same class, return the single-node
@@ -325,9 +368,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 3. If number of predicting attributes is empty, then return the single-node
             //    tree with the output label corresponding to the most common value of
             //    the target attributes in the examples.
-            int predictors = attributes.Count(x => x == false);
 
-            if (predictors <= attributes.Length - maxHeight)
+            // how many variables have been used less than the limit
+            int candidateCount = attributeUsageCount.Count(x => x < join);
+
+            if (candidateCount == 0 || (maxHeight > 0 && height == maxHeight))
             {
                 root.Output = Statistics.Tools.Mode(output);
                 return;
@@ -337,15 +382,17 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 4. Otherwise, try to select the attribute which
             //    best explains the data sample subset.
 
-            double[] scores = new double[predictors];
-            double[] entropies = new double[predictors];
-            double[] thresholds = new double[predictors];
-            int[][][] partitions = new int[predictors][][];
+            double[] scores = new double[candidateCount];
+            double[] thresholds = new double[candidateCount];
+            int[][][] partitions = new int[candidateCount][][];
 
             // Retrieve candidate attribute indices
-            int[] candidates = new int[predictors];
-            for (int i = 0, k = 0; i < attributes.Length; i++)
-                if (!attributes[i]) candidates[k++] = i;
+            int[] candidates = new int[candidateCount];
+            for (int i = 0, k = 0; i < attributeUsageCount.Length; i++)
+            {
+                if (attributeUsageCount[i] < join)
+                    candidates[k++] = i;
+            }
 
 
             // For each attribute in the data set
@@ -365,13 +412,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // Select the attribute with maximum gain ratio
             int maxGainIndex; scores.Max(out maxGainIndex);
             var maxGainPartition = partitions[maxGainIndex];
-            var maxGainEntropy = entropies[maxGainIndex];
             var maxGainAttribute = candidates[maxGainIndex];
             var maxGainRange = inputRanges[maxGainAttribute];
             var maxGainThreshold = thresholds[maxGainIndex];
 
             // Mark this attribute as already used
-            attributes[maxGainAttribute] = true;
+            attributeUsageCount[maxGainAttribute]++;
 
             double[][] inputSubset;
             int[] outputSubset;
@@ -395,7 +441,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
                     inputSubset = input.Submatrix(maxGainPartition[i]);
                     outputSubset = output.Submatrix(maxGainPartition[i]);
-                    split(children[i], inputSubset, outputSubset); // recursion
+                    split(children[i], inputSubset, outputSubset, height + 1); // recursion
                 }
 
                 root.Branches.AttributeIndex = maxGainAttribute;
@@ -427,12 +473,12 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 // Create a branch for lower values
                 inputSubset = input.Submatrix(maxGainPartition[0]);
                 outputSubset = output.Submatrix(maxGainPartition[0]);
-                split(children[0], inputSubset, outputSubset);
+                split(children[0], inputSubset, outputSubset, height + 1);
 
                 // Create a branch for higher values
                 inputSubset = input.Submatrix(maxGainPartition[1]);
                 outputSubset = output.Submatrix(maxGainPartition[1]);
-                split(children[1], inputSubset, outputSubset);
+                split(children[1], inputSubset, outputSubset, height + 1);
 
                 root.Branches.AttributeIndex = maxGainAttribute;
                 root.Branches.AddRange(children);
@@ -451,7 +497,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 root.Output = Statistics.Tools.Mode(outputSubset);
             }
 
-            attributes[maxGainAttribute] = false;
+            attributeUsageCount[maxGainAttribute]--;
         }
 
 

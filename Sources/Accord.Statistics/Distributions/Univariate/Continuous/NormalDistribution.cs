@@ -355,9 +355,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            double cdf = Normal.Function((x - mean) / stdDev);
-
-            return cdf;
+            return Normal.Function((x - mean) / stdDev);
         }
 
         /// <summary>
@@ -370,9 +368,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ComplementaryDistributionFunction(double x)
         {
-            double ccdf = Normal.Complemented((x - mean) / stdDev);
-
-            return ccdf;
+            return Normal.Complemented((x - mean) / stdDev);
         }
 
 
@@ -500,8 +496,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
         /// <summary>
-        ///   Gets the Standard Gaussian Distribution,
-        ///   with zero mean and unit variance.
+        ///   Gets the Standard Gaussian Distribution, with zero mean and unit variance.
         /// </summary>
         /// 
         public static NormalDistribution Standard { get { return standard; } }
@@ -600,18 +595,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return new NormalDistribution(mean, stdDev);
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString()
-        {
-            return String.Format("N(x; μ = {0}, σ² = {1})", mean, variance);
-        }
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -621,38 +604,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "N(x; μ = {0}, σ² = {1})", mean, variance);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "N(x; μ = {0}, σ² = {1})",
                 mean.ToString(format, formatProvider),
                 variance.ToString(format, formatProvider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("N(x; μ = {0}, σ² = {1})",
-                mean.ToString(format), variance.ToString(format));
         }
 
 

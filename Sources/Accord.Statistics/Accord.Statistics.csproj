@@ -2,111 +2,72 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>Library</OutputType>
     <RootNamespace>Accord.Statistics</RootNamespace>
     <AssemblyName>Accord.Statistics</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\Debug\</OutputPath>
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>Full</DebugType>
-    <Optimize>False</Optimize>
-    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <CodeAnalysisRuleSet>Migrated rules for Accord.Statistics.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release (4.0)|AnyCPU' ">
-    <OutputPath>..\..\Release\net40</OutputPath>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
-    <DocumentationFile>..\..\Release\net40\Accord.Statistics.XML</DocumentationFile>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
-    <OutputPath>..\..\Release\net35</OutputPath>
-    <DebugSymbols>true</DebugSymbols>
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <DocumentationFile>..\..\Release\net35\Accord.Statistics.XML</DocumentationFile>
+    <FileAlignment>4096</FileAlignment>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisLogFile>..\..\Release\net35\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
     <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (4.5)|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\Release\net45\</OutputPath>
-    <DefineConstants>CODE_ANALYSIS;TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>..\..\Release\net45\Accord.Statistics.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>..\..\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
+    <OutputPath>..\..\Release\net35</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\..\Release\net35\Accord.Statistics.XML</DocumentationFile>
+    <CodeAnalysisLogFile>..\..\Release\net35\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
+    <OutputPath>..\..\Release\net40</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DocumentationFile>..\..\Release\net40\Accord.Statistics.XML</DocumentationFile>
+    <CodeAnalysisLogFile>..\..\Release\net40\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
+    <OutputPath>..\..\Release\net45</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DocumentationFile>..\..\Release\net45\Accord.Statistics.XML</DocumentationFile>
+    <CodeAnalysisLogFile>..\..\Release\net45\Accord.Statistics.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
-    <Reference Include="AForge, Version=2.2.4.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
+    <Reference Include="AForge">
       <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="AForge.Math, Version=2.2.4.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
+    <Reference Include="AForge.Math">
       <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
@@ -137,6 +98,7 @@
     <Compile Include="Analysis\Contrast Functions\Logcosh.cs" />
     <Compile Include="Analysis\CircularDescriptiveAnalysis.cs" />
     <Compile Include="Analysis\DistributionAnalysis.cs" />
+    <Compile Include="Analysis\MultinomialLogisticRegressionAnalysis.cs" />
     <Compile Include="Analysis\Performance\WeightedConfusionMatrix.cs" />
     <Compile Include="Analysis\ProportionalHazardsAnalysis.cs" />
     <Compile Include="Analysis\MultipleLinearRegressionAnalysis.cs" />
@@ -157,6 +119,8 @@
     <Compile Include="Distributions\Density Kernels\Accord.Statistics.Distributions.DensityKernels.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
     <Compile Include="Distributions\Fitting\Accord.Statistics.Distributions.Fitting.cs" />
+    <Compile Include="Distributions\Fitting\GeneralizedBetaOptions.cs" />
+    <Compile Include="Distributions\Fitting\BetaOptions.cs" />
     <Compile Include="Distributions\Fitting\TriangularOptions.cs" />
     <Compile Include="Distributions\Fitting\LogExpectationMaximization.cs" />
     <Compile Include="Distributions\Fitting\MultivariateEmpiricalOptions.cs" />
@@ -175,6 +139,7 @@
     <Compile Include="Distributions\Multivariate\Base\IMultivariateDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateEmpiricalDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\Continuous\VonMisesFisherDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\WishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Independent.cs" />
     <Compile Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cs" />
@@ -190,7 +155,7 @@
     <Compile Include="Distributions\Fitting\MixtureOptions.cs" />
     <Compile Include="Distributions\Fitting\NormalOptions.cs" />
     <Compile Include="Distributions\Multivariate\Independent`1.cs" />
-    <Compile Include="Distributions\Multivariate\MultivariateMixture.cs" />
+    <Compile Include="Distributions\Multivariate\MultivariateMixture`1.cs" />
     <Compile Include="Distributions\Multivariate\Discrete\MultinomialDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BetaDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\BetaPrimeDistribution.cs" />
@@ -200,6 +165,7 @@
     <Compile Include="Distributions\Univariate\Continuous\BirnbaumSaundersDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\AndersonDarlingDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\KumaraswamyDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\RademacherDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\ShapiroWilkDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\LogLogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\InverseChiSquareDistribution.cs" />
@@ -211,6 +177,7 @@
     <Compile Include="Distributions\Univariate\Continuous\ShiftedLogLogisticDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\SkewNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TrapezoidalDistribution.cs" />
+    <Compile Include="Distributions\Univariate\Continuous\GeneralizedBetaDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TriangularDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GumbelDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\TukeyLambdaDistribution.cs" />
@@ -250,7 +217,7 @@
     <Compile Include="Distributions\Univariate\Continuous\FDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\EmpiricalHazardDistribution.cs" />
     <Compile Include="Distributions\Univariate\Continuous\GompertzDistribution.cs" />
-    <Compile Include="Distributions\Univariate\Mixture.cs" />
+    <Compile Include="Distributions\Univariate\Mixture`1.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\MultivariateNormalDistribution.cs" />
     <Compile Include="Distributions\Univariate\Discrete\GeneralDiscreteDistribution.cs" />
     <Compile Include="Distributions\Univariate\Base\UnivariateContinuousDistribution.cs" />
@@ -268,6 +235,7 @@
     <Compile Include="Filters\Imputation.cs" />
     <Compile Include="Filters\Grouping.cs" />
     <Compile Include="Filters\Elimination.cs" />
+    <Compile Include="Filters\Windowing.cs" />
     <Compile Include="Filters\Stratification.cs" />
     <Compile Include="Filters\Codification.cs" />
     <Compile Include="Filters\Discretization.cs" />
@@ -280,8 +248,10 @@
     <Compile Include="Filters\Selection.cs" />
     <Compile Include="Analysis\Base\IMultivariateAnalysis.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />
+    <Compile Include="Kernels\Base\IRadialBasisKernel.cs" />
     <Compile Include="Kernels\Base\IDistance.cs" />
     <Compile Include="Kernels\Base\IEstimable.cs" />
     <Compile Include="Kernels\Base\ITransform.cs" />
@@ -291,6 +261,7 @@
     <Compile Include="Kernels\Cauchy.cs" />
     <Compile Include="Kernels\ChiSquare.cs" />
     <Compile Include="Kernels\Circular.cs" />
+    <Compile Include="Kernels\Gaussian`1.cs" />
     <Compile Include="Kernels\Normalized`1.cs" />
     <Compile Include="Kernels\InverseMultiquadric.cs" />
     <Compile Include="Kernels\Structures\KernelFunctionCache.cs" />
@@ -335,6 +306,10 @@
     <Compile Include="Links\LogLinkFunction.cs" />
     <Compile Include="Links\InverseSquaredLinkFunction.cs" />
     <Compile Include="Links\ProbitLinkFunction.cs" />
+    <Compile Include="Measures\Measures.Vectors.cs" />
+    <Compile Include="Measures\Measures.Matrix.cs" />
+    <Compile Include="Measures\Measures.Matrix.Weighted.cs" />
+    <Compile Include="Measures\Measures.Vectors.Weighted.cs" />
     <Compile Include="Models\Accord.Statistics.Models.cs" />
     <Compile Include="Models\Fields\Accord.Statistics.Models.Fields.cs" />
     <Compile Include="Models\Fields\Learning\Accord.Statistics.Models.Fields.Learning.cs" />
@@ -503,7 +478,7 @@
     <Compile Include="Testing\WaldTest.cs" />
     <Compile Include="Testing\ZTest.cs" />
     <Compile Include="Testing\Base\HypothesisTypes.cs" />
-    <Compile Include="Tools.cs" />
+    <Compile Include="Measures\Tools.cs" />
     <Compile Include="Visualizations\ScatterplotClassValueCollection.cs" />
     <Compile Include="Visualizations\HistogramBinCollection.cs" />
     <Compile Include="Visualizations\HistogramBin.cs" />

@@ -137,7 +137,10 @@ namespace Accord.Tests.MachineLearning
             var msvm = new MultilabelSupportVectorMachine(5, kernel, 4);
             var smo = new MultilabelSupportVectorLearning(msvm, inputs, outputs);
             smo.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-                new SequentialMinimalOptimization(svm, classInputs, classOutputs);
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
 
             Assert.AreEqual(0, msvm.GetLastKernelEvaluations());
 
@@ -186,7 +189,10 @@ namespace Accord.Tests.MachineLearning
             var msvm = new MultilabelSupportVectorMachine(5, kernel, 4);
             var smo = new MultilabelSupportVectorLearning(msvm, inputs, outputs);
             smo.Algorithm = (svm, classInputs, classOutputs, i, j) =>
-                new SequentialMinimalOptimization(svm, classInputs, classOutputs);
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    Complexity = 1
+                };
 
             double expected = smo.Run();
 

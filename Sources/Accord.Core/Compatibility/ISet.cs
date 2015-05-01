@@ -21,13 +21,14 @@
 //
 
 #if NET35
-namespace System.Collections.Generic
+namespace Accord
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Runtime.Serialization;
+    using System.Collections;
 
     /// <summary>
     ///   Minimum ISet implementation for .NET 3.5 to
@@ -61,7 +62,7 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        ///   Performs an implicit conversion from <see cref="System.Collections.Generic.HashSet&lt;T&gt;"/> to <see cref="System.Collections.Generic.ISet&lt;T&gt;"/>.
+        ///   Performs an implicit conversion from <see cref="System.Collections.Generic.HashSet&lt;T&gt;"/> to ISet.
         /// </summary>
         /// 
         /// <param name="set">The set.</param>
@@ -77,7 +78,7 @@ namespace System.Collections.Generic
         }
 
         /// <summary>
-        ///   Performs an implicit conversion from <see cref="System.Collections.Generic.ISet&lt;T&gt;"/> to <see cref="System.Collections.Generic.HashSet&lt;T&gt;"/>.
+        ///   Performs an implicit conversion from ISet to <see cref="System.Collections.Generic.HashSet&lt;T&gt;"/>.
         /// </summary>
         /// 
         /// <param name="set">The set.</param>

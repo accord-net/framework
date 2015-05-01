@@ -159,11 +159,11 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <remarks>
-        ///   The first category is always 
-        ///   considered the baseline category.
+        ///   The first category is always considered the baseline category.
         /// </remarks>
         /// 
         /// <param name="input">The input vector.</param>
+        /// 
         /// <returns>The output value.</returns>
         /// 
         public double[] Compute(double[] input)
@@ -196,6 +196,28 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
+        ///   Computes the model outputs for the given input vectors.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The first category is always considered the baseline category.
+        /// </remarks>
+        /// 
+        /// <param name="input">The input vector.</param>
+        /// 
+        /// <returns>The output value.</returns>
+        /// 
+        public double[][] Compute(double[][] input)
+        {
+            double[][] output = new double[input.Length][];
+
+            for (int i = 0; i < input.Length; i++)
+                output[i] = Compute(input[i]);
+
+            return output;
+        }
+
+        /// <summary>
         ///   The likelihood ratio test of the overall model, also called the model chi-square test.
         /// </summary>
         /// 
@@ -218,8 +240,7 @@ namespace Accord.Statistics.Models.Regression
             for (int i = 0; i < intercept.Length; i++)
                 intercept[i] = Math.Log(sums[i + 1] / sums[0]);
 
-            MultinomialLogisticRegression regression =
-                new MultinomialLogisticRegression(Inputs, Categories, intercept);
+            var regression = new MultinomialLogisticRegression(Inputs, Categories, intercept);
 
             double ratio = GetLogLikelihoodRatio(input, output, regression);
 
@@ -247,13 +268,11 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
-        ///   Gets the 95% confidence interval for the
-        ///   Odds Ratio for a given coefficient.
+        ///   Gets the 95% confidence interval for the Odds Ratio for a given coefficient.
         /// </summary>
         /// 
-        /// <param name="category">
-        ///   The category's index. 
-        /// </param>
+        /// <param name="category">The category's index. </param>
+        /// 
         /// <param name="coefficient">
         ///   The coefficient's index. The first value
         ///   (at zero index) is the intercept value.
@@ -273,16 +292,30 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
+        ///   Gets the 95% confidence intervals for the Odds Ratios for all coefficients.
+        /// </summary>
+        /// 
+        /// <param name="category">The category's index.</param>
+        /// 
+        public DoubleRange[] GetConfidenceInterval(int category)
+        {
+            var ranges = new DoubleRange[inputs + 1];
+            for (int i = 0; i < ranges.Length; i++)
+                ranges[i] = GetConfidenceInterval(category, i);
+            return ranges;
+        }
+
+        /// <summary>
         ///   Gets the Odds Ratio for a given coefficient.
         /// </summary>
+        /// 
         /// <remarks>
         ///   The odds ratio can be computed raising Euler's number
         ///   (e ~~ 2.71) to the power of the associated coefficient.
         /// </remarks>
         /// 
-        /// <param name="category">
-        ///   The category's index. 
-        /// </param>
+        /// <param name="category">The category index.</param>
+        /// 
         /// <param name="coefficient">
         ///   The coefficient's index. The first value
         ///   (at zero index) is the intercept value.
@@ -298,6 +331,29 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
+        ///   Gets the Odds Ratio for all coefficients.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The odds ratio can be computed raising Euler's number
+        ///   (e ~~ 2.71) to the power of the associated coefficient.
+        /// </remarks>
+        /// 
+        /// <param name="category">The category index.</param>
+        /// 
+        /// <returns>
+        ///   The Odds Ratio for the given coefficient.
+        /// </returns>
+        /// 
+        public double[] GetOddsRatio(int category)
+        {
+            var odds = new double[inputs + 1];
+            for (int i = 0; i < odds.Length; i++)
+                odds[i] = GetOddsRatio(category, i);
+            return odds;
+        }
+
+        /// <summary>
         ///   Gets the Wald Test for a given coefficient.
         /// </summary>
         /// 
@@ -309,9 +365,8 @@ namespace Accord.Statistics.Models.Regression
         ///   take a look on substitute tests based on the log-likelihood if possible.
         /// </remarks>
         /// 
-        /// <param name="category">
-        ///   The category's index. 
-        /// </param>
+        /// <param name="category">The category index.</param>
+        /// 
         /// <param name="coefficient">
         ///   The coefficient's index. The first value
         ///   (at zero index) is the intercept value.
@@ -320,6 +375,28 @@ namespace Accord.Statistics.Models.Regression
         public WaldTest GetWaldTest(int category, int coefficient)
         {
             return new WaldTest(coefficients[category][coefficient], 0.0, standardErrors[category][coefficient]);
+        }
+
+        /// <summary>
+        ///   Gets the Wald Test for all coefficients.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Wald statistical test is a test for a model parameter in which
+        ///   the estimated parameter θ is compared with another proposed parameter
+        ///   under the assumption that the difference between them will be approximately
+        ///   normal. There are several problems with the use of the Wald test. Please
+        ///   take a look on substitute tests based on the log-likelihood if possible.
+        /// </remarks>
+        /// 
+        /// <param name="category">The category's index.</param>
+        /// 
+        public WaldTest[] GetWaldTest(int category)
+        {
+            var tests = new WaldTest[inputs + 1];
+            for (int i = 0; i < tests.Length; i++)
+                tests[i] = GetWaldTest(category, i);
+            return tests;
         }
 
         /// <summary>

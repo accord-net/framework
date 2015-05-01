@@ -25,29 +25,74 @@ namespace Accord.Statistics.Distributions
     using System;
 
     /// <summary>
-    ///   Do not use or rely on this class. See remarks for details.
+    ///   Base class for statistical distribution implementations.
     /// </summary>
     /// 
-    /// <remarks>
-    /// <para>
-    ///   This class serves only as a workaround for a bug in Code Analysis, in which a generic
-    ///   method can not be constrained by more than two interfaces and no concrete class. </para>
-    /// <para>
-    ///  For more information, see: 
-    ///  http://connect.microsoft.com/VisualStudio/feedback/details/542097/ca0001-errors </para>
-    /// </remarks>
-    /// 
     [Serializable]
-    public class DistributionBase 
+    public abstract class DistributionBase : IFormattable
     {
 
-        // This class serves only as a workaround for
-        // a bug in Code Analysis, in which a generic
-        // method can not be constrained by more than
-        // two interfaces and no concrete class.
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString()
+        {
+            return ToString(null, null);
+        }
 
-        // http://connect.microsoft.com/VisualStudio/feedback/details/542097/ca0001-errors
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return ToString(null, formatProvider);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public string ToString(string format)
+        {
+            return ToString(format, null);
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <param name="format">The format.</param>
+        /// <param name="formatProvider">The format provider.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 
+        public abstract string ToString(string format, IFormatProvider formatProvider);
+
+        /// <summary>
+        ///   Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A new object that is a copy of this instance.
+        /// </returns>
+        /// 
+        public abstract object Clone();
 
     }
-
 }

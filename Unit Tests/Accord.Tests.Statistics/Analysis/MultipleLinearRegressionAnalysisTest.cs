@@ -29,7 +29,6 @@ namespace Accord.Tests.Statistics
     using AForge;
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.Math;
-    using Accord.Controls;
     using Accord.Statistics.Testing;
 
     [TestClass()]
@@ -211,10 +210,10 @@ namespace Accord.Tests.Statistics
             regression.Compute(); // compute the analysis
 
             // Now we can show a summary of analysis
-            // DataGridBox.Show(regression.Coefficients);
+            // Accord.Controls.DataGridBox.Show(regression.Coefficients);
 
             // We can also show a summary ANOVA
-            // DataGridBox.Show(regression.Table);
+            // Accord.Controls.DataGridBox.Show(regression.Table);
 
 
             // And also extract other useful information, such

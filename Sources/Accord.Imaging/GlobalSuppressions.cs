@@ -39,3 +39,6 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2105:ArrayFieldsShouldNotBeReadOnly", Scope = "member", Target = "Accord.Imaging.Filters.RobinsonEdgeDetector.#Southwest")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2105:ArrayFieldsShouldNotBeReadOnly", Scope = "member", Target = "Accord.Imaging.Filters.RobinsonEdgeDetector.#West")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates", Scope = "member", Target = "Accord.Imaging.FeatureDescriptor`1.#op_Implicit(!0):Accord.Imaging.FeatureDescriptor`1<!0>")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2151:FieldsWithCriticalTypesShouldBeCriticalFxCopRule", Scope = "member", Target = "Accord.Imaging.IntegralImage2.#nSum")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2151:FieldsWithCriticalTypesShouldBeCriticalFxCopRule", Scope = "member", Target = "Accord.Imaging.IntegralImage2.#sSum")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2151:FieldsWithCriticalTypesShouldBeCriticalFxCopRule", Scope = "member", Target = "Accord.Imaging.IntegralImage2.#tSum")]

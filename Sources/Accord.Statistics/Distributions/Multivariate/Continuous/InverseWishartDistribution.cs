@@ -361,8 +361,6 @@ namespace Accord.Statistics.Distributions.Multivariate
             double[,] Vx = chol.Solve(inverseScaleMatrix);
 
             double z = -0.5 * Vx.Trace();
-            double a = Math.Pow(det, power);
-            double b = Math.Exp(z);
 
             return Math.Log(constant) + power * Math.Log(det) + z;
         }
@@ -387,6 +385,23 @@ namespace Accord.Statistics.Distributions.Multivariate
         public override object Clone()
         {
             return new InverseWishartDistribution(v, inverseScaleMatrix);
+        }
+
+
+        /// <summary>
+        ///   Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <param name="format">The format.</param>
+        /// <param name="formatProvider">The format provider.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            return String.Format(formatProvider, "Wishart^-1(X)");
         }
     }
 }

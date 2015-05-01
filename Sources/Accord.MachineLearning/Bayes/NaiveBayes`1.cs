@@ -22,12 +22,12 @@
 
 namespace Accord.MachineLearning.Bayes
 {
-    using System;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
+    using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -63,7 +63,12 @@ namespace Accord.MachineLearning.Bayes
     /// 
     /// <example>
     /// <para>
-    ///   In this example, we will be using a mixed-continuous version of the famous Play Tennis
+    ///   This page contains two examples, one using text and another one using normal double vectors.
+    ///   The first example is the classic example given by Tom Mitchell. If you are not interested
+    ///   in text or in this particular example, please jump to the second example below.</para>
+    ///   
+    /// <para>
+    ///   In the first example, we will be using a mixed-continuous version of the famous Play Tennis
     ///   example by Tom Mitchell (1998). In Mitchell's example, one would like to infer if a person
     ///   would play tennis or not based solely on four input variables. The original variables were
     ///   categorical, but in this example, two of them will be categorical and two will be continuous.
@@ -164,6 +169,58 @@ namespace Accord.MachineLearning.Bayes
     /// // Finally, the result can be translated back to one of the codewords using
     /// string result = codebook.Translate("PlayTennis", output); // result is "No"
     /// </code>
+    /// 
+    /// <para> 
+    ///   </para>
+    ///   
+    /// <para>
+    ///   In this second example, we will be creating a simple multi-class
+    ///   classification problem using integer vectors and learning a discrete
+    ///   Naive Bayes on those vectors.</para>
+    /// 
+    /// <code>
+    /// // Let's say we have the following data to be classified
+    /// // into three possible classes. Those are the samples:
+    /// //
+    /// double[][] inputs =
+    /// {
+    ///     //               input         output
+    ///     new double[] { 0, 1, 1, 0 }, //  0 
+    ///     new double[] { 0, 1, 0, 0 }, //  0
+    ///     new double[] { 0, 0, 1, 0 }, //  0
+    ///     new double[] { 0, 1, 1, 0 }, //  0
+    ///     new double[] { 0, 1, 0, 0 }, //  0
+    ///     new double[] { 1, 0, 0, 0 }, //  1
+    ///     new double[] { 1, 0, 0, 0 }, //  1
+    ///     new double[] { 1, 0, 0, 1 }, //  1
+    ///     new double[] { 0, 0, 0, 1 }, //  1
+    ///     new double[] { 0, 0, 0, 1 }, //  1
+    ///     new double[] { 1, 1, 1, 1 }, //  2
+    ///     new double[] { 1, 0, 1, 1 }, //  2
+    ///     new double[] { 1, 1, 0, 1 }, //  2
+    ///     new double[] { 0, 1, 1, 1 }, //  2
+    ///     new double[] { 1, 1, 1, 1 }, //  2
+    /// };
+    /// 
+    /// int[] outputs = // those are the class labels
+    /// {
+    ///     0, 0, 0, 0, 0,
+    ///     1, 1, 1, 1, 1,
+    ///     2, 2, 2, 2, 2,
+    /// };
+    /// 
+    /// // Create a new continuous naive Bayes model for 3 classes using 4-dimensional Gaussian distributions
+    /// var bayes = new NaiveBayes&lt;NormalDistribution>(inputs: 4, classes: 3, initial: NormalDistribution.Standard);
+    /// 
+    /// // Teach the Naive Bayes model. The error should be zero:
+    /// double error = bayes.Estimate(inputs, outputs, options: new NormalOptions
+    /// {
+    ///     Regularization = 1e-5 // to avoid zero variances
+    /// });
+    /// 
+    /// // Now, let's test  the model output for the first input sample:
+    /// int answer = bayes.Compute(new double[] { 0, 1, 1, 0 }); // should be 1
+    /// </code>
     /// </example>
     /// 
     /// <seealso cref="NaiveBayes"/>
@@ -193,7 +250,7 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution initial)
         {
-            if (classes <= 0) 
+            if (classes <= 0)
                 throw new ArgumentOutOfRangeException("classes");
 
             if (inputs <= 0)
@@ -225,19 +282,19 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution initial, double[] classPriors)
         {
-            if (classes <= 0) 
+            if (classes <= 0)
                 throw new ArgumentOutOfRangeException("classes");
 
-            if (inputs <= 0) 
+            if (inputs <= 0)
                 throw new ArgumentOutOfRangeException("inputs");
 
-            if (classPriors == null) 
+            if (classPriors == null)
                 throw new ArgumentNullException("classPriors");
 
             if (initial == null)
                 throw new ArgumentNullException("initial");
 
-            if (classPriors.Length != classes) 
+            if (classPriors.Length != classes)
                 throw new DimensionMismatchException("classPriors");
 
             TDistribution[,] priors = new TDistribution[classPriors.Length, inputs];
@@ -262,10 +319,10 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution[] initial)
         {
-            if (classes <= 0) 
+            if (classes <= 0)
                 throw new ArgumentOutOfRangeException("classes");
 
-            if (inputs <= 0) 
+            if (inputs <= 0)
                 throw new ArgumentOutOfRangeException("inputs");
 
             if (initial == null)
@@ -323,13 +380,13 @@ namespace Accord.MachineLearning.Bayes
         /// 
         public NaiveBayes(int classes, int inputs, TDistribution[,] initial, double[] classPriors)
         {
-            if (classes <= 0) 
+            if (classes <= 0)
                 throw new ArgumentOutOfRangeException("classes");
 
-            if (initial == null) 
+            if (initial == null)
                 throw new ArgumentNullException("initial");
 
-            if (classPriors.Length != classes) 
+            if (classPriors.Length != classes)
                 throw new DimensionMismatchException("classPriors");
 
             if (initial.GetLength(0) != classes)
@@ -448,16 +505,16 @@ namespace Accord.MachineLearning.Bayes
         public double Estimate(double[][] inputs, int[] outputs,
             bool empirical = true, IFittingOptions options = null)
         {
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
-            if (outputs == null) 
+            if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
             if (inputs.Length == 0)
                 throw new ArgumentException("The array has zero length.", "inputs");
 
-            if (outputs.Length != inputs.Length) 
+            if (outputs.Length != inputs.Length)
                 throw new DimensionMismatchException("outputs");
 
             // For each class

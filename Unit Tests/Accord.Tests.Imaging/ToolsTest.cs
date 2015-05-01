@@ -54,6 +54,7 @@ namespace Accord.Tests.Imaging
             }
         }
 
+#pragma warning disable 0618
 
 
         [TestMethod()]
@@ -617,6 +618,6 @@ namespace Accord.Tests.Imaging
             }
         }
 
-
+#pragma warning restore 0618
     }
 }

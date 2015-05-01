@@ -35,7 +35,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class TStudent : KernelBase, IKernel, ICloneable
+    public sealed class TStudent : KernelBase, IKernel, IRadialBasisKernel, ICloneable
     {
 
         private int degree;
@@ -67,6 +67,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
@@ -77,10 +78,25 @@ namespace Accord.Statistics.Kernels
                 double d = x[i] - y[i];
                 norm += d * d;
             }
+
             norm = System.Math.Sqrt(norm);
 
             return 1.0 / (1.0 + System.Math.Pow(norm, degree));
         }
+
+        /// <summary>
+        ///   Generalized T-Student Kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return 1.0 / (1.0 + System.Math.Pow(z, degree));
+        }
+
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.

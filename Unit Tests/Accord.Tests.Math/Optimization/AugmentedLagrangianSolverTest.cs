@@ -98,6 +98,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(solver.Minimize());
             double minValue = solver.Value;
 
+            Assert.IsFalse(Double.IsNaN(minValue));
             Assert.AreEqual(1, minValue, 1e-5);
             Assert.AreEqual(0, solver.Solution[0], 1e-5);
             Assert.AreEqual(0, solver.Solution[1], 1e-5);
@@ -370,7 +371,7 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void AugmentedLagrangianSolverConstructorTest6()
         {
-            test1(new ConjugateGradient(2), 1e-3);
+            test1(new ConjugateGradient(2), 5e-3);
             test1(new BoundedBroydenFletcherGoldfarbShanno(2), 1e-4);
             test1(new BroydenFletcherGoldfarbShanno(2), 1e-4);
             test1(new ResilientBackpropagation(2), 1e-2);
@@ -542,7 +543,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(2.77, solver.Solution[0], 1e-2);
             Assert.AreEqual(4.16, solver.Solution[1], 1e-2);
         }
-     
+
 #endif
 
 
@@ -567,7 +568,7 @@ namespace Accord.Tests.Math
 
             var target = new ConjugateGradient(2);
             AugmentedLagrangian solver = new AugmentedLagrangian(target, function, constraints);
-            
+
             Assert.IsTrue(solver.Minimize());
             double minimum = solver.Value;
 
@@ -596,7 +597,7 @@ namespace Accord.Tests.Math
 
             // Easy three dimensional minimization in ellipsoid.
             var function = new NonlinearObjectiveFunction(3,
-                function: x => x[0] * x[1] * x[2], 
+                function: x => x[0] * x[1] * x[2],
                 gradient: x => new[] { x[1] * x[2], x[0] * x[2], x[0] * x[1] });
 
             NonlinearConstraint[] constraints = 
@@ -616,10 +617,10 @@ namespace Accord.Tests.Math
             };
 
             for (int i = 0; i < constraints.Length; i++)
-			{
+            {
                 Assert.AreEqual(ConstraintType.GreaterThanOrEqualTo, constraints[i].ShouldBe);
                 Assert.AreEqual(0, constraints[i].Value);
-			}
+            }
 
             var inner = new BroydenFletcherGoldfarbShanno(3);
             inner.LineSearch = LineSearch.BacktrackingArmijo;
@@ -645,6 +646,47 @@ namespace Accord.Tests.Math
 
             double expectedMinimum = function.Function(solver.Solution);
             Assert.AreEqual(expectedMinimum, minimum);
+        }
+
+        [TestMethod]
+        public void ConstructorTest4()
+        {
+            // Example code from 
+            // https://groups.google.com/forum/#!topic/accord-net/an0sJGGrOuU
+
+            int nVariablesTest = 4; // number of variables
+            int nConstraintsTest = 2; // number of constraints
+            double constraintsTolerance = 1e-100;
+            double[,] ATest = new double[,] { { 1, 2, 3, 4 }, { 0, 4, 3, 1 } }; // arbitary A matrix.  A*X =  b
+            double[,] bTest = new double[,] { { 0 }, { 2 } }; // arbitary A matrix.  A*X =  b
+
+            double[,] XSolve = ATest.Solve(bTest);  // uses the pseudoinverse to minimise norm(X) subject to A*X =  b
+
+            // recreate Solve function using AugmentedLagrangian
+            var fTest = new NonlinearObjectiveFunction(nVariablesTest, ds => ds.InnerProduct(ds), ds => ds.Multiply(2.0)); // minimise norm(ds)
+
+            var nonlinearConstraintsTest = new List<NonlinearConstraint>(nConstraintsTest);  // linear constraints A*X = b
+            for (int i = 0; i < nConstraintsTest; i++)
+            {
+                int j = i; // http://blogs.msdn.com/b/ericlippert/archive/2009/11/12/closing-over-the-loop-variable-considered-harmful.aspx
+                nonlinearConstraintsTest.Add(new NonlinearConstraint(fTest, ds => ATest.GetRow(j).InnerProduct(ds) - (double)bTest.GetValue(j, 0), ConstraintType.EqualTo, 0.0, ds => ATest.GetRow(j), constraintsTolerance));
+            }
+
+            var innerSolverTest = new ResilientBackpropagation(nVariablesTest);
+            innerSolverTest.Tolerance = constraintsTolerance;
+            innerSolverTest.Iterations = 1000;
+            var solverTest = new Accord.Math.Optimization.AugmentedLagrangian(innerSolverTest, fTest, nonlinearConstraintsTest);
+            solverTest.MaxEvaluations = 0;
+            bool didMinimise = solverTest.Minimize();
+
+            var errorConstraintRelative = XSolve.Subtract(solverTest.Solution, 1).ElementwiseDivide(XSolve); // relative error between .Solve and .Minimize
+            var errorConstraintAbsolute = XSolve.Subtract(solverTest.Solution, 1); // absolute error between .Solve and .Minimize
+
+            double[] errorConstraintsTest = new double[nConstraintsTest];
+            for (int i = 0; i < nConstraintsTest; i++)
+            {
+                errorConstraintsTest[i] = nonlinearConstraintsTest[i].Function(solverTest.Solution);
+            }
         }
     }
 }

@@ -22,13 +22,12 @@
 
 namespace Accord.DirectSound
 {
-    using System;
-    using System.Threading;
     using Accord.Audio;
     using SharpDX.DirectSound;
     using SharpDX.Multimedia;
+    using System;
     using System.Collections.Generic;
-
+    using System.Threading;
 
     /// <summary>
     ///   Audio output device for local audio playback (i.e. a sound card port).
@@ -301,7 +300,7 @@ namespace Accord.DirectSound
             if (thread == null)
             {
                 // check source
-                if (device == null)
+                if (device == Guid.Empty)
                     throw new ArgumentException("Audio output is not specified");
 
                 isPlaying = true;

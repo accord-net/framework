@@ -219,7 +219,8 @@ namespace Accord.Tests.Math
                 for (int j = 0; j < a.Doubles.Length; j++)
                 {
                     Assert.AreEqual(Double.IsNaN(e.dsave[j]), Double.IsNaN(a.Doubles[j]));
-                    Assert.AreEqual(e.dsave[j], a.Doubles[j], 1e-200);
+                    if (!Double.IsNaN(e.dsave[j]))
+                        Assert.AreEqual(e.dsave[j], a.Doubles[j], 1e-200);
                 }
 
                 for (int j = 0; j < a.Booleans.Length; j++)
@@ -284,9 +285,9 @@ namespace Accord.Tests.Math
 
             var lbfgs = new BoundedBroydenFletcherGoldfarbShanno(2, function, gradient);
 
-             lbfgs.Minimize(start);
+            lbfgs.Minimize(start);
 
-             Assert.AreEqual(BoundedBroydenFletcherGoldfarbShannoStatus.LineSearchFailed, lbfgs.Status);
+            Assert.AreEqual(BoundedBroydenFletcherGoldfarbShannoStatus.LineSearchFailed, lbfgs.Status);
         }
 
     }

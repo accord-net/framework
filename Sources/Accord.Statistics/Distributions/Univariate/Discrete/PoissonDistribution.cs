@@ -47,36 +47,66 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </remarks>
     /// 
     /// <example>
+    /// <para>
+    ///   The following example shows how to instantiate a new Poisson distribution
+    ///   with a given rate λ and how to compute its measures and associated functions.</para>
+    ///   
     /// <code>
-    ///    // Create a Poisson distribution with λ = 4.2
-    ///    var dist = new PoissonDistribution(lambda: 4.2);
-    ///    
-    ///    // Common measures
-    ///    double mean = dist.Mean;     // 4.2
-    ///    double median = dist.Median; // 4.0
-    ///    double var = dist.Variance;  // 4.2
-    ///    
-    ///    // Cumulative distribution functions
-    ///    double cdf = dist.DistributionFunction(k: 2);               // 0.39488100648845126
-    ///    double ccdf = dist.ComplementaryDistributionFunction(k: 2); // 0.60511899351154874
-    ///    
-    ///    // Probability mass functions
-    ///    double pmf1 = dist.ProbabilityMassFunction(k: 4); // 0.19442365170822165
-    ///    double pmf2 = dist.ProbabilityMassFunction(k: 5); // 0.1633158674349062
-    ///    double pmf3 = dist.ProbabilityMassFunction(k: 6); // 0.11432110720443435
-    ///    double lpmf = dist.LogProbabilityMassFunction(k: 2); // -2.0229781299813
-    ///    
-    ///    // Quantile function
-    ///    int icdf1 = dist.InverseDistributionFunction(p: 0.17); // 2
-    ///    int icdf2 = dist.InverseDistributionFunction(p: 0.46); // 4
-    ///    int icdf3 = dist.InverseDistributionFunction(p: 0.87); // 7
-    ///    
-    ///    // Hazard (failure rate) functions
-    ///    double hf = dist.HazardFunction(x: 4); // 0.19780423301883465
-    ///    double chf = dist.CumulativeHazardFunction(x: 4); // 0.017238269667812049
-    ///    
-    ///    // String representation
-    ///    string str = dist.ToString(CultureInfo.InvariantCulture); // "Poisson(x; λ = 4.2)"
+    /// // Create a new Poisson distribution with 
+    /// var dist = new PoissonDistribution(lambda: 4.2);
+    /// 
+    /// // Common measures
+    /// double mean = dist.Mean;     // 4.2
+    /// double median = dist.Median; // 4.0
+    /// double var = dist.Variance;  // 4.2
+    /// 
+    /// // Cumulative distribution functions
+    /// double cdf1 = dist.DistributionFunction(k: 2); // 0.21023798702309743
+    /// double cdf2 = dist.DistributionFunction(k: 4); // 0.58982702131057763
+    /// double cdf3 = dist.DistributionFunction(k: 7); // 0.93605666027257894
+    /// double ccdf = dist.ComplementaryDistributionFunction(k: 2); // 0.78976201297690252
+    /// 
+    /// // Probability mass functions
+    /// double pmf1 = dist.ProbabilityMassFunction(k: 4); // 0.19442365170822165
+    /// double pmf2 = dist.ProbabilityMassFunction(k: 5); // 0.1633158674349062
+    /// double pmf3 = dist.ProbabilityMassFunction(k: 6); // 0.11432110720443435
+    /// double lpmf = dist.LogProbabilityMassFunction(k: 2); // -2.0229781299813
+    /// 
+    /// // Quantile function
+    /// int icdf1 = dist.InverseDistributionFunction(p: cdf1); // 2
+    /// int icdf2 = dist.InverseDistributionFunction(p: cdf2); // 4
+    /// int icdf3 = dist.InverseDistributionFunction(p: cdf3); // 7
+    /// 
+    /// // Hazard (failure rate) functions
+    /// double hf = dist.HazardFunction(x: 4); // 0.47400404660843515
+    /// double chf = dist.CumulativeHazardFunction(x: 4); // 0.89117630901575073
+    /// 
+    /// // String representation
+    /// string str = dist.ToString(CultureInfo.InvariantCulture); // "Poisson(x; λ = 4.2)"
+    /// </code>
+    /// 
+    /// <para>
+    ///   This example shows hows to call the distribution function 
+    ///   to compute different types of probabilities. </para>
+    ///   
+    /// <code>
+    /// // Create a new Poisson distribution
+    /// var dist = new PoissonDistribution(lambda: 4.2);
+    /// 
+    /// // P(X = 1) = 0.0629814226460064
+    /// double equal = dist.ProbabilityMassFunction(k: 1);
+    /// 
+    /// // P(X &lt; 1) = 0.0149955768204777
+    /// double less = dist.DistributionFunction(k: 1, inclusive: false);
+    /// 
+    /// // P(X ≤ 1) = 0.0779769994664841
+    /// double lessThanOrEqual = dist.DistributionFunction(k: 1, inclusive: true);
+    /// 
+    /// // P(X > 1) = 0.922023000533516
+    /// double greater = dist.ComplementaryDistributionFunction(k: 1);
+    /// 
+    /// // P(X ≥ 1) = 0.985004423179522
+    /// double greaterThanOrEqual = dist.ComplementaryDistributionFunction(k: 1, inclusive: true);
     /// </code>
     /// </example>
     /// 
@@ -133,6 +163,15 @@ namespace Accord.Statistics.Distributions.Univariate
             this.epml = Math.Exp(-lm);
 
             this.entropy = null;
+        }
+
+        /// <summary>
+        ///   Gets the Poisson's parameter λ (lambda).
+        /// </summary>
+        /// 
+        public double Lambda
+        {
+            get { return lambda; }
         }
 
         /// <summary>
@@ -214,7 +253,7 @@ namespace Accord.Statistics.Distributions.Univariate
             if (k >= Int32.MaxValue)
                 return 1;
 
-            return Gamma.LowerIncomplete(k + 1, lambda) / Special.Factorial(k);
+            return Gamma.UpperIncomplete(k + 1, lambda);
         }
 
         /// <summary>
@@ -296,9 +335,21 @@ namespace Accord.Statistics.Distributions.Univariate
             else if (p == 0)
                 return Support.Min;
 
-            double result = Gamma.InverseUpperIncomplete(lambda, 1.0 - p);
+            double result = Gamma.InverseUpperIncomplete(lambda, 1.0 - p) - 1;
 
-            return (int)Math.Round(result);
+            int actual = (int)Math.Ceiling(result);
+            double m = DistributionFunction(actual);
+
+            if (m < p)
+                actual = actual + 1;
+
+#if DEBUG
+            double expected = BaseInverseDistributionFunction(p);
+            if (actual != expected)
+                throw new Exception();
+#endif
+
+            return actual;
         }
 
         /// <summary>
@@ -337,6 +388,66 @@ namespace Accord.Statistics.Distributions.Univariate
             initialize(mean);
         }
 
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public override int[] Generate(int samples)
+        {
+            var random = Accord.Math.Tools.Random;
+
+            int[] s = new int[samples];
+
+            if (lambda > 30)
+            {
+                for (int i = 0; i < s.Length; i++)
+                {
+                    double u = random.NextDouble();
+                    s[i] = InverseDistributionFunction(u);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < s.Length; i++)
+                    s[i] = knuth(random, lambda);
+            }
+
+            return s;
+        }
+
+        /// <summary>
+        ///   Generates a random observation from the current distribution.
+        /// </summary>
+        /// 
+        /// <returns>A random observations drawn from this distribution.</returns>
+        /// 
+        public override int Generate()
+        {
+            if (lambda > 30)
+                return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+
+            return knuth(Accord.Math.Tools.Random, lambda);
+        }
+
+        private static int knuth(Random random, double lambda)
+        {
+            // Knuth, 1969.
+            double p = 1.0;
+            double L = Math.Exp(-lambda);
+
+            int k;
+
+            for (k = 0; p > L; k++)
+                p *= random.NextDouble();
+
+            return k - 1;
+        }
+
+
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -349,7 +460,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return new PoissonDistribution(lambda);
         }
 
-        
 
 
         /// <summary>
@@ -360,50 +470,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("Poisson(x; λ = {0})", lambda);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Poisson(x; λ = {0})", lambda);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format("Poisson(x; λ = {0})",
                 lambda.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("Poisson(x; λ = {0})", lambda.ToString(format));
-        }
 
         /// <summary>
         ///   Gets the standard Poisson distribution,

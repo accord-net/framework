@@ -28,6 +28,7 @@ namespace Accord.Audio.Generators
     /// <summary>
     ///   Impulse train signal generator.
     /// </summary>
+    /// 
     public class ImpulseGenerator : ISignalGenerator
     {
 
@@ -38,27 +39,32 @@ namespace Accord.Audio.Generators
         /// <summary>
         ///   Gets or sets the number of channels to generate.
         /// </summary>
+        /// 
         public int Channels { get; set; }
 
         /// <summary>
         ///   Gets or sets the sampling rate of channels to generate.
         /// </summary>
+        /// 
         public int SamplingRate { get; set; }
 
         /// <summary>
         ///   Gets or sets the number of pulses to generate in the signal.
         /// </summary>
+        /// 
         public int Pulses { get; set; }
 
         /// <summary>
         ///   Gets or sets the sample format for created signals.
         /// </summary>
+        /// 
         public SampleFormat Format { get; set; }
 
 
         /// <summary>
         ///   Gets or sets the beats per minute for the pulses.
         /// </summary>
+        /// 
         public int BeatsPerMinute
         {
             get { return (60 * SamplingRate) / interval; }
@@ -68,6 +74,7 @@ namespace Accord.Audio.Generators
         /// <summary>
         ///   Creates a new Impulse Signal Generator.
         /// </summary>
+        /// 
         public ImpulseGenerator()
             : this(32, 0, 44100, SampleFormat.Format32BitIeeeFloat)
         {
@@ -76,6 +83,7 @@ namespace Accord.Audio.Generators
         /// <summary>
         ///   Creates a new Impulse Signal Generator.
         /// </summary>
+        /// 
         public ImpulseGenerator(int bpm, int pulses, int sampleRate, SampleFormat format)
         {
             this.SamplingRate = sampleRate;
@@ -88,7 +96,8 @@ namespace Accord.Audio.Generators
         /// <summary>
         ///   Generates the given number of samples.
         /// </summary>
-        public Signal Generate(int samples)
+        /// 
+        public unsafe Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
 
@@ -96,41 +105,39 @@ namespace Accord.Audio.Generators
 
             if (Format == SampleFormat.Format32BitIeeeFloat)
             {
-                unsafe
+                for (int c = 0; c < Channels; c++)
                 {
-                    for (int c = 0; c < Channels; c++)
+                    float* dst = (float*)signal.Data.ToPointer() + c;
+
+                    for (int i = 0; i < samples; i += interval, dst += ti)
                     {
-                        float* dst = (float*)signal.Data.ToPointer() + c;
+                        *dst = ampMax;
 
-                        for (int i = 0; i < samples; i += interval, dst += ti)
-                        {
-                            *dst = ampMax;
-
-                            if (Pulses > 0 && i / interval >= Pulses)
-                                break;
-                        }
+                        if (Pulses > 0 && i / interval >= Pulses)
+                            break;
                     }
                 }
             }
             else if (Format == SampleFormat.Format128BitComplex)
             {
-                unsafe
+                Complex campMax = new Complex(ampMax, 0);
+
+                for (int c = 0; c < Channels; c++)
                 {
-                    Complex campMax = new Complex(ampMax, 0);
+                    Complex* dst = (Complex*)signal.Data.ToPointer() + c;
 
-                    for (int c = 0; c < Channels; c++)
+                    for (int i = 0; i < samples; i += interval, dst += ti)
                     {
-                        Complex* dst = (Complex*)signal.Data.ToPointer() + c;
+                        *dst = campMax;
 
-                        for (int i = 0; i < samples; i += interval, dst += ti)
-                        {
-                            *dst = campMax;
-
-                            if (Pulses > 0 && i / interval >= Pulses)
-                                break;
-                        }
+                        if (Pulses > 0 && i / interval >= Pulses)
+                            break;
                     }
                 }
+            }
+            else
+            {
+                throw new UnsupportedSampleFormatException("Sample format is not supported by the filter.");
             }
 
             return signal;

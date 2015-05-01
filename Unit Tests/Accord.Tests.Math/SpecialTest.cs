@@ -84,7 +84,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(7.368050685564151, Special.Log1p(1583.542), precision);
             Assert.AreEqual(0.4633708685409921, Special.Log1p(0.5894227), precision);
             Assert.AreEqual(709.782712893384, Special.Log1p(double.MaxValue), precision);
-            Assert.AreEqual(double.MinValue, Special.Log1p(double.MinValue), precision);
+            Assert.IsTrue(double.IsNaN(Special.Log1p(double.MinValue)));
         }
 
 

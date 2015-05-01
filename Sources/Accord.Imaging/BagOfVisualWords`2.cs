@@ -22,6 +22,9 @@
 
 namespace Accord.Imaging
 {
+    using Accord.MachineLearning;
+    using Accord.Math;
+    using AForge.Imaging;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -30,9 +33,6 @@ namespace Accord.Imaging
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
     using System.Threading.Tasks;
-    using Accord.MachineLearning;
-    using Accord.Math;
-    using AForge.Imaging;
 
     /// <summary>
     ///   Bag of Visual Words
@@ -67,6 +67,7 @@ namespace Accord.Imaging
     ///   are composed of binary features detected by a <see cref="FastRetinaKeypointDetector"/>.
     ///   In order to cluster those features, we will be using a <see cref="KModes{TData}"/>
     ///   algorithm with a matching template argument to make all constructors happy: </para>
+    ///   
     /// <code>
     ///   // Create a new FAST Corners Detector
     ///   FastCornersDetector fast = new FastCornersDetector();

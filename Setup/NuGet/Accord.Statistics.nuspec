@@ -28,5 +28,8 @@
 
     <file src="..\..\Release\net40\Accord.Statistics.dll" target="lib\net40\Accord.Statistics.dll" />
     <file src="..\..\Release\net40\Accord.Statistics.xml" target="lib\net40\Accord.Statistics.xml" />
+
+    <file src="..\..\Release\net45\Accord.Statistics.dll" target="lib\net45\Accord.Statistics.dll" />
+    <file src="..\..\Release\net45\Accord.Statistics.xml" target="lib\net45\Accord.Statistics.xml" />
   </files>
 </package>

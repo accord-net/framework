@@ -1301,7 +1301,7 @@ namespace Accord.Tests.Math
             GoldfarbIdnani gfI = new GoldfarbIdnani(Q, dvec, AMat, b, 2);
 
             for (int i = 0; i < gfI.ConstraintTolerances.Length; i++)
-                gfI.ConstraintTolerances[i] = 1e-10;
+                Assert.AreEqual(0, gfI.ConstraintTolerances[i]);
 
             bool success = gfI.Minimize();
 
@@ -1377,6 +1377,74 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedSol, actualSol, 1e-8);
             for (int i = 0; i < expected.Length; i++)
                 Assert.AreEqual(expected[i], actual[i], 1e-5);
+        }
+
+        [TestMethod()]
+        public void GoldfarbIdnani3()
+        {
+            double[] bvec = { 1, 0, -1, 0, -1, 0, -1, 0, -1 };
+            double[] dvec = { -0.00090022881750228, -0.0011623872153178, -0.0012785347920969, -0.0014757189594252 };
+
+            double[,] DMat = new double[4, 4];
+            DMat[0, 0] = 0.00073558149743370;
+            DMat[1, 1] = 0.00077910939546937;
+            DMat[2, 2] = 0.00139571859557181;
+            DMat[3, 3] = 0.00165142875705900;
+
+            DMat[0, 1] = 0.00066386470011521;
+            DMat[0, 2] = 0.00088725438967435;
+            DMat[0, 3] = 0.00088643939798828;
+
+            DMat[1, 2] = 0.00084474421503143;
+            DMat[1, 3] = 0.00095081100765219;
+            DMat[2, 3] = 0.00143043882089429;
+
+            DMat[1, 0] = DMat[0, 1];
+            DMat[2, 0] = DMat[0, 2];
+            DMat[3, 0] = DMat[0, 3];
+            DMat[2, 1] = DMat[1, 2];
+            DMat[3, 1] = DMat[1, 3];
+            DMat[3, 2] = DMat[2, 3];
+
+            Assert.IsTrue(DMat.IsSymmetric());
+
+
+            double[,] AMat = new double[9, 4];
+            AMat[0, 0] = 1; AMat[1, 0] = 1; AMat[2, 0] = -1; AMat[3, 0] = 0; AMat[4, 0] =  0; AMat[5, 0] = 0; AMat[6, 0] =  0; AMat[7, 0] = 0; AMat[8, 0] =  0;
+            AMat[0, 1] = 1; AMat[1, 1] = 0; AMat[2, 1] =  0; AMat[3, 1] = 1; AMat[4, 1] = -1; AMat[5, 1] = 0; AMat[6, 1] =  0; AMat[7, 1] = 0; AMat[8, 1] =  0;
+            AMat[0, 2] = 1; AMat[1, 2] = 0; AMat[2, 2] =  0; AMat[3, 2] = 0; AMat[4, 2] =  0; AMat[5, 2] = 1; AMat[6, 2] = -1; AMat[7, 2] = 0; AMat[8, 2] =  0;
+            AMat[0, 3] = 1; AMat[1, 3] = 0; AMat[2, 3] =  0; AMat[3, 3] = 0; AMat[4, 3] =  0; AMat[5, 3] = 0; AMat[6, 3] =  0; AMat[7, 3] = 1; AMat[8, 3] = -1;
+
+            var oldA = (double[,])AMat.Clone();
+            var oldD = (double[,])DMat.Clone();
+            var oldb = (double[])bvec.Clone();
+            var oldd = (double[])dvec.Clone();
+
+            GoldfarbIdnani gfI = new GoldfarbIdnani(DMat, dvec, AMat, bvec, 1);
+
+            Assert.AreEqual(4, gfI.NumberOfVariables);
+            Assert.AreEqual(9, gfI.NumberOfConstraints);
+
+            Assert.IsTrue(gfI.Minimize());
+
+            Assert.IsTrue(oldA.IsEqual(AMat));
+            Assert.IsTrue(oldD.IsEqual(DMat));
+            Assert.IsTrue(oldb.IsEqual(bvec));
+            Assert.IsTrue(oldd.IsEqual(dvec));
+
+            double[] soln = gfI.Solution;
+            double value = gfI.Value;
+
+            Assert.AreEqual(0, soln[0], 1e-10);
+            Assert.AreEqual(0.73222257311567, soln[1], 1e-5);
+            Assert.AreEqual(0, soln[2], 1e-10);
+            Assert.AreEqual(0.2677742688433, soln[3], 1e-8);
+            Assert.AreEqual(-0.00079179497009427, value, 1e-6);
+
+            double[] lagrangian = gfI.Lagrangian;
+            double[] expected = { 0.0003730054618697, 0.00016053620578588, 0, 0, 0, 0.000060343913971918, 0, 0, 0 };
+            for (int i = 0; i < lagrangian.Length; i++)
+                Assert.AreEqual(expected[i], lagrangian[i], 1e-4);
         }
 
         private double[,] readMatrixFile(StringReader reader)

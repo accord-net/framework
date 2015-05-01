@@ -33,21 +33,6 @@ namespace Accord.Tests.Math
     public class RedBlackTreeTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         [TestMethod()]
         public void BaseTest()
         {
@@ -300,7 +285,8 @@ namespace Accord.Tests.Math
             int[] k = new int[n];
             for (int i = 0; i < k.Length; i++) 
                 k[i] = i;
-            Accord.Statistics.Tools.Shuffle(k);
+
+            Vector.Shuffle(k);
 
             int[] sorted = (int[])k.Clone();
             Array.Sort(sorted);

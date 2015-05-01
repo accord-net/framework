@@ -375,7 +375,7 @@ namespace Accord.Tests.Statistics
 
             ProportionalHazards regression = new ProportionalHazards(1);
 
-            ProportionalHazardsNewtonRaphson target = new ProportionalHazardsNewtonRaphson(regression);
+            var target = new ProportionalHazardsNewtonRaphson(regression);
             target.Normalize = false;
 
             double error = target.Run(inputs, time, censor);

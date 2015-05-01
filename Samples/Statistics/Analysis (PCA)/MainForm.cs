@@ -30,15 +30,15 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System;
-using System.Data;
-using System.IO;
-using System.Windows.Forms;
 using Accord.Controls;
 using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
 using Components;
+using System;
+using System.Data;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Analysis.PCA
 {

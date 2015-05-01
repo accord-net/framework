@@ -48,7 +48,7 @@ namespace Accord.Tests.Imaging
             }
         }
 
-
+#pragma warning disable 0618
 
         [TestMethod()]
         public void GetSumTest()
@@ -76,7 +76,7 @@ namespace Accord.Tests.Imaging
             int x = 6, y = 0, w = 3, h = 2;
 
             int expected = 7 + 8 + 9 + 17 + 18 + 19;
-            int actual = ii.GetSum(x, y, w, h);
+            long actual = ii.GetSum(x, y, w, h);
 
             Assert.AreEqual(expected, actual);
         }
@@ -119,24 +119,24 @@ namespace Accord.Tests.Imaging
 
 
             // Tilted rectangular feature
-            int[,] iit = tiltedIntegral3(img);
+            long[,] iit = tiltedIntegral3(img);
 
-            int expected = 48;
+            long expected = 48;
 
-            int sum = -(-iit[5 + (1), 1 + (2)] + iit[11 + (1), 7 + (2)]
+            long sum = -(-iit[5 + (1), 1 + (2)] + iit[11 + (1), 7 + (2)]
                 - iit[7 + (1), 11 + (2)] + iit[1 + (1), 5 + (2)]);
 
-            int a = iit[y - 1 + (1), x - 1 + (2)];
-            int b = iit[y + w - 1 + (1), x + w - 1 + (2)];
-            int c = iit[y + w - 1 + h + (1), x + w - 1 - h + (2)];
-            int d = iit[y + h - 1 + (1), x - h - 1 + (2)];
+            long a = iit[y - 1 + (1), x - 1 + (2)];
+            long b = iit[y + w - 1 + (1), x + w - 1 + (2)];
+            long c = iit[y + w - 1 + h + (1), x + w - 1 - h + (2)];
+            long d = iit[y + h - 1 + (1), x - h - 1 + (2)];
 
-            int manual = -a + b - c + d;
+            long manual = -a + b - c + d;
 
             Assert.AreEqual(expected, sum);
             Assert.AreEqual(expected, manual);
 
-            int actual = ii.GetSumT(x, y, w, h);
+            long actual = ii.GetSumT(x, y, w, h);
             Assert.AreEqual(expected, actual);
 
         }
@@ -156,7 +156,7 @@ namespace Accord.Tests.Imaging
             Bitmap bmp = Accord.Imaging.Tools.ToBitmap(img);
             IntegralImage2 ii = IntegralImage2.FromBitmap(bmp, 0);
 
-            int[,] expected =
+            long[,] expected =
             {
                 { 0,  0,  0,  0,  0,  0 },
                 { 0,  5,  7, 10, 14, 15 },
@@ -167,7 +167,7 @@ namespace Accord.Tests.Imaging
             };
 
 
-            int[,] actual = ii.Image;
+            long[,] actual = ii.Image;
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
 
@@ -190,9 +190,9 @@ namespace Accord.Tests.Imaging
             IntegralImage2 ii = IntegralImage2.FromBitmap(bmp, 0, true);
 
             // http://software.intel.com/sites/products/documentation/hpc/ipp/ippi/ippi_ch11/functn_TiltedIntegral.html
-            int[,] expected = tiltedIntegral3(img);
+            long[,] expected = tiltedIntegral3(img);
 
-            int[,] iit = 
+            long[,] iit = 
             {
                 {  0,  0,  0,  0,  0,  0,  0 },
                 {  0,  0,  0,  0,  0,  0,  0 },
@@ -203,7 +203,7 @@ namespace Accord.Tests.Imaging
                 { 15, 19, 22, 24, 24, 22, 19 },
             };
 
-            int[,] iit2 = 
+            long[,] iit2 = 
             {
                 {  1,  3,  6, 10, 15,  19,  0 },
                 {  1,  4,  8, 13, 18,  22,  0 },
@@ -213,7 +213,7 @@ namespace Accord.Tests.Imaging
                 {  0,  1,  3,  6, 10,  15,  0 },
             };
 
-            int[,] iit3 = 
+            long[,] iit3 = 
             {
                 {  0, 0,  0,  1,  3,  6,  10,  15  },
                 {  0, 0,  1,  3,  6, 10,  15,  21  },
@@ -228,7 +228,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(Matrix.IsEqual(iit3, expected));
 
 
-            int[,] actual = ii.Rotated;
+            long[,] actual = ii.Rotated;
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
@@ -245,21 +245,21 @@ namespace Accord.Tests.Imaging
                 { 4, 1, 3, 2, 6 },
             };
 
-            
 
-            int[,] actual8bpp = create(img, PixelFormat.Format8bppIndexed);
-            int[,] actual24rgb = create(img, PixelFormat.Format24bppRgb);
-            int[,] actual32rgb = create(img, PixelFormat.Format32bppRgb);
-            int[,] actual32argb = create(img, PixelFormat.Format32bppArgb);
+
+            long[,] actual8bpp = create(img, PixelFormat.Format8bppIndexed);
+            long[,] actual24rgb = create(img, PixelFormat.Format24bppRgb);
+            long[,] actual32rgb = create(img, PixelFormat.Format32bppRgb);
+            long[,] actual32argb = create(img, PixelFormat.Format32bppArgb);
 
             Assert.IsTrue(actual8bpp.IsEqual(actual24rgb));
             Assert.IsTrue(actual8bpp.IsEqual(actual32rgb));
             Assert.IsTrue(actual8bpp.IsEqual(actual32argb));
         }
 
-        private static int[,] create(byte[,] img, PixelFormat format)
+        private static long[,] create(byte[,] img, PixelFormat format)
         {
-            int[,] actual8bpp;
+            long[,] actual8bpp;
             Bitmap image;
             MatrixToImage converter = new MatrixToImage();
             converter.Format = format;
@@ -324,18 +324,18 @@ namespace Accord.Tests.Imaging
             return expected;
         }
 
-        private static int[,] tiltedIntegral3(byte[,] img)
+        private static long[,] tiltedIntegral3(byte[,] img)
         {
             int rows = img.GetLength(0);
             int cols = img.GetLength(1);
 
             int val = 0;
-            int[,] expected = new int[rows + 2, cols + 2];
+            var expected = new long[rows + 2, cols + 2];
             for (int y = 1; y < rows + 2; y++)
             {
                 for (int x = 2; x < cols + 2; x++)
                 {
-                    int r = val;
+                    long r = val;
                     // if (y - 1 >= 0 && x - 1 >= 0)
                     r += expected[y - 1, x - 1];
                     // if (y >= 0 && x - 1 >= 0)
@@ -352,7 +352,7 @@ namespace Accord.Tests.Imaging
             {
                 for (int x = cols + 1; x >= 0; x--)
                 {
-                    int r = expected[y, x];
+                    long r = expected[y, x];
                     if (y + 1 < rows + 2 && x - 1 >= 0)
                         r += expected[y + 1, x - 1];
                     if (y >= 0 && x - 2 >= 0)
@@ -363,6 +363,8 @@ namespace Accord.Tests.Imaging
 
             return expected;
         }
+
+#pragma warning restore 0618
 
     }
 }

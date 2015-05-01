@@ -16,13 +16,14 @@
     <tags>accord.net aforge.net framework statistics data visualization histogram scatterplot boxplot chart</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
-      <dependency id="Accord.Imaging"         version="$version$" />
       <dependency id="Accord.MachineLearning" version="$version$" />
       <dependency id="Accord.Math"            version="$version$" />
       <dependency id="Accord.Statistics"      version="$version$" />
       
       <dependency id="AForge"                 version="2.2.5" />
       <dependency id="AForge.Math"            version="2.2.5" />
+
+      <dependency id="ZedGraph"               version="5.1.6" />
     </dependencies>
   </metadata>
   <files>
@@ -31,5 +32,8 @@
 
     <file src="..\..\Release\net40\Accord.Controls.dll" target="lib\net40\Accord.Controls.dll" />
     <file src="..\..\Release\net40\Accord.Controls.xml" target="lib\net40\Accord.Controls.xml" />
+
+    <file src="..\..\Release\net45\Accord.Controls.dll" target="lib\net45\Accord.Controls.dll" />
+    <file src="..\..\Release\net45\Accord.Controls.xml" target="lib\net45\Accord.Controls.xml" />
   </files>
 </package>

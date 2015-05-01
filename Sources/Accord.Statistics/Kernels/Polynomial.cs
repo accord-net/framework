@@ -103,6 +103,19 @@ namespace Accord.Statistics.Kernels
         }
 
         /// <summary>
+        ///   Polynomial kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return Math.Pow(z + constant, degree);
+        }
+
+        /// <summary>
         ///   Computes the squared distance in feature space
         ///   between two points given in input space.
         /// </summary>

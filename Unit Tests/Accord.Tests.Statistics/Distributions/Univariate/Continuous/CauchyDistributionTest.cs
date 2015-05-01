@@ -26,7 +26,6 @@ namespace Accord.Tests.Statistics
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Accord.Statistics.Distributions.Fitting;
-    using Accord.Controls;
 
     [TestClass()]
     public class CauchyDistributionTest

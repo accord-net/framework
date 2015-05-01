@@ -129,9 +129,6 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public bool Equals(Antecedent other)
         {
-            if (other == null)
-                return false;
-
             if (Comparison != other.Comparison)
                 return false;
 
@@ -175,9 +172,9 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public override int GetHashCode()
         {
-            return Comparison.GetHashCode() +
+            return unchecked(Comparison.GetHashCode() +
                 13 * Index.GetHashCode() +
-                13 * Value.GetHashCode();
+                13 * Value.GetHashCode());
         }
 
         /// <summary>
@@ -201,13 +198,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public static bool operator ==(Antecedent a, Antecedent b)
         {
-            if ((object)a == null && (object)b == null)
-                return true;
-
-            if ((object)a != null)
-                return a.Equals(b);
-
-            return b.Equals(a);
+            return a.Equals(b);
         }
 
         /// <summary>
@@ -216,13 +207,7 @@ namespace Accord.MachineLearning.DecisionTrees.Rules
         /// 
         public static bool operator !=(Antecedent a, Antecedent b)
         {
-            if ((object)a == null && (object)b == null)
-                return false;
-
-            if ((object)a != null)
-                return !a.Equals(b);
-
-            return !b.Equals(a);
+            return !a.Equals(b);
         }
 
     }

@@ -32,6 +32,12 @@ namespace Accord.Statistics.Filters
     ///   Identification filter.
     /// </summary>
     /// 
+    /// <remarks>
+    /// <para>
+    ///   The identification filter adds a new column to the data containing an
+    ///   unique id for each of the samples (rows) in the data table (or matrix).</para>
+    /// </remarks>
+    /// 
     [Serializable]
     public class Identification : IFilter
     {

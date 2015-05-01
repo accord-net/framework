@@ -30,22 +30,6 @@ namespace Accord.Tests.Math
     public class EigenvalueDecompositionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [TestMethod()]
         public void InverseTestNaN()
         {

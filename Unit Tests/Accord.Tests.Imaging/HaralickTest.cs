@@ -22,12 +22,12 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Collections.Generic;
     using Accord.Imaging;
     using Accord.Imaging.Converters;
     using Accord.Math;
     using AForge.Imaging;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
 
     [TestClass()]
     public class HaralickTest
@@ -139,7 +139,7 @@ namespace Accord.Tests.Imaging
                 -1, 0.999992249954468
             };
 
-            string str = actual.ToString(Math.CSharpArrayFormatProvider.InvariantCulture);
+            string str = actual.ToString(Accord.Math.CSharpArrayFormatProvider.InvariantCulture);
             Assert.IsNotNull(str);
 
             Assert.AreEqual(52, actual.Length);

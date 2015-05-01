@@ -238,8 +238,8 @@ namespace Accord.Tests.Math
         [TestMethod]
         public void ConstructorTest6()
         {
-            /// This problem is taken from Fletcher's book Practical Methods of
-            /// Optimization and has the equation number (9.1.15).
+            // This problem is taken from Fletcher's book Practical Methods of
+            // Optimization and has the equation number (9.1.15).
             var function = new NonlinearObjectiveFunction(2, x => -x[0] - x[1]);
 
             NonlinearConstraint[] constraints = 
@@ -266,8 +266,8 @@ namespace Accord.Tests.Math
         [TestMethod]
         public void ConstructorTest6_0()
         {
-            /// This problem is taken from Fletcher's book Practical Methods of
-            /// Optimization and has the equation number (9.1.15).
+            // This problem is taken from Fletcher's book Practical Methods of
+            // Optimization and has the equation number (9.1.15).
             var function = new NonlinearObjectiveFunction(2, x => -x[0] - x[1]);
 
             NonlinearConstraint[] constraints = 

@@ -22,8 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    extern alias AccordCore;
-
     using System;
     using System.Data;
     using System.IO;
@@ -34,7 +32,6 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Tests.MachineLearning.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using AccordCore.Accord;
 
     [TestClass()]
     public class GaussianMixtureModelTest
@@ -358,8 +355,8 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [Ignore, TestMethod()]
-        public void HighSampleTest()
+        [TestMethod, Ignore]
+        public void LargeSampleTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
@@ -367,7 +364,6 @@ namespace Accord.Tests.MachineLearning
             Func<double> b = () => Tools.Random.NextDouble() > 0.3 ? 1 : -1;
 
             // Test Samples
-
             int thousand = 1000;
             int million = thousand * thousand;
             double[][] samples = new double[5 * million][];

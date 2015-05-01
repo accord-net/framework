@@ -24,7 +24,6 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Controls;
     using Accord.Math;
     using Accord.Statistics.Testing;
 

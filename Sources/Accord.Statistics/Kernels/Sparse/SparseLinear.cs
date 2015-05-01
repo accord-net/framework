@@ -53,7 +53,7 @@ namespace Accord.Statistics.Kernels.Sparse
         /// </summary>
         /// 
         public SparseLinear()
-            : this(1) { }
+            : this(0) { }
 
         /// <summary>
         ///   Gets or sets the kernel's intercept term.

@@ -52,6 +52,7 @@ namespace Accord.Math.Decompositions
     /// <summary>
     ///      QR decomposition for a rectangular matrix.
     /// </summary>
+    ///
     /// <remarks>
     /// <para>
     ///   For an m-by-n matrix <c>A</c> with <c>m >= n</c>, the QR decomposition

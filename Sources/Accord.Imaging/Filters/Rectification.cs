@@ -22,12 +22,10 @@
 
 namespace Accord.Imaging.Filters
 {
-    using System;
+    using AForge.Imaging;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
-    using Matrix = Accord.Math.Matrix;
 
     /// <summary>
     ///   Rectification filter for projective transformation.
@@ -124,7 +122,6 @@ namespace Accord.Imaging.Filters
 
             int srcStride = sourceData.Stride;
             int srcPixelSize = System.Drawing.Image.GetPixelFormatSize(sourceData.PixelFormat) / 8;
-            int srcOffset = sourceData.Stride - width * srcPixelSize;
 
             // get destination image size
             int newWidth = destinationData.Width;

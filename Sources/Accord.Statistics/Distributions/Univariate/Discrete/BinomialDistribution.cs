@@ -88,7 +88,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public class BinomialDistribution : UnivariateDiscreteDistribution,
-        IFittableDistribution<double, IFittingOptions>
+        IFittableDistribution<double>, IFittableDistribution<int>
     {
 
         // Distribution parameters
@@ -241,8 +241,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(int k)
         {
-            if (k < 0) return 0;
-            if (k >= numberOfTrials) return 1;
+            if (k < 0)
+                return 0;
+            if (k >= numberOfTrials)
+                return 1;
 
             double x = 1.0 - probability;
             double a = numberOfTrials - k;
@@ -275,8 +277,11 @@ namespace Accord.Statistics.Distributions.Univariate
                 }
             }
 
-            System.Diagnostics.Debug.Assert(result == base.InverseDistributionFunction(p));
-
+#if DEBUG
+            double expected = base.InverseDistributionFunction(p);
+            if (result != expected)
+                throw new Exception();
+#endif
             return result;
         }
 
@@ -302,8 +307,11 @@ namespace Accord.Statistics.Distributions.Univariate
             if (k < 0 || k > numberOfTrials)
                 return 0;
 
-            double log = Special.LogBinomial(numberOfTrials, k) + k * Math.Log(probability)
-                   + (numberOfTrials - k) * Math.Log(1 - probability);
+            double a = Special.LogBinomial(numberOfTrials, k);
+            double b = k == 0 ? 0 : k * Math.Log(probability);
+            double c = (numberOfTrials - k);
+            double d = Math.Log(1 - probability);
+            double log = a + b + c * d;
 
             return Math.Exp(log);
         }
@@ -330,8 +338,13 @@ namespace Accord.Statistics.Distributions.Univariate
             if (k < 0 || k > numberOfTrials)
                 return Double.NegativeInfinity;
 
-            return Special.LogBinomial(numberOfTrials, k) + k * Math.Log(probability)
-                + (numberOfTrials - k) * Math.Log(1 - probability);
+            double a = Special.LogBinomial(numberOfTrials, k);
+            double b = k == 0 ? 0 : k * Math.Log(probability);
+            double c = (numberOfTrials - k);
+            double d = Math.Log(1 - probability);
+            double log = a + b + c * d;
+
+            return log;
         }
 
         /// <summary>
@@ -360,13 +373,44 @@ namespace Accord.Statistics.Distributions.Univariate
             if (options != null)
                 throw new ArgumentException("No options may be specified.");
 
-            // The maximum likelihood estimator for p is the
-            // number of successes over the number of trials
-
-            int successes = 0;
+            double sum = 0;
             for (int i = 0; i < observations.Length; i++)
-                if (observations[i] == 1) successes++;
-            this.probability = successes / (double)numberOfTrials;
+                sum += observations[i] / (double)numberOfTrials;
+
+            this.probability = sum / observations.Length;
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        /// 
+        /// <remarks>
+        ///   Although both double[] and double[][] arrays are supported,
+        ///   providing a double[] for a multivariate distribution or a
+        ///   double[][] for a univariate distribution may have a negative
+        ///   impact in performance.
+        /// </remarks>
+        /// 
+        public override void Fit(int[] observations, double[] weights, Fitting.IFittingOptions options)
+        {
+            if (weights != null)
+                throw new NotSupportedException("Weighted estimation is not supported.");
+
+            if (options != null)
+                throw new ArgumentException("No options may be specified.");
+
+            double sum = 0;
+            for (int i = 0; i < observations.Length; i++)
+                sum += observations[i] /  (double)numberOfTrials;
+
+            this.probability = sum / observations.Length;
         }
 
         /// <summary>
@@ -382,7 +426,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return new BinomialDistribution(numberOfTrials, probability);
         }
 
-
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
@@ -391,35 +434,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Binomial(x; n = {0}, p = {1})", numberOfTrials, probability);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Binomial(x; n = {0}, p = {1})", numberOfTrials, probability);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("Binomial(x; n = {0}, p = {1})",
+            return String.Format(formatProvider, "Binomial(x; n = {0}, p = {1})",
                 numberOfTrials.ToString(format, formatProvider),
                 probability.ToString(format, formatProvider));
         }

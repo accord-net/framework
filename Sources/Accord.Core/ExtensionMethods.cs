@@ -22,13 +22,14 @@
 
 namespace Accord
 {
-    using System.Data;
     using System;
-    using System.Reflection;
     using System.ComponentModel;
-    using System.IO;
-    using System.Runtime.InteropServices;
+    using System.Data;
     using System.Globalization;
+    using System.IO;
+    using System.Reflection;
+    using System.Runtime.InteropServices;
+    using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
     ///   Static class for utility extension methods.
@@ -109,6 +110,23 @@ namespace Accord
         }
 
         /// <summary>
+        ///   Converts an object into another type, irrespective of whether
+        ///   the conversion can be done at compile time or not. This can be
+        ///   used to convert generic types to numeric types during runtime.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The destination type.</typeparam>
+        /// 
+        /// <param name="value">The value to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static T To<T>(this object value)
+        {
+            return (T)System.Convert.ChangeType(value, typeof(T));
+        }
+
+        /// <summary>
         ///   Gets the underlying buffer position for a StreamReader.
         /// </summary>
         /// 
@@ -127,7 +145,7 @@ namespace Accord
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
 
             // The current position in the buffer of decoded characters
-            int charPos = (int)reader.GetType().InvokeMember("charPos", 
+            int charPos = (int)reader.GetType().InvokeMember("charPos",
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
 
@@ -135,12 +153,50 @@ namespace Accord
             int numReadBytes = reader.CurrentEncoding.GetByteCount(charBuffer, 0, charPos);
 
             // The number of encoded bytes that are in the current buffer
-            int byteLen = (int)reader.GetType().InvokeMember("byteLen", 
+            int byteLen = (int)reader.GetType().InvokeMember("byteLen",
                 BindingFlags.DeclaredOnly | BindingFlags.NonPublic | BindingFlags.Instance
                 | BindingFlags.GetField, null, reader, null, CultureInfo.InvariantCulture);
 
             return reader.BaseStream.Position - byteLen + numReadBytes;
         }
 
+
+        private static readonly Object lockObj = new Object();
+
+        /// <summary>
+        ///   Deserializes the specified stream into an object graph, but locates
+        ///   types by searching all loaded assemblies and ignoring their versions.
+        /// </summary>
+        /// 
+        /// <param name="formatter">The binary formatter.</param>
+        /// <param name="stream">The stream from which to deserialize the object graph.</param>
+        /// 
+        /// <returns>The top (root) of the object graph.</returns>
+        /// 
+        public static object DeserializeAnyVersion(this BinaryFormatter formatter, Stream stream)
+        {
+            lock (lockObj)
+            {
+                try
+                {
+                    AppDomain.CurrentDomain.AssemblyResolve += resolve;
+                    return formatter.Deserialize(stream);
+                }
+                finally
+                {
+                    AppDomain.CurrentDomain.AssemblyResolve -= resolve;
+                }
+            }
+        }
+
+        private static Assembly resolve(object sender, ResolveEventArgs args)
+        {
+            var display = new AssemblyName(args.Name);
+
+            if (display.Name == args.Name)
+                return null;
+
+            return ((AppDomain)sender).Load(display.Name);
+        }
     }
 }

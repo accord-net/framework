@@ -37,6 +37,12 @@ namespace Accord.Statistics.Distributions.Fitting
         MeanMaxMin,
 
         /// <summary>
+        ///   Estimates the mode using the standard algorithm.
+        /// </summary>
+        /// 
+        Standard,
+        
+        /// <summary>
         ///   Estimates the mode using the bisection algorithm.
         /// </summary>
         /// 
@@ -51,6 +57,20 @@ namespace Accord.Statistics.Distributions.Fitting
     [Serializable]
     public class TriangularOptions : IFittingOptions
     {
+
+        /// <summary>
+        ///   Gets or sets the index of the minimum observed 
+        ///   value, if already known. Default is -1.
+        /// </summary>
+        /// 
+        public int MinIndex { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the index of the maximum observed 
+        ///   value, if already known. Default is -1.
+        /// </summary>
+        /// 
+        public int MaxIndex { get; set; }
 
         /// <summary>
         ///   Gets or sets a value indicating whether the observations are already sorted.
@@ -72,6 +92,7 @@ namespace Accord.Statistics.Distributions.Fitting
         /// <summary>
         ///   Gets or sets a value indicating whether the maximum
         ///   value should be treated as fixed and not be estimated.
+        ///   Default is true.
         /// </summary>
         /// 
         public bool FixMax { get; set; }
@@ -79,6 +100,7 @@ namespace Accord.Statistics.Distributions.Fitting
         /// <summary>
         ///   Gets or sets a value indicating whether the minimum
         ///   value should be treated as fixed and not be estimated.
+        ///   Default is true.
         /// </summary>
         /// 
         public bool FixMin { get; set; }
@@ -92,6 +114,10 @@ namespace Accord.Statistics.Distributions.Fitting
         {
             IsSorted = false;
             Method = TriangularEstimationMethod.MeanMaxMin;
+            MinIndex = -1;
+            MaxIndex = -1;
+            FixMin = true;
+            FixMax = true;
         }
 
     }

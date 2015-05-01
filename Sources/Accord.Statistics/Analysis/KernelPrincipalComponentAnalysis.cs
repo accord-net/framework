@@ -223,7 +223,7 @@ namespace Accord.Statistics.Analysis
 
         /// <summary>
         ///   Gets or sets the minimum variance proportion needed to keep a
-        ///   discriminant component. If set to zero, all components will be
+        ///   principal component. If set to zero, all components will be
         ///   kept. Default is 0.001 (all components which contribute less
         ///   than 0.001 to the variance in the data will be discarded).
         /// </summary>

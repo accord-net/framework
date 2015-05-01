@@ -166,16 +166,20 @@ namespace Accord.Imaging.Filters
                             int ir = i - radius;
                             int t = y + ir;
 
-                            if (t < 0) continue;
-                            if (t >= height) break;
+                            if (t < 0) 
+                                continue;
+                            if (t >= height) 
+                                break;
 
                             for (int j = 0; j < size; j++)
                             {
                                 int jr = j - radius;
                                 t = x + jr;
 
-                                if (t < 0) continue;
-                                if (t >= width) continue;
+                                if (t < 0) 
+                                    continue;
+                                if (t >= width) 
+                                    continue;
 
                                 sum += src[ir * srcStride + jr];
                                 count++;
@@ -190,16 +194,20 @@ namespace Accord.Imaging.Filters
                             int ir = i - radius;
                             int t = y + ir;
 
-                            if (t < 0) continue;
-                            if (t >= height) break;
+                            if (t < 0) 
+                                continue;
+                            if (t >= height) 
+                                break;
 
                             for (int j = 0; j < size; j++)
                             {
                                 int jr = j - radius;
                                 t = x + jr;
 
-                                if (t < 0) continue;
-                                if (t >= width) continue;
+                                if (t < 0)
+                                    continue;
+                                if (t >= width) 
+                                    continue;
 
                                 byte val = src[ir * srcStride + jr];
                                 variance += (val - mean) * (val - mean);
@@ -210,6 +218,7 @@ namespace Accord.Imaging.Filters
 
                         *dst = (byte)((variance > 255) ? 255 : ((variance < 0) ? 0 : variance));
                     }
+
                     src += srcOffset;
                     dst += dstOffset;
                 }
@@ -232,16 +241,20 @@ namespace Accord.Imaging.Filters
                             int ir = i - radius;
                             int t = y + ir;
 
-                            if (t < 0) continue;
-                            if (t >= height) break;
+                            if (t < 0) 
+                                continue;
+                            if (t >= height) 
+                                break;
 
                             for (int j = 0; j < size; j++)
                             {
                                 int jr = j - radius;
                                 t = x + jr;
 
-                                if (t < 0) continue;
-                                if (t >= height) continue;
+                                if (t < 0) 
+                                    continue;
+                                if (t >= width) 
+                                    continue;
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 
@@ -266,8 +279,10 @@ namespace Accord.Imaging.Filters
                             int ir = i - radius;
                             int t = y + ir;
 
-                            if (t < 0) continue;
-                            if (t >= height) break;
+                            if (t < 0) 
+                                continue;
+                            if (t >= height) 
+                                break;
 
                             // for each kernel column
                             for (int j = 0; j < size; j++)
@@ -275,8 +290,10 @@ namespace Accord.Imaging.Filters
                                 int jr = j - radius;
                                 t = x + jr;
 
-                                if (t < 0) continue;
-                                if (t >= height) continue;
+                                if (t < 0) 
+                                    continue;
+                                if (t >= width) 
+                                    continue;
 
                                 byte* p = &src[ir * srcStride + jr * pixelSize];
 

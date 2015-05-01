@@ -34,7 +34,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Circular : KernelBase, IKernel, ICloneable
+    public sealed class Circular : KernelBase, IKernel, IRadialBasisKernel, ICloneable
     {
         private const double c2dPI = 2.0 / System.Math.PI;
 
@@ -71,7 +71,7 @@ namespace Accord.Statistics.Kernels
         /// 
         public override double Function(double[] x, double[] y)
         {
-            double norm = 0.0, a, b, c;
+            double norm = 0.0;
             for (int i = 0; i < x.Length; i++)
             {
                 double d = x[i] - y[i];
@@ -81,18 +81,37 @@ namespace Accord.Statistics.Kernels
             norm = System.Math.Sqrt(norm);
 
             if (norm >= sigma)
-            {
                 return 0;
-            }
-            else
-            {
-                norm = norm / sigma;
-                a = c2dPI * System.Math.Acos(-norm);
-                b = c2dPI * norm;
-                c = 1.0 - norm * norm;
 
-                return a - b * System.Math.Sqrt(c);
-            }
+            norm = norm / sigma;
+            double a = c2dPI * System.Math.Acos(-norm);
+            double b = c2dPI * norm;
+            double c = 1.0 - norm * norm;
+
+            return a - b * System.Math.Sqrt(c);
+        }
+
+        /// <summary>
+        ///   Circular Kernel Function
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            double norm = z;
+
+            if (norm >= sigma)
+                return 0;
+
+            norm = norm / sigma;
+            double a = c2dPI * System.Math.Acos(-norm);
+            double b = c2dPI * norm;
+            double c = 1.0 - norm * norm;
+
+            return a - b * System.Math.Sqrt(c);
         }
 
         /// <summary>

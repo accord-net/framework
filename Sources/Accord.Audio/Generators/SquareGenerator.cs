@@ -33,43 +33,50 @@ namespace Accord.Audio.Generators
         /// <summary>
         ///   Gets or sets the Frequency of the squared signal.
         /// </summary>
+        /// 
         public double Frequency { get; set; }
 
         /// <summary>
         ///   Gets or sets the Amplitude of the squared signal.
         /// </summary>
+        /// 
         public double Amplitude { get; set; }
 
         /// <summary>
         ///   Gets or sets the Sampling Rate of the generated signals.
         /// </summary>
+        /// 
         public int SamplingRate { get; set; }
 
         /// <summary>
         ///   Gets or sets the number of channels for the generated signals.
         /// </summary>
+        /// 
         public int Channels { get; set; }
 
         /// <summary>
         ///   Gets or sets the sample format for created signals.
         /// </summary>
+        /// 
         public SampleFormat Format { get; set; }
 
         /// <summary>
         ///   Creates a new Square Signal Generator.
         /// </summary>
+        /// 
         public SquareGenerator()
         {
+            this.Format = SampleFormat.Format32BitIeeeFloat;
+            this.Channels = 1;
         }
 
         /// <summary>
         ///   Generates a signal.
         /// </summary>
+        /// 
         public Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
-
-
 
             if (Format == SampleFormat.Format32BitIeeeFloat)
             {

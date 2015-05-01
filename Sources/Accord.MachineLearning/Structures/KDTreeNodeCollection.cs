@@ -5,6 +5,9 @@
 // Copyright © César Souza, 2009-2015
 // cesarsouza at gmail.com
 //
+// Copyright © Rednaxela, 2009
+// http://robowiki.net/wiki/User:Rednaxela
+//
 //    This library is free software; you can redistribute it and/or
 //    modify it under the terms of the GNU Lesser General Public
 //    License as published by the Free Software Foundation; either
@@ -19,6 +22,32 @@
 //    License along with this library; if not, write to the Free Software
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
+// The internal implementation for this class have been rewritten during v2.15.
+// Before, this class used to work based on standard .NET collections. However,
+// those have been replaced based on an Interval Heap implementation by Rednaxela.
+// Please note that the entire KD-tree implementation haven't changed, but only
+// the internal workings of this single class (KDTreeNodeCollection). The original
+// author has chosen to distribute his code under a permissive license, reproduced
+// below.
+// 
+//    Copyright 2009 Rednaxela
+// 
+//    This software is provided 'as-is', without any express or implied
+//    warranty. In no event will the authors be held liable for any damages
+//    arising from the use of this software.
+//     
+//    Permission is granted to anyone to use this software for any purpose,
+//    including commercial applications, and to alter it and redistribute it
+//    freely, subject to the following restrictions:
+// 
+//    1. The origin of this software must not be misrepresented; you must not
+//       claim that you wrote the original software. If you use this software
+//       in a product, an acknowledgment in the product documentation would be
+//       appreciated but is not required.
+// 
+//    2. This notice may not be removed or altered from any source
+//       distribution.
+// 
 
 namespace Accord.MachineLearning.Structures
 {
@@ -44,10 +73,9 @@ namespace Accord.MachineLearning.Structures
     [Serializable]
     public class KDTreeNodeCollection<T> : ICollection<KDTreeNodeDistance<T>>
     {
-        SortedSet<double> distances;
-        Dictionary<double, List<KDTreeNode<T>>> positions;
+        double[] distances;
+        KDTreeNode<T>[] positions;
 
-        DoubleRange range;
         int count;
 
 
@@ -60,14 +88,36 @@ namespace Accord.MachineLearning.Structures
         public int Capacity { get; private set; }
 
         /// <summary>
-        ///   Gets the current distance limits for nodes contained
-        ///   at this collection, such as the maximum and minimum
-        ///   distances.
+        ///   Gets the minimum distance between a node
+        ///   in this collection and the query point.
         /// </summary>
         /// 
-        public DoubleRange Distance
+        public double Minimum
         {
-            get { return range; }
+            get
+            {
+                if (count == 0)
+                    throw new InvalidOperationException();
+                return distances[0];
+            }
+        }
+
+        /// <summary>
+        ///   Gets the maximum distance between a node
+        ///   in this collection and the query point.
+        /// </summary>
+        /// 
+        public double Maximum
+        {
+            get
+            {
+                if (count == 0)
+                    throw new InvalidOperationException();
+
+                if (count == 1)
+                    return distances[0];
+                return distances[1];
+            }
         }
 
         /// <summary>
@@ -76,7 +126,15 @@ namespace Accord.MachineLearning.Structures
         /// 
         public KDTreeNode<T> Farthest
         {
-            get { return positions[range.Max][0]; }
+            get
+            {
+                if (count == 0)
+                    return null;
+
+                if (count == 1)
+                    return positions[0];
+                return positions[1];
+            }
         }
 
         /// <summary>
@@ -85,7 +143,13 @@ namespace Accord.MachineLearning.Structures
         /// 
         public KDTreeNode<T> Nearest
         {
-            get { return positions[range.Min][0]; }
+            get
+            {
+                if (count == 0)
+                    return null;
+
+                return positions[0];
+            }
         }
 
 
@@ -101,8 +165,8 @@ namespace Accord.MachineLearning.Structures
                 throw new ArgumentOutOfRangeException("size");
 
             Capacity = size;
-            distances = new SortedSet<double>();
-            positions = new Dictionary<double, List<KDTreeNode<T>>>();
+            distances = new double[size];
+            positions = new KDTreeNode<T>[size];
         }
 
         /// <summary>
@@ -135,7 +199,7 @@ namespace Accord.MachineLearning.Structures
             // The list is at its maximum capacity. Check if the value
             // to be added is closer than the current farthest point.
 
-            if (distance < range.Max)
+            if (distance < Maximum)
             {
                 // Yes, it is closer. Remove the previous farthest point
                 // and insert this new one at an appropriate position to
@@ -182,7 +246,7 @@ namespace Accord.MachineLearning.Structures
             // The list is at its maximum capacity. Check if the value
             // to be added is farther than the current nearest point.
 
-            if (distance > range.Min)
+            if (distance > Minimum)
             {
                 // Yes, it is farther. Remove the previous nearest point
                 // and insert this new one at an appropriate position to
@@ -208,27 +272,12 @@ namespace Accord.MachineLearning.Structures
         /// 
         private void add(double distance, KDTreeNode<T> item)
         {
-            List<KDTreeNode<T>> position;
-
-            if (!positions.TryGetValue(distance, out position))
-                positions.Add(distance, position = new List<KDTreeNode<T>>());
-
-            position.Add(item);
-            distances.Add(distance);
-
-            if (count == 0)
-                range.Max = range.Min = distance;
-
-            else
-            {
-                if (distance > range.Max)
-                    range.Max = distance;
-                if (distance < range.Min)
-                    range.Min = distance;
-            }
-
-
+            positions[count] = item;
+            distances[count] = distance;
             count++;
+
+            // Ensure it is in the right place.
+            siftUpLast();
         }
 
 
@@ -238,30 +287,10 @@ namespace Accord.MachineLearning.Structures
         /// 
         public void Clear()
         {
-            distances.Clear();
-            positions.Clear();
+            for (int i = 0; i < positions.Length; i++)
+                positions[i] = null;
 
             count = 0;
-            range.Max = 0;
-            range.Min = 0;
-        }
-
-
-        /// <summary>
-        ///   Gets the list of <see cref="KDTreeNode{T}"/> that holds the
-        ///   objects laying out at the specified distance, if there is any.
-        /// </summary>
-        /// 
-        public List<KDTreeNode<T>> this[double distance]
-        {
-            get
-            {
-                List<KDTreeNode<T>> position;
-                if (!positions.TryGetValue(distance, out position))
-                    return null;
-
-                return position;
-            }
         }
 
         /// <summary>
@@ -272,7 +301,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         public KDTreeNodeDistance<T> this[int index]
         {
-            get { return this.ElementAt(index); }
+            get { return new KDTreeNodeDistance<T>(positions[index], distances[index]); }
         }
 
         /// <summary>
@@ -309,12 +338,8 @@ namespace Accord.MachineLearning.Structures
         /// 
         public IEnumerator<KDTreeNodeDistance<T>> GetEnumerator()
         {
-            foreach (var position in positions)
-            {
-                double distance = position.Key;
-                foreach (var node in position.Value)
-                    yield return new KDTreeNodeDistance<T>(node, distance);
-            }
+            for (int i = 0; i < positions.Length; i++)
+                yield return new KDTreeNodeDistance<T>(positions[i], distances[i]);
 
             yield break;
         }
@@ -330,7 +355,7 @@ namespace Accord.MachineLearning.Structures
         /// 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return positions.GetEnumerator();
+            return this.GetEnumerator();
         }
 
 
@@ -349,11 +374,12 @@ namespace Accord.MachineLearning.Structures
         /// 
         public bool Contains(KDTreeNodeDistance<T> item)
         {
-            List<KDTreeNode<T>> position;
-            if (positions.TryGetValue(item.Distance, out position))
-                return position.Contains(item.Node);
+            int i = Array.IndexOf(positions, item.Node);
 
-            return false;
+            if (i == -1)
+                return false;
+
+            return distances[i] == item.Distance;
         }
 
         /// <summary>
@@ -386,30 +412,12 @@ namespace Accord.MachineLearning.Structures
         }
 
         /// <summary>
-        ///   Removes the first occurrence of a specific object from the collection.
+        ///   Not supported.
         /// </summary>
-        /// 
-        /// <param name="item">The object to remove from the collection. 
-        /// The value can be null for reference types.</param>
-        /// 
-        /// <returns>
-        ///   <c>true</c> if item is successfully removed; otherwise, <c>false</c>. 
-        /// </returns>
         /// 
         public bool Remove(KDTreeNodeDistance<T> item)
         {
-            List<KDTreeNode<T>> position;
-            if (!positions.TryGetValue(item.Distance, out position))
-                return false;
-
-            if (!position.Remove(item.Node))
-                return false;
-
-            range.Max = distances.Max;
-            range.Min = distances.Min;
-            count--;
-
-            return true;
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -418,17 +426,23 @@ namespace Accord.MachineLearning.Structures
         /// 
         public void RemoveFarthest()
         {
-            List<KDTreeNode<T>> position = positions[range.Max];
+            // If we have no items in the queue.
+            if (count == 0)
+                throw new InvalidOperationException("The collection is empty.");
 
-            position.RemoveAt(0);
-
-            if (position.Count() == 0)
+            // If we have one item, remove the min.
+            if (count == 1)
             {
-                distances.Remove(range.Max);
-                range.Max = distances.Max;
+                RemoveNearest();
+                return;
             }
 
+            // Remove the max.
             count--;
+            positions[1] = positions[count];
+            distances[1] = distances[count];
+            positions[count] = null;
+            siftDownMax(1);
         }
 
         /// <summary>
@@ -437,17 +451,203 @@ namespace Accord.MachineLearning.Structures
         /// 
         public void RemoveNearest()
         {
-            List<KDTreeNode<T>> position = positions[range.Min];
+            // Check for errors.
+            if (count == 0)
+                throw new InvalidOperationException("The collection is empty.");
 
-            position.RemoveAt(0);
+            // Remove the min
+            count--;
+            positions[0] = positions[count];
+            distances[0] = distances[count];
+            positions[count] = null;
+            siftDownMin(0);
+        }
 
-            if (position.Count() == 0)
+
+        private void siftUpLast()
+        {
+            // Work out where the element was inserted.
+            int u = count - 1;
+
+            // If it is the only element, nothing to do.
+            if (u == 0)
+                return;
+
+            // If it is the second element, sort with it's pair.
+            if (u == 1)
             {
-                distances.Remove(range.Min);
-                range.Min = distances.Min;
+                // Swap if less than paired item.
+                if (distances[u] < distances[u - 1])
+                    swap(u, u - 1);
             }
 
-            count--;
+            // If it is on the max side, 
+            else if (u % 2 == 1)
+            {
+                // Already paired. Ensure pair is ordered right
+                int p = (u / 2 - 1) | 1; // The larger value of the parent pair
+
+                // If less than it's pair
+                if (distances[u] < distances[u - 1])
+                {
+                    // Swap with it's pair
+                    u = swap(u, u - 1); 
+
+                    // If smaller than smaller parent pair
+                    if (distances[u] < distances[p - 1])
+                    {
+                        // Swap into min-heap side
+                        u = swap(u, p - 1);
+                        siftUpMin(u);
+                    }
+                }
+                else
+                {
+                    // If larger that larger parent pair
+                    if (distances[u] > distances[p])
+                    {
+                        // Swap into max-heap side
+                        u = swap(u, p);
+                        siftUpMax(u);
+                    }
+                }
+            }
+            else
+            {
+                // Inserted in the lower-value slot without a partner
+                int p = (u / 2 - 1) | 1; // The larger value of the parent pair
+
+                // If larger that larger parent pair
+                if (distances[u] > distances[p])
+                {
+                    // Swap into max-heap side
+                    u = swap(u, p);
+                    siftUpMax(u);
+                }
+
+                // else if smaller than smaller parent pair
+                else if (distances[u] < distances[p - 1])
+                {
+                    // Swap into min-heap side
+                    u = swap(u, p - 1);
+                    siftUpMin(u);
+                }
+            }
+        }
+
+        private void siftUpMin(int c)
+        {
+            // Min-side parent: (x/2-1)&~1
+            for (int p = (c / 2 - 1) & ~1; p >= 0 && distances[c] < distances[p]; c = p, p = (c / 2 - 1) & ~1)
+            {
+                swap(c, p);
+            }
+        }
+
+        private void siftUpMax(int c)
+        {
+            // Max-side parent: (x/2-1)|1
+            for (int p = (c / 2 - 1) | 1; p >= 0 && distances[c] > distances[p]; c = p, p = (c / 2 - 1) | 1)
+            {
+                swap(c, p);
+            }
+        }
+
+        private void siftDownMin(int p)
+        {
+            // For each child of the parent.
+            for (int c = p * 2 + 2; c < count; p = c, c = p * 2 + 2)
+            {
+                // If the next child is less than the current child, select the next one.
+                if (c + 2 < count && distances[c + 2] < distances[c])
+                {
+                    c += 2;
+                }
+
+                // If it is less than our parent swap.
+                if (distances[c] < distances[p])
+                {
+                    swap(p, c);
+
+                    // Swap the pair if necessary.
+                    if (c + 1 < count && distances[c + 1] < distances[c])
+                    {
+                        swap(c, c + 1);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        private void siftDownMax(int p)
+        {
+            // For each child on the max side of the tree.
+            for (int c = p * 2 + 1; c <= count; p = c, c = p * 2 + 1)
+            {
+                // If the child is the last one (and only has half a pair).
+                if (c == count)
+                {
+                    // Check if we need to swap with th parent.
+                    if (distances[c - 1] > distances[p])
+                        swap(p, c - 1);
+                    break;
+                }
+
+                // If there is only room for a right child lower pair.
+                else if (c + 2 == count)
+                {
+                    // Swap the children.
+                    if (distances[c + 1] > distances[c])
+                    {
+                        // Swap with the parent.
+                        if (distances[c + 1] > distances[p])
+                            swap(p, c + 1);
+                        break;
+                    }
+                }
+
+                else if (c + 2 < count)
+                {
+                    // If there is room for a right child upper pair
+                    if (distances[c + 2] > distances[c])
+                    {
+                        c += 2;
+                    }
+                }
+
+                if (distances[c] > distances[p])
+                {
+                    swap(p, c);
+                    // Swap with pair if necessary
+                    if (distances[c - 1] > distances[c])
+                    {
+                        swap(c, c - 1);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        private int swap(int x, int y)
+        {
+            // Store temp.
+            var node = positions[y];
+            var dist = distances[y];
+
+            // Swap
+            positions[y] = positions[x];
+            distances[y] = distances[x];
+            positions[x] = node;
+            distances[x] = dist;
+
+            // Return.
+            return y;
         }
 
     }

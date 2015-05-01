@@ -20,62 +20,17 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Math.Decompositions;
-
 namespace Accord.Tests.Math
 {
     using Accord.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using Accord.Math.Decompositions;
+
 
     [TestClass()]
     public class DistanceTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
-        public void MahalanobisTest()
-        {
-            double[] x = { 1, 0 };
-            double[,] y = 
-            {
-                { 1, 0 },
-                { 0, 8 },
-                { 0, 5 }
-            };
-
-            // Computing the mean of y
-            double[] meanY = Statistics.Tools.Mean(y);
-
-            // Computing the covariance matrix of y
-            double[,] covY = Statistics.Tools.Covariance(y, meanY);
-
-            // Inverting the covariance matrix
-            double[,] precision = covY.Inverse();
-
-            // Run actual test
-            double expected = 1.33333;
-            double actual = Distance.SquareMahalanobis(x, meanY, precision);
-
-            Assert.AreEqual(expected, actual, 0.0001);
-        }
-
 
         [TestMethod()]
         public void MahalanobisTest2()
@@ -122,7 +77,7 @@ namespace Accord.Tests.Math
                 { 0.576716, 1.185771, 0.398922 }
             };
 
-            
+
 
             double[] x, y;
             double actual, expected;
@@ -243,7 +198,7 @@ namespace Accord.Tests.Math
         public void MahalanobisTest6()
         {
             double[] x = { -1, 0, 0 };
-            double[] y = {  0, 0, 0 };
+            double[] y = { 0, 0, 0 };
 
             double[,] covX = 
             {
@@ -414,6 +369,37 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual(expected, actual, 1e-10);
             Assert.IsFalse(double.IsNaN(actual));
+        }
+
+        [TestMethod()]
+        public void IsMetricTest()
+        {
+            Assert.IsTrue(Distance.IsMetric(Distance.Euclidean));
+            Assert.IsTrue(Distance.IsMetric((double[] a, double[] b) => Distance.Manhattan(a, b)));
+            Assert.IsTrue(Distance.IsMetric((int[] a, int[] b) => Distance.Manhattan(a, b)));
+            Assert.IsTrue(Distance.IsMetric(Distance.Hamming));
+            Assert.IsTrue(Distance.IsMetric((a, b) => Distance.Minkowski(a, b, 1)));
+            Assert.IsTrue(Distance.IsMetric((double[] a, double[] b) => Distance.Levenshtein(a, b)));
+            Assert.IsTrue(Distance.IsMetric(Distance.Chebyshev));
+            Assert.IsTrue(Distance.IsMetric(Distance.Chessboard));
+            Assert.IsTrue(Distance.IsMetric(Distance.Cosine));
+            Assert.IsTrue(Distance.IsMetric(Distance.Hellinger));
+            Assert.IsTrue(Distance.IsMetric(Dissimilarity.Kulczynski));
+
+            Assert.IsFalse(Distance.IsMetric(Distance.Bhattacharyya));
+            Assert.IsFalse(Distance.IsMetric(Distance.SquareEuclidean));
+            Assert.IsFalse(Distance.IsMetric((double[] a, double[] b) => Math.Pow(Distance.Manhattan(a, b), 2)));
+            Assert.IsFalse(Distance.IsMetric(Distance.BrayCurtis));
+            Assert.IsFalse(Distance.IsMetric((a, b) => Distance.Minkowski(a, b, 2)));
+            Assert.IsFalse(Distance.IsMetric((a, b) => Distance.Minkowski(a, b, 3)));
+            Assert.IsFalse(Distance.IsMetric(Dissimilarity.Jaccard));
+            Assert.IsFalse(Distance.IsMetric(Dissimilarity.RogersTanimoto));
+            Assert.IsFalse(Distance.IsMetric(Dissimilarity.SokalMichener));
+            Assert.IsFalse(Distance.IsMetric(Dissimilarity.SokalSneath));
+            Assert.IsFalse(Distance.IsMetric(Dissimilarity.Yule));
+            Assert.IsFalse(Distance.IsMetric(Dissimilarity.Dice));
+
+            // Assert.IsFalse(Distance.IsMetric(Dissimilarity.RusselRao));
         }
     }
 }

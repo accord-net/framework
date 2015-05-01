@@ -1,25 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <ProjectGuid>{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}</ProjectGuid>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F00F5E2D-D181-4FCC-8F2E-FDCB90F4721B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Accord.Setup</RootNamespace>
     <AssemblyName>Accord.Setup</AssemblyName>
     <FileAlignment>512</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <OutputPath>.\</OutputPath>
+    <OutputPath>bin</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Include="Archiver\Build.cmd" />
     <None Include="Archiver\Samples.cmd" />
-    <None Include="Build all.cmd" />
+    <None Include="Compile.sh" />
+    <None Include="Compile.cmd" />
     <None Include="Installer\Build.cmd" />
     <None Include="NuGet\Accord.DirectSound.nuspec" />
     <None Include="NuGet\Accord.Audio.nuspec">
@@ -44,6 +40,9 @@
     <None Include="NuGet\Push.cmd" />
     <None Include="NuGet\Update.cmd" />
     <None Include="NuGet\NuGet.exe" />
+    <None Include="Package.cmd" />
+    <None Include="Publish.cmd" />
+    <None Include="version.cmd" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

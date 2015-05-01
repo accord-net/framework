@@ -271,49 +271,57 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// <summary>
         /// Gets the mean for this distribution.
         /// </summary>
+        /// 
         /// <value>
-        /// An array of double-precision values containing
-        /// the mean values for this distribution.
+        ///   An array of double-precision values containing
+        ///   the mean values for this distribution.
         /// </value>
+        /// 
         public override double[] Mean
         {
             get { throw new NotSupportedException(); }
         }
 
         /// <summary>
-        /// Gets the mean for this distribution.
+        ///   Gets the mean for this distribution.
         /// </summary>
+        /// 
         /// <value>
-        /// An array of double-precision values containing
-        /// the variance values for this distribution.
+        ///   An array of double-precision values containing
+        ///   the variance values for this distribution.
         /// </value>
+        /// 
         public override double[] Variance
         {
             get { throw new NotSupportedException(); }
         }
 
         /// <summary>
-        /// Gets the variance for this distribution.
+        ///   Gets the variance for this distribution.
         /// </summary>
+        /// 
         /// <value>
-        /// An multidimensional array of double-precision values
-        /// containing the covariance values for this distribution.
+        ///   An multidimensional array of double-precision values
+        ///   containing the covariance values for this distribution.
         /// </value>
+        /// 
         public override double[,] Covariance
         {
             get { throw new NotSupportedException(); }
         }
 
         /// <summary>
-        /// Gets the cumulative distribution function (cdf) for
-        /// this distribution evaluated at point <c>x</c>.
+        ///   Gets the cumulative distribution function (cdf) for
+        ///   this distribution evaluated at point <c>x</c>.
         /// </summary>
+        /// 
         /// <param name="x">A single point in the distribution range.</param>
-        /// <returns></returns>
+        /// 
         /// <remarks>
-        /// The Cumulative Distribution Function (CDF) describes the cumulative
-        /// probability that a given value or any value smaller than it will occur.
+        ///   The Cumulative Distribution Function (CDF) describes the cumulative
+        ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
+        /// 
         public override double DistributionFunction(int[] x)
         {
             throw new NotSupportedException();
@@ -338,6 +346,19 @@ namespace Accord.Statistics.Distributions.Multivariate
             d.symbols = (int[])this.symbols.Clone();
 
             return d;
+        }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String"/> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String"/> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            return String.Format(formatProvider, "Joint(X)");
         }
     }
 }

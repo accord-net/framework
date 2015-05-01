@@ -22,10 +22,10 @@
 
 namespace Accord.Statistics.Models.Fields
 {
+    using Accord.Statistics.Models.Fields.Functions;
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
-    using Accord.Statistics.Models.Fields.Functions;
 
     /// <summary>
     ///   Linear-Chain Conditional Random Field (CRF).
@@ -43,7 +43,6 @@ namespace Accord.Statistics.Models.Fields
     public class ConditionalRandomField<T> : ICloneable
     {
         
-
         /// <summary>
         ///   Gets the number of states in this
         ///   linear-chain Conditional Random Field.
@@ -89,13 +88,15 @@ namespace Accord.Statistics.Models.Fields
         public double LogPartition(T[] observations)
         {
             double logLikelihood;
-            double[,] fwd = ForwardBackwardAlgorithm.LogForward(Function.Factors[0], observations, 0, out logLikelihood);
+            ForwardBackwardAlgorithm.LogForward(Function.Factors[0], observations, 0, out logLikelihood);
             return logLikelihood;
         }
 
 
         /// <summary>
         ///   Computes the log-likelihood of the model for the given observations.
+        ///   This method is equivalent to the <see cref="Accord.Statistics.Models.Markov.HiddenMarkovModel.Evaluate(int[], int[])"/>
+        ///   method.
         /// </summary>
         /// 
         public double LogLikelihood(T[] observations, int[] labels)
@@ -153,8 +154,6 @@ namespace Accord.Statistics.Models.Fields
             // Induction
             for (int t = 1; t < observations.Length; t++)
             {
-                T observation = observations[t];
-
                 for (int j = 0; j < states; j++)
                 {
                     maxState = 0;

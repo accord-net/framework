@@ -68,6 +68,13 @@ namespace Accord.Math
     ///   </list></para>  
     /// </remarks>
     /// 
+    /// <example>
+    /// <code>
+    /// // Computes Owens' T function
+    /// double t = OwensT.Function(h: 2, a: 42); // 0.011375065974089608
+    /// </code>
+    /// </example>
+    /// 
     public static class OwensT
     {
         /// <summary>

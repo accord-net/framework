@@ -331,37 +331,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("BirnbaumSaunders(x; μ = {0}, β = {1}, γ = {2})",
-                location, scale, shape);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "BirnbaumSaunders(x; μ = {0}, β = {1}, γ = {2})",
-                location, scale, shape);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("BirnbaumSaunders(x; μ = {0}, β = {1}, γ = {2})",
                 location.ToString(format, formatProvider),
                 scale.ToString(format, formatProvider),
                 shape.ToString(format, formatProvider));

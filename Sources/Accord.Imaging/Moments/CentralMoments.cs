@@ -307,12 +307,15 @@ namespace Accord.Imaging.Moments
             double c = Mu02 * invM00; //                | b    c |
 
             // Compute eigenvalues of the covariance matrix
-            double d = a + c, e = a - c;
+            // double d = a + c
+            double e = a - c;
             double s = Math.Sqrt((4.0 * b * b) + (e * e));
 
             // Compute angle
             float angle = (float)Math.Atan2(2.0 * b, e + s);
-            if (angle < 0) angle = (float)(angle + Math.PI);
+
+            if (angle < 0) 
+                angle = (float)(angle + Math.PI);
 
             return angle;
         }
@@ -332,7 +335,8 @@ namespace Accord.Imaging.Moments
             double b = Mu11 * invM00; //  Cov[I(x,y)] = |        |
             double c = Mu02 * invM00; //                | b    c |
 
-            double d = a + c, e = a - c;
+            double d = a + c;
+            double e = a - c;
             double s = Math.Sqrt((4.0 * b * b) + (e * e));
 
             // Compute angle
@@ -343,7 +347,6 @@ namespace Accord.Imaging.Moments
             return new SizeF((float)Math.Sqrt((d - s) * 0.5) * 4,
                              (float)Math.Sqrt((d + s) * 0.5) * 4);
         }
-
 
 
     }

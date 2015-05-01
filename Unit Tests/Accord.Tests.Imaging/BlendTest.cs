@@ -22,39 +22,24 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Drawing.Imaging;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
+    using Accord.Math;
+    using Accord.Tests.Imaging.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Drawing;
-    using Accord.Tests.Imaging.Properties;
-    using Accord.Controls;
-    using System.Windows.Forms;
+    using System.Drawing.Imaging;
 
 
     [TestClass]
     public class BlendTest
     {
 
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         [TestMethod]
-        [Ignore]
-        public void Example1()
+        public void Panorama_Example1()
         {
+            Accord.Math.Tools.SetupGenerator(0);
+
             // Let's start with two pictures that have been
             // taken from slightly different points of view:
             //
@@ -62,8 +47,8 @@ namespace Accord.Tests.Imaging
             Bitmap img2 = Resources.dc_right;
 
             // Those pictures are shown below:
-            ImageBox.Show(img1, PictureBoxSizeMode.Zoom, 640, 480);
-            ImageBox.Show(img2, PictureBoxSizeMode.Zoom, 640, 480);
+            // ImageBox.Show(img1, PictureBoxSizeMode.Zoom, 640, 480);
+            // ImageBox.Show(img2, PictureBoxSizeMode.Zoom, 640, 480);
 
 
             // Step 1: Detect feature points using Surf Corners Detector
@@ -80,6 +65,17 @@ namespace Accord.Tests.Imaging
             var ransac = new RansacHomographyEstimator(0.001, 0.99);
             MatrixH homographyMatrix = ransac.Estimate(matches);
 
+            Assert.AreEqual(1.13583624f, homographyMatrix.Elements[0], 1e-5);
+            Assert.AreEqual(-0.0229569562f, homographyMatrix.Elements[1], 1e-5);
+            Assert.AreEqual(-255.243988f, homographyMatrix.Elements[2], 1e-2);
+            Assert.AreEqual(0.080111593f, homographyMatrix.Elements[3], 1e-5);
+            Assert.AreEqual(1.11404252f, homographyMatrix.Elements[4], 1e-5);
+            Assert.AreEqual(-167.362167f, homographyMatrix.Elements[5], 1e-2);
+            Assert.AreEqual(0.00011207442f, homographyMatrix.Elements[6], 1e-5);
+            Assert.AreEqual(0.0000529394056f, homographyMatrix.Elements[7], 1e-5);
+            Assert.AreEqual(8, homographyMatrix.Elements.Length);
+
+
             // Step 4: Project and blend using the homography
             Blend blend = new Blend(homographyMatrix, img1);
 
@@ -88,7 +84,13 @@ namespace Accord.Tests.Imaging
             Bitmap result = blend.Apply(img2);
 
             // Show on screen
-            ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
+            // ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
+
+#pragma warning disable 618
+            double[,] expected = Properties.Resources.blend_result.ToDoubleMatrix(0);
+            double[,] actual = result.ToDoubleMatrix(0);
+            Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.1));
+#pragma warning restore 618
         }
 
 

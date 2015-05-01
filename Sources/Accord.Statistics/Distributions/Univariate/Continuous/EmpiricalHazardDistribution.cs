@@ -210,7 +210,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
                     for (int i = 0; i < Times.Length; i++)
                         v += Times[i] * ComplementaryDistributionFunction(Times[i]);
-                    
+
                     this.variance = v - m * m;
                 }
 
@@ -250,7 +250,11 @@ namespace Accord.Statistics.Distributions.Univariate
             get
             {
                 if (!maxTimes.HasValue)
-                    maxTimes = Matrix.Max(Times);
+                {
+                    maxTimes = 0;
+                    if (Times.Length > 0)
+                        maxTimes = Matrix.Max(Times);
+                }
 
                 return new DoubleRange(0, maxTimes.Value);
             }
@@ -472,10 +476,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public void Fit(double[] observations, double[] weights, EmpiricalHazardOptions options)
         {
+            if (options == null) 
+                throw new ArgumentNullException("options", "Options can't be null");
 
-            if (options == null) throw new ArgumentNullException("options", "Options can't be null");
-
-            if (weights != null) throw new ArgumentException("Weights are not supported.", "weights");
+            if (weights != null) 
+                throw new ArgumentException("Weights are not supported.", "weights");
 
 
             double[] output = options.Output;
@@ -532,8 +537,6 @@ namespace Accord.Statistics.Distributions.Univariate
 
                     values[i] = 1.0 - Math.Pow(1.0 - num / den, 1.0 / num);
                 }
-
-
             }
 
             this.Times = (double[])time.Clone();
@@ -543,16 +546,19 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
+        ///   Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// 
+        /// <param name="format">The format.</param>
+        /// <param name="formatProvider">The format provider.</param>
+        /// 
         /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
+        ///   A <see cref="System.String" /> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return "H(x; v, t)";
+            return String.Format(formatProvider, "H(x; v, t)");
         }
     }
 }

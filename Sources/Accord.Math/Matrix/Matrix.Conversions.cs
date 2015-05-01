@@ -600,8 +600,7 @@ namespace Accord.Math
         /// 
         public static double[,] ToMatrix(this DataTable table)
         {
-            String[] names;
-            return ToMatrix(table, out names);
+            return ToMatrix<double>(table);
         }
 
         /// <summary>
@@ -611,6 +610,44 @@ namespace Accord.Math
         public static double[,] ToMatrix(this DataTable table, out string[] columnNames)
         {
             return ToMatrix<double>(table, out columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[,] array.
+        /// </summary>
+        /// 
+        public static double[,] ToMatrix(this DataTable table, IFormatProvider provider)
+        {
+            return ToMatrix<double>(table, provider);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[,] array.
+        /// </summary>
+        /// 
+        public static double[,] ToMatrix(this DataTable table, params string[] columnNames)
+        {
+            return ToMatrix<double>(table, columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[,] array.
+        /// </summary>
+        /// 
+        public static T[,] ToMatrix<T>(this DataTable table, IFormatProvider provider)
+        {
+            String[] names;
+            return ToMatrix<T>(table, out names, provider);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[,] array.
+        /// </summary>
+        /// 
+        public static T[,] ToMatrix<T>(this DataTable table)
+        {
+            String[] names;
+            return ToMatrix<T>(table, out names);
         }
 
         /// <summary>
@@ -637,16 +674,27 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static double[,] ToMatrix(this DataTable table, string[] columnNames)
+        public static T[,] ToMatrix<T>(this DataTable table, out string[] columnNames, IFormatProvider provider)
         {
-            return ToMatrix<double>(table, columnNames);
+            T[,] m = new T[table.Rows.Count, table.Columns.Count];
+            columnNames = new string[table.Columns.Count];
+
+            for (int j = 0; j < table.Columns.Count; j++)
+            {
+                for (int i = 0; i < table.Rows.Count; i++)
+                    m[i, j] = (T)System.Convert.ChangeType(table.Rows[i][j], typeof(T), provider);
+
+                columnNames[j] = table.Columns[j].Caption;
+            }
+
+            return m;
         }
 
         /// <summary>
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static T[,] ToMatrix<T>(this DataTable table, string[] columnNames)
+        public static T[,] ToMatrix<T>(this DataTable table, params string[] columnNames)
         {
             T[,] m = new T[table.Rows.Count, columnNames.Length];
 
@@ -654,6 +702,23 @@ namespace Accord.Math
             {
                 for (int i = 0; i < table.Rows.Count; i++)
                     m[i, j] = (T)System.Convert.ChangeType(table.Rows[i][columnNames[j]], typeof(T));
+            }
+
+            return m;
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[,] array.
+        /// </summary>
+        /// 
+        public static T[,] ToMatrix<T>(this DataTable table, IFormatProvider provider, params string[] columnNames)
+        {
+            T[,] m = new T[table.Rows.Count, columnNames.Length];
+
+            for (int j = 0; j < columnNames.Length; j++)
+            {
+                for (int i = 0; i < table.Rows.Count; i++)
+                    m[i, j] = (T)System.Convert.ChangeType(table.Rows[i][columnNames[j]], typeof(T), provider);
             }
 
             return m;
@@ -677,7 +742,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static DataTable ToTable(this double[,] matrix, string[] columnNames)
+        public static DataTable ToTable(this double[,] matrix, params string[] columnNames)
         {
             DataTable table = new DataTable();
             table.Locale = CultureInfo.CurrentCulture;
@@ -712,7 +777,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[,] array.
         /// </summary>
         /// 
-        public static DataTable ToTable(this double[][] matrix, string[] columnNames)
+        public static DataTable ToTable(this double[][] matrix, params string[] columnNames)
         {
             DataTable table = new DataTable();
             table.Locale = CultureInfo.CurrentCulture;
@@ -806,8 +871,7 @@ namespace Accord.Math
         /// 
         public static double[][] ToArray(this DataTable table)
         {
-            String[] names;
-            return ToArray(table, out names);
+            return ToArray<double>(table);
         }
 
         /// <summary>
@@ -816,8 +880,7 @@ namespace Accord.Math
         /// 
         public static double[][] ToArray(this DataTable table, IFormatProvider provider)
         {
-            String[] names;
-            return ToArray(table, out names, provider);
+            return ToArray<double>(table, provider);
         }
 
         /// <summary>
@@ -833,9 +896,38 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static double[][] ToArray(this DataTable table, out string[] columnNames, IFormatProvider provider)
+        public static double[][] ToArray(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
-            return ToArray<double>(table, out columnNames, provider);
+            return ToArray<double>(table, provider, out columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        public static double[][] ToArray(this DataTable table, params string[] columnNames)
+        {
+            return ToArray<double>(table, columnNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        public static T[][] ToArray<T>(this DataTable table)
+        {
+            String[] names;
+            return ToArray<T>(table, out names);
+        }
+
+        /// <summary>
+        ///   Converts a DataTable to a double[][] array.
+        /// </summary>
+        /// 
+        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider)
+        {
+            String[] names;
+            return ToArray<T>(table, provider, out names);
         }
 
         /// <summary>
@@ -853,7 +945,10 @@ namespace Accord.Math
             for (int j = 0; j < table.Columns.Count; j++)
             {
                 for (int i = 0; i < table.Rows.Count; i++)
-                    m[i][j] = (T)System.Convert.ChangeType(table.Rows[i][j], typeof(T));
+                {
+                    var value = table.Rows[i][j];
+                    m[i][j] = (T)System.Convert.ChangeType(value, typeof(T));
+                }
 
                 columnNames[j] = table.Columns[j].Caption;
             }
@@ -865,7 +960,7 @@ namespace Accord.Math
         ///   Converts a DataTable to a double[][] array.
         /// </summary>
         /// 
-        public static T[][] ToArray<T>(this DataTable table, out string[] columnNames, IFormatProvider provider)
+        public static T[][] ToArray<T>(this DataTable table, IFormatProvider provider, out string[] columnNames)
         {
             T[][] m = new T[table.Rows.Count][];
             columnNames = new string[table.Columns.Count];
@@ -882,15 +977,6 @@ namespace Accord.Math
             }
 
             return m;
-        }
-
-        /// <summary>
-        ///   Converts a DataTable to a double[][] array.
-        /// </summary>
-        /// 
-        public static double[][] ToArray(this DataTable table, params string[] columnNames)
-        {
-            return ToArray<double>(table, columnNames);
         }
 
         /// <summary>
@@ -928,12 +1014,53 @@ namespace Accord.Math
         ///   Converts a DataColumn to a double[] array.
         /// </summary>
         /// 
+        public static double[] ToArray(this DataColumn column, IFormatProvider provider)
+        {
+            return ToArray<double>(column, provider);
+        }
+
+        /// <summary>
+        ///   Converts a DataColumn to a double[] array.
+        /// </summary>
+        /// 
+        public static double[] ToArray(this DataRow row, IFormatProvider provider, params string[] colNames)
+        {
+            return ToArray<double>(row, provider, colNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataColumn to a double[] array.
+        /// </summary>
+        /// 
+        public static double[] ToArray(this DataRow row, params string[] colNames)
+        {
+            return ToArray<double>(row, colNames);
+        }
+
+        /// <summary>
+        ///   Converts a DataColumn to a double[] array.
+        /// </summary>
+        /// 
         public static T[] ToArray<T>(this DataColumn column)
         {
             T[] m = new T[column.Table.Rows.Count];
 
             for (int i = 0; i < m.Length; i++)
                 m[i] = (T)System.Convert.ChangeType(column.Table.Rows[i][column], typeof(T));
+
+            return m;
+        }
+
+        /// <summary>
+        ///   Converts a DataColumn to a double[] array.
+        /// </summary>
+        /// 
+        public static T[] ToArray<T>(this DataColumn column, IFormatProvider provider)
+        {
+            T[] m = new T[column.Table.Rows.Count];
+
+            for (int i = 0; i < m.Length; i++)
+                m[i] = (T)System.Convert.ChangeType(column.Table.Rows[i][column], typeof(T), provider);
 
             return m;
         }
@@ -953,29 +1080,49 @@ namespace Accord.Math
         }
 
         /// <summary>
-        ///   Converts a DataColumn to a double[] array.
+        ///   Converts a DataColumn to a generic array.
         /// </summary>
         /// 
-        public static double[] ToArray(this DataRow row, params string[] colNames)
+        public static T[] ToArray<T>(this DataRow row, IFormatProvider provider, params string[] colNames)
         {
-            return ToArray<double>(row, colNames);
+            T[] m = new T[colNames.Length];
+
+            for (int i = 0; i < m.Length; i++)
+                m[i] = (T)System.Convert.ChangeType(row[colNames[i]], typeof(T), provider);
+
+            return m;
         }
 
         /// <summary>
-        ///   Converts a DataTable to a int[][] array.
+        ///   Converts a DataTable to a generic array.
         /// </summary>
         /// 
-        public static T[] ToArray<T>(this DataTable table, string columnNames)
+        public static T[] ToArray<T>(this DataTable table, string columnName)
         {
             T[] m = new T[table.Rows.Count];
 
-            DataColumn col = table.Columns[columnNames];
-
+            DataColumn col = table.Columns[columnName];
             for (int i = 0; i < table.Rows.Count; i++)
                 m[i] = (T)System.Convert.ChangeType(table.Rows[i][col], typeof(T));
 
             return m;
         }
+
+        /// <summary>
+        ///   Converts a DataTable to a generic array.
+        /// </summary>
+        /// 
+        public static T[] ToArray<T>(this DataTable table, IFormatProvider provider, string columnName)
+        {
+            T[] m = new T[table.Rows.Count];
+
+            DataColumn col = table.Columns[columnName];
+            for (int i = 0; i < table.Rows.Count; i++)
+                m[i] = (T)System.Convert.ChangeType(table.Rows[i][col], typeof(T), provider);
+
+            return m;
+        }
+
         #endregion
 
 

@@ -47,7 +47,7 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public class Gaussian : KernelBase, IKernel,
+    public class Gaussian : KernelBase, IKernel, IRadialBasisKernel,
         IDistance, IEstimable, ICloneable, IReverseDistance
     {
         private double sigma;
@@ -147,6 +147,19 @@ namespace Accord.Statistics.Kernels
             }
 
             return Math.Exp(-gamma * norm);
+        }
+
+        /// <summary>
+        ///   Gaussian Kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return Math.Exp(-gamma * z);
         }
 
         /// <summary>
@@ -334,10 +347,10 @@ namespace Accord.Statistics.Kernels
                 {
                     double[] y = inputs[idy[j]];
 
-                    double norm = 0.0, d;
+                    double norm = 0.0;
                     for (int k = 0; k < x.Length; k++)
                     {
-                        d = x[k] - y[k];
+                        double d = x[k] - y[k];
                         norm += d * d;
                     }
 
@@ -386,5 +399,150 @@ namespace Accord.Statistics.Kernels
         protected virtual void OnSigmaChanging()
         {
         }
+
+
+
+        #region Gaussian<T> static methods
+
+        /// <summary>
+        ///   Estimate appropriate values for sigma given a data set.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method uses a simple heuristic to obtain appropriate values
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
+        ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
+        ///   recognition using SVMs: which kernel should I use?", 2002.
+        /// </remarks>
+        /// 
+        /// <param name="kernel">The inner kernel.</param>
+        /// <param name="inputs">The data set.</param>
+        /// 
+        /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
+        /// 
+        public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs)
+            where T : IDistance, IKernel, ICloneable
+        {
+            DoubleRange range;
+            return Estimate(kernel, inputs, inputs.Length, out range);
+        }
+
+        /// <summary>
+        ///   Estimate appropriate values for sigma given a data set.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method uses a simple heuristic to obtain appropriate values
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
+        ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
+        ///   recognition using SVMs: which kernel should I use?", 2002.
+        /// </remarks>
+        /// 
+        /// <param name="kernel">The inner kernel.</param>
+        /// <param name="inputs">The data set.</param>
+        /// <param name="range">The range of suitable values for sigma.</param>
+        /// 
+        /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
+        /// 
+        public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs, out DoubleRange range)
+            where T : IDistance, IKernel, ICloneable
+        {
+            return Estimate(kernel, inputs, inputs.Length, out range);
+        }
+
+        /// <summary>
+        ///   Estimates appropriate values for sigma given a data set.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method uses a simple heuristic to obtain appropriate values
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
+        ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
+        ///   recognition using SVMs: which kernel should I use?", 2002.
+        /// </remarks>
+        /// 
+        /// <param name="kernel">The inner kernel.</param>
+        /// <param name="inputs">The data set.</param>
+        /// <param name="samples">The number of random samples to analyze.</param>
+        /// 
+        /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
+        /// 
+        public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs, int samples)
+            where T : IDistance, IKernel, ICloneable
+        {
+            DoubleRange range;
+            return Estimate(kernel, inputs, samples, out range);
+        }
+
+        /// <summary>
+        ///   Estimates appropriate values for sigma given a data set.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   This method uses a simple heuristic to obtain appropriate values
+        ///   for sigma in a radial basis function kernel. The heuristic is shown
+        ///   by Caputo, Sim, Furesjo and Smola, "Appearance-based object
+        ///   recognition using SVMs: which kernel should I use?", 2002.
+        /// </remarks>
+        /// 
+        /// <param name="kernel">The inner kernel.</param>
+        /// <param name="inputs">The data set.</param>
+        /// <param name="samples">The number of random samples to analyze.</param>
+        /// <param name="range">The range of suitable values for sigma.</param>
+        /// 
+        /// <returns>A Gaussian kernel initialized with an appropriate sigma value.</returns>
+        /// 
+        public static Gaussian<T> Estimate<T>(T kernel, double[][] inputs, int samples, out DoubleRange range)
+            where T : IDistance, IKernel, ICloneable
+        {
+            if (samples > inputs.Length)
+                throw new ArgumentOutOfRangeException("samples");
+
+            double[] distances = Distances<T>(kernel, inputs, samples);
+
+            double q1 = Math.Sqrt(distances[(int)Math.Ceiling(0.15 * distances.Length)] / 2.0);
+            double q9 = Math.Sqrt(distances[(int)Math.Ceiling(0.85 * distances.Length)] / 2.0);
+            double qm = Math.Sqrt(Accord.Statistics.Tools.Median(distances, alreadySorted: true) / 2.0);
+
+            range = new DoubleRange(q1, q9);
+
+            return new Gaussian<T>(kernel, sigma: qm);
+        }
+
+        /// <summary>
+        ///   Computes the set of all distances between 
+        ///   all points in a random subset of the data.
+        /// </summary>
+        /// 
+        /// <param name="kernel">The inner kernel.</param>
+        /// <param name="inputs">The inputs points.</param>
+        /// <param name="samples">The number of samples.</param>
+        /// 
+        public static double[] Distances<T>(T kernel, double[][] inputs, int samples)
+            where T : IDistance, ICloneable
+        {
+            int[] idx = Accord.Statistics.Tools.RandomSample(inputs.Length, samples);
+            int[] idy = Accord.Statistics.Tools.RandomSample(inputs.Length, samples);
+
+            double[] distances = new double[samples * samples];
+
+            for (int i = 0; i < idx.Length; i++)
+            {
+                double[] x = inputs[idx[i]];
+
+                for (int j = 0; j < idy.Length; j++)
+                {
+                    double[] y = inputs[idy[j]];
+
+                    distances[i * samples + j] = kernel.Distance(x, y);
+                }
+            }
+
+            Array.Sort(distances);
+
+            return distances;
+        }
+        #endregion
+
     }
 }

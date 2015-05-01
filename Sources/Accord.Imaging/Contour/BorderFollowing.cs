@@ -22,11 +22,11 @@
 
 namespace Accord.Imaging
 {
+    using AForge;
+    using AForge.Imaging;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge;
-    using AForge.Imaging;
 
     /// <summary>
     ///   Border following algorithm for contour extraction.
@@ -144,7 +144,6 @@ namespace Accord.Imaging
             int width = image.Width;
             int height = image.Height;
             int stride = image.Stride;
-            int offset = image.Stride - image.Width;
 
             byte* src = (byte*)image.ImageData.ToPointer();
 
@@ -226,7 +225,7 @@ namespace Accord.Imaging
                     }
 
                     // Find the next candidate neighbor pixel
-                    byte* neighbor = current + windowOffset[direction];
+                    byte* neighbor = unchecked(current + windowOffset[direction]);
 
                     // Check if it is a colored pixel
                     if (*neighbor <= Threshold)
@@ -252,7 +251,7 @@ namespace Accord.Imaging
                 {
                     // Navigate to neighbor pixel
                     previous = current;
-                    current = current + windowOffset[direction];
+                    current = unchecked(current + windowOffset[direction]);
 
                     // Add to the contour
                     prevPosition += positionOffset[direction];

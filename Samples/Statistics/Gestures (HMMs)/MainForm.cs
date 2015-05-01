@@ -137,6 +137,7 @@ namespace Gestures.HMMs
             }
 
             btnLearnHCRF.Enabled = true;
+            hcrf = null;
         }
 
         private void btnLearnHCRF_Click(object sender, EventArgs e)
@@ -346,6 +347,11 @@ namespace Gestures.HMMs
                 // paint background black to enable include glass regions
                 e.Graphics.Clear(Color.FromArgb(0, this.BackColor));
             }
+        }
+
+        private void lbIdle_Click(object sender, EventArgs e)
+        {
+            lbIdle.Visible = false;
         }
     }
 }

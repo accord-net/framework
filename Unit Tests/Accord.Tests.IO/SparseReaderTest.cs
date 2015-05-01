@@ -33,23 +33,6 @@ namespace Accord.Tests.IO
     public class SparseReaderTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [TestMethod()]
         public void ReadSampleTest()
         {
@@ -183,7 +166,7 @@ namespace Accord.Tests.IO
         public void DimensionsTest()
         {
             MemoryStream file = new MemoryStream(
-                Encoding.Default.GetBytes(Resources.a9a1_train));
+                Encoding.Default.GetBytes(Resources.a9a_train));
 
             SparseReader reader = new SparseReader(file, Encoding.Default);
 
@@ -207,7 +190,7 @@ namespace Accord.Tests.IO
         public void GuessDimensionsInMiddleRunTest()
         {
             MemoryStream file = new MemoryStream(
-                Encoding.Default.GetBytes(Resources.a9a1_train));
+                Encoding.Default.GetBytes(Resources.a9a_train));
 
             SparseReader reader = new SparseReader(file, Encoding.Default);
 

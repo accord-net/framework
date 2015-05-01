@@ -31,7 +31,7 @@ namespace Accord.Statistics.Kernels
     /// 
     [Serializable]
     public sealed class Laplacian : KernelBase, IKernel, 
-        IDistance, ICloneable, IEstimable, IReverseDistance
+        IRadialBasisKernel, IDistance, ICloneable, IEstimable, IReverseDistance
     {
         private double sigma;
         private double gamma;
@@ -90,6 +90,7 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
@@ -110,6 +111,19 @@ namespace Accord.Statistics.Kernels
             norm = Math.Sqrt(norm);
 
             return Math.Exp(-gamma * norm);
+        }
+
+        /// <summary>
+        ///   Laplacian Kernel function.
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return Math.Exp(-gamma * z);
         }
 
         /// <summary>

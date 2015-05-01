@@ -25,28 +25,10 @@ namespace Accord.Tests.IO
     using Accord.IO;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System.Data;
-    using Accord.Math;
 
     [TestClass()]
     public class ExcelReaderTest
     {
-
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [TestMethod()]
         public void ExcelReaderConstructorTest()
@@ -67,6 +49,10 @@ namespace Accord.Tests.IO
             // can go further and transform it into a matrix to start
             // running other algorithms on it: 
 
+            Assert.AreEqual(3, table.Columns.Count);
+            Assert.AreEqual(2, table.Rows.Count);
+
+            /*
             double[,] matrix = table.ToMatrix();
 
             // We can also do it retrieving the name for each column:
@@ -81,6 +67,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(6, matrix.Length);
             Assert.AreEqual(3, columnNames.Length);
             Assert.AreEqual(2, column.Length);
+             */ 
         }
 
         [TestMethod()]

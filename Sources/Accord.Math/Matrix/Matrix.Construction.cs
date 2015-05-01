@@ -226,44 +226,20 @@ namespace Accord.Math
         ///   Return a jagged matrix with a vector of values on its diagonal.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static T[][] JaggedDiagonal<T>(T[] values)
         {
-            if (values == null)
-                throw new ArgumentNullException("values");
-
-            T[][] matrix = new T[values.Length][];
-
-
-            for (int i = 0; i < values.Length; i++)
-            {
-                matrix[i] = new T[values.Length];
-                matrix[i][i] = values[i];
-            }
-
-            return matrix;
+            return Accord.Math.Jagged.Diagonal(values);
         }
 
         /// <summary>
         ///   Returns a square diagonal matrix of the given size.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static T[][] JaggedDiagonal<T>(int size, T value)
         {
-            if (size < 0)
-            {
-                throw new ArgumentOutOfRangeException("size", size,
-                "Square matrix's size must be a positive integer.");
-            }
-
-            var matrix = new T[size][];
-
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                matrix[i] = new T[size];
-                matrix[i][i] = value;
-            }
-
-            return matrix;
+            return Accord.Math.Jagged.Diagonal(size, value);
         }
 
         /// <summary>
@@ -325,8 +301,18 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Creates a jagged magic square matrix.
+        /// </summary>
+        /// 
+        public static double[][] JaggedMagic(int size)
+        {
+            return Magic(size).ToArray();
+        }
+
+        /// <summary>
         ///   Creates a magic square matrix.
         /// </summary>
+        /// 
         public static double[,] Magic(int size)
         {
             if (size < 3) throw new ArgumentOutOfRangeException("size", size,
@@ -413,10 +399,14 @@ namespace Accord.Math
         ///   form <c>(I - 1N)</c> where <c>1N</c> is a matrix with 
         ///   all elements equal to <c>1 / N</c>.
         /// </summary>
+        /// 
         public static double[,] Centering(int size)
         {
-            if (size < 0) throw new ArgumentOutOfRangeException("size", size,
+            if (size < 0)
+            {
+                throw new ArgumentOutOfRangeException("size", size,
                 "The size of the centering matrix must be a positive integer.");
+            }
 
             double[,] C = Matrix.Create(size, -1.0 / size);
 
@@ -433,8 +423,11 @@ namespace Accord.Math
         /// </summary>
         public static double[,] Random(int rows, int cols)
         {
-            if (rows < 0) throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
-            if (cols < 0) throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
+            if (rows < 0)
+                throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
+
+            if (cols < 0)
+                throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
 
             return Random(rows, cols, 0, 1);
         }
@@ -442,9 +435,11 @@ namespace Accord.Math
         /// <summary>
         ///   Creates a rows-by-cols matrix with uniformly distributed random data.
         /// </summary>
+        /// 
         public static double[,] Random(int size, bool symmetric, double minValue, double maxValue)
         {
-            if (size < 0) throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
+            if (size < 0)
+                throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
 
             double[,] matrix = new double[size, size];
 
@@ -472,10 +467,14 @@ namespace Accord.Math
         /// <summary>
         ///   Creates a rows-by-cols matrix with uniformly distributed random data.
         /// </summary>
+        /// 
         public static double[,] Random(int rows, int cols, double minValue, double maxValue)
         {
-            if (rows < 0) throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
-            if (cols < 0) throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
+            if (rows < 0)
+                throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
+
+            if (cols < 0)
+                throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
 
             double[,] matrix = new double[rows, cols];
             for (int i = 0; i < rows; i++)
@@ -488,11 +487,17 @@ namespace Accord.Math
         /// <summary>
         ///   Creates a rows-by-cols matrix random data drawn from a given distribution.
         /// </summary>
+        /// 
         public static double[,] Random(int rows, int cols, IRandomNumberGenerator generator)
         {
-            if (generator == null) throw new ArgumentNullException("generator");
-            if (rows < 0) throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
-            if (cols < 0) throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
+            if (generator == null)
+                throw new ArgumentNullException("generator");
+
+            if (rows < 0)
+                throw new ArgumentOutOfRangeException("rows", rows, "Number of rows must be a positive integer.");
+
+            if (cols < 0)
+                throw new ArgumentOutOfRangeException("cols", cols, "Number of columns must be a positive integer.");
 
             double[,] matrix = new double[rows, cols];
             for (int i = 0; i < rows; i++)
@@ -505,38 +510,35 @@ namespace Accord.Math
         /// <summary>
         ///   Creates a vector with uniformly distributed random data.
         /// </summary>
+        /// 
+        // TODO: Mark as obsolete
         public static float[] Random(int size, float minValue, float maxValue)
         {
-            if (size < 0) throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
-
-            float[] vector = new float[size];
-            for (int i = 0; i < size; i++)
-                vector[i] = (float)(Accord.Math.Tools.Random.NextDouble() * (maxValue - minValue) + minValue);
-
-            return vector;
+            return Accord.Math.Vector.Random(size, minValue, maxValue);
         }
 
         /// <summary>
         ///   Creates a vector with uniformly distributed random data.
         /// </summary>
+        /// 
+        // TODO: Mark as obsolete
         public static double[] Random(int size, double minValue, double maxValue)
         {
-            if (size < 0) throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
-
-            double[] vector = new double[size];
-            for (int i = 0; i < size; i++)
-                vector[i] = Accord.Math.Tools.Random.NextDouble() * (maxValue - minValue) + minValue;
-
-            return vector;
+            return Accord.Math.Vector.Random(size, minValue, maxValue);
         }
 
         /// <summary>
         ///   Creates a vector with random data drawn from a given distribution.
         /// </summary>
+        /// 
+        // TODO: Mark as obsolete
         public static double[] Random(int size, IRandomNumberGenerator generator)
         {
-            if (generator == null) throw new ArgumentNullException("generator");
-            if (size < 0) throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
+            if (generator == null)
+                throw new ArgumentNullException("generator");
+
+            if (size < 0)
+                throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
 
             double[] vector = new double[size];
             for (int i = 0; i < size; i++)
@@ -558,7 +560,6 @@ namespace Accord.Math
                 throw new ArgumentNullException("values");
 
             T[,] matrix = new T[1, values.Length];
-
             for (int i = 0; i < values.Length; i++)
                 matrix[0, i] = values[i];
 
@@ -575,7 +576,6 @@ namespace Accord.Math
                 throw new ArgumentNullException("values");
 
             T[,] matrix = new T[values.Length, 1];
-
             for (int i = 0; i < values.Length; i++)
                 matrix[i, 0] = values[i];
 
@@ -586,31 +586,21 @@ namespace Accord.Math
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static T[] Vector<T>(int n, T[] values)
         {
-            T[] vector = new T[n];
-
-            if (values != null)
-            {
-                for (int i = 0; i < values.Length; i++)
-                    vector[i] = values[i];
-            }
-
-            return vector;
+            return Accord.Math.Vector.Create(n, values);
         }
 
         /// <summary>
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static T[] Vector<T>(int n, T value)
         {
-            T[] vector = new T[n];
+            return Accord.Math.Vector.Create(n, value);
 
-            for (int i = 0; i < n; i++)
-                vector[i] = value;
-
-            return vector;
         }
 
         /// <summary>
@@ -619,48 +609,27 @@ namespace Accord.Math
         /// 
         public static double[] Vector(double a, double b, double increment = 1)
         {
-            List<double> list = new List<double>();
-
-            for (double i = a; i < b; i += increment)
-                list.Add(i);
-
-            if (list[list.Count - 1] != b)
-                list.Add(b);
-
-            return list.ToArray();
+            return Accord.Math.Vector.Interval(a, b, (double)increment);
         }
 
         /// <summary>
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static int[] Vector(int a, int b, int increment = 1)
         {
-            List<int> list = new List<int>();
-
-            for (int i = a; i < b; i += increment)
-                list.Add(i);
-
-            if (list[list.Count - 1] != b)
-                list.Add(b);
-
-            return list.ToArray();
+            return Accord.Math.Vector.Interval(a, b, (double)increment);
         }
 
         /// <summary>
         ///   Creates a vector with the given dimension and starting values.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static double[] Vector(double a, double b, int points)
         {
-            double[] list = new double[points];
-
-            double increment = (b - a) / points;
-
-            for (int i = 0; i < list.Length; i++)
-                list[i] = increment * i;
-
-            return list;
+            return Accord.Math.Vector.Interval(a, b, points);
         }
         #endregion
 
@@ -669,22 +638,32 @@ namespace Accord.Math
         ///   Creates a index vector.
         /// </summary>
         /// 
+        // TODO: Mark as obsolete
         public static int[] Indices(int from, int to)
         {
-            int[] vector;
+            return Accord.Math.Indices.Range(from, to);
+        }
 
-            if (to > from)
-            {
-                vector = new int[to - from];
-                for (int i = 0; i < vector.Length; i++)
-                    vector[i] = from++;
-            }
-            else
-            {
-                vector = new int[from - to];
-                for (int i = 0; i < vector.Length; i++)
-                    vector[i] = from-- - 1;
-            }
+        /// <summary>
+        ///   Creates a index vector.
+        /// </summary>
+        /// 
+        // TODO: Mark as obsolete
+        public static int[] Indices(int to)
+        {
+            return Accord.Math.Indices.Until(to);
+        }
+
+        /// <summary>
+        ///   Gets the dimensions of an array.
+        /// </summary>
+        /// 
+        public static int[] GetDimensions(this Array array)
+        {
+            int[] vector = new int[array.Rank];
+
+            for (int i = 0; i < vector.Length; i++)
+                vector[i] = array.GetUpperBound(i);
 
             return vector;
         }
@@ -695,27 +674,7 @@ namespace Accord.Math
         /// 
         public static int[] Interval(int from, int to)
         {
-            if (from == to)
-            {
-                return new int[] { from };
-            }
-
-            int[] vector;
-
-            if (to > from)
-            {
-                vector = new int[to - from + 1];
-                for (int i = 0; i < vector.Length; i++)
-                    vector[i] = from++;
-            }
-            else
-            {
-                vector = new int[from - to + 1];
-                for (int i = 0; i < vector.Length; i++)
-                    vector[i] = from--;
-            }
-
-            return vector;
+            return Accord.Math.Vector.Interval(from, to);
         }
 
         /// <summary>
@@ -733,30 +692,7 @@ namespace Accord.Math
         /// 
         public static double[] Interval(double from, double to, double stepSize)
         {
-            double[] r;
-
-            if (from > to)
-            {
-                double range = from - to;
-                int steps = (int)Math.Ceiling(range / stepSize) + 1;
-
-                r = new double[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = from - i * stepSize;
-                r[steps - 1] = to;
-            }
-            else
-            {
-                double range = to - from;
-                int steps = (int)Math.Ceiling(range == 0 ? 0 : range / stepSize) + 1;
-
-                r = new double[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = from + i * stepSize;
-                r[steps - 1] = to;
-            }
-
-            return r;
+            return Accord.Math.Vector.Interval(from, to, stepSize);
         }
 
         /// <summary>
@@ -765,30 +701,7 @@ namespace Accord.Math
         /// 
         public static float[] Interval(float from, float to, double stepSize)
         {
-            float[] r;
-
-            if (from > to)
-            {
-                double range = from - to;
-                int steps = (int)Math.Ceiling(range / stepSize) + 1;
-
-                r = new float[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = (float)(from - i * stepSize);
-                r[steps - 1] = to;
-            }
-            else
-            {
-                double range = to - from;
-                int steps = (int)Math.Ceiling(range == 0 ? 0 : range / stepSize) + 1;
-
-                r = new float[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = (float)(from + i * stepSize);
-                r[steps - 1] = to;
-            }
-
-            return r;
+            return Accord.Math.Vector.Interval(from, to, (float)stepSize);
         }
 
         /// <summary>
@@ -797,7 +710,7 @@ namespace Accord.Math
         /// 
         public static double[] Interval(DoubleRange range, int steps)
         {
-            return Interval(range.Min, range.Max, steps);
+            return Accord.Math.Vector.Interval(range, steps);
         }
 
         /// <summary>
@@ -806,78 +719,225 @@ namespace Accord.Math
         /// 
         public static double[] Interval(double from, double to, int steps)
         {
-            if (from == to)
-            {
-                return new double[] { from };
-            }
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            double[] r = new double[steps + 1];
-
-            if (from > to)
-            {
-                double range = from - to;
-                double stepSize = range / steps;
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = from - i * stepSize;
-                r[steps] = to;
-            }
-            else
-            {
-                double range = to - from;
-                double stepSize = range / steps;
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = from + i * stepSize;
-                r[steps] = to;
-            }
-
-            return r;
+            return Accord.Math.Vector.Interval(from, to, steps);
         }
 
         /// <summary>
         ///   Creates a bi-dimensional mesh matrix.
         /// </summary>
         /// 
-        public static double[][] Mesh(DoubleRange rowRange, DoubleRange colRange,
-            double rowSteps, double colSteps)
+        /// <example>
+        /// <code>
+        /// // The Mesh method can be used to generate all
+        /// // possible (x,y) pairs between two ranges. 
+        /// 
+        /// // We can create a grid as
+        /// double[][] grid = Matrix.Mesh
+        /// (
+        ///     rowMin: 0, rowMax: 1, rowStepSize: 0.3,
+        ///     colMin: 0, colMax: 1, colStepSize: 0.1
+        /// );
+        /// 
+        /// // Now we can plot the points on-screen
+        /// ScatterplotBox.Show("Grid (step size)", grid).Hold();
+        /// </code>
+        /// 
+        /// <para>
+        ///   The resulting image is shown below. </para>
+        ///   <img src="..\images\grid-step-size.png" /> 
+        /// </example>
+        /// 
+        public static double[][] Mesh(
+            double rowMin, double rowMax, double rowStepSize,
+            double colMin, double colMax, double colStepSize)
         {
             double[][] mesh = Matrix.CartesianProduct(
-                Matrix.Interval(rowRange, rowSteps),
-                Matrix.Interval(colRange, colSteps));
+                Matrix.Interval(rowMin, rowMax, rowStepSize),
+                Matrix.Interval(colMin, colMax, colStepSize));
 
             return mesh;
         }
-        #endregion
+
+        /// <summary>
+        ///   Creates a bi-dimensional mesh matrix.
+        /// </summary>
+        /// 
+        public static int[][] Mesh(
+            int rowMin, int rowMax,
+            int colMin, int colMax)
+        {
+            int[][] mesh = Matrix.CartesianProduct(
+                Matrix.Interval(rowMin, rowMax),
+                Matrix.Interval(colMin, colMax));
+
+            return mesh;
+        }
+
+        /// <summary>
+        ///   Creates a bi-dimensional mesh matrix.
+        /// </summary>
+        /// 
+        /// <example>
+        /// <code>
+        /// // The Mesh method can be used to generate all
+        /// // possible (x,y) pairs between two ranges. 
+        /// 
+        /// // We can create a grid as
+        /// double[][] grid = Matrix.Mesh
+        /// (
+        ///     rowMin: 0, rowMax: 1, rowSteps: 10,
+        ///     colMin: 0, colMax: 1, colSteps: 5
+        /// );
+        ///
+        /// // Now we can plot the points on-screen
+        /// ScatterplotBox.Show("Grid (fixed steps)", grid).Hold();
+        /// </code>
+        /// 
+        /// <para>
+        ///   The resulting image is shown below. </para>
+        ///   <img src="..\images\grid-fixed-steps.png" /> 
+        /// </example>
+        /// 
+        public static double[][] Mesh(
+            double rowMin, double rowMax, int rowSteps,
+            double colMin, double colMax, int colSteps)
+        {
+            double[][] mesh = Matrix.CartesianProduct(
+                Matrix.Interval(rowMin, rowMax, rowSteps),
+                Matrix.Interval(colMin, colMax, colSteps));
+
+            return mesh;
+        }
+
+        /// <summary>
+        ///   Creates a bi-dimensional mesh matrix.
+        /// </summary>
+        /// 
+        /// <example>
+        /// <code>
+        /// // The Mesh method can be used to generate all
+        /// // possible (x,y) pairs between two ranges. 
+        /// 
+        /// // We can create a grid as
+        /// double[][] grid = Matrix.Mesh
+        /// (
+        ///     rowRange: new DoubleRange(0, 1), rowStepSize: 0.3,
+        ///     colRange: new DoubleRange(0, 1), colStepSize: 0.1
+        /// );
+        /// 
+        /// // Now we can plot the points on-screen
+        /// ScatterplotBox.Show("Grid (step size)", grid).Hold();
+        /// </code>
+        /// 
+        /// <para>
+        ///   The resulting image is shown below. </para>
+        ///   <img src="..\images\grid-step-size.png" /> 
+        /// </example>
+        /// 
+        public static double[][] Mesh(
+            DoubleRange rowRange, DoubleRange colRange,
+            double rowStepSize, double colStepSize)
+        {
+            double[][] mesh = Matrix.CartesianProduct(
+                Matrix.Interval(rowRange, rowStepSize),
+                Matrix.Interval(colRange, colStepSize));
+
+            return mesh;
+        }
+
+        /// <summary>
+        ///   Creates a bi-dimensional mesh matrix.
+        /// </summary>
+        /// 
+        /// <param name="x">The values to be replicated vertically.</param>
+        /// <param name="y">The values to be replicated horizontally.</param>
+        /// 
+        /// <example>
+        /// <code>
+        /// // The Mesh method generates all possible (x,y) pairs
+        /// // between two vector of points. For example, let's
+        /// // suppose we have the values:
+        /// //
+        /// double[] a = { 0, 1 };
+        /// double[] b = { 0, 1 };
+        /// 
+        /// // We can create a grid as
+        /// double[][] grid = a.Mesh(b);
+        /// 
+        /// // the result will be:
+        /// double[][] expected =
+        /// {
+        ///     new double[] { 0, 0 },
+        ///     new double[] { 0, 1 },
+        ///     new double[] { 1, 0 },
+        ///     new double[] { 1, 1 },
+        /// };
+        /// </code>
+        /// </example>
+        /// 
+        public static T[][] Mesh<T>(this T[] x, T[] y)
+        {
+            return Matrix.CartesianProduct(x, y);
+        }
 
         /// <summary>
         ///   Generates a 2-D mesh grid from two vectors <c>a</c> and <c>b</c>,
         ///   generating two matrices <c>len(a)</c> x <c>len(b)</c> with all
-        ///   all possible combinations of values between the two vectors.
+        ///   all possible combinations of values between the two vectors. This
+        ///   method is analogous to MATLAB/Octave's <c>meshgrid</c> function.
         /// </summary>
         ///
         /// <returns>A tuple containing two matrices: the first containing values
         /// for the x-coordinates and the second for the y-coordinates.</returns>
+        /// 
+        /// <example>
+        /// // The MeshGrid method generates two matrices that can be
+        /// // used to generate all possible (x,y) pairs between two
+        /// // vector of points. For example, let's suppose we have
+        /// // the values:
+        /// //
+        /// double[] a = { 1, 2, 3 };
+        /// double[] b = { 4, 5, 6 };
+        /// 
+        /// // We can create a grid
+        /// var grid = a.MeshGrid(b);
+        /// 
+        /// // get the x-axis values     //        | 1   1   1 |
+        /// double[,] x = grid.Item1;    //  x =   | 2   2   2 |
+        ///                              //        | 3   3   3 |
+        /// 
+        /// // get the y-axis values     //        | 4   5   6 |
+        /// double[,] y = grid.Item2;    //  y =   | 4   5   6 |
+        ///                              //        | 4   5   6 |
+        /// 
+        /// // we can either use those matrices separately (such as for plotting 
+        /// // purposes) or we can also generate a grid of all the (x,y) pairs as
+        /// //
+        /// double[,][] xy = x.ApplyWithIndex((v, i, j) => new[] { x[i, j], y[i, j] });
         ///
-        public static Tuple<T[,], T[,]> MeshGrid<T>(this T[] sequence1, T[] sequence2)
+        /// // The result will be
+        /// // 
+        /// //         |  (1, 4)   (1, 5)   (1, 6)  |
+        /// //  xy  =  |  (2, 4)   (2, 5)   (2, 6)  |
+        /// //         |  (3, 4)   (3, 5)   (3, 6)  |
+        /// </example>
+        ///
+        public static Tuple<T[,], T[,]> MeshGrid<T>(this T[] x, T[] y)
         {
-            T[,] x = new T[sequence1.Length, sequence2.Length];
-            T[,] y = new T[sequence1.Length, sequence2.Length];
-            for (int i = 0; i < sequence1.Length; i++)
+            var X = new T[x.Length, y.Length];
+            var Y = new T[x.Length, y.Length];
+            for (int i = 0; i < x.Length; i++)
             {
-                for (int j = 0; j < sequence2.Length; j++)
+                for (int j = 0; j < y.Length; j++)
                 {
-                    x[i, j] = sequence1[i];
-                    y[i, j] = sequence2[j];
+                    X[i, j] = x[i];
+                    Y[i, j] = y[j];
                 }
             }
 
-            return Tuple.Create(x, y);
+            return Tuple.Create(X, Y);
         }
+        #endregion
 
 
         #region Combine
@@ -1056,6 +1116,24 @@ namespace Accord.Math
         ///   Combines vectors vertically.
         /// </summary>
         /// 
+        public static T[,] Stack<T>(this T[] a, T[] b)
+        {
+            return Stack(new[] { a, b });
+        }
+
+        /// <summary>
+        ///   Combines vectors vertically.
+        /// </summary>
+        /// 
+        public static T[][] Stack<T>(this T[][] a, T[][] b)
+        {
+            return Stack(new T[][][] { a, b });
+        }
+
+        /// <summary>
+        ///   Combines vectors vertically.
+        /// </summary>
+        /// 
         public static T[,] Stack<T>(params T[][] vectors)
         {
             return vectors.ToMatrix();
@@ -1074,7 +1152,7 @@ namespace Accord.Math
         ///   Combines vectors vertically.
         /// </summary>
         /// 
-        public static T[,] Stack<T>(T[] vector, T element)
+        public static T[,] Stack<T>(this T[] vector, T element)
         {
             return vector.Concatenate(element).Transpose();
         }
@@ -1115,7 +1193,7 @@ namespace Accord.Math
         ///   Combines matrices vertically.
         /// </summary>
         /// 
-        public static T[,] Stack<T>(T[,] matrix, T[] vector)
+        public static T[,] Stack<T>(this T[,] matrix, T[] vector)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);

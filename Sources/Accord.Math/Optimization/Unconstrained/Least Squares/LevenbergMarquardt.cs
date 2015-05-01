@@ -284,7 +284,10 @@ namespace Accord.Math.Optimization
                 computeJacobian(inputs, block);
 
                 if (Double.IsNaN(sumOfSquaredErrors))
-                    throw new ArithmeticException("Error calculation has produced a non-finite number.");
+                {
+                    throw new ArithmeticException("Error calculation has produced a non-finite number."
+                        + " Please make sure that there are no constant columns in the input data.");
+                }
 
 
                 // Compute error gradient using Jacobian

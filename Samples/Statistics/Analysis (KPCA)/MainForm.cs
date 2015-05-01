@@ -74,8 +74,6 @@ namespace Analysis.KPCA
             dgvDistributionMeasures.AutoGenerateColumns = false;
             dgvFeatureVectors.AutoGenerateColumns = true;
             dgvPrincipalComponents.AutoGenerateColumns = false;
-            dgvProjectionComponents.AutoGenerateColumns = false;
-            dgvReversionComponents.AutoGenerateColumns = false;
             dgvProjectionResult.AutoGenerateColumns = true;
 
             openFileDialog.InitialDirectory = Path.Combine(Application.StartupPath, "Resources");
@@ -206,12 +204,9 @@ namespace Analysis.KPCA
             // Populates components overview with analysis data
             dgvFeatureVectors.DataSource = new ArrayDataView(kpca.ComponentMatrix);
             dgvPrincipalComponents.DataSource = kpca.Components;
-            dgvProjectionComponents.DataSource = kpca.Components;
-            dgvReversionComponents.DataSource = kpca.Components;
             cumulativeView.DataSource = kpca.Components;
             distributionView.DataSource = kpca.Components;
 
-            numComponents.Maximum = kpca.Components.Count;
             numNeighbor.Maximum = kpca.Result.GetLength(0);
             numNeighbor.Value = System.Math.Min(10, numNeighbor.Maximum);
 

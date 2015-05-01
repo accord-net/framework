@@ -127,7 +127,7 @@ namespace Accord.Audio.Windows
         ///   Splits a signal using the window.
         /// </summary>
         /// 
-        public virtual ComplexSignal Apply(ComplexSignal complexSignal, int sampleIndex)
+        public virtual unsafe ComplexSignal Apply(ComplexSignal complexSignal, int sampleIndex)
         {
             Complex[,] resultData = new Complex[Length, complexSignal.Channels];
             ComplexSignal result = ComplexSignal.FromArray(resultData, complexSignal.SampleRate);
@@ -135,22 +135,68 @@ namespace Accord.Audio.Windows
             int channels = result.Channels;
             int minLength = System.Math.Min(complexSignal.Length - sampleIndex, Length);
 
-            unsafe
+            for (int c = 0; c < complexSignal.Channels; c++)
             {
-                for (int c = 0; c < complexSignal.Channels; c++)
-                {
-                    Complex* dst = (Complex*)result.Data.ToPointer() + c;
-                    Complex* src = (Complex*)complexSignal.Data.ToPointer() + c + channels * sampleIndex;
+                Complex* dst = (Complex*)result.Data.ToPointer() + c;
+                Complex* src = (Complex*)complexSignal.Data.ToPointer() + c + channels * sampleIndex;
 
-                    for (int i = 0; i < minLength; i++, dst += channels, src += channels)
-                    {
-                        *dst = window[i] * (*src);
-                    }
+                for (int i = 0; i < minLength; i++, dst += channels, src += channels)
+                {
+                    *dst = window[i] * (*src);
                 }
             }
 
             return result;
         }
 
+        /// <summary>
+        ///   Splits a signal using the window.
+        /// </summary>
+        /// 
+        public unsafe virtual double[] Apply(double[] signal, int sampleIndex)
+        {
+            int minLength = System.Math.Min(signal.Length - sampleIndex, Length);
+
+            double[] result = new double[Length];
+
+            fixed (double* R = result)
+            fixed (double* S = signal)
+            {
+                double* dst = R;
+                double* src = S + sampleIndex;
+
+                for (int i = 0; i < minLength; i++, dst++, src++)
+                {
+                    *dst = window[i] * (*src);
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Splits a signal using the window.
+        /// </summary>
+        /// 
+        public unsafe virtual double[][] Apply(double[][] signal, int sampleIndex)
+        {
+            int channels = signal[0].Length;
+
+            int minLength = System.Math.Min(signal.Length - sampleIndex, Length);
+
+            double[][] result = new double[signal.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = new double[signal[i].Length];
+
+            for (int c = 0; c < channels; c++)
+            {
+                for (int i = 0; i < minLength; i++)
+                {
+                    result[i][c] = window[i] * signal[i + sampleIndex][c];
+                }
+            }
+
+            return result;
+        }
     }
 }

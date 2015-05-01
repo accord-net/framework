@@ -22,35 +22,80 @@
 
 namespace Accord.Tests.Neuro
 {
-    using Accord.Neuro.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using AForge.Neuro;
+    using Accord.IO;
     using Accord.Math;
-    using AForge.Neuro.Learning;
     using Accord.Neuro;
-    using System;
+    using Accord.Neuro.Learning;
     using AForge;
+    using AForge.Neuro;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using System.IO;
 
     [TestClass()]
     public class LevenbergMarquardtLearningTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [TestMethod()]
+        public void MulticlassTest1()
         {
-            get
+            Accord.Math.Tools.SetupGenerator(0);
+            Neuron.RandGenerator = new ThreadSafeRandom(0);
+
+
+            int numberOfInputs = 3;
+            int numberOfClasses = 4;
+            int hiddenNeurons = 5;
+
+            double[][] input = 
             {
-                return testContextInstance;
-            }
-            set
+                new double[] { -1, -1, -1 }, // 0
+                new double[] { -1,  1, -1 }, // 1
+                new double[] {  1, -1, -1 }, // 1
+                new double[] {  1,  1, -1 }, // 0
+                new double[] { -1, -1,  1 }, // 2
+                new double[] { -1,  1,  1 }, // 3
+                new double[] {  1, -1,  1 }, // 3
+                new double[] {  1,  1,  1 }  // 2
+            };
+
+            int[] labels =
             {
-                testContextInstance = value;
+                0,
+                1,
+                1,
+                0,
+                2,
+                3,
+                3,
+                2,
+            };
+
+            double[][] outputs = Accord.Statistics.Tools
+                .Expand(labels, numberOfClasses, -1, 1);
+
+            var function = new BipolarSigmoidFunction(2);
+            var network = new ActivationNetwork(function,
+                numberOfInputs, hiddenNeurons, numberOfClasses);
+
+            new NguyenWidrow(network).Randomize();
+
+            var teacher = new LevenbergMarquardtLearning(network);
+
+            double error = Double.PositiveInfinity;
+            for (int i = 0; i < 10; i++)
+                error = teacher.RunEpoch(input, outputs);
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                int answer;
+                double[] output = network.Compute(input[i]);
+                double response = output.Max(out answer);
+
+                int expected = labels[i];
+                Assert.AreEqual(expected, answer);
             }
         }
-
-
 
         [TestMethod()]
         public void RunEpochTest1()
@@ -128,8 +173,6 @@ namespace Accord.Tests.Neuro
         [TestMethod()]
         public void RunEpochTest3()
         {
-            Accord.Math.Tools.SetupGenerator(0);
-
             double[,] dataset = yinyang;
 
             double[][] input = dataset.GetColumns(0, 1).ToArray();
@@ -288,26 +331,6 @@ namespace Accord.Tests.Neuro
             var jacobian1 = (float[][])privateTeacher1.GetField("jacobian");
             var jacobian2 = (float[][])privateTeacher2.GetField("jacobian");
 
-            Assert.AreEqual(jacobian1[0][0], -0.47895513745387097, 1e-6);
-            Assert.AreEqual(jacobian1[0][1], -0.05863886707282373, 1e-6);
-            Assert.AreEqual(jacobian1[0][2], 0.057751100929897485, 1e-6);
-            Assert.AreEqual(jacobian1[0][3], 0.0015185010717608583, 1e-6);
-
-            Assert.AreEqual(jacobian1[7][0], -0.185400783651892, 1e-6);
-            Assert.AreEqual(jacobian1[7][1], 0.025575161626462877, 1e-6);
-            Assert.AreEqual(jacobian1[7][2], 0.070494677797224889, 1e-6);
-            Assert.AreEqual(jacobian1[7][3], 0.037740463822781616, 1e-6);
-
-
-            Assert.AreEqual(jacobian2[0][0], -0.4789595904719437, 1e-6);
-            Assert.AreEqual(jacobian2[0][1], -0.058636153936941729, 1e-6);
-            Assert.AreEqual(jacobian2[0][2], 0.057748435491340212, 1e-6);
-            Assert.AreEqual(jacobian2[0][3], 0.0015184453425611988, 1e-6);
-
-            Assert.AreEqual(jacobian2[7][0], -0.1854008206574258, 1e-6);
-            Assert.AreEqual(jacobian2[7][1], 0.025575150379247645, 1e-6);
-            Assert.AreEqual(jacobian2[7][2], 0.070494269423259301, 1e-6);
-            Assert.AreEqual(jacobian2[7][3], 0.037740117733922635, 1e-6);
 
 
             for (int i = 0; i < jacobian1.Length; i++)
@@ -323,7 +346,6 @@ namespace Accord.Tests.Neuro
                     Assert.IsFalse(Double.IsNaN(j2));
                 }
             }
-
         }
 
         [TestMethod()]
@@ -514,6 +536,81 @@ namespace Accord.Tests.Neuro
             }
         }
 
+        [TestMethod()]
+        public void JacobianByChainRuleTest_MultipleOutput()
+        {
+            // Network with no hidden layers: 3-4
+
+            int numberOfInputs = 3;
+            int numberOfClasses = 4;
+
+            double[][] input = 
+            {
+                new double[] { -1, -1, -1 }, // 0
+                new double[] { -1,  1, -1 }, // 1
+                new double[] {  1, -1, -1 }, // 1
+                new double[] {  1,  1, -1 }, // 0
+                new double[] { -1, -1,  1 }, // 2
+                new double[] { -1,  1,  1 }, // 3
+                new double[] {  1, -1,  1 }, // 3
+                new double[] {  1,  1,  1 }  // 2
+            };
+
+            int[] labels =
+            {
+                0,
+                1,
+                1,
+                0,
+                2,
+                3,
+                3,
+                2,
+            };
+
+            double[][] output = Accord.Statistics.Tools
+                .Expand(labels, numberOfClasses, -1, 1);
+
+            Neuron.RandGenerator = new ThreadSafeRandom(0);
+
+            ActivationNetwork network = new ActivationNetwork(
+                   new BipolarSigmoidFunction(2), numberOfInputs, numberOfClasses);
+
+            var teacher1 = new LevenbergMarquardtLearning(network,
+                false, JacobianMethod.ByFiniteDifferences);
+
+            var teacher2 = new LevenbergMarquardtLearning(network,
+                false, JacobianMethod.ByBackpropagation);
+
+            // Set lambda to lambda max so no iterations are performed
+            teacher1.LearningRate = 1e30f;
+            teacher2.LearningRate = 1e30f;
+
+            teacher1.RunEpoch(input, output);
+            teacher2.RunEpoch(input, output);
+
+            PrivateObject privateTeacher1 = new PrivateObject(teacher1);
+            PrivateObject privateTeacher2 = new PrivateObject(teacher2);
+
+            var jacobian1 = (float[][])privateTeacher1.GetField("jacobian");
+            var jacobian2 = (float[][])privateTeacher2.GetField("jacobian");
+
+
+            for (int i = 0; i < jacobian1.Length; i++)
+            {
+                for (int j = 0; j < jacobian1[i].Length; j++)
+                {
+                    double j1 = jacobian1[i][j];
+                    double j2 = jacobian2[i][j];
+
+                    Assert.AreEqual(j1, j2, 1e-3);
+
+                    Assert.IsFalse(Double.IsNaN(j1));
+                    Assert.IsFalse(Double.IsNaN(j2));
+                }
+            }
+        }
+
 
         [TestMethod()]
         public void BlockHessianTest1()
@@ -594,6 +691,103 @@ namespace Accord.Tests.Neuro
         }
 
 
+        [TestMethod()]
+        public void ZeroLambdaTest()
+        {
+            double[,] data = null;
+
+            // open selected file
+            using (TextReader stream = new StringReader(Properties.Resources.ZeroLambda))
+            using (CsvReader reader = new CsvReader(stream, false))
+            {
+                data = reader.ToTable().ToMatrix();
+            }
+
+            // number of learning samples
+            int samples = data.GetLength(0);
+
+            var ranges = data.Range(dimension: 0);
+
+            Assert.AreEqual(2, ranges.Length);
+
+            var rangeX = ranges[0];
+            var rangeY = ranges[1];
+
+            // data transformation factor
+            double yFactor = 1.7 / rangeY.Length;
+            double yMin = rangeY.Min;
+            double xFactor = 2.0 / rangeX.Length;
+            double xMin = rangeX.Min;
+
+            // prepare learning data
+            double[][] input = new double[samples][];
+            double[][] output = new double[samples][];
+
+            for (int i = 0; i < samples; i++)
+            {
+                input[i] = new double[1];
+                output[i] = new double[1];
+
+                input[i][0] = (data[i, 0] - xMin) * xFactor - 1.0; // set input
+                output[i][0] = (data[i, 1] - yMin) * yFactor - 0.85; // set output
+            }
+
+            // create multi-layer neural network
+            ActivationNetwork network = new ActivationNetwork(
+                new BipolarSigmoidFunction(5),
+                1, 12, 1);
+
+            // create teacher
+            LevenbergMarquardtLearning teacher = new LevenbergMarquardtLearning(network, true);
+
+            teacher.LearningRate = 1;
+
+            // iterations
+            int iteration = 1;
+            int iterations = 2000;
+
+            // solution array
+            double[,] solution = new double[samples, 2];
+            double[] networkInput = new double[1];
+
+            bool needToStop = false;
+
+            double learningError = 0;
+
+            // loop
+            while (!needToStop)
+            {
+                Assert.AreNotEqual(0, teacher.LearningRate);
+
+                // run epoch of learning procedure
+                double error = teacher.RunEpoch(input, output) / samples;
+
+                // calculate solution
+                for (int j = 0; j < samples; j++)
+                {
+                    networkInput[0] = (solution[j, 0] - xMin) * xFactor - 1.0;
+                    solution[j, 1] = (network.Compute(networkInput)[0] + 0.85) / yFactor + yMin;
+                }
+
+
+                // calculate error
+                learningError = 0.0;
+                for (int j = 0; j < samples; j++)
+                {
+                    networkInput[0] = input[j][0];
+                    learningError += Math.Abs(data[j, 1] - ((network.Compute(networkInput)[0] + 0.85) / yFactor + yMin));
+                }
+
+                // increase current iteration
+                iteration++;
+
+                // check if we need to stop
+                if ((iterations != 0) && (iteration > iterations))
+                    break;
+            }
+
+            Assert.IsTrue(learningError < 0.13);
+        }
 
 
         public static double[,] yinyang =

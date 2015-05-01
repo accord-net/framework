@@ -26,6 +26,7 @@ namespace Accord.Statistics.Distributions.Univariate
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using AForge;
+    using Accord.Math.Optimization;
 
     /// <summary>
     ///   Beta Distribution (of the first kind).
@@ -53,6 +54,11 @@ namespace Accord.Statistics.Distributions.Univariate
     /// </remarks>
     ///
     /// <example>
+    /// <para>
+    ///   Note: More advanced examples, including distribution estimation and random number
+    ///   generation are also available at the <see cref="GeneralizedBetaDistribution"/>
+    ///   page.</para>
+    ///   
     /// <para>
     ///   The following example shows how to instantiate and use a Beta 
     ///   distribution given its alpha and beta parameters: </para>
@@ -83,14 +89,15 @@ namespace Accord.Statistics.Distributions.Univariate
     ///  double chf    = distribution.CumulativeHazardFunction(x: 0.27); // 1.1828193992944409
     ///  
     ///  // String representation
-    ///  string str = distribution.ToString(CultureInfo.InvariantCulture); // "B(x; α = 0.42, β = 1.57)
+    ///  string str = distribution.ToString(); // B(x; α = 0.42, β = 1.57)
     /// </code>
     /// 
     /// <para>
     ///   The following example shows to create a Beta distribution
-    ///   given a discrete number of trials and the number of successess
+    ///   given a discrete number of trials and the number of successes
     ///   within those trials. It also shows how to compute the 2.5 and
-    ///   97.5 percentiles of the distribution:
+    ///   97.5 percentiles of the distribution:</para>
+    ///   
     /// <code>
     ///  int trials = 100;
     ///  int successes = 78;
@@ -103,16 +110,52 @@ namespace Accord.Statistics.Distributions.Univariate
     ///  double p025   = distribution.InverseDistributionFunction(p: 0.025); // 0.68899653915764347
     ///  double p975   = distribution.InverseDistributionFunction(p: 0.975); // 0.84983461640764513
     /// </code>
-    /// </para>
+    /// 
+    /// <para>
+    ///   The next example shows how to generate 1000 new samples from a Beta distribution:</para>
+    /// 
+    /// <code>
+    ///   // Using the distribution's parameters
+    ///   double[] samples = GeneralizedBetaDistribution
+    ///     .Random(alpha: 2, beta: 3, min: 0, max: 1, samples: 1000);
+    ///     
+    ///   // Using an existing distribution
+    ///   var b = new GeneralizedBetaDistribution(alpha: 1, beta: 2);
+    ///   double[] new_samples = b.Generate(1000);
+    /// </code>
+    /// 
+    /// <para>
+    ///   And finally, how to estimate the parameters of a Beta distribution from
+    ///   a set of observations, using either the Method-of-moments or the Maximum 
+    ///   Likelihood Estimate.</para>
+    ///   
+    /// <code>
+    /// // Draw 100000 observations from a Beta with α = 2, β = 3:
+    /// double[] samples = GeneralizedBetaDistribution
+    ///     .Random(alpha: 2, beta: 3, samples: 100000);
+    /// 
+    /// // Estimate a distribution from the data
+    /// var B = BetaDistribution.Estimate(samples);
+    /// 
+    /// // Explicitly using Method-of-moments estimation
+    /// var mm = BetaDistribution.Estimate(samples,
+    ///     new BetaOptions { Method = BetaEstimationMethod.Moments });
+    ///     
+    /// // Explicitly using Maximum Likelihood estimation
+    /// var mle = BetaDistribution.Estimate(samples,
+    ///     new BetaOptions { Method = BetaEstimationMethod.MaximumLikelihood });
+    /// </code>
     /// </example>
     /// 
     /// <seealso cref="Accord.Math.Beta"/>
+    /// <seealso cref="GeneralizedBetaDistribution"/>
     ///
     [Serializable]
-    public class BetaDistribution : UnivariateContinuousDistribution, IFormattable
+    public class BetaDistribution : UnivariateContinuousDistribution, IFormattable,
+        IFittableDistribution<double, BetaOptions>, ISampleableDistribution<double>
     {
-        double a; // alpha
-        double b; // beta
+        double alpha;
+        double beta;
 
         double constant;
         double? entropy;
@@ -131,24 +174,24 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Creates a new Beta distribution.
         /// </summary>
         /// 
-        /// <param name="success">The number of success <c>r</c>. Default is 0.</param>
+        /// <param name="successes">The number of success <c>r</c>. Default is 0.</param>
         /// <param name="trials">The number of trials <c>n</c>. Default is 1.</param>
         /// 
-        public BetaDistribution([NonnegativeInteger] int success, [PositiveInteger] int trials)
+        public BetaDistribution([NonnegativeInteger] int successes, [PositiveInteger] int trials)
         {
-            if (success < 0)
-                throw new ArgumentOutOfRangeException("success", "The number of success must be positive");
+            if (successes < 0)
+                throw new ArgumentOutOfRangeException("successes", "The number of success must be positive");
 
             if (trials <= 0)
                 throw new ArgumentOutOfRangeException("trials", "The number of trials must be positive");
 
-            if (success > trials)
+            if (successes > trials)
             {
-                throw new ArgumentOutOfRangeException("success",
+                throw new ArgumentOutOfRangeException("successes",
                     "The number of successes should be lesser than or equal to the number of trials");
             }
 
-            init(success + 1, trials - success + 1);
+            initialize(successes + 1, trials - successes + 1);
         }
 
         /// <summary>
@@ -166,15 +209,15 @@ namespace Accord.Statistics.Distributions.Univariate
             if (beta <= 0)
                 throw new ArgumentOutOfRangeException("beta", "The shape parameter beta must be positive.");
 
-            init(alpha, beta);
+            initialize(alpha, beta);
         }
 
-        private void init(double alpha, double beta)
+        private void initialize(double alpha, double beta)
         {
-            this.a = alpha;
-            this.b = beta;
+            this.alpha = alpha;
+            this.beta = beta;
 
-            this.constant = 1.0 / Accord.Math.Beta.Function(a, b);
+            this.constant = 1.0 / Accord.Math.Beta.Function(alpha, beta);
             this.entropy = null;
         }
 
@@ -184,7 +227,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public double Alpha
         {
-            get { return a; }
+            get { return alpha; }
         }
 
         /// <summary>
@@ -193,7 +236,25 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public double Beta
         {
-            get { return b; }
+            get { return beta; }
+        }
+
+        /// <summary>
+        ///   Gets the number of successes <c>r</c>.
+        /// </summary>
+        /// 
+        public double Successes
+        {
+            get { return alpha - 1; }
+        }
+
+        /// <summary>
+        ///   Gets the number of trials <c>n</c>.
+        /// </summary>
+        /// 
+        public double Trials
+        {
+            get { return beta + Successes - 1; }
         }
 
         /// <summary>
@@ -220,7 +281,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mean
         {
-            get { return a / (a + b); }
+            get { return alpha / (alpha + beta); }
         }
 
         /// <summary>
@@ -233,7 +294,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Variance
         {
-            get { return (a * b) / ((a + b) * (a + b) * (a + b + 1)); }
+            get { return (alpha * beta) / ((alpha + beta) * (alpha + beta) * (alpha + beta + 1)); }
         }
 
         /// <summary>
@@ -248,11 +309,11 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (entropy == null)
                 {
-                    double lnBab = Math.Log(Accord.Math.Beta.Function(a, b));
-                    double da = Gamma.Digamma(a);
-                    double db = Gamma.Digamma(b);
-                    double dab = Gamma.Digamma(a + b);
-                    entropy = lnBab - (a - 1) * da - (b - 1) * db + (a + b - 2) * dab;
+                    double lnBab = Math.Log(Accord.Math.Beta.Function(alpha, beta));
+                    double da = Gamma.Digamma(alpha);
+                    double db = Gamma.Digamma(beta);
+                    double dab = Gamma.Digamma(alpha + beta);
+                    entropy = lnBab - (alpha - 1) * da - (beta - 1) * db + (alpha + beta - 2) * dab;
                 }
 
                 return entropy.Value;
@@ -274,7 +335,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Mode
         {
-            get { return (a - 1.0) / (a + b - 2.0); }
+            get { return (alpha - 1.0) / (alpha + beta - 2.0); }
         }
 
         /// <summary>
@@ -296,7 +357,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double DistributionFunction(double x)
         {
-            return Accord.Math.Beta.Incomplete(a, b, x);
+            return Accord.Math.Beta.Incomplete(alpha, beta, x);
         }
 
         /// <summary>
@@ -312,7 +373,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double InverseDistributionFunction(double p)
         {
-            return Accord.Math.Beta.IncompleteInverse(a, b, p);
+            return Accord.Math.Beta.IncompleteInverse(alpha, beta, p);
         }
 
         /// <summary>
@@ -338,8 +399,10 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double ProbabilityDensityFunction(double x)
         {
-            if (x <= 0 || x >= 1) return 0;
-            return constant * Math.Pow(x, a - 1) * Math.Pow(1 - x, b - 1);
+            if (x <= 0 || x >= 1)
+                return 0;
+
+            return constant * Math.Pow(x, alpha - 1) * Math.Pow(1 - x, beta - 1);
         }
 
         /// <summary>
@@ -364,41 +427,44 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double LogProbabilityDensityFunction(double x)
         {
-            if (x <= 0 || x >= 1) return Double.NegativeInfinity;
-            return Math.Log(constant) + (a - 1) * Math.Log(x) + (b - 1) * Math.Log(1 - x);
+            if (x <= 0 || x >= 1)
+                return Double.NegativeInfinity;
+
+            return Math.Log(constant) + (alpha - 1) * Math.Log(x) + (beta - 1) * Math.Log(1 - x);
         }
 
         /// <summary>
         ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 
-        /// <param name="observations">The array of observations to fit the model against. The array
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
         ///   elements can be either of type double (for univariate data) or
         ///   type double[] (for multivariate data).</param>
         /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
-        /// <param name="options">Optional arguments which may be used during fitting, such
-        ///   as regularization constants and additional parameters.</param>
-        ///   
+        /// <param name="options">Optional arguments which may be used during fitting,
+        ///   such as regularization constants and additional parameters.</param>
+        /// 
         public override void Fit(double[] observations, double[] weights, IFittingOptions options)
         {
-            if (options != null)
-                throw new ArgumentException("This method does not accept fitting options.");
+            Fit(observations, weights, options as BetaOptions);
+        }
 
-            double mean;
-            double var;
-
-            if (weights == null)
-            {
-                mean = observations.Mean();
-                var = observations.Variance(mean);
-            }
-            else
-            {
-                mean = observations.WeightedMean(weights);
-                var = observations.WeightedVariance(weights, mean);
-            }
-
-            fit(mean, var);
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting,
+        ///   such as regularization constants and additional parameters.</param>
+        /// 
+        public override void Fit(double[] observations, int[] weights, IFittingOptions options)
+        {
+            Fit(observations, weights, options as BetaOptions);
         }
 
         /// <summary>
@@ -412,10 +478,11 @@ namespace Accord.Statistics.Distributions.Univariate
         /// <param name="options">Optional arguments which may be used during fitting, such
         ///   as regularization constants and additional parameters.</param>
         ///   
-        public override void Fit(double[] observations, int[] weights, IFittingOptions options)
+        public void Fit(double[] observations, double[] weights, BetaOptions options)
         {
+            bool useMLE = false;
             if (options != null)
-                throw new ArgumentException("This method does not accept fitting options.");
+                useMLE = options.Method == BetaEstimationMethod.MaximumLikelihood;
 
             double mean;
             double var;
@@ -431,10 +498,99 @@ namespace Accord.Statistics.Distributions.Univariate
                 var = observations.WeightedVariance(weights, mean);
             }
 
-            fit(mean, var);
+            fitMoments(mean, var);
+
+            if (useMLE)
+            {
+                if (weights == null)
+                {
+                    double sum1 = 0, sum2 = 0;
+                    for (int i = 0; i < observations.Length; i++)
+                    {
+                        sum1 += Math.Log(observations[i]);
+                        sum2 += Math.Log(1 - observations[i]);
+                    }
+
+                    fitMLE(sum1, sum2, observations.Length);
+                }
+                else
+                {
+                    double sum1 = 0, sum2 = 0, sumw = 0;
+                    for (int i = 0; i < observations.Length; i++)
+                    {
+                        sum1 += Math.Log(observations[i]) * weights[i];
+                        sum2 += Math.Log(1 - observations[i]) * weights[i];
+                        sumw += weights[i];
+                    }
+
+                    fitMLE(sum1, sum2, sumw);
+                }
+            }
         }
 
-        private void fit(double mean, double var)
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        /// <param name="weights">The weight vector containing the weight for each of the samples.</param>
+        /// <param name="options">Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public void Fit(double[] observations, int[] weights, BetaOptions options)
+        {
+            bool useMLE = false;
+            if (options != null)
+                useMLE = options.Method == BetaEstimationMethod.MaximumLikelihood;
+
+            double mean;
+            double var;
+
+            if (weights == null)
+            {
+                mean = observations.Mean();
+                var = observations.Variance(mean);
+            }
+            else
+            {
+                mean = observations.WeightedMean(weights);
+                var = observations.WeightedVariance(weights, mean);
+            }
+
+            fitMoments(mean, var);
+
+            if (useMLE)
+            {
+                if (weights == null)
+                {
+                    double sum1 = 0, sum2 = 0;
+                    for (int i = 0; i < observations.Length; i++)
+                    {
+                        sum1 += Math.Log(observations[i]);
+                        sum2 += Math.Log(1 - observations[i]);
+                    }
+
+                    fitMLE(sum1, sum2, observations.Length);
+                }
+                else
+                {
+                    double sum1 = 0, sum2 = 0, sumw = 0;
+                    for (int i = 0; i < observations.Length; i++)
+                    {
+                        sum1 += Math.Log(observations[i]) * weights[i];
+                        sum2 += Math.Log(1 - observations[i]) * weights[i];
+                        sumw += weights[i];
+                    }
+
+                    fitMLE(sum1, sum2, sumw);
+                }
+            }
+        }
+
+        private void fitMoments(double mean, double var)
         {
             if (var >= mean * (1.0 - mean))
                 throw new NotSupportedException();
@@ -442,8 +598,136 @@ namespace Accord.Statistics.Distributions.Univariate
             double u = (mean * (1 - mean) / var) - 1.0;
             double alpha = mean * u;
             double beta = (1 - mean) * u;
-            init(alpha, beta);
+            initialize(alpha, beta);
         }
+
+        private void fitMLE(double sum1, double sum2, double n)
+        {
+            double[] gradient = new double[2];
+
+            var bfgs = new BoundedBroydenFletcherGoldfarbShanno(numberOfVariables: 2);
+            bfgs.LowerBounds[0] = 1e-100;
+            bfgs.LowerBounds[1] = 1e-100;
+            bfgs.Solution[0] = this.alpha;
+            bfgs.Solution[1] = this.beta;
+
+            bfgs.Function = (double[] parameters) =>
+                LogLikelihood(sum1, sum2, n, parameters[0], parameters[1]);
+
+            bfgs.Gradient = (double[] parameters) =>
+                Gradient(sum1, sum2, n, parameters[0], parameters[1], gradient);
+
+            if (!bfgs.Minimize())
+                throw new ConvergenceException();
+
+            this.alpha = bfgs.Solution[0];
+            this.beta = bfgs.Solution[1];
+        }
+
+
+        /// <summary>
+        ///   Computes the Gradient of the Log-Likelihood function for estimating Beta distributions.
+        /// </summary>
+        /// 
+        /// <param name="observations">The observed values.</param>
+        /// <param name="alpha">The current alpha value.</param>
+        /// <param name="beta">The current beta value.</param>
+        /// 
+        /// <returns>
+        ///   A bi-dimensional value containing the gradient w.r.t to alpha in its
+        ///   first position, and the gradient w.r.t to be in its second position.
+        /// </returns>
+        /// 
+        public static double[] Gradient(double[] observations, double alpha, double beta)
+        {
+            double sum1 = 0, sum2 = 0;
+            for (int i = 0; i < observations.Length; i++)
+            {
+                sum1 += Math.Log(observations[i]);
+                sum2 += Math.Log(1 - observations[i]);
+            }
+
+            double[] g = new double[2];
+            Gradient(sum1, sum2, observations.Length, alpha, beta, g);
+            return g;
+        }
+
+        /// <summary>
+        ///   Computes the Gradient of the Log-Likelihood function for estimating Beta distributions.
+        /// </summary>
+        /// 
+        /// <param name="sum1">The sum of log(y), where y refers to all observed values.</param>
+        /// <param name="sum2">The sum of log(1 - y), where y refers to all observed values.</param>
+        /// <param name="n">The total number of observed values.</param>
+        /// <param name="alpha">The current alpha value.</param>
+        /// <param name="beta">The current beta value.</param>
+        /// <param name="g">A bi-dimensional vector to store the gradient.</param>
+        /// 
+        /// <returns>
+        ///   A bi-dimensional vector containing the gradient w.r.t to alpha in its
+        ///   first position, and the gradient w.r.t to be in its second position.
+        /// </returns>
+        /// 
+        public static double[] Gradient(double sum1, double sum2, double n, double alpha, double beta, double[] g)
+        {
+            double dab = Gamma.Digamma(alpha + beta);
+            double da = Gamma.Digamma(alpha);
+            double db = Gamma.Digamma(beta);
+
+            double ga = sum1 - n * (da - dab);
+            double gb = sum2 - n * (db - dab);
+
+            g[0] = -ga;
+            g[1] = -gb;
+
+            return g;
+        }
+
+        /// <summary>
+        ///   Computes the Log-Likelihood function for estimating Beta distributions.
+        /// </summary>
+        /// 
+        /// <param name="observations">The observed values.</param>
+        /// <param name="alpha">The current alpha value.</param>
+        /// <param name="beta">The current beta value.</param>
+        /// 
+        /// <returns>The log-likelihood value for the given observations and given Beta parameters.</returns>
+        /// 
+        public static double LogLikelihood(double[] observations, double alpha, double beta)
+        {
+            double sum1 = 0, sum2 = 0;
+            for (int i = 0; i < observations.Length; i++)
+            {
+                sum1 += Math.Log(observations[i]);
+                sum2 += Math.Log(1 - observations[i]);
+            }
+
+            return LogLikelihood(sum1, sum2, observations.Length, alpha, beta);
+        }
+
+        /// <summary>
+        ///   Computes the Log-Likelihood function for estimating Beta distributions.
+        /// </summary>
+        /// 
+        /// <param name="sum1">The sum of log(y), where y refers to all observed values.</param>
+        /// <param name="sum2">The sum of log(1 - y), where y refers to all observed values.</param>
+        /// <param name="n">The total number of observed values.</param>
+        /// <param name="alpha">The current alpha value.</param>
+        /// <param name="beta">The current beta value.</param>
+        /// 
+        /// <returns>The log-likelihood value for the given observations and given Beta parameters.</returns>
+        /// 
+        public static double LogLikelihood(double sum1, double sum2, double n, double alpha, double beta)
+        {
+            double t1 = (alpha - 1) * sum1;
+            double t2 = (beta - 1) * sum2;
+            double t3 = Accord.Math.Beta.Log(alpha, beta);
+
+            double sum = t1 + t2 - n * t3;
+
+            return -sum;
+        }
+
 
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
@@ -455,7 +739,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override object Clone()
         {
-            return new BetaDistribution(a, b);
+            return new BetaDistribution(alpha, beta);
         }
 
         /// <summary>
@@ -466,50 +750,168 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("B(x; α = {0}, β = {1})", a, b);
+            return String.Format(formatProvider, "B(x; α = {0}, β = {1})",
+                alpha.ToString(format, formatProvider),
+                beta.ToString(format, formatProvider));
+        }
+
+
+        #region ISamplableDistribution<double> Members
+
+        /// <summary>
+        ///   Generates a random vector of observations from the current distribution.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public override double[] Generate(int samples)
+        {
+            return Random(alpha, beta, samples);
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
+        ///   Generates a random observation from the current distribution.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
+        /// <returns>A random observations drawn from this distribution.</returns>
         /// 
-        public string ToString(IFormatProvider formatProvider)
+        public override double Generate()
         {
-            return String.Format(formatProvider, "B(x; α = {0}, β = {1})", a, b);
+            return Random(alpha, beta);
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
+        ///   Generates a random vector of observations from the 
+        ///   Beta distribution with the given parameters.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
+        /// <param name="samples">The number of samples to generate.</param>
+        ///
+        /// <returns>An array of double values sampled from the specified Beta distribution.</returns>
         /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public static double[] Random(double alpha, double beta, int samples)
         {
-            return String.Format("B(x; α = {0}, β = {1})",
-                a.ToString(format, formatProvider), b.ToString(format, formatProvider));
+            double[] r = new double[samples];
+
+            if (alpha < 1)
+            {
+                double d = alpha + 1.0 - 1.0 / 3.0;
+                double c = 1.0 / Math.Sqrt(9 * d);
+
+                for (int i = 0; i < r.Length; i++)
+                {
+                    double U = Accord.Math.Tools.Random.Next();
+                    r[i] = Gamma.Random(d, c) * Math.Pow(U, 1.0 / alpha);
+                }
+            }
+            else
+            {
+                double d = alpha - 1.0 / 3.0;
+                double c = 1.0 / Math.Sqrt(9 * d);
+
+                for (int i = 0; i < r.Length; i++)
+                    r[i] = Gamma.Random(d, c);
+            }
+
+            if (beta < 1)
+            {
+                double d = beta + 1.0 - 1.0 / 3.0;
+                double c = 1.0 / Math.Sqrt(9 * d);
+
+                for (int i = 0; i < r.Length; i++)
+                {
+                    double U = Accord.Math.Tools.Random.Next();
+
+                    double x = r[i];
+                    double y = Gamma.Random(d, c) * Math.Pow(U, 1.0 / beta);
+                    r[i] = x / (x + y);
+                }
+            }
+            else
+            {
+                double d = beta - 1.0 / 3.0;
+                double c = 1.0 / Math.Sqrt(9 * d);
+
+                for (int i = 0; i < r.Length; i++)
+                {
+                    double x = r[i];
+                    double y = Gamma.Random(d, c);
+                    r[i] = x / (x + y);
+                }
+            }
+
+            return r;
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
+        ///   Generates a random observation from the 
+        ///   Beta distribution with the given parameters.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
+        /// <param name="alpha">The shape parameter α (alpha).</param>
+        /// <param name="beta">The shape parameter β (beta).</param>
         /// 
-        public string ToString(string format)
+        /// <returns>A random double value sampled from the specified Beta distribution.</returns>
+        /// 
+        public static double Random(double alpha, double beta)
         {
-            return String.Format("B(x; α = {0}, β = {1})",
-                a.ToString(format), b.ToString(format));
+            double x = GammaDistribution.Random(alpha, 1);
+            double y = GammaDistribution.Random(beta, 1);
+
+            return x / (x + y);
+        }
+
+        #endregion
+
+
+        /// <summary>
+        ///   Estimates a new Beta distribution from a set of observations.
+        /// </summary>
+        /// 
+        public static BetaDistribution Estimate(double[] samples)
+        {
+            var beta = new BetaDistribution(1, 1);
+            beta.Fit(samples);
+            return beta;
+        }
+
+        /// <summary>
+        ///   Estimates a new Beta distribution from a set of weighted observations.
+        /// </summary>
+        /// 
+        public static BetaDistribution Estimate(double[] samples, double[] weights)
+        {
+            var beta = new BetaDistribution(1, 1);
+            beta.Fit(samples, weights, null);
+            return beta;
+        }
+
+        /// <summary>
+        ///   Estimates a new Beta distribution from a set of weighted observations.
+        /// </summary>
+        /// 
+        public static BetaDistribution Estimate(double[] samples, double[] weights, BetaOptions options)
+        {
+            var beta = new BetaDistribution(1, 1);
+            beta.Fit(samples, weights, options);
+            return beta;
+        }
+
+        /// <summary>
+        ///   Estimates a new Beta distribution from a set of observations.
+        /// </summary>
+        /// 
+        public static BetaDistribution Estimate(double[] samples, BetaOptions options)
+        {
+            var beta = new BetaDistribution(1, 1);
+            beta.Fit(samples, (double[])null, options);
+            return beta;
         }
     }
 }

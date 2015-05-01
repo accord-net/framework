@@ -230,16 +230,19 @@ namespace Accord.Statistics.Distributions.Univariate
 
 
         /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
+        ///   Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// 
+        /// <param name="format">The format.</param>
+        /// <param name="formatProvider">The format provider.</param>
+        /// 
         /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
+        ///   A <see cref="System.String" /> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Sech(x)");
+            return String.Format(formatProvider, "Sech(x)");
         }
 
     }

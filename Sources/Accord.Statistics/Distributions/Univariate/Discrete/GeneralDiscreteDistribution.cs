@@ -695,7 +695,6 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
 
-
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
@@ -704,41 +703,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            var provider = new CSharpArrayFormatProvider(CultureInfo.CurrentCulture,
-                includeTypeName: false, includeSemicolon: false);
-
-            return String.Format("Categorical(x; p = {0})",
-                probabilities.ToString(provider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            var provider = new CSharpArrayFormatProvider(formatProvider,
-                includeTypeName: false, includeSemicolon: false);
-
-            return String.Format("Categorical(x; p = {0})",
-                probabilities.ToString(provider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             var provider = new CSharpArrayFormatProvider(formatProvider,
                 includeTypeName: false, includeSemicolon: false);
@@ -747,21 +712,5 @@ namespace Accord.Statistics.Distributions.Univariate
                 .ToString(format, provider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            var provider = new CSharpArrayFormatProvider(CultureInfo.CurrentCulture,
-                includeTypeName: false, includeSemicolon: false);
-
-            return String.Format("Categorical(x; p = {0})", probabilities
-                .ToString(format, provider));
-        }
     }
 }

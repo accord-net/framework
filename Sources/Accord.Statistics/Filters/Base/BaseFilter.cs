@@ -65,6 +65,29 @@ namespace Accord.Statistics.Filters
         /// </summary>
         /// 
         /// <param name="data">The source <see cref="System.Data.DataTable"/>.</param>
+        /// <param name="columnNames">The name of the columns that should be processed.</param>
+        /// 
+        /// <returns>The processed <see cref="System.Data.DataTable"/>.</returns>
+        /// 
+        public DataTable Apply(DataTable data, params string[] columnNames)
+        {
+            // Initial argument checking
+            if (data == null)
+                throw new ArgumentNullException("data");
+
+            if (Active)
+            {
+                return ProcessFilter(data.DefaultView.ToTable(false, columnNames));
+            }
+
+            return data;
+        }
+
+        /// <summary>
+        ///   Applies the Filter to a <see cref="System.Data.DataTable"/>.
+        /// </summary>
+        /// 
+        /// <param name="data">The source <see cref="System.Data.DataTable"/>.</param>
         /// 
         /// <returns>The processed <see cref="System.Data.DataTable"/>.</returns>
         /// 

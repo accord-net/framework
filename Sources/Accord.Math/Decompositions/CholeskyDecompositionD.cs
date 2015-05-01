@@ -1,11 +1,12 @@
+ï»¿
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
-// Copyright © César Souza, 2009-2015
+// Copyright Â© CÃ©sar Souza, 2009-2015
 // cesarsouza at gmail.com
 //
-// Original work copyright © Lutz Roeder, 2000
+// Original work copyright Â© Lutz Roeder, 2000
 //  Adapted from Mapack for .NET, September 2000
 //  Adapted from Mapack for COM and Jama routines
 //  http://www.aisto.com/roeder/dotnet
@@ -30,8 +31,9 @@ namespace Accord.Math.Decompositions
     using System;
 
     /// <summary>
-    ///     Cholesky Decomposition of a symmetric, positive definite matrix.
+    ///   Cholesky Decomposition of a symmetric, positive definite matrix.
     /// </summary>
+    ///
     /// <remarks>
     ///   <para>
     ///     For a symmetric, positive definite matrix <c>A</c>, the Cholesky decomposition is a

@@ -22,33 +22,16 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System.Linq;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Linq;
 
     [TestClass()]
     public class MultinomialLogisticRegressionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod]
         public void RegressTest2()
@@ -56,7 +39,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs;
             int[] outputs;
 
-            createInputOutputsExample1(out inputs, out outputs);
+            CreateInputOutputsExample1(out inputs, out outputs);
 
             // Create a new Multinomial Logistic Regression for 3 categories
             var mlr = new MultinomialLogisticRegression(inputs: 2, categories: 3);
@@ -79,7 +62,7 @@ namespace Accord.Tests.Statistics
 
             } while (iteration < 100 && delta > 1e-6);
 
-
+            Assert.AreEqual(52, iteration);
             Assert.IsFalse(double.IsNaN(mlr.Coefficients[0][0]));
             Assert.IsFalse(double.IsNaN(mlr.Coefficients[0][1]));
             Assert.IsFalse(double.IsNaN(mlr.Coefficients[0][2]));
@@ -90,7 +73,7 @@ namespace Accord.Tests.Statistics
 
             // This is the same example given in R Data Analysis Examples for
             // Multinomial Logistic Regression: http://www.ats.ucla.edu/stat/r/dae/mlogit.htm
-            
+
             // brand 2
             Assert.AreEqual(-11.774655, mlr.Coefficients[0][0], 1e-4); // intercept
             Assert.AreEqual(0.523814, mlr.Coefficients[0][1], 1e-4); // female
@@ -109,16 +92,16 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(mlr.StandardErrors[1][1]));
             Assert.IsFalse(double.IsNaN(mlr.StandardErrors[1][2]));
 
-           /*
-            // Using the standard Hessian estimation
-            Assert.AreEqual(1.774612, mlr.StandardErrors[0][0], 1e-6);
-            Assert.AreEqual(0.194247, mlr.StandardErrors[0][1], 1e-6);
-            Assert.AreEqual(0.055003, mlr.StandardErrors[0][2], 1e-6);
+            /*
+             // Using the standard Hessian estimation
+             Assert.AreEqual(1.774612, mlr.StandardErrors[0][0], 1e-6);
+             Assert.AreEqual(0.194247, mlr.StandardErrors[0][1], 1e-6);
+             Assert.AreEqual(0.055003, mlr.StandardErrors[0][2], 1e-6);
 
-            Assert.AreEqual(2.058028, mlr.StandardErrors[1][0], 1e-6);
-            Assert.AreEqual(0.226090, mlr.StandardErrors[1][1], 1e-6);
-            Assert.AreEqual(0.062627, mlr.StandardErrors[1][2], 1e-6);
-            */
+             Assert.AreEqual(2.058028, mlr.StandardErrors[1][0], 1e-6);
+             Assert.AreEqual(0.226090, mlr.StandardErrors[1][1], 1e-6);
+             Assert.AreEqual(0.062627, mlr.StandardErrors[1][2], 1e-6);
+             */
 
             // Using the lower-bound approximation
             Assert.AreEqual(1.047378039787443, mlr.StandardErrors[0][0], 1e-6);
@@ -236,7 +219,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs;
             int[] outputs;
 
-            createInputOutputsExample1(out inputs, out outputs);
+            CreateInputOutputsExample1(out inputs, out outputs);
 
             MultinomialLogisticRegression target = createExample1();
 
@@ -279,7 +262,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs;
             int[] outputs;
 
-            createInputOutputsExample1(out inputs, out outputs);
+            CreateInputOutputsExample1(out inputs, out outputs);
 
             double expected = -702.97;
             double actual = mlr.GetLogLikelihood(inputs, outputs);
@@ -315,7 +298,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs;
             int[] outputs;
 
-            createInputOutputsExample1(out inputs, out outputs);
+            CreateInputOutputsExample1(out inputs, out outputs);
 
             WaldTest actual;
 
@@ -352,7 +335,7 @@ namespace Accord.Tests.Statistics
         {
             MultinomialLogisticRegression mlr = new MultinomialLogisticRegression(2, 3);
 
-            
+
             // brand 2
             mlr.Coefficients[0][0] = -11.774655; // intercept
             mlr.Coefficients[0][1] = 0.523814; // female
@@ -375,9 +358,15 @@ namespace Accord.Tests.Statistics
             return mlr;
         }
 
-        private static void createInputOutputsExample1(out double[][] inputs, out int[] outputs)
+        public static void CreateInputOutputsExample1(out double[][] inputs, out int[] outputs)
         {
             inputs = example1.Submatrix(null, 1, 2).ToArray();
+            outputs = example1.Submatrix(null, 0, 0).Reshape(0).Select(x => (int)x - 1).ToArray();
+        }
+
+        public static void CreateInputOutputsExample2(out double[][] inputs, out int[] outputs)
+        {
+            inputs = example1.Submatrix(null, 1, 2).ToArray().InsertColumn().InsertColumn().InsertColumn();
             outputs = example1.Submatrix(null, 0, 0).Reshape(0).Select(x => (int)x - 1).ToArray();
         }
 

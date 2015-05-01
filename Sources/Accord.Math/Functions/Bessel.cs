@@ -448,9 +448,11 @@ namespace Accord.Math
         {
             if (n < 0)
                 throw new ArgumentOutOfRangeException("n");
-            else if (n == 0)
+
+            if (n == 0)
                 return I0(x);
-            else if (n == 1)
+
+            if (n == 1)
                 return I(x);
 
             if (x == 0.0)

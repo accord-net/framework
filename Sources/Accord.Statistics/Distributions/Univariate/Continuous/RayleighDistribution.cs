@@ -93,7 +93,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Creates a new Rayleigh distribution.
         /// </summary>
         /// 
-        /// <param name="sigma">The Rayleigh distribution's σ (sigma).</param>
+        /// <param name="sigma">The scale parameter σ (sigma).</param>
         /// 
         public RayleighDistribution([Positive] double sigma)
         {
@@ -121,6 +121,15 @@ namespace Accord.Statistics.Distributions.Univariate
         public override double Mean
         {
             get { return sigma * Math.Sqrt(Math.PI / 2.0); }
+        }
+
+        /// <summary>
+        ///   Gets the Rayleight's scale parameter σ (sigma)
+        /// </summary>
+        /// 
+        public double Scale
+        {
+            get { return sigma; }
         }
 
         /// <summary>
@@ -284,10 +293,24 @@ namespace Accord.Statistics.Distributions.Univariate
             for (int i = 0; i < observations.Length; i++)
                 sum += observations[i] * observations[i];
 
-            sigma = Math.Sqrt(1.0 / (2.0 * observations.Length) * sum);
+            double n = observations.Length;
+            double c = 1 / (2 * n);
+            double sigma2 = c * sum;
+            double biased = Math.Sqrt(sigma2);
+
+            double num = Gamma.Log(n) + 0.5 * Math.Log(n);
+            double den = Gamma.Log(n + 0.5);
+            double correction =  Math.Exp(num - den);
+
+            if (Double.IsPositiveInfinity(num) && Double.IsPositiveInfinity(den))
+                correction = 1;
+
+            sigma = biased * correction;
         }
 
+
         private RayleighDistribution() { }
+
 
         /// <summary>
         ///   Estimates a new Gamma distribution from a given set of observations.
@@ -350,10 +373,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double[] Random(double sigma, int samples)
         {
+            var rand = Accord.Math.Tools.Random;
+
             double[] r = new double[samples];
             for (int i = 0; i < r.Length; i++)
             {
-                double u = Accord.Math.Tools.Random.Next();
+                double u = rand.NextDouble();
                 r[i] = Math.Sqrt(-2 * sigma * sigma * Math.Log(u));
             }
 
@@ -371,7 +396,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double sigma)
         {
-            double u = Accord.Math.Tools.Random.Next();
+            double u = Accord.Math.Tools.Random.NextDouble();
             return Math.Sqrt(-2 * sigma * sigma * Math.Log(u));
         }
 
@@ -386,50 +411,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("Rayleigh(x; σ = {0})", sigma);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Rayleigh(x; σ = {0})", sigma);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "Rayleigh(x; σ = {0})",
                 sigma.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("Rayleigh(x; σ = {0})",
-                sigma.ToString(format));
-        }
     }
 }

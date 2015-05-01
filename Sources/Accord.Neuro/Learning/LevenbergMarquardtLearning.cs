@@ -69,6 +69,7 @@ namespace Accord.Neuro.Learning
     /// <para>The advantages of the LM algorithm decreases as the number of network
     /// parameters increases. </para>
     /// 
+    /// <example>
     /// <para>Sample usage (training network to calculate XOR function):</para>
     ///   <code>
     ///   // initialize input and output values
@@ -104,6 +105,88 @@ namespace Accord.Neuro.Learning
     ///       // ...
     ///   }
     /// </code>
+    /// 
+    /// <para>
+    ///   The following example shows how to create a neural network to learn a classification
+    ///   problem with multiple classes.</para>
+    ///   
+    /// <code>
+    /// // Here we will be creating a neural network to process 3-valued input
+    /// // vectors and classify them into 4-possible classes. We will be using
+    /// // a single hidden layer with 5 hidden neurons to accomplish this task.
+    /// //
+    /// int numberOfInputs = 3;
+    /// int numberOfClasses = 4;
+    /// int hiddenNeurons = 5;
+    /// 
+    /// // Those are the input vectors and their expected class labels
+    /// // that we expect our network to learn.
+    /// //
+    /// double[][] input = 
+    /// {
+    ///     new double[] { -1, -1, -1 }, // 0
+    ///     new double[] { -1,  1, -1 }, // 1
+    ///     new double[] {  1, -1, -1 }, // 1
+    ///     new double[] {  1,  1, -1 }, // 0
+    ///     new double[] { -1, -1,  1 }, // 2
+    ///     new double[] { -1,  1,  1 }, // 3
+    ///     new double[] {  1, -1,  1 }, // 3
+    ///     new double[] {  1,  1,  1 }  // 2
+    ///  };
+    ///
+    ///  int[] labels =
+    ///  {
+    ///     0,
+    ///     1,
+    ///     1,
+    ///     0,
+    ///     2,
+    ///     3,
+    ///     3,
+    ///     2,
+    /// };
+    /// 
+    /// // In order to perform multi-class classification, we have to select a 
+    /// // decision strategy in order to be able to interpret neural network 
+    /// // outputs as labels. For this, we will be expanding our 4 possible class
+    /// // labels into 4-dimensional output vectors where one single dimension 
+    /// // corresponding to a label will contain the value +1 and -1 otherwise.
+    /// 
+    /// double[][] outputs = Accord.Statistics.Tools
+    ///   .Expand(labels, numberOfClasses, -1, 1);
+    /// 
+    /// // Next we can proceed to create our network
+    /// var function = new BipolarSigmoidFunction(2);
+    /// var network = new ActivationNetwork(function,
+    ///   numberOfInputs, hiddenNeurons, numberOfClasses);
+    /// 
+    /// // Heuristically randomize the network
+    /// new NguyenWidrow(network).Randomize();
+    /// 
+    /// // Create the learning algorithm
+    /// var teacher = new LevenbergMarquardtLearning(network);
+    /// 
+    /// // Teach the network for 10 iterations:
+    /// double error = Double.PositiveInfinity;
+    /// for (int i = 0; i &lt; 10; i++)
+    ///    error = teacher.RunEpoch(input, outputs);
+    /// 
+    /// // At this point, the network should be able to 
+    /// // perfectly classify the training input points.
+    /// 
+    /// for (int i = 0; i &lt; input.Length; i++)
+    /// {
+    ///    int answer;
+    ///    double[] output = network.Compute(input[i]);
+    ///    double response = output.Max(out answer);
+    /// 
+    ///    int expected = labels[i];
+    ///   
+    ///    // at this point, the variables 'answer' and
+    ///    // 'expected' should contain the same value.
+    /// }
+    /// </code>
+    /// </example>
     /// 
     /// <para>
     ///   References:
@@ -168,28 +251,32 @@ namespace Accord.Neuro.Learning
 
 
         /// <summary>
-        ///   Levenberg's damping factor, also known as lambda.
+        ///   Levenberg's damping factor (lambda). This 
+        ///   value  must be positive. Default is 0.1.
         /// </summary>
         /// 
-        /// <remarks><para>The value determines speed of learning.</para>
-        /// 
-        /// <para>Default value is <b>0.1</b>.</para>
+        /// <remarks>
+        ///   The value determines speed of learning. Default value is <b>0.1</b>.
         /// </remarks>
         ///
         public double LearningRate
         {
             get { return lambda; }
-            set { lambda = value; }
+            set
+            {
+                if (lambda <= 0)
+                    throw new ArgumentOutOfRangeException("value", "Value must be positive.");
+                lambda = value;
+            }
         }
 
         /// <summary>
-        ///   Learning rate adjustment. 
+        ///   Learning rate adjustment. Default value is 10.
         /// </summary>
         /// 
-        /// <remarks><para>The value by which the learning rate
-        /// is adjusted when searching for the minimum cost surface.</para>
-        /// 
-        /// <para>Default value is <b>10</b>.</para>
+        /// <remarks>
+        ///   The value by which the learning rate is adjusted when searching 
+        ///   for the minimum cost surface. Default value is 10.
         /// </remarks>
         ///
         public double Adjustment
@@ -225,6 +312,7 @@ namespace Accord.Neuro.Learning
         ///   Gets or sets the importance of the squared sum of network
         ///   weights in the cost function. Used by the regularization.
         /// </summary>
+        /// 
         /// <remarks>
         ///   This is the first Bayesian hyperparameter. The default
         ///   value is 0.
@@ -240,6 +328,7 @@ namespace Accord.Neuro.Learning
         ///   Gets or sets the importance of the squared sum of network
         ///   errors in the cost function. Used by the regularization.
         /// </summary>
+        /// 
         /// <remarks>
         ///   This is the second Bayesian hyperparameter. The default
         ///   value is 1.
@@ -326,6 +415,18 @@ namespace Accord.Neuro.Learning
         /// 
         public LevenbergMarquardtLearning(ActivationNetwork network, bool useRegularization) :
             this(network, useRegularization, JacobianMethod.ByBackpropagation) { }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="LevenbergMarquardtLearning"/> class.
+        /// </summary>
+        /// 
+        /// <param name="network">Network to teach.</param>
+        /// <param name="method">The method by which the Jacobian matrix will be calculated.</param>
+        /// 
+        public LevenbergMarquardtLearning(ActivationNetwork network, JacobianMethod method)
+            : this(network, false, method)
+        {
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="LevenbergMarquardtLearning"/> class.
@@ -587,9 +688,12 @@ namespace Accord.Neuro.Learning
                 //  is tried again using a greater damping factor.
             }
 
-            // If this iteration caused a error drop, then next iteration
-            //  will use a smaller damping factor.
+            // If this iteration caused a error drop, then next
+            // iteration will use a smaller damping factor.
             lambda /= v;
+
+            if (lambda < 1e-300)
+                lambda = 1e-300;
 
 
             // If we are using Bayesian regularization, we need to
@@ -851,6 +955,14 @@ namespace Accord.Neuro.Learning
 
             // If we have only one single layer, the previous layer outputs is given by the input layer
             previousLayerOutput = (outputLayerIndex == 0) ? input : network.Layers[outputLayerIndex - 1].Output;
+
+            // Clear derivatives for other output's neurons
+            for (int i = 0; i < thresholdsDerivatives[outputLayerIndex].Length; i++)
+                thresholdsDerivatives[outputLayerIndex][i] = 0;
+
+            for (int i = 0; i < weightDerivatives[outputLayerIndex].Length; i++)
+                for (int j = 0; j < weightDerivatives[outputLayerIndex][i].Length; j++)
+                    weightDerivatives[outputLayerIndex][i][j] = 0;
 
             // Retrieve current desired output neuron
             ActivationNeuron outputNeuron = outputLayer.Neurons[outputIndex] as ActivationNeuron;

@@ -315,35 +315,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("KS(x; n = {0})", NumberOfSamples);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "KS(x; n = {0})", NumberOfSamples);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("KS(x; n = {0})", 
+            return String.Format(formatProvider, "KS(x; n = {0})", 
                 NumberOfSamples.ToString(format, formatProvider));
         }
 
@@ -395,6 +369,9 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double CumulativeFunction(double n, double x)
         {
+            if (Double.IsNaN(x))
+                throw new ArgumentOutOfRangeException("x");
+
             double nxx = n * x * x; // nx²
 
             int nn = (int)Math.Ceiling(n);
@@ -579,7 +556,6 @@ namespace Accord.Statistics.Distributions.Univariate
             double z2 = z * z;
             double z3 = z2 * z;
             double z4 = z2 * z2;
-            double z5 = z4 * z;
             double z6 = z4 * z2;
             double z7 = z4 * z3;
             double z8 = z4 * z4;

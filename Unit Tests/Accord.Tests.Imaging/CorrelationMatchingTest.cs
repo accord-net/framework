@@ -55,7 +55,9 @@ namespace Accord.Tests.Imaging
         public void MatchTest()
         {
             int windowSize = 3;
+#pragma warning disable 0618
             CorrelationMatching target = new CorrelationMatching(windowSize);
+#pragma warning restore 0618
             Bitmap image1 = Properties.Resources.image1;
             Bitmap image2 = Properties.Resources.image1;
 
@@ -95,7 +97,9 @@ namespace Accord.Tests.Imaging
 
             };
 
+#pragma warning disable 0618
             IntPoint[][] actual = target.Match(image1, image2, points1, points2);
+#pragma warning restore 0618
 
             Assert.IsTrue(actual.IsEqual(expected));
         }
@@ -105,7 +109,10 @@ namespace Accord.Tests.Imaging
         {
             for (int windowSize = 1; windowSize <= 15; windowSize += 2)
             {
+#pragma warning disable 0618
                 CorrelationMatching target = new CorrelationMatching(windowSize);
+#pragma warning restore 0618
+
                 Bitmap image1 = Properties.Resources.image1;
                 Bitmap image2 = Properties.Resources.image1;
 
@@ -124,7 +131,9 @@ namespace Accord.Tests.Imaging
 
 
                 // Assert that no exception if thrown
+#pragma warning disable 0618
                 IntPoint[][] actual = target.Match(image1, image2, points.ToArray(), points.ToArray());
+#pragma warning restore 0618
 
                 Assert.IsNotNull(actual);
                 Assert.AreEqual(2, actual.Length);

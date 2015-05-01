@@ -60,7 +60,7 @@ namespace Handwriting.KDA
         private Bitmap Extract(string text)
         {
             Bitmap bitmap = new Bitmap(32, 32, PixelFormat.Format32bppRgb);
-            string[] lines = text.Split(new String[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = text.Split(new String[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < 32; i++)
             {
                 for (int j = 0; j < 32; j++)
@@ -248,7 +248,7 @@ namespace Handwriting.KDA
             int c = 0;
             while (true)
             {
-                char[] buffer = new char[(32 + 2) * 32];
+                char[] buffer = new char[(32 + 1) * 32]; // 32 chars + \n
                 int read = reader.ReadBlock(buffer, 0, buffer.Length);
                 string label = reader.ReadLine();
 

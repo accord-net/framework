@@ -42,6 +42,16 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns the maximum column sum of the given matrix.
+        /// </summary>
+        /// 
+        public static double Norm1(this double[][] a)
+        {
+            double[] columnSums = Matrix.Sum(a, 1);
+            return Matrix.Max(columnSums);
+        }
+
+        /// <summary>
         ///   Returns the maximum singular value of the given matrix.
         /// </summary>
         /// 
@@ -51,23 +61,54 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Returns the maximum singular value of the given matrix.
+        /// </summary>
+        /// 
+        public static double Norm2(this double[][] a)
+        {
+            return new JaggedSingularValueDecomposition(a, false, false).TwoNorm;
+        }
+
+        /// <summary>
         ///   Gets the square root of the sum of squares for all elements in a matrix.
         /// </summary>
         /// 
         public static double Frobenius(this double[,] a)
         {
-            if (a == null) 
+            if (a == null)
                 throw new ArgumentNullException("a");
 
-            int rows = a.GetLength(0);
-            int cols = a.GetLength(1);
+            int rows = a.Rows();
+            int cols = a.Columns();
 
             double norm = 0.0;
-            for (int j = 0; j < cols; j++)
+            for (int i = 0; i < rows; i++)
             {
-                for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
                 {
                     double v = a[i, j];
+                    norm += v * v;
+                }
+            }
+
+            return System.Math.Sqrt(norm);
+        }
+
+        /// <summary>
+        ///   Gets the square root of the sum of squares for all elements in a matrix.
+        /// </summary>
+        /// 
+        public static double Frobenius(this double[][] a)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+
+            double norm = 0.0;
+            for (int i = 0; i < a.Length; i++)
+            {
+                for (int j = 0; j < a[i].Length; j++)
+                {
+                    double v = a[i][j];
                     norm += v * v;
                 }
             }
@@ -130,11 +171,20 @@ namespace Accord.Math
         ///   Gets the Squared Euclidean norm vector for a matrix.
         /// </summary>
         /// 
+        public static double[] SquareEuclidean(this double[][] a)
+        {
+            return SquareEuclidean(a, 0);
+        }
+
+        /// <summary>
+        ///   Gets the Squared Euclidean norm vector for a matrix.
+        /// </summary>
+        /// 
         public static double[] SquareEuclidean(this double[,] a, int dimension)
         {
-            int rows = a.GetLength(0);
-            int cols = a.GetLength(1);
-            
+            int rows = a.Rows();
+            int cols = a.Columns();
+
             double[] norm;
 
             if (dimension == 0)
@@ -162,6 +212,51 @@ namespace Accord.Math
                     for (int j = 0; j < cols; j++)
                     {
                         double v = a[i, j];
+                        sum += v * v;
+                    }
+                    norm[i] = sum;
+                }
+            }
+
+            return norm;
+        }
+
+        /// <summary>
+        ///   Gets the Squared Euclidean norm vector for a matrix.
+        /// </summary>
+        /// 
+        public static double[] SquareEuclidean(this double[][] a, int dimension)
+        {
+            int rows = a.Rows();
+            int cols = a.Columns();
+
+            double[] norm;
+
+            if (dimension == 0)
+            {
+                norm = new double[cols];
+
+                for (int j = 0; j < norm.Length; j++)
+                {
+                    double sum = 0.0;
+                    for (int i = 0; i < a.Length; i++)
+                    {
+                        double v = a[i][j];
+                        sum += v * v;
+                    }
+                    norm[j] = sum;
+                }
+            }
+            else
+            {
+                norm = new double[rows];
+
+                for (int i = 0; i < norm.Length; i++)
+                {
+                    double sum = 0.0;
+                    for (int j = 0; j < a[i].Length; j++)
+                    {
+                        double v = a[i][j];
                         sum += v * v;
                     }
                     norm[i] = sum;
@@ -200,8 +295,8 @@ namespace Accord.Math
         /// 
         public static float[] SquareEuclidean(this float[,] a, int dimension)
         {
-            int rows = a.GetLength(0);
-            int cols = a.GetLength(1);
+            int rows = a.Rows();
+            int cols = a.Columns();
 
             float[] norm;
 

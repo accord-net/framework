@@ -180,11 +180,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         public MultivariateNormalDistribution(int dimension)
             : this(dimension, true) { }
 
-        /// <summary>
-        ///   Constructs a multivariate Gaussian distribution
-        ///   with zero mean vector and identity covariance matrix.
-        /// </summary>
-        /// 
+
         private MultivariateNormalDistribution(int dimension, bool init)
             : base(dimension)
         {
@@ -778,5 +774,39 @@ namespace Accord.Statistics.Distributions.Multivariate
 
             return new MultivariateNormalDistribution(mean, covariance);
         }
+
+
+        /// <summary>
+        ///   Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <param name="format">The format.</param>
+        /// <param name="formatProvider">The format provider.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            return String.Format(formatProvider, "Normal(X; μ, Σ)");
+        }
+
+        /// <summary>
+        ///   Generates a random vector of observations from a distribution with the given parameters.
+        /// </summary>
+        /// 
+        /// <param name="samples">The number of samples to generate.</param>
+        /// <param name="mean">The mean vector μ (mu) for the distribution.</param>
+        /// <param name="covariance">The covariance matrix Σ (sigma) for the distribution.</param>
+        /// 
+        /// <returns>A random vector of observations drawn from this distribution.</returns>
+        /// 
+        public static double[][] Generate(int samples, double[] mean, double[,] covariance)
+        {
+            var normal = new MultivariateNormalDistribution(mean, covariance);
+            return normal.Generate(samples);
+        }
+
     }
 }

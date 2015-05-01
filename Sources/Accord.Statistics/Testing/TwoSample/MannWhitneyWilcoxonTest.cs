@@ -177,18 +177,24 @@ namespace Accord.Statistics.Testing
             Rank1 = rank.Submatrix(0, n1 - 1);
             Rank2 = rank.Submatrix(n1, n - 1);
 
-            double t1 = RankSum1 = Rank1.Sum();
-            double t2 = RankSum2 = Rank2.Sum();
+            double t1 = Rank1.Sum();
+            double t2 = Rank2.Sum();
 
             // Estimated values for t under the null
             double t1max = n1 * n2 + (n1 * (n1 + 1)) / 2.0;
             double t2max = n1 * n2 + (n2 * (n2 + 1)) / 2.0;
 
             // Diff in observed t and estimated t
-            double u1 = Statistic1 = t1max - t1;
-            double u2 = Statistic2 = t2max - t2;
+            double u1 = t1max - t1;
+            double u2 = t2max - t2;
 
-            double hypothesizedValue = (n1 * n2) / 2.0;
+            // double hypothesizedValue = (n1 * n2) / 2.0;
+
+            RankSum1 = t1;
+            RankSum2 = t2;
+
+            Statistic1 = u1;
+            Statistic2 = u2;
 
             Compute(u1, rank, n1, n2, alternate);
         }

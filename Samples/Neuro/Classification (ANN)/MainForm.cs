@@ -110,8 +110,7 @@ namespace Classification.ANNs
                             this.dgvLearningSource.DataSource = tableSource;
                             this.dgvTestingSource.DataSource = tableSource.Copy();
 
-
-                            CreateScatterplot(graphInput, sourceMatrix);
+                            graphInput.DataSource = sourceMatrix;
 
                             // enable "Start" button
                             startButton.Enabled = true;
@@ -251,7 +250,10 @@ namespace Classification.ANNs
 
                 var graph = map.ToMatrix().InsertColumn(result.ToDouble());
 
-                CreateScatterplot(zedGraphControl2, graph);
+                this.Invoke((Action)(() =>
+                {
+                    zedGraphControl2.DataSource = graph;
+                }));
 
                 // increase current iteration
                 iteration++;
@@ -336,46 +338,6 @@ namespace Classification.ANNs
 
 
 
-        public void CreateScatterplot(ZedGraphControl zgc, double[,] graph)
-        {
-            GraphPane myPane = zgc.GraphPane;
-            myPane.CurveList.Clear();
-
-            // Set the titles
-            myPane.Title.IsVisible = false;
-            myPane.XAxis.Title.Text = sourceColumns[0];
-            myPane.YAxis.Title.Text = sourceColumns[1];
-
-
-            // Classification problem
-            PointPairList list1 = new PointPairList(); // Z = -1
-            PointPairList list2 = new PointPairList(); // Z = +1
-            for (int i = 0; i < graph.GetLength(0); i++)
-            {
-                if (graph[i, 2] == -1)
-                    list1.Add(graph[i, 0], graph[i, 1]);
-                if (graph[i, 2] == 1)
-                    list2.Add(graph[i, 0], graph[i, 1]);
-            }
-
-            // Add the curve
-            LineItem myCurve = myPane.AddCurve("G1", list1, Color.Blue, SymbolType.Square);
-            myCurve.Line.IsVisible = false;
-            myCurve.Symbol.Border.IsVisible = false;
-            myCurve.Symbol.Fill = new Fill(Color.Blue);
-
-            myCurve = myPane.AddCurve("G2", list2, Color.Green, SymbolType.Square);
-            myCurve.Line.IsVisible = false;
-            myCurve.Symbol.Border.IsVisible = false;
-            myCurve.Symbol.Fill = new Fill(Color.Green);
-
-
-            // Fill the background of the chart rect and pane
-            myPane.Fill = new Fill(Color.WhiteSmoke);
-
-            zgc.AxisChange();
-            zgc.Invalidate();
-        }
 
 
         public void CreateResultScatterplot(ZedGraphControl zgc, double[][] inputs, double[] expected, double[] output)

@@ -64,13 +64,29 @@ namespace Accord.Audio.Generators
         public SampleFormat Format { get; set; }
 
         /// <summary>
-        ///   Constructs a new Cosine Signal Generator.
+        ///   Constructs a new cosine Signal Generator.
         /// </summary>
         /// 
         public CosineGenerator(double frequency, double amplitude, int samplingRate)
         {
+            init(frequency, amplitude, samplingRate);
+        }
+
+        /// <summary>
+        ///   Constructs a new cosine Signal Generator.
+        /// </summary>
+        /// 
+        public CosineGenerator()
+        {
+            init(1, 1, 1);
+        }
+
+        private void init(double frequency, double amplitude, int samplingRate)
+        {
             this.Frequency = frequency;
             this.Amplitude = amplitude;
+            this.Format = SampleFormat.Format32BitIeeeFloat;
+            this.Channels = 1;
 
             this.theta = 2.0 * Math.PI * frequency / samplingRate;
         }
@@ -79,24 +95,27 @@ namespace Accord.Audio.Generators
         ///   Generates a signal.
         /// </summary>
         /// 
-        public Signal Generate(int samples)
+        public unsafe Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
 
             if (Format == SampleFormat.Format32BitIeeeFloat)
             {
-                unsafe
-                {
-                    float* dst = (float*)signal.Data.ToPointer();
-
-                    for (int i = 0; i < signal.Samples; i++)
-                    {
-                        float t = (float)(Amplitude * Math.Cos(i * theta));
-
-                        for (int c = 0; c < signal.Channels; c++, dst++)
-                            *dst = t;
-                    }
-                }
+                var dst = (float*)signal.Data.ToPointer();
+                for (int i = 0; i < signal.Samples; i++)
+                    for (int c = 0; c < signal.Channels; c++, dst++)
+                        *dst = (float)(Amplitude * Math.Cos(i * theta));
+            }
+            else if (Format == SampleFormat.Format64BitIeeeFloat)
+            {
+                var dst = (double*)signal.Data.ToPointer();
+                for (int i = 0; i < signal.Samples; i++)
+                    for (int c = 0; c < signal.Channels; c++, dst++)
+                        *dst = (Amplitude * Math.Cos(i * theta));
+            }
+            else
+            {
+                throw new UnsupportedSampleFormatException("Sample format is not supported by the filter.");
             }
 
             return signal;

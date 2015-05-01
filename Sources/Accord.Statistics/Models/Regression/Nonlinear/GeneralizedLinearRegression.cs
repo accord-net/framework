@@ -228,6 +228,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <param name="input">The input vector.</param>
+        /// 
         /// <returns>The output value.</returns>
         /// 
         public double Compute(double[] input)
@@ -245,6 +246,7 @@ namespace Accord.Statistics.Models.Regression
         /// </summary>
         /// 
         /// <param name="input">The array of input vectors.</param>
+        /// 
         /// <returns>The array of output values.</returns>
         /// 
         public double[] Compute(double[][] input)
@@ -316,6 +318,41 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
+        ///   Gets the Log-Likelihood for the model.
+        /// </summary>
+        /// 
+        /// <param name="input">A set of input data.</param>
+        /// <param name="output">A set of output data.</param>
+        /// <param name="weights">The weights associated with each input vector.</param>
+        /// 
+        /// <returns>
+        ///   The Log-Likelihood (a measure of performance) of
+        ///   the model calculated over the given data sets.
+        /// </returns>
+        /// 
+        public double GetLogLikelihood(double[][] input, double[] output, double[] weights)
+        {
+            double sum = 0;
+
+            for (int i = 0; i < input.Length; i++)
+            {
+                double w = weights[i];
+                double actualOutput = Compute(input[i]);
+                double expectedOutput = output[i];
+
+                if (actualOutput != 0)
+                    sum += expectedOutput * Math.Log(actualOutput) * w;
+
+                if (actualOutput != 1)
+                    sum += (1 - expectedOutput) * Math.Log(1 - actualOutput) * w;
+
+                System.Diagnostics.Debug.Assert(!Double.IsNaN(sum));
+            }
+
+            return sum;
+        }
+
+        /// <summary>
         ///   Gets the Deviance for the model.
         /// </summary>
         /// 
@@ -336,6 +373,28 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
+        ///   Gets the Deviance for the model.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The deviance is defined as -2*Log-Likelihood.
+        /// </remarks>
+        /// 
+        /// <param name="input">A set of input data.</param>
+        /// <param name="output">A set of output data.</param>
+        /// <param name="weights">The weights associated with each input vector.</param>
+        /// 
+        /// <returns>
+        ///   The deviance (a measure of performance) of the model
+        ///   calculated over the given data sets.
+        /// </returns>
+        /// 
+        public double GetDeviance(double[][] input, double[] output, double[] weights)
+        {
+            return -2.0 * GetLogLikelihood(input, output, weights);
+        }
+
+        /// <summary>
         ///   Gets the Log-Likelihood Ratio between two models.
         /// </summary>
         /// 
@@ -353,6 +412,27 @@ namespace Accord.Statistics.Models.Regression
         public double GetLogLikelihoodRatio(double[][] input, double[] output, GeneralizedLinearRegression regression)
         {
             return 2.0 * (this.GetLogLikelihood(input, output) - regression.GetLogLikelihood(input, output));
+        }
+
+        /// <summary>
+        ///   Gets the Log-Likelihood Ratio between two models.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Log-Likelihood ratio is defined as 2*(LL - LL0).
+        /// </remarks>
+        /// 
+        /// <param name="input">A set of input data.</param>
+        /// <param name="output">A set of output data.</param>
+        /// <param name="weights">The weights associated with each input vector.</param>
+        /// <param name="regression">Another Logistic Regression model.</param>
+        /// 
+        /// <returns>The Log-Likelihood ratio (a measure of performance
+        /// between two models) calculated over the given data sets.</returns>
+        /// 
+        public double GetLogLikelihoodRatio(double[][] input, double[] output, double[] weights, GeneralizedLinearRegression regression)
+        {
+            return 2.0 * (this.GetLogLikelihood(input, output, weights) - regression.GetLogLikelihood(input, output, weights));
         }
 
 
@@ -376,16 +456,61 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public ChiSquareTest ChiSquare(double[][] input, double[] output)
         {
-            double y0 = output.Count(y => y == 0.0);
-            double y1 = output.Length - y0;
+            double y0 = 0;
+            double y1 = 0;
 
-            GeneralizedLinearRegression regression = new GeneralizedLinearRegression(linkFunction,
-                Inputs, Math.Log(y1 / y0));
+            for (int i = 0; i < output.Length; i++)
+            {
+                y0 += 1.0 - output[i];
+                y1 += output[i];
+            }
+
+            var intercept = Math.Log(y1 / y0);
+            var regression = new GeneralizedLinearRegression(linkFunction, Inputs, intercept);
 
             double ratio = GetLogLikelihoodRatio(input, output, regression);
+
             return new ChiSquareTest(ratio, coefficients.Length - 1);
         }
 
+        /// <summary>
+        ///   The likelihood ratio test of the overall model, also called the model chi-square test.
+        /// </summary>
+        /// 
+        /// <param name="input">A set of input data.</param>
+        /// <param name="output">A set of output data.</param>
+        /// <param name="weights">The weights associated with each input vector.</param>
+        /// 
+        /// <remarks>
+        ///   <para>
+        ///   The Chi-square test, also called the likelihood ratio test or the log-likelihood test
+        ///   is based on the deviance of the model (-2*log-likelihood). The log-likelihood ratio test 
+        ///   indicates whether there is evidence of the need to move from a simpler model to a more
+        ///   complicated one (where the simpler model is nested within the complicated one).</para>
+        ///   <para>
+        ///   The difference between the log-likelihood ratios for the researcher's model and a
+        ///   simpler model is often called the "model chi-square".</para>
+        /// </remarks>
+        /// 
+        public ChiSquareTest ChiSquare(double[][] input, double[] output, double[] weights)
+        {
+            double y0 = 0;
+            double y1 = 0;
+
+            for (int i = 0; i < output.Length; i++)
+            {
+                y0 += (1.0 - output[i]) * weights[i];
+                y1 += output[i] * weights[i];
+            }
+
+            var intercept = Math.Log(y1 / y0);
+
+            var regression = new GeneralizedLinearRegression(linkFunction, Inputs, intercept);
+
+            double ratio = GetLogLikelihoodRatio(input, output, weights, regression);
+
+            return new ChiSquareTest(ratio, coefficients.Length - 1);
+        }
 
 
         /// <summary>

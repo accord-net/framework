@@ -29,10 +29,21 @@
     <file src="..\..\Release\net35\Accord.Audio.xml" target="lib\net35\Accord.Audio.xml" />
     <file src="..\..\Release\net35\Accord.Audio.Formats.dll" target="lib\net35\Accord.Audio.Formats.dll" />
     <file src="..\..\Release\net35\Accord.Audio.Formats.xml" target="lib\net35\Accord.Audio.Formats.xml" />
+    <file src="..\..\Release\net35\Accord.Audition.dll" target="lib\net35\Accord.Audition.dll" />
+    <file src="..\..\Release\net35\Accord.Audition.xml" target="lib\net35\Accord.Audition.xml" />
     
     <file src="..\..\Release\net40\Accord.Audio.dll" target="lib\net40\Accord.Audio.dll" />
     <file src="..\..\Release\net40\Accord.Audio.xml" target="lib\net40\Accord.Audio.xml" />
     <file src="..\..\Release\net40\Accord.Audio.Formats.dll" target="lib\net40\Accord.Audio.Formats.dll" />
     <file src="..\..\Release\net40\Accord.Audio.Formats.xml" target="lib\net40\Accord.Audio.Formats.xml" />
+    <file src="..\..\Release\net40\Accord.Audition.dll" target="lib\net40\Accord.Audition.dll" />
+    <file src="..\..\Release\net40\Accord.Audition.xml" target="lib\net40\Accord.Audition.xml" />
+  
+    <file src="..\..\Release\net45\Accord.Audio.dll" target="lib\net45\Accord.Audio.dll" />
+    <file src="..\..\Release\net45\Accord.Audio.xml" target="lib\net45\Accord.Audio.xml" />
+    <file src="..\..\Release\net45\Accord.Audio.Formats.dll" target="lib\net45\Accord.Audio.Formats.dll" />
+    <file src="..\..\Release\net45\Accord.Audio.Formats.xml" target="lib\net45\Accord.Audio.Formats.xml" />
+    <file src="..\..\Release\net45\Accord.Audition.dll" target="lib\net45\Accord.Audition.dll" />
+    <file src="..\..\Release\net45\Accord.Audition.xml" target="lib\net45\Accord.Audition.xml" />
   </files>
 </package>

@@ -89,7 +89,6 @@ namespace Accord.Statistics.Models.Fields
                         fwd[t, i] /= s;
                 }
             }
-
         }
 
         /// <summary>

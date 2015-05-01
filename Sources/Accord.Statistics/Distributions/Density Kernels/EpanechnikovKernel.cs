@@ -73,7 +73,7 @@ namespace Accord.Statistics.Distributions.DensityKernels
         /// 
         public EpanechnikovKernel()
             : this(1)
-        { 
+        {
         }
 
         /// <summary>
@@ -141,8 +141,16 @@ namespace Accord.Statistics.Distributions.DensityKernels
         /// 
         public double Profile(double x)
         {
-            if (x < 1)
-                return constant * (1 - x);
+#if DEBUG
+            if (x < 0)
+                throw new Exception();
+#endif
+
+            // Equation 7 in (Comaniciu & Meer)
+            // https://courses.csail.mit.edu/6.869/handouts/PAMIMeanshift.pdf
+
+            if (x <= 1)
+                return 1 - x;
             return 0;
         }
 
@@ -158,7 +166,12 @@ namespace Accord.Statistics.Distributions.DensityKernels
         /// 
         public double Derivative(double x)
         {
-            return -constant;
+#if DEBUG
+            if (x < 0)
+                throw new Exception();
+#endif
+
+            return -1;
         }
     }
 }

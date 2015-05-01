@@ -22,13 +22,6 @@
 
 namespace Accord.Controls.Vision
 {
-    using System;
-    using System.ComponentModel;
-    using System.ComponentModel.Design;
-    using System.Drawing;
-    using System.Drawing.Imaging;
-    using System.Linq;
-    using System.Windows.Forms;
     using Accord.Math;
     using Accord.Vision.Detection;
     using Accord.Vision.Detection.Cascades;
@@ -38,6 +31,13 @@ namespace Accord.Controls.Vision
     using AForge.Imaging.Filters;
     using AForge.Video;
     using AForge.Video.DirectShow;
+    using System;
+    using System.ComponentModel;
+    using System.ComponentModel.Design;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Linq;
+    using System.Windows.Forms;
 
     /// <summary>
     ///   Head-based tracking controller.
@@ -60,7 +60,9 @@ namespace Accord.Controls.Vision
 
         private volatile bool requestedToStop;
 
-        private PointF currentPosition;
+        private float currentX;
+        private float currentY;
+
         private float currentAngle;
         private float currentScale;
 
@@ -105,7 +107,7 @@ namespace Accord.Controls.Vision
         [Browsable(false)]
         public PointF HeadPosition
         {
-            get { return currentPosition; }
+            get { return new PointF(currentX, currentY); }
         }
 
         /// <summary>
@@ -423,7 +425,7 @@ namespace Accord.Controls.Vision
         public void Reset()
         {
             if (IsTracking)
-                OnHeadLeave(new HeadEventArgs(currentPosition, currentAngle, currentScale));
+                OnHeadLeave(new HeadEventArgs(currentX, currentY, currentAngle, currentScale));
 
             IsTracking = false;
             IsDetecting = true;
@@ -612,7 +614,7 @@ namespace Accord.Controls.Vision
                         // Update initial position
                         computeCurrentPosition();
 
-                        OnHeadEnter(new HeadEventArgs(currentPosition, currentAngle, currentScale));
+                        OnHeadEnter(new HeadEventArgs(currentX, currentY, currentAngle, currentScale));
                     }
                 }
 
@@ -636,7 +638,7 @@ namespace Accord.Controls.Vision
 
                     else
                     {
-                        OnHeadMove(new HeadEventArgs(currentPosition, currentAngle, currentScale));
+                        OnHeadMove(new HeadEventArgs(currentX, currentY, currentAngle, currentScale));
 
                         if (NewFrame != null && obj.Image != null)
                         {
@@ -657,8 +659,8 @@ namespace Accord.Controls.Vision
             DoubleRange unit = new DoubleRange(-1, 1);
             DoubleRange circle = new DoubleRange(Math.PI, 0);
 
-            currentPosition.X = (float)Tools.Scale(xaxisRange, unit, obj.Center.X);
-            currentPosition.Y = (float)Tools.Scale(yaxisRange, unit, obj.Center.Y);
+            currentX = (float)Tools.Scale(xaxisRange, unit, obj.Center.X);
+            currentY = (float)Tools.Scale(yaxisRange, unit, obj.Center.Y);
             currentAngle = (float)Tools.Scale(angleRange, circle, obj.Angle);
             currentScale = (float)Tools.Scale(scaleRange, unit, Math.Sqrt(obj.Area));
         }

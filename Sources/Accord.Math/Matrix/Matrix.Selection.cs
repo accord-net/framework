@@ -22,11 +22,11 @@
 
 namespace Accord.Math
 {
+    using Accord.Math.Comparers;
+    using AForge;
     using System;
     using System.Collections.Generic;
-    using AForge;
     using System.Linq;
-    using Accord.Math.Comparers;
 
     public static partial class Matrix
     {
@@ -259,12 +259,29 @@ namespace Accord.Math
             return X;
         }
 
+        /// <summary>
+        ///   Returns a new matrix with a new column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[,] InsertColumn<T>(this T[,] matrix)
+        {
+            return InsertColumn(matrix, new T[matrix.Length], matrix.GetLength(1));
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a new column vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[][] InsertColumn<T>(this T[][] matrix)
+        {
+            return InsertColumn(matrix, new T[matrix.Length], matrix[0].Length);
+        }
 
         /// <summary>
         ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
         /// </summary>
         /// 
-        public static T[,] InsertColumn<T>(this T[,] matrix, T[] column)
+        public static T[,] InsertColumn<T, TSource>(this T[,] matrix, TSource[] column)
         {
             return InsertColumn(matrix, column, matrix.GetLength(1));
         }
@@ -273,7 +290,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at the end of the original matrix.
         /// </summary>
         /// 
-        public static T[][] InsertColumn<T>(this T[][] matrix, T[] column)
+        public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource[] column)
         {
             return InsertColumn(matrix, column, matrix[0].Length);
         }
@@ -282,7 +299,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given row vector inserted at the end of the original matrix.
         /// </summary>
         /// 
-        public static T[,] InsertRow<T>(this T[,] matrix, T[] row)
+        public static T[,] InsertRow<T, TSource>(this T[,] matrix, TSource[] row)
         {
             return InsertRow(matrix, row, matrix.GetLength(0));
         }
@@ -291,9 +308,27 @@ namespace Accord.Math
         ///   Returns a new matrix with a given row vector inserted at the end of the original matrix.
         /// </summary>
         /// 
-        public static T[][] InsertRow<T>(this T[][] matrix, T[] row)
+        public static T[][] InsertRow<T, TSource>(this T[][] matrix, TSource[] row)
         {
-            return InsertRow(matrix, row, matrix.Length);
+            return InsertRow<T, TSource>(matrix, row, matrix.Length);
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a new row vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[,] InsertRow<T>(this T[,] matrix)
+        {
+            return InsertRow(matrix, new T[matrix.GetLength(1)], matrix.GetLength(0));
+        }
+
+        /// <summary>
+        ///   Returns a new matrix with a new row vector inserted at the end of the original matrix.
+        /// </summary>
+        /// 
+        public static T[][] InsertRow<T>(this T[][] matrix)
+        {
+            return InsertRow(matrix, new T[matrix[0].Length], matrix.Length);
         }
 
 
@@ -302,10 +337,11 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at a given index.
         /// </summary>
         /// 
-        public static T[,] InsertColumn<T>(this T[,] matrix, T[] column, int index)
+        public static T[,] InsertColumn<T, TSource>(this T[,] matrix, TSource[] column, int index)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
+
             if (column == null)
                 throw new ArgumentNullException("column");
 
@@ -313,7 +349,6 @@ namespace Accord.Math
             int cols = matrix.GetLength(1);
 
             int maxRows = System.Math.Max(rows, column.Length);
-            int minRows = System.Math.Min(rows, column.Length);
 
             T[,] X = new T[maxRows, cols + 1];
 
@@ -328,7 +363,7 @@ namespace Accord.Math
 
             // Copy additional column
             for (int i = 0; i < column.Length; i++)
-                X[i, index] = column[i];
+                X[i, index] = cast<T>(column[i]);
 
             return X;
         }
@@ -337,7 +372,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given column vector inserted at a given index.
         /// </summary>
         /// 
-        public static T[][] InsertColumn<T>(this T[][] matrix, T[] column, int index)
+        public static T[][] InsertColumn<T, TSource>(this T[][] matrix, TSource[] column, int index)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -348,7 +383,6 @@ namespace Accord.Math
             int cols = matrix[0].Length;
 
             int maxRows = System.Math.Max(rows, column.Length);
-            int minRows = System.Math.Min(rows, column.Length);
 
             T[][] X = new T[maxRows][];
             for (int i = 0; i < X.Length; i++)
@@ -366,7 +400,7 @@ namespace Accord.Math
 
             // Copy additional column
             for (int i = 0; i < column.Length; i++)
-                X[i][index] = column[i];
+                X[i][index] = cast<T>(column[i]);
 
             return X;
         }
@@ -375,7 +409,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given row vector inserted at a given index.
         /// </summary>
         /// 
-        public static T[,] InsertRow<T>(this T[,] matrix, T[] row, int index)
+        public static T[,] InsertRow<T, TSource>(this T[,] matrix, TSource[] row, int index)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -386,7 +420,6 @@ namespace Accord.Math
             int cols = matrix.GetLength(1);
 
             int maxCols = System.Math.Max(cols, row.Length);
-            int minCols = System.Math.Min(cols, row.Length);
 
             var X = new T[rows + 1, maxCols];
 
@@ -402,7 +435,7 @@ namespace Accord.Math
 
             // Copy additional column
             for (int i = 0; i < row.Length; i++)
-                X[index, i] = row[i];
+                X[index, i] = cast<T>(row[i]);
 
             return X;
         }
@@ -411,7 +444,7 @@ namespace Accord.Math
         ///   Returns a new matrix with a given row vector inserted at a given index.
         /// </summary>
         /// 
-        public static T[][] InsertRow<T>(this T[][] matrix, T[] row, int index)
+        public static T[][] InsertRow<T, TSource>(this T[][] matrix, TSource[] row, int index)
         {
             if (matrix == null)
                 throw new ArgumentNullException("matrix");
@@ -420,8 +453,8 @@ namespace Accord.Math
 
             int rows = matrix.Length;
             int cols = matrix[0].Length;
+
             int maxCols = System.Math.Max(cols, row.Length);
-            int minCols = System.Math.Min(cols, row.Length);
 
             var X = new T[rows + 1][];
             for (int i = 0; i < X.Length; i++)
@@ -439,7 +472,7 @@ namespace Accord.Math
 
             // Copy additional column
             for (int i = 0; i < row.Length; i++)
-                X[index][i] = row[i];
+                X[index][i] = cast<T>(row[i]);
 
             return X;
         }
@@ -512,17 +545,36 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the indices of the first element matching a certain criteria.
         /// </summary>
+        /// 
         /// <typeparam name="T">The type of the array.</typeparam>
+        /// 
         /// <param name="data">The array to search inside.</param>
         /// <param name="func">The search criteria.</param>
+        /// 
         public static int First<T>(this T[] data, Func<T, bool> func)
         {
             return Find(data, func, true)[0];
+        }
+        /// <summary>
+        ///   Searches for the specified value and returns the index of the first occurrence within the array.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The type of the array.</typeparam>
+        /// 
+        /// <param name="data">The array to search.</param>
+        /// <param name="value">The value to be searched.</param>
+        /// 
+        /// <returns>The index of the searched value within the array, or -1 if not found.</returns>
+        /// 
+        public static int IndexOf<T>(this T[] data, T value)
+        {
+            return Array.IndexOf(data, value);
         }
 
         /// <summary>
         ///   Gets the indices of all elements matching a certain criteria.
         /// </summary>
+        /// 
         /// <typeparam name="T">The type of the array.</typeparam>
         /// <param name="data">The array to search inside.</param>
         /// <param name="func">The search criteria.</param>
@@ -652,6 +704,21 @@ namespace Accord.Math
                 }
             }
             return max;
+        }
+
+        /// <summary>
+        ///   Gets the maximum element in a vector.
+        /// </summary>
+        /// 
+        public static T Max<T>(this T[] values, out int imax, bool alreadySorted) where T : IComparable
+        {
+            if (alreadySorted)
+            {
+                imax = values.Length - 1;
+                return values[values.Length - 1];
+            }
+
+            return Max(values, out imax);
         }
 
         /// <summary>
@@ -1136,20 +1203,23 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values in a vector.
         /// </summary>
-        public static DoubleRange Range(this double[] array)
+        /// 
+        /// <param name="values">The matrix whose ranges should be computed.</param>
+        /// 
+        public static DoubleRange Range(this double[] values)
         {
-            if (array.Length == 0)
+            if (values.Length == 0)
                 return new DoubleRange(0, 0);
 
-            double min = array[0];
-            double max = array[0];
+            double min = values[0];
+            double max = values[0];
 
-            for (int i = 1; i < array.Length; i++)
+            for (int i = 1; i < values.Length; i++)
             {
-                if (min > array[i])
-                    min = array[i];
-                if (max < array[i])
-                    max = array[i];
+                if (min > values[i])
+                    min = values[i];
+                if (max < values[i])
+                    max = values[i];
             }
 
             return new DoubleRange(min, max);
@@ -1159,20 +1229,22 @@ namespace Accord.Math
         ///   Gets the range of the values in a vector.
         /// </summary>
         /// 
-        public static IntRange Range(this int[] array)
+        /// <param name="values">The matrix whose ranges should be computed.</param>
+        /// 
+        public static IntRange Range(this int[] values)
         {
-            if (array.Length == 0)
+            if (values.Length == 0)
                 return new IntRange(0, 0);
 
-            int min = array[0];
-            int max = array[0];
+            int min = values[0];
+            int max = values[0];
 
-            for (int i = 1; i < array.Length; i++)
+            for (int i = 1; i < values.Length; i++)
             {
-                if (min > array[i])
-                    min = array[i];
-                if (max < array[i])
-                    max = array[i];
+                if (min > values[i])
+                    min = values[i];
+                if (max < values[i])
+                    max = values[i];
             }
 
             return new IntRange(min, max);
@@ -1181,6 +1253,8 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values across a matrix.
         /// </summary>
+        /// 
+        /// <param name="value">The matrix whose ranges should be computed.</param>
         /// 
         public static IntRange Range(this int[,] value)
         {
@@ -1203,6 +1277,8 @@ namespace Accord.Math
         ///   Gets the range of the values across a matrix.
         /// </summary>
         /// 
+        /// <param name="value">The matrix whose ranges should be computed.</param>
+        /// 
         public static DoubleRange Range(this double[,] value)
         {
             if (value.Length == 0)
@@ -1223,6 +1299,12 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values across the columns of a matrix.
         /// </summary>
+        /// 
+        /// <param name="value">The matrix whose ranges should be computed.</param>
+        /// <param name="dimension">
+        ///   Pass 0 if the range should be computed for each of the columns. Pass 1
+        ///   if the range should be computed for each row. Default is 0.
+        /// </param>
         /// 
         public static DoubleRange[] Range(this double[,] value, int dimension)
         {
@@ -1279,6 +1361,12 @@ namespace Accord.Math
         /// <summary>
         ///   Gets the range of the values across the columns of a matrix.
         /// </summary>
+        /// 
+        /// <param name="value">The matrix whose ranges should be computed.</param>
+        /// <param name="dimension">
+        ///   Pass 0 if the range should be computed for each of the columns. Pass 1
+        ///   if the range should be computed for each row. Default is 0.
+        /// </param>
         /// 
         public static DoubleRange[] Range(this double[][] value, int dimension)
         {
@@ -1510,7 +1598,7 @@ namespace Accord.Math
             for (int i = 0; i < idx.Length; i++)
                 idx[i] = i;
 
-            int pivot = select(work, idx, 0, values.Length - 1, count, true);
+            select(work, idx, 0, values.Length - 1, count, true);
 
             int[] result = new int[count];
             for (int i = 0; i < result.Length; i++)
@@ -1544,7 +1632,7 @@ namespace Accord.Math
             for (int i = 0; i < idx.Length; i++)
                 idx[i] = i;
 
-            int pivot = select(work, idx, 0, values.Length - 1, count, false);
+            select(work, idx, 0, values.Length - 1, count, false);
 
             int[] result = new int[count];
             for (int i = 0; i < result.Length; i++)
@@ -1623,7 +1711,14 @@ namespace Accord.Math
 
         private static void swap<T>(ref T a, ref T b)
         {
-            T aux = a; a = b; b = aux;
+            T aux = a;
+            a = b;
+            b = aux;
+        }
+
+        static T cast<T>(this object value)
+        {
+            return (T)System.Convert.ChangeType(value, typeof(T));
         }
     }
 }

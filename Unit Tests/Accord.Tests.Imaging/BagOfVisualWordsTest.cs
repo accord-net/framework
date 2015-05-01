@@ -31,6 +31,8 @@ namespace Accord.Tests.Imaging
     using Accord.Math;
     using AForge.Imaging;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
+    using System.Drawing.Imaging;
 
     [TestClass()]
     public class BagOfVisualWordsTest
@@ -249,6 +251,68 @@ namespace Accord.Tests.Imaging
 
 
             Assert.IsTrue(expected.IsEqual(actual));
+        }
+
+
+        [TestMethod, Ignore]
+        public void LargeTest()
+        {
+            // Requires data from the National Data Science bowl
+            // https://github.com/accord-net/framework/issues/58
+
+            var trainingDirectory = @"C:\Users\CésarRoberto\Downloads\train\train\";
+
+            var images = LabeledImages.FromDirectory(trainingDirectory).ToArray();
+
+            var binarySplit = new BinarySplit(32);
+
+            var bow = new BagOfVisualWords(binarySplit);
+
+            bow.Compute(images.Select(i => i.Item).Take(50).ToArray());
+
+        }
+
+        public interface ILabeledItem<T>
+        {
+            string Category { get; }
+
+            T Item { get; }
+        }
+
+        public class LabeledImages : ILabeledItem<Bitmap>
+        {
+            public LabeledImages(string category, string filename)
+            {
+                Category = category;
+                Filename = filename;
+            }
+
+            public string Category { get; private set; }
+
+            public string Filename { get; private set; }
+
+            public Bitmap Item
+            {
+                get
+                {
+                    using (var sourceImage = System.Drawing.Image.FromFile(Filename))
+                    {
+                        var targetImage = new Bitmap(sourceImage.Width, sourceImage.Height, PixelFormat.Format32bppArgb);
+                        using (var canvas = Graphics.FromImage(targetImage))
+                        {
+                            canvas.DrawImageUnscaled(sourceImage, 0, 0);
+                        }
+                        return targetImage;
+                    }
+                }
+            }
+
+            public static IEnumerable<LabeledImages> FromDirectory(string path)
+            {
+                return Directory.EnumerateDirectories(path)
+                    .SelectMany(dir => Directory.EnumerateFiles(dir)
+                        .Select(file => new LabeledImages(Path.GetFileName(dir), file)));
+            }
         }
 
     }

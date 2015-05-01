@@ -184,6 +184,19 @@ namespace Accord.Math
 
 
         /// <summary>
+        ///   Elementwise Log operation.
+        /// </summary>
+        /// 
+        public static double[] Log(this int[] value)
+        {
+            double[] r = new double[value.Length];
+            for (int i = 0; i < value.Length; i++)
+                r[i] = System.Math.Log(value[i]);
+            return r;
+        }
+
+
+        /// <summary>
         ///   Elementwise power operation.
         /// </summary>
         /// 

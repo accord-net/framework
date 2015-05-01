@@ -42,7 +42,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         private double[] sampleWeights;
 
-        private bool useComplexityHeuristic;
+        private bool useComplexityHeuristic = true;
         private bool useClassLabelProportion;
 
         private double complexity = 1;
@@ -87,7 +87,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             else
             {
                 Linear linear = ksvm.Kernel as Linear;
-                isLinear = linear != null && linear.Constant == 0;
+                isLinear = linear != null;
                 kernel = ksvm.Kernel;
             }
 
@@ -98,15 +98,27 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Complexity (cost) parameter C. Increasing the value of C forces the creation
-        ///   of a more accurate model that may not generalize well. Default value is 1.
+        ///   of a more accurate model that may not generalize well. If this value is not
+        ///   set and <see cref="UseComplexityHeuristic"/> is set to <c>true</c>, the framework
+        ///   will automatically guess a value for <c>C</c>. If this value is manually set to 
+        ///   something else, then <see cref="UseComplexityHeuristic"/> will be automatically 
+        ///   disabled and the given value will be used instead.
         /// </summary>
         /// 
         /// <remarks>
+        /// <para>
         ///   The cost parameter C controls the trade off between allowing training
         ///   errors and forcing rigid margins. It creates a soft margin that permits
         ///   some misclassifications. Increasing the value of C increases the cost of
         ///   misclassifying points and forces the creation of a more accurate model
-        ///   that may not generalize well.
+        ///   that may not generalize well.</para>
+        ///   
+        /// <para>
+        ///   If this value is not set and <see cref="UseComplexityHeuristic"/> is set to 
+        ///   <c>true</c>, the framework will automatically guess a suitable value for C by
+        ///   calling <see cref="EstimateComplexity(IKernel, double[][])"/>.  If this value 
+        ///   is manually set to something else, then the class will respect the new value 
+        ///   and automatically disable <see cref="UseComplexityHeuristic"/>. </para>
         /// </remarks>
         /// 
         public double Complexity
@@ -116,7 +128,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
             {
                 if (value <= 0)
                     throw new ArgumentOutOfRangeException("value");
+
                 this.complexity = value;
+                this.useComplexityHeuristic = false;
             }
         }
 
@@ -422,7 +436,9 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Estimates the <see cref="Complexity">complexity parameter C</see>
-        ///   for a given kernel and a given data set.
+        ///   for a given kernel and a given data set by summing every element
+        ///   on the diagonal of the kernel matrix and using an heuristic based
+        ///   on it.
         /// </summary>
         /// 
         /// <param name="kernel">The kernel function.</param>
@@ -448,7 +464,10 @@ namespace Accord.MachineLearning.VectorMachines.Learning
         }
 
         /// <summary>
-        ///   Estimates the <see cref="Complexity">complexity parameter C</see> a given data set.
+        ///   Estimates the <see cref="Complexity">complexity parameter C</see>
+        ///   for the linear kernel and a given data set by summing every element
+        ///   on the diagonal of the kernel matrix and using an heuristic based
+        ///   on it.        
         /// </summary>
         /// 
         /// <param name="inputs">The input samples.</param>
@@ -474,7 +493,8 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
         /// <summary>
         ///   Estimates the <see cref="Complexity">complexity parameter C</see>
-        ///   for a given kernel and an unbalanced data set.
+        ///   for a given kernel and an unbalanced data set by summing every element
+        ///   on the diagonal of the kernel matrix and using an heuristic based on it.
         /// </summary>
         /// 
         /// <param name="kernel">The kernel function.</param>

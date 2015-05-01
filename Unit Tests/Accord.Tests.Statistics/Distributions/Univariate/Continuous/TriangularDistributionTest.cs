@@ -54,7 +54,7 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void ConstructorTest1()
         {
-            var tri = new TriangularDistribution(a: 1, b: 6, c: 3);
+            var tri = new TriangularDistribution(min: 1, max: 6, mode: 3);
 
             double mean = tri.Mean;     // 3.3333333333333335
             double median = tri.Median; // 3.2613872124741694
@@ -117,9 +117,9 @@ namespace Accord.Tests.Statistics
             double max = samples.Max();
             double mode = samples.Mode();
 
-            Assert.AreEqual(min, target.A, 1e-2);
-            Assert.AreEqual(max, target.B, 1e-2);
-            Assert.AreEqual(mode, target.C, 0.035);
+            Assert.AreEqual(min, target.Min, 1e-2);
+            Assert.AreEqual(max, target.Max, 1e-2);
+            Assert.AreEqual(mode, target.Mode, 0.035);
         }
 
         [TestMethod()]
@@ -138,9 +138,9 @@ namespace Accord.Tests.Statistics
             double max = samples.Max();
             double mode = samples.Mode();
 
-            Assert.AreEqual(min, target.A, 1e-2);
-            Assert.AreEqual(max, target.B, 1e-2);
-            Assert.AreEqual(mode, target.C, 0.035);
+            Assert.AreEqual(min, target.Min, 1e-2);
+            Assert.AreEqual(max, target.Max, 1e-2);
+            Assert.AreEqual(mode, target.Mode, 0.035);
         }
     }
 }

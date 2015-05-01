@@ -22,31 +22,15 @@
 
 namespace Accord.Tests.Math
 {
-    using System;
+    using Accord.Math;
     using Accord.Math.Integration;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Distributions.Univariate;
     using AccordTestsMathCpp2;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
 
     [TestClass()]
     public class IntegralTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         private static double function1(double x)
         {
@@ -77,6 +61,37 @@ namespace Accord.Tests.Math
             actual = TrapezoidalRule.Integrate(function1, 0, 2, 16);
             Assert.AreEqual(3.4623181105467689, actual, 1e-15);
             Assert.IsFalse(Double.IsNaN(actual));
+        }
+
+        [TestMethod()]
+        public void MultipleTests_Examples()
+        {
+            // Let's say we would like to compute the definite
+            // integral of the function f(x) = cos(x) from -1 to 1
+
+            Func<double, double> f = (x) => Math.Cos(x);
+
+            double a = -1;
+            double b = +1;
+
+            double trapez = TrapezoidalRule.Integrate(f, a, b, steps: 1000); // 1.6829414
+            double romberg = RombergMethod.Integrate(f, a, b); // 1.6829419
+            double nagk = NonAdaptiveGaussKronrod.Integrate(f, a, b); // 1.6829419
+
+            // Now let's say we would like to compute an improper integral
+            // from -infinite to +infinite, such as the integral of a Gaussian
+            // PDF (which should evaluate to 1):
+
+            Func<double, double> g = (x) => (1 / Math.Sqrt(2 * Math.PI)) * Math.Exp(-(x * x) / 2);
+
+            double iagk = InfiniteAdaptiveGaussKronrod.Integrate(g,
+                Double.NegativeInfinity, Double.PositiveInfinity); // Output should be 0.99999...
+
+
+            Assert.AreEqual(1.6829414086350976, trapez); // 1.6829414086350976
+            Assert.AreEqual(1.682941969615797, romberg); // 1.682941969615797
+            Assert.AreEqual(1.6829419595739716, nagk); // 1.6829419595739716
+            Assert.AreEqual(0.99999999999999978, iagk); // 0.99999999999999978
         }
 
         private static double function2(double x)
@@ -125,23 +140,21 @@ namespace Accord.Tests.Math
         [TestMethod()]
         public void InfiniteGaussKronrodTest()
         {
-            NormalDistribution norm;
-            
             for (int i = -10; i < 10; i++)
             {
-                norm = new NormalDistribution(i, 1);
+                Func<double, double> pdf = (x) => Normal.Derivative(x - i);
 
-                Func<double, double> E = (x) => x * norm.ProbabilityDensityFunction(x);
-                UFunction UE = (x) => x * norm.ProbabilityDensityFunction(x);
+                Func<double, double> E = (x) => x * pdf(x);
+                UFunction UE = (x) => x * pdf(x);
 
-                double expected = Quadpack.Integrate(UE, 
+                double expected = Quadpack.Integrate(UE,
                     Double.NegativeInfinity, Double.PositiveInfinity);
 
                 double actual = InfiniteAdaptiveGaussKronrod.Integrate(E,
                     Double.NegativeInfinity, Double.PositiveInfinity);
 
                 Assert.AreEqual(expected, actual, 1e-3);
-                Assert.AreEqual(norm.Mean, actual, 1e-3);
+                Assert.AreEqual(i, actual, 1e-3);
             }
         }
 

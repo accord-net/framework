@@ -358,7 +358,7 @@ namespace Accord.MachineLearning
             {
                 // TODO: Perform K-Means multiple times to avoid
                 //  a poor Gaussian Mixture model initialization.
-                double error = Initialize(data, options.Threshold);
+                Initialize(data, options.Threshold);
             }
 
             // Create the mixture options

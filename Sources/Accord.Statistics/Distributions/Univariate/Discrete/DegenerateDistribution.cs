@@ -74,7 +74,7 @@ namespace Accord.Statistics.Distributions.Univariate
     /// double lpdf = dist.LogProbabilityMassFunction(k: 2); // 0
     /// double ccdf = dist.ComplementaryDistributionFunction(k: 2); // 0.0
     /// 
-    /// int icdf1 = dist.InverseDistributionFunction(p: 0.0); // 3
+    /// int icdf1 = dist.InverseDistributionFunction(p: 0.0); // 1
     /// int icdf2 = dist.InverseDistributionFunction(p: 0.5); // 3
     /// int icdf3 = dist.InverseDistributionFunction(p: 1.0); // 2
     /// 
@@ -156,11 +156,11 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Gets the variance for this distribution, which should equal 1.
+        ///   Gets the variance for this distribution, which should equal 0.
         /// </summary>
         /// 
         /// <remarks>
-        ///   In the Degenerate distribution, the variance equals 1.
+        ///   In the Degenerate distribution, the variance equals 0.
         /// </remarks>
         /// 
         /// <value>
@@ -169,7 +169,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Variance
         {
-            get { return 1; }
+            get { return 0; }
         }
 
         /// <summary>
@@ -282,7 +282,8 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             if (p == 1)
                 return k0;
-            return k0 + 1;
+
+            return (p > 0.5) ? k0 + 1 : k0 - 1;
         }
 
         /// <summary>
@@ -307,35 +308,10 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("Degenerate(x; k0 = {0})", k0);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Degenerate(x; k0 = {0})", k0);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("Degenerate(x; k0 = {0})", k0.ToString(format, formatProvider));
+            return String.Format(formatProvider, "Degenerate(x; k0 = {0})",
+                k0.ToString(format, formatProvider));
         }
 
         /// <summary>

@@ -89,6 +89,54 @@ namespace Accord.Math.Optimization
     ///       http://en.wikipedia.org/wiki/COBYLA </a></description></item>
     ///   </list></para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    ///   Let's say we would like to optimize a function whose gradient
+    ///   we do not know or would is too difficult to compute. All we 
+    ///   have to do is to specify the function, pass it to Cobyla and
+    ///   call its Minimize() method:
+    /// </para>
+    /// 
+    /// <code>
+    /// // We would like to find the minimum of min f(x) = 10 * (x+1)^2 + y^2
+    /// Func&lt;double[], double> function = x => 10 * Math.Pow(x[0] + 1, 2) + Math.Pow(x[1], 2);
+    ///   
+    /// // Create a cobyla method for 2 variables
+    /// Cobyla cobyla = new Cobyla(2, function);
+    /// 
+    /// bool success = cobyla.Minimize();
+    /// 
+    /// double minimum = minimum = cobyla.Value; // Minimum should be 0.
+    /// double[] solution = cobyla.Solution;     // Vector should be (-1, 0)
+    /// </code>
+    /// 
+    /// <para>
+    /// Cobyla can be used even when we have constraints in our optimization problem.
+    /// The following example can be found in Fletcher's book Practical Methods of
+    /// Optimization, under the equation number (9.1.15).
+    /// </para>
+    /// 
+    /// <code>
+    /// // We will optimize the 2-variable function f(x, y) = -x -y
+    /// var f = new NonlinearObjectiveFunction(2, x => -x[0] - x[1]);
+    /// 
+    /// // Under the following constraints
+    /// var constraints = new[]
+    /// {
+    ///     new NonlinearConstraint(2, x =>             x[1] - x[0] * x[0] >= 0),
+    ///     new NonlinearConstraint(2, x =>  1 - x[0] * x[0] - x[1] * x[1] >= 0),
+    /// };
+    ///
+    /// // Create a Cobyla algorithm for the problem
+    /// var cobyla = new Cobyla(function, constraints);
+    ///
+    /// // Optimize it
+    /// bool success = cobyla.Minimize();
+    /// double minimum = cobyla.Value;        // Minimum should be -2 * sqrt(0.5)
+    /// double[] solution = cobyla.Solution;  // Vector should be [sqrt(0.5), sqrt(0.5)]
+    /// </code>
+    /// </example>
     ///
     public class Cobyla : BaseOptimizationMethod, IOptimizationMethod,
         IOptimizationMethod<CobylaStatus>
@@ -100,13 +148,13 @@ namespace Accord.Math.Optimization
         int iterations;
 
         NonlinearConstraint[] constraints;
-/*
-        /// <summary>
-        ///   Occurs when progress is made during the optimization.
-        /// </summary>
-        /// 
-        public event EventHandler<OptimizationProgressEventArgs> Progress;
-*/
+        /*
+                /// <summary>
+                ///   Occurs when progress is made during the optimization.
+                /// </summary>
+                /// 
+                public event EventHandler<OptimizationProgressEventArgs> Progress;
+        */
 
         /// <summary>
         ///   Gets the number of iterations performed in the last

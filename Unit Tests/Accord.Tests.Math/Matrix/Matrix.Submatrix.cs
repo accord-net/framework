@@ -161,45 +161,6 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(actual, value));
         }
 
-
-        [TestMethod()]
-        public void SubgroupTest1()
-        {
-            Accord.Math.Tools.SetupGenerator(0);
-
-            double[] value = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
-
-            int[] idx = Accord.Statistics.Tools.RandomGroups(value.Length, 4);
-
-            double[][] groups = value.Subgroups(idx);
-
-            Assert.AreEqual(4, groups.Length);
-            Assert.AreEqual(3, groups[0].Length);
-            Assert.AreEqual(4, groups[1].Length);
-            Assert.AreEqual(3, groups[2].Length);
-            Assert.AreEqual(3, groups[3].Length);
-
-            for (int i = 0; i < groups.Length; i++)
-            {
-                for (int j = 0; j < groups[i].Length; j++)
-                {
-                    double e = groups[i][j];
-
-                    for (int k = 0; k < groups.Length; k++)
-                    {
-                        for (int l = 0; l < groups[k].Length; l++)
-                        {
-                            double a = groups[k][l];
-
-                            if (k != i && l != j)
-                                Assert.AreNotEqual(a, l);
-                        }
-                    }
-                }
-            }
-
-        }
-
         [TestMethod()]
         public void SubgroupTest2()
         {

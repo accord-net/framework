@@ -298,5 +298,23 @@ namespace Accord.Tests.Statistics
 
         }
 
+
+        [TestMethod()]
+        public void ConstructorTest3()
+        {
+            var h = new HypergeometricDistribution(9, 6, 1);
+
+            var support = h.Support;
+            var range1 = h.GetRange(0.99);
+            var range2 = h.GetRange(0.999);
+            var range3 = h.GetRange(0.9999);
+
+            Assert.AreEqual(0, support.Min);
+            Assert.AreEqual(1, support.Max);
+            Assert.AreEqual(support, range1);
+            Assert.AreEqual(support, range2);
+            Assert.AreEqual(support, range3);
+        }
+
     }
 }

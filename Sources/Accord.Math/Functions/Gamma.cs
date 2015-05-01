@@ -131,6 +131,7 @@ namespace Accord.Math
                 4.94214826801497100753E-1,
                 9.99999999999999996796E-1
             };
+
             double[] Q =
             {
                -2.31581873324120129819E-5,
@@ -214,7 +215,8 @@ namespace Accord.Math
                 x += 1.0;
             }
 
-            if ((x == 2.0) || (x == 3.0)) return z;
+            if ((x == 2.0) || (x == 3.0))
+                return z;
 
             x -= 2.0;
             p = Special.Polevl(x, P, 6);
@@ -251,6 +253,9 @@ namespace Accord.Math
         /// 
         public static double Digamma(double x)
         {
+            if (x == 0)
+                return Double.NegativeInfinity;
+
             double s = 0;
             double w = 0;
             double y = 0;
@@ -421,7 +426,16 @@ namespace Accord.Math
             if (x > MAXSTIR)
             {
                 double v = Math.Pow(x, 0.5 * x - 0.25);
-                y = v * (v / y);
+
+                if (Double.IsPositiveInfinity(v) && Double.IsPositiveInfinity(y))
+                {
+                    // lim x -> inf { (x^(0.5*x - 0.25)) * (x^(0.5*x - 0.25) / exp(x))  }
+                    y = Double.PositiveInfinity;
+                }
+                else
+                {
+                    y = v * (v / y);
+                }
             }
             else
             {
@@ -448,10 +462,10 @@ namespace Accord.Math
             double ans, ax, c, yc, r, t, y, z;
             double pk, pkm1, pkm2, qk, qkm1, qkm2;
 
-            if (x <= 0 || a <= 0) 
+            if (x <= 0 || a <= 0)
                 return 1.0;
 
-            if (x < 1.0 || x < a) 
+            if (x < 1.0 || x < a)
                 return 1.0 - LowerIncomplete(a, x);
 
             if (Double.IsPositiveInfinity(x))
@@ -459,7 +473,7 @@ namespace Accord.Math
 
             ax = a * Math.Log(x) - x - Log(a);
 
-            if (ax < -Constants.LogMax) 
+            if (ax < -Constants.LogMax)
                 return 0.0;
 
             ax = Math.Exp(ax);
@@ -518,7 +532,10 @@ namespace Accord.Math
         /// 
         public static double LowerIncomplete(double a, double x)
         {
-            if (x <= 0 || a <= 0)
+            if (a <= 0)
+                return 1.0;
+
+            if (x <= 0)
                 return 0.0;
 
             if (x > 1.0 && x > a)
@@ -527,7 +544,7 @@ namespace Accord.Math
             double ax = a * Math.Log(x) - x - Log(a);
 
             if (ax < -Constants.LogMax)
-                return (0.0);
+                return 0.0;
 
             ax = Math.Exp(ax);
 
@@ -551,6 +568,9 @@ namespace Accord.Math
         /// 
         public static double Log(double x)
         {
+            if (x == 0)
+                return Double.PositiveInfinity;
+
             double p, q, w, z;
 
             double[] A =
@@ -622,10 +642,17 @@ namespace Accord.Math
                     z /= x;
                     x += 1.0;
                 }
-                if (z < 0.0) z = -z;
-                if (x == 2.0) return System.Math.Log(z);
+
+                if (z < 0.0)
+                    z = -z;
+
+                if (x == 2.0)
+                    return System.Math.Log(z);
+
                 x -= 2.0;
+
                 p = x * Special.Polevl(x, B, 5) / Special.P1evl(x, C, 6);
+
                 return (Math.Log(z) + p);
             }
 
@@ -633,9 +660,12 @@ namespace Accord.Math
                 throw new OverflowException();
 
             q = (x - 0.5) * Math.Log(x) - x + 0.91893853320467274178;
-            if (x > 1.0e8) return (q);
+
+            if (x > 1.0e8)
+                return (q);
 
             p = 1.0 / (x * x);
+
             if (x >= 1000.0)
             {
                 q += ((7.9365079365079365079365e-4 * p
@@ -656,8 +686,11 @@ namespace Accord.Math
         /// 
         public static double Log(double x, int p)
         {
-            if (p < 1) throw new ArgumentOutOfRangeException("p", "Parameter p must be higher than 1.");
-            if (p == 1) return Log(x);
+            if (p < 1)
+                throw new ArgumentOutOfRangeException("p", "Parameter p must be higher than 1.");
+
+            if (p == 1)
+                return Log(x);
 
             double sum = Constants.LogPI / p;
             for (int i = 0; i < p; i++)
@@ -699,24 +732,21 @@ namespace Accord.Math
 
         private static double inverse(double a, double y)
         {
-            double x0, x1, x, yl, yh, yy, d, lgm, dithresh;
-            int i, dir;
-
             // bound the solution
-            x0 = Double.MaxValue;
-            yl = 0;
-            x1 = 0;
-            yh = 1.0;
-            dithresh = 5.0 * Constants.DoubleEpsilon;
+            double x0 = Double.MaxValue;
+            double yl = 0;
+            double x1 = 0;
+            double yh = 1.0;
+            double dithresh = 5.0 * Constants.DoubleEpsilon;
 
             // approximation to inverse function
-            d = 1.0 / (9.0 * a);
-            yy = (1.0 - d - Normal.Inverse(y) * Math.Sqrt(d));
-            x = a * yy * yy * yy;
+            double d = 1.0 / (9.0 * a);
+            double yy = (1.0 - d - Normal.Inverse(y) * Math.Sqrt(d));
+            double x = a * yy * yy * yy;
 
-            lgm = Gamma.Log(a);
+            double lgm = Gamma.Log(a);
 
-            for (i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 if (x > x0 || x < x1)
                     goto ihalve;
@@ -773,11 +803,16 @@ namespace Accord.Math
             }
 
             d = 0.5;
-            dir = 0;
+            double dir = 0;
 
-            for (i = 0; i < 400; i++)
+            for (int i = 0; i < 400; i++)
             {
-                x = x1 + d * (x0 - x1);
+                double t = x1 + d * (x0 - x1);
+
+                if (Double.IsNaN(t))
+                    break;
+
+                x = t;
                 yy = Gamma.UpperIncomplete(a, x);
                 lgm = (x0 - x1) / (x1 + x0);
 
@@ -824,10 +859,54 @@ namespace Accord.Math
                 }
             }
 
-            if (x == 0.0)
+            if (x == 0.0 || Double.IsNaN(x))
                 throw new ArithmeticException();
 
             return x;
+        }
+
+        /// <summary>
+        ///   Random Gamma-distribution number generation 
+        ///   based on Marsaglia's Simple Method (2000).
+        /// </summary>
+        /// 
+        public static double Random(double d, double c)
+        {
+            var g = new AForge.Math.Random.GaussianGenerator(0,
+                1, Accord.Math.Tools.Random.Next());
+
+            // References:
+            //
+            // - Marsaglia, G. A Simple Method for Generating Gamma Variables, 2000
+            //
+
+            while (true)
+            {
+                // 2. Generate v = (1+cx)^3 with x normal
+                double x, t, v;
+
+                do
+                {
+                    x = g.Next();
+                    t = (1.0 + c * x);
+                    v = t * t * t;
+                } while (v <= 0);
+
+
+                // 3. Generate uniform U
+                double U = Accord.Math.Tools.Random.NextDouble();
+
+                // 4. If U < 1-0.0331*x^4 return d*v.
+                double x2 = x * x;
+                if (U < 1 - 0.0331 * x2 * x2)
+                    return d * v;
+
+                // 5. If log(U) < 0.5*x^2 + d*(1-v+log(v)) return d*v.
+                if (Math.Log(U) < 0.5 * x2 + d * (1.0 - v + Math.Log(v)))
+                    return d * v;
+
+                // 6. Goto step 2
+            }
         }
     }
 }

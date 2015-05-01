@@ -65,10 +65,10 @@ namespace Accord.Statistics.Distributions.Univariate
     /// 
     [Serializable]
     public abstract class UnivariateDiscreteDistribution : DistributionBase,
-        IUnivariateDistribution<int>,
-        IUnivariateDistribution,
-        IUnivariateDistribution<double>,
-        IDistribution<double[]>, IDistribution<double>
+        IUnivariateDistribution<int>, IUnivariateDistribution,
+        IUnivariateDistribution<double>, IDistribution<double[]>,
+        IDistribution<double>, ISampleableDistribution<double>, ISampleableDistribution<int>,
+        IFormattable
     {
 
         double? median;
@@ -140,6 +140,12 @@ namespace Accord.Statistics.Distributions.Univariate
             {
                 if (median == null)
                     median = InverseDistributionFunction(0.5);
+
+#if DEBUG
+                double expected = this.BaseInverseDistributionFunction(0.5);
+                if (median != expected)
+                    throw new Exception();
+#endif
 
                 return median.Value;
             }
@@ -307,25 +313,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return DistributionFunction((int)x[0]);
         }
 
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">
-        ///   A single point in the distribution range. For a 
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.</returns>
-        ///   
         double IUnivariateDistribution.DistributionFunction(double x)
         {
             if (double.IsNegativeInfinity(x))
@@ -336,35 +323,30 @@ namespace Accord.Statistics.Distributions.Univariate
             return DistributionFunction((int)x);
         }
 
-        /// <summary>
-        ///   Gets the inverse of the cumulative distribution function (icdf) for
-        ///   this distribution evaluated at probability <c>p</c>. This function 
-        ///   is also known as the Quantile function.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
-        ///   a given probability, the value which the random variable will be at,
-        ///   or below, with that probability.
-        /// </remarks>
-        /// 
+        double IUnivariateDistribution.DistributionFunction(double a, double b)
+        {
+            int ia;
+            if (double.IsNegativeInfinity(a))
+                ia = int.MinValue;
+            else if (double.IsPositiveInfinity(a))
+                ia = int.MaxValue;
+            else ia = (int)a;
+
+            int ib;
+            if (double.IsNegativeInfinity(b))
+                ib = int.MinValue;
+            else if (double.IsPositiveInfinity(b))
+                ib = int.MaxValue;
+            else ib = (int)b;
+
+            return DistributionFunction(ia, ib);
+        }
+
         double IUnivariateDistribution.InverseDistributionFunction(double p)
         {
             return InverseDistributionFunction(p);
         }
 
-        /// <summary>
-        ///   Gets the complementary cumulative distribution function
-        ///   (ccdf) for this distribution evaluated at point <c>x</c>.
-        ///   This function is also known as the Survival function.
-        /// </summary>
-        /// 
-        /// <remarks>
-        ///   The Complementary Cumulative Distribution Function (CCDF) is
-        ///   the complement of the Cumulative Distribution Function, or 1
-        ///   minus the CDF.
-        /// </remarks>
-        /// 
         double IDistribution.ComplementaryDistributionFunction(double[] x)
         {
             if (double.IsNegativeInfinity(x[0]))
@@ -375,26 +357,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return ComplementaryDistributionFunction((int)x[0]);
         }
 
-        /// <summary>
-        ///   Gets the probability density function (pdf) for
-        ///   this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">
-        ///   A single point in the distribution range. For a 
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        ///   
-        /// <remarks>
-        ///   The Probability Density Function (PDF) describes the
-        ///   probability that a given value <c>x</c> will occur.
-        /// </remarks>
-        /// 
-        /// <returns>
-        ///   The probability of <c>x</c> occurring
-        ///   in the current distribution.</returns>
-        ///   
         double IDistribution.ProbabilityFunction(double[] x)
         {
             if (double.IsNegativeInfinity(x[0]))
@@ -405,21 +367,6 @@ namespace Accord.Statistics.Distributions.Univariate
             return ProbabilityMassFunction((int)x[0]);
         }
 
-        /// <summary>
-        ///   Gets the log-probability density function (pdf)
-        ///   for this distribution evaluated at point <c>x</c>.
-        /// </summary>
-        /// 
-        /// <param name="x">A single point in the distribution range. For a
-        ///   univariate distribution, this should be a single
-        ///   double value. For a multivariate distribution,
-        ///   this should be a double array.</param>
-        /// 
-        /// <returns>
-        ///   The logarithm of the probability of <c>x</c>
-        ///   occurring in the current distribution.
-        /// </returns>
-        /// 
         double IDistribution.LogProbabilityFunction(double[] x)
         {
             return LogProbabilityMassFunction((int)x[0]);
@@ -541,6 +488,26 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   probability that a given value or any value smaller than it will occur.
         /// </remarks>
         /// 
+        /// <example>
+        /// <code>
+        /// // Compute P(X = k) 
+        /// double equal = dist.ProbabilityMassFunction(k: 1);
+        /// 
+        /// // Compute P(X &lt; k) 
+        /// double less = dist.DistributionFunction(k: 1, inclusive: false);
+        /// 
+        /// // Compute P(X ≤ k) 
+        /// double lessThanOrEqual = dist.DistributionFunction(k: 1, inclusive: true);
+        /// 
+        /// // Compute P(X > k) 
+        /// double greater = dist.ComplementaryDistributionFunction(k: 1);
+        /// 
+        /// // Compute P(X ≥ k) 
+        /// double greaterThanOrEqual = dist.ComplementaryDistributionFunction(k: 1, inclusive: true);
+        /// </code>
+        /// </example>
+        /// 
+        /// 
         public virtual double DistributionFunction(int k, bool inclusive)
         {
             if (inclusive)
@@ -592,6 +559,28 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   value when applied in the <see cref="DistributionFunction(int)"/>.</returns>
         /// 
         public virtual int InverseDistributionFunction(double p)
+        {
+            return BaseInverseDistributionFunction(p);
+        }
+
+        /// <summary>
+        ///   Gets the inverse of the cumulative distribution function (icdf) for
+        ///   this distribution evaluated at probability <c>p</c> using a numerical
+        ///   approximation based on binary search.
+        /// </summary>
+        /// 
+        /// <remarks>
+        ///   The Inverse Cumulative Distribution Function (ICDF) specifies, for
+        ///   a given probability, the value which the random variable will be at,
+        ///   or below, with that probability.
+        /// </remarks>
+        /// 
+        /// <param name="p">A probability value between 0 and 1.</param>
+        /// 
+        /// <returns>A sample which could original the given probability 
+        ///   value when applied in the <see cref="DistributionFunction(int)"/>.</returns>
+        /// 
+        protected int BaseInverseDistributionFunction(double p)
         {
             bool lowerBounded = !Double.IsInfinity(Support.Min);
             bool upperBounded = !Double.IsInfinity(Support.Max);
@@ -724,6 +713,25 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   the complement of the Cumulative Distribution Function, or 1
         ///   minus the CDF.
         /// </remarks>
+        /// 
+        /// <example>
+        /// <code>
+        /// // Compute P(X = k) 
+        /// double equal = dist.ProbabilityMassFunction(k: 1);
+        /// 
+        /// // Compute P(X &lt; k) 
+        /// double less = dist.DistributionFunction(k: 1, inclusive: false);
+        /// 
+        /// // Compute P(X ≤ k) 
+        /// double lessThanOrEqual = dist.DistributionFunction(k: 1, inclusive: true);
+        /// 
+        /// // Compute P(X > k) 
+        /// double greater = dist.ComplementaryDistributionFunction(k: 1);
+        /// 
+        /// // Compute P(X ≥ k) 
+        /// double greaterThanOrEqual = dist.ComplementaryDistributionFunction(k: 1, inclusive: true);
+        /// </code>
+        /// </example>
         /// 
         public virtual double ComplementaryDistributionFunction(int k, bool inclusive)
         {
@@ -952,14 +960,87 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
-        ///   Creates a new object that is a copy of the current instance.
+        ///   Fits the underlying distribution to a given set of observations.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A new object that is a copy of this instance.
-        /// </returns>
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        ///   
+        public virtual void Fit(int[] observations)
+        {
+            Fit(observations, (IFittingOptions)null);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
         /// 
-        public abstract object Clone();
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).</param>
+        ///   
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public virtual void Fit(int[] observations, IFittingOptions options)
+        {
+            Fit(observations, (double[])null, options);
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).
+        /// </param>
+        /// 
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public virtual void Fit(int[] observations, double[] weights, IFittingOptions options)
+        {
+            throw new NotSupportedException();
+        }
+
+        /// <summary>
+        ///   Fits the underlying distribution to a given set of observations.
+        /// </summary>
+        /// 
+        /// <param name="observations">
+        ///   The array of observations to fit the model against. The array
+        ///   elements can be either of type double (for univariate data) or
+        ///   type double[] (for multivariate data).
+        /// </param>
+        /// 
+        /// <param name="weights">
+        ///   The weight vector containing the weight for each of the samples.</param>
+        ///   
+        /// <param name="options">
+        ///   Optional arguments which may be used during fitting, such
+        ///   as regularization constants and additional parameters.</param>
+        ///   
+        public virtual void Fit(int[] observations, int[] weights, IFittingOptions options)
+        {
+            if (weights == null)
+            {
+                Fit(observations, (double[])null, options);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+        }
 
 
         /// <summary>
@@ -993,6 +1074,16 @@ namespace Accord.Statistics.Distributions.Univariate
         public virtual int Generate()
         {
             return InverseDistributionFunction(Accord.Math.Tools.Random.NextDouble());
+        }
+
+        double[] ISampleableDistribution<double>.Generate(int samples)
+        {
+            return Generate(samples).ToDouble();
+        }
+
+        double ISampleableDistribution<double>.Generate()
+        {
+            return (double)Generate();
         }
 
 
@@ -1060,7 +1151,6 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             return CumulativeHazardFunction((int)x);
         }
-
 
     }
 }

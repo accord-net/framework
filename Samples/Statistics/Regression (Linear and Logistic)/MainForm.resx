@@ -124,7 +124,7 @@
   <data name="MenuFileOpen.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJHSURBVDhPxZBdSNNhFMb/F110ZZEVhVBgeeHNICiiuggp
+        YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAJHSURBVDhPxZBdSNNhFMb/F110ZZEVhVBgeeHNICiiuggp
         olAUyyxI0oSaH1QYC3N+tKnp5ubm1JUua5uuqdNKMwr7kApFItTUkWZqVhSVYmao5Nevvy7UoYR3HXh4
         4XCe33nOKyy3lAY7l9RWMo0O/raWXxEyo5spVYTNvOGyfIRPfW+ptOkXqaPl6T83hcRmExSdgzAz3NVm
         YWyoYla/B+1M9JtxWLPpaH22JORIjI6gKAMB0jyEimIdo4OlbuaprwVMOOMovammpDADc34qppwUrmnl
@@ -194,6 +194,38 @@
   <metadata name="colLength.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="dataHistogramView1.DataSource" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFVBY2NvcmQuU3RhdGlzdGljcywgVmVyc2lvbj0yLjE1LjAuMCwg
+        Q3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1mYTFhODhlMjk1NTVjY2Y3BQEAAAAqQWNjb3Jk
+        LlN0YXRpc3RpY3MuVmlzdWFsaXphdGlvbnMuSGlzdG9ncmFtBwAAAAliaW5WYWx1ZXMJYmluUmFuZ2Vz
+        E2luY2x1c2l2ZVVwcGVyQm91bmQNYmluQ29sbGVjdGlvbgpjdW11bGF0aXZlBXRpdGxlBHJ1bGUHBwAE
+        AAEECAYBN0FjY29yZC5TdGF0aXN0aWNzLlZpc3VhbGl6YXRpb25zLkhpc3RvZ3JhbUJpbkNvbGxlY3Rp
+        b24CAAAAATJBY2NvcmQuU3RhdGlzdGljcy5WaXN1YWxpemF0aW9ucy5CaW5BZGp1c3RtZW50UnVsZQIA
+        AAACAAAACQMAAAAJBAAAAAEJBQAAAAAGBgAAAAAF+f///zJBY2NvcmQuU3RhdGlzdGljcy5WaXN1YWxp
+        emF0aW9ucy5CaW5BZGp1c3RtZW50UnVsZQEAAAAHdmFsdWVfXwAIAgAAAAMAAAAPAwAAAAAAAAAIDwQA
+        AAABAAAABgAAAAAAAAAABQUAAAA3QWNjb3JkLlN0YXRpc3RpY3MuVmlzdWFsaXphdGlvbnMuSGlzdG9n
+        cmFtQmluQ29sbGVjdGlvbgEAAAAZUmVhZE9ubHlDb2xsZWN0aW9uYDErbGlzdAQvQWNjb3JkLlN0YXRp
+        c3RpY3MuVmlzdWFsaXphdGlvbnMuSGlzdG9ncmFtQmluW10CAAAAAgAAAAkIAAAABwgAAAAAAQAAAAAA
+        AAAELUFjY29yZC5TdGF0aXN0aWNzLlZpc3VhbGl6YXRpb25zLkhpc3RvZ3JhbUJpbgIAAAAL
+</value>
+  </data>
+  <data name="dataHistogramView1.Histogram" mimetype="application/x-microsoft.net.object.binary.base64">
+    <value>
+        AAEAAAD/////AQAAAAAAAAAMAgAAAFVBY2NvcmQuU3RhdGlzdGljcywgVmVyc2lvbj0yLjE1LjAuMCwg
+        Q3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1mYTFhODhlMjk1NTVjY2Y3BQEAAAAqQWNjb3Jk
+        LlN0YXRpc3RpY3MuVmlzdWFsaXphdGlvbnMuSGlzdG9ncmFtBwAAAAliaW5WYWx1ZXMJYmluUmFuZ2Vz
+        E2luY2x1c2l2ZVVwcGVyQm91bmQNYmluQ29sbGVjdGlvbgpjdW11bGF0aXZlBXRpdGxlBHJ1bGUHBwAE
+        AAEECAYBN0FjY29yZC5TdGF0aXN0aWNzLlZpc3VhbGl6YXRpb25zLkhpc3RvZ3JhbUJpbkNvbGxlY3Rp
+        b24CAAAAATJBY2NvcmQuU3RhdGlzdGljcy5WaXN1YWxpemF0aW9ucy5CaW5BZGp1c3RtZW50UnVsZQIA
+        AAACAAAACQMAAAAJBAAAAAEJBQAAAAAGBgAAAAAF+f///zJBY2NvcmQuU3RhdGlzdGljcy5WaXN1YWxp
+        emF0aW9ucy5CaW5BZGp1c3RtZW50UnVsZQEAAAAHdmFsdWVfXwAIAgAAAAMAAAAPAwAAAAAAAAAIDwQA
+        AAABAAAABgAAAAAAAAAABQUAAAA3QWNjb3JkLlN0YXRpc3RpY3MuVmlzdWFsaXphdGlvbnMuSGlzdG9n
+        cmFtQmluQ29sbGVjdGlvbgEAAAAZUmVhZE9ubHlDb2xsZWN0aW9uYDErbGlzdAQvQWNjb3JkLlN0YXRp
+        c3RpY3MuVmlzdWFsaXphdGlvbnMuSGlzdG9ncmFtQmluW10CAAAAAgAAAAkIAAAABwgAAAAAAQAAAAAA
+        AAAELUFjY29yZC5TdGF0aXN0aWNzLlZpc3VhbGl6YXRpb25zLkhpc3RvZ3JhbUJpbgIAAAAL
+</value>
+  </data>
   <metadata name="dataGridViewTextBoxColumn1.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

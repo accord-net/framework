@@ -31,6 +31,7 @@ namespace Accord.MachineLearning
     using System.Threading.Tasks;
     using System.Threading;
     using Accord.Math.Comparers;
+    using System.Runtime.Serialization;
 
     /// <summary>
     ///   k-Means clustering algorithm.
@@ -490,7 +491,7 @@ namespace Accord.MachineLearning
         ///   before returning the method.
         /// </summary>
         /// 
-        protected virtual void PerformClustering(double[][] data, double threshold, 
+        protected virtual void PerformClustering(double[][] data, double threshold,
             double[][] newCentroids, int[] count,
             int[] labels, double[][] centroids)
         {
@@ -634,7 +635,7 @@ namespace Accord.MachineLearning
         public int[] Compute(double[][] data, double threshold, out double error, bool computeInformation)
         {
             // Initial argument checking
-            if (data == null) 
+            if (data == null)
                 throw new ArgumentNullException("data");
 
             // Classify the input data
@@ -691,6 +692,17 @@ namespace Accord.MachineLearning
         }
 
 
+        [OnDeserialized]
+        private void OnDeserializedMethod(StreamingContext context)
+        {
+            if (this.Iterations == 0 && MaxIterations == 0 && Tolerance == 0)
+            {
+                this.Tolerance = 1e-5;
+                this.ComputeInformation = true;
+                this.UseCentroidSeeding = true;
+            }
+        }
+
 
         #region Deprecated
         /// <summary>
@@ -725,5 +737,4 @@ namespace Accord.MachineLearning
         #endregion
 
     }
-
 }

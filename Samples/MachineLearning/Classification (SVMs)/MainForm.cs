@@ -30,11 +30,6 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-using System;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
 using Accord;
 using Accord.Controls;
 using Accord.IO;
@@ -45,6 +40,11 @@ using Accord.Statistics.Analysis;
 using Accord.Statistics.Kernels;
 using AForge;
 using Components;
+using System;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 using ZedGraph;
 
 namespace Classification.SVMs
@@ -491,6 +491,11 @@ namespace Classification.SVMs
         private void toolStripMenuItem7_Click(object sender, EventArgs e)
         {
             new AboutBox().ShowDialog(this);
+        }
+
+        private void numPolyConstant_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

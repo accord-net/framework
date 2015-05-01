@@ -22,11 +22,11 @@
 
 namespace Accord.Imaging.Filters
 {
-    using System.Collections.Generic;
-    using System.Drawing.Imaging;
     using AForge.Imaging;
     using AForge.Imaging.Filters;
     using System;
+    using System.Collections.Generic;
+    using System.Drawing.Imaging;
 
     /// <summary>
     ///   Combine channel filter.
@@ -75,7 +75,7 @@ namespace Accord.Imaging.Filters
 
             foreach (var c in channels)
                 if (c.Width != baseWidth || c.Height != baseHeight)
-                    throw new ArgumentException( "All images must have the same dimensions.", "channels");
+                    throw new ArgumentException("All images must have the same dimensions.", "channels");
 
             formatTranslations[PixelFormat.Format64bppArgb] = PixelFormat.Format64bppArgb;
             formatTranslations[PixelFormat.Format48bppRgb] = PixelFormat.Format48bppRgb;
@@ -91,58 +91,59 @@ namespace Accord.Imaging.Filters
         /// 
         /// <param name="image">Source image data.</param>
         /// 
-        protected override void ProcessFilter(UnmanagedImage image)
+        protected unsafe override void ProcessFilter(UnmanagedImage image)
         {
             int pixelSize = System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             // get source image size
             int width = image.Width;
             int height = image.Height;
-            int offset = image.Stride - width * pixelSize;
 
             // check is the same size
             if (image.Height != baseHeight || image.Width != baseWidth)
                 throw new InvalidImagePropertiesException("Image does not have expected dimensions.", "image");
 
-            unsafe
+            if (pixelSize == 8)
             {
-                if (pixelSize == 8)
+                // for each channel
+                for (int c = 0; c < channels.Length; c++)
                 {
-                    // for each channel
-                    for (int c = 0; c < channels.Length; c++)
-                    {
-                        byte* dst = (byte*)((int)image.ImageData + c);
-                        byte* src = (byte*)channels[c].ImageData;
+                    byte* dst = (byte*)((int)image.ImageData + c);
+                    byte* src = (byte*)channels[c].ImageData;
 
-                        // copy channel to image
-                        for (int y = 0; y < height; y++)
-                        {
-                            for (int x = 0; x < width; x++)
-                            {
-                                *(dst += pixelSize) = *(src++);
-                            }
-                        }
-                    }
-                }
-                else if (pixelSize == 16)
-                {
-                    // for each channel
-                    for (int c = 0; c < channels.Length; c++)
+                    // copy channel to image
+                    for (int y = 0; y < height; y++)
                     {
-                        short* dst = (short*)((int)image.ImageData + c);
-                        short* src = (short*)channels[c].ImageData;
-
-                        // copy channel to image
-                        for (int y = 0; y < height; y++)
+                        for (int x = 0; x < width; x++)
                         {
-                            for (int x = 0; x < width; x++)
-                            {
-                                *(dst += pixelSize) = *(src++);
-                            }
+                            *(dst += pixelSize) = *(src++);
                         }
                     }
                 }
             }
+            else if (pixelSize == 16)
+            {
+                // for each channel
+                for (int c = 0; c < channels.Length; c++)
+                {
+                    short* dst = (short*)((int)image.ImageData + c);
+                    short* src = (short*)channels[c].ImageData;
+
+                    // copy channel to image
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++)
+                        {
+                            *(dst += pixelSize) = *(src++);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new UnsupportedImageFormatException("Unsupported pixel size.");
+            }
         }
+
     }
 }

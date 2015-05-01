@@ -22,10 +22,10 @@
 
 namespace Accord.Statistics.Distributions.Univariate
 {
-    using System;
     using Accord.Math;
     using Accord.Math.Optimization;
     using AForge;
+    using System;
 
     /// <summary>
     ///   Noncentral t-distribution.
@@ -330,51 +330,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("T(x; df = {0}, μ = {1})", DegreesOfFreedom, Noncentrality);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "T(x; df = {0}, μ = {1})", DegreesOfFreedom, Noncentrality);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "T(x; df = {0}, μ = {1})",
                 DegreesOfFreedom.ToString(format, formatProvider),
                 Noncentrality.ToString(format, formatProvider));
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("T(x; df = {0}, μ = {1})",
-                DegreesOfFreedom.ToString(format), Noncentrality.ToString(format));
         }
 
         /// <summary>
@@ -403,19 +363,16 @@ namespace Accord.Statistics.Distributions.Univariate
                     "Degrees of freedom must be positive.");
             }
 
-            double tt;
             double del;
             bool negdel;
 
             if (t < 0.0)
             {
-                tt = -t;
                 del = -delta;
                 negdel = true;
             }
             else
             {
-                tt = t;
                 del = delta;
                 negdel = false;
             }

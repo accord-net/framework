@@ -50,8 +50,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void FunctionTest()
         {
-            Linear dense = new Linear();
-            SparseLinear target = new SparseLinear();
+            Linear dense = new Linear(1);
+            SparseLinear target = new SparseLinear(1);
 
             double[] sx = { 1, -0.555556, 2, +0.250000, 3, -0.864407, 4, -0.916667 };
             double[] sy = { 1, -0.666667, 2, -0.166667, 3, -0.864407, 4, -0.916667 };
@@ -79,8 +79,8 @@ namespace Accord.Tests.Statistics
         [TestMethod()]
         public void DistanceTest()
         {
-            Linear dense = new Linear();
-            SparseLinear target = new SparseLinear();
+            Linear dense = new Linear(1);
+            SparseLinear target = new SparseLinear(1);
 
             double[] sx = { 1, -0.555556, 2, +0.250000, 3, -0.864407, 4, -0.916667 };
             double[] sy = { 1, -0.666667, 2, -0.166667, 3, -0.864407, 4, -0.916667 };

@@ -44,6 +44,9 @@ using Accord.Neuro.Learning;
 using AForge;
 using AForge.Controls;
 using AForge.Neuro;
+using Accord.IO;
+using System.Globalization;
+using Accord.Math;
 
 namespace Samples.Rprop
 {
@@ -143,7 +146,7 @@ namespace Samples.Rprop
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TimeSeries));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dataList = new System.Windows.Forms.ListView();
             this.yColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -185,9 +188,9 @@ namespace Samples.Rprop
             // 
             this.groupBox1.Controls.Add(this.dataList);
             this.groupBox1.Controls.Add(this.loadDataButton);
-            this.groupBox1.Location = new System.Drawing.Point(10, 10);
+            this.groupBox1.Location = new System.Drawing.Point(16, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(180, 380);
+            this.groupBox1.Size = new System.Drawing.Size(288, 555);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Data";
@@ -199,9 +202,9 @@ namespace Samples.Rprop
             this.estimatedYColumnHeader});
             this.dataList.FullRowSelect = true;
             this.dataList.GridLines = true;
-            this.dataList.Location = new System.Drawing.Point(10, 20);
+            this.dataList.Location = new System.Drawing.Point(16, 29);
             this.dataList.Name = "dataList";
-            this.dataList.Size = new System.Drawing.Size(160, 315);
+            this.dataList.Size = new System.Drawing.Size(256, 461);
             this.dataList.TabIndex = 3;
             this.dataList.UseCompatibleStateImageBehavior = false;
             this.dataList.View = System.Windows.Forms.View.Details;
@@ -218,9 +221,9 @@ namespace Samples.Rprop
             // 
             // loadDataButton
             // 
-            this.loadDataButton.Location = new System.Drawing.Point(10, 345);
+            this.loadDataButton.Location = new System.Drawing.Point(16, 504);
             this.loadDataButton.Name = "loadDataButton";
-            this.loadDataButton.Size = new System.Drawing.Size(75, 23);
+            this.loadDataButton.Size = new System.Drawing.Size(120, 34);
             this.loadDataButton.TabIndex = 2;
             this.loadDataButton.Text = "&Load";
             this.loadDataButton.Click += new System.EventHandler(this.loadDataButton_Click);
@@ -228,18 +231,20 @@ namespace Samples.Rprop
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.chart);
-            this.groupBox2.Location = new System.Drawing.Point(200, 10);
+            this.groupBox2.Location = new System.Drawing.Point(320, 15);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(300, 380);
+            this.groupBox2.Size = new System.Drawing.Size(480, 555);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Function";
             // 
             // chart
             // 
-            this.chart.Location = new System.Drawing.Point(10, 20);
+            this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.Size = new System.Drawing.Size(280, 350);
+            this.chart.RangeX = ((AForge.Range)(resources.GetObject("chart.RangeX")));
+            this.chart.RangeY = ((AForge.Range)(resources.GetObject("chart.RangeY")));
+            this.chart.Size = new System.Drawing.Size(448, 512);
             this.chart.TabIndex = 0;
             // 
             // openFileDialog
@@ -250,9 +255,9 @@ namespace Samples.Rprop
             // stopButton
             // 
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(630, 360);
+            this.stopButton.Location = new System.Drawing.Point(1008, 526);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(75, 23);
+            this.stopButton.Size = new System.Drawing.Size(120, 34);
             this.stopButton.TabIndex = 6;
             this.stopButton.Text = "S&top";
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
@@ -260,9 +265,9 @@ namespace Samples.Rprop
             // startButton
             // 
             this.startButton.Enabled = false;
-            this.startButton.Location = new System.Drawing.Point(540, 360);
+            this.startButton.Location = new System.Drawing.Point(864, 526);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(75, 23);
+            this.startButton.Size = new System.Drawing.Size(120, 34);
             this.startButton.TabIndex = 5;
             this.startButton.Text = "&Start";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
@@ -275,161 +280,161 @@ namespace Samples.Rprop
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.currentIterationBox);
             this.groupBox4.Controls.Add(this.label11);
-            this.groupBox4.Location = new System.Drawing.Point(510, 225);
+            this.groupBox4.Location = new System.Drawing.Point(816, 329);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(195, 100);
+            this.groupBox4.Size = new System.Drawing.Size(312, 146);
             this.groupBox4.TabIndex = 7;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Current iteration:";
             // 
             // currentPredictionErrorBox
             // 
-            this.currentPredictionErrorBox.Location = new System.Drawing.Point(125, 70);
+            this.currentPredictionErrorBox.Location = new System.Drawing.Point(200, 102);
             this.currentPredictionErrorBox.Name = "currentPredictionErrorBox";
             this.currentPredictionErrorBox.ReadOnly = true;
-            this.currentPredictionErrorBox.Size = new System.Drawing.Size(60, 20);
+            this.currentPredictionErrorBox.Size = new System.Drawing.Size(96, 26);
             this.currentPredictionErrorBox.TabIndex = 5;
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(10, 72);
+            this.label13.Location = new System.Drawing.Point(16, 105);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(100, 16);
+            this.label13.Size = new System.Drawing.Size(160, 24);
             this.label13.TabIndex = 4;
             this.label13.Text = "Prediction error:";
             // 
             // currentLearningErrorBox
             // 
-            this.currentLearningErrorBox.Location = new System.Drawing.Point(125, 45);
+            this.currentLearningErrorBox.Location = new System.Drawing.Point(200, 66);
             this.currentLearningErrorBox.Name = "currentLearningErrorBox";
             this.currentLearningErrorBox.ReadOnly = true;
-            this.currentLearningErrorBox.Size = new System.Drawing.Size(60, 20);
+            this.currentLearningErrorBox.Size = new System.Drawing.Size(96, 26);
             this.currentLearningErrorBox.TabIndex = 3;
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(10, 47);
+            this.label12.Location = new System.Drawing.Point(16, 69);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(80, 16);
+            this.label12.Size = new System.Drawing.Size(128, 23);
             this.label12.TabIndex = 2;
             this.label12.Text = "Learning error:";
             // 
             // currentIterationBox
             // 
-            this.currentIterationBox.Location = new System.Drawing.Point(125, 20);
+            this.currentIterationBox.Location = new System.Drawing.Point(200, 29);
             this.currentIterationBox.Name = "currentIterationBox";
             this.currentIterationBox.ReadOnly = true;
-            this.currentIterationBox.Size = new System.Drawing.Size(60, 20);
+            this.currentIterationBox.Size = new System.Drawing.Size(96, 26);
             this.currentIterationBox.TabIndex = 1;
             // 
             // label11
             // 
-            this.label11.Location = new System.Drawing.Point(10, 22);
+            this.label11.Location = new System.Drawing.Point(16, 32);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(70, 16);
+            this.label11.Size = new System.Drawing.Size(112, 24);
             this.label11.TabIndex = 0;
             this.label11.Text = "Iteration:";
             // 
             // label5
             // 
             this.label5.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label5.Location = new System.Drawing.Point(11, 104);
+            this.label5.Location = new System.Drawing.Point(18, 152);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(175, 2);
+            this.label5.Size = new System.Drawing.Size(280, 3);
             this.label5.TabIndex = 17;
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(11, 174);
+            this.label9.Location = new System.Drawing.Point(18, 254);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(70, 16);
+            this.label9.Size = new System.Drawing.Size(112, 24);
             this.label9.TabIndex = 23;
             this.label9.Text = "Iterations:";
             // 
             // label10
             // 
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(127, 192);
+            this.label10.Location = new System.Drawing.Point(203, 281);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(58, 14);
+            this.label10.Size = new System.Drawing.Size(93, 20);
             this.label10.TabIndex = 25;
             this.label10.Text = "( 0 - inifinity )";
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(11, 114);
+            this.label3.Location = new System.Drawing.Point(18, 167);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 16);
+            this.label3.Size = new System.Drawing.Size(128, 23);
             this.label3.TabIndex = 18;
             this.label3.Text = "Window size:";
             // 
             // windowSizeBox
             // 
-            this.windowSizeBox.Location = new System.Drawing.Point(126, 112);
+            this.windowSizeBox.Location = new System.Drawing.Point(202, 164);
             this.windowSizeBox.Name = "windowSizeBox";
-            this.windowSizeBox.Size = new System.Drawing.Size(60, 20);
+            this.windowSizeBox.Size = new System.Drawing.Size(96, 26);
             this.windowSizeBox.TabIndex = 19;
             this.windowSizeBox.TextChanged += new System.EventHandler(this.windowSizeBox_TextChanged);
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(11, 139);
+            this.label7.Location = new System.Drawing.Point(18, 203);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(90, 16);
+            this.label7.Size = new System.Drawing.Size(144, 24);
             this.label7.TabIndex = 20;
             this.label7.Text = "Prediction size:";
             // 
             // predictionSizeBox
             // 
-            this.predictionSizeBox.Location = new System.Drawing.Point(126, 137);
+            this.predictionSizeBox.Location = new System.Drawing.Point(202, 200);
             this.predictionSizeBox.Name = "predictionSizeBox";
-            this.predictionSizeBox.Size = new System.Drawing.Size(60, 20);
+            this.predictionSizeBox.Size = new System.Drawing.Size(96, 26);
             this.predictionSizeBox.TabIndex = 21;
             this.predictionSizeBox.TextChanged += new System.EventHandler(this.predictionSizeBox_TextChanged);
             // 
             // iterationsBox
             // 
-            this.iterationsBox.Location = new System.Drawing.Point(126, 172);
+            this.iterationsBox.Location = new System.Drawing.Point(202, 251);
             this.iterationsBox.Name = "iterationsBox";
-            this.iterationsBox.Size = new System.Drawing.Size(60, 20);
+            this.iterationsBox.Size = new System.Drawing.Size(96, 26);
             this.iterationsBox.TabIndex = 24;
             // 
             // label8
             // 
             this.label8.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label8.Location = new System.Drawing.Point(11, 164);
+            this.label8.Location = new System.Drawing.Point(18, 240);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(175, 2);
+            this.label8.Size = new System.Drawing.Size(280, 3);
             this.label8.TabIndex = 22;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(10, 22);
+            this.label1.Location = new System.Drawing.Point(16, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 14);
+            this.label1.Size = new System.Drawing.Size(125, 21);
             this.label1.TabIndex = 6;
             this.label1.Text = "Learning rate:";
             // 
             // learningRateBox
             // 
-            this.learningRateBox.Location = new System.Drawing.Point(125, 20);
+            this.learningRateBox.Location = new System.Drawing.Point(200, 29);
             this.learningRateBox.Name = "learningRateBox";
-            this.learningRateBox.Size = new System.Drawing.Size(60, 20);
+            this.learningRateBox.Size = new System.Drawing.Size(96, 26);
             this.learningRateBox.TabIndex = 7;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(10, 48);
+            this.label2.Location = new System.Drawing.Point(16, 70);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 15);
+            this.label2.Size = new System.Drawing.Size(192, 22);
             this.label2.TabIndex = 10;
             this.label2.Text = "Sigmoid\'s alpha value:";
             // 
             // alphaBox
             // 
-            this.alphaBox.Location = new System.Drawing.Point(125, 46);
+            this.alphaBox.Location = new System.Drawing.Point(200, 67);
             this.alphaBox.Name = "alphaBox";
-            this.alphaBox.Size = new System.Drawing.Size(60, 20);
+            this.alphaBox.Size = new System.Drawing.Size(96, 26);
             this.alphaBox.TabIndex = 11;
             // 
             // groupBox3
@@ -447,17 +452,18 @@ namespace Samples.Rprop
             this.groupBox3.Controls.Add(this.label10);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(510, 10);
+            this.groupBox3.Location = new System.Drawing.Point(816, 15);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(195, 209);
+            this.groupBox3.Size = new System.Drawing.Size(312, 305);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Settings";
             // 
-            // MainForm
+            // TimeSeries
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(715, 398);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(1144, 579);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.startButton);
@@ -466,9 +472,9 @@ namespace Samples.Rprop
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "MainForm";
+            this.Name = "TimeSeries";
             this.Text = "Time Series Prediction using Multi-Layer Neural Network (Resilient Backpropagatio" +
-                "n)";
+    "n)";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -481,7 +487,7 @@ namespace Samples.Rprop
         }
         #endregion
 
-      
+
 
         // Delegates to enable async calls for setting controls properties
         private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);
@@ -543,55 +549,35 @@ namespace Samples.Rprop
             // show file selection dialog
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                StreamReader reader = null;
-                // read maximum 50 points
-                double[] tempData = new double[50];
+                data = null;
 
                 try
                 {
                     // open selected file
-                    reader = File.OpenText(openFileDialog.FileName);
-                    string str = null;
-                    int i = 0;
-
-                    // read the data
-                    while ((i < 50) && ((str = reader.ReadLine()) != null))
+                    using (TextReader stream = new StreamReader(openFileDialog.FileName))
+                    using (CsvReader reader = new CsvReader(stream, false))
                     {
-                        // parse the value
-                        tempData[i] = double.Parse(str);
-
-                        i++;
+                        data = reader.ToTable().ToMatrix(CultureInfo.InvariantCulture).GetColumn(0);
                     }
 
-                    // allocate and set data
-                    data = new double[i];
-                    dataToShow = new double[i, 2];
-                    Array.Copy(tempData, 0, data, 0, i);
-                    for (int j = 0; j < i; j++)
-                    {
-                        dataToShow[j, 0] = j;
-                        dataToShow[j, 1] = data[j];
-                    }
                 }
                 catch (Exception)
                 {
                     MessageBox.Show("Failed reading the file", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                finally
-                {
-                    // close file
-                    if (reader != null)
-                        reader.Close();
-                }
+
+                dataToShow = Matrix.Stack(Matrix.Indices(0, data.Length).ToDouble(), data).Transpose();
 
                 // update list and chart
                 UpdateDataListView();
                 chart.RangeX = new Range(0, data.Length - 1);
                 chart.UpdateDataSeries("data", dataToShow);
                 chart.UpdateDataSeries("solution", null);
+
                 // set delimiters
                 UpdateDelimiters();
+
                 // enable "Start" button
                 startButton.Enabled = true;
             }

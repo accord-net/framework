@@ -567,11 +567,17 @@ namespace Accord.Math.Optimization
                 double prevICM = ICM;
 
                 // Minimize the dual problem using current solution
-                dualSolver.Solution = currentSolution;
+                for (int i = 0; i < dualSolver.Solution.Length; i++)
+                    dualSolver.Solution[i] = currentSolution[i];
+
                 dualSolver.Minimize();
 
                 // Retrieve the solution found
-                currentSolution = dualSolver.Solution;
+                for (int i = 0; i < currentSolution.Length; i++)
+                {
+                    if (!Double.IsNaN(dualSolver.Solution[i]))
+                        currentSolution[i] = dualSolver.Solution[i];
+                }
 
                 // Evaluate function
                 functionEvaluations++;
@@ -674,15 +680,16 @@ namespace Accord.Math.Optimization
 
                 if (maxEvaluations > 0 && functionEvaluations >= maxEvaluations)
                     return true;
-
             }
-
         }
 
         static bool relstop(double vold, double vnew, double reltol, double abstol)
         {
             if (Double.IsInfinity(vold))
                 return false;
+
+            if (Double.IsNaN(vold) || Double.IsNaN(vnew))
+                return true;
 
             return (Math.Abs(vnew - vold) < abstol
                || Math.Abs(vnew - vold) < reltol * (Math.Abs(vnew) + Math.Abs(vold)) * 0.5

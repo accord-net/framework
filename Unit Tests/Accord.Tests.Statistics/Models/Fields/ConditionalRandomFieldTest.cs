@@ -101,40 +101,37 @@ namespace Accord.Tests.Statistics.Models.Fields
         [TestMethod()]
         public void LikelihoodTest()
         {
-            HiddenMarkovModel hmm = DiscreteHiddenMarkovModelFunctionTest.CreateModel2();
-
+            var hmm = DiscreteHiddenMarkovModelFunctionTest.CreateModel2();
+            
             int states = hmm.States;
             int symbols = hmm.Symbols;
 
+            var hcrf = new ConditionalRandomField<int>(states,
+                new MarkovDiscreteFunction(hmm));
 
-            var function1 = new MarkovDiscreteFunction(hmm);
-            var target1 = new ConditionalRandomField<int>(states, function1);
-
-            var function2 = new MarkovDiscreteFunction(states, symbols);
-            var target2 = new ConditionalRandomField<int>(states, function2);
+            var hmm0 = new HiddenMarkovModel(states, symbols);
+            var hcrf0 = new ConditionalRandomField<int>(states, 
+                new MarkovDiscreteFunction(hmm0));
 
 
-            int[] observations;
-
-            double a, b, la, lb;
-
-            observations = new int[] { 0, 0, 1, 1, 1, 2 };
-            a = target1.LogLikelihood(observations, observations);
-            b = target2.LogLikelihood(observations, observations);
-            Assert.IsTrue(a > b);
-
-            observations = new int[] { 0, 0, 1, 1, 1, 2 };
-            la = target1.LogLikelihood(observations, observations);
-            lb = target2.LogLikelihood(observations, observations);
+            int[] observations = new int[] { 0, 0, 1, 1, 1, 2 };
+            double la = hcrf.LogLikelihood(observations, observations);
+            double lb = hcrf0.LogLikelihood(observations, observations);
             Assert.IsTrue(la > lb);
 
-            double lla = System.Math.Log(a);
-            double llb = System.Math.Log(b);
+            double lc = hmm.Evaluate(observations, observations);
+            double ld = hmm0.Evaluate(observations, observations);
+            Assert.IsTrue(lc > ld);
 
-            Assert.AreEqual(lla, la, 1e-6);
-            Assert.AreEqual(llb, lb, 1e-6);
+            double za = hcrf.LogPartition(observations);
+            double zb = hcrf0.LogPartition(observations);
+
+            la += za;
+            lb += zb;
+
+            Assert.AreEqual(la, lc, 1e-6);
+            Assert.AreEqual(lb, ld, 1e-6);
         }
-
       
     }
 }

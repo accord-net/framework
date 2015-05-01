@@ -96,11 +96,10 @@ namespace Eigenfaces.PCA
                 dataGridView2.Rows.Add(eigenHand, pca.Components[i].Proportion);
             }
 
-            // Populates components overview with analysis data
+            // Populate components overview with analysis data
             dgvPrincipalComponents.DataSource = pca.Components;
-
-            CreateComponentCumulativeDistributionGraph(graphCurve);
-            CreateComponentDistributionGraph(graphShare);
+            distributionView.DataSource = pca.Components;
+            cumulativeView.DataSource = pca.Components;
 
             btnCreateProjection.Enabled = true;
         }

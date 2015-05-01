@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hammingWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,21 +49,19 @@
             this.chart1 = new Accord.Controls.Wavechart();
             this.vScrollBar1 = new System.Windows.Forms.VScrollBar();
             this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
-            this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.optionsToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(338, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(730, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -75,10 +76,29 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // startToolStripMenuItem
+            // 
+            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.startToolStripMenuItem.Text = "Start";
+            this.startToolStripMenuItem.Click += new System.EventHandler(this.btnStart_Click);
+            // 
+            // stopToolStripMenuItem
+            // 
+            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
+            this.stopToolStripMenuItem.Text = "Stop";
+            this.stopToolStripMenuItem.Click += new System.EventHandler(this.btnStop_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(100, 6);
+            // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
             this.closeToolStripMenuItem.Text = "Close";
             this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
@@ -96,21 +116,21 @@
             // hammingWindowToolStripMenuItem
             // 
             this.hammingWindowToolStripMenuItem.Name = "hammingWindowToolStripMenuItem";
-            this.hammingWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hammingWindowToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.hammingWindowToolStripMenuItem.Text = "Hamming";
             this.hammingWindowToolStripMenuItem.Click += new System.EventHandler(this.hammingWindowToolStripMenuItemClick);
             // 
             // hannWindowToolStripMenuItem
             // 
             this.hannWindowToolStripMenuItem.Name = "hannWindowToolStripMenuItem";
-            this.hannWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.hannWindowToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.hannWindowToolStripMenuItem.Text = "Hann";
             this.hannWindowToolStripMenuItem.Click += new System.EventHandler(this.hannWindowToolStripMenuItemClick);
             // 
             // blackmanWindowToolStripMenuItem
             // 
             this.blackmanWindowToolStripMenuItem.Name = "blackmanWindowToolStripMenuItem";
-            this.blackmanWindowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.blackmanWindowToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.blackmanWindowToolStripMenuItem.Text = "Blackman";
             this.blackmanWindowToolStripMenuItem.Click += new System.EventHandler(this.blackmanWindowToolStripMenuItemClick);
             // 
@@ -119,7 +139,7 @@
             this.noneToolStripMenuItem.Checked = true;
             this.noneToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.noneToolStripMenuItem.Name = "noneToolStripMenuItem";
-            this.noneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.noneToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.noneToolStripMenuItem.Text = "None";
             this.noneToolStripMenuItem.Click += new System.EventHandler(this.noneToolStripMenuItem_Click);
             // 
@@ -146,7 +166,7 @@
             // btnStart
             // 
             this.btnStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnStart.Location = new System.Drawing.Point(12, 214);
+            this.btnStart.Location = new System.Drawing.Point(12, 418);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(55, 23);
             this.btnStart.TabIndex = 4;
@@ -157,7 +177,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button2.Location = new System.Drawing.Point(73, 214);
+            this.button2.Location = new System.Drawing.Point(73, 418);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(55, 23);
             this.button2.TabIndex = 4;
@@ -171,9 +191,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(134, 216);
+            this.comboBox1.Location = new System.Drawing.Point(134, 420);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(192, 21);
+            this.comboBox1.Size = new System.Drawing.Size(584, 21);
             this.comboBox1.TabIndex = 5;
             // 
             // chart1
@@ -187,7 +207,7 @@
             this.chart1.RangeX = ((AForge.DoubleRange)(resources.GetObject("chart1.RangeX")));
             this.chart1.RangeY = ((AForge.DoubleRange)(resources.GetObject("chart1.RangeY")));
             this.chart1.SimpleMode = false;
-            this.chart1.Size = new System.Drawing.Size(292, 163);
+            this.chart1.Size = new System.Drawing.Size(684, 367);
             this.chart1.TabIndex = 6;
             this.chart1.Text = "chart1";
             // 
@@ -196,10 +216,10 @@
             this.vScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.vScrollBar1.LargeChange = 1;
-            this.vScrollBar1.Location = new System.Drawing.Point(307, 27);
+            this.vScrollBar1.Location = new System.Drawing.Point(698, 27);
             this.vScrollBar1.Maximum = 10;
             this.vScrollBar1.Name = "vScrollBar1";
-            this.vScrollBar1.Size = new System.Drawing.Size(19, 167);
+            this.vScrollBar1.Size = new System.Drawing.Size(19, 371);
             this.vScrollBar1.TabIndex = 8;
             this.vScrollBar1.Value = 9;
             // 
@@ -208,37 +228,18 @@
             this.hScrollBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hScrollBar1.LargeChange = 5;
-            this.hScrollBar1.Location = new System.Drawing.Point(12, 193);
+            this.hScrollBar1.Location = new System.Drawing.Point(12, 397);
             this.hScrollBar1.Minimum = 1;
             this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.Size = new System.Drawing.Size(292, 18);
+            this.hScrollBar1.Size = new System.Drawing.Size(684, 18);
             this.hScrollBar1.TabIndex = 9;
             this.hScrollBar1.Value = 3;
             // 
-            // startToolStripMenuItem
-            // 
-            this.startToolStripMenuItem.Name = "startToolStripMenuItem";
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.startToolStripMenuItem.Text = "Start";
-            this.startToolStripMenuItem.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // stopToolStripMenuItem
-            // 
-            this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.stopToolStripMenuItem.Text = "Stop";
-            this.stopToolStripMenuItem.Click += new System.EventHandler(this.btnStop_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(338, 249);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(730, 453);
             this.Controls.Add(this.hScrollBar1);
             this.Controls.Add(this.vScrollBar1);
             this.Controls.Add(this.chart1);

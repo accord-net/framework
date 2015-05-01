@@ -282,5 +282,10 @@ namespace Gestures.SVMs
                 e.Graphics.Clear(Color.FromArgb(0, this.BackColor));
             }
         }
+
+        private void lbIdle_Click(object sender, EventArgs e)
+        {
+            lbIdle.Visible = false;
+        }
     }
 }

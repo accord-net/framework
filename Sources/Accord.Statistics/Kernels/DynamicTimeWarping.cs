@@ -285,13 +285,49 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
         {
-            if (x == y) 
+            if (x == y)
                 return 1.0;
 
+            double cos = k(x, y);
+
+            if (degree == 1)
+                return cos;
+
+            return System.Math.Pow(cos, degree);
+        }
+
+        /// <summary>
+        ///   Computes the squared distance in feature space
+        ///   between two points given in input space.
+        /// </summary>
+        /// 
+        /// <param name="x">Vector <c>x</c> in input space.</param>
+        /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
+        /// <returns>
+        ///   Squared distance between <c>x</c> and <c>y</c> in feature (kernel) space.
+        /// </returns>
+        /// 
+        public override double Distance(double[] x, double[] y)
+        {
+            if (x == y)
+                return 0.0;
+
+            double cos = k(x, y);
+
+            if (degree == 1)
+                return 2 - 2 * cos;
+
+            return 2 - 2 * System.Math.Pow(cos, degree);
+        }
+
+        internal double k(double[] x, double[] y)
+        {
             Locals m = locals.Value;
 
             double[] sx = snorm(x);
@@ -305,10 +341,7 @@ namespace Accord.Statistics.Kernels
 
             // Compute the cosine of the global distance
             double distance = D(m, sx, sy);
-            double cos = System.Math.Cos(distance);
-
-            // Return cos for the linear kernel, cos^n for polynomial
-            return (degree == 1) ? cos : System.Math.Pow(cos, degree);
+            return System.Math.Cos(distance);
         }
 
 

@@ -22,6 +22,9 @@
 
 namespace Accord.Imaging
 {
+    using Accord.MachineLearning;
+    using Accord.Math;
+    using AForge.Imaging;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -30,9 +33,6 @@ namespace Accord.Imaging
     using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading;
     using System.Threading.Tasks;
-    using Accord.MachineLearning;
-    using Accord.Math;
-    using AForge.Imaging;
 
     /// <summary>
     ///   Bag of Visual Words
@@ -77,16 +77,16 @@ namespace Accord.Imaging
     /// 
     /// <para>
     ///   The following example shows how to create a BoW which works with any
-    ///   of corner detector, such as <see cref="FastCornersDetector"/>:</para>
+    ///   of corner detector, such as <see cref="HarrisCornersDetector"/>:</para>
     ///   
     /// <code>
     ///   int numberOfWords = 16;
     /// 
-    ///   // Create a corners detector
-    ///   MoravecCornersDetector moravec = new MoravecCornersDetector();
+    ///   // Create a Harris corners detector
+    ///   var harris = new HarrisCornersDetector();
     ///   
     ///   // Create an adapter to convert corners to visual features
-    ///   CornerFeaturesDetector detector = new CornerFeaturesDetector(moravec);
+    ///   CornerFeaturesDetector detector = new CornerFeaturesDetector(harris);
     ///   
     ///   // Create a bag-of-words (BoW) with the corners detector and number of words
     ///   var bow = new BagOfVisualWords&lt;CornerFeaturePoint>(detector, numberOfWords);

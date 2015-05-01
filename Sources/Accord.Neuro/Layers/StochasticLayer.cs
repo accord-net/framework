@@ -22,10 +22,10 @@
 
 namespace Accord.Neuro.Layers
 {
-    using System;
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Neurons;
     using AForge.Neuro;
+    using System;
 
     /// <summary>
     ///   Stochastic Activation Layer.
@@ -149,10 +149,7 @@ namespace Accord.Neuro.Layers
         /// 
         public void CopyReversedWeightsFrom(StochasticLayer layer)
         {
-            int hiddenNeurons = Neurons.Length;
-            int visibleNeurons = inputsCount;
-
-            for (int i = 0; i < hiddenNeurons; i++)
+            for (int i = 0; i < Neurons.Length; i++)
                 for (int j = 0; j < inputsCount; j++)
                     this.Neurons[i].Weights[j] = layer.Neurons[j].Weights[i];
         }

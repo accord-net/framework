@@ -62,6 +62,12 @@ namespace Accord.Statistics.Analysis
     /// </remarks>
     /// 
     /// <example>
+    /// <para>
+    ///   The following example shows to create a Logistic regresion analysis using a full
+    ///   dataset composed of input vectors and a binary output vector. Each input vector
+    ///   has an associated label (1 or 0) in the output vector, where 1 represents a positive
+    ///   label (yes, or true) and 0 represents a negative label (no, or false).</para>
+    ///   
     /// <code>
     /// // Suppose we have the following data about some patients.
     /// // The first variable is continuous and represent patient
@@ -125,6 +131,62 @@ namespace Accord.Statistics.Analysis
     ///             
     /// // For those inputs, the answer probability is approximately 75%.
     /// </code>
+    /// 
+    /// <para>
+    ///   The analysis can also be created from data given in a summary form. Instead of having
+    ///   one input vector associated with one positive or negative label, each input vector is
+    ///   associated with the proportion of positive to negative labels in the original dataset.
+    /// </para>
+    /// 
+    /// <code>
+    /// // Suppose we have a (fictitious) data set about patients who 
+    /// // underwent cardiac surgery. The first column gives the number
+    /// // of arterial bypasses performed during the surgery. The second
+    /// // column gives the number of patients whose surgery went well,
+    /// // while the third column gives the number of patients who had
+    /// // at least one complication during the surgery.
+    /// // 
+    /// int[,] data =
+    /// {
+    ///     // # of stents       success     complications
+    ///     {       1,             140,           45       },
+    ///     {       2,             130,           60       },
+    ///     {       3,             150,           31       },
+    ///     {       4,              96,           65       }
+    /// };
+    /// 
+    /// 
+    /// double[][] inputs = data.GetColumn(0).ToDouble().ToArray();
+    /// 
+    /// int[] positive = data.GetColumn(1);
+    /// int[] negative = data.GetColumn(2);
+    /// 
+    /// // Create a new Logistic Regression Analysis from the summary data
+    /// var regression = LogisticRegressionAnalysis.FromSummary(inputs, positive, negative);
+    /// 
+    /// regression.Compute(); // compute the analysis.
+    /// 
+    /// // Now we can show a summary of the analysis
+    /// DataGridBox.Show(regression.Coefficients);
+    /// 
+    /// 
+    /// // We can also investigate all parameters individually. For
+    /// // example the coefficients values will be available at the
+    /// // vector
+    /// 
+    /// double[] coef = regression.CoefficientValues;
+    /// 
+    /// // The first value refers to the model's intercept term. We
+    /// // can also retrieve the odds ratios and standard errors:
+    /// 
+    /// double[] odds = regression.OddsRatios;
+    /// double[] stde = regression.StandardErrors;
+    /// 
+    /// 
+    /// // Finally, we can use it to estimate risk for a new patient
+    /// double y = regression.Regression.Compute(new double[] { 4 });
+    /// </code>
+    ///   
     /// </example>
     /// 
     [Serializable]
@@ -148,12 +210,15 @@ namespace Accord.Statistics.Analysis
 
         private double[][] inputData;
         private double[] outputData;
+        private double[] weights;
 
         private string[] inputNames;
         private string outputName;
 
         private double[,] sourceMatrix;
         private double[] result;
+
+        double regularization = 1e-10;
 
         private LogisticCoefficientCollection coefficientCollection;
 
@@ -173,21 +238,81 @@ namespace Accord.Statistics.Analysis
         /// 
         public LogisticRegressionAnalysis(double[][] inputs, double[] outputs)
         {
-            // Initial argument checking
             if (inputs == null)
                 throw new ArgumentNullException("inputs");
+
             if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
             if (inputs.Length != outputs.Length)
+            {
                 throw new ArgumentException("The number of rows in the input array"
                     + " must match the number of given outputs.", "outputs");
+            }
 
 
             initialize(inputs, outputs);
 
             // Start regression using the Null Model
             this.regression = new LogisticRegression(inputCount);
+        }
+
+        /// <summary>
+        ///   Constructs a Logistic Regression Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data for the analysis.</param>
+        /// <param name="outputs">The output data for the analysis.</param>
+        /// <param name="weights">The weights associated with each input vector.</param>
+        /// 
+        public LogisticRegressionAnalysis(double[][] inputs, double[] outputs, double[] weights)
+            : this(inputs, outputs)
+        {
+            if (weights == null)
+                throw new ArgumentNullException("weights");
+
+            if (weights.Length != outputs.Length)
+            {
+                throw new ArgumentException("The number weights"
+                    + " must match the number of given input rows.", "outputs");
+            }
+
+            this.weights = weights;
+        }
+
+        /// <summary>
+        ///   Constructs a Logistic Regression Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data for the analysis.</param>
+        /// <param name="outputs">The output, binary data for the analysis.</param>
+        /// <param name="inputNames">The names of the input variables.</param>
+        /// <param name="outputName">The name of the output variable.</param>
+        /// 
+        public LogisticRegressionAnalysis(double[][] inputs, double[] outputs,
+            String[] inputNames, String outputName)
+            : this(inputs, outputs)
+        {
+            this.inputNames = inputNames;
+            this.outputName = outputName;
+        }
+
+        /// <summary>
+        ///   Constructs a Logistic Regression Analysis.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input data for the analysis.</param>
+        /// <param name="outputs">The output, binary data for the analysis.</param>
+        /// <param name="inputNames">The names of the input variables.</param>
+        /// <param name="outputName">The name of the output variable.</param>
+        /// <param name="weights">The weights associated with each input vector.</param>
+        /// 
+        public LogisticRegressionAnalysis(double[][] inputs, double[] outputs, double[] weights,
+            String[] inputNames, String outputName)
+            : this(inputs, outputs, weights)
+        {
+            this.inputNames = inputNames;
+            this.outputName = outputName;
         }
 
         private void initialize(double[][] inputs, double[] outputs)
@@ -220,22 +345,7 @@ namespace Accord.Statistics.Analysis
             this.coefficientCollection = new LogisticCoefficientCollection(logCoefs);
         }
 
-        /// <summary>
-        ///   Constructs a Logistic Regression Analysis.
-        /// </summary>
-        /// 
-        /// <param name="inputs">The input data for the analysis.</param>
-        /// <param name="outputs">The output, binary data for the analysis.</param>
-        /// <param name="inputNames">The names of the input variables.</param>
-        /// <param name="outputName">The name of the output variable.</param>
-        /// 
-        public LogisticRegressionAnalysis(double[][] inputs, double[] outputs,
-            String[] inputNames, String outputName)
-            : this(inputs, outputs)
-        {
-            this.inputNames = inputNames;
-            this.outputName = outputName;
-        }
+
         #endregion
 
 
@@ -264,6 +374,18 @@ namespace Accord.Statistics.Analysis
         {
             get { return tolerance; }
             set { tolerance = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the regularization value to be
+        ///   added in the objective function. Default is
+        ///   1e-10.
+        /// </summary>
+        /// 
+        public double Regularization
+        {
+            get { return regularization; }
+            set { regularization = value; }
         }
 
         /// <summary>
@@ -309,6 +431,14 @@ namespace Accord.Statistics.Analysis
             get { return result; }
         }
 
+        /// <summary>
+        ///   Gets the sample weight associated with each input vector.
+        /// </summary>
+        /// 
+        public double[] Weights
+        {
+            get { return weights; }
+        }
 
         /// <summary>
         ///   Gets the Logistic Regression model created
@@ -530,6 +660,34 @@ namespace Accord.Statistics.Analysis
 
         #endregion
 
+        /// <summary>
+        ///   Creates a new <see cref="LogisticRegressionAnalysis"/> from summarized data.
+        ///   In summary data, instead of having a set of inputs and their associated outputs,
+        ///   we have the number of times an input vector had a positive label in the data set
+        ///   and how many times it had a negative label.
+        /// </summary>
+        /// 
+        /// <param name="data">The input data.</param>
+        /// <param name="positives">The number of positives labels for each input vector.</param>
+        /// <param name="negatives">The number of negative labels for each input vector.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="LogisticRegressionAnalysis"/> created from the given summary data.
+        /// </returns>
+        /// 
+        public static LogisticRegressionAnalysis FromSummary(double[][] data, int[] positives, int[] negatives)
+        {
+            double[] rate = new double[data.Length];
+            double[] weights = new double[data.Length];
+
+            for (int i = 0; i < rate.Length; i++)
+            {
+                rate[i] = positives[i] / (double)(positives[i] + negatives[i]);
+                weights[i] = positives[i] + negatives[i];
+            }
+
+            return new LogisticRegressionAnalysis(data, rate, weights);
+        }
 
 
         private bool compute()
@@ -539,9 +697,11 @@ namespace Accord.Statistics.Analysis
 
             var learning = new IterativeReweightedLeastSquares(regression);
 
+            learning.Regularization = regularization;
+
             do // learning iterations until convergence
             {
-                delta = learning.Run(inputData, outputData);
+                delta = learning.Run(inputData, outputData, weights);
                 iteration++;
 
             } while (delta > tolerance && iteration < iterations);
@@ -566,6 +726,8 @@ namespace Accord.Statistics.Analysis
             var innerModel = new LogisticRegression(inputCount - 1);
             var learning = new IterativeReweightedLeastSquares(innerModel);
 
+            learning.Regularization = regularization;
+
             for (int i = 0; i < inputCount; i++)
             {
                 // Create a diminished inner model without the current variable
@@ -576,7 +738,7 @@ namespace Accord.Statistics.Analysis
 
                 do // learning iterations until convergence
                 {
-                    delta = learning.Run(data, outputData);
+                    delta = learning.Run(data, outputData, weights);
                     iteration++;
 
                 } while (delta > limit && iteration < maxIterations);
@@ -592,9 +754,19 @@ namespace Accord.Statistics.Analysis
         {
             // Store model information
             this.result = regression.Compute(inputData);
-            this.deviance = regression.GetDeviance(inputData, outputData);
-            this.logLikelihood = regression.GetLogLikelihood(inputData, outputData);
-            this.chiSquare = regression.ChiSquare(inputData, outputData);
+
+            if (weights == null)
+            {
+                this.deviance = regression.GetDeviance(inputData, outputData);
+                this.logLikelihood = regression.GetLogLikelihood(inputData, outputData);
+                this.chiSquare = regression.ChiSquare(inputData, outputData);
+            }
+            else
+            {
+                this.deviance = regression.GetDeviance(inputData, outputData, weights);
+                this.logLikelihood = regression.GetLogLikelihood(inputData, outputData, weights);
+                this.chiSquare = regression.ChiSquare(inputData, outputData, weights);
+            }
 
             // Store coefficient information
             for (int i = 0; i < regression.Coefficients.Length; i++)
@@ -652,8 +824,9 @@ namespace Accord.Statistics.Analysis
         {
             get
             {
-                if (index == 0) return "Intercept";
-                else return analysis.Inputs[index - 1];
+                if (index == 0)
+                    return "Intercept";
+                return analysis.Inputs[index - 1];
             }
         }
 
@@ -741,6 +914,20 @@ namespace Accord.Statistics.Analysis
         {
             get { return analysis.LikelihoodRatioTests[index]; }
         }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString()
+        {
+            return String.Format("{0}; {1} ({2}, {3})", Name, Value, ConfidenceLower, ConfidenceUpper);
+        }
+
 
     }
 

@@ -22,11 +22,8 @@
 
 namespace Accord.Statistics.Models.Markov.Learning
 {
-    using System;
-    using System.Collections.Generic;
     using Accord.Math;
-    using Accord.Statistics.Distributions;
-    using Accord.Statistics.Distributions.Fitting;
+    using System;
 
     /// <summary>
     ///   Base class for implementations of the Viterbi learning algorithm.
@@ -126,16 +123,12 @@ namespace Accord.Statistics.Models.Markov.Learning
         {
             convergence.Clear();
 
-            double logLikelihood = ComputeLogLikelihood(observations);
-
             double newLogLikelihood = Double.NegativeInfinity;
             int[][] paths = new int[observations.Length][];
 
 
             do // Until convergence or max iterations is reached
             {
-                logLikelihood = newLogLikelihood;
-
                 if (batches == 1)
                 {
                     RunEpoch(observations, paths);

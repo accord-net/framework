@@ -55,9 +55,18 @@ namespace Accord.Audio.Windows
         /// 
         ComplexSignal Apply(ComplexSignal complexSignal, int sampleIndex);
 
+        /// <summary>
+        ///   Splits a signal using the current window.
+        /// </summary>
+        /// 
+        double[] Apply(double[] signal, int sampleIndex);
+
+        /// <summary>
+        ///   Splits a signal using the current window.
+        /// </summary>
+        /// 
+        double[][] Apply(double[][] signal, int sampleIndex);
+
     }
-
-
-
 
 }

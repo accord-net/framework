@@ -185,8 +185,9 @@ namespace Accord.Vision
             if (root1 == root2) // labels are already connected
                 return;
 
-            int minRoot, maxRoot;
-            int labelWithMinRoot, labelWithMaxRoot;
+            int minRoot;
+            int maxRoot;
+            int labelWithMaxRoot;
 
             if (root1 > root2)
             {
@@ -194,7 +195,6 @@ namespace Accord.Vision
                 minRoot = root2;
 
                 labelWithMaxRoot = label1;
-                labelWithMinRoot = label2;
             }
             else
             {
@@ -202,7 +202,6 @@ namespace Accord.Vision
                 minRoot = root1;
 
                 labelWithMaxRoot = label2;
-                labelWithMinRoot = label1;
             }
 
             equals[maxRoot] = minRoot;

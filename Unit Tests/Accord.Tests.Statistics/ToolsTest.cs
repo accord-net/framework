@@ -32,21 +32,113 @@ namespace Accord.Tests.Statistics
     public class ToolsTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [TestMethod()]
+        public void CenteringTest()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+
+            double[,] C2 = Matrix.Centering(2);
+
+            Assert.IsTrue(Matrix.IsEqual(C2, new double[,] { 
+                                                             {  0.5, -0.5 },
+                                                             { -0.5,  0.5 }
+                                                           }));
+
+            double[,] X = {
+                              { 1, 5, 2, 0   },
+                              { 6, 2, 3, 100 },
+                              { 2, 5, 8, 2   },
+                          };
+
+
+
+            double[,] CX = Matrix.Centering(3).Multiply(X); // Remove means from rows
+            double[,] XC = X.Multiply(Matrix.Centering(4)); // Remove means from columns
+
+            double[] colMean = Tools.Mean(X, 1);
+            double[] rowMean = Tools.Mean(X, 0);
+
+            Assert.IsTrue(rowMean.IsEqual(new double[] { 3.0, 4.0, 4.3333, 34.0 }, 0.001));
+            Assert.IsTrue(colMean.IsEqual(new double[] { 2.0, 27.75, 4.25 }, 0.001));
+
+
+            double[,] Xr = X.Subtract(rowMean, 0);          // Remove means from rows
+            double[,] Xc = X.Subtract(colMean, 1);          // Remove means from columns
+
+            Assert.IsTrue(Matrix.IsEqual(XC, Xc));
+            Assert.IsTrue(Matrix.IsEqual(CX, Xr, 0.00001));
+
+            double[,] S1 = XC.Multiply(X.Transpose());
+            double[,] S2 = Xc.Multiply(Xc.Transpose());
+            double[,] S3 = Tools.Scatter(X, colMean, 1);
+
+            Assert.IsTrue(Matrix.IsEqual(S1, S2));
+            Assert.IsTrue(Matrix.IsEqual(S2, S3));
         }
 
 
+        [TestMethod()]
+        public void MahalanobisTest()
+        {
+            double[] x = { 1, 0 };
+            double[,] y = 
+            {
+                { 1, 0 },
+                { 0, 8 },
+                { 0, 5 }
+            };
+
+            // Computing the mean of y
+            double[] meanY = Tools.Mean(y);
+
+            // Computing the covariance matrix of y
+            double[,] covY = Tools.Covariance(y, meanY);
+
+            // Inverting the covariance matrix
+            double[,] precision = covY.Inverse();
+
+            // Run actual test
+            double expected = 1.33333;
+            double actual = Distance.SquareMahalanobis(x, meanY, precision);
+
+            Assert.AreEqual(expected, actual, 0.0001);
+        }
+
+        [TestMethod()]
+        public void SubgroupTest1()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            double[] value = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13 };
+
+            int[] idx = Accord.Statistics.Tools.RandomGroups(value.Length, 4);
+
+            double[][] groups = value.Subgroups(idx);
+
+            Assert.AreEqual(4, groups.Length);
+            Assert.AreEqual(3, groups[0].Length);
+            Assert.AreEqual(4, groups[1].Length);
+            Assert.AreEqual(3, groups[2].Length);
+            Assert.AreEqual(3, groups[3].Length);
+
+            for (int i = 0; i < groups.Length; i++)
+            {
+                for (int j = 0; j < groups[i].Length; j++)
+                {
+                    double e = groups[i][j];
+
+                    for (int k = 0; k < groups.Length; k++)
+                    {
+                        for (int l = 0; l < groups[k].Length; l++)
+                        {
+                            double a = groups[k][l];
+
+                            if (k != i && l != j)
+                                Assert.AreNotEqual(a, l);
+                        }
+                    }
+                }
+            }
+        }
 
         [TestMethod()]
         public void StandardDeviationTest4()
@@ -57,13 +149,13 @@ namespace Accord.Tests.Statistics
                 new double[] { 7,  0.5, 9 },
             };
 
-            double[] means = Accord.Statistics.Tools.Mean(matrix);
+            double[] means = Tools.Mean(matrix);
             Assert.IsTrue(means.IsEqual(4.5000, -0.2500, 7.0000));
 
-            double[] stdev = Accord.Statistics.Tools.StandardDeviation(matrix, means);
+            double[] stdev = Tools.StandardDeviation(matrix, means);
             Assert.IsTrue(stdev.IsEqual(3.5355339059327378, 1.0606601717798212, 2.8284271247461903));
 
-            double[] stdev2 = Accord.Statistics.Tools.StandardDeviation(matrix);
+            double[] stdev2 = Tools.StandardDeviation(matrix);
             Assert.IsTrue(stdev2.IsEqual(stdev));
         }
 
@@ -76,13 +168,13 @@ namespace Accord.Tests.Statistics
                 { 7,  0.5, 9 },
             };
 
-            double[] means = Accord.Statistics.Tools.Mean(matrix);
+            double[] means = Tools.Mean(matrix);
             Assert.IsTrue(means.IsEqual(4.5000, -0.2500, 7.0000));
 
-            double[] stdev = Accord.Statistics.Tools.StandardDeviation(matrix, means);
+            double[] stdev = Tools.StandardDeviation(matrix, means);
             Assert.IsTrue(stdev.IsEqual(3.5355339059327378, 1.0606601717798212, 2.8284271247461903));
 
-            double[] stdev2 = Accord.Statistics.Tools.StandardDeviation(matrix);
+            double[] stdev2 = Tools.StandardDeviation(matrix);
             Assert.IsTrue(stdev2.IsEqual(stdev));
         }
 
@@ -172,10 +264,10 @@ namespace Accord.Tests.Statistics
                 { 7,  0.5, 9 },
             };
 
-            double[] rowMean = Accord.Statistics.Tools.Mean(matrix, 0);
+            double[] rowMean = Tools.Mean(matrix, 0);
             Assert.IsTrue(rowMean.IsEqual(4.5000, -0.2500, 7.0000));
 
-            double[] colMean = Accord.Statistics.Tools.Mean(matrix, 1);
+            double[] colMean = Tools.Mean(matrix, 1);
             Assert.IsTrue(colMean.IsEqual(2, 5.5));
         }
 
@@ -209,18 +301,18 @@ namespace Accord.Tests.Statistics
                 new double[] { 0.2,  0.5, -2 },
             };
 
-            double[] mean = Accord.Statistics.Tools.Mean(matrix);
+            double[] mean = Tools.Mean(matrix);
             Assert.IsTrue(mean.IsEqual(1.3000, 0.9250, 4.5000));
 
-            double[] median = Accord.Statistics.Tools.Median(matrix);
+            double[] median = Tools.Median(matrix);
             Assert.IsTrue(median.IsEqual(1.1000, 1.1000, 5.5000));
 
 
             matrix = matrix.Transpose();
-            mean = Accord.Statistics.Tools.Mean(matrix);
+            mean = Tools.Mean(matrix);
             Assert.IsTrue(mean.IsEqual(2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335));
 
-            median = Accord.Statistics.Tools.Median(matrix);
+            median = Tools.Median(matrix);
             Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
         }
 
@@ -235,18 +327,18 @@ namespace Accord.Tests.Statistics
                 { 0.2,  0.5, -2 },
             };
 
-            double[] mean = Accord.Statistics.Tools.Mean(matrix);
+            double[] mean = Tools.Mean(matrix);
             Assert.IsTrue(mean.IsEqual(1.3000, 0.9250, 4.5000));
 
-            double[] median = Accord.Statistics.Tools.Median(matrix);
+            double[] median = Tools.Median(matrix);
             Assert.IsTrue(median.IsEqual(1.1000, 1.1000, 5.5000));
 
 
             matrix = matrix.Transpose();
-            mean = Accord.Statistics.Tools.Mean(matrix);
+            mean = Tools.Mean(matrix);
             Assert.IsTrue(mean.IsEqual(2.0000, 5.8999999999999995, 1.5000, -0.43333333333333335));
 
-            median = Accord.Statistics.Tools.Median(matrix);
+            median = Tools.Median(matrix);
             Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
         }
 
@@ -950,6 +1042,24 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod()]
+        public void KurtosisTest2()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+            double[] values = Accord.Math.Vector.Random(10000000);
+            double actual = Tools.Kurtosis(values, true);
+            Assert.AreEqual(-1.1997826610738631, actual);
+        }
+
+        [TestMethod()]
+        public void SkewnessTest2()
+        {
+            Accord.Math.Random.Generator.Seed = 0;
+            double[] values = Accord.Math.Vector.Random(10000000);
+            double actual = Tools.Skewness(values, true);
+            Assert.AreEqual(0.00046129386638486271, actual);
+        }
+
 
         [TestMethod()]
         public void WhiteningTest()
@@ -1050,7 +1160,7 @@ namespace Accord.Tests.Statistics
             double[] values = { 2, 3, 4, 4, 5, 6, 8, 10, 10, 14, 16, 20, 32, 40 };
 
             double[] expected = { 1, 2, 3.5, 3.5, 5, 6, 7, 8.5, 8.5, 10, 11, 12, 13, 14 };
-            double[] actual = Accord.Statistics.Tools.Rank(values);
+            double[] actual = Tools.Rank(values);
 
             Assert.IsTrue(expected.IsEqual(actual));
         }
@@ -1062,7 +1172,7 @@ namespace Accord.Tests.Statistics
             double[] copy = (double[])values.Clone();
 
             double[] expected = { 7.5, 2.5, 5.5, 2.5, 7.5, 9, 2.5, 2.5, 5.5, 0, 10, 11 };
-            double[] actual = Accord.Statistics.Tools.Rank(values);
+            double[] actual = Tools.Rank(values);
 
             Assert.IsTrue(expected.IsEqual(actual));
             Assert.IsTrue(copy.IsEqual(values));
@@ -1120,7 +1230,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void KurtosisTest1()
+        public void KurtosisMatrixTest1()
         {
             double[,] matrix = 
             {
@@ -1149,7 +1259,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void KurtosisTest2()
+        public void KurtosisMatrixTest2()
         {
             double[][] matrix = 
             {
@@ -1178,7 +1288,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void SkewnessTest1()
+        public void SkewnessMatrixTest1()
         {
             double[,] matrix = 
             {
@@ -1206,7 +1316,7 @@ namespace Accord.Tests.Statistics
         }
 
         [TestMethod()]
-        public void SkewnessTest2()
+        public void SkewnessMatrixTest()
         {
             double[][] matrix = 
             {

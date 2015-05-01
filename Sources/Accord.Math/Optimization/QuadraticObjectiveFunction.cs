@@ -24,10 +24,10 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq.Expressions;
     using System.Text;
     using System.Text.RegularExpressions;
-    using System.Globalization;
 
     /// <summary>
     ///   Quadratic objective function.
@@ -564,7 +564,6 @@ namespace Accord.Math.Optimization
 
                     BinaryExpression rb = eb.Right as BinaryExpression;
                     MemberExpression rm = eb.Right as MemberExpression;
-                    UnaryExpression ru = eb.Right as UnaryExpression;
 
                     ConstantExpression rc = eb.Right as ConstantExpression;
 

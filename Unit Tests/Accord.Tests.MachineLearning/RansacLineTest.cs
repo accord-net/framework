@@ -22,13 +22,7 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System.Collections.Generic;
-    using System.Drawing;
-    using Accord.Controls;
-    using Accord.Imaging.Filters;
     using Accord.MachineLearning.Geometry;
-    using AForge;
-    using AForge.Imaging;
     using AForge.Math.Geometry;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Point = AForge.Point;
@@ -36,23 +30,6 @@ namespace Accord.Tests.MachineLearning
     [TestClass()]
     public class RansacLineTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void RansacLineConstructorTest()
@@ -107,30 +84,6 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(1.0, actual.Slope, 1e-3);
                 Assert.AreEqual(0.0, actual.Intercept, 1e-2);
             }
-        }
-
-        [Ignore]
-        [TestMethod]
-        public void RansacLineConstructorTest2()
-        {
-            Bitmap image = Properties.Resources.noise_line;
-
-            ImageBox.Show(image); 
-
-            var detector = new SusanCornersDetector();
-
-            List<IntPoint> cloud = detector.ProcessImage(image);
-
-            Bitmap marks = new PointsMarker(cloud, Color.Pink).Apply(image);
-            ImageBox.Show(marks);
-
-            RansacLine ransac = new RansacLine(5, 1e-10);
-            Line line = ransac.Estimate(cloud);
-
-            Bitmap result = new LineMarker(line).Apply(image);
-            ImageBox.Show(result);
-
-            Assert.Fail();
         }
 
     }

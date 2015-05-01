@@ -22,8 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
-    using System.Data;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.MachineLearning.DecisionTrees.Rules;
@@ -31,27 +29,12 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Filters;
     using Accord.Tests.MachineLearning.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System;
+    using System.Data;
 
     [TestClass()]
     public class C45LearningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         public static void CreateMitchellExample(out DecisionTree tree, out double[][] inputs, out int[] outputs)
         {
@@ -125,6 +108,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, tree.Root.Branches[0].Branches.Count);
             Assert.IsFalse(tree.Root.Branches[0].Branches[0].IsLeaf);
             Assert.IsTrue(tree.Root.Branches[0].Branches[1].IsLeaf);
+            Assert.IsFalse(tree.Root.Branches[0].Branches[2].IsLeaf);
 
             Assert.AreEqual(84, tree.Root.Branches[1].Value); // Temperature > 84.0
             Assert.AreEqual(0, tree.Root.Branches[1].Output.Value); // Output is "No"
@@ -133,13 +117,25 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, tree.Root.Branches[1].Branches.Count);
             Assert.IsTrue(tree.Root.Branches[1].IsLeaf);
 
-            Assert.AreEqual(0, tree.Root.Branches[0].Branches[0].Value); // Outlook <= 0
+            Assert.AreEqual(0, tree.Root.Branches[0].Branches[0].Value); // Temperature <= 84.0 && Outlook == 0
             Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[0].Comparison);
-            Assert.AreEqual(3, tree.Root.Branches[0].Branches.Count);
             Assert.AreEqual(2, tree.Root.Branches[0].Branches[0].Branches.AttributeIndex); // Decide over Humidity
-            Assert.AreEqual(70, tree.Root.Branches[0].Branches[0].Branches[0].Value);
+            Assert.AreEqual(72.5, tree.Root.Branches[0].Branches[0].Branches[0].Value);
+            Assert.AreEqual(72.5, tree.Root.Branches[0].Branches[0].Branches[1].Value);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[0].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[0].Branches[1].IsLeaf);
             Assert.AreEqual(ComparisonKind.LessThanOrEqual, tree.Root.Branches[0].Branches[0].Branches[0].Comparison);
             Assert.AreEqual(ComparisonKind.GreaterThan, tree.Root.Branches[0].Branches[0].Branches[1].Comparison);
+
+            Assert.AreEqual(2, tree.Root.Branches[0].Branches[2].Value); // Temperature <= 84.0 && Outlook == 2
+            Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[2].Comparison);
+            Assert.AreEqual(3, tree.Root.Branches[0].Branches[2].Branches.AttributeIndex); // Decide over Wind
+            Assert.AreEqual(0, tree.Root.Branches[0].Branches[2].Branches[0].Value);
+            Assert.AreEqual(1, tree.Root.Branches[0].Branches[2].Branches[1].Value);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[2].Branches[0].IsLeaf);
+            Assert.IsTrue(tree.Root.Branches[0].Branches[2].Branches[1].IsLeaf);
+            Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[2].Branches[0].Comparison);
+            Assert.AreEqual(ComparisonKind.Equal, tree.Root.Branches[0].Branches[2].Branches[1].Comparison);
         }
 
 
@@ -487,7 +483,7 @@ namespace Accord.Tests.MachineLearning
         public void IrisDatasetTest()
         {
             string[][] text = Resources.iris_data.Split(
-                new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
                 .Apply(x => x.Split(','));
 
             double[][] inputs = new double[text.Length][];
@@ -527,7 +523,56 @@ namespace Accord.Tests.MachineLearning
 
             // TODO: implement this assertion properly, actually checking
             // the text contents once the feature is completely finished.
-            Assert.AreEqual(570, ruleText.Length);
+            Assert.AreEqual(596, ruleText.Length);
+        }
+
+        [TestMethod]
+        public void AttributeReuseTest1()
+        {
+            string[][] text = Resources.iris_data.Split(
+                new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                .Apply(x => x.Split(','));
+
+            double[][] inputs = new double[text.Length][];
+            for (int i = 0; i < inputs.Length; i++)
+                inputs[i] = text[i].Submatrix(4).Convert(Double.Parse);
+
+            string[] labels = text.GetColumn(4);
+
+            Codification codebook = new Codification("Label", labels);
+
+            int[] outputs = codebook.Translate("Label", labels);
+
+
+            DecisionVariable[] features =
+            {
+                new DecisionVariable("sepal length", DecisionVariableKind.Continuous), 
+                new DecisionVariable("sepal width", DecisionVariableKind.Continuous), 
+                new DecisionVariable("petal length", DecisionVariableKind.Continuous), 
+                new DecisionVariable("petal width", DecisionVariableKind.Continuous), 
+            };
+
+
+            DecisionTree tree = new DecisionTree(features, codebook.Columns[0].Symbols);
+
+            C45Learning teacher = new C45Learning(tree);
+
+            teacher.Join = 3;
+
+            double error = teacher.Run(inputs, outputs);
+            Assert.AreEqual(0.02, error, 1e-10);
+
+            DecisionSet rules = tree.ToRules();
+
+            double newError = ComputeError(rules, inputs, outputs);
+            Assert.AreEqual(0.02, newError, 1e-10);
+
+            string ruleText = rules.ToString(codebook,
+                System.Globalization.CultureInfo.InvariantCulture);
+
+            // TODO: implement this assertion properly, actually checking
+            // the text contents once the feature is completely finished.
+            Assert.AreEqual(600, ruleText.Length);
         }
 
         public double ComputeError(DecisionSet rules, double[][] inputs, int[] outputs)

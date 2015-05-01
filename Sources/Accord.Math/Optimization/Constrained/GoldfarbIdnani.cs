@@ -492,7 +492,7 @@ namespace Accord.Math.Optimization
             double[,] h = new double[NumberOfVariables, NumberOfVariables];
             double[] d = new double[NumberOfVariables];
 
-            // Prepare a maximization problem
+            // Prepare a minimization problem
             for (int i = 0; i < NumberOfVariables; i++)
                 for (int j = 0; j < NumberOfVariables; j++)
                     h[i, j] = hessian[i, j];
@@ -648,8 +648,8 @@ namespace Accord.Math.Optimization
             int n = NumberOfVariables;
             int q = NumberOfConstraints;
             int meq = NumberOfEqualities;
-            double[,] amat = constraintMatrix;
-            double[] bvec = constraintValues;
+            double[,] amat = (double[,])constraintMatrix.Clone();
+            double[] bvec = (double[])constraintValues.Clone();
             double[] sol = Solution;
 
             int l1;
@@ -776,6 +776,12 @@ namespace Accord.Math.Optimization
                 for (int j = 0; j < sol.Length; j++)
                     sum += amat[i, j] * sol[j];
 
+                if (Math.Abs(sum) < Constants.DoubleEpsilon)
+                    sum = 0.0;
+
+                if (Double.IsNaN(sum))
+                    sum = 0.0;
+
                 if (i >= meq)
                 {
                     // this is an inequality constraint
@@ -883,14 +889,14 @@ namespace Accord.Math.Optimization
                 if (iact[i] < meq)
                     continue;
 
-                if (sum < 0.0)
+                if (sum <= 0.0)
                     continue;
 
                 if (Double.IsNaN(sum))
                     continue;
 
                 t1inf = false;
-                it1 = i;
+                it1 = i + 1;
             }
 
 
@@ -900,14 +906,14 @@ namespace Accord.Math.Optimization
 
             if (!t1inf)
             {
-                t1 = iwuv[it1] / iwrv[it1];
+                t1 = iwuv[it1 - 1] / iwrv[it1 - 1];
 
                 for (int i = 0; i < nact; i++)
                 {
                     if (iact[i] < meq)
                         continue;
 
-                    if (iwrv[i] < 0.0)
+                    if (iwrv[i] <= 0.0)
                         continue;
 
                     temp = iwuv[i] / iwrv[i];
@@ -915,7 +921,7 @@ namespace Accord.Math.Optimization
                     if (temp < t1)
                     {
                         t1 = temp;
-                        it1 = i;
+                        it1 = i + 1;
                     }
                 }
             }
@@ -927,7 +933,7 @@ namespace Accord.Math.Optimization
             for (int i = 0; i < iwzv.Length; i++)
                 sum += iwzv[i] * iwzv[i];
 
-            if (Math.Abs(sum) < Constants.DoubleEpsilon)
+            if (Math.Abs(sum) <= Constants.DoubleEpsilon)
             {
                 // No step in primal space such that the new constraint becomes 
                 // feasible. Take step in dual space and drop a constant. 
@@ -1119,7 +1125,7 @@ namespace Accord.Math.Optimization
             // if it1 = nact it is only necessary
             // to update the vector u and nact
 
-            if (it1 + 1 == nact)
+            if (it1 == nact)
                 goto L799;
 
 
@@ -1131,15 +1137,15 @@ namespace Accord.Math.Optimization
             // of R to column (it1). Then l  will point to element (1,it1+1) of R 
             // and l1 will point to element (it1+1,it1+1) of R.
 
-            l = ((it1 + 1) * (it1 + 2)) / 2;
-            l1 = l + (it1 + 1);
+            l = it1 * (it1 + 1) / 2;
+            l1 = l + it1;
 
             if (iwrm[l1] == 0.0)
                 goto L798;
 
             gc = Math.Max(Math.Abs(iwrm[l1 - 1]), Math.Abs(iwrm[l1]));
             gs = Math.Min(Math.Abs(iwrm[l1 - 1]), Math.Abs(iwrm[l1]));
-            temp = Special.Sign(gc * Math.Sqrt(1.0 + gs * gs / (gc * gc)), iwrm[l1 - 1]);
+            temp = Special.Sign(gc * Math.Sqrt(1.0 + (gs * gs) / (gc * gc)), iwrm[l1 - 1]);
             gc = iwrm[l1 - 1] / temp;
             gs = iwrm[l1] / temp;
 
@@ -1157,38 +1163,38 @@ namespace Accord.Math.Optimization
 
             if (gc == 0.0)
             {
-                for (int i = it1 + 2; i <= nact; i++)
+                for (int i = it1; i < nact; i++)
                 {
                     temp = iwrm[l1 - 1];
                     iwrm[l1 - 1] = iwrm[l1];
                     iwrm[l1] = temp;
-                    l1 += i;
+                    l1 += i + 1;
                 }
 
                 for (int i = 0; i < n; i++)
                 {
-                    temp = dmat[it1, i];
-                    dmat[it1, i] = dmat[it1 + 1, i];
-                    dmat[it1 + 1, i] = temp;
+                    temp = dmat[i, it1 - 1];
+                    dmat[i, it1 - 1] = dmat[i, it1];
+                    dmat[i, it1] = temp;
                 }
             }
             else
             {
                 double nu = gs / (gc + 1.0);
 
-                for (int i = it1 + 2; i <= nact; i++)
+                for (int i = it1; i < nact; i++)
                 {
                     temp = gc * iwrm[l1 - 1] + gs * iwrm[l1];
                     iwrm[l1] = nu * (iwrm[l1 - 1] + temp) - iwrm[l1];
                     iwrm[l1 - 1] = temp;
-                    l1 += i;
+                    l1 += i + 1;
                 }
 
                 for (int i = 0; i < n; i++)
                 {
-                    temp = gc * dmat[it1, i] + gs * dmat[it1 + 1, i];
-                    dmat[it1 + 1, i] = nu * (dmat[it1, i] + temp) - dmat[it1 + 1, i];
-                    dmat[it1, i] = temp;
+                    temp = gc * dmat[it1 - 1, i] + gs * dmat[it1, i];
+                    dmat[it1, i] = nu * (dmat[it1 - 1, i] + temp) - dmat[it1, i];
+                    dmat[it1 - 1, i] = temp;
                 }
             }
 
@@ -1199,19 +1205,19 @@ namespace Accord.Math.Optimization
             // above and stored in l. 
 
             l1 = l - it1;
-            for (int i = 0; i <= it1; i++, l++, l1++)
+            for (int i = 0; i < it1; i++, l++, l1++)
             {
-                iwrm[l1 - 1] = iwrm[l];
+                iwrm[l1] = iwrm[l];
             }
 
             // update vector u and iact as necessary 
             // Continue with updating the matrices J and R 
 
-            iwuv[it1] = iwuv[it1 + 1];
-            iact[it1] = iact[it1 + 1];
+            iwuv[it1 - 1] = iwuv[it1];
+            iact[it1 - 1] = iact[it1];
             it1++;
 
-            if (it1 < nact - 1)
+            if (it1 < nact)
                 goto L797;
 
         L799:

@@ -28,18 +28,18 @@ namespace Controller
         /// </summary>
         private void InitializeComponent( )
         {
-            this.label1 = new System.Windows.Forms.Label( );
-            this.devicesCombo = new System.Windows.Forms.ComboBox( );
-            this.cancelButton = new System.Windows.Forms.Button( );
-            this.okButton = new System.Windows.Forms.Button( );
-            this.SuspendLayout( );
+            this.label1 = new System.Windows.Forms.Label();
+            this.devicesCombo = new System.Windows.Forms.ComboBox();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.okButton = new System.Windows.Forms.Button();
+            this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point( 10, 10 );
+            this.label1.Location = new System.Drawing.Point(10, 10);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size( 168, 13 );
+            this.label1.Size = new System.Drawing.Size(168, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Select local video capture device:";
             // 
@@ -47,18 +47,18 @@ namespace Controller
             // 
             this.devicesCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.devicesCombo.FormattingEnabled = true;
-            this.devicesCombo.Location = new System.Drawing.Point( 10, 35 );
+            this.devicesCombo.Location = new System.Drawing.Point(10, 35);
             this.devicesCombo.Name = "devicesCombo";
-            this.devicesCombo.Size = new System.Drawing.Size( 325, 21 );
+            this.devicesCombo.Size = new System.Drawing.Size(325, 21);
             this.devicesCombo.TabIndex = 1;
             // 
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cancelButton.Location = new System.Drawing.Point( 180, 80 );
+            this.cancelButton.Location = new System.Drawing.Point(180, 80);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size( 75, 23 );
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 7;
             this.cancelButton.Text = "Cancel";
             // 
@@ -66,24 +66,24 @@ namespace Controller
             // 
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.okButton.Location = new System.Drawing.Point( 90, 80 );
+            this.okButton.Location = new System.Drawing.Point(90, 80);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size( 75, 23 );
+            this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 6;
             this.okButton.Text = "Ok";
-            this.okButton.Click += new System.EventHandler( this.okButton_Click );
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // VideoCaptureDeviceForm
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF( 6F, 13F );
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size( 344, 116 );
-            this.Controls.Add( this.cancelButton );
-            this.Controls.Add( this.okButton );
-            this.Controls.Add( this.devicesCombo );
-            this.Controls.Add( this.label1 );
+            this.ClientSize = new System.Drawing.Size(344, 116);
+            this.Controls.Add(this.cancelButton);
+            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.devicesCombo);
+            this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -91,8 +91,8 @@ namespace Controller
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Open local  video capture device";
-            this.ResumeLayout( false );
-            this.PerformLayout( );
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

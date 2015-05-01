@@ -126,7 +126,11 @@ namespace Accord.Statistics.Distributions.Univariate
             initialize(location, scale);
         }
 
-
+        /// <summary>
+        ///   Gets the location value μ (mu).
+        /// </summary>
+        /// 
+        public double Location { get { return mu; } }
 
         /// <summary>
         ///   Gets the location value μ (mu).
@@ -340,52 +344,13 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
-        {
-            return String.Format("Logistic(x; μ = {0}, s = {1})", mu, s);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Logistic(x; μ = {0}, s = {1})", mu, s);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "Logistic(x; μ = {0}, s = {1})",
                 mu.ToString(format, formatProvider),
                 s.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("Logistic(x; μ = {0}, s = {1})",
-                mu.ToString(format), s.ToString(format));
-        }
 
 
         private void initialize(double mean, double scale)

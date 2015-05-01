@@ -47,12 +47,6 @@ namespace Accord.Tests.Statistics
 
 
         [TestMethod()]
-        public void FunctionTest2()
-        {
-
-        }
-
-        [TestMethod()]
         public void FunctionTest()
         {
             var x = new double[] { 0, 4, 2, 1 };
@@ -140,6 +134,108 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod()]
+        public void DistanceTest()
+        {
+            var x = new double[] { 0, 4, 2, 1 };
+            var y = new double[] { 3, 2, };
+
+            DynamicTimeWarping target;
+            double expected, actual;
+
+
+            target = new DynamicTimeWarping(1);
+
+            expected = 0;
+            actual = target.Distance(x, x);
+            Assert.AreEqual(expected, actual, 0);
+
+            expected = 0;
+            actual = target.Distance(y, y);
+            Assert.AreEqual(expected, actual, 0);
+
+            expected = 2.1533930274840158;
+            actual = target.Distance(x, y);
+            Assert.AreEqual(expected, actual);
+            actual = target.Distance(y, x);
+            Assert.AreEqual(expected, actual);
+
+
+            target = new DynamicTimeWarping(2, 1.42);
+            var z = new double[] { 3, 2, 1, 5, 7, 8 };
+
+            expected = 0;
+            actual = target.Distance(x, x);
+            Assert.AreEqual(expected, actual);
+
+            expected = 0;
+            actual = target.Distance(y, y);
+            Assert.AreEqual(expected, actual);
+
+            expected = 0;
+            actual = target.Distance(z, z);
+            Assert.AreEqual(expected, actual);
+
+            expected = 2.2180712512020921;
+            actual = target.Distance(x, z);
+            Assert.AreEqual(expected, actual);
+            actual = target.Distance(z, x);
+            Assert.AreEqual(expected, actual);
+
+            expected = 1.1582243214162151;
+            actual = target.Distance(x, y);
+            Assert.AreEqual(expected, actual);
+            actual = target.Distance(y, x);
+            Assert.AreEqual(expected, actual);
+
+
+            target = new DynamicTimeWarping(1, 0.0000000001);
+
+            expected = 0;
+            actual = target.Distance(x, x);
+            Assert.AreEqual(expected, actual);
+
+            expected = 0;
+            actual = target.Distance(y, y);
+            Assert.AreEqual(expected, actual);
+
+            expected = 1.9999999999333331;
+            actual = target.Distance(x, y);
+            Assert.AreEqual(expected, actual);
+            actual = target.Distance(y, x);
+            Assert.AreEqual(expected, actual);
+
+
+
+            target = new DynamicTimeWarping(1, 292.12);
+
+            expected = 0;
+            actual = target.Distance(x, x);
+            Assert.AreEqual(expected, actual);
+            actual = target.Distance(y, y);
+            Assert.AreEqual(expected, actual);
+
+            expected = 0.00029292648999024173;
+            actual = target.Distance(x, y);
+            Assert.AreEqual(expected, actual);
+            actual = target.Distance(y, x);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        [TestMethod()]
+        public void FunctionTest_EqualInputs()
+        {
+            var x = new double[] { 1, 2, 5, 1 };
+            var y = new double[] { 1, 2, 5, 1 };
+
+            var target = new DynamicTimeWarping(1, 4.2);
+
+            double expected = target.Function(x, y);
+            double actual = target.Function(x, x);
+
+            Assert.AreEqual(expected, actual);
+        }
 
     }
 }

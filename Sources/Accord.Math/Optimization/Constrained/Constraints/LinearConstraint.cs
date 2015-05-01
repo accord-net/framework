@@ -24,10 +24,9 @@ namespace Accord.Math.Optimization
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq.Expressions;
     using System.Text.RegularExpressions;
-    using System.Text;
-    using System.Globalization;
 
     /// <summary>
     ///   Constraint type.
@@ -546,7 +545,6 @@ namespace Accord.Math.Optimization
 
                     BinaryExpression rb = eb.Right as BinaryExpression;
                     MemberExpression rm = eb.Right as MemberExpression;
-                    UnaryExpression ru = eb.Right as UnaryExpression;
                     ConstantExpression rc = eb.Right as ConstantExpression;
 
                     if (lb != null)

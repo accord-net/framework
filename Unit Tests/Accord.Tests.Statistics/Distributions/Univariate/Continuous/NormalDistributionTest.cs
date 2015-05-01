@@ -33,23 +33,6 @@ namespace Accord.Tests.Statistics
     public class NormalDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [TestMethod()]
         public void ConstructorTest5()
         {
@@ -415,7 +398,6 @@ namespace Accord.Tests.Statistics
             double[] samples = target.Generate(1000000);
 
             var actual = NormalDistribution.Estimate(samples);
-            actual.Fit(samples);
 
             Assert.AreEqual(2, actual.Mean, 0.01);
             Assert.AreEqual(5, actual.StandardDeviation, 0.01);

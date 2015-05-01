@@ -26,27 +26,10 @@ namespace Accord.Tests.Statistics
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using Accord.Math;
-    using Accord.Controls;
 
     [TestClass()]
     public class LogisticRegressionAnalysisTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [TestMethod()]
@@ -56,7 +39,7 @@ namespace Accord.Tests.Statistics
             double[][] inputs = training.Submatrix(null, 0, 3);
             double[] outputs = training.GetColumn(4);
 
-            LogisticRegressionAnalysis regression = new LogisticRegressionAnalysis(inputs, outputs);
+            var regression = new LogisticRegressionAnalysis(inputs, outputs);
 
             bool converged = regression.Compute();
             Assert.IsTrue(converged);
@@ -94,6 +77,8 @@ namespace Accord.Tests.Statistics
             double[] testInput = { 0, 0.2 };
 
             LogisticRegressionAnalysis target = new LogisticRegressionAnalysis(trainInput, trainOutput);
+
+            target.Regularization = 0;
 
             target.Compute();
 
@@ -179,10 +164,12 @@ namespace Accord.Tests.Statistics
             // Create a Logistic Regression analysis
             var regression = new LogisticRegressionAnalysis(inputs, output);
 
+            regression.Regularization = 0;
+
             regression.Compute(); // compute the analysis.
 
             // Now we can show a summary of the analysis
-            // DataGridBox.Show(regression.Coefficients);
+            // Accord.Controls.DataGridBox.Show(regression.Coefficients);
 
 
             // We can also investigate all parameters individually. For
@@ -217,6 +204,108 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(y));
         }
 
+        [TestMethod()]
+        public void FromSummaryTest1()
+        {
+            // Suppose we have a (fictitious) data set about patients who 
+            // underwent cardiac surgery. The first column gives the number
+            // of arterial bypasses performed during the surgery. The second
+            // column gives the number of patients whose surgery went well,
+            // while the third column gives the number of patients who had
+            // at least one complication during the surgery.
+            // 
+            int[,] data =
+            {
+                // # of stents       success     complications
+                {       1,             140,           45       },
+                {       2,             130,           60       },
+                {       3,             150,           31       },
+                {       4,              96,           65       }
+            };
+
+
+            double[][] inputs = data.GetColumn(0).ToDouble().ToArray();
+
+            int[] positive = data.GetColumn(1);
+            int[] negative = data.GetColumn(2);
+
+            // Create a new Logistic Regression Analysis from the summary data
+            var regression = LogisticRegressionAnalysis.FromSummary(inputs, positive, negative);
+
+            regression.Compute(); // compute the analysis.
+
+            // Now we can show a summary of the analysis
+            // Accord.Controls.DataGridBox.Show(regression.Coefficients);
+
+
+            // We can also investigate all parameters individually. For
+            // example the coefficients values will be available at the
+            // vector
+
+            double[] coef = regression.CoefficientValues;
+
+            // The first value refers to the model's intercept term. We
+            // can also retrieve the odds ratios and standard errors:
+
+            double[] odds = regression.OddsRatios;
+            double[] stde = regression.StandardErrors;
+
+
+            // Finally, we can use it to estimate risk for a new patient
+            double y = regression.Regression.Compute(new double[] { 4 });
+
+
+
+
+            Assert.AreEqual(3.7586367581050162, odds[0], 1e-8);
+            Assert.AreEqual(0.85772731075090014, odds[1], 1e-8);
+            Assert.IsFalse(odds.HasNaN());
+
+            Assert.AreEqual(0.20884336554629004, stde[0], 1e-8);
+            Assert.AreEqual(0.075837785246620285, stde[1], 1e-8);
+            Assert.IsFalse(stde.HasNaN());
+
+            Assert.AreEqual(0.67044096045332713, y, 1e-8);
+            Assert.IsFalse(Double.IsNaN(y));
+
+            LogisticRegressionAnalysis expected;
+
+
+            {
+                int[] qtr = data.GetColumn(0);
+
+                var expanded = Accord.Statistics.Tools.Expand(qtr, positive, negative);
+
+                double[][] inp = expanded.GetColumn(0).ToDouble().ToArray();
+                double[] outputs = expanded.GetColumn(1).ToDouble();
+
+                expected = new LogisticRegressionAnalysis(inp, outputs);
+
+                expected.Compute();
+
+                double slope = expected.Coefficients[1].Value; // should return -0.153
+                double inter = expected.Coefficients[0].Value;
+                double value = expected.ChiSquare.PValue;      // should return 0.042
+                Assert.AreEqual(-0.15346904821339602, slope);
+                Assert.AreEqual(1.324056323049271, inter);
+                Assert.AreEqual(0.042491262992507946, value);
+            }
+
+
+
+            var actual = regression;
+            Assert.AreEqual(expected.Coefficients[0].Value, actual.Coefficients[0].Value, 1e-8);
+            Assert.AreEqual(expected.Coefficients[1].Value, actual.Coefficients[1].Value, 1e-8);
+
+            Assert.AreEqual(expected.ChiSquare.PValue, actual.ChiSquare.PValue, 1e-8);
+            Assert.AreEqual(expected.WaldTests[0].PValue, actual.WaldTests[0].PValue, 1e-8);
+            Assert.AreEqual(expected.WaldTests[1].PValue, actual.WaldTests[1].PValue, 1e-8);
+
+            Assert.AreEqual(expected.Confidences[0].Max, actual.Confidences[0].Max, 1e-6);
+            Assert.AreEqual(expected.Confidences[0].Min, actual.Confidences[0].Min, 1e-6);
+            Assert.AreEqual(expected.Confidences[1].Max, actual.Confidences[1].Max, 1e-6);
+            Assert.AreEqual(expected.Confidences[1].Min, actual.Confidences[1].Min, 1e-6);
+        }
 
         private static double[][] training = new double[][]
         {

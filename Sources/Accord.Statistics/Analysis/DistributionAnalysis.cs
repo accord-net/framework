@@ -32,6 +32,8 @@ namespace Accord.Statistics.Analysis
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
+    using System.Threading.Tasks;
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     ///   Distribution fitness analysis.
@@ -60,7 +62,7 @@ namespace Accord.Statistics.Analysis
         ///   The estimated distributions.
         /// </value>
         /// 
-        public IUnivariateDistribution[] Distributions { get; private set; }
+        public IFittableDistribution<double>[] Distributions { get; private set; }
 
         /// <summary>
         ///   Gets the <see cref="KolmogorovSmirnovTest">Kolmogorov-Smirnov tests</see>
@@ -121,7 +123,7 @@ namespace Accord.Statistics.Analysis
         {
             this.data = observations;
 
-            Distributions = new IUnivariateDistribution[]
+            Distributions = new IFittableDistribution<double>[]
             {
                 new NormalDistribution(),
                 new UniformContinuousDistribution(),
@@ -172,27 +174,32 @@ namespace Accord.Statistics.Analysis
                 cs[i] = Double.NegativeInfinity;
                 ad[i] = Double.NegativeInfinity;
 
-                var d = this.Distributions[i];
+                var d = this.Distributions[i] as IUnivariateDistribution;
 
                 if (d == null)
                     continue;
 
                 this.DistributionNames[i] = GetName(d.GetType());
-                try { this.KolmogorovSmirnov[i] = new KolmogorovSmirnovTest(data, d); }
-                catch { }
-                try { this.ChiSquare[i] = new ChiSquareTest(data, d); }
-                catch { }
-                try { this.AndersonDarling[i] = new AndersonDarlingTest(data, d); }
-                catch { }
 
-                if (KolmogorovSmirnov[i] != null)
-                    ks[i] = KolmogorovSmirnov[i].Statistic;
+                int ms = 5000;
 
-                if (ChiSquare[i] != null)
+                run(() =>
+                {
+                    this.KolmogorovSmirnov[i] = new KolmogorovSmirnovTest(data, d);
+                    ks[i] = -KolmogorovSmirnov[i].Statistic;
+                }, ms);
+
+                run(() =>
+                {
+                    this.ChiSquare[i] = new ChiSquareTest(data, d);
                     cs[i] = -ChiSquare[i].Statistic;
+                }, ms);
 
-                if (AndersonDarling[i] != null)
+                run(() =>
+                {
+                    this.AndersonDarling[i] = new AndersonDarlingTest(data, d);
                     ad[i] = AndersonDarling[i].Statistic;
+                }, ms);
 
                 if (Double.IsNaN(ks[i]))
                     ks[i] = Double.NegativeInfinity;
@@ -213,6 +220,33 @@ namespace Accord.Statistics.Analysis
             measures.Sort();
 
             this.GoodnessOfFit = new GoodnessOfFitCollection(measures);
+        }
+
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        private static void run(Action a, int timeoutMilliseconds)
+        {
+#if NET35
+            try
+            {
+                a();
+            }
+            catch
+            {
+            }
+#else
+            var task = Task.Factory.StartNew(() =>
+            {
+                try
+                {
+                    a();
+                }
+                catch
+                {
+                }
+            });
+
+            task.Wait(timeoutMilliseconds);
+#endif
         }
 
         private int[] getRank(double[] ks)
@@ -335,7 +369,7 @@ namespace Accord.Statistics.Analysis
         ///   The distribution associated with this good-of-fit measure.
         /// </value>
         /// 
-        public IUnivariateDistribution Distribution
+        public IFittableDistribution<double> Distribution
         {
             get { return analysis.Distributions[index]; }
         }
@@ -350,7 +384,12 @@ namespace Accord.Statistics.Analysis
         /// 
         public double KolmogorovSmirnov
         {
-            get { return analysis.KolmogorovSmirnov[index].Statistic; }
+            get
+            {
+                if (analysis.KolmogorovSmirnov[index] == null)
+                    return Double.NaN;
+                return analysis.KolmogorovSmirnov[index].Statistic;
+            }
         }
 
         /// <summary>
@@ -377,7 +416,12 @@ namespace Accord.Statistics.Analysis
         /// 
         public double ChiSquare
         {
-            get { return analysis.ChiSquare[index].Statistic; }
+            get
+            {
+                if (analysis.ChiSquare[index] == null)
+                    return Double.NaN;
+                return analysis.ChiSquare[index].Statistic;
+            }
         }
 
         /// <summary>
@@ -404,7 +448,12 @@ namespace Accord.Statistics.Analysis
         /// 
         public double AndersonDarling
         {
-            get { return analysis.AndersonDarling[index].Statistic; }
+            get
+            {
+                if (analysis.AndersonDarling[index] == null)
+                    return Double.NaN;
+                return analysis.AndersonDarling[index].Statistic;
+            }
         }
 
         /// <summary>

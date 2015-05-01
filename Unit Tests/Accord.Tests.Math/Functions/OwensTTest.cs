@@ -45,7 +45,13 @@ namespace Accord.Tests.Math
             }
         }
 
-
+        
+        [TestMethod()]
+        public void ExampleTest()
+        {
+            double x = OwensT.Function(h: 2, a: 42);
+            Assert.AreEqual(0.011375065974089608, x);
+        }
 
         [TestMethod()]
         public void FunctionTest()

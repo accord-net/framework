@@ -53,6 +53,22 @@ namespace Accord.Statistics.Distributions.Univariate
     ///   Anderson-Darling (A²) distribution.
     /// </summary>
     /// 
+    /// <example>
+    /// <code>
+    /// // Create a new Anderson Darling distribution (A²) for comparing against a Gaussian
+    /// var a2 = new AndersonDarlingDistribution(AndersonDarlingDistributionType.Normal, 30);
+    /// 
+    /// double median = a2.Median; // 0.33089957635450062
+    /// 
+    /// double chf = a2.CumulativeHazardFunction(x: 0.27);           // 0.42618068373640966
+    /// double cdf = a2.DistributionFunction(x: 0.27);               // 0.34700165471995292
+    /// double ccdf = a2.ComplementaryDistributionFunction(x: 0.27); // 0.65299834528004708
+    /// double icdf = a2.InverseDistributionFunction(p: cdf);        // 0.27000000012207787
+    /// 
+    /// string str = a2.ToString(CultureInfo.InvariantCulture); // "A²(x; n = 30)"
+    /// </code>
+    /// </example>
+    /// 
     /// <seealso cref="Accord.Statistics.Testing.AndersonDarlingTest"/>
     /// 
     [Serializable]
@@ -241,35 +257,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("A²(x; n = {0})", NumberOfSamples);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "A²(x; n = {0})", NumberOfSamples);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            return String.Format("A²(x; n = {0})",
+            return String.Format(formatProvider, "A²(x; n = {0})",
                 NumberOfSamples.ToString(format, formatProvider));
         }
 

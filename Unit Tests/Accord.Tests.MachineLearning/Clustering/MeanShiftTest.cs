@@ -31,22 +31,6 @@ namespace Accord.Tests.MachineLearning
     public class MeanShiftTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [TestMethod()]
         public void MeanShiftConstructorTest()
         {
@@ -69,19 +53,13 @@ namespace Accord.Tests.MachineLearning
 
 
             var kernel = new GaussianKernel(dimension: 2);
-            MeanShift meanShift = new MeanShift(2, kernel, 3);
+            MeanShift meanShift = new MeanShift(2, kernel, 2.0);
 
             // Compute the model (estimate)
             int[] labels = meanShift.Compute(samples);
 
-            int a = 0;
-            int b = 1;
-
-            if (0.2358896594197982.IsRelativelyEqual(meanShift.Clusters.Modes[1][0], 1e-10))
-            {
-                a = 1;
-                b = 0;
-            }
+            int a = labels[0];
+            int b = (a == 0) ? 1 : 0;
 
             for (int i = 0; i < 5; i++)
                 Assert.AreEqual(a, labels[i]);
@@ -89,11 +67,11 @@ namespace Accord.Tests.MachineLearning
             for (int i = 5; i < samples.Length; i++)
                 Assert.AreEqual(b, labels[i]);
 
-            Assert.AreEqual(0.2358896594197982, meanShift.Clusters.Modes[a][0], 1e-10);
-            Assert.AreEqual(1.0010865560750339, meanShift.Clusters.Modes[a][1], 1e-10);
+            Assert.AreEqual(1.1922811512028066, meanShift.Clusters.Modes[a][0], 1e-3);
+            Assert.AreEqual(1.2567196159235963, meanShift.Clusters.Modes[a][1], 1e-3);
 
-            Assert.AreEqual(6.7284908155626031, meanShift.Clusters.Modes[b][0], 1e-10);
-            Assert.AreEqual(1.2713970467590967, meanShift.Clusters.Modes[b][1], 1e-10);
+            Assert.AreEqual(5.2696337859175868, meanShift.Clusters.Modes[b][0], 1e-3);
+            Assert.AreEqual(1.4380326532534968, meanShift.Clusters.Modes[b][1], 1e-3);
 
             Assert.AreEqual(2, meanShift.Clusters.Count);
             Assert.AreEqual(2, meanShift.Clusters.Modes.Length);
@@ -102,9 +80,7 @@ namespace Accord.Tests.MachineLearning
         [TestMethod()]
         public void MeanShiftConstructorTest2()
         {
-
             Accord.Math.Tools.SetupGenerator(1);
-
 
             // Declare some observations
             double[][] observations = 
@@ -126,7 +102,7 @@ namespace Accord.Tests.MachineLearning
             UniformKernel kernel = new UniformKernel();
 
             // Create a new Mean-Shift algorithm for 3 dimensional samples
-            MeanShift meanShift = new MeanShift(dimension: 3, kernel: kernel, bandwidth: 1.5 );
+            MeanShift meanShift = new MeanShift(dimension: 3, kernel: kernel, bandwidth: 2);
 
             // Compute the algorithm, retrieving an integer array
             //  containing the labels for each of the observations

@@ -22,9 +22,9 @@
 
 namespace Accord.Math
 {
+    using Accord.Math.Decompositions;
     using System;
     using System.Collections;
-    using Accord.Math.Decompositions;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -48,7 +48,7 @@ namespace Accord.Math
             double sumP, sumN;
             sumP = sumN = 0;
 
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 sumN += Math.Abs(x[i] - y[i]);
                 sumP += Math.Abs(x[i] + y[i]);
@@ -70,7 +70,7 @@ namespace Accord.Math
         {
             double distance = 0;
 
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 distance += Math.Abs(x[i] - y[i]) / (Math.Abs(x[i]) + Math.Abs(y[i]));
             }
@@ -90,7 +90,7 @@ namespace Accord.Math
         public static double Chessboard(this double[] x, double[] y)
         {
             double d = 0;
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 d = Math.Max(d, x[i] - y[i]);
             }
@@ -112,19 +112,19 @@ namespace Accord.Math
             double p = 0;
             double q = 0;
 
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 p += -x[i];
                 q += -y[i];
             }
 
-            p /= x.GetLength(0);
-            q /= y.GetLength(0);
+            p /= x.Length;
+            q /= y.Length;
 
             double num = 0;
             double den1 = 0;
             double den2 = 0;
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 num += (x[i] + p) * (y[i] + q);
 
@@ -149,7 +149,7 @@ namespace Accord.Math
             double sumProduct = 0;
             double sumP = 0, sumQ = 0;
 
-            for (int i = 0; i < x.GetLength(0); i++)
+            for (int i = 0; i < x.Length; i++)
             {
                 sumProduct += x[i] * y[i];
                 sumP += Math.Pow(Math.Abs(x[i]), 2);
@@ -321,10 +321,8 @@ namespace Accord.Math
         public static double Minkowski(this double[] x, double[] y, int r)
         {
             double distance = 0;
-            for (int i = 0; i < x.GetLength(0); i++)
-            {
+            for (int i = 0; i < x.Length; i++)
                 distance += Math.Pow(Math.Abs(x[i] - y[i]), r);
-            }
             return Math.Pow(distance, 1 / r);
         }
 
@@ -473,14 +471,32 @@ namespace Accord.Math
 #endif
         public static double Bhattacharyya(double[] histogram1, double[] histogram2)
         {
-            int bins = histogram1.Length; // histogram bins
             double b = 0; // Bhattacharyya's coefficient
-
-            for (int i = 0; i < bins; i++)
-                b += System.Math.Sqrt(histogram1[i]) * System.Math.Sqrt(histogram2[i]);
+            for (int i = 0; i < histogram1.Length; i++)
+                b += System.Math.Sqrt(histogram1[i] * histogram2[i]);
 
             // Bhattacharyya distance between the two distributions
             return System.Math.Sqrt(1.0 - b);
+        }
+
+        /// <summary>
+        ///   Hellinger distance between two normalized histograms.
+        /// </summary>
+        /// 
+        /// <param name="histogram1">A normalized histogram.</param>
+        /// <param name="histogram2">A normalized histogram.</param>
+        /// <returns>The Hellinger distance between the two histograms.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Hellinger(double[] histogram1, double[] histogram2)
+        {
+            double b = 0; // Bhattacharyya's coefficient
+            for (int i = 0; i < histogram1.Length; i++)
+                b += Math.Pow(Math.Sqrt(histogram1[i]) - Math.Sqrt(histogram2[i]), 2);
+
+            return b / Math.Sqrt(2);
         }
 
         /// <summary>
@@ -561,7 +577,7 @@ namespace Accord.Math
                     P[i, j] = (covX[i, j] + covY[i, j]) / 2.0;
 
             var svd = new SingularValueDecomposition(P);
-            
+
             double detP = svd.LogPseudoDeterminant;
 
             double mahalanobis = SquareMahalanobis(meanY, meanX, svd);
@@ -617,6 +633,62 @@ namespace Accord.Math
                 for (int j = 0; j < y.Length; j++)
                 {
                     int cost = (x[i] == y[j]) ? 0 : 1;
+
+                    int a = d[i, j + 1] + 1;
+                    int b = d[i + 1, j] + 1;
+                    int c = d[i, j] + cost;
+
+                    d[i + 1, j + 1] = Math.Min(Math.Min(a, b), c);
+                }
+            }
+
+            return d[x.Length, y.Length];
+        }
+
+        /// <summary>
+        ///   Levenshtein distance between two strings.
+        /// </summary>
+        /// 
+        /// <param name="x">The first string <c>x</c>.</param>
+        /// <param name="y">The first string <c>y</c>.</param>
+        /// 
+        /// <remarks>
+        ///   Based on the standard implementation available on Wikibooks:
+        ///   http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance
+        /// </remarks>
+        /// 
+        /// <returns></returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static double Levenshtein<T>(T[] x, T[] y)
+        {
+            if (x == null || x.Length == 0)
+            {
+                if (y == null || y.Length != 0)
+                    return 0;
+                return y.Length;
+            }
+            else
+            {
+                if (y == null || y.Length == 0)
+                    return x.Length;
+            }
+
+            int[,] d = new int[x.Length + 1, y.Length + 1];
+
+            for (int i = 0; i <= x.Length; i++)
+                d[i, 0] = i;
+
+            for (int i = 0; i <= y.Length; i++)
+                d[0, i] = i;
+
+            for (int i = 0; i < x.Length; i++)
+            {
+                for (int j = 0; j < y.Length; j++)
+                {
+                    int cost = (x[i].Equals(y[j])) ? 0 : 1;
 
                     int a = d[i, j + 1] + 1;
                     int b = d[i + 1, j] + 1;
@@ -717,10 +789,11 @@ namespace Accord.Math
         #region Private methods
         private static double[] mean(double[,] matrix)
         {
-            double[] mean = new double[matrix.GetLength(1)];
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
-            double N = matrix.GetLength(0);
+
+            double[] mean = new double[cols];
+            double N = rows;
 
             for (int j = 0; j < cols; j++)
             {
@@ -756,5 +829,78 @@ namespace Accord.Math
         }
         #endregion
 
+
+        /// <summary>
+        ///   Checks whether a function is a real metric distance, i.e. respects
+        ///   the triangle inequality. Please note that a function can still pass
+        ///   this test and not respect the triangle inequality.
+        /// </summary>
+        /// 
+        public static bool IsMetric(Func<double[], double[], double> value)
+        {
+            // Direct test
+            double z = value(new[] { 1.0 }, new[] { 1.0 });
+            if (z > 2 || z < 0)
+                return false;
+
+
+            var a = new double[1];
+            var b = new double[1];
+
+            for (int i = -10; i < 10; i++)
+            {
+                a[0] = i;
+
+                for (int j = -10; j < +10; j++)
+                {
+                    b[0] = j;
+                    double c = value(a, b);
+
+                    if (c > Math.Abs(i) + Math.Abs(j))
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        ///   Checks whether a function is a real metric distance, i.e. respects
+        ///   the triangle inequality. Please note that a function can still pass
+        ///   this test and not respect the triangle inequality.
+        /// </summary>
+        /// 
+        public static bool IsMetric(Func<int[], int[], double> value)
+        {
+            // Direct test
+            double z = value(new[] { 1 }, new[] { 1 });
+            if (z > 2 || z < 0)
+                return false;
+
+            int size = 3;
+            int[] zero = new int[size];
+
+            foreach (var a in Combinatorics.Sequences(3, size, inPlace: true))
+            {
+                foreach (var b in Combinatorics.Sequences(3, size, inPlace: true))
+                {
+                    double dza = value(zero, a);
+                    double dzb = value(zero, b);
+                    double dab = value(a, b);
+                    
+                    if (dab > dza + dzb)
+                        return false;
+
+                    double daz = value(a, zero);
+                    double dbz = value(b, zero);
+                    double dba = value(b, a);
+
+                    if (daz != dza || dbz != dzb || dab != dba)
+                        return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

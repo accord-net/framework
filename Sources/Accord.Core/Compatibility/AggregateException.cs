@@ -21,8 +21,9 @@
 //
 
 #if NET35
-namespace System
+namespace Accord
 {
+    using System;
     using System.Runtime.Serialization;
 
     /// <summary>

@@ -401,5 +401,21 @@ namespace Accord.Statistics.Distributions.Multivariate
         {
             return new WishartDistribution(n, scaleMatrix);
         }
+
+        /// <summary>
+        ///   Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// 
+        /// <param name="format">The format.</param>
+        /// <param name="formatProvider">The format provider.</param>
+        /// 
+        /// <returns>
+        ///   A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// 
+        public override string ToString(string format, IFormatProvider formatProvider)
+        {
+            return String.Format(formatProvider, "Wishart(X)");
+        }
     }
 }

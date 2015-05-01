@@ -392,9 +392,11 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("MannWhitney(u; n1 = {0}, n2 = {1})", Samples1, Samples2);
+            return String.Format(formatProvider, "MannWhitney(u; n1 = {0}, n2 = {1})",
+                Samples1.ToString(format, formatProvider), 
+                Samples2.ToString(format, formatProvider));
         }
     }
 }

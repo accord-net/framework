@@ -65,28 +65,28 @@ namespace Accord.Statistics.Models.Fields.Functions
         ///   parameters respective to all features from this factor.
         /// </summary>
         /// 
-        public ArraySegment<double> FactorParameters { get; protected set; }
+        public ArraySegment<double> FactorParameters { get; private set; }
 
         /// <summary>
         ///   Gets the segment of the parameter vector which contains
         ///   parameters respective to the edge features.
         /// </summary>
         /// 
-        public ArraySegment<double> EdgeParameters { get; protected set; }
+        public ArraySegment<double> EdgeParameters { get; private set; }
 
         /// <summary>
         ///   Gets the segment of the parameter vector which contains
         ///   parameters respective to the state features.
         /// </summary>
         /// 
-        public ArraySegment<double> StateParameters { get; protected set; }
+        public ArraySegment<double> StateParameters { get; private set; }
 
         /// <summary>
         ///   Gets the segment of the parameter vector which contains
         ///   parameters respective to the output features.
         /// </summary>
         /// 
-        public ArraySegment<double> OutputParameters { get; protected set; }
+        public ArraySegment<double> OutputParameters { get; private set; }
 
 
         /// <summary>

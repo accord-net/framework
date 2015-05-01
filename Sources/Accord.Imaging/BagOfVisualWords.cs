@@ -22,10 +22,10 @@
 
 namespace Accord.Imaging
 {
+    using Accord.MachineLearning;
     using System;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
-    using Accord.MachineLearning;
 
     /// <summary>
     ///   Bag of Visual Words

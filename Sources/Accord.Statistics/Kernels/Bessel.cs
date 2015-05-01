@@ -29,11 +29,13 @@ namespace Accord.Statistics.Kernels
     /// </summary>
     /// 
     /// <remarks>
-    ///   The Bessel kernel is well known in the theory of function spaces of fractional smoothness. 
+    ///   The Bessel kernel is well known in the theory of function spaces 
+    ///   of fractional smoothness. 
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Bessel : KernelBase, IKernel, ICloneable
+    public sealed class Bessel : KernelBase, IKernel,
+        IRadialBasisKernel, ICloneable
     {
         private int order;
         private double sigma;
@@ -88,10 +90,29 @@ namespace Accord.Statistics.Kernels
                 double d = x[k] - y[k];
                 norm += d * d;
             }
+
             norm = System.Math.Sqrt(norm);
 
-            return Accord.Math.Bessel.J(order, sigma * norm) /
-                System.Math.Pow(norm, -norm * order);
+            double num = Accord.Math.Bessel.J(order, sigma * norm);
+            double den = System.Math.Pow(norm, -norm * order);
+
+            return num / den;
+        }
+
+        /// <summary>
+        ///   Bessel Kernel Function
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> between two vectors in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            double num = Accord.Math.Bessel.J(order, sigma * z);
+            double den = System.Math.Pow(z, -z * order);
+
+            return num / den;
         }
 
         /// <summary>

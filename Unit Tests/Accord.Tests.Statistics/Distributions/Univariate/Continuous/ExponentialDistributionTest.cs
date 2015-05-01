@@ -27,6 +27,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Univariate;
     using System.Globalization;
+    using System.Threading;
 
     [TestClass()]
     public class ExponentialDistributionTest
@@ -193,6 +194,35 @@ namespace Accord.Tests.Statistics
             actual.Fit(samples);
 
             Assert.AreEqual(2.5, actual.Rate, 0.01);
+        }
+
+        [TestMethod()]
+        public void FitTest1()
+        {
+            double[] values = 
+            {
+                0, 1, 2, 4, 2, 3, 5, 7, 4, 3, 2, 1, 4,
+            };
+
+            var exp = new ExponentialDistribution();
+
+            exp.Fit(values);
+
+            string actual;
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
+
+            actual = exp.ToString("G3", CultureInfo.InvariantCulture);
+            Assert.AreEqual("Exp(x; λ = 0.342)", actual);
+
+            actual = exp.ToString("G3");
+            Assert.AreEqual("Exp(x; λ = 0,342)", actual);
+
+            actual = exp.ToString(CultureInfo.InvariantCulture);
+            Assert.AreEqual("Exp(x; λ = 0.342105263157895)", actual);
+
+            actual = exp.ToString();
+            Assert.AreEqual("Exp(x; λ = 0,342105263157895)", actual);
         }
     }
 }

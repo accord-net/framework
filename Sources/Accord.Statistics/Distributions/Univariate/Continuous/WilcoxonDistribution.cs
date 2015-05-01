@@ -190,7 +190,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             double sum = 0;
             for (int i = 0; i < signs.Length; i++)
-                if (signs[i] > 0) 
+                if (signs[i] > 0)
                     sum += ranks[i];
 
             return sum;
@@ -340,7 +340,7 @@ namespace Accord.Statistics.Distributions.Univariate
             if (table != null) // Samples < 12
             {
                 for (int i = 0; i < table.Length; i++)
-                    if (w <= table[i]) 
+                    if (w <= table[i])
                         return i / (double)table.Length;
 
                 return 1;
@@ -471,9 +471,9 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public override string ToString()
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format("W+(x; R)");
+            return String.Format(formatProvider, "W+(x; R)");
         }
     }
 }

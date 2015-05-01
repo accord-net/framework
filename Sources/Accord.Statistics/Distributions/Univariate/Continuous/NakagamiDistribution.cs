@@ -492,34 +492,6 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString()
-        {
-            return String.Format("Nakagami(x; μ = {0}, ω = {1})", mu, omega);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <param name="formatProvider">The format provider.</param>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Nakagami(x; μ = {0}, ω = {1})", mu, omega);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
         /// <param name="format">The format.</param>
         /// <param name="formatProvider">The format provider.</param>
         /// 
@@ -527,27 +499,12 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format(formatProvider, "Nakagami(x; μ = {0}, ω = {1})",
                 mu.ToString(format, formatProvider),
                 omega.ToString(format, formatProvider));
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <param name="format">The format.</param>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format)
-        {
-            return String.Format("Nakagami(x; x; μ = {0}, ω = {1})",
-                mu.ToString(format), omega.ToString(format));
-        }
     }
 }

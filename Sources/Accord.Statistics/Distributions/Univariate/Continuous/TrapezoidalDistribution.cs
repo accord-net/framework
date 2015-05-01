@@ -23,6 +23,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
 {
     using System;
     using AForge;
+    using System.ComponentModel;
 
     /// <summary>
     ///   Trapezoidal distribution.
@@ -128,8 +129,10 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         /// <param name="n1">The growth slope between points <paramref name="a"/> and <paramref name="b"/>.</param>
         /// <param name="n3">The growth slope between points <paramref name="c"/> and <paramref name="d"/>.</param>
         /// 
-        public TrapezoidalDistribution([Real] double a, [Real] double b, [Real] double c,
-            [Real] double d, [Positive] double n1, [Positive] double n3)
+        public TrapezoidalDistribution(
+            [Real, DefaultValue(0)] double a, [Real, DefaultValue(1)] double b,
+            [Real, DefaultValue(2)] double c, [Real, DefaultValue(3)] double d, 
+            [Positive] double n1, [Positive] double n3)
         {
             // boundary validation
             if (a > b)
@@ -140,6 +143,9 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
 
             if (d < c)
                 throw new ArgumentOutOfRangeException("d", "Argument d must be higher than c.");
+
+            if (d <= a)
+                throw new ArgumentOutOfRangeException("d", "The maximum value d must be higher than the minimum value a");
 
             if (n1 <= 0)
                 throw new ArgumentOutOfRangeException("n1", "Slope n1 must be positive.");
@@ -377,19 +383,6 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
             return new TrapezoidalDistribution(a, b, c, d, n1, n3);
         }
 
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public override string ToString()
-        {
-            return String.Format("Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
-                a, b, c, d, n1, n3, alpha);
-        }
 
         /// <summary>
         ///   Returns a <see cref="System.String"/> that represents this instance.
@@ -399,21 +392,7 @@ namespace Accord.Statistics.Distributions.Univariate.Continuous
         ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return String.Format(formatProvider, "Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
-                a, b, c, d, n1, n3, alpha);
-        }
-
-        /// <summary>
-        ///   Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// 
-        /// <returns>
-        ///   A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        /// 
-        public string ToString(string format, IFormatProvider formatProvider)
+        public override string ToString(string format, IFormatProvider formatProvider)
         {
             return String.Format("Trapezoidal(x; a = {0}, b = {1}, c = {2}, d = {3}, n1 = {4}, n3 = {5}, α = {6})",
                 a.ToString(format, formatProvider),

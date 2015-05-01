@@ -1,3 +1,90 @@
+Accord.NET Framework 2.15.0 release notes
+-----------------------------------------
+01.05.2015.
+
+Version updates and fixes:
+  - GC-56:  Reuse decision attributes in the C4.5 algorithm for decision trees;
+  - GC-109: The GoldfarbIdnani optimizer does not optimize well some problems;
+  - GH-24:  Disentangling unit test projects and adding a LGPL-only project;
+  - GH-57:  Decision trees created using C4.5 depends on the sorting order;
+  - GH-58:  SURF detector might generate Divide By Zero exceptions;
+  - GH-60:  Regularization breaks LogisticRegressionAnalysis in 2.14;
+  - GH-61:  SVM code that worked with version 2.11 now fails to converge;
+  - GH-64:  Exception in KPCA when using jagged matrices;
+  - GH-69:  Fix K-Means deserialization between framework versions.
+  
+* General
+  - Upgrading solution to VS2013 and adding support for .NET 4.5;
+  - Packaging scripts can now create NuGet symbol packages;
+  - The framework can now be built using Mono.
+
+* Accord.Statistics
+  - Correcting Circular statistics' AngularDeviation method;
+  - Correcting kernel profile functions and their gradient;
+  - Improving the precision of the Binomial distribution;
+  - Improving sample generation for Poisson and Rayleigh distributions;
+  - Updating all univariate distributions to support sample generation;
+  - Making sure all probability distributions implement IFormattable;
+  - Adding Generalized Beta distribution with PERT estimation;
+  - Adding the von-Mises Fisher distribution for circular data;
+  - Adding sample generation in Beta and Generalized Beta distributions;
+  - Adding estimation using the Method-of-moments and Maximum Likelihood;
+  - Adding support for weighted samples in LogisticRegressionAnalysis;
+  - Adding a named constructor to create an Analysis from summary data;
+  - Adding all missing Shapiro-Wilk distribution's methods;
+  - Adding a common interface for radial basis function kernels;
+  - Adding a new generic Gaussian kernel for creating composite kernels;
+  - Adding a Windowing filter in the Statistics filters namespace;
+  - Adding support for weighted samples in LogisticRegressionAnalysis;
+  - Adding a named constructor to create an Analysis from summary data;
+  - Adding Multinomial Logistic Regression Analysis.
+
+* Accord.Math
+  - Updating Augmented Lagragian to detect more accurately 
+    when the inner optimization algorithm has diverged;
+  - Adding a new Fast Fourier Transform (FFT) implementation for general 
+    matrices and vectors whose dimensions are not necessarily powers of 2;
+  - Adding Hellinge and Levenshtein distances for generic arrays;
+  - Adding jagged-matrix version of the QR and Eigenvalue decompositions.
+
+* Accord.MachineLearning
+  - Updating tree inducing algorithms (ID3 and C4.5) se they can reuse
+    decision variables multiple times when creating a decision tree;
+  - Correcting Levenberg-Marquardt's chain-rule Jacobian calculation 
+    when there are many output neurons in the learned neural network;
+  - Updating the way SVM learning algorithms detect whether a machine is linear or not;
+  - Updating SVM learning algorithms to use an heuristic value for 
+    C by default unless it has been manually specified by the user;
+  - Updating the linear kernels so they are created without a constant term by default;
+  - Improving multi-class SVM to generate more user-friendly stack traces when
+    an exception occurs during the learning of one of the binary sub-problems;
+  - Updating Kd-Trees to use interval heaps instead of general .NET structures;
+  - Adding Nu-SVMs based on LibSVM's quadratic programming solver.
+
+* Accord.Neuro
+  - Updating Levenberg-Marquardt to avoid setting lambda to zero. 
+
+* Accord.Imaging
+  - Updating IntegralImage to work with In64 matrices to avoid overflows;
+  - Correcting Variance, Sauvola and Niblack threshold filters;
+  - Adding Fast Variance, Wolf-Joulion Threshold, RG Chromaticity and 
+    Objective fidelity filters.
+
+* Accord.IO
+  - Integrating and repackaging Sebastien Lorion's Fast CSV Reader into the Accord.IO
+    namespace with an added support for auto-detecting the file's field delimiter.
+
+* Accord.Audio
+  - Adding IWindow apply overloads to operate directly on double[] vectors;
+  - Adding Sine and Custom signal generators and correcting existing ones.
+  
+* Sample applications
+  - Adding feature selection sample application using L1-regularized logistic SVMs;
+  - Correcting the display of all sample applications in high-DPI displays.
+
+
+
+
 Accord.NET Framework 2.14.0 release notes
 -----------------------------------------
 15.12.2014.

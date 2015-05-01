@@ -35,7 +35,8 @@ namespace Accord.Statistics.Kernels
     /// </remarks>
     /// 
     [Serializable]
-    public sealed class Cauchy : KernelBase, IKernel, ICloneable
+    public sealed class Cauchy : KernelBase, IKernel, 
+        IRadialBasisKernel, ICloneable
     {
         private double sigma;
 
@@ -66,22 +67,38 @@ namespace Accord.Statistics.Kernels
         /// 
         /// <param name="x">Vector <c>x</c> in input space.</param>
         /// <param name="y">Vector <c>y</c> in input space.</param>
+        /// 
         /// <returns>Dot product in feature (kernel) space.</returns>
         /// 
         public override double Function(double[] x, double[] y)
         {
             // Optimization in case x and y are
             // exactly the same object reference.
-            if (x == y) return 1.0;
 
-            double norm = 0.0, d;
+            if (x == y)
+                return 1.0;
+
+            double norm = 0.0;
             for (int i = 0; i < x.Length; i++)
             {
-                d = x[i] - y[i];
+                double d = x[i] - y[i];
                 norm += d * d;
             }
 
             return (1.0 / (1.0 + norm / sigma));
+        }
+
+        /// <summary>
+        ///   Cauchy Kernel Function
+        /// </summary>
+        /// 
+        /// <param name="z">Distance <c>z</c> in input space.</param>
+        /// 
+        /// <returns>Dot product in feature (kernel) space.</returns>
+        /// 
+        public double Function(double z)
+        {
+            return (1.0 / (1.0 + z / sigma));
         }
 
         /// <summary>

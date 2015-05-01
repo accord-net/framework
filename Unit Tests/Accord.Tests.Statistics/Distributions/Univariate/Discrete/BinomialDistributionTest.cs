@@ -75,6 +75,10 @@ namespace Accord.Tests.Statistics
 
             string str = bin.ToString(CultureInfo.InvariantCulture); // "Binomial(x; n = 16, p = 0.12)"
 
+            double[] probabilities = new double[10];
+            for (int i = 0; i < probabilities.Length; i++)
+                probabilities[i] = bin.ProbabilityMassFunction(i);
+
             Assert.AreEqual(1.92, mean);
             Assert.AreEqual(2, median);
             Assert.AreEqual(2, mode);
@@ -90,6 +94,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5, icdf2);
             Assert.AreEqual(7, icdf3);
             Assert.AreEqual("Binomial(x; n = 16, p = 0.12)", str);
+
+
 
             var range1 = bin.GetRange(0.95);
             var range2 = bin.GetRange(0.99);
@@ -142,7 +148,8 @@ namespace Accord.Tests.Statistics
 
             target.Fit(observations, weights, options);
 
-            Assert.AreEqual(4.0 / trials, target.ProbabilityOfSuccess);
+            Assert.AreEqual(5, target.NumberOfTrials);
+            Assert.AreEqual(0.066666666666666666, target.ProbabilityOfSuccess, 1e-10);
         }
 
         [TestMethod()]
@@ -322,6 +329,45 @@ namespace Accord.Tests.Statistics
             double actual = binom.ProbabilityMassFunction(250);
 
             Assert.AreEqual(expected, actual, 1e-7);
+        }
+
+        [TestMethod()]
+        public void GenerateTest()
+        {
+            var target = new BinomialDistribution(4, 0.2);
+
+            int[] samples = target.Generate(1000000);
+
+            target.Fit(samples);
+
+            Assert.AreEqual(4, target.NumberOfTrials, 0.01);
+            Assert.AreEqual(0.2, target.ProbabilityOfSuccess, 1e-3);
+        }
+
+        [TestMethod()]
+        public void GenerateTest2()
+        {
+            var target = new BinomialDistribution(4, 0.2);
+
+            double[] samples = target.Generate(1000000).ToDouble();
+
+            target.Fit(samples);
+
+            Assert.AreEqual(4, target.NumberOfTrials, 0.01);
+            Assert.AreEqual(0.2, target.ProbabilityOfSuccess, 1e-3);
+        }
+
+        [TestMethod()]
+        public void GenerateTest3()
+        {
+            var target = new BinomialDistribution(4);
+
+            int[] samples = { 1, 0, 3, 1, 2, 3 };
+
+            target.Fit(samples);
+
+            Assert.AreEqual(4, target.NumberOfTrials, 0.01);
+            Assert.AreEqual(0.41666666666666669, target.ProbabilityOfSuccess, 1e-3);
         }
     }
 }

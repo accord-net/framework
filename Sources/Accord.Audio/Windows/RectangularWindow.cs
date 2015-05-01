@@ -150,7 +150,48 @@ namespace Accord.Audio.Windows
             return result;
         }
 
+        /// <summary>
+        ///   Splits a signal using the window.
+        /// </summary>
+        /// 
+        public unsafe virtual double[] Apply(double[] signal, int sampleIndex)
+        {
+            int minLength = System.Math.Min(signal.Length - sampleIndex, Length);
 
-        
+            double[] result = new double[Length];
+
+            fixed (double* R = result)
+            fixed (double* S = signal)
+            {
+                double* dst = R;
+                double* src = S + sampleIndex;
+
+                for (int i = 0; i < minLength; i++, dst++, src++)
+                    *dst = *src;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        ///   Splits a signal using the window.
+        /// </summary>
+        /// 
+        public unsafe virtual double[][] Apply(double[][] signal, int sampleIndex)
+        {
+            int channels = signal[0].Length;
+
+            int minLength = System.Math.Min(signal.Length - sampleIndex, Length);
+
+            double[][] result = new double[signal.Length][];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = new double[signal[i].Length];
+
+            for (int c = 0; c < channels; c++)
+                for (int i = 0; i < minLength; i++)
+                    result[i][c] = signal[i + sampleIndex][c];
+
+            return result;
+        }
     }
 }

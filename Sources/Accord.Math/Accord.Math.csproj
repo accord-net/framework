@@ -2,101 +2,63 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{F718E9A8-DB62-4785-8C49-4333A60D256A}</ProjectGuid>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <OutputType>Library</OutputType>
     <RootNamespace>Accord.Math</RootNamespace>
     <AssemblyName>Accord.Math</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\Debug\</OutputPath>
-    <DebugSymbols>True</DebugSymbols>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <CodeAnalysisRuleSet>Migrated rules for Accord.Math.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
+    <OutputPath>..\..\Debug\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release (4.0)|AnyCPU' ">
-    <OutputPath>..\..\Release\net40</OutputPath>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
-    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
-    <DefineConstants>TRACE</DefineConstants>
-    <CodeAnalysisRules>
-    </CodeAnalysisRules>
-    <DocumentationFile>..\..\Release\net40\Accord.Math.XML</DocumentationFile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
     <OutputPath>..\..\Release\net35</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
     <DocumentationFile>..\..\Release\net35\Accord.Math.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisLogFile>..\..\Release\net35\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (4.5)|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\Release\net45\</OutputPath>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
+    <OutputPath>..\..\Release\net40</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DocumentationFile>..\..\Release\net40\Accord.Math.XML</DocumentationFile>
+    <CodeAnalysisLogFile>..\..\Release\net40\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
+    <OutputPath>..\..\Release\net45</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DefineConstants>CODE_ANALYSIS;TRACE;NET45</DefineConstants>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\..\Release\net45\Accord.Math.XML</DocumentationFile>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
-    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+    <CodeAnalysisLogFile>..\..\Release\net45\Accord.Math.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -116,10 +78,45 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Indices.cs" />
+    <Compile Include="IO\Mat\MatArrayFlags.cs" />
+    <Compile Include="IO\Mat\MatArrayType.cs" />
+    <Compile Include="IO\Mat\MatDataTag.cs" />
+    <Compile Include="IO\Mat\MatDataType.cs" />
+    <Compile Include="IO\Mat\MatHeader.cs" />
+    <Compile Include="IO\Mat\MatNode.cs" />
+    <Compile Include="IO\Mat\MatReader.cs" />
+    <Compile Include="IO\Mat\MatSparse.cs" />
+    <Compile Include="Optimization\Unconstrained\FanChenLinQuadraticOptimization.cs" />
+    <Compile Include="Random\Generator.cs" />
     <Compile Include="Comparers\Accord.Math.Comparers.cs" />
     <Compile Include="Convergence\Base\IConvergence.cs" />
     <Compile Include="Convergence\GeneralConvergence.cs" />
     <Compile Include="Decompositions\Accord.Math.Decompositions.cs" />
+    <Compile Include="Decompositions\JaggedEigenvalueDecomposition.cs">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedEigenvalueDecompositionF.cs">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecomposition.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecompositionD.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\JaggedQrDecompositionF.cs">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecomposition.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecompositionD.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Decompositions\QrDecompositionF.cs">
+      <DependentUpon>QrDecomposition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Dissimilarity.cs" />
     <Compile Include="Functions\OwensT.cs" />
     <Compile Include="Integration\Accord.Math.Integration.cs" />
@@ -165,15 +162,6 @@
     <Compile Include="Decompositions\JaggedSingularValueDecompositionF.cs">
       <DependentUpon>JaggedSingularValueDecomposition.tt</DependentUpon>
     </Compile>
-    <Compile Include="Decompositions\QrDecomposition.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\QrDecompositionD.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Decompositions\QrDecompositionF.cs">
-      <DependentUpon>QrDecomposition.tt</DependentUpon>
-    </Compile>
     <Compile Include="Decompositions\SingularValueDecomposition.cs">
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
     </Compile>
@@ -214,6 +202,7 @@
     <Compile Include="Optimization\Unconstrained\Subplex.cs" />
     <Compile Include="Optimization\Unconstrained\TrustRegionNewtonMethod.cs" />
     <Compile Include="Taylor.cs" />
+    <Compile Include="Transforms\FourierTransform2.cs" />
     <Compile Include="Transforms\HartleyTransform.cs" />
     <Compile Include="Transforms\SineTransform.cs" />
     <Compile Include="Transforms\CosineTransform.cs" />
@@ -223,7 +212,7 @@
     <None Include="Decompositions\CholeskyDecomposition.tt">
       <LastOutputs>
 .\CholeskyDecomposition.cs
-.\CholeskyDecomposition.cs
+.\CholeskyDecomposition.txt
 .\CholeskyDecompositionD.cs
 .\CholeskyDecompositionF.cs
 </LastOutputs>
@@ -231,12 +220,21 @@
       <LastGenOutput>CholeskyDecomposition.txt</LastGenOutput>
     </None>
     <None Include="Decompositions\Accord.Math.Decompositions.cd" />
+    <None Include="Decompositions\JaggedEigenvalueDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedEigenvalueDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\JaggedEigenvalueDecomposition.cs
+.\JaggedEigenvalueDecomposition.txt
+.\JaggedEigenvalueDecompositionF.cs
+</LastOutputs>
+    </None>
     <None Include="Decompositions\JaggedCholeskyDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JaggedCholeskyDecomposition.txt</LastGenOutput>
       <LastOutputs>
 .\JaggedCholeskyDecomposition.cs
-.\JaggedCholeskyDecomposition1.cs
+.\JaggedCholeskyDecomposition.txt
 .\JaggedCholeskyDecompositionD.cs
 .\JaggedCholeskyDecompositionF.cs
 </LastOutputs>
@@ -295,12 +293,22 @@
 </LastOutputs>
       <LastGenOutput>JaggedSingularValueDecomposition.txt</LastGenOutput>
     </None>
+    <None Include="Decompositions\JaggedQrDecomposition.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>JaggedQrDecomposition.txt</LastGenOutput>
+      <LastOutputs>
+.\JaggedQrDecomposition.cs
+.\JaggedQrDecomposition.txt
+.\JaggedQrDecompositionD.cs
+.\JaggedQrDecompositionF.cs
+</LastOutputs>
+    </None>
     <None Include="Decompositions\QrDecomposition.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>QrDecomposition.txt</LastGenOutput>
       <LastOutputs>
 .\QrDecomposition.cs
-.\QrDecomposition1.cs
+.\QrDecomposition.txt
 .\QrDecompositionD.cs
 .\QrDecompositionF.cs
 </LastOutputs>
@@ -371,6 +379,9 @@
     <Compile Include="Functions\Bessel.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Jagged.cs" />
+    <Compile Include="Vector\Vector.Scale.cs" />
+    <Compile Include="Vector\Vector.cs" />
     <Compile Include="Wavelets\CDF97.cs" />
     <Compile Include="Wavelets\Haar.cs" />
     <Compile Include="Wavelets\Base\IWavelet.cs" />
@@ -427,6 +438,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CholeskyDecomposition.tt</DependentUpon>
     </Content>
+    <Content Include="Decompositions\JaggedEigenvalueDecomposition.txt">
+      <DependentUpon>JaggedEigenvalueDecomposition.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Content>
     <Content Include="Decompositions\EigenvalueDecomposition.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -451,6 +467,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LuDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Decompositions\JaggedQrDecomposition.txt">
+      <DependentUpon>JaggedQrDecomposition.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Content>
     <Content Include="Decompositions\QrDecomposition.txt">
       <AutoGen>True</AutoGen>

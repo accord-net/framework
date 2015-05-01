@@ -42,7 +42,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(12, 391);
+            this.button1.Location = new System.Drawing.Point(12, 459);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(138, 23);
             this.button1.TabIndex = 1;
@@ -53,7 +53,7 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(269, 417);
+            this.button2.Location = new System.Drawing.Point(394, 485);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(174, 23);
             this.button2.TabIndex = 1;
@@ -75,13 +75,13 @@
             this.graph.ScrollMinX = 0D;
             this.graph.ScrollMinY = 0D;
             this.graph.ScrollMinY2 = 0D;
-            this.graph.Size = new System.Drawing.Size(431, 370);
+            this.graph.Size = new System.Drawing.Size(556, 438);
             this.graph.TabIndex = 0;
             // 
             // numClusters
             // 
             this.numClusters.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numClusters.Location = new System.Drawing.Point(111, 420);
+            this.numClusters.Location = new System.Drawing.Point(111, 488);
             this.numClusters.Maximum = new decimal(new int[] {
             25,
             0,
@@ -100,7 +100,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 422);
+            this.label1.Location = new System.Drawing.Point(12, 490);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(98, 13);
             this.label1.TabIndex = 3;
@@ -109,7 +109,7 @@
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(269, 388);
+            this.button3.Location = new System.Drawing.Point(394, 456);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(174, 23);
             this.button3.TabIndex = 1;
@@ -119,9 +119,9 @@
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(455, 449);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(580, 517);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numClusters);
             this.Controls.Add(this.button3);

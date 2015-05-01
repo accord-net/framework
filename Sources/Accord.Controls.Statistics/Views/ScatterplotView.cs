@@ -22,13 +22,13 @@
 
 namespace Accord.Controls
 {
+    using Accord.Math;
+    using Accord.Statistics.Visualizations;
     using System;
     using System.ComponentModel;
     using System.Data;
     using System.Drawing;
     using System.Windows.Forms;
-    using Accord.Math;
-    using Accord.Statistics.Visualizations;
     using ZedGraph;
 
     /// <summary>
@@ -298,10 +298,12 @@ namespace Accord.Controls
                 zedGraphControl.AxisChange();
                 zedGraphControl.Invalidate();
 
+                zedGraphControl.RestoreScale(zedGraphControl.GraphPane);
 
                 if (!ScaleTight)
+                {
                     zedGraphControl.ZoomPane(zedGraphControl.GraphPane, 1.1, PointF.Empty, false);
-                else zedGraphControl.RestoreScale(zedGraphControl.GraphPane);
+                }
             }
         }
 

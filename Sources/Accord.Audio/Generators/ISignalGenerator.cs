@@ -26,35 +26,38 @@ namespace Accord.Audio.Generators
     using Accord.Audio.Generators;
 
     /// <summary>
-    ///   Interface for Signal generators.
+    ///   Common interface for signal generators.
     /// </summary>
+    /// 
     public interface ISignalGenerator
     {
         /// <summary>
         ///   Gets or sets the sampling rate used to create signals.
         /// </summary>
+        /// 
         int SamplingRate { get; set; }
 
         /// <summary>
         ///   Gets or sets the number of channels of the created signals.
         /// </summary>
+        /// 
         int Channels { get; set; }
 
         /// <summary>
         ///   Gets or sets the sample format for created signals.
         /// </summary>
+        /// 
         SampleFormat Format { get; set; }
 
         /// <summary>
         ///   Generates a signal with the given number of samples.
         /// </summary>
+        /// 
         /// <param name="samples">The number of samples to generate.</param>
+        /// 
         /// <returns>The generated signal</returns>
+        /// 
         Signal Generate(int samples);
 
-
-        // TODO: Add support for Noise generators.
-
     }
-
 }

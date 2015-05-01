@@ -22,37 +22,20 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+    using Accord.Math;
+    using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
-    using Accord.Statistics.Distributions.Multivariate;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Math;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
 
 
     [TestClass()]
     public class GenericSequenceClassifierTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [TestMethod()]

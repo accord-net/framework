@@ -22,35 +22,16 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Collections.Generic;
-    using System.Drawing;
-    using System.Windows.Forms;
-    using Accord.Controls;
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Tests.Imaging.Properties;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Collections.Generic;
+    using System.Drawing;
 
     [TestClass()]
     public class SpeededUpRobustFeaturesDetectorTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void ProcessImageTest()
@@ -239,8 +220,25 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [Ignore]
-        [TestMethod]
+        [TestMethod()]
+        public void ZeroWidthTest()
+        {
+            Bitmap img = Properties.Resources.surf_bug_1;
+
+            var iimg = OpenSURFcs.IntegralImage.FromImage(img);
+            var expected = OpenSURFcs.FastHessian.getIpoints(0.0002f, 5, 2, iimg);
+            OpenSURFcs.SurfDescriptor.DecribeInterestPoints(expected, false, false, iimg);
+
+
+            var surf = new SpeededUpRobustFeaturesDetector();
+            var actual = surf.ProcessImage(img);
+
+            Assert.AreEqual(0, expected.Count);
+            Assert.AreEqual(0, actual.Count);
+        }
+
+
+        [TestMethod, Ignore]
         public void ProcessImageTest4()
         {
             Bitmap[] bitmaps = 
@@ -286,10 +284,17 @@ namespace Accord.Tests.Imaging
                 var img1 = new FeaturesMarker(actual).Apply(img);
                 var img2 = new FeaturesMarker(expected).Apply(img);
 
-                ImageBox.Show(new Concatenate(img1).Apply(img2), PictureBoxSizeMode.Zoom);
+                // ImageBox.Show(new Concatenate(img1).Apply(img2), PictureBoxSizeMode.Zoom);
 
 
                 current++;
+
+                for (int i = 0; i < expected.Count; i++)
+                {
+                    var e = expected[i];
+                    var a = actual[i];
+                    Assert.AreEqual(e, a);
+                }
             }
         }
 
