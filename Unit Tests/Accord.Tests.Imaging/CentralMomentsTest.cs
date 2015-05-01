@@ -25,9 +25,9 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using Accord.Imaging.Moments;
     using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class CentralMomentsTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             Bitmap image = Resources.hu;
@@ -77,7 +77,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(0.0196384024f, angle);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             // 0 and 1 are only translated

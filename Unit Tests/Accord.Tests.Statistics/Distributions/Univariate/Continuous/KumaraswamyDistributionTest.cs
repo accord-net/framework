@@ -25,9 +25,9 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
     using System;
     using System.Globalization;
     using Accord.Statistics.Distributions.Univariate.Continuous;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
+    [TestFixture]
     public class KumaraswamyDistributionTest
     {
         private TestContext testContextInstance;
@@ -45,7 +45,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
         }
 
 
-        [TestMethod]
+        [Test]
         public void Constructor_KumaraswamyDistribution_PDF_given_0d2_AND_1d2_Parameters_Moments_matches_R_output()
         {
             var kumaraswamyDistribution = new KumaraswamyDistribution(0.2d, 1.2d);
@@ -69,7 +69,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             // values verified in R package = ActuDistns
         }
 
-        [TestMethod()]
+        [Test]
         public void Constructor_ExtensiveTestForDocumentation()
         {
             // Create a new Kumaraswamy distribution with shape (4,2)

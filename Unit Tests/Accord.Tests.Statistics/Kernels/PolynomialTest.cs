@@ -24,10 +24,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class PolynomialTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void DistanceTest()
         {
             Polynomial target = new Polynomial(1);
@@ -80,7 +80,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Polynomial target = new Polynomial(1, 0);
@@ -112,7 +112,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 0.0001);
         }
 
-        [TestMethod]
+        [Test]
         public void FunctionTest2()
         {
             // Tested against R's kernlab
@@ -152,7 +152,7 @@ namespace Accord.Tests.Statistics
                     Assert.AreEqual(expected[i, j], actual[i, j], 1e-2);
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandDistanceTest()
         {
             for (int i = 1; i <= 10; i++)
@@ -177,7 +177,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandReverseDistanceTest()
         {
             for (int i = 1; i <= 10; i++)
@@ -203,7 +203,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest_Linear()
         {
             double[][] data = 
@@ -224,7 +224,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, 1e-10));
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest_Quadratic()
         {
             double[][] data = 

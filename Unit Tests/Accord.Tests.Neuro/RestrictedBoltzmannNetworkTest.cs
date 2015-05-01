@@ -23,13 +23,13 @@
 namespace Accord.Tests.Neuro
 {
     using Accord.Neuro.Networks;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using AForge.Neuro;
     using Accord.Neuro.Learning;
     using Accord.Neuro.ActivationFunctions;
 
-    [TestClass()]
+    [TestFixture]
     public class RestrictedBoltzmannNetworkTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Neuro
 
 
 
-        [TestMethod()]
+        [Test]
         public void CreateActivationNetworkTest()
         {
             double[][] inputs =
@@ -136,7 +136,7 @@ namespace Accord.Tests.Neuro
             return network;
         }
 
-        [TestMethod()]
+        [Test]
         public void NetworkTest2()
         {
             // Create some sample inputs and outputs. Note that the

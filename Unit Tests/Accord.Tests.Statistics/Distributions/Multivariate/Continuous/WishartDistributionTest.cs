@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Multivariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class WishartDistributionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest4()
         {
             // Create a Wishart distribution with the parameters:

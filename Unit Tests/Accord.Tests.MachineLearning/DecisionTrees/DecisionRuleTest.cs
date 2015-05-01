@@ -24,9 +24,9 @@ namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Rules;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class DecisionRuleTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void IsInconsistentTest()
         {
             var a1 = new Antecedent(0, ComparisonKind.Equal, 1.0);
@@ -64,7 +64,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsFalse(a13);
         }
 
-        [TestMethod()]
+        [Test]
         public void AntecedentTest()
         {
             var a1 = new Antecedent(0, ComparisonKind.Equal, 1.0);

@@ -23,11 +23,11 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;    
     
-    [TestClass()]
+    [TestFixture]
     public class KNearestNeighborTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void KNearestNeighborConstructorTest()
         {
             double[][] inputs = 
@@ -113,7 +113,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void KNearestNeighborConstructorTest2()
         {
             // Create some sample learning data. In this data,
@@ -162,7 +162,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(2, answer);
         }
 
-        [TestMethod()]
+        [Test]
         public void KNearestNeighborGenericConstructorTest()
         {
             double[][] inputs = 
@@ -228,7 +228,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void KNearestNeighborGenericConstructorTest2()
         {
             // Create some sample learning data. In this data,
@@ -276,7 +276,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(2, answer);
         }
 
-        [TestMethod()]
+        [Test]
         public void KNearestNeighborConstructorTest3()
         {
 

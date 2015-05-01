@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class KappaTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void KappaTestConstructorTest()
         {
             // Example from http://vassarstats.net/kappa.html
@@ -94,7 +94,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(target.StandardError));
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTestConstructorTest2()
         {
             // Example from: M. Reichenheim (2004). Confidence intervals for the
@@ -126,7 +126,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(7.0849733798130419E-27, target.PValue);
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTestConstructorTest4()
         {
             // Example from Statistical Methods for Rates and Proportions
@@ -186,7 +186,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTestConstructorTest5()
         {
             // Example from Statistical Methods for Rates and Proportions

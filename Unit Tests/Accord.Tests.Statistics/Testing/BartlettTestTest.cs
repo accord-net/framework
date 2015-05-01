@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class BartlettTestTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void BartlettTestConstructorTest()
         {
             // Example from NIST/SEMATECH e-Handbook of Statistical Methods,

@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.Statistics.Testing;
 
-    [TestClass()]
+    [TestFixture]
     public class InverseChiSquareDistributionTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var invchisq = new InverseChiSquareDistribution(degreesOfFreedom: 7);
@@ -94,7 +94,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(18.475307115523773, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetRangeTest()
         {
             var invchisq = new InverseChiSquareDistribution(degreesOfFreedom: 1);
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(6.6348966014931854, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetRangeTest2()
         {
             var invchisq = new InverseChiSquareDistribution(degreesOfFreedom: 4200);
@@ -130,7 +130,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4416.1499610177489, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             var target = new ChiSquareDistribution(degreesOfFreedom: 4);
@@ -138,7 +138,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             int degreesOfFreedom;
@@ -167,7 +167,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-4);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             int degreesOfFreedom;
@@ -196,7 +196,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             int degreesOfFreedom;
@@ -219,7 +219,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-4);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             double expected = 1.8307038053275149991e+01;
@@ -227,7 +227,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-14);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest2()
         {
             double[] p = 

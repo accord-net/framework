@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Analysis;    
     
-    [TestClass()]
+    [TestFixture]
     public class BowkerTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void BowkerTestConstructorTest()
         {
             // Example from Bortz, Lienert and Klaus. Boehnke Verteilungsfreie Methoden in Der Biostatistik, pg 166

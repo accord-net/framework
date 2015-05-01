@@ -23,11 +23,11 @@
 namespace Accord.Tests.Audio
 {
     using Accord.Audio;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Audio.Filters;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class ExtractChannelTest
     {
 
@@ -57,7 +57,7 @@ namespace Accord.Tests.Audio
             { -0.22f, 0.2f  },
         };
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest()
         {
             Signal target = Signal.FromArray(data, 8000);

@@ -24,11 +24,11 @@ namespace Accord.Tests.Statistics
 {
     using System.Globalization;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class ShiftedLogLogisticDistributionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             var log = new ShiftedLogLogisticDistribution(location: 0, scale: 0.42, shape: 0.1);
@@ -98,7 +98,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.4498647072756436, range3.Max, 1e-15);
         }
 
-        [TestMethod()]
+        [Test]
         public void EquivalencyTest1()
         {
             // when mu = sigma / ksi, the shifted log-logistic reduces to the log-logistic distribution.
@@ -150,7 +150,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void EquivalencyTest2()
         {
             // when ksi -> 0, the shifted log-logistic reduces to the logistic distribution.
@@ -202,7 +202,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void EquivalencyTest3()
         {
             // when ksi -> 0, the shifted log-logistic reduces to the logistic distribution.

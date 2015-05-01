@@ -24,12 +24,12 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class BirnbaumSaundersDistributionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             var bs = new BirnbaumSaundersDistribution(shape: 0.42);

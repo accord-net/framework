@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
 
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class TwoWayAnovaTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void TwoWayAnovaConstructorTest()
         {
             // Example by Aalborg Universitet
@@ -81,7 +81,7 @@ namespace Accord.Tests.Statistics
             testSources(target);
         }
 
-        [TestMethod()]
+        [Test]
         public void TwoWayAnovaConstructorTest2()
         {
             // Example by Aalborg Universitet

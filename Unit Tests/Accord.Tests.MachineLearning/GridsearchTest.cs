@@ -23,13 +23,13 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.MachineLearning.VectorMachines;
     using Accord.Statistics.Kernels;
     using Accord.MachineLearning.VectorMachines.Learning;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class GridsearchTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void GridsearchConstructorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -123,7 +123,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(bestParameters.Count, 3);
         }
 
-        [TestMethod()]
+        [Test]
         public void GridsearchConstructorTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);

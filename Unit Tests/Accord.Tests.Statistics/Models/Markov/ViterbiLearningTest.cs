@@ -23,14 +23,14 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Markov.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Filters;
     using Accord.Math;
     using Accord.Statistics.Models.Markov.Topology;
 
-    [TestClass()]
+    [TestFixture]
     public class ViterbiLearningTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -103,7 +103,7 @@ namespace Accord.Tests.Statistics
             }
 
             Assert.IsTrue(ll10 > ll1);
-            Assert.AreNotEqual(ll1, ll10, 10);
+            Assert.IsTrue(Math.Abs(ll1 - ll10) > 10);
 
             // Those results must match the ones in ViterbiLearningTest`1.
             Assert.AreEqual(-33.834836461044411, ll1);
@@ -131,7 +131,7 @@ namespace Accord.Tests.Statistics
             return true;
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest4()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -170,7 +170,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.008509757587448558, p2, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -249,7 +249,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(pi, hmmP, 0.1));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest3()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -321,7 +321,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l2 > l3 && l2 > l4);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest6()
         {
             Accord.Math.Tools.SetupGenerator(0);

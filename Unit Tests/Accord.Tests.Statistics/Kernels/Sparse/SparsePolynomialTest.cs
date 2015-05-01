@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
     using Accord.Statistics.Kernels.Sparse;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SparsePolynomialTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Polynomial dense = new Polynomial(3);
@@ -76,7 +76,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistanceTest()
         {
             Polynomial dense = new Polynomial(3);

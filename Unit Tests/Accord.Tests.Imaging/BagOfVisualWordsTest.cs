@@ -30,11 +30,11 @@ namespace Accord.Tests.Imaging
     using Accord.MachineLearning;
     using Accord.Math;
     using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing.Imaging;
 
-    [TestClass()]
+    [TestFixture]
     public class BagOfVisualWordsTest
     {
 
@@ -66,7 +66,7 @@ namespace Accord.Tests.Imaging
             Properties.Resources.flower06,
         };
 
-        [TestMethod()]
+        [Test]
         public void BagOfVisualWordsConstructorTest()
         {
             BagOfVisualWords bow = new BagOfVisualWords(10);
@@ -106,7 +106,7 @@ namespace Accord.Tests.Imaging
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void BagOfVisualWordsConstructorTest3()
         {
             MoravecCornersDetector moravec = new MoravecCornersDetector();
@@ -145,7 +145,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GetFeatureVectorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -192,7 +192,7 @@ namespace Accord.Tests.Imaging
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void SerializeTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -219,7 +219,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void SerializeTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -254,7 +254,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void LargeTest()
         {
             // Requires data from the National Data Science bowl

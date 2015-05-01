@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.Statistics.Testing;
 
 
-    [TestClass()]
+    [TestFixture]
     public class ConfusionMatrixTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConfusionMatrixConstructorTest()
         {
             // The correct and expected output values (as confirmed by a Gold
@@ -99,7 +99,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.21821789023599239, matrix.MatthewsCorrelationCoefficient);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConfusionMatrixConstructorTest2()
         {
             // The correct and expected output values (as confirmed by a Gold
@@ -132,7 +132,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(trueNegatives, matrix.TrueNegatives);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConfusionMatrixConstructorTest3()
         {
             // System output
@@ -173,7 +173,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, target.MatthewsCorrelationCoefficient);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConfusionMatrixConstructorTest4()
         {
             // Example from http://www.iph.ufrgs.br/corpodocente/marques/cd/rd/presabs.htm
@@ -223,7 +223,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(matrix.NormalizedMutualInformation));
         }
 
-        [TestMethod()]
+        [Test]
         public void ConfusionMatrixConstructorTest5()
         {
             // The correct and expected output values (as confirmed by a Gold
@@ -269,7 +269,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.21821789023599239, matrix.MatthewsCorrelationCoefficient);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConfusionMatrixConstructorTest6()
         {
             // Create a new confusion matrix using the given parameters
@@ -290,7 +290,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ChiSquareTest()
         {
             ConfusionMatrix target = new ConfusionMatrix(6, 2, 6, 18);
@@ -309,21 +309,21 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(test.Significant);
         }
 
-        [TestMethod]
+        [Test]
         public void MatthewsCorrelationCoefficientTest()
         {
             ConfusionMatrix matrix = new ConfusionMatrix(1, 1, 2, 6);
             Assert.AreEqual(0.21821789023599239, matrix.MatthewsCorrelationCoefficient);
         }
 
-        [TestMethod]
+        [Test]
         public void MatthewsCorrelationCoefficientTest2()
         {
             ConfusionMatrix matrix = new ConfusionMatrix(100, 100, 200, 600);
             Assert.AreEqual(0.21821789023599236, matrix.MatthewsCorrelationCoefficient);
         }
 
-        [TestMethod()]
+        [Test]
         public void ToGeneralMatrixTest1()
         {
             // Example from http://www.iph.ufrgs.br/corpodocente/marques/cd/rd/presabs.htm

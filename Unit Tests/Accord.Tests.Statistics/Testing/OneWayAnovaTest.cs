@@ -21,7 +21,7 @@
 //
 
 using Accord.Statistics.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Accord.Math;
 using Accord.Statistics;
 
@@ -29,7 +29,7 @@ namespace Accord.Tests.Statistics
 {
 
 
-    [TestClass()]
+    [TestFixture]
     public class OneWayAnovaTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void OneWayAnovaConstructorTest()
         {
             // The following is the same example given in Wikipedia's page for the
@@ -120,7 +120,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void OneWayAnovaConstructorTest2()
         {
             // Test for unequal sample sizes

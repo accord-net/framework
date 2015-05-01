@@ -23,17 +23,17 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using AForge.Math;
     using System;
     using Accord.Math.Transforms;
     using System.Numerics;
 
-    [TestClass()]
+    [TestFixture]
     public class FourierTransformTest
     {
 
-        [TestMethod()]
+        [Test]
         public void FFTTest()
         {
             // Tests from 

@@ -26,14 +26,14 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class MultinomialLogisticRegressionAnalysisTest
     {
 
 
-        [TestMethod]
+        [Test]
         public void AnalyzeExample1()
         {
             // http://www.ats.ucla.edu/stat/stata/dae/mlogit.htm
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod]
+        [Test]
         public void ComputeTest1()
         {
             double[][] inputs;
@@ -197,7 +197,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(21.678124991086548, wald[1][2].Statistic, 1e-4);
         }
 
-        [TestMethod]
+        [Test]
         public void ComputeTest2()
         {
             double[][] inputs;
@@ -263,7 +263,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1405.9414080469473, analysis.Deviance, 1e-5);
         }
 
-        [TestMethod]
+        [Test]
         public void CoefficientsTest1()
         {
             double[][] inputs;

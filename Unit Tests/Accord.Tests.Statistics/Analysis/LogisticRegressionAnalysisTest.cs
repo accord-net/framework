@@ -23,16 +23,16 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class LogisticRegressionAnalysisTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest1()
         {
 
@@ -63,7 +63,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(expected[i], actual[i], 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             // Test instance 01
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             double[][] inputs = training.Submatrix(null, 0, 3);
@@ -127,7 +127,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest4()
         {
 
@@ -204,7 +204,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(y));
         }
 
-        [TestMethod()]
+        [Test]
         public void FromSummaryTest1()
         {
             // Suppose we have a (fictitious) data set about patients who 

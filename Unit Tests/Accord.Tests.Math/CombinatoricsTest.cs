@@ -25,9 +25,9 @@ namespace Accord.Tests.Math
     using System.Collections.Generic;
     using System.Linq;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class CombinatoricsTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void TruthTableTest()
         {
             {
@@ -122,7 +122,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void TruthTableTest2()
         {
             // Suppose we would like to generate a truth table (i.e. all possible
@@ -155,7 +155,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void SequencesTest()
         {
             int[] symbols = { 2, 3, 2 };
@@ -181,7 +181,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void SequencesTest2()
         {
             int[][] expected =
@@ -203,7 +203,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void PermutationsTest()
         {
             // Let's say we would like to generate all possible permutations
@@ -225,7 +225,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(permutations[5].IsEqual(new[] { 3, 2, 1 }));
         }
 
-        [TestMethod()]
+        [Test]
         public void CombinationsTest()
         {
             // Let's say we would like to generate all possible combinations

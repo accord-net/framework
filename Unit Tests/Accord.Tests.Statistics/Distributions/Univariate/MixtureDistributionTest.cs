@@ -23,16 +23,16 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class MixtureDistributionTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Create a new mixture containing two Normal distributions
@@ -100,7 +100,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(7.0537533150666105, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             NormalDistribution[] components = new NormalDistribution[2];
@@ -115,7 +115,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(components, mixture.Components);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             // Create a new mixture containing two Normal distributions
@@ -132,7 +132,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.25, var);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double[] coefficients = { 0.50, 0.50 };
@@ -171,7 +171,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expectedVar, actualVar, 0.15);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest2()
         {
             double[] coefficients = { 0.50, 0.50 };
@@ -210,7 +210,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expectedMean, actualMean, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunction()
         {
             NormalDistribution[] components = new NormalDistribution[2];
@@ -229,7 +229,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionPerComponent()
         {
             NormalDistribution[] components = new NormalDistribution[2];
@@ -248,7 +248,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunction()
         {
             NormalDistribution[] components = new NormalDistribution[2];
@@ -268,7 +268,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionPerComponent()
         {
             NormalDistribution[] components = new NormalDistribution[2];
@@ -287,7 +287,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionPerComponent()
         {
             NormalDistribution[] components = new NormalDistribution[2];
@@ -306,7 +306,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void MixtureWeightsFitTest()
         {
             // Randomly initialize some mixture components

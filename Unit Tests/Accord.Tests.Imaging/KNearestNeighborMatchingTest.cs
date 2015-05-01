@@ -21,7 +21,7 @@
 //
 
 using Accord.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Drawing;
 using AForge;
 using Accord.Math;
@@ -32,7 +32,7 @@ namespace Accord.Tests.Imaging
 {
 
 
-    [TestClass()]
+    [TestFixture]
     public class KNearestNeighborMatchingTest
     {
 
@@ -53,7 +53,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void MatchTest()
         {
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
@@ -76,7 +76,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void MatchTest2()
         {
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
@@ -102,7 +102,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void MatchTest3()
         {
             FastCornersDetector fast = new FastCornersDetector(threshold: 10);

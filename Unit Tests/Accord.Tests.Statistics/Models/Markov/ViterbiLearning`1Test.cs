@@ -23,7 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Markov.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Filters;
@@ -33,12 +33,12 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.Statistics.Distributions.Univariate;
 
-    [TestClass()]
+    [TestFixture]
     public class GenericViterbiLearningTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -100,7 +100,7 @@ namespace Accord.Tests.Statistics
             }
 
             Assert.IsTrue(ll10 > ll1);
-            Assert.AreNotEqual(ll1, ll10, 10);
+            Assert.IsTrue(Math.Abs(ll1 - ll10) > 10);
 
             // Those results must match the ones in ViterbiLearningTest.
             Assert.AreEqual(-33.834836461044411, ll1);
@@ -127,7 +127,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest5()
         {
             double[][][] sequences = new double[][][] 
@@ -197,7 +197,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, hmm.Dimension);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest3()
         {
             double[][] sequences = new double[][] 
@@ -264,7 +264,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, hmm.Dimension);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest6()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -351,7 +351,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l2 > l3 && l2 > l4);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest7()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -434,7 +434,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(A.HasNaN());
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest8()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -505,7 +505,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.0769230769230769, A[1, 1], 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest9()
         {
             Accord.Math.Tools.SetupGenerator(0);

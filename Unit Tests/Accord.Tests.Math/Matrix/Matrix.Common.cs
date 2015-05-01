@@ -23,13 +23,13 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
     public partial class MatrixTest
     {
 
         #region Reshape
-        [TestMethod()]
+        [Test]
         public void ReshapeTest()
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -49,7 +49,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ReshapeTest1()
         {
             double[,] array = 
@@ -69,7 +69,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ReshapeTest2()
         {
             double[][] array = 
@@ -91,7 +91,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ReshapeTest3()
         {
             double[][] array = 
@@ -115,7 +115,7 @@ namespace Accord.Tests.Math
         #endregion
 
 
-        [TestMethod()]
+        [Test]
         public void RelativelyEqualsTest()
         {
             Assert.IsFalse(double.PositiveInfinity.IsRelativelyEqual(1, 1e-10));

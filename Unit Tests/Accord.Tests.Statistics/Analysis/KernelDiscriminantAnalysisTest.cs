@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Kernels;
     using Accord.Math;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class KernelDiscriminantAnalysisTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ClassifyTest()
         {
             // Create some sample input data instances. This is the same
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ClassifyTest1()
         {
             // Create some sample input data
@@ -165,7 +165,7 @@ namespace Accord.Tests.Statistics
             
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             double[,] inputs = 
@@ -208,7 +208,7 @@ namespace Accord.Tests.Statistics
             Assert.IsNull(target.Means);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             double[,] inputs = 
@@ -236,7 +236,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(actual, expected));
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             // Schölkopf KPCA toy example
@@ -324,7 +324,7 @@ namespace Accord.Tests.Statistics
             return inputs;
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             // Schölkopf KPCA toy example
@@ -358,7 +358,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ThresholdTest()
         {
             double[,] inputs = 

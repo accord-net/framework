@@ -26,9 +26,9 @@ namespace Accord.Tests.Statistics
     using System.Globalization;
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ParetoDistributionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var pareto = new ParetoDistribution(scale: 0.42, shape: 3);
@@ -95,7 +95,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.9494675279346789, range3.Max, 1e-8);
         }
 
-        [TestMethod()]
+        [Test]
         public void ParetoDistributionConstructorTest()
         {
             double expected, actual;
@@ -139,7 +139,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             var target = new ParetoDistribution(scale: 7.12, shape: 2);
@@ -147,7 +147,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5), 1e-6);
         }
 
-        [TestMethod]
+        [Test]
         public void FitTest()
         {
             var source = new ParetoDistribution(scale: 7.12, shape: 2);
@@ -164,7 +164,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.0, target.Alpha, 1e-2);
         }
 
-        [TestMethod]
+        [Test]
         public void FitWeights()
         {
             var source = new ParetoDistribution(scale: 7.12, shape: 2);

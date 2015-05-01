@@ -26,10 +26,10 @@ namespace Accord.Tests.Math
     using Accord.Math;
     using Accord.Math.Differentiation;
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class QuadraticObjectiveFunctionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void QuadraticConstructorTest()
         {
             double[,] quadraticTerms = 
@@ -104,7 +104,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LinearTest()
         {
             double[,] quadraticTerms = 
@@ -158,7 +158,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void HomogeneousTest()
         {
             double[,] quadraticTerms = 
@@ -198,7 +198,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void HomogeneousTest2()
         {
             double[,] quadraticTerms = 
@@ -239,7 +239,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             double x = 0;
@@ -265,7 +265,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest2()
         {
             double x = 0;
@@ -296,7 +296,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest3()
         {
             double x = 0;
@@ -317,7 +317,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest4()
         {
             double x = 0;
@@ -348,7 +348,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LambdaFunctionTest()
         {
             double x = 0;
@@ -374,7 +374,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LambdaFunctionTest2()
         {
             double x = 0;
@@ -405,7 +405,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LambdaFunctionTest3()
         {
             double x = 0;
@@ -426,7 +426,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LambdaFunctionTest4()
         {
             double x = 0;
@@ -457,7 +457,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest5()
         {
             var f1 = new QuadraticObjectiveFunction("x² + 1");

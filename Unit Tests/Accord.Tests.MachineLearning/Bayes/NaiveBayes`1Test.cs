@@ -29,15 +29,15 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Data;
 
 
-    [TestClass()]
+    [TestFixture]
     public class NaiveBayesGenericTest
     {
 
-        [TestMethod()]
+        [Test]
         public void NaiveBayesConstructorTest()
         {
             int classes = 2;
@@ -51,7 +51,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void NaiveBayesConstructorTest4()
         {
             int classes = 2;
@@ -81,7 +81,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void NaiveBayesConstructorTest5()
         {
             const int classes = 2;
@@ -105,7 +105,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, target.Distributions.GetLength(1));
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             DataTable data = new DataTable("Mitchell's Tennis Example");
@@ -173,7 +173,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(2, responses.Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             DataTable data = new DataTable("Mitchell's Tennis Example");
@@ -251,7 +251,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             // Let's say we have the following data to be classified
@@ -306,7 +306,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionsTest()
         {
             int classes = 3;

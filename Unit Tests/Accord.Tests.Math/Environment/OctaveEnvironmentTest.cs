@@ -24,11 +24,11 @@ namespace Accord.Tests.Math
 {
     using Accord.Math.Environments;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.CodeDom.Compiler;
 
-    [TestClass()]
+    [TestFixture]
     public class OctaveEnvironmentTest : OctaveEnvironment
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void eyeTest()
         {
             var I = eye(3);
@@ -95,7 +95,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expectedD.IsEqual(D));
         }
 
-        [TestMethod()]
+        [Test]
         public void svdTest()
         {
             // Declare local matrices
@@ -140,7 +140,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expectedV.IsEqual(v, 1e-10));
         }
 
-        [TestMethod()]
+        [Test]
         public void initTest()
         {
             MyAlgorithm al = new MyAlgorithm();

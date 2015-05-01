@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Data;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class TwoSampleWilcoxonSignedRankTestTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void WilcoxonSignedRankTestConstructorTest()
         {
             // Example from http://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test
@@ -67,7 +67,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void WilcoxonSignedRankTestConstructorTest2()
         {
             // Example from http://vassarstats.net/textbook/ch12a.html
@@ -87,7 +87,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.PValue > 0.01 && target.PValue < 0.05);
         }
 
-        [TestMethod()]
+        [Test]
         public void WilcoxonSignedRankTestConstructorTest3()
         {
             // Example from http://courses.wcupa.edu/rbove/Berenson/CD-ROM%20Topics/topice-10_5.pdf
@@ -111,7 +111,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void WilcoxonSignedRankTestConstructorTest4()
         {
             // Example from http://mlsc.lboro.ac.uk/resources/statistics/wsrt.pdf

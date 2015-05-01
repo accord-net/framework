@@ -23,7 +23,7 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning.DecisionTrees.Pruning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.MachineLearning.DecisionTrees;
     using System.Data;
@@ -33,7 +33,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.DecisionTrees.Learning;
 
 
-    [TestClass()]
+    [TestFixture]
     public class ReducedErrorPruningTest
     {
 
@@ -54,7 +54,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             double[][] inputs;

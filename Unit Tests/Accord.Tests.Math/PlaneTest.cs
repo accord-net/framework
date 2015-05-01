@@ -23,13 +23,13 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Geometry;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using AForge.Math;
     using System.Globalization;
     using Accord.Math;
     
-    [TestClass()]
+    [TestFixture]
     public class PlaneTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void FromPointsTest()
         {
             Point3 point1 = new Point3(0, 1, -7);
@@ -63,7 +63,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual.Normal);
         }
 
-        [TestMethod()]
+        [Test]
         public void FromPointsTest2()
         {
             Point3 point1 = new Point3(1, 2, -2);
@@ -76,7 +76,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ToStringTest()
         {
             Plane target = new Plane(-12, 3, -18, 1);

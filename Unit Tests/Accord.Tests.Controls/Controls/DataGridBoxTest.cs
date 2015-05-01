@@ -24,13 +24,13 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Controls;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class DataGridBoxText
     {
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void DataGridBox_ShowTest1()
         {
             double[,] data = Matrix.Identity(5);

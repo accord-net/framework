@@ -23,7 +23,7 @@
 namespace Accord.Tests.Neuro
 {
     using Accord.Neuro.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Neuro.Networks;
     using Accord.Neuro.Neurons;
@@ -32,7 +32,7 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro;
 
 
-    [TestClass()]
+    [TestFixture]
     public class ContrastiveDivergenceLearningTest
     {
 
@@ -53,7 +53,7 @@ namespace Accord.Tests.Neuro
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -133,7 +133,7 @@ namespace Accord.Tests.Neuro
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             // Example from Edwin Chen, Introduction to Restricted Boltzmann Machines

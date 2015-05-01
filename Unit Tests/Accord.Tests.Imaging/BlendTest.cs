@@ -26,16 +26,16 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using Accord.Math;
     using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
 
 
-    [TestClass]
+    [TestFixture]
     public class BlendTest
     {
 
-        [TestMethod]
+        [Test]
         public void Panorama_Example1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -94,7 +94,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod]
+        [Test]
         public void ApplyTest()
         {
             var img1 = Properties.Resources.image2;
@@ -126,7 +126,7 @@ namespace Accord.Tests.Imaging
             // ImageBox.Show(img3, PictureBoxSizeMode.Zoom);
         }
 
-        [TestMethod]
+        [Test]
         public void ApplyTest2()
         {
             var img1 = Properties.Resources.image2;

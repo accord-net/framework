@@ -30,9 +30,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Kernels;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class CrossvalidationTest
     {
 
@@ -53,7 +53,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void SplittingsTest()
         {
 
@@ -68,7 +68,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FittingTest()
         {
 
@@ -120,7 +120,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(10, result.Validation.Sizes[i]);
         }
 
-        [TestMethod()]
+        [Test]
         public void CrossvalidationConstructorTest()
         {
 
@@ -211,7 +211,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void CrossvalidationConstructorTest2()
         {
 
@@ -327,7 +327,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(3, result.Models.Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void NotEnoughSamplesTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -380,7 +380,7 @@ namespace Accord.Tests.MachineLearning
             crossvalidation.Compute();
         }
 
-        [TestMethod()]
+        [Test]
         public void NotEnoughSamplesTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);

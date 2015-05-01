@@ -23,17 +23,17 @@
 using Accord.Imaging;
 using AForge;
 using AForge.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace Accord.Tests.Imaging
 {
 
-    [TestClass()]
+    [TestFixture]
     public class HarrisCornersDetectorTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest()
         {
             UnmanagedImage image = UnmanagedImage.FromManagedImage(Properties.Resources.image1);
@@ -67,7 +67,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest2()
         {
             UnmanagedImage image = UnmanagedImage.FromManagedImage(Properties.Resources.sample_black);

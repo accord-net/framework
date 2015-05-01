@@ -60,14 +60,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System.XML" />
   </ItemGroup>
   <!--
@@ -98,10 +98,6 @@
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj">
-      <Project>{161BD953-537D-4325-8A00-22475FC9088E}</Project>
-      <Name>Accord.Tests.Math.Cpp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

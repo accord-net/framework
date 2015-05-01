@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using System.Globalization;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class HyperbolicSecantTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             var sech = new HyperbolicSecantDistribution();

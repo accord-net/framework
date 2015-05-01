@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SparseLinearTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Linear dense = new Linear(1);
@@ -76,7 +76,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistanceTest()
         {
             Linear dense = new Linear(1);

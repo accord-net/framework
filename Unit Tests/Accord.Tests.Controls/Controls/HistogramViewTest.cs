@@ -24,14 +24,14 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Controls;
     using Accord.Statistics.Visualizations;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class HistogramViewTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest1()
         {
             HistogramView target = new HistogramView();
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
             target.DataSource = data;
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             HistogramView target = new HistogramView();

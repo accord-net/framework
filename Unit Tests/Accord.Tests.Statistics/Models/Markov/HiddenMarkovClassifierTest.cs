@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Markov;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Math;
     using System;
 
 
-    [TestClass()]
+    [TestFixture]
     public class HiddenMarkovClassifierTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest()
         {
             // Declare some testing data
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest2()
         {
             // Declare some testing data

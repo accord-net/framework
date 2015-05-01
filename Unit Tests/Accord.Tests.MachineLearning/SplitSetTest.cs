@@ -23,7 +23,7 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
     using Accord.Statistics;
@@ -33,7 +33,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Analysis;
 
 
-    [TestClass()]
+    [TestFixture]
     public class SplitSetTest
     {
 
@@ -54,7 +54,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void SplitSetConstructorTest1()
         {
 

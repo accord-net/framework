@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Diagnostics;
 
-    [TestClass()]
+    [TestFixture]
     public class LinearTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod]
+        [Test]
         public void FunctionTest()
         {
             IKernel linear = new Linear(1);
@@ -73,7 +73,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void DistanceTest()
         {
             var linear = new Linear(1);
@@ -98,7 +98,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod]
+        [Test]
         public void ReverseDistanceTest()
         {
             var linear = new Linear(1);
@@ -123,7 +123,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest2()
         {
             double constant = 0.1;
@@ -146,7 +146,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandDistanceTest()
         {
             Linear kernel = new Linear(42);
@@ -163,7 +163,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(phi_d, d);
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandReverseDistanceTest()
         {
             Linear kernel = new Linear(42);

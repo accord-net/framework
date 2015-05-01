@@ -24,19 +24,19 @@ namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Linq;
     using System.IO;
     using System.Reflection;
     using System.Runtime.Serialization.Formatters.Binary;
 
-    [TestClass()]
+    [TestFixture]
     public class KMeansTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void KMeansConstructorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -89,7 +89,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(orig.IsEqual(observations));
         }
 
-        [TestMethod()]
+        [Test]
         public void KMeansConstructorTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -145,7 +145,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(differ);
         }
 
-        [TestMethod()]
+        [Test]
         public void KMeansConstructorTest3()
         {
             // Create a new algorithm
@@ -158,7 +158,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsNotNull(kmeans.Clusters.Proportions);
         }
 
-        [TestMethod()]
+        [Test]
         public void KMeansMoreClustersThanSamples()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -196,7 +196,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void DeserializationTest1()
         {
 

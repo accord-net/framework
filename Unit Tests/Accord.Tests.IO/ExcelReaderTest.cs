@@ -23,14 +23,14 @@
 namespace Accord.Tests.IO
 {
     using Accord.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Data;
 
-    [TestClass()]
+    [TestFixture]
     public class ExcelReaderTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ExcelReaderConstructorTest()
         {
             string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\sample.xls";
@@ -70,7 +70,7 @@ namespace Accord.Tests.IO
              */ 
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorExcel8Test()
         {
             string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\sample.xls";
@@ -83,7 +83,7 @@ namespace Accord.Tests.IO
             testTables(target);
         }
 
-        [TestMethod()]
+        [Test]
         [Ignore()]
         public void ConstructorExcel10Test()
         {

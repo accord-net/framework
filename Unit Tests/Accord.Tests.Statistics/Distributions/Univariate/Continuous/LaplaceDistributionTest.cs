@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class LaplaceDistributionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void LaplaceDistributionConstructorTest()
         {
             {
@@ -82,7 +82,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var laplace = new LaplaceDistribution(location: 4, scale: 2);
@@ -129,7 +129,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(11.824046011144626, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             var target = new LaplaceDistribution(location: 2, scale: 0.42);

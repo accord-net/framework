@@ -24,11 +24,11 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Math;
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
 
-    [TestClass()]
+    [TestFixture]
     public class IndependentComponentAnalysisTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -108,7 +108,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(revertMatrix, 0.008));
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -160,7 +160,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(reverted.IsEqual(original, 0.1));
         }
 
-        [TestMethod()]
+        [Test]
         public void SeparateTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -186,7 +186,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, 1e-4));
         }
 
-        [TestMethod()]
+        [Test]
         public void CombineTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -214,7 +214,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, 1e-4));
         }
 
-        [TestMethod()]
+        [Test]
         public void CombineTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -242,7 +242,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
         }
 
-        [TestMethod()]
+        [Test]
         public void SeparateTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -268,7 +268,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, 1e-4f));
         }
 
-        [TestMethod()]
+        [Test]
         public void SerializeTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

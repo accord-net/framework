@@ -25,9 +25,9 @@ namespace Accord.Tests.Math
     using System;
     using Accord.Math;
     using Accord.Math.Differentiation;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class FiniteDifferencesTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             int numberOfParameters = 2;
@@ -64,7 +64,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual, 0.05));
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             // Create a simple function with two parameters: f(x,y) = x² + y

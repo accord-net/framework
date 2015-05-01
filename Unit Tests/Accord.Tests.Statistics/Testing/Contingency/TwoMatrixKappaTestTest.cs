@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class TwoMatrixKappaTestTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void KappaTestConstructorTest1()
         {
             // Example from Ientilucci, Emmett (2006). "On Using and Computing the Kappa Statistic".
@@ -115,7 +115,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTestConstructorTest2()
         {
             // Example from Congalton
@@ -202,7 +202,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTestConstructorTest3()
         {
             double k1 = 0.95;
@@ -221,7 +221,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTestConstructorTest4()
         {
             {

@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SparseLaplacianTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Laplacian dense = new Laplacian(3.6);
@@ -82,7 +82,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void DistanceTest()
         {
             Laplacian dense = new Laplacian(3.6);

@@ -28,9 +28,9 @@ namespace Accord.Tests.Imaging
     using Accord.Math;
     using AForge.Imaging;
     using AForge.Imaging.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ImageToArrayTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ImageToArrayConstructorTest()
         {
             ImageToArray target = new ImageToArray();
@@ -60,7 +60,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(0, target.Channel);
         }
 
-        [TestMethod()]
+        [Test]
         public void ImageToArrayConstructorTest1()
         {
             double min = -10;
@@ -75,7 +75,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest3()
         {
             double[] pixels = 
@@ -113,7 +113,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(16 * 16, array.Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest4()
         {
             ImageToArray target = new ImageToArray(min: 0, max: 255);

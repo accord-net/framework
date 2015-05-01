@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class JaggedSingularValueDecompositionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void InverseTestNaN()
         {
             int n = 5;
@@ -71,7 +71,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             var value = new double[][]
@@ -95,7 +95,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void JaggedSingularValueDecompositionConstructorTest1()
         {
             // This test catches the bug in SingularValueDecomposition in the line
@@ -158,7 +158,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void JaggedSingularValueDecompositionConstructorTest3()
         {
             // Test using SVD assumption auto-correction feature.
@@ -217,7 +217,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void JaggedSingularValueDecompositionConstructorTest2()
         {
             // test for m-x-n matrices where m > n (4 > 2)
@@ -275,7 +275,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void JaggedSingularValueDecompositionConstructorTest4()
         {
             // Test using SVD assumption auto-correction feature
@@ -326,7 +326,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(target.Diagonal, Matrix.Diagonal(S), 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void JaggedSingularValueDecompositionConstructorTest5()
         {
             // Test using SVD assumption auto-correction feature
@@ -378,7 +378,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void JaggedSingularValueDecompositionConstructorTest6()
         {
             // Test using SVD assumption auto-correction feature in place
@@ -408,7 +408,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void JaggedSingularValueDecompositionConstructorTest7()
         {
             int count = 100;

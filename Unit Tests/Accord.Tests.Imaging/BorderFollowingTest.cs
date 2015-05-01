@@ -27,12 +27,12 @@ using Accord.Imaging.Filters;
 using AForge;
 using AForge.Imaging;
 using AForge.Imaging.Filters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Accord.Tests.Imaging
 {
 
-    [TestClass()]
+    [TestFixture]
     public class BorderFollowingTest
     {
 
@@ -53,7 +53,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void FindContourTest()
         {
             Bitmap bmp = Properties.Resources.sample_black;
@@ -93,7 +93,7 @@ namespace Accord.Tests.Imaging
                           System.Math.Abs(first.Y - last.Y) <= 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void FindContourTest2()
         {
             Bitmap bmp = Properties.Resources.hand2;
@@ -126,7 +126,7 @@ namespace Accord.Tests.Imaging
                           System.Math.Abs(first.Y - last.Y) <= 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void FindContourTest3()
         {
             Bitmap image = Properties.Resources.sample_black;

@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Multivariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Distributions.Fitting;
 
-    [TestClass()]
+    [TestFixture]
     public class JointDistributionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void JointDistributionConstructorTest()
         {
             int[] symbols = { 3, 5 };
@@ -76,7 +76,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(14, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void JointDistributionConstructorTest2()
         {
             int[] symbols = { 3, 5, 2 };
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(29, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             int[] symbols = { 3, 5 };
@@ -143,7 +143,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.25, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest2()
         {
             int[] symbols = { 3, 5 };

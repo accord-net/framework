@@ -24,9 +24,9 @@ namespace Accord.Tests.Math
 {
     using System;
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SubplexTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest1()
         {
             Func<double[], double> function = // min f(x) = 10 * (x+1)^2 + y^2
@@ -67,7 +67,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest4()
         {
             // Weak version of Rosenbrock's problem.
@@ -89,7 +89,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest5()
         {
             var function = new NonlinearObjectiveFunction(2, x =>

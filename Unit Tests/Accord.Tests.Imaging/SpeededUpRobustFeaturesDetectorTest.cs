@@ -25,15 +25,15 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
 
-    [TestClass()]
+    [TestFixture]
     public class SpeededUpRobustFeaturesDetectorTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest()
         {
             // Load an Image
@@ -100,7 +100,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(4.72728586, p.Orientation, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest2()
         {
             // Load an Image
@@ -156,7 +156,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest3()
         {
             // Load an Image
@@ -220,7 +220,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ZeroWidthTest()
         {
             Bitmap img = Properties.Resources.surf_bug_1;
@@ -238,7 +238,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void ProcessImageTest4()
         {
             Bitmap[] bitmaps = 

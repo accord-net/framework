@@ -29,18 +29,18 @@ namespace Accord.Tests.Math
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Tests.MachineLearning.Structures;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
 
-    [TestClass()]
+    [TestFixture]
     public class KnnPerformanceTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void PerformanceTest1()
         {
             int n1 = 1000;
@@ -90,7 +90,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void AccuracyTest1()
         {
             int n1 = 5000;

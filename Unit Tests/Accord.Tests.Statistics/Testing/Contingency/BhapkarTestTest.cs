@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;    
+    using NUnit.Framework;    
     
-    [TestClass()]
+    [TestFixture]
     public class BhapkarTestTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void BhapkarTestConstructorTest()
         {
             // Bhapkar, V.P. (1966). A note on the equivalence of two test criteria

@@ -3,11 +3,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Analysis;
 
-    [TestClass()]
+    [TestFixture]
     public class FisherExactTestTest
     {
 
@@ -28,7 +28,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FisherExactTestConstructorTest1()
         {
             // Example from http://rfd.uoregon.edu/files/rfd/StatisticalResources/lec_05a.txt

@@ -25,16 +25,16 @@ using Accord.Imaging.Filters;
 using Accord.Math;
 using Accord.Math.Wavelets;
 using AForge.Imaging.Filters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Drawing;
 
 namespace Accord.Tests.Imaging
 {
-    [TestClass()]
+    [TestFixture]
     public class WaveletTransformTest
     {
 
-        [TestMethod()]
+        [Test]
         public void Example1()
         {
             Bitmap image = Properties.Resources.lena512;
@@ -60,7 +60,7 @@ namespace Accord.Tests.Imaging
             Assert.IsNotNull(quarter);
         }
 
-        [TestMethod()]
+        [Test]
         public void WaveletTransformConstructorTest()
         {
             // Start with a grayscale image

@@ -386,6 +386,11 @@ namespace Accord.Neuro.Learning
             get { return hessian; }
         }
 
+        public float[][] Jacobian
+        {
+            get { return jacobian; }
+        }
+
         /// <summary>
         ///   Gets the gradient vector computed in the last iteration.
         /// </summary>

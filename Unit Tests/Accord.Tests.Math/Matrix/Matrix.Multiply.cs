@@ -23,7 +23,7 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
     using System;
     using System.Data;
@@ -31,7 +31,7 @@ namespace Accord.Tests.Math
 
     partial class MatrixTest
     {
-        [TestMethod()]
+        [Test]
         public void TransposeAndMultiplyByDiagonalTest()
         {
             double[,] a =
@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
 
-        [TestMethod()]
+        [Test]
         public void MultiplyTwoMatrices()
         {
             double[,] a = new double[,]
@@ -76,7 +76,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void MultiplyTwoMatrices2()
         {
             float[,] a = 
@@ -103,7 +103,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001f));
         }
 
-        [TestMethod()]
+        [Test]
         public void MultiplyTwoMatrices3()
         {
             double[][] a = new double[,]
@@ -130,7 +130,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void MultiplyVectorMatrixTest()
         {
             double[] a = { 1.000, 2.000, 3.000 };
@@ -147,7 +147,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void MultiplyMatrixVectorTest()
         {
             double[,] a = 
@@ -165,7 +165,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void MultiplyByDiagonalTest()
         {
             double[,] A = 
@@ -191,7 +191,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod]
+        [Test]
         public void MultiplyByTransposeTest()
         {
             double[,] a = Matrix.Magic(5);
@@ -202,7 +202,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod]
+        [Test]
         public void MultiplyByTransposeTest2()
         {
             double[,] a = Matrix.Random(2, 3);
@@ -215,7 +215,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void TransposeAndMultiplyTest()
         {
             double[,] a = Matrix.Random(2, 3);

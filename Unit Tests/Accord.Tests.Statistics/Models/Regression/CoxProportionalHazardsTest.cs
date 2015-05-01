@@ -25,10 +25,10 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions.Univariate;
 
-    [TestClass()]
+    [TestFixture]
     public class CoxProportionalHazardsTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
@@ -114,7 +114,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void PredictTest1()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html

@@ -23,14 +23,14 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Integration;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class MonteCarloIntegralTest
     {
 
-        [TestMethod()]
+        [Test]
         public void MonteCarloTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

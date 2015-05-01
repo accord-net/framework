@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
 
     ﻿using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class KolmogorovSmirnovDistributionTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var ks = new KolmogorovSmirnovDistribution(samples: 42);
@@ -89,7 +89,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.24612731591151149, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeFunctionTest()
         {
             for (int i = 0; i < test.Length; i++)
@@ -110,7 +110,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeFunctionTest2()
         {
             int n = 7;
@@ -121,7 +121,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-14);
         }
 
-        [TestMethod()]
+        [Test]
         public void SurvivalFunctionTest()
         {
             for (int i = 0; i < test.Length; i++)
@@ -142,7 +142,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             var target = new KolmogorovSmirnovDistribution(7);
@@ -150,7 +150,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
 
-        [TestMethod()]
+        [Test]
         public void PelzGoodTest()
         {
             double actual;
@@ -178,7 +178,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.21229903e-15, actual, 1e-23);
         }
 
-        [TestMethod()]
+        [Test]
         public void DurbinTest()
         {
             double actual;
@@ -206,7 +206,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.21236052547566e-15, actual, 1e-27);
         }
 
-        [TestMethod()]
+        [Test]
         public void DurbinTest2()
         {
             double expected;
@@ -225,7 +225,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-12);
         }
 
-        [TestMethod()]
+        [Test]
         public void NaN_Test()
         {
             var ks = new KolmogorovSmirnovDistribution(samples: 42);

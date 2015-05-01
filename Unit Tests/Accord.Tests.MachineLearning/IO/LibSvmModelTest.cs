@@ -27,15 +27,15 @@ namespace Accord.Tests.IO
     using System.Text;
     using Accord.IO;
     using Accord.Tests.MachineLearning.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class LibSvmModelTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ReadLinearMachineTest()
         {
             MemoryStream file = new MemoryStream(
@@ -69,7 +69,7 @@ namespace Accord.Tests.IO
                 Assert.AreEqual(machine.Weights[i], a9a_weights[i + 1]);
         }
 
-        [TestMethod()]
+        [Test]
         public void WriteLinearMachineTest()
         {
             MemoryStream destination = new MemoryStream();
@@ -113,7 +113,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(expected[expected.Length - 1], String.Empty);
         }
 
-        [TestMethod()]
+        [Test]
         public void WriteLinearMachineTest_ExactCopy()
         {
             MemoryStream file = new MemoryStream(

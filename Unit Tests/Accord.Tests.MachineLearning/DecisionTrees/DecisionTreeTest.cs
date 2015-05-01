@@ -23,14 +23,14 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning.DecisionTrees;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using AForge;
     using Accord.Statistics.Filters;
     using System.Data;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class DecisionTreeTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
 
@@ -73,7 +73,7 @@ namespace Accord.Tests.MachineLearning
 
         }
 
-        [TestMethod()]
+        [Test]
         public void EnumerateTest()
         {
             DecisionTree tree;
@@ -104,7 +104,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(expected.Length, i);
         }
 
-        [TestMethod()]
+        [Test]
         public void TraverseTest()
         {
             DecisionTree tree;

@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class VonMisesDistributionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var vonMises = new VonMisesDistribution(mean: 0.42, concentration: 1.2);
@@ -97,7 +97,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double[] angles = 
@@ -116,7 +116,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.2441525, distribution.Variance, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             VonMisesDistribution dist = new VonMisesDistribution(2.249981, 2.411822);
@@ -127,7 +127,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             VonMisesDistribution dist = new VonMisesDistribution(2.249981, 2.411822);
@@ -139,7 +139,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             VonMisesDistribution target = new VonMisesDistribution(1.621, 4.52);

@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class QrDecompositionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void InverseTestNaN()
         {
             int n = 5;
@@ -71,7 +71,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void QrDecompositionConstructorTest()
         {
             double[,] value =
@@ -99,7 +99,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             double[,] value =
@@ -127,7 +127,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest()
         {
             double[,] value =
@@ -147,7 +147,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest2()
         {
             // Example from Lecture notes for MATHS 370: Advanced Numerical Methods
@@ -201,7 +201,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void SolveTransposeTest()
         {
             double[,] a = 

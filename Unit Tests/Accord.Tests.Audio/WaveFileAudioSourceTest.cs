@@ -23,10 +23,10 @@
 namespace Accord.Tests.Audio
 {
     using Accord.DirectSound;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Audio;
 
-    [TestClass()]
+    [TestFixture]
     public class WaveFileAudioSourceTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Audio
 
 
 
-        [TestMethod()]
+        [Test]
         public void WaveFileAudioSourceConstructorTest()
         {
             string fileName = @"..\..\..\..\Unit Tests\Accord.Tests.Audio\Resources\Grand Piano - Fazioli - major A middle.wav";

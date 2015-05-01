@@ -23,11 +23,11 @@
 namespace Accord.Tests.Vision
 {
     using Accord.Vision.Detection;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Threading;
     using Accord.Vision.Detection.Cascades;
 
-    [TestClass()]
+    [TestFixture]
     public class HaarCascadeTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Vision
 
 
 
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
             HaarCascade expected = new FaceHaarCascade();

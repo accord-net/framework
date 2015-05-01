@@ -26,9 +26,9 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class KirschEdgeDetectorTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest1()
         {
             Bitmap image = Properties.Resources.lena512;
@@ -63,7 +63,7 @@ namespace Accord.Tests.Imaging
             Assert.IsNotNull(edges);
         }
 
-        [TestMethod]
+        [Test]
         public void ProcessImageTest()
         {
             double[,] diag = Matrix.Magic(5);

@@ -20,7 +20,7 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using AForge;
 using Accord.Math;
 using System;
@@ -30,7 +30,7 @@ namespace Accord.Tests.Imaging
 {
 
 
-    [TestClass()]
+    [TestFixture]
     public class RansacFundamentalEstimatorTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void EstimateTest()
         {
 

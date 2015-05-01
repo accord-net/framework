@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class BinomialTestTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void BinomialTestConstructorTest1()
         {
 
@@ -65,7 +65,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void BinomialTestConstructorTest4()
         {
 
@@ -81,7 +81,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void BinomialTestConstructorTest2()
         {
             int successes = 5;
@@ -99,7 +99,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void BinomialTestConstructorTest3()
         {
             // GNU R (0.096248626708984375)
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void BinomialTestConstructorTest8()
         {
             // Example from Jeffrey S. Simonoff, Analyzing Categorical Data, pg 64
@@ -138,7 +138,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void BinomialTestConstructorTest6()
         {
             double[] expected =
@@ -158,7 +158,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void BinomialTestConstructorTest7()
         {
             // Wolfram Alpha reports 0.063564300537

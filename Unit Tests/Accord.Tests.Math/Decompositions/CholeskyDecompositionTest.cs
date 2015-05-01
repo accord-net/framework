@@ -23,11 +23,11 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class CholeskyDecompositionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTestNaN()
         {
             int n = 5;
@@ -85,7 +85,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CholeskyDecompositionConstructorTest()
         {
             // Based on tests by Ken Johnson
@@ -118,7 +118,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(true, chol.Symmetric);
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest()
         {
             double[,] value = // positive-definite
@@ -144,7 +144,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, B, 0.0000000000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest3()
         {
             double[,] value = // positive-definite
@@ -169,7 +169,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, B, 0.0000000000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest2()
         {
             double[,] value = // not positive-definite
@@ -197,7 +197,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest4()
         {
             double[,] value = // not positive-definite
@@ -219,7 +219,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0000000000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             double[,] value = // not positive-definite
@@ -239,7 +239,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
 
-        [TestMethod()]
+        [Test]
         public void CholeskyDecompositionConstructorTest2()
         {
             double[,] value = // positive-definite
@@ -280,7 +280,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(true, chol.Symmetric);
         }
 
-        [TestMethod()]
+        [Test]
         public void CholeskyDecompositionConstructorTest3()
         {
             double[,] value = // not positive-definite
@@ -322,7 +322,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void CholeskyDecompositionConstructorTest4()
         {
             // Based on tests by Ken Johnson
@@ -368,7 +368,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void LogDeterminantTest()
         {
             CholeskyDecomposition chol = new CholeskyDecomposition(bigmatrix);
@@ -380,7 +380,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void DeterminantTest()
         {
             double[,] value =
@@ -397,7 +397,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(chol.Symmetric);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogDeterminantTest2()
         {
             double[,] value =

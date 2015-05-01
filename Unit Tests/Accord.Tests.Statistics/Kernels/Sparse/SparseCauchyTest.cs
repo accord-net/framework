@@ -22,7 +22,7 @@
 
 using Accord.Statistics.Kernels.Sparse;
 using Accord.Statistics.Kernels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 namespace Accord.Tests.Statistics
 {
 
@@ -31,7 +31,7 @@ namespace Accord.Tests.Statistics
     ///This is a test class for SparseLinearTest and is intended
     ///to contain all SparseLinearTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class SparseCauchyTest
     {
 
@@ -55,7 +55,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Cauchy dense = new Cauchy(3.6);

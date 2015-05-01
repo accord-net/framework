@@ -23,7 +23,7 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
     using System;
     using System.Data;
@@ -33,7 +33,7 @@ namespace Accord.Tests.Math
     {
 
         
-        [TestMethod()]
+        [Test]
         public void MatrixSubmatrix()
         {
             double[,] value = new double[,]
@@ -54,7 +54,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(actual, expected));
         }
 
-        [TestMethod()]
+        [Test]
         public void MatrixSubmatrix2()
         {
             double[,] value = new double[,]
@@ -82,7 +82,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(actual, value));
         }
 
-        [TestMethod()]
+        [Test]
         public void SubmatrixTest()
         {
             double[][] data = 
@@ -121,7 +121,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected2, actual2));
         }
 
-        [TestMethod()]
+        [Test]
         public void SubmatrixTest1()
         {
             double[,] value = new double[,]
@@ -161,7 +161,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(actual, value));
         }
 
-        [TestMethod()]
+        [Test]
         public void SubgroupTest2()
         {
             double[] value = { 1, 2, 3, 4, 5, 6, 7 };
@@ -184,7 +184,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(groups[1][3], 7);
         }
 
-        [TestMethod()]
+        [Test]
         public void SubgroupTest3()
         {
             double[] value = { 1, 2, 3, 4, 5, 6, 7 };

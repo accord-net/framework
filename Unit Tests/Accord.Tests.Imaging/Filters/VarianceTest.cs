@@ -26,31 +26,15 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Drawing.Imaging;
 
-    [TestClass]
+    [TestFixture]
     public class VarianceFilterTest
     {
 
-        private TestContext testContextInstance;
 
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void VarianceTest1()
         {
             Bitmap image = Properties.Resources.lena512;
@@ -59,7 +43,7 @@ namespace Accord.Tests.Imaging
             Assert.IsNotNull(result);
         }
 
-        [TestMethod()]
+        [Test]
         public void VarianceColorRotate()
         {
             Bitmap image = Properties.Resources.wiki_flower;
@@ -69,7 +53,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(answer);
         }
 
-        [TestMethod]
+        [Test]
         public void ProcessImageTest()
         {
             double[,] diag = Matrix.Magic(5);

@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
 {
     using System;
     using Accord.Statistics.Distributions.Univariate.Continuous;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
 
-    [TestClass]
+    [TestFixture]
     public class TrapezoidalDistributionTest
     {
 
@@ -45,7 +45,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TrapezoidalDistributionConstructorTest()
         {
             double x = 0.75d;
@@ -72,7 +72,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             //Verified using R package 'trapezoid'
         }
 
-        [TestMethod()]
+        [Test]
         public void DocumentationTest1()
         {
             // Create a new trapezoidal distribution with linear growth between

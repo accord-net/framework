@@ -21,7 +21,7 @@
 //
 
 using Accord.Imaging.Filters;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Drawing;
 
 namespace Accord.Tests.Imaging
@@ -32,7 +32,7 @@ namespace Accord.Tests.Imaging
     ///This is a test class for ConcatenateTest and is intended
     ///to contain all ConcatenateTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class ConcatenateTest
     {
 
@@ -57,7 +57,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConcatenateConstructorTest()
         {
             Bitmap img1 = Properties.Resources.image1;

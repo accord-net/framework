@@ -25,9 +25,9 @@ namespace Accord.Tests.Math
     using System.Collections.Generic;
     using Accord.Math;
     using AForge;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ToolsTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void ScaleTest1()
         {
             double fromMin = 0;
@@ -66,7 +66,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ScaleTest()
         {
             IntRange from = new IntRange(0, 100);
@@ -78,7 +78,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ScaleTest2()
         {
             DoubleRange from = new DoubleRange(-100, 100);
@@ -90,7 +90,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ScaleTest3()
         {
             double toMin = 0;
@@ -119,7 +119,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ScaleTest4()
         {
             float fromMin = 0f;
@@ -138,7 +138,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void AtanhTest()
         {
             double d = 0.42;
@@ -148,7 +148,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void AsinhTest()
         {
             double d = 0.42;
@@ -158,7 +158,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void AcoshTest()
         {
             double x = 3.14;
@@ -168,7 +168,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void InvSqrtTest()
         {
             float f = 42f;
@@ -179,7 +179,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 0.001);
         }
 
-        [TestMethod()]
+        [Test]
         public void DirectionTest()
         {
             IntPoint center = new IntPoint(0, 0);

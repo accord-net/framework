@@ -23,9 +23,9 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Visualizations;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class HistogramTest
     {
 
@@ -45,7 +45,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void HistogramConstructorTest()
         {
             Histogram target = new Histogram();
@@ -54,7 +54,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.Bins.Count);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest1()
         {
             Histogram target = new Histogram();
@@ -75,7 +75,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             Histogram target = new Histogram();
@@ -90,7 +90,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             Histogram target;
@@ -161,7 +161,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(values.Length, sum);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest4()
         {
             Histogram target;
@@ -231,7 +231,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(values.Length, sum);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest5()
         {
             Histogram target;
@@ -307,7 +307,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(values.Length, sum);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest6()
         {
             Histogram target = new Histogram();

@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class BetaTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void IncompleteTest()
         {
             double a = 5;
@@ -60,56 +60,56 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             double actual = Beta.Function(4, 0.42);
             Assert.AreEqual(1.2155480852832423, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogTest()
         {
             double actual = Beta.Log(4, 15.2);
             Assert.AreEqual(-9.46087817876467, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void Incbcf()
         {
             double actual = Beta.Incbcf(4, 2, 4.2);
             Assert.AreEqual(-0.23046874999999992, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void Incbd()
         {
             double actual = Beta.Incbd(4, 2, 4.2);
             Assert.AreEqual(0.7375, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void IncompleteInverse()
         {
             double actual = Beta.IncompleteInverse(0.5, 0.6, 0.1);
             Assert.AreEqual(0.019145979066925722, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void PowerSeries()
         {
             double actual = Beta.PowerSeries(4, 2, 4.2);
             Assert.AreEqual(-3671.801280000001, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void Multinomial()
         {
             double actual = Beta.Multinomial(0.42, 0.5, 5.2 );
             Assert.AreEqual(0.82641912952987062, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void IbetaTest()
         {
             double xx = 0.42;
@@ -122,7 +122,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void BetaTest2()
         {
             double a = 4.2;

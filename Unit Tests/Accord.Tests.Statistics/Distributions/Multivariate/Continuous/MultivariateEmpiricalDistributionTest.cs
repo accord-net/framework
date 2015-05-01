@@ -23,7 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Multivariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics;
@@ -31,7 +31,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.DensityKernels;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class MultivariateEmpiricalDistributionTest
     {
 
@@ -52,7 +52,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest4()
         {
             // Suppose we have the following data, and we would
@@ -108,7 +108,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double[][] observations = 
@@ -137,7 +137,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest2()
         {
             double[][] observations = 
@@ -159,7 +159,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(cov, target.Covariance, 1e-10));
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -194,7 +194,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void EpanechnikovKernelTest()
         {
             EpanechnikovKernel kernel = new EpanechnikovKernel(dimension: 1);
@@ -216,7 +216,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(expected[i], actual[i]);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedEmpiricalDistributionConstructorTest()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
@@ -256,7 +256,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedEmpiricalDistributionConstructorTest2()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
@@ -300,7 +300,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedEmpiricalDistributionConstructorTest3()
         {
             double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
@@ -313,7 +313,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.2377597081667415, target.Smoothing[0, 0]);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedEmpiricalDistribution_DistributionFunction()
         {
             double[][] samples = 

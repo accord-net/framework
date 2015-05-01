@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;    
     
-    [TestClass()]
+    [TestFixture]
     public class AbsoluteConvergenceTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void AbsoluteConvergenceConstructorTest()
         {
             var criteria = new AbsoluteConvergence(iterations: 10, tolerance: 0.1);

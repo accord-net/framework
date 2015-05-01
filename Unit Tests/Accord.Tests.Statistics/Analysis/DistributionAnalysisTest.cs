@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.Statistics.Testing;
     using Accord.Statistics.Distributions.Univariate;
 
 
-    [TestClass()]
+    [TestFixture]
     public class DistributionAnalysisTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             int n = 10000;

@@ -23,7 +23,7 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using AccordTestsMathCpp2;
     using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace Accord.Tests.Math
     using AForge;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class QuadprogComparisonTest
     {
         private TestContext testContextInstance;

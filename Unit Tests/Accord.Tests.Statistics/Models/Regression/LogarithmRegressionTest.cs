@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class LogarithmRegressionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void LogarithmRegressionRegressTest()
         {
             // This is the same data from the example available at

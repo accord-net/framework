@@ -26,10 +26,10 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class BinomialDistributionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var bin = new BinomialDistribution(trials: 16, probability: 0.12);
@@ -109,7 +109,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5.0, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityMassFunctionTest()
         {
             double[] expected =
@@ -136,7 +136,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             int trials = 5;
@@ -152,7 +152,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.066666666666666666, target.ProbabilityOfSuccess, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void BinomialDistributionConstructorTest()
         {
             int trials = 5;
@@ -165,7 +165,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(trials * probability * (1 - probability), target.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
             int trials = 3;
@@ -181,7 +181,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.ProbabilityOfSuccess, actual.ProbabilityOfSuccess);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             // http://www.stat.yale.edu/Courses/1997-98/101/binom.htm
@@ -231,7 +231,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest2()
         {
             // http://www.stat.yale.edu/Courses/1997-98/101/binom.htm
@@ -251,7 +251,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDistributionFunctionTest()
         {
             double[] pvalues = { 0.0260838, 0.130419, 0.3287, 0.5665, 0.7687, 0.8982, 0.9629, 0.9887, 0.9972, 0.9994 };
@@ -269,7 +269,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest3()
         {
             // http://www.danielsoper.com/statcalc3/calc.aspx?id=70
@@ -288,7 +288,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             int trials = 5;
@@ -319,7 +319,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void OverflowTest()
         {
             // http://stackoverflow.com/questions/23222097/accord-net-binomial-probability-mass-function-result-differs-from-excel-result
@@ -331,7 +331,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-7);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             var target = new BinomialDistribution(4, 0.2);
@@ -344,7 +344,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.2, target.ProbabilityOfSuccess, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             var target = new BinomialDistribution(4, 0.2);
@@ -357,7 +357,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.2, target.ProbabilityOfSuccess, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest3()
         {
             var target = new BinomialDistribution(4);

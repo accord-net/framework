@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class LaplacianTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             double sigma = 2.1;
@@ -64,7 +64,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, target.Function(x, x));
         }
 
-        [TestMethod]
+        [Test]
         public void LaplacianReverseDistanceTest()
         {
             var laplacian = new Laplacian(4.2);

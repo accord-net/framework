@@ -25,11 +25,11 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using Accord.Imaging;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Imaging.Converters;
     using System.Drawing.Imaging;
 
-    [TestClass()]
+    [TestFixture]
     public class IntegralImage2Test
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Imaging
 
 #pragma warning disable 0618
 
-        [TestMethod()]
+        [Test]
         public void GetSumTest()
         {
             byte[,] img = 
@@ -81,7 +81,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetSumTest3()
         {
             // Example from Rainer Lienhart and Jochen Maydt:
@@ -141,7 +141,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetSumTest2()
         {
             byte[,] img = 
@@ -173,7 +173,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetSumTest4()
         {
             byte[,] img = 
@@ -233,7 +233,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ImageFormatsTest()
         {
             byte[,] img = 

@@ -25,10 +25,10 @@ namespace Accord.Tests.Vision
     using System.IO;
     using Accord.Vision.Detection;
     using Accord.Vision.Detection.Cascades;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class HaarDataParserTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Vision
 
 
 
-        [TestMethod()]
+        [Test]
         public void ParseTest()
         {
             StringReader stringReader = new StringReader(Properties.Resources.haarcascade_frontalface_alt);
@@ -112,7 +112,7 @@ namespace Accord.Tests.Vision
         /// <summary>
         ///A test for parse
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void ParseTest2()
         {
             StringReader stringReader = new StringReader(Properties.Resources.haarcascade_frontalface_alt2);
@@ -125,7 +125,7 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(false, cascade.HasTiltedFeatures);
         }
 
-        [TestMethod()]
+        [Test]
         public void ParseTest3()
         {
             HaarCascade cascade = new FaceHaarCascade();
@@ -138,7 +138,7 @@ namespace Accord.Tests.Vision
         /// <summary>
         ///A test for parse
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void ParseTest4()
         {
             StringReader stringReader = new StringReader(Properties.Resources.haarcascade_eye_tree_eyeglasses);
@@ -154,7 +154,7 @@ namespace Accord.Tests.Vision
         /// <summary>
         ///A test for parse
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void ParseTest5()
         {
             StringReader stringReader = new StringReader(Properties.Resources.haarcascade_eye);
@@ -170,7 +170,7 @@ namespace Accord.Tests.Vision
         /// <summary>
         ///A test for parse
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void ParseTest6()
         {
             StringReader stringReader = new StringReader(Properties.Resources.haarcascade_mcs_nose);

@@ -27,10 +27,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Kernels;
 
-    [TestClass()]
+    [TestFixture]
     public class LinearRegressionCoordinateDescentTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

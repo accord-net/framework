@@ -23,9 +23,9 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class NormTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void EuclideanTest()
         {
             double[,] a = 
@@ -77,7 +77,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(21.9634, actual3, 0.001);
         }
 
-        [TestMethod()]
+        [Test]
         public void Norm2Test()
         {
             double[,] a = 
@@ -92,7 +92,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-12);
         }
 
-        [TestMethod()]
+        [Test]
         public void Norm1Test()
         {
             double[,] a = 
@@ -107,7 +107,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FrobeniusTest()
         {
             double[,] a = Matrix.Magic(5);
@@ -119,7 +119,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void EuclideanTest1()
         {
             float[,] a = 

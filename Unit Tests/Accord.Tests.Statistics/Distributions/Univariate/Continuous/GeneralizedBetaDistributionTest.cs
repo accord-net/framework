@@ -24,12 +24,12 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
     using Accord.Math.Differentiation;
 
-    [TestClass()]
+    [TestFixture]
     public class GeneralizedBetaDistributionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void BetaDistributionConstructorTest()
         {
             double expected, actual;
@@ -84,7 +84,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             double alpha = 0.42;
@@ -95,7 +95,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaMeanTest()
         {
             double alpha = 0.42;
@@ -145,7 +145,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.89625688707910811, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void NoncentralBetaMeanTest()
         {
             // Create a 4-parameter Beta distribution with the following parameters (α, β, a, b):
@@ -197,7 +197,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4.0728683052205534, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaPERTTest()
         {
             // Create a Beta from a minimum, maximum and most likely value
@@ -227,7 +227,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3, beta);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaPERTTest2()
         {
             // Create a Beta from a minimum, maximum and most likely value
@@ -253,7 +253,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.9999999999999982, beta);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaVosePERTTest()
         {
             // Create a Beta from a minimum, maximum and most likely value
@@ -279,7 +279,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4.6137173333333337, beta);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaVosePERTTest_ModeEqualMean()
         {
             // Create a Beta from a minimum, maximum and most likely value
@@ -308,7 +308,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4, beta);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaMeanTest2()
         {
             int trials = 161750;
@@ -330,7 +330,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("B(x; α = 10008, β = 151744, min = 0, max = 1)", str);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaMeanTest3()
         {
             int trials = 100;
@@ -354,7 +354,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.84983461640764513, p975, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaFitTest1()
         {
             double[] x = { 0.1, 0.5, 0.3, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9, 0.9 };
@@ -367,7 +367,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.60843093922651903, target.Beta, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaFit_RealWeights()
         {
             double[] x = { 1.0, 0.1, 0.5, 0.3, 0.5, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9 };
@@ -381,7 +381,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.58735469613259694, target.Beta);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaFit_IntWeights()
         {
             double[] x = { 1.0, 0.1, 0.5, 0.3, 0.5, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9 };
@@ -396,7 +396,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.60843093922651903, target.Beta, 1e-8);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaMLEFitTest1()
         {
             double[] x = samples;
@@ -420,7 +420,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaMLEFit_RealWeights()
         {
             double[] x = { 1.0, 0.1, 0.5, 0.3, 0.5, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9 };
@@ -440,7 +440,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.58735469613259694, target.Beta);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaMLEFit_IntWeights()
         {
             double[] x = { 1.0, 0.1, 0.5, 0.3, 0.5, 0.8, 0.6, 0.7, 0.9, 0.9, 0.9 };
@@ -460,7 +460,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.60843093922651903, target.Beta, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaGenerateTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -478,7 +478,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3, actual.Beta, 1e-2);
         }
 
-        [TestMethod()]
+        [Test]
         public void BetaGenerateTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);

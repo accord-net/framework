@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
     using Accord.Statistics.Testing.Power;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ZTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ZTestConstructorTest()
         {
             // This example has been gathered from the Wikipedia's page about
@@ -107,7 +107,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ZTestConstructorTest2()
         {
             // Example from http://science.kennesaw.edu/~jdemaio/1107/hypothesis_testing.htm
@@ -130,7 +130,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void ZTestConstructorTest3()
         {
             // Example from http://science.kennesaw.edu/~jdemaio/1107/hypothesis_testing.htm
@@ -153,7 +153,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void ZTestConstructorTest4()
         {
             // Example from http://science.kennesaw.edu/~jdemaio/1107/hypothesis_testing.htm
@@ -176,7 +176,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void PowerTest1()
         {
             // Example from http://wise.cgu.edu/powermod/computing.asp
@@ -199,7 +199,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.0, power.Power, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void SampleSizeTest1()
         {
             // Example from http://wise.cgu.edu/powermod/computing.asp
@@ -223,7 +223,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(82, sampleSize, 1e-16);
         }
 
-        [TestMethod()]
+        [Test]
         public void PowerTest2()
         {
             // Example from http://www.cyclismo.org/tutorial/R/power.html
@@ -241,7 +241,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.918362, power.Power, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void StatisticToPValueTest()
         {
             double z = 1.96;
@@ -295,7 +295,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void PValueToStatisticTest()
         {
             double p = 0.05;
@@ -350,7 +350,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void EffectSizeTest1()
         {
             // Example from http://wise.cgu.edu/powermod/computing.asp
@@ -371,7 +371,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.50, power.Effect, 0.005);
         }
 
-        [TestMethod()]
+        [Test]
         public void EffectSizeTest2()
         {
             // Example from http://wise.cgu.edu/powermod/computing.asp

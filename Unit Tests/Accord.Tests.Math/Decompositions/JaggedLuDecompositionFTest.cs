@@ -23,15 +23,15 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class JaggedLuDecompositionTest
     {
 
-        [TestMethod()]
+        [Test]
         public void InverseTestNaN()
         {
             int n = 5;
@@ -57,7 +57,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void SolveTest1()
         {
             float[][] value =
@@ -83,7 +83,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             float[][] value =
@@ -107,7 +107,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expectedInverse, actualInverse, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest()
         {
             float[][] value =
@@ -138,7 +138,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest3()
         {
             float[][] value =
@@ -169,7 +169,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expectedU, U, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest4()
         {
             float[][] value =
@@ -189,7 +189,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest5()
         {
             float[][] value =
@@ -215,7 +215,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTransposeTest()
         {
             float[][] a = 
@@ -243,7 +243,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void LuDecompositionConstructorTest()
         {
             float[][] value =
@@ -288,7 +288,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void LogDeterminantTest()
         {
             JaggedLuDecompositionF lu = new JaggedLuDecompositionF(
@@ -298,7 +298,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(lu.Nonsingular);
         }
 
-        [TestMethod()]
+        [Test]
         public void DeterminantTest()
         {
             float[][] value =
@@ -313,7 +313,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(lu.Nonsingular);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogDeterminantTest2()
         {
             float[][] value =

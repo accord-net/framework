@@ -24,14 +24,14 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Controls;
     using Accord.Statistics.Visualizations;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ScatterplotViewTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest1()
         {
             ScatterplotView target = new ScatterplotView();
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
             // ScatterplotBox.Show(data);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             ScatterplotView target = new ScatterplotView();

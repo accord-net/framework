@@ -28,15 +28,15 @@ namespace Accord.Tests.Neuro
     using Accord.Neuro.Learning;
     using AForge;
     using AForge.Neuro;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class LevenbergMarquardtLearningTest
     {
 
-        [TestMethod()]
+        [Test]
         public void MulticlassTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -97,7 +97,7 @@ namespace Accord.Tests.Neuro
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void RunEpochTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -134,7 +134,7 @@ namespace Accord.Tests.Neuro
                 Assert.AreEqual(network.Compute(input[i])[0], output[i][0], 0.1);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunEpochTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -170,7 +170,7 @@ namespace Accord.Tests.Neuro
                 Assert.AreEqual(network.Compute(input[i])[0], output[i][0], 0.1);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunEpochTest3()
         {
             double[,] dataset = yinyang;
@@ -201,7 +201,7 @@ namespace Accord.Tests.Neuro
                 Assert.AreEqual(Math.Sign(output[i][0]), Math.Sign(actual[i][0]));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunEpochTest4()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -231,7 +231,7 @@ namespace Accord.Tests.Neuro
                 Assert.AreEqual(network.Compute(input[i])[0], output[i][0], 0.1);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Four training samples of the xor function
@@ -285,7 +285,7 @@ namespace Accord.Tests.Neuro
 
 
 
-        [TestMethod()]
+        [Test]
         public void JacobianByChainRuleTest()
         {
             // Network with one hidden layer: 2-2-1
@@ -325,11 +325,8 @@ namespace Accord.Tests.Neuro
             teacher1.RunEpoch(input, output);
             teacher2.RunEpoch(input, output);
 
-            PrivateObject privateTeacher1 = new PrivateObject(teacher1);
-            PrivateObject privateTeacher2 = new PrivateObject(teacher2);
-
-            var jacobian1 = (float[][])privateTeacher1.GetField("jacobian");
-            var jacobian2 = (float[][])privateTeacher2.GetField("jacobian");
+            var jacobian1 = teacher1.Jacobian;
+            var jacobian2 = teacher2.Jacobian;
 
 
 
@@ -348,7 +345,7 @@ namespace Accord.Tests.Neuro
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void JacobianByChainRuleTest2()
         {
             // Network with two hidden layers: 2-4-3-1
@@ -388,11 +385,8 @@ namespace Accord.Tests.Neuro
             teacher1.RunEpoch(input, output);
             teacher2.RunEpoch(input, output);
 
-            PrivateObject privateTeacher1 = new PrivateObject(teacher1);
-            PrivateObject privateTeacher2 = new PrivateObject(teacher2);
-
-            var jacobian1 = (float[][])privateTeacher1.GetField("jacobian");
-            var jacobian2 = (float[][])privateTeacher2.GetField("jacobian");
+            var jacobian1 = teacher1.Jacobian;
+            var jacobian2 = teacher2.Jacobian;
 
 
             for (int i = 0; i < jacobian1.Length; i++)
@@ -411,7 +405,7 @@ namespace Accord.Tests.Neuro
 
         }
 
-        [TestMethod()]
+        [Test]
         public void JacobianByChainRuleTest3()
         {
             // Network with 3 hidden layers: 2-4-3-4-1
@@ -452,11 +446,8 @@ namespace Accord.Tests.Neuro
             teacher1.RunEpoch(input, output);
             teacher2.RunEpoch(input, output);
 
-            PrivateObject privateTeacher1 = new PrivateObject(teacher1);
-            PrivateObject privateTeacher2 = new PrivateObject(teacher2);
-
-            var jacobian1 = (float[][])privateTeacher1.GetField("jacobian");
-            var jacobian2 = (float[][])privateTeacher2.GetField("jacobian");
+            var jacobian1 = teacher1.Jacobian;
+            var jacobian2 = teacher2.Jacobian;
 
 
             for (int i = 0; i < jacobian1.Length; i++)
@@ -475,7 +466,7 @@ namespace Accord.Tests.Neuro
 
         }
 
-        [TestMethod()]
+        [Test]
         public void JacobianByChainRuleTest4()
         {
             // Network with no hidden layers: 3-1
@@ -514,11 +505,8 @@ namespace Accord.Tests.Neuro
             teacher1.RunEpoch(input, output);
             teacher2.RunEpoch(input, output);
 
-            PrivateObject privateTeacher1 = new PrivateObject(teacher1);
-            PrivateObject privateTeacher2 = new PrivateObject(teacher2);
-
-            var jacobian1 = (float[][])privateTeacher1.GetField("jacobian");
-            var jacobian2 = (float[][])privateTeacher2.GetField("jacobian");
+            var jacobian1 = teacher1.Jacobian;
+            var jacobian2 = teacher2.Jacobian;
 
 
             for (int i = 0; i < jacobian1.Length; i++)
@@ -536,7 +524,7 @@ namespace Accord.Tests.Neuro
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void JacobianByChainRuleTest_MultipleOutput()
         {
             // Network with no hidden layers: 3-4
@@ -589,11 +577,8 @@ namespace Accord.Tests.Neuro
             teacher1.RunEpoch(input, output);
             teacher2.RunEpoch(input, output);
 
-            PrivateObject privateTeacher1 = new PrivateObject(teacher1);
-            PrivateObject privateTeacher2 = new PrivateObject(teacher2);
-
-            var jacobian1 = (float[][])privateTeacher1.GetField("jacobian");
-            var jacobian2 = (float[][])privateTeacher2.GetField("jacobian");
+            var jacobian1 = teacher1.Jacobian;
+            var jacobian2 = teacher2.Jacobian;
 
 
             for (int i = 0; i < jacobian1.Length; i++)
@@ -612,7 +597,7 @@ namespace Accord.Tests.Neuro
         }
 
 
-        [TestMethod()]
+        [Test]
         public void BlockHessianTest1()
         {
             // Network with no hidden layers: 3-1
@@ -691,7 +676,7 @@ namespace Accord.Tests.Neuro
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ZeroLambdaTest()
         {
             double[,] data = null;

@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Moving;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Univariate;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class NakagamiDistributionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             NakagamiDistribution n = new NakagamiDistribution(0.807602, 12.5);
@@ -56,7 +56,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.1910311525611705, n.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var nakagami = new NakagamiDistribution(shape: 2.4, spread: 4.2);
@@ -103,7 +103,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.5903316858157317, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDistributionTest()
         {
             NakagamiDistribution n = new NakagamiDistribution(0.807602, 12.5);
@@ -121,7 +121,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeDistributionTest()
         {
             NakagamiDistribution n = new NakagamiDistribution(0.807602, 12.5);
@@ -140,7 +140,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             NakagamiDistribution target = new NakagamiDistribution(2, 5);
@@ -154,7 +154,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5, actual.Spread, 0.01);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -172,7 +172,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, actual.Spread, 0.01);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             NakagamiDistribution target = new NakagamiDistribution(5.42, 1.37);

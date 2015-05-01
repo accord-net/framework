@@ -26,10 +26,10 @@ namespace Accord.Tests.Math
     using System.Collections.Generic;
     using Accord.Math;
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class AugmentedLagrangianSolverTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void AugmentedLagrangianSolverConstructorTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -105,7 +105,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void AugmentedLagrangianSolverConstructorTest2()
         {
             // min 100(y-x*x)²+(1-x)²
@@ -161,7 +161,7 @@ namespace Accord.Tests.Math
         }
 
 #if !NET35
-        [TestMethod()]
+        [Test]
         public void AugmentedLagrangianSolverConstructorTest3()
         {
             // min x*y+ y*z
@@ -226,7 +226,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void AugmentedLagrangianSolverConstructorTest4()
         {
             // min x*y+ y*z
@@ -298,7 +298,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(solver.Solution[2]));
         }
 
-        [TestMethod()]
+        [Test]
         public void AugmentedLagrangianSolverConstructorTest5()
         {
             // Suppose we would like to minimize the following function:
@@ -368,7 +368,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(solver.Solution[1]));
         }
 
-        [TestMethod()]
+        [Test]
         public void AugmentedLagrangianSolverConstructorTest6()
         {
             test1(new ConjugateGradient(2), 5e-3);
@@ -377,7 +377,7 @@ namespace Accord.Tests.Math
             test1(new ResilientBackpropagation(2), 1e-2);
         }
 
-        [TestMethod()]
+        [Test]
         public void AugmentedLagrangianSolverConstructorTest7()
         {
             test2(new ConjugateGradient(2));
@@ -547,7 +547,7 @@ namespace Accord.Tests.Math
 #endif
 
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -584,7 +584,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest3()
         {
             // minimize f(x) = x*y*z, 
@@ -648,7 +648,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest4()
         {
             // Example code from 

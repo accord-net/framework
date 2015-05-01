@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class LinearDiscriminantAnalysisTest
     {
 
@@ -71,7 +71,7 @@ namespace Accord.Tests.Statistics
         };
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             LinearDiscriminantAnalysis lda = new LinearDiscriminantAnalysis(inputs, output);
@@ -110,7 +110,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(lda.ScatterWithinClass, expectedWithin, 0.01));
         }
 
-        [TestMethod()]
+        [Test]
         public void ClassifyTest1()
         {
             // Create some sample input data instances. This is the same
@@ -171,7 +171,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             LinearDiscriminantAnalysis lda = new LinearDiscriminantAnalysis(inputs, output);
@@ -204,7 +204,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5.6, lda.Means[1]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProjectionTest()
         {
             LinearDiscriminantAnalysis lda = new LinearDiscriminantAnalysis(inputs, output);
@@ -243,7 +243,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Matrix.HasNaN(projection));
         }
 
-        [TestMethod()]
+        [Test]
         public void ClassifyTest()
         {
             LinearDiscriminantAnalysis lda = new LinearDiscriminantAnalysis(inputs, output);

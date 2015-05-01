@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using System;
     using Accord.Statistics.Links;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class CauchitLinkFunctionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void CauchitLinkFunctionConstructorTest()
         {
             CauchitLinkFunction target = new CauchitLinkFunction();
@@ -64,7 +64,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void DerivativeTest()
         {
             double[] expected =

@@ -23,7 +23,7 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
     using System;
     using System.Data;
@@ -32,7 +32,7 @@ namespace Accord.Tests.Math
     public partial class MatrixTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ToTableTest()
         {
             double[,] matrix = 
@@ -56,7 +56,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(6, (double)actual.Rows[2][1]);
         }
 
-        [TestMethod()]
+        [Test]
         public void FromTableToArrayTest()
         {
             DataTable table = new DataTable();
