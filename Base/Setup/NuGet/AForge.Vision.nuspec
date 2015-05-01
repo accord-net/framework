@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AForge.Vision</id>
+    <version>2.2.5</version>
+    <title>AForge.Vision</title>
+    <authors>AForge.NET</authors>
+    <owners>AForge.NET</owners>
+    <licenseUrl>http://www.aforgenet.com/framework/license.html</licenseUrl>
+    <projectUrl>http://www.aforgenet.com/framework/</projectUrl>
+    <iconUrl>http://www.aforgenet.com/img/aforgenet_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The AForge.Vision library contains some computer vision classes - set of motion detection algorithms. Full list of features is available on the project's web site.</description>    
+    <summary>AForge.Vision library from the AForge.NET framework</summary>
+    <tags>aforge.net framework computer vision motion detection</tags>
+    <dependencies>
+      <dependency id="AForge" version="2.2.5" />
+      <dependency id="AForge.Imaging" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\AForge.Vision.dll" target="lib\AForge.Vision.dll" />
+    <file src="..\..\Release\AForge.Vision.xml" target="lib\AForge.Vision.xml" />
+  </files>
+</package>

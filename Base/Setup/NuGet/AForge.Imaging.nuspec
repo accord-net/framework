@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AForge.Imaging</id>
+    <version>2.2.5</version>
+    <title>AForge.Imaging</title>
+    <authors>AForge.NET</authors>
+    <owners>AForge.NET</owners>
+    <licenseUrl>http://www.aforgenet.com/framework/license.html</licenseUrl>
+    <projectUrl>http://www.aforgenet.com/framework/</projectUrl>
+    <iconUrl>http://www.aforgenet.com/img/aforgenet_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The AForge.Imaging library contains interfaces and classes for different image processing routines and filters. Full list of features is available on the project's web site.</description>
+    <summary>AForge.Imaging library from the AForge.NET framework</summary>
+    <tags>aforge.net framework image processing computer vision</tags>
+    <dependencies>
+      <dependency id="AForge" version="2.2.5" />
+      <dependency id="AForge.Math" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\AForge.Imaging.dll" target="lib\AForge.Imaging.dll" />
+    <file src="..\..\Release\AForge.Imaging.xml" target="lib\AForge.Imaging.xml" />
+  </files>
+</package>

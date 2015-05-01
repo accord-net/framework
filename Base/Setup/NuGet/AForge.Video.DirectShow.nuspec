@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AForge.Video.DirectShow</id>
+    <version>2.2.5</version>
+    <title>AForge.Video.DirectShow</title>
+    <authors>AForge.NET</authors>
+    <owners>AForge.NET</owners>
+    <licenseUrl>http://www.aforgenet.com/framework/license.html</licenseUrl>
+    <projectUrl>http://www.aforgenet.com/framework/</projectUrl>
+    <iconUrl>http://www.aforgenet.com/img/aforgenet_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The AForge.Video.DirectShow library contains classes, which allow to access video sources using DirectShow interface (USB web cameras, capture devices, video files, etc.).</description>
+    <summary>AForge.Video.DirectShow library of the AForge.NET framework</summary>
+    <tags>aforge.net framework video capture cameras</tags>
+    <dependencies>
+      <dependency id="AForge.Video" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\AForge.Video.DirectShow.dll" target="lib\AForge.Video.DirectShow.dll" />
+    <file src="..\..\Release\AForge.Video.DirectShow.xml" target="lib\AForge.Video.DirectShow.xml" />
+  </files>
+</package>

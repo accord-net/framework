@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AForge.Math</id>
+    <version>2.2.5</version>
+    <title>AForge.Math</title>
+    <authors>AForge.NET</authors>
+    <owners>AForge.NET</owners>
+    <licenseUrl>http://www.aforgenet.com/framework/license.html</licenseUrl>
+    <projectUrl>http://www.aforgenet.com/framework/</projectUrl>
+    <iconUrl>http://www.aforgenet.com/img/aforgenet_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The AForge.Math library contains set of math utilities, which are used by other AForge.NET framework's libraries or may be used individually.</description>
+    <summary>AForge.Math library from the AForge.NET framework</summary>
+    <tags>aforge.net framework math 3D pose estimation</tags>
+    <dependencies>
+      <dependency id="AForge" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\AForge.Math.dll" target="lib\AForge.Math.dll" />
+    <file src="..\..\Release\AForge.Math.xml" target="lib\AForge.Math.xml" />
+  </files>
+</package>

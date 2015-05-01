@@ -1,0 +1,25 @@
+AForge.NET framework building instructions
+==========================================
+
+To build the framework from sources it is required to have installation
+of VS.NET 2010 (C#/C++ Express Edition 2010 is fine).
+
+Each individual library of the framework has its own project file and
+solution file, which allows building any of the libraries independently.
+These individual solution files can be found in the appropriate folders
+of the library.
+
+Note: since this approach requires knowledge of dependencies between
+framework’s libraries, it is supposed mostly for framework developers,
+who work on individual projects.
+
+
+To simplify build process and allow building of entire framework at once,
+there is a main solution file – “Build All.sln”. This allows building all
+libraries in correct order, so no dependency issues arise.
+
+
+Important! To build all libraries right after checking out them from SVN
+it is suggested to use "Release" solution configuration in VS.NET. It will
+build all, except the AForge.Robotics.TeRK library, which requires ICE
+framework to be installed (http://www.zeroc.com/ice.html).
