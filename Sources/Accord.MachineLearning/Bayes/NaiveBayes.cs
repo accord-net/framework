@@ -22,12 +22,12 @@
 
 namespace Accord.MachineLearning.Bayes
 {
-    using System;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Math;
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Univariate;
+    using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
     using System.Threading.Tasks;
 
     /// <summary>
@@ -147,7 +147,7 @@ namespace Accord.MachineLearning.Bayes
     ///   // Compute the Naive Bayes model
     ///   target.Estimate(inputs, outputs);
     /// </code>
-    /// 
+    ///   
     /// <para>Now that we have created and estimated our classifier, we 
     /// can query the classifier for new input samples through the <see
     /// cref="NaiveBayes.Compute(int[])"/> method.</para>
@@ -161,6 +161,56 @@ namespace Accord.MachineLearning.Bayes
     /// 
     /// // Finally, the result can be translated back to one of the codewords using
     /// string result = codebook.Translate("PlayTennis", output); // result is "No"
+    /// </code>
+    /// 
+    /// 
+    /// <para> 
+    ///   </para>
+    ///   
+    /// <para>
+    ///   In this second example, we will be creating a simple multi-class
+    ///   classification problem using integer vectors and learning a discrete
+    ///   Naive Bayes on those vectors.</para>
+    /// 
+    /// <code>
+    /// // Let's say we have the following data to be classified
+    /// // into three possible classes. Those are the samples:
+    /// //
+    /// int[][] inputs =
+    /// {
+    ///     //               input      output
+    ///     new int[] { 0, 1, 1, 0 }, //  0 
+    ///     new int[] { 0, 1, 0, 0 }, //  0
+    ///     new int[] { 0, 0, 1, 0 }, //  0
+    ///     new int[] { 0, 1, 1, 0 }, //  0
+    ///     new int[] { 0, 1, 0, 0 }, //  0
+    ///     new int[] { 1, 0, 0, 0 }, //  1
+    ///     new int[] { 1, 0, 0, 0 }, //  1
+    ///     new int[] { 1, 0, 0, 1 }, //  1
+    ///     new int[] { 0, 0, 0, 1 }, //  1
+    ///     new int[] { 0, 0, 0, 1 }, //  1
+    ///     new int[] { 1, 1, 1, 1 }, //  2
+    ///     new int[] { 1, 0, 1, 1 }, //  2
+    ///     new int[] { 1, 1, 0, 1 }, //  2
+    ///     new int[] { 0, 1, 1, 1 }, //  2
+    ///     new int[] { 1, 1, 1, 1 }, //  2
+    /// };
+    /// 
+    /// int[] outputs = // those are the class labels
+    /// {
+    ///     0, 0, 0, 0, 0,
+    ///     1, 1, 1, 1, 1,
+    ///     2, 2, 2, 2, 2,
+    /// };
+    /// 
+    /// // Create a discrete naive Bayes model for 3 classes and 4 binary inputs
+    /// var bayes = new NaiveBayes(classes: 3, symbols: new int[] { 2, 2, 2, 2 });
+    /// 
+    /// // Teach the model. The error should be zero:
+    /// double error = bayes.Estimate(inputs, outputs);
+    /// 
+    /// // Now, let's test  the model output for the first input sample:
+    /// int answer = bayes.Compute(new int[] { 0, 1, 1, 0 }); // should be 1
     /// </code>
     /// </example>
     /// 
@@ -307,10 +357,10 @@ namespace Accord.MachineLearning.Bayes
         public double Estimate(int[][] inputs, int[] outputs,
             bool empirical = true, double regularization = 1e-5)
         {
-            if (inputs == null) 
+            if (inputs == null)
                 throw new ArgumentNullException("inputs");
 
-            if (outputs == null) 
+            if (outputs == null)
                 throw new ArgumentNullException("outputs");
 
             if (inputs.Length == 0)

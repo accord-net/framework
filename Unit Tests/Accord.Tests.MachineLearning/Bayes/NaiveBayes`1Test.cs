@@ -22,35 +22,20 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System.Data;
     using Accord;
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
+    using Accord.Statistics.Distributions;
+    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics.Distributions;
+    using System.Data;
 
 
     [TestClass()]
     public class NaiveBayesGenericTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void NaiveBayesConstructorTest()
@@ -101,8 +86,8 @@ namespace Accord.Tests.MachineLearning
         {
             const int classes = 2;
             const int inputCount = 3;
-            double[] classPriors = {0.4, 0.6};
-            var inputPriors = new [,]
+            double[] classPriors = { 0.4, 0.6 };
+            var inputPriors = new[,]
             {
                 {new UniformDiscreteDistribution(0,10), new UniformDiscreteDistribution(0,10), new UniformDiscreteDistribution(0,10)},
                 {new UniformDiscreteDistribution(0,10), new UniformDiscreteDistribution(0,10), new UniformDiscreteDistribution(0,10)}
@@ -117,7 +102,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.6, target.Priors[1]);
 
             Assert.AreEqual(2, target.Distributions.GetLength(0));
-            Assert.AreEqual(3, target.Distributions.GetLength(1));            
+            Assert.AreEqual(3, target.Distributions.GetLength(1));
         }
 
         [TestMethod()]
@@ -263,6 +248,62 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, responses.Sum(), 1e-10);
             Assert.IsFalse(double.IsNaN(responses[0]));
             Assert.AreEqual(2, responses.Length);
+        }
+
+
+        [TestMethod()]
+        public void ComputeTest3()
+        {
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            double[][] inputs =
+            {
+                //               input         output
+                new double[] { 0, 1, 1, 0 }, //  0 
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 0, 0, 1, 0 }, //  0
+                new double[] { 0, 1, 1, 0 }, //  0
+                new double[] { 0, 1, 0, 0 }, //  0
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 0 }, //  1
+                new double[] { 1, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 0, 0, 0, 1 }, //  1
+                new double[] { 1, 1, 1, 1 }, //  2
+                new double[] { 1, 0, 1, 1 }, //  2
+                new double[] { 1, 1, 0, 1 }, //  2
+                new double[] { 0, 1, 1, 1 }, //  2
+                new double[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a new continuous naive Bayes model for 3 classes using 4-dimensional Gaussian distributions
+            var bayes = new NaiveBayes<NormalDistribution>(inputs: 4, classes: 3, initial: NormalDistribution.Standard);
+
+            // Teach the Naive Bayes model. The error should be zero:
+            double error = bayes.Estimate(inputs, outputs, options: new NormalOptions
+            {
+                Regularization = 1e-5 // to avoid zero variances
+            });
+
+            // Now, let's test  the model output for the first input sample:
+            int answer = bayes.Compute(new double[] { 0, 1, 1, 0 }); // should be 1
+
+
+            Assert.AreEqual(0, error);
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                error = bayes.Compute(inputs[i]);
+                double expected = outputs[i];
+                Assert.AreEqual(expected, error);
+            }
         }
 
         [TestMethod()]

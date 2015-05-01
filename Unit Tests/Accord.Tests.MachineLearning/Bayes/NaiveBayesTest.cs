@@ -22,33 +22,18 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System.Data;
-    using System.Text;
     using Accord;
     using Accord.MachineLearning;
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using System.Data;
+    using System.Text;
 
     [TestClass()]
     public class NaiveBayesTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [TestMethod()]
@@ -265,6 +250,59 @@ namespace Accord.Tests.MachineLearning
 
             return sb.ToString().Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
         }
+
+        [TestMethod()]
+        public void ComputeTest3()
+        {
+            // Let's say we have the following data to be classified
+            // into three possible classes. Those are the samples:
+            //
+            int[][] inputs =
+            {
+                //               input      output
+                new int[] { 0, 1, 1, 0 }, //  0 
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 0, 0, 1, 0 }, //  0
+                new int[] { 0, 1, 1, 0 }, //  0
+                new int[] { 0, 1, 0, 0 }, //  0
+                new int[] { 1, 0, 0, 0 }, //  1
+                new int[] { 1, 0, 0, 0 }, //  1
+                new int[] { 1, 0, 0, 1 }, //  1
+                new int[] { 0, 0, 0, 1 }, //  1
+                new int[] { 0, 0, 0, 1 }, //  1
+                new int[] { 1, 1, 1, 1 }, //  2
+                new int[] { 1, 0, 1, 1 }, //  2
+                new int[] { 1, 1, 0, 1 }, //  2
+                new int[] { 0, 1, 1, 1 }, //  2
+                new int[] { 1, 1, 1, 1 }, //  2
+            };
+
+            int[] outputs = // those are the class labels
+            {
+                0, 0, 0, 0, 0,
+                1, 1, 1, 1, 1,
+                2, 2, 2, 2, 2,
+            };
+
+            // Create a discrete naive Bayes model for 3 classes and 4 binary inputs
+            var bayes = new NaiveBayes(classes: 3, symbols: new int[] { 2, 2, 2, 2 });
+
+            // Teach the model. The error should be zero:
+            double error = bayes.Estimate(inputs, outputs);
+
+            // Now, let's test  the model output for the first input sample:
+            int answer = bayes.Compute(new int[] { 0, 1, 1, 0 }); // should be 1
+
+
+            Assert.AreEqual(0, error);
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                error = bayes.Compute(inputs[i]);
+                double expected = outputs[i];
+                Assert.AreEqual(expected, error);
+            }
+        }
+
 
         [TestMethod()]
         public void DistributionsTest()
