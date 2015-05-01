@@ -30,26 +30,11 @@ namespace Accord.Tests.Audio
     using AForge.Math;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Numerics;
 
     [TestClass()]
     public class ComplexSignalTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         private Complex[,] data = 
         {

@@ -51,13 +51,8 @@ namespace Accord.Math.Transforms
 {
     using AForge.Math;
     using System;
+    using System.Numerics;
     using System.Runtime.CompilerServices;
-
-    // #if NET35
-    using Complex = AForge.Math.Complex;
-    // #else
-    //     using Complex = System.Numerics.Complex;
-    // #endif
 
     /// <summary>
     ///   Fourier Transform (for arbitrary size matrices).
@@ -95,8 +90,8 @@ namespace Accord.Math.Transforms
                 // sum source elements
                 for (int j = 0; j < n; j++)
                 {
-                    double re = data[j].Re();
-                    double im = data[j].Im();
+                    double re = data[j].Real;
+                    double im = data[j].Imaginary;
                     double cosw = Math.Cos(phim * j);
                     double sinw = Math.Sin(phim * j);
 
@@ -184,7 +179,7 @@ namespace Accord.Math.Transforms
             if (direction == FourierTransform.Direction.Backward)
             {
                 for (int i = 0; i < data.Length; i++)
-                    data[i] = new Complex(data[i].Im(), data[i].Re());
+                    data[i] = new Complex(data[i].Imaginary, data[i].Real);
             }
 
             if ((n & (n - 1)) == 0)
@@ -202,8 +197,8 @@ namespace Accord.Math.Transforms
             {
                 for (int i = 0; i < data.Length; i++)
                 {
-                    double im = data[i].Im();
-                    double re = data[i].Re();
+                    double im = data[i].Imaginary;
+                    double re = data[i].Real;
                     data[i] = new Complex(im / n, re / n);
                 }
             }
@@ -317,7 +312,7 @@ namespace Accord.Math.Transforms
                 return;
 
             for (int i = 0; i < data.Length; i++)
-                data[i] = new Complex(data[i].Im(), data[i].Re());
+                data[i] = new Complex(data[i].Imaginary, data[i].Real);
 
             if ((n & (n - 1)) == 0)
             {
@@ -332,8 +327,8 @@ namespace Accord.Math.Transforms
 
             for (int i = 0; i < data.Length; i++)
             {
-                double im = data[i].Im();
-                double re = data[i].Re();
+                double im = data[i].Imaginary;
+                double re = data[i].Real;
                 data[i] = new Complex(im, re);
             }
         }
@@ -476,14 +471,14 @@ namespace Accord.Math.Transforms
                     for (int j = i, k = 0; j < i + halfsize; j++, k += tablestep)
                     {
                         int h = j + halfsize;
-                        double re = complex[h].Re();
-                        double im = complex[h].Im();
+                        double re = complex[h].Real;
+                        double im = complex[h].Imaginary;
 
                         double tpre = +re * cosTable[k] + im * sinTable[k];
                         double tpim = -re * sinTable[k] + im * cosTable[k];
 
-                        double rej = complex[j].Re();
-                        double imj = complex[j].Im();
+                        double rej = complex[j].Real;
+                        double imj = complex[j].Imaginary;
 
                         complex[h] = new Complex(rej - tpre, imj - tpim);
                         complex[j] = new Complex(rej + tpre, imj + tpim);
@@ -573,8 +568,8 @@ namespace Accord.Math.Transforms
 
             for (int i = 0; i < data.Length; i++)
             {
-                double re = data[i].Re();
-                double im = data[i].Im();
+                double re = data[i].Real;
+                double im = data[i].Imaginary;
 
                 areal[i] = +re * cosTable[i] + im * sinTable[i];
                 aimag[i] = -re * sinTable[i] + im * cosTable[i];
@@ -628,10 +623,10 @@ namespace Accord.Math.Transforms
 
             for (int i = 0; i < x.Length; i++)
             {
-                double xreal = x[i].Re();
-                double ximag = x[i].Im();
-                double yreal = y[i].Re();
-                double yimag = y[i].Im();
+                double xreal = x[i].Real;
+                double ximag = x[i].Imaginary;
+                double yreal = y[i].Real;
+                double yimag = y[i].Imaginary;
 
                 double re = xreal * yreal - ximag * yimag;
                 double im = ximag * yreal + xreal * yimag;

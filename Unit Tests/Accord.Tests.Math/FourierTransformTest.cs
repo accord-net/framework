@@ -27,6 +27,7 @@ namespace Accord.Tests.Math
     using AForge.Math;
     using System;
     using Accord.Math.Transforms;
+    using System.Numerics;
 
     [TestClass()]
     public class FourierTransformTest

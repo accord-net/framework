@@ -27,26 +27,11 @@ namespace Accord.Tests.Math
     using System;
     using AForge.Math;
     using AForge;
+    using System.Numerics;
 
     [TestClass()]
     public class ComplexMatrixTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void AbsTest()
@@ -73,7 +58,7 @@ namespace Accord.Tests.Math
             double[] expected = { Math.Sqrt(26), Math.Sqrt(5), Math.Sqrt(26) };
             double[] actual = ComplexMatrix.Magnitude(x);
 
-            Assert.IsTrue(expected.IsEqual(actual));
+            Assert.IsTrue(expected.IsEqual(actual, 1e-12));
         }
 
         [TestMethod()]
@@ -95,7 +80,7 @@ namespace Accord.Tests.Math
             double[] actual = ComplexMatrix.Phase(x);
 
             for (int i = 0; i < x.Length; i++)
-                Assert.AreEqual(x[i].Phase, Math.Atan2(x[i].Im, x[i].Re));
+                Assert.AreEqual(x[i].Phase, Math.Atan2(x[i].Imaginary, x[i].Real));
         }
 
 

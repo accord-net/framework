@@ -64,6 +64,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Base\Sources\Video.DirectShow\AForge.Video.DirectShow.csproj">
+      <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
+      <Name>AForge.Video.DirectShow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Video\AForge.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>AForge.Video</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Vision\AForge.Vision.csproj">
+      <Project>{b99cbe2e-baad-45d5-8a84-caa6a2286c0b}</Project>
+      <Name>AForge.Vision</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Audio.Formats\Accord.Audio.Formats.csproj">
       <Project>{ec70c2a7-2b49-40d3-ae82-4c2f6e1724af}</Project>
       <Name>Accord.Audio.Formats</Name>

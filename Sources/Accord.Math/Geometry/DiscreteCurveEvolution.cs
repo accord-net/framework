@@ -40,6 +40,7 @@ namespace Accord.Math.Geometry
     using AForge;
     using AForge.Math;
     using AForge.Math.Geometry;
+    using System.Numerics;
 
     /// <summary>
     ///   Discrete Curve Evolution.
@@ -146,7 +147,7 @@ namespace Accord.Math.Geometry
             var newShape = new List<IntPoint>(complex.Count);
 
             for (int i = 0; i < complex.Count; i++)
-                newShape.Add(new IntPoint((int)complex[i].Re, (int)complex[i].Im));
+                newShape.Add(new IntPoint((int)complex[i].Real, (int)complex[i].Imaginary));
 
             return newShape;
         }

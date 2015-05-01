@@ -25,35 +25,14 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AForge.Math;
 using Accord.Math;
 using Tools = Accord.Audio.Tools;
+using System.Numerics;
 
 namespace Accord.Tests.Audio
 {
-    
-    
-    /// <summary>
-    ///This is a test class for ToolsTest and is intended
-    ///to contain all ToolsTest Unit Tests
-    ///</summary>
+
     [TestClass()]
     public class ToolsTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [TestMethod()]
         public void GetPowerCepstrumTest()

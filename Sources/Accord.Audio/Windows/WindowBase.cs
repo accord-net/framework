@@ -23,6 +23,7 @@
 namespace Accord.Audio.Windows
 {
     using AForge.Math;
+    using System.Numerics;
 
     /// <summary>
     ///   Base abstract class for signal windows.

@@ -61,33 +61,6 @@
     <CodeAnalysisLogFile>..\..\Release\net45\Accord.Controls.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge">
-      <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AForge.Controls">
-      <HintPath>..\..\Externals\AForge.NET\AForge.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging">
-      <HintPath>..\..\Externals\AForge.NET\AForge.Imaging.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AForge.Video">
-      <HintPath>..\..\Externals\AForge.NET\AForge.Video.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AForge.Video.DirectShow">
-      <HintPath>..\..\Externals\AForge.NET\AForge.Video.DirectShow.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AForge.Vision">
-      <HintPath>..\..\Externals\AForge.NET\AForge.Vision.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -127,6 +100,34 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Base\Sources\Controls\AForge.Controls.csproj">
+      <Project>{4cca6844-9102-4a3b-8148-ea3d359b2586}</Project>
+      <Name>AForge.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\Sources\Core\AForge.Core.csproj">
+      <Project>{631ac093-430f-45f4-ba0c-af0f0405918a}</Project>
+      <Name>AForge.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\Sources\Imaging\AForge.Imaging.csproj">
+      <Project>{c6a8b9ae-0749-41c7-8ff9-02c156696f45}</Project>
+      <Name>AForge.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\Sources\Math\AForge.Math.csproj">
+      <Project>{c0faf524-72e4-46f7-8c1b-a6b74dec5ebe}</Project>
+      <Name>AForge.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\Sources\Video.DirectShow\AForge.Video.DirectShow.csproj">
+      <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
+      <Name>AForge.Video.DirectShow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\Sources\Video\AForge.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>AForge.Video</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\Sources\Vision\AForge.Vision.csproj">
+      <Project>{b99cbe2e-baad-45d5-8a84-caa6a2286c0b}</Project>
+      <Name>AForge.Vision</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
       <Project>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</Project>
       <Name>Accord.Controls.Imaging</Name>

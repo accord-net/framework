@@ -66,20 +66,20 @@ namespace AForge.Controls
         // series data
         private class DataSeries
         {
-            public double[,]	data = null;
-            public Color		color = Color.Blue;
-            public SeriesType	type = SeriesType.Line;
-            public int			width = 1;
-            public bool			updateYRange = true;
+            public double[,] data = null;
+            public Color color = Color.Blue;
+            public SeriesType type = SeriesType.Line;
+            public int width = 1;
+            public bool updateYRange = true;
         }
 
         // data series table
-        private Dictionary<string, DataSeries> seriesTable = new Dictionary<string, DataSeries>( );
+        private Dictionary<string, DataSeries> seriesTable = new Dictionary<string, DataSeries>();
 
-        private Pen		blackPen = new Pen( Color.Black );
+        private Pen blackPen = new Pen(Color.Black);
 
-        private Range	rangeX = new Range( 0, 1 );
-        private Range	rangeY = new Range( 0, 1 );
+        private Range rangeX = new Range(0, 1);
+        private Range rangeY = new Range(0, 1);
 
         /// <summary>
         /// Chart's X range.
@@ -87,15 +87,15 @@ namespace AForge.Controls
         /// 
         /// <remarks><para>The value sets the X range of data to be displayed on the chart.</para></remarks>
         /// 
-        [Browsable( false )]
+        [Browsable(false)]
         public Range RangeX
         {
             get { return rangeX; }
             set
             {
                 rangeX = value;
-                UpdateYRange( );
-                Invalidate( );
+                UpdateYRange();
+                Invalidate();
             }
         }
 
@@ -105,14 +105,14 @@ namespace AForge.Controls
         /// 
         /// <remarks>The value sets the Y range of data to be displayed on the chart.</remarks>
         ///
-        [Browsable( false )]
+        [Browsable(false)]
         public Range RangeY
         {
             get { return rangeY; }
             set
             {
                 rangeY = value;
-                Invalidate( );
+                Invalidate();
             }
         }
 
@@ -125,30 +125,30 @@ namespace AForge.Controls
         /// Initializes a new instance of the <see cref="Chart"/> class.
         /// </summary>
         /// 
-        public Chart( )
+        public Chart()
         {
             // This call is required by the Windows.Forms Form Designer.
-            InitializeComponent( );
+            InitializeComponent();
 
             // update control style
-            SetStyle( ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true );
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
+                ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
         }
 
         /// <summary>
         /// Dispose the object.
         /// </summary>
-        protected override void Dispose( bool disposing )
+        protected override void Dispose(bool disposing)
         {
-            if ( disposing )
+            if (disposing)
             {
-                if ( components != null )
-                    components.Dispose( );
+                if (components != null)
+                    components.Dispose();
 
                 // free graphics resources
-                blackPen.Dispose( );
+                blackPen.Dispose();
             }
-            base.Dispose( disposing );
+            base.Dispose(disposing);
         }
 
         #region Component Designer generated code
@@ -156,134 +156,134 @@ namespace AForge.Controls
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent( )
+        private void InitializeComponent()
         {
-            this.SuspendLayout( );
+            this.SuspendLayout();
             // 
             // Chart
             // 
-            this.Paint += new System.Windows.Forms.PaintEventHandler( this.Chart_Paint );
-            this.ResumeLayout( false );
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.Chart_Paint);
+            this.ResumeLayout(false);
 
         }
         #endregion
 
         // Paint the control.
-        private void Chart_Paint( object sender, PaintEventArgs e )
+        private void Chart_Paint(object sender, PaintEventArgs e)
         {
-            Graphics    g = e.Graphics;
-            int			clientWidth = ClientRectangle.Width;
-            int			clientHeight = ClientRectangle.Height;
+            Graphics g = e.Graphics;
+            int clientWidth = ClientRectangle.Width;
+            int clientHeight = ClientRectangle.Height;
 
             // fill with white background
-            Brush backgroundBrush = new SolidBrush( BackColor );
-            g.FillRectangle( backgroundBrush, 0, 0, clientWidth - 1, clientHeight - 1 );
-            backgroundBrush.Dispose( );
+            Brush backgroundBrush = new SolidBrush(BackColor);
+            g.FillRectangle(backgroundBrush, 0, 0, clientWidth - 1, clientHeight - 1);
+            backgroundBrush.Dispose();
 
             // draw a black rectangle
-            g.DrawRectangle( blackPen, 0, 0, clientWidth - 1, clientHeight - 1 );
+            g.DrawRectangle(blackPen, 0, 0, clientWidth - 1, clientHeight - 1);
 
             // set clipping rectangle
-            g.SetClip( new Rectangle( 2, 2, clientWidth - 4, clientHeight - 4 ) );
+            g.SetClip(new Rectangle(2, 2, clientWidth - 4, clientHeight - 4));
 
             // check if there are any data series
-            if ( rangeX.Length != 0 )
+            if (rangeX.Length != 0)
             {
-                double xFactor = (double) ( clientWidth - 10 ) / ( rangeX.Length );
-                double yFactor = (double) ( clientHeight - 10 ) / ( ( rangeY.Length != 0 ) ? rangeY.Length : 1 );
+                double xFactor = (double)(clientWidth - 10) / (rangeX.Length);
+                double yFactor = (double)(clientHeight - 10) / ((rangeY.Length != 0) ? rangeY.Length : 1);
 
                 // walk through all data series
-                foreach ( KeyValuePair<string, DataSeries> kvp in seriesTable )
+                foreach (KeyValuePair<string, DataSeries> kvp in seriesTable)
                 {
                     DataSeries series = kvp.Value;
                     // get data of the series
                     double[,] data = series.data;
 
                     // check for available data
-                    if ( data == null )
+                    if (data == null)
                         continue;
 
                     // check series type
-                    if ( series.type == SeriesType.Dots )
+                    if (series.type == SeriesType.Dots)
                     {
                         // draw dots
-                        Brush	brush = new SolidBrush( series.color );
-                        int		width = series.width;
-                        int		r = width >> 1;
+                        Brush brush = new SolidBrush(series.color);
+                        int width = series.width;
+                        int r = width >> 1;
 
                         // draw all points
-                        for ( int i = 0, n = data.GetLength( 0 ); i < n; i++ )
+                        for (int i = 0, n = data.GetLength(0); i < n; i++)
                         {
-                            int x = (int) ( ( data[i, 0] - rangeX.Min ) * xFactor );
-                            int y = (int) ( ( data[i, 1] - rangeY.Min ) * yFactor );
+                            int x = (int)((data[i, 0] - rangeX.Min) * xFactor);
+                            int y = (int)((data[i, 1] - rangeY.Min) * yFactor);
 
                             x += 5;
                             y = clientHeight - 6 - y;
 
-                            g.FillRectangle( brush, x - r, y - r, width, width );
+                            g.FillRectangle(brush, x - r, y - r, width, width);
                         }
-                        brush.Dispose( );
+                        brush.Dispose();
                     }
-                    else if ( series.type == SeriesType.ConnectedDots )
+                    else if (series.type == SeriesType.ConnectedDots)
                     {
                         // draw dots connected with 1-pixel width line
-                        Brush	brush = new SolidBrush( series.color );
-                        Pen		pen = new Pen( series.color, 1 );
-                        int		width = series.width;
-                        int		r = width >> 1;
+                        Brush brush = new SolidBrush(series.color);
+                        Pen pen = new Pen(series.color, 1);
+                        int width = series.width;
+                        int r = width >> 1;
 
-                        int x1 = (int) ( ( data[0, 0] - rangeX.Min ) * xFactor );
-                        int y1 = (int) ( ( data[0, 1] - rangeY.Min ) * yFactor );
+                        int x1 = (int)((data[0, 0] - rangeX.Min) * xFactor);
+                        int y1 = (int)((data[0, 1] - rangeY.Min) * yFactor);
 
                         x1 += 5;
                         y1 = clientHeight - 6 - y1;
-                        g.FillRectangle( brush, x1 - r, y1 - r, width, width );
+                        g.FillRectangle(brush, x1 - r, y1 - r, width, width);
 
                         // draw all lines
-                        for ( int i = 1, n = data.GetLength( 0 ); i < n; i++ )
+                        for (int i = 1, n = data.GetLength(0); i < n; i++)
                         {
-                            int x2 = (int) ( ( data[i, 0] - rangeX.Min ) * xFactor );
-                            int y2 = (int) ( ( data[i, 1] - rangeY.Min ) * yFactor );
+                            int x2 = (int)((data[i, 0] - rangeX.Min) * xFactor);
+                            int y2 = (int)((data[i, 1] - rangeY.Min) * yFactor);
 
                             x2 += 5;
                             y2 = clientHeight - 6 - y2;
 
-                            g.FillRectangle( brush, x2 - r, y2 - r, width, width );
-                            g.DrawLine( pen, x1, y1, x2, y2 );
+                            g.FillRectangle(brush, x2 - r, y2 - r, width, width);
+                            g.DrawLine(pen, x1, y1, x2, y2);
 
                             x1 = x2;
                             y1 = y2;
                         }
 
-                        pen.Dispose( );
-                        brush.Dispose( );
+                        pen.Dispose();
+                        brush.Dispose();
                     }
-                    else if ( series.type == SeriesType.Line )
+                    else if (series.type == SeriesType.Line)
                     {
                         // draw line
-                        Pen pen = new Pen( series.color, series.width );
+                        Pen pen = new Pen(series.color, series.width);
 
-                        int x1 = (int) ( ( data[0, 0] - rangeX.Min ) * xFactor );
-                        int y1 = (int) ( ( data[0, 1] - rangeY.Min ) * yFactor );
+                        int x1 = (int)((data[0, 0] - rangeX.Min) * xFactor);
+                        int y1 = (int)((data[0, 1] - rangeY.Min) * yFactor);
 
                         x1 += 5;
                         y1 = clientHeight - 6 - y1;
 
                         // draw all lines
-                        for ( int i = 1, n = data.GetLength( 0 ); i < n; i++ )
+                        for (int i = 1, n = data.GetLength(0); i < n; i++)
                         {
-                            int x2 = (int) ( ( data[i, 0] - rangeX.Min ) * xFactor );
-                            int y2 = (int) ( ( data[i, 1] - rangeY.Min ) * yFactor );
+                            int x2 = (int)((data[i, 0] - rangeX.Min) * xFactor);
+                            int y2 = (int)((data[i, 1] - rangeY.Min) * yFactor);
 
                             x2 += 5;
                             y2 = clientHeight - 6 - y2;
 
-                            g.DrawLine( pen, x1, y1, x2, y2 );
+                            g.DrawLine(pen, x1, y1, x2, y2);
 
                             x1 = x2;
                             y1 = y2;
                         }
-                        pen.Dispose( );
+                        pen.Dispose();
                     }
                 }
             }
@@ -310,9 +310,9 @@ namespace AForge.Controls
         /// </para>
         /// </remarks>
         /// 
-        public void AddDataSeries( string name, Color color, SeriesType type, int width )
+        public void AddDataSeries(string name, Color color, SeriesType type, int width)
         {
-            AddDataSeries( name, color, type, width, true );
+            AddDataSeries(name, color, type, width, true);
         }
 
         /// <summary>
@@ -334,17 +334,17 @@ namespace AForge.Controls
         /// series.</para>
         /// </remarks>
         /// 
-        public void AddDataSeries( string name, Color color, SeriesType type, int width, bool updateYRange )
+        public void AddDataSeries(string name, Color color, SeriesType type, int width, bool updateYRange)
         {
             // create new series definition ...
-            DataSeries	series = new DataSeries( );
+            DataSeries series = new DataSeries();
             // ... add fill it
             series.color = color;
             series.type = type;
             series.width = width;
             series.updateYRange = updateYRange;
             // add to series table
-            seriesTable.Add( name, series );
+            seriesTable.Add(name, series);
         }
 
         /// <summary>
@@ -354,21 +354,21 @@ namespace AForge.Controls
         /// <param name="name">Data series name to update.</param>
         /// <param name="data">Data series values.</param>
         /// 
-        public void UpdateDataSeries( string name, double[,] data )
+        public void UpdateDataSeries(string name, double[,] data)
         {
-            if ( !seriesTable.ContainsKey( name ) )
-                throw new ArgumentException( "The chart does not contain data series with name: " + name );
+            if (!seriesTable.ContainsKey(name))
+                throw new ArgumentException("The chart does not contain data series with name: " + name);
 
             // get data series
-            DataSeries	series = seriesTable[name];
+            DataSeries series = seriesTable[name];
             // update data
-            series.data = ( data != null ) ? (double[,]) data.Clone( ) : null;
+            series.data = (data != null) ? (double[,])data.Clone() : null;
 
             // update Y range
-            if ( series.updateYRange )
-                UpdateYRange( );
+            if (series.updateYRange)
+                UpdateYRange();
             // invalidate the control
-            Invalidate( );
+            Invalidate();
         }
 
         /// <summary>
@@ -377,53 +377,53 @@ namespace AForge.Controls
         /// 
         /// <param name="name">Data series name to remove.</param>
         /// 
-        public void RemoveDataSeries( string name )
+        public void RemoveDataSeries(string name)
         {
             // remove data series from table
-            seriesTable.Remove( name );
+            seriesTable.Remove(name);
             // invalidate the control
-            Invalidate( );
+            Invalidate();
         }
 
         /// <summary>
         /// Remove all data series from the chart.
         /// </summary>
-        public void RemoveAllDataSeries( )
+        public void RemoveAllDataSeries()
         {
             // remove all data series from table
-            seriesTable.Clear( );
+            seriesTable.Clear();
             // invalidate the control
-            Invalidate( );
+            Invalidate();
         }
 
         /// <summary>
         /// Update Y range.
         /// </summary>
-        private void UpdateYRange( )
+        private void UpdateYRange()
         {
             float minY = float.MaxValue;
             float maxY = float.MinValue;
 
             // walk through all data series
-            foreach ( KeyValuePair<string, DataSeries> kvp in seriesTable )
+            foreach (KeyValuePair<string, DataSeries> kvp in seriesTable)
             {
                 DataSeries series = kvp.Value;
                 // get data of the series
                 double[,] data = series.data;
 
-                if ( ( series.updateYRange ) && ( data != null ) )
+                if ((series.updateYRange) && (data != null))
                 {
-                    for ( int i = 0, n = data.GetLength( 0 ); i < n; i++ )
+                    for (int i = 0, n = data.GetLength(0); i < n; i++)
                     {
-                        if ( rangeX.IsInside( (float) data[i, 0] ) )
+                        if (rangeX.IsInside((float)data[i, 0]))
                         {
-                            float v = (float) data[i, 1];
+                            float v = (float)data[i, 1];
 
                             // check for max
-                            if ( v > maxY )
+                            if (v > maxY)
                                 maxY = v;
                             // check for min
-                            if ( v < minY )
+                            if (v < minY)
                                 minY = v;
                         }
                     }
@@ -431,9 +431,9 @@ namespace AForge.Controls
             }
 
             // update Y range, if there are any data
-            if ( ( minY != double.MaxValue ) || ( maxY != double.MinValue ) )
+            if ((minY != double.MaxValue) || (maxY != double.MinValue))
             {
-                rangeY = new Range( minY, maxY );
+                rangeY = new Range(minY, maxY);
             }
         }
     }

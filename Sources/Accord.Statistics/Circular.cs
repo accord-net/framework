@@ -59,6 +59,7 @@ namespace Accord.Statistics
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using AForge.Math;
+    using System.Numerics;
 
     /// <summary>
     ///   Set of statistics functions operating over a circular space.
