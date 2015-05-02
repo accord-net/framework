@@ -75,7 +75,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gloves (color tracking)", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controller (interface control)", "Vision\Controller (interface control)\Controller (interface control).csproj", "{95BDACEA-E8DB-4A87-9472-A37F0879179F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dynamic Virtual Wall (Kinect)", "Vision\Kinect\Dynamic Virtual Wall (Kinect).csproj", "{99C1ED90-C4CD-4730-B05C-B99EED60EDD1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dynamic Virtual Wall (Kinect)", "Vision\Dynamic Virtual Wall (Kinect)\Dynamic Virtual Wall (Kinect).csproj", "{99C1ED90-C4CD-4730-B05C-B99EED60EDD1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decision Trees", "MachineLearning\Decision Trees\Decision Trees.csproj", "{67D5F5DD-95D8-4DF3-B4F4-B43A2FCFE02F}"
 EndProject
@@ -126,33 +126,31 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detection (Blobs)", "Imagin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hough Transform", "Imaging\Hough Transform\Hough Transform.csproj", "{6B66B73D-481C-479B-AC13-F5E332D12293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters (Images)", "Imaging\Image Filters\Filters (Images).csproj", "{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters (Images)", "Imaging\Filters (Images)\Filters (Images).csproj", "{744FC79F-5B6D-44AD-8C34-1ABB6EABAE6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Image Viewer", "Imaging\Image Viewer\Image Viewer.csproj", "{EE5B96F4-EEB3-4606-98C9-6F1242B41FD2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Textures", "Imaging\Texture\Textures.csproj", "{E34CC841-CE29-4B39-9BE5-D98502330F55}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animat", "MachineLearning\Animat\Animat.csproj", "{B4892057-CAE6-41F4-A75D-88E61331A2D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Animat (Sarsa, QLearning)", "MachineLearning\Animat\Animat (Sarsa, QLearning).csproj", "{B4892057-CAE6-41F4-A75D-88E61331A2D0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Genetic", "Genetic", "{17A03FBD-E6BD-4017-ACA1-8D4E0DC6EEBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travelling Salesman (GP)", "Genetic\TSP\Travelling Salesman (GP).csproj", "{DEC346FD-C496-4B3E-A0E9-60AE011E3C49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travelling Salesman (GP)", "Genetic\Travelling Salesman (GP)\Travelling Salesman (GP).csproj", "{DEC346FD-C496-4B3E-A0E9-60AE011E3C49}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Fuzzy", "Fuzzy", "{FD30843F-F53A-4D66-A314-068C314D23FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sets (Fuzzy, Linguistic)", "Fuzzy\Fuzzy Sets\Sets (Fuzzy, Linguistic).csproj", "{2C079A0D-8F90-4B4E-85AA-CAD45F7E0CAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sets (Fuzzy, Linguistic)", "Fuzzy\Sets (Fuzzy, Linguistic)\Sets (Fuzzy, Linguistic).csproj", "{2C079A0D-8F90-4B4E-85AA-CAD45F7E0CAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot (Inference)", "Fuzzy\Fuzzy AGV\Robot (Inference).csproj", "{BCC446EF-0F10-4FBB-AB37-9A9E0B1CDBAB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Robot (Inference)", "Fuzzy\Robot (Inference)\Robot (Inference).csproj", "{BCC446EF-0F10-4FBB-AB37-9A9E0B1CDBAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pose Estimation (POSIT)", "Math\Estimation (Pose)\Pose Estimation (POSIT).csproj", "{3B59E324-53FC-4837-AF37-61FC4B51E2D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pose Coordinates (POSIT)", "Math\Pose Coordinates (POSIT)\Pose Coordinates (POSIT).csproj", "{3B59E324-53FC-4837-AF37-61FC4B51E2D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pose Estimation (POSIT)", "Math\Estimation (Pose2)\Pose Estimation (POSIT).csproj", "{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Self Organizing Maps (SOM)", "Neuro\Self-Organizing Maps (SOM)\Self Organizing Maps (SOM).csproj", "{C646B987-EA7E-4D82-A930-448DE583FEB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Self Organizing Maps (SOM)", "Neuro\SOM\2DOrganizing\Self Organizing Maps (SOM).csproj", "{C646B987-EA7E-4D82-A930-448DE583FEB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering (SOM)", "Neuro\Clustering (SOM)\Clustering (SOM).csproj", "{59E2469C-197F-4A4C-9D52-AA58EA49927E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Clustering (SOM)", "Neuro\SOM\Color\Clustering (SOM).csproj", "{59E2469C-197F-4A4C-9D52-AA58EA49927E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travelling Salesman (SOM)", "Neuro\SOM\TSP\Travelling Salesman (SOM).csproj", "{6FA77B7F-E933-4B25-AC4C-99E343B35AC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Travelling Salesman (SOM)", "Neuro\Travelling Salesman (SOM)\Travelling Salesman (SOM).csproj", "{6FA77B7F-E933-4B25-AC4C-99E343B35AC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Motion detection", "Vision\Motion detection\Motion detection.csproj", "{9800A224-0BF0-4D5D-A03C-AA7A4842D3B8}"
 EndProject
@@ -160,15 +158,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Video", "Video", "{004C9C77
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinect Capture", "Video\Kinect Capture\Kinect Capture.csproj", "{B4CB129D-51F9-4C86-B520-7AC50537A70B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Player", "Video\Player\Player.csproj", "{B31C0650-991B-4B28-9864-AE80C1785A3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Video Player", "Video\Video Player\Video Player.csproj", "{B31C0650-991B-4B28-9864-AE80C1785A3F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snapshot Maker", "Video\Snapshot Maker\Snapshot Maker.csproj", "{779A59F0-BF3B-4AE5-B323-97D37CD67233}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Two Cameras Test", "Video\Two Cameras Test\Two Cameras Test.csproj", "{AB55ABF6-4AD9-4F8A-9E9D-8B61F89766A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Two Cameras", "Video\Two Cameras\Two Cameras.csproj", "{AB55ABF6-4AD9-4F8A-9E9D-8B61F89766A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ximea Sample", "Video\Ximea Sample\Ximea Sample.csproj", "{40C644F9-5AF9-44BB-9649-02149933E092}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genetic Programming", "Genetic\Genetic Programming\Genetic Programming.csproj", "{2E6B9575-0C86-4034-8A8E-13C880B69A6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pose Estimation (POSIT)", "Imaging\Pose Estimation (POSIT)\Pose Estimation (POSIT).csproj", "{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -552,13 +552,6 @@ Global
 		{3B59E324-53FC-4837-AF37-61FC4B51E2D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B59E324-53FC-4837-AF37-61FC4B51E2D1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3B59E324-53FC-4837-AF37-61FC4B51E2D1}.Release|x86.ActiveCfg = Release|Any CPU
-		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Debug|x86.ActiveCfg = Debug|x86
-		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Debug|x86.Build.0 = Debug|x86
-		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Release|x86.ActiveCfg = Release|Any CPU
 		{C646B987-EA7E-4D82-A930-448DE583FEB3}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{C646B987-EA7E-4D82-A930-448DE583FEB3}.Debug|x86.ActiveCfg = Debug|x86
 		{C646B987-EA7E-4D82-A930-448DE583FEB3}.Debug|x86.Build.0 = Debug|x86
@@ -626,6 +619,14 @@ Global
 		{2E6B9575-0C86-4034-8A8E-13C880B69A6F}.Release|Any CPU.ActiveCfg = Release|x86
 		{2E6B9575-0C86-4034-8A8E-13C880B69A6F}.Release|x86.ActiveCfg = Release|x86
 		{2E6B9575-0C86-4034-8A8E-13C880B69A6F}.Release|x86.Build.0 = Release|x86
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Debug|x86.ActiveCfg = Debug|x86
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Debug|x86.Build.0 = Debug|x86
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Release|x86.ActiveCfg = Release|x86
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -690,7 +691,6 @@ Global
 		{2C079A0D-8F90-4B4E-85AA-CAD45F7E0CAC} = {FD30843F-F53A-4D66-A314-068C314D23FE}
 		{BCC446EF-0F10-4FBB-AB37-9A9E0B1CDBAB} = {FD30843F-F53A-4D66-A314-068C314D23FE}
 		{3B59E324-53FC-4837-AF37-61FC4B51E2D1} = {831639B8-4A6B-4462-998D-A8375EA0837C}
-		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
 		{C646B987-EA7E-4D82-A930-448DE583FEB3} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{59E2469C-197F-4A4C-9D52-AA58EA49927E} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{6FA77B7F-E933-4B25-AC4C-99E343B35AC8} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
@@ -701,6 +701,7 @@ Global
 		{AB55ABF6-4AD9-4F8A-9E9D-8B61F89766A6} = {004C9C77-4F14-4ED4-ACAE-781D6B860CA2}
 		{40C644F9-5AF9-44BB-9649-02149933E092} = {004C9C77-4F14-4ED4-ACAE-781D6B860CA2}
 		{2E6B9575-0C86-4034-8A8E-13C880B69A6F} = {17A03FBD-E6BD-4017-ACA1-8D4E0DC6EEBE}
+		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi

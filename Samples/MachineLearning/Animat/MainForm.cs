@@ -65,6 +65,8 @@ namespace Animat
             // show settings
             ShowSettings( );
             algorithmCombo.SelectedIndex = 0;
+
+            openFileDialog.InitialDirectory = Path.Combine(Application.StartupPath, "Data files");
         }
 
         // Form is closing
