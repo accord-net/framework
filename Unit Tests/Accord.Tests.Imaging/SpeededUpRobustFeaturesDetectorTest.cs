@@ -182,8 +182,8 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(0.0, p.Response, 1e-2);
             Assert.AreEqual(0.0, p.Orientation, 1e-2);
             Assert.AreEqual(128, p.Descriptor.Length);
-            Assert.AreEqual(0.026527178478172982, p.Descriptor[23], 1e-10);
-            Assert.AreEqual(0.28221266818142571, p.Descriptor[42], 1e-10);
+            Assert.AreEqual(0.026510688411631893, p.Descriptor[23], 1e-10);
+            Assert.AreEqual(0.28209917003131696, p.Descriptor[42], 1e-10);
 
             p = points[1];
             Assert.AreEqual(1, p.Laplacian, 1e-2);
@@ -193,8 +193,8 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(0.0, p.Response, 1e-2);
             Assert.AreEqual(0, p.Orientation, 1e-2);
             Assert.AreEqual(128, p.Descriptor.Length);
-            Assert.AreEqual(0.0017332996868934826, p.Descriptor[23], 1e-10);
-            Assert.AreEqual(0.01141609085546454, p.Descriptor[54], 1e-10);
+            Assert.AreEqual(0.0017327366915338997, p.Descriptor[23], 1e-10);
+            Assert.AreEqual(0.011412382779922381, p.Descriptor[54], 1e-10);
 
             p = points[2];
             Assert.AreEqual(0, p.Laplacian, 1e-2);
@@ -204,8 +204,8 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(0.0, p.Response, 1e-2);
             Assert.AreEqual(0.0, p.Orientation, 1e-2);
             Assert.AreEqual(128, p.Descriptor.Length);
-            Assert.AreEqual(0.013397918304161798, p.Descriptor[23], 1e-10);
-            Assert.AreEqual(0.0000054080612707747483, p.Descriptor[12], 1e-10);
+            Assert.AreEqual(0.013389417853018544, p.Descriptor[23], 1e-10);
+            Assert.AreEqual(0.0000054046300690336785, p.Descriptor[12], 1e-10);
 
             p = points[6];
             Assert.AreEqual(1, p.Laplacian, 1e-2);
@@ -215,8 +215,8 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(0.0, p.Response, 1e-2);
             Assert.AreEqual(0.0, p.Orientation, 1e-2);
             Assert.AreEqual(128, p.Descriptor.Length);
-            Assert.AreEqual(0.059789486280406236, p.Descriptor[23], 1e-10);
-            Assert.AreEqual(-0.0000056629312093282088, p.Descriptor[12], 1e-10);
+            Assert.AreEqual(0.059752032324088523, p.Descriptor[23], 1e-10);
+            Assert.AreEqual(-0.0000056593837766382935, p.Descriptor[12], 1e-10);
         }
 
 

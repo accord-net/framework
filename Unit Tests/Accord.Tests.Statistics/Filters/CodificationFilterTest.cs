@@ -22,12 +22,12 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System.Data;
+    using Accord.IO;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using NUnit.Framework;
-    using Accord.IO;
     using System;
+    using System.Data;
 
     [TestFixture]
     public class CodificationFilterTest
@@ -147,7 +147,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void ApplyTest4()
         {
-            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\intrusion.xls";
+            string path = @"Resources\intrusion.xls";
 
             ExcelReader db = new ExcelReader(path, false, true);
 

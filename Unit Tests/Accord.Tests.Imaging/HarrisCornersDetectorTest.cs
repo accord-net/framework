@@ -84,7 +84,7 @@ namespace Accord.Tests.Imaging
             ImageBox.Show(markers.ToManagedImage(), PictureBoxSizeMode.Zoom);
              */
 
-            Assert.AreEqual(actual.Count, 41);
+            Assert.AreEqual(actual.Count, 42);
         }
  
     }

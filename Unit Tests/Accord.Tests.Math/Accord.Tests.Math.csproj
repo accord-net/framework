@@ -75,6 +75,21 @@
   </ItemGroup>
  -->
   <ItemGroup>
+    <Compile Include="Base\Geometry\ClosePointsMergingOptimizerTest.cs" />
+    <Compile Include="Base\Geometry\FlatAnglesOptimizerTest.cs" />
+    <Compile Include="Base\Geometry\GeometryToolsTest.cs" />
+    <Compile Include="Base\Geometry\GrahamConvexHullTest.cs" />
+    <Compile Include="Base\Geometry\LineSegmentTest.cs" />
+    <Compile Include="Base\Geometry\LineStraighteningOptimizerTest.cs" />
+    <Compile Include="Base\Geometry\LineTest.cs" />
+    <Compile Include="Base\Geometry\ShapeOptimizerTestBase.cs" />
+    <Compile Include="Base\Geometry\SimpleShapeCheckerTest.cs" />
+    <Compile Include="Base\Matrix3x3Test.cs" />
+    <Compile Include="Base\Matrix4x4Test.cs" />
+    <Compile Include="Base\Metrics\MetricsTest.cs" />
+    <Compile Include="Base\StatisticsTest.cs" />
+    <Compile Include="Base\ToolsTest.cs" />
+    <Compile Include="Base\Vector3Test.cs" />
     <Compile Include="Collections\RedBlackTreeDictionaryTest.cs" />
     <Compile Include="Collections\RedBlackTreeTest.cs" />
     <Compile Include="Decompositions\JaggedEigenvalueDecompositionTest.cs" />

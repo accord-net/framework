@@ -65,12 +65,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FITSCodec.cs" />
-    <Compile Include="IImageDecoder.cs" />
-    <Compile Include="ImageDecoder.cs" />
-    <Compile Include="PNMCodec.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AForge.Imaging.Formats.snk" />

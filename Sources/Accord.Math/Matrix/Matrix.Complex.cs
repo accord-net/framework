@@ -376,6 +376,10 @@ namespace Accord.Math
             return true;
         }
 
+        /// <summary>
+        ///   Gets the squared magnitude of a complex number.
+        /// </summary>
+        /// 
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif

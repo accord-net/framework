@@ -35,10 +35,6 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
-    <Reference Include="AForge.Neuro">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Externals\AForge.NET\AForge.Neuro.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -64,9 +60,61 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Base\Sources\Controls\AForge.Controls.csproj">
+      <Project>{4cca6844-9102-4a3b-8148-ea3d359b2586}</Project>
+      <Name>AForge.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Core\AForge.Core.csproj">
+      <Project>{631ac093-430f-45f4-ba0c-af0f0405918a}</Project>
+      <Name>AForge.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Fuzzy\AForge.Fuzzy.csproj">
+      <Project>{b631038f-e12c-4d0d-8b25-ff7f62fe62d1}</Project>
+      <Name>AForge.Fuzzy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Genetic\AForge.Genetic.csproj">
+      <Project>{2efaa327-1789-4438-b9f5-e83acae12db2}</Project>
+      <Name>AForge.Genetic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Imaging.Formats\AForge.Imaging.Formats.csproj">
+      <Project>{50050ba8-b739-4931-8dba-d77a031537ff}</Project>
+      <Name>AForge.Imaging.Formats</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Imaging\AForge.Imaging.csproj">
+      <Project>{c6a8b9ae-0749-41c7-8ff9-02c156696f45}</Project>
+      <Name>AForge.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\MachineLearning\AForge.MachineLearning.csproj">
+      <Project>{d42a814d-e178-48d0-9125-ed20151b2e45}</Project>
+      <Name>AForge.MachineLearning</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Math\AForge.Math.csproj">
+      <Project>{c0faf524-72e4-46f7-8c1b-a6b74dec5ebe}</Project>
+      <Name>AForge.Math</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Neuro\AForge.Neuro.csproj">
+      <Project>{02b5e453-2085-4e41-86d9-c8e8a03fb1b9}</Project>
+      <Name>AForge.Neuro</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Base\Sources\Video.DirectShow\AForge.Video.DirectShow.csproj">
       <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
       <Name>AForge.Video.DirectShow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Video.FFMPEG\Video.FFMPEG.vcxproj">
+      <Project>{ff31dd24-127d-4eb1-929c-f5738147e886}</Project>
+      <Name>AForge.Video.FFMPEG.GPL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Video.Kinect\AForge.Video.Kinect.csproj">
+      <Project>{9da8e727-4038-4e6b-90bd-853730fdfa49}</Project>
+      <Name>AForge.Video.Kinect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Video.VFW\AForge.Video.VFW.csproj">
+      <Project>{22e852c0-17ff-4106-9df6-41eabb8c0613}</Project>
+      <Name>AForge.Video.VFW</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Base\Sources\Video.Ximea\AForge.Video.Ximea.csproj">
+      <Project>{aedd6cfb-747b-4077-9288-9cd2a86090f1}</Project>
+      <Name>AForge.Video.Ximea</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Base\Sources\Video\AForge.Video.csproj">
       <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>

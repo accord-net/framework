@@ -48,18 +48,6 @@
     <DefineConstants>TRACE;NET45</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
     </Reference>
@@ -101,6 +89,7 @@
     <Compile Include="Filters\VarianceTest.cs" />
     <Compile Include="HaralickTest.cs" />
     <Compile Include="Filters\KirschEdgeDetectorTest.cs" />
+    <Compile Include="IntegralImageTest.cs" />
     <Compile Include="LocalBinaryPatternsTest.cs" />
     <Compile Include="Filters\GaborTest.cs" />
     <Compile Include="HistogramsOfOrientedGradientsTest.cs" />
@@ -137,8 +126,21 @@
     <Compile Include="TestUtils.cs" />
     <Compile Include="ToolsTest.cs" />
     <Compile Include="Filters\WaveletTransformTest.cs" />
+    <Compile Include="UnmanagedImageTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Base\Sources\Core\AForge.Core.csproj">
+      <Project>{631ac093-430f-45f4-ba0c-af0f0405918a}</Project>
+      <Name>AForge.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\Sources\Imaging\AForge.Imaging.csproj">
+      <Project>{c6a8b9ae-0749-41c7-8ff9-02c156696f45}</Project>
+      <Name>AForge.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Base\Sources\Math\AForge.Math.csproj">
+      <Project>{c0faf524-72e4-46f7-8c1b-a6b74dec5ebe}</Project>
+      <Name>AForge.Math</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>

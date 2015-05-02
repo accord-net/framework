@@ -386,6 +386,10 @@ namespace Accord.Neuro.Learning
             get { return hessian; }
         }
 
+        /// <summary>
+        ///   Gets the Jacobian matrix created in the last iteration.
+        /// </summary>
+        /// 
         public float[][] Jacobian
         {
             get { return jacobian; }

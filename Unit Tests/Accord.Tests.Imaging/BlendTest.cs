@@ -29,6 +29,7 @@ namespace Accord.Tests.Imaging
     using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.IO;
 
 
     [TestFixture]
@@ -65,14 +66,14 @@ namespace Accord.Tests.Imaging
             var ransac = new RansacHomographyEstimator(0.001, 0.99);
             MatrixH homographyMatrix = ransac.Estimate(matches);
 
-            Assert.AreEqual(1.13583624f, homographyMatrix.Elements[0], 1e-5);
-            Assert.AreEqual(-0.0229569562f, homographyMatrix.Elements[1], 1e-5);
-            Assert.AreEqual(-255.243988f, homographyMatrix.Elements[2], 1e-2);
-            Assert.AreEqual(0.080111593f, homographyMatrix.Elements[3], 1e-5);
-            Assert.AreEqual(1.11404252f, homographyMatrix.Elements[4], 1e-5);
-            Assert.AreEqual(-167.362167f, homographyMatrix.Elements[5], 1e-2);
-            Assert.AreEqual(0.00011207442f, homographyMatrix.Elements[6], 1e-5);
-            Assert.AreEqual(0.0000529394056f, homographyMatrix.Elements[7], 1e-5);
+            Assert.AreEqual(1.15707409, homographyMatrix.Elements[0], 1e-5);
+            Assert.AreEqual(-0.0233834628, homographyMatrix.Elements[1], 1e-5);
+            Assert.AreEqual(-261.8217, homographyMatrix.Elements[2], 1e-2);
+            Assert.AreEqual(0.08801343, homographyMatrix.Elements[3], 1e-5);
+            Assert.AreEqual(1.12451434, homographyMatrix.Elements[4], 1e-5);
+            Assert.AreEqual(-171.191208, homographyMatrix.Elements[5], 1e-2);
+            Assert.AreEqual(0.000127789128, homographyMatrix.Elements[6], 1e-5);
+            Assert.AreEqual(0.00006173445, homographyMatrix.Elements[7], 1e-5);
             Assert.AreEqual(8, homographyMatrix.Elements.Length);
 
 
@@ -85,6 +86,9 @@ namespace Accord.Tests.Imaging
 
             // Show on screen
             // ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
+
+            // result.Save(@"..\Resources\blend-result.png", ImageFormat.Png);
+
 
 #pragma warning disable 618
             double[,] expected = Properties.Resources.blend_result.ToDoubleMatrix(0);
