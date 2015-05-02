@@ -1,9 +1,0 @@
-﻿<NUnitProject>
-  <Settings activeconfig="Debug" />
-  <Config name="Debug" binpathtype="Auto">
-    <assembly path="Build\AForge.Tests.dll" />
-    <assembly path="Build\AForge.Math.Tests.dll" />
-    <assembly path="Build\AForge.Imaging.Tests.dll" />
-  </Config>
-  <Config name="Release" binpathtype="Auto" />
-</NUnitProject>

@@ -193,10 +193,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\Sources\Video\AForge.Video.csproj">
-      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
-      <Name>AForge.Video</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
@@ -205,6 +201,10 @@
     <ProjectReference Include="..\Accord.Imaging\Accord.Imaging.csproj">
       <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
       <Name>Accord.Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Video\Accord.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>Accord.Video</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

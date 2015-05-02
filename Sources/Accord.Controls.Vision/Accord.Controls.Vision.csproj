@@ -100,14 +100,6 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\Sources\Video.DirectShow\AForge.Video.DirectShow.csproj">
-      <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
-      <Name>AForge.Video.DirectShow</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Base\Sources\Video\AForge.Video.csproj">
-      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
-      <Name>AForge.Video</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Accord.Controls.Imaging\Accord.Controls.Imaging.csproj">
       <Project>{E1089999-EAED-4E55-AC47-B6A196DF84FC}</Project>
       <Name>Accord.Controls.Imaging</Name>
@@ -132,6 +124,14 @@
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj">
+      <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
+      <Name>Accord.Video.DirectShow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Accord.Video\Accord.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>Accord.Video</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Vision\Accord.Vision.csproj">
       <Project>{C70A159D-74A4-405F-9A7F-C17ACF451CCA}</Project>
