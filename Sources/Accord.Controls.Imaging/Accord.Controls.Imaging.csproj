@@ -73,6 +73,41 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="AForge\Chart.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\ColorSlider.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\Histogram.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\HuePicker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\Joystick.cs" />
+    <Compile Include="AForge\JoystickAPI.cs" />
+    <Compile Include="AForge\ManipulatorControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\ManipulatorControl.Designer.cs">
+      <DependentUpon>ManipulatorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AForge\PictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\SliderControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\SliderControl.Designer.cs">
+      <DependentUpon>SliderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AForge\VideoSourcePlayer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\VideoSourcePlayer.Designer.cs">
+      <DependentUpon>VideoSourcePlayer.cs</DependentUpon>
+    </Compile>
     <Compile Include="AngleBox.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -93,6 +128,28 @@
       <DependentUpon>ImageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AForge\Chart.resx">
+      <DependentUpon>Chart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AForge\ColorSlider.resx">
+      <DependentUpon>ColorSlider.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AForge\Histogram.resx">
+      <DependentUpon>Histogram.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AForge\HuePicker.resx">
+      <DependentUpon>HuePicker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AForge\ManipulatorControl.resx">
+      <DependentUpon>ManipulatorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AForge\SliderControl.resx">
+      <DependentUpon>SliderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AForge\VideoSourcePlayer.resx">
+      <DependentUpon>VideoSourcePlayer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="ImageBox.resx">
       <DependentUpon>ImageBox.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -136,17 +193,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\Sources\Controls\AForge.Controls.csproj">
-      <Project>{4cca6844-9102-4a3b-8148-ea3d359b2586}</Project>
-      <Name>AForge.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Base\Sources\Core\AForge.Core.csproj">
-      <Project>{631ac093-430f-45f4-ba0c-af0f0405918a}</Project>
-      <Name>AForge.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Base\Sources\Imaging\AForge.Imaging.csproj">
-      <Project>{c6a8b9ae-0749-41c7-8ff9-02c156696f45}</Project>
-      <Name>AForge.Imaging</Name>
+    <ProjectReference Include="..\..\Base\Sources\Video\AForge.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>AForge.Video</Name>
     </ProjectReference>
     <ProjectReference Include="..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
@@ -157,6 +206,9 @@
       <Project>{4959A83D-F78F-439E-80A5-41583ECEAAC6}</Project>
       <Name>Accord.Imaging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AForge\Resources\arrow.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

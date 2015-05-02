@@ -97,13 +97,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\AForge.Core.csproj">
-      <Project>{631ac093-430f-45f4-ba0c-af0f0405918a}</Project>
-      <Name>AForge.Core</Name>
+    <ProjectReference Include="..\..\..\Sources\Accord.Core\Accord.Core.csproj">
+      <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+      <Name>Accord.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Imaging\AForge.Imaging.csproj">
-      <Project>{c6a8b9ae-0749-41c7-8ff9-02c156696f45}</Project>
-      <Name>AForge.Imaging</Name>
+    <ProjectReference Include="..\..\..\Sources\Accord.Imaging\Accord.Imaging.csproj">
+      <Project>{4959a83d-f78f-439e-80a5-41583eceaac6}</Project>
+      <Name>Accord.Imaging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Video\AForge.Video.csproj">
       <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>

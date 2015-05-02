@@ -134,12 +134,6 @@
     <ClInclude Include="VideoFileWriter.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\AForge.Core.csproj">
-      <Project>{631ac093-430f-45f4-ba0c-af0f0405918a}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Math\AForge.Math.csproj">
-      <Project>{c0faf524-72e4-46f7-8c1b-a6b74dec5ebe}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Video\AForge.Video.csproj">
       <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
     </ProjectReference>

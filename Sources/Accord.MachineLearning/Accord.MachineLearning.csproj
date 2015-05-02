@@ -104,6 +104,11 @@
     <Compile Include="DecisionTrees\Rules\Simplification.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AForge\Exploration Policy\BoltzmannExploration.cs" />
+    <Compile Include="AForge\Exploration Policy\EpsilonGreedyExploration.cs" />
+    <Compile Include="AForge\Exploration Policy\IExplorationPolicy.cs" />
+    <Compile Include="AForge\Exploration Policy\RouletteWheelExploration.cs" />
+    <Compile Include="AForge\Exploration Policy\TabuSearchExploration.cs" />
     <Compile Include="Geometry\RansacCircle.cs" />
     <Compile Include="IO\LibSvmModel.cs" />
     <Compile Include="MinimumMeanDistanceClassifier.cs" />
@@ -138,9 +143,11 @@
     <Compile Include="Performance\SplitSet\SplitSetValidation`1.cs" />
     <Compile Include="GridSearch.cs" />
     <Compile Include="Clustering\KMeans.cs" />
+    <Compile Include="AForge\QLearning.cs" />
     <Compile Include="Ransac.cs" />
     <Compile Include="Geometry\RansacLine.cs" />
     <Compile Include="Geometry\RansacPlane.cs" />
+    <Compile Include="AForge\Sarsa.cs" />
     <Compile Include="Structures\KDTreeNodeList.cs" />
     <Compile Include="Structures\KDTreeTraversal.cs" />
     <Compile Include="Structures\KDTreeNodeDistance.cs" />
@@ -177,14 +184,6 @@
     <Compile Include="VectorMachines\SupportVectorMachine.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\Sources\Core\AForge.Core.csproj">
-      <Project>{631ac093-430f-45f4-ba0c-af0f0405918a}</Project>
-      <Name>AForge.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Base\Sources\Math\AForge.Math.csproj">
-      <Project>{c0faf524-72e4-46f7-8c1b-a6b74dec5ebe}</Project>
-      <Name>AForge.Math</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Accord.Core\Accord.Core.csproj">
       <Project>{A177A90C-8207-466A-AF70-F2B8452A42AC}</Project>
       <Name>Accord.Core</Name>
