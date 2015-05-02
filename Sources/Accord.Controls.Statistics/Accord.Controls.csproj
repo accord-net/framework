@@ -80,6 +80,11 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="AForge\Chart.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AForge\Joystick.cs" />
+    <Compile Include="AForge\JoystickAPI.cs" />
     <Compile Include="Bindings\ArrayDataView.cs" />
     <Compile Include="Bindings\ArrayPropertyDescriptor.cs" />
     <Compile Include="Bindings\ArrayRowView.cs" />
@@ -159,6 +164,9 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AForge\Chart.resx">
+      <DependentUpon>Chart.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Boxes\DataBarBox.resx">
       <DependentUpon>DataBarBox.cs</DependentUpon>
     </EmbeddedResource>

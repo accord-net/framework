@@ -73,9 +73,6 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="AForge\Chart.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="AForge\ColorSlider.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -85,8 +82,6 @@
     <Compile Include="AForge\HuePicker.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="AForge\Joystick.cs" />
-    <Compile Include="AForge\JoystickAPI.cs" />
     <Compile Include="AForge\ManipulatorControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -128,9 +123,6 @@
       <DependentUpon>ImageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AForge\Chart.resx">
-      <DependentUpon>Chart.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="AForge\ColorSlider.resx">
       <DependentUpon>ColorSlider.cs</DependentUpon>
     </EmbeddedResource>
