@@ -47,4 +47,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\accord.core\properties\VersionInfo.cs">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

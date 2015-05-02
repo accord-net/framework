@@ -1,71 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
+    <ProjectGuid>{809725DC-6502-4732-A51C-DEB7FEA12975}</ProjectGuid>
+    <RootNamespace>Accord.Video</RootNamespace>
+    <AssemblyName>Accord.Video</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{809725DC-6502-4732-A51C-DEB7FEA12975}</ProjectGuid>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AForge.Video</RootNamespace>
-    <AssemblyName>AForge.Video</AssemblyName>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>AForge.Video.snk</AssemblyOriginatorKeyFile>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath>$(SolutionDir)Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>$(SolutionDir)Release\net35</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)Release\net35\AForge.Video.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)Release\net35\AForge.Video.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Video.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Video.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>$(SolutionDir)Release\net40</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)Release\net40\AForge.Video.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)Release\net40\AForge.Video.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Video.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Video.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>$(SolutionDir)Release\net45</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>$(SolutionDir)Release\net45\AForge.Video.XML</DocumentationFile>
-    <CodeAnalysisLogFile>$(SolutionDir)Release\net45\AForge.Video.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Video.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Video.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

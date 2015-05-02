@@ -36,29 +36,29 @@
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath>..\..\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>..\..\Release\net35</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>..\..\Release\net35\Accord.Vision.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\Release\net35\Accord.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Vision.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>..\..\Release\net40</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>..\..\Release\net40\Accord.Vision.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\Release\net40\Accord.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Vision.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>..\..\Release\net45</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>..\..\Release\net45\Accord.Vision.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\Release\net45\Accord.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Vision.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Vision.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />

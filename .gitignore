@@ -5,6 +5,7 @@ obj
 *.pidb
 *.suo
 *.vsp
+*.ipch
 
 /Setup/Accord.Setup.dll
 /Setup/Accord.Setup.pdb
