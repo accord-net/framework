@@ -74,6 +74,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="CameraControlProperty.cs" />
     <Compile Include="FileVideoSource.cs" />
     <Compile Include="Internals\IAMCameraControl.cs" />

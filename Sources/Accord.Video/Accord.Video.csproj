@@ -72,6 +72,9 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="AsyncVideoSource.cs" />
     <Compile Include="ByteArrayUtils.cs" />
     <Compile Include="Exceptions.cs" />

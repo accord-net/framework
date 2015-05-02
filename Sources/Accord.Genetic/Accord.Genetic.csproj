@@ -73,6 +73,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
     <Compile Include="Chromosomes\BinaryChromosome.cs" />
     <Compile Include="Chromosomes\ChromosomeBase.cs" />
     <Compile Include="Chromosomes\DoubleArrayChromosome.cs" />
