@@ -31,6 +31,7 @@ namespace Accord.MachineLearning
     using System.Threading.Tasks;
     using System.Threading;
     using Accord.Math.Comparers;
+    using System.Runtime.Serialization;
 
     /// <summary>
     ///   k-Means clustering algorithm.
