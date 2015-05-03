@@ -743,7 +743,16 @@ namespace Accord.MachineLearning
             get { return clusters; }
         }
 
-
+        [OnDeserialized]
+        private void OnDeserializedMethod(StreamingContext context)
+        {
+            if (this.Iterations == 0 && MaxIterations == 0 && Tolerance == 0)
+            {
+                this.Tolerance = 1e-5;
+                this.ComputeInformation = true;
+                this.UseCentroidSeeding = true;
+            }
+        }
 
         #region Deprecated
         /// <summary>
