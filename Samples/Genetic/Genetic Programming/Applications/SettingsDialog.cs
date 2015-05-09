@@ -10,11 +10,9 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace Samples.GP
+namespace SampleApp
 {
-    /// <summary>
-    /// Summary description for ExSettingsDialog.
-    /// </summary>
+
     public class SettingsDialog : System.Windows.Forms.Form
     {
         private System.Windows.Forms.GroupBox groupBox1;

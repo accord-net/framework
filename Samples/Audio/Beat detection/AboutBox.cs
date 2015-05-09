@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace BeatDetector
+namespace SampleApp
 {
     partial class AboutBox : Form
     {

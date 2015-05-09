@@ -112,29 +112,28 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="rectangleButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAADpJREFUOE9jYBgs
-        4D/QIaRiRmTH/29oaCAagywDqccwgITgGDVgmAYiqSkRPSExkJISYWpJSHg0VAoAy8+UrI4bTIEAAAAA
-        SUVORK5CYII=
+        YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAA0SURBVDhPYxg04D8ZmBGI4eB/Q0MD0RimHqIVAjAECIBR
+        A4apAaRiDAtBAqRiqNYBBQwMAMvPlKxpfkKOAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="clearButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAGtJREFUOE9jYBgK
-        4D/QkRh4w4YNIDGC4P/vRWJYMdRQvAYQ0vwfnyvwaj7cYwb2Ei4DCGrGZ8AAan41V+U/NgzyK8jJBP1N
-        yAB8gQaKS6y2gwyFJSK8CQcqiTXFEbIZJSWBDMKGCabXAVUAAEAHBQwLvmISAAAAAElFTkSuQmCC
+        YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAABvSURBVDhP1Y6xDYAwDAQ9BRMwA1OyAg0TeAe2yQopgk6k
+        SPGxKyR46ZTiclHsF2sKd+dM1+q5SHDPlflkCDiIfiFDwF37Fj4gQ8ARRw/IEHDvxuVYJbgsZjIGXBYz
+        GQMOoti6nBLG47io6PqTM7sBQAcFDECkw1sAAAAASUVORK5CYII=
 </value>
   </data>
 </root>

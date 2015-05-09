@@ -8,7 +8,7 @@
     <ProjectGuid>{F7750412-9EA2-4FCF-A268-AC927188A009}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Corners.FAST</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Corners %28FAST%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

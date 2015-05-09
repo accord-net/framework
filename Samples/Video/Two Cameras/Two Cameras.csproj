@@ -8,7 +8,7 @@
     <ProjectGuid>{AB55ABF6-4AD9-4F8A-9E9D-8B61F89766A6}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TwoCamerasTest</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Two Cameras Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -67,6 +67,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SampleApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord.Controls">

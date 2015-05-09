@@ -36,7 +36,7 @@ using System.Windows.Forms;
 using Accord.Imaging;
 using AForge.Imaging.Filters;
 
-namespace Corners.Harris
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
@@ -49,7 +49,7 @@ namespace Corners.Harris
         private void button1_Click(object sender, EventArgs e)
         {
             // Open a image
-            Bitmap lenna = Harris.Properties.Resources.lena512;
+            Bitmap lenna = Properties.Resources.lena512;
 
             double sigma = (double)numSigma.Value;
             float k = (float)numK.Value;

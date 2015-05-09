@@ -1,4 +1,4 @@
-﻿namespace Fourier
+﻿namespace SampleApp
 {
     partial class AboutBox
     {

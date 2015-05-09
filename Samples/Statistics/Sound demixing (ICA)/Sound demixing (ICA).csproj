@@ -8,7 +8,7 @@
     <ProjectGuid>{A37A4E8F-3F41-497A-B5C0-E92ABFF9067F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Demixing.ICA</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Sound demixing %28ICA%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -100,10 +100,12 @@
     <Reference Include="Accord.Statistics">
       <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX">
+    <Reference Include="SharpDX, Version=2.6.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\SharpDX\net40\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DirectSound">
+    <Reference Include="SharpDX.DirectSound, Version=2.6.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Externals\SharpDX\net40\SharpDX.DirectSound.dll</HintPath>
     </Reference>
     <Reference Include="System" />

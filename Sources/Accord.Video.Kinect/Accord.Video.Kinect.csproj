@@ -48,6 +48,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Video.Kinect.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Video.Kinect.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
@@ -71,9 +72,6 @@
     <Compile Include="KinectDepthCamera.cs" />
     <Compile Include="KinectVideoCamera.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AForge.Video.Kinect.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

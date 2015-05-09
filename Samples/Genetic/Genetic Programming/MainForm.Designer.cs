@@ -1,4 +1,4 @@
-﻿namespace Samples.GP
+﻿namespace SampleApp
 {
     partial class MainForm
     {

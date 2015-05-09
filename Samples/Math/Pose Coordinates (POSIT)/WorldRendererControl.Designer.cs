@@ -1,4 +1,4 @@
-﻿namespace PoseEstimation
+﻿namespace SampleApp
 {
     partial class WorldRendererControl
     {

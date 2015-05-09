@@ -1,4 +1,4 @@
-﻿namespace Panorama.Harris
+﻿namespace SampleApp
 {
     partial class MainForm
     {

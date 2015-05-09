@@ -20,7 +20,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Samples.Rprop</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>Samples.Rprop.Program</StartupObject>
+    <StartupObject>SampleApp.Program</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>

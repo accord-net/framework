@@ -1,4 +1,4 @@
-﻿namespace BlobsExplorer
+﻿namespace SampleApp
 {
     partial class MainForm
     {
@@ -40,11 +40,11 @@
             this.blobsCountLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.splitContainer = new System.Windows.Forms.SplitContainer();
+            this.blobsBrowser = new BlobsBrowser();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.showRectangleAroundSelectionCheck = new System.Windows.Forms.CheckBox();
             this.highlightTypeCombo = new System.Windows.Forms.ComboBox();
             this.propertyGrid = new System.Windows.Forms.PropertyGrid();
-            this.blobsBrowser = new BlobsExplorer.BlobsBrowser();
             this.mainMenu.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer)).BeginInit();
@@ -170,6 +170,17 @@
             this.splitContainer.SplitterWidth = 6;
             this.splitContainer.TabIndex = 2;
             // 
+            // blobsBrowser
+            // 
+            this.blobsBrowser.Highlighting = BlobsBrowser.HightlightType.Quadrilateral;
+            this.blobsBrowser.Location = new System.Drawing.Point(212, 186);
+            this.blobsBrowser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.blobsBrowser.Name = "blobsBrowser";
+            this.blobsBrowser.ShowRectangleAroundSelection = false;
+            this.blobsBrowser.Size = new System.Drawing.Size(322, 242);
+            this.blobsBrowser.TabIndex = 0;
+            this.blobsBrowser.BlobSelected += new BlobSelectionHandler(this.blobsBrowser_BlobSelected);
+            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -180,7 +191,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox1.Size = new System.Drawing.Size(300, 100);
+            this.groupBox1.Size = new System.Drawing.Size(298, 100);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Highlight Type";
@@ -211,7 +222,7 @@
             this.highlightTypeCombo.Location = new System.Drawing.Point(9, 31);
             this.highlightTypeCombo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.highlightTypeCombo.Name = "highlightTypeCombo";
-            this.highlightTypeCombo.Size = new System.Drawing.Size(280, 28);
+            this.highlightTypeCombo.Size = new System.Drawing.Size(278, 28);
             this.highlightTypeCombo.TabIndex = 0;
             this.highlightTypeCombo.SelectedIndexChanged += new System.EventHandler(this.highlightTypeCombo_SelectedIndexChanged);
             // 
@@ -224,25 +235,14 @@
             this.propertyGrid.Location = new System.Drawing.Point(0, 114);
             this.propertyGrid.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.propertyGrid.Name = "propertyGrid";
-            this.propertyGrid.Size = new System.Drawing.Size(314, 500);
+            this.propertyGrid.Size = new System.Drawing.Size(312, 500);
             this.propertyGrid.TabIndex = 0;
             this.propertyGrid.ToolbarVisible = false;
             // 
-            // blobsBrowser
-            // 
-            this.blobsBrowser.Highlighting = BlobsExplorer.BlobsBrowser.HightlightType.Quadrilateral;
-            this.blobsBrowser.Location = new System.Drawing.Point(212, 186);
-            this.blobsBrowser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.blobsBrowser.Name = "blobsBrowser";
-            this.blobsBrowser.ShowRectangleAroundSelection = false;
-            this.blobsBrowser.Size = new System.Drawing.Size(322, 242);
-            this.blobsBrowser.TabIndex = 0;
-            this.blobsBrowser.BlobSelected += new BlobsExplorer.BlobSelectionHandler(this.blobsBrowser_BlobSelected);
-            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(1066, 671);
             this.Controls.Add(this.splitContainer);
             this.Controls.Add(this.statusStrip);

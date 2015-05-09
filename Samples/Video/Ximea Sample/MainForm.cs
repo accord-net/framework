@@ -17,7 +17,7 @@ using System.Diagnostics;
 using AForge.Video;
 using AForge.Video.Ximea;
 
-namespace XimeaSample
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

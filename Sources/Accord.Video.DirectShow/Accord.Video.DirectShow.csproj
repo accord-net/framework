@@ -4,7 +4,7 @@
     <ProjectGuid>{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}</ProjectGuid>
     <RootNamespace>Accord.Video.DirectShow</RootNamespace>
     <AssemblyName>Accord.Video.DirectShow</AssemblyName>
-     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputType>Library</OutputType>
@@ -116,9 +116,6 @@
     <Compile Include="VideoInput.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AForge.Video.DirectShow.snk" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -154,6 +151,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="VideoCaptureDeviceForm.resx">
       <DependentUpon>VideoCaptureDeviceForm.cs</DependentUpon>

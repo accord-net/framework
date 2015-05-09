@@ -17,7 +17,7 @@ using System.Windows.Forms;
 using AForge.Video;
 using AForge.Video.DirectShow;
 
-namespace Snapshot_Maker
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

@@ -13,7 +13,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Player
+namespace SampleApp
 {
     public partial class URLForm : Form
     {

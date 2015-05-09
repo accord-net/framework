@@ -1,4 +1,4 @@
-﻿namespace ImageViewer
+﻿namespace SampleApp
 {
     partial class MainForm
     {

@@ -2,9 +2,9 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{AEDD6CFB-747B-4077-9288-9CD2A86090F1}</ProjectGuid>
-	<RootNamespace>Accord.Video.Ximea</RootNamespace>
+    <RootNamespace>Accord.Video.Ximea</RootNamespace>
     <AssemblyName>Accord.Video.Ximea</AssemblyName>
-     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputType>Library</OutputType>
@@ -78,9 +78,6 @@
     <Compile Include="XimeaCamera.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XimeaVideoSource.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AForge.Video.Ximea.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

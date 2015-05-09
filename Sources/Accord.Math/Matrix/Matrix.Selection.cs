@@ -183,6 +183,17 @@ namespace Accord.Math
         }
 
         /// <summary>
+        ///   Stores a column vector into the given column position of the matrix.
+        /// </summary>
+        public static T[][] SetColumn<T>(this T[][] m, int index, T[] column)
+        {
+            for (int i = 0; i < column.Length; i++)
+                m[i][index] = column[i];
+
+            return m;
+        }
+
+        /// <summary>
         ///   Gets a row vector from a matrix.
         /// </summary>
         public static T[] GetRow<T>(this T[,] m, int index)
@@ -202,6 +213,17 @@ namespace Accord.Math
         {
             for (int i = 0; i < row.Length; i++)
                 m[index, i] = row[i];
+
+            return m;
+        }
+
+        /// <summary>
+        ///   Stores a row vector into the given row position of the matrix.
+        /// </summary>
+        public static T[][] SetRow<T>(this T[][] m, int index, T[] row)
+        {
+            for (int i = 0; i < row.Length; i++)
+                m[index][i] = row[i];
 
             return m;
         }
@@ -1566,11 +1588,31 @@ namespace Accord.Math
         public static TValue[,] Sort<TKey, TValue>(TKey[] keys, TValue[,] values, IComparer<TKey> comparer)
         {
             int[] indices = new int[keys.Length];
-            for (int i = 0; i < keys.Length; i++) indices[i] = i;
+            for (int i = 0; i < keys.Length; i++) 
+                indices[i] = i;
 
             Array.Sort<TKey, int>(keys, indices, comparer);
 
             return values.Submatrix(0, values.GetLength(0) - 1, indices);
+        }
+
+        /// <summary>
+        ///   Sorts the columns of a matrix by sorting keys.
+        /// </summary>
+        /// 
+        /// <param name="keys">The key value for each column.</param>
+        /// <param name="values">The matrix to be sorted.</param>
+        /// <param name="comparer">The comparer to use.</param>
+        /// 
+        public static TValue[][] Sort<TKey, TValue>(TKey[] keys, TValue[][] values, IComparer<TKey> comparer)
+        {
+            int[] indices = new int[keys.Length];
+            for (int i = 0; i < keys.Length; i++)
+                indices[i] = i;
+
+            Array.Sort<TKey, int>(keys, indices, comparer);
+
+            return values.Submatrix(0, values.Length - 1, indices);
         }
 
         /// <summary>

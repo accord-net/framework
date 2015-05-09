@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 using AForge.Video.DirectShow;
 
-namespace MotionDetectorSample
+namespace SampleApp
 {
     public partial class VideoCaptureDeviceForm : Form
     {

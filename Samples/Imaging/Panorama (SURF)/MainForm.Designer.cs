@@ -1,4 +1,4 @@
-﻿namespace Panorama
+﻿namespace SampleApp
 {
     partial class MainForm
     {

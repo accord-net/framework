@@ -8,7 +8,7 @@
     <ProjectGuid>{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PoseEstimation</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Pose Estimation</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -67,6 +67,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SampleApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">

@@ -14,7 +14,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace MotionDetectorSample
+namespace SampleApp
 {
     public partial class URLForm : Form
     {

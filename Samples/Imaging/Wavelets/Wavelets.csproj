@@ -8,7 +8,7 @@
     <ProjectGuid>{4D100C6D-963E-4AE7-AEAF-91040D4F0332}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wavelets</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Wavelets</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

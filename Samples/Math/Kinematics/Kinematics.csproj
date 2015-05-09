@@ -8,7 +8,7 @@
     <ProjectGuid>{3B1150A4-A32C-4B2F-8BC1-14FDB5C4FDEE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DenavitKinematics</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Denavit Hartenberg</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -35,6 +35,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>framework.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SampleApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">

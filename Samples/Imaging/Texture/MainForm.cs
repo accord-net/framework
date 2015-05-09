@@ -18,7 +18,7 @@ using System.Windows.Forms;
 using AForge.Imaging;
 using AForge.Imaging.Textures;
 
-namespace TexturesDemo
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

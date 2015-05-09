@@ -7,7 +7,7 @@ using System.Drawing.Imaging;
 using System.Windows.Forms;
 using System.IO;
 
-namespace Snapshot_Maker
+namespace SampleApp
 {
     public partial class SnapshotForm : Form
     {

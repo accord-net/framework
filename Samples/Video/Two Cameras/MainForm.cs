@@ -18,47 +18,48 @@ using System.Diagnostics;
 using AForge.Video;
 using AForge.Video.DirectShow;
 
-namespace TwoCamerasTest
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
         // list of video devices
         FilterInfoCollection videoDevices;
+
         // stop watch for measuring fps
         private Stopwatch stopWatch = null;
 
-        public MainForm( )
+        public MainForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
             camera1FpsLabel.Text = string.Empty;
             camera2FpsLabel.Text = string.Empty;
 
             // show device list
-			try
-			{
+            try
+            {
                 // enumerate video devices
-                videoDevices = new FilterInfoCollection( FilterCategory.VideoInputDevice );
+                videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
-                if ( videoDevices.Count == 0 )
+                if (videoDevices.Count == 0)
                 {
-                    throw new Exception( );
+                    throw new Exception();
                 }
 
-                for ( int i = 1, n = videoDevices.Count; i <= n; i++ )
+                for (int i = 1, n = videoDevices.Count; i <= n; i++)
                 {
                     string cameraName = i + " : " + videoDevices[i - 1].Name;
 
-                    camera1Combo.Items.Add( cameraName );
-                    camera2Combo.Items.Add( cameraName );
+                    camera1Combo.Items.Add(cameraName);
+                    camera2Combo.Items.Add(cameraName);
                 }
 
                 // check cameras count
-                if ( videoDevices.Count == 1 )
+                if (videoDevices.Count == 1)
                 {
-                    camera2Combo.Items.Clear( );
+                    camera2Combo.Items.Clear();
 
-                    camera2Combo.Items.Add( "Only one camera found" );
+                    camera2Combo.Items.Add("Only one camera found");
                     camera2Combo.SelectedIndex = 0;
                     camera2Combo.Enabled = false;
                 }
@@ -72,8 +73,8 @@ namespace TwoCamerasTest
             {
                 startButton.Enabled = false;
 
-                camera1Combo.Items.Add( "No cameras found" );
-                camera2Combo.Items.Add( "No cameras found" );
+                camera1Combo.Items.Add("No cameras found");
+                camera2Combo.Items.Add("No cameras found");
 
                 camera1Combo.SelectedIndex = 0;
                 camera2Combo.SelectedIndex = 0;
@@ -86,22 +87,22 @@ namespace TwoCamerasTest
         // On form closing
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            StopCameras( );
+            StopCameras();
         }
 
         // On "Start" button click
-        private void startButton_Click( object sender, EventArgs e )
+        private void startButton_Click(object sender, EventArgs e)
         {
-            StartCameras( );
+            StartCameras();
 
             startButton.Enabled = false;
             stopButton.Enabled = true;
         }
 
         // On "Stop" button click
-        private void stopButton_Click( object sender, EventArgs e )
+        private void stopButton_Click(object sender, EventArgs e)
         {
-            StopCameras( );
+            StopCameras();
 
             startButton.Enabled = true;
             stopButton.Enabled = false;
@@ -111,47 +112,47 @@ namespace TwoCamerasTest
         }
 
         // Start cameras
-        private void StartCameras( )
+        private void StartCameras()
         {
             // create first video source
-            VideoCaptureDevice videoSource1 = new VideoCaptureDevice( videoDevices[camera1Combo.SelectedIndex].MonikerString );
+            VideoCaptureDevice videoSource1 = new VideoCaptureDevice(videoDevices[camera1Combo.SelectedIndex].MonikerString);
             videoSource1.DesiredFrameRate = 10;
 
             videoSourcePlayer1.VideoSource = videoSource1;
-            videoSourcePlayer1.Start( );
+            videoSourcePlayer1.Start();
 
             // create second video source
-            if ( camera2Combo.Enabled == true )
+            if (camera2Combo.Enabled == true)
             {
-                System.Threading.Thread.Sleep( 500 );
+                System.Threading.Thread.Sleep(500);
 
-                VideoCaptureDevice videoSource2 = new VideoCaptureDevice( videoDevices[camera2Combo.SelectedIndex].MonikerString );
+                VideoCaptureDevice videoSource2 = new VideoCaptureDevice(videoDevices[camera2Combo.SelectedIndex].MonikerString);
                 videoSource2.DesiredFrameRate = 10;
 
                 videoSourcePlayer2.VideoSource = videoSource2;
-                videoSourcePlayer2.Start( );
+                videoSourcePlayer2.Start();
             }
 
             // reset stop watch
             stopWatch = null;
             // start timer
-            timer.Start( );
+            timer.Start();
         }
 
         // Stop cameras
-        private void StopCameras( )
+        private void StopCameras()
         {
-            timer.Stop( );
+            timer.Stop();
 
-            videoSourcePlayer1.SignalToStop( );
-            videoSourcePlayer2.SignalToStop( );
+            videoSourcePlayer1.SignalToStop();
+            videoSourcePlayer2.SignalToStop();
 
-            videoSourcePlayer1.WaitForStop( );
-            videoSourcePlayer2.WaitForStop( );
+            videoSourcePlayer1.WaitForStop();
+            videoSourcePlayer2.WaitForStop();
         }
 
         // On times tick - collect statistics
-        private void timer_Tick( object sender, EventArgs e )
+        private void timer_Tick(object sender, EventArgs e)
         {
             IVideoSource videoSource1 = videoSourcePlayer1.VideoSource;
             IVideoSource videoSource2 = videoSourcePlayer2.VideoSource;
@@ -160,33 +161,33 @@ namespace TwoCamerasTest
             int framesReceived2 = 0;
 
             // get number of frames for the last second
-            if ( videoSource1 != null )
+            if (videoSource1 != null)
             {
                 framesReceived1 = videoSource1.FramesReceived;
             }
 
-            if ( videoSource2 != null )
+            if (videoSource2 != null)
             {
                 framesReceived2 = videoSource2.FramesReceived;
             }
 
-            if ( stopWatch == null )
+            if (stopWatch == null)
             {
-                stopWatch = new Stopwatch( );
-                stopWatch.Start( );
+                stopWatch = new Stopwatch();
+                stopWatch.Start();
             }
             else
             {
-                stopWatch.Stop( );
+                stopWatch.Stop();
 
                 float fps1 = 1000.0f * framesReceived1 / stopWatch.ElapsedMilliseconds;
                 float fps2 = 1000.0f * framesReceived2 / stopWatch.ElapsedMilliseconds;
 
-                camera1FpsLabel.Text = fps1.ToString( "F2" ) + " fps";
-                camera2FpsLabel.Text = fps2.ToString( "F2" ) + " fps";
+                camera1FpsLabel.Text = fps1.ToString("F2") + " fps";
+                camera2FpsLabel.Text = fps2.ToString("F2") + " fps";
 
-                stopWatch.Reset( );
-                stopWatch.Start( );
+                stopWatch.Reset();
+                stopWatch.Start();
             }
         }
     }

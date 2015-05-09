@@ -16,7 +16,7 @@ using System.Windows.Forms;
 using AForge.Video;
 using AForge.Video.Kinect;
 
-namespace KinectCapture
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
@@ -30,38 +30,39 @@ namespace KinectCapture
            LedColorOption.Yellow, LedColorOption.BlinkGreen, LedColorOption.BlinkRedYellow
         };
 
-        public MainForm( )
+        public MainForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
         }
 
         // On Main form loaded
-        private void MainForm_Load( object sender, EventArgs e )
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            if ( Kinect.DeviceCount == 0 )
+            if (Kinect.DeviceCount == 0)
             {
-                devicesCombo.Items.Add( "No Kinect devices" );
+                devicesCombo.Items.Add("No Kinect devices");
             }
             else
             {
-                for ( int i = 0; i < Kinect.DeviceCount; i++ )
+                for (int i = 0; i < Kinect.DeviceCount; i++)
                 {
-                    devicesCombo.Items.Add( "Device " + i );
+                    devicesCombo.Items.Add("Device " + i);
                 }
             }
+
             devicesCombo.SelectedIndex = 0;
             videoModeCombo.SelectedIndex = 0;
-            EnableConnectionControls( true );
+            EnableConnectionControls(true);
         }
 
         // On closing the main form
-        private void MainForm_FormClosing( object sender, FormClosingEventArgs e )
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Disconnect( );
+            Disconnect();
         }
 
         // Enable/disable controls related to connecton/disconnection
-        private void EnableConnectionControls( bool enable )
+        private void EnableConnectionControls(bool enable)
         {
             devicesCombo.Enabled = enable;
             videoModeCombo.Enabled = enable;
@@ -72,73 +73,73 @@ namespace KinectCapture
         }
 
         // On "Connect" butto clicked
-        private void connectButton_Click( object sender, EventArgs e )
+        private void connectButton_Click(object sender, EventArgs e)
         {
-            if ( Connect( ) )
+            if (Connect())
             {
-                EnableConnectionControls( false );
+                EnableConnectionControls(false);
             }
         }
 
         // On "Disconnect" butto clicked
-        private void disconnectButton_Click( object sender, EventArgs e )
+        private void disconnectButton_Click(object sender, EventArgs e)
         {
-            Disconnect( );
-            EnableConnectionControls( true );
+            Disconnect();
+            EnableConnectionControls(true);
         }
 
         // Connect to Kinect cameras
-        private bool Connect( )
+        private bool Connect()
         {
             bool ret = false;
 
             Cursor = Cursors.WaitCursor;
 
-            if ( Kinect.DeviceCount != 0 )
+            if (Kinect.DeviceCount != 0)
             {
                 int deviceID = devicesCombo.SelectedIndex;
 
                 try
                 {
-                    kinectDevice = Kinect.GetDevice( deviceID );
-                    
-                    if ( videoCamera == null )
+                    kinectDevice = Kinect.GetDevice(deviceID);
+
+                    if (videoCamera == null)
                     {
-                        videoCamera = kinectDevice.GetVideoCamera( );
-                        videoCamera.CameraMode = ( videoModeCombo.SelectedIndex == 0 ) ? VideoCameraMode.Color :
-                            ( ( videoModeCombo.SelectedIndex == 1 ) ? VideoCameraMode.Bayer : VideoCameraMode.InfraRed );
+                        videoCamera = kinectDevice.GetVideoCamera();
+                        videoCamera.CameraMode = (videoModeCombo.SelectedIndex == 0) ? VideoCameraMode.Color :
+                            ((videoModeCombo.SelectedIndex == 1) ? VideoCameraMode.Bayer : VideoCameraMode.InfraRed);
                         videoCameraPlayer.VideoSource = videoCamera;
-                        videoCameraPlayer.Start( );
+                        videoCameraPlayer.Start();
                     }
-                    
-                    if ( depthCamera == null )
+
+                    if (depthCamera == null)
                     {
-                        depthCamera = kinectDevice.GetDepthCamera( );
+                        depthCamera = kinectDevice.GetDepthCamera();
                         depthCameraPlayer.VideoSource = depthCamera;
-                        depthCameraPlayer.Start( );
+                        depthCameraPlayer.Start();
                     }
 
                     ledColorCombo.SelectedIndex = 0;
 
-                    if ( tiltUpDown.Value != 0 )
+                    if (tiltUpDown.Value != 0)
                     {
                         tiltUpDown.Value = 0;
                     }
                     else
                     {
-                        kinectDevice.SetMotorTilt( (int) tiltUpDown.Value );
+                        kinectDevice.SetMotorTilt((int)tiltUpDown.Value);
                     }
 
-                    timer.Start( );
+                    timer.Start();
 
                     ret = true;
                 }
-                catch ( Exception ex )
+                catch (Exception ex)
                 {
-                    MessageBox.Show( "Failed connecting to Kinect device.\n" + ex.Message,
-                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    MessageBox.Show("Failed connecting to Kinect device.\n" + ex.Message,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                    Disconnect( );
+                    Disconnect();
                 }
             }
 
@@ -148,58 +149,58 @@ namespace KinectCapture
         }
 
         // Disconnect from Kinect cameras
-        private void Disconnect( )
+        private void Disconnect()
         {
-            timer.Stop( );
+            timer.Stop();
 
-            if ( videoCamera != null )
+            if (videoCamera != null)
             {
                 videoCameraPlayer.VideoSource = null;
-                videoCamera.Stop( );
+                videoCamera.Stop();
                 videoCamera = null;
             }
 
-            if ( depthCamera != null )
+            if (depthCamera != null)
             {
                 depthCameraPlayer.VideoSource = null;
-                depthCamera.Stop( );
+                depthCamera.Stop();
                 depthCamera = null;
             }
 
-            if ( kinectDevice != null )
+            if (kinectDevice != null)
             {
-                kinectDevice.Dispose( );
+                kinectDevice.Dispose();
                 kinectDevice = null;
             }
         }
 
         // Change color of the LED
-        private void ledColorCombo_SelectedIndexChanged( object sender, EventArgs e )
+        private void ledColorCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ( kinectDevice != null )
+            if (kinectDevice != null)
             {
-                kinectDevice.SetLedColor( ledMode[ledColorCombo.SelectedIndex] );
+                kinectDevice.SetLedColor(ledMode[ledColorCombo.SelectedIndex]);
             }
         }
 
         // Tilt the camera up/down
-        private void tiltUpDown_ValueChanged( object sender, EventArgs e )
+        private void tiltUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if ( kinectDevice != null )
+            if (kinectDevice != null)
             {
-                kinectDevice.SetMotorTilt( (int) tiltUpDown.Value );
+                kinectDevice.SetMotorTilt((int)tiltUpDown.Value);
             }
         }
 
         // Read accelerometer values on timer tick
-        private void timer_Tick( object sender, EventArgs e )
+        private void timer_Tick(object sender, EventArgs e)
         {
             double x, y, z;
 
-            kinectDevice.GetAccelerometerValues( out x, out y, out z );
+            kinectDevice.GetAccelerometerValues(out x, out y, out z);
 
             accelerometerLabel.Text = string.Format(
-                "Accelerometer values (m/(s*s)): x = {0:F4}, y = {1:F4}, z = {2:F4}", x, y, z );
+                "Accelerometer values (m/(s*s)): x = {0:F4}, y = {1:F4}, z = {2:F4}", x, y, z);
         }
     }
 }

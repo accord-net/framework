@@ -18,92 +18,92 @@ using System.Reflection;
 
 using AForge.Imaging;
 
-namespace BlobsExplorer
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
-        public MainForm( )
+        public MainForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
             highlightTypeCombo.SelectedIndex = 0;
             showRectangleAroundSelectionCheck.Checked = blobsBrowser.ShowRectangleAroundSelection;
         }
 
         // On loading of the form
-        private void MainForm_Load( object sender, EventArgs e )
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            LoadDemo( );
+            LoadDemo();
         }
 
         // Exit from application
-        private void exitToolStripMenuItem_Click( object sender, EventArgs e )
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close( );
+            this.Close();
         }
 
         // Open file
-        private void openToolStripMenuItem_Click( object sender, EventArgs e )
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ( openFileDialog.ShowDialog( ) == DialogResult.OK )
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    ProcessImage( (Bitmap) Bitmap.FromFile( openFileDialog.FileName ) );
+                    ProcessImage((Bitmap)Bitmap.FromFile(openFileDialog.FileName));
                 }
                 catch
                 {
-                    MessageBox.Show( "Failed loading selected image file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    MessageBox.Show("Failed loading selected image file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
         // Process image
-        private void ProcessImage( Bitmap image )
+        private void ProcessImage(Bitmap image)
         {
-            int foundBlobsCount = blobsBrowser.SetImage( image );
+            int foundBlobsCount = blobsBrowser.SetImage(image);
 
-            blobsCountLabel.Text = string.Format( "Found blobs' count: {0}", foundBlobsCount );
+            blobsCountLabel.Text = string.Format("Found blobs' count: {0}", foundBlobsCount);
             propertyGrid.SelectedObject = null;
         }
 
         // Blob was selected - display its information
-        private void blobsBrowser_BlobSelected( object sender, Blob blob )
+        private void blobsBrowser_BlobSelected(object sender, Blob blob)
         {
             propertyGrid.SelectedObject = blob;
-            propertyGrid.ExpandAllGridItems( );
+            propertyGrid.ExpandAllGridItems();
         }
 
         // Load demo image
-        private void loaddemoImageToolStripMenuItem_Click( object sender, EventArgs e )
+        private void loaddemoImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            LoadDemo( );
+            LoadDemo();
         }
 
-        private void LoadDemo( )
+        private void LoadDemo()
         {
             // load arrow bitmap
-            Assembly assembly = this.GetType( ).Assembly;
-            Bitmap image = new Bitmap( assembly.GetManifestResourceStream( "BlobsExplorer.demo.png" ) );
-            ProcessImage( image );
+            Assembly assembly = this.GetType().Assembly;
+            Bitmap image = new Bitmap(Properties.Resources.demo);
+            ProcessImage(image);
         }
 
         // Show about form
-        private void aboutToolStripMenuItem_Click( object sender, EventArgs e )
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AboutForm form = new AboutForm( );
+            AboutForm form = new AboutForm();
 
-            form.ShowDialog( );
+            form.ShowDialog();
         }
 
         // Change type of blobs' highlighting
-        private void highlightTypeCombo_SelectedIndexChanged( object sender, EventArgs e )
+        private void highlightTypeCombo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            blobsBrowser.Highlighting = (BlobsBrowser.HightlightType) highlightTypeCombo.SelectedIndex;
+            blobsBrowser.Highlighting = (BlobsBrowser.HightlightType)highlightTypeCombo.SelectedIndex;
         }
 
         // Toggle displaying of rectangle around selection
-        private void showRectangleAroundSelectionCheck_CheckedChanged( object sender, EventArgs e )
+        private void showRectangleAroundSelectionCheck_CheckedChanged(object sender, EventArgs e)
         {
             blobsBrowser.ShowRectangleAroundSelection = showRectangleAroundSelectionCheck.Checked;
         }

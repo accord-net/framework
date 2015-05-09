@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Samples.TSP.GP
+namespace SampleApp
 {
     static class Program
     {

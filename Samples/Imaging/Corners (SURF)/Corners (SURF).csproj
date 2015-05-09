@@ -8,7 +8,7 @@
     <ProjectGuid>{936F3B12-2B1A-468E-9830-51EC9EFB127E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Corners.SURF</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Corners %28SURF%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

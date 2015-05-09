@@ -8,7 +8,7 @@
     <ProjectGuid>{779A59F0-BF3B-4AE5-B323-97D37CD67233}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Snapshot_Maker</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Snapshot Maker</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -67,6 +67,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SampleApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">

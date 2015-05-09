@@ -1,4 +1,4 @@
-﻿namespace Classification.BoW
+﻿namespace SampleApp
 {
     partial class AboutBox
     {

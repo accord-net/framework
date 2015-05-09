@@ -8,7 +8,7 @@
     <ProjectGuid>{B4CB129D-51F9-4C86-B520-7AC50537A70B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KinectCapture</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Kinect Capture</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -68,6 +68,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SampleApp.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
       <HintPath>..\..\..\Release\net40\Accord.dll</HintPath>
@@ -125,7 +128,7 @@
   <ItemGroup>
     <None Include="..\..\..\Externals\libfreenect\freenect.dll">
       <Link>freenect.dll</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

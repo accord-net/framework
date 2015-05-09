@@ -6,8 +6,8 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle( "Neuro SOM TSP" )]
-[assembly: AssemblyDescription( "Neuro SOM TSP sample" )]
+[assembly: AssemblyTitle( "Neuro SOM SampleApp" )]
+[assembly: AssemblyDescription( "Neuro SOM SampleApp sample" )]
 [assembly: AssemblyConfiguration( "" )]
 [assembly: AssemblyCompany( "AForge" )]
 [assembly: AssemblyProduct( "AForge.NET" )]

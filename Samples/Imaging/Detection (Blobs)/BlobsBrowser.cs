@@ -19,7 +19,7 @@ using AForge;
 using AForge.Imaging;
 using AForge.Math.Geometry;
 
-namespace BlobsExplorer
+namespace SampleApp
 {
     public delegate void BlobSelectionHandler(object sender, Blob blob);
 

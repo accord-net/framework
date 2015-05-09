@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
-	<ProjectGuid>{22E852C0-17FF-4106-9DF6-41EABB8C0613}</ProjectGuid>
+    <ProjectGuid>{22E852C0-17FF-4106-9DF6-41EABB8C0613}</ProjectGuid>
     <RootNamespace>Accord.Video.VFW</RootNamespace>
     <AssemblyName>Accord.Video.VFW</AssemblyName>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -71,9 +71,6 @@
     <Compile Include="AVIWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Win32.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AForge.Video.VFW.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

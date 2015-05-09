@@ -23,7 +23,7 @@ using AForge.Video.VFW;
 using AForge.Video.DirectShow;
 using AForge.Vision.Motion;
 
-namespace MotionDetectorSample
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

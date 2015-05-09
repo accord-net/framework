@@ -8,7 +8,7 @@
     <ProjectGuid>{6B66B73D-481C-479B-AC13-F5E332D12293}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HoughTransform</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>HoughTransformation</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -67,6 +67,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SampleApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">

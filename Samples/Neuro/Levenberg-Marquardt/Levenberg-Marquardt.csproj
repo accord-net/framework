@@ -20,7 +20,8 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Samples.LM</RootNamespace>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <StartupObject>Samples.LM.Program</StartupObject>
+    <StartupObject>
+    </StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <UpgradeBackupLocation>

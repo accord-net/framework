@@ -1,4 +1,4 @@
-﻿namespace KinectCapture
+﻿namespace SampleApp
 {
     partial class MainForm
     {

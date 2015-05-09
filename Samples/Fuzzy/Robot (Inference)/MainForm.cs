@@ -17,7 +17,7 @@ using System.Threading;
 using System.Diagnostics;
 using AForge.Fuzzy;
 
-namespace FuzzyAGV
+namespace SampleApp
 {
     public class MainForm : System.Windows.Forms.Form
     {
@@ -152,21 +152,21 @@ namespace FuzzyAGV
             this.pbTerrain.ErrorImage = null;
             this.pbTerrain.Image = ((System.Drawing.Image)(resources.GetObject("pbTerrain.Image")));
             this.pbTerrain.InitialImage = null;
-            this.pbTerrain.Location = new System.Drawing.Point(160, 8);
+            this.pbTerrain.Location = new System.Drawing.Point(256, 12);
             this.pbTerrain.Name = "pbTerrain";
             this.pbTerrain.Size = new System.Drawing.Size(500, 500);
             this.pbTerrain.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pbTerrain.TabIndex = 10;
             this.pbTerrain.TabStop = false;
-            this.pbTerrain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbTerrain_MouseMove);
             this.pbTerrain.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbTerrain_MouseDown);
+            this.pbTerrain.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pbTerrain_MouseMove);
             // 
             // btnStep
             // 
             this.btnStep.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnStep.Location = new System.Drawing.Point(6, 109);
+            this.btnStep.Location = new System.Drawing.Point(10, 159);
             this.btnStep.Name = "btnStep";
-            this.btnStep.Size = new System.Drawing.Size(75, 23);
+            this.btnStep.Size = new System.Drawing.Size(120, 34);
             this.btnStep.TabIndex = 14;
             this.btnStep.Text = "&One Step";
             this.btnStep.Click += new System.EventHandler(this.button3_Click);
@@ -174,18 +174,18 @@ namespace FuzzyAGV
             // btnRun
             // 
             this.btnRun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRun.Location = new System.Drawing.Point(6, 138);
+            this.btnRun.Location = new System.Drawing.Point(10, 202);
             this.btnRun.Name = "btnRun";
-            this.btnRun.Size = new System.Drawing.Size(75, 23);
+            this.btnRun.Size = new System.Drawing.Size(120, 33);
             this.btnRun.TabIndex = 15;
             this.btnRun.Text = "&Run";
             this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
             // 
             // txtInterval
             // 
-            this.txtInterval.Location = new System.Drawing.Point(6, 83);
+            this.txtInterval.Location = new System.Drawing.Point(10, 121);
             this.txtInterval.Name = "txtInterval";
-            this.txtInterval.Size = new System.Drawing.Size(72, 20);
+            this.txtInterval.Size = new System.Drawing.Size(115, 26);
             this.txtInterval.TabIndex = 16;
             this.txtInterval.Text = "10";
             this.txtInterval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
@@ -194,9 +194,9 @@ namespace FuzzyAGV
             // 
             this.cbLasers.Checked = true;
             this.cbLasers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbLasers.Location = new System.Drawing.Point(8, 40);
+            this.cbLasers.Location = new System.Drawing.Point(13, 58);
             this.cbLasers.Name = "cbLasers";
-            this.cbLasers.Size = new System.Drawing.Size(120, 24);
+            this.cbLasers.Size = new System.Drawing.Size(192, 36);
             this.cbLasers.TabIndex = 17;
             this.cbLasers.Text = "&Show Beams";
             // 
@@ -208,9 +208,9 @@ namespace FuzzyAGV
             this.groupBox1.Controls.Add(this.lbl);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(8, 8);
+            this.groupBox1.Location = new System.Drawing.Point(13, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(144, 72);
+            this.groupBox1.Size = new System.Drawing.Size(230, 105);
             this.groupBox1.TabIndex = 24;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sensor readings::";
@@ -218,10 +218,10 @@ namespace FuzzyAGV
             // txtRight
             // 
             this.txtRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRight.Location = new System.Drawing.Point(104, 48);
+            this.txtRight.Location = new System.Drawing.Point(166, 70);
             this.txtRight.Name = "txtRight";
             this.txtRight.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtRight.Size = new System.Drawing.Size(32, 16);
+            this.txtRight.Size = new System.Drawing.Size(52, 24);
             this.txtRight.TabIndex = 29;
             this.txtRight.Text = "0";
             this.txtRight.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -229,10 +229,10 @@ namespace FuzzyAGV
             // txtLeft
             // 
             this.txtLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLeft.Location = new System.Drawing.Point(104, 32);
+            this.txtLeft.Location = new System.Drawing.Point(166, 47);
             this.txtLeft.Name = "txtLeft";
             this.txtLeft.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtLeft.Size = new System.Drawing.Size(32, 16);
+            this.txtLeft.Size = new System.Drawing.Size(52, 23);
             this.txtLeft.TabIndex = 28;
             this.txtLeft.Text = "0";
             this.txtLeft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -240,35 +240,35 @@ namespace FuzzyAGV
             // txtFront
             // 
             this.txtFront.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFront.Location = new System.Drawing.Point(104, 16);
+            this.txtFront.Location = new System.Drawing.Point(166, 23);
             this.txtFront.Name = "txtFront";
             this.txtFront.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.txtFront.Size = new System.Drawing.Size(32, 16);
+            this.txtFront.Size = new System.Drawing.Size(52, 24);
             this.txtFront.TabIndex = 27;
             this.txtFront.Text = "0";
             this.txtFront.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lbl
             // 
-            this.lbl.Location = new System.Drawing.Point(8, 48);
+            this.lbl.Location = new System.Drawing.Point(13, 70);
             this.lbl.Name = "lbl";
-            this.lbl.Size = new System.Drawing.Size(100, 16);
+            this.lbl.Size = new System.Drawing.Size(160, 24);
             this.lbl.TabIndex = 26;
             this.lbl.Text = "Right (pixels):";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(8, 32);
+            this.label2.Location = new System.Drawing.Point(13, 47);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(100, 16);
+            this.label2.Size = new System.Drawing.Size(160, 23);
             this.label2.TabIndex = 25;
             this.label2.Text = "Left (pixels):";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(8, 16);
+            this.label1.Location = new System.Drawing.Point(13, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 16);
+            this.label1.Size = new System.Drawing.Size(141, 24);
             this.label1.TabIndex = 24;
             this.label1.Text = "Frontal (pixels):";
             // 
@@ -276,27 +276,27 @@ namespace FuzzyAGV
             // 
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.txtAngle);
-            this.groupBox2.Location = new System.Drawing.Point(8, 88);
+            this.groupBox2.Location = new System.Drawing.Point(13, 129);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(144, 40);
+            this.groupBox2.Size = new System.Drawing.Size(230, 58);
             this.groupBox2.TabIndex = 25;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output:";
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(8, 16);
+            this.label3.Location = new System.Drawing.Point(13, 23);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(88, 16);
+            this.label3.Size = new System.Drawing.Size(141, 24);
             this.label3.TabIndex = 10;
             this.label3.Text = "Angle (degrees):";
             // 
             // txtAngle
             // 
             this.txtAngle.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtAngle.Location = new System.Drawing.Point(96, 16);
+            this.txtAngle.Location = new System.Drawing.Point(154, 23);
             this.txtAngle.Name = "txtAngle";
-            this.txtAngle.Size = new System.Drawing.Size(40, 16);
+            this.txtAngle.Size = new System.Drawing.Size(64, 24);
             this.txtAngle.TabIndex = 29;
             this.txtAngle.Text = "0,00";
             this.txtAngle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -310,36 +310,36 @@ namespace FuzzyAGV
             this.gbComandos.Controls.Add(this.cbLasers);
             this.gbComandos.Controls.Add(this.btnRun);
             this.gbComandos.Controls.Add(this.txtInterval);
-            this.gbComandos.Location = new System.Drawing.Point(8, 136);
+            this.gbComandos.Location = new System.Drawing.Point(13, 199);
             this.gbComandos.Name = "gbComandos";
-            this.gbComandos.Size = new System.Drawing.Size(144, 200);
+            this.gbComandos.Size = new System.Drawing.Size(230, 292);
             this.gbComandos.TabIndex = 26;
             this.gbComandos.TabStop = false;
             this.gbComandos.Text = "Tools:";
             // 
             // cbTrajeto
             // 
-            this.cbTrajeto.Location = new System.Drawing.Point(8, 16);
+            this.cbTrajeto.Location = new System.Drawing.Point(13, 23);
             this.cbTrajeto.Name = "cbTrajeto";
-            this.cbTrajeto.Size = new System.Drawing.Size(120, 24);
+            this.cbTrajeto.Size = new System.Drawing.Size(192, 35);
             this.cbTrajeto.TabIndex = 19;
             this.cbTrajeto.Text = "&Track Path";
             // 
             // btnReset
             // 
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnReset.Location = new System.Drawing.Point(6, 167);
+            this.btnReset.Location = new System.Drawing.Point(10, 244);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.Size = new System.Drawing.Size(120, 34);
             this.btnReset.TabIndex = 0;
             this.btnReset.Text = "Rest&art";
             this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(6, 67);
+            this.label4.Location = new System.Drawing.Point(10, 98);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(125, 13);
+            this.label4.Size = new System.Drawing.Size(200, 19);
             this.label4.TabIndex = 18;
             this.label4.Text = "Move Interval (ms):";
             // 
@@ -347,37 +347,37 @@ namespace FuzzyAGV
             // 
             this.pbRobot.BackColor = System.Drawing.Color.Transparent;
             this.pbRobot.Image = ((System.Drawing.Image)(resources.GetObject("pbRobot.Image")));
-            this.pbRobot.Location = new System.Drawing.Point(216, 472);
+            this.pbRobot.Location = new System.Drawing.Point(346, 690);
             this.pbRobot.Name = "pbRobot";
-            this.pbRobot.Size = new System.Drawing.Size(10, 10);
+            this.pbRobot.Size = new System.Drawing.Size(16, 14);
             this.pbRobot.TabIndex = 11;
             this.pbRobot.TabStop = false;
             // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(8, 342);
+            this.groupBox3.Location = new System.Drawing.Point(13, 500);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(144, 119);
+            this.groupBox3.Size = new System.Drawing.Size(230, 174);
             this.groupBox3.TabIndex = 27;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Hints:";
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(8, 16);
+            this.label5.Location = new System.Drawing.Point(13, 23);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(125, 88);
+            this.label5.Size = new System.Drawing.Size(200, 129);
             this.label5.TabIndex = 10;
             this.label5.Text = "Left click the image to draw passages (white), right click the image to draw wall" +
-                "s (black).";
+    "s (black).";
             // 
             // aboutButton
             // 
             this.aboutButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.aboutButton.Location = new System.Drawing.Point(41, 473);
+            this.aboutButton.Location = new System.Drawing.Point(66, 691);
             this.aboutButton.Name = "aboutButton";
-            this.aboutButton.Size = new System.Drawing.Size(75, 23);
+            this.aboutButton.Size = new System.Drawing.Size(120, 34);
             this.aboutButton.TabIndex = 28;
             this.aboutButton.Text = "About";
             this.aboutButton.UseVisualStyleBackColor = true;
@@ -385,8 +385,8 @@ namespace FuzzyAGV
             // 
             // MainForm
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(664, 513);
+            this.AutoScaleBaseSize = new System.Drawing.Size(8, 19);
+            this.ClientSize = new System.Drawing.Size(981, 733);
             this.Controls.Add(this.aboutButton);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.gbComandos);

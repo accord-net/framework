@@ -18,11 +18,9 @@ using AForge;
 using AForge.Genetic;
 using AForge.Controls;
 
-namespace Samples.TSP.GP
+namespace SampleApp
 {
-    /// <summary>
-    /// Summary description for Form1.
-    /// </summary>
+
     public class MainForm : System.Windows.Forms.Form
     {
         private System.Windows.Forms.GroupBox groupBox1;
@@ -105,6 +103,7 @@ namespace Samples.TSP.GP
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.generateMapButton = new System.Windows.Forms.Button();
             this.citiesCountBox = new System.Windows.Forms.TextBox();
@@ -137,43 +136,44 @@ namespace Samples.TSP.GP
             this.groupBox1.Controls.Add(this.citiesCountBox);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.mapControl);
-            this.groupBox1.Location = new System.Drawing.Point(10, 10);
+            this.groupBox1.Location = new System.Drawing.Point(16, 15);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(300, 340);
+            this.groupBox1.Size = new System.Drawing.Size(480, 497);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Map";
             // 
             // generateMapButton
             // 
-            this.generateMapButton.Location = new System.Drawing.Point(110, 309);
+            this.generateMapButton.Location = new System.Drawing.Point(176, 452);
             this.generateMapButton.Name = "generateMapButton";
-            this.generateMapButton.Size = new System.Drawing.Size(75, 22);
+            this.generateMapButton.Size = new System.Drawing.Size(120, 32);
             this.generateMapButton.TabIndex = 3;
             this.generateMapButton.Text = "&Generate";
             this.generateMapButton.Click += new System.EventHandler(this.generateMapButton_Click);
             // 
             // citiesCountBox
             // 
-            this.citiesCountBox.Location = new System.Drawing.Point(50, 310);
+            this.citiesCountBox.Location = new System.Drawing.Point(80, 453);
             this.citiesCountBox.Name = "citiesCountBox";
-            this.citiesCountBox.Size = new System.Drawing.Size(50, 20);
+            this.citiesCountBox.Size = new System.Drawing.Size(80, 26);
             this.citiesCountBox.TabIndex = 2;
-            this.citiesCountBox.Text = "";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(10, 312);
+            this.label1.Location = new System.Drawing.Point(16, 456);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 16);
+            this.label1.Size = new System.Drawing.Size(64, 23);
             this.label1.TabIndex = 1;
             this.label1.Text = "Cities:";
             // 
             // mapControl
             // 
-            this.mapControl.Location = new System.Drawing.Point(10, 20);
+            this.mapControl.Location = new System.Drawing.Point(16, 29);
             this.mapControl.Name = "mapControl";
-            this.mapControl.Size = new System.Drawing.Size(280, 280);
+            this.mapControl.RangeX = ((AForge.Range)(resources.GetObject("mapControl.RangeX")));
+            this.mapControl.RangeY = ((AForge.Range)(resources.GetObject("mapControl.RangeY")));
+            this.mapControl.Size = new System.Drawing.Size(448, 409);
             this.mapControl.TabIndex = 0;
             // 
             // groupBox2
@@ -186,43 +186,42 @@ namespace Samples.TSP.GP
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.populationSizeBox);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(320, 10);
+            this.groupBox2.Location = new System.Drawing.Point(512, 15);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(185, 225);
+            this.groupBox2.Size = new System.Drawing.Size(296, 328);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Settings";
             // 
             // greedyCrossoverBox
             // 
-            this.greedyCrossoverBox.Location = new System.Drawing.Point(10, 70);
+            this.greedyCrossoverBox.Location = new System.Drawing.Point(16, 102);
             this.greedyCrossoverBox.Name = "greedyCrossoverBox";
-            this.greedyCrossoverBox.Size = new System.Drawing.Size(120, 24);
+            this.greedyCrossoverBox.Size = new System.Drawing.Size(192, 35);
             this.greedyCrossoverBox.TabIndex = 7;
             this.greedyCrossoverBox.Text = "Greedy crossover";
             // 
             // label5
             // 
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((System.Byte)(0)));
-            this.label5.Location = new System.Drawing.Point(125, 200);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(200, 292);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(58, 15);
+            this.label5.Size = new System.Drawing.Size(93, 22);
             this.label5.TabIndex = 6;
             this.label5.Text = "( 0 - inifinity )";
             // 
             // iterationsBox
             // 
-            this.iterationsBox.Location = new System.Drawing.Point(125, 180);
+            this.iterationsBox.Location = new System.Drawing.Point(200, 263);
             this.iterationsBox.Name = "iterationsBox";
-            this.iterationsBox.Size = new System.Drawing.Size(50, 20);
+            this.iterationsBox.Size = new System.Drawing.Size(80, 26);
             this.iterationsBox.TabIndex = 5;
-            this.iterationsBox.Text = "";
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(10, 182);
+            this.label4.Location = new System.Drawing.Point(16, 266);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(60, 16);
+            this.label4.Size = new System.Drawing.Size(96, 23);
             this.label4.TabIndex = 4;
             this.label4.Text = "Iterations:";
             // 
@@ -230,35 +229,34 @@ namespace Samples.TSP.GP
             // 
             this.selectionBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.selectionBox.Items.AddRange(new object[] {
-															  "Elite",
-															  "Rank",
-															  "Roulette"});
-            this.selectionBox.Location = new System.Drawing.Point(110, 45);
+            "Elite",
+            "Rank",
+            "Roulette"});
+            this.selectionBox.Location = new System.Drawing.Point(176, 66);
             this.selectionBox.Name = "selectionBox";
-            this.selectionBox.Size = new System.Drawing.Size(65, 21);
+            this.selectionBox.Size = new System.Drawing.Size(104, 28);
             this.selectionBox.TabIndex = 3;
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(10, 47);
+            this.label3.Location = new System.Drawing.Point(16, 69);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(100, 16);
+            this.label3.Size = new System.Drawing.Size(160, 23);
             this.label3.TabIndex = 2;
             this.label3.Text = "Selection method:";
             // 
             // populationSizeBox
             // 
-            this.populationSizeBox.Location = new System.Drawing.Point(125, 20);
+            this.populationSizeBox.Location = new System.Drawing.Point(200, 29);
             this.populationSizeBox.Name = "populationSizeBox";
-            this.populationSizeBox.Size = new System.Drawing.Size(50, 20);
+            this.populationSizeBox.Size = new System.Drawing.Size(80, 26);
             this.populationSizeBox.TabIndex = 1;
-            this.populationSizeBox.Text = "";
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(10, 22);
+            this.label2.Location = new System.Drawing.Point(16, 32);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 16);
+            this.label2.Size = new System.Drawing.Size(144, 24);
             this.label2.TabIndex = 0;
             this.label2.Text = "Population size:";
             // 
@@ -268,51 +266,50 @@ namespace Samples.TSP.GP
             this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.currentIterationBox);
             this.groupBox3.Controls.Add(this.label6);
-            this.groupBox3.Location = new System.Drawing.Point(320, 240);
+            this.groupBox3.Location = new System.Drawing.Point(512, 351);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(185, 75);
+            this.groupBox3.Size = new System.Drawing.Size(296, 109);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Current iteration";
             // 
             // pathLengthBox
             // 
-            this.pathLengthBox.Location = new System.Drawing.Point(125, 45);
+            this.pathLengthBox.Location = new System.Drawing.Point(200, 66);
             this.pathLengthBox.Name = "pathLengthBox";
             this.pathLengthBox.ReadOnly = true;
-            this.pathLengthBox.Size = new System.Drawing.Size(50, 20);
+            this.pathLengthBox.Size = new System.Drawing.Size(80, 26);
             this.pathLengthBox.TabIndex = 3;
-            this.pathLengthBox.Text = "";
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(10, 47);
+            this.label7.Location = new System.Drawing.Point(16, 69);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(80, 16);
+            this.label7.Size = new System.Drawing.Size(128, 23);
             this.label7.TabIndex = 2;
             this.label7.Text = "Path length:";
             // 
             // currentIterationBox
             // 
-            this.currentIterationBox.Location = new System.Drawing.Point(125, 20);
+            this.currentIterationBox.Location = new System.Drawing.Point(200, 29);
             this.currentIterationBox.Name = "currentIterationBox";
             this.currentIterationBox.ReadOnly = true;
-            this.currentIterationBox.Size = new System.Drawing.Size(50, 20);
+            this.currentIterationBox.Size = new System.Drawing.Size(80, 26);
             this.currentIterationBox.TabIndex = 1;
-            this.currentIterationBox.Text = "";
             // 
             // label6
             // 
-            this.label6.Location = new System.Drawing.Point(10, 22);
+            this.label6.Location = new System.Drawing.Point(16, 32);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 16);
+            this.label6.Size = new System.Drawing.Size(80, 24);
             this.label6.TabIndex = 0;
             this.label6.Text = "Iteration:";
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(340, 325);
+            this.startButton.Location = new System.Drawing.Point(544, 475);
             this.startButton.Name = "startButton";
+            this.startButton.Size = new System.Drawing.Size(120, 34);
             this.startButton.TabIndex = 3;
             this.startButton.Text = "&Start";
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
@@ -320,16 +317,18 @@ namespace Samples.TSP.GP
             // stopButton
             // 
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(430, 325);
+            this.stopButton.Location = new System.Drawing.Point(688, 475);
             this.stopButton.Name = "stopButton";
+            this.stopButton.Size = new System.Drawing.Size(120, 34);
             this.stopButton.TabIndex = 4;
             this.stopButton.Text = "S&top";
             this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-            this.ClientSize = new System.Drawing.Size(514, 360);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.ClientSize = new System.Drawing.Size(824, 530);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.startButton);
             this.Controls.Add(this.groupBox3);
@@ -341,8 +340,11 @@ namespace Samples.TSP.GP
             this.Text = "Traveling Salesman Problem using Genetic Algorithms";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
             this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -502,6 +504,7 @@ namespace Samples.TSP.GP
         {
             // create fitness function
             TSPFitnessFunction fitnessFunction = new TSPFitnessFunction(map);
+
             // create population
             Population population = new Population(populationSize,
                 (greedyCrossover) ? new TSPChromosome(map) : new PermutationChromosome(citiesCount),
@@ -510,6 +513,7 @@ namespace Samples.TSP.GP
                 (selectionMethod == 1) ? (ISelectionMethod)new RankSelection() :
                 (ISelectionMethod)new RouletteWheelSelection()
                 );
+
             // iterations
             int i = 1;
 

@@ -1,4 +1,4 @@
-﻿namespace Panorama.FREAK
+﻿namespace SampleApp
 {
     partial class MainForm
     {

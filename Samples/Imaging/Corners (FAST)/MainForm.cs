@@ -35,9 +35,8 @@ using System.Drawing;
 using System.Windows.Forms;
 using Accord.Imaging;
 using AForge.Imaging.Filters;
-using Corners.FAST.Properties;
 
-namespace Corners.FAST
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
@@ -50,7 +49,7 @@ namespace Corners.FAST
         private void button1_Click(object sender, EventArgs e)
         {
             // Open a image
-            Bitmap lenna = Resources.lena512;
+            Bitmap lenna = Properties.Resources.lena512;
 
             // Create a new SURF Features Detector using the given parameters
             FastCornersDetector fast = new FastCornersDetector()

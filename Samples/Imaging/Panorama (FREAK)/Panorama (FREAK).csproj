@@ -8,7 +8,7 @@
     <ProjectGuid>{CE77124B-B24F-476E-8C83-835EC8675DD7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Panorama.FREAK</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Panorama %28FREAK%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -57,6 +57,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>framework.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SampleApp.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">

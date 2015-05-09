@@ -1,4 +1,4 @@
-﻿namespace PoseEstimation
+﻿namespace SampleApp
 {
     partial class MainForm
     {
@@ -56,7 +56,7 @@
             this.copositRadio = new System.Windows.Forms.RadioButton( );
             this.positRadio = new System.Windows.Forms.RadioButton( );
             this.estimatePostButton = new System.Windows.Forms.Button( );
-            this.estimatedTransformationMatrixControl = new PoseEstimation.MatrixControl( );
+            this.estimatedTransformationMatrixControl = new MatrixControl( );
             this.modelPointsGroupBox = new System.Windows.Forms.GroupBox( );
             this.modelPoint4zBox = new System.Windows.Forms.TextBox( );
             this.modelPoint4yBox = new System.Windows.Forms.TextBox( );

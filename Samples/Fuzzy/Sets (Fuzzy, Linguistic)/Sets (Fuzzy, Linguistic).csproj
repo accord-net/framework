@@ -8,8 +8,8 @@
     <ProjectGuid>{2C079A0D-8F90-4B4E-85AA-CAD45F7E0CAC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FuzzySetSample</RootNamespace>
-    <AssemblyName>FuzzySetSample</AssemblyName>
+    <RootNamespace>SampleApp</RootNamespace>
+    <AssemblyName>Sets %28Fuzzy-Linguistic%29</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -51,6 +51,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>SampleApp.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
       <HintPath>..\..\..\Release\net40\Accord.dll</HintPath>
@@ -72,17 +75,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sample.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Sample.Designer.cs">
-      <DependentUpon>Sample.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Sample.resx">
+    <EmbeddedResource Include="MainForm.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>Sample.cs</DependentUpon>
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

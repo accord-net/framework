@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Classification.ANNs
+namespace SampleApp
 {
     partial class AboutBox : Form
     {

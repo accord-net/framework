@@ -8,7 +8,7 @@
     <ProjectGuid>{316F5B16-E308-4ABE-B95D-EF64FFAEF028}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Corners.Harris</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Corners %28Harris%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

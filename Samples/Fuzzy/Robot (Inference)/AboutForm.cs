@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace FuzzyAGV
+namespace SampleApp
 {
     public partial class AboutForm : Form
     {

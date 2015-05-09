@@ -16,51 +16,51 @@ using System.IO;
 
 using AForge.Imaging.Formats;
 
-namespace ImageViewer
+namespace SampleApp
 {
-    // Main form's class
+
     public partial class MainForm : Form
     {
-        // Class constructor
-        public MainForm( )
+
+        public MainForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
         }
 
         // Exit from application
-        private void exitToolStripMenuItem_Click( object sender, EventArgs e )
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Application.Exit( );
+            Application.Exit();
         }
 
         // Open image file
-        private void openToolStripMenuItem_Click( object sender, EventArgs e )
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if ( openFileDialog.ShowDialog( ) == DialogResult.OK )
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
                     ImageInfo imageInfo = null;
 
-                    pictureBox.Image = ImageDecoder.DecodeFromFile( openFileDialog.FileName, out imageInfo );
+                    pictureBox.Image = ImageDecoder.DecodeFromFile(openFileDialog.FileName, out imageInfo);
 
                     propertyGrid.SelectedObject = imageInfo;
-                    propertyGrid.ExpandAllGridItems( );
+                    propertyGrid.ExpandAllGridItems();
                 }
-                catch ( NotSupportedException ex )
+                catch (NotSupportedException ex)
                 {
-                    MessageBox.Show( "Image format is not supported: " + ex.Message, "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    MessageBox.Show("Image format is not supported: " + ex.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                catch ( ArgumentException ex )
+                catch (ArgumentException ex)
                 {
-                    MessageBox.Show( "Invalid image: " + ex.Message, "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    MessageBox.Show("Invalid image: " + ex.Message, "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 catch
                 {
-                    MessageBox.Show( "Failed loading the image", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error );
+                    MessageBox.Show("Failed loading the image", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

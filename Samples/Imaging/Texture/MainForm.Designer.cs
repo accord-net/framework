@@ -1,4 +1,4 @@
-namespace TexturesDemo
+namespace SampleApp
 {
     partial class MainForm
     {

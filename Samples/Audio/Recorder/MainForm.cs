@@ -39,7 +39,7 @@ using Accord.Audio.Formats;
 using Accord.DirectSound;
 using Accord.Audio.Filters;
 
-namespace Recorder
+namespace SampleApp
 {
     /// <summary>
     ///   Audio recorder sample application.

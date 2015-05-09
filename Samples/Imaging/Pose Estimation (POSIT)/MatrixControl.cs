@@ -15,7 +15,7 @@ using System.Windows.Forms;
 
 using AForge.Math;
 
-namespace PoseEstimation
+namespace SampleApp
 {
     public partial class MatrixControl : UserControl
     {

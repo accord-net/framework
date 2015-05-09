@@ -8,7 +8,7 @@
     <ProjectGuid>{E34CC841-CE29-4B39-9BE5-D98502330F55}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TexturesDemo</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>TexturesDemo</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

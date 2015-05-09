@@ -8,7 +8,7 @@
     <ProjectGuid>{40C644F9-5AF9-44BB-9649-02149933E092}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XimeaSample</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Ximea Sample</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

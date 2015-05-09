@@ -16,7 +16,7 @@ using System.Windows.Forms;
 using AForge.Math;
 using AForge.Math.Geometry;
 
-namespace PoseEstimation
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

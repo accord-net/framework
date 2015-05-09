@@ -8,7 +8,7 @@
     <ProjectGuid>{DB8C60E0-D225-4DBB-917A-12EA86506A13}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Matrices</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Matrices</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

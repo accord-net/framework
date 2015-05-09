@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace SOMOrganizing
+namespace SampleApp
 {
 	/// <summary>
 	/// Dummy class to enable  doble buffering in Panel

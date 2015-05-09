@@ -1,4 +1,4 @@
-namespace HoughTransform
+namespace SampleApp
 {
     partial class MainForm
     {

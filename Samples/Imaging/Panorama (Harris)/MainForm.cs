@@ -38,12 +38,12 @@ using Accord.Imaging.Filters;
 using Accord.Math;
 using AForge;
 
-namespace Panorama.Harris
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
-        private Bitmap img1 = Panorama.Harris.Properties.Resources.UFSCar_CompDept1;
-        private Bitmap img2 = Panorama.Harris.Properties.Resources.UFSCar_CompDept2;
+        private Bitmap img1 = SampleApp.Properties.Resources.UFSCar_CompDept1;
+        private Bitmap img2 = SampleApp.Properties.Resources.UFSCar_CompDept2;
 
         private IntPoint[] harrisPoints1;
         private IntPoint[] harrisPoints2;

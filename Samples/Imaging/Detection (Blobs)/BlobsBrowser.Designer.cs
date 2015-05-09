@@ -1,4 +1,4 @@
-﻿namespace BlobsExplorer
+﻿namespace SampleApp
 {
     partial class BlobsBrowser
     {
@@ -11,13 +11,13 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose( bool disposing )
+        protected override void Dispose(bool disposing)
         {
-            if ( disposing && ( components != null ) )
+            if (disposing && (components != null))
             {
-                components.Dispose( );
+                components.Dispose();
             }
-            base.Dispose( disposing );
+            base.Dispose(disposing);
         }
 
         #region Component Designer generated code
@@ -26,17 +26,17 @@
         /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent( )
+        private void InitializeComponent()
         {
-            this.SuspendLayout( );
+            this.SuspendLayout();
             // 
             // BlobsBrowser
             // 
-            this.Paint += new System.Windows.Forms.PaintEventHandler( this.BlobsBrowser_Paint );
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler( this.BlobsBrowser_MouseMove );
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler( this.BlobsBrowser_MouseClick );
-            this.ParentChanged += new System.EventHandler( this.BlobsBrowser_ParentChanged );
-            this.ResumeLayout( false );
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.BlobsBrowser_Paint);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BlobsBrowser_MouseMove);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BlobsBrowser_MouseClick);
+            this.ParentChanged += new System.EventHandler(this.BlobsBrowser_ParentChanged);
+            this.ResumeLayout(false);
 
         }
 

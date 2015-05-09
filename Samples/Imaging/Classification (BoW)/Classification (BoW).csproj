@@ -8,7 +8,7 @@
     <ProjectGuid>{F6CFAC9E-A9AF-4DDF-9405-B4B3578E5154}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Classification.BoW</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Classification %28BoW%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

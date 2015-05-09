@@ -8,8 +8,8 @@
     <ProjectGuid>{742487A3-DD2E-4F47-9ABB-77E88653A1D3}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BlobsExplorer</RootNamespace>
-    <AssemblyName>BlobsExplorer</AssemblyName>
+    <RootNamespace>SampleApp</RootNamespace>
+    <AssemblyName>Detection %28Blobs%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>

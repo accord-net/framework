@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace Fourier
+namespace SampleApp
 {
     partial class AboutBox : Form
     {
