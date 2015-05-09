@@ -45,7 +45,7 @@ namespace AForge.Video.Kinect
     ///
     public class Kinect : IDisposable
     {
-        internal delegate void DeviceFailureHandler( );
+        internal delegate void DeviceFailureHandler();
 
         private class DeviceContext
         {
@@ -54,39 +54,39 @@ namespace AForge.Video.Kinect
             public bool DeviceFailed;
             public KinectNative.TiltState TiltState;
 
-            private object sync = new object( );
-            private List<DeviceFailureHandler> failureHanlders = new List<DeviceFailureHandler>( );
+            private object sync = new object();
+            private List<DeviceFailureHandler> failureHanlders = new List<DeviceFailureHandler>();
 
-            public DeviceContext( IntPtr device )
+            public DeviceContext(IntPtr device)
             {
                 Device = device;
                 ReferenceCounter = 0;
                 DeviceFailed = false;
             }
 
-            public void AddFailureHandler( DeviceFailureHandler handler )
+            public void AddFailureHandler(DeviceFailureHandler handler)
             {
-                lock ( sync )
+                lock (sync)
                 {
-                    failureHanlders.Add( handler );
+                    failureHanlders.Add(handler);
                 }
             }
 
-            public void FireFailureHandlers( )
+            public void FireFailureHandlers()
             {
-                lock ( sync )
+                lock (sync)
                 {
-                    foreach ( DeviceFailureHandler handler in failureHanlders )
+                    foreach (DeviceFailureHandler handler in failureHanlders)
                     {
-                        handler( );
+                        handler();
                     }
-                    failureHanlders.Clear( );
+                    failureHanlders.Clear();
                 }
             }
         }
 
         // dictionary of all opened devices
-        private static Dictionary<int, DeviceContext> openDevices = new Dictionary<int, DeviceContext>( );
+        private static Dictionary<int, DeviceContext> openDevices = new Dictionary<int, DeviceContext>();
 
         // thread for Kinect status updates and an event for stopping it
         private static Thread updateStatusThread;
@@ -99,7 +99,7 @@ namespace AForge.Video.Kinect
         private readonly int deviceID;
 
         // dummy object to lock for synchronization
-        private object sync = new object( );
+        private object sync = new object();
 
         /// <summary>
         /// ID of the opened Kinect device.
@@ -120,7 +120,7 @@ namespace AForge.Video.Kinect
         /// </summary>
         public static int DeviceCount
         {
-            get { return KinectNative.freenect_num_devices( KinectNative.Context ); }
+            get { return KinectNative.freenect_num_devices(KinectNative.Context); }
         }
 
         /// <summary>
@@ -135,111 +135,114 @@ namespace AForge.Video.Kinect
         /// <exception cref="ArgumentException">There is no Kinect device with specified ID connected to the system.</exception>
         /// <exception cref="ConnectionFailedException">Failed connecting to the Kinect device specified ID.</exception>
         /// 
-        public static Kinect GetDevice( int deviceID )
+        public static Kinect GetDevice(int deviceID)
         {
-            if ( ( deviceID < 0 ) || ( deviceID >= DeviceCount ) )
+            if ((deviceID < 0) || (deviceID >= DeviceCount))
             {
-                throw new ArgumentException( "There is no Kinect device with specified ID connected to the system." );
+                throw new ArgumentException("There is no Kinect device with specified ID connected to the system.");
             }
 
             bool needToStartStatusThread = false;
             Kinect kinect = null;
 
-            lock ( openDevices )
+            lock (openDevices)
             {
-                needToStartStatusThread = ( openDevices.Count == 0 );
+                needToStartStatusThread = (openDevices.Count == 0);
 
                 // check if the device is open already
-                if ( !openDevices.ContainsKey( deviceID ) )
+                if (!openDevices.ContainsKey(deviceID))
                 {
                     IntPtr devicePointer = IntPtr.Zero;
 
                     // connect to Kinect device witht the specified ID
-                    if ( KinectNative.freenect_open_device( KinectNative.Context, ref devicePointer, deviceID ) != 0 )
+                    if (KinectNative.freenect_open_device(KinectNative.Context, ref devicePointer, deviceID) != 0)
                     {
-                        throw new ConnectionFailedException( "Failed connecting to the Kinect device with ID: " + deviceID );
+                        throw new ConnectionFailedException("Failed connecting to the Kinect device with ID: " + deviceID);
                     }
 
-                    openDevices.Add( deviceID, new DeviceContext( devicePointer ) );
+                    openDevices.Add(deviceID, new DeviceContext(devicePointer));
                 }
 
                 openDevices[deviceID].ReferenceCounter++;
-                kinect = new Kinect( openDevices[deviceID].Device, deviceID );
+                kinect = new Kinect(openDevices[deviceID].Device, deviceID);
             }
 
-            if ( needToStartStatusThread )
+            if (needToStartStatusThread)
             {
-                StartStatusThread( );
+                StartStatusThread();
             }
 
             return kinect;
         }
 
         // Private constructor to make sure class instance can be obtained through GetDevice() only
-        private Kinect( IntPtr rawDevice, int deviceID )
+        private Kinect(IntPtr rawDevice, int deviceID)
         {
             this.rawDevice = rawDevice;
-            this.deviceID  = deviceID;
-            KinectNative.OnError += new KinectNative.ErrorHandler( Kinect_OnError );
+            this.deviceID = deviceID;
+            KinectNative.OnError += new KinectNative.ErrorHandler(Kinect_OnError);
         }
 
         /// <summary>
         /// Object finalizer/destructor makes sure unmanaged resource are freed if user did not call <see cref="Dispose()"/>.
         /// </summary>
-        ~Kinect( )
+        ~Kinect()
         {
-            Dispose( false );
+            Dispose(false);
         }
 
         /// <summary>
-        /// Dispose device freeing all associated unmanaged resources.
+        ///   Dispose device freeing all associated unmanaged resources.
         /// </summary>
-        public void Dispose( )
+        /// 
+        public void Dispose()
         {
-            lock ( sync )
-            {
-                if ( rawDevice == IntPtr.Zero )
-                    return;
+            Dispose(true);
 
-                Dispose( true );
-            }
-            KinectNative.OnError -= new KinectNative.ErrorHandler( Kinect_OnError );
-            GC.SuppressFinalize( this );
+            GC.SuppressFinalize(this);
         }
 
-        private void Dispose( bool disposing )
+        private void Dispose(bool disposing)
         {
-            bool needToStopStatusThread = false;
-
-            lock ( openDevices )
+            lock (sync)
             {
-                // decrease reference counter and check if we need to close the device
-                if ( --openDevices[deviceID].ReferenceCounter == 0 )
+                if (rawDevice == IntPtr.Zero)
+                    return;
+
+                bool needToStopStatusThread = false;
+
+                lock (openDevices)
                 {
-                    if ( !openDevices[deviceID].DeviceFailed )
+                    // decrease reference counter and check if we need to close the device
+                    if (--openDevices[deviceID].ReferenceCounter == 0)
                     {
-                        KinectNative.freenect_close_device( rawDevice );
+                        if (!openDevices[deviceID].DeviceFailed)
+                        {
+                            KinectNative.freenect_close_device(rawDevice);
+                        }
+                        openDevices.Remove(deviceID);
                     }
-                    openDevices.Remove( deviceID );
+
+                    needToStopStatusThread = (openDevices.Count == 0);
                 }
 
-                needToStopStatusThread = ( openDevices.Count == 0 );
+                rawDevice = IntPtr.Zero;
+
+                if (needToStopStatusThread)
+                {
+                    StopStatusThread();
+                }
             }
 
-            rawDevice = IntPtr.Zero;
-
-            if ( needToStopStatusThread )
-            {
-                StopStatusThread( );
-            }
+            KinectNative.OnError -= new KinectNative.ErrorHandler(Kinect_OnError);
         }
 
         // Check if the device was disposed or not
-        private void CheckDevice( )
+        private void CheckDevice()
         {
-            if ( rawDevice == IntPtr.Zero )
+            if (rawDevice == IntPtr.Zero)
             {
-                throw new ObjectDisposedException( "Cannot access already disposed object." );
+                throw new ObjectDisposedException("Cannot access already disposed object.");
             }
         }
 
@@ -251,17 +254,17 @@ namespace AForge.Video.Kinect
         /// 
         /// <exception cref="DeviceErrorException">Some error occurred with the device. Check error message.</exception>
         /// 
-        public void SetLedColor( LedColorOption ledColor )
+        public void SetLedColor(LedColorOption ledColor)
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckDevice( );
+                CheckDevice();
 
-                int result = KinectNative.freenect_set_led( rawDevice, ledColor );
+                int result = KinectNative.freenect_set_led(rawDevice, ledColor);
 
-                if ( result != 0 )
+                if (result != 0)
                 {
-                    throw new DeviceErrorException( "Failed setting LED color to " + ledColor + ". Error code: " + result );
+                    throw new DeviceErrorException("Failed setting LED color to " + ledColor + ". Error code: " + result);
                 }
             }
         }
@@ -275,22 +278,22 @@ namespace AForge.Video.Kinect
         /// <exception cref="ArgumentOutOfRangeException">Motor tilt has to be in the [-31, 31] range.</exception>
         /// <exception cref="DeviceErrorException">Some error occurred with the device. Check error message.</exception>
         ///
-        public void SetMotorTilt( int angle )
+        public void SetMotorTilt(int angle)
         {
-            lock ( sync )
+            lock (sync)
             {
-                CheckDevice( );
+                CheckDevice();
 
                 // check if value is in valid range
-                if ( ( angle < -31 ) || ( angle > 31 ) )
+                if ((angle < -31) || (angle > 31))
                 {
-                    throw new ArgumentOutOfRangeException( "angle", "Motor tilt has to be in the [-31, 31] range." );
+                    throw new ArgumentOutOfRangeException("angle", "Motor tilt has to be in the [-31, 31] range.");
                 }
 
-                int result = KinectNative.freenect_set_tilt_degs( rawDevice, angle );
-                if ( result != 0 )
+                int result = KinectNative.freenect_set_tilt_degs(rawDevice, angle);
+                if (result != 0)
                 {
-                    throw new DeviceErrorException( "Failed setting motor tilt. Error code: " + result );
+                    throw new DeviceErrorException("Failed setting motor tilt. Error code: " + result);
                 }
             }
         }
@@ -309,19 +312,19 @@ namespace AForge.Video.Kinect
         /// <remarks><para>Units of all 3 values are m/s<sup>2</sup>. The <b>g</b> value used
         /// for calculations is taken as 9.80665 m/s<sup>2</sup>.</para></remarks>
         /// 
-        public void GetAccelerometerValues( out double x, out double y, out double z )
+        public void GetAccelerometerValues(out double x, out double y, out double z)
         {
-            KinectNative.TiltState tiltState = new KinectNative.TiltState( );
+            KinectNative.TiltState tiltState = new KinectNative.TiltState();
 
-            lock ( sync )
+            lock (sync)
             {
-                CheckDevice( );
+                CheckDevice();
                 tiltState = openDevices[deviceID].TiltState;
             }
 
-            x = (double) tiltState.AccelerometerX / CountsPerGravity * Gravity;
-            y = (double) tiltState.AccelerometerY / CountsPerGravity * Gravity;
-            z = (double) tiltState.AccelerometerZ / CountsPerGravity * Gravity;
+            x = (double)tiltState.AccelerometerX / CountsPerGravity * Gravity;
+            y = (double)tiltState.AccelerometerY / CountsPerGravity * Gravity;
+            z = (double)tiltState.AccelerometerZ / CountsPerGravity * Gravity;
         }
 
         /// <summary>
@@ -334,9 +337,9 @@ namespace AForge.Video.Kinect
         /// by calling its appropriate constructor. Use <see cref="KinectVideoCamera.Start"/> method
         /// to start the video then.</para></remarks>
         /// 
-        public KinectVideoCamera GetVideoCamera( )
+        public KinectVideoCamera GetVideoCamera()
         {
-            return new KinectVideoCamera( deviceID );
+            return new KinectVideoCamera(deviceID);
         }
 
         /// <summary>
@@ -349,100 +352,100 @@ namespace AForge.Video.Kinect
         /// by calling its appropriate constructor. Use <see cref="KinectDepthCamera.Start"/> method
         /// to start the video then.</para></remarks>
         /// 
-        public KinectDepthCamera GetDepthCamera( )
+        public KinectDepthCamera GetDepthCamera()
         {
-            return new KinectDepthCamera( deviceID );
+            return new KinectDepthCamera(deviceID);
         }
 
         #region Kinect Status Thread
 
-        private static object statusThreadSync = new object( );
+        private static object statusThreadSync = new object();
 
         // Start status thread to handle freenect's events
-        private static void StartStatusThread( )
+        private static void StartStatusThread()
         {
-            lock ( statusThreadSync )
+            lock (statusThreadSync)
             {
-                stopEvent = new ManualResetEvent( false );
-                updateStatusThread = new Thread( KinectStatusThread );
+                stopEvent = new ManualResetEvent(false);
+                updateStatusThread = new Thread(KinectStatusThread);
                 updateStatusThread.IsBackground = true;
-                updateStatusThread.Start( );
+                updateStatusThread.Start();
             }
         }
 
         // Stop the status thread
-        private static void StopStatusThread( )
+        private static void StopStatusThread()
         {
-            lock ( statusThreadSync )
+            lock (statusThreadSync)
             {
-                stopEvent.Set( );
-                if ( !updateStatusThread.Join( 2000 ) )
+                stopEvent.Set();
+                if (!updateStatusThread.Join(2000))
                 {
-                    updateStatusThread.Abort( );
+                    updateStatusThread.Abort();
                 }
 
-                stopEvent.Close( );
+                stopEvent.Close();
                 updateStatusThread = null;
                 stopEvent = null;
             }
         }
 
         // Kinect's status thread to process freenect's events
-        private static void KinectStatusThread( )
+        private static void KinectStatusThread()
         {
-            while ( !stopEvent.WaitOne( 100, false ) )
+            while (!stopEvent.WaitOne(100, false))
             {
-                lock ( openDevices )
+                lock (openDevices)
                 {
-                    if ( openDevices.Count != 0 )
+                    if (openDevices.Count != 0)
                     {
                         // update the status for each open device
-                        foreach ( DeviceContext deviceContext in openDevices.Values )
+                        foreach (DeviceContext deviceContext in openDevices.Values)
                         {
-                            if ( deviceContext.DeviceFailed )
+                            if (deviceContext.DeviceFailed)
                             {
                                 continue;
                             }
 
-                            if ( KinectNative.freenect_update_tilt_state( deviceContext.Device ) < 0 )
+                            if (KinectNative.freenect_update_tilt_state(deviceContext.Device) < 0)
                             {
                                 deviceContext.DeviceFailed = true;
-                                deviceContext.FireFailureHandlers( );
+                                deviceContext.FireFailureHandlers();
                             }
                             else
                             {
                                 // get updated device status
-                                IntPtr ptr = KinectNative.freenect_get_tilt_state( deviceContext.Device );
+                                IntPtr ptr = KinectNative.freenect_get_tilt_state(deviceContext.Device);
                                 deviceContext.TiltState = (KinectNative.TiltState)
-                                    System.Runtime.InteropServices.Marshal.PtrToStructure( ptr, typeof( KinectNative.TiltState ) );
+                                    System.Runtime.InteropServices.Marshal.PtrToStructure(ptr, typeof(KinectNative.TiltState));
                             }
                         }
                     }
                 }
 
                 // let the kinect library handle any pending stuff on the usb stream
-                KinectNative.freenect_process_events_timeout0( KinectNative.Context );
+                KinectNative.freenect_process_events_timeout0(KinectNative.Context);
             }
         }
 
-        private void Kinect_OnError( IntPtr device )
+        private void Kinect_OnError(IntPtr device)
         {
-            if ( device == rawDevice )
+            if (device == rawDevice)
             {
-                Console.WriteLine( "Error is detected in device : " + deviceID );
+                Console.WriteLine("Error is detected in device : " + deviceID);
             }
         }
 
-        internal bool IsDeviceFailed( int deviceID )
+        internal bool IsDeviceFailed(int deviceID)
         {
-            return ( ( openDevices.ContainsKey( deviceID ) ) && ( openDevices[deviceID].DeviceFailed ) );
+            return ((openDevices.ContainsKey(deviceID)) && (openDevices[deviceID].DeviceFailed));
         }
 
-        internal void AddFailureHandler( int deviceID, DeviceFailureHandler handler )
+        internal void AddFailureHandler(int deviceID, DeviceFailureHandler handler)
         {
-            if ( openDevices.ContainsKey( deviceID ) )
+            if (openDevices.ContainsKey(deviceID))
             {
-                openDevices[deviceID].AddFailureHandler( handler );
+                openDevices[deviceID].AddFailureHandler(handler);
             }
         }
         #endregion

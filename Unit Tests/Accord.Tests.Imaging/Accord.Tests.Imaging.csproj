@@ -166,6 +166,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\noise-line.png" />
+    <None Include="Resources\blend_net35.png" />
+    <None Include="Resources\blend_net45.png" />
     <Content Include="Resources\SURF\surf-bug-1.bmp" />
     <None Include="Resources\wiki-flower.png" />
     <None Include="Resources\tt4.png" />
@@ -185,7 +187,6 @@
     <None Include="Resources\lena_color.jpg" />
     <None Include="Resources\PICT0107a.jpg" />
     <None Include="Resources\PICT0108a.jpg" />
-    <Content Include="Resources\blend-result.png" />
     <Content Include="Resources\Expected\variance_color_expected.png" />
     <Content Include="Resources\SURF\flower01.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -87,11 +87,16 @@ namespace Accord.Tests.Imaging
             // Show on screen
             // ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
 
-            // result.Save(@"..\Resources\blend-result.png", ImageFormat.Png);
+            //result.Save(@"C:\Projects\Accord.NET\net35.png", ImageFormat.Png);
 
+#if NET35
+            Bitmap image = Properties.Resources.blend_net35;
+#else
+            Bitmap image = Properties.Resources.blend_net45;
+#endif
 
 #pragma warning disable 618
-            double[,] expected = Properties.Resources.blend_result.ToDoubleMatrix(0);
+            double[,] expected = image.ToDoubleMatrix(0);
             double[,] actual = result.ToDoubleMatrix(0);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.1));
 #pragma warning restore 618

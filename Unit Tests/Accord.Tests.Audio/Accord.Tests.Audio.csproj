@@ -64,7 +64,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComplexSignalTest.cs" />
@@ -106,6 +106,10 @@
     <ProjectReference Include="..\..\Sources\Accord.Controls.Statistics\Accord.Controls.csproj">
       <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
       <Name>Accord.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
+      <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+      <Name>Accord.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>

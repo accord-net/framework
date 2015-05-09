@@ -73,9 +73,19 @@ namespace Accord.Tests.Imaging.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap blend_result {
+        internal static System.Drawing.Bitmap blend_net35 {
             get {
-                object obj = ResourceManager.GetObject("blend_result", resourceCulture);
+                object obj = ResourceManager.GetObject("blend_net35", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap blend_net45 {
+            get {
+                object obj = ResourceManager.GetObject("blend_net45", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
