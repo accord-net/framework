@@ -95,7 +95,8 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
     /// <code>
     ///   // Create a new codification codebook to 
     ///   // convert strings into integer symbols
-    ///   Codification codebook = new Codification(data);
+    ///   Codification codebook = new Codification(data,
+    ///     "Outlook", "Temperature", "Humidity", "Wind", "PlayTennis");
     ///   
     ///   // Translate our training data into integer symbols using our codebook:
     ///   DataTable symbols = codebook.Apply(data); 
