@@ -119,6 +119,9 @@
     <Compile Include="Collections\RedBlackTree`1.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accord.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Accord.snk" />
     <None Include="Accord.Core.cd" />
     <None Include="Properties\VersionInfo.tt">
