@@ -46,7 +46,7 @@ using AForge;
 using AForge.Controls;
 using AForge.Neuro;
 
-namespace Samples.Rprop
+namespace SampleApp
 {
     public class XorProblem : System.Windows.Forms.Form
     {
@@ -86,12 +86,8 @@ namespace Samples.Rprop
         private volatile bool needToStop = false;
 
 
-        // Constructor
         public XorProblem()
         {
-            //
-            // Required for Windows Form Designer support
-            //
             InitializeComponent();
 
             // update controls

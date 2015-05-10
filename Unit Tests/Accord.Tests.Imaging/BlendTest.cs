@@ -26,16 +26,17 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Filters;
     using Accord.Math;
     using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.IO;
 
 
-    [TestClass]
+    [TestFixture]
     public class BlendTest
     {
 
-        [TestMethod]
+        [Test]
         public void Panorama_Example1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -65,14 +66,14 @@ namespace Accord.Tests.Imaging
             var ransac = new RansacHomographyEstimator(0.001, 0.99);
             MatrixH homographyMatrix = ransac.Estimate(matches);
 
-            Assert.AreEqual(1.13583624f, homographyMatrix.Elements[0], 1e-5);
-            Assert.AreEqual(-0.0229569562f, homographyMatrix.Elements[1], 1e-5);
-            Assert.AreEqual(-255.243988f, homographyMatrix.Elements[2], 1e-2);
-            Assert.AreEqual(0.080111593f, homographyMatrix.Elements[3], 1e-5);
-            Assert.AreEqual(1.11404252f, homographyMatrix.Elements[4], 1e-5);
-            Assert.AreEqual(-167.362167f, homographyMatrix.Elements[5], 1e-2);
-            Assert.AreEqual(0.00011207442f, homographyMatrix.Elements[6], 1e-5);
-            Assert.AreEqual(0.0000529394056f, homographyMatrix.Elements[7], 1e-5);
+            Assert.AreEqual(1.15707409, homographyMatrix.Elements[0], 1e-5);
+            Assert.AreEqual(-0.0233834628, homographyMatrix.Elements[1], 1e-5);
+            Assert.AreEqual(-261.8217, homographyMatrix.Elements[2], 1e-2);
+            Assert.AreEqual(0.08801343, homographyMatrix.Elements[3], 1e-5);
+            Assert.AreEqual(1.12451434, homographyMatrix.Elements[4], 1e-5);
+            Assert.AreEqual(-171.191208, homographyMatrix.Elements[5], 1e-2);
+            Assert.AreEqual(0.000127789128, homographyMatrix.Elements[6], 1e-5);
+            Assert.AreEqual(0.00006173445, homographyMatrix.Elements[7], 1e-5);
             Assert.AreEqual(8, homographyMatrix.Elements.Length);
 
 
@@ -86,15 +87,23 @@ namespace Accord.Tests.Imaging
             // Show on screen
             // ImageBox.Show(result, PictureBoxSizeMode.Zoom, 640, 480);
 
+            //result.Save(@"C:\Projects\Accord.NET\net35.png", ImageFormat.Png);
+
+#if NET35
+            Bitmap image = Properties.Resources.blend_net35;
+#else
+            Bitmap image = Properties.Resources.blend_net45;
+#endif
+
 #pragma warning disable 618
-            double[,] expected = Properties.Resources.blend_result.ToDoubleMatrix(0);
+            double[,] expected = image.ToDoubleMatrix(0);
             double[,] actual = result.ToDoubleMatrix(0);
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.1));
 #pragma warning restore 618
         }
 
 
-        [TestMethod]
+        [Test]
         public void ApplyTest()
         {
             var img1 = Properties.Resources.image2;
@@ -126,7 +135,7 @@ namespace Accord.Tests.Imaging
             // ImageBox.Show(img3, PictureBoxSizeMode.Zoom);
         }
 
-        [TestMethod]
+        [Test]
         public void ApplyTest2()
         {
             var img1 = Properties.Resources.image2;

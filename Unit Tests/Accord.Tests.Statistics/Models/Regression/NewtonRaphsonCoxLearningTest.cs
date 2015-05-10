@@ -27,10 +27,10 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions.Fitting;
 
-    [TestClass()]
+    [TestFixture]
     public class NewtonRaphsonCoxLearningTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
@@ -111,7 +111,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
@@ -163,7 +163,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest3()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
@@ -207,7 +207,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(regression.StandardErrors[0]));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest4()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
@@ -251,7 +251,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(regression.StandardErrors[0]));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest5()
         {
             double[,] inputs =
@@ -294,7 +294,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void PredictTest1()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
@@ -344,7 +344,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void BaselineHazardTest()
         {
             double[,] data = 

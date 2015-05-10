@@ -24,14 +24,14 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Controls;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class HistogramBoxText
     {
 
      
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void HistogramBox_ShowTest1()
         {
             // Generate some normally distributed samples

@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics.Models.Fields
 {
     using Accord.Statistics.Models.Fields.Features;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Tests.Statistics.Models.Fields;
 
-    [TestClass()]
+    [TestFixture]
     public class InitialFeatureTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             var hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
@@ -96,7 +96,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             var hmm = MarkovContinuousFunctionTest.CreateModel1();
@@ -143,7 +143,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             var hmm = MultivariateMarkovFunctionTest.CreateModel1();

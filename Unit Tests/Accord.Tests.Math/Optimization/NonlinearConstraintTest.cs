@@ -24,10 +24,10 @@ namespace Accord.Tests.Math
 {
     using System;
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class NonlinearConstraintTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest6()
         {
             var constraints = new[]
@@ -82,7 +82,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod]
+        [Test]
         public void GetViolationTest1()
         {
             NonlinearConstraint[] targets =
@@ -112,7 +112,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod]
+        [Test]
         public void GetViolationTest2()
         {
             NonlinearConstraint[] targets =

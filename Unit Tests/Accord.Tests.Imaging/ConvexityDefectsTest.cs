@@ -27,13 +27,13 @@ using Accord.Math.Geometry;
 using AForge;
 using AForge.Imaging;
 using AForge.Math.Geometry;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Accord.Tests.Imaging
 {
 
 
-    [TestClass()]
+    [TestFixture]
     public class ConvexityDefectsTest
     {
 
@@ -54,7 +54,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void FindDefectsTest()
         {
 

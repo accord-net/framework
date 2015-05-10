@@ -29,7 +29,7 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>..\..\..\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Debug\Noncommercial\</OutputPath>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
@@ -38,37 +38,29 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>..\..\..\Release\net35\Noncommercial\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net35\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <DocumentationFile>..\..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net35\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>..\..\..\Release\net40\Noncommercial\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net40\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>..\..\..\Release\net40\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\..\Release\net40\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net40\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>..\..\..\Release\net45\Noncommercial\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net45\Noncommercial\</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
-    <Reference Include="AForge">
-      <HintPath>..\..\..\Externals\AForge.NET\AForge.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />

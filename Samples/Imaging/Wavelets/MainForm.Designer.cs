@@ -1,4 +1,4 @@
-﻿namespace Wavelets
+﻿namespace SampleApp
 {
     partial class MainForm
     {

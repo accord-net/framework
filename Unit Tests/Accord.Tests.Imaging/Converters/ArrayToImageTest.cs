@@ -25,9 +25,9 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using Accord.Imaging.Converters;
     using AForge.Imaging.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ArrayToImageTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ArrayToImageConstructorTest()
         {
             int height = 16;
@@ -60,7 +60,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest1()
         {
 
@@ -107,7 +107,7 @@ namespace Accord.Tests.Imaging
                 Assert.AreEqual(actual[i], expected[i]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest2()
         {
             // Create an array representation 
@@ -138,7 +138,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(320, image.Width);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest3()
         {
             // Create an array representation 
@@ -169,7 +169,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(320, image.Width);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest4()
         {
             // Create an array representation 

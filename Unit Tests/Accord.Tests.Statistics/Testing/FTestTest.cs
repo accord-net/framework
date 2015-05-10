@@ -3,10 +3,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class FTestTest
     {
 
@@ -27,7 +27,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FTestConstructorTest()
         {
             double var1 = 1.05766555271071;
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(twoTail.PValue));
         }
 
-        [TestMethod()]
+        [Test]
         public void FTestConstructorTest2()
         {
             // The following example has been based on the page "F-Test for Equality 

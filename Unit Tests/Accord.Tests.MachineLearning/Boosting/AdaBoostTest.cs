@@ -28,10 +28,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class AdaBoostTest
     {
 
@@ -53,7 +53,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             double[][] inputs =
@@ -108,7 +108,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(outputs[i], actual[i]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             double[][] inputs = LeastSquaresLearningTest.yinyang.GetColumns(0, 1).ToArray();

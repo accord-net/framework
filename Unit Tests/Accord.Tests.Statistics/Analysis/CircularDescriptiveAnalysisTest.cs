@@ -27,9 +27,9 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics;
     using Accord.Statistics.Analysis;
     using AForge;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class CircularDescriptiveAnalysisTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisConstructorTest1()
         {
             double[,] data =
@@ -77,7 +77,7 @@ namespace Accord.Tests.Statistics
             test(analysis);
         }
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisConstructor_NoCompute()
         {
             double[,] data =
@@ -201,7 +201,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysis_InPlaceRow()
         {
             double[,] data =
@@ -363,7 +363,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void DataBindTest()
         {
             double[,] data =

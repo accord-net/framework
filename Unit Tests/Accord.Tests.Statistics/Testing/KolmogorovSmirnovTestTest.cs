@@ -25,10 +25,10 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions;
 
-    [TestClass()]
+    [TestFixture]
     public class KolmogorovSmirnovTestTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void KolmogorovSmirnovTestConstructorTest()
         {
             // Test against a standard Uniform distribution
@@ -96,7 +96,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(kstest.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void KolmogorovSmirnovTestConstructorTest2()
         {
             // Test against a Normal distribution
@@ -141,7 +141,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(kstest.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void KolmogorovSmirnovTestConstructorTest3()
         {
             // Test if the sample's distribution is greater than a standard Normal distribution.
@@ -161,7 +161,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(target.Statistic));
         }
 
-        [TestMethod()]
+        [Test]
         public void KolmogorovSmirnovTestConstructorTest4()
         {
             // Test if the sample's distribution is smaller than a standard Normal distribution
@@ -181,7 +181,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(target.Statistic));
         }
 
-        [TestMethod()]
+        [Test]
         public void EmpiricalDistributionTest()
         {
             double[] sample = { 1, 5, 3, 1, 5, 2, 1 };
@@ -199,7 +199,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(sample[i], actual.Samples[i]);
         }
 
-        [TestMethod()]
+        [Test]
         public void TheoreticalDistributionTest()
         {
             double[] sample = { 1, 5, 3, 1, 5, 2, 1 };

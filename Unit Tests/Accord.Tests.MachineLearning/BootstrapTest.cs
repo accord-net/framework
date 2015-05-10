@@ -23,7 +23,7 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
     using Accord.Statistics;
@@ -32,7 +32,7 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
 
 
-    [TestClass()]
+    [TestFixture]
     public class BootstrapTest
     {
 
@@ -54,7 +54,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void BootstrapConstructorTest()
         {
             // Example from Masters, 1995
@@ -76,7 +76,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(5, target.Subsamples[i].Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void BootstrapConstructorTest2()
         {
             // Example from Masters, 1995
@@ -111,7 +111,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.04, actualVar, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void BootstrapConstructorTest3()
         {
 

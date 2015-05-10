@@ -24,9 +24,9 @@ namespace Accord.Tests.Math
 {
     using System;
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class CobylaTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest1()
         {
             Func<double[], double> function = // min f(x) = 10 * (x+1)^2 + y^2
@@ -68,7 +68,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest2()
         {
             var function = new NonlinearObjectiveFunction(2, x => x[0] * x[1]);
@@ -98,7 +98,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest2_1()
         {
             var function = new NonlinearObjectiveFunction(2, x => x[0] * x[1]);
@@ -129,7 +129,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest2_2()
         {
             var function = new NonlinearObjectiveFunction(2, x => x[0] * x[1]);
@@ -157,7 +157,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(-sqrthalf, solution[1], 1e-5);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest3()
         {
             // Easy three dimensional minimization in ellipsoid.
@@ -193,7 +193,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest4()
         {
             // Weak version of Rosenbrock's problem.
@@ -214,7 +214,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest5()
         {
             // Intermediate version of Rosenbrock's problem.
@@ -235,7 +235,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest6()
         {
             // This problem is taken from Fletcher's book Practical Methods of
@@ -263,7 +263,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest6_0()
         {
             // This problem is taken from Fletcher's book Practical Methods of
@@ -293,7 +293,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest6_1()
         {
             /// This problem is taken from Fletcher's book Practical Methods of
@@ -321,7 +321,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest6_2()
         {
             /// This problem is taken from Fletcher's book Practical Methods of
@@ -349,7 +349,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest6_3()
         {
             bool thrown = false;
@@ -377,7 +377,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest7()
         {
             /// This problem is taken from Fletcher's book Practical Methods of
@@ -406,7 +406,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest8()
         {
             /// This problem is taken from page 66 of Hock and Schittkowski's book Test
@@ -448,7 +448,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest9()
         {
             /// This problem is taken from page 111 of Hock and Schittkowski's
@@ -489,7 +489,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest10()
         {
             /// This problem is taken from page 415 of Luenberger's book Applied

@@ -26,14 +26,14 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class DynamicalTimeWarpingTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void DynamicalTimeWarpingConstructorTest()
         {
             double[][] sequences = 
@@ -115,7 +115,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(+1, System.Math.Sign(a4));
         }
 
-        [TestMethod()]
+        [Test]
         public void GaussianDynamicalTimeWarpingConstructorTest()
         {
             double[][] sequences = 
@@ -195,7 +195,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(+1, System.Math.Sign(a4));
         }
 
-        [TestMethod()]
+        [Test]
         public void DynamicalTimeWarpingConstructorTest2()
         {
             // Declare some testing data
@@ -253,7 +253,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(+1,System.Math.Sign(svm.Compute(new double[] { 1, 1, 0, 0, 1, 1 })));
         }
 
-        [TestMethod()]
+        [Test]
         public void DynamicalTimeWarpingConstructorTest3()
         {
             // Suppose you have sequences of multivariate observations, and that
@@ -366,7 +366,7 @@ namespace Accord.Tests.MachineLearning
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GaussianDynamicalTimeWarpingConstructorTest3()
         {
             // Suppose you have sequences of multivariate observations, and that

@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Data;
     using Accord.Math;
     using Accord.Statistics;
 
-    [TestClass()]
+    [TestFixture]
     public class WilcoxonSignedRankTestTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void WilcoxonSignedRankTestConstructorTest()
         {
             double[] sample = { 17, 50, 45, 59.8, 21.74, 16, 9, 15.43, 5.12, 40, 35, 13.35, 13.4 };
@@ -72,7 +72,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void WilcoxonSignedRankTestConstructorTest2()
         {
             // Example from https://onlinecourses.science.psu.edu/stat414/node/319
@@ -94,7 +94,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void WilcoxonSignedRankTestConstructorTest3()
         {
             // Example from https://onlinecourses.science.psu.edu/stat414/node/319
@@ -118,7 +118,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             // This example has been adapted from the Wikipedia's page about

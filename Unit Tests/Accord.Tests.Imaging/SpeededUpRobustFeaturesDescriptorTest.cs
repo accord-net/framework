@@ -28,9 +28,9 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Math;
     using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SpeededUpRobustFeaturesDescriptorTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest()
         {
             Bitmap[] bitmaps = 

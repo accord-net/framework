@@ -21,7 +21,7 @@
 //
 
 using Accord.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Accord.Math;
 using System.Drawing;
 
@@ -36,7 +36,7 @@ namespace Accord.Tests.Imaging
 {
 
 
-    [TestClass()]
+    [TestFixture]
     public class ToolsTest
     {
 
@@ -57,7 +57,7 @@ namespace Accord.Tests.Imaging
 #pragma warning disable 0618
 
 
-        [TestMethod()]
+        [Test]
         public void NormalizeTest()
         {
             PointH[] points = new PointH[] 
@@ -97,7 +97,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void MultiplyTest()
         {
             MatrixH matrix = new MatrixH(Matrix.Identity(3));
@@ -132,7 +132,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ColinearTest()
         {
             bool actual;
@@ -156,7 +156,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void HomographyTest()
         {
             PointH[] x1 = 
@@ -223,7 +223,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void HomographyTestF()
         {
             PointF[] x1 = 
@@ -291,7 +291,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ToDoubleArrayTest()
         {
             Bitmap image = Properties.Resources.image1;
@@ -311,7 +311,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ColinearTest1()
         {
             bool actual;
@@ -333,7 +333,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(false, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void SumTest()
         {
             Bitmap image = Properties.Resources.image1;
@@ -348,7 +348,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void SumTest1()
         {
             Bitmap image = Properties.Resources.image2;
@@ -369,7 +369,7 @@ namespace Accord.Tests.Imaging
             image.UnlockBits(data);
         }
 
-        [TestMethod()]
+        [Test]
         public void SumTest2()
         {
             Bitmap image = Properties.Resources.image2;
@@ -385,7 +385,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ToBitmapTest1()
         {
             double[][] pixels = 
@@ -422,7 +422,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ToBitmapTest()
         {
             double[] array = 
@@ -446,7 +446,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MeanTest()
         {
             Bitmap image = new byte[,]
@@ -470,7 +470,7 @@ namespace Accord.Tests.Imaging
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MeanTest2()
         {
             // Test for 16 bpp images
@@ -496,7 +496,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MeanTest3()
         {
             UnmanagedImage image = UnmanagedImage.FromManagedImage(new byte[,]
@@ -522,7 +522,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void StandardDeviationTest()
         {
             double[] values = { 5, 2, 7, 5, 3, 5, 1, 1, 2 };
@@ -534,7 +534,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void StandardDeviationTest2()
         {
             short[,] values =
@@ -551,7 +551,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void StandardDeviationTest3()
         {
             short[,] values =
@@ -572,7 +572,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void MaxTest2()
         {
             Bitmap image = new byte[,]
@@ -595,7 +595,7 @@ namespace Accord.Tests.Imaging
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MinTest2()
         {
             Bitmap image = new byte[,]

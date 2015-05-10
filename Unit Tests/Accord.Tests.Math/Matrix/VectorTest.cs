@@ -23,13 +23,13 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public partial class VectorTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ExpandTest()
         {
             var v = Vector.Create<int>(5);

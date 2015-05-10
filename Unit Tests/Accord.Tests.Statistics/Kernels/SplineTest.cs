@@ -21,7 +21,7 @@
 //
 
 using Accord.Statistics.Kernels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 namespace Accord.Tests.Statistics
 {
     
@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics
     ///This is a test class for SplineTest and is intended
     ///to contain all SplineTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class SplineTest
     {
 
@@ -54,7 +54,7 @@ namespace Accord.Tests.Statistics
         }
 
        
-        [TestMethod()]
+        [Test]
         public void KernelTest()
         {
             Spline target = new Spline();

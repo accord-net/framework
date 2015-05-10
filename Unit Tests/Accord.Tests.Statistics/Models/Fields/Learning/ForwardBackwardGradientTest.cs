@@ -28,12 +28,12 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Fields.Learning;
     using Accord.Statistics.Models.Markov;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Markov.Topology;
 
-    [TestClass()]
+    [TestFixture]
     public class ForwardBackwardLearningTest
     {
 
@@ -56,7 +56,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
         #region Discrete
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_DiscreteMarkov()
         {
             var function = new MarkovDiscreteFunction(2, 2, 2);
@@ -82,7 +82,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_DiscreteMarkov2()
         {
             HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
@@ -110,7 +110,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_DiscreteMarkov3()
         {
             HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
@@ -146,7 +146,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
         #region Markov Independent
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_MarkovIndependent()
         {
             double[][][] observations;
@@ -180,7 +180,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_MarkovIndependentNormal_Priors()
         {
             double[][][] observations;
@@ -214,7 +214,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_MarkovIndependentNormal_NoPriors()
         {
             double[][][] observations;
@@ -250,7 +250,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
         #endregion
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_MarkovMultivariate()
         {
             // Creates a sequence classifier containing 2 hidden Markov Models
@@ -291,7 +291,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_MarkovMultivariate2()
         {
             var hmm = MultivariateMarkovFunctionTest.CreateModel1();
@@ -319,7 +319,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_MarkovMultivariate3()
         {
             var hmm = MultivariateMarkovFunctionTest.CreateModel1();
@@ -355,7 +355,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_MarkovNormal()
         {
             var hmm = MarkovContinuousFunctionTest.CreateModel1();
@@ -384,7 +384,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientTest_MarkovNormal_Regularization()
         {
             var hmm = MarkovContinuousFunctionTest.CreateModel1();

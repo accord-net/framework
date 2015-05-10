@@ -25,15 +25,15 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Filters;
     using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
 
-    [TestClass()]
+    [TestFixture]
     public class FastRetinaKeypointDetectorTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ExampleTest()
         {
             Bitmap lena = Resources.lena512;
@@ -83,7 +83,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual("3W8M/ev///ffbr/+v3f34vz//7X+f0609v//+++/1+jfq/e83/X5/+6ft3//b4uaPZf7ePb3n/P93/rIbZlf+g==", b64);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest()
         {
             Bitmap lena = Properties.Resources.lena512;
@@ -149,7 +149,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual("ddbf7bf8ef7effffffdfdeffff76f976efdf7f777fcdc9d7fedffffdff6fb7fb7fad3ba8feb9f1efceffbf5fffef2aeefcb5fdd8f7df9ff7fdefffc87d597fea", code);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest2()
         {
             Bitmap lena = Properties.Resources.lena512;

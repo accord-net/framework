@@ -46,7 +46,7 @@ using Accord.Statistics.Analysis;
 using AForge.Neuro;
 using ZedGraph;
 
-namespace Classification.ANNs
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

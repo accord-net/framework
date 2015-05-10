@@ -28,14 +28,14 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.Statistics.Running;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class RunningMarkovModelTest
     {
 
-        [TestMethod()]
+        [Test]
         public void PushTest()
         {
             var hmm = createModel();
@@ -79,7 +79,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void PeekTest()
         {
             var hmm = createModel();

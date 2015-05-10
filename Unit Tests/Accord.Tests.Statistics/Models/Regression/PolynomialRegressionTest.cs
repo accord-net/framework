@@ -23,9 +23,9 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Regression.Linear;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class PolynomialRegressionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void PolynomialRegressionRegressTest()
         {
             double[] inputs = { 15.2, 229.7, 3500 };
@@ -66,7 +66,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected[2], actual[2], 000.1);
         }
 
-        [TestMethod()]
+        [Test]
         public void ToStringTest()
         {
             // Issue 51:

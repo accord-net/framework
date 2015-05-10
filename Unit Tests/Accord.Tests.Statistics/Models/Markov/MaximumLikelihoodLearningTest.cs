@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Markov.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Filters;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class MaximumLikelihoodLearningTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             // Example from

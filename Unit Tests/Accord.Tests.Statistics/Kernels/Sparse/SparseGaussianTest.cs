@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class SparseGaussianTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Gaussian dense = new Gaussian(3.6);
@@ -77,7 +77,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistanceTest()
         {
             Gaussian dense = new Gaussian(3.6);

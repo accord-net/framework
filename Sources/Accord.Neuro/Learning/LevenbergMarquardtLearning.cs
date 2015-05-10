@@ -387,6 +387,15 @@ namespace Accord.Neuro.Learning
         }
 
         /// <summary>
+        ///   Gets the Jacobian matrix created in the last iteration.
+        /// </summary>
+        /// 
+        public float[][] Jacobian
+        {
+            get { return jacobian; }
+        }
+
+        /// <summary>
         ///   Gets the gradient vector computed in the last iteration.
         /// </summary>
         /// 

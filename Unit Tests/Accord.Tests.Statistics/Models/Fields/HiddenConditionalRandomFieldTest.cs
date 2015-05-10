@@ -32,15 +32,15 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class HiddenConditionalRandomFieldTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void HiddenConditionalRandomFieldConstructorTest()
         {
             HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
@@ -52,7 +52,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.AreEqual(2, target.Function.Factors[0].States);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
@@ -105,7 +105,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void SimpleGestureRecognitionTest()
         {
             // Let's say we would like to do a very simple mechanism for
@@ -289,7 +289,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void NumberOfFeaturesTest()
         {
             Independent initial = new Independent(
@@ -325,7 +325,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.AreEqual(4173, expected);
         }
 
-        [TestMethod()]
+        [Test]
         public void SaveLoadTest()
         {
             double[][] hello =

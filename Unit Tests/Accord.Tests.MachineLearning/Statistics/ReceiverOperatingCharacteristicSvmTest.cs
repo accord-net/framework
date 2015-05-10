@@ -25,13 +25,13 @@ namespace Accord.Tests.Statistics
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ReceiverOperatingCharacteristicSvmTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ReceiverOperatingCharacteristicConstructorTest3()
         {
             // This example shows how to measure the accuracy of a 

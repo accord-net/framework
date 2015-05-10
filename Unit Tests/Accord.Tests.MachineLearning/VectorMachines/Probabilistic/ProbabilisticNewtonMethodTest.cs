@@ -26,12 +26,12 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math.Differentiation;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.MachineLearning.VectorMachines;
 
-    [TestClass()]
+    [TestFixture]
     public class ProbabilisticNewtonMethodTest
     {
 
@@ -52,7 +52,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             double[][] input =

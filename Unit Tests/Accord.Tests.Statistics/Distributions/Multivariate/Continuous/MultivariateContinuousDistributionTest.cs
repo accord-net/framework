@@ -23,14 +23,14 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Multivariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions;
     using Accord.Math;
     using System;
     using Accord.Statistics.Distributions.Fitting;
 
 
-    [TestClass()]
+    [TestFixture]
     public class MultivariateContinuousDistributionTest
     {
 
@@ -63,7 +63,7 @@ namespace Accord.Tests.Statistics
             return new MultivariateNormalDistribution(mean, cov);
         }
 
-        [TestMethod()]
+        [Test]
         public void VarianceTest()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution();
@@ -72,7 +72,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void MeanTest()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution();
@@ -81,7 +81,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void DimensionTest()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution();
@@ -90,7 +90,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void CovarianceTest()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution();
@@ -103,7 +103,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution();
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution();
@@ -123,7 +123,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest7()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution();
@@ -159,7 +159,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest6()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution(); // TODO: Initialize to an appropriate value
@@ -191,7 +191,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest5()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution(); // TODO: Initialize to an appropriate value
@@ -236,7 +236,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(false, thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest4()
         {
             MultivariateContinuousDistribution target = CreateMultivariateContinuousDistribution(); // TODO: Initialize to an appropriate value
@@ -279,8 +279,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(false, thrown);
         }
 
-        [TestMethod()]
-        [DeploymentItem("Accord.Statistics.dll")]
+        [Test]
         public void ProbabilityFunctionTest()
         {
             IDistribution target = CreateMultivariateContinuousDistribution();
@@ -291,8 +290,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
-        [DeploymentItem("Accord.Statistics.dll")]
+        [Test]
         public void LogProbabilityFunctionTest()
         {
             IDistribution target = CreateMultivariateContinuousDistribution();
@@ -302,8 +300,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
-        [DeploymentItem("Accord.Statistics.dll")]
+        [Test]
         public void FitTest3()
         {
             IDistribution target = CreateMultivariateContinuousDistribution();
@@ -327,11 +324,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expectedCov.IsEqual(actual.Covariance));
         }
 
-        /// <summary>
-        ///A test for Accord.Statistics.Distributions.IDistribution.Fit
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("Accord.Statistics.dll")]
+        [Test]
         public void FitTest2()
         {
             IDistribution target = CreateMultivariateContinuousDistribution();
@@ -355,15 +348,11 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expectedCov.IsEqual(actual.Covariance));
         }
 
-        /// <summary>
-        ///A test for Accord.Statistics.Distributions.IDistribution.Fit
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("Accord.Statistics.dll")]
+        [Test]
         public void FitTest1()
         {
             IDistribution target = CreateMultivariateContinuousDistribution(); // TODO: Initialize to an appropriate value
-           
+
             Array observations = new double[][]
             {
                 new double[] { 1, 1 },
@@ -404,16 +393,11 @@ namespace Accord.Tests.Statistics
         }
 
 
-
-        /// <summary>
-        ///A test for Accord.Statistics.Distributions.IDistribution.Fit
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("Accord.Statistics.dll")]
+        [Test]
         public void FitTest()
         {
-            IDistribution target = CreateMultivariateContinuousDistribution(); 
-            
+            IDistribution target = CreateMultivariateContinuousDistribution();
+
             double[][] observations = 
             {
                 new double[] { 1, 1 },

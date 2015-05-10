@@ -31,9 +31,9 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.Tests.Statistics.Models.Fields;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class MultivariateNormalQuasiNewtonHiddenLearningTest
     {
 
@@ -79,7 +79,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             var hmm = MultivariateMarkovFunctionTest.CreateModel1();

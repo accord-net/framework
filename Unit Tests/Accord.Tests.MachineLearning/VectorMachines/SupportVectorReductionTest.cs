@@ -26,10 +26,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class SupportVectorReductionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             // Example AND problem

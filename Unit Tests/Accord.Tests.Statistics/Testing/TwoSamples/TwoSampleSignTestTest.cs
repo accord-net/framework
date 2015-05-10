@@ -1,11 +1,11 @@
 ﻿using Accord.Statistics.Testing;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 
 namespace Accord.Tests.Statistics
 {
 
-    [TestClass()]
+    [TestFixture]
     public class TwoSampleSignTestTest
     {
 
@@ -27,7 +27,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void SignTestConstructorTest()
         {
             // Example from http://probabilityandstats.wordpress.com/2010/02/28/the-sign-test-more-examples/
@@ -53,7 +53,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void SignTestConstructorTest2()
         {
             int positives = 9;

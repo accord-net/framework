@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Data;
     using Accord;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class ProjectionFilterTest
     {
 
@@ -62,7 +62,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest()
         {
             DataTable table = CreateTable();

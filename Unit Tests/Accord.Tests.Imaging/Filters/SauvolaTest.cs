@@ -25,15 +25,15 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Drawing;
     using System.Drawing.Imaging;
 
-    [TestClass]
+    [TestFixture]
     public class SauvolaTest
     {
 
-        [TestMethod()]
+        [Test]
         public void SauvolaTest1()
         {
             Bitmap image = Properties.Resources.lena512;
@@ -47,7 +47,7 @@ namespace Accord.Tests.Imaging
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
+        [Test]
         public void SauvolaTest2()
         {
             double[,] diag = Matrix.Magic(5);
@@ -83,7 +83,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(expected.IsEqual(actual, 1e-6));
         }
 
-        [TestMethod]
+        [Test]
         public void SauvolaTest3()
         {
             double[,] diag = Matrix.Magic(5);

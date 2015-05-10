@@ -28,14 +28,14 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class VonMisesFisherDistributionTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             // If p=2 the distribution reduces to the von Mises distribution on the circle.

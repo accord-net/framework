@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Fourier
+namespace SampleApp
 {
 
     internal sealed class Program

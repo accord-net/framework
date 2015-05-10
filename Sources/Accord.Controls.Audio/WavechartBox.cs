@@ -170,8 +170,7 @@ namespace Accord.Controls
 
                     if (complex != null && complex.Status != ComplexSignalStatus.Normal)
                     {
-                        double[] spectrum = Accord.Audio.Tools
-                            .GetPowerSpectrum(complex.GetChannel(channel));
+                        double[] spectrum = Accord.Audio.Tools.GetPowerSpectrum(complex.GetChannel(channel));
                         double[] frequencies = Accord.Audio.Tools.GetFrequencyVector(signal.Length, signal.SampleRate);
 
                         form.series.Add(new LineItem(i.ToString(), frequencies,

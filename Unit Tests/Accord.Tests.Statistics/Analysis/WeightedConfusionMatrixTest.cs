@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class WeightedConfusionMatrixTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void WeightedConfusionMatrixConstructorTest()
         {
             // Sample data from Fleiss, Cohen and Everitt (1968), Large sample standard errors
@@ -79,7 +79,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.004270, target.WeightedVarianceUnderNull, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedConfusionMatrixConstructorTest2()
         {
             double[,] matrix =

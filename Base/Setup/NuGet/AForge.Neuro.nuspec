@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AForge.Neuro</id>
+    <version>2.2.5</version>
+    <title>AForge.Neuro</title>
+    <authors>AForge.NET</authors>
+    <owners>AForge.NET</owners>
+    <licenseUrl>http://www.aforgenet.com/framework/license.html</licenseUrl>
+    <projectUrl>http://www.aforgenet.com/framework/</projectUrl>
+    <iconUrl>http://www.aforgenet.com/img/aforgenet_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The AForge.Neuro library contains classes for artificial neural network computation - feed forwards networks with error back propagation learning and Kohonen self organizing maps. Full list of features is available on the project's web site.</description>
+    <summary>AForge.Neuro library from the AForge.NET framework</summary>
+    <tags>aforge.net framework artificial neural networks</tags>
+    <dependencies>
+      <dependency id="AForge" version="2.2.5" />
+      <dependency id="AForge.Math" version="2.2.5" />
+      <dependency id="AForge.Genetic" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\AForge.Neuro.dll" target="lib\AForge.Neuro.dll" />
+    <file src="..\..\Release\AForge.Neuro.xml" target="lib\AForge.Neuro.xml" />
+  </files>
+</package>

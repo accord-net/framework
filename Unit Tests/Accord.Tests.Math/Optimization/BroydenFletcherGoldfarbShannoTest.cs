@@ -23,16 +23,16 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using AccordTestsMathCpp2;
 
-    [TestClass()]
+    [TestFixture]
     public class BroydenFletcherGoldfarbShannoTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void lbfgsTest()
         {
             Func<double[], double> f = rosenbrockFunction;
@@ -68,7 +68,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0, d[1], 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void lbfgsTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -153,7 +153,7 @@ namespace Accord.Tests.Math
             };
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void NoFunctionTest()
         {
@@ -162,7 +162,7 @@ namespace Accord.Tests.Math
             target.Minimize();
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void NoGradientTest()
         {
@@ -174,7 +174,7 @@ namespace Accord.Tests.Math
             target.Minimize();
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void WrongGradientSizeTest()
         {
@@ -187,7 +187,7 @@ namespace Accord.Tests.Math
             target.Minimize();
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void MutableGradientSizeTest()
         {
@@ -200,7 +200,7 @@ namespace Accord.Tests.Math
             target.Minimize();
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest1()
         {
             Func<double[], double> function = // min f(x) = 10 * (x+1)^2 + y^2
@@ -227,7 +227,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expectedMinimum, minimum);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest2()
         {
             Function function = // min f(x) = 10 * (x+1)^2 + y^2
@@ -255,7 +255,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void lbfgsTest3()
         {
             Accord.Math.Tools.SetupGenerator(0);

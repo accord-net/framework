@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using System.Globalization;
     using Accord.Statistics.Distributions;
 
-    [TestClass()]
+    [TestFixture]
     public class DegenerateDistributionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var dist = new DegenerateDistribution(value: 2);
@@ -107,7 +107,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.0, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest_DoubleIntConversionTest()
         {
             IUnivariateDistribution dist = new DegenerateDistribution(value: 2);

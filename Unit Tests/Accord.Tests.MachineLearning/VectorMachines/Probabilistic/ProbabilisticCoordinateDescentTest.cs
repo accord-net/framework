@@ -27,10 +27,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Models.Regression;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Kernels;
 
-    [TestClass()]
+    [TestFixture]
     public class ProbabilisticCoordinateDescentTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             double[][] input =
@@ -105,7 +105,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
@@ -132,7 +132,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(svm.Threshold, weights[0]);
         }
 
-        [TestMethod()]
+        [Test]
         public void KernelTest1()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
@@ -173,7 +173,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(w1[2], w2[2]);
         }
 
-        [TestMethod()]
+        [Test]
         public void KernelTest2()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;

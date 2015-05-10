@@ -38,12 +38,12 @@ using Accord.Imaging.Filters;
 using Accord.Math;
 using AForge;
 
-namespace Panorama.FREAK
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
-        private Bitmap img1 = Panorama.FREAK.Properties.Resources.UFSCar_Lake1;
-        private Bitmap img2 = Panorama.FREAK.Properties.Resources.UFSCar_Lake2;
+        private Bitmap img1 = SampleApp.Properties.Resources.UFSCar_Lake1;
+        private Bitmap img2 = SampleApp.Properties.Resources.UFSCar_Lake2;
 
         private FastRetinaKeypoint[] keyPoints1;
         private FastRetinaKeypoint[] keyPoints2;

@@ -29,9 +29,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class MulticlassSupportVectorMachineTest
     {
 
@@ -52,7 +52,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void MulticlassSupportVectorMachineConstructorTest()
         {
             int inputs = 1;
@@ -75,7 +75,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MulticlassSupportVectorMachineConstructorTest2()
         {
             int inputs = 1;
@@ -101,7 +101,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreNotEqual(target[1, 2], target[0, 1]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest1()
         {
             double[][] inputs =
@@ -165,7 +165,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i], 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             double[][] input =
@@ -256,7 +256,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i]);
         }
 
-        [TestMethod()]
+        [Test]
         public void SerializeTest1()
         {
             double[][] inputs =
@@ -335,7 +335,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LoadTest1()
         {
             MemoryStream stream = new MemoryStream(Properties.Resources.svm1);
@@ -346,7 +346,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(351, svm.MachinesCount);
         }
 
-        [TestMethod()]
+        [Test]
         public void LoadTest2()
         {
             byte[] blob = Properties.Resources.svm2;

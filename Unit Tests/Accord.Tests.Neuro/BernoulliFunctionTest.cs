@@ -23,13 +23,13 @@
 namespace Accord.Tests.Neuro
 {
     using Accord.Neuro.Networks;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Learning;
     using Accord.Neuro.Layers;
 
-    [TestClass()]
+    [TestFixture]
     public class BernoulliFunctionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Neuro
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Create a Bernoulli function with sigmoid's alpha = 1

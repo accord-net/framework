@@ -27,11 +27,11 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Filters;
     using Accord.Statistics.Distributions.Univariate;
 
-    [TestClass()]
+    [TestFixture]
     public class HiddenMarkovModelTest
     {
 
@@ -52,7 +52,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             HiddenMarkovModel hmm;
@@ -115,7 +115,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.Log(pi).IsEqual(hmm.Probabilities));
         }
 
-        [TestMethod()]
+        [Test]
         public void DecodeTest()
         {
             // Example taken from http://en.wikipedia.org/wiki/Viterbi_algorithm
@@ -167,7 +167,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest4()
         {
 
@@ -205,7 +205,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.001936595918966074, p2, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest()
         {
             HiddenMarkovModel hmm = new HiddenMarkovModel(2, 3);
@@ -282,7 +282,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(pi, hmmP));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest3()
         {
             // We will try to create a Hidden Markov Model which
@@ -343,7 +343,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l2 > l3 && l2 > l4);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest6()
         {
             // We will try to create a Hidden Markov Model which
@@ -404,7 +404,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(l2 > l3 && l2 > l4);
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest_EmptySequence()
         {
 
@@ -440,7 +440,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void PredictTest()
         {
             int[][] sequences = new int[][] 
@@ -500,7 +500,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(ln1, ln2, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void PredictTest2()
         {
             // We will try to create a Hidden Markov Model which
@@ -541,7 +541,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(prediction[0], 3);
         }
 
-        [TestMethod()]
+        [Test]
         public void PredictTest3()
         {
             // We will try to create a Hidden Markov Model which
@@ -604,7 +604,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             // Example taken from http://en.wikipedia.org/wiki/Viterbi_algorithm
@@ -637,7 +637,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, logLikelihood);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             Accord.Math.Tools.SetupGenerator(42);
@@ -690,7 +690,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("words", result[2]);
         }
 
-        [TestMethod()]
+        [Test]
         public void PosteriorTest1()
         {
             // Example from http://ai.stanford.edu/~serafim/CS262_2007/notes/lecture5.pdf

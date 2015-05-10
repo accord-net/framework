@@ -21,7 +21,7 @@
 //
 
 using Accord.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Drawing;
 using AForge;
 using Accord.Math;
@@ -32,28 +32,11 @@ namespace Accord.Tests.Imaging
 {
 
 
-    [TestClass()]
+    [TestFixture]
     public class KNearestNeighborMatchingTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void MatchTest()
         {
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
@@ -76,7 +59,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void MatchTest2()
         {
             FastRetinaKeypointDetector freak = new FastRetinaKeypointDetector();
@@ -102,7 +85,7 @@ namespace Accord.Tests.Imaging
 
         }
 
-        [TestMethod()]
+        [Test]
         public void MatchTest3()
         {
             FastCornersDetector fast = new FastCornersDetector(threshold: 10);
@@ -117,8 +100,8 @@ namespace Accord.Tests.Imaging
             { // direct
                 IntPoint[][] matches = matcher.Match(keyPoints1, keyPoints2);
                 Assert.AreEqual(2, matches.Length);
-                Assert.AreEqual(138, matches[0].Length);
-                Assert.AreEqual(138, matches[1].Length);
+                Assert.AreEqual(143, matches[0].Length);
+                Assert.AreEqual(143, matches[1].Length);
                 Assert.AreEqual(532, matches[0][0].X);
                 Assert.AreEqual(159, matches[0][0].Y);
                 Assert.AreEqual(keyPoints2[0].ToIntPoint(), matches[1][0]);
@@ -127,8 +110,8 @@ namespace Accord.Tests.Imaging
             { // reverse
                 IntPoint[][] matches = matcher.Match(keyPoints2, keyPoints1);
                 Assert.AreEqual(2, matches.Length);
-                Assert.AreEqual(138, matches[0].Length);
-                Assert.AreEqual(138, matches[1].Length);
+                Assert.AreEqual(143, matches[0].Length);
+                Assert.AreEqual(143, matches[1].Length);
                 Assert.AreEqual(keyPoints2[0].ToIntPoint(), matches[0][0]);
                 Assert.AreEqual(532, matches[1][0].X);
                 Assert.AreEqual(159, matches[1][0].Y);

@@ -24,11 +24,11 @@ namespace Accord.Tests.Statistics
 {
 
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Testing.Power;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class TTestTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void TTestConstructorTest()
         {
 
@@ -108,7 +108,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(target.Significant); // null cannot be rejected
         }
 
-        [TestMethod()]
+        [Test]
         public void TTestConstructorTest2()
         {
 
@@ -156,7 +156,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void StatisticToPValueTest()
         {
             double df = 2.2;
@@ -212,7 +212,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void PValueToStatisticTest()
         {
             double df = 2.6;
@@ -268,7 +268,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void PowerTest()
         {
             int samples = 5;

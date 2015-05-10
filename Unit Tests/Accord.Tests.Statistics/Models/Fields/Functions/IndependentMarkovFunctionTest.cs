@@ -32,7 +32,7 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Math;
     using Accord.Statistics.Models.Fields.Functions.Specialized;
@@ -40,7 +40,7 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Fields.Features;
     using System.Linq;
 
-    [TestClass()]
+    [TestFixture]
     public class IndependentMarkovFunctionTest
     {
 
@@ -357,7 +357,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             var model = CreateModel1();
@@ -406,7 +406,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             double[][][] sequences;
@@ -457,7 +457,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             double[][][] sequences2;
@@ -521,7 +521,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest4()
         {
             int[] labels;
@@ -542,7 +542,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             check4(words, model, target, hcrf);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeDeoptimizeTest3()
         {
             double[][][] sequences;
@@ -565,7 +565,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             check4(sequences, model, target, hcrf);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeDeoptimizeTest4()
         {
             int[] labels;
@@ -691,7 +691,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTestPriors4()
         {
             int[] labels;
@@ -753,7 +753,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void GradientTest2()
         {
             double[][][] sequences2;
@@ -783,7 +783,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientTest3()
         {
             double[][][] sequences2;
@@ -849,7 +849,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void GradientDeoptimizeTest2()
         {
             double[][][] sequences2;
@@ -883,7 +883,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GradientDeoptimizeTest3()
         {
             double[][][] sequences2;

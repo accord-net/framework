@@ -21,7 +21,7 @@
 //
 
 using Accord.Math.Geometry;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using Accord.Math;
 
@@ -29,7 +29,7 @@ namespace Accord.Tests.Math
 {
 
 
-    [TestClass()]
+    [TestFixture]
     public class Point3Test
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void CollinearTest()
         {
             {

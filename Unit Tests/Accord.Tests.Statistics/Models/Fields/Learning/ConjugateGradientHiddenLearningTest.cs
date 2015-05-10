@@ -27,9 +27,9 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Fields.Learning;
     using Accord.Statistics.Models.Markov;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ConjugateGradientHiddenLearningTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             var inputs = QuasiNewtonHiddenLearningTest.inputs;
@@ -97,7 +97,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.IsTrue(ll1 > ll0);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             var inputs = QuasiNewtonHiddenLearningTest.inputs;

@@ -27,9 +27,9 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Links;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ProbitRegressionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             // Example from http://bayes.bgsu.edu/bcwr/vignettes/probit_regression.pdf
@@ -118,7 +118,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.016768779446085, regression.StandardErrors[1], 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             double[][] input =

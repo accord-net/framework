@@ -49,7 +49,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Samples.LM
+namespace SampleApp
 {
     /// <summary>
     /// Summary description for Form1.

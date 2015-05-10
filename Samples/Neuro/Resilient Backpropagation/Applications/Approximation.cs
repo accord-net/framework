@@ -49,7 +49,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 
-namespace Samples.Rprop
+namespace SampleApp
 {
     public class Approximation : Form
     {

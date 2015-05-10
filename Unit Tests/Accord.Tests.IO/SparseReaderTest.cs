@@ -27,13 +27,13 @@ namespace Accord.Tests.IO
     using System.Text;
     using Accord.IO;
     using Accord.Tests.IO.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SparseReaderTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ReadSampleTest()
         {
             // http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#iris
@@ -99,7 +99,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual(150, count);
         }
 
-        [TestMethod()]
+        [Test]
         public void ReadAllTest()
         {
             MemoryStream file = new MemoryStream(
@@ -136,7 +136,7 @@ namespace Accord.Tests.IO
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GuessNumberOfDimensionsTest()
         {
             MemoryStream file = new MemoryStream(
@@ -162,7 +162,7 @@ namespace Accord.Tests.IO
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void DimensionsTest()
         {
             MemoryStream file = new MemoryStream(
@@ -186,7 +186,7 @@ namespace Accord.Tests.IO
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GuessDimensionsInMiddleRunTest()
         {
             MemoryStream file = new MemoryStream(

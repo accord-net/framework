@@ -25,10 +25,10 @@ namespace Accord.Tests.Math
     using Accord.Math;
     using Accord.Math.Integration;
     using AccordTestsMathCpp2;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class IntegralTest
     {
 
@@ -37,7 +37,7 @@ namespace Accord.Tests.Math
             return 2 + Math.Cos(2 * Math.Sqrt(x));
         }
 
-        [TestMethod()]
+        [Test]
         public void TrapezoidalTest()
         {
             double actual;
@@ -63,7 +63,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void MultipleTests_Examples()
         {
             // Let's say we would like to compute the definite
@@ -99,7 +99,7 @@ namespace Accord.Tests.Math
             return 1 / x;
         }
 
-        [TestMethod()]
+        [Test]
         public void RombergTest()
         {
             // Example from http://www.mathstat.dal.ca/~tkolokol/classes/1500/romberg.pdf
@@ -128,7 +128,7 @@ namespace Accord.Tests.Math
             return x * Math.Exp(-(x * x));
         }
 
-        [TestMethod()]
+        [Test]
         public void GaussKronrodTest()
         {
             double expected = Math.Sin(2);
@@ -137,7 +137,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void InfiniteGaussKronrodTest()
         {
             for (int i = -10; i < 10; i++)

@@ -42,7 +42,7 @@ using AForge;
 using AForge.Controls;
 using AForge.Neuro;
 
-namespace Samples.LM
+namespace SampleApp
 {
     public class XorProblem : Form
     {

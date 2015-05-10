@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Moving;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Univariate;
     using System.Globalization;
     using System.Threading;
 
-    [TestClass()]
+    [TestFixture]
     public class ExponentialDistributionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             ExponentialDistribution n = new ExponentialDistribution(3.42521);
@@ -58,7 +58,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.085236497078375897, n.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var exp = new ExponentialDistribution(rate: 0.42);
@@ -105,7 +105,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(10.964690919019265, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDistributionTest()
         {
             ExponentialDistribution n = new ExponentialDistribution(3);
@@ -123,7 +123,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDistributionTest2()
         {
             ExponentialDistribution n = new ExponentialDistribution(0.42);
@@ -142,7 +142,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void CumulativeDistributionTest()
         {
             ExponentialDistribution n = new ExponentialDistribution(3);
@@ -160,7 +160,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             ExponentialDistribution target = new ExponentialDistribution(2.5);
@@ -168,7 +168,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             ExponentialDistribution target = new ExponentialDistribution(2.5);
@@ -181,7 +181,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.5, actual.Rate, 0.01);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             ExponentialDistribution target = new ExponentialDistribution(2.5);
@@ -196,7 +196,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.5, actual.Rate, 0.01);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest1()
         {
             double[] values = 

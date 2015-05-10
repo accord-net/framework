@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class NormalTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             // p = 0.5 * erfc(-z ./ sqrt(2))
@@ -57,7 +57,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             double value = 0.662757273151751;
@@ -66,7 +66,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void BatchTest()
         {
             double x = 0.42;
@@ -86,7 +86,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0.33724272684824946, hphic, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void BatchTest2()
         {
             double x = 16.6;
@@ -102,7 +102,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void BivariateFunctionTest()
         {
             {

@@ -28,9 +28,9 @@ namespace Accord.Tests.Statistics
     using Accord.Math.Optimization;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class NonLinearLeastSquaresTest
     {
 
@@ -84,7 +84,7 @@ namespace Accord.Tests.Statistics
             result[3] = 1;
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             double[,] data =
@@ -135,7 +135,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(b));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest1()
         {
             // Example from https://en.wikipedia.org/wiki/Gauss%E2%80%93Newton_algorithm

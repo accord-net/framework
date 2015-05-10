@@ -23,17 +23,17 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using System.Globalization;
     using Accord.Statistics.Distributions;
 
-    [TestClass()]
+    [TestFixture]
     public class RademacherDistributionTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var dist = new RademacherDistribution();
@@ -74,7 +74,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(+1, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest_DoubleIntConversionTest()
         {
             IUnivariateDistribution dist = new DegenerateDistribution(value: 2);

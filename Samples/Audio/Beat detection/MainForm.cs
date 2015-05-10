@@ -38,8 +38,9 @@ using Accord.Audio;
 using Accord.Audition.Beat;
 using Accord.DirectSound;
 
-namespace BeatDetector
+namespace SampleApp
 {
+
     /// <summary>
     ///   Beat detector sample application.
     /// </summary>

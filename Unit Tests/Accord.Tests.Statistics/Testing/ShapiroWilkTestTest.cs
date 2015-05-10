@@ -25,9 +25,9 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ShapiroWilkTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ShapiroWilkTest()
         {
             // Tested against R's shapiro.test(x)
@@ -75,7 +75,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.04209, target.PValue, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void ShapiroWilkTest2()
         {
             // Tested against R's shapiro.test(x)

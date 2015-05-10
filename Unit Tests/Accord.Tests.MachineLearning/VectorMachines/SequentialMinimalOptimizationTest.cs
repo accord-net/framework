@@ -28,10 +28,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord;
 
-    [TestClass()]
+    [TestFixture]
     public class SequentialMinimalOptimizationTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest()
         {
 
@@ -87,7 +87,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(System.Math.Sign(xor[i]), System.Math.Sign(output[i]));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest2()
         {
 
@@ -128,7 +128,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest3()
         {
             double[][] inputs =
@@ -163,7 +163,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(System.Math.Sign(xor[i]), System.Math.Sign(output[i]));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest4()
         {
 
@@ -208,7 +208,7 @@ namespace Accord.Tests.MachineLearning
 
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest5()
         {
 
@@ -251,7 +251,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod]
+        [Test]
         public void LargeLearningTest1()
         {
             // Create large input vectors
@@ -295,7 +295,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, error);
         }
 
-        [TestMethod()]
+        [Test]
         public void SequentialMinimalOptimizationConstructorTest()
         {
             double[][] inputs =
@@ -331,7 +331,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void WeightsTest1()
         {
             var dataset = yinyang;
@@ -436,7 +436,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightsTest2()
         {
             var dataset = yinyang;
@@ -491,7 +491,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CompactTest()
         {
 
@@ -549,7 +549,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void SequentialMinimalOptimizationConstructorTest2()
         {
             double[][] inputs =
@@ -578,7 +578,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComplexityHeuristicTest()
         {
             var dataset = yinyang;
@@ -605,7 +605,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(e1, e2);
         }
 
-        [TestMethod()]
+        [Test]
         public void UseClassProportionsTest()
         {
             var dataset = KernelSupportVectorMachineTest.training;
@@ -641,7 +641,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(30, matrix.TrueNegatives);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightRatioTest()
         {
             var dataset = KernelSupportVectorMachineTest.training;
@@ -719,7 +719,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FixedWeightsTest()
         {
             var dataset = KernelSupportVectorMachineTest.training;
@@ -771,7 +771,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void TransformTest()
         {
             var inputs = yinyang.Submatrix(null, 0, 1).ToArray();
@@ -816,7 +816,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(expected.FalsePositives, actual.FalsePositives);
         }
 
-        [TestMethod()]
+        [Test]
         public void FSharpTest1()
         {
             try
@@ -835,7 +835,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, error);
         }
 
-        [TestMethod()]
+        [Test]
         public void FSharpTest_AutoComplexity()
         {
             double classification = FSharpSvmTest.Run(0);

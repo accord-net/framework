@@ -25,17 +25,17 @@ namespace Accord.Tests.Statistics
     using System.Data;
     using Accord.Math;
     using Accord.Statistics.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.IO;
     using System;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.MachineLearning.VectorMachines;
 
-    [TestClass()]
+    [TestFixture]
     public class CodificationFilterSvmTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest2()
         {
             // Suppose we have a data table relating the age of

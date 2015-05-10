@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AForge.Video</id>
+    <version>2.2.5</version>
+    <title>AForge.Video</title>
+    <authors>AForge.NET</authors>
+    <owners>AForge.NET</owners>
+    <licenseUrl>http://www.aforgenet.com/framework/license.html</licenseUrl>
+    <projectUrl>http://www.aforgenet.com/framework/</projectUrl>
+    <iconUrl>http://www.aforgenet.com/img/aforgenet_icon.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The AForge.Video library contains interfaces and classes to access different video sources, such as IP video cameras (MJPEG streams). The library defines types used by other video related libraries from AForge.NET framework.</description>
+    <summary>AForge.Video library of the AForge.NET framework</summary>
+    <tags>aforge.net framework video MJPEG cameras</tags>
+    <dependencies>
+      <dependency id="AForge" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\AForge.Video.dll" target="lib\AForge.Video.dll" />
+    <file src="..\..\Release\AForge.Video.xml" target="lib\AForge.Video.xml" />
+  </files>
+</package>

@@ -11,7 +11,10 @@
     <projectUrl>http://accord-framework.net</projectUrl>
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>Contains File and data parsers to load and save data from different file formats. This package is part of the Accord.NET Framework.</description>
+    <description>
+      Contains File and data parsers to load and save data from different file formats.
+      This package is part of the Accord.NET Framework.
+    </description>
     <summary>Accord.NET IO (data formats) Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework statistics mnist libsvm excel mat-file matlab octave matrix</tags>
     <dependencies>

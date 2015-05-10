@@ -37,9 +37,10 @@ using AForge;
 using AForge.Math;
 using System;
 using System.Drawing;
+using System.Numerics;
 using System.Windows.Forms;
 
-namespace Fourier
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

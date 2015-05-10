@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using AForge;
     using Accord.Statistics.Testing.Power;
 
-    [TestClass()]
+    [TestFixture]
     public class TwoProportionZTestTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void TwoProportionZTestConstructorTest()
         {
             // Example from http://stattrek.com/hypothesis-test/difference-in-proportions.aspx

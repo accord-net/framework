@@ -25,11 +25,11 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class GeometricDistributionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Create a Geometric distribution with 42% success probability
@@ -108,7 +108,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(8, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void GeometricDistributionConstructorTest()
         {
             double successProbability = 0.9;
@@ -118,7 +118,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual((1 - 0.9) / (0.9 * 0.9), target.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
             double successProbability = 1;
@@ -131,7 +131,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.ProbabilityOfSuccess, actual.ProbabilityOfSuccess);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             double successProbability = 0.42;
@@ -149,7 +149,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double successProbability = 0;
@@ -164,7 +164,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1 / (1 - 4 / 12.0), target.ProbabilityOfSuccess);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest2()
         {
             double successProbability = 0;
@@ -181,7 +181,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityMassFunctionTest()
         {
             double successProbability = 0.42;
@@ -197,7 +197,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             {

@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class EmpiricalHazardDistributionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void EmpiricalHazardConstructorTest3()
         {
             double[] times = { 11, 10, 9, 8, 6, 5, 4, 2 };
@@ -97,7 +97,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(9.0000004130107865, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
 
@@ -149,7 +149,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             double[] values = 
@@ -172,7 +172,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest2()
         {
 

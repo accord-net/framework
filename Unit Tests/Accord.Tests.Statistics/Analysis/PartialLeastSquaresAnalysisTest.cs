@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Tools = Accord.Statistics.Tools;
     using System;
     using Accord.Statistics.Models.Regression.Linear;
 
-    [TestClass()]
+    [TestFixture]
     public class PartialLeastSquaresAnalysisTest
     {
 
@@ -125,7 +125,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void SimplsRegressionTest()
         {
             double[,] inputs;
@@ -174,7 +174,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void SimplsComputeTest()
         {
             double[,] inputs;
@@ -209,8 +209,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
-        [DeploymentItem("Accord.Statistics.dll")]
+        [Test]
         public void NipalsComputeTest()
         {
             double[,] X = 
@@ -285,7 +284,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void NipalsComputeTest2()
         {
             // Example data from Chiang, Y.Q., Zhuang, Y.M and Yang, J.Y, "Optimal Fisher
@@ -466,7 +465,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void NipalsComputeTest3()
         {
             // Example data from  P. Geladi and B.R. Kowalski, "An example of 2-block
@@ -562,7 +561,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void VariableImportanceTest()
         {
 
@@ -629,7 +628,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod]
+        [Test]
         public void ExceptionTest()
         {
             double[,] X =

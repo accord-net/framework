@@ -24,9 +24,9 @@ namespace Accord.Tests.Imaging
 {
     using Accord.Imaging;
     using AForge;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class RansacHomographyEstimatorTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void EstimateTest()
         {
 

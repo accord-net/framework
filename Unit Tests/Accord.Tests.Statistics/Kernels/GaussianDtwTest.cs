@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Diagnostics;
 
-    [TestClass()]
+    [TestFixture]
     public class GaussianDtwTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod]
+        [Test]
         public void GaussianFunctionTest()
         {
             var x = new double[] { 0, 4, 2, 1 };
@@ -71,7 +71,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.99065918303292089, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GammaSigmaTest()
         {
             var dtw = new DynamicTimeWarping(1);
@@ -99,7 +99,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-12);
         }
 
-        [TestMethod]
+        [Test]
         public void GammaSigmaSquaredTest()
         {
             var dtw = new DynamicTimeWarping(1);
@@ -125,7 +125,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0 / (2 * 49), gaussian.Gamma);
         }
 
-        [TestMethod]
+        [Test]
         public void GaussianEstimateTest()
         {
             // Suppose we have the following data 
@@ -148,7 +148,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(sigma * sigma, sigma2);
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest_EqualInputs()
         {
             var x = new double[] { 1, 2, 5, 1 };

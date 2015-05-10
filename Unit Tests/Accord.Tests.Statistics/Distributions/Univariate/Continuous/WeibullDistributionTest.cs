@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Moving;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Univariate;
     using System;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class WeibullDistributionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             WeibullDistribution n = new WeibullDistribution(0.807602, 12.5);
@@ -59,7 +59,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(n.Variance));
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var weilbull = new WeibullDistribution(scale: 0.42, shape: 1.2);
@@ -109,7 +109,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.4995260942223139, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDistributionTest()
         {
             WeibullDistribution n = new WeibullDistribution(0.80, 12.5);
@@ -136,7 +136,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeDistributionTest()
         {
             WeibullDistribution n = new WeibullDistribution(0.80, 12.5);
@@ -163,7 +163,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             WeibullDistribution target = new WeibullDistribution(1.52, 0.6);

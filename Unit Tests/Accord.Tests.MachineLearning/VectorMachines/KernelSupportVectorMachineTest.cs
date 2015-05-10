@@ -26,12 +26,12 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.IO;
     using Accord.Math;
     using Accord.Statistics.Analysis;
 
-    [TestClass()]
+    [TestFixture]
     public class KernelSupportVectorMachineTest
     {
 
@@ -52,7 +52,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             // Example AND problem
@@ -97,7 +97,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(-0.328125, machine.Weights[3]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             // Example AND problem
@@ -142,7 +142,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             // XOR

@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class GeneralizedEigenvalueDecompositionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void GeneralizedEigenvalueDecompositionConstructorTest()
         {
             // Suppose we have the following 
@@ -105,7 +105,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(gevd.DiagonalMatrix, expectedValues, 0.00000000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void GeneralizedEigenvalueDecompositionConstructorTest2()
         {
             double[,] A = Matrix.Identity(100);
@@ -120,7 +120,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(gevd.DiagonalMatrix, expectedValues));
         }
 
-        [TestMethod()]
+        [Test]
         public void GeneralizedEigenvalueDecompositionConstructorTest3()
         {
             for (int i = 0; i < 10000; i++)
@@ -162,7 +162,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GeneralizedEigenvalueDecompositionConstructorTest4()
         {
             var A = new double[3, 3];

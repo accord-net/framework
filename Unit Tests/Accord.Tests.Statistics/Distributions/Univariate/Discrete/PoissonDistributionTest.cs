@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class PoissonDistributionTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Create a new Poisson distribution with 
@@ -122,7 +122,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(10, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             // Create a new Poisson distribution
@@ -150,7 +150,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(greaterThanOrEqual, 0.985004423179522, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             // Create a new Poisson distribution with lambda = 0.7
@@ -211,7 +211,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.83666002653407556, stdDev);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             PoissonDistribution target = new PoissonDistribution(1);
@@ -223,7 +223,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, target.Mean);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             PoissonDistribution target = new PoissonDistribution(25);
@@ -234,7 +234,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             PoissonDistribution target = new PoissonDistribution(25);
@@ -246,7 +246,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             for (int i = 0; i < 25; i++)
@@ -256,7 +256,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             double lambda = 1.11022302462516E-16;
@@ -268,7 +268,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(0, values[i]);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             double lambda = 1.11022302462516E-16;

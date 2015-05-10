@@ -23,10 +23,10 @@
 namespace Accord.Tests.Wavelets
 {
     using Accord.Math.Wavelets;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class HaarTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Wavelets
 
 
 
-        [TestMethod()]
+        [Test]
         public void FWT2DTest()
         {
             double[,] original =
@@ -79,7 +79,7 @@ namespace Accord.Tests.Wavelets
             Assert.IsTrue(Matrix.IsEqual(data, original, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void FWT2DTest2()
         {
             int levels = 2;
@@ -113,7 +113,7 @@ namespace Accord.Tests.Wavelets
             Assert.IsTrue(Matrix.IsEqual(data, original, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void IWTTest()
         {
             double[] original = { 1, 2, 3, 4 };

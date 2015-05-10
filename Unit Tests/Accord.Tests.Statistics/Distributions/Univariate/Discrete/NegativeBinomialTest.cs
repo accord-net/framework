@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class NegativeBinomialTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Create a Negative Binomial distribution with r = 7, p = 0.42
@@ -113,7 +113,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(14, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void NegativeBinomialConstructorTest()
         {
             double expected, actual;
@@ -147,7 +147,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             for (int i = 0; i < 10; i++)

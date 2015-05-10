@@ -25,13 +25,13 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.DensityKernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class MeanShiftTest
     {
 
-        [TestMethod()]
+        [Test]
         public void MeanShiftConstructorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -77,7 +77,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(2, meanShift.Clusters.Modes.Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void MeanShiftConstructorTest2()
         {
             Accord.Math.Tools.SetupGenerator(1);

@@ -25,9 +25,9 @@ namespace Accord.Tests.Statistics
     using System.Data;
     using Accord.Statistics.Filters;
     using AForge;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     
-    [TestClass()]
+    [TestFixture]
     public class LinearScalingFilterTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest()
         {
             DataTable input = new DataTable("Sample data");

@@ -23,7 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions;
     using System;
     using Accord.Statistics.Distributions.Fitting;
@@ -33,26 +33,11 @@ namespace Accord.Tests.Statistics
     using System.Collections.Generic;
     using Accord.Statistics.Distributions.Multivariate;
 
-    [TestClass()]
+    [TestFixture]
     public class UnivariateDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void ListDistributions()
         {
             var assembly = Assembly.GetAssembly(typeof(IDistribution));
@@ -79,7 +64,7 @@ namespace Accord.Tests.Statistics
             return String.Join(", ", list.ToArray());
         }
 
-        [TestMethod()]
+        [Test]
         public void ParameterPropertyTest()
         {
             // Dynamically enumerate all univariate distributions and make

@@ -23,14 +23,14 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using AccordTestsMathCpp2;
     using System.Collections.Generic;
     using Accord.Tests.Math.Optimization;
     using AForge;
 
-    [TestClass()]
+    [TestFixture]
     public class LibBFGSComparisonTest
     {
         private List<Specification> problems;
@@ -94,7 +94,7 @@ namespace Accord.Tests.Math
             problems = list;
         }
 
-        [TestMethod()]
+        [Test]
         public void DefaultBatchTest()
         {
             foreach (var problem in problems)
@@ -120,7 +120,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ParameterTest1()
         {
             LBFGSComparer cmp = new LBFGSComparer()
@@ -143,7 +143,7 @@ namespace Accord.Tests.Math
             compute(problems, cmp);
         }
 
-        [TestMethod()]
+        [Test]
         public void ParameterBatchTest()
         {
             for (var past = 0; past < 10; past += 3)
@@ -153,7 +153,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ParameterBatchTest2()
         {
             for (var m = 2; m < 10; m++)
@@ -206,7 +206,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ParameterRangeTest()
         {
             LBFGSComparer[] tests =
@@ -319,7 +319,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void InvalidLineSearchTest()
         {
             double t = 0;
@@ -354,7 +354,7 @@ namespace Accord.Tests.Math
             compute(new List<Specification>() { problem }, cmp);
         }
 
-        [TestMethod()]
+        [Test]
         public void InvalidLineSearchTest2()
         {
             int n = 10;

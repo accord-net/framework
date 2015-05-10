@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Moving;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Univariate;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class RayleighDistributionTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             RayleighDistribution n = new RayleighDistribution(0.807602);
@@ -55,7 +55,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.27993564482286737, n.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var rayleigh = new RayleighDistribution(sigma: 0.42);
@@ -103,7 +103,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.2746387879926619, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDistributionTest()
         {
             RayleighDistribution n = new RayleighDistribution(0.807602);
@@ -121,7 +121,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeDistributionTest()
         {
             RayleighDistribution n = new RayleighDistribution(0.807602);
@@ -140,7 +140,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -154,7 +154,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2.5, actual.Scale, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -170,7 +170,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4.2, actual.Scale, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             RayleighDistribution target = new RayleighDistribution(0.52);

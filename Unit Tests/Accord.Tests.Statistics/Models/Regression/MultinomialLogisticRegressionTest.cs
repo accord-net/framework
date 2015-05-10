@@ -26,14 +26,14 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Linq;
 
-    [TestClass()]
+    [TestFixture]
     public class MultinomialLogisticRegressionTest
     {
 
-        [TestMethod]
+        [Test]
         public void RegressTest2()
         {
             double[][] inputs;
@@ -161,7 +161,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod]
+        [Test]
         public void ComputeTest2()
         {
             MultinomialLogisticRegression mlr = createExample1();
@@ -195,7 +195,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MultinomialLogisticRegressionConstructorTest()
         {
             int inputs = 4;
@@ -213,7 +213,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(5, target.StandardErrors[i].Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void ChiSquareMethodTest()
         {
             double[][] inputs;
@@ -229,10 +229,9 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
-
             MultinomialLogisticRegression target = createExample1();
             MultinomialLogisticRegression actual = (MultinomialLogisticRegression)target.Clone();
 
@@ -240,8 +239,8 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Categories, actual.Categories);
             Assert.AreEqual(target.Inputs, actual.Inputs);
 
-            Assert.AreNotEqual(target.Coefficients, actual.Coefficients);
-            Assert.AreNotEqual(target.StandardErrors, actual.StandardErrors);
+            Assert.AreNotSame(target.Coefficients, actual.Coefficients);
+            Assert.AreNotSame(target.StandardErrors, actual.StandardErrors);
 
             for (int i = 0; i < target.Coefficients.Length; i++)
             {
@@ -254,7 +253,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GetLogLikelihoodTest()
         {
             MultinomialLogisticRegression mlr = createExample1();
@@ -270,7 +269,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GetOddsRatioTest()
         {
             MultinomialLogisticRegression target = createExample1();
@@ -290,7 +289,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(System.Math.Exp(target.Coefficients[1][2]), actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetWaldTestTest()
         {
             MultinomialLogisticRegression target = createExample1();

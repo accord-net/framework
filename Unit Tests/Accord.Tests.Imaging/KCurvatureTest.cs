@@ -26,17 +26,17 @@ namespace Accord.Tests.Imaging
     using Accord.Math.Geometry;
     using AForge;
     using AForge.Imaging.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
 
-    [TestClass()]
+    [TestFixture]
     public class KCurvatureTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void FindPeaksTest()
         {
             Bitmap hand = Properties.Resources.rhand;
@@ -88,7 +88,7 @@ namespace Accord.Tests.Imaging
         }
 */
 
-        [TestMethod()]
+        [Test]
         public void FindPeaksTest2()
         {
             Bitmap hand = Properties.Resources.rhand0;
@@ -132,7 +132,7 @@ namespace Accord.Tests.Imaging
         }
 
    
-        [TestMethod()]
+        [Test]
         public void FindPeaksTest3()
         {
             Bitmap hand = Properties.Resources.rhand1;
@@ -167,7 +167,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(15, peaks[1].Y);
         }
 
-        [TestMethod()]
+        [Test]
         public void FindPeaksTest4()
         {
             Bitmap hand = Properties.Resources.rhand2;
@@ -201,7 +201,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FindPeaksTest6()
         {
             Bitmap hand = Properties.Resources.rhand3;

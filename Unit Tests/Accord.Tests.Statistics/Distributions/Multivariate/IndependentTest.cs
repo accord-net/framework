@@ -22,14 +22,14 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Distributions.Fitting;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class IndependentTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var p1 = new NormalDistribution(4.2, 1);
@@ -74,7 +74,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.Covariance[1, 0]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityFunctionTest()
         {
             var p1 = new NormalDistribution(4.2, 1);
@@ -104,7 +104,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeFunctionTest()
         {
             var p1 = new NormalDistribution(4.2, 1);
@@ -131,7 +131,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double[][] data =
@@ -162,7 +162,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.Covariance[1, 0]);
         }
 
-        [TestMethod()]
+        [Test]
         public void FittingNoOptionsTest()
         {
             double[][] data1 =
@@ -212,7 +212,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown2);
         }
 
-        [TestMethod()]
+        [Test]
         public void FittingOptionsTest()
         {
             double[][] data1 =

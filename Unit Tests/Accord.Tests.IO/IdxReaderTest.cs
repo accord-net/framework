@@ -25,13 +25,13 @@ namespace Accord.Tests.IO
     using System.IO;
     using Accord.IO;
     using Accord.Tests.IO.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class IdxReaderTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ReadSampleTest()
         {
             MemoryStream file = new MemoryStream(Resources.t10k_images_idx3_ubyte);
@@ -53,7 +53,7 @@ namespace Accord.Tests.IO
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ReadSampleTest2()
         {
             MemoryStream file = new MemoryStream(Resources.t10k_images_idx3_ubyte);
@@ -68,7 +68,7 @@ namespace Accord.Tests.IO
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ReadSampleTest3()
         {
             MemoryStream file = new MemoryStream(Resources.t10k_images_idx3_ubyte);

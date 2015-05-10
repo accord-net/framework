@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Samples.Rprop
+namespace SampleApp
 {
     static class Program
     {

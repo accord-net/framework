@@ -23,32 +23,15 @@
 namespace Accord.Tests.Vision
 {
     using Accord.Vision.Tracking;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Drawing;
     using AForge.Imaging;
 
-    [TestClass()]
+    [TestFixture]
     public class TrackerTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void ProcessFrame()
         {
             Bitmap frame = Properties.Resources.lena_color_small;

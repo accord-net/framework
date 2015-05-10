@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
 
-    [TestClass()]
+    [TestFixture]
     public class MultinomialTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void MultinomialTestConstructorTest()
         {
             // Example from http://www.stat.berkeley.edu/~stark/SticiGui/Text/chiSquare.htm
@@ -70,7 +70,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.55555556, target.Statistic, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void MultinomialTestConstructorTest2()
         {
             // This example is based on the example available on About.com Statistics,

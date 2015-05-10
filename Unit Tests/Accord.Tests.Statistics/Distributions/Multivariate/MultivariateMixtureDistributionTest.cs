@@ -23,18 +23,18 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Multivariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.IO;
     using Accord.Tests.Statistics.Properties;
     using System.IO;
     using System.Data;
 
-    [TestClass()]
+    [TestFixture]
     public class MultivariateMixtureDistributionTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(components, mixture.Components);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
@@ -70,7 +70,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTestPerComponent()
         {
             MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
@@ -91,7 +91,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTestPerComponent()
         {
             MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
@@ -112,7 +112,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
@@ -134,7 +134,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTestPerComponent()
         {
             MultivariateNormalDistribution[] components = new MultivariateNormalDistribution[2];
@@ -156,7 +156,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double[] coefficients = { 0.50, 0.50 };
@@ -207,7 +207,7 @@ namespace Accord.Tests.Statistics
             // Assert.AreEqual(expectedVar[0, 0], actualVar[0, 0], 0.0000001);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest2()
         {
             double[] coefficients = { 0.50, 0.50 };
@@ -259,7 +259,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expectedVar[0, 0], actualVar[0, 0], 0.68);
         }
 
-        [TestMethod]
+        [Test]
         public void MixtureWeightsFitTest()
         {
             // Randomly initialize some mixture components
@@ -315,7 +315,7 @@ namespace Accord.Tests.Statistics
  */ 
         }
 
-        [TestMethod]
+        [Test]
         public void MixtureWeightsFitTest2()
         {
             MemoryStream stream = new MemoryStream(Resources.CircleWithWeights);

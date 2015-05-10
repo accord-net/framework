@@ -27,9 +27,9 @@ namespace Accord.Tests.Imaging
     using AForge;
     using AForge.Imaging;
     using AForge.Imaging.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class MatrixToImageTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void MatrixToImageConstructorTest()
         {
             MatrixToImage target = new MatrixToImage();
@@ -58,7 +58,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(1, target.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void MatrixToImageConstructorTest1()
         {
             double min = -100;
@@ -67,7 +67,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(min, target.Min);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest()
         {
             MatrixToImage target = new MatrixToImage(min: 0, max: 128);
@@ -92,7 +92,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest1()
         {
             MatrixToImage target = new MatrixToImage();
@@ -137,7 +137,7 @@ namespace Accord.Tests.Imaging
                     Assert.AreEqual(actual[i, j], expected[i, j]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest2()
         {
             // Create a matrix representation 

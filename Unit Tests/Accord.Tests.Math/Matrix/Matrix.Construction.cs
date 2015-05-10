@@ -23,13 +23,13 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
     public partial class MatrixTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void StackTest()
         {
             var x1 = Vector.Ones(1000);

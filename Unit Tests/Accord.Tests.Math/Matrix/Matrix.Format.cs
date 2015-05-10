@@ -23,11 +23,11 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class MatrixFormatTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ParseTest1()
         {
             // Parsing a matrix from Octave format
@@ -66,7 +66,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ParseTest()
         {
             string str;
@@ -110,7 +110,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(actual.IsEqual(expected));
         }
 
-        [TestMethod()]
+        [Test]
         public void ParseJaggedTest()
         {
             string str;
@@ -154,7 +154,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(actual.IsEqual(expected));
         }
 
-        [TestMethod()]
+        [Test]
         public void ToStringTest()
         {
             double[,] matrix = 
@@ -191,7 +191,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ToStringTest2()
         {
             double[][] matrix = 
@@ -228,7 +228,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void StringFormat()
         {
             double[,] matrix = 
@@ -281,7 +281,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void StringFormat2()
         {
             double[][] matrix = 
@@ -311,7 +311,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void ToStringTest3()
         {
             double[] x = { 1, 2, 3 };

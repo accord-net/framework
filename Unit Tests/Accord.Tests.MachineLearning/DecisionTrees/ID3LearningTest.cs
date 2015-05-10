@@ -29,9 +29,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Filters;
     using AForge;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ID3LearningTest
     {
 
@@ -166,7 +166,7 @@ namespace Accord.Tests.MachineLearning
             double error = id3.Run(inputs, outputs);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             int[][] inputs =
@@ -232,7 +232,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, tree.Root.Branches[1].Branches[1].Output); // 1 ^ 1 = 0
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             DecisionTree tree;
@@ -276,7 +276,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(tree.Root.Branches[2].Branches[1].IsLeaf);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest3()
         {
             DecisionTree tree;
@@ -312,7 +312,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstantDiscreteVariableTest()
         {
             DecisionTree tree;
@@ -384,7 +384,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void IncompleteDiscreteVariableTest()
         {
             DecisionTree tree;
@@ -445,7 +445,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ArgumentCheck1()
         {
             int[][] samples =
@@ -476,7 +476,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod]
+        [Test]
         public void ConsistencyTest1()
         {
             int[,] random = Matrix.Random(1000, 10, 0, 10).ToInt32();
@@ -509,7 +509,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod]
+        [Test]
         public void LargeSampleTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -538,7 +538,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(code.Length > 0);
         }
 
-        [TestMethod]
+        [Test]
         public void LargeSampleTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -573,7 +573,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(error < 0.15);
         }
 
-        [TestMethod]
+        [Test]
         public void LargeSampleTest_WithRepetition()
         {
             Accord.Math.Tools.SetupGenerator(0);

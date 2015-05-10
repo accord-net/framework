@@ -1,4 +1,4 @@
-namespace Classification
+namespace SampleApp
 {
     partial class TableSelectDialog
     {

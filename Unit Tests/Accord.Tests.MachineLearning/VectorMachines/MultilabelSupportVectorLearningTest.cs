@@ -26,11 +26,11 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.IO;
     using System.Threading.Tasks;
 
-    [TestClass()]
+    [TestFixture]
     public class MultilabelSupportVectorLearningTest
     {
 
@@ -52,7 +52,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -109,7 +109,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest1()
         {
             double[][] inputs =
@@ -162,7 +162,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(msvm.SupportVectorUniqueCount, evals[i]);
         }
 
-        [TestMethod()]
+        [Test]
         public void SerializeTest1()
         {
             double[][] inputs =

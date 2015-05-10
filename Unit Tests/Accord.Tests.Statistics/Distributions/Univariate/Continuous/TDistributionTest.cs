@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Distributions.Fitting;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class TDistributionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var t = new TDistribution(degreesOfFreedom: 4.2);
@@ -96,7 +96,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.6502571302187774, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void VarianceTest()
         {
             TDistribution target = new TDistribution(3);
@@ -114,7 +114,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void MeanTest()
         {
             TDistribution target;
@@ -135,7 +135,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             TDistribution target = new TDistribution(1);
@@ -166,7 +166,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDistributionFunctionTest()
         {
             TDistribution target;
@@ -196,7 +196,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDistributionFunctionTest2()
         {
             TDistribution target = new TDistribution(24);
@@ -207,7 +207,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-06);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDistributionFunctionLeftTailTest()
         {
             double[] a = { 0.1, 0.05, 0.025, 0.01, 0.005, 0.001, 0.0005 };
@@ -263,7 +263,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             TDistribution target = new TDistribution(1);
@@ -294,7 +294,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             bool thrown = false;
@@ -304,7 +304,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             TDistribution target = new TDistribution(1);
@@ -341,7 +341,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
             int degreesOfFreedom = 5;
@@ -354,7 +354,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Variance, clone.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void TDistributionConstructorTest()
         {
             int degreesOfFreedom = 4;
@@ -372,7 +372,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             TDistribution target = new TDistribution(7.6);

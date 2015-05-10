@@ -7,11 +7,11 @@
 using System.Reflection;
 
 [assembly: AssemblyProduct("Accord.NET Framework")]
-[assembly: AssemblyCopyright("Copyright © César Souza, 2009-2015")]
+[assembly: AssemblyCopyright("Copyright © Accord.NET authors, 2009-2015")]
 [assembly: AssemblyCompany("Accord.NET")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("2.15.0")]
-[assembly: AssemblyInformationalVersion("2.15.0")]
-[assembly: AssemblyFileVersion("2.15.0.5233")]
+[assembly: AssemblyVersion("3.0.0")]
+[assembly: AssemblyInformationalVersion("3.0.0")]
+[assembly: AssemblyFileVersion("3.0.0.5234")]

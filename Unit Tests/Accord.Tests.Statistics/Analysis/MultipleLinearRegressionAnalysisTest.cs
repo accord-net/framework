@@ -24,14 +24,14 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using AForge;
     using Accord.Statistics.Models.Regression.Linear;
     using Accord.Math;
     using Accord.Statistics.Testing;
 
-    [TestClass()]
+    [TestFixture]
     public class MultipleLinearRegressionAnalysisTest
     {
 
@@ -53,7 +53,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             // Example 5.1 from 
@@ -174,7 +174,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(r2a, target.RSquareAdjusted);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             // Consider the following data. An experimenter would
@@ -259,7 +259,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(14.219378746271506, ci.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void RegressTest7()
         {
             double[][] example2 =

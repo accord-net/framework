@@ -28,28 +28,13 @@ namespace Accord.Tests.Audio
     using Accord.Audio.Windows;
     using Accord.Math;
     using AForge.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
+    using System.Numerics;
 
-    [TestClass()]
+    [TestFixture]
     public class ComplexSignalTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         private Complex[,] data = 
         {
@@ -64,7 +49,7 @@ namespace Accord.Tests.Audio
         };
 
 
-        [TestMethod()]
+        [Test]
         public void GetEnergyTest()
         {
             ComplexSignal target = ComplexSignal.FromArray(data, 8000);
@@ -73,7 +58,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(expected, actual, 1e-4);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComplexSignalConstructorTest()
         {
             ComplexSignal target = ComplexSignal.FromArray(data, 8000);
@@ -84,7 +69,7 @@ namespace Accord.Tests.Audio
             Assert.IsNotNull(target.RawData);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComplexSignalConstructor()
         {
             UnmanagedMemoryStream sourceStream = Properties.Resources.Grand_Piano___Fazioli___major_A_middle;
@@ -132,7 +117,7 @@ namespace Accord.Tests.Audio
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ComplexRectangularWindowTest()
         {
             int length = 2;

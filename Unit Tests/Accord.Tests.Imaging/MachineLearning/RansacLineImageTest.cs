@@ -28,16 +28,16 @@ namespace Accord.Tests.MachineLearning
     using AForge;
     using Accord.Tests.Imaging.Properties;
     using AForge.Math.Geometry;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Point = AForge.Point;
     using AForge.Imaging;
     using Accord.Imaging.Filters;
 
-    [TestClass()]
+    [TestFixture]
     public class RansacLineImageTest
     {
 
-        [TestMethod]
+        [Test]
         public void RansacLineConstructorTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);

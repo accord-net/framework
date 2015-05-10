@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Distributions.Fitting;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class UniformDistributionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var uniform = new UniformContinuousDistribution(a: 0.42, b: 1.1);
@@ -96,7 +96,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0932000000000002, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void IntervalTest()
         {
             var target = new UniformContinuousDistribution(-10, 10);
@@ -114,7 +114,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void UniformDistributionConstructorTest()
         {
             double a = 1;
@@ -124,7 +124,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Maximum, b);
         }
 
-        [TestMethod()]
+        [Test]
         public void UniformDistributionConstructorTest1()
         {
             double a = 6;
@@ -137,7 +137,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void VarianceTest()
         {
             double a = 5;
@@ -148,7 +148,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void MeanTest()
         {
             double a = -1;
@@ -159,7 +159,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void EntropyTest()
         {
             double a = 1;
@@ -170,7 +170,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             double a = 1;
@@ -180,7 +180,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             double a = -5;
@@ -212,7 +212,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             double a = -5;
@@ -244,7 +244,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             UniformContinuousDistribution target = new UniformContinuousDistribution();
@@ -255,7 +255,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5.0, target.Maximum);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             double a = -2;
@@ -280,7 +280,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
             double a = 12; 
@@ -298,7 +298,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             UniformContinuousDistribution target = new UniformContinuousDistribution(0, 2);
@@ -318,7 +318,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, newTarget.Maximum, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             UniformContinuousDistribution target = new UniformContinuousDistribution(0, 2);

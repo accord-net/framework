@@ -24,14 +24,14 @@ namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning.Geometry;
     using AForge.Math.Geometry;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Point = AForge.Point;
 
-    [TestClass()]
+    [TestFixture]
     public class RansacLineTest
     {
 
-        [TestMethod()]
+        [Test]
         public void RansacLineConstructorTest()
         {
             Point[] points = new Point[500];

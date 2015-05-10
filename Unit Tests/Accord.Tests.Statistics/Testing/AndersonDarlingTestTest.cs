@@ -25,9 +25,9 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class AndersonDarlingTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void AndersonDarlingConstructorTest()
         {
             // Test against a standard Uniform distribution
@@ -106,7 +106,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(adtest.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void AndersonDarlingConstructorTest2()
         {
             // Test against a Normal distribution

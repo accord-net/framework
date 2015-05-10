@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class MannWhitneyDistributionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             double[] ranks = { 1, 2, 3, 4, 5 };
@@ -97,7 +97,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(6.000000194140088, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             double[] ranks = { 1, 2, 3, 4, 5 };
@@ -130,7 +130,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, sum);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             double[] ranks = { 1, 2, 3, 4, 5 };
@@ -161,7 +161,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             double[] ranks = { 1, 1, 2, 3, 4, 7, 5 };

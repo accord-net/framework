@@ -26,13 +26,13 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class MulticlassSupportVectorLearningTest
     {
       
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -81,7 +81,7 @@ namespace Accord.Tests.MachineLearning
 
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
 
@@ -133,7 +133,7 @@ namespace Accord.Tests.MachineLearning
 
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest3()
         {
 
@@ -197,7 +197,7 @@ namespace Accord.Tests.MachineLearning
             }
 
         }
-        [TestMethod()]
+        [Test]
         public void LinearTest()
         {
 

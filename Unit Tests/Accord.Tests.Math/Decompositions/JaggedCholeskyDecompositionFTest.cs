@@ -25,9 +25,9 @@ namespace Accord.Tests.Math
     using System;
     using Accord.Math;
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class JaggedCholeskyDecompositionFTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void InverseTestNaN()
         {
             int n = 5;
@@ -81,7 +81,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void JaggedCholeskyDecompositionFConstructorTest()
         {
             // Based on tests by Ken Johnson
@@ -113,7 +113,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(true, chol.PositiveDefinite);
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest()
         {
             float[][] value = // positive-definite
@@ -139,7 +139,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, B, 1e-6f));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest3()
         {
             float[][] value = // positive-definite
@@ -164,7 +164,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, B, 1e-5f));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest2()
         {
             float[][] value = // not positive-definite
@@ -193,7 +193,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-5f));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest4()
         {
             float[][] value = // not positive-definite
@@ -216,7 +216,7 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             float[][] value = // not positive-definite
@@ -243,7 +243,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-6f));
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest1()
         {
             float[][] value = // positive-definite
@@ -270,7 +270,7 @@ namespace Accord.Tests.Math
                     Assert.AreEqual(expected[i][j], actual[i][j], 1e-6f);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDiagonalTest1()
         {
             float[][] value = // positive-definite
@@ -290,7 +290,7 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-6f);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDiagonalTest2()
         {
             float[][] value = // positive-definite
@@ -311,7 +311,7 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-6f);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDiagonalTest3()
         {
             float[][] value = // not positive-definite
@@ -333,7 +333,7 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-4f);
         }
 
-        [TestMethod()]
+        [Test]
         public void InPlaceTest()
         {
             float[][] value = // positive-definite
@@ -373,7 +373,7 @@ namespace Accord.Tests.Math
                     Assert.AreEqual(expected[i][j], value[i][j], 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void CholeskyDecompositionFConstructorTest2()
         {
             float[][] value = // positive-definite
@@ -413,7 +413,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(true, chol.PositiveDefinite);
         }
 
-        [TestMethod()]
+        [Test]
         public void CholeskyDecompositionConstructorTest3()
         {
             float[][] value = // not positive-definite
@@ -454,7 +454,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(false, chol.PositiveDefinite);
         }
 
-        [TestMethod()]
+        [Test]
         public void CholeskyDecompositionConstructorTest4()
         {
             // Based on tests by Ken Johnson

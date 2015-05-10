@@ -23,7 +23,7 @@
 namespace Accord.Tests.Neuro
 {
     using Accord.Neuro.Networks;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Learning;
@@ -33,7 +33,7 @@ namespace Accord.Tests.Neuro
     using System.Linq;
     using Accord.Neuro;
 
-    [TestClass()]
+    [TestFixture]
     public class DeepBeliefNetworkTest
     {
 
@@ -54,7 +54,7 @@ namespace Accord.Tests.Neuro
 
 
 
-        [TestMethod()]
+        [Test]
         public void CreateActivationNetworkTest()
         {
             double[][] inputs =
@@ -98,7 +98,7 @@ namespace Accord.Tests.Neuro
             Assert.AreEqual(1, actual[5], 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void PushPopTest()
         {
             DeepBeliefNetwork network = new DeepBeliefNetwork(6, 2, 9);
@@ -145,7 +145,7 @@ namespace Accord.Tests.Neuro
             Assert.AreEqual(2, network.Machines[1].Visible.Neurons.Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             DeepBeliefNetwork network = new DeepBeliefNetwork(6, 2, 1);
@@ -211,7 +211,7 @@ namespace Accord.Tests.Neuro
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ExampleTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);

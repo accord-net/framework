@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
 
     ﻿using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class ShapiroWilkDistributionTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Example from http://www.nag.com/numeric/cl/nagdoc_cl23/pdf/G01/g01ddc.pdf
@@ -66,7 +66,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-4);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             // Example from http://www.nag.com/numeric/cl/nagdoc_cl23/pdf/G01/g01ddc.pdf
@@ -85,7 +85,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-3);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest3()
         {
             var sw = new ShapiroWilkDistribution(samples: 12);
@@ -131,7 +131,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.98186388183806661, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest4()
         {
             // Create a new Shapiro-Wilk's W for 5 samples

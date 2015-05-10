@@ -26,17 +26,17 @@ namespace Accord.Tests.Math
     using Accord.Math;
     using AForge;
     using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math.Geometry;
     using AForge.Math.Geometry;
     using Accord.Imaging.Filters;
 
-    [TestClass()]
+    [TestFixture]
     public class ConvexHullDefectsTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void FindTest()
         {
             List<IntPoint> contour = new List<IntPoint>();

@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class QuadraticTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void DistanceTest()
         {
             Quadratic target = new Quadratic(1);
@@ -79,7 +79,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Quadratic target = new Quadratic(0);
@@ -111,7 +111,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 0.0001);
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandDistanceTest()
         {
             Quadratic kernel = new Quadratic(0);
@@ -128,7 +128,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(phi_d, d);
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandReverseDistanceTest()
         {
             Quadratic kernel = new Quadratic(0);
@@ -145,7 +145,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(phi_d, d);
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandDistanceWithConstantTest()
         {
             Quadratic kernel = new Quadratic(4.2);
@@ -169,7 +169,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(d3));
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandReverseDistanceWithConstantTest()
         {
             Quadratic kernel = new Quadratic(4.2);

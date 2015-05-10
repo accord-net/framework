@@ -48,13 +48,8 @@
     <DefineConstants>TRACE;NET45</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\..\Externals\SharpDX\net40\SharpDX.dll</HintPath>
@@ -69,9 +64,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComplexSignalTest.cs" />
@@ -98,9 +91,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Sources\Accord.Audio.Formats\Accord.Audio.Formats.csproj">
-      <Project>{EC70C2A7-2B49-40D3-AE82-4C2F6E1724AF}</Project>
-      <Name>Accord.Audio.Formats</Name>
+    <ProjectReference Include="..\..\Sources\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj">
+      <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
+      <Name>Accord.Audio.DirectSound</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Audio\Accord.Audio.csproj">
       <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
@@ -110,9 +103,9 @@
       <Project>{0AB27A20-925C-4556-9FA4-6E2C109E448E}</Project>
       <Name>Accord.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sources\Accord.DirectSound\Accord.DirectSound.csproj">
-      <Project>{456DB2E8-745A-4F87-A2BD-C43CF8677770}</Project>
-      <Name>Accord.DirectSound</Name>
+    <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
+      <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
+      <Name>Accord.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sources\Accord.Math\Accord.Math.csproj">
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>

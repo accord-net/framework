@@ -29,17 +29,17 @@ namespace Accord.Tests.Math
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Tests.MachineLearning.Structures;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    [TestClass()]
+    [TestFixture]
     public class KDTreeTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void FromDataTest()
         {
             // This is the same example found in Wikipedia page on
@@ -128,7 +128,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FromDataTest2()
         {
             double[][] points =
@@ -171,7 +171,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void NearestTest()
         {
             double[][] points =
@@ -216,7 +216,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void NearestTest3()
         {
             double[][] points =
@@ -261,7 +261,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void NearestTest2()
         {
             double[][] points =
@@ -327,7 +327,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void TraverseTest0()
         {
             double[][] points =
@@ -363,7 +363,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void TraverseTest1()
         {
             double[][] points =

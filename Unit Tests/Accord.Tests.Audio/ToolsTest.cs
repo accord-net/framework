@@ -21,41 +21,20 @@
 //
 
 using Accord.Audio;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using AForge.Math;
 using Accord.Math;
 using Tools = Accord.Audio.Tools;
+using System.Numerics;
 
 namespace Accord.Tests.Audio
 {
-    
-    
-    /// <summary>
-    ///This is a test class for ToolsTest and is intended
-    ///to contain all ToolsTest Unit Tests
-    ///</summary>
-    [TestClass()]
+
+    [TestFixture]
     public class ToolsTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void GetPowerCepstrumTest()
         {
             // http://mi.eng.cam.ac.uk/~ajr/SpeechAnalysis/node33.html
@@ -78,7 +57,7 @@ namespace Accord.Tests.Audio
             Assert.IsTrue(expected.IsEqual(actual, 1e-4));
         }
 
-        [TestMethod()]
+        [Test]
         public void InterleaveTest()
         {
             float[,] channels = 

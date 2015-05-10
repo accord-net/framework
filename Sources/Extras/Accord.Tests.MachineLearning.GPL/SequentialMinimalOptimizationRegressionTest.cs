@@ -25,12 +25,12 @@ namespace Accord.Tests.MachineLearning.GPL
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
+    [TestFixture]
     public class SequentialMinimalOptimizationRegressionTest
     {
-        [TestMethod()]
+        [Test]
         public void TrainTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

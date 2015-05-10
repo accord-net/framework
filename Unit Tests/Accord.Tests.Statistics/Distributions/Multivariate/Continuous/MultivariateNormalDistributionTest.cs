@@ -27,13 +27,13 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class MultivariateNormalDistributionTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             NormalDistribution normal = new NormalDistribution(4.2, 1.2);
@@ -73,7 +73,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0 - ecdf, eccdf);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest4()
         {
             // Create a multivariate Gaussian distribution 
@@ -132,7 +132,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.033944035782101534, cdf);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             double[] mean = { 1, -1 };
@@ -151,7 +151,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 0.00000001);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             double[] mean = { 1, -1 };
@@ -170,7 +170,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 0.00000001);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest2()
         {
             double[] mean = new double[64];
@@ -197,7 +197,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest3()
         {
             double[] mean = new double[3];
@@ -220,7 +220,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityFunctionTest4()
         {
             // https://code.google.com/p/accord/issues/detail?id=98
@@ -274,7 +274,7 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(expected[i], actual[i], 1e-12);
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeFunctionTest1()
         {
             // Comparison against dmvnorm from the mvtnorm R package
@@ -305,7 +305,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.27896707550525140507, ccdf, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeFunctionTest2()
         {
             double[] mean = { 4.2 };
@@ -339,7 +339,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             double[] mean = { 1, -1 };
@@ -359,7 +359,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, target.Dimension);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             double[] mean = { 1, -1 };
@@ -373,7 +373,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest3()
         {
             double[] mean = { 0, 0 };
@@ -392,7 +392,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double[][] observations = 
@@ -429,7 +429,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest2()
         {
             double[][] observations = 
@@ -455,7 +455,7 @@ namespace Accord.Tests.Statistics
             target.Fit(observations, options);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest4()
         {
             double[][] observations = 
@@ -533,7 +533,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, ccdf2);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest5()
         {
             double[][] observations = 
@@ -562,7 +562,7 @@ namespace Accord.Tests.Statistics
             checkDegenerate(target);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest3()
         {
             double[][] observations = 
@@ -592,7 +592,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(psd);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -615,7 +615,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5, cov[1, 1], 2e-2);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);

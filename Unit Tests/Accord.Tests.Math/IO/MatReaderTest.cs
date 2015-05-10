@@ -25,15 +25,15 @@ namespace Accord.Tests.IO
     using Accord.IO;
     using Accord.Math;
     using Accord.Tests.Math.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class MatReaderTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             MemoryStream file = new MemoryStream(Resources.simplestruct);
@@ -88,7 +88,7 @@ namespace Accord.Tests.IO
         }
 
 
-        [TestMethod()]
+        [Test]
         public void readInt8()
         {
             MemoryStream file = new MemoryStream(Resources.int8);
@@ -112,7 +112,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readInt32()
         {
             MemoryStream file = new MemoryStream(Resources.int32);
@@ -136,7 +136,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readInt64()
         {
             MemoryStream file = new MemoryStream(Resources.int64);
@@ -160,7 +160,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readInt64_2()
         {
             MemoryStream file = new MemoryStream(Resources.a64);
@@ -188,7 +188,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readUInt64()
         {
             MemoryStream file = new MemoryStream(Resources.uint64);
@@ -212,7 +212,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readSingle()
         {
             MemoryStream file = new MemoryStream(Resources.single);
@@ -236,7 +236,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readDouble()
         {
             MemoryStream file = new MemoryStream(Resources.matnativedouble);
@@ -262,7 +262,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readDouble2()
         {
             MemoryStream file = new MemoryStream(Resources.matnativedouble2);
@@ -288,7 +288,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readLogical()
         {
             MemoryStream file = new MemoryStream(Resources.logical);
@@ -312,7 +312,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(value));
         }
 
-        [TestMethod()]
+        [Test]
         public void readStruct()
         {
             MemoryStream file = new MemoryStream(Resources.simplestruct);
@@ -346,7 +346,7 @@ namespace Accord.Tests.IO
             Assert.AreEqual("ala ma kota", s);
         }
 
-        [TestMethod()]
+        [Test]
         public void readCell()
         {
             MemoryStream file = new MemoryStream(Resources.cell);

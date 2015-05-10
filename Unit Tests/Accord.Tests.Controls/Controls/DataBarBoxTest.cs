@@ -23,13 +23,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Controls;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class DataBarBoxText
     {
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void DataBarBox_ShowTest1()
         {
             double[] data = new double[] { 100.0, 150.0, 42.0 };

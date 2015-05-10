@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Regression.Linear;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class SimpleLinearRegressionTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void RegressTest()
         {
             // Let's say we have some univariate, continuous sets of input data,
@@ -86,7 +86,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(y));
         }
 
-        [TestMethod()]
+        [Test]
         public void ToStringTest()
         {
             // Issue 51:

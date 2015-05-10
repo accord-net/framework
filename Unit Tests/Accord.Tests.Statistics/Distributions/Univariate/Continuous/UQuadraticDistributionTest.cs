@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
 {
     using System;
     using Accord.Statistics.Distributions.Univariate.Continuous;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
 
-    [TestClass]
+    [TestFixture]
     public class UQuadraticDistributionTest
     {
 
@@ -45,7 +45,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             }
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor_UQuadratic()
         {
             double a = -2.0d;
@@ -68,7 +68,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
             Assert.AreEqual(tostr, "U-Quadratic(x; a = -2, b = 2)");
         }
 
-        [TestMethod()]
+        [Test]
         public void DocumentationTest1()
         {
             var u2 = new UQuadraticDistribution(a: 0.42, b: 4.2);

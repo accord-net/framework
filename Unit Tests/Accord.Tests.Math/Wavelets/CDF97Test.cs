@@ -21,7 +21,7 @@
 //
 
 using Accord.Math.Wavelets;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Accord.Math;
 namespace Accord.Tests.Wavelets
 {
@@ -31,7 +31,7 @@ namespace Accord.Tests.Wavelets
     ///This is a test class for CDF97Test and is intended
     ///to contain all CDF97Test Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class CDF97Test
     {
 
@@ -55,7 +55,7 @@ namespace Accord.Tests.Wavelets
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FWT97Test()
         {
             double[] x = new double[32];
@@ -102,7 +102,7 @@ namespace Accord.Tests.Wavelets
 
         }
 
-        [TestMethod()]
+        [Test]
         public void FWT2DTest()
         {
             double[,] x = 

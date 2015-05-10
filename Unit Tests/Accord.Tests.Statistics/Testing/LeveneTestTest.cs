@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
 
-    [TestClass()]
+    [TestFixture]
     public class LeveneTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void LeveneTestConstructorTest()
         {
             // Example from NIST/SEMATECH e-Handbook of Statistical Methods,
@@ -63,7 +63,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(target.Statistic));
         }
 
-        [TestMethod()]
+        [Test]
         public void LeveneTestConstructorTest2()
         {
             double[][] samples =
@@ -81,7 +81,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.58857793222910693, result.PValue);
         }
 
-        [TestMethod()]
+        [Test]
         public void LeveneTestConstructorTest3()
         {
             double[][] samples =

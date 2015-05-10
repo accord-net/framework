@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Panorama.FREAK
+namespace SampleApp
 {
     static class Program
     {

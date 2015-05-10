@@ -24,11 +24,11 @@ namespace Accord.Tests.Imaging
 {
     using Accord.Imaging.Moments;
     using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Imaging.Converters;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class HuMomentsTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             var hu0 = new HuMoments(Resources.hu0);
@@ -60,7 +60,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(hu0.I3 / hu1.I3, 1, 0.7);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             float[,] img1; new ImageToMatrix().Convert(Resources.tt1, out img1);

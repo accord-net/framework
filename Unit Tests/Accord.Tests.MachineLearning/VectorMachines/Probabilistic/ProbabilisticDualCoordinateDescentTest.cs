@@ -26,13 +26,13 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math.Differentiation;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
 
-    [TestClass()]
+    [TestFixture]
     public class ProbabilisticDualCoordinateDescentTest
     {
 
@@ -53,7 +53,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;

@@ -22,12 +22,12 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
 
 
-    [TestClass()]
+    [TestFixture]
     public class BrentSearchTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
 
@@ -74,7 +74,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FindRootTest()
         {
             //  Example from http://en.wikipedia.org/wiki/Brent%27s_method
@@ -91,7 +91,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MaximizeTest()
         {
             Func<double, double> f = x => -2 * x * x - 3 * x + 5;
@@ -103,7 +103,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MinimizeTest()
         {
             Func<double, double> f = x => 2 * x * x - 3 * x + 5;

@@ -27,13 +27,13 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class OneclassSupportVectorLearningTest
     {
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

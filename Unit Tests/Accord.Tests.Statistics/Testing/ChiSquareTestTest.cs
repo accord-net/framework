@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions.Univariate;
 
 
-    [TestClass()]
+    [TestFixture]
     public class ChiSquareTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             double[] observed = { 639, 241 };
@@ -62,7 +62,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.1020, chi.PValue, 1e-4);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             double[] observed = { 6, 6, 16, 15, 4, 3 };
@@ -76,7 +76,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(false, chi.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest3()
         {
             // Example based on Wikipedia's article for χ²-Squared Test
@@ -125,7 +125,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest4()
         {
             double[] sample = 
@@ -143,7 +143,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(chi.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest5()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -183,7 +183,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest_WithZero_NoNaN()
         {
             double[] observed = { 639, 0 };

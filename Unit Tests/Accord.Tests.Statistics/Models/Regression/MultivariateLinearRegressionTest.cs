@@ -21,7 +21,7 @@
 //
 
 using Accord.Statistics.Models.Regression.Linear;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 namespace Accord.Tests.Statistics
 {
 
@@ -30,7 +30,7 @@ namespace Accord.Tests.Statistics
     ///This is a test class for MultivariateLinearRegressionTest and is intended
     ///to contain all MultivariateLinearRegressionTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class MultivariateLinearRegressionTest
     {
 
@@ -55,7 +55,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void RegressTest()
         {
             double[][] X = 
@@ -110,7 +110,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void RegressTest2()
         {
             // The multivariate linear regression is a generalization of
