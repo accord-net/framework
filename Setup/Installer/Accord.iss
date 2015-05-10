@@ -1,6 +1,6 @@
 ; Accord.NET setup project
 
-#define VERSION GetStringFileInfo("..\..\Release\net40\Accord.dll", "ProductVersion")
+#define VERSION GetStringFileInfo("..\..\Release\net45\Accord.dll", "ProductVersion")
 #pragma message "Creating package for Accord.NET " + VERSION
 [Setup]
 AppName=Accord.NET Framework
@@ -10,7 +10,7 @@ AppPublisher=Accord.NET
 AppPublisherURL=http://accord-framework.net
 AppSupportURL=http://accord-framework.net
 AppUpdatesURL=http://accord-framework.net
-AppCopyright=Copyright © César Souza, 2009-2015
+AppCopyright=Copyright © Accord.NET authors, 2009-2015
 VersionInfoVersion={#VERSION}
 DefaultDirName={pf}\Accord.NET\Framework
 DefaultGroupName=Accord.NET\Framework
