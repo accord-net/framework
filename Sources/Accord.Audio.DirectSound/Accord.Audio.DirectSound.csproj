@@ -88,15 +88,13 @@
     <Compile Include="AudioDeviceCollection.cs" />
     <Compile Include="AudioOutputDevice.cs" />
     <Compile Include="AudioDeviceInfo.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WaveDecoder.cs" />
+    <Compile Include="WaveEncoder.cs" />
     <Compile Include="WaveFileAudioSource.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Accord.Audio.Formats\Accord.Audio.Formats.csproj">
-      <Project>{EC70C2A7-2B49-40D3-AE82-4C2F6E1724AF}</Project>
-      <Name>Accord.Audio.Formats</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Accord.Audio\Accord.Audio.csproj">
       <Project>{E7B65F08-82F1-438F-847A-2AAC2BEC9AC0}</Project>
       <Name>Accord.Audio</Name>

@@ -69,6 +69,9 @@
     <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
+    <Compile Include="Formats\FrameInfo.cs" />
+    <Compile Include="Formats\IAudioDecoder.cs" />
+    <Compile Include="Formats\IAudioEncoder.cs" />
     <Compile Include="Generators\SignalGenerator.cs" />
     <Compile Include="Generators\SineGenerator.cs" />
     <Compile Include="AudioSourceMixer.cs" />
