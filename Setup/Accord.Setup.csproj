@@ -36,6 +36,7 @@
     <None Include="NuGet\Accord.Neuro.nuspec" />
     <None Include="NuGet\Accord.nuspec" />
     <None Include="NuGet\Accord.Statistics.nuspec" />
+    <None Include="NuGet\Accord.Video.FFMPEG.nuspec" />
     <None Include="NuGet\Accord.Video.Kinect.nuspec" />
     <None Include="NuGet\Accord.Video.Ximea.nuspec" />
     <None Include="NuGet\Accord.Video.VFW.nuspec" />
