@@ -17,7 +17,7 @@ namespace AForge.Fuzzy
     /// 
     /// <remarks><para>A Fuzzy Clause is used to verify if a linguistic variable can be considered
     /// as a specific value at a specific moment. Linguistic variables can only assume value of
-    /// their linugistic labels. Because of the nature of the Fuzzy Logic, a Variable can be 
+    /// their linguistic labels. Because of the nature of the Fuzzy Logic, a Variable can be 
     /// several of its labels at the same time, with different membership values.</para>
     /// 
     /// <para>For example, a linguistic variable "temperature" can be "hot" with a membership 0.3
@@ -29,30 +29,30 @@ namespace AForge.Fuzzy
     /// <para>Sample usage:</para>
     /// <code>
     /// // create a linguistic variable to represent temperature
-    /// LinguisticVariable lvTemperature = new LinguisticVariable( "Temperature", 0, 80 );
+    /// LinguisticVariable lvTemperature = new LinguisticVariable("Temperature", 0, 80 );
     ///
     /// // create the linguistic labels (fuzzy sets) that compose the temperature 
-    /// TrapezoidalFunction function1 = new TrapezoidalFunction( 10, 15, TrapezoidalFunction.EdgeType.Right );
-    /// FuzzySet fsCold = new FuzzySet( "Cold", function1 );
-    /// TrapezoidalFunction function2 = new TrapezoidalFunction( 10, 15, 20, 25 );
-    /// FuzzySet fsCool = new FuzzySet( "Cool", function2 );
-    /// TrapezoidalFunction function3 = new TrapezoidalFunction( 20, 25, 30, 35 );
-    /// FuzzySet fsWarm = new FuzzySet( "Warm", function3 );
-    /// TrapezoidalFunction function4 = new TrapezoidalFunction( 30, 35, TrapezoidalFunction.EdgeType.Left );
-    /// FuzzySet fsHot  = new FuzzySet( "Hot" , function4 );
+    /// TrapezoidalFunction function1 = new TrapezoidalFunction(10, 15, TrapezoidalFunction.EdgeType.Right);
+    /// FuzzySet fsCold = new FuzzySet("Cold", function1);
+    /// TrapezoidalFunction function2 = new TrapezoidalFunction(10, 15, 20, 25);
+    /// FuzzySet fsCool = new FuzzySet("Cool", function2);
+    /// TrapezoidalFunction function3 = new TrapezoidalFunction(20, 25, 30, 35);
+    /// FuzzySet fsWarm = new FuzzySet("Warm", function3);
+    /// TrapezoidalFunction function4 = new TrapezoidalFunction(30, 35, TrapezoidalFunction.EdgeType.Left);
+    /// FuzzySet fsHot  = new FuzzySet("Hot", function4);
     ///
     /// // adding labels to the variable
-    /// lvTemperature.AddLabel( fsCold );
-    /// lvTemperature.AddLabel( fsCool );
-    /// lvTemperature.AddLabel( fsWarm );
-    /// lvTemperature.AddLabel( fsHot  );
+    /// lvTemperature.AddLabel(fsCold);
+    /// lvTemperature.AddLabel(fsCool);
+    /// lvTemperature.AddLabel(fsWarm);
+    /// lvTemperature.AddLabel(fsHot);
     /// 
     /// // creating the Clause
-    /// Clause fuzzyClause = new Clause( lvTemperature, fsHot );
+    /// Clause fuzzyClause = new Clause(lvTemperature, fsHot);
     /// // setting the numerical input of the variable to evaluate the Clause
     /// lvTemperature.NumericInput = 35;
-    /// float result = fuzzyClause.Evaluate( );
-    /// Console.WriteLine ( result.ToString( ) );
+    /// float result = fuzzyClause.Evaluate();
+    /// Console.WriteLine(result.ToString());
     /// </code>    
     /// </remarks>
     /// 
@@ -60,6 +60,7 @@ namespace AForge.Fuzzy
     {
         // the linguistic var of the clause
         private LinguisticVariable variable;
+
         // the label of the clause
         private FuzzySet label;
 

@@ -11,7 +11,10 @@
     <projectUrl>http://accord-framework.net</projectUrl>
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>The core of the Accord.NET Framework. Contains basic classes such as general exceptions and extensions used by other framework libraries. Accord.NET is an extension framework for AForge.NET.</description>
+    <description>
+      The core of the Accord.NET Framework. Contains basic classes such as general
+      exceptions and extensions used by other framework libraries.
+    </description>
     <summary>Accord.NET Framework core library.</summary>
     <tags>accord.net aforge.net framework structures machine learning .net c#</tags>
   </metadata>

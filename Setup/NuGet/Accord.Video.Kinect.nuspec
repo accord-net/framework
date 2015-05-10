@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Video.Kinect</id>
+    <version>$version$</version>
+    <title>Accord.Video.Kinect</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains an interface to control and capture images from Microsoft Kinect devices.
+      This package originated from the AForge.NET Framework and is part of the Accord.NET
+      Framework.
+    </description>
+    <summary>Accord.NET Video Kinect Library from the Accord.NET Framework</summary>
+    <tags>accord.net aforge.net framework video capture kinect cameras</tags>
+    <dependencies>
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Video"           version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Video.Kinect.dll" target="lib\net35\Accord.Video.Kinect.dll" />
+    <file src="..\..\Release\net35\Accord.Video.Kinect.xml" target="lib\net35\Accord.Video.Kinect.xml" />
+
+    <file src="..\..\Release\net40\Accord.Video.Kinect.dll" target="lib\net40\Accord.Video.Kinect.dll" />
+    <file src="..\..\Release\net40\Accord.Video.Kinect.xml" target="lib\net40\Accord.Video.Kinect.xml" />
+
+    <file src="..\..\Release\net45\Accord.Video.Kinect.dll" target="lib\net45\Accord.Video.Kinect.dll" />
+    <file src="..\..\Release\net45\Accord.Video.Kinect.xml" target="lib\net45\Accord.Video.Kinect.xml" />
+  </files>
+</package>

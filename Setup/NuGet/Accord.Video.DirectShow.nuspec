@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Accord.Video.DirectShow</id>
+    <version>$version$</version>
+    <title>Accord.Video.DirectShow</title>
+    <authors>Accord.NET</authors>
+    <owners>Accord.NET</owners>
+    <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
+    <projectUrl>http://accord-framework.net</projectUrl>
+    <iconUrl>http://accord-framework.net/logo.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      Contains classes and methods to handle video sources using DirectShow
+      interface (USB web cameras, capture devices, video files). This package originated
+      from the AForge.NET Framework and is part of the Accord.NET Framework.
+    </description>
+    <summary>Accord.NET Video DirectShow Library from the Accord.NET Framework</summary>
+    <tags>accord.net aforge.net framework video capture cameras</tags>
+    <dependencies>
+      <dependency id="Accord"                 version="$version$" />
+      <dependency id="Accord.Video"           version="$version$" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\..\Release\net35\Accord.Video.DirectShow.dll" target="lib\net35\Accord.Video.DirectShow.dll" />
+    <file src="..\..\Release\net35\Accord.Video.DirectShow.xml" target="lib\net35\Accord.Video.DirectShow.xml" />
+
+    <file src="..\..\Release\net40\Accord.Video.DirectShow.dll" target="lib\net40\Accord.Video.DirectShow.dll" />
+    <file src="..\..\Release\net40\Accord.Video.DirectShow.xml" target="lib\net40\Accord.Video.DirectShow.xml" />
+
+    <file src="..\..\Release\net45\Accord.Video.DirectShow.dll" target="lib\net45\Accord.Video.DirectShow.dll" />
+    <file src="..\..\Release\net45\Accord.Video.DirectShow.xml" target="lib\net45\Accord.Video.DirectShow.xml" />
+  </files>
+</package>
