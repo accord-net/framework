@@ -14,7 +14,6 @@ namespace AForge.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using M = System.Math;
 
     /// <summary>
     /// Bilateral filter implementation - edge preserving smoothing and noise reduction that uses chromatic and spatial factors.
@@ -58,7 +57,7 @@ namespace AForge.Imaging.Filters
     /// 
     public class BilateralSmoothing : BaseUsingCopyPartialFilter
     {
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         private const int maxKernelSize = 255;
         private const int colorsCount = 256;
@@ -135,21 +134,21 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                if ( value > maxKernelSize )
+                if (value > maxKernelSize)
                 {
-                    throw new ArgumentOutOfRangeException( "Maximum allowed value of KernelSize property is " + maxKernelSize.ToString( ) );
+                    throw new ArgumentOutOfRangeException("Maximum allowed value of KernelSize property is " + maxKernelSize.ToString());
                 }
-                if ( ( limitKernelSize ) && ( value > 25 ) )
+                if ((limitKernelSize) && (value > 25))
                 {
-                    throw new ArgumentOutOfRangeException( "KernerlSize is larger then 25. Time for applying is significant and may lead to application freezing. In order to use any KernelSize value set property 'LimitKernelSize' to false." );
+                    throw new ArgumentOutOfRangeException("KernerlSize is larger then 25. Time for applying is significant and may lead to application freezing. In order to use any KernelSize value set property 'LimitKernelSize' to false.");
                 }
-                if ( value < 3 )
+                if (value < 3)
                 {
-                    throw new ArgumentOutOfRangeException( "KernelSize must be greater than 3" );
+                    throw new ArgumentOutOfRangeException("KernelSize must be greater than 3");
                 }
-                if ( value % 2 == 0 )
+                if (value % 2 == 0)
                 {
-                    throw new ArgumentException( "KernerlSize must be an odd integer." );
+                    throw new ArgumentException("KernerlSize must be an odd integer.");
                 }
 
                 kernelSize = value;
@@ -172,7 +171,7 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                spatialFactor = Math.Max( 1, value );
+                spatialFactor = Math.Max(1, value);
                 spatialPropertiesChanged = true;
             }
         }
@@ -193,7 +192,7 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                spatialPower = Math.Max( 1, value );
+                spatialPower = Math.Max(1, value);
                 spatialPropertiesChanged = true;
             }
         }
@@ -214,7 +213,7 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                colorFactor = Math.Max( 1, value );
+                colorFactor = Math.Max(1, value);
                 colorPropertiesChanged = true;
             }
         }
@@ -235,7 +234,7 @@ namespace AForge.Imaging.Filters
             }
             set
             {
-                colorPower = Math.Max( 1, value );
+                colorPower = Math.Max(1, value);
                 colorPropertiesChanged = true;
             }
         }
@@ -256,41 +255,41 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="BilateralSmoothing"/> class.
         /// </summary>
         /// 
-        public BilateralSmoothing( )
+        public BilateralSmoothing()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]    = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
         private double[,] spatialFunc;
         private double[,] colorFunc;
 
         // For performance improvements Color and Spatial functions are recalculated prior to filter execution and put into 2 dimensional arrays
-        private void InitSpatialFunc( )
+        private void InitSpatialFunc()
         {
-            if ( ( spatialFunc == null ) || ( spatialFunc.Length != kernelSize * kernelSize ) ||
-                 ( spatialPropertiesChanged ) )
+            if ((spatialFunc == null) || (spatialFunc.Length != kernelSize * kernelSize) ||
+                 (spatialPropertiesChanged))
             {
-                if ( ( spatialFunc == null ) || ( spatialFunc.Length != kernelSize * kernelSize ) )
+                if ((spatialFunc == null) || (spatialFunc.Length != kernelSize * kernelSize))
                 {
                     spatialFunc = new double[kernelSize, kernelSize];
                 }
 
                 int kernelRadius = kernelSize / 2;
 
-                for ( int i = 0; i < kernelSize; i++ )
+                for (int i = 0; i < kernelSize; i++)
                 {
-                    int ti  = i - kernelRadius;
+                    int ti = i - kernelRadius;
                     int ti2 = ti * ti;
 
-                    for ( int k = 0; k < kernelSize; k++ )
+                    for (int k = 0; k < kernelSize; k++)
                     {
                         int tk = k - kernelRadius;
                         int tk2 = tk * tk;
 
-                        spatialFunc[i, k] = M.Exp( -0.5 * M.Pow( M.Sqrt( ( ti2 + tk2 ) / spatialFactor ), spatialPower ) );
+                        spatialFunc[i, k] = Math.Exp(-0.5 * Math.Pow(Math.Sqrt((ti2 + tk2) / spatialFactor), spatialPower));
                     }
                 }
 
@@ -299,20 +298,20 @@ namespace AForge.Imaging.Filters
         }
 
         // For performance improvements Color and Spatial functions are recalculated prior to filter execution and put into 2 dimensional arrays
-        private void InitColorFunc( )
+        private void InitColorFunc()
         {
-            if ( ( colorFunc == null ) || ( colorPropertiesChanged ) )
+            if ((colorFunc == null) || (colorPropertiesChanged))
             {
-                if ( colorFunc == null )
+                if (colorFunc == null)
                 {
                     colorFunc = new double[colorsCount, colorsCount];
                 }
 
-                for ( int i = 0; i < colorsCount; i++ )
+                for (int i = 0; i < colorsCount; i++)
                 {
-                    for ( int k = 0; k < colorsCount; k++ )
+                    for (int k = 0; k < colorsCount; k++)
                     {
-                        colorFunc[i, k] = M.Exp( -0.5 * ( M.Pow( M.Abs( i - k ) / colorFactor, colorPower ) ) );
+                        colorFunc[i, k] = Math.Exp(-0.5 * (Math.Pow(Math.Abs(i - k) / colorFactor, colorPower)));
                     }
                 }
 
@@ -320,10 +319,10 @@ namespace AForge.Imaging.Filters
             }
         }
 
-        private void InitFilter( )
+        private void InitFilter()
         {
-            InitSpatialFunc( );
-            InitColorFunc( );
+            InitSpatialFunc();
+            InitColorFunc();
         }
 
         /// <summary>
@@ -334,78 +333,77 @@ namespace AForge.Imaging.Filters
         /// <param name="destination">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
         {
             int kernelHalf = kernelSize / 2;
 
-            InitFilter( );
+            InitFilter();
 
-            if ( ( rect.Width <= kernelSize ) || ( rect.Height <= kernelSize ) )
+            if ((rect.Width <= kernelSize) || (rect.Height <= kernelSize))
             {
-                ProcessWithEdgeChecks( source, destination, rect );
+                ProcessWithEdgeChecks(source, destination, rect);
             }
             else
             {
                 Rectangle safeArea = rect;
-                safeArea.Inflate( -kernelHalf, -kernelHalf );
+                safeArea.Inflate(-kernelHalf, -kernelHalf);
 
-                if ( ( Environment.ProcessorCount > 1 ) && ( enableParallelProcessing ) )
+                if ((Environment.ProcessorCount > 1) && (enableParallelProcessing))
                 {
-                    ProcessWithoutChecksParallel( source, destination, safeArea );
+                    ProcessWithoutChecksParallel(source, destination, safeArea);
                 }
                 else
                 {
-                    ProcessWithoutChecks( source, destination, safeArea );
+                    ProcessWithoutChecks(source, destination, safeArea);
                 }
 
                 // top
-                ProcessWithEdgeChecks( source, destination,
-                    new Rectangle( rect.Left, rect.Top, rect.Width, kernelHalf ) );
+                ProcessWithEdgeChecks(source, destination,
+                    new Rectangle(rect.Left, rect.Top, rect.Width, kernelHalf));
                 // bottom
-                ProcessWithEdgeChecks( source, destination,
-                    new Rectangle( rect.Left, rect.Bottom - kernelHalf, rect.Width, kernelHalf ) );
+                ProcessWithEdgeChecks(source, destination,
+                    new Rectangle(rect.Left, rect.Bottom - kernelHalf, rect.Width, kernelHalf));
                 // left
-                ProcessWithEdgeChecks( source, destination,
-                    new Rectangle( rect.Left, rect.Top + kernelHalf, kernelHalf, rect.Height - kernelHalf * 2 ) );
+                ProcessWithEdgeChecks(source, destination,
+                    new Rectangle(rect.Left, rect.Top + kernelHalf, kernelHalf, rect.Height - kernelHalf * 2));
                 // right
-                ProcessWithEdgeChecks( source, destination,
-                    new Rectangle( rect.Right - kernelHalf, rect.Top + kernelHalf, kernelHalf, rect.Height - kernelHalf  * 2 ) );
+                ProcessWithEdgeChecks(source, destination,
+                    new Rectangle(rect.Right - kernelHalf, rect.Top + kernelHalf, kernelHalf, rect.Height - kernelHalf * 2));
             }
         }
 
         // Perform parallel image processing without checking pixels' coordinates to make sure those are in bounds
-        private unsafe void ProcessWithoutChecksParallel( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        private unsafe void ProcessWithoutChecksParallel(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
         {
             int startX = rect.Left;
             int startY = rect.Top;
-            int stopX  = rect.Right;
-            int stopY  = rect.Bottom;
+            int stopX = rect.Right;
+            int stopY = rect.Bottom;
 
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize( source.PixelFormat ) / 8;
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(source.PixelFormat) / 8;
             int kernelHalf = kernelSize / 2;
             int bytesInKernelRow = kernelSize * pixelSize;
 
             int srcStride = source.Stride;
             int dstStride = destination.Stride;
 
-            int srcOffset = srcStride - rect.Width * pixelSize;
-            int dstOffset = dstStride - rect.Width * pixelSize;
 
             // offset of the first kernel's pixel
-            int srcKernelFistPixelOffset = kernelHalf * ( srcStride + pixelSize );
+            int srcKernelFistPixelOffset = kernelHalf * (srcStride + pixelSize);
+
             // offset to move to the next kernel's pixel after processing one kernel's row
             int srcKernelOffset = srcStride - bytesInKernelRow;
 
-            byte* srcBase = (byte*) source.ImageData.ToPointer( );
-            byte* dstBase = (byte*) destination.ImageData.ToPointer( );
+            byte* srcBase = (byte*)source.ImageData.ToPointer();
+            byte* dstBase = (byte*)destination.ImageData.ToPointer();
 
-            // allign pointers to the left most pixel in the first row
+            // align pointers to the left most pixel in the first row
             srcBase += startX * pixelSize;
             dstBase += startX * pixelSize;
 
-            if ( pixelSize > 1 )
+            if (pixelSize > 1)
             {
-                Parallel.For( startY, stopY, delegate( int y )
+                Parallel.For(startY, stopY, delegate(int y)
                 {
                     byte* src = srcBase + y * srcStride;
                     byte* dst = dstBase + y * dstStride;
@@ -418,7 +416,7 @@ namespace AForge.Imaging.Filters
 
                     double sCoefR, sCoefG, sCoefB, sMembR, sMembG, sMembB, coefR, coefG, coefB;
 
-                    for ( int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize )
+                    for (int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize)
                     {
                         // lower right corner - to start processing from that point
                         srcPixel = src + srcKernelFistPixelOffset;
@@ -436,12 +434,12 @@ namespace AForge.Imaging.Filters
 
                         // move from lower right to upper left corner
                         ty = kernelSize;
-                        while ( ty != 0 )
+                        while (ty != 0)
                         {
                             ty--;
 
                             tx = kernelSize;
-                            while ( tx != 0 )
+                            while (tx != 0)
                             {
                                 tx--;
 
@@ -467,16 +465,16 @@ namespace AForge.Imaging.Filters
                             srcPixel -= srcKernelOffset;
                         }
 
-                        dst[RGB.R] = (byte) ( sMembR / sCoefR );
-                        dst[RGB.G] = (byte) ( sMembG / sCoefG );
-                        dst[RGB.B] = (byte) ( sMembB / sCoefB );
+                        dst[RGB.R] = (byte)(sMembR / sCoefR);
+                        dst[RGB.G] = (byte)(sMembG / sCoefG);
+                        dst[RGB.B] = (byte)(sMembB / sCoefB);
                     }
-                } );
+                });
             }
             else
             {
                 // 8bpp grayscale images
-                Parallel.For( startY, stopY, delegate( int y )
+                Parallel.For(startY, stopY, delegate(int y)
                 {
                     byte* src = srcBase + y * srcStride;
                     byte* dst = dstBase + y * dstStride;
@@ -488,7 +486,7 @@ namespace AForge.Imaging.Filters
 
                     int tx, ty;
 
-                    for ( int x = startX; x < stopX; x++, src++, dst++ )
+                    for (int x = startX; x < stopX; x++, src++, dst++)
                     {
                         // lower right corner - to start processing from that point
                         srcPixel = src + srcKernelFistPixelOffset;
@@ -500,16 +498,16 @@ namespace AForge.Imaging.Filters
 
                         // move from lower right to upper left corner
                         ty = kernelSize;
-                        while ( ty != 0 )
+                        while (ty != 0)
                         {
                             ty--;
 
                             tx = kernelSize;
-                            while ( tx != 0 )
+                            while (tx != 0)
                             {
                                 tx--;
 
-                                srcC = *( srcPixel );
+                                srcC = *(srcPixel);
                                 coefC = spatialFunc[tx, ty] * colorFunc[srcC, srcC0];
 
                                 sCoefC += coefC;
@@ -521,21 +519,21 @@ namespace AForge.Imaging.Filters
                             srcPixel -= srcKernelOffset;
                         }
 
-                        *dst = (byte) ( sMembC / sCoefC );
+                        *dst = (byte)(sMembC / sCoefC);
                     }
-                } );
+                });
             }
         }
 
         // Perform image processing without checking pixels' coordinates to make sure those are in bounds
-        private unsafe void ProcessWithoutChecks( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        private unsafe void ProcessWithoutChecks(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
         {
             int startX = rect.Left;
             int startY = rect.Top;
-            int stopX  = rect.Right;
-            int stopY  = rect.Bottom;
+            int stopX = rect.Right;
+            int stopY = rect.Bottom;
 
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize( source.PixelFormat ) / 8;
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(source.PixelFormat) / 8;
             int kernelHalf = kernelSize / 2;
             int bytesInKernelRow = kernelSize * pixelSize;
 
@@ -546,20 +544,20 @@ namespace AForge.Imaging.Filters
             int dstOffset = dstStride - rect.Width * pixelSize;
 
             // offset of the first kernel's pixel
-            int srcKernelFistPixelOffset = kernelHalf * ( srcStride + pixelSize );
+            int srcKernelFistPixelOffset = kernelHalf * (srcStride + pixelSize);
             // offset to move to the next kernel's pixel after processing one kernel's row
             int srcKernelOffset = srcStride - bytesInKernelRow;
 
             int tx, ty;
 
-            byte* src = (byte*) source.ImageData.ToPointer( );
-            byte* dst = (byte*) destination.ImageData.ToPointer( );
+            byte* src = (byte*)source.ImageData.ToPointer();
+            byte* dst = (byte*)destination.ImageData.ToPointer();
 
             // allign pointers to the first pixel to process
             src += startY * srcStride + startX * pixelSize;
             dst += startY * dstStride + startX * pixelSize;
 
-            if ( pixelSize > 1 )
+            if (pixelSize > 1)
             {
                 byte srcR, srcG, srcB;
                 byte srcR0, srcG0, srcB0;
@@ -567,9 +565,9 @@ namespace AForge.Imaging.Filters
 
                 double sCoefR, sCoefG, sCoefB, sMembR, sMembG, sMembB, coefR, coefG, coefB;
 
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    for ( int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize )
+                    for (int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize)
                     {
                         // lower right corner - to start processing from that point
                         srcPixel = src + srcKernelFistPixelOffset;
@@ -587,12 +585,12 @@ namespace AForge.Imaging.Filters
 
                         // move from lower right to upper left corner
                         ty = kernelSize;
-                        while ( ty != 0 )
+                        while (ty != 0)
                         {
                             ty--;
 
                             tx = kernelSize;
-                            while ( tx != 0 )
+                            while (tx != 0)
                             {
                                 tx--;
 
@@ -618,9 +616,9 @@ namespace AForge.Imaging.Filters
                             srcPixel -= srcKernelOffset;
                         }
 
-                        dst[RGB.R] = (byte) ( sMembR / sCoefR );
-                        dst[RGB.G] = (byte) ( sMembG / sCoefG );
-                        dst[RGB.B] = (byte) ( sMembB / sCoefB );
+                        dst[RGB.R] = (byte)(sMembR / sCoefR);
+                        dst[RGB.G] = (byte)(sMembG / sCoefG);
+                        dst[RGB.B] = (byte)(sMembB / sCoefB);
                     }
                     src += srcOffset;
                     dst += dstOffset;
@@ -634,9 +632,9 @@ namespace AForge.Imaging.Filters
                 byte* srcPixel;
                 double sCoefC, sMembC, coefC;
 
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    for ( int x = startX; x < stopX; x++, src++, dst++ )
+                    for (int x = startX; x < stopX; x++, src++, dst++)
                     {
                         // lower right corner - to start processing from that point
                         srcPixel = src + srcKernelFistPixelOffset;
@@ -648,16 +646,16 @@ namespace AForge.Imaging.Filters
 
                         // move from lower right to upper left corner
                         ty = kernelSize;
-                        while ( ty != 0 )
+                        while (ty != 0)
                         {
                             ty--;
 
                             tx = kernelSize;
-                            while ( tx != 0 )
+                            while (tx != 0)
                             {
                                 tx--;
 
-                                srcC = *( srcPixel );
+                                srcC = *(srcPixel);
                                 coefC = spatialFunc[tx, ty] * colorFunc[srcC, srcC0];
 
                                 sCoefC += coefC;
@@ -669,7 +667,7 @@ namespace AForge.Imaging.Filters
                             srcPixel -= srcKernelOffset;
                         }
 
-                        *dst = (byte) ( sMembC / sCoefC );
+                        *dst = (byte)(sMembC / sCoefC);
                     }
                     src += srcOffset;
                     dst += dstOffset;
@@ -678,17 +676,17 @@ namespace AForge.Imaging.Filters
         }
 
         // Perform image processing with checking pixels' coordinates to make sure those are in bounds
-        private unsafe void ProcessWithEdgeChecks( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        private unsafe void ProcessWithEdgeChecks(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
         {
-            int width  = source.Width;
+            int width = source.Width;
             int height = source.Height;
 
             int startX = rect.Left;
             int startY = rect.Top;
-            int stopX  = rect.Right;
-            int stopY  = rect.Bottom;
+            int stopX = rect.Right;
+            int stopY = rect.Bottom;
 
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize( source.PixelFormat ) / 8;
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(source.PixelFormat) / 8;
             int kernelHalf = kernelSize / 2;
             int bytesInKernelRow = kernelSize * pixelSize;
 
@@ -699,21 +697,21 @@ namespace AForge.Imaging.Filters
             int dstOffset = dstStride - rect.Width * pixelSize;
 
             // offset of the first kernel's pixel
-            int srcKernelFistPixelOffset = kernelHalf * ( srcStride + pixelSize );
+            int srcKernelFistPixelOffset = kernelHalf * (srcStride + pixelSize);
             // offset to move to the next kernel's pixel after processing one kernel's row
             int srcKernelOffset = srcStride - bytesInKernelRow;
 
             int rx, ry;
             int tx, ty;
 
-            byte* src = (byte*) source.ImageData.ToPointer( );
-            byte* dst = (byte*) destination.ImageData.ToPointer( );
+            byte* src = (byte*)source.ImageData.ToPointer();
+            byte* dst = (byte*)destination.ImageData.ToPointer();
 
             // allign pointers to the first pixel to process
             src += startY * srcStride + startX * pixelSize;
             dst += startY * dstStride + startX * pixelSize;
 
-            if ( pixelSize > 1 )
+            if (pixelSize > 1)
             {
                 // color images
                 byte srcR, srcG, srcB;
@@ -722,9 +720,9 @@ namespace AForge.Imaging.Filters
 
                 double sCoefR, sCoefG, sCoefB, sMembR, sMembG, sMembB, coefR, coefG, coefB;
 
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    for ( int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize )
+                    for (int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize)
                     {
                         // lower right corner - to start processing from that point
                         srcPixel = src + srcKernelFistPixelOffset;
@@ -742,24 +740,24 @@ namespace AForge.Imaging.Filters
 
                         // move from lower right to upper left corner
                         ty = kernelSize;
-                        while ( ty != 0 )
+                        while (ty != 0)
                         {
                             ty--;
                             ry = ty - kernelHalf;
 
-                            if ( ( ry + y >= height ) || ( ry + y < 0 ) ) // bounds check
+                            if ((ry + y >= height) || (ry + y < 0)) // bounds check
                             {
                                 srcPixel -= srcStride;
                                 continue;
                             }
 
                             tx = kernelSize;
-                            while ( tx != 0 )
+                            while (tx != 0)
                             {
                                 tx--;
                                 rx = tx - kernelHalf;
 
-                                if ( ( rx + x >= width ) || ( rx + x < 0 ) ) // bounds check
+                                if ((rx + x >= width) || (rx + x < 0)) // bounds check
                                 {
                                     srcPixel -= pixelSize;
                                     continue;
@@ -787,9 +785,9 @@ namespace AForge.Imaging.Filters
                             srcPixel -= srcKernelOffset;
                         }
 
-                        dst[RGB.R] = (byte) ( sMembR / sCoefR );
-                        dst[RGB.G] = (byte) ( sMembG / sCoefG );
-                        dst[RGB.B] = (byte) ( sMembB / sCoefB );
+                        dst[RGB.R] = (byte)(sMembR / sCoefR);
+                        dst[RGB.G] = (byte)(sMembG / sCoefG);
+                        dst[RGB.B] = (byte)(sMembB / sCoefB);
                     }
 
                     src += srcOffset;
@@ -804,9 +802,9 @@ namespace AForge.Imaging.Filters
                 byte* srcPixel;
                 double sCoefC, sMembC, coefC;
 
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    for ( int x = startX; x < stopX; x++, src++, dst++ )
+                    for (int x = startX; x < stopX; x++, src++, dst++)
                     {
                         // lower right corner - to start processing from that point
                         srcPixel = src + srcKernelFistPixelOffset;
@@ -818,30 +816,30 @@ namespace AForge.Imaging.Filters
 
                         // move from lower right to upper left corner
                         ty = kernelSize;
-                        while ( ty != 0 )
+                        while (ty != 0)
                         {
                             ty--;
-                            ry = (int) ( ty - kernelHalf );
+                            ry = (int)(ty - kernelHalf);
 
-                            if ( ( ry + y >= height ) || ( ry + y < 0 ) ) // bounds check
+                            if ((ry + y >= height) || (ry + y < 0)) // bounds check
                             {
                                 srcPixel -= srcStride;
                                 continue;
                             }
 
                             tx = kernelSize;
-                            while ( tx != 0 )
+                            while (tx != 0)
                             {
                                 tx--;
-                                rx = (int) ( tx - kernelHalf );
+                                rx = (int)(tx - kernelHalf);
 
-                                if ( ( rx + x >= source.Width ) || ( rx + x < 0 ) ) // bounds check
+                                if ((rx + x >= source.Width) || (rx + x < 0)) // bounds check
                                 {
                                     srcPixel -= pixelSize;
                                     continue;
                                 }
 
-                                srcC = *( srcPixel );
+                                srcC = *(srcPixel);
                                 coefC = spatialFunc[tx, ty] * colorFunc[srcC, srcC0];
 
                                 sCoefC += coefC;
@@ -853,7 +851,7 @@ namespace AForge.Imaging.Filters
                             srcPixel -= srcKernelOffset;
                         }
 
-                        *dst = (byte) ( sMembC / sCoefC );
+                        *dst = (byte)(sMembC / sCoefC);
                     }
                     src += srcOffset;
                     dst += dstOffset;
