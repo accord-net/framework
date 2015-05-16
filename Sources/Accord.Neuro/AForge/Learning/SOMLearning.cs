@@ -76,7 +76,7 @@ namespace AForge.Neuro.Learning
             get { return learningRate; }
             set
             {
-                learningRate = Math.Max( 0.0, Math.Min( 1.0, value ) );
+                learningRate = Math.Max(0.0, Math.Min(1.0, value));
             }
         }
 
@@ -100,10 +100,22 @@ namespace AForge.Neuro.Learning
             get { return learningRadius; }
             set
             {
-                learningRadius = Math.Max( 0, value );
+                learningRadius = Math.Max(0, value);
                 squaredRadius2 = 2 * learningRadius * learningRadius;
             }
         }
+
+        /// <summary>
+        ///   Gets the neural network's height.
+        /// </summary>
+        /// 
+        public int Height { get { return height; } }
+
+        /// <summary>
+        ///   Gets the neural network's width.
+        /// </summary>
+        /// 
+        public int Width { get { return width; } }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SOMLearning"/> class.
@@ -116,15 +128,15 @@ namespace AForge.Neuro.Learning
         /// 
         /// <exception cref="ArgumentException">Invalid network size - square network is expected.</exception>
         /// 
-        public SOMLearning( DistanceNetwork network )
+        public SOMLearning(DistanceNetwork network)
         {
             // network's dimension was not specified, let's try to guess
             int neuronsCount = network.Layers[0].Neurons.Length;
-            int width = (int) Math.Sqrt( neuronsCount );
+            int width = (int)Math.Sqrt(neuronsCount);
 
-            if ( width * width != neuronsCount )
+            if (width * width != neuronsCount)
             {
-                throw new ArgumentException( "Invalid network size." );
+                throw new ArgumentException("Invalid network size.");
             }
 
             // ok, we got it
@@ -149,12 +161,12 @@ namespace AForge.Neuro.Learning
         /// <exception cref="ArgumentException">Invalid network size - network size does not correspond
         /// to specified width and height.</exception>
         /// 
-        public SOMLearning( DistanceNetwork network, int width, int height )
+        public SOMLearning(DistanceNetwork network, int width, int height)
         {
             // check network size
-            if ( network.Layers[0].Neurons.Length != width * height )
+            if (network.Layers[0].Neurons.Length != width * height)
             {
-                throw new ArgumentException( "Invalid network size." );
+                throw new ArgumentException("Invalid network size.");
             }
 
             this.network = network;
@@ -177,28 +189,28 @@ namespace AForge.Neuro.Learning
         /// (as well as weights of neighbor neurons) in the way to decrease difference with the specified
         /// input vector.</para></remarks>
         /// 
-        public double Run( double[] input )
+        public double Run(double[] input)
         {
             double error = 0.0;
 
             // compute the network
-            network.Compute( input );
-            int winner = network.GetWinner( );
+            network.Compute(input);
+            int winner = network.GetWinner();
 
             // get layer of the network
             Layer layer = network.Layers[0];
 
             // check learning radius
-            if ( learningRadius == 0 )
+            if (learningRadius == 0)
             {
                 Neuron neuron = layer.Neurons[winner];
 
                 // update weight of the winner only
-                for ( int i = 0; i < neuron.Weights.Length; i++ )
+                for (int i = 0; i < neuron.Weights.Length; i++)
                 {
                     // calculate the error
                     double e = input[i] - neuron.Weights[i];
-                    error += Math.Abs( e );
+                    error += Math.Abs(e);
                     // update weights
                     neuron.Weights[i] += e * learningRate;
                 }
@@ -210,22 +222,22 @@ namespace AForge.Neuro.Learning
                 int wy = winner / width;
 
                 // walk through all neurons of the layer
-                for ( int j = 0; j < layer.Neurons.Length; j++ )
+                for (int j = 0; j < layer.Neurons.Length; j++)
                 {
                     Neuron neuron = layer.Neurons[j];
 
-                    int dx = ( j % width ) - wx;
-                    int dy = ( j / width ) - wy;
+                    int dx = (j % width) - wx;
+                    int dy = (j / width) - wy;
 
                     // update factor ( Gaussian based )
-                    double factor = Math.Exp( -(double) ( dx * dx + dy * dy ) / squaredRadius2 );
+                    double factor = Math.Exp(-(double)(dx * dx + dy * dy) / squaredRadius2);
 
                     // update weight of the neuron
-                    for ( int i = 0; i < neuron.Weights.Length; i++ )
+                    for (int i = 0; i < neuron.Weights.Length; i++)
                     {
                         // calculate the error
-                        double e = ( input[i] - neuron.Weights[i] ) * factor;
-                        error += Math.Abs( e );
+                        double e = (input[i] - neuron.Weights[i]) * factor;
+                        error += Math.Abs(e);
                         // update weight
                         neuron.Weights[i] += e * learningRate;
                     }
@@ -246,14 +258,14 @@ namespace AForge.Neuro.Learning
         /// <remarks><para>The method runs one learning epoch, by calling <see cref="Run"/> method
         /// for each vector provided in the <paramref name="input"/> array.</para></remarks>
         /// 
-        public double RunEpoch( double[][] input )
+        public double RunEpoch(double[][] input)
         {
             double error = 0.0;
 
             // walk through all training samples
-            foreach ( double[] sample in input )
+            foreach (double[] sample in input)
             {
-                error += Run( sample );
+                error += Run(sample);
             }
 
             // return summary error
