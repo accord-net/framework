@@ -40,9 +40,9 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void FillRectangle( BitmapData imageData, Rectangle rectangle, Color color )
+        public static unsafe void FillRectangle(BitmapData imageData, Rectangle rectangle, Color color)
         {
-            FillRectangle( new UnmanagedImage( imageData ), rectangle, color );
+            FillRectangle(new UnmanagedImage(imageData), rectangle, color);
         }
 
         /// <summary>
@@ -55,16 +55,16 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void FillRectangle( UnmanagedImage image, Rectangle rectangle, Color color )
+        public static unsafe void FillRectangle(UnmanagedImage image, Rectangle rectangle, Color color)
         {
-            CheckPixelFormat( image.PixelFormat );
+            CheckPixelFormat(image.PixelFormat);
 
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             // image dimension
-            int imageWidth  = image.Width;
+            int imageWidth = image.Width;
             int imageHeight = image.Height;
-            int stride      = image.Stride;
+            int stride = image.Stride;
 
             // rectangle dimension and position
             int rectX1 = rectangle.X;
@@ -73,56 +73,56 @@ namespace AForge.Imaging
             int rectY2 = rectangle.Y + rectangle.Height - 1;
 
             // check if rectangle is in the image
-            if ( ( rectX1 >= imageWidth ) || ( rectY1 >= imageHeight ) || ( rectX2 < 0 ) || ( rectY2 < 0 ) )
+            if ((rectX1 >= imageWidth) || (rectY1 >= imageHeight) || (rectX2 < 0) || (rectY2 < 0))
             {
                 // nothing to draw
                 return;
             }
 
-            int startX  = Math.Max( 0, rectX1 );
-            int stopX   = Math.Min( imageWidth - 1, rectX2 );
-            int startY  = Math.Max( 0, rectY1 );
-            int stopY   = Math.Min( imageHeight - 1, rectY2 );
+            int startX = Math.Max(0, rectX1);
+            int stopX = Math.Min(imageWidth - 1, rectX2);
+            int startY = Math.Max(0, rectY1);
+            int stopY = Math.Min(imageHeight - 1, rectY2);
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( ) + startY * stride + startX * pixelSize;
+            byte* ptr = (byte*)image.ImageData.ToPointer() + startY * stride + startX * pixelSize;
 
-            if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
                 // grayscale image
-                byte gray = (byte) ( 0.2125 * color.R + 0.7154 * color.G + 0.0721 * color.B );
+                byte gray = (byte)(0.2125 * color.R + 0.7154 * color.G + 0.0721 * color.B);
 
                 int fillWidth = stopX - startX + 1;
 
-                for ( int y = startY; y <= stopY; y++ )
+                for (int y = startY; y <= stopY; y++)
                 {
-                    AForge.SystemTools.SetUnmanagedMemory( ptr, gray, fillWidth );
+                    AForge.SystemTools.SetUnmanagedMemory(ptr, gray, fillWidth);
                     ptr += stride;
                 }
             }
-            else if ( image.PixelFormat == PixelFormat.Format32bppArgb )
+            else if (image.PixelFormat == PixelFormat.Format32bppArgb)
             {
                 // color 32 bpp ARGB image
-                double fillAlpha    = color.A / 255.0;
+                double fillAlpha = color.A / 255.0;
                 double fillNegAlpha = 1.0 - fillAlpha;
 
-                double fillRedPart   = fillAlpha * color.R;
+                double fillRedPart = fillAlpha * color.R;
                 double fillGreenPart = fillAlpha * color.G;
-                double fillBluePart  = fillAlpha * color.B;
+                double fillBluePart = fillAlpha * color.B;
 
-                int offset = stride - ( stopX - startX + 1 ) * 4;
+                int offset = stride - (stopX - startX + 1) * 4;
 
-                for ( int y = startY; y <= stopY; y++ )
+                for (int y = startY; y <= stopY; y++)
                 {
-                    for ( int x = startX; x <= stopX; x++, ptr += 4 )
+                    for (int x = startX; x <= stopX; x++, ptr += 4)
                     {
-                        double srcAlphaPart = ( ptr[RGB.A] / 255.0 ) * fillNegAlpha;
+                        double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
 
-                        ptr[RGB.R] = (byte) ( ( fillRedPart   + srcAlphaPart * ptr[RGB.R] ) );
-                        ptr[RGB.G] = (byte) ( ( fillGreenPart + srcAlphaPart * ptr[RGB.G] ) );
-                        ptr[RGB.B] = (byte) ( ( fillBluePart  + srcAlphaPart * ptr[RGB.B] ) );
+                        ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
+                        ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
+                        ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
 
-                        ptr[RGB.A] = (byte) ( 255 * ( fillAlpha + srcAlphaPart ) );
+                        ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
                     }
                     ptr += offset;
                 }
@@ -130,18 +130,18 @@ namespace AForge.Imaging
             else
             {
                 // color 24/32 RGB image
-                byte red    = color.R;
-                byte green  = color.G;
-                byte blue   = color.B;
+                byte red = color.R;
+                byte green = color.G;
+                byte blue = color.B;
 
-                int offset = stride - ( stopX - startX + 1 ) * pixelSize;
+                int offset = stride - (stopX - startX + 1) * pixelSize;
 
-                if ( color.A == 255 )
+                if (color.A == 255)
                 {
                     // just copy fill color if it is not transparent
-                    for ( int y = startY; y <= stopY; y++ )
+                    for (int y = startY; y <= stopY; y++)
                     {
-                        for ( int x = startX; x <= stopX; x++, ptr += pixelSize )
+                        for (int x = startX; x <= stopX; x++, ptr += pixelSize)
                         {
                             ptr[RGB.R] = red;
                             ptr[RGB.G] = green;
@@ -156,17 +156,17 @@ namespace AForge.Imaging
                     int fillAlpha = color.A;
                     int fillNegAlpha = 255 - fillAlpha;
 
-                    int fillRedPart   = fillAlpha * color.R;
+                    int fillRedPart = fillAlpha * color.R;
                     int fillGreenPart = fillAlpha * color.G;
-                    int fillBluePart  = fillAlpha * color.B;
+                    int fillBluePart = fillAlpha * color.B;
 
-                    for ( int y = startY; y <= stopY; y++ )
+                    for (int y = startY; y <= stopY; y++)
                     {
-                        for ( int x = startX; x <= stopX; x++, ptr += pixelSize )
+                        for (int x = startX; x <= stopX; x++, ptr += pixelSize)
                         {
-                            ptr[RGB.R] = (byte) ( ( fillRedPart   + fillNegAlpha * ptr[RGB.R] ) / 255 );
-                            ptr[RGB.G] = (byte) ( ( fillGreenPart + fillNegAlpha * ptr[RGB.G] ) / 255 );
-                            ptr[RGB.B] = (byte) ( ( fillBluePart  + fillNegAlpha * ptr[RGB.B] ) / 255 );
+                            ptr[RGB.R] = (byte)((fillRedPart + fillNegAlpha * ptr[RGB.R]) / 255);
+                            ptr[RGB.G] = (byte)((fillGreenPart + fillNegAlpha * ptr[RGB.G]) / 255);
+                            ptr[RGB.B] = (byte)((fillBluePart + fillNegAlpha * ptr[RGB.B]) / 255);
                         }
                         ptr += offset;
                     }
@@ -184,9 +184,9 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void Rectangle( BitmapData imageData, Rectangle rectangle, Color color )
+        public static unsafe void Rectangle(BitmapData imageData, Rectangle rectangle, Color color)
         {
-            Rectangle( new UnmanagedImage( imageData ), rectangle, color );
+            Rectangle(new UnmanagedImage(imageData), rectangle, color);
         }
 
         /// <summary>
@@ -199,16 +199,14 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void Rectangle( UnmanagedImage image, Rectangle rectangle, Color color )
+        public static unsafe void Rectangle(UnmanagedImage image, Rectangle rectangle, Color color)
         {
-            CheckPixelFormat( image.PixelFormat );
-
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            CheckPixelFormat(image.PixelFormat);
 
             // image dimension
-            int imageWidth  = image.Width;
+            int imageWidth = image.Width;
             int imageHeight = image.Height;
-            int stride      = image.Stride;
+            int stride = image.Stride;
 
             // rectangle dimension and position
             int rectX1 = rectangle.X;
@@ -217,18 +215,18 @@ namespace AForge.Imaging
             int rectY2 = rectangle.Y + rectangle.Height - 1;
 
             // check if rectangle is in the image
-            if ( ( rectX1 >= imageWidth ) || ( rectY1 >= imageHeight ) || ( rectX2 < 0 ) || ( rectY2 < 0 ) )
+            if ((rectX1 >= imageWidth) || (rectY1 >= imageHeight) || (rectX2 < 0) || (rectY2 < 0))
             {
                 // nothing to draw
                 return;
             }
 
             // obviously vertical/horizontal lines can be drawn faster, but at least we simplify the code
-            Line( image, new IntPoint( rectX1, rectY1 ), new IntPoint( rectX2, rectY1 ), color );
-            Line( image, new IntPoint( rectX2, rectY2 ), new IntPoint( rectX1, rectY2 ), color );
+            Line(image, new IntPoint(rectX1, rectY1), new IntPoint(rectX2, rectY1), color);
+            Line(image, new IntPoint(rectX2, rectY2), new IntPoint(rectX1, rectY2), color);
 
-            Line( image, new IntPoint( rectX2, rectY1 + 1 ), new IntPoint( rectX2, rectY2 - 1 ), color );
-            Line( image, new IntPoint( rectX1, rectY2 - 1 ), new IntPoint( rectX1, rectY1 + 1 ), color );
+            Line(image, new IntPoint(rectX2, rectY1 + 1), new IntPoint(rectX2, rectY2 - 1), color);
+            Line(image, new IntPoint(rectX1, rectY2 - 1), new IntPoint(rectX1, rectY1 + 1), color);
         }
 
         /// <summary>
@@ -242,9 +240,9 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void Line( BitmapData imageData, IntPoint point1, IntPoint point2, Color color )
+        public static unsafe void Line(BitmapData imageData, IntPoint point1, IntPoint point2, Color color)
         {
-            Line( new UnmanagedImage( imageData ), point1, point2, color );
+            Line(new UnmanagedImage(imageData), point1, point2, color);
         }
 
         /// <summary>
@@ -258,39 +256,39 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void Line( UnmanagedImage image, IntPoint point1, IntPoint point2, Color color )
+        public static unsafe void Line(UnmanagedImage image, IntPoint point1, IntPoint point2, Color color)
         {
             // TODO: faster line drawing algorithm may be implemented with integer math
 
-            CheckPixelFormat( image.PixelFormat );
+            CheckPixelFormat(image.PixelFormat);
 
-            int pixelSize = System.Drawing.Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             // image dimension
-            int imageWidth  = image.Width;
+            int imageWidth = image.Width;
             int imageHeight = image.Height;
-            int stride      = image.Stride;
+            int stride = image.Stride;
 
             // check if there is something to draw
             if (
-                ( ( point1.X < 0 ) && ( point2.X < 0 ) ) ||
-                ( ( point1.Y < 0 ) && ( point2.Y < 0 ) ) ||
-                ( ( point1.X >= imageWidth ) && ( point2.X >= imageWidth ) ) ||
-                ( ( point1.Y >= imageHeight ) && ( point2.Y >= imageHeight ) ) )
+                ((point1.X < 0) && (point2.X < 0)) ||
+                ((point1.Y < 0) && (point2.Y < 0)) ||
+                ((point1.X >= imageWidth) && (point2.X >= imageWidth)) ||
+                ((point1.Y >= imageHeight) && (point2.Y >= imageHeight)))
             {
                 // nothing to draw
                 return;
             }
 
-            CheckEndPoint( imageWidth, imageHeight, point1, ref point2 );
-            CheckEndPoint( imageWidth, imageHeight, point2, ref point1 );
+            CheckEndPoint(imageWidth, imageHeight, point1, ref point2);
+            CheckEndPoint(imageWidth, imageHeight, point2, ref point1);
 
             // check again if there is something to draw
             if (
-                ( ( point1.X < 0 ) && ( point2.X < 0 ) ) ||
-                ( ( point1.Y < 0 ) && ( point2.Y < 0 ) ) ||
-                ( ( point1.X >= imageWidth ) && ( point2.X >= imageWidth ) ) ||
-                ( ( point1.Y >= imageHeight ) && ( point2.Y >= imageHeight ) ) )
+                ((point1.X < 0) && (point2.X < 0)) ||
+                ((point1.Y < 0) && (point2.Y < 0)) ||
+                ((point1.X >= imageWidth) && (point2.X >= imageWidth)) ||
+                ((point1.Y >= imageHeight) && (point2.Y >= imageHeight)))
             {
                 // nothing to draw
                 return;
@@ -298,86 +296,86 @@ namespace AForge.Imaging
 
             int startX = point1.X;
             int startY = point1.Y;
-            int stopX  = point2.X;
-            int stopY  = point2.Y;
+            int stopX = point2.X;
+            int stopY = point2.Y;
 
             // compute pixel for grayscale image
             byte gray = 0;
-            if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
-                gray = (byte) ( 0.2125 * color.R + 0.7154 * color.G + 0.0721 * color.B );
+                gray = (byte)(0.2125 * color.R + 0.7154 * color.G + 0.0721 * color.B);
             }
 
             // pre-compute some values for 32 bit color blending
-            double fillAlpha    = color.A / 255.0;
+            double fillAlpha = color.A / 255.0;
             double fillNegAlpha = 1.0 - fillAlpha;
 
-            double fillRedPart   = fillAlpha * color.R;
+            double fillRedPart = fillAlpha * color.R;
             double fillGreenPart = fillAlpha * color.G;
-            double fillBluePart  = fillAlpha * color.B;
+            double fillBluePart = fillAlpha * color.B;
 
             int fillNegAlphaInt = 255 - color.A;
 
-            int fillRedPartInt   = color.A * color.R;
+            int fillRedPartInt = color.A * color.R;
             int fillGreenPartInt = color.A * color.G;
-            int fillBluePartInt  = color.A * color.B;
+            int fillBluePartInt = color.A * color.B;
 
             // draw the line
             int dx = stopX - startX;
             int dy = stopY - startY;
 
-            if ( Math.Abs( dx ) >= Math.Abs( dy ) )
+            if (Math.Abs(dx) >= Math.Abs(dy))
             {
                 // the line is more horizontal, we'll plot along the X axis
-                float slope = ( dx != 0 ) ? (float) dy / dx : 0;
-                int step = ( dx > 0 ) ? 1 : -1;
+                float slope = (dx != 0) ? (float)dy / dx : 0;
+                int step = (dx > 0) ? 1 : -1;
 
                 // correct dx so last point is included as well
                 dx += step;
 
-                if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
                     // grayscale image
-                    for ( int x = 0; x != dx; x += step )
+                    for (int x = 0; x != dx; x += step)
                     {
                         int px = startX + x;
-                        int py = (int) ( (float) startY + ( slope * (float) x ) );
+                        int py = (int)((float)startY + (slope * (float)x));
 
-                        byte* ptr = (byte*) image.ImageData.ToPointer( ) + py * stride + px;
+                        byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px;
                         *ptr = gray;
                     }
                 }
-                else if ( image.PixelFormat == PixelFormat.Format32bppArgb )
+                else if (image.PixelFormat == PixelFormat.Format32bppArgb)
                 {
                     // color 32 ARGB image image
-                    for ( int x = 0; x != dx; x += step )
+                    for (int x = 0; x != dx; x += step)
                     {
                         int px = startX + x;
-                        int py = (int) ( (float) startY + ( slope * (float) x ) );
+                        int py = (int)((float)startY + (slope * (float)x));
 
-                        byte* ptr = (byte*) image.ImageData.ToPointer( ) + py * stride + px * 4;
+                        byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * 4;
 
-                        double srcAlphaPart = ( ptr[RGB.A] / 255.0 ) * fillNegAlpha;
+                        double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
 
-                        ptr[RGB.R] = (byte) ( ( fillRedPart   + srcAlphaPart * ptr[RGB.R] ) );
-                        ptr[RGB.G] = (byte) ( ( fillGreenPart + srcAlphaPart * ptr[RGB.G] ) );
-                        ptr[RGB.B] = (byte) ( ( fillBluePart  + srcAlphaPart * ptr[RGB.B] ) );
+                        ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
+                        ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
+                        ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
 
-                        ptr[RGB.A] = (byte) ( 255 * ( fillAlpha + srcAlphaPart ) );
+                        ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
                     }
                 }
                 else
                 {
                     // color 24/32 bpp RGB image
-                    if ( color.A == 255 )
+                    if (color.A == 255)
                     {
                         // just copy color for none transparent colors
-                        for ( int x = 0; x != dx; x += step )
+                        for (int x = 0; x != dx; x += step)
                         {
                             int px = startX + x;
-                            int py = (int) ( (float) startY + ( slope * (float) x ) );
+                            int py = (int)((float)startY + (slope * (float)x));
 
-                            byte* ptr = (byte*) image.ImageData.ToPointer( ) + py * stride + px * pixelSize;
+                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
 
                             ptr[RGB.R] = color.R;
                             ptr[RGB.G] = color.G;
@@ -387,16 +385,16 @@ namespace AForge.Imaging
                     else
                     {
                         // do alpha blending for transparent colors
-                        for ( int x = 0; x != dx; x += step )
+                        for (int x = 0; x != dx; x += step)
                         {
                             int px = startX + x;
-                            int py = (int) ( (float) startY + ( slope * (float) x ) );
+                            int py = (int)((float)startY + (slope * (float)x));
 
-                            byte* ptr = (byte*) image.ImageData.ToPointer( ) + py * stride + px * pixelSize;
+                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
 
-                            ptr[RGB.R] = (byte) ( ( fillRedPartInt   + fillNegAlphaInt * ptr[RGB.R] ) / 255 );
-                            ptr[RGB.G] = (byte) ( ( fillGreenPartInt + fillNegAlphaInt * ptr[RGB.G] ) / 255 );
-                            ptr[RGB.B] = (byte) ( ( fillBluePartInt  + fillNegAlphaInt * ptr[RGB.B] ) / 255 );
+                            ptr[RGB.R] = (byte)((fillRedPartInt + fillNegAlphaInt * ptr[RGB.R]) / 255);
+                            ptr[RGB.G] = (byte)((fillGreenPartInt + fillNegAlphaInt * ptr[RGB.G]) / 255);
+                            ptr[RGB.B] = (byte)((fillBluePartInt + fillNegAlphaInt * ptr[RGB.B]) / 255);
                         }
                     }
                 }
@@ -404,55 +402,55 @@ namespace AForge.Imaging
             else
             {
                 // the line is more vertical, we'll plot along the y axis.
-                float slope = ( dy != 0 ) ? (float) dx / dy : 0;
-                int step = ( dy > 0 ) ? 1 : -1;
+                float slope = (dy != 0) ? (float)dx / dy : 0;
+                int step = (dy > 0) ? 1 : -1;
 
                 // correct dy so last point is included as well
                 dy += step;
 
-                if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
                     // grayscale image
-                    for ( int y = 0; y != dy; y += step )
+                    for (int y = 0; y != dy; y += step)
                     {
-                        int px = (int) ( (float) startX + ( slope * (float) y ) );
+                        int px = (int)((float)startX + (slope * (float)y));
                         int py = startY + y;
 
-                        byte* ptr = (byte*) image.ImageData.ToPointer( ) + py * stride + px;
+                        byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px;
                         *ptr = gray;
                     }
                 }
-                else if ( image.PixelFormat == PixelFormat.Format32bppArgb )
+                else if (image.PixelFormat == PixelFormat.Format32bppArgb)
                 {
                     // color 32 bpp ARGB image
-                    for ( int y = 0; y != dy; y += step )
+                    for (int y = 0; y != dy; y += step)
                     {
-                        int px = (int) ( (float) startX + ( slope * (float) y ) );
+                        int px = (int)((float)startX + (slope * (float)y));
                         int py = startY + y;
 
-                        byte* ptr = (byte*) image.ImageData.ToPointer( ) + py * stride + px * 4;
+                        byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * 4;
 
-                        double srcAlphaPart = ( ptr[RGB.A] / 255.0 ) * fillNegAlpha;
+                        double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
 
-                        ptr[RGB.R] = (byte) ( ( fillRedPart   + srcAlphaPart * ptr[RGB.R] ) );
-                        ptr[RGB.G] = (byte) ( ( fillGreenPart + srcAlphaPart * ptr[RGB.G] ) );
-                        ptr[RGB.B] = (byte) ( ( fillBluePart  + srcAlphaPart * ptr[RGB.B] ) );
+                        ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
+                        ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
+                        ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
 
-                        ptr[RGB.A] = (byte) ( 255 * ( fillAlpha + srcAlphaPart ) );
+                        ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
                     }
                 }
                 else
                 {
                     // color 24/32 bpp RGB image
-                    if ( color.A == 255 )
+                    if (color.A == 255)
                     {
                         // just copy color for none transparent colors
-                        for ( int y = 0; y != dy; y += step )
+                        for (int y = 0; y != dy; y += step)
                         {
-                            int px = (int) ( (float) startX + ( slope * (float) y ) );
+                            int px = (int)((float)startX + (slope * (float)y));
                             int py = startY + y;
 
-                            byte* ptr = (byte*) image.ImageData.ToPointer( ) + py * stride + px * pixelSize;
+                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
 
                             ptr[RGB.R] = color.R;
                             ptr[RGB.G] = color.G;
@@ -462,16 +460,16 @@ namespace AForge.Imaging
                     else
                     {
                         // do alpha blending for transparent colors
-                        for ( int y = 0; y != dy; y += step )
+                        for (int y = 0; y != dy; y += step)
                         {
-                            int px = (int) ( (float) startX + ( slope * (float) y ) );
+                            int px = (int)((float)startX + (slope * (float)y));
                             int py = startY + y;
 
-                            byte* ptr = (byte*) image.ImageData.ToPointer( ) + py * stride + px * pixelSize;
+                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
 
-                            ptr[RGB.R] = (byte) ( ( fillRedPartInt   + fillNegAlphaInt * ptr[RGB.R] ) / 255 );
-                            ptr[RGB.G] = (byte) ( ( fillGreenPartInt + fillNegAlphaInt * ptr[RGB.G] ) / 255 );
-                            ptr[RGB.B] = (byte) ( ( fillBluePartInt  + fillNegAlphaInt * ptr[RGB.B] ) / 255 );
+                            ptr[RGB.R] = (byte)((fillRedPartInt + fillNegAlphaInt * ptr[RGB.R]) / 255);
+                            ptr[RGB.G] = (byte)((fillGreenPartInt + fillNegAlphaInt * ptr[RGB.G]) / 255);
+                            ptr[RGB.B] = (byte)((fillBluePartInt + fillNegAlphaInt * ptr[RGB.B]) / 255);
                         }
                     }
                 }
@@ -490,9 +488,9 @@ namespace AForge.Imaging
         /// first one to the last one and then connecting the last point with the first one.
         /// </para></remarks>
         /// 
-        public static void Polygon( BitmapData imageData, List<IntPoint> points, Color color )
+        public static void Polygon(BitmapData imageData, List<IntPoint> points, Color color)
         {
-            Polygon( new UnmanagedImage( imageData ), points, color );
+            Polygon(new UnmanagedImage(imageData), points, color);
         }
 
         /// <summary>
@@ -507,13 +505,13 @@ namespace AForge.Imaging
         /// first one to the last one and then connecting the last point with the first one.
         /// </para></remarks>
         /// 
-        public static void Polygon( UnmanagedImage image, List<IntPoint> points, Color color )
+        public static void Polygon(UnmanagedImage image, List<IntPoint> points, Color color)
         {
-            for ( int i = 1, n = points.Count; i < n; i++ )
+            for (int i = 1, n = points.Count; i < n; i++)
             {
-                Line( image, points[i - 1], points[i], color );
+                Line(image, points[i - 1], points[i], color);
             }
-            Line( image, points[points.Count - 1], points[0], color );
+            Line(image, points[points.Count - 1], points[0], color);
         }
 
         /// <summary>
@@ -529,9 +527,9 @@ namespace AForge.Imaging
         /// method, this method does not connect the last point with the first one.
         /// </para></remarks>
         /// 
-        public static void Polyline( BitmapData imageData, List<IntPoint> points, Color color )
+        public static void Polyline(BitmapData imageData, List<IntPoint> points, Color color)
         {
-            Polyline( new UnmanagedImage( imageData ), points, color );
+            Polyline(new UnmanagedImage(imageData), points, color);
         }
 
         /// <summary>
@@ -547,65 +545,65 @@ namespace AForge.Imaging
         /// method, this method does not connect the last point with the first one.
         /// </para></remarks>
         /// 
-        public static void Polyline( UnmanagedImage image, List<IntPoint> points, Color color )
+        public static void Polyline(UnmanagedImage image, List<IntPoint> points, Color color)
         {
-            for ( int i = 1, n = points.Count; i < n; i++ )
+            for (int i = 1, n = points.Count; i < n; i++)
             {
-                Line( image, points[i - 1], points[i], color );
+                Line(image, points[i - 1], points[i], color);
             }
         }
 
         // Check for supported pixel format
-        private static void CheckPixelFormat( PixelFormat format )
+        private static void CheckPixelFormat(PixelFormat format)
         {
             // check pixel format
             if (
-                ( format != PixelFormat.Format24bppRgb ) &&
-                ( format != PixelFormat.Format8bppIndexed ) &&
-                ( format != PixelFormat.Format32bppArgb ) &&
-                ( format != PixelFormat.Format32bppRgb )
+                (format != PixelFormat.Format24bppRgb) &&
+                (format != PixelFormat.Format8bppIndexed) &&
+                (format != PixelFormat.Format32bppArgb) &&
+                (format != PixelFormat.Format32bppRgb)
                 )
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
         }
 
         // Check end point and make sure it is in the image
-        private static void CheckEndPoint( int width, int height, IntPoint start, ref IntPoint end )
+        private static void CheckEndPoint(int width, int height, IntPoint start, ref IntPoint end)
         {
-            if ( end.X >= width )
+            if (end.X >= width)
             {
                 int newEndX = width - 1;
 
-                double c = (double) ( newEndX - start.X ) / ( end.X - start.X );
+                double c = (double)(newEndX - start.X) / (end.X - start.X);
 
-                end.Y = (int) ( start.Y + c * ( end.Y - start.Y ) );
+                end.Y = (int)(start.Y + c * (end.Y - start.Y));
                 end.X = newEndX;
             }
 
-            if ( end.Y >= height )
+            if (end.Y >= height)
             {
                 int newEndY = height - 1;
 
-                double c = (double) ( newEndY - start.Y ) / ( end.Y - start.Y );
+                double c = (double)(newEndY - start.Y) / (end.Y - start.Y);
 
-                end.X = (int) ( start.X + c * ( end.X - start.X ) );
+                end.X = (int)(start.X + c * (end.X - start.X));
                 end.Y = newEndY;
             }
 
-            if ( end.X < 0 )
+            if (end.X < 0)
             {
-                double c = (double) ( 0 - start.X ) / ( end.X - start.X );
+                double c = (double)(0 - start.X) / (end.X - start.X);
 
-                end.Y = (int) ( start.Y + c * ( end.Y - start.Y ) );
+                end.Y = (int)(start.Y + c * (end.Y - start.Y));
                 end.X = 0;
             }
 
-            if ( end.Y < 0 )
+            if (end.Y < 0)
             {
-                double c = (double) ( 0 - start.Y ) / ( end.Y - start.Y );
+                double c = (double)(0 - start.Y) / (end.Y - start.Y);
 
-                end.X = (int) ( start.X + c * ( end.X - start.X ) );
+                end.X = (int)(start.X + c * (end.X - start.X));
                 end.Y = 0;
             }
         }
