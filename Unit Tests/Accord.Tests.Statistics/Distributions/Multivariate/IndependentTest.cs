@@ -22,32 +22,15 @@
 
 namespace Accord.Tests.Statistics
 {
-    using NUnit.Framework;
-    using Accord.Statistics;
+    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics.Distributions.Fitting;
+    using NUnit.Framework;
     using System;
 
     [TestFixture]
     public class IndependentTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest()
@@ -72,6 +55,10 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4, target.Covariance[1, 1]);
             Assert.AreEqual(0, target.Covariance[0, 1]);
             Assert.AreEqual(0, target.Covariance[1, 0]);
+
+            var text = target.ToString("N2");
+
+            Assert.AreEqual("Independent(x0, x1; N(x0; μ = 4.20, σ² = 1.00) + N(x1; μ = 7.00, σ² = 4.00))", text);
         }
 
         [Test]

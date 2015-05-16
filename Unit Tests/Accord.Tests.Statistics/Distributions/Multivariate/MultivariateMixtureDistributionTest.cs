@@ -22,13 +22,13 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Distributions.Multivariate;
-    using NUnit.Framework;
-    using Accord.Math;
     using Accord.IO;
+    using Accord.Math;
+    using Accord.Statistics.Distributions.Multivariate;
     using Accord.Tests.Statistics.Properties;
-    using System.IO;
+    using NUnit.Framework;
     using System.Data;
+    using System.IO;
 
     [TestFixture]
     public class MultivariateMixtureDistributionTest

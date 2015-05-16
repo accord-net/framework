@@ -25,6 +25,7 @@ namespace Accord.Statistics.Distributions.Multivariate
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
+    using System.Text;
 
     /// <summary>
     ///   Joint distribution assuming independence between vector components.
@@ -389,19 +390,44 @@ namespace Accord.Statistics.Distributions.Multivariate
         }
 
         /// <summary>
-        ///   Returns a <see cref="System.String" /> that represents this instance.
+        ///   Returns a <see cref="System.String"/> that represents this instance.
         /// </summary>
         /// 
-        /// <param name="format">The format.</param>
-        /// <param name="formatProvider">The format provider.</param>
-        /// 
         /// <returns>
-        ///   A <see cref="System.String" /> that represents this instance.
+        ///   A <see cref="System.String"/> that represents this instance.
         /// </returns>
         /// 
         public override string ToString(string format, IFormatProvider formatProvider)
         {
-            return String.Format(formatProvider, "Independent(X)");
+            StringBuilder sb = new StringBuilder();
+            sb.Append("Independent(");
+            for (int i = 0; i < components.Length; i++)
+            {
+                sb.Append("x" + i);
+
+                if (i < components.Length - 1)
+                    sb.Append(", ");
+            }
+
+            sb.Append("; ");
+
+            for (int i = 0; i < components.Length; i++)
+            {
+                var fmt = components[i] as IFormattable;
+
+                String componentText = fmt
+                    .ToString(format, formatProvider)
+                    .Replace("(x", "(x" + i);
+
+                sb.AppendFormat(componentText);
+
+                if (i < components.Length - 1)
+                    sb.Append(" + ");
+            }
+            sb.Append(")");
+
+            return sb.ToString();
         }
+
     }
 }
