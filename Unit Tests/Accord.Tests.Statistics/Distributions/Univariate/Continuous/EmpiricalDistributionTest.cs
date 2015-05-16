@@ -22,33 +22,15 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System;
+    using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
-    using Accord.Math;
-    using Accord.Statistics;
+    using System;
 
     [TestFixture]
     public class EmpiricalDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void EmpiricalDistributionConstructorTest1()

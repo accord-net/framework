@@ -22,10 +22,10 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Distributions.Univariate;
-    using NUnit.Framework;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics.Distributions.Univariate;
+    using NUnit.Framework;
     using System.Globalization;
 
     [TestFixture]
@@ -317,9 +317,7 @@ namespace Accord.Tests.Statistics
             // Create an initial mixture
             Mixture<NormalDistribution> mixture = new Mixture<NormalDistribution>(components);
 
-            // Now, suppose we have a weighted data
-            // set. Those will be the input points:
-
+            // Now, suppose we have a weighted data set. Those will be the input points:
             double[] points = { 0, 3, 1, 7, 3, 5, 1, 2, -1, 2, 7, 6, 8, 6 }; // (14 points)
 
             // And those are their respective unnormalized weights:
@@ -359,6 +357,32 @@ namespace Accord.Tests.Statistics
                         Assert.AreEqual(mixture.Coefficients[0], gmm.Gaussians[0].Proportion);
                         Assert.AreEqual(mixture.Coefficients[1], gmm.Gaussians[1].Proportion);
             */
+        }
+
+        [Test]
+        public void MixtureFitTest()
+        {
+            var samples1 = new NormalDistribution(mean: -2, stdDev: 0.5).Generate(100000);
+            var samples2 = new NormalDistribution(mean: +4, stdDev: 0.5).Generate(100000);
+
+            // Mix the samples from both distributions
+            var samples = samples1.Concatenate(samples2);
+
+            // Create a new mixture distribution with two Normal components
+            var mixture = new Mixture<NormalDistribution>(new[] { 0.2, 0.8 },
+                new NormalDistribution(-1),
+                new NormalDistribution(+1));
+
+            // Estimate the distribution
+            mixture.Fit(samples, new MixtureOptions
+            {
+                Iterations = 50,
+                Threshold = 0
+            });
+
+            var result = mixture.ToString("N2");
+
+            Assert.AreEqual("", result);
         }
     }
 }

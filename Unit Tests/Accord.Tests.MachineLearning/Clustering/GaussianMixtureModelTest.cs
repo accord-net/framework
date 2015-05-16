@@ -22,9 +22,6 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
-    using System.Data;
-    using System.IO;
     using Accord;
     using Accord.IO;
     using Accord.MachineLearning;
@@ -32,25 +29,13 @@ namespace Accord.Tests.MachineLearning
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Tests.MachineLearning.Properties;
     using NUnit.Framework;
+    using System;
+    using System.Data;
+    using System.IO;
 
     [TestFixture]
     public class GaussianMixtureModelTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]

@@ -22,35 +22,16 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math;
+    using Accord.Statistics;
+    using Accord.Statistics.Distributions.DensityKernels;
     using Accord.Statistics.Distributions.Multivariate;
     using NUnit.Framework;
-    using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics;
-    using System.Globalization;
-    using Accord.Statistics.Distributions.DensityKernels;
     using System;
 
     [TestFixture]
     public class MultivariateEmpiricalDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest4()
