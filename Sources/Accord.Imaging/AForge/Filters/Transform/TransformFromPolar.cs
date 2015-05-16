@@ -17,7 +17,7 @@ namespace AForge.Imaging.Filters
     /// Transform polar image into rectangle.
     /// </summary>
     /// 
-    /// <remarks>The image processing routine is oposite transformation to the one done by <see cref="TransformToPolar"/>
+    /// <remarks>The image processing routine is opposite transformation to the one done by <see cref="TransformToPolar"/>
     /// routine, i.e. transformation from polar image into rectangle. The produced effect is similar to GIMP's
     /// "Polar Coordinates" distortion filter (or its equivalent in Photoshop).
     /// 
@@ -68,10 +68,10 @@ namespace AForge.Imaging.Filters
         public double CirlceDepth
         {
             get { return circleDepth; }
-            set { circleDepth = Math.Max( 0, Math.Min( 1, value ) ); }
+            set { circleDepth = Math.Max(0, Math.Min(1, value)); }
         }
 
-        
+
         private double offsetAngle = 0;
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace AForge.Imaging.Filters
         public double OffsetAngle
         {
             get { return offsetAngle; }
-            set { offsetAngle = Math.Max( -360, Math.Min( 360, value ) ); }
+            set { offsetAngle = Math.Max(-360, Math.Min(360, value)); }
         }
 
         private bool mapBackwards = false;
@@ -111,7 +111,7 @@ namespace AForge.Imaging.Filters
         }
 
         private bool mapFromTop = true;
-        
+
         /// <summary>
         /// Specifies if centre of the source image should to top or bottom of the result image.
         /// </summary>
@@ -129,7 +129,7 @@ namespace AForge.Imaging.Filters
             set { mapFromTop = value; }
         }
 
-        private Size newSize = new Size( 200, 200 );
+        private Size newSize = new Size(200, 200);
         private bool useOriginalImageSize = true;
 
         /// <summary>
@@ -151,8 +151,8 @@ namespace AForge.Imaging.Filters
             set
             {
                 newSize = new Size(
-                    Math.Max( 1, Math.Min( 10000, value.Width ) ),
-                    Math.Max( 1, Math.Min( 10000, value.Height ) ) );
+                    Math.Max(1, Math.Min(10000, value.Width)),
+                    Math.Max(1, Math.Min(10000, value.Height)));
             }
         }
 
@@ -174,7 +174,7 @@ namespace AForge.Imaging.Filters
         }
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -192,13 +192,13 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="TransformFromPolar"/> class.
         /// </summary>
         /// 
-        public TransformFromPolar( )
+        public TransformFromPolar()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]    = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format32bppArgb;
-            formatTranslations[PixelFormat.Format32bppPArgb]  = PixelFormat.Format32bppPArgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format32bppPArgb] = PixelFormat.Format32bppPArgb;
         }
 
         /// <summary>
@@ -209,9 +209,9 @@ namespace AForge.Imaging.Filters
         /// 
         /// <returns>New image size - size of the destination image.</returns>
         /// 
-        protected override System.Drawing.Size CalculateNewImageSize( UnmanagedImage sourceData )
+        protected override System.Drawing.Size CalculateNewImageSize(UnmanagedImage sourceData)
         {
-            return ( useOriginalImageSize ) ? new Size( sourceData.Width, sourceData.Height ) : newSize;
+            return (useOriginalImageSize) ? new Size(sourceData.Width, sourceData.Height) : newSize;
         }
 
         /// <summary>
@@ -221,40 +221,39 @@ namespace AForge.Imaging.Filters
         /// <param name="sourceData">Source image data.</param>
         /// <param name="destinationData">Destination image data.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
-            int pixelSize = Bitmap.GetPixelFormatSize( destinationData.PixelFormat ) / 8;
+            int pixelSize = Bitmap.GetPixelFormatSize(destinationData.PixelFormat) / 8;
 
             // get source image size
-            int width  = sourceData.Width;
+            int width = sourceData.Width;
             int height = sourceData.Height;
-            int widthM1  = width - 1;
+            int widthM1 = width - 1;
             int heightM1 = height - 1;
 
             // get destination image size
-            int newWidth  = destinationData.Width;
+            int newWidth = destinationData.Width;
             int newHeight = destinationData.Height;
-            int newWidthM1  = newWidth - 1;
             int newHeightM1 = newHeight - 1;
 
-            // invert cirlce depth
+            // invert circle depth
             double circleDisform = 1 - circleDepth;
 
             // get position of center pixel
-            double cx = (double) widthM1 / 2;
-            double cy = (double) heightM1 / 2;
-            double radius = ( cx < cy ) ? cx : cy;
+            double cx = (double)widthM1 / 2;
+            double cy = (double)heightM1 / 2;
+            double radius = (cx < cy) ? cx : cy;
             radius -= radius * circleDisform;
 
             // angle of the diagonal
-            double diagonalAngle = Math.Atan2( cy, cx );
+            double diagonalAngle = Math.Atan2(cy, cx);
 
             // offset angle in radians
-            double offsetAngleR = ( ( mapBackwards ) ? offsetAngle : -offsetAngle ) / 180 * Math.PI + PiHalf;
+            double offsetAngleR = ((mapBackwards) ? offsetAngle : -offsetAngle) / 180 * Math.PI + PiHalf;
 
             // do the job
-            byte* baseSrc = (byte*) sourceData.ImageData.ToPointer( );
-            byte* dst = (byte*) destinationData.ImageData.ToPointer( );
+            byte* baseSrc = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
 
             int srcStride = sourceData.Stride;
             int dstOffset = destinationData.Stride - newWidth * pixelSize;
@@ -271,35 +270,35 @@ namespace AForge.Imaging.Filters
             double[] angleSin = new double[newWidth];
             double[] maxDistance = new double[newWidth];
 
-            for ( int x = 0; x < newWidth; x++ )
+            for (int x = 0; x < newWidth; x++)
             {
                 double angle = -Pi2 * x / newWidth + offsetAngleR;
 
-                angleCos[x] = Math.Cos( angle );
-                angleSin[x] = Math.Sin( angle );
+                angleCos[x] = Math.Cos(angle);
+                angleSin[x] = Math.Sin(angle);
 
                 // calculate minimum angle between X axis and the
                 // line with the above calculated angle
-                double oxAngle = ( ( angle > 0 ) ? angle : -angle ) % Math.PI;
-                if ( oxAngle > PiHalf )
+                double oxAngle = ((angle > 0) ? angle : -angle) % Math.PI;
+                if (oxAngle > PiHalf)
                 {
                     oxAngle = Math.PI - oxAngle;
                 }
 
-                // calculate maximm distance from center for this angle - distance to image's edge
-                maxDistance[x] = circleDisform * ( ( oxAngle > diagonalAngle ) ? ( cy / Math.Sin( oxAngle ) ) : ( cx / Math.Cos( oxAngle ) ) );
+                // calculate maximum distance from center for this angle - distance to image's edge
+                maxDistance[x] = circleDisform * ((oxAngle > diagonalAngle) ? (cy / Math.Sin(oxAngle)) : (cx / Math.Cos(oxAngle)));
             }
 
-            for ( int y = 0; y < newHeight; y++ )
+            for (int y = 0; y < newHeight; y++)
             {
-                double yPart = (double) y / newHeightM1;
+                double yPart = (double)y / newHeightM1;
 
-                if ( !mapFromTop )
+                if (!mapFromTop)
                 {
                     yPart = 1 - yPart;
                 }
 
-                for ( int x = 0; x < newWidth; x++ )
+                for (int x = 0; x < newWidth; x++)
                 {
                     // calculate maximum allowed distance within wich we need to map Y axis of the destination image
                     double maxAllowedDistance = radius + maxDistance[x];
@@ -308,17 +307,17 @@ namespace AForge.Imaging.Filters
                     double distance = yPart * maxAllowedDistance;
 
                     // calculate pixel coordinates in the source image
-                    double sx = cx + distance * ( ( mapBackwards ) ? -angleCos[x] : angleCos[x] );
+                    double sx = cx + distance * ((mapBackwards) ? -angleCos[x] : angleCos[x]);
                     double sy = cy - distance * angleSin[x];
 
-                    sx1 = (int) sx;
-                    sy1 = (int) sy;
+                    sx1 = (int)sx;
+                    sy1 = (int)sy;
 
-                    sx2 = ( sx1 == widthM1 ) ? sx1 : sx1 + 1;
+                    sx2 = (sx1 == widthM1) ? sx1 : sx1 + 1;
                     dx1 = sx - sx1;
                     dx2 = 1.0 - dx1;
 
-                    sy2 = ( sy1 == heightM1 ) ? sy1 : sy1 + 1;
+                    sy2 = (sy1 == heightM1) ? sy1 : sy1 + 1;
                     dy1 = sy - sy1;
                     dy2 = 1.0 - dy1;
 
@@ -332,11 +331,11 @@ namespace AForge.Imaging.Filters
                     p4 += sx2 * pixelSize;
 
                     // interpolate using 4 points
-                    for ( int i = 0; i < pixelSize; i++, dst++, p1++, p2++, p3++, p4++ )
+                    for (int i = 0; i < pixelSize; i++, dst++, p1++, p2++, p3++, p4++)
                     {
-                        *dst = (byte) (
-                            dy2 * ( dx2 * ( *p1 ) + dx1 * ( *p2 ) ) +
-                            dy1 * ( dx2 * ( *p3 ) + dx1 * ( *p4 ) ) );
+                        *dst = (byte)(
+                            dy2 * (dx2 * (*p1) + dx1 * (*p2)) +
+                            dy1 * (dx2 * (*p3) + dx1 * (*p4)));
                     }
                 }
                 dst += dstOffset;
