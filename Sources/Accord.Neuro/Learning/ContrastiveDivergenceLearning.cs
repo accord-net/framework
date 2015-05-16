@@ -327,6 +327,108 @@ namespace Accord.Neuro.Learning
             return errors;
         }
 
+        /// <summary>
+        ///   Computes the reconstruction error of the current layer.
+        /// </summary>
+        /// 
+        /// <param name="input">Array of input vectors.</param>
+        /// 
+        /// <returns>
+        ///   Returns sum of learning errors.
+        /// </returns>
+        /// 
+        public double ComputeError(double[][] input)
+        {
+            double errors = 0;
+
+
+#if NET35
+            var partial = storage.Value.Clear();
+            for (int i = 0; i < input.Length; i++)
+            {
+                int observationIndex = i;
+#else
+            Object lockObj = new Object();
+
+            // For each training instance
+            Parallel.For(0, input.Length,
+
+#if DEBUG
+				new ParallelOptions() { MaxDegreeOfParallelism = 1 },
+#endif
+
+                // Initialize
+                () => storage.Value.Clear(),
+
+                // Map
+                (observationIndex, loopState, partial) =>
+#endif
+                {
+                    var observation = input[observationIndex];
+
+                    var probability = partial.OriginalProbability;
+                    var activations = partial.OriginalActivations;
+                    var reconstruction = partial.ReconstructedInput;
+
+
+                    // 1. Compute a forward pass. The network is being
+                    //    driven by data, so we will gather activations
+                    for (int j = 0; j < hidden.Neurons.Length; j++)
+                    {
+                        probability[j] = hidden.Neurons[j].Compute(observation);  // output probabilities
+                        activations[j] = hidden.Neurons[j].Generate(probability[j]); // state activations
+                    }
+
+                    // 2. Reconstruct inputs from previous outputs
+                    for (int j = 0; j < visible.Neurons.Length; j++)
+                        reconstruction[j] = visible.Neurons[j].Compute(activations);
+
+                    if (steps > 1)
+                    {
+                        // Perform Gibbs sampling
+                        double[] current = probability;
+                        for (int k = 0; k < steps - 1; k++)
+                        {
+                            for (int j = 0; j < probability.Length; j++)
+                                probability[j] = hidden.Neurons[j].Compute(current);
+                            for (int j = 0; j < reconstruction.Length; j++)
+                                reconstruction[j] = visible.Neurons[j].Compute(probability);
+                            current = reconstruction;
+                        }
+                    }
+
+                    // Compute current error
+                    for (int j = 0; j < observation.Length; j++)
+                    {
+                        double e = observation[j] - reconstruction[j];
+                        partial.ErrorSumOfSquares += e * e;
+                    }
+
+#if !NET35
+                    return partial; // Report partial solution
+                },
+
+                // Reduce
+                (partial) =>
+                {
+                    lock (lockObj)
+                    {
+                        errors += partial.ErrorSumOfSquares;
+                    }
+                });
+#else
+                }
+            }
+
+            weightsGradient = partial.WeightGradient;
+            hiddenBiasGradient = partial.HiddenBiasGradient;
+            visibleBiasGradient = partial.VisibleBiasGradient;
+            errors = partial.ErrorSumOfSquares;
+#endif
+
+            return errors;
+        }
+
         private void CalculateUpdates(double[][] input)
         {
             double rate = learningRate;
