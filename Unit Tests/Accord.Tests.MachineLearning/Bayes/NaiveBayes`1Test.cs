@@ -248,6 +248,10 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(1, responses.Sum(), 1e-10);
             Assert.IsFalse(double.IsNaN(responses[0]));
             Assert.AreEqual(2, responses.Length);
+
+            int c2 = target.Compute(instance, out logLikelihood);
+
+            Assert.AreEqual(c, c2);
         }
 
 
