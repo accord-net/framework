@@ -84,7 +84,7 @@ namespace AForge.Neuro.Learning
             get { return learningRate; }
             set
             {
-                learningRate = Math.Max( 0.0, Math.Min( 1.0, value ) );
+                learningRate = Math.Max(0.0, Math.Min(1.0, value));
             }
         }
 
@@ -108,7 +108,7 @@ namespace AForge.Neuro.Learning
             get { return momentum; }
             set
             {
-                momentum = Math.Max( 0.0, Math.Min( 1.0, value ) );
+                momentum = Math.Max(0.0, Math.Min(1.0, value));
             }
         }
 
@@ -118,7 +118,7 @@ namespace AForge.Neuro.Learning
         /// 
         /// <param name="network">Network to teach.</param>
         /// 
-        public BackPropagationLearning( ActivationNetwork network )
+        public BackPropagationLearning(ActivationNetwork network)
         {
             this.network = network;
 
@@ -128,7 +128,7 @@ namespace AForge.Neuro.Learning
             thresholdsUpdates = new double[network.Layers.Length][];
 
             // initialize errors and deltas arrays for each layer
-            for ( int i = 0; i < network.Layers.Length; i++ )
+            for (int i = 0; i < network.Layers.Length; i++)
             {
                 Layer layer = network.Layers[i];
 
@@ -137,7 +137,7 @@ namespace AForge.Neuro.Learning
                 thresholdsUpdates[i] = new double[layer.Neurons.Length];
 
                 // for each neuron
-                for ( int j = 0; j < weightsUpdates[i].Length; j++ )
+                for (int j = 0; j < weightsUpdates[i].Length; j++)
                 {
                     weightsUpdates[i][j] = new double[layer.InputsCount];
                 }
@@ -157,19 +157,19 @@ namespace AForge.Neuro.Learning
         /// <remarks><para>Runs one learning iteration and updates neuron's
         /// weights.</para></remarks>
         ///
-        public double Run( double[] input, double[] output )
+        public double Run(double[] input, double[] output)
         {
             // compute the network's output
-            network.Compute( input );
+            network.Compute(input);
 
             // calculate network error
-            double error = CalculateError( output );
+            double error = CalculateError(output);
 
             // calculate weights updates
-            CalculateUpdates( input );
+            CalculateUpdates(input);
 
             // update the network
-            UpdateNetwork( );
+            UpdateNetwork();
 
             return error;
         }
@@ -187,14 +187,14 @@ namespace AForge.Neuro.Learning
         /// <remarks><para>The method runs one learning epoch, by calling <see cref="Run"/> method
         /// for each vector provided in the <paramref name="input"/> array.</para></remarks>
         /// 
-        public double RunEpoch( double[][] input, double[][] output )
+        public double RunEpoch(double[][] input, double[][] output)
         {
             double error = 0.0;
 
             // run learning procedure for all samples
-            for ( int i = 0; i < input.Length; i++ )
+            for (int i = 0; i < input.Length; i++)
             {
-                error += Run( input[i], output[i] );
+                error += Run(input[i], output[i]);
             }
 
             // return summary error
@@ -210,7 +210,7 @@ namespace AForge.Neuro.Learning
         /// 
         /// <returns>Returns summary squared error of the last layer divided by 2.</returns>
         /// 
-        private double CalculateError( double[] desiredOutput )
+        private double CalculateError(double[] desiredOutput)
         {
             // current and the next layers
             Layer layer, layerNext;
@@ -224,25 +224,25 @@ namespace AForge.Neuro.Learning
             int layersCount = network.Layers.Length;
 
             // assume, that all neurons of the network have the same activation function
-            IActivationFunction function = ( network.Layers[0].Neurons[0] as ActivationNeuron ).ActivationFunction;
+            IActivationFunction function = (network.Layers[0].Neurons[0] as ActivationNeuron).ActivationFunction;
 
             // calculate error values for the last layer first
             layer = network.Layers[layersCount - 1];
             errors = neuronErrors[layersCount - 1];
 
-            for ( int i = 0; i < layer.Neurons.Length; i++ )
+            for (int i = 0; i < layer.Neurons.Length; i++)
             {
                 output = layer.Neurons[i].Output;
                 // error of the neuron
                 e = desiredOutput[i] - output;
                 // error multiplied with activation function's derivative
-                errors[i] = e * function.Derivative2( output );
+                errors[i] = e * function.Derivative2(output);
                 // squre the error and sum it
-                error += ( e * e );
+                error += (e * e);
             }
 
             // calculate error values for other layers
-            for ( int j = layersCount - 2; j >= 0; j-- )
+            for (int j = layersCount - 2; j >= 0; j--)
             {
                 layer = network.Layers[j];
                 layerNext = network.Layers[j + 1];
@@ -250,15 +250,15 @@ namespace AForge.Neuro.Learning
                 errorsNext = neuronErrors[j + 1];
 
                 // for all neurons of the layer
-                for ( int i = 0; i < layer.Neurons.Length; i++ )
+                for (int i = 0; i < layer.Neurons.Length; i++)
                 {
                     sum = 0.0;
                     // for all neurons of the next layer
-                    for ( int k = 0; k < layerNext.Neurons.Length; k++ )
+                    for (int k = 0; k < layerNext.Neurons.Length; k++)
                     {
                         sum += errorsNext[k] * layerNext.Neurons[k].Weights[i];
                     }
-                    errors[i] = sum * function.Derivative2( layer.Neurons[i].Output );
+                    errors[i] = sum * function.Derivative2(layer.Neurons[i].Output);
                 }
             }
 
@@ -272,86 +272,69 @@ namespace AForge.Neuro.Learning
         /// 
         /// <param name="input">Network's input vector.</param>
         /// 
-        private void CalculateUpdates( double[] input )
+        private void CalculateUpdates(double[] input)
         {
-            // current neuron
-            Neuron neuron;
-            // current and previous layers
-            Layer layer, layerPrev;
-            // layer's weights updates
-            double[][] layerWeightsUpdates;
-            // layer's thresholds updates
-            double[] layerThresholdUpdates;
-            // layer's error
-            double[] errors;
-            // neuron's weights updates
-            double[] neuronWeightUpdates;
-            // error value
-            // double		error;
-
             // 1 - calculate updates for the first layer
-            layer = network.Layers[0];
-            errors = neuronErrors[0];
-            layerWeightsUpdates = weightsUpdates[0];
-            layerThresholdUpdates = thresholdsUpdates[0];
+            Layer layer = network.Layers[0];
+            double[] errors = neuronErrors[0];
+            double[][] layerWeightsUpdates = weightsUpdates[0];
+            double[] layerThresholdUpdates = thresholdsUpdates[0];
 
             // cache for frequently used values
             double cachedMomentum = learningRate * momentum;
-            double cached1mMomentum = learningRate * ( 1 - momentum );
+            double cached1mMomentum = learningRate * (1 - momentum);
             double cachedError;
 
             // for each neuron of the layer
-            for ( int i = 0; i < layer.Neurons.Length; i++ )
+            for (int i = 0; i < layer.Neurons.Length; i++)
             {
-                neuron = layer.Neurons[i];
                 cachedError = errors[i] * cached1mMomentum;
-                neuronWeightUpdates = layerWeightsUpdates[i];
+                double[] neuronWeightUpdates = layerWeightsUpdates[i];
 
                 // for each weight of the neuron
-                for ( int j = 0; j < neuronWeightUpdates.Length; j++ )
+                for (int j = 0; j < neuronWeightUpdates.Length; j++)
                 {
                     // calculate weight update
                     neuronWeightUpdates[j] = cachedMomentum * neuronWeightUpdates[j] + cachedError * input[j];
                 }
 
-                // calculate treshold update
+                // calculate threshold update
                 layerThresholdUpdates[i] = cachedMomentum * layerThresholdUpdates[i] + cachedError;
             }
 
             // 2 - for all other layers
-            for ( int k = 1; k < network.Layers.Length; k++ )
+            for (int k = 1; k < network.Layers.Length; k++)
             {
-                layerPrev = network.Layers[k - 1];
+                Layer layerPrev = network.Layers[k - 1];
                 layer = network.Layers[k];
                 errors = neuronErrors[k];
                 layerWeightsUpdates = weightsUpdates[k];
                 layerThresholdUpdates = thresholdsUpdates[k];
 
                 // for each neuron of the layer
-                for ( int i = 0; i < layer.Neurons.Length; i++ )
+                for (int i = 0; i < layer.Neurons.Length; i++)
                 {
-                    neuron = layer.Neurons[i];
                     cachedError = errors[i] * cached1mMomentum;
-                    neuronWeightUpdates = layerWeightsUpdates[i];
+                    double[] neuronWeightUpdates = layerWeightsUpdates[i];
 
                     // for each synapse of the neuron
-                    for ( int j = 0; j < neuronWeightUpdates.Length; j++ )
+                    for (int j = 0; j < neuronWeightUpdates.Length; j++)
                     {
                         // calculate weight update
                         neuronWeightUpdates[j] = cachedMomentum * neuronWeightUpdates[j] + cachedError * layerPrev.Neurons[j].Output;
                     }
 
-                    // calculate treshold update
+                    // calculate threshold update
                     layerThresholdUpdates[i] = cachedMomentum * layerThresholdUpdates[i] + cachedError;
                 }
             }
         }
 
         /// <summary>
-        /// Update network'sweights.
+        /// Update network's weights.
         /// </summary>
         /// 
-        private void UpdateNetwork( )
+        private void UpdateNetwork()
         {
             // current neuron
             ActivationNeuron neuron;
@@ -365,20 +348,20 @@ namespace AForge.Neuro.Learning
             double[] neuronWeightUpdates;
 
             // for each layer of the network
-            for ( int i = 0; i < network.Layers.Length; i++ )
+            for (int i = 0; i < network.Layers.Length; i++)
             {
                 layer = network.Layers[i];
                 layerWeightsUpdates = weightsUpdates[i];
                 layerThresholdUpdates = thresholdsUpdates[i];
 
                 // for each neuron of the layer
-                for ( int j = 0; j < layer.Neurons.Length; j++ )
+                for (int j = 0; j < layer.Neurons.Length; j++)
                 {
                     neuron = layer.Neurons[j] as ActivationNeuron;
                     neuronWeightUpdates = layerWeightsUpdates[j];
 
                     // for each weight of the neuron
-                    for ( int k = 0; k < neuron.Weights.Length; k++ )
+                    for (int k = 0; k < neuron.Weights.Length; k++)
                     {
                         // update weight
                         neuron.Weights[k] += neuronWeightUpdates[k];

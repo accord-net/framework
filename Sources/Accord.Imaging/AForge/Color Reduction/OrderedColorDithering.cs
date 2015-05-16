@@ -88,12 +88,12 @@ namespace AForge.Imaging.ColorReduction
         /// 
         public byte[,] ThresholdMatrix
         {
-            get { return (byte[,]) matrix.Clone( ); }
+            get { return (byte[,])matrix.Clone(); }
             set
             {
-                if ( value == null )
+                if (value == null)
                 {
-                    throw new NullReferenceException( "Threshold matrix cannot be set to null." );
+                    throw new NullReferenceException("Threshold matrix cannot be set to null.");
                 }
                 matrix = value;
             }
@@ -120,8 +120,8 @@ namespace AForge.Imaging.ColorReduction
             get { return colorTable; }
             set
             {
-                if ( ( colorTable.Length < 2 ) || ( colorTable.Length > 256 ) )
-                    throw new ArgumentException( "Color table length must be in the [2, 256] range." );
+                if ((colorTable.Length < 2) || (colorTable.Length > 256))
+                    throw new ArgumentException("Color table length must be in the [2, 256] range.");
 
                 colorTable = value;
             }
@@ -153,7 +153,7 @@ namespace AForge.Imaging.ColorReduction
         /// Initializes a new instance of the <see cref="OrderedColorDithering"/> class.
         /// </summary>
         /// 
-        public OrderedColorDithering( )
+        public OrderedColorDithering()
         {
         }
 
@@ -163,7 +163,7 @@ namespace AForge.Imaging.ColorReduction
         /// 
         /// <param name="matrix">Threshold matrix (see <see cref="ThresholdMatrix"/> property).</param>
         /// 
-        public OrderedColorDithering( byte[,] matrix )
+        public OrderedColorDithering(byte[,] matrix)
         {
             ThresholdMatrix = matrix;
         }
@@ -179,30 +179,30 @@ namespace AForge.Imaging.ColorReduction
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image. It must 24 or 32 bpp color image.</exception>
         /// 
-        public Bitmap Apply( Bitmap sourceImage )
+        public Bitmap Apply(Bitmap sourceImage)
         {
-            BitmapData data = sourceImage.LockBits( new Rectangle( 0, 0, sourceImage.Width, sourceImage.Height ),
-                ImageLockMode.ReadOnly, sourceImage.PixelFormat );
+            BitmapData data = sourceImage.LockBits(new Rectangle(0, 0, sourceImage.Width, sourceImage.Height),
+                ImageLockMode.ReadOnly, sourceImage.PixelFormat);
 
             Bitmap result = null;
 
             try
             {
-                result = Apply( new UnmanagedImage( data ) );
-                if ( ( sourceImage.HorizontalResolution > 0 ) && ( sourceImage.VerticalResolution > 0 ) )
+                result = Apply(new UnmanagedImage(data));
+                if ((sourceImage.HorizontalResolution > 0) && (sourceImage.VerticalResolution > 0))
                 {
-                    result.SetResolution( sourceImage.HorizontalResolution, sourceImage.VerticalResolution );
+                    result.SetResolution(sourceImage.HorizontalResolution, sourceImage.VerticalResolution);
                 }
             }
             finally
             {
-                sourceImage.UnlockBits( data );
+                sourceImage.UnlockBits(data);
             }
 
             return result;
         }
 
-                /// <summary>
+        /// <summary>
         /// Perform color dithering for the specified image.
         /// </summary>
         /// 
@@ -213,112 +213,111 @@ namespace AForge.Imaging.ColorReduction
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image. It must 24 or 32 bpp color image.</exception>
         /// 
-        public unsafe Bitmap Apply( UnmanagedImage sourceImage )
+        public unsafe Bitmap Apply(UnmanagedImage sourceImage)
         {
-            if ( ( sourceImage.PixelFormat != PixelFormat.Format24bppRgb ) &&
-                 ( sourceImage.PixelFormat != PixelFormat.Format32bppRgb ) &&
-                 ( sourceImage.PixelFormat != PixelFormat.Format32bppArgb ) &&
-                 ( sourceImage.PixelFormat != PixelFormat.Format32bppPArgb ) )
+            if ((sourceImage.PixelFormat != PixelFormat.Format24bppRgb) &&
+                 (sourceImage.PixelFormat != PixelFormat.Format32bppRgb) &&
+                 (sourceImage.PixelFormat != PixelFormat.Format32bppArgb) &&
+                 (sourceImage.PixelFormat != PixelFormat.Format32bppPArgb))
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
-            cache.Clear( );
+            cache.Clear();
 
             // get image size
-            int width  = sourceImage.Width;
+            int width = sourceImage.Width;
             int height = sourceImage.Height;
             int stride = sourceImage.Stride;
-            int pixelSize = Bitmap.GetPixelFormatSize( sourceImage.PixelFormat ) / 8;
+            int pixelSize = Bitmap.GetPixelFormatSize(sourceImage.PixelFormat) / 8;
 
-            int offset = stride - width * pixelSize;
 
             // create destination image
-            Bitmap destImage = new Bitmap( width, height, ( colorTable.Length > 16 ) ?
-                PixelFormat.Format8bppIndexed : PixelFormat.Format4bppIndexed );
+            Bitmap destImage = new Bitmap(width, height, (colorTable.Length > 16) ?
+                PixelFormat.Format8bppIndexed : PixelFormat.Format4bppIndexed);
             // and init its palette
             ColorPalette cp = destImage.Palette;
-            for ( int i = 0, n = colorTable.Length; i < n; i++ )
+            for (int i = 0, n = colorTable.Length; i < n; i++)
             {
                 cp.Entries[i] = colorTable[i];
             }
             destImage.Palette = cp;
 
             // lock destination image
-            BitmapData destData = destImage.LockBits( new Rectangle( 0, 0, width, height ),
-                ImageLockMode.ReadWrite, destImage.PixelFormat );
+            BitmapData destData = destImage.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadWrite, destImage.PixelFormat);
 
             // pixel values
             int r, g, b, toAdd;
-            int rows = matrix.GetLength( 0 );
-            int cols = matrix.GetLength( 1 );
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
 
 
             // do the job
-            byte* ptr = (byte*) sourceImage.ImageData.ToPointer( );
-            byte* dstBase = (byte*) destData.Scan0.ToPointer( );
+            byte* ptr = (byte*)sourceImage.ImageData.ToPointer();
+            byte* dstBase = (byte*)destData.Scan0.ToPointer();
             byte colorIndex;
 
-            bool is8bpp = ( colorTable.Length > 16 );
+            bool is8bpp = (colorTable.Length > 16);
 
             // for each line
-            for ( int y = 0; y < height; y++ )
+            for (int y = 0; y < height; y++)
             {
                 byte* dst = dstBase + y * destData.Stride;
 
                 // for each pixels
-                for ( int x = 0; x < width; x++, ptr += pixelSize )
+                for (int x = 0; x < width; x++, ptr += pixelSize)
                 {
-                    toAdd = matrix[( y % rows ), ( x % cols )];
+                    toAdd = matrix[(y % rows), (x % cols)];
                     r = ptr[RGB.R] + toAdd;
                     g = ptr[RGB.G] + toAdd;
                     b = ptr[RGB.B] + toAdd;
 
-                    if ( r > 255 )
+                    if (r > 255)
                         r = 255;
-                    if ( g > 255 )
+                    if (g > 255)
                         g = 255;
-                    if ( b > 255 )
+                    if (b > 255)
                         b = 255;
 
                     // get color from palette, which is the closest to current pixel's value
-                    Color closestColor = GetClosestColor( r, g, b, out colorIndex );
+                    GetClosestColor(r, g, b, out colorIndex);
 
                     // write color index as pixel's value to destination image
-                    if ( is8bpp )
+                    if (is8bpp)
                     {
                         *dst = colorIndex;
                         dst++;
                     }
                     else
                     {
-                        if ( x % 2 == 0 )
+                        if (x % 2 == 0)
                         {
-                            *dst |= (byte) ( colorIndex << 4 );
+                            *dst |= (byte)(colorIndex << 4);
                         }
                         else
                         {
-                            *dst |= ( colorIndex );
+                            *dst |= (colorIndex);
                             dst++;
                         }
                     }
                 }
             }
 
-            destImage.UnlockBits( destData );
+            destImage.UnlockBits(destData);
 
             return destImage;
         }
 
         [NonSerialized]
-        private Dictionary<Color, byte> cache = new Dictionary<Color, byte>( );
+        private Dictionary<Color, byte> cache = new Dictionary<Color, byte>();
 
         // Get closest color from palette to the specified color
-        private Color GetClosestColor( int red, int green, int blue, out byte colorIndex )
+        private Color GetClosestColor(int red, int green, int blue, out byte colorIndex)
         {
-            Color color = Color.FromArgb( red, green, blue );
+            Color color = Color.FromArgb(red, green, blue);
 
-            if ( ( useCaching ) && ( cache.ContainsKey( color ) ) )
+            if ((useCaching) && (cache.ContainsKey(color)))
             {
                 colorIndex = cache[color];
             }
@@ -327,7 +326,7 @@ namespace AForge.Imaging.ColorReduction
                 colorIndex = 0;
                 int minError = int.MaxValue;
 
-                for ( int i = 0, n = colorTable.Length; i < n; i++ )
+                for (int i = 0, n = colorTable.Length; i < n; i++)
                 {
                     int dr = red - colorTable[i].R;
                     int dg = green - colorTable[i].G;
@@ -335,16 +334,16 @@ namespace AForge.Imaging.ColorReduction
 
                     int error = dr * dr + dg * dg + db * db;
 
-                    if ( error < minError )
+                    if (error < minError)
                     {
                         minError = error;
-                        colorIndex = (byte) i;
+                        colorIndex = (byte)i;
                     }
                 }
 
-                if ( useCaching )
+                if (useCaching)
                 {
-                    cache.Add( color, colorIndex );
+                    cache.Add(color, colorIndex);
                 }
             }
 
