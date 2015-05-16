@@ -155,10 +155,6 @@
       <Project>{FD8101DD-C95D-42D6-AD44-AE01C25F2811}</Project>
       <Name>Accord.Statistics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Accord.Tests.MachineLearning.FSharp\Accord.Tests.MachineLearning.FSharp.fsproj">
-      <Project>{a6775b59-6919-4d7c-a960-7e875f0bd81a}</Project>
-      <Name>Accord.Tests.MachineLearning.FSharp</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -208,7 +204,9 @@
   <ItemGroup>
     <None Include="Resources\svm1.svm" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

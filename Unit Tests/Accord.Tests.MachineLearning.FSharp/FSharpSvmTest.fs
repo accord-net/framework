@@ -2,13 +2,17 @@
 
 open System
 open System.IO
- 
+
+open Accord
 open Accord.MachineLearning
 open Accord.MachineLearning.VectorMachines
 open Accord.MachineLearning.VectorMachines.Learning
 open Accord.Statistics.Kernels
+open NUnit.Framework
+
 
 type FSharpSvmTest() = 
+
 
     (* 
     The dataset I am using here is a subset of the Kaggle digit recognizer;
@@ -102,3 +106,27 @@ type FSharpSvmTest() =
         a REPL here is that I don't need to reload data, 
         I can just keep going. 
         *)
+
+
+    [<TestCase()>]
+    member x.ConvergenceException() =
+        let _ =
+            try
+                let a = FSharpSvmTest.Run(1.0)
+                Assert.Fail();
+            with ConvergenceException as ex -> ()
+
+
+        let classification = FSharpSvmTest.Run(0.1)
+        let error = FSharpSvmTest.error
+
+        Assert.AreEqual(0.9, classification);
+        Assert.AreEqual(0, error);
+
+    [<TestCase()>]
+    member x.FSharpTest_AutoComplexity() =
+        let classification = FSharpSvmTest.Run(0.0);
+        let error = FSharpSvmTest.error;
+
+        Assert.AreEqual(0.92, classification);
+        Assert.AreEqual(0, error);

@@ -816,34 +816,6 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(expected.FalsePositives, actual.FalsePositives);
         }
 
-        [Test]
-        public void FSharpTest1()
-        {
-            try
-            {
-                FSharpSvmTest.Run(1);
-                Assert.Fail();
-            }
-            catch (ConvergenceException)
-            {
-            }
-
-            double classification = FSharpSvmTest.Run(0.1);
-            double error = FSharpSvmTest.error;
-
-            Assert.AreEqual(0.9, classification);
-            Assert.AreEqual(0, error);
-        }
-
-        [Test]
-        public void FSharpTest_AutoComplexity()
-        {
-            double classification = FSharpSvmTest.Run(0);
-            double error = FSharpSvmTest.error;
-
-            Assert.AreEqual(0.92, classification);
-            Assert.AreEqual(0, error);
-        }
 
         public static double[,] yinyang =
         {
