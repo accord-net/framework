@@ -381,27 +381,12 @@ namespace Accord.MachineLearning
             return model.LogLikelihood(data);
         }
 
-        /// <summary>
-        ///   Gets the collection of clusters currently modeled by the clustering algorithm.
-        /// </summary>
-        /// 
+
         IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
         {
             get { return clusters; }
         }
 
-        /// <summary>
-        ///   Divides the input data into a number of clusters. 
-        /// </summary>  
-        /// 
-        /// <param name="data">The data where to compute the algorithm.</param>
-        /// <param name="threshold">The relative convergence threshold
-        /// for the algorithm. Default is 1e-5.</param>
-        /// 
-        /// <returns>
-        ///   The labellings for the input data.
-        /// </returns>
-        /// 
         int[] IClusteringAlgorithm<double[]>.Compute(double[][] data, double threshold)
         {
             Compute(data, threshold);
