@@ -360,7 +360,7 @@ namespace Accord.Statistics.Distributions
         /// <param name="p">A probability value between 0 and 1.</param>
         /// 
         /// <returns>A sample which could original the given probability 
-        ///   value when applied in the <see cref="IDistribution{T}.DistributionFunction"/>.</returns>
+        ///   value when applied in the <see cref="IUnivariateDistribution.DistributionFunction(double)"/>.</returns>
         /// 
         TObservation InverseDistributionFunction(double p);
 
