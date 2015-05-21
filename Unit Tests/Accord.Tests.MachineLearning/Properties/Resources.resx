@@ -125,7 +125,7 @@
     <value>..\Resources\liblinear\a9a.train;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="CircleWithWeights" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\circlewithweights.xls;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>..\Resources\CircleWithWeights.xls;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="iris_data" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\iris.data.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
@@ -137,13 +137,13 @@
     <value>..\Resources\kmeans.bin;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="L1R_LR_a9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\liblinear\l1r_lr_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\liblinear\L1R_LR_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="L1R_LR_DUAL_a9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\liblinear\l1r_lr_dual_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\liblinear\L1R_LR_DUAL_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="L2R_LR_a9a" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\liblinear\l2r_lr_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\liblinear\L2R_LR_a9a.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="nursery" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\nursery.data;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

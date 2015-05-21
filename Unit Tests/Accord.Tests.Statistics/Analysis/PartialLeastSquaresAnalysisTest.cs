@@ -349,10 +349,10 @@ namespace Accord.Tests.Statistics
             var idxTrain = Matrix.Indices(0, 25);
             var idxTest = Matrix.Indices(25, 50);
 
-            double[,] inputs = Matrix.Stack(
-                x1.Submatrix(idxTrain),
-                x2.Submatrix(idxTrain),
-                x3.Submatrix(idxTrain));
+            double[,] a = x1.Submatrix(idxTrain);
+            double[,] b = x2.Submatrix(idxTrain);
+            double[,] c = x3.Submatrix(idxTrain);
+            double[,] inputs = Matrix.Stack<double>(new double[][,] { a, b, c });
 
 
             double[,] outputs = Matrix.Expand(
@@ -400,34 +400,33 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(outputs, uq, 0.45));
 
 
-
-            double[,] test = Matrix.Stack(
-                x1.Submatrix(idxTest),
-                x2.Submatrix(idxTest),
-                x3.Submatrix(idxTest));
+            a = x1.Submatrix(idxTest);
+            b = x2.Submatrix(idxTest);
+            c = x3.Submatrix(idxTest);
+            double[,] test = Matrix.Stack(new double[][,] { a, b, c });
 
             // test regression for classification
             var regression = target.CreateRegression();
 
             double[][] Y = regression.Compute(test.ToArray());
 
-            int c;
-            Matrix.Max(Y[0], out c);
+            int cl;
+            Matrix.Max(Y[0], out cl);
             Assert.AreEqual(0, c);
 
-            Matrix.Max(Y[11], out c);
+            Matrix.Max(Y[11], out cl);
             Assert.AreEqual(0, c);
 
-            Matrix.Max(Y[29], out c);
+            Matrix.Max(Y[29], out cl);
             Assert.AreEqual(1, c);
 
-            Matrix.Max(Y[30], out c);
+            Matrix.Max(Y[30], out cl);
             Assert.AreEqual(1, c);
 
-            Matrix.Max(Y[52], out c);
+            Matrix.Max(Y[52], out cl);
             Assert.AreEqual(2, c);
 
-            Matrix.Max(Y[70], out c);
+            Matrix.Max(Y[70], out cl);
             Assert.AreEqual(2, c);
 
 
