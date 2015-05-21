@@ -252,13 +252,6 @@ namespace Accord.Math
             oldValues = null;
         }
 
-
-        /// <summary>
-        ///   Gets or sets the watched value after the iteration. This 
-        ///   method is implemented explicitly to avoid breaking too much
-        ///   existing applications.
-        /// </summary>
-        /// 
         double[] IConvergence<double[]>.NewValue
         {
             // TODO: Remove this explicit implementation.

@@ -1842,25 +1842,11 @@ namespace Accord.IO
             return new RecordEnumerator(this);
         }
 
-        /// <summary>
-        /// Returns an <see cref="T:System.Collections.Generics.IEnumerator"/>  that can iterate through CSV records.
-        /// </summary>
-        /// <returns>An <see cref="T:System.Collections.Generics.IEnumerator"/>  that can iterate through CSV records.</returns>
-        /// <exception cref="T:System.ComponentModel.ObjectDisposedException">
-        ///	The instance has been disposed of.
-        /// </exception>
         IEnumerator<string[]> IEnumerable<string[]>.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        /// <summary>
-        /// Returns an <see cref="T:System.Collections.IEnumerator"/>  that can iterate through CSV records.
-        /// </summary>
-        /// <returns>An <see cref="T:System.Collections.IEnumerator"/>  that can iterate through CSV records.</returns>
-        /// <exception cref="T:System.ComponentModel.ObjectDisposedException">
-        ///	The instance has been disposed of.
-        /// </exception>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
