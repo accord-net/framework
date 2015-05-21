@@ -1286,7 +1286,7 @@ namespace Accord.Math
         #region Split
         /// <summary>
         ///   Splits a given vector into a smaller vectors of the given size.
-        ///   This operation can be reverted using <see cref="Merge"/>.
+        ///   This operation can be reverted using <see cref="Merge{T}(T[][], int)"/>.
         /// </summary>
         /// 
         /// <param name="vector">The vector to be splitted.</param>
@@ -1309,7 +1309,7 @@ namespace Accord.Math
 
         /// <summary>
         ///   Merges a series of vectors into a single vector. This
-        ///   operation can be reverted using <see cref="Split"/>.
+        ///   operation can be reverted using <see cref="Split{T}(T[], int)"/>.
         /// </summary>
         /// 
         /// <param name="vectors">The vectors to be merged.</param>
