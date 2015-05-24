@@ -130,6 +130,9 @@
     <EmbeddedResource Include="TableSelectDialog.resx">
       <DependentUpon>TableSelectDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="Accord.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

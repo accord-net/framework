@@ -21,14 +21,14 @@
   <files>
     <file src="..\..\Release\net35\Accord.dll" target="lib\net35\Accord.dll" />
     <file src="..\..\Release\net35\Accord.xml" target="lib\net35\Accord.xml" />
-    <file src="..\..\Release\net35\Accord.config" target="lib\net35\Accord.config" />
 
     <file src="..\..\Release\net40\Accord.dll" target="lib\net40\Accord.dll" />
     <file src="..\..\Release\net40\Accord.xml" target="lib\net40\Accord.xml" />
-    <file src="..\..\Release\net40\Accord.config" target="lib\net40\Accord.config" />
 
     <file src="..\..\Release\net45\Accord.dll" target="lib\net45\Accord.dll" />
     <file src="..\..\Release\net45\Accord.xml" target="lib\net45\Accord.xml" />
-    <file src="..\..\Release\net45\Accord.config" target="lib\net45\Accord.config" />
+
+    <file src="..\..\Release\net45\Accord.dll.config" target="build\Accord.dll.config" />
+    <file src="..\..\Release\net45\Accord.dll.targets" target="build\Accord.targets" />
   </files>
 </package>

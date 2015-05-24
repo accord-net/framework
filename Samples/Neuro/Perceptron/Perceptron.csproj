@@ -180,6 +180,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accord.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <None Include="Sample data %28delta rule%29\and.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

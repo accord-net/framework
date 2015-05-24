@@ -178,6 +178,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accord.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <None Include="Sample data %28approximation%29\sample1.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -142,4 +142,9 @@
   <ItemGroup>
     <Content Include="framework.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Accord.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

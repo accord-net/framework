@@ -11,7 +11,8 @@ echo "                                                         "
 
 
 echo "  - Building NET40 configuration..."
-mdtool -v build -c:"NET40" ../Sources/Accord.NET.Mono.sln
+xbuild /p:Configuration=NET40   /p:Platform=AnyCPU   ../Sources/Accord.NET.Mono.sln 
+
 
 # echo  - Building samples...
-# mdtool -v build            ../Samples/Samples.sln
+xbuild /p:Configuration=Release /p:Platform=x86      ../Samples/Samples.sln
