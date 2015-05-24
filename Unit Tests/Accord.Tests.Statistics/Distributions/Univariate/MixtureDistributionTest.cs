@@ -84,7 +84,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.5866611690305092, icdf1);
             Assert.AreEqual(3.1968506765456883, icdf2);
             Assert.AreEqual(5.6437596300843076, icdf3);
-            Assert.AreEqual("Mixture(x; 0.5*N(x; μ = 5, σ² = 1) + 0.5*N(x; μ = 5, σ² = 1))", str);
+            Assert.AreEqual("Mixture(x; 0.5*N(x; μ = 2, σ² = 1) + 0.5*N(x; μ = 5, σ² = 1))", str);
 
             Assert.IsFalse(double.IsNaN(icdf1));
 
@@ -382,7 +382,7 @@ namespace Accord.Tests.Statistics
 
             var result = mixture.ToString("N2");
 
-            Assert.AreEqual("", result);
+            Assert.AreEqual("Mixture(x; 0.50*N(x; μ = -2.00, σ² = 0.25) + 0.50*N(x; μ = 4.00, σ² = 0.25))", result);
         }
     }
 }

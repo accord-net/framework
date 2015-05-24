@@ -412,22 +412,22 @@ namespace Accord.Tests.Statistics
 
             int cl;
             Matrix.Max(Y[0], out cl);
-            Assert.AreEqual(0, c);
+            Assert.AreEqual(0, cl);
 
             Matrix.Max(Y[11], out cl);
-            Assert.AreEqual(0, c);
+            Assert.AreEqual(0, cl);
 
             Matrix.Max(Y[29], out cl);
-            Assert.AreEqual(1, c);
+            Assert.AreEqual(1, cl);
 
             Matrix.Max(Y[30], out cl);
-            Assert.AreEqual(1, c);
+            Assert.AreEqual(1, cl);
 
             Matrix.Max(Y[52], out cl);
-            Assert.AreEqual(2, c);
+            Assert.AreEqual(2, cl);
 
             Matrix.Max(Y[70], out cl);
-            Assert.AreEqual(2, c);
+            Assert.AreEqual(2, cl);
 
 
             PartialLeastSquaresAnalysis target2 = new PartialLeastSquaresAnalysis(inputs, outputs,
