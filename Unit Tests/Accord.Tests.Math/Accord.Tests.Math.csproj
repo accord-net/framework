@@ -179,6 +179,10 @@
       <Project>{F718E9A8-DB62-4785-8C49-4333A60D256A}</Project>
       <Name>Accord.Math</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Accord.Tests.Math.Cpp\Accord.Tests.Math.Cpp.vcxproj">
+      <Project>{161bd953-537d-4325-8a00-22475fc9088e}</Project>
+      <Name>Accord.Tests.Math.Cpp</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
