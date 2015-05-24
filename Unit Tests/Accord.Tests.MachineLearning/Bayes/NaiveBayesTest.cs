@@ -285,7 +285,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a discrete naive Bayes model for 3 classes and 4 binary inputs
-            var bayes = new NaiveBayes(classes: 3, symbols: new int[] { 2, 2, 2, 2 });
+            int[] symbols = new int[] { 2, 2, 2, 2 };
+            var bayes = new NaiveBayes(3, symbols);
 
             // Teach the model. The error should be zero:
             double error = bayes.Estimate(inputs, outputs);
