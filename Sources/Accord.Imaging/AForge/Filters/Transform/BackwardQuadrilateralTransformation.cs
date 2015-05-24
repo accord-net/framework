@@ -67,7 +67,7 @@ namespace AForge.Imaging.Filters
         private bool useInterpolation = true;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -102,7 +102,7 @@ namespace AForge.Imaging.Filters
             {
                 sourceImage = value;
 
-                if ( value != null )
+                if (value != null)
                     sourceUnmanagedImage = null;
             }
         }
@@ -128,7 +128,7 @@ namespace AForge.Imaging.Filters
             {
                 sourceUnmanagedImage = value;
 
-                if ( value != null )
+                if (value != null)
                     sourceImage = null;
             }
         }
@@ -165,13 +165,13 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="BackwardQuadrilateralTransformation"/> class.
         /// </summary>
         /// 
-        public BackwardQuadrilateralTransformation( )
+        public BackwardQuadrilateralTransformation()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]    = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format32bppArgb;
-            formatTranslations[PixelFormat.Format32bppPArgb]  = PixelFormat.Format32bppPArgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format32bppPArgb] = PixelFormat.Format32bppPArgb;
         }
 
         /// <summary>
@@ -181,8 +181,8 @@ namespace AForge.Imaging.Filters
         /// <param name="sourceImage">Source image to be transformed into specified quadrilateral
         /// (see <see cref="SourceImage"/>).</param>
         /// 
-        public BackwardQuadrilateralTransformation( Bitmap sourceImage )
-            : this( )
+        public BackwardQuadrilateralTransformation(Bitmap sourceImage)
+            : this()
         {
             this.sourceImage = sourceImage;
         }
@@ -194,8 +194,8 @@ namespace AForge.Imaging.Filters
         /// <param name="sourceUnmanagedImage">Source unmanaged image to be transformed into specified quadrilateral
         /// (see <see cref="SourceUnmanagedImage"/>).</param>
         /// 
-        public BackwardQuadrilateralTransformation( UnmanagedImage sourceUnmanagedImage )
-            : this( )
+        public BackwardQuadrilateralTransformation(UnmanagedImage sourceUnmanagedImage)
+            : this()
         {
             this.sourceUnmanagedImage = sourceUnmanagedImage;
         }
@@ -208,8 +208,8 @@ namespace AForge.Imaging.Filters
         /// (see <see cref="SourceImage"/>).</param>
         /// <param name="destinationQuadrilateral">Quadrilateral in destination image to transform into.</param>
         /// 
-        public BackwardQuadrilateralTransformation( Bitmap sourceImage, List<IntPoint> destinationQuadrilateral )
-            : this( )
+        public BackwardQuadrilateralTransformation(Bitmap sourceImage, List<IntPoint> destinationQuadrilateral)
+            : this()
         {
             this.sourceImage = sourceImage;
             this.destinationQuadrilateral = destinationQuadrilateral;
@@ -223,8 +223,8 @@ namespace AForge.Imaging.Filters
         /// (see <see cref="SourceUnmanagedImage"/>).</param>
         /// <param name="destinationQuadrilateral">Quadrilateral in destination image to transform into.</param>
         /// 
-        public BackwardQuadrilateralTransformation( UnmanagedImage sourceUnmanagedImage, List<IntPoint> destinationQuadrilateral )
-            : this( )
+        public BackwardQuadrilateralTransformation(UnmanagedImage sourceUnmanagedImage, List<IntPoint> destinationQuadrilateral)
+            : this()
         {
             this.sourceUnmanagedImage = sourceUnmanagedImage;
             this.destinationQuadrilateral = destinationQuadrilateral;
@@ -238,120 +238,120 @@ namespace AForge.Imaging.Filters
         ///
         /// <exception cref="NullReferenceException">Destination quadrilateral was not set.</exception>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage image )
+        protected override unsafe void ProcessFilter(UnmanagedImage image)
         {
-            if ( destinationQuadrilateral == null )
-                throw new NullReferenceException( "Destination quadrilateral was not set." );
+            if (destinationQuadrilateral == null)
+                throw new NullReferenceException("Destination quadrilateral was not set.");
 
             // check overlay type
-            if ( sourceImage != null )
+            if (sourceImage != null)
             {
                 // source and destination images must have same pixel format
-                if ( image.PixelFormat != sourceImage.PixelFormat )
-                    throw new InvalidImagePropertiesException( "Source and destination images must have same pixel format." );
+                if (image.PixelFormat != sourceImage.PixelFormat)
+                    throw new InvalidImagePropertiesException("Source and destination images must have same pixel format.");
 
                 // lock source image
                 BitmapData srcData = sourceImage.LockBits(
-                    new Rectangle( 0, 0, sourceImage.Width, sourceImage.Height ),
-                    ImageLockMode.ReadOnly, sourceImage.PixelFormat );
+                    new Rectangle(0, 0, sourceImage.Width, sourceImage.Height),
+                    ImageLockMode.ReadOnly, sourceImage.PixelFormat);
 
                 try
                 {
-                    ProcessFilter( image, new UnmanagedImage( srcData ) );
+                    ProcessFilter(image, new UnmanagedImage(srcData));
                 }
                 finally
                 {
                     // unlock source image
-                    sourceImage.UnlockBits( srcData );
+                    sourceImage.UnlockBits(srcData);
                 }
             }
-            else if ( sourceUnmanagedImage != null )
+            else if (sourceUnmanagedImage != null)
             {
                 // source and destination images must have same pixel format
-                if ( image.PixelFormat != sourceUnmanagedImage.PixelFormat )
-                    throw new InvalidImagePropertiesException( "Source and destination images must have same pixel format." );
+                if (image.PixelFormat != sourceUnmanagedImage.PixelFormat)
+                    throw new InvalidImagePropertiesException("Source and destination images must have same pixel format.");
 
-                ProcessFilter( image, sourceUnmanagedImage );
+                ProcessFilter(image, sourceUnmanagedImage);
             }
             else
             {
-                throw new NullReferenceException( "Source image is not set." );
+                throw new NullReferenceException("Source image is not set.");
             }
         }
 
         // Process both images transforming source image into quadrilateral in destination image
-        private unsafe void ProcessFilter( UnmanagedImage dstImage, UnmanagedImage srcImage )
+        private unsafe void ProcessFilter(UnmanagedImage dstImage, UnmanagedImage srcImage)
         {
             // get source and destination images size
-            int srcWidth  = srcImage.Width;
+            int srcWidth = srcImage.Width;
             int srcHeight = srcImage.Height;
-            int dstWidth  = dstImage.Width;
+            int dstWidth = dstImage.Width;
             int dstHeight = dstImage.Height;
 
-            int pixelSize = Image.GetPixelFormatSize( srcImage.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(srcImage.PixelFormat) / 8;
             int srcStride = srcImage.Stride;
             int dstStride = dstImage.Stride;
 
             // get bounding rectangle of the quadrilateral
             IntPoint minXY, maxXY;
-            PointsCloud.GetBoundingRectangle( destinationQuadrilateral, out minXY, out maxXY );
+            PointsCloud.GetBoundingRectangle(destinationQuadrilateral, out minXY, out maxXY);
 
             // make sure the rectangle is inside of destination image
-            if ( ( maxXY.X < 0 ) || ( maxXY.Y < 0 ) || ( minXY.X >= dstWidth ) || ( minXY.Y >= dstHeight ) )
+            if ((maxXY.X < 0) || (maxXY.Y < 0) || (minXY.X >= dstWidth) || (minXY.Y >= dstHeight))
                 return; // nothing to do, since quadrilateral is completely outside
 
             // correct rectangle if required
-            if ( minXY.X < 0 )
+            if (minXY.X < 0)
                 minXY.X = 0;
-            if ( minXY.Y < 0 )
+            if (minXY.Y < 0)
                 minXY.Y = 0;
-            if ( maxXY.X >= dstWidth )
+            if (maxXY.X >= dstWidth)
                 maxXY.X = dstWidth - 1;
-            if ( maxXY.Y >= dstHeight )
+            if (maxXY.Y >= dstHeight)
                 maxXY.Y = dstHeight - 1;
 
             int startX = minXY.X;
             int startY = minXY.Y;
-            int stopX  = maxXY.X + 1;
-            int stopY  = maxXY.Y + 1;
-            int offset = dstStride - ( stopX - startX ) * pixelSize;
+            int stopX = maxXY.X + 1;
+            int stopY = maxXY.Y + 1;
+            int offset = dstStride - (stopX - startX) * pixelSize;
 
             // calculate tranformation matrix
-            List<IntPoint> srcRect = new List<IntPoint>( );
-            srcRect.Add( new IntPoint( 0, 0 ) );
-            srcRect.Add( new IntPoint( srcWidth - 1, 0 ) );
-            srcRect.Add( new IntPoint( srcWidth - 1, srcHeight - 1 ) );
-            srcRect.Add( new IntPoint( 0, srcHeight - 1 ) );
+            List<IntPoint> srcRect = new List<IntPoint>();
+            srcRect.Add(new IntPoint(0, 0));
+            srcRect.Add(new IntPoint(srcWidth - 1, 0));
+            srcRect.Add(new IntPoint(srcWidth - 1, srcHeight - 1));
+            srcRect.Add(new IntPoint(0, srcHeight - 1));
 
-            double[,] matrix = QuadTransformationCalcs.MapQuadToQuad( destinationQuadrilateral, srcRect );
+            double[,] matrix = QuadTransformationCalcs.MapQuadToQuad(destinationQuadrilateral, srcRect);
 
             // do the job
-            byte* ptr = (byte*) dstImage.ImageData.ToPointer( );
-            byte* baseSrc = (byte*) srcImage.ImageData.ToPointer( );
+            byte* ptr = (byte*)dstImage.ImageData.ToPointer();
+            byte* baseSrc = (byte*)srcImage.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * dstStride + startX * pixelSize );
+            ptr += (startY * dstStride + startX * pixelSize);
 
-            if ( !useInterpolation )
+            if (!useInterpolation)
             {
                 byte* p;
 
                 // for each row
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++ )
+                    for (int x = startX; x < stopX; x++)
                     {
                         double factor = matrix[2, 0] * x + matrix[2, 1] * y + matrix[2, 2];
-                        double srcX = ( matrix[0, 0] * x + matrix[0, 1] * y + matrix[0, 2] ) / factor;
-                        double srcY = ( matrix[1, 0] * x + matrix[1, 1] * y + matrix[1, 2] ) / factor;
+                        double srcX = (matrix[0, 0] * x + matrix[0, 1] * y + matrix[0, 2]) / factor;
+                        double srcY = (matrix[1, 0] * x + matrix[1, 1] * y + matrix[1, 2]) / factor;
 
-                        if ( ( srcX >= 0 ) && ( srcY >= 0 ) && ( srcX < srcWidth ) && ( srcY < srcHeight ) )
+                        if ((srcX >= 0) && (srcY >= 0) && (srcX < srcWidth) && (srcY < srcHeight))
                         {
                             // get pointer to the pixel in the source image
-                            p = baseSrc + (int) srcY * srcStride + (int) srcX * pixelSize;
+                            p = baseSrc + (int)srcY * srcStride + (int)srcX * pixelSize;
                             // copy pixel's values
-                            for ( int i = 0; i < pixelSize; i++, ptr++, p++ )
+                            for (int i = 0; i < pixelSize; i++, ptr++, p++)
                             {
                                 *ptr = *p;
                             }
@@ -367,7 +367,7 @@ namespace AForge.Imaging.Filters
             }
             else
             {
-                int srcWidthM1  = srcWidth - 1;
+                int srcWidthM1 = srcWidth - 1;
                 int srcHeightM1 = srcHeight - 1;
 
                 // coordinates of source points
@@ -378,24 +378,24 @@ namespace AForge.Imaging.Filters
                 byte* p1, p2, p3, p4;
 
                 // for each row
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++ )
+                    for (int x = startX; x < stopX; x++)
                     {
                         double factor = matrix[2, 0] * x + matrix[2, 1] * y + matrix[2, 2];
-                        double srcX = ( matrix[0, 0] * x + matrix[0, 1] * y + matrix[0, 2] ) / factor;
-                        double srcY = ( matrix[1, 0] * x + matrix[1, 1] * y + matrix[1, 2] ) / factor;
+                        double srcX = (matrix[0, 0] * x + matrix[0, 1] * y + matrix[0, 2]) / factor;
+                        double srcY = (matrix[1, 0] * x + matrix[1, 1] * y + matrix[1, 2]) / factor;
 
-                        if ( ( srcX >= 0 ) && ( srcY >= 0 ) && ( srcX < srcWidth ) && ( srcY < srcHeight ) )
+                        if ((srcX >= 0) && (srcY >= 0) && (srcX < srcWidth) && (srcY < srcHeight))
                         {
-                            sx1 = (int) srcX;
-                            sx2 = ( sx1 == srcWidthM1 ) ? sx1 : sx1 + 1;
+                            sx1 = (int)srcX;
+                            sx2 = (sx1 == srcWidthM1) ? sx1 : sx1 + 1;
                             dx1 = srcX - sx1;
                             dx2 = 1.0 - dx1;
 
-                            sy1 = (int) srcY;
-                            sy2 = ( sy1 == srcHeightM1 ) ? sy1 : sy1 + 1;
+                            sy1 = (int)srcY;
+                            sy2 = (sy1 == srcHeightM1) ? sy1 : sy1 + 1;
                             dy1 = srcY - sy1;
                             dy2 = 1.0 - dy1;
 
@@ -409,11 +409,11 @@ namespace AForge.Imaging.Filters
                             p4 += sx2 * pixelSize;
 
                             // interpolate using 4 points
-                            for ( int i = 0; i < pixelSize; i++, ptr++, p1++, p2++, p3++, p4++ )
+                            for (int i = 0; i < pixelSize; i++, ptr++, p1++, p2++, p3++, p4++)
                             {
-                                *ptr = (byte) (
-                                    dy2 * ( dx2 * ( *p1 ) + dx1 * ( *p2 ) ) +
-                                    dy1 * ( dx2 * ( *p3 ) + dx1 * ( *p4 ) ) );
+                                *ptr = (byte)(
+                                    dy2 * (dx2 * (*p1) + dx1 * (*p2)) +
+                                    dy1 * (dx2 * (*p3) + dx1 * (*p4)));
                             }
                         }
                         else

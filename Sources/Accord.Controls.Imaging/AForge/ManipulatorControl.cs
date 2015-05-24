@@ -41,18 +41,18 @@ namespace AForge.Controls
     {
         private bool isSquareLook = false;
         private bool drawHorizontalAxis = true;
-        private bool drawVerticalAxis   = false;
+        private bool drawVerticalAxis = false;
 
         private bool resetPositionOnMouseRelease = true;
 
         // pens and brushes for drawing
-        private Pen borderPen = new Pen( Color.Black );
-        private SolidBrush topLeftBackgroundBrush     = new SolidBrush( Color.White );
-        private SolidBrush topRightBackgroundBrush    = new SolidBrush( Color.White );
-        private SolidBrush bottomLeftBackgroundBrush  = new SolidBrush( Color.LightGray );
-        private SolidBrush bottomRightBackgroundBrush = new SolidBrush( Color.LightGray );
-        private SolidBrush manipulatorBrush           = new SolidBrush( Color.LightSeaGreen );
-        private SolidBrush disabledBrash              = new SolidBrush( Color.FromArgb( 240, 240, 240 ) );
+        private Pen borderPen = new Pen(Color.Black);
+        private SolidBrush topLeftBackgroundBrush = new SolidBrush(Color.White);
+        private SolidBrush topRightBackgroundBrush = new SolidBrush(Color.White);
+        private SolidBrush bottomLeftBackgroundBrush = new SolidBrush(Color.LightGray);
+        private SolidBrush bottomRightBackgroundBrush = new SolidBrush(Color.LightGray);
+        private SolidBrush manipulatorBrush = new SolidBrush(Color.LightSeaGreen);
+        private SolidBrush disabledBrash = new SolidBrush(Color.FromArgb(240, 240, 240));
 
         // manipulator's position
         private float manipulatatorX = 0;
@@ -84,15 +84,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see langword="false"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( false )]
-        [Description( "Determines if the control has square or round look." )]
+        [DefaultValue(false)]
+        [Description("Determines if the control has square or round look.")]
         public bool IsSquareLook
         {
             get { return isSquareLook; }
             set
             {
                 isSquareLook = value;
-                Invalidate( );
+                Invalidate();
             }
         }
 
@@ -104,15 +104,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see langword="true"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( true )]
-        [Description( "Determines if horizontal axis should be drawn or not." )]
+        [DefaultValue(true)]
+        [Description("Determines if horizontal axis should be drawn or not.")]
         public bool DrawHorizontalAxis
         {
             get { return drawHorizontalAxis; }
             set
             {
                 drawHorizontalAxis = value;
-                Invalidate( );
+                Invalidate();
             }
         }
 
@@ -124,15 +124,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see langword="false"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( false )]
-        [Description( "Determines if vertical axis should be drawn or not." )]
+        [DefaultValue(false)]
+        [Description("Determines if vertical axis should be drawn or not.")]
         public bool DrawVerticalAxis
         {
             get { return drawVerticalAxis; }
             set
             {
                 drawVerticalAxis = value;
-                Invalidate( );
+                Invalidate();
             }
         }
 
@@ -149,8 +149,8 @@ namespace AForge.Controls
         /// <para>Default value is set to <see langword="true"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( true )]
-        [Description( "Determines behaviour of manipulator, when mouse button is released." )]
+        [DefaultValue(true)]
+        [Description("Determines behaviour of manipulator, when mouse button is released.")]
         public bool ResetPositionOnMouseRelease
         {
             get { return resetPositionOnMouseRelease; }
@@ -165,15 +165,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see cref="Color.Black"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( typeof( Color ), "Black" )]
-        [Description( "Color used for drawing borders and axis's." )]
+        [DefaultValue(typeof(Color), "Black")]
+        [Description("Color used for drawing borders and axis's.")]
         public Color BorderColor
         {
             get { return borderPen.Color; }
             set
             {
-                borderPen = new Pen( value );
-                Invalidate( );
+                borderPen = new Pen(value);
+                Invalidate();
             }
         }
 
@@ -185,15 +185,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see cref="Color.White"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( typeof( Color ), "White" )]
-        [Description( "Background color used for filling top left quarter of the control." )]
+        [DefaultValue(typeof(Color), "White")]
+        [Description("Background color used for filling top left quarter of the control.")]
         public Color TopLeftBackgroundColor
         {
             get { return topLeftBackgroundBrush.Color; }
             set
             {
-                topLeftBackgroundBrush = new SolidBrush( value );
-                Invalidate( );
+                topLeftBackgroundBrush = new SolidBrush(value);
+                Invalidate();
             }
         }
 
@@ -205,15 +205,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see cref="Color.White"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( typeof( Color ), "White" )]
-        [Description( "Background color used for filling top right quarter of the control." )]
+        [DefaultValue(typeof(Color), "White")]
+        [Description("Background color used for filling top right quarter of the control.")]
         public Color TopRightBackgroundColor
         {
             get { return topRightBackgroundBrush.Color; }
             set
             {
-                topRightBackgroundBrush = new SolidBrush( value );
-                Invalidate( );
+                topRightBackgroundBrush = new SolidBrush(value);
+                Invalidate();
             }
         }
 
@@ -225,15 +225,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see cref="Color.LightGray"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( typeof( Color ), "LightGray" )]
-        [Description( "Background color used for filling bottom left quarter of the control." )]
+        [DefaultValue(typeof(Color), "LightGray")]
+        [Description("Background color used for filling bottom left quarter of the control.")]
         public Color BottomLeftBackgroundColor
         {
             get { return bottomLeftBackgroundBrush.Color; }
             set
             {
-                bottomLeftBackgroundBrush = new SolidBrush( value );
-                Invalidate( );
+                bottomLeftBackgroundBrush = new SolidBrush(value);
+                Invalidate();
             }
         }
 
@@ -245,15 +245,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see cref="Color.LightGray"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( typeof( Color ), "LightGray" )]
-        [Description( "Background color used for filling bottom right quarter of the control." )]
+        [DefaultValue(typeof(Color), "LightGray")]
+        [Description("Background color used for filling bottom right quarter of the control.")]
         public Color BottomRightBackgroundColor
         {
             get { return bottomRightBackgroundBrush.Color; }
             set
             {
-                bottomRightBackgroundBrush = new SolidBrush( value );
-                Invalidate( );
+                bottomRightBackgroundBrush = new SolidBrush(value);
+                Invalidate();
             }
         }
 
@@ -265,15 +265,15 @@ namespace AForge.Controls
         /// <para>Default value is set to <see cref="Color.LightSeaGreen"/>.</para>
         /// </remarks>
         /// 
-        [DefaultValue( typeof( Color ), "LightSeaGreen" )]
-        [Description( "Color used for filling manipulator." )]
+        [DefaultValue(typeof(Color), "LightSeaGreen")]
+        [Description("Color used for filling manipulator.")]
         public Color ManipulatorColor
         {
             get { return manipulatorBrush.Color; }
             set
             {
-                manipulatorBrush = new SolidBrush( value );
-                Invalidate( );
+                manipulatorBrush = new SolidBrush(value);
+                Invalidate();
             }
         }
 
@@ -319,24 +319,24 @@ namespace AForge.Controls
             {
                 get
                 {
-                    if ( x != 0 )
+                    if (x != 0)
                     {
-                        double t = Math.Atan( y / x );
+                        double t = Math.Atan(y / x);
                         t = t / Math.PI * 180;
 
-                        if ( t < 0 )
+                        if (t < 0)
                         {
                             t += 180;
                         }
-                        if ( y < 0 )
+                        if (y < 0)
                         {
                             t += 180;
                         }
 
-                        return (float) t;
+                        return (float)t;
                     }
 
-                    return ( ( y > 0 ) ? 90 : ( ( y < 0 ) ? 270 : 0 ) );
+                    return ((y > 0) ? 90 : ((y < 0) ? 270 : 0));
                 }
             }
 
@@ -345,7 +345,7 @@ namespace AForge.Controls
             /// </summary>
             public float R
             {
-                get { return (float) Math.Sqrt( x * x + y * y ); }
+                get { return (float)Math.Sqrt(x * x + y * y); }
             }
 
             /// <summary>
@@ -355,7 +355,7 @@ namespace AForge.Controls
             /// <param name="x">X coordinate of manipulator, [-1, 1].</param>
             /// <param name="y">Y coordinate of manipulator, [-1, 1].</param>
             /// 
-            public PositionEventArgs( float x, float y )
+            public PositionEventArgs(float x, float y)
             {
                 this.x = x;
                 this.y = y;
@@ -371,30 +371,30 @@ namespace AForge.Controls
         /// <a href="http://en.wikipedia.org/wiki/Cartesian_coordinate_system">Cartesian coordinate system</a>.</para>
         /// </remarks>
         /// 
-        [Browsable( false )]
+        [Browsable(false)]
         public PointF ManipulatorPosition
         {
-            get { return new PointF( manipulatatorX, manipulatatorY ); }
+            get { return new PointF(manipulatatorX, manipulatatorY); }
             set
             {
-                manipulatatorX = Math.Max( -1.0f, Math.Min( 1.0f, value.X ) );
-                manipulatatorY = Math.Max( -1.0f, Math.Min( 1.0f, value.Y ) );
+                manipulatatorX = Math.Max(-1.0f, Math.Min(1.0f, value.X));
+                manipulatatorY = Math.Max(-1.0f, Math.Min(1.0f, value.Y));
 
-                if ( !isSquareLook )
+                if (!isSquareLook)
                 {
                     // get distance from center
-                    double cR = Math.Sqrt( manipulatatorX * manipulatatorX + manipulatatorY * manipulatatorY );
+                    double cR = Math.Sqrt(manipulatatorX * manipulatatorX + manipulatatorY * manipulatatorY);
 
                     // correct point if it is too far away
-                    if ( cR > 1 )
+                    if (cR > 1)
                     {
-                        double coef = (double) 1 / cR;
-                        manipulatatorX = (float) ( coef * manipulatatorX );
-                        manipulatatorY = (float) ( coef * manipulatatorY );
+                        double coef = (double)1 / cR;
+                        manipulatatorX = (float)(coef * manipulatatorX);
+                        manipulatatorY = (float)(coef * manipulatatorY);
                     }
                 }
-                Invalidate( );
-                NotifyClients( );
+                Invalidate();
+                NotifyClients();
             }
         }
 
@@ -405,99 +405,99 @@ namespace AForge.Controls
         /// <param name="sender">Event sender - object sending the event.</param>
         /// <param name="eventArgs">Event arguments - current manipulator's position.</param>
         /// 
-        public delegate void PositionChangedHandler( object sender, PositionEventArgs eventArgs );
+        public delegate void PositionChangedHandler(object sender, PositionEventArgs eventArgs);
 
         /// <summary>
         /// Event used for notification about manipulator's position changes.
         /// </summary>
-        [Description( "Occurs when manipulator's position is changed." )]
+        [Description("Occurs when manipulator's position is changed.")]
         public event PositionChangedHandler PositionChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ManipulatorControl"/> class.
         /// </summary>
-        public ManipulatorControl( )
+        public ManipulatorControl()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
             // update control style
-            SetStyle( ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true );
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
+                ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
         }
 
         // Paint the control
-        private void ManipulatorControl_Paint( object sender, PaintEventArgs e )
+        private void ManipulatorControl_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
             // calculate size of the manipulator's ares
-            areaSize = Math.Min( ClientRectangle.Width, ClientRectangle.Height ) - areaMargin * 2;
+            areaSize = Math.Min(ClientRectangle.Width, ClientRectangle.Height) - areaMargin * 2;
             areaRadius = areaSize / 2;
 
             // draw area
-            if ( areaSize > 1 )
+            if (areaSize > 1)
             {
-                if ( isSquareLook )
+                if (isSquareLook)
                 {
                     // square looking control
                     int halfAreaSize = areaSize / 2;
 
-                    g.FillRectangle( ( !this.Enabled ) ? disabledBrash : topLeftBackgroundBrush, areaMargin, areaMargin, halfAreaSize, halfAreaSize );
-                    g.FillRectangle( ( !this.Enabled ) ? disabledBrash : topRightBackgroundBrush, areaMargin + halfAreaSize, areaMargin, areaSize - halfAreaSize, halfAreaSize );
-                    g.FillRectangle( ( !this.Enabled ) ? disabledBrash : bottomLeftBackgroundBrush, areaMargin, areaMargin + halfAreaSize, halfAreaSize, areaSize - halfAreaSize );
-                    g.FillRectangle( ( !this.Enabled ) ? disabledBrash : bottomRightBackgroundBrush, areaMargin + halfAreaSize, areaMargin + halfAreaSize,
-                        areaSize - halfAreaSize, areaSize - halfAreaSize );
+                    g.FillRectangle((!this.Enabled) ? disabledBrash : topLeftBackgroundBrush, areaMargin, areaMargin, halfAreaSize, halfAreaSize);
+                    g.FillRectangle((!this.Enabled) ? disabledBrash : topRightBackgroundBrush, areaMargin + halfAreaSize, areaMargin, areaSize - halfAreaSize, halfAreaSize);
+                    g.FillRectangle((!this.Enabled) ? disabledBrash : bottomLeftBackgroundBrush, areaMargin, areaMargin + halfAreaSize, halfAreaSize, areaSize - halfAreaSize);
+                    g.FillRectangle((!this.Enabled) ? disabledBrash : bottomRightBackgroundBrush, areaMargin + halfAreaSize, areaMargin + halfAreaSize,
+                        areaSize - halfAreaSize, areaSize - halfAreaSize);
 
-                    g.DrawRectangle( borderPen, areaMargin, areaMargin, areaSize - 1, areaSize - 1 );
+                    g.DrawRectangle(borderPen, areaMargin, areaMargin, areaSize - 1, areaSize - 1);
                 }
                 else
                 {
                     // round looking control
-                    g.FillPie( ( this.Enabled ) ? topRightBackgroundBrush : disabledBrash, areaMargin, areaMargin, areaSize - 1, areaSize - 1, 0, -90 );
-                    g.FillPie( ( this.Enabled ) ? topLeftBackgroundBrush : disabledBrash, areaMargin, areaMargin, areaSize - 1, areaSize - 1, -90, -90 );
-                    g.FillPie( ( this.Enabled ) ? bottomRightBackgroundBrush : disabledBrash, areaMargin, areaMargin, areaSize - 1, areaSize - 1, 0, 90 );
-                    g.FillPie( ( this.Enabled ) ? bottomLeftBackgroundBrush : disabledBrash, areaMargin, areaMargin, areaSize - 1, areaSize - 1, 90, 90 );
-                    g.DrawEllipse( borderPen, areaMargin, areaMargin, areaSize - 1, areaSize - 1 );
+                    g.FillPie((this.Enabled) ? topRightBackgroundBrush : disabledBrash, areaMargin, areaMargin, areaSize - 1, areaSize - 1, 0, -90);
+                    g.FillPie((this.Enabled) ? topLeftBackgroundBrush : disabledBrash, areaMargin, areaMargin, areaSize - 1, areaSize - 1, -90, -90);
+                    g.FillPie((this.Enabled) ? bottomRightBackgroundBrush : disabledBrash, areaMargin, areaMargin, areaSize - 1, areaSize - 1, 0, 90);
+                    g.FillPie((this.Enabled) ? bottomLeftBackgroundBrush : disabledBrash, areaMargin, areaMargin, areaSize - 1, areaSize - 1, 90, 90);
+                    g.DrawEllipse(borderPen, areaMargin, areaMargin, areaSize - 1, areaSize - 1);
                 }
             }
 
             // draw axis or not ?
-            if ( drawHorizontalAxis )
+            if (drawHorizontalAxis)
             {
-                g.DrawLine( borderPen, areaMargin, areaMargin + areaRadius, areaMargin + areaSize - 1, areaMargin + areaRadius );
+                g.DrawLine(borderPen, areaMargin, areaMargin + areaRadius, areaMargin + areaSize - 1, areaMargin + areaRadius);
             }
-            if ( drawVerticalAxis )
+            if (drawVerticalAxis)
             {
-                g.DrawLine( borderPen, areaMargin + areaRadius, areaMargin, areaMargin + areaRadius, areaMargin + areaSize - 1 );
+                g.DrawLine(borderPen, areaMargin + areaRadius, areaMargin, areaMargin + areaRadius, areaMargin + areaSize - 1);
             }
 
             // calculate manipulator's center point
-            int ctrlManipulatorX = (int) (  manipulatatorX * areaRadius ) + areaMargin + areaRadius;
-            int ctrlManipulatorY = (int) ( -manipulatatorY * areaRadius ) + areaMargin + areaRadius;
+            int ctrlManipulatorX = (int)(manipulatatorX * areaRadius) + areaMargin + areaRadius;
+            int ctrlManipulatorY = (int)(-manipulatatorY * areaRadius) + areaMargin + areaRadius;
 
             // draw manipulator
-            g.FillEllipse ( ( this.Enabled ) ? manipulatorBrush : disabledBrash,
+            g.FillEllipse((this.Enabled) ? manipulatorBrush : disabledBrash,
                 ctrlManipulatorX - manipulatorRadius, ctrlManipulatorY - manipulatorRadius,
-                manipulatorSize, manipulatorSize );
-            g.DrawEllipse( borderPen,
+                manipulatorSize, manipulatorSize);
+            g.DrawEllipse(borderPen,
                 ctrlManipulatorX - manipulatorRadius, ctrlManipulatorY - manipulatorRadius,
-                manipulatorSize, manipulatorSize );
+                manipulatorSize, manipulatorSize);
         }
 
         // On mouse down event
-        private void ManipulatorControl_MouseDown( object sender, MouseEventArgs e )
+        private void ManipulatorControl_MouseDown(object sender, MouseEventArgs e)
         {
-            if ( e.Button == MouseButtons.Left )
+            if (e.Button == MouseButtons.Left)
             {
                 // get click point relatively to manipulation area's center
                 int cX = e.X - areaMargin - areaRadius;
                 int cY = e.Y - areaMargin - areaRadius;
 
-                if ( isSquareLook )
+                if (isSquareLook)
                 {
                     if (
-                        ( cX <= areaRadius ) && ( cX >= -areaRadius ) &&
-                        ( cY <= areaRadius ) && ( cY >= -areaRadius ) )
+                        (cX <= areaRadius) && (cX >= -areaRadius) &&
+                        (cY <= areaRadius) && (cY >= -areaRadius))
                     {
                         tracking = true;
                     }
@@ -505,84 +505,84 @@ namespace AForge.Controls
                 else
                 {
                     // check if the point is inside of manipulator
-                    if ( Math.Sqrt( cX * cX + cY * cY ) <= areaRadius )
+                    if (Math.Sqrt(cX * cX + cY * cY) <= areaRadius)
                     {
                         tracking = true;
                     }
                 }
 
-                if ( tracking )
+                if (tracking)
                 {
-                    manipulatatorX = (float)  cX / areaRadius;
-                    manipulatatorY = (float) -cY / areaRadius;
+                    manipulatatorX = (float)cX / areaRadius;
+                    manipulatatorY = (float)-cY / areaRadius;
 
                     this.Capture = true;
                     this.Cursor = Cursors.Hand;
 
-                    NotifyClients( );
+                    NotifyClients();
                     // start timer, which is used to notify
                     // about manipulator's position change
                     ticksBeforeNotificiation = -1;
-                    timer.Start( );
+                    timer.Start();
                 }
             }
         }
 
         // On mouse up event
-        private void ManipulatorControl_MouseUp( object sender, MouseEventArgs e )
+        private void ManipulatorControl_MouseUp(object sender, MouseEventArgs e)
         {
-            if ( ( e.Button == MouseButtons.Left ) && ( tracking ) )
+            if ((e.Button == MouseButtons.Left) && (tracking))
             {
                 tracking = false;
                 this.Capture = false;
                 this.Cursor = Cursors.Arrow;
 
-                timer.Stop( );
+                timer.Stop();
 
-                if ( resetPositionOnMouseRelease )
+                if (resetPositionOnMouseRelease)
                 {
                     manipulatatorX = 0;
                     manipulatatorY = 0;
                 }
 
-                NotifyClients( );
+                NotifyClients();
 
-                Invalidate( );
+                Invalidate();
             }
         }
 
         // On mouse move event
-        private void ManipulatorControl_MouseMove( object sender, MouseEventArgs e )
+        private void ManipulatorControl_MouseMove(object sender, MouseEventArgs e)
         {
-            if ( tracking )
+            if (tracking)
             {
                 // get mouse point relatively to manipulation area's center
                 int cX = e.X - areaMargin - areaRadius;
                 int cY = e.Y - areaMargin - areaRadius;
 
-                if ( isSquareLook )
+                if (isSquareLook)
                 {
-                    cX = Math.Min( areaRadius, Math.Max( -areaRadius, cX ) );
-                    cY = Math.Min( areaRadius, Math.Max( -areaRadius, cY ) );
+                    cX = Math.Min(areaRadius, Math.Max(-areaRadius, cX));
+                    cY = Math.Min(areaRadius, Math.Max(-areaRadius, cY));
                 }
                 else
                 {
                     // get distance from center
-                    int cR = (int) Math.Sqrt( cX * cX + cY * cY );
+                    int cR = (int)Math.Sqrt(cX * cX + cY * cY);
 
                     // correct point if it is too far away
-                    if ( cR > areaRadius )
+                    if (cR > areaRadius)
                     {
-                        double coef = (double) areaRadius / cR;
-                        cX = (int) ( coef * cX );
-                        cY = (int) ( coef * cY );
+                        double coef = (double)areaRadius / cR;
+                        cX = (int)(coef * cX);
+                        cY = (int)(coef * cY);
                     }
                 }
 
-                manipulatatorX = (float)  cX / areaRadius;
-                manipulatatorY = (float) -cY / areaRadius;
+                manipulatatorX = (float)cX / areaRadius;
+                manipulatatorY = (float)-cY / areaRadius;
 
-                Invalidate( );
+                Invalidate();
 
                 // notify user after 5 timer ticks
                 ticksBeforeNotificiation = 5;
@@ -590,15 +590,15 @@ namespace AForge.Controls
         }
 
         // Timer handler, which is used to notify clients about manipulator's changes
-        private void timer_Tick( object sender, EventArgs e )
+        private void timer_Tick(object sender, EventArgs e)
         {
-            if ( ticksBeforeNotificiation != -1 )
+            if (ticksBeforeNotificiation != -1)
             {
                 // time to notify
-                if ( ticksBeforeNotificiation == 0 )
+                if (ticksBeforeNotificiation == 0)
                 {
                     // notify users
-                    NotifyClients( );
+                    NotifyClients();
                 }
 
                 ticksBeforeNotificiation--;
@@ -606,11 +606,11 @@ namespace AForge.Controls
         }
 
         // Notify client about changes of manipulator's position
-        private void NotifyClients( )
+        private void NotifyClients()
         {
-            if ( PositionChanged != null )
+            if (PositionChanged != null)
             {
-                PositionChanged( this, new PositionEventArgs( manipulatatorX, manipulatatorY ) );
+                PositionChanged(this, new PositionEventArgs(manipulatatorX, manipulatatorY));
             }
         }
     }

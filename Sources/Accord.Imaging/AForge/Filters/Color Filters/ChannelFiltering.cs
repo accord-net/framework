@@ -51,9 +51,9 @@ namespace AForge.Imaging.Filters
     /// 
     public class ChannelFiltering : BaseInPlacePartialFilter
     {
-        private IntRange red   = new IntRange( 0, 255 );
-        private IntRange green = new IntRange( 0, 255 );
-        private IntRange blue  = new IntRange( 0, 255 );
+        private IntRange red = new IntRange(0, 255);
+        private IntRange green = new IntRange(0, 255);
+        private IntRange blue = new IntRange(0, 255);
 
         private byte fillR = 0;
         private byte fillG = 0;
@@ -63,12 +63,12 @@ namespace AForge.Imaging.Filters
         private bool greenFillOutsideRange = true;
         private bool blueFillOutsideRange = true;
 
-        private byte[] mapRed   = new byte[256];
+        private byte[] mapRed = new byte[256];
         private byte[] mapGreen = new byte[256];
-        private byte[] mapBlue  = new byte[256];
+        private byte[] mapBlue = new byte[256];
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -89,7 +89,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 red = value;
-                CalculateMap( red, fillR, redFillOutsideRange, mapRed );
+                CalculateMap(red, fillR, redFillOutsideRange, mapRed);
             }
         }
 
@@ -102,7 +102,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 fillR = value;
-                CalculateMap( red, fillR, redFillOutsideRange, mapRed );
+                CalculateMap(red, fillR, redFillOutsideRange, mapRed);
             }
         }
 
@@ -115,7 +115,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 green = value;
-                CalculateMap( green, fillG, greenFillOutsideRange, mapGreen );
+                CalculateMap(green, fillG, greenFillOutsideRange, mapGreen);
             }
         }
 
@@ -128,7 +128,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 fillG = value;
-                CalculateMap( green, fillG, greenFillOutsideRange, mapGreen );
+                CalculateMap(green, fillG, greenFillOutsideRange, mapGreen);
             }
         }
 
@@ -141,7 +141,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 blue = value;
-                CalculateMap( blue, fillB, blueFillOutsideRange, mapBlue );
+                CalculateMap(blue, fillB, blueFillOutsideRange, mapBlue);
             }
         }
 
@@ -154,7 +154,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 fillB = value;
-                CalculateMap( blue, fillB, blueFillOutsideRange, mapBlue );
+                CalculateMap(blue, fillB, blueFillOutsideRange, mapBlue);
             }
         }
 
@@ -170,7 +170,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 redFillOutsideRange = value;
-                CalculateMap( red, fillR, redFillOutsideRange, mapRed );
+                CalculateMap(red, fillR, redFillOutsideRange, mapRed);
             }
         }
 
@@ -186,7 +186,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 greenFillOutsideRange = value;
-                CalculateMap( green, fillG, greenFillOutsideRange, mapGreen );
+                CalculateMap(green, fillG, greenFillOutsideRange, mapGreen);
             }
         }
 
@@ -202,7 +202,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 blueFillOutsideRange = value;
-                CalculateMap( blue, fillB, blueFillOutsideRange, mapBlue );
+                CalculateMap(blue, fillB, blueFillOutsideRange, mapBlue);
             }
         }
 
@@ -213,8 +213,8 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="ChannelFiltering"/> class.
         /// </summary>
         /// 
-        public ChannelFiltering( )
-            : this( new IntRange( 0, 255 ), new IntRange( 0, 255 ), new IntRange( 0, 255 ) )
+        public ChannelFiltering()
+            : this(new IntRange(0, 255), new IntRange(0, 255), new IntRange(0, 255))
         {
         }
 
@@ -226,14 +226,14 @@ namespace AForge.Imaging.Filters
         /// <param name="green">Green channel's filtering range.</param>
         /// <param name="blue">Blue channel's filtering range.</param>
         /// 
-        public ChannelFiltering( IntRange red, IntRange green, IntRange blue )
+        public ChannelFiltering(IntRange red, IntRange green, IntRange blue)
         {
-            Red   = red;
+            Red = red;
             Green = green;
-            Blue  = blue;
+            Blue = blue;
 
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
@@ -244,28 +244,28 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
             // get pixel size
-            int pixelSize = ( image.PixelFormat == PixelFormat.Format24bppRgb ) ? 3 : 4;
+            int pixelSize = (image.PixelFormat == PixelFormat.Format24bppRgb) ? 3 : 4;
 
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * image.Stride + startX * pixelSize );
+            ptr += (startY * image.Stride + startX * pixelSize);
 
             // for each row
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                for (int x = startX; x < stopX; x++, ptr += pixelSize)
                 {
                     // red
                     ptr[RGB.R] = mapRed[ptr[RGB.R]];
@@ -287,17 +287,17 @@ namespace AForge.Imaging.Filters
         /// <param name="fillOutsideRange">Fill outside or inside the range.</param>
         /// <param name="map">Filtering map.</param>
         /// 
-        private void CalculateMap( IntRange range, byte fill, bool fillOutsideRange, byte[] map )
+        private void CalculateMap(IntRange range, byte fill, bool fillOutsideRange, byte[] map)
         {
-            for ( int i = 0; i < 256; i++ )
+            for (int i = 0; i < 256; i++)
             {
-                if ( ( i >= range.Min ) && ( i <= range.Max ) )
+                if ((i >= range.Min) && (i <= range.Max))
                 {
-                    map[i] = ( fillOutsideRange ) ? (byte) i : fill;
+                    map[i] = (fillOutsideRange) ? (byte)i : fill;
                 }
                 else
                 {
-                    map[i] = ( fillOutsideRange ) ? fill : (byte) i;
+                    map[i] = (fillOutsideRange) ? fill : (byte)i;
                 }
             }
         }

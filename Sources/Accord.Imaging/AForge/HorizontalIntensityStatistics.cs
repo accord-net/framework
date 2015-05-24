@@ -46,11 +46,11 @@ namespace AForge.Imaging
     public class HorizontalIntensityStatistics
     {
         // histograms for RGB channgels
-        private Histogram red   = null;
+        private Histogram red = null;
         private Histogram green = null;
-        private Histogram blue  = null;
+        private Histogram blue = null;
         // grayscale histogram
-        private Histogram gray  = null;
+        private Histogram gray = null;
 
         /// <summary>
         /// Histogram for red channel.
@@ -60,9 +60,9 @@ namespace AForge.Imaging
         {
             get
             {
-                if ( red == null )
+                if (red == null)
                 {
-                    throw new InvalidImagePropertiesException( ExceptionMessage.ColorHistogramException );
+                    throw new InvalidImagePropertiesException(ExceptionMessage.ColorHistogramException);
                 }
                 return red;
             }
@@ -76,9 +76,9 @@ namespace AForge.Imaging
         {
             get
             {
-                if ( green == null )
+                if (green == null)
                 {
-                    throw new InvalidImagePropertiesException( ExceptionMessage.ColorHistogramException );
+                    throw new InvalidImagePropertiesException(ExceptionMessage.ColorHistogramException);
                 }
                 return green;
             }
@@ -92,9 +92,9 @@ namespace AForge.Imaging
         {
             get
             {
-                if ( blue == null )
+                if (blue == null)
                 {
-                    throw new InvalidImagePropertiesException( ExceptionMessage.ColorHistogramException );
+                    throw new InvalidImagePropertiesException(ExceptionMessage.ColorHistogramException);
                 }
                 return blue;
             }
@@ -108,9 +108,9 @@ namespace AForge.Imaging
         {
             get
             {
-                if ( gray == null )
+                if (gray == null)
                 {
-                    throw new InvalidImagePropertiesException( ExceptionMessage.GrayHistogramException );
+                    throw new InvalidImagePropertiesException(ExceptionMessage.GrayHistogramException);
                 }
                 return gray;
             }
@@ -128,7 +128,7 @@ namespace AForge.Imaging
         /// 
         public bool IsGrayscale
         {
-            get { return ( gray != null ); }
+            get { return (gray != null); }
         }
 
         /// <summary>
@@ -139,36 +139,36 @@ namespace AForge.Imaging
         ///
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         /// 
-        public HorizontalIntensityStatistics( Bitmap image )
+        public HorizontalIntensityStatistics(Bitmap image)
         {
             // check image format
             if (
-                ( image.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                ( image.PixelFormat != PixelFormat.Format16bppGrayScale ) &&
-                ( image.PixelFormat != PixelFormat.Format24bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppArgb ) &&
-                ( image.PixelFormat != PixelFormat.Format48bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format64bppArgb )
+                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                (image.PixelFormat != PixelFormat.Format16bppGrayScale) &&
+                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppArgb) &&
+                (image.PixelFormat != PixelFormat.Format48bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format64bppArgb)
                 )
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
             // lock bitmap data
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
 
             try
             {
                 // gather statistics
-                ProcessImage( new UnmanagedImage( imageData ) );
+                ProcessImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
-                image.UnlockBits( imageData );
+                image.UnlockBits(imageData);
             }
         }
 
@@ -180,8 +180,8 @@ namespace AForge.Imaging
         ///
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         /// 
-        public HorizontalIntensityStatistics( BitmapData imageData )
-            : this( new UnmanagedImage( imageData ) )
+        public HorizontalIntensityStatistics(BitmapData imageData)
+            : this(new UnmanagedImage(imageData))
         {
         }
 
@@ -193,24 +193,24 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         /// 
-        public HorizontalIntensityStatistics( UnmanagedImage image )
+        public HorizontalIntensityStatistics(UnmanagedImage image)
         {
             // check image format
             if (
-                ( image.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                ( image.PixelFormat != PixelFormat.Format16bppGrayScale ) &&
-                ( image.PixelFormat != PixelFormat.Format24bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format32bppArgb ) &&
-                ( image.PixelFormat != PixelFormat.Format48bppRgb ) &&
-                ( image.PixelFormat != PixelFormat.Format64bppArgb )
+                (image.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                (image.PixelFormat != PixelFormat.Format16bppGrayScale) &&
+                (image.PixelFormat != PixelFormat.Format24bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format32bppArgb) &&
+                (image.PixelFormat != PixelFormat.Format48bppRgb) &&
+                (image.PixelFormat != PixelFormat.Format64bppArgb)
                 )
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
             }
 
             // gather statistics
-            ProcessImage( image );
+            ProcessImage(image);
         }
 
         /// <summary>
@@ -219,11 +219,11 @@ namespace AForge.Imaging
         /// 
         /// <param name="image">Source image.</param>
         /// 
-        private void ProcessImage( UnmanagedImage image )
+        private void ProcessImage(UnmanagedImage image)
         {
             PixelFormat pixelFormat = image.PixelFormat;
             // get image dimension
-            int width  = image.Width;
+            int width = image.Width;
             int height = image.Height;
 
             red = green = blue = gray = null;
@@ -232,20 +232,20 @@ namespace AForge.Imaging
             unsafe
             {
                 // check pixel format
-                if ( pixelFormat == PixelFormat.Format8bppIndexed )
+                if (pixelFormat == PixelFormat.Format8bppIndexed)
                 {
                     // 8 bpp grayscale image
-                    byte* p = (byte*) image.ImageData.ToPointer( );
+                    byte* p = (byte*)image.ImageData.ToPointer();
                     int offset = image.Stride - width;
 
                     // histogram array
                     int[] g = new int[width];
 
                     // for each pixel
-                    for ( int y = 0; y < height; y++ )
+                    for (int y = 0; y < height; y++)
                     {
                         // for each pixel
-                        for ( int x = 0; x < width; x++, p++ )
+                        for (int x = 0; x < width; x++, p++)
                         {
                             g[x] += *p;
                         }
@@ -253,40 +253,40 @@ namespace AForge.Imaging
                     }
 
                     // create historgram for gray level
-                    gray = new Histogram( g );
+                    gray = new Histogram(g);
                 }
-                else if ( pixelFormat == PixelFormat.Format16bppGrayScale )
+                else if (pixelFormat == PixelFormat.Format16bppGrayScale)
                 {
                     // 16 bpp grayscale image
-                    byte* basePtr = (byte*) image.ImageData.ToPointer( );
+                    byte* basePtr = (byte*)image.ImageData.ToPointer();
                     int stride = image.Stride;
 
                     // histogram array
                     int[] g = new int[width];
 
                     // for each pixel
-                    for ( int y = 0; y < height; y++ )
+                    for (int y = 0; y < height; y++)
                     {
-                        ushort* p = (ushort*) ( basePtr + stride * y );
+                        ushort* p = (ushort*)(basePtr + stride * y);
 
                         // for each pixel
-                        for ( int x = 0; x < width; x++, p++ )
+                        for (int x = 0; x < width; x++, p++)
                         {
                             g[x] += *p;
                         }
                     }
 
                     // create historgram for gray level
-                    gray = new Histogram( g );
+                    gray = new Histogram(g);
                 }
                 else if (
-                    ( pixelFormat == PixelFormat.Format24bppRgb ) ||
-                    ( pixelFormat == PixelFormat.Format32bppRgb ) ||
-                    ( pixelFormat == PixelFormat.Format32bppArgb ) )
+                    (pixelFormat == PixelFormat.Format24bppRgb) ||
+                    (pixelFormat == PixelFormat.Format32bppRgb) ||
+                    (pixelFormat == PixelFormat.Format32bppArgb))
                 {
                     // 24/32 bpp color image
-                    byte* p = (byte*) image.ImageData.ToPointer( );
-                    int pixelSize = ( pixelFormat == PixelFormat.Format24bppRgb ) ? 3 : 4;
+                    byte* p = (byte*)image.ImageData.ToPointer();
+                    int pixelSize = (pixelFormat == PixelFormat.Format24bppRgb) ? 3 : 4;
                     int offset = image.Stride - width * pixelSize;
 
                     // histogram arrays
@@ -295,10 +295,10 @@ namespace AForge.Imaging
                     int[] b = new int[width];
 
                     // for each line
-                    for ( int y = 0; y < height; y++ )
+                    for (int y = 0; y < height; y++)
                     {
                         // for each pixel
-                        for ( int x = 0; x < width; x++, p += pixelSize )
+                        for (int x = 0; x < width; x++, p += pixelSize)
                         {
                             r[x] += p[RGB.R];
                             g[x] += p[RGB.G];
@@ -308,18 +308,18 @@ namespace AForge.Imaging
                     }
 
                     // create histograms
-                    red   = new Histogram( r );
-                    green = new Histogram( g );
-                    blue  = new Histogram( b );
+                    red = new Histogram(r);
+                    green = new Histogram(g);
+                    blue = new Histogram(b);
                 }
                 else if (
-                    ( pixelFormat == PixelFormat.Format48bppRgb ) ||
-                    ( pixelFormat == PixelFormat.Format64bppArgb ) )
+                    (pixelFormat == PixelFormat.Format48bppRgb) ||
+                    (pixelFormat == PixelFormat.Format64bppArgb))
                 {
                     // 48/64 bpp color image
-                    byte* basePtr = (byte*) image.ImageData.ToPointer( );
+                    byte* basePtr = (byte*)image.ImageData.ToPointer();
                     int stride = image.Stride;
-                    int pixelSize = ( pixelFormat == PixelFormat.Format48bppRgb ) ? 3 : 4;
+                    int pixelSize = (pixelFormat == PixelFormat.Format48bppRgb) ? 3 : 4;
 
                     // histogram arrays
                     int[] r = new int[width];
@@ -327,12 +327,12 @@ namespace AForge.Imaging
                     int[] b = new int[width];
 
                     // for each line
-                    for ( int y = 0; y < height; y++ )
+                    for (int y = 0; y < height; y++)
                     {
-                        ushort* p = (ushort*) ( basePtr + stride * y );
+                        ushort* p = (ushort*)(basePtr + stride * y);
 
                         // for each pixel
-                        for ( int x = 0; x < width; x++, p += pixelSize )
+                        for (int x = 0; x < width; x++, p += pixelSize)
                         {
                             r[x] += p[RGB.R];
                             g[x] += p[RGB.G];
@@ -341,9 +341,9 @@ namespace AForge.Imaging
                     }
 
                     // create histograms
-                    red   = new Histogram( r );
-                    green = new Histogram( g );
-                    blue  = new Histogram( b );
+                    red = new Histogram(r);
+                    green = new Histogram(g);
+                    blue = new Histogram(b);
                 }
             }
         }

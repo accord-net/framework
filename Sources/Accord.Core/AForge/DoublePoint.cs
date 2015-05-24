@@ -52,7 +52,7 @@ namespace AForge
         /// <param name="x">X axis coordinate.</param>
         /// <param name="y">Y axis coordinate.</param>
         /// 
-        public DoublePoint( double x, double y )
+        public DoublePoint(double x, double y)
         {
             this.X = x;
             this.Y = y;
@@ -67,12 +67,12 @@ namespace AForge
         /// <returns>Returns Euclidean distance between this point and
         /// <paramref name="anotherPoint"/> points.</returns>
         /// 
-        public double DistanceTo( DoublePoint anotherPoint )
+        public double DistanceTo(DoublePoint anotherPoint)
         {
             double dx = X - anotherPoint.X;
             double dy = Y - anotherPoint.Y;
 
-            return System.Math.Sqrt( dx * dx + dy * dy );
+            return System.Math.Sqrt(dx * dx + dy * dy);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace AForge
         /// <returns>Returns squared Euclidean distance between this point and
         /// <paramref name="anotherPoint"/> points.</returns>
         /// 
-        public double SquaredDistanceTo( DoublePoint anotherPoint )
+        public double SquaredDistanceTo(DoublePoint anotherPoint)
         {
             double dx = X - anotherPoint.X;
             double dy = Y - anotherPoint.Y;
@@ -102,9 +102,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to sum of corresponding
         /// coordinates of specified points.</returns>
         /// 
-        public static DoublePoint operator +( DoublePoint point1, DoublePoint point2 )
+        public static DoublePoint operator +(DoublePoint point1, DoublePoint point2)
         {
-            return new DoublePoint( point1.X + point2.X, point1.Y + point2.Y );
+            return new DoublePoint(point1.X + point2.X, point1.Y + point2.Y);
         }
 
         /// <summary>
@@ -117,9 +117,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to sum of corresponding
         /// coordinates of specified points.</returns>
         /// 
-        public static DoublePoint Add( DoublePoint point1, DoublePoint point2 )
+        public static DoublePoint Add(DoublePoint point1, DoublePoint point2)
         {
-            return new DoublePoint( point1.X + point2.X, point1.Y + point2.Y );
+            return new DoublePoint(point1.X + point2.X, point1.Y + point2.Y);
         }
 
         /// <summary>
@@ -132,9 +132,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to difference of corresponding
         /// coordinates of specified points.</returns>
         ///
-        public static DoublePoint operator -( DoublePoint point1, DoublePoint point2 )
+        public static DoublePoint operator -(DoublePoint point1, DoublePoint point2)
         {
-            return new DoublePoint( point1.X - point2.X, point1.Y - point2.Y );
+            return new DoublePoint(point1.X - point2.X, point1.Y - point2.Y);
         }
 
         /// <summary>
@@ -147,9 +147,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to difference of corresponding
         /// coordinates of specified points.</returns>
         ///
-        public static DoublePoint Subtract( DoublePoint point1, DoublePoint point2 )
+        public static DoublePoint Subtract(DoublePoint point1, DoublePoint point2)
         {
-            return new DoublePoint( point1.X - point2.X, point1.Y - point2.Y );
+            return new DoublePoint(point1.X - point2.X, point1.Y - point2.Y);
         }
 
         /// <summary>
@@ -162,9 +162,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point increased by specified value.</returns>
         /// 
-        public static DoublePoint operator +( DoublePoint point, double valueToAdd )
+        public static DoublePoint operator +(DoublePoint point, double valueToAdd)
         {
-            return new DoublePoint( point.X + valueToAdd, point.Y + valueToAdd );
+            return new DoublePoint(point.X + valueToAdd, point.Y + valueToAdd);
         }
 
         /// <summary>
@@ -177,9 +177,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point increased by specified value.</returns>
         /// 
-        public static DoublePoint Add( DoublePoint point, double valueToAdd )
+        public static DoublePoint Add(DoublePoint point, double valueToAdd)
         {
-            return new DoublePoint( point.X + valueToAdd, point.Y + valueToAdd );
+            return new DoublePoint(point.X + valueToAdd, point.Y + valueToAdd);
         }
 
         /// <summary>
@@ -192,9 +192,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point decreased by specified value.</returns>
         /// 
-        public static DoublePoint operator -( DoublePoint point, double valueToSubtract )
+        public static DoublePoint operator -(DoublePoint point, double valueToSubtract)
         {
-            return new DoublePoint( point.X - valueToSubtract, point.Y - valueToSubtract );
+            return new DoublePoint(point.X - valueToSubtract, point.Y - valueToSubtract);
         }
 
         /// <summary>
@@ -207,9 +207,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point decreased by specified value.</returns>
         /// 
-        public static DoublePoint Subtract( DoublePoint point, double valueToSubtract )
+        public static DoublePoint Subtract(DoublePoint point, double valueToSubtract)
         {
-            return new DoublePoint( point.X - valueToSubtract, point.Y - valueToSubtract );
+            return new DoublePoint(point.X - valueToSubtract, point.Y - valueToSubtract);
         }
 
         /// <summary>
@@ -222,9 +222,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point multiplied by specified value.</returns>
         ///
-        public static DoublePoint operator *( DoublePoint point, double factor )
+        public static DoublePoint operator *(DoublePoint point, double factor)
         {
-            return new DoublePoint( point.X * factor, point.Y * factor );
+            return new DoublePoint(point.X * factor, point.Y * factor);
         }
 
         /// <summary>
@@ -237,9 +237,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point multiplied by specified value.</returns>
         ///
-        public static DoublePoint Multiply( DoublePoint point, double factor )
+        public static DoublePoint Multiply(DoublePoint point, double factor)
         {
-            return new DoublePoint( point.X * factor, point.Y * factor );
+            return new DoublePoint(point.X * factor, point.Y * factor);
         }
 
         /// <summary>
@@ -252,9 +252,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point divided by specified value.</returns>
         /// 
-        public static DoublePoint operator /( DoublePoint point, double factor )
+        public static DoublePoint operator /(DoublePoint point, double factor)
         {
-            return new DoublePoint( point.X / factor, point.Y / factor );
+            return new DoublePoint(point.X / factor, point.Y / factor);
         }
 
         /// <summary>
@@ -267,9 +267,9 @@ namespace AForge
         /// <returns>Returns new point which coordinates equal to coordinates of
         /// the specified point divided by specified value.</returns>
         /// 
-        public static DoublePoint Divide( DoublePoint point, double factor )
+        public static DoublePoint Divide(DoublePoint point, double factor)
         {
-            return new DoublePoint( point.X / factor, point.Y / factor );
+            return new DoublePoint(point.X / factor, point.Y / factor);
         }
 
         /// <summary>
@@ -282,9 +282,9 @@ namespace AForge
         /// <returns>Returns <see langword="true"/> if coordinates of specified
         /// points are equal.</returns>
         ///
-        public static bool operator ==( DoublePoint point1, DoublePoint point2 )
+        public static bool operator ==(DoublePoint point1, DoublePoint point2)
         {
-            return ( ( point1.X == point2.X ) && ( point1.Y == point2.Y ) );
+            return ((point1.X == point2.X) && (point1.Y == point2.Y));
         }
 
         /// <summary>
@@ -297,9 +297,9 @@ namespace AForge
         /// <returns>Returns <see langword="true"/> if coordinates of specified
         /// points are not equal.</returns>
         ///
-        public static bool operator !=( DoublePoint point1, DoublePoint point2 )
+        public static bool operator !=(DoublePoint point1, DoublePoint point2)
         {
-            return ( ( point1.X != point2.X ) || ( point1.Y != point2.Y ) );
+            return ((point1.X != point2.X) || (point1.Y != point2.Y));
         }
 
         /// <summary>
@@ -310,9 +310,9 @@ namespace AForge
         /// 
         /// <returns>Return <see langword="true"/> if objects are equal.</returns>
         /// 
-        public override bool Equals( object obj )
+        public override bool Equals(object obj)
         {
-            return ( obj is DoublePoint ) ? ( this == (DoublePoint) obj ) : false;
+            return (obj is DoublePoint) ? (this == (DoublePoint)obj) : false;
         }
 
         /// <summary>
@@ -321,9 +321,9 @@ namespace AForge
         /// 
         /// <returns>Returns the hash code for this instance.</returns>
         /// 
-        public override int GetHashCode( )
+        public override int GetHashCode()
         {
-            return X.GetHashCode( ) + Y.GetHashCode( );
+            return X.GetHashCode() + Y.GetHashCode();
         }
 
         /// <summary>
@@ -336,9 +336,9 @@ namespace AForge
         /// to integers from coordinates of the specified double precision point by
         /// casting double values to integers value.</returns>
         /// 
-        public static explicit operator IntPoint( DoublePoint point )
+        public static explicit operator IntPoint(DoublePoint point)
         {
-            return new IntPoint( (int) point.X, (int) point.Y );
+            return new IntPoint((int)point.X, (int)point.Y);
         }
 
         /// <summary>
@@ -351,9 +351,9 @@ namespace AForge
         /// to floats from coordinates of the specified double precision point by
         /// casting double values to float value.</returns>
         /// 
-        public static explicit operator Point( DoublePoint point )
+        public static explicit operator Point(DoublePoint point)
         {
-            return new Point( (float) point.X, (float) point.Y );
+            return new Point((float)point.X, (float)point.Y);
         }
 
         /// <summary>
@@ -363,9 +363,9 @@ namespace AForge
         /// <returns>Returns new integer point, which coordinates equal to whole numbers
         /// nearest to the corresponding coordinates of the double precision point.</returns>
         /// 
-        public IntPoint Round( )
+        public IntPoint Round()
         {
-            return new IntPoint( (int) Math.Round( X ), (int) Math.Round( Y ) );
+            return new IntPoint((int)Math.Round(X), (int)Math.Round(Y));
         }
 
         /// <summary>
@@ -374,9 +374,9 @@ namespace AForge
         /// 
         /// <returns>Returns string, which contains values of the point in readable form.</returns>
         ///
-        public override string ToString( )
+        public override string ToString()
         {
-            return string.Format( System.Globalization.CultureInfo.InvariantCulture, "{0}, {1}", X, Y );
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0}, {1}", X, Y);
         }
 
         /// <summary>
@@ -386,9 +386,9 @@ namespace AForge
         /// 
         /// <returns>Returns point's distance from (0, 0) point.</returns>
         /// 
-        public double EuclideanNorm( )
+        public double EuclideanNorm()
         {
-            return System.Math.Sqrt( X * X + Y * Y );
+            return System.Math.Sqrt(X * X + Y * Y);
         }
     }
 }

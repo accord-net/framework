@@ -36,7 +36,7 @@ namespace AForge.Imaging.Formats
         /// type for pixel encoding), -64 (64 bit image with double data type for pixel encoding).
         /// </para></remarks>
         /// 
-        [Category( "FITS Info" )]
+        [Category("FITS Info")]
         public int OriginalBitsPerPixl
         {
             get { return originalBitsPerPixl; }
@@ -51,7 +51,7 @@ namespace AForge.Imaging.Formats
         /// them from <see cref="OriginalBitsPerPixl">original bits per pixel</see> format to
         /// <see cref="ImageInfo.BitsPerPixel">supported bits per pixel</see> format.</para></remarks>
         /// 
-        [Category( "FITS Info" )]
+        [Category("FITS Info")]
         public double MinDataValue
         {
             get { return minDataValue; }
@@ -66,7 +66,7 @@ namespace AForge.Imaging.Formats
         /// them from <see cref="OriginalBitsPerPixl">original bits per pixel</see> format to
         /// <see cref="ImageInfo.BitsPerPixel">supported bits per pixel</see> format.</para></remarks>
         /// 
-        [Category( "FITS Info" )]
+        [Category("FITS Info")]
         public double MaxDataValue
         {
             get { return maxDataValue; }
@@ -76,7 +76,7 @@ namespace AForge.Imaging.Formats
         /// <summary>
         /// Telescope used for object's observation.
         /// </summary>
-        [Category( "FITS Info" )]
+        [Category("FITS Info")]
         public string Telescope
         {
             get { return telescope; }
@@ -86,7 +86,7 @@ namespace AForge.Imaging.Formats
         /// <summary>
         /// Object acquired during observation.
         /// </summary>
-        [Category( "FITS Info" )]
+        [Category("FITS Info")]
         public string Object
         {
             get { return acquiredObject; }
@@ -96,7 +96,7 @@ namespace AForge.Imaging.Formats
         /// <summary>
         /// Observer doing object's acquiring.
         /// </summary>
-        [Category( "FITS Info" )]
+        [Category("FITS Info")]
         public string Observer
         {
             get { return observer; }
@@ -106,7 +106,7 @@ namespace AForge.Imaging.Formats
         /// <summary>
         /// Instrument used for observation.
         /// </summary>
-        [Category( "FITS Info" )]
+        [Category("FITS Info")]
         public string Instrument
         {
             get { return instrument; }
@@ -117,7 +117,7 @@ namespace AForge.Imaging.Formats
         /// Initializes a new instance of the <see cref="FITSImageInfo"/> class.
         /// </summary>
         /// 
-        public FITSImageInfo( ) { }
+        public FITSImageInfo() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FITSImageInfo"/> class.
@@ -129,8 +129,8 @@ namespace AForge.Imaging.Formats
         /// <param name="frameIndex">Frame's index.</param>
         /// <param name="totalFrames">Total frames in the image.</param>
         /// 
-        public FITSImageInfo( int width, int height, int bitsPerPixel, int frameIndex, int totalFrames ) :
-            base( width, height, bitsPerPixel, frameIndex, totalFrames ) { }
+        public FITSImageInfo(int width, int height, int bitsPerPixel, int frameIndex, int totalFrames) :
+            base(width, height, bitsPerPixel, frameIndex, totalFrames) { }
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance. 
@@ -138,9 +138,9 @@ namespace AForge.Imaging.Formats
         /// 
         /// <returns>A new object that is a copy of this instance.</returns>
         /// 
-        public override object Clone( )
+        public override object Clone()
         {
-            FITSImageInfo clone = new FITSImageInfo( width, height, bitsPerPixel, frameIndex, totalFrames );
+            FITSImageInfo clone = new FITSImageInfo(width, height, bitsPerPixel, frameIndex, totalFrames);
 
             clone.originalBitsPerPixl = originalBitsPerPixl;
             clone.minDataValue = minDataValue;
@@ -153,7 +153,7 @@ namespace AForge.Imaging.Formats
             return clone;
         }
     }
-    
+
     /// <summary>
     /// FITS image format decoder.
     /// </summary>
@@ -180,7 +180,7 @@ namespace AForge.Imaging.Formats
         private FITSImageInfo imageInfo = null;
         // stream position pointing to beginning of data (or extension) - right after header
         private long dataPosition = 0;
-        
+
         /// <summary>
         /// Decode first frame of FITS image.
         /// </summary>
@@ -193,17 +193,17 @@ namespace AForge.Imaging.Formats
         /// <exception cref="NotSupportedException">Format of the FITS image is not supported.</exception>
         /// <exception cref="ArgumentException">The stream contains invalid (broken) FITS image.</exception>
         /// 
-        public Bitmap DecodeSingleFrame( Stream stream )
+        public Bitmap DecodeSingleFrame(Stream stream)
         {
-            FITSImageInfo imageInfo = ReadHeader( stream );
+            FITSImageInfo imageInfo = ReadHeader(stream);
 
             // check if there any image frame
-            if ( imageInfo.TotalFrames == 0 )
+            if (imageInfo.TotalFrames == 0)
             {
-                throw new ArgumentException( "The FITS stream does not contain any image in main section." );
+                throw new ArgumentException("The FITS stream does not contain any image in main section.");
             }
             // read and return first frame
-            return ReadImageFrame( stream, imageInfo );
+            return ReadImageFrame(stream, imageInfo);
         }
 
         /// <summary>
@@ -218,14 +218,14 @@ namespace AForge.Imaging.Formats
         /// <exception cref="NotSupportedException">Format of the FITS image is not supported.</exception>
         /// <exception cref="ArgumentException">The stream contains invalid (broken) FITS image.</exception>
         /// 
-        public int Open( Stream stream )
+        public int Open(Stream stream)
         {
             // close previous decoding
-            Close( );
+            Close();
 
-            this.imageInfo    = ReadHeader( stream );
-            this.stream       = stream;
-            this.dataPosition = stream.Seek( 0, SeekOrigin.Current );
+            this.imageInfo = ReadHeader(stream);
+            this.stream = stream;
+            this.dataPosition = stream.Seek(0, SeekOrigin.Current);
 
             return imageInfo.TotalFrames;
         }
@@ -243,23 +243,23 @@ namespace AForge.Imaging.Formats
         /// <exception cref="ArgumentOutOfRangeException">Stream does not contain frame with specified index.</exception>
         /// <exception cref="ArgumentException">The stream contains invalid (broken) FITS image.</exception>
         /// 
-        public Bitmap DecodeFrame( int frameIndex, out ImageInfo imageInfo )
+        public Bitmap DecodeFrame(int frameIndex, out ImageInfo imageInfo)
         {
             // check requested frame index
-            if ( frameIndex >= this.imageInfo.TotalFrames )
+            if (frameIndex >= this.imageInfo.TotalFrames)
             {
-                throw new ArgumentOutOfRangeException( "Currently opened stream does not contain frame with specified index." );
+                throw new ArgumentOutOfRangeException("Currently opened stream does not contain frame with specified index.");
             }
 
             // seek to the required frame
-            stream.Seek( dataPosition + frameIndex * this.imageInfo.Width * this.imageInfo.Height *
-                Math.Abs( this.imageInfo.OriginalBitsPerPixl ) / 8, SeekOrigin.Begin );
+            stream.Seek(dataPosition + frameIndex * this.imageInfo.Width * this.imageInfo.Height *
+                Math.Abs(this.imageInfo.OriginalBitsPerPixl) / 8, SeekOrigin.Begin);
 
             // read required frame
-            Bitmap image = ReadImageFrame( stream, this.imageInfo );
+            Bitmap image = ReadImageFrame(stream, this.imageInfo);
 
             // provide also frame information
-            imageInfo = (FITSImageInfo) this.imageInfo.Clone( );
+            imageInfo = (FITSImageInfo)this.imageInfo.Clone();
             imageInfo.FrameIndex = frameIndex;
 
             return image;
@@ -272,67 +272,67 @@ namespace AForge.Imaging.Formats
         /// <remarks><para>The method does not close stream itself, but just closes
         /// decoding cleaning all associated data with it.</para></remarks>
         /// 
-        public void Close( )
+        public void Close()
         {
-            stream    = null;
+            stream = null;
             imageInfo = null;
         }
 
         // Read and process FITS header. After the header is read stream pointer will
         // point to data or extension.
-        private FITSImageInfo ReadHeader( Stream stream )
+        private FITSImageInfo ReadHeader(Stream stream)
         {
-            byte[]  headerRecord = new byte[80];
-            int     recordsRead = 1;
-            bool    endKeyWasFound = false;
+            byte[] headerRecord = new byte[80];
+            int recordsRead = 1;
+            bool endKeyWasFound = false;
 
-            FITSImageInfo imageInfo = new FITSImageInfo( );
+            FITSImageInfo imageInfo = new FITSImageInfo();
 
             // read first record and check for correct image
             if (
-                ( Tools.ReadStream( stream, headerRecord, 0, 80 ) < 80 ) ||
-                ( Encoding.ASCII.GetString( headerRecord, 0, 8 ) != "SIMPLE  " ) )
+                (Tools.ReadStream(stream, headerRecord, 0, 80) < 80) ||
+                (Encoding.ASCII.GetString(headerRecord, 0, 8) != "SIMPLE  "))
             {
-                throw new FormatException( "The stream does not contatin FITS image." );
+                throw new FormatException("The stream does not contatin FITS image.");
             }
             else
             {
                 // check if the image has standard FITS format
-                if ( Encoding.ASCII.GetString( headerRecord, 10, 70 ).Split( '/' )[0].Trim( ) != "T" )
+                if (Encoding.ASCII.GetString(headerRecord, 10, 70).Split('/')[0].Trim() != "T")
                 {
-                    throw new NotSupportedException( "The stream contains not standard FITS data file." );
+                    throw new NotSupportedException("The stream contains not standard FITS data file.");
                 }
             }
 
             // read header and locate data block
-            while ( true )
+            while (true)
             {
                 // read next record
-                if ( Tools.ReadStream( stream, headerRecord, 0, 80 ) < 80 )
+                if (Tools.ReadStream(stream, headerRecord, 0, 80) < 80)
                 {
-                    throw new ArgumentException( "The stream does not contain valid FITS image." );
+                    throw new ArgumentException("The stream does not contain valid FITS image.");
                 }
                 recordsRead++;
 
                 // get keyword
-                string keyword = Encoding.ASCII.GetString( headerRecord, 0, 8 );
+                string keyword = Encoding.ASCII.GetString(headerRecord, 0, 8);
 
                 // skip commenct and history
-                if ( ( keyword == "COMMENT " ) || ( keyword == "HISTORY " ) )
+                if ((keyword == "COMMENT ") || (keyword == "HISTORY "))
                     continue;
 
                 // check if it is end of header keyword
-                if ( keyword == "END     " )
+                if (keyword == "END     ")
                     endKeyWasFound = true;
 
-                if ( endKeyWasFound )
+                if (endKeyWasFound)
                 {
-                    if ( recordsRead % 36 == 0 )
+                    if (recordsRead % 36 == 0)
                     {
                         // found data or extension header
 
                         // make a small check of some header values
-                        if ( ( imageInfo.BitsPerPixel == 0 ) || ( imageInfo.Width == 0 ) || ( imageInfo.Height == 0 ) )
+                        if ((imageInfo.BitsPerPixel == 0) || (imageInfo.Width == 0) || (imageInfo.Height == 0))
                         {
                             imageInfo.TotalFrames = 0;
                         }
@@ -344,37 +344,37 @@ namespace AForge.Imaging.Formats
                 else
                 {
                     // get string representation of value/comments
-                    string strValue = Encoding.ASCII.GetString( headerRecord, 10, 70 );
+                    string strValue = Encoding.ASCII.GetString(headerRecord, 10, 70);
 
                     // check important keywords
-                    if ( keyword == "BITPIX  " )
+                    if (keyword == "BITPIX  ")
                     {
-                        int value = ExtractIntegerValue( strValue );
+                        int value = ExtractIntegerValue(strValue);
 
-                        if ( ( value != 8 ) && ( value != 16 ) && ( value != 32 ) && ( value != -32 ) && ( value != -64 ) )
+                        if ((value != 8) && (value != 16) && (value != 32) && (value != -32) && (value != -64))
                         {
-                            throw new NotSupportedException( "Data format (" + value + ") is not supported." );
+                            throw new NotSupportedException("Data format (" + value + ") is not supported.");
                         }
 
                         // bits per pixel
-                        imageInfo.BitsPerPixel = ( value == 8 ) ? 8 : 16;
+                        imageInfo.BitsPerPixel = (value == 8) ? 8 : 16;
                         imageInfo.OriginalBitsPerPixl = value;
                     }
-                    else if ( Encoding.ASCII.GetString( headerRecord, 0, 5 ) == "NAXIS" )
+                    else if (Encoding.ASCII.GetString(headerRecord, 0, 5) == "NAXIS")
                     {
                         // information about data axis
-                        int value = ExtractIntegerValue( strValue );
+                        int value = ExtractIntegerValue(strValue);
 
                         // check axis
-                        switch ( headerRecord[5] )
+                        switch (headerRecord[5])
                         {
                             // number of axis
-                            case (byte) ' ':
-                                switch ( value )
+                            case (byte)' ':
+                                switch (value)
                                 {
                                     case 1:
                                     default:
-                                        throw new NotSupportedException( "FITS files with data dimension of " + value + " are not supported." );
+                                        throw new NotSupportedException("FITS files with data dimension of " + value + " are not supported.");
                                     case 0:
                                         // the stream does not have an image, do nothing
                                         break;
@@ -388,34 +388,34 @@ namespace AForge.Imaging.Formats
                                 }
                                 break;
                             // length of 1st axis
-                            case (byte) '1':
+                            case (byte)'1':
                                 imageInfo.Width = value;
                                 break;
                             // length of 2nd axis
-                            case (byte) '2':
+                            case (byte)'2':
                                 imageInfo.Height = value;
                                 break;
                             // length of 3rd axis
-                            case (byte) '3':
+                            case (byte)'3':
                                 imageInfo.TotalFrames = value;
                                 break;
                         }
                     }
-                    else if ( keyword == "TELESCOP" )
+                    else if (keyword == "TELESCOP")
                     {
-                        imageInfo.Telescope = ExtractStringValue( strValue );
+                        imageInfo.Telescope = ExtractStringValue(strValue);
                     }
-                    else if ( keyword == "OBJECT  " )
+                    else if (keyword == "OBJECT  ")
                     {
-                        imageInfo.Object = ExtractStringValue( strValue );
+                        imageInfo.Object = ExtractStringValue(strValue);
                     }
-                    else if ( keyword == "OBSERVER" )
+                    else if (keyword == "OBSERVER")
                     {
-                        imageInfo.Observer = ExtractStringValue( strValue );
+                        imageInfo.Observer = ExtractStringValue(strValue);
                     }
-                    else if ( keyword == "INSTRUME" )
+                    else if (keyword == "INSTRUME")
                     {
-                        imageInfo.Instrument = ExtractStringValue( strValue );
+                        imageInfo.Instrument = ExtractStringValue(strValue);
                     }
 
                     // --- for debugging ---
@@ -441,16 +441,16 @@ namespace AForge.Imaging.Formats
             // packed into data cube, so entire scan of all the data is required.
 
             // if is stream is seekable
-            if ( !stream.CanSeek )
+            if (!stream.CanSeek)
             {
-                throw new ArgumentException( "The stream must be seekable." );
+                throw new ArgumentException("The stream must be seekable.");
             }
-            
+
             // remember current position
-            long dataPos = stream.Seek( 0, SeekOrigin.Current );
+            long dataPos = stream.Seek(0, SeekOrigin.Current);
 
             // data size
-            int lineLength = imageInfo.Width * ( Math.Abs( imageInfo.OriginalBitsPerPixl ) / 8 );
+            int lineLength = imageInfo.Width * (Math.Abs(imageInfo.OriginalBitsPerPixl) / 8);
             int totalLines = imageInfo.Height * imageInfo.TotalFrames;
             int originalBitsPerPixel = imageInfo.OriginalBitsPerPixl;
 
@@ -461,73 +461,73 @@ namespace AForge.Imaging.Formats
             double min = double.MaxValue;
             double max = double.MinValue;
 
-            for ( int i = 0; i < totalLines; i++ )
+            for (int i = 0; i < totalLines; i++)
             {
                 // read next line
-                if ( Tools.ReadStream( stream, buffer, 0, lineLength ) < lineLength )
-                    throw new ArgumentException( "The stream does not contain valid FITS image." );
+                if (Tools.ReadStream(stream, buffer, 0, lineLength) < lineLength)
+                    throw new ArgumentException("The stream does not contain valid FITS image.");
 
                 // scan the line
-                for ( int j = 0; j < lineLength; )
+                for (int j = 0; j < lineLength; )
                 {
                     double value = 0;
 
                     // read values accordint to their format
-                    switch ( originalBitsPerPixel )
+                    switch (originalBitsPerPixel)
                     {
                         case 8:    // 8 bit unsigned integer
                             value = buffer[j++];
                             break;
                         case 16:    // 16 bit signed integer
-                        {
-                            short tempValue = 0;
-                            unchecked
                             {
-                                tempValue = (short) ( ( buffer[j++] << 8 ) | buffer[j++] );
+                                short tempValue = 0;
+                                unchecked
+                                {
+                                    tempValue = (short)((buffer[j++] << 8) | buffer[j++]);
+                                }
+                                value = tempValue;
+                                break;
                             }
-                            value = tempValue;
-                            break;
-                        }
                         case 32:    // 32 bit signed integer
-                        {
-                            temp[3] = buffer[j++];
-                            temp[2] = buffer[j++];
-                            temp[1] = buffer[j++];
-                            temp[0] = buffer[j++];
+                            {
+                                temp[3] = buffer[j++];
+                                temp[2] = buffer[j++];
+                                temp[1] = buffer[j++];
+                                temp[0] = buffer[j++];
 
-                            value = BitConverter.ToInt32( temp, 0 );
+                                value = BitConverter.ToInt32(temp, 0);
 
-                            break;
-                        }
+                                break;
+                            }
                         case -32:   // 32 bit float
-                        {
-                            temp[3] = buffer[j++];
-                            temp[2] = buffer[j++];
-                            temp[1] = buffer[j++];
-                            temp[0] = buffer[j++];
+                            {
+                                temp[3] = buffer[j++];
+                                temp[2] = buffer[j++];
+                                temp[1] = buffer[j++];
+                                temp[0] = buffer[j++];
 
-                            value = BitConverter.ToSingle( temp, 0 );
-                            break;
-                        }
+                                value = BitConverter.ToSingle(temp, 0);
+                                break;
+                            }
                         case -64:   // 64 bit double
-                        {
-                            temp[7] = buffer[j++];
-                            temp[6] = buffer[j++];
-                            temp[5] = buffer[j++];
-                            temp[4] = buffer[j++];
-                            temp[3] = buffer[j++];
-                            temp[2] = buffer[j++];
-                            temp[1] = buffer[j++];
-                            temp[0] = buffer[j++];
+                            {
+                                temp[7] = buffer[j++];
+                                temp[6] = buffer[j++];
+                                temp[5] = buffer[j++];
+                                temp[4] = buffer[j++];
+                                temp[3] = buffer[j++];
+                                temp[2] = buffer[j++];
+                                temp[1] = buffer[j++];
+                                temp[0] = buffer[j++];
 
-                            value = BitConverter.ToDouble( temp, 0 );
-                            break;
-                        }
+                                value = BitConverter.ToDouble(temp, 0);
+                                break;
+                            }
                     }
 
-                    if ( value > max )
+                    if (value > max)
                         max = value;
-                    if ( value < min )
+                    if (value < min)
                         min = value;
                 }
             }
@@ -536,164 +536,164 @@ namespace AForge.Imaging.Formats
             imageInfo.MinDataValue = min;
 
             // restore stream position to the begining of data
-            stream.Seek( dataPos, SeekOrigin.Begin );
+            stream.Seek(dataPos, SeekOrigin.Begin);
 
             return imageInfo;
         }
 
         // Read image frame from the specified stream (current stream's position is used)
-        private unsafe Bitmap ReadImageFrame( Stream stream, FITSImageInfo imageInfo )
+        private unsafe Bitmap ReadImageFrame(Stream stream, FITSImageInfo imageInfo)
         {
-            int width  = imageInfo.Width;
+            int width = imageInfo.Width;
             int height = imageInfo.Height;
 
             // create new bitmap
-            Bitmap image = ( imageInfo.BitsPerPixel == 8 ) ?
-                Tools.CreateGrayscaleImage( width, height ) :
-                new Bitmap( width, height, PixelFormat.Format16bppGrayScale );
+            Bitmap image = (imageInfo.BitsPerPixel == 8) ?
+                Tools.CreateGrayscaleImage(width, height) :
+                new Bitmap(width, height, PixelFormat.Format16bppGrayScale);
 
             // lock it
-            BitmapData imageData = image.LockBits( new Rectangle( 0, 0, width, height ),
-                ImageLockMode.ReadWrite, image.PixelFormat );
+            BitmapData imageData = image.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadWrite, image.PixelFormat);
 
             int originalBitsPerPixel = imageInfo.OriginalBitsPerPixl;
             int stride = imageData.Stride;
-            byte* ptr = (byte*) imageData.Scan0.ToPointer( );
+            byte* ptr = (byte*)imageData.Scan0.ToPointer();
 
             double min = imageInfo.MinDataValue;
             double max = imageInfo.MaxDataValue;
 
             // check number of bits per pixel and load image appropriately
-            if ( imageInfo.BitsPerPixel == 16 )
+            if (imageInfo.BitsPerPixel == 16)
             {
                 // 16 bpp grayscale image
-                double coef = 65535.0 / ( max - min );
+                double coef = 65535.0 / (max - min);
 
                 // prepare a buffer for one line
-                int lineSize = width * Math.Abs( originalBitsPerPixel ) / 8;
+                int lineSize = width * Math.Abs(originalBitsPerPixel) / 8;
                 byte[] line = new byte[lineSize];
                 byte[] temp = new byte[8];
 
                 // load all rows
-                for ( int y = height - 1; y >= 0; y-- )
+                for (int y = height - 1; y >= 0; y--)
                 {
                     // load next line
-                    if ( Tools.ReadStream( stream, line, 0, lineSize ) < lineSize )
-                        throw new ArgumentException( "The stream does not contain valid FITS image." );
+                    if (Tools.ReadStream(stream, line, 0, lineSize) < lineSize)
+                        throw new ArgumentException("The stream does not contain valid FITS image.");
 
                     // fill next image row
-                    ushort* row = (ushort*) ( ptr + stride * y );
+                    ushort* row = (ushort*)(ptr + stride * y);
 
-                    for ( int x = 0, i = 0; x < width; x++, row++ )
+                    for (int x = 0, i = 0; x < width; x++, row++)
                     {
                         double value = 0;
 
-                        switch ( originalBitsPerPixel )
+                        switch (originalBitsPerPixel)
                         {
                             case 16:    // 16 bit signed integer
-                            {
-                                short tempValue = 0;
-                                unchecked
                                 {
-                                    tempValue = (short) ( ( line[i++] << 8 ) + line[i++] );
+                                    short tempValue = 0;
+                                    unchecked
+                                    {
+                                        tempValue = (short)((line[i++] << 8) + line[i++]);
+                                    }
+                                    value = tempValue;
+                                    break;
                                 }
-                                value = tempValue;
-                                break;
-                            }
                             case 32:    // 32 bit signed integer
-                            {
-                                temp[3] = line[i++];
-                                temp[2] = line[i++];
-                                temp[1] = line[i++];
-                                temp[0] = line[i++];
+                                {
+                                    temp[3] = line[i++];
+                                    temp[2] = line[i++];
+                                    temp[1] = line[i++];
+                                    temp[0] = line[i++];
 
-                                value = BitConverter.ToInt32( temp, 0 );
+                                    value = BitConverter.ToInt32(temp, 0);
 
-                                break;
-                            }
+                                    break;
+                                }
                             case -32:    // 32 bit float
-                            {
-                                temp[3] = line[i++];
-                                temp[2] = line[i++];
-                                temp[1] = line[i++];
-                                temp[0] = line[i++];
+                                {
+                                    temp[3] = line[i++];
+                                    temp[2] = line[i++];
+                                    temp[1] = line[i++];
+                                    temp[0] = line[i++];
 
-                                value = BitConverter.ToSingle( temp, 0 );
-                                break;
-                            }
+                                    value = BitConverter.ToSingle(temp, 0);
+                                    break;
+                                }
                             case -64:    // 64 bit double
-                            {
-                                temp[7] = line[i++];
-                                temp[6] = line[i++];
-                                temp[5] = line[i++];
-                                temp[4] = line[i++];
-                                temp[3] = line[i++];
-                                temp[2] = line[i++];
-                                temp[1] = line[i++];
-                                temp[0] = line[i++];
+                                {
+                                    temp[7] = line[i++];
+                                    temp[6] = line[i++];
+                                    temp[5] = line[i++];
+                                    temp[4] = line[i++];
+                                    temp[3] = line[i++];
+                                    temp[2] = line[i++];
+                                    temp[1] = line[i++];
+                                    temp[0] = line[i++];
 
-                                value = BitConverter.ToDouble( temp, 0 );
-                                break;
-                            }
+                                    value = BitConverter.ToDouble(temp, 0);
+                                    break;
+                                }
                         }
 
-                        *row = (ushort) ( ( value - min ) * coef );
+                        *row = (ushort)((value - min) * coef);
                     }
                 }
             }
             else
             {
                 // 8 bpp grayscale image
-                double coef = 255.0 / ( max - min );
+                double coef = 255.0 / (max - min);
 
                 // prepare a buffer for one line
                 byte[] line = new byte[width];
 
                 // load all rows
-                for ( int y = height - 1; y >= 0; y-- )
+                for (int y = height - 1; y >= 0; y--)
                 {
                     // load next line
-                    if ( Tools.ReadStream( stream, line, 0, width ) < width )
-                        throw new ArgumentException( "The stream does not contain valid FITS image." );
+                    if (Tools.ReadStream(stream, line, 0, width) < width)
+                        throw new ArgumentException("The stream does not contain valid FITS image.");
 
                     // fill next image row
                     byte* row = ptr + stride * y;
 
-                    for ( int x = 0; x < width; x++, row++ )
+                    for (int x = 0; x < width; x++, row++)
                     {
-                        *row = (byte) ( ( (double) line[x] - min ) * coef );
+                        *row = (byte)(((double)line[x] - min) * coef);
                     }
                 }
             }
 
             // unlock image and return it
-            image.UnlockBits( imageData );
+            image.UnlockBits(imageData);
             return image;
         }
 
         // Extract integer value from string representation of value/comments
-        private int ExtractIntegerValue( string strValue )
+        private int ExtractIntegerValue(string strValue)
         {
             try
             {
                 // split value from comment
-                string[] strs = strValue.Split( '/' );
+                string[] strs = strValue.Split('/');
                 // return value as integer
-                return int.Parse( strs[0].Trim( ) );
+                return int.Parse(strs[0].Trim());
             }
             catch
             {
-                throw new ArgumentException( "The stream does not contain valid FITS image." );
+                throw new ArgumentException("The stream does not contain valid FITS image.");
             }
         }
 
         // Extract string value
-        private string ExtractStringValue( string strValue )
+        private string ExtractStringValue(string strValue)
         {
             // split value from comment
-            string[] strs = strValue.Split( '/' );
+            string[] strs = strValue.Split('/');
 
-            return strs[0].Replace( "''", "``" ).Replace( "'", "" ).Replace( "''", "``" ).Trim( );
+            return strs[0].Replace("''", "``").Replace("'", "").Replace("''", "``").Trim();
         }
     }
 }

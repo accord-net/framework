@@ -26,8 +26,8 @@ namespace AForge
         /// 
         /// <param name="message">Exception's message.</param>
         /// 
-        public ConnectionFailedException( string message ) :
-            base( message ) { }
+        public ConnectionFailedException(string message) :
+            base(message) { }
     }
 
     /// <summary>
@@ -46,8 +46,8 @@ namespace AForge
         /// 
         /// <param name="message">Exception's message.</param>
         /// 
-        public ConnectionLostException( string message ) :
-            base( message ) { }
+        public ConnectionLostException(string message) :
+            base(message) { }
     }
 
     /// <summary>
@@ -66,8 +66,8 @@ namespace AForge
         /// 
         /// <param name="message">Exception's message.</param>
         /// 
-        public NotConnectedException( string message ) :
-            base( message ) { }
+        public NotConnectedException(string message) :
+            base(message) { }
     }
 
     /// <summary>
@@ -86,8 +86,8 @@ namespace AForge
         /// 
         /// <param name="message">Exception's message.</param>
         /// 
-        public DeviceBusyException( string message ) :
-            base( message ) { }
+        public DeviceBusyException(string message) :
+            base(message) { }
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ namespace AForge
         /// 
         /// <param name="message">Exception's message.</param>
         /// 
-        public DeviceErrorException( string message ) :
-            base( message ) { }
+        public DeviceErrorException(string message) :
+            base(message) { }
     }
 }

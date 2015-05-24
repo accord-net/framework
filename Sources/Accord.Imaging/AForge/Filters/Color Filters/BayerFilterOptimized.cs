@@ -80,7 +80,7 @@ namespace AForge.Imaging.Filters
         }
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -98,7 +98,7 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="BayerFilterOptimized"/> class.
         /// </summary>
         /// 
-        public BayerFilterOptimized( )
+        public BayerFilterOptimized()
         {
             // initialize format translation dictionary
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format24bppRgb;
@@ -111,45 +111,45 @@ namespace AForge.Imaging.Filters
         /// <param name="sourceData">Source image data.</param>
         /// <param name="destinationData">Destination image data.</param>
         /// 
-        protected override void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        protected override void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
             // get width and height
-            int width  = sourceData.Width;
+            int width = sourceData.Width;
             int height = sourceData.Height;
 
-            if ( ( ( width & 1 ) == 1 ) || ( ( height & 1 ) == 1 ) ||
-                 ( width < 2 ) || ( height < 2 ) )
+            if (((width & 1) == 1) || ((height & 1) == 1) ||
+                 (width < 2) || (height < 2))
             {
-                throw new InvalidImagePropertiesException( "Source image must have even width and height. Width and height can not be smaller than 2." );
+                throw new InvalidImagePropertiesException("Source image must have even width and height. Width and height can not be smaller than 2.");
             }
 
-            switch ( bayerPattern )
+            switch (bayerPattern)
             {
                 case BayerPattern.GRBG:
-                    ApplyGRBG( sourceData, destinationData );
+                    ApplyGRBG(sourceData, destinationData);
                     break;
 
                 case BayerPattern.BGGR:
-                    ApplyBGGR( sourceData, destinationData );
+                    ApplyBGGR(sourceData, destinationData);
                     break;
             }
         }
 
         #region GRBG pattern
-        private unsafe void ApplyGRBG( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        private unsafe void ApplyGRBG(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
-            int width  = sourceData.Width;
+            int width = sourceData.Width;
             int height = sourceData.Height;
 
-            int widthM1  = width - 1;
+            int widthM1 = width - 1;
             int heightM1 = height - 1;
 
             int srcStride = sourceData.Stride;
             int dstStride = destinationData.Stride;
 
-            int srcStrideP1  = srcStride + 1;
-            int srcStrideM1  = srcStride - 1;
-            int srcMStride   = -srcStride;
+            int srcStrideP1 = srcStride + 1;
+            int srcStrideM1 = srcStride - 1;
+            int srcMStride = -srcStride;
             int srcMStrideP1 = srcMStride + 1;
             int srcMStrideM1 = srcMStride - 1;
 
@@ -157,8 +157,8 @@ namespace AForge.Imaging.Filters
             int dstOffset = dstStride - width * 3;
 
             // do the job
-            byte * src = (byte*) sourceData.ImageData.ToPointer( );
-            byte * dst = (byte*) destinationData.ImageData.ToPointer( );
+            byte* src = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
 
             // --- process the first line
 
@@ -166,20 +166,20 @@ namespace AForge.Imaging.Filters
             // . G R
             // . B G
             dst[RGB.R] = src[1];
-            dst[RGB.G] = (byte) ( ( *src + src[srcStrideP1] ) >> 1 );
+            dst[RGB.G] = (byte)((*src + src[srcStrideP1]) >> 1);
             dst[RGB.B] = src[srcStride];
 
             src++;
             dst += 3;
 
-            for ( int x = 1; x < widthM1; x += 2 )
+            for (int x = 1; x < widthM1; x += 2)
             {
                 // . . .
                 // G R G
                 // B G B
                 dst[RGB.R] = *src;
-                dst[RGB.G] = (byte) ( ( src[srcStride] + src[-1] + src[1] ) / 3 );
-                dst[RGB.B] = (byte) ( ( src[srcStrideM1] + src[srcStrideP1] ) >> 1 );
+                dst[RGB.G] = (byte)((src[srcStride] + src[-1] + src[1]) / 3);
+                dst[RGB.B] = (byte)((src[srcStrideM1] + src[srcStrideP1]) >> 1);
 
                 src++;
                 dst += 3;
@@ -187,8 +187,8 @@ namespace AForge.Imaging.Filters
                 // . . .
                 // R G R
                 // G B G
-                dst[RGB.R] = (byte) ( ( src[-1] + src[1] ) >> 1 );
-                dst[RGB.G] = (byte) ( ( *src + src[srcStrideM1] + src[srcStrideP1] ) / 3 );
+                dst[RGB.R] = (byte)((src[-1] + src[1]) >> 1);
+                dst[RGB.G] = (byte)((*src + src[srcStrideM1] + src[srcStrideP1]) / 3);
                 dst[RGB.B] = src[srcStride];
 
                 src++;
@@ -199,7 +199,7 @@ namespace AForge.Imaging.Filters
             // G R .
             // B G .
             dst[RGB.R] = *src;
-            dst[RGB.G] = (byte) ( ( src[-1] + src[srcStride] ) >> 1 );
+            dst[RGB.G] = (byte)((src[-1] + src[srcStride]) >> 1);
             dst[RGB.B] = src[srcStrideM1];
 
 
@@ -208,13 +208,13 @@ namespace AForge.Imaging.Filters
             dst += dstOffset + 3;
 
             // --- process all lines except the first one and the last one
-            for ( int y = 1; y < heightM1; y += 2 )
+            for (int y = 1; y < heightM1; y += 2)
             {
                 // . G R
                 // . B G
                 // . G R
-                dst[RGB.R] = (byte) ( ( src[srcMStrideP1] + src[srcStrideP1] ) >> 1 );
-                dst[RGB.G] = (byte) ( ( src[srcMStride] + src[srcStride] + src[1] ) / 3 );
+                dst[RGB.R] = (byte)((src[srcMStrideP1] + src[srcStrideP1]) >> 1);
+                dst[RGB.G] = (byte)((src[srcMStride] + src[srcStride] + src[1]) / 3);
                 dst[RGB.B] = *src;
 
                 dst += dstStride;
@@ -225,8 +225,8 @@ namespace AForge.Imaging.Filters
                 // . G R
                 // . B G
                 dst[RGB.R] = src[1];
-                dst[RGB.G] = (byte) ( ( *src + src[srcMStrideP1] + src[srcStrideP1] ) / 3 );
-                dst[RGB.B] = (byte) ( ( src[srcMStride] + src[srcStride] ) >> 1 );
+                dst[RGB.G] = (byte)((*src + src[srcMStrideP1] + src[srcStrideP1]) / 3);
+                dst[RGB.B] = (byte)((src[srcMStride] + src[srcStride]) >> 1);
 
                 dst -= dstStride;
                 src -= srcStride;
@@ -234,15 +234,15 @@ namespace AForge.Imaging.Filters
                 src++;
                 dst += 3;
 
-                for ( int x = 1; x < widthM1; x += 2 )
+                for (int x = 1; x < widthM1; x += 2)
                 {
                     // G R G
                     // B G B
                     // G R G
-                    dst[RGB.R] = (byte) ( ( src[srcMStride] + src[srcStride] ) >> 1 );
-                    dst[RGB.G] = (byte) ( ( *src + src[srcMStrideM1] + src[srcMStrideP1] +
-                                            src[srcStrideM1] + src[srcStrideP1] ) / 5 );
-                    dst[RGB.B] = (byte) ( ( src[-1] + src[1] ) >> 1 );
+                    dst[RGB.R] = (byte)((src[srcMStride] + src[srcStride]) >> 1);
+                    dst[RGB.G] = (byte)((*src + src[srcMStrideM1] + src[srcMStrideP1] +
+                                            src[srcStrideM1] + src[srcStrideP1]) / 5);
+                    dst[RGB.B] = (byte)((src[-1] + src[1]) >> 1);
 
                     // ( y+1 pixel )
                     // B G B
@@ -252,10 +252,10 @@ namespace AForge.Imaging.Filters
                     src += srcStride;
 
                     dst[RGB.R] = *src;
-                    dst[RGB.G] = (byte) ( ( src[srcMStride] + src[srcStride] +
-                                            src[-1] + src[1] ) >> 2 );
-                    dst[RGB.B] = (byte) ( ( src[srcMStrideM1] + src[srcMStrideP1] +
-                                            src[srcStrideM1] + src[srcStrideP1] ) >> 2 );
+                    dst[RGB.G] = (byte)((src[srcMStride] + src[srcStride] +
+                                            src[-1] + src[1]) >> 2);
+                    dst[RGB.B] = (byte)((src[srcMStrideM1] + src[srcMStrideP1] +
+                                            src[srcStrideM1] + src[srcStrideP1]) >> 2);
 
                     // ( y+1 x+1 pixel )
                     // G B G
@@ -264,10 +264,10 @@ namespace AForge.Imaging.Filters
                     dst += 3;
                     src++;
 
-                    dst[RGB.R] = (byte) ( ( src[-1] + src[1] ) >> 1 );
-                    dst[RGB.G] = (byte) ( ( *src + src[srcMStrideM1] + src[srcMStrideP1] +
-                                            src[srcStrideM1] + src[srcStrideP1] ) / 5 );
-                    dst[RGB.B] = (byte) ( ( src[srcMStride] + src[srcStride] ) >> 1 );
+                    dst[RGB.R] = (byte)((src[-1] + src[1]) >> 1);
+                    dst[RGB.G] = (byte)((*src + src[srcMStrideM1] + src[srcMStrideP1] +
+                                            src[srcStrideM1] + src[srcStrideP1]) / 5);
+                    dst[RGB.B] = (byte)((src[srcMStride] + src[srcStride]) >> 1);
 
                     // ( x+1 pixel )
                     // R G R
@@ -276,10 +276,10 @@ namespace AForge.Imaging.Filters
                     dst -= dstStride;
                     src -= srcStride;
 
-                    dst[RGB.R] = (byte) ( ( src[srcMStrideM1] + src[srcMStrideP1] +
-                                            src[srcStrideM1] + src[srcStrideP1] ) >> 2 );
-                    dst[RGB.G] = (byte) ( ( src[srcMStride] + src[srcStride] +
-                                            src[-1] + src[1] ) >> 2 );
+                    dst[RGB.R] = (byte)((src[srcMStrideM1] + src[srcMStrideP1] +
+                                            src[srcStrideM1] + src[srcStrideP1]) >> 2);
+                    dst[RGB.G] = (byte)((src[srcMStride] + src[srcStride] +
+                                            src[-1] + src[1]) >> 2);
                     dst[RGB.B] = *src;
 
                     dst += 3;
@@ -289,9 +289,9 @@ namespace AForge.Imaging.Filters
                 // G R .
                 // B G .
                 // G R .
-                dst[RGB.R] = (byte) ( ( src[srcMStride] + src[srcStride] ) >> 1 );
-                dst[RGB.G] = (byte) ( ( *src + src[srcMStrideM1] + src[srcStrideM1] ) / 3 );
-                dst[RGB.B] = (byte) src[-1];
+                dst[RGB.R] = (byte)((src[srcMStride] + src[srcStride]) >> 1);
+                dst[RGB.G] = (byte)((*src + src[srcMStrideM1] + src[srcStrideM1]) / 3);
+                dst[RGB.B] = (byte)src[-1];
 
                 src += srcStride;
                 dst += dstStride;
@@ -301,8 +301,8 @@ namespace AForge.Imaging.Filters
                 // G R .
                 // B G .
                 dst[RGB.R] = *src;
-                dst[RGB.G] = (byte) ( ( src[srcMStride] + src[srcStride] + src[-1] ) / 3 );
-                dst[RGB.B] = (byte) ( ( src[srcMStrideM1] + src[srcStrideM1] ) >> 1 );
+                dst[RGB.G] = (byte)((src[srcMStride] + src[srcStride] + src[-1]) / 3);
+                dst[RGB.B] = (byte)((src[srcMStrideM1] + src[srcStrideM1]) >> 1);
 
 
                 // allign to the next line
@@ -316,20 +316,20 @@ namespace AForge.Imaging.Filters
             // . B G
             // . . .
             dst[RGB.R] = src[srcMStrideP1];
-            dst[RGB.G] = (byte) ( ( src[srcMStride] + src[1] ) >> 1 );
+            dst[RGB.G] = (byte)((src[srcMStride] + src[1]) >> 1);
             dst[RGB.B] = *src;
 
             src++;
             dst += 3;
 
-            for ( int x = 1; x < widthM1; x += 2 )
+            for (int x = 1; x < widthM1; x += 2)
             {
                 // G R G
                 // B G B
                 // . . .
                 dst[RGB.R] = src[srcMStride];
-                dst[RGB.G] = (byte) ( ( src[srcMStrideM1] + src[srcMStrideP1] + *src ) / 3 );
-                dst[RGB.B] = (byte) ( ( src[-1] + src[1] ) >> 1 );
+                dst[RGB.G] = (byte)((src[srcMStrideM1] + src[srcMStrideP1] + *src) / 3);
+                dst[RGB.B] = (byte)((src[-1] + src[1]) >> 1);
 
                 src++;
                 dst += 3;
@@ -337,8 +337,8 @@ namespace AForge.Imaging.Filters
                 // R G R
                 // G B G
                 // . . .
-                dst[RGB.R] = (byte) ( ( src[srcMStrideM1] + src[srcMStrideP1] ) >> 1 );
-                dst[RGB.G] = (byte) ( ( src[srcMStride] + src[-1] + src[1] ) / 3 );
+                dst[RGB.R] = (byte)((src[srcMStrideM1] + src[srcMStrideP1]) >> 1);
+                dst[RGB.G] = (byte)((src[srcMStride] + src[-1] + src[1]) / 3);
                 dst[RGB.B] = *src;
 
                 src++;
@@ -349,26 +349,26 @@ namespace AForge.Imaging.Filters
             // B G .
             // . . .
             dst[RGB.R] = src[srcMStride];
-            dst[RGB.G] = (byte) ( ( *src + src[srcMStrideM1] ) >> 1 );
+            dst[RGB.G] = (byte)((*src + src[srcMStrideM1]) >> 1);
             dst[RGB.B] = src[-1];
         }
         #endregion
 
         #region BGGR pattern
-        private unsafe void ApplyBGGR( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        private unsafe void ApplyBGGR(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
-            int width  = sourceData.Width;
+            int width = sourceData.Width;
             int height = sourceData.Height;
 
-            int widthM1  = width - 1;
+            int widthM1 = width - 1;
             int heightM1 = height - 1;
 
             int srcStride = sourceData.Stride;
             int dstStride = destinationData.Stride;
 
-            int srcStrideP1  = srcStride + 1;
-            int srcStrideM1  = srcStride - 1;
-            int srcMStride   = -srcStride;
+            int srcStrideP1 = srcStride + 1;
+            int srcStrideM1 = srcStride - 1;
+            int srcMStride = -srcStride;
             int srcMStrideP1 = srcMStride + 1;
             int srcMStrideM1 = srcMStride - 1;
 
@@ -376,8 +376,8 @@ namespace AForge.Imaging.Filters
             int dstOffset = dstStride - width * 3;
 
             // do the job
-            byte * src = (byte*) sourceData.ImageData.ToPointer( );
-            byte * dst = (byte*) destinationData.ImageData.ToPointer( );
+            byte* src = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
 
             // --- process the first line
 
@@ -385,20 +385,20 @@ namespace AForge.Imaging.Filters
             // . B G 
             // . G R
             dst[RGB.R] = src[srcStrideP1];
-            dst[RGB.G] = (byte) ( ( src[1] + src[srcStride] ) >> 1 );
+            dst[RGB.G] = (byte)((src[1] + src[srcStride]) >> 1);
             dst[RGB.B] = *src;
 
             src++;
             dst += 3;
 
-            for ( int x = 1; x < widthM1; x += 2 )
+            for (int x = 1; x < widthM1; x += 2)
             {
                 // . . .
                 // B G B 
                 // G R G
                 dst[RGB.R] = src[srcStride];
-                dst[RGB.G] = (byte) ( ( *src + src[srcStrideM1] + src[srcStrideP1] ) / 3 );
-                dst[RGB.B] = (byte) ( ( src[-1] + src[1] ) >> 1 );
+                dst[RGB.G] = (byte)((*src + src[srcStrideM1] + src[srcStrideP1]) / 3);
+                dst[RGB.B] = (byte)((src[-1] + src[1]) >> 1);
 
                 src++;
                 dst += 3;
@@ -406,8 +406,8 @@ namespace AForge.Imaging.Filters
                 // . . .
                 // G B G
                 // R G R
-                dst[RGB.R] = (byte) ( ( src[srcStrideM1] + src[srcStrideP1] ) >> 1 );
-                dst[RGB.G] = (byte) ( ( src[-1] + src[srcStride] + src[1] ) / 3 );
+                dst[RGB.R] = (byte)((src[srcStrideM1] + src[srcStrideP1]) >> 1);
+                dst[RGB.G] = (byte)((src[-1] + src[srcStride] + src[1]) / 3);
                 dst[RGB.B] = *src;
 
                 src++;
@@ -418,7 +418,7 @@ namespace AForge.Imaging.Filters
             // B G . 
             // G R . 
             dst[RGB.R] = src[srcStride];
-            dst[RGB.G] = (byte) ( ( *src + src[srcStrideM1] ) >> 1 );
+            dst[RGB.G] = (byte)((*src + src[srcStrideM1]) >> 1);
             dst[RGB.B] = src[-1];
 
 
@@ -427,14 +427,14 @@ namespace AForge.Imaging.Filters
             dst += dstOffset + 3;
 
             // --- process all lines except the first one and the last one
-            for ( int y = 1; y < heightM1; y += 2 )
+            for (int y = 1; y < heightM1; y += 2)
             {
                 // . B G 
                 // . G R
                 // . B G
                 dst[RGB.R] = src[1];
-                dst[RGB.G] = (byte) ( ( src[srcMStrideP1] + src[srcStrideP1] + *src ) / 3 );
-                dst[RGB.B] = (byte) ( ( src[srcMStride] + src[srcStride] ) >> 1 );
+                dst[RGB.G] = (byte)((src[srcMStrideP1] + src[srcStrideP1] + *src) / 3);
+                dst[RGB.B] = (byte)((src[srcMStride] + src[srcStride]) >> 1);
 
                 dst += dstStride;
                 src += srcStride;
@@ -443,8 +443,8 @@ namespace AForge.Imaging.Filters
                 // . G R
                 // . B G
                 // . G R
-                dst[RGB.R] = (byte) ( ( src[srcMStrideP1] + src[srcStrideP1] ) >> 1 );
-                dst[RGB.G] = (byte) ( ( src[1] + src[srcMStride] + src[srcStride] ) / 3 );
+                dst[RGB.R] = (byte)((src[srcMStrideP1] + src[srcStrideP1]) >> 1);
+                dst[RGB.G] = (byte)((src[1] + src[srcMStride] + src[srcStride]) / 3);
                 dst[RGB.B] = *src;
 
                 dst -= dstStride;
@@ -453,14 +453,14 @@ namespace AForge.Imaging.Filters
                 src++;
                 dst += 3;
 
-                for ( int x = 1; x < widthM1; x += 2 )
+                for (int x = 1; x < widthM1; x += 2)
                 {
                     // B G B
                     // G R G
                     // B G B
                     dst[RGB.R] = *src;
-                    dst[RGB.G] = (byte) ( ( src[srcMStride] + src[srcStride] + src[-1] + src[1] ) >> 2 );
-                    dst[RGB.B] = (byte) ( ( src[srcMStrideM1] + src[srcMStrideP1] + src[srcStrideM1] + src[srcStrideP1] ) >> 2 );
+                    dst[RGB.G] = (byte)((src[srcMStride] + src[srcStride] + src[-1] + src[1]) >> 2);
+                    dst[RGB.B] = (byte)((src[srcMStrideM1] + src[srcMStrideP1] + src[srcStrideM1] + src[srcStrideP1]) >> 2);
 
                     // ( y+1 pixel )
                     // G R G
@@ -469,9 +469,9 @@ namespace AForge.Imaging.Filters
                     dst += dstStride;
                     src += srcStride;
 
-                    dst[RGB.R] = (byte) ( ( src[srcMStride] + src[srcStride] ) >> 1 );
-                    dst[RGB.G] = (byte) ( ( *src + src[srcMStrideM1] + src[srcMStrideP1] + src[srcStrideM1] + src[srcStrideP1] ) / 5 );
-                    dst[RGB.B] = (byte) ( ( src[-1] + src[1] ) >> 1 );
+                    dst[RGB.R] = (byte)((src[srcMStride] + src[srcStride]) >> 1);
+                    dst[RGB.G] = (byte)((*src + src[srcMStrideM1] + src[srcMStrideP1] + src[srcStrideM1] + src[srcStrideP1]) / 5);
+                    dst[RGB.B] = (byte)((src[-1] + src[1]) >> 1);
 
                     // ( y+1 x+1 pixel )
                     // R G R
@@ -480,8 +480,8 @@ namespace AForge.Imaging.Filters
                     dst += 3;
                     src++;
 
-                    dst[RGB.R] = (byte) ( ( src[srcMStrideM1] + src[srcMStrideP1] + src[srcStrideM1] + src[srcStrideP1] ) >> 2 );
-                    dst[RGB.G] = (byte) ( ( src[srcMStride] + src[srcStride] + src[-1] + src[1] ) >> 2 );
+                    dst[RGB.R] = (byte)((src[srcMStrideM1] + src[srcMStrideP1] + src[srcStrideM1] + src[srcStrideP1]) >> 2);
+                    dst[RGB.G] = (byte)((src[srcMStride] + src[srcStride] + src[-1] + src[1]) >> 2);
                     dst[RGB.B] = *src;
 
                     // ( x+1 pixel )
@@ -491,9 +491,9 @@ namespace AForge.Imaging.Filters
                     dst -= dstStride;
                     src -= srcStride;
 
-                    dst[RGB.R] = (byte) ( ( src[-1] + src[1] ) >> 1 );
-                    dst[RGB.G] = (byte) ( ( src[srcMStrideM1] + src[srcMStrideP1] + src[srcStrideM1] + src[srcStrideP1] + *src ) / 5 );
-                    dst[RGB.B] = (byte) ( ( src[srcMStride] + src[srcStride] ) >> 1 );
+                    dst[RGB.R] = (byte)((src[-1] + src[1]) >> 1);
+                    dst[RGB.G] = (byte)((src[srcMStrideM1] + src[srcMStrideP1] + src[srcStrideM1] + src[srcStrideP1] + *src) / 5);
+                    dst[RGB.B] = (byte)((src[srcMStride] + src[srcStride]) >> 1);
 
                     dst += 3;
                     src++;
@@ -503,8 +503,8 @@ namespace AForge.Imaging.Filters
                 // G R .
                 // B G .
                 dst[RGB.R] = *src;
-                dst[RGB.G] = (byte) ( ( src[srcMStride] + src[srcStride] + src[-1] ) / 3 );
-                dst[RGB.B] = (byte) ( ( src[srcMStrideM1] + src[srcStrideM1] ) >> 1 );
+                dst[RGB.G] = (byte)((src[srcMStride] + src[srcStride] + src[-1]) / 3);
+                dst[RGB.B] = (byte)((src[srcMStrideM1] + src[srcStrideM1]) >> 1);
                 src += srcStride;
                 dst += dstStride;
 
@@ -512,8 +512,8 @@ namespace AForge.Imaging.Filters
                 // G R .
                 // B G .
                 // G R .
-                dst[RGB.R] = (byte) ( ( src[srcMStride] + src[srcStride] ) >> 1 );
-                dst[RGB.G] = (byte) ( ( src[srcMStrideM1] + src[srcStrideM1] + *src ) / 3 );
+                dst[RGB.R] = (byte)((src[srcMStride] + src[srcStride]) >> 1);
+                dst[RGB.G] = (byte)((src[srcMStrideM1] + src[srcStrideM1] + *src) / 3);
                 dst[RGB.B] = src[-1];
 
                 // align to the next line
@@ -527,20 +527,20 @@ namespace AForge.Imaging.Filters
             // . G R 
             // . . .
             dst[RGB.R] = src[1];
-            dst[RGB.G] = (byte) ( ( src[srcMStrideP1] + *src ) >> 1 );
+            dst[RGB.G] = (byte)((src[srcMStrideP1] + *src) >> 1);
             dst[RGB.B] = src[srcMStride];
 
             src++;
             dst += 3;
 
-            for ( int x = 1; x < widthM1; x += 2 )
+            for (int x = 1; x < widthM1; x += 2)
             {
                 // B G B 
                 // G R G 
                 // . . .
                 dst[RGB.R] = *src;
-                dst[RGB.G] = (byte) ( ( src[-1] + src[1] + src[srcMStride] ) / 3 );
-                dst[RGB.B] = (byte) ( ( src[srcMStrideM1] + src[srcMStrideP1] ) >> 1 );
+                dst[RGB.G] = (byte)((src[-1] + src[1] + src[srcMStride]) / 3);
+                dst[RGB.B] = (byte)((src[srcMStrideM1] + src[srcMStrideP1]) >> 1);
 
                 src++;
                 dst += 3;
@@ -548,8 +548,8 @@ namespace AForge.Imaging.Filters
                 // G B G
                 // R G R 
                 // . . .
-                dst[RGB.R] = (byte) ( ( src[-1] + src[1] ) >> 1 );
-                dst[RGB.G] = (byte) ( ( *src + src[srcMStrideM1] + src[srcMStrideP1] ) / 3 );
+                dst[RGB.R] = (byte)((src[-1] + src[1]) >> 1);
+                dst[RGB.G] = (byte)((*src + src[srcMStrideM1] + src[srcMStrideP1]) / 3);
                 dst[RGB.B] = src[srcMStride];
 
                 src++;
@@ -560,7 +560,7 @@ namespace AForge.Imaging.Filters
             // G R . 
             // . . .
             dst[RGB.R] = *src;
-            dst[RGB.G] = (byte) ( ( src[srcMStride] + src[-1] ) >> 1 );
+            dst[RGB.G] = (byte)((src[srcMStride] + src[-1]) >> 1);
             dst[RGB.B] = src[srcMStrideM1];
         }
         #endregion

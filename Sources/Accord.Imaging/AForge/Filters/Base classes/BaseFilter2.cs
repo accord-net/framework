@@ -58,7 +58,7 @@ namespace AForge.Imaging.Filters
             {
                 overlayImage = value;
 
-                if ( value != null )
+                if (value != null)
                     unmanagedOverlayImage = null;
             }
         }
@@ -87,7 +87,7 @@ namespace AForge.Imaging.Filters
             {
                 unmanagedOverlayImage = value;
 
-                if ( value != null )
+                if (value != null)
                     overlayImage = null;
             }
         }
@@ -96,7 +96,7 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="BaseFilter2"/> class.
         /// </summary>
         /// 
-        protected BaseFilter2( ) { }
+        protected BaseFilter2() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseFilter2"/> class.
@@ -104,7 +104,7 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="overlayImage">Overlay image.</param>
         /// 
-        protected BaseFilter2( Bitmap overlayImage )
+        protected BaseFilter2(Bitmap overlayImage)
         {
             this.overlayImage = overlayImage;
         }
@@ -115,7 +115,7 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="unmanagedOverlayImage">Unmanaged overlay image.</param>
         /// 
-        protected BaseFilter2( UnmanagedImage unmanagedOverlayImage )
+        protected BaseFilter2(UnmanagedImage unmanagedOverlayImage)
         {
             this.unmanagedOverlayImage = unmanagedOverlayImage;
         }
@@ -127,54 +127,54 @@ namespace AForge.Imaging.Filters
         /// <param name="sourceData">Source image data.</param>
         /// <param name="destinationData">Destination image data.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
             PixelFormat pixelFormat = sourceData.PixelFormat;
             // get image dimension
-            int width  = sourceData.Width;
+            int width = sourceData.Width;
             int height = sourceData.Height;
 
             // check overlay type
-            if ( overlayImage != null )
+            if (overlayImage != null)
             {
                 // source image and overlay must have same pixel format
-                if ( pixelFormat != overlayImage.PixelFormat )
-                    throw new InvalidImagePropertiesException( "Source and overlay images must have same pixel format." );
+                if (pixelFormat != overlayImage.PixelFormat)
+                    throw new InvalidImagePropertiesException("Source and overlay images must have same pixel format.");
 
                 // check overlay image size
-                if ( ( width != overlayImage.Width ) || ( height != overlayImage.Height ) )
-                    throw new InvalidImagePropertiesException( "Overlay image size must be equal to source image size." );
+                if ((width != overlayImage.Width) || (height != overlayImage.Height))
+                    throw new InvalidImagePropertiesException("Overlay image size must be equal to source image size.");
 
                 // lock overlay image
                 BitmapData ovrData = overlayImage.LockBits(
-                    new Rectangle( 0, 0, width, height ),
-                    ImageLockMode.ReadOnly, pixelFormat );
+                    new Rectangle(0, 0, width, height),
+                    ImageLockMode.ReadOnly, pixelFormat);
 
                 try
                 {
-                    ProcessFilter( sourceData, new UnmanagedImage( ovrData ), destinationData );
+                    ProcessFilter(sourceData, new UnmanagedImage(ovrData), destinationData);
                 }
                 finally
                 {
                     // unlock overlay image
-                    overlayImage.UnlockBits( ovrData );
+                    overlayImage.UnlockBits(ovrData);
                 }
             }
-            else if ( unmanagedOverlayImage != null )
+            else if (unmanagedOverlayImage != null)
             {
                 // source image and overlay must have same pixel format
-                if ( pixelFormat != unmanagedOverlayImage.PixelFormat )
-                    throw new InvalidImagePropertiesException( "Source and overlay images must have same pixel format." );
+                if (pixelFormat != unmanagedOverlayImage.PixelFormat)
+                    throw new InvalidImagePropertiesException("Source and overlay images must have same pixel format.");
 
                 // check overlay image size
-                if ( ( width != unmanagedOverlayImage.Width ) || ( height != unmanagedOverlayImage.Height ) )
-                    throw new InvalidImagePropertiesException( "Overlay image size must be equal to source image size." );
+                if ((width != unmanagedOverlayImage.Width) || (height != unmanagedOverlayImage.Height))
+                    throw new InvalidImagePropertiesException("Overlay image size must be equal to source image size.");
 
-                ProcessFilter( sourceData, unmanagedOverlayImage, destinationData );
+                ProcessFilter(sourceData, unmanagedOverlayImage, destinationData);
             }
             else
             {
-                throw new NullReferenceException( "Overlay image is not set." );
+                throw new NullReferenceException("Overlay image is not set.");
             }
         }
 
@@ -189,6 +189,6 @@ namespace AForge.Imaging.Filters
         /// <remarks><para>Overlay image size and pixel format is checked by this base class, before
         /// passing execution to inherited class.</para></remarks>
         ///
-        protected abstract unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage overlay, UnmanagedImage destinationData );
+        protected abstract unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage overlay, UnmanagedImage destinationData);
     }
 }

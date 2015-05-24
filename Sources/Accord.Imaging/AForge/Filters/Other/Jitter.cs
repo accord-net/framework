@@ -45,10 +45,10 @@ namespace AForge.Imaging.Filters
         private int radius = 2;
 
         // random number generator
-        private Random rand = new Random( );
+        private Random rand = new Random();
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -74,18 +74,18 @@ namespace AForge.Imaging.Filters
         public int Radius
         {
             get { return radius; }
-            set { radius = Math.Max( 1, Math.Min( 10, value ) ); }
+            set { radius = Math.Max(1, Math.Min(10, value)); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Jitter"/> class.
         /// </summary>
-        public Jitter( )
+        public Jitter()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]    = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
         /// <summary>
@@ -94,7 +94,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="radius">Jittering radius.</param>
         /// 
-        public Jitter( int radius ) : this( )
+        public Jitter(int radius)
+            : this()
         {
             Radius = radius;
         }
@@ -107,15 +108,15 @@ namespace AForge.Imaging.Filters
         /// <param name="destination">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize( source.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(source.PixelFormat) / 8;
 
             // processing start and stop X,Y positions
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
 
             int srcStride = source.Stride;
             int dstStride = destination.Stride;
@@ -127,49 +128,49 @@ namespace AForge.Imaging.Filters
             // maximum value for random number generator
             int max = radius * 2 + 1;
 
-            byte* src = (byte*) source.ImageData.ToPointer( );
-            byte* dst = (byte*) destination.ImageData.ToPointer( );
+            byte* src = (byte*)source.ImageData.ToPointer();
+            byte* dst = (byte*)destination.ImageData.ToPointer();
             byte* p;
 
             // copy source to destination before
-            if ( srcStride == dstStride )
+            if (srcStride == dstStride)
             {
-                AForge.SystemTools.CopyUnmanagedMemory( dst, src, srcStride * source.Height );
+                AForge.SystemTools.CopyUnmanagedMemory(dst, src, srcStride * source.Height);
             }
             else
             {
                 int len = source.Width * pixelSize;
 
-                for ( int y = 0, heigh = source.Height; y < heigh; y++ )
+                for (int y = 0, heigh = source.Height; y < heigh; y++)
                 {
                     AForge.SystemTools.CopyUnmanagedMemory(
-                        dst + dstStride * y, src + srcStride * y, len );
+                        dst + dstStride * y, src + srcStride * y, len);
                 }
             }
 
             // allign pointer to the first pixel to process
-            dst += ( startY * dstStride + startX * pixelSize );
+            dst += (startY * dstStride + startX * pixelSize);
 
             // Note:
             // It is possible to speed-up this filter creating separate
             // loops for RGB and grayscale images.
 
             // for each line
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++ )
+                for (int x = startX; x < stopX; x++)
                 {
                     // generate radnom pixel's position
-                    ox = x + rand.Next( max ) - radius;
-                    oy = y + rand.Next( max ) - radius;
+                    ox = x + rand.Next(max) - radius;
+                    oy = y + rand.Next(max) - radius;
 
                     // check if the random pixel is inside our image
-                    if ( ( ox >= startX ) && ( oy >= startY ) && ( ox < stopX ) && ( oy < stopY ) )
+                    if ((ox >= startX) && (oy >= startY) && (ox < stopX) && (oy < stopY))
                     {
                         p = src + oy * srcStride + ox * pixelSize;
 
-                        for ( int i = 0; i < pixelSize; i++, dst++, p++ )
+                        for (int i = 0; i < pixelSize; i++, dst++, p++)
                         {
                             *dst = *p;
                         }

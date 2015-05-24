@@ -46,7 +46,7 @@ namespace AForge.Imaging.Formats
         /// certain formats are not supported.</para>
         /// </remarks>
         /// 
-        Bitmap DecodeSingleFrame( Stream stream );
+        Bitmap DecodeSingleFrame(Stream stream);
 
         /// <summary>
         /// Open specified stream.
@@ -66,7 +66,7 @@ namespace AForge.Imaging.Formats
         /// certain formats are not supported.</para>
         /// </remarks>
         /// 
-        int Open( Stream stream );
+        int Open(Stream stream);
 
         /// <summary>
         /// Decode specified frame.
@@ -84,7 +84,7 @@ namespace AForge.Imaging.Formats
         /// exception to report about incorrectly formatted image.
         /// </remarks>
         /// 
-        Bitmap DecodeFrame( int frameIndex, out ImageInfo imageInfo );
+        Bitmap DecodeFrame(int frameIndex, out ImageInfo imageInfo);
 
         /// <summary>
         /// Close decoding of previously opened stream.
@@ -93,7 +93,7 @@ namespace AForge.Imaging.Formats
         /// <remarks><para>Implementations of this method don't close stream itself, but just close
         /// decoding cleaning all associated data with it.</para></remarks>
         /// 
-        void Close( );
+        void Close();
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ namespace AForge.Imaging.Formats
         /// <summary>
         /// Image's width.
         /// </summary>
-        [Category( "General" )]
+        [Category("General")]
         public int Width
         {
             get { return width; }
@@ -144,7 +144,7 @@ namespace AForge.Imaging.Formats
         /// <summary>
         /// Image's height.
         /// </summary>
-        [Category( "General" )]
+        [Category("General")]
         public int Height
         {
             get { return height; }
@@ -154,7 +154,7 @@ namespace AForge.Imaging.Formats
         /// <summary>
         /// Number of bits per image's pixel.
         /// </summary>
-        [Category( "General" )]
+        [Category("General")]
         public int BitsPerPixel
         {
             get { return bitsPerPixel; }
@@ -168,7 +168,7 @@ namespace AForge.Imaging.Formats
         /// <remarks><para>Some image formats support storing multiple frames in one image file.
         /// The property specifies index of a particular frame.</para></remarks>
         /// 
-        [Category( "General" )]
+        [Category("General")]
         public int FrameIndex
         {
             get { return frameIndex; }
@@ -182,7 +182,7 @@ namespace AForge.Imaging.Formats
         /// <remarks><para>Some image formats support storing multiple frames in one image file.
         /// The property specifies total number of frames in image file.</para></remarks>
         /// 
-        [Category( "General" )]
+        [Category("General")]
         public int TotalFrames
         {
             get { return totalFrames; }
@@ -193,7 +193,7 @@ namespace AForge.Imaging.Formats
         /// Initializes a new instance of the <see cref="ImageInfo"/> class.
         /// </summary>
         /// 
-        public ImageInfo( ) { }
+        public ImageInfo() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageInfo"/> class.
@@ -205,12 +205,12 @@ namespace AForge.Imaging.Formats
         /// <param name="frameIndex">Frame's index.</param>
         /// <param name="totalFrames">Total frames in the image.</param>
         /// 
-        public ImageInfo( int width, int height, int bitsPerPixel, int frameIndex, int totalFrames )
+        public ImageInfo(int width, int height, int bitsPerPixel, int frameIndex, int totalFrames)
         {
-            this.width  = width;
+            this.width = width;
             this.height = height;
             this.bitsPerPixel = bitsPerPixel;
-            this.frameIndex  = frameIndex;
+            this.frameIndex = frameIndex;
             this.totalFrames = totalFrames;
         }
 
@@ -220,9 +220,9 @@ namespace AForge.Imaging.Formats
         /// 
         /// <returns>A new object that is a copy of this instance.</returns>
         /// 
-        public virtual object Clone( )
+        public virtual object Clone()
         {
-            return new ImageInfo( width, height, bitsPerPixel, frameIndex, totalFrames );
+            return new ImageInfo(width, height, bitsPerPixel, frameIndex, totalFrames);
         }
     }
 }

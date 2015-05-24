@@ -65,7 +65,7 @@ namespace AForge.Imaging.Filters
         private double factor = 3.0;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -95,10 +95,10 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="AdaptiveSmoothing"/> class.
         /// </summary>
         /// 
-        public AdaptiveSmoothing( )
+        public AdaptiveSmoothing()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
         }
 
         /// <summary>
@@ -107,8 +107,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="factor">Factor value.</param>
         /// 
-        public AdaptiveSmoothing( double factor )
-            : this( )
+        public AdaptiveSmoothing(double factor)
+            : this()
         {
             this.factor = factor;
         }
@@ -121,21 +121,21 @@ namespace AForge.Imaging.Filters
         /// <param name="destination">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
         {
-            int pixelSize  = Image.GetPixelFormatSize( source.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(source.PixelFormat) / 8;
             int pixelSize2 = pixelSize * 2;
 
             // processing start and stop X,Y positions
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
 
-            int startXP2    = startX + 2;
-            int startYP2    = startY + 2;
-            int stopXM2     = stopX - 2;
-            int stopYM2     = stopY - 2;
+            int startXP2 = startX + 2;
+            int startYP2 = startY + 2;
+            int stopXM2 = stopX - 2;
+            int stopYM2 = stopY - 2;
 
             int srcStride = source.Stride;
             int dstStride = destination.Stride;
@@ -148,21 +148,21 @@ namespace AForge.Imaging.Filters
             double f = -8 * factor * factor;
 
             // do the job
-            byte* src = (byte*) source.ImageData.ToPointer( ) + srcStride * 2;
-            byte* dst = (byte*) destination.ImageData.ToPointer( ) + dstStride * 2;
+            byte* src = (byte*)source.ImageData.ToPointer() + srcStride * 2;
+            byte* dst = (byte*)destination.ImageData.ToPointer() + dstStride * 2;
 
             // allign pointers to the first pixel to process
-            src += ( startY * srcStride + startX * pixelSize );
-            dst += ( startY * dstStride + startX * pixelSize );
+            src += (startY * srcStride + startX * pixelSize);
+            dst += (startY * dstStride + startX * pixelSize);
 
-            for ( int y = startYP2; y < stopYM2; y++ )
+            for (int y = startYP2; y < stopYM2; y++)
             {
                 src += pixelSize2;
                 dst += pixelSize2;
 
-                for ( int x = startXP2; x < stopXM2; x++ )
+                for (int x = startXP2; x < stopXM2; x++)
                 {
-                    for ( int i = 0; i < pixelSize; i++, src++, dst++ )
+                    for (int i = 0; i < pixelSize; i++, src++, dst++)
                     {
                         weightTotal = 0;
                         total = 0;
@@ -177,68 +177,68 @@ namespace AForge.Imaging.Filters
                         // x - 1, y - 1
                         gx = src[-srcStride] - src[-pixelSize2 - srcStride];
                         gy = src[-pixelSize] - src[-pixelSize - 2 * srcStride];
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
                         total += weight * src[-pixelSize - srcStride];
                         weightTotal += weight;
 
                         // x, y - 1
                         gx = src[pixelSize - srcStride] - src[-pixelSize - srcStride];
                         gy = *src - src[-2 * srcStride];
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
                         total += weight * src[-srcStride];
                         weightTotal += weight;
 
                         // x + 1, y - 1
                         gx = src[pixelSize2 - srcStride] - src[-srcStride];
                         gy = src[pixelSize] - src[pixelSize - 2 * srcStride];
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
                         total += weight * src[pixelSize - srcStride];
                         weightTotal += weight;
 
                         // x - 1, y
                         gx = *src - src[-pixelSize2];
                         gy = src[-pixelSize + srcStride] - src[-pixelSize - srcStride];
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
                         total += weight * src[-pixelSize];
                         weightTotal += weight;
 
                         // x, y
                         gx = src[pixelSize] - src[-pixelSize];
                         gy = src[srcStride] - src[-srcStride];
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
-                        total += weight * ( *src );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
+                        total += weight * (*src);
                         weightTotal += weight;
 
                         // x + 1, y
                         gx = src[pixelSize2] - *src;
                         gy = src[pixelSize + srcStride] - src[pixelSize - srcStride];
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
                         total += weight * src[pixelSize];
                         weightTotal += weight;
 
                         // x - 1, y + 1
                         gx = src[srcStride] - src[-pixelSize2 + srcStride];
                         gy = src[-pixelSize + 2 * srcStride] - src[-pixelSize];
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
                         total += weight * src[-pixelSize + srcStride];
                         weightTotal += weight;
 
                         // x, y + 1
                         gx = src[pixelSize + srcStride] - src[-pixelSize + srcStride];
                         gy = src[2 * srcStride] - *src;
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
                         total += weight * src[srcStride];
                         weightTotal += weight;
 
                         // x + 1, y + 1
                         gx = src[pixelSize2 + srcStride] - src[srcStride];
                         gy = src[pixelSize + 2 * srcStride] - src[pixelSize];
-                        weight = System.Math.Exp( ( gx * gx + gy * gy ) / f );
+                        weight = System.Math.Exp((gx * gx + gy * gy) / f);
                         total += weight * src[pixelSize + srcStride];
                         weightTotal += weight;
 
                         // save destination value
-                        *dst = ( weightTotal == 0.0 ) ? *src : (byte) System.Math.Min( total / weightTotal, 255.0 );
+                        *dst = (weightTotal == 0.0) ? *src : (byte)System.Math.Min(total / weightTotal, 255.0);
                     }
                 }
                 src += srcOffset + pixelSize2;

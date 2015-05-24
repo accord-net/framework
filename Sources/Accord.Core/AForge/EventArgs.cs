@@ -33,12 +33,12 @@ namespace AForge
         /// 
         /// <param name="message">Message being transfered during communication process.</param>
         /// 
-        public CommunicationBufferEventArgs( byte[] message )
- 		{
- 			this.message = message;
+        public CommunicationBufferEventArgs(byte[] message)
+        {
+            this.message = message;
             this.index = 0;
             this.length = message.Length;
- 		}
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommunicationBufferEventArgs"/> class.
@@ -48,7 +48,7 @@ namespace AForge
         /// <param name="index">Starting index of the message within the buffer.</param>
         /// <param name="length">Length of the message within the buffer.</param>
         ///
-        public CommunicationBufferEventArgs( byte[] buffer, int index, int length )
+        public CommunicationBufferEventArgs(byte[] buffer, int index, int length)
         {
             this.message = buffer;
             this.index = index;
@@ -61,10 +61,10 @@ namespace AForge
         /// 
         /// <returns>Returns copy of the transfered message.</returns>
         /// 
-        public byte[] GetMessage( )
+        public byte[] GetMessage()
         {
             byte[] ret = new byte[length];
-            Array.Copy( message, index, ret, 0, length );
+            Array.Copy(message, index, ret, 0, length);
             return ret;
         }
 
@@ -74,9 +74,9 @@ namespace AForge
         /// 
         /// <returns>Returns string encoding the transferred message.</returns>
         ///
-        public string GetMessageString( )
+        public string GetMessageString()
         {
-            return BitConverter.ToString( message, index, length );
+            return BitConverter.ToString(message, index, length);
         }
     }
 }
