@@ -24,10 +24,7 @@ namespace Accord.Tests.Math
 {
     using Accord.Math;
     using NUnit.Framework;
-    using System.Collections.Generic;
-    using System;
     using System.Data;
-    using AForge;
 
     public partial class MatrixTest
     {
@@ -47,6 +44,26 @@ namespace Accord.Tests.Math
 
             Assert.AreEqual("A", actual.Columns[0].ColumnName);
             Assert.AreEqual("B", actual.Columns[1].ColumnName);
+
+            Assert.AreEqual(1, (double)actual.Rows[0][0]);
+            Assert.AreEqual(2, (double)actual.Rows[0][1]);
+            Assert.AreEqual(3, (double)actual.Rows[1][0]);
+            Assert.AreEqual(4, (double)actual.Rows[1][1]);
+            Assert.AreEqual(5, (double)actual.Rows[2][0]);
+            Assert.AreEqual(6, (double)actual.Rows[2][1]);
+        }
+
+        [Test]
+        public void ToTableTest2()
+        {
+            double[][] matrix = 
+            {
+                new double[] { 1, 2 },
+                new double[] { 3, 4 },
+                new double[] { 5, 6 },
+            };
+
+            DataTable actual = Matrix.ToTable(matrix);
 
             Assert.AreEqual(1, (double)actual.Rows[0][0]);
             Assert.AreEqual(2, (double)actual.Rows[0][1]);

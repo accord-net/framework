@@ -765,7 +765,7 @@ namespace Accord.Math
         /// 
         public static DataTable ToTable(this double[][] matrix)
         {
-            int cols = matrix.GetLength(1);
+            int cols = matrix[0].Length;
 
             String[] columnNames = new String[cols];
             for (int i = 0; i < columnNames.Length; i++)
