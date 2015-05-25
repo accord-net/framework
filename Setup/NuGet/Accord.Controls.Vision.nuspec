@@ -12,8 +12,7 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Windows Forms components and controls to track head, face and hand movements and
-      other computer vision related tasks. This package is part of the Accord.NET Framework.
+      Windows Forms components and controls to track head, face and hand movements and other computer vision related tasks. This package is part of the Accord.NET Framework.
     </description>
     <summary>Accord.NET Vision Controls Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework computer vision object detection tracking</tags>

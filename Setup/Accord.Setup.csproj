@@ -50,6 +50,10 @@
     <None Include="NuGet\NuGet.exe" />
     <None Include="Package.cmd" />
     <None Include="Publish.cmd" />
+    <None Include="Scripts\Accord.dll.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\Accord.Video.Kinect.dll.targets" />
     <None Include="version.cmd" />
   </ItemGroup>
   <ItemGroup />

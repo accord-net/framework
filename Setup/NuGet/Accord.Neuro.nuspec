@@ -12,8 +12,7 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains neural learning algorithms such as Levenberg-Marquardt, Parallel Resilient
-      Backpropagation, initialization procedures such as Nguyen-Widrow and other neural network related
+      Contains neural learning algorithms such as Levenberg-Marquardt, Parallel Resilient Backpropagation, initialization procedures such as Nguyen-Widrow and other neural network related
       methods. This package is part of the Accord.NET Framework.
     </description>
     <summary>Accord.NET Neuro Library from the Accord.NET Framework</summary>

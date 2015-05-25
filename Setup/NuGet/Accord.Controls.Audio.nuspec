@@ -12,8 +12,7 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Windows Forms controls to display waveforms and audio-related information.
-      This package is part of the Accord.NET Framework.
+      Windows Forms controls to display waveforms and audio-related information. This package is part of the Accord.NET Framework.
     </description>
     <summary>Accord.NET Audio Controls Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework winforms controls audio</tags>

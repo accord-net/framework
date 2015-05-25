@@ -4,7 +4,7 @@
   <metadata>
     <id>Accord.DirectSound</id>
     <version>$version$</version>
-    <title>Accord.DirectSound</title>
+    <title>Accord.Audio.DirectSound</title>
     <authors>Accord.NET</authors>
     <owners>Accord.NET</owners>
     <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>

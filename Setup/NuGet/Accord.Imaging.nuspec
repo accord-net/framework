@@ -12,11 +12,10 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains interest point detectors (SURF and FAST), image matching and image stitching
-      methods. This package is part of the Accord.NET Framework.
+      Contains interest point detectors (SURF and FAST), image matching and image stitching methods. This package is part of the Accord.NET Framework.
     </description>
     <summary>Accord.NET Framework Imaging library</summary>
-    <tags>accord.net aforge.net framework image processing computer vision blur gaussian integral</tags>
+    <tags>accord.net aforge.net framework image processing computer vision blur Gaussian integral</tags>
     <dependencies>
       <dependency id="Accord"                 version="$version$" />
       <dependency id="Accord.Math"            version="$version$" />

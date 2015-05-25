@@ -12,9 +12,7 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains interfaces and classes to access different video sources, such
-      as IP video cameras (MJPEG streams). This package originated from the AForge.NET
-      Framework and is part of the Accord.NET Framework.
+      Contains interfaces and classes to access different video sources, such as IP video cameras (MJPEG streams). This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
     <summary>Accord.NET Video Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework video MJPEG cameras</tags>

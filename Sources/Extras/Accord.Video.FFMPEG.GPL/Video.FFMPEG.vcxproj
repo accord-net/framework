@@ -137,6 +137,8 @@
     <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="Stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+	  <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET35|Win32'">Create</PrecompiledHeader>
+	  <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET40|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='NET45|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="VideoCodec.cpp" />
@@ -157,7 +159,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\accord.core\properties\VersionInfo.cs" />
+    <None Include="..\..\Accord.Core\Properties\VersionInfo.cs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

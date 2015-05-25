@@ -12,9 +12,7 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains classes and methods to handle video sources using FFMPEG. For this
-      reason, this package is available under the GPL license only. This package originated
-      from the AForge.NET Framework and is part of the Accord.NET Framework.
+      Contains classes and methods to handle video sources using FFMPEG. For this reason, this package is available under the GPL license only. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
     <summary>Accord.NET Video FFMPEG Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework ffmpeg video capture decode codec</tags>
@@ -32,5 +30,17 @@
 
     <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.dll" target="lib\net45\Accord.Video.FFMPEG.dll" />
     <file src="..\..\Release\net45\GPL\Accord.Video.FFMPEG.xml" target="lib\net45\Accord.Video.FFMPEG.xml" />
+
+    <file src="..\..\Externals\ffmpeg\bin\avcodec-53.dll"       target="build\x86\avcodec-53.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\avdevice-53.dll"      target="build\x86\avdevice-53.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\avformat-53.dll"      target="build\x86\avformat-53.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\avutil-51.dll"        target="build\x86\avutil-51.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\postproc-52.dll"      target="build\x86\postproc-52.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\swresample-0.dll"     target="build\x86\swresample-0.dll" />
+    <file src="..\..\Externals\ffmpeg\bin\swscale-2.dll"        target="build\x86\swscale-2.dll" />
+    <file src="..\..\Externals\ffmpeg\README.txt"               target="build\x86\FFMPEG-README.txt" />
+	
+    <file src="..\..\Setup\Scripts\Accord.Video.FFMPEG.targets" target="build\Accord.Video.FFMPEG.targets" />
+    
   </files>
 </package>

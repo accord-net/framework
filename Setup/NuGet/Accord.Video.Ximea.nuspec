@@ -12,9 +12,7 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains classes which allow capturing images from XIMEA cameras.
-      This package originated from the AForge.NET Framework and is part of
-      the Accord.NET Framework.
+      Contains classes which allow capturing images from XIMEA cameras. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
     <summary>Accord.NET Video XIMEA Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework video capture ximea cameras</tags>

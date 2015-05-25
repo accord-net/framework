@@ -12,9 +12,7 @@
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>
-      Contains an interface to control and capture images from Microsoft Kinect devices.
-      This package originated from the AForge.NET Framework and is part of the Accord.NET
-      Framework.
+      Contains an interface to control and capture images from Microsoft Kinect devices. This package originated from the AForge.NET Framework and is part of the Accord.NET Framework.
     </description>
     <summary>Accord.NET Video Kinect Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework video capture kinect cameras</tags>
@@ -24,13 +22,17 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net35\Accord.Video.Kinect.dll" target="lib\net35\Accord.Video.Kinect.dll" />
-    <file src="..\..\Release\net35\Accord.Video.Kinect.xml" target="lib\net35\Accord.Video.Kinect.xml" />
+    <file src="..\..\Release\net35\Accord.Video.Kinect.dll"     target="lib\net35\Accord.Video.Kinect.dll" />
+    <file src="..\..\Release\net35\Accord.Video.Kinect.xml"     target="lib\net35\Accord.Video.Kinect.xml" />
 
-    <file src="..\..\Release\net40\Accord.Video.Kinect.dll" target="lib\net40\Accord.Video.Kinect.dll" />
-    <file src="..\..\Release\net40\Accord.Video.Kinect.xml" target="lib\net40\Accord.Video.Kinect.xml" />
+    <file src="..\..\Release\net40\Accord.Video.Kinect.dll"     target="lib\net40\Accord.Video.Kinect.dll" />
+    <file src="..\..\Release\net40\Accord.Video.Kinect.xml"     target="lib\net40\Accord.Video.Kinect.xml" />
 
-    <file src="..\..\Release\net45\Accord.Video.Kinect.dll" target="lib\net45\Accord.Video.Kinect.dll" />
-    <file src="..\..\Release\net45\Accord.Video.Kinect.xml" target="lib\net45\Accord.Video.Kinect.xml" />
+    <file src="..\..\Release\net45\Accord.Video.Kinect.dll"     target="lib\net45\Accord.Video.Kinect.dll" />
+    <file src="..\..\Release\net45\Accord.Video.Kinect.xml"     target="lib\net45\Accord.Video.Kinect.xml" />
+
+    <file src="..\..\Externals\libfreenect\freenect.dll"        target="build\x86\freenect.dll" />
+    <file src="..\..\Externals\libfreenect\APACHE20"            target="build\x86\FREENECT-LICENSE.txt" />
+    <file src="..\..\Setup\Scripts\Accord.Video.Kinect.targets" target="build\Accord.Video.Kinect.targets" />
   </files>
 </package>
