@@ -27,7 +27,7 @@ namespace AForge.Imaging.Formats
         /// <summary>
         /// PNM file version (format), [1, 6].
         /// </summary>
-        [Category( "PNM Info" )]
+        [Category("PNM Info")]
         public int Version
         {
             get { return version; }
@@ -42,7 +42,7 @@ namespace AForge.Imaging.Formats
         /// from original data range to the range of
         /// <see cref="ImageInfo.BitsPerPixel">supported bits per pixel</see> format.</para></remarks>
         /// 
-        [Category( "PNM Info" )]
+        [Category("PNM Info")]
         public int MaxDataValue
         {
             get { return maxDataValue; }
@@ -53,7 +53,7 @@ namespace AForge.Imaging.Formats
         /// Initializes a new instance of the <see cref="PNMImageInfo"/> class.
         /// </summary>
         /// 
-        public PNMImageInfo( ) { }
+        public PNMImageInfo() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PNMImageInfo"/> class.
@@ -65,8 +65,8 @@ namespace AForge.Imaging.Formats
         /// <param name="frameIndex">Frame's index.</param>
         /// <param name="totalFrames">Total frames in the image.</param>
         /// 
-        public PNMImageInfo( int width, int height, int bitsPerPixel, int frameIndex, int totalFrames ) :
-            base( width, height, bitsPerPixel, frameIndex, totalFrames ) { }
+        public PNMImageInfo(int width, int height, int bitsPerPixel, int frameIndex, int totalFrames) :
+            base(width, height, bitsPerPixel, frameIndex, totalFrames) { }
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance. 
@@ -74,9 +74,9 @@ namespace AForge.Imaging.Formats
         /// 
         /// <returns>A new object that is a copy of this instance.</returns>
         /// 
-        public override object Clone( )
+        public override object Clone()
         {
-            PNMImageInfo clone = new PNMImageInfo( width, height, bitsPerPixel, frameIndex, totalFrames );
+            PNMImageInfo clone = new PNMImageInfo(width, height, bitsPerPixel, frameIndex, totalFrames);
 
             clone.version = version;
             clone.maxDataValue = maxDataValue;
@@ -127,11 +127,11 @@ namespace AForge.Imaging.Formats
         /// <exception cref="NotSupportedException">Format of the PNM image is not supported.</exception>
         /// <exception cref="ArgumentException">The stream contains invalid (broken) PNM image.</exception>
         /// 
-        public Bitmap DecodeSingleFrame( Stream stream )
+        public Bitmap DecodeSingleFrame(Stream stream)
         {
-            PNMImageInfo imageInfo = ReadHeader( stream );
+            PNMImageInfo imageInfo = ReadHeader(stream);
 
-            return ReadImageFrame( stream, imageInfo );
+            return ReadImageFrame(stream, imageInfo);
         }
 
         /// <summary>
@@ -146,14 +146,14 @@ namespace AForge.Imaging.Formats
         /// <exception cref="NotSupportedException">Format of the PNM image is not supported.</exception>
         /// <exception cref="ArgumentException">The stream contains invalid (broken) PNM image.</exception>
         ///
-        public int Open( Stream stream )
+        public int Open(Stream stream)
         {
             // close previous decoding
-            Close( );
+            Close();
 
-            this.imageInfo    = ReadHeader( stream );
-            this.stream       = stream;
-            this.dataPosition = stream.Seek( 0, SeekOrigin.Current );
+            this.imageInfo = ReadHeader(stream);
+            this.stream = stream;
+            this.dataPosition = stream.Seek(0, SeekOrigin.Current);
 
             return imageInfo.TotalFrames;
         }
@@ -171,22 +171,22 @@ namespace AForge.Imaging.Formats
         /// <exception cref="ArgumentOutOfRangeException">Stream does not contain frame with specified index.</exception>
         /// <exception cref="ArgumentException">The stream contains invalid (broken) PNM image.</exception>
         /// 
-        public Bitmap DecodeFrame( int frameIndex, out ImageInfo imageInfo )
+        public Bitmap DecodeFrame(int frameIndex, out ImageInfo imageInfo)
         {
             // check requested frame index
-            if ( frameIndex != 0 )
+            if (frameIndex != 0)
             {
-                throw new ArgumentOutOfRangeException( "Currently opened stream does not contain frame with specified index." );
+                throw new ArgumentOutOfRangeException("Currently opened stream does not contain frame with specified index.");
             }
 
             // seek to the required frame
-            stream.Seek( dataPosition, SeekOrigin.Begin );
+            stream.Seek(dataPosition, SeekOrigin.Begin);
 
             // read required frame
-            Bitmap image = ReadImageFrame( stream, this.imageInfo );
+            Bitmap image = ReadImageFrame(stream, this.imageInfo);
 
             // provide also frame information
-            imageInfo = (PNMImageInfo) this.imageInfo.Clone( );
+            imageInfo = (PNMImageInfo)this.imageInfo.Clone();
 
             return image;
         }
@@ -198,30 +198,30 @@ namespace AForge.Imaging.Formats
         /// <remarks><para>The method does not close stream itself, but just closes
         /// decoding cleaning all associated data with it.</para></remarks>
         /// 
-        public void Close( )
+        public void Close()
         {
-            stream    = null;
+            stream = null;
             imageInfo = null;
         }
 
         // Read and process PNM header. After the header is read stream pointer will
         // point to data.
-        private PNMImageInfo ReadHeader( Stream stream )
+        private PNMImageInfo ReadHeader(Stream stream)
         {
             // read magic word
-            byte magic1 = (byte) stream.ReadByte( );
-            byte magic2 = (byte) stream.ReadByte( );
+            byte magic1 = (byte)stream.ReadByte();
+            byte magic2 = (byte)stream.ReadByte();
 
             // check if it is valid PNM image
-            if ( ( magic1 != 'P' ) || ( magic2 < '1' ) || ( magic2 > '6' ) )
+            if ((magic1 != 'P') || (magic2 < '1') || (magic2 > '6'))
             {
-                throw new FormatException( "The stream does not contain PNM image." );
+                throw new FormatException("The stream does not contain PNM image.");
             }
 
             // check if it is P5 or P6 format
-            if ( ( magic2 != '5' ) && ( magic2 != '6' ) )
+            if ((magic2 != '5') && (magic2 != '6'))
             {
-                throw new NotSupportedException( "Format is not supported yet. Only P5 and P6 are supported for now." );
+                throw new NotSupportedException("Format is not supported yet. Only P5 and P6 are supported for now.");
             }
 
             int width = 0, height = 0, maxValue = 0;
@@ -229,70 +229,70 @@ namespace AForge.Imaging.Formats
             try
             {
                 // read image's width and height
-                width = ReadIntegerValue( stream );
-                height = ReadIntegerValue( stream );
+                width = ReadIntegerValue(stream);
+                height = ReadIntegerValue(stream);
                 // read pixel's highiest value
-                maxValue = ReadIntegerValue( stream );
+                maxValue = ReadIntegerValue(stream);
             }
             catch
             {
-                throw new ArgumentException( "The stream does not contain valid PNM image." );
+                throw new ArgumentException("The stream does not contain valid PNM image.");
             }
 
             // check if all attributes are valid
-            if ( ( width <= 0 ) || ( height <= 0 ) || ( maxValue <= 0 ) )
+            if ((width <= 0) || (height <= 0) || (maxValue <= 0))
             {
-                throw new ArgumentException( "The stream does not contain valid PNM image." );
+                throw new ArgumentException("The stream does not contain valid PNM image.");
             }
 
             // check maximum pixel's value
-            if ( maxValue > 255 )
+            if (maxValue > 255)
             {
-                throw new NotSupportedException( "255 is the maximum pixel's value, which is supported for now." );
+                throw new NotSupportedException("255 is the maximum pixel's value, which is supported for now.");
             }
 
             // prepare image information
-            PNMImageInfo imageInfo = new PNMImageInfo( width, height, ( magic2 == '5' ) ? 8 : 24, 0, 1 );
-            imageInfo.Version = (int) ( magic2 - '0' );
+            PNMImageInfo imageInfo = new PNMImageInfo(width, height, (magic2 == '5') ? 8 : 24, 0, 1);
+            imageInfo.Version = (int)(magic2 - '0');
             imageInfo.MaxDataValue = maxValue;
 
             return imageInfo;
         }
 
         // Read image frame from the specified stream (current stream's position is used)
-        private Bitmap ReadImageFrame( Stream stream, PNMImageInfo imageInfo )
+        private static Bitmap ReadImageFrame(Stream stream, PNMImageInfo imageInfo)
         {
             try
             {
                 // decode PNM image depending on its format
-                switch ( imageInfo.Version )
+                switch (imageInfo.Version)
                 {
                     case 5:
-                        return ReadP5Image( stream, imageInfo.Width, imageInfo.Height, imageInfo.MaxDataValue );
+                        return ReadP5Image(stream, imageInfo.Width, imageInfo.Height, imageInfo.MaxDataValue);
                     case 6:
-                        return ReadP6Image( stream, imageInfo.Width, imageInfo.Height, imageInfo.MaxDataValue );
+                        return ReadP6Image(stream, imageInfo.Width, imageInfo.Height, imageInfo.MaxDataValue);
                 }
             }
             catch
             {
-                throw new ArgumentException( "The stream does not contain valid PNM image." );
+                throw new ArgumentException("The stream does not contain valid PNM image.");
             }
 
             return null;
         }
 
         // Load P5 PGM image (grayscale PNM image with binary encoding)
-        private unsafe Bitmap ReadP5Image( Stream stream, int width, int height, int maxValue )
+        private static unsafe Bitmap ReadP5Image(Stream stream, int width, int height, int maxValue)
         {
-            double scalingFactor = (double) 255 / maxValue;
+            double scalingFactor = (double)255 / maxValue;
 
             // create new bitmap and lock it
-            Bitmap image = Tools.CreateGrayscaleImage( width, height );
-            BitmapData imageData = image.LockBits( new Rectangle( 0, 0, width, height ),
-                ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed );
+            Bitmap image = Tools.CreateGrayscaleImage(width, height);
+            BitmapData imageData = image.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
 
             int stride = imageData.Stride;
-            byte* ptr = (byte*) imageData.Scan0.ToPointer( );
+            byte* ptr = (byte*)imageData.Scan0.ToPointer();
 
             // prepare a buffer for one line
             byte[] line = new byte[width];
@@ -300,21 +300,21 @@ namespace AForge.Imaging.Formats
             int totalBytesRead = 0, bytesRead = 0;
 
             // load all rows
-            for ( int y = 0; y < height; y++ )
+            for (int y = 0; y < height; y++)
             {
                 totalBytesRead = 0;
                 bytesRead = 0;
 
                 // load next line
-                while ( totalBytesRead != width )
+                while (totalBytesRead != width)
                 {
-                    bytesRead = stream.Read( line, totalBytesRead, width - totalBytesRead );
+                    bytesRead = stream.Read(line, totalBytesRead, width - totalBytesRead);
 
-                    if ( bytesRead == 0 )
+                    if (bytesRead == 0)
                     {
                         // if we've reached the end before complete image is loaded, then there should
                         // be something wrong
-                        throw new Exception( );
+                        throw new InvalidOperationException("Execution should not reach here.");
                     }
 
                     totalBytesRead += bytesRead;
@@ -323,29 +323,29 @@ namespace AForge.Imaging.Formats
                 // fill next image row
                 byte* row = ptr + stride * y;
 
-                for ( int x = 0; x < width; x++, row++ )
+                for (int x = 0; x < width; x++, row++)
                 {
-                    *row = (byte) ( scalingFactor * line[x] );
+                    *row = (byte)(scalingFactor * line[x]);
                 }
             }
 
             // unlock image and return it
-            image.UnlockBits( imageData );
+            image.UnlockBits(imageData);
             return image;
         }
 
         // Load P6 PPM image (color PNM image with binary encoding)
-        private unsafe Bitmap ReadP6Image( Stream stream, int width, int height, int maxValue )
+        private static unsafe Bitmap ReadP6Image(Stream stream, int width, int height, int maxValue)
         {
-            double scalingFactor = (double) 255 / maxValue;
+            double scalingFactor = (double)255 / maxValue;
 
             // create new bitmap and lock it
-            Bitmap image = new Bitmap( width, height, PixelFormat.Format24bppRgb );
-            BitmapData imageData = image.LockBits( new Rectangle( 0, 0, width, height ),
-                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb );
+            Bitmap image = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+            BitmapData imageData = image.LockBits(new Rectangle(0, 0, width, height),
+                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
             int stride = imageData.Stride;
-            byte* ptr = (byte*) imageData.Scan0.ToPointer( );
+            byte* ptr = (byte*)imageData.Scan0.ToPointer();
 
             // prepare a buffer for one line
             int lineSize = width * 3;
@@ -354,21 +354,21 @@ namespace AForge.Imaging.Formats
             int totalBytesRead = 0, bytesRead = 0;
 
             // load all rows
-            for ( int y = 0; y < height; y++ )
+            for (int y = 0; y < height; y++)
             {
                 totalBytesRead = 0;
                 bytesRead = 0;
 
                 // load next line
-                while ( totalBytesRead != lineSize )
+                while (totalBytesRead != lineSize)
                 {
-                    bytesRead = stream.Read( line, totalBytesRead, lineSize - totalBytesRead );
+                    bytesRead = stream.Read(line, totalBytesRead, lineSize - totalBytesRead);
 
-                    if ( bytesRead == 0 )
+                    if (bytesRead == 0)
                     {
                         // if we've reached the end before complete image is loaded, then there should
                         // be something wrong
-                        throw new Exception( );
+                        throw new InvalidOperationException("Execution should not reach here.");
                     }
 
                     totalBytesRead += bytesRead;
@@ -377,54 +377,54 @@ namespace AForge.Imaging.Formats
                 // fill next image row
                 byte* row = ptr + stride * y;
 
-                for ( int x = 0, i = 0; x < width; x++, i += 3, row += 3 )
+                for (int x = 0, i = 0; x < width; x++, i += 3, row += 3)
                 {
-                    row[2] = (byte) ( scalingFactor * line[i] );       // red
-                    row[1] = (byte) ( scalingFactor * line[i + 1] );   // green
-                    row[0] = (byte) ( scalingFactor * line[i + 2] );   // blue
+                    row[2] = (byte)(scalingFactor * line[i]);       // red
+                    row[1] = (byte)(scalingFactor * line[i + 1]);   // green
+                    row[0] = (byte)(scalingFactor * line[i + 2]);   // blue
                 }
             }
 
             // unlock image and return it
-            image.UnlockBits( imageData );
+            image.UnlockBits(imageData);
             return image;
         }
 
         // Read integer ASCII value from the source stream.
-        private int ReadIntegerValue( Stream stream )
+        private int ReadIntegerValue(Stream stream)
         {
             byte[] buffer = new byte[256];
             int bytesRead = 1;
 
             // locate something, what is not spacing
-            buffer[0] = SkipSpaces( stream );
+            buffer[0] = SkipSpaces(stream);
             // complete reading useful value
-            bytesRead += ReadUntilSpace( stream, buffer, 1 );
+            bytesRead += ReadUntilSpace(stream, buffer, 1);
 
-            return int.Parse( Encoding.ASCII.GetString( buffer, 0, bytesRead ) );
+            return int.Parse(Encoding.ASCII.GetString(buffer, 0, bytesRead));
         }
 
         // Skip spaces (spaces, new lines, tabs and comment lines) in the specified stream
         // and return the first non-space byte. Stream's position will point to the next
         // byte coming after the first found non-space byte.
-        private byte SkipSpaces( Stream stream )
+        private byte SkipSpaces(Stream stream)
         {
-            byte nextByte = (byte) stream.ReadByte( );
+            byte nextByte = (byte)stream.ReadByte();
 
-            while ( ( nextByte == ' ' ) || ( nextByte == '\n' ) || ( nextByte == '\r' ) || ( nextByte == '\t' ) )
+            while ((nextByte == ' ') || (nextByte == '\n') || (nextByte == '\r') || (nextByte == '\t'))
             {
-                nextByte = (byte) stream.ReadByte( );
+                nextByte = (byte)stream.ReadByte();
             }
 
-            if ( nextByte == '#' )
+            if (nextByte == '#')
             {
                 // read until new line
-                while ( nextByte != '\n' )
+                while (nextByte != '\n')
                 {
-                    nextByte = (byte) stream.ReadByte( );
+                    nextByte = (byte)stream.ReadByte();
                 }
                 // skip pending spaces or another comment
-                return SkipSpaces( stream );
+                return SkipSpaces(stream);
             }
 
             return nextByte;
@@ -433,16 +433,16 @@ namespace AForge.Imaging.Formats
         // Read stream until space is found (space, new line, tab or comment). Returns
         // number of bytes read. Stream's position will point to the next
         // byte coming after the first found space byte.
-        private int ReadUntilSpace( Stream stream, byte[] buffer, int start )
+        private static int ReadUntilSpace(Stream stream, byte[] buffer, int start)
         {
-            byte nextByte = (byte) stream.ReadByte( );
+            byte nextByte = (byte)stream.ReadByte();
             int bytesRead = 0;
 
-            while ( ( nextByte != ' ' ) && ( nextByte != '\n' ) && ( nextByte != '\r' ) && ( nextByte != '\t' ) && ( nextByte != '#' ) )
+            while ((nextByte != ' ') && (nextByte != '\n') && (nextByte != '\r') && (nextByte != '\t') && (nextByte != '#'))
             {
                 buffer[start + bytesRead] = nextByte;
                 bytesRead++;
-                nextByte = (byte) stream.ReadByte( );
+                nextByte = (byte)stream.ReadByte();
             }
 
             return bytesRead;

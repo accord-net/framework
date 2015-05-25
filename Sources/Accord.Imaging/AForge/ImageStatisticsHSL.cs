@@ -120,27 +120,27 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">Source pixel format is not supported.</exception>
         /// 
-        public ImageStatisticsHSL( Bitmap image )
+        public ImageStatisticsHSL(Bitmap image)
         {
-            CheckSourceFormat( image.PixelFormat );
+            CheckSourceFormat(image.PixelFormat);
 
             // lock bitmap data
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, PixelFormat.Format24bppRgb);
 
             try
             {
                 // gather statistics
                 unsafe
                 {
-                    ProcessImage( new UnmanagedImage( imageData ), null, 0 );
+                    ProcessImage(new UnmanagedImage(imageData), null, 0);
                 }
             }
             finally
             {
                 // unlock image
-                image.UnlockBits( imageData );
+                image.UnlockBits(imageData);
             }
         }
 
@@ -160,32 +160,32 @@ namespace AForge.Imaging
         /// <exception cref="ArgumentException">Mask image must be 8 bpp grayscale image.</exception>
         /// <exception cref="ArgumentException">Mask must have the same size as the source image to get statistics for.</exception>
         /// 
-        public ImageStatisticsHSL( Bitmap image, Bitmap mask )
+        public ImageStatisticsHSL(Bitmap image, Bitmap mask)
         {
-            CheckSourceFormat( image.PixelFormat );
-            CheckMaskProperties( mask.PixelFormat, new Size( mask.Width, mask.Height ), new Size( image.Width, image.Height ) );
+            CheckSourceFormat(image.PixelFormat);
+            CheckMaskProperties(mask.PixelFormat, new Size(mask.Width, mask.Height), new Size(image.Width, image.Height));
 
             // lock bitmap and mask data
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
             BitmapData maskData = mask.LockBits(
-                new Rectangle( 0, 0, mask.Width, mask.Height ),
-                ImageLockMode.ReadOnly, mask.PixelFormat );
+                new Rectangle(0, 0, mask.Width, mask.Height),
+                ImageLockMode.ReadOnly, mask.PixelFormat);
 
             try
             {
                 // gather statistics
                 unsafe
                 {
-                    ProcessImage( new UnmanagedImage( imageData ), (byte*) maskData.Scan0.ToPointer( ), maskData.Stride );
+                    ProcessImage(new UnmanagedImage(imageData), (byte*)maskData.Scan0.ToPointer(), maskData.Stride);
                 }
             }
             finally
             {
                 // unlock images
-                image.UnlockBits( imageData );
-                mask.UnlockBits( maskData );
+                image.UnlockBits(imageData);
+                mask.UnlockBits(maskData);
             }
         }
 
@@ -204,32 +204,32 @@ namespace AForge.Imaging
         /// <exception cref="UnsupportedImageFormatException">Source pixel format is not supported.</exception>
         /// <exception cref="ArgumentException">Mask must have the same size as the source image to get statistics for.</exception>
         /// 
-        public ImageStatisticsHSL( Bitmap image, byte[,] mask )
+        public ImageStatisticsHSL(Bitmap image, byte[,] mask)
         {
-            CheckSourceFormat( image.PixelFormat );
-            CheckMaskProperties( PixelFormat.Format8bppIndexed,
-                new Size( mask.GetLength( 1 ), mask.GetLength( 0 ) ), new Size( image.Width, image.Height ) );
+            CheckSourceFormat(image.PixelFormat);
+            CheckMaskProperties(PixelFormat.Format8bppIndexed,
+                new Size(mask.GetLength(1), mask.GetLength(0)), new Size(image.Width, image.Height));
 
             // lock bitmap data
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
 
             try
             {
                 // gather statistics
                 unsafe
                 {
-                    fixed ( byte* maskPtr = mask )
+                    fixed (byte* maskPtr = mask)
                     {
-                        ProcessImage( new UnmanagedImage( imageData ), maskPtr, mask.GetLength( 1 ) );
+                        ProcessImage(new UnmanagedImage(imageData), maskPtr, mask.GetLength(1));
                     }
                 }
             }
             finally
             {
                 // unlock image
-                image.UnlockBits( imageData );
+                image.UnlockBits(imageData);
             }
         }
 
@@ -241,12 +241,12 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">Source pixel format is not supported.</exception>
         /// 
-        public ImageStatisticsHSL( UnmanagedImage image )
+        public ImageStatisticsHSL(UnmanagedImage image)
         {
-            CheckSourceFormat( image.PixelFormat );
+            CheckSourceFormat(image.PixelFormat);
             unsafe
             {
-                ProcessImage( image, null, 0 );
+                ProcessImage(image, null, 0);
             }
         }
 
@@ -266,14 +266,14 @@ namespace AForge.Imaging
         /// <exception cref="ArgumentException">Mask image must be 8 bpp grayscale image.</exception>
         /// <exception cref="ArgumentException">Mask must have the same size as the source image to get statistics for.</exception>
         /// 
-        public ImageStatisticsHSL( UnmanagedImage image, UnmanagedImage mask )
+        public ImageStatisticsHSL(UnmanagedImage image, UnmanagedImage mask)
         {
-            CheckSourceFormat( image.PixelFormat );
-            CheckMaskProperties( mask.PixelFormat, new Size( mask.Width, mask.Height ), new Size( image.Width, image.Height ) );
+            CheckSourceFormat(image.PixelFormat);
+            CheckMaskProperties(mask.PixelFormat, new Size(mask.Width, mask.Height), new Size(image.Width, image.Height));
 
             unsafe
             {
-                ProcessImage( image, (byte*) mask.ImageData.ToPointer( ), mask.Stride );
+                ProcessImage(image, (byte*)mask.ImageData.ToPointer(), mask.Stride);
             }
         }
 
@@ -292,67 +292,67 @@ namespace AForge.Imaging
         /// <exception cref="UnsupportedImageFormatException">Source pixel format is not supported.</exception>
         /// <exception cref="ArgumentException">Mask must have the same size as the source image to get statistics for.</exception>
         /// 
-        public ImageStatisticsHSL( UnmanagedImage image, byte[,] mask )
+        public ImageStatisticsHSL(UnmanagedImage image, byte[,] mask)
         {
-            CheckSourceFormat( image.PixelFormat );
-            CheckMaskProperties( PixelFormat.Format8bppIndexed,
-                new Size( mask.GetLength( 1 ), mask.GetLength( 0 ) ), new Size( image.Width, image.Height ) );
+            CheckSourceFormat(image.PixelFormat);
+            CheckMaskProperties(PixelFormat.Format8bppIndexed,
+                new Size(mask.GetLength(1), mask.GetLength(0)), new Size(image.Width, image.Height));
 
             unsafe
             {
-                fixed ( byte* maskPtr = mask )
+                fixed (byte* maskPtr = mask)
                 {
-                    ProcessImage( image, maskPtr, mask.GetLength( 1 ) );
+                    ProcessImage(image, maskPtr, mask.GetLength(1));
                 }
             }
         }
 
         // Gather statistics for the specified image
-        private unsafe void ProcessImage( UnmanagedImage image, byte* mask, int maskLineSize )
+        private unsafe void ProcessImage(UnmanagedImage image, byte* mask, int maskLineSize)
         {
             // get image dimension
-            int width  = image.Width;
+            int width = image.Width;
             int height = image.Height;
 
             pixels = pixelsWithoutBlack = 0;
 
-            int[] s   = new int[256];
-            int[] l   = new int[256];
+            int[] s = new int[256];
+            int[] l = new int[256];
             int[] swb = new int[256];
             int[] lwb = new int[256];
-            RGB   rgb = new RGB( );
-            HSL   hsl = new HSL( );
+            RGB rgb = new RGB();
+            HSL hsl = new HSL();
 
-            int pixelSize = ( image.PixelFormat == PixelFormat.Format24bppRgb ) ? 3 : 4;
+            int pixelSize = (image.PixelFormat == PixelFormat.Format24bppRgb) ? 3 : 4;
             int offset = image.Stride - width * pixelSize;
             int maskOffset = maskLineSize - width;
 
             // do the job
-            byte * p = (byte*) image.ImageData.ToPointer( );
+            byte* p = (byte*)image.ImageData.ToPointer();
 
-            if ( mask == null )
+            if (mask == null)
             {
                 // for each line
-                for ( int y = 0; y < height; y++ )
+                for (int y = 0; y < height; y++)
                 {
                     // for each pixel
-                    for ( int x = 0; x < width; x++, p += pixelSize )
+                    for (int x = 0; x < width; x++, p += pixelSize)
                     {
-                        rgb.Red   = p[RGB.R];
+                        rgb.Red = p[RGB.R];
                         rgb.Green = p[RGB.G];
-                        rgb.Blue  = p[RGB.B];
+                        rgb.Blue = p[RGB.B];
 
                         // convert to HSL color space
-                        AForge.Imaging.HSL.FromRGB( rgb, hsl );
+                        AForge.Imaging.HSL.FromRGB(rgb, hsl);
 
-                        s[(int) ( hsl.Saturation * 255 )]++;
-                        l[(int) ( hsl.Luminance  * 255 )]++;
+                        s[(int)(hsl.Saturation * 255)]++;
+                        l[(int)(hsl.Luminance * 255)]++;
                         pixels++;
 
-                        if ( hsl.Luminance != 0.0 )
+                        if (hsl.Luminance != 0.0)
                         {
-                            swb[(int) ( hsl.Saturation * 255 )]++;
-                            lwb[(int) ( hsl.Luminance  * 255 )]++;
+                            swb[(int)(hsl.Saturation * 255)]++;
+                            lwb[(int)(hsl.Luminance * 255)]++;
                             pixelsWithoutBlack++;
                         }
                     }
@@ -362,29 +362,29 @@ namespace AForge.Imaging
             else
             {
                 // for each line
-                for ( int y = 0; y < height; y++ )
+                for (int y = 0; y < height; y++)
                 {
                     // for each pixel
-                    for ( int x = 0; x < width; x++, p += pixelSize, mask++ )
+                    for (int x = 0; x < width; x++, p += pixelSize, mask++)
                     {
-                        if ( *mask == 0 )
+                        if (*mask == 0)
                             continue;
 
-                        rgb.Red   = p[RGB.R];
+                        rgb.Red = p[RGB.R];
                         rgb.Green = p[RGB.G];
-                        rgb.Blue  = p[RGB.B];
+                        rgb.Blue = p[RGB.B];
 
                         // convert to HSL color space
-                        AForge.Imaging.HSL.FromRGB( rgb, hsl );
+                        AForge.Imaging.HSL.FromRGB(rgb, hsl);
 
-                        s[(int) ( hsl.Saturation * 255 )]++;
-                        l[(int) ( hsl.Luminance  * 255 )]++;
+                        s[(int)(hsl.Saturation * 255)]++;
+                        l[(int)(hsl.Luminance * 255)]++;
                         pixels++;
 
-                        if ( hsl.Luminance != 0.0 )
+                        if (hsl.Luminance != 0.0)
                         {
-                            swb[(int) ( hsl.Saturation * 255 )]++;
-                            lwb[(int) ( hsl.Luminance  * 255 )]++;
+                            swb[(int)(hsl.Saturation * 255)]++;
+                            lwb[(int)(hsl.Luminance * 255)]++;
                             pixelsWithoutBlack++;
                         }
                     }
@@ -394,35 +394,34 @@ namespace AForge.Imaging
             }
 
             // create histograms
-            saturation = new ContinuousHistogram( s, new Range( 0, 1 ) );
-            luminance  = new ContinuousHistogram( l, new Range( 0, 1 ) );
+            saturation = new ContinuousHistogram(s, new Range(0, 1));
+            luminance = new ContinuousHistogram(l, new Range(0, 1));
 
-            saturationWithoutBlack = new ContinuousHistogram( swb, new Range( 0, 1 ) );
-            luminanceWithoutBlack  = new ContinuousHistogram( lwb, new Range( 0, 1 ) );
+            saturationWithoutBlack = new ContinuousHistogram(swb, new Range(0, 1));
+            luminanceWithoutBlack = new ContinuousHistogram(lwb, new Range(0, 1));
         }
 
         // Check pixel format of the source image
-        private void CheckSourceFormat( PixelFormat pixelFormat )
+        private static void CheckSourceFormat(PixelFormat pixelFormat)
         {
-            if (
-                ( pixelFormat != PixelFormat.Format24bppRgb ) &&
-                ( pixelFormat != PixelFormat.Format32bppRgb ) &&
-                ( pixelFormat != PixelFormat.Format32bppArgb ) )
+            if ((pixelFormat != PixelFormat.Format24bppRgb) &&
+                (pixelFormat != PixelFormat.Format32bppRgb) &&
+                (pixelFormat != PixelFormat.Format32bppArgb))
             {
-                throw new UnsupportedImageFormatException( "Source pixel format is not supported." );
+                throw new UnsupportedImageFormatException("Source pixel format is not supported.");
             }
         }
 
-        private void CheckMaskProperties( PixelFormat maskFormat, Size maskSize, Size sourceImageSize )
+        private static void CheckMaskProperties(PixelFormat maskFormat, Size maskSize, Size sourceImageSize)
         {
-            if ( maskFormat != PixelFormat.Format8bppIndexed )
+            if (maskFormat != PixelFormat.Format8bppIndexed)
             {
-                throw new ArgumentException( "Mask image must be 8 bpp grayscale image." );
+                throw new ArgumentException("Mask image must be 8 bpp grayscale image.");
             }
 
-            if ( ( maskSize.Width != sourceImageSize.Width ) || ( maskSize.Height != sourceImageSize.Height ) )
+            if ((maskSize.Width != sourceImageSize.Width) || (maskSize.Height != sourceImageSize.Height))
             {
-                throw new ArgumentException( "Mask must have the same size as the source image to get statistics for." );
+                throw new ArgumentException("Mask must have the same size as the source image to get statistics for.");
             }
         }
     }

@@ -12,7 +12,7 @@ namespace AForge.Imaging.ColorReduction
     using System.Collections.Generic;
     using System.Drawing;
     using AForge.Imaging;
-    
+
     /// <summary>
     /// Median cut color quantization algorithm.
     /// </summary>
@@ -40,7 +40,7 @@ namespace AForge.Imaging.ColorReduction
     /// 
     public class MedianCutQuantizer : IColorQuantizer
     {
-        private List<Color> colors = new List<Color>( );
+        private List<Color> colors = new List<Color>();
 
         /// <summary>
         /// Add color to the list of processed colors.
@@ -52,9 +52,9 @@ namespace AForge.Imaging.ColorReduction
         /// is used later by <see cref="GetPalette"/> method to build reduced color table of the specified size.</para>
         /// </remarks>
         /// 
-        public void AddColor( Color color )
+        public void AddColor(Color color)
         {
-            colors.Add( color );
+            colors.Add(color);
         }
 
         /// <summary>
@@ -68,18 +68,18 @@ namespace AForge.Imaging.ColorReduction
         /// <remarks><para>The method must be called after continuously calling <see cref="AddColor"/> method and
         /// returns reduced color palette for colors accumulated/processed so far.</para></remarks>
         /// 
-        public Color[] GetPalette( int colorCount )
+        public Color[] GetPalette(int colorCount)
         {
-            List<MedianCutCube> cubes = new List<MedianCutCube>( );
-            cubes.Add( new MedianCutCube( colors ) );
+            List<MedianCutCube> cubes = new List<MedianCutCube>();
+            cubes.Add(new MedianCutCube(colors));
 
             // split the cube until we get required amount of colors
-            SplitCubes( cubes, colorCount );
+            SplitCubes(cubes, colorCount);
 
             // get the final palette
             Color[] palette = new Color[colorCount];
 
-            for ( int i = 0; i < colorCount; i++ )
+            for (int i = 0; i < colorCount; i++)
             {
                 palette[i] = cubes[i].Color;
             }
@@ -92,42 +92,42 @@ namespace AForge.Imaging.ColorReduction
         /// so far processed.
         /// </summary>
         /// 
-        public void Clear( )
+        public void Clear()
         {
-            colors.Clear( );
+            colors.Clear();
         }
 
         // Split specified list of cubes into smaller cubes until the list gets the specified size
-        private void SplitCubes( List<MedianCutCube> cubes, int count )
+        private static void SplitCubes(List<MedianCutCube> cubes, int count)
         {
             int cubeIndexToSplit = cubes.Count - 1;
 
-            while ( cubes.Count < count )
+            while (cubes.Count < count)
             {
                 MedianCutCube cubeToSplit = cubes[cubeIndexToSplit];
                 MedianCutCube cube1, cube2;
 
                 // find the longest color size to use for splitting
-                if ( ( cubeToSplit.RedSize >= cubeToSplit.GreenSize ) && ( cubeToSplit.RedSize >= cubeToSplit.BlueSize ) )
+                if ((cubeToSplit.RedSize >= cubeToSplit.GreenSize) && (cubeToSplit.RedSize >= cubeToSplit.BlueSize))
                 {
-                    cubeToSplit.SplitAtMedian( RGB.R, out cube1, out cube2 );
+                    cubeToSplit.SplitAtMedian(RGB.R, out cube1, out cube2);
                 }
-                else if ( cubeToSplit.GreenSize >= cubeToSplit.BlueSize )
+                else if (cubeToSplit.GreenSize >= cubeToSplit.BlueSize)
                 {
-                    cubeToSplit.SplitAtMedian( RGB.G, out cube1, out cube2 );
+                    cubeToSplit.SplitAtMedian(RGB.G, out cube1, out cube2);
                 }
                 else
                 {
-                    cubeToSplit.SplitAtMedian( RGB.B, out cube1, out cube2 );
+                    cubeToSplit.SplitAtMedian(RGB.B, out cube1, out cube2);
                 }
 
                 // remove the old "big" cube
-                cubes.RemoveAt( cubeIndexToSplit );
+                cubes.RemoveAt(cubeIndexToSplit);
                 // add two smaller cubes instead
-                cubes.Insert( cubeIndexToSplit, cube1 );
-                cubes.Insert( cubeIndexToSplit, cube2 );
+                cubes.Insert(cubeIndexToSplit, cube1);
+                cubes.Insert(cubeIndexToSplit, cube2);
 
-                if ( --cubeIndexToSplit < 0 )
+                if (--cubeIndexToSplit < 0)
                 {
                     cubeIndexToSplit = cubes.Count - 1;
                 }

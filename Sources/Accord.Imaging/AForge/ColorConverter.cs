@@ -421,11 +421,11 @@ namespace AForge.Imaging
         /// </summary>
         /// 
         /// <param name="ycbcr">Source color in <b>YCbCr</b> color space.</param>
-        /// <param name="rgb">Destination color in <b>RGB</b> color spacs.</param>
+        /// <param name="rgb">Destination color in <b>RGB</b> color space.</param>
         /// 
         public static void ToRGB(YCbCr ycbcr, RGB rgb)
         {
-            // don't warry about zeros. compiler will remove them
+            // Don't worry about zeros. Compiler will remove them
             float r = Math.Max(0.0f, Math.Min(1.0f, (float)(ycbcr.Y + 0.0000 * ycbcr.Cb + 1.4022 * ycbcr.Cr)));
             float g = Math.Max(0.0f, Math.Min(1.0f, (float)(ycbcr.Y - 0.3456 * ycbcr.Cb - 0.7145 * ycbcr.Cr)));
             float b = Math.Max(0.0f, Math.Min(1.0f, (float)(ycbcr.Y + 1.7710 * ycbcr.Cb + 0.0000 * ycbcr.Cr)));

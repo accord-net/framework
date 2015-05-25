@@ -18,7 +18,8 @@ namespace AForge.Controls
 
         [DllImport("winmm.dll")]
         public static extern ResultCode joyGetDevCapsW(int uJoyID,
-            [In, Out, MarshalAs(UnmanagedType.LPStruct)] JOYCAPS pjc, int cbjc);
+            [In, Out, MarshalAs(UnmanagedType.LPStruct)] JOYCAPS pjc,
+            int cbjc);
 
         [DllImport("winmm.dll")]
         public static extern ResultCode joyGetPos(int uJoyID, JOYINFO pji);
@@ -30,7 +31,11 @@ namespace AForge.Controls
         public static extern ResultCode joyReleaseCapture(int uJoyID);
 
         [DllImport("winmm.dll")]
-        public static extern ResultCode joySetCapture(IntPtr hwnd, int uJoyID, int uPeriod, bool fChanged);
+        public static extern ResultCode joySetCapture(
+            IntPtr hwnd,
+            int uJoyID,
+            int uPeriod,
+            [MarshalAs(UnmanagedType.Bool)] bool fChanged);
 
         // Information about current state of joystick's axes and buttons
         [StructLayout(LayoutKind.Sequential)]

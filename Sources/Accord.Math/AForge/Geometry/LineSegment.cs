@@ -62,7 +62,7 @@ namespace AForge.Math.Geometry
         /// </summary>
         public float Length
         {
-            get { return start.DistanceTo( end ); }
+            get { return start.DistanceTo(end); }
         }
 
         /// <summary>
@@ -74,9 +74,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <exception cref="ArgumentException">Thrown if the two points are the same.</exception>
         /// 
-        public LineSegment( Point start, Point end )
+        public LineSegment(Point start, Point end)
         {
-            line = Line.FromPoints( start, end );
+            line = Line.FromPoints(start, end);
             this.start = start;
             this.end = end;
         }
@@ -90,7 +90,7 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Returns a <see cref="Line"/> that contains this <paramref name="segment"/>.</returns>
         /// 
-        public static explicit operator Line( LineSegment segment )
+        public static explicit operator Line(LineSegment segment)
         {
             return segment.line;
         }
@@ -105,20 +105,20 @@ namespace AForge.Math.Geometry
         /// <see cref="Line.DistanceToPoint"/>, this returns the distance from the finite segment. (0,0) is 5 units
         /// from the segment (0,5)-(0,8), but is 0 units from the line through those points.</returns>
         /// 
-        public float DistanceToPoint( Point point )
+        public float DistanceToPoint(Point point)
         {
             float segmentDistance;
 
-            switch ( LocateProjection( point ) )
+            switch (LocateProjection(point))
             {
                 case ProjectionLocation.RayA:
-                    segmentDistance = point.DistanceTo( start );
+                    segmentDistance = point.DistanceTo(start);
                     break;
                 case ProjectionLocation.RayB:
-                    segmentDistance = point.DistanceTo( end );
+                    segmentDistance = point.DistanceTo(end);
                     break;
                 default:
-                    segmentDistance = line.DistanceToPoint( point );
+                    segmentDistance = line.DistanceToPoint(point);
                     break;
             };
 
@@ -141,13 +141,13 @@ namespace AForge.Math.Geometry
         /// <exception cref="InvalidOperationException">Thrown if the segments overlap - if they have
         /// multiple points in common.</exception>
         /// 
-        public Point? GetIntersectionWith( LineSegment other )
+        public Point? GetIntersectionWith(LineSegment other)
         {
             Point? result = null;
 
-            if ( ( line.Slope == other.line.Slope ) || ( line.IsVertical && other.line.IsVertical ) )
+            if ((line.Slope == other.line.Slope) || (line.IsVertical && other.line.IsVertical))
             {
-                if ( line.Intercept == other.line.Intercept )
+                if (line.Intercept == other.line.Intercept)
                 {
                     // Collinear segments. Inspect and handle.
                     // Consider this segment AB and other as CD. (start/end in both cases)
@@ -157,21 +157,21 @@ namespace AForge.Math.Geometry
                     //      projects on the correct ray.
                     // Many shared points.
 
-                    ProjectionLocation projC = LocateProjection( other.start ), projD = LocateProjection( other.end );
+                    ProjectionLocation projC = LocateProjection(other.start), projD = LocateProjection(other.end);
 
-                    if ( ( projC != ProjectionLocation.SegmentAB ) && ( projC == projD ) )
+                    if ((projC != ProjectionLocation.SegmentAB) && (projC == projD))
                     {
                         // no shared points
                         result = null;
                     }
-                    else if ( ( ( start == other.start ) && ( projD == ProjectionLocation.RayA ) ) ||
-                              ( ( start == other.end ) && ( projC == ProjectionLocation.RayA ) ) )
+                    else if (((start == other.start) && (projD == ProjectionLocation.RayA)) ||
+                              ((start == other.end) && (projC == ProjectionLocation.RayA)))
                     {
                         // shared start point
                         result = start;
                     }
-                    else if ( ( ( end == other.start ) && ( projD == ProjectionLocation.RayB ) ) ||
-                              ( ( end == other.end ) && ( projC == ProjectionLocation.RayB ) ) )
+                    else if (((end == other.start) && (projD == ProjectionLocation.RayB)) ||
+                              ((end == other.end) && (projC == ProjectionLocation.RayB)))
                     {
                         // shared end point
                         result = end;
@@ -179,15 +179,15 @@ namespace AForge.Math.Geometry
                     else
                     {
                         // overlapping
-                        throw new InvalidOperationException( "Overlapping segments do not have a single intersection point." );
+                        throw new InvalidOperationException("Overlapping segments do not have a single intersection point.");
                     }
                 }
             }
             else
             {
-                result = GetIntersectionWith( other.line );
+                result = GetIntersectionWith(other.line);
 
-                if ( ( result.HasValue ) && ( other.LocateProjection( result.Value ) != ProjectionLocation.SegmentAB ) )
+                if ((result.HasValue) && (other.LocateProjection(result.Value) != ProjectionLocation.SegmentAB))
                 {
                     // the intersection is on the extended line of this segment
                     result = null;
@@ -213,23 +213,23 @@ namespace AForge.Math.Geometry
         /// <exception cref="InvalidOperationException">Thrown if this segment is a portion of
         /// <paramref name="other"/> line.</exception>
         /// 
-        public Point? GetIntersectionWith( Line other )
+        public Point? GetIntersectionWith(Line other)
         {
             Point? result;
 
-            if ( ( line.Slope == other.Slope ) || ( line.IsVertical && other.IsVertical ) )
+            if ((line.Slope == other.Slope) || (line.IsVertical && other.IsVertical))
             {
-                if ( line.Intercept == other.Intercept ) throw new InvalidOperationException( "Segment is a portion of the specified line." );
+                if (line.Intercept == other.Intercept) throw new InvalidOperationException("Segment is a portion of the specified line.");
 
                 // unlike Line.GetIntersectionWith(Line), this does not throw on parallel distinct lines
                 result = null;
             }
             else
             {
-                result = line.GetIntersectionWith( other );
+                result = line.GetIntersectionWith(other);
             }
 
-            if ( ( result.HasValue ) && ( LocateProjection( result.Value ) != ProjectionLocation.SegmentAB ) )
+            if ((result.HasValue) && (LocateProjection(result.Value) != ProjectionLocation.SegmentAB))
             {
                 // the intersection is on this segment's extended line, but not on the segment itself
                 result = null;
@@ -244,7 +244,7 @@ namespace AForge.Math.Geometry
         private enum ProjectionLocation { RayA, SegmentAB, RayB }
 
         // Get type of point's projections to this line segment
-        private ProjectionLocation LocateProjection( Point point )
+        private ProjectionLocation LocateProjection(Point point)
         {
             // Modified from http://www.codeguru.com/forum/showthread.php?t=194400
 
@@ -286,10 +286,10 @@ namespace AForge.Math.Geometry
             Point abDelta = end - start;
             Point acDelta = point - start;
 
-            float numerator   = acDelta.X * abDelta.X + acDelta.Y * abDelta.Y;
+            float numerator = acDelta.X * abDelta.X + acDelta.Y * abDelta.Y;
             float denomenator = abDelta.X * abDelta.X + abDelta.Y * abDelta.Y;
 
-            ProjectionLocation result = ( numerator < 0 ) ? ProjectionLocation.RayA : ( numerator > denomenator ) ? ProjectionLocation.RayB : ProjectionLocation.SegmentAB;
+            ProjectionLocation result = (numerator < 0) ? ProjectionLocation.RayA : (numerator > denomenator) ? ProjectionLocation.RayB : ProjectionLocation.SegmentAB;
 
             return result;
         }
@@ -304,19 +304,19 @@ namespace AForge.Math.Geometry
         /// <returns>Returns <see langword="true"/> if parameters of specified
         /// line segments are equal.</returns>
         ///
-        public static bool operator ==( LineSegment line1, LineSegment line2 )
+        public static bool operator ==(LineSegment line1, LineSegment line2)
         {
-            if ( System.Object.ReferenceEquals( line1, line2 ) )
+            if (System.Object.ReferenceEquals(line1, line2))
             {
                 return true;
             }
 
-            if ( ( (object) line1 == null ) || ( (object) line2 == null ) )
+            if (((object)line1 == null) || ((object)line2 == null))
             {
                 return false;
             }
 
-            return ( ( line1.start == line2.start ) && ( line1.end == line2.end ) );
+            return ((line1.start == line2.start) && (line1.end == line2.end));
         }
 
         /// <summary>
@@ -329,9 +329,9 @@ namespace AForge.Math.Geometry
         /// <returns>Returns <see langword="true"/> if parameters of specified
         /// line segments are not equal.</returns>
         ///
-        public static bool operator !=( LineSegment line1, LineSegment line2 )
+        public static bool operator !=(LineSegment line1, LineSegment line2)
         {
-            return !( line1 == line2 );
+            return !(line1 == line2);
         }
 
         /// <summary>
@@ -342,9 +342,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Return <see langword="true"/> if objects are equal.</returns>
         /// 
-        public override bool Equals( object obj )
+        public override bool Equals(object obj)
         {
-            return ( obj is LineSegment ) ? ( this == (LineSegment) obj ) : false;
+            return (obj is LineSegment) ? (this == (LineSegment)obj) : false;
         }
 
         /// <summary>
@@ -353,9 +353,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Returns the hash code for this instance.</returns>
         /// 
-        public override int GetHashCode( )
+        public override int GetHashCode()
         {
-            return start.GetHashCode( ) + end.GetHashCode( );
+            return start.GetHashCode() + end.GetHashCode();
         }
 
         /// <summary>
@@ -364,9 +364,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Returns string, which contains values of the like in readable form.</returns>
         ///
-        public override string ToString( )
+        public override string ToString()
         {
-            return string.Format( System.Globalization.CultureInfo.InvariantCulture, "({0}) -> ({1})", start, end );
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "({0}) -> ({1})", start, end);
         }
     }
 }

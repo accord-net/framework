@@ -57,7 +57,7 @@ namespace AForge.Imaging.Filters
         private UnmanagedImage unmanagedChannelImage;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -66,7 +66,7 @@ namespace AForge.Imaging.Filters
         {
             get { return formatTranslations; }
         }
-        
+
         /// <summary>
         /// YCbCr channel to replace.
         /// </summary>
@@ -81,12 +81,12 @@ namespace AForge.Imaging.Filters
             set
             {
                 if (
-                    ( value != YCbCr.YIndex ) &&
-                    ( value != YCbCr.CbIndex ) &&
-                    ( value != YCbCr.CrIndex )
+                    (value != YCbCr.YIndex) &&
+                    (value != YCbCr.CbIndex) &&
+                    (value != YCbCr.CrIndex)
                     )
                 {
-                    throw new ArgumentException( "Invalid YCbCr channel was specified." );
+                    throw new ArgumentException("Invalid YCbCr channel was specified.");
                 }
                 channel = value;
             }
@@ -108,11 +108,11 @@ namespace AForge.Imaging.Filters
             get { return channelImage; }
             set
             {
-                if ( value != null )
+                if (value != null)
                 {
                     // check for valid format
-                    if ( value.PixelFormat != PixelFormat.Format8bppIndexed )
-                        throw new InvalidImagePropertiesException( "Channel image should be 8bpp indexed image (grayscale)." );
+                    if (value.PixelFormat != PixelFormat.Format8bppIndexed)
+                        throw new InvalidImagePropertiesException("Channel image should be 8bpp indexed image (grayscale).");
                 }
 
                 channelImage = value;
@@ -136,11 +136,11 @@ namespace AForge.Imaging.Filters
             get { return unmanagedChannelImage; }
             set
             {
-                if ( value != null )
+                if (value != null)
                 {
                     // check for valid format
-                    if ( value.PixelFormat != PixelFormat.Format8bppIndexed )
-                        throw new InvalidImagePropertiesException( "Channel image should be 8bpp indexed image (grayscale)." );
+                    if (value.PixelFormat != PixelFormat.Format8bppIndexed)
+                        throw new InvalidImagePropertiesException("Channel image should be 8bpp indexed image (grayscale).");
                 }
 
                 channelImage = null;
@@ -149,11 +149,11 @@ namespace AForge.Imaging.Filters
         }
 
         // private constructor
-        private YCbCrReplaceChannel( )
+        private YCbCrReplaceChannel()
         {
             // initialize format translation dictionary
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
@@ -163,7 +163,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="channel">YCbCr channel to replace.</param>
         /// 
-        public YCbCrReplaceChannel( short channel ) : this( )
+        public YCbCrReplaceChannel(short channel)
+            : this()
         {
             this.Channel = channel;
         }
@@ -175,7 +176,8 @@ namespace AForge.Imaging.Filters
         /// <param name="channel">YCbCr channel to replace.</param>
         /// <param name="channelImage">Channel image to use for replacement.</param>
         /// 
-        public YCbCrReplaceChannel( short channel, Bitmap channelImage ) : this( )
+        public YCbCrReplaceChannel(short channel, Bitmap channelImage)
+            : this()
         {
             this.Channel = channel;
             this.ChannelImage = channelImage;
@@ -188,7 +190,8 @@ namespace AForge.Imaging.Filters
         /// <param name="channel">YCbCr channel to replace.</param>
         /// <param name="channelImage">Unmanaged channel image to use for replacement.</param>
         /// 
-        public YCbCrReplaceChannel( short channel, UnmanagedImage channelImage ) : this( )
+        public YCbCrReplaceChannel(short channel, UnmanagedImage channelImage)
+            : this()
         {
             this.Channel = channel;
             this.UnmanagedChannelImage = channelImage;
@@ -205,22 +208,20 @@ namespace AForge.Imaging.Filters
         /// <exception cref="InvalidImagePropertiesException">Channel image size does not match source
         /// image size.</exception>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            if ( ( channelImage == null ) && ( unmanagedChannelImage == null ) )
-            {
-                throw new NullReferenceException( "Channel image was not specified." );
-            }
+            if ((channelImage == null) && (unmanagedChannelImage == null))
+                throw new InvalidOperationException("Channel image was not specified.");
 
-            int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
-            int width   = image.Width;
-            int height  = image.Height;
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int width = image.Width;
+            int height = image.Height;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
             BitmapData chData = null;
             // pointer to channel's data
@@ -229,84 +230,84 @@ namespace AForge.Imaging.Filters
             int chStride = 0;
 
             // check channel's image type
-            if ( channelImage != null )
+            if (channelImage != null)
             {
                 // check channel's image dimension
-                if ( ( width != channelImage.Width ) || ( height != channelImage.Height ) )
-                    throw new InvalidImagePropertiesException( "Channel image size does not match source image size." );
+                if ((width != channelImage.Width) || (height != channelImage.Height))
+                    throw new InvalidImagePropertiesException("Channel image size does not match source image size.");
 
                 // lock channel image
                 chData = channelImage.LockBits(
-                    new Rectangle( 0, 0, width, height ),
-                    ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed );
+                    new Rectangle(0, 0, width, height),
+                    ImageLockMode.ReadOnly, PixelFormat.Format8bppIndexed);
 
-                ch = (byte*) chData.Scan0.ToPointer( );
+                ch = (byte*)chData.Scan0.ToPointer();
                 chStride = chData.Stride;
             }
             else
             {
                 // check channel's image dimension
-                if ( ( width != unmanagedChannelImage.Width ) || ( height != unmanagedChannelImage.Height ) )
-                    throw new InvalidImagePropertiesException( "Channel image size does not match source image size." );
+                if ((width != unmanagedChannelImage.Width) || (height != unmanagedChannelImage.Height))
+                    throw new InvalidImagePropertiesException("Channel image size does not match source image size.");
 
-                ch = (byte*) unmanagedChannelImage.ImageData;
+                ch = (byte*)unmanagedChannelImage.ImageData;
                 chStride = unmanagedChannelImage.Stride;
             }
 
-            int     offsetCh = chStride - rect.Width;
-            RGB     rgb = new RGB( );
-            YCbCr   ycbcr = new YCbCr( );
+            int offsetCh = chStride - rect.Width;
+            RGB rgb = new RGB();
+            YCbCr ycbcr = new YCbCr();
 
             // do the job
-            byte* dst = (byte*) image.ImageData.ToPointer( );
+            byte* dst = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            dst += ( startY * image.Stride + startX * pixelSize );
-            ch += ( startY * chStride + startX );
+            dst += (startY * image.Stride + startX * pixelSize);
+            ch += (startY * chStride + startX);
 
             // for each line
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, dst += pixelSize, ch++ )
+                for (int x = startX; x < stopX; x++, dst += pixelSize, ch++)
                 {
-                    rgb.Red     = dst[RGB.R];
-                    rgb.Green   = dst[RGB.G];
-                    rgb.Blue    = dst[RGB.B];
+                    rgb.Red = dst[RGB.R];
+                    rgb.Green = dst[RGB.G];
+                    rgb.Blue = dst[RGB.B];
 
                     // convert to YCbCr
-                    AForge.Imaging.YCbCr.FromRGB( rgb, ycbcr );
+                    AForge.Imaging.YCbCr.FromRGB(rgb, ycbcr);
 
-                    switch ( channel )
+                    switch (channel)
                     {
                         case YCbCr.YIndex:
-                            ycbcr.Y = (float) *ch / 255;
+                            ycbcr.Y = (float)*ch / 255;
                             break;
 
                         case YCbCr.CbIndex:
-                            ycbcr.Cb = (float) *ch / 255 - 0.5f;
+                            ycbcr.Cb = (float)*ch / 255 - 0.5f;
                             break;
 
                         case YCbCr.CrIndex:
-                            ycbcr.Cr = (float) *ch / 255 - 0.5f;
+                            ycbcr.Cr = (float)*ch / 255 - 0.5f;
                             break;
                     }
 
                     // convert back to RGB
-                    AForge.Imaging.YCbCr.ToRGB( ycbcr, rgb );
+                    AForge.Imaging.YCbCr.ToRGB(ycbcr, rgb);
 
                     dst[RGB.R] = rgb.Red;
                     dst[RGB.G] = rgb.Green;
                     dst[RGB.B] = rgb.Blue;
                 }
                 dst += offset;
-                ch  += offsetCh;
+                ch += offsetCh;
             }
 
-            if ( chData != null )
+            if (chData != null)
             {
                 // unlock
-                channelImage.UnlockBits( chData );
+                channelImage.UnlockBits(chData);
             }
         }
     }

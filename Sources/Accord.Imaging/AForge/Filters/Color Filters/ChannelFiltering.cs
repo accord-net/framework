@@ -287,7 +287,7 @@ namespace AForge.Imaging.Filters
         /// <param name="fillOutsideRange">Fill outside or inside the range.</param>
         /// <param name="map">Filtering map.</param>
         /// 
-        private void CalculateMap(IntRange range, byte fill, bool fillOutsideRange, byte[] map)
+        private static void CalculateMap(IntRange range, byte fill, bool fillOutsideRange, byte[] map)
         {
             for (int i = 0; i < 256; i++)
             {

@@ -48,7 +48,7 @@ namespace AForge.Imaging.Filters
         private int size = 3;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -70,18 +70,18 @@ namespace AForge.Imaging.Filters
         public int Size
         {
             get { return size; }
-            set { size = Math.Max( 3, Math.Min( 25, value | 1 ) ); }
+            set { size = Math.Max(3, Math.Min(25, value | 1)); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Median"/> class.
         /// </summary>
-        public Median( )
+        public Median()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]    = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
         /// <summary>
@@ -90,7 +90,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="size">Processing square size.</param>
         /// 
-        public Median( int size ) : this( )
+        public Median(int size)
+            : this()
         {
             Size = size;
         }
@@ -99,22 +100,22 @@ namespace AForge.Imaging.Filters
         /// Process the filter on the specified image.
         /// </summary>
         /// 
-        /// <param name="source">Source image data.</param>
-        /// <param name="destination">Destination image data.</param>
+        /// <param name="sourceData">Source image data.</param>
+        /// <param name="destinationData">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize( source.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(sourceData.PixelFormat) / 8;
 
             // processing start and stop X,Y positions
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
 
-            int srcStride = source.Stride;
-            int dstStride = destination.Stride;
+            int srcStride = sourceData.Stride;
+            int dstStride = destinationData.Stride;
             int srcOffset = srcStride - rect.Width * pixelSize;
             int dstOffset = dstStride - rect.Width * pixelSize;
 
@@ -130,56 +131,56 @@ namespace AForge.Imaging.Filters
             byte[] g = new byte[size * size];
             byte[] b = new byte[size * size];
 
-            byte* src = (byte*) source.ImageData.ToPointer( );
-            byte* dst = (byte*) destination.ImageData.ToPointer( );
+            byte* src = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
             byte* p;
 
             // allign pointers to the first pixel to process
-            src += ( startY * srcStride + startX * pixelSize );
-            dst += ( startY * dstStride + startX * pixelSize );
+            src += (startY * srcStride + startX * pixelSize);
+            dst += (startY * dstStride + startX * pixelSize);
 
             // do the processing job
-            if ( destination.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (destinationData.PixelFormat == PixelFormat.Format8bppIndexed)
             {
                 // grayscale image
 
                 // for each line
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++, src++, dst++ )
+                    for (int x = startX; x < stopX; x++, src++, dst++)
                     {
                         c = 0;
 
                         // for each kernel row
-                        for ( i = -radius; i <= radius; i++ )
+                        for (i = -radius; i <= radius; i++)
                         {
                             t = y + i;
 
                             // skip row
-                            if ( t < startY )
+                            if (t < startY)
                                 continue;
                             // break
-                            if ( t >= stopY )
+                            if (t >= stopY)
                                 break;
 
                             // for each kernel column
-                            for ( j = -radius; j <= radius; j++ )
+                            for (j = -radius; j <= radius; j++)
                             {
                                 t = x + j;
 
                                 // skip column
-                                if ( t < startX )
+                                if (t < startX)
                                     continue;
 
-                                if ( t < stopX )
+                                if (t < stopX)
                                 {
                                     g[c++] = src[i * srcStride + j];
                                 }
                             }
                         }
                         // sort elements
-                        Array.Sort( g, 0, c );
+                        Array.Sort(g, 0, c);
                         // get the median
                         *dst = g[c >> 1];
                     }
@@ -192,35 +193,35 @@ namespace AForge.Imaging.Filters
                 // RGB image
 
                 // for each line
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize )
+                    for (int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize)
                     {
                         c = 0;
 
                         // for each kernel row
-                        for ( i = -radius; i <= radius; i++ )
+                        for (i = -radius; i <= radius; i++)
                         {
                             t = y + i;
 
                             // skip row
-                            if ( t < startY )
+                            if (t < startY)
                                 continue;
                             // break
-                            if ( t >= stopY )
+                            if (t >= stopY)
                                 break;
 
                             // for each kernel column
-                            for ( j = -radius; j <= radius; j++ )
+                            for (j = -radius; j <= radius; j++)
                             {
                                 t = x + j;
 
                                 // skip column
-                                if ( t < startX )
+                                if (t < startX)
                                     continue;
 
-                                if ( t < stopX )
+                                if (t < stopX)
                                 {
                                     p = &src[i * srcStride + j * pixelSize];
 
@@ -233,9 +234,9 @@ namespace AForge.Imaging.Filters
                         }
 
                         // sort elements
-                        Array.Sort( r, 0, c );
-                        Array.Sort( g, 0, c );
-                        Array.Sort( b, 0, c );
+                        Array.Sort(r, 0, c);
+                        Array.Sort(g, 0, c);
+                        Array.Sort(b, 0, c);
                         // get the median
                         t = c >> 1;
                         dst[RGB.R] = r[t];

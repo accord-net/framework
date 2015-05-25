@@ -279,7 +279,7 @@ namespace AForge.Imaging.Filters
         protected override System.Drawing.Size CalculateNewImageSize(UnmanagedImage sourceData)
         {
             if (sourceQuadrilateral == null)
-                throw new NullReferenceException("Source quadrilateral was not set.");
+                throw new InvalidOperationException("Source quadrilateral was not set.");
 
             return new Size(newWidth, newHeight);
         }
@@ -288,7 +288,7 @@ namespace AForge.Imaging.Filters
         private void CalculateDestinationSize()
         {
             if (sourceQuadrilateral == null)
-                throw new NullReferenceException("Source quadrilateral was not set.");
+                throw new InvalidOperationException("Source quadrilateral was not set.");
 
             newWidth = (int)Math.Max(sourceQuadrilateral[0].DistanceTo(sourceQuadrilateral[1]),
                                         sourceQuadrilateral[2].DistanceTo(sourceQuadrilateral[3]));

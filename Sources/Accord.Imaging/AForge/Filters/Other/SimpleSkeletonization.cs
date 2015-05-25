@@ -44,7 +44,7 @@ namespace AForge.Imaging.Filters
         private byte fg = 255;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -89,7 +89,7 @@ namespace AForge.Imaging.Filters
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleSkeletonization"/> class.
         /// </summary>
-        public SimpleSkeletonization( )
+        public SimpleSkeletonization()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
         }
@@ -101,7 +101,8 @@ namespace AForge.Imaging.Filters
         /// <param name="bg">Background pixel color.</param>
         /// <param name="fg">Foreground pixel color.</param>
         /// 
-        public SimpleSkeletonization( byte bg, byte fg ) : this( )
+        public SimpleSkeletonization(byte bg, byte fg)
+            : this()
         {
             this.bg = bg;
             this.fg = fg;
@@ -111,64 +112,64 @@ namespace AForge.Imaging.Filters
         /// Process the filter on the specified image.
         /// </summary>
         /// 
-        /// <param name="source">Source image data.</param>
-        /// <param name="destination">Destination image data.</param>
+        /// <param name="sourceData">Source image data.</param>
+        /// <param name="destinationData">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect)
         {
             // processing start and stop X,Y positions
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
 
-            int srcStride = source.Stride;
-            int dstStride = destination.Stride;
+            int srcStride = sourceData.Stride;
+            int dstStride = destinationData.Stride;
             int srcOffset = srcStride - rect.Width;
 
             int start;
 
             // do the job
-            byte* src0 = (byte*) source.ImageData.ToPointer( );
-            byte* dst0 = (byte*) destination.ImageData.ToPointer( );
+            byte* src0 = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst0 = (byte*)destinationData.ImageData.ToPointer();
             byte* src = src0;
             byte* dst = dst0;
 
             // horizontal pass
 
             // allign pointers to the first pixel to process
-            src += ( startY * srcStride + startX );
-            dst += ( startY * dstStride );
+            src += (startY * srcStride + startX);
+            dst += (startY * dstStride);
 
             // for each line
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // make destination image filled with background color
-                AForge.SystemTools.SetUnmanagedMemory( dst + startX, bg, stopX - startX );
-                
+                AForge.SystemTools.SetUnmanagedMemory(dst + startX, bg, stopX - startX);
+
                 start = -1;
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, src++ )
+                for (int x = startX; x < stopX; x++, src++)
                 {
                     // looking for foreground pixel
-                    if ( start == -1 )
+                    if (start == -1)
                     {
-                        if ( *src == fg )
+                        if (*src == fg)
                             start = x;
                         continue;
                     }
 
                     // looking for non foreground pixel
-                    if ( *src != fg )
+                    if (*src != fg)
                     {
-                        dst[start + ( ( x - start ) >> 1 )] = (byte) fg;
+                        dst[start + ((x - start) >> 1)] = (byte)fg;
                         start = -1;
                     }
                 }
-                if ( start != -1 )
+                if (start != -1)
                 {
-                    dst[start + ( ( stopX - start ) >> 1 )] = (byte) fg;
+                    dst[start + ((stopX - start) >> 1)] = (byte)fg;
                 }
                 src += srcOffset;
                 dst += dstStride;
@@ -177,36 +178,36 @@ namespace AForge.Imaging.Filters
             // vertical pass
 
             // allign pointer to the first line to process
-            src0 += ( startY * srcStride );
+            src0 += (startY * srcStride);
 
             // for each column
-            for ( int x = startX; x < stopX; x++ )
+            for (int x = startX; x < stopX; x++)
             {
                 src = src0 + x;
                 dst = dst0 + x;
 
                 start = -1;
                 // for each row
-                for ( int y = startY; y < stopY; y++, src += srcStride )
+                for (int y = startY; y < stopY; y++, src += srcStride)
                 {
                     // looking for foreground pixel
-                    if ( start == -1 )
+                    if (start == -1)
                     {
-                        if ( *src == fg )
+                        if (*src == fg)
                             start = y;
                         continue;
                     }
 
                     // looking for non foreground pixel
-                    if ( *src != fg )
+                    if (*src != fg)
                     {
-                        dst[dstStride * ( start + ( ( y - start ) >> 1 ) )] = (byte) fg;
+                        dst[dstStride * (start + ((y - start) >> 1))] = (byte)fg;
                         start = -1;
                     }
                 }
-                if ( start != -1 )
+                if (start != -1)
                 {
-                    dst[dstStride * ( start + ( ( stopY - start ) >> 1 ) )] = (byte) fg;
+                    dst[dstStride * (start + ((stopY - start) >> 1))] = (byte)fg;
                 }
             }
         }

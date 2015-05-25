@@ -66,7 +66,7 @@ namespace AForge.Imaging.Filters
         private bool scaleIntensity = true;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -97,7 +97,7 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="SobelEdgeDetector"/> class.
         /// </summary>
         /// 
-        public SobelEdgeDetector( )
+        public SobelEdgeDetector()
         {
             // initialize format translation dictionary
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
@@ -107,27 +107,27 @@ namespace AForge.Imaging.Filters
         /// Process the filter on the specified image.
         /// </summary>
         /// 
-        /// <param name="source">Source image data.</param>
-        /// <param name="destination">Destination image data.</param>
+        /// <param name="sourceData">Source image data.</param>
+        /// <param name="destinationData">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect)
         {
             // processing start and stop X,Y positions
-            int startX  = rect.Left + 1;
-            int startY  = rect.Top + 1;
-            int stopX   = startX + rect.Width - 2;
-            int stopY   = startY + rect.Height - 2;
+            int startX = rect.Left + 1;
+            int startY = rect.Top + 1;
+            int stopX = startX + rect.Width - 2;
+            int stopY = startY + rect.Height - 2;
 
-            int dstStride = destination.Stride;
-            int srcStride = source.Stride;
+            int dstStride = destinationData.Stride;
+            int srcStride = sourceData.Stride;
 
             int dstOffset = dstStride - rect.Width + 2;
             int srcOffset = srcStride - rect.Width + 2;
 
             // data pointers
-            byte* src = (byte*) source.ImageData.ToPointer( );
-            byte* dst = (byte*) destination.ImageData.ToPointer( );
+            byte* src = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
 
             // allign pointers
             src += srcStride * startY + startX;
@@ -137,52 +137,52 @@ namespace AForge.Imaging.Filters
             double g, max = 0;
 
             // for each line
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, src++, dst++ )
+                for (int x = startX; x < stopX; x++, src++, dst++)
                 {
-                    g = Math.Min( 255,
-                        Math.Abs( src[-srcStride - 1] + src[-srcStride + 1]
-                                - src[ srcStride - 1] - src[ srcStride + 1]
-                                + 2 * ( src[-srcStride] - src[srcStride] ) )
-                      + Math.Abs( src[-srcStride + 1] + src[srcStride + 1]
+                    g = Math.Min(255,
+                        Math.Abs(src[-srcStride - 1] + src[-srcStride + 1]
+                                - src[srcStride - 1] - src[srcStride + 1]
+                                + 2 * (src[-srcStride] - src[srcStride]))
+                      + Math.Abs(src[-srcStride + 1] + src[srcStride + 1]
                                 - src[-srcStride - 1] - src[srcStride - 1]
-                                + 2 * ( src[1] - src[-1] ) ) );
+                                + 2 * (src[1] - src[-1])));
 
-                    if ( g > max )
+                    if (g > max)
                         max = g;
-                    *dst = (byte) g;
+                    *dst = (byte)g;
                 }
                 src += srcOffset;
                 dst += dstOffset;
             }
 
-            
+
             // do we need scaling
-            if ( ( scaleIntensity ) && ( max != 255 ) )
+            if ((scaleIntensity) && (max != 255))
             {
                 // make the second pass for intensity scaling
-                double factor = 255.0 / (double) max;
-                dst = (byte*) destination.ImageData.ToPointer( );
+                double factor = 255.0 / (double)max;
+                dst = (byte*)destinationData.ImageData.ToPointer();
                 dst += dstStride * startY + startX;
 
                 // for each line
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++, dst++ )
+                    for (int x = startX; x < stopX; x++, dst++)
                     {
-                        *dst = (byte) ( factor * ( *dst ) );
+                        *dst = (byte)(factor * (*dst));
                     }
                     dst += dstOffset;
                 }
             }
-            
+
             // draw black rectangle to remove those pixels, which were not processed
             // (this needs to be done for those cases, when filter is applied "in place" -
             // source image is modified instead of creating new copy)
-            Drawing.Rectangle( destination, rect, Color.Black );
+            Drawing.Rectangle(destinationData, rect, Color.Black);
         }
     }
 }

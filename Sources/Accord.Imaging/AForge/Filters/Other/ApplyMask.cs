@@ -240,11 +240,11 @@ namespace AForge.Imaging.Filters
             }
             else
             {
-                throw new NullReferenceException("None of the possible mask properties were set. Need to provide mask before applying the filter.");
+                throw new InvalidOperationException("None of the possible mask properties were set. Need to provide mask before applying the filter.");
             }
         }
 
-        private unsafe void ProcessImage(UnmanagedImage image, Rectangle rect, byte* mask, int maskLineSize)
+        private static unsafe void ProcessImage(UnmanagedImage image, Rectangle rect, byte* mask, int maskLineSize)
         {
             int pixelSize = Bitmap.GetPixelFormatSize(image.PixelFormat) / 8;
 

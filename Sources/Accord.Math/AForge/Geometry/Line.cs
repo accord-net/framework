@@ -56,7 +56,7 @@ namespace AForge.Math.Geometry
         ///
         public bool IsVertical
         {
-            get { return float.IsInfinity( k ); }
+            get { return float.IsInfinity(k); }
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace AForge.Math.Geometry
         /// </summary>
         public bool IsHorizontal
         {
-            get { return ( k == 0 ); }
+            get { return (k == 0); }
         }
 
         /// <summary>
@@ -90,9 +90,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <exception cref="ArgumentException">Thrown if the two points are the same.</exception>
         /// 
-        public static Line FromPoints( Point point1, Point point2 )
+        public static Line FromPoints(Point point1, Point point2)
         {
-            return new Line( point1, point2 );
+            return new Line(point1, point2);
         }
 
         /// <summary>
@@ -111,9 +111,9 @@ namespace AForge.Math.Geometry
         /// <see cref="Slope"/> returning <see cref="float.PositiveInfinity"/> or 
         /// <see cref="float.NegativeInfinity"/>.</para></remarks>
         /// 
-        public static Line FromSlopeIntercept( float slope, float intercept )
+        public static Line FromSlopeIntercept(float slope, float intercept)
         {
-            return new Line( slope, intercept );
+            return new Line(slope, intercept);
         }
 
         /// <summary>
@@ -135,9 +135,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <exception cref="ArgumentOutOfRangeException">Thrown if radius is negative.</exception>
         /// 
-        public static Line FromRTheta( float radius, float theta )
+        public static Line FromRTheta(float radius, float theta)
         {
-            return new Line( radius, theta, false );
+            return new Line(radius, theta, false);
         }
 
         /// <summary>
@@ -156,61 +156,59 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Returns a <see cref="Line"/> representing the specified line.</returns>
         /// 
-        public static Line FromPointTheta( Point point, float theta )
+        public static Line FromPointTheta(Point point, float theta)
         {
-            return new Line( point, theta );
+            return new Line(point, theta);
         }
 
         #region Private Constructors
-        private Line( Point start, Point end )
+        private Line(Point start, Point end)
         {
-            if ( start == end )
+            if (start == end)
             {
-                throw new ArgumentException( "Start point of the line cannot be the same as its end point." );
+                throw new ArgumentException("Start point of the line cannot be the same as its end point.");
             }
 
-            k = ( end.Y - start.Y ) / ( end.X - start.X );
-            b = float.IsInfinity( k ) ? start.X : start.Y - k * start.X;
+            k = (end.Y - start.Y) / (end.X - start.X);
+            b = float.IsInfinity(k) ? start.X : start.Y - k * start.X;
         }
 
-        private Line( float slope, float intercept )
+        private Line(float slope, float intercept)
         {
             k = slope;
             b = intercept;
         }
 
-        private Line( float radius, float theta, bool unused )
+        private Line(float radius, float theta, bool unused)
         {
-            if ( radius < 0 )
-            {
-                throw new ArgumentOutOfRangeException( "radius", radius, "Must be non-negative" );
-            }
+            if (radius < 0)
+                throw new ArgumentOutOfRangeException("radius", radius, "Must be non-negative");
 
-            theta *= (float) ( Math.PI / 180 );
+            theta *= (float)(Math.PI / 180);
 
-            float sine = (float) Math.Sin( theta ), cosine = (float) Math.Cos( theta );
-            Point pt1 = new Point( radius * cosine, radius * sine );
+            float sine = (float)Math.Sin(theta), cosine = (float)Math.Cos(theta);
+            Point pt1 = new Point(radius * cosine, radius * sine);
 
             // -1/tan, to get the slope of the line, and not the slope of the normal
             k = -cosine / sine;
 
-            if ( !float.IsInfinity( k ) )
+            if (!float.IsInfinity(k))
             {
                 b = pt1.Y - k * pt1.X;
             }
             else
             {
-                b = Math.Abs( radius );
+                b = Math.Abs(radius);
             }
         }
 
-        private Line( Point point, float theta )
+        private Line(Point point, float theta)
         {
-            theta *= (float) ( Math.PI / 180 );
+            theta *= (float)(Math.PI / 180);
 
-            k = (float) ( -1.0f / Math.Tan( theta ) );
+            k = (float)(-1.0f / Math.Tan(theta));
 
-            if ( !float.IsInfinity( k ) )
+            if (!float.IsInfinity(k))
             {
                 b = point.Y - k * point.X;
             }
@@ -229,7 +227,7 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Returns minimum angle between lines.</returns>
         /// 
-        public float GetAngleBetweenLines( Line secondLine )
+        public float GetAngleBetweenLines(Line secondLine)
         {
             float k2 = secondLine.k;
 
@@ -237,34 +235,34 @@ namespace AForge.Math.Geometry
             bool isVertical2 = secondLine.IsVertical;
 
             // check if lines are parallel
-            if ( ( k == k2 ) || ( isVertical1 && isVertical2 ) )
+            if ((k == k2) || (isVertical1 && isVertical2))
                 return 0;
 
             float angle = 0;
 
-            if ( ( !isVertical1 ) && ( !isVertical2 ) )
+            if ((!isVertical1) && (!isVertical2))
             {
-                float tanPhi = ( ( k2 > k ) ? ( k2 - k ) : ( k - k2 ) ) / ( 1 + k * k2 );
-                angle = (float) Math.Atan( tanPhi );
+                float tanPhi = ((k2 > k) ? (k2 - k) : (k - k2)) / (1 + k * k2);
+                angle = (float)Math.Atan(tanPhi);
             }
             else
             {
                 // one of the lines is parallel to Y axis
 
-                if ( isVertical1 )
+                if (isVertical1)
                 {
-                    angle = (float) ( Math.PI / 2 - Math.Atan( k2 ) * Math.Sign( k2 ) );
+                    angle = (float)(Math.PI / 2 - Math.Atan(k2) * Math.Sign(k2));
                 }
                 else
                 {
-                    angle = (float) ( Math.PI / 2 - Math.Atan( k ) * Math.Sign( k ) );
+                    angle = (float)(Math.PI / 2 - Math.Atan(k) * Math.Sign(k));
                 }
             }
 
             // convert radians to degrees
-            angle *= (float) ( 180.0 / Math.PI );
+            angle *= (float)(180.0 / Math.PI);
 
-            if ( angle < 0 )
+            if (angle < 0)
             {
                 angle = -angle;
             }
@@ -283,7 +281,7 @@ namespace AForge.Math.Geometry
         /// 
         /// <exception cref="InvalidOperationException">Thrown if the specified line is the same line as this line.</exception>
         /// 
-        public Point? GetIntersectionWith( Line secondLine )
+        public Point? GetIntersectionWith(Line secondLine)
         {
             float k2 = secondLine.k;
             float b2 = secondLine.b;
@@ -293,28 +291,28 @@ namespace AForge.Math.Geometry
 
             Point? intersection = null;
 
-            if ( ( k == k2 ) || ( isVertical1 && isVertical2 ) )
+            if ((k == k2) || (isVertical1 && isVertical2))
             {
-                if ( b == b2 )
+                if (b == b2)
                 {
-                    throw new InvalidOperationException( "Identical lines do not have an intersection point." );
+                    throw new InvalidOperationException("Identical lines do not have an intersection point.");
                 }
             }
             else
             {
-                if ( isVertical1 )
+                if (isVertical1)
                 {
-                    intersection = new Point( b, k2 * b + b2 );
+                    intersection = new Point(b, k2 * b + b2);
                 }
-                else if ( isVertical2 )
+                else if (isVertical2)
                 {
-                    intersection = new Point( b2, k * b2 + b );
+                    intersection = new Point(b2, k * b2 + b);
                 }
                 else
                 {
                     // the intersection is at x=(b2-b1)/(k1-k2), and y=k1*x+b1
-                    float x = ( b2 - b ) / ( k - k2 );
-                    intersection = new Point( x, k * x + b );
+                    float x = (b2 - b) / (k - k2);
+                    intersection = new Point(x, k * x + b);
                 }
             }
 
@@ -337,9 +335,9 @@ namespace AForge.Math.Geometry
         /// <exception cref="InvalidOperationException">Thrown if <paramref name="other"/> is a portion
         /// of this line.</exception>
         /// 
-        public Point? GetIntersectionWith( LineSegment other )
+        public Point? GetIntersectionWith(LineSegment other)
         {
-            return other.GetIntersectionWith( this );
+            return other.GetIntersectionWith(this);
         }
 
         /// <summary>
@@ -352,18 +350,18 @@ namespace AForge.Math.Geometry
         /// <see cref="LineSegment.DistanceToPoint"/>, this returns the distance from the infinite line. (0,0) is 0 units
         /// from the line defined by (0,5) and (0,8), but is 5 units from the segment with those endpoints.</returns>
         /// 
-        public float DistanceToPoint( Point point )
+        public float DistanceToPoint(Point point)
         {
             float distance;
 
-            if ( !IsVertical )
+            if (!IsVertical)
             {
-                float div = (float) Math.Sqrt( k * k + 1 );
-                distance = Math.Abs( ( k * point.X + b - point.Y ) / div );
+                float div = (float)Math.Sqrt(k * k + 1);
+                distance = Math.Abs((k * point.X + b - point.Y) / div);
             }
             else
             {
-                distance = Math.Abs( b - point.X );
+                distance = Math.Abs(b - point.X);
             }
 
             return distance;
@@ -379,19 +377,19 @@ namespace AForge.Math.Geometry
         /// <returns>Returns <see langword="true"/> if parameters of specified
         /// lines are equal.</returns>
         ///
-        public static bool operator ==( Line line1, Line line2 )
+        public static bool operator ==(Line line1, Line line2)
         {
-            if ( System.Object.ReferenceEquals( line1, line2 ) )
+            if (System.Object.ReferenceEquals(line1, line2))
             {
                 return true;
             }
 
-            if ( ( (object) line1 == null ) || ( (object) line2 == null ) )
+            if (((object)line1 == null) || ((object)line2 == null))
             {
                 return false;
             }
 
-            return ( ( line1.k == line2.k ) && ( line1.b == line2.b ) );
+            return ((line1.k == line2.k) && (line1.b == line2.b));
         }
 
         /// <summary>
@@ -404,9 +402,9 @@ namespace AForge.Math.Geometry
         /// <returns>Returns <see langword="true"/> if parameters of specified
         /// lines are not equal.</returns>
         ///
-        public static bool operator !=( Line line1, Line line2 )
+        public static bool operator !=(Line line1, Line line2)
         {
-            return !( line1 == line2 );
+            return !(line1 == line2);
         }
 
         /// <summary>
@@ -417,9 +415,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Return <see langword="true"/> if objects are equal.</returns>
         /// 
-        public override bool Equals( object obj )
+        public override bool Equals(object obj)
         {
-            return ( obj is Line ) ? ( this == (Line) obj ) : false;
+            return (obj is Line) ? (this == (Line)obj) : false;
         }
 
         /// <summary>
@@ -428,9 +426,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Returns the hash code for this instance.</returns>
         /// 
-        public override int GetHashCode( )
+        public override int GetHashCode()
         {
-            return k.GetHashCode( ) + b.GetHashCode( );
+            return k.GetHashCode() + b.GetHashCode();
         }
 
         /// <summary>
@@ -439,9 +437,9 @@ namespace AForge.Math.Geometry
         /// 
         /// <returns>Returns string, which contains values of the like in readable form.</returns>
         ///
-        public override string ToString( )
+        public override string ToString()
         {
-            return string.Format( System.Globalization.CultureInfo.InvariantCulture, "k = {0}, b = {1}", k, b );
+            return string.Format(System.Globalization.CultureInfo.InvariantCulture, "k = {0}, b = {1}", k, b);
         }
     }
 }

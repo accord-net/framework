@@ -78,7 +78,7 @@ namespace AForge.Imaging.Filters
             set
             {
                 coefficients = value;
-                CalculateCoefficientsSum( );
+                CalculateCoefficientsSum();
             }
         }
 
@@ -88,43 +88,43 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="coefficients">Diffusion coefficients.</param>
         /// 
-        public ErrorDiffusionToAdjacentNeighbors( int[][] coefficients )
+        public ErrorDiffusionToAdjacentNeighbors(int[][] coefficients)
         {
             this.coefficients = coefficients;
-            CalculateCoefficientsSum( );
+            CalculateCoefficientsSum();
         }
 
         /// <summary>
         /// Do error diffusion.
         /// </summary>
         /// 
-        /// <param name="error">Current error value.</param>
+        /// <param name="errorValue">Current error value.</param>
         /// <param name="ptr">Pointer to current processing pixel.</param>
         /// 
         /// <remarks>All parameters of the image and current processing pixel's coordinates
         /// are initialized by base class.</remarks>
         /// 
-        protected override unsafe void Diffuse( int error, byte* ptr )
+        protected override unsafe void Diffuse(int errorValue, byte* ptr)
         {
             int ed;	// error diffusion
 
             // do error diffusion to right-standing neighbors
             int[] coefficientsRow = coefficients[0];
 
-            for ( int jI = 1, jC = 0, k = coefficientsRow.Length; jC < k; jI++, jC++ )
+            for (int jI = 1, jC = 0, k = coefficientsRow.Length; jC < k; jI++, jC++)
             {
-                if ( x + jI >= stopX )
+                if (x + jI >= stopX)
                     break;
 
-                ed = ptr[jI] + ( error * coefficientsRow[jC] ) / coefficientsSum;
-                ed = ( ed < 0 ) ? 0 : ( ( ed > 255 ) ? 255 : ed );
-                ptr[jI] = (byte) ed;
+                ed = ptr[jI] + (errorValue * coefficientsRow[jC]) / coefficientsSum;
+                ed = (ed < 0) ? 0 : ((ed > 255) ? 255 : ed);
+                ptr[jI] = (byte)ed;
             }
 
             // do error diffusion to bottom neigbors
-            for ( int i = 1, n = coefficients.Length; i < n; i++ )
+            for (int i = 1, n = coefficients.Length; i < n; i++)
             {
-                if ( y + i >= stopY )
+                if (y + i >= stopY)
                     break;
 
                 // move pointer to next image line
@@ -134,16 +134,16 @@ namespace AForge.Imaging.Filters
                 coefficientsRow = coefficients[i];
 
                 // process the row
-                for ( int jC = 0, k = coefficientsRow.Length, jI = -( k >> 1 ); jC < k; jI++, jC++ )
+                for (int jC = 0, k = coefficientsRow.Length, jI = -(k >> 1); jC < k; jI++, jC++)
                 {
-                    if ( x + jI >= stopX )
+                    if (x + jI >= stopX)
                         break;
-                    if ( x + jI < startX )
+                    if (x + jI < startX)
                         continue;
 
-                    ed = ptr[jI] + ( error * coefficientsRow[jC] ) / coefficientsSum;
-                    ed = ( ed < 0 ) ? 0 : ( ( ed > 255 ) ? 255 : ed );
-                    ptr[jI] = (byte) ed;
+                    ed = ptr[jI] + (errorValue * coefficientsRow[jC]) / coefficientsSum;
+                    ed = (ed < 0) ? 0 : ((ed > 255) ? 255 : ed);
+                    ptr[jI] = (byte)ed;
                 }
             }
         }
@@ -151,15 +151,15 @@ namespace AForge.Imaging.Filters
         #region Private Members
 
         // Calculate coefficients' sum
-        private void CalculateCoefficientsSum( )
+        private void CalculateCoefficientsSum()
         {
             coefficientsSum = 0;
 
-            for ( int i = 0, n = coefficients.Length; i < n; i++ )
+            for (int i = 0, n = coefficients.Length; i < n; i++)
             {
                 int[] coefficientsRow = coefficients[i];
 
-                for ( int j = 0, k = coefficientsRow.Length; j < k; j++ )
+                for (int j = 0, k = coefficientsRow.Length; j < k; j++)
                 {
                     coefficientsSum += coefficientsRow[j];
                 }

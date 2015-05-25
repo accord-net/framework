@@ -93,9 +93,8 @@ namespace AForge.Imaging
             get
             {
                 if (blue == null)
-                {
                     throw new InvalidImagePropertiesException(ExceptionMessage.ColorHistogramException);
-                }
+
                 return blue;
             }
         }
@@ -109,9 +108,8 @@ namespace AForge.Imaging
             get
             {
                 if (gray == null)
-                {
                     throw new InvalidImagePropertiesException(ExceptionMessage.GrayHistogramException);
-                }
+
                 return gray;
             }
         }

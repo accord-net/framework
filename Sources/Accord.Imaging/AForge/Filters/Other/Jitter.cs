@@ -104,13 +104,13 @@ namespace AForge.Imaging.Filters
         /// Process the filter on the specified image.
         /// </summary>
         /// 
-        /// <param name="source">Source image data.</param>
-        /// <param name="destination">Destination image data.</param>
+        /// <param name="sourceData">Source image data.</param>
+        /// <param name="destinationData">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize(source.PixelFormat) / 8;
+            int pixelSize = Image.GetPixelFormatSize(sourceData.PixelFormat) / 8;
 
             // processing start and stop X,Y positions
             int startX = rect.Left;
@@ -118,8 +118,8 @@ namespace AForge.Imaging.Filters
             int stopX = startX + rect.Width;
             int stopY = startY + rect.Height;
 
-            int srcStride = source.Stride;
-            int dstStride = destination.Stride;
+            int srcStride = sourceData.Stride;
+            int dstStride = destinationData.Stride;
             int dstOffset = dstStride - rect.Width * pixelSize;
 
             // new pixel's position
@@ -128,20 +128,20 @@ namespace AForge.Imaging.Filters
             // maximum value for random number generator
             int max = radius * 2 + 1;
 
-            byte* src = (byte*)source.ImageData.ToPointer();
-            byte* dst = (byte*)destination.ImageData.ToPointer();
+            byte* src = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
             byte* p;
 
             // copy source to destination before
             if (srcStride == dstStride)
             {
-                AForge.SystemTools.CopyUnmanagedMemory(dst, src, srcStride * source.Height);
+                AForge.SystemTools.CopyUnmanagedMemory(dst, src, srcStride * sourceData.Height);
             }
             else
             {
-                int len = source.Width * pixelSize;
+                int len = sourceData.Width * pixelSize;
 
-                for (int y = 0, heigh = source.Height; y < heigh; y++)
+                for (int y = 0, heigh = sourceData.Height; y < heigh; y++)
                 {
                     AForge.SystemTools.CopyUnmanagedMemory(
                         dst + dstStride * y, src + srcStride * y, len);

@@ -117,13 +117,13 @@ namespace AForge.Imaging.Filters
         /// Process the filter on the specified image.
         /// </summary>
         /// 
-        /// <param name="source">Source image data.</param>
-        /// <param name="destination">Destination image data.</param>
+        /// <param name="sourceData">Source image data.</param>
+        /// <param name="destinationData">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize(source.PixelFormat) / 8;
+            int pixelSize = Image.GetPixelFormatSize(sourceData.PixelFormat) / 8;
             int pixelSize2 = pixelSize * 2;
 
             // processing start and stop X,Y positions
@@ -137,19 +137,20 @@ namespace AForge.Imaging.Filters
             int stopXM2 = stopX - 2;
             int stopYM2 = stopY - 2;
 
-            int srcStride = source.Stride;
-            int dstStride = destination.Stride;
+            int srcStride = sourceData.Stride;
+            int dstStride = destinationData.Stride;
             int srcOffset = srcStride - rect.Width * pixelSize;
             int dstOffset = dstStride - rect.Width * pixelSize;
 
             // gradient and weights
             double gx, gy, weight, weightTotal, total;
+
             // precalculated factor value
             double f = -8 * factor * factor;
 
             // do the job
-            byte* src = (byte*)source.ImageData.ToPointer() + srcStride * 2;
-            byte* dst = (byte*)destination.ImageData.ToPointer() + dstStride * 2;
+            byte* src = (byte*)sourceData.ImageData.ToPointer() + srcStride * 2;
+            byte* dst = (byte*)destinationData.ImageData.ToPointer() + dstStride * 2;
 
             // allign pointers to the first pixel to process
             src += (startY * srcStride + startX * pixelSize);

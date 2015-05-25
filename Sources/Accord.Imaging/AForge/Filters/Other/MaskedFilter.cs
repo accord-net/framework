@@ -77,28 +77,24 @@ namespace AForge.Imaging.Filters
         public IFilter BaseFilter
         {
             get { return baseFilter; }
+
             private set
             {
                 if (value == null)
-                {
-                    throw new NullReferenceException("Base filter can not be set to null.");
-                }
+                    throw new InvalidOperationException("Base filter can not be set to null.");
 
-                if (!(value is IFilterInformation))
-                {
+                var filterInfo = value as IFilterInformation;
+
+                if (filterInfo == null)
                     throw new ArgumentException("The specified base filter must implement IFilterInformation interface.");
-                }
 
                 // check that the base filter does not change pixel format of image
-                Dictionary<PixelFormat, PixelFormat> baseFormatTranslations =
-                    ((IFilterInformation)value).FormatTranslations;
+                Dictionary<PixelFormat, PixelFormat> baseFormatTranslations = filterInfo.FormatTranslations;
 
-                foreach (KeyValuePair<PixelFormat, PixelFormat> translation in baseFormatTranslations)
+                foreach (var translation in baseFormatTranslations)
                 {
                     if (translation.Key != translation.Value)
-                    {
                         throw new ArgumentException("The specified filter must never change pixel format.");
-                    }
                 }
 
                 baseFilter = value;
@@ -301,7 +297,7 @@ namespace AForge.Imaging.Filters
             }
             else
             {
-                throw new NullReferenceException("None of the possible mask properties were set. Need to provide mask before applying the filter.");
+                throw new InvalidOperationException("None of the possible mask properties were set. Need to provide mask before applying the filter.");
             }
         }
 

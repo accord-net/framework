@@ -241,7 +241,7 @@ namespace AForge.Imaging.Filters
         protected override unsafe void ProcessFilter(UnmanagedImage image)
         {
             if (destinationQuadrilateral == null)
-                throw new NullReferenceException("Destination quadrilateral was not set.");
+                throw new InvalidOperationException("Destination quadrilateral was not set.");
 
             // check overlay type
             if (sourceImage != null)
@@ -275,7 +275,7 @@ namespace AForge.Imaging.Filters
             }
             else
             {
-                throw new NullReferenceException("Source image is not set.");
+                throw new InvalidOperationException("Source image is not set.");
             }
         }
 

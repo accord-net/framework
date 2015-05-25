@@ -68,8 +68,8 @@ namespace AForge.Imaging.Filters
         // generated texture
         private float[,] texture = null;
         // two filters
-        private IFilter	filter1 = null;
-        private IFilter	filter2 = null;
+        private IFilter filter1 = null;
+        private IFilter filter2 = null;
 
         // filtering factor
         private double filterLevel = 1.0;
@@ -77,7 +77,7 @@ namespace AForge.Imaging.Filters
         private double preserveLevel = 0.0;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -105,7 +105,7 @@ namespace AForge.Imaging.Filters
         public double FilterLevel
         {
             get { return filterLevel; }
-            set { filterLevel = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { filterLevel = Math.Max(0.0, Math.Min(1.0, value)); }
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace AForge.Imaging.Filters
         public double PreserveLevel
         {
             get { return preserveLevel; }
-            set { preserveLevel = Math.Max( 0.0, Math.Min( 1.0, value ) ); }
+            set { preserveLevel = Math.Max(0.0, Math.Min(1.0, value)); }
         }
 
         /// <summary>
@@ -180,20 +180,17 @@ namespace AForge.Imaging.Filters
             get { return filter1; }
             set
             {
-                if ( value is IFilterInformation )
-                {
-                    IFilterInformation info = (IFilterInformation) value;
-                    if ( !info.FormatTranslations.ContainsKey( PixelFormat.Format24bppRgb ) )
-                        throw new UnsupportedImageFormatException( "The specified filter does not support 24 bpp color images." );
-                    if (
-                        ( info.FormatTranslations[PixelFormat.Format24bppRgb] != PixelFormat.Format24bppRgb ) &&
-                        ( info.FormatTranslations[PixelFormat.Format24bppRgb] != PixelFormat.Format8bppIndexed ) )
-                        throw new UnsupportedImageFormatException( "The specified filter does not produce image of supported format." );
-                }
-                else
-                {
-                    throw new ArgumentException( "The specified filter does not implement IFilterInformation interface." );
-                }
+                var info = value as IFilterInformation;
+
+                if (info == null)
+                    throw new ArgumentException("The specified filter does not implement IFilterInformation interface.");
+
+                if (!info.FormatTranslations.ContainsKey(PixelFormat.Format24bppRgb))
+                    throw new UnsupportedImageFormatException("The specified filter does not support 24 bpp color images.");
+
+                if ((info.FormatTranslations[PixelFormat.Format24bppRgb] != PixelFormat.Format24bppRgb) &&
+                    (info.FormatTranslations[PixelFormat.Format24bppRgb] != PixelFormat.Format8bppIndexed))
+                    throw new UnsupportedImageFormatException("The specified filter does not produce image of supported format.");
 
                 filter1 = value;
             }
@@ -219,29 +216,27 @@ namespace AForge.Imaging.Filters
         public IFilter Filter2
         {
             get { return filter2; }
+
             set
             {
-                if ( value is IFilterInformation )
-                {
-                    IFilterInformation info = (IFilterInformation) value;
-                    if ( !info.FormatTranslations.ContainsKey( PixelFormat.Format24bppRgb ) )
-                        throw new UnsupportedImageFormatException( "The specified filter does not support 24 bpp color images." );
-                    if (
-                        ( info.FormatTranslations[PixelFormat.Format24bppRgb] != PixelFormat.Format24bppRgb ) &&
-                        ( info.FormatTranslations[PixelFormat.Format24bppRgb] != PixelFormat.Format8bppIndexed ) )
-                        throw new UnsupportedImageFormatException( "The specified filter does not produce image of supported format." );
-                }
-                else
-                {
-                    throw new ArgumentException( "The specified filter does not implement IFilterInformation interface." );
-                }
+                IFilterInformation info = value as IFilterInformation;
+
+                if (info == null)
+                    throw new ArgumentException("The specified filter does not implement IFilterInformation interface.");
+
+                if (!info.FormatTranslations.ContainsKey(PixelFormat.Format24bppRgb))
+                    throw new UnsupportedImageFormatException("The specified filter does not support 24 bpp color images.");
+
+                if ((info.FormatTranslations[PixelFormat.Format24bppRgb] != PixelFormat.Format24bppRgb) &&
+                    (info.FormatTranslations[PixelFormat.Format24bppRgb] != PixelFormat.Format8bppIndexed))
+                    throw new UnsupportedImageFormatException("The specified filter does not produce image of supported format.");
 
                 filter2 = value;
             }
         }
 
         // Private constructor to 
-        private TexturedFilter( )
+        private TexturedFilter()
         {
             formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
         }
@@ -253,7 +248,8 @@ namespace AForge.Imaging.Filters
         /// <param name="texture">Generated texture.</param>
         /// <param name="filter1">First filter.</param>
         /// 
-        public TexturedFilter( float[,] texture, IFilter filter1 ) : this( )
+        public TexturedFilter(float[,] texture, IFilter filter1)
+            : this()
         {
             this.texture = texture;
             this.filter1 = filter1;
@@ -267,7 +263,8 @@ namespace AForge.Imaging.Filters
         /// <param name="filter1">First filter.</param>
         /// <param name="filter2">Second filter.</param>
         /// 
-        public TexturedFilter( float[,] texture, IFilter filter1, IFilter filter2 ) : this( )
+        public TexturedFilter(float[,] texture, IFilter filter1, IFilter filter2)
+            : this()
         {
             this.texture = texture;
             this.filter1 = filter1;
@@ -281,7 +278,8 @@ namespace AForge.Imaging.Filters
         /// <param name="generator">Texture generator.</param>
         /// <param name="filter1">First filter.</param>
         /// 
-        public TexturedFilter( ITextureGenerator generator, IFilter filter1 ) : this( )
+        public TexturedFilter(ITextureGenerator generator, IFilter filter1)
+            : this()
         {
             this.textureGenerator = generator;
             this.filter1 = filter1;
@@ -295,7 +293,8 @@ namespace AForge.Imaging.Filters
         /// <param name="filter1">First filter.</param>
         /// <param name="filter2">Second filter.</param>
         /// 
-        public TexturedFilter( ITextureGenerator generator, IFilter filter1, IFilter filter2 ) : this( )
+        public TexturedFilter(ITextureGenerator generator, IFilter filter1, IFilter filter2)
+            : this()
         {
             this.textureGenerator = generator;
             this.filter1 = filter1;
@@ -312,73 +311,73 @@ namespace AForge.Imaging.Filters
         /// <exception cref="InvalidImagePropertiesException">Texture size does not match image size.</exception>
         /// <exception cref="ApplicationException">Filters should not change image dimension.</exception>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage sourceData, UnmanagedImage destinationData )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData)
         {
             // get source image dimension
-            int width  = sourceData.Width;
+            int width = sourceData.Width;
             int height = sourceData.Height;
 
             // if generator was specified, then generate a texture
             // otherwise use provided texture
-            if ( textureGenerator != null )
+            if (textureGenerator != null)
             {
-                texture = textureGenerator.Generate( width, height );
+                texture = textureGenerator.Generate(width, height);
             }
             else
             {
                 // check existing texture
-                if ( ( texture.GetLength( 0 ) != height ) || ( texture.GetLength( 1 ) != width ) )
+                if ((texture.GetLength(0) != height) || (texture.GetLength(1) != width))
                 {
                     // sorry, but source image must have the same dimension as texture
-                    throw new InvalidImagePropertiesException( "Texture size does not match image size." );
+                    throw new InvalidImagePropertiesException("Texture size does not match image size.");
                 }
             }
 
             // apply first filter
-            UnmanagedImage filteredImage1 = filter1.Apply( sourceData );
+            UnmanagedImage filteredImage1 = filter1.Apply(sourceData);
 
             // check size of the result image
-            if ( ( width != filteredImage1.Width ) || ( height != filteredImage1.Height ) )
+            if ((width != filteredImage1.Width) || (height != filteredImage1.Height))
             {
-                filteredImage1.Dispose( );
-                throw new ApplicationException( "Filters should not change image dimension." );
+                filteredImage1.Dispose();
+                throw new InvalidOperationException("Filters should not change image dimension.");
             }
 
             // convert 1st image to RGB if required
-            if ( filteredImage1.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (filteredImage1.PixelFormat == PixelFormat.Format8bppIndexed)
             {
-                GrayscaleToRGB coloringFilter = new GrayscaleToRGB( );
-                UnmanagedImage temp = coloringFilter.Apply( filteredImage1 );
-                filteredImage1.Dispose( );
+                GrayscaleToRGB coloringFilter = new GrayscaleToRGB();
+                UnmanagedImage temp = coloringFilter.Apply(filteredImage1);
+                filteredImage1.Dispose();
                 filteredImage1 = temp;
             }
 
             UnmanagedImage filteredImage2 = null;
             // apply second filter, if it was specified
-            if ( filter2 != null )
+            if (filter2 != null)
             {
-                filteredImage2 = filter2.Apply( sourceData );
+                filteredImage2 = filter2.Apply(sourceData);
                 // check size of the result image
-                if ( ( width != filteredImage2.Width ) || ( height != filteredImage2.Height ) )
+                if ((width != filteredImage2.Width) || (height != filteredImage2.Height))
                 {
-                    filteredImage1.Dispose( );
-                    filteredImage2.Dispose( );
+                    filteredImage1.Dispose();
+                    filteredImage2.Dispose();
                     // we are not handling such situations yet
-                    throw new ApplicationException( "Filters should not change image dimension." );
+                    throw new InvalidOperationException("Filters should not change image dimension.");
                 }
 
                 // convert 2nd image to RGB if required
-                if ( filteredImage2.PixelFormat == PixelFormat.Format8bppIndexed )
+                if (filteredImage2.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    GrayscaleToRGB coloringFilter = new GrayscaleToRGB( );
-                    UnmanagedImage temp = coloringFilter.Apply( filteredImage2 );
-                    filteredImage2.Dispose( );
+                    GrayscaleToRGB coloringFilter = new GrayscaleToRGB();
+                    UnmanagedImage temp = coloringFilter.Apply(filteredImage2);
+                    filteredImage2.Dispose();
                     filteredImage2 = temp;
                 }
             }
 
             // use source image as a second image, if second filter is not set
-            if ( filteredImage2 == null )
+            if (filteredImage2 == null)
             {
                 filteredImage2 = sourceData;
             }
@@ -386,65 +385,65 @@ namespace AForge.Imaging.Filters
             // do the job
             unsafe
             {
-                byte* dst = (byte*) destinationData.ImageData.ToPointer( );
-                byte* src1 = (byte*) filteredImage1.ImageData.ToPointer( );
-                byte* src2 = (byte*) filteredImage2.ImageData.ToPointer( );
+                byte* dst = (byte*)destinationData.ImageData.ToPointer();
+                byte* src1 = (byte*)filteredImage1.ImageData.ToPointer();
+                byte* src2 = (byte*)filteredImage2.ImageData.ToPointer();
 
-                int dstOffset  = destinationData.Stride - 3 * width;
-                int src1Offset = filteredImage1.Stride  - 3 * width;
-                int src2Offset = filteredImage2.Stride  - 3 * width;
+                int dstOffset = destinationData.Stride - 3 * width;
+                int src1Offset = filteredImage1.Stride - 3 * width;
+                int src2Offset = filteredImage2.Stride - 3 * width;
 
-                if ( preserveLevel != 0.0 )
+                if (preserveLevel != 0.0)
                 {
                     // for each line
-                    for ( int y = 0; y < height; y++ )
+                    for (int y = 0; y < height; y++)
                     {
                         // for each pixel
-                        for ( int x = 0; x < width; x++ )
+                        for (int x = 0; x < width; x++)
                         {
                             double t1 = texture[y, x];
                             double t2 = 1 - t1;
 
-                            for ( int i = 0; i < 3; i++, src1++, src2++, dst++ )
+                            for (int i = 0; i < 3; i++, src1++, src2++, dst++)
                             {
-                                *dst = (byte) Math.Min( 255.0f,
-                                    filterLevel * ( t1 * ( *src1 ) + t2 * ( *src2 ) ) +
-                                    preserveLevel * ( *src2 ) );
+                                *dst = (byte)Math.Min(255.0f,
+                                    filterLevel * (t1 * (*src1) + t2 * (*src2)) +
+                                    preserveLevel * (*src2));
                             }
                         }
                         src1 += src1Offset;
                         src2 += src2Offset;
-                        dst  += dstOffset;
+                        dst += dstOffset;
                     }
                 }
                 else
                 {
                     // for each line
-                    for ( int y = 0; y < height; y++ )
+                    for (int y = 0; y < height; y++)
                     {
                         // for each pixel
-                        for ( int x = 0; x < width; x++ )
+                        for (int x = 0; x < width; x++)
                         {
                             double t1 = texture[y, x];
                             double t2 = 1 - t1;
 
-                            for ( int i = 0; i < 3; i++, src1++, src2++, dst++ )
+                            for (int i = 0; i < 3; i++, src1++, src2++, dst++)
                             {
-                                *dst = (byte) Math.Min( 255.0f, t1 * *src1 + t2 * *src2 );
+                                *dst = (byte)Math.Min(255.0f, t1 * *src1 + t2 * *src2);
                             }
                         }
                         src1 += src1Offset;
                         src2 += src2Offset;
-                        dst  += dstOffset;
+                        dst += dstOffset;
                     }
                 }
             }
 
             // dispose temp images
-            filteredImage1.Dispose( );
-            if ( filteredImage2 != sourceData )
+            filteredImage1.Dispose();
+            if (filteredImage2 != sourceData)
             {
-                filteredImage2.Dispose( );
+                filteredImage2.Dispose();
             }
         }
     }

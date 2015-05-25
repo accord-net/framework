@@ -42,7 +42,7 @@ namespace AForge.Neuro
         /// 
         /// <remarks>The generator is used for neuron's weights randomization.</remarks>
         /// 
-        protected static ThreadSafeRandom rand = new ThreadSafeRandom( );
+        protected static ThreadSafeRandom rand = new ThreadSafeRandom();
 
         /// <summary>
         /// Random generator range.
@@ -51,7 +51,7 @@ namespace AForge.Neuro
         /// <remarks>Sets the range of random generator. Affects initial values of neuron's weight.
         /// Default value is [0, 1].</remarks>
         /// 
-        protected static Range randRange = new Range( 0.0f, 1.0f );
+        protected static Range randRange = new Range(0.0f, 1.0f);
 
         /// <summary>
         /// Random number generator.
@@ -65,7 +65,7 @@ namespace AForge.Neuro
             get { return rand; }
             set
             {
-                if ( value != null )
+                if (value != null)
                 {
                     rand = value;
                 }
@@ -122,13 +122,13 @@ namespace AForge.Neuro
         /// <remarks>The new neuron will be randomized (see <see cref="Randomize"/> method)
         /// after it is created.</remarks>
         ///
-        protected Neuron( int inputs )
+        protected Neuron(int inputs)
         {
             // allocate weights
-            inputsCount = Math.Max( 1, inputs );
+            inputsCount = Math.Max(1, inputs);
             weights = new double[inputsCount];
             // randomize the neuron
-            Randomize( );
+            Randomize();
         }
 
         /// <summary>
@@ -138,13 +138,13 @@ namespace AForge.Neuro
         /// <remarks>Initialize neuron's weights with random values within the range specified
         /// by <see cref="RandRange"/>.</remarks>
         /// 
-        public virtual void Randomize( )
+        public virtual void Randomize()
         {
             double d = randRange.Length;
 
             // randomize weights
-            for ( int i = 0; i < inputsCount; i++ )
-                weights[i] = rand.NextDouble( ) * d + randRange.Min;
+            for (int i = 0; i < inputsCount; i++)
+                weights[i] = rand.NextDouble() * d + randRange.Min;
         }
 
         /// <summary>
@@ -158,6 +158,6 @@ namespace AForge.Neuro
         /// <remarks>The actual neuron's output value is determined by inherited class.
         /// The output value is also stored in <see cref="Output"/> property.</remarks>
         /// 
-        public abstract double Compute( double[] input );
+        public abstract double Compute(double[] input);
     }
 }

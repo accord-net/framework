@@ -27,7 +27,7 @@ namespace AForge.Controls
         /// 
         /// <param name="pos">Histogram's index under mouse pointer.</param>
         /// 
-        public HistogramEventArgs( int pos )
+        public HistogramEventArgs(int pos)
         {
             this.min = pos;
         }
@@ -39,7 +39,7 @@ namespace AForge.Controls
         /// <param name="min">Min histogram's index in selection.</param>
         /// <param name="max">Max histogram's index in selection.</param>
         /// 
-        public HistogramEventArgs( int min, int max )
+        public HistogramEventArgs(int min, int max)
         {
             this.min = min;
             this.max = max;
@@ -77,7 +77,7 @@ namespace AForge.Controls
     /// <param name="sender">Sender object.</param>
     /// <param name="e">Event arguments.</param>
     /// 
-    public delegate void HistogramEventHandler( object sender, HistogramEventArgs e );
+    public delegate void HistogramEventHandler(object sender, HistogramEventArgs e);
 
 
     /// <summary>
@@ -109,7 +109,7 @@ namespace AForge.Controls
         // histogram's values
         private int[] values;
         // max histogram's values
-        private int    max;
+        private int max;
         private double maxLogarithmic;
         // allow mouse selection in histogram or not
         private bool allowSelection = false;
@@ -117,9 +117,9 @@ namespace AForge.Controls
         private bool vertical = false;
 
         // set of pens
-        private Pen blackPen = new Pen( Color.Black, 1 );
-        private Pen whitePen = new Pen( Color.White, 1 );
-        private Pen drawPen  = new Pen( Color.Black );
+        private Pen blackPen = new Pen(Color.Black, 1);
+        private Pen whitePen = new Pen(Color.White, 1);
+        private Pen drawPen = new Pen(Color.Black);
 
         // width and height of histogram's area
         private int width;
@@ -136,7 +136,7 @@ namespace AForge.Controls
         /// Histogram's color.
         /// </summary>
         /// 
-        [DefaultValue( typeof( Color ), "Black" )]
+        [DefaultValue(typeof(Color), "Black")]
         public Color Color
         {
             get { return color; }
@@ -144,9 +144,9 @@ namespace AForge.Controls
             {
                 color = value;
 
-                drawPen.Dispose( );
-                drawPen = new Pen( color );
-                Invalidate( );
+                drawPen.Dispose();
+                drawPen = new Pen(color);
+                Invalidate();
             }
         }
 
@@ -158,7 +158,7 @@ namespace AForge.Controls
         /// fire <see cref="SelectionChanged"/> and <see cref="PositionChanged"/> events
         /// and provide information about the selection.</remarks>
         /// 
-        [DefaultValue( false )]
+        [DefaultValue(false)]
         public bool AllowSelection
         {
             get { return allowSelection; }
@@ -174,14 +174,14 @@ namespace AForge.Controls
         /// 
         /// <para>By default the property is set to <b>false</b> - none logarithmic view.</para></remarks>
         /// 
-        [DefaultValue( false )]
+        [DefaultValue(false)]
         public bool IsLogarithmicView
         {
             get { return logarithmic; }
             set
             {
                 logarithmic = value;
-                Invalidate( );
+                Invalidate();
             }
         }
 
@@ -194,14 +194,14 @@ namespace AForge.Controls
         /// 
         /// <para>By default the property is set to <b>false</b> - horizontal view.</para></remarks>
         ///
-        [DefaultValue( false )]
+        [DefaultValue(false)]
         public bool IsVertical
         {
             get { return vertical; }
             set
             {
                 vertical = value;
-                Invalidate( );
+                Invalidate();
             }
         }
 
@@ -213,7 +213,7 @@ namespace AForge.Controls
         /// 
         /// <exception cref="ArgumentException">Histogram values should be non-negative.</exception>
         /// 
-        [Browsable( false )]
+        [Browsable(false)]
         public int[] Values
         {
             get { return values; }
@@ -221,26 +221,26 @@ namespace AForge.Controls
             {
                 values = value;
 
-                if ( values != null )
+                if (values != null)
                 {
                     // check values and find maximum
                     max = 0;
-                    foreach ( int v in values )
+                    foreach (int v in values)
                     {
                         // value chould non-negative
-                        if ( v < 0 )
+                        if (v < 0)
                         {
-                            throw new ArgumentException( "Histogram values should be non-negative." );
+                            throw new ArgumentException("Histogram values should be non-negative.");
                         }
 
-                        if ( v > max )
+                        if (v > max)
                         {
                             max = v;
-                            maxLogarithmic = Math.Log10( max );
+                            maxLogarithmic = Math.Log10(max);
                         }
                     }
                 }
-                Invalidate( );
+                Invalidate();
             }
         }
 
@@ -270,11 +270,11 @@ namespace AForge.Controls
         /// Initializes a new instance of the <see cref="Histogram"/> class.
         /// </summary>
         /// 
-        public Histogram( )
+        public Histogram()
         {
-            InitializeComponent( );
-            SetStyle( ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
-                ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true );
+            InitializeComponent();
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.ResizeRedraw |
+                ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
         }
 
         /// <summary>
@@ -283,107 +283,108 @@ namespace AForge.Controls
         /// 
         /// <param name="disposing">Indicates if disposing was initiated manually.</param>
         /// 
-        protected override void Dispose( bool disposing )
+        protected override void Dispose(bool disposing)
         {
-            if ( disposing )
+            if (disposing)
             {
-                blackPen.Dispose( );
-                whitePen.Dispose( );
-                drawPen.Dispose( );
+                blackPen.Dispose();
+                whitePen.Dispose();
+                drawPen.Dispose();
             }
-            base.Dispose( disposing );
+            base.Dispose(disposing);
         }
 
         // Init component
-        private void InitializeComponent( )
+        private void InitializeComponent()
         {
             // 
             // Histogram
             // 
-            this.MouseUp    += new System.Windows.Forms.MouseEventHandler( this.Histogram_MouseUp );
-            this.MouseMove  += new System.Windows.Forms.MouseEventHandler( this.Histogram_MouseMove );
-            this.MouseLeave += new System.EventHandler( this.Histogram_MouseLeave );
-            this.MouseDown  += new System.Windows.Forms.MouseEventHandler( this.Histogram_MouseDown );
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Histogram_MouseUp);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Histogram_MouseMove);
+            this.MouseLeave += new System.EventHandler(this.Histogram_MouseLeave);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Histogram_MouseDown);
         }
 
         /// <summary>
         /// Paint the control.
         /// </summary>
         /// 
-        /// <param name="pe">Data for Paint event.</param>
+        /// <param name="e">Data for Paint event.</param>
         /// 
-        protected override void OnPaint( PaintEventArgs pe )
+        protected override void OnPaint(PaintEventArgs e)
         {
-            Graphics g = pe.Graphics;
-            // drawing area's width and height
-            width = ( ( values == null ) || ( vertical == true ) ) ?
-                ClientRectangle.Width - 2 :
-                Math.Min( values.Length, ClientRectangle.Width - 2 );
+            Graphics g = e.Graphics;
 
-            height = ( ( values == null ) || ( vertical == false ) ) ?
+            // drawing area's width and height
+            width = ((values == null) || (vertical == true)) ?
+                ClientRectangle.Width - 2 :
+                Math.Min(values.Length, ClientRectangle.Width - 2);
+
+            height = ((values == null) || (vertical == false)) ?
                 ClientRectangle.Height - 2 :
-                Math.Min( values.Length, ClientRectangle.Height - 2 );
+                Math.Min(values.Length, ClientRectangle.Height - 2);
 
             int x = 1;
             int y = 1;
             int value;
 
             // draw rectangle around the image
-            g.DrawRectangle( blackPen, x - 1, y - 1, width + 1, height + 1 );
+            g.DrawRectangle(blackPen, x - 1, y - 1, width + 1, height + 1);
 
-            if ( values != null )
+            if (values != null)
             {
-                int start = Math.Min( this.start, this.stop );
-                int stop  = Math.Max( this.start, this.stop );
+                int start = Math.Min(this.start, this.stop);
+                int stop = Math.Max(this.start, this.stop);
 
-                if ( tracking )
+                if (tracking)
                 {
                     // fill region of selection
-                    Brush brush = new SolidBrush( Color.FromArgb( 92, 92, 92 ) );
+                    Brush brush = new SolidBrush(Color.FromArgb(92, 92, 92));
 
-                    if ( vertical )
+                    if (vertical)
                     {
-                        g.FillRectangle( brush, x, y + start, width, Math.Abs( start - stop ) + 1 );
+                        g.FillRectangle(brush, x, y + start, width, Math.Abs(start - stop) + 1);
                     }
                     else
                     {
-                        g.FillRectangle( brush, x + start, y, Math.Abs( start - stop ) + 1, height );
+                        g.FillRectangle(brush, x + start, y, Math.Abs(start - stop) + 1, height);
                     }
-                    brush.Dispose( );
+                    brush.Dispose();
                 }
 
-                if ( max != 0 )
+                if (max != 0)
                 {
                     // scaling factor
-                    double factor = (double) ( ( vertical ) ? width : height ) /
-                        ( ( logarithmic ) ? maxLogarithmic : max );
+                    double factor = (double)((vertical) ? width : height) /
+                        ((logarithmic) ? maxLogarithmic : max);
 
                     // draw histogram
-                    for ( int i = 0, len = ( vertical ) ? height : width; i < len; i++ )
+                    for (int i = 0, len = (vertical) ? height : width; i < len; i++)
                     {
-                        if ( logarithmic )
+                        if (logarithmic)
                         {
-                            value = ( values[i] == 0 ) ? 0 : (int) ( Math.Log10( values[i] ) * factor );
+                            value = (values[i] == 0) ? 0 : (int)(Math.Log10(values[i]) * factor);
                         }
                         else
                         {
-                            value = (int) ( values[i] * factor );
+                            value = (int)(values[i] * factor);
                         }
 
-                        if ( value != 0 )
+                        if (value != 0)
                         {
-                            if ( vertical )
+                            if (vertical)
                             {
-                                g.DrawLine( ( ( tracking ) && ( i >= start ) && ( i <= stop ) ) ? whitePen : drawPen,
-                                    new Point( x, y + i ),
-                                    new Point( x + value, y + i )
+                                g.DrawLine(((tracking) && (i >= start) && (i <= stop)) ? whitePen : drawPen,
+                                    new Point(x, y + i),
+                                    new Point(x + value, y + i)
                                     );
                             }
                             else
                             {
-                                g.DrawLine( ( ( tracking ) && ( i >= start ) && ( i <= stop ) ) ? whitePen : drawPen,
-                                    new Point( x + i, y + height - 1 ),
-                                    new Point( x + i, y + height - value )
+                                g.DrawLine(((tracking) && (i >= start) && (i <= stop)) ? whitePen : drawPen,
+                                    new Point(x + i, y + height - 1),
+                                    new Point(x + i, y + height - value)
                                     );
                             }
                         }
@@ -392,50 +393,50 @@ namespace AForge.Controls
             }
 
             // Calling the base class OnPaint
-            base.OnPaint( pe );
+            base.OnPaint(e);
         }
 
         // On mouse down
-        private void Histogram_MouseDown( object sender, System.Windows.Forms.MouseEventArgs e )
+        private void Histogram_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if ( ( allowSelection ) && ( values != null ) )
+            if ((allowSelection) && (values != null))
             {
                 int x = 1;
                 int y = 1;
 
-                if ( ( e.X >= x ) && ( e.Y >= y ) && ( e.X < x + width ) && ( e.Y < y + height ) )
+                if ((e.X >= x) && (e.Y >= y) && (e.X < x + width) && (e.Y < y + height))
                 {
                     // start selection
                     tracking = true;
-                    start = ( vertical ) ? ( e.Y - y ) : ( e.X - x );
+                    start = (vertical) ? (e.Y - y) : (e.X - x);
                     this.Capture = true;
                 }
             }
         }
 
         // On mouse up
-        private void Histogram_MouseUp( object sender, System.Windows.Forms.MouseEventArgs e )
+        private void Histogram_MouseUp(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if ( tracking )
+            if (tracking)
             {
                 // stop selection
                 tracking = false;
                 this.Capture = false;
-                Invalidate( );
+                Invalidate();
             }
         }
 
         // On mouse move
-        private void Histogram_MouseMove( object sender, System.Windows.Forms.MouseEventArgs e )
+        private void Histogram_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if ( ( allowSelection ) && ( values != null ) )
+            if ((allowSelection) && (values != null))
             {
                 int x = 1;
                 int y = 1;
 
-                if ( !tracking )
+                if (!tracking)
                 {
-                    if ( ( e.X >= x ) && ( e.Y >= y ) && ( e.X < x + width ) && ( e.Y < y + height ) )
+                    if ((e.X >= x) && (e.Y >= y) && (e.X < x + width) && (e.Y < y + height))
                     {
                         over = true;
 
@@ -443,51 +444,51 @@ namespace AForge.Controls
                         this.Cursor = Cursors.Cross;
 
                         // notify parent
-                        if ( PositionChanged != null )
+                        if (PositionChanged != null)
                         {
-                            PositionChanged( this, new HistogramEventArgs(
-                                ( vertical ) ? ( e.Y - y ) : ( e.X - x ) ) );
+                            PositionChanged(this, new HistogramEventArgs(
+                                (vertical) ? (e.Y - y) : (e.X - x)));
                         }
                     }
                     else
                     {
                         this.Cursor = Cursors.Default;
 
-                        if ( over )
+                        if (over)
                         {
                             over = false;
 
                             // notify parent
-                            if ( PositionChanged != null )
-                                PositionChanged( this, new HistogramEventArgs( -1 ) );
+                            if (PositionChanged != null)
+                                PositionChanged(this, new HistogramEventArgs(-1));
                         }
                     }
                 }
                 else
                 {
                     // selecting region
-                    stop = ( vertical ) ? ( e.Y - y ) : ( e.X - x );
+                    stop = (vertical) ? (e.Y - y) : (e.X - x);
 
-                    stop = Math.Min( stop, ( ( vertical ) ? height : width ) - 1 );
-                    stop = Math.Max( stop, 0 );
+                    stop = Math.Min(stop, ((vertical) ? height : width) - 1);
+                    stop = Math.Max(stop, 0);
 
-                    Invalidate( );
+                    Invalidate();
 
                     // notify parent
-                    if ( SelectionChanged != null )
-                        SelectionChanged( this, new HistogramEventArgs( Math.Min( start, stop ), Math.Max( start, stop ) ) );
+                    if (SelectionChanged != null)
+                        SelectionChanged(this, new HistogramEventArgs(Math.Min(start, stop), Math.Max(start, stop)));
                 }
             }
         }
 
         // On mouse leave
-        private void Histogram_MouseLeave( object sender, System.EventArgs e )
+        private void Histogram_MouseLeave(object sender, System.EventArgs e)
         {
-            if ( ( allowSelection ) && ( values != null ) && ( !tracking ) )
+            if ((allowSelection) && (values != null) && (!tracking))
             {
                 // notify parent
-                if ( PositionChanged != null )
-                    PositionChanged( this, new HistogramEventArgs( -1 ) );
+                if (PositionChanged != null)
+                    PositionChanged(this, new HistogramEventArgs(-1));
             }
         }
     }

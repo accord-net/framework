@@ -135,21 +135,16 @@ namespace AForge.Imaging.Filters
             set
             {
                 if (value > maxKernelSize)
-                {
-                    throw new ArgumentOutOfRangeException("Maximum allowed value of KernelSize property is " + maxKernelSize.ToString());
-                }
+                    throw new ArgumentOutOfRangeException("value", "Maximum allowed value of KernelSize property is " + maxKernelSize.ToString());
+
                 if ((limitKernelSize) && (value > 25))
-                {
-                    throw new ArgumentOutOfRangeException("KernerlSize is larger then 25. Time for applying is significant and may lead to application freezing. In order to use any KernelSize value set property 'LimitKernelSize' to false.");
-                }
+                    throw new ArgumentOutOfRangeException("value", "KernerlSize is larger then 25. Time for applying is significant and may lead to application freezing. In order to use any KernelSize value set property 'LimitKernelSize' to false.");
+
                 if (value < 3)
-                {
-                    throw new ArgumentOutOfRangeException("KernelSize must be greater than 3");
-                }
+                    throw new ArgumentOutOfRangeException("value", "KernelSize must be greater than 3");
+
                 if (value % 2 == 0)
-                {
-                    throw new ArgumentException("KernerlSize must be an odd integer.");
-                }
+                    throw new ArgumentOutOfRangeException("value", "KernerlSize must be an odd integer.");
 
                 kernelSize = value;
             }
@@ -329,11 +324,11 @@ namespace AForge.Imaging.Filters
         /// Process the filter on the specified image.
         /// </summary>
         /// 
-        /// <param name="source">Source image data.</param>
-        /// <param name="destination">Destination image data.</param>
+        /// <param name="sourceData">Source image data.</param>
+        /// <param name="destinationData">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter(UnmanagedImage source, UnmanagedImage destination, Rectangle rect)
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect)
         {
             int kernelHalf = kernelSize / 2;
 
@@ -341,7 +336,7 @@ namespace AForge.Imaging.Filters
 
             if ((rect.Width <= kernelSize) || (rect.Height <= kernelSize))
             {
-                ProcessWithEdgeChecks(source, destination, rect);
+                ProcessWithEdgeChecks(sourceData, destinationData, rect);
             }
             else
             {
@@ -350,24 +345,24 @@ namespace AForge.Imaging.Filters
 
                 if ((Environment.ProcessorCount > 1) && (enableParallelProcessing))
                 {
-                    ProcessWithoutChecksParallel(source, destination, safeArea);
+                    ProcessWithoutChecksParallel(sourceData, destinationData, safeArea);
                 }
                 else
                 {
-                    ProcessWithoutChecks(source, destination, safeArea);
+                    ProcessWithoutChecks(sourceData, destinationData, safeArea);
                 }
 
                 // top
-                ProcessWithEdgeChecks(source, destination,
+                ProcessWithEdgeChecks(sourceData, destinationData,
                     new Rectangle(rect.Left, rect.Top, rect.Width, kernelHalf));
                 // bottom
-                ProcessWithEdgeChecks(source, destination,
+                ProcessWithEdgeChecks(sourceData, destinationData,
                     new Rectangle(rect.Left, rect.Bottom - kernelHalf, rect.Width, kernelHalf));
                 // left
-                ProcessWithEdgeChecks(source, destination,
+                ProcessWithEdgeChecks(sourceData, destinationData,
                     new Rectangle(rect.Left, rect.Top + kernelHalf, kernelHalf, rect.Height - kernelHalf * 2));
                 // right
-                ProcessWithEdgeChecks(source, destination,
+                ProcessWithEdgeChecks(sourceData, destinationData,
                     new Rectangle(rect.Right - kernelHalf, rect.Top + kernelHalf, kernelHalf, rect.Height - kernelHalf * 2));
             }
         }

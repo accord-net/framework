@@ -172,7 +172,7 @@ namespace AForge.Imaging.Filters
 
         
         // Histogram 
-        private byte[] Equalize( int[] histogram, long numPixel )
+        private static byte[] Equalize(int[] histogram, long numPixel)
         {
             byte[] equalizedHistogram = new byte[256];
             float coef = 255.0f / numPixel;

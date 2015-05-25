@@ -67,7 +67,7 @@ namespace AForge.Controls
             get
             {
                 if (info == null)
-                    throw new ApplicationException("Joystick was not initialized.");
+                    throw new InvalidOperationException("Joystick was not initialized.");
 
                 return info;
             }

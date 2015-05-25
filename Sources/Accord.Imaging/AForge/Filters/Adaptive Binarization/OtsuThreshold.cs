@@ -48,10 +48,10 @@ namespace AForge.Imaging.Filters
     /// 
     public class OtsuThreshold : BaseInPlacePartialFilter
     {
-        private Threshold thresholdFilter = new Threshold( );
+        private Threshold thresholdFilter = new Threshold();
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -77,7 +77,7 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="OtsuThreshold"/> class.
         /// </summary>
         /// 
-        public OtsuThreshold( )
+        public OtsuThreshold()
         {
             // initialize format translation dictionary
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
@@ -98,23 +98,23 @@ namespace AForge.Imaging.Filters
         /// <exception cref="UnsupportedImageFormatException">Source pixel format is not supported by the routine. It should be
         /// 8 bpp grayscale (indexed) image.</exception>
         /// 
-        public int CalculateThreshold( Bitmap image, Rectangle rect )
+        public int CalculateThreshold(Bitmap image, Rectangle rect)
         {
             int calculatedThreshold = 0;
 
             // lock source bitmap data
             BitmapData data = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
 
             try
             {
-                calculatedThreshold = CalculateThreshold( data, rect );
+                calculatedThreshold = CalculateThreshold(data, rect);
             }
             finally
             {
                 // unlock image
-                image.UnlockBits( data );
+                image.UnlockBits(data);
             }
 
             return calculatedThreshold;
@@ -135,9 +135,9 @@ namespace AForge.Imaging.Filters
         /// <exception cref="UnsupportedImageFormatException">Source pixel format is not supported by the routine. It should be
         /// 8 bpp grayscale (indexed) image.</exception>
         /// 
-        public int CalculateThreshold( BitmapData image, Rectangle rect )
+        public int CalculateThreshold(BitmapData image, Rectangle rect)
         {
-            return CalculateThreshold( new UnmanagedImage( image ), rect );
+            return CalculateThreshold(new UnmanagedImage(image), rect);
         }
 
         /// <summary>
@@ -155,19 +155,19 @@ namespace AForge.Imaging.Filters
         /// <exception cref="UnsupportedImageFormatException">Source pixel format is not supported by the routine. It should be
         /// 8 bpp grayscale (indexed) image.</exception>
         /// 
-        public int CalculateThreshold( UnmanagedImage image, Rectangle rect )
+        public int CalculateThreshold(UnmanagedImage image, Rectangle rect)
         {
-            if ( image.PixelFormat != PixelFormat.Format8bppIndexed )
-                throw new UnsupportedImageFormatException( "Source pixel format is not supported by the routine." );
+            if (image.PixelFormat != PixelFormat.Format8bppIndexed)
+                throw new UnsupportedImageFormatException("Source pixel format is not supported by the routine.");
 
             int calculatedThreshold = 0;
 
             // get start and stop X-Y coordinates
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width;
 
             // histogram array
             int[] integerHistogram = new int[256];
@@ -176,16 +176,16 @@ namespace AForge.Imaging.Filters
             unsafe
             {
                 // collect histogram first
-                byte* ptr = (byte*) image.ImageData.ToPointer( );
+                byte* ptr = (byte*)image.ImageData.ToPointer();
 
                 // allign pointer to the first pixel to process
-                ptr += ( startY * image.Stride + startX );
+                ptr += (startY * image.Stride + startX);
 
                 // for each line	
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++, ptr++ )
+                    for (int x = startX; x < stopX; x++, ptr++)
                     {
                         integerHistogram[*ptr]++;
                     }
@@ -193,13 +193,13 @@ namespace AForge.Imaging.Filters
                 }
 
                 // pixels count in the processing region
-                int pixelCount = ( stopX - startX ) * ( stopY - startY );
+                int pixelCount = (stopX - startX) * (stopY - startY);
                 // mean value of the processing region
                 double imageMean = 0;
 
-                for ( int i = 0; i < 256; i++ )
+                for (int i = 0; i < 256; i++)
                 {
-                    histogram[i] = (double) integerHistogram[i] / pixelCount;
+                    histogram[i] = (double)integerHistogram[i] / pixelCount;
                     imageMean += histogram[i] * i;
                 }
 
@@ -213,17 +213,17 @@ namespace AForge.Imaging.Filters
                 double class1MeanInit = 0;
 
                 // check all thresholds
-                for ( int t = 0; ( t < 256 ) && ( class2Probability > 0 ); t++ )
+                for (int t = 0; (t < 256) && (class2Probability > 0); t++)
                 {
                     // calculate class means for the given threshold
                     double class1Mean = class1MeanInit;
-                    double class2Mean = ( imageMean - ( class1Mean * class1Probability ) ) / class2Probability;
+                    double class2Mean = (imageMean - (class1Mean * class1Probability)) / class2Probability;
 
                     // calculate between class variance
-                    double betweenClassVariance = ( class1Probability ) * ( 1.0 - class1Probability ) * Math.Pow( class1Mean - class2Mean, 2 );
+                    double betweenClassVariance = (class1Probability) * (1.0 - class1Probability) * Math.Pow(class1Mean - class2Mean, 2);
 
                     // check if we found new threshold candidate
-                    if ( betweenClassVariance > max )
+                    if (betweenClassVariance > max)
                     {
                         max = betweenClassVariance;
                         calculatedThreshold = t;
@@ -235,9 +235,9 @@ namespace AForge.Imaging.Filters
                     class1Probability += histogram[t];
                     class2Probability -= histogram[t];
 
-                    class1MeanInit += (double) t * (double) histogram[t];
+                    class1MeanInit += (double)t * (double)histogram[t];
 
-                    if ( class1Probability != 0 )
+                    if (class1Probability != 0)
                     {
                         class1MeanInit /= class1Probability;
                     }
@@ -254,13 +254,13 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
             // calculate threshold for the given image
-            thresholdFilter.ThresholdValue = CalculateThreshold( image, rect );
+            thresholdFilter.ThresholdValue = CalculateThreshold(image, rect);
 
             // thresholding
-            thresholdFilter.ApplyInPlace( image, rect );
+            thresholdFilter.ApplyInPlace(image, rect);
         }
     }
 }

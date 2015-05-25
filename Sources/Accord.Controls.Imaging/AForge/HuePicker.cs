@@ -206,11 +206,11 @@ namespace AForge.Controls
         /// Paint the controls.
         /// </summary>
         /// 
-        /// <param name="pe">Paint event arguments.</param>
+        /// <param name="e">Paint event arguments.</param>
         /// 
-        protected override void OnPaint(PaintEventArgs pe)
+        protected override void OnPaint(PaintEventArgs e)
         {
-            Graphics g = pe.Graphics;
+            Graphics g = e.Graphics;
             Rectangle rc = this.ClientRectangle;
             Rectangle rcPie;
             Brush brush;
@@ -309,7 +309,7 @@ namespace AForge.Controls
                 g.DrawLine(whitePen, ptCenter, ptMax);
             }
 
-            base.OnPaint(pe);
+            base.OnPaint(e);
         }
 
         // On mouse down

@@ -11,6 +11,7 @@ namespace AForge.Imaging.Formats
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.Globalization;
     using System.IO;
 
     /// <summary>
@@ -44,23 +45,23 @@ namespace AForge.Imaging.Formats
     /// 
     public class ImageDecoder
     {
-        private static Dictionary< string, IImageDecoder >  decoders = new Dictionary<string, IImageDecoder>( );
+        private static Dictionary<string, IImageDecoder> decoders = new Dictionary<string, IImageDecoder>();
 
-        static ImageDecoder( )
+        static ImageDecoder()
         {
             // register PNM file format
-            IImageDecoder decoder = new PNMCodec( );
+            IImageDecoder decoder = new PNMCodec();
 
-            RegisterDecoder( "pbm", decoder );
-            RegisterDecoder( "pgm", decoder );
-            RegisterDecoder( "pnm", decoder );
-            RegisterDecoder( "ppm", decoder );
+            RegisterDecoder("pbm", decoder);
+            RegisterDecoder("pgm", decoder);
+            RegisterDecoder("pnm", decoder);
+            RegisterDecoder("ppm", decoder);
 
             // register FITS file format
-            decoder = new FITSCodec( );
+            decoder = new FITSCodec();
 
-            RegisterDecoder( "fit",  decoder );
-            RegisterDecoder( "fits", decoder );
+            RegisterDecoder("fit", decoder);
+            RegisterDecoder("fits", decoder);
         }
 
         /// <summary>
@@ -73,11 +74,11 @@ namespace AForge.Imaging.Formats
         /// <remarks><para>The method allows to register image decoder object, which should be used
         /// to decode images from files with the specified extension.</para></remarks>
         /// 
-        public static void RegisterDecoder( string fileExtension, IImageDecoder decoder )
+        public static void RegisterDecoder(string fileExtension, IImageDecoder decoder)
         {
-            System.Diagnostics.Debug.WriteLine( "Registering decoder: " + fileExtension );
+            System.Diagnostics.Debug.WriteLine("Registering decoder: " + fileExtension);
 
-            decoders.Add( fileExtension.ToLower( ), decoder );
+            decoders.Add(fileExtension.ToUpperInvariant(), decoder);
         }
 
         /// <summary>
@@ -94,11 +95,11 @@ namespace AForge.Imaging.Formats
         /// found, the method uses default .NET's image decoding routine (see
         /// <see cref="System.Drawing.Image.FromFile( string )"/>).</para></remarks>
         /// 
-        public static Bitmap DecodeFromFile( string fileName )
+        public static Bitmap DecodeFromFile(string fileName)
         {
             ImageInfo imageInfo = null;
 
-            return DecodeFromFile( fileName, out imageInfo );
+            return DecodeFromFile(fileName, out imageInfo);
         }
 
         /// <summary>
@@ -116,45 +117,45 @@ namespace AForge.Imaging.Formats
         /// found, the method uses default .NET's image decoding routine (see
         /// <see cref="System.Drawing.Image.FromFile( string )"/>).</para></remarks>
         /// 
-        public static Bitmap DecodeFromFile( string fileName, out ImageInfo imageInfo )
+        public static Bitmap DecodeFromFile(string fileName, out ImageInfo imageInfo)
         {
             Bitmap bitmap = null;
 
-            string fileExtension = Path.GetExtension( fileName ).ToLower( );
+            string fileExtension = Path.GetExtension(fileName).ToUpperInvariant();
 
-            if ( ( fileExtension != string.Empty ) && ( fileExtension.Length != 0 ) )
+            if ((fileExtension != string.Empty) && (fileExtension.Length != 0))
             {
-                fileExtension = fileExtension.Substring( 1 );
+                fileExtension = fileExtension.Substring(1);
 
-                if ( decoders.ContainsKey( fileExtension ) )
+                if (decoders.ContainsKey(fileExtension))
                 {
                     IImageDecoder decoder = decoders[fileExtension];
 
                     // open stream
-                    FileStream stream = new FileStream( fileName, FileMode.Open );
-                    // open decoder
-                    decoder.Open( stream );
-                    // read the first frame
-                    bitmap = decoder.DecodeFrame( 0, out imageInfo );
+                    using (FileStream stream = new FileStream(fileName, FileMode.Open))
+                    {
+                        // open decoder
+                        decoder.Open(stream);
 
-                    // close decoder and stream
-                    decoder.Close( );
-                    stream.Close( );
-                    stream.Dispose( );
+                        // read the first frame
+                        bitmap = decoder.DecodeFrame(0, out imageInfo);
+
+                        decoder.Close();
+                    }
 
                     return bitmap;
                 }
             }
 
             // use default .NET's image decoding routine
-            bitmap = FromFile( fileName );
+            bitmap = FromFile(fileName);
 
-            imageInfo = new ImageInfo( bitmap.Width, bitmap.Height, Image.GetPixelFormatSize( bitmap.PixelFormat ), 0, 1 );
+            imageInfo = new ImageInfo(bitmap.Width, bitmap.Height, Image.GetPixelFormatSize(bitmap.PixelFormat), 0, 1);
 
             return bitmap;
         }
 
-        private static System.Drawing.Bitmap FromFile( string fileName )
+        private static System.Drawing.Bitmap FromFile(string fileName)
         {
             Bitmap loadedImage = null;
             FileStream stream = null;
@@ -162,28 +163,28 @@ namespace AForge.Imaging.Formats
             try
             {
                 // read image to temporary memory stream
-                stream = File.OpenRead( fileName );
-                MemoryStream memoryStream = new MemoryStream( );
+                stream = File.OpenRead(fileName);
+                MemoryStream memoryStream = new MemoryStream();
 
                 byte[] buffer = new byte[10000];
-                while ( true )
+                while (true)
                 {
-                    int read = stream.Read( buffer, 0, 10000 );
+                    int read = stream.Read(buffer, 0, 10000);
 
-                    if ( read == 0 )
+                    if (read == 0)
                         break;
 
-                    memoryStream.Write( buffer, 0, read );
+                    memoryStream.Write(buffer, 0, read);
                 }
 
-                loadedImage = (Bitmap) Bitmap.FromStream( memoryStream );
+                loadedImage = (Bitmap)Bitmap.FromStream(memoryStream);
             }
             finally
             {
-                if ( stream != null )
+                if (stream != null)
                 {
-                    stream.Close( );
-                    stream.Dispose( );
+                    stream.Close();
+                    stream.Dispose();
                 }
             }
 

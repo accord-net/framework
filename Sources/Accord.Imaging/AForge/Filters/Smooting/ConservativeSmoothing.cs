@@ -53,7 +53,7 @@ namespace AForge.Imaging.Filters
         private int size = 3;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -77,19 +77,19 @@ namespace AForge.Imaging.Filters
         public int KernelSize
         {
             get { return size; }
-            set { size = Math.Max( 3, Math.Min( 25, value | 1 ) ); }
+            set { size = Math.Max(3, Math.Min(25, value | 1)); }
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConservativeSmoothing"/> class.
         /// </summary>
         /// 
-        public ConservativeSmoothing( )
+        public ConservativeSmoothing()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]    = PixelFormat.Format32bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
         /// <summary>
@@ -98,7 +98,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="size">Kernel size.</param>
         /// 
-        public ConservativeSmoothing( int size ) : this( )
+        public ConservativeSmoothing(int size)
+            : this()
         {
             KernelSize = size;
         }
@@ -107,22 +108,22 @@ namespace AForge.Imaging.Filters
         /// Process the filter on the specified image.
         /// </summary>
         /// 
-        /// <param name="source">Source image data.</param>
-        /// <param name="destination">Destination image data.</param>
+        /// <param name="sourceData">Source image data.</param>
+        /// <param name="destinationData">Destination image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage source, UnmanagedImage destination, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage sourceData, UnmanagedImage destinationData, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize( source.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(sourceData.PixelFormat) / 8;
 
             // processing start and stop X,Y positions
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
 
-            int srcStride = source.Stride;
-            int dstStride = destination.Stride;
+            int srcStride = sourceData.Stride;
+            int dstStride = destinationData.Stride;
             int srcOffset = srcStride - rect.Width * pixelSize;
             int dstOffset = dstStride - rect.Width * pixelSize;
 
@@ -133,63 +134,63 @@ namespace AForge.Imaging.Filters
             // pixel value (min and max)
             byte minR, maxR, minG, maxG, minB, maxB, v;
 
-            byte* src = (byte*) source.ImageData.ToPointer( );
-            byte* dst = (byte*) destination.ImageData.ToPointer( );
+            byte* src = (byte*)sourceData.ImageData.ToPointer();
+            byte* dst = (byte*)destinationData.ImageData.ToPointer();
             byte* p;
 
             // allign pointers to the first pixel to process
-            src += ( startY * srcStride + startX * pixelSize );
-            dst += ( startY * dstStride + startX * pixelSize );
+            src += (startY * srcStride + startX * pixelSize);
+            dst += (startY * dstStride + startX * pixelSize);
 
-            if ( destination.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (destinationData.PixelFormat == PixelFormat.Format8bppIndexed)
             {
                 // Grayscale image
 
                 // for each line
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++, src++, dst++ )
+                    for (int x = startX; x < stopX; x++, src++, dst++)
                     {
                         minG = 255;
                         maxG = 0;
 
                         // for each kernel row
-                        for ( i = -radius; i <= radius; i++ )
+                        for (i = -radius; i <= radius; i++)
                         {
                             t = y + i;
 
                             // skip row
-                            if ( t < startY )
+                            if (t < startY)
                                 continue;
                             // break
-                            if ( t >= stopY )
+                            if (t >= stopY)
                                 break;
 
                             // for each kernel column
-                            for ( j = -radius; j <= radius; j++ )
+                            for (j = -radius; j <= radius; j++)
                             {
                                 t = x + j;
 
                                 // skip column
-                                if ( t < startX )
+                                if (t < startX)
                                     continue;
 
-                                if ( ( i != j ) && ( t < stopX ) )
+                                if ((i != j) && (t < stopX))
                                 {
                                     // find MIN and MAX values
                                     v = src[i * srcStride + j];
 
-                                    if ( v < minG )
+                                    if (v < minG)
                                         minG = v;
-                                    if ( v > maxG )
+                                    if (v > maxG)
                                         maxG = v;
                                 }
                             }
                         }
                         // set destination pixel
                         v = *src;
-                        *dst = ( v > maxG ) ? maxG : ( ( v < minG ) ? minG : v );
+                        *dst = (v > maxG) ? maxG : ((v < minG) ? minG : v);
                     }
                     src += srcOffset;
                     dst += dstOffset;
@@ -200,36 +201,36 @@ namespace AForge.Imaging.Filters
                 // RGB image
 
                 // for each line
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize )
+                    for (int x = startX; x < stopX; x++, src += pixelSize, dst += pixelSize)
                     {
                         minR = minG = minB = 255;
                         maxR = maxG = maxB = 0;
 
                         // for each kernel row
-                        for ( i = -radius; i <= radius; i++ )
+                        for (i = -radius; i <= radius; i++)
                         {
                             t = y + i;
 
                             // skip row
-                            if ( t < startY )
+                            if (t < startY)
                                 continue;
                             // break
-                            if ( t >= stopY )
+                            if (t >= stopY)
                                 break;
 
                             // for each kernel column
-                            for ( j = -radius; j <= radius; j++ )
+                            for (j = -radius; j <= radius; j++)
                             {
                                 t = x + j;
 
                                 // skip column
-                                if ( t < startX )
+                                if (t < startX)
                                     continue;
 
-                                if ( ( i != j ) && ( t < stopX ) )
+                                if ((i != j) && (t < stopX))
                                 {
                                     p = &src[i * srcStride + j * pixelSize];
 
@@ -238,25 +239,25 @@ namespace AForge.Imaging.Filters
                                     // red
                                     v = p[RGB.R];
 
-                                    if ( v < minR )
+                                    if (v < minR)
                                         minR = v;
-                                    if ( v > maxR )
+                                    if (v > maxR)
                                         maxR = v;
 
                                     // green
                                     v = p[RGB.G];
 
-                                    if ( v < minG )
+                                    if (v < minG)
                                         minG = v;
-                                    if ( v > maxG )
+                                    if (v > maxG)
                                         maxG = v;
 
                                     // blue
                                     v = p[RGB.B];
 
-                                    if ( v < minB )
+                                    if (v < minB)
                                         minB = v;
-                                    if ( v > maxB )
+                                    if (v > maxB)
                                         maxB = v;
                                 }
                             }
@@ -265,13 +266,13 @@ namespace AForge.Imaging.Filters
 
                         // red
                         v = src[RGB.R];
-                        dst[RGB.R] = ( v > maxR ) ? maxR : ( ( v < minR ) ? minR : v );
+                        dst[RGB.R] = (v > maxR) ? maxR : ((v < minR) ? minR : v);
                         // green
                         v = src[RGB.G];
-                        dst[RGB.G] = ( v > maxG ) ? maxG : ( ( v < minG ) ? minG : v );
+                        dst[RGB.G] = (v > maxG) ? maxG : ((v < minG) ? minG : v);
                         // blue
                         v = src[RGB.B];
-                        dst[RGB.B] = ( v > maxB ) ? maxB : ( ( v < minB ) ? minB : v );
+                        dst[RGB.B] = (v > maxB) ? maxB : ((v < minB) ? minB : v);
                     }
                     src += srcOffset;
                     dst += dstOffset;

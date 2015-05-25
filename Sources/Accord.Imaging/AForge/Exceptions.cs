@@ -20,6 +20,7 @@ namespace AForge.Imaging
     /// to discover which formats are supported by the routine.</para>
     /// </remarks>
     /// 
+    [Serializable]
     public class UnsupportedImageFormatException : ArgumentException
     {
         /// <summary>

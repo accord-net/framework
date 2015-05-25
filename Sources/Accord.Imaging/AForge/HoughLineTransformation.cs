@@ -179,7 +179,7 @@ namespace AForge.Imaging
         /// Compare the object with another instance of this class.
         /// </summary>
         /// 
-        /// <param name="value">Object to compare with.</param>
+        /// <param name="obj">Object to compare with.</param>
         /// 
         /// <returns><para>A signed number indicating the relative values of this instance and <b>value</b>: 1) greater than zero - 
         /// this instance is greater than <b>value</b>; 2) zero - this instance is equal to <b>value</b>;
@@ -191,9 +191,9 @@ namespace AForge.Imaging
         /// <para><note>Object are compared using their <see cref="Intensity">intensity</see> value.</note></para>
         /// </remarks>
         /// 
-        public int CompareTo(object value)
+        public int CompareTo(object obj)
         {
-            return (-Intensity.CompareTo(((HoughLine)value).Intensity));
+            return (-Intensity.CompareTo(((HoughLine)obj).Intensity));
         }
     }
 
@@ -542,9 +542,7 @@ namespace AForge.Imaging
         {
             // check if Hough transformation was made already
             if (houghMap == null)
-            {
-                throw new ApplicationException("Hough transformation was not done yet.");
-            }
+                throw new InvalidOperationException("Hough transformation was not done yet.");
 
             int width = houghMap.GetLength(1);
             int height = houghMap.GetLength(0);

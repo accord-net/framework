@@ -177,7 +177,7 @@ namespace AForge.Imaging.Filters
             }
             else
             {
-                throw new NullReferenceException( "Overlay image is not set." );
+                throw new InvalidOperationException("Overlay image is not set.");
             }
         }
 

@@ -92,9 +92,8 @@ namespace AForge.Imaging.ColorReduction
             set
             {
                 if (value == null)
-                {
-                    throw new NullReferenceException("Threshold matrix cannot be set to null.");
-                }
+                    throw new InvalidOperationException("Threshold matrix cannot be set to null.");
+
                 matrix = value;
             }
         }

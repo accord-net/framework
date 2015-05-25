@@ -74,26 +74,26 @@ namespace AForge.Imaging
         ///
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         /// 
-        public List<IntPoint> ProcessImage( Bitmap image )
+        public List<IntPoint> ProcessImage(Bitmap image)
         {
-            CheckPixelFormat( image.PixelFormat );
+            CheckPixelFormat(image.PixelFormat);
 
             // lock source image
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
 
             List<IntPoint> corners = null;
 
             try
             {
                 // process the image
-                corners = ProcessImage( new UnmanagedImage( imageData ) );
+                corners = ProcessImage(new UnmanagedImage(imageData));
             }
             finally
             {
                 // unlock image
-                image.UnlockBits( imageData );
+                image.UnlockBits(imageData);
             }
 
             return corners;
@@ -112,9 +112,9 @@ namespace AForge.Imaging
         ///
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         /// 
-        public List<IntPoint> ProcessImage( BitmapData imageData )
+        public List<IntPoint> ProcessImage(BitmapData imageData)
         {
-            return ProcessImage( new UnmanagedImage( imageData ) );
+            return ProcessImage(new UnmanagedImage(imageData));
         }
 
         /// <summary>
@@ -130,50 +130,50 @@ namespace AForge.Imaging
         ///
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image.</exception>
         /// 
-        public List<IntPoint> ProcessImage( UnmanagedImage image )
+        public List<IntPoint> ProcessImage(UnmanagedImage image)
         {
-            CheckPixelFormat( image.PixelFormat );
+            CheckPixelFormat(image.PixelFormat);
 
             // get source image size
-            int width  = image.Width;
+            int width = image.Width;
             int height = image.Height;
 
             // collection of points
-            List<IntPoint> points = new List<IntPoint>( );
+            List<IntPoint> points = new List<IntPoint>();
 
             // collect edge points
             unsafe
             {
-                byte* src = (byte*) image.ImageData.ToPointer( );
+                byte* src = (byte*)image.ImageData.ToPointer();
                 int stride = image.Stride;
 
                 bool lineIsEmpty;
 
-                if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
                     // for each row
-                    for ( int y = 0; y < height; y++ )
+                    for (int y = 0; y < height; y++)
                     {
                         lineIsEmpty = true;
 
                         // scan from left to right
-                        for ( int x = 0; x < width; x++ )
+                        for (int x = 0; x < width; x++)
                         {
-                            if ( src[x] != 0 )
+                            if (src[x] != 0)
                             {
-                                points.Add( new IntPoint( x, y ) );
+                                points.Add(new IntPoint(x, y));
                                 lineIsEmpty = false;
                                 break;
                             }
                         }
-                        if ( !lineIsEmpty )
+                        if (!lineIsEmpty)
                         {
                             // scan from right to left
-                            for ( int x = width - 1; x >= 0; x-- )
+                            for (int x = width - 1; x >= 0; x--)
                             {
-                                if ( src[x] != 0 )
+                                if (src[x] != 0)
                                 {
-                                    points.Add( new IntPoint( x, y ) );
+                                    points.Add(new IntPoint(x, y));
                                     break;
                                 }
                             }
@@ -184,34 +184,34 @@ namespace AForge.Imaging
                 else
                 {
                     // 24 or 32 bpp color image
-                    int pixelSize = System.Drawing.Image.GetPixelFormatSize( image.PixelFormat ) / 8; 
+                    int pixelSize = System.Drawing.Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
                     byte* ptr = null;
 
                     // for each row
-                    for ( int y = 0; y < height; y++ )
+                    for (int y = 0; y < height; y++)
                     {
                         lineIsEmpty = true;
                         // scan from left to right
                         ptr = src;
-                        for ( int x = 0; x < width; x++, ptr += pixelSize )
+                        for (int x = 0; x < width; x++, ptr += pixelSize)
                         {
-                            if ( ( ptr[RGB.R] != 0 ) || ( ptr[RGB.G] != 0 ) || ( ptr[RGB.B] != 0 ) )
+                            if ((ptr[RGB.R] != 0) || (ptr[RGB.G] != 0) || (ptr[RGB.B] != 0))
                             {
-                                points.Add( new IntPoint( x, y ) );
+                                points.Add(new IntPoint(x, y));
                                 lineIsEmpty = false;
                                 break;
                             }
                         }
-                        if ( !lineIsEmpty )
+                        if (!lineIsEmpty)
                         {
                             // scan from right to left
                             ptr = src + width * pixelSize - pixelSize;
-                            for ( int x = width - 1; x >= 0; x--, ptr -= pixelSize )
+                            for (int x = width - 1; x >= 0; x--, ptr -= pixelSize)
                             {
-                                if ( ( ptr[RGB.R] != 0 ) || ( ptr[RGB.G] != 0 ) || ( ptr[RGB.B] != 0 ) )
+                                if ((ptr[RGB.R] != 0) || (ptr[RGB.G] != 0) || (ptr[RGB.B] != 0))
                                 {
-                                    points.Add( new IntPoint( x, y ) );
+                                    points.Add(new IntPoint(x, y));
                                     break;
                                 }
                             }
@@ -221,21 +221,19 @@ namespace AForge.Imaging
                 }
             }
 
-            return PointsCloud.FindQuadrilateralCorners( points );
-       }
+            return PointsCloud.FindQuadrilateralCorners(points);
+        }
 
-        private void CheckPixelFormat( PixelFormat format )
+        private static void CheckPixelFormat(PixelFormat format)
         {
             // check image format
-            if (
-                ( format != PixelFormat.Format8bppIndexed ) &&
-                ( format != PixelFormat.Format24bppRgb ) &&
-                ( format != PixelFormat.Format32bppArgb ) &&
-                ( format != PixelFormat.Format32bppPArgb )
-                )
+            if ((format != PixelFormat.Format8bppIndexed) &&
+                (format != PixelFormat.Format24bppRgb) &&
+                (format != PixelFormat.Format32bppArgb) &&
+                (format != PixelFormat.Format32bppPArgb))
             {
-                throw new UnsupportedImageFormatException( "Unsupported pixel format of the source image." );
-            }           
+                throw new UnsupportedImageFormatException("Unsupported pixel format of the source image.");
+            }
         }
     }
 }

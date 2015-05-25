@@ -55,7 +55,7 @@ namespace AForge.Imaging.Filters
         private UnmanagedImage unmanagedChannelImage;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -79,11 +79,11 @@ namespace AForge.Imaging.Filters
             set
             {
                 if (
-                    ( value != RGB.R ) && ( value != RGB.G ) &&
-                    ( value != RGB.B ) && ( value != RGB.A )
+                    (value != RGB.R) && (value != RGB.G) &&
+                    (value != RGB.B) && (value != RGB.A)
                     )
                 {
-                    throw new ArgumentException( "Invalid channel is specified." );
+                    throw new ArgumentException("Invalid channel is specified.");
                 }
                 channel = value;
             }
@@ -105,12 +105,12 @@ namespace AForge.Imaging.Filters
             get { return channelImage; }
             set
             {
-                if ( value != null )
+                if (value != null)
                 {
                     // check for valid format
-                    if ( ( value.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                         ( value.PixelFormat != PixelFormat.Format16bppGrayScale ) )
-                        throw new InvalidImagePropertiesException( "Channel image should be 8 bpp indexed or 16 bpp grayscale image." );
+                    if ((value.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                         (value.PixelFormat != PixelFormat.Format16bppGrayScale))
+                        throw new InvalidImagePropertiesException("Channel image should be 8 bpp indexed or 16 bpp grayscale image.");
                 }
 
                 channelImage = value;
@@ -134,12 +134,12 @@ namespace AForge.Imaging.Filters
             get { return unmanagedChannelImage; }
             set
             {
-                if ( value != null )
+                if (value != null)
                 {
                     // check for valid format
-                    if ( ( value.PixelFormat != PixelFormat.Format8bppIndexed ) &&
-                         ( value.PixelFormat != PixelFormat.Format16bppGrayScale ) )
-                        throw new InvalidImagePropertiesException( "Channel image should be 8 bpp indexed or 16 bpp grayscale image." );
+                    if ((value.PixelFormat != PixelFormat.Format8bppIndexed) &&
+                         (value.PixelFormat != PixelFormat.Format16bppGrayScale))
+                        throw new InvalidImagePropertiesException("Channel image should be 8 bpp indexed or 16 bpp grayscale image.");
                 }
 
                 channelImage = null;
@@ -148,13 +148,13 @@ namespace AForge.Imaging.Filters
         }
 
         // private constructor
-        private ReplaceChannel( )
+        private ReplaceChannel()
         {
             // initialize format translation dictionary
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
-            formatTranslations[PixelFormat.Format48bppRgb]  = PixelFormat.Format16bppGrayScale;
+            formatTranslations[PixelFormat.Format48bppRgb] = PixelFormat.Format16bppGrayScale;
             formatTranslations[PixelFormat.Format64bppArgb] = PixelFormat.Format16bppGrayScale;
         }
 
@@ -165,7 +165,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="channel">ARGB channel to replace.</param>
         /// 
-        public ReplaceChannel( short channel ) : this( )
+        public ReplaceChannel(short channel)
+            : this()
         {
             this.Channel = channel;
         }
@@ -177,7 +178,8 @@ namespace AForge.Imaging.Filters
         /// <param name="channel">ARGB channel to replace.</param>
         /// <param name="channelImage">Channel image to use for replacement.</param>
         /// 
-        public ReplaceChannel( short channel, Bitmap channelImage ) : this( )
+        public ReplaceChannel(short channel, Bitmap channelImage)
+            : this()
         {
             this.Channel = channel;
             this.ChannelImage = channelImage;
@@ -190,8 +192,8 @@ namespace AForge.Imaging.Filters
         /// <param name="channel">RGB channel to replace.</param>
         /// <param name="channelImage">Unmanaged channel image to use for replacement.</param>
         /// 
-        public ReplaceChannel( short channel, UnmanagedImage channelImage )
-            : this( )
+        public ReplaceChannel(short channel, UnmanagedImage channelImage)
+            : this()
         {
             this.Channel = channel;
             this.UnmanagedChannelImage = channelImage;
@@ -212,27 +214,23 @@ namespace AForge.Imaging.Filters
         /// <exception cref="InvalidImagePropertiesException">Can not replace alpha channel of none ARGB image. The
         /// exception is throw, when alpha channel is requested to be replaced in RGB image.</exception>
         /// 
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            if ( ( channelImage == null ) && ( unmanagedChannelImage == null ) )
-            {
-                throw new NullReferenceException( "Channel image was not specified." );
-            }
+            if ((channelImage == null) && (unmanagedChannelImage == null))
+                throw new InvalidOperationException("Channel image was not specified.");
 
-            int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
-            if ( ( channel == RGB.A ) && ( pixelSize != 4 ) && ( pixelSize != 8 ) )
-            {
-                throw new InvalidImagePropertiesException( "Can not replace alpha channel of none ARGB image." );
-            }
+            if ((channel == RGB.A) && (pixelSize != 4) && (pixelSize != 8))
+                throw new InvalidImagePropertiesException("Can not replace alpha channel of none ARGB image.");
 
-            int width   = image.Width;
-            int height  = image.Height;
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int width = image.Width;
+            int height = image.Height;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
             BitmapData chData = null;
             // pointer to channel's data
@@ -242,52 +240,52 @@ namespace AForge.Imaging.Filters
             PixelFormat chFormat = PixelFormat.Format16bppGrayScale;
 
             // check channel's image type
-            if ( channelImage != null )
+            if (channelImage != null)
             {
                 // check channel's image dimension
-                if ( ( width != channelImage.Width ) || ( height != channelImage.Height ) )
-                    throw new InvalidImagePropertiesException( "Channel image size does not match source image size." );
+                if ((width != channelImage.Width) || (height != channelImage.Height))
+                    throw new InvalidImagePropertiesException("Channel image size does not match source image size.");
 
                 // lock channel image
                 chData = channelImage.LockBits(
-                    new Rectangle( 0, 0, width, height ),
-                    ImageLockMode.ReadOnly, channelImage.PixelFormat );
+                    new Rectangle(0, 0, width, height),
+                    ImageLockMode.ReadOnly, channelImage.PixelFormat);
 
-                ch = (byte*) chData.Scan0.ToPointer( );
+                ch = (byte*)chData.Scan0.ToPointer();
                 chStride = chData.Stride;
                 chFormat = chData.PixelFormat;
             }
             else
             {
                 // check channel's image dimension
-                if ( ( width != unmanagedChannelImage.Width ) || ( height != unmanagedChannelImage.Height ) )
-                    throw new InvalidImagePropertiesException( "Channel image size does not match source image size." );
+                if ((width != unmanagedChannelImage.Width) || (height != unmanagedChannelImage.Height))
+                    throw new InvalidImagePropertiesException("Channel image size does not match source image size.");
 
-                ch = (byte*) unmanagedChannelImage.ImageData;
+                ch = (byte*)unmanagedChannelImage.ImageData;
                 chStride = unmanagedChannelImage.Stride;
                 chFormat = unmanagedChannelImage.PixelFormat;
             }
 
-            if ( pixelSize <= 4 )
+            if (pixelSize <= 4)
             {
                 // check channel image's format
-                if ( chFormat != PixelFormat.Format8bppIndexed )
-                    throw new InvalidImagePropertiesException( "Channel image's format does not correspond to format of the source image." );
+                if (chFormat != PixelFormat.Format8bppIndexed)
+                    throw new InvalidImagePropertiesException("Channel image's format does not correspond to format of the source image.");
 
                 int offsetCh = chData.Stride - rect.Width;
 
                 // do the job
-                byte* dst = (byte*) image.ImageData.ToPointer( );
+                byte* dst = (byte*)image.ImageData.ToPointer();
 
                 // allign pointers to the first pixel to process
-                dst += ( startY * image.Stride + startX * pixelSize );
-                ch  += ( startY * chStride + startX );
+                dst += (startY * image.Stride + startX * pixelSize);
+                ch += (startY * chStride + startX);
 
                 // for each line
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++, dst += pixelSize, ch++ )
+                    for (int x = startX; x < stopX; x++, dst += pixelSize, ch++)
                     {
                         dst[channel] = *ch;
                     }
@@ -298,13 +296,13 @@ namespace AForge.Imaging.Filters
             else
             {
                 // check channel image's format
-                if ( chFormat != PixelFormat.Format16bppGrayScale )
-                    throw new InvalidImagePropertiesException( "Channel image's format does not correspond to format of the source image." );
+                if (chFormat != PixelFormat.Format16bppGrayScale)
+                    throw new InvalidImagePropertiesException("Channel image's format does not correspond to format of the source image.");
 
                 int stride = image.Stride;
 
                 // do the job
-                byte* baseDst = (byte*) image.ImageData.ToPointer( );
+                byte* baseDst = (byte*)image.ImageData.ToPointer();
                 // allign pointers for X coordinate
                 baseDst += startX * pixelSize;
                 ch += startX * 2;
@@ -312,23 +310,23 @@ namespace AForge.Imaging.Filters
                 pixelSize /= 2;
 
                 // for each line
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    ushort* dst = (ushort*) ( baseDst + y * stride );
-                    ushort* chPtr = (ushort*) ( ch + y * chStride );
+                    ushort* dst = (ushort*)(baseDst + y * stride);
+                    ushort* chPtr = (ushort*)(ch + y * chStride);
 
                     // for each pixel
-                    for ( int x = startX; x < stopX; x++, dst += pixelSize, chPtr++ )
+                    for (int x = startX; x < stopX; x++, dst += pixelSize, chPtr++)
                     {
                         dst[channel] = *chPtr;
                     }
                 }
             }
 
-            if ( chData != null )
+            if (chData != null)
             {
                 // unlock
-                channelImage.UnlockBits( chData );
+                channelImage.UnlockBits(chData);
             }
         }
     }

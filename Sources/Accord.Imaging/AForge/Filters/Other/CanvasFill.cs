@@ -37,16 +37,16 @@ namespace AForge.Imaging.Filters
     public class CanvasFill : BaseInPlaceFilter
     {
         // RGB fill color
-        private byte fillRed   = 255;
+        private byte fillRed = 255;
         private byte fillGreen = 255;
-        private byte fillBlue  = 255;
+        private byte fillBlue = 255;
         // gray fill color
         private byte fillGray = 255;
         // region to keep
         private Rectangle region;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -71,7 +71,7 @@ namespace AForge.Imaging.Filters
         /// 
         public Color FillColorRGB
         {
-            get { return Color.FromArgb( fillRed, fillGreen, fillBlue ); }
+            get { return Color.FromArgb(fillRed, fillGreen, fillBlue); }
             set
             {
                 fillRed = value.R;
@@ -107,12 +107,12 @@ namespace AForge.Imaging.Filters
         }
 
         // Private constructor to do common initialization
-        private CanvasFill( )
+        private CanvasFill()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppArgb]   = PixelFormat.Format32bppArgb;
-            formatTranslations[PixelFormat.Format32bppRgb]    = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
         }
 
         /// <summary>
@@ -121,8 +121,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="region">Region to fill.</param>
         /// 
-        public CanvasFill( Rectangle region )
-            : this( )
+        public CanvasFill(Rectangle region)
+            : this()
         {
             this.region = region;
         }
@@ -134,13 +134,13 @@ namespace AForge.Imaging.Filters
         /// <param name="region">Region to fill.</param>
         /// <param name="fillColorRGB">RGB color to use for filling areas inside of specified region in color images.</param>
         /// 
-        public CanvasFill( Rectangle region, Color fillColorRGB )
-            : this( )
+        public CanvasFill(Rectangle region, Color fillColorRGB)
+            : this()
         {
-            this.region    = region;
-            this.fillRed   = fillColorRGB.R;
+            this.region = region;
+            this.fillRed = fillColorRGB.R;
             this.fillGreen = fillColorRGB.G;
-            this.fillBlue  = fillColorRGB.B;
+            this.fillBlue = fillColorRGB.B;
         }
 
         /// <summary>
@@ -150,10 +150,10 @@ namespace AForge.Imaging.Filters
         /// <param name="region">Region to fill.</param>
         /// <param name="fillColorGray">Gray color to use for filling areas inside of specified region in grayscale images.</param>
         /// 
-        public CanvasFill( Rectangle region, byte fillColorGray )
-            : this( )
+        public CanvasFill(Rectangle region, byte fillColorGray)
+            : this()
         {
-            this.region   = region;
+            this.region = region;
             this.fillGray = fillColorGray;
         }
 
@@ -165,14 +165,14 @@ namespace AForge.Imaging.Filters
         /// <param name="fillColorRGB">RGB color to use for filling areas inside of specified region in color images.</param>
         /// <param name="fillColorGray">Gray color to use for filling areas inside of specified region in grayscale images.</param>
         /// 
-        public CanvasFill( Rectangle region, Color fillColorRGB, byte fillColorGray )
-            : this( )
+        public CanvasFill(Rectangle region, Color fillColorRGB, byte fillColorGray)
+            : this()
         {
-            this.region    = region;
-            this.fillRed   = fillColorRGB.R;
+            this.region = region;
+            this.fillRed = fillColorRGB.R;
             this.fillGreen = fillColorRGB.G;
-            this.fillBlue  = fillColorRGB.B;
-            this.fillGray  = fillColorGray;
+            this.fillBlue = fillColorRGB.B;
+            this.fillGray = fillColorGray;
         }
 
         /// <summary>
@@ -181,54 +181,54 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="image">Source image data.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image )
+        protected override unsafe void ProcessFilter(UnmanagedImage image)
         {
-            int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
             // get image width and height
-            int width  = image.Width;
+            int width = image.Width;
             int height = image.Height;
 
             // start (X, Y) point of filling region
-            int startX = Math.Max( 0, region.X );
-            int startY = Math.Max( 0, region.Y );
+            int startX = Math.Max(0, region.X);
+            int startY = Math.Max(0, region.Y);
 
             // check if there is nothing to do
-            if ( ( startX >= width ) || ( startY >= height ) )
+            if ((startX >= width) || (startY >= height))
                 return;
 
             // stop (X, Y) point of filling region
-            int stopX = Math.Min( width, region.Right );
-            int stopY = Math.Min( height, region.Bottom );
+            int stopX = Math.Min(width, region.Right);
+            int stopY = Math.Min(height, region.Bottom);
 
             // check if there is nothing to do
-            if ( ( stopX <= startX ) || ( stopY <= startY ) )
+            if ((stopX <= startX) || (stopY <= startY))
                 return;
 
             int stride = image.Stride;
 
             // do the job
-            byte * ptr = (byte*) image.ImageData.ToPointer( ) + startY * stride + startX * pixelSize;
+            byte* ptr = (byte*)image.ImageData.ToPointer() + startY * stride + startX * pixelSize;
 
-            if ( image.PixelFormat == PixelFormat.Format8bppIndexed )
+            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
             {
                 // grayscale image
                 int fillWidth = stopX - startX;
 
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    AForge.SystemTools.SetUnmanagedMemory( ptr, fillGray, fillWidth );
+                    AForge.SystemTools.SetUnmanagedMemory(ptr, fillGray, fillWidth);
                     ptr += stride;
                 }
             }
             else
             {
                 // color image
-                int offset = stride - ( stopX - startX ) * pixelSize;
+                int offset = stride - (stopX - startX) * pixelSize;
 
-                for ( int y = startY; y < stopY; y++ )
+                for (int y = startY; y < stopY; y++)
                 {
-                    for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                    for (int x = startX; x < stopX; x++, ptr += pixelSize)
                     {
                         ptr[RGB.R] = fillRed;
                         ptr[RGB.G] = fillGreen;

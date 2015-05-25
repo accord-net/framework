@@ -8,12 +8,12 @@
 
 namespace AForge.Imaging.Filters
 {
-	using System;
-	using System.Drawing;
-	using System.Drawing.Imaging;
-	using System.Collections;
+    using System;
+    using System.Drawing;
+    using System.Drawing.Imaging;
+    using System.Collections;
 
-	/// <summary>
+    /// <summary>
     /// Filters' collection to apply to an image in sequence.
     /// </summary>
     /// 
@@ -37,13 +37,13 @@ namespace AForge.Imaging.Filters
     /// </code>
     /// </remarks>
     /// 
-	public class FiltersSequence : CollectionBase, IFilter
-	{
+    public class FiltersSequence : CollectionBase, IFilter
+    {
         /// <summary>
         /// Initializes a new instance of the <see cref="FiltersSequence"/> class.
         /// </summary>
         /// 
-		public FiltersSequence( ) { }
+        public FiltersSequence() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FiltersSequence"/> class.
@@ -51,10 +51,10 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="filters">Sequence of filters to apply.</param>
         /// 
-        public FiltersSequence( params IFilter[] filters )
-		{
-			InnerList.AddRange( filters );
-		}
+        public FiltersSequence(params IFilter[] filters)
+        {
+            InnerList.AddRange(filters);
+        }
 
         /// <summary>
         /// Get filter at the specified index.
@@ -64,10 +64,10 @@ namespace AForge.Imaging.Filters
         /// 
         /// <returns>Returns filter at specified index.</returns>
         /// 
-		public IFilter this[int index]
-		{
-			get { return ((IFilter) InnerList[index]); }
-		}
+        public IFilter this[int index]
+        {
+            get { return ((IFilter)InnerList[index]); }
+        }
 
         /// <summary>
         /// Add new filter to the sequence.
@@ -75,10 +75,10 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="filter">Filter to add to the sequence.</param>
         /// 
-		public void Add( IFilter filter )
-		{
-			InnerList.Add( filter );
-		}
+        public void Add(IFilter filter)
+        {
+            InnerList.Add(filter);
+        }
 
         /// <summary>
         /// Apply filter to an image.
@@ -94,27 +94,27 @@ namespace AForge.Imaging.Filters
         /// 
         /// <exception cref="ApplicationException">No filters were added into the filters' sequence.</exception>
         ///
-        public Bitmap Apply( Bitmap image )
-		{
+        public Bitmap Apply(Bitmap image)
+        {
             Bitmap dstImage = null;
             // lock source bitmap data
             BitmapData imageData = image.LockBits(
-                new Rectangle( 0, 0, image.Width, image.Height ),
-                ImageLockMode.ReadOnly, image.PixelFormat );
+                new Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, image.PixelFormat);
 
             try
             {
                 // apply the filter
-                dstImage = Apply( imageData );
+                dstImage = Apply(imageData);
             }
             finally
             {
                 // unlock source image
-                image.UnlockBits( imageData );
+                image.UnlockBits(imageData);
             }
 
             return dstImage;
-		}
+        }
 
         /// <summary>
         /// Apply filter to an image.
@@ -131,21 +131,21 @@ namespace AForge.Imaging.Filters
         ///
         /// <exception cref="ApplicationException">No filters were added into the filters' sequence.</exception>
         ///
-        public Bitmap Apply( BitmapData imageData )
+        public Bitmap Apply(BitmapData imageData)
         {
             // to increase performance the method passes execution to the method, which
             // operates with unmanaged images - this saves time, because redundant managed
             // locks/unlocks are eliminated
 
             // get result as an unmanaged image
-            UnmanagedImage dstUnmanagedImage = Apply( new UnmanagedImage( imageData ) );
+            UnmanagedImage dstUnmanagedImage = Apply(new UnmanagedImage(imageData));
             // convert unmanaged image to managed
-            Bitmap dstImage = dstUnmanagedImage.ToManagedImage( );
+            Bitmap dstImage = dstUnmanagedImage.ToManagedImage();
             // dispose unmanaged mage
-            dstUnmanagedImage.Dispose( );
+            dstUnmanagedImage.Dispose();
 
             return dstImage;
-		}
+        }
 
         /// <summary>
         /// Apply filter to an image in unmanaged memory.
@@ -161,26 +161,26 @@ namespace AForge.Imaging.Filters
         /// 
         /// <exception cref="ApplicationException">No filters were added into the filters' sequence.</exception>
         ///
-        public UnmanagedImage Apply( UnmanagedImage image )
+        public UnmanagedImage Apply(UnmanagedImage image)
         {
             int n = InnerList.Count;
 
             // check for empty sequence
-            if ( n == 0 )
-                throw new ApplicationException( "No filters in the sequence." );
+            if (n == 0)
+                throw new InvalidOperationException("No filters in the sequence.");
 
             UnmanagedImage dstImg = null;
             UnmanagedImage tmpImg = null;
 
             // apply the first filter
-            dstImg = ( (IFilter) InnerList[0] ).Apply( image );
+            dstImg = ((IFilter)InnerList[0]).Apply(image);
 
             // apply other filters
-            for ( int i = 1; i < n; i++ )
+            for (int i = 1; i < n; i++)
             {
                 tmpImg = dstImg;
-                dstImg = ( (IFilter) InnerList[i] ).Apply( tmpImg );
-                tmpImg.Dispose( );
+                dstImg = ((IFilter)InnerList[i]).Apply(tmpImg);
+                tmpImg.Dispose();
             }
 
             return dstImg;
@@ -202,17 +202,17 @@ namespace AForge.Imaging.Filters
         /// 
         /// <exception cref="ApplicationException">No filters were added into the filters' sequence.</exception>
         ///
-        public void Apply( UnmanagedImage sourceImage, UnmanagedImage destinationImage )
+        public void Apply(UnmanagedImage sourceImage, UnmanagedImage destinationImage)
         {
             int n = InnerList.Count;
 
             // check for empty sequence
-            if ( n == 0 )
-                throw new ApplicationException( "No filters in the sequence." );
+            if (n == 0)
+                throw new InvalidOperationException("No filters in the sequence.");
 
-            if ( n == 1 )
+            if (n == 1)
             {
-                ( (IFilter) InnerList[0] ).Apply( sourceImage, destinationImage );
+                ((IFilter)InnerList[0]).Apply(sourceImage, destinationImage);
             }
             else
             {
@@ -220,19 +220,19 @@ namespace AForge.Imaging.Filters
                 UnmanagedImage tmpImg2 = null;
 
                 // apply the first filter
-                tmpImg1 = ( (IFilter) InnerList[0] ).Apply( sourceImage );
+                tmpImg1 = ((IFilter)InnerList[0]).Apply(sourceImage);
 
                 // apply other filters, except the last one
                 n--;
-                for ( int i = 1; i < n; i++ )
+                for (int i = 1; i < n; i++)
                 {
                     tmpImg2 = tmpImg1;
-                    tmpImg1 = ( (IFilter) InnerList[i] ).Apply( tmpImg2 );
-                    tmpImg2.Dispose( );
+                    tmpImg1 = ((IFilter)InnerList[i]).Apply(tmpImg2);
+                    tmpImg2.Dispose();
                 }
 
-                ( (IFilter) InnerList[n] ).Apply( tmpImg1, destinationImage );
+                ((IFilter)InnerList[n]).Apply(tmpImg1, destinationImage);
             }
         }
-	}
+    }
 }

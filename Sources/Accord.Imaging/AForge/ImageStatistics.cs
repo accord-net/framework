@@ -621,10 +621,9 @@ namespace AForge.Imaging
         }
 
         // Check pixel format of the source image
-        private void CheckSourceFormat(PixelFormat pixelFormat)
+        private static void CheckSourceFormat(PixelFormat pixelFormat)
         {
-            if (
-                (pixelFormat != PixelFormat.Format8bppIndexed) &&
+            if ((pixelFormat != PixelFormat.Format8bppIndexed) &&
                 (pixelFormat != PixelFormat.Format24bppRgb) &&
                 (pixelFormat != PixelFormat.Format32bppRgb) &&
                 (pixelFormat != PixelFormat.Format32bppArgb))
@@ -633,17 +632,13 @@ namespace AForge.Imaging
             }
         }
 
-        private void CheckMaskProperties(PixelFormat maskFormat, Size maskSize, Size sourceImageSize)
+        private static void CheckMaskProperties(PixelFormat maskFormat, Size maskSize, Size sourceImageSize)
         {
             if (maskFormat != PixelFormat.Format8bppIndexed)
-            {
                 throw new ArgumentException("Mask image must be 8 bpp grayscale image.");
-            }
 
             if ((maskSize.Width != sourceImageSize.Width) || (maskSize.Height != sourceImageSize.Height))
-            {
                 throw new ArgumentException("Mask must have the same size as the source image to get statistics for.");
-            }
         }
     }
 }
