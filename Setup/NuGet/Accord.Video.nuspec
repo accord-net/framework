@@ -2,9 +2,9 @@
 
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Accord.Vision</id>
+    <id>Accord.Video</id>
     <version>$version$</version>
-    <title>Accord.Vision</title>
+    <title>Accord.Video</title>
     <authors>Accord.NET</authors>
     <owners>Accord.NET</owners>
     <licenseUrl>http://accord-framework.net/license.txt</licenseUrl>
@@ -21,13 +21,13 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Release\net35\Accord.Video.dll" target="lib\net35\Accord.Vision.dll" />
-    <file src="..\..\Release\net35\Accord.Video.xml" target="lib\net35\Accord.Vision.xml" />
+    <file src="..\..\Release\net35\Accord.Video.dll" target="lib\net35\Accord.Video.dll" />
+    <file src="..\..\Release\net35\Accord.Video.xml" target="lib\net35\Accord.Video.xml" />
 
-    <file src="..\..\Release\net40\Accord.Video.dll" target="lib\net40\Accord.Vision.dll" />
-    <file src="..\..\Release\net40\Accord.Video.xml" target="lib\net40\Accord.Vision.xml" />
+    <file src="..\..\Release\net40\Accord.Video.dll" target="lib\net40\Accord.Video.dll" />
+    <file src="..\..\Release\net40\Accord.Video.xml" target="lib\net40\Accord.Video.xml" />
 
-    <file src="..\..\Release\net45\Accord.Video.dll" target="lib\net45\Accord.Vision.dll" />
-    <file src="..\..\Release\net45\Accord.Video.xml" target="lib\net45\Accord.Vision.xml" />
+    <file src="..\..\Release\net45\Accord.Video.dll" target="lib\net45\Accord.Video.dll" />
+    <file src="..\..\Release\net45\Accord.Video.xml" target="lib\net45\Accord.Video.xml" />
   </files>
 </package>

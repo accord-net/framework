@@ -22,7 +22,7 @@
       <dependency id="Accord.MachineLearning" version="$version$" />
       <dependency id="Accord.Math"            version="$version$" />
       <dependency id="Accord.Statistics"      version="$version$" />
-      <dependency id="Accord.Video"      version="$version$" />
+      <dependency id="Accord.Video"           version="$version$" />
     </dependencies>
   </metadata>
   <files>
