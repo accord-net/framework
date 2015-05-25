@@ -177,7 +177,7 @@ namespace AForge.Genetic
             // function node queue. the queue contains function node,
             // which requires children. when a function node receives
             // all children, it will be removed from the queue
-            Queue functionNodes = new Queue( );
+            Queue<GPTreeNode> functionNodes = new Queue<GPTreeNode>();
 
             // create root node
             GPTreeNode root = new GPTreeNode( genes[0] );
