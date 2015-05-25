@@ -280,7 +280,7 @@ namespace AForge.Imaging.Formats
 
         // Read and process FITS header. After the header is read stream pointer will
         // point to data or extension.
-        private FITSImageInfo ReadHeader(Stream stream)
+        private static FITSImageInfo ReadHeader(Stream stream)
         {
             byte[] headerRecord = new byte[80];
             int recordsRead = 1;

@@ -46,21 +46,21 @@ namespace AForge.Imaging.Filters
     /// 
     public class YCbCrFiltering : BaseInPlacePartialFilter
     {
-        private Range yRange  = new Range( 0.0f, 1.0f );
-        private Range cbRange = new Range( -0.5f, 0.5f );
-        private Range crRange = new Range( -0.5f, 0.5f );
+        private Range yRange = new Range(0.0f, 1.0f);
+        private Range cbRange = new Range(-0.5f, 0.5f);
+        private Range crRange = new Range(-0.5f, 0.5f);
 
-        private float fillY  = 0.0f;
+        private float fillY = 0.0f;
         private float fillCb = 0.0f;
         private float fillCr = 0.0f;
-        private bool  fillOutsideRange = true;
+        private bool fillOutsideRange = true;
 
         private bool updateY = true;
         private bool updateCb = true;
         private bool updateCr = true;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -107,7 +107,7 @@ namespace AForge.Imaging.Filters
         /// </summary>
         public YCbCr FillColor
         {
-            get { return new YCbCr( fillY, fillCb, fillCr ); }
+            get { return new YCbCr(fillY, fillCb, fillCr); }
             set
             {
                 fillY = value.Y;
@@ -181,10 +181,10 @@ namespace AForge.Imaging.Filters
         /// <summary>
         /// Initializes a new instance of the <see cref="YCbCrFiltering"/> class.
         /// </summary>
-        public YCbCrFiltering( )
+        public YCbCrFiltering()
         {
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
@@ -196,10 +196,10 @@ namespace AForge.Imaging.Filters
         /// <param name="cbRange">Range of Cb component.</param>
         /// <param name="crRange">Range of Cr component.</param>
         /// 
-        public YCbCrFiltering( Range yRange, Range cbRange, Range crRange ) :
-            this( )
+        public YCbCrFiltering(Range yRange, Range cbRange, Range crRange) :
+            this()
         {
-            this.yRange  = yRange;
+            this.yRange = yRange;
             this.cbRange = cbRange;
             this.crRange = crRange;
         }
@@ -211,74 +211,74 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
             // get pixel size
-            int pixelSize = ( image.PixelFormat == PixelFormat.Format24bppRgb ) ? 3 : 4;
+            int pixelSize = (image.PixelFormat == PixelFormat.Format24bppRgb) ? 3 : 4;
 
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
-            RGB rgb = new RGB( );
-            YCbCr ycbcr = new YCbCr( );
+            RGB rgb = new RGB();
+            YCbCr ycbcr = new YCbCr();
 
             bool updated;
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * image.Stride + startX * pixelSize );
+            ptr += (startY * image.Stride + startX * pixelSize);
 
             // for each row
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                for (int x = startX; x < stopX; x++, ptr += pixelSize)
                 {
-                    updated   = false;
-                    rgb.Red   = ptr[RGB.R];
+                    updated = false;
+                    rgb.Red = ptr[RGB.R];
                     rgb.Green = ptr[RGB.G];
-                    rgb.Blue  = ptr[RGB.B];
+                    rgb.Blue = ptr[RGB.B];
 
                     // convert to YCbCr
-                    AForge.Imaging.YCbCr.FromRGB( rgb, ycbcr );
+                    AForge.Imaging.YCbCr.FromRGB(rgb, ycbcr);
 
                     // check YCbCr values
                     if (
-                        ( ycbcr.Y >= yRange.Min )   && ( ycbcr.Y <= yRange.Max ) &&
-                        ( ycbcr.Cb >= cbRange.Min ) && ( ycbcr.Cb <= cbRange.Max ) &&
-                        ( ycbcr.Cr >= crRange.Min ) && ( ycbcr.Cr <= crRange.Max )
+                        (ycbcr.Y >= yRange.Min) && (ycbcr.Y <= yRange.Max) &&
+                        (ycbcr.Cb >= cbRange.Min) && (ycbcr.Cb <= cbRange.Max) &&
+                        (ycbcr.Cr >= crRange.Min) && (ycbcr.Cr <= crRange.Max)
                         )
                     {
-                        if ( !fillOutsideRange )
+                        if (!fillOutsideRange)
                         {
-                            if ( updateY ) ycbcr.Y   = fillY;
-                            if ( updateCb ) ycbcr.Cb = fillCb;
-                            if ( updateCr ) ycbcr.Cr = fillCr;
+                            if (updateY) ycbcr.Y = fillY;
+                            if (updateCb) ycbcr.Cb = fillCb;
+                            if (updateCr) ycbcr.Cr = fillCr;
 
                             updated = true;
                         }
                     }
                     else
                     {
-                        if ( fillOutsideRange )
+                        if (fillOutsideRange)
                         {
-                            if ( updateY ) ycbcr.Y   = fillY;
-                            if ( updateCb ) ycbcr.Cb = fillCb;
-                            if ( updateCr ) ycbcr.Cr = fillCr;
+                            if (updateY) ycbcr.Y = fillY;
+                            if (updateCb) ycbcr.Cb = fillCb;
+                            if (updateCr) ycbcr.Cr = fillCr;
 
                             updated = true;
                         }
                     }
 
-                    if ( updated )
+                    if (updated)
                     {
                         // convert back to RGB
-                        AForge.Imaging.YCbCr.ToRGB( ycbcr, rgb );
+                        AForge.Imaging.YCbCr.ToRGB(ycbcr, rgb);
 
                         ptr[RGB.R] = rgb.Red;
                         ptr[RGB.G] = rgb.Green;

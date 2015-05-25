@@ -344,7 +344,10 @@ namespace AForge.Math.Geometry
         /// 
         public override bool Equals(object obj)
         {
-            return (obj is LineSegment) ? (this == (LineSegment)obj) : false;
+            var line = obj as LineSegment;
+            if (line == null)
+                return false;
+            return this == line;
         }
 
         /// <summary>

@@ -105,11 +105,11 @@ namespace AForge.Imaging
 
             // get palette
             ColorPalette cp = image.Palette;
+
             // init palette
             for (int i = 0; i < 256; i++)
-            {
                 cp.Entries[i] = Color.FromArgb(i, i, i);
-            }
+
             // set palette back
             image.Palette = cp;
         }

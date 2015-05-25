@@ -380,15 +380,14 @@ namespace AForge.Math
         /// 
         public static Matrix4x4 CreatePerspective(float width, float height, float nearPlaneDistance, float farPlaneDistance)
         {
-            if ((nearPlaneDistance <= 0) || (farPlaneDistance <= 0))
-            {
-                throw new ArgumentOutOfRangeException("Both near and far view planes' distances must be greater than zero.");
-            }
+            if (nearPlaneDistance <= 0)
+                throw new ArgumentOutOfRangeException("nearPlaneDistance ", "Near plane distance must be greater than zero.");
+
+            if (farPlaneDistance <= 0)
+                throw new ArgumentOutOfRangeException("farPlaneDistance", "Far view plane distance must be greater than zero.");
 
             if (nearPlaneDistance >= farPlaneDistance)
-            {
-                throw new ArgumentException("Near plane must be closer than the far plane.");
-            }
+                throw new ArgumentException("Near plane must be closer than the far plane.", "farPlaneDistance");
 
             Matrix4x4 m = new Matrix4x4();
 

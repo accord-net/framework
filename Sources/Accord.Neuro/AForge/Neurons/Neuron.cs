@@ -27,7 +27,7 @@ namespace AForge.Neuro
         protected int inputsCount = 0;
 
         /// <summary>
-        /// Nouron's wieghts.
+        /// Neuron's weights.
         /// </summary>
         protected double[] weights = null;
 
@@ -66,9 +66,7 @@ namespace AForge.Neuro
             set
             {
                 if (value != null)
-                {
                     rand = value;
-                }
             }
         }
 
@@ -127,6 +125,7 @@ namespace AForge.Neuro
             // allocate weights
             inputsCount = Math.Max(1, inputs);
             weights = new double[inputsCount];
+
             // randomize the neuron
             Randomize();
         }
