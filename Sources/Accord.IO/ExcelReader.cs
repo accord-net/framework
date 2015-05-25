@@ -23,6 +23,7 @@
 namespace Accord.IO
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
     using System.Data.OleDb;
@@ -253,22 +254,27 @@ namespace Accord.IO
         /// 
         public string[] GetWorksheetList()
         {
-            OleDbConnection connection = new OleDbConnection(strConnection);
-            connection.Open();
-            DataTable tableWorksheets = connection.GetSchema("Tables");
-            connection.Close();
+            var set = new HashSet<string>();
 
-            worksheets = new string[tableWorksheets.Rows.Count];
-
-            for (int i = 0; i < worksheets.Length; i++)
+            using (var connection = new OleDbConnection(strConnection))
             {
-                worksheets[i] = (string)tableWorksheets.Rows[i]["TABLE_NAME"];
-                worksheets[i] = worksheets[i].Remove(worksheets[i].Length - 1).Trim('"', '\'');
+                connection.Open();
 
-                // removes the trailing $ and other characters appended in the table name
-                while (worksheets[i].EndsWith("$", StringComparison.Ordinal))
-                    worksheets[i] = worksheets[i].Remove(worksheets[i].Length - 1).Trim('"', '\'');
+                var table = connection.GetSchema("Tables");
+
+                for (int i = 0; i < table.Rows.Count; i++)
+                {
+                    string name = (string)table.Rows[i]["TABLE_NAME"];
+
+                    // removes the trailing $ and other characters appended in the table name
+                    while (name.EndsWith("$", StringComparison.Ordinal))
+                        name = name.Remove(name.Length - 1).Trim('"', '\'');
+
+                    set.Add(name);
+                }
             }
+
+            this.worksheets = new List<string>(set).ToArray();
 
             return worksheets;
         }
