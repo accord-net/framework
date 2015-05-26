@@ -9,7 +9,7 @@
 namespace AForge.Imaging
 {
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
 
@@ -263,7 +263,7 @@ namespace AForge.Imaging
 
         private int localPeakRadius = 4;
         private short minLineIntensity = 10;
-        private ArrayList lines = new ArrayList();
+        private List<HoughLine> lines = new List<HoughLine>();
 
         /// <summary>
         /// Steps per degree.
