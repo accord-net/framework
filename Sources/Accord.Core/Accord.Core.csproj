@@ -74,7 +74,6 @@
     <Compile Include="AForge\Exceptions.cs" />
     <Compile Include="AForge\IntPoint.cs" />
     <Compile Include="AForge\IntRange.cs" />
-    <Compile Include="AForge\Parallel.cs" />
     <Compile Include="AForge\Point.cs" />
     <Compile Include="AForge\PolishExpression.cs" />
     <Compile Include="AForge\Range.cs" />
