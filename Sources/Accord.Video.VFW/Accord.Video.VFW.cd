@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AForge.Video.VFW.AVIFileVideoSource" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="bytesReceived" Hidden="true" />
+      <Field Name="frameInterval" Hidden="true" />
+      <Field Name="frameIntervalFromSource" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="source" Hidden="true" />
+      <Field Name="stopEvent" Hidden="true" />
+      <Field Name="thread" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAABAYAAiACEAsAABAQQAQAAAAAAAAIIUAAAIBAAAI=</HashCode>
+      <FileName>AVIFileVideoSource.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.VFW.AVIReader" BaseTypeListCollapsed="true">
+    <Position X="5.5" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="codec" Hidden="true" />
+      <Field Name="file" Hidden="true" />
+      <Field Name="getFrame" Hidden="true" />
+      <Field Name="height" Hidden="true" />
+      <Field Name="length" Hidden="true" />
+      <Field Name="position" Hidden="true" />
+      <Field Name="rate" Hidden="true" />
+      <Field Name="start" Hidden="true" />
+      <Field Name="stream" Hidden="true" />
+      <Field Name="sync" Hidden="true" />
+      <Field Name="width" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAABbAAIAUgQEAAIEJAAAAAAAAADCAAAACAAAA=</HashCode>
+      <FileName>AVIReader.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.VFW.AVIWriter" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="buffer" Hidden="true" />
+      <Field Name="codec" Hidden="true" />
+      <Field Name="file" Hidden="true" />
+      <Field Name="height" Hidden="true" />
+      <Field Name="position" Hidden="true" />
+      <Field Name="quality" Hidden="true" />
+      <Field Name="rate" Hidden="true" />
+      <Field Name="stream" Hidden="true" />
+      <Field Name="streamCompressed" Hidden="true" />
+      <Field Name="stride" Hidden="true" />
+      <Field Name="sync" Hidden="true" />
+      <Field Name="width" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAABeAAIAVgQAAAIEAgAAAAAAAADCFAAACAAAA=</HashCode>
+      <FileName>AVIWriter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.VFW.Win32">
+    <Position X="8" Y="0.5" Width="3" />
+    <NestedTypes>
+      <Struct Name="AForge.Video.VFW.Win32.RECT" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Win32.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="AForge.Video.VFW.Win32.AVISTREAMINFO" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Win32.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="AForge.Video.VFW.Win32.BITMAPINFOHEADER" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Win32.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="AForge.Video.VFW.Win32.AVICOMPRESSOPTIONS" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Win32.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Enum Name="AForge.Video.VFW.Win32.OpenFileMode" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Win32.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAgACBAAAsQAgAAAFAAAAAAAAAAcEIAAKQQAAAAIACA=</HashCode>
+      <FileName>Win32.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

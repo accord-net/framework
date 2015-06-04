@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AForge.Video.Kinect.Kinect" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <NestedTypes>
+      <Delegate Name="AForge.Video.Kinect.Kinect.DeviceFailureHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Kinect.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Class Name="AForge.Video.Kinect.Kinect.DeviceContext" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Kinect.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEIRAAAAALBMQAAQAVBAAAAAEACAAAgIIAACMACAABA=</HashCode>
+      <FileName>Kinect.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.Kinect.KinectDepthCamera" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="0.5" Width="2.75" />
+    <Members>
+      <Field Name="bytesReceived" Hidden="true" />
+      <Field Name="depthModeInfo" Hidden="true" />
+      <Field Name="device" Hidden="true" />
+      <Field Name="deviceID" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="gamma" Hidden="true" />
+      <Field Name="imageBuffer" Hidden="true" />
+      <Field Name="provideOriginalDepthImage" Hidden="true" />
+      <Field Name="resolution" Hidden="true" />
+      <Field Name="runningCameras" Hidden="true" />
+      <Field Name="sync" Hidden="true" />
+      <Field Name="videoCallback" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAQYCArQCEAgAEBAAQCQAAAAhAAAAIQAAAIAABAA=</HashCode>
+      <FileName>KinectDepthCamera.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.Kinect.KinectNative">
+    <Position X="9.75" Y="0.5" Width="3" />
+    <Members>
+      <Field Name="freenectContext" Hidden="true" />
+      <Field Name="logCallback" Hidden="true" />
+      <Field Name="sync" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Delegate Name="AForge.Video.Kinect.KinectNative.FreenectVideoDataCallback" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="AForge.Video.Kinect.KinectNative.ErrorHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Struct Name="AForge.Video.Kinect.KinectNative.TiltState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Class Name="AForge.Video.Kinect.KinectNative.timeval" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Struct Name="AForge.Video.Kinect.KinectNative.BitmapInfoHeader" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Enum Name="AForge.Video.Kinect.KinectNative.TiltStatusOption" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Enum Name="AForge.Video.Kinect.KinectNative.DepthCameraFormat" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Delegate Name="AForge.Video.Kinect.KinectNative.FreenectLogCallback" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Enum Name="AForge.Video.Kinect.KinectNative.VideoCameraFormat" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Delegate Name="AForge.Video.Kinect.KinectNative.FreenectDepthDataCallback" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Enum Name="AForge.Video.Kinect.KinectNative.LogLevelOptions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>KinectNative.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>gCEAACACQomAIAYgBAwmQAIAEkgBAIIAAAAAgmAAEgg=</HashCode>
+      <FileName>KinectNative.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.Kinect.KinectVideoCamera" BaseTypeListCollapsed="true">
+    <Position X="6.5" Y="0.5" Width="2.75" />
+    <Members>
+      <Field Name="bytesReceived" Hidden="true" />
+      <Field Name="cameraMode" Hidden="true" />
+      <Field Name="device" Hidden="true" />
+      <Field Name="deviceID" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="imageBuffer" Hidden="true" />
+      <Field Name="resolution" Hidden="true" />
+      <Field Name="runningCameras" Hidden="true" />
+      <Field Name="sync" Hidden="true" />
+      <Field Name="videoCallback" Hidden="true" />
+      <Field Name="videoModeInfo" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAEAAQYCArACEAgAEBAAQCQAAAAhAQAAIQAAAIAABAA=</HashCode>
+      <FileName>KinectVideoCamera.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="AForge.Video.Kinect.LedColorOption">
+    <Position X="4" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAIAAAAAAAgAAAAAAAAAAAAAAAQAAAAAAADAAAAA=</HashCode>
+      <FileName>KinectNative.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AForge.Video.Kinect.CameraResolution">
+    <Position X="6.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>KinectNative.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AForge.Video.Kinect.VideoCameraMode">
+    <Position X="3.75" Y="5.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAgAAAAQA=</HashCode>
+      <FileName>KinectVideoCamera.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

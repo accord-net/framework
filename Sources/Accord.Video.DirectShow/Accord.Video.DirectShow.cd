@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AForge.Video.DirectShow.FileVideoSource" BaseTypeListCollapsed="true">
+    <Position X="1" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="bytesReceived" Hidden="true" />
+      <Field Name="fileName" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="preventFreezing" Hidden="true" />
+      <Field Name="referenceClockEnabled" Hidden="true" />
+      <Field Name="stopEvent" Hidden="true" />
+      <Field Name="thread" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="AForge.Video.DirectShow.FileVideoSource.Grabber" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>FileVideoSource.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AABABQYCQiACEAkAABAAQAQAAAAAAAAJIUAAAIAAAAI=</HashCode>
+      <FileName>FileVideoSource.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.DirectShow.FilterInfo" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAIAAQAAAAAAAAAAQAAAAAAhAA=</HashCode>
+      <FileName>FilterInfo.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.DirectShow.FilterInfoCollection">
+    <Position X="1.25" Y="7.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FilterInfoCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.DirectShow.FilterCategory">
+    <Position X="4.25" Y="3.5" Width="2.25" />
+    <Members>
+      <Field Name="AudioCompressorCategory" Hidden="true" />
+      <Field Name="AudioInputDevice" Hidden="true" />
+      <Field Name="VideoCompressorCategory" Hidden="true" />
+      <Field Name="VideoInputDevice" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAQAgAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Uuids.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.DirectShow.VideoCapabilities">
+    <Position X="4.25" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="AverageFrameRate" Hidden="true" />
+      <Field Name="BitCount" Hidden="true" />
+      <Field Name="FrameSize" Hidden="true" />
+      <Field Name="MaximumFrameRate" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABAAAAgAAAAAAAAAgAACAAAAgCAAAIAAACAAAAAAAiA=</HashCode>
+      <FileName>VideoCapabilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.DirectShow.VideoCaptureDevice" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="0.5" Width="3.25" />
+    <Members>
+      <Field Name="bytesReceived" Hidden="true" />
+      <Field Name="cacheCrossbarVideoInputs" Hidden="true" />
+      <Field Name="cacheSnapshotCapabilities" Hidden="true" />
+      <Field Name="cacheVideoCapabilities" Hidden="true" />
+      <Field Name="crossbarVideoInput" Hidden="true" />
+      <Field Name="crossbarVideoInputs" Hidden="true" />
+      <Field Name="deviceMoniker" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="isCrossbarAvailable" Hidden="true" />
+      <Field Name="needToDisplayCrossBarPropertyPage" Hidden="true" />
+      <Field Name="needToDisplayPropertyPage" Hidden="true" />
+      <Field Name="needToSetVideoInput" Hidden="true" />
+      <Field Name="needToSimulateTrigger" Hidden="true" />
+      <Field Name="parentWindowForPropertyPage" Hidden="true" />
+      <Field Name="provideSnapshots" Hidden="true" />
+      <Field Name="snapshotCapabilities" Hidden="true" />
+      <Field Name="snapshotResolution" Hidden="true" />
+      <Field Name="sourceObject" Hidden="true" />
+      <Field Name="startTime" Hidden="true" />
+      <Field Name="stopEvent" Hidden="true" />
+      <Field Name="sync" Hidden="true" />
+      <Field Name="thread" Hidden="true" />
+      <Field Name="videoCapabilities" Hidden="true" />
+      <Field Name="videoResolution" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="AForge.Video.DirectShow.VideoCaptureDevice.Grabber" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>VideoCaptureDevice.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>QQBmRIaHAuEKPQkAEhEgQAQGQAACQgDIIYSCAIEBAAI=</HashCode>
+      <FileName>VideoCaptureDevice.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.DirectShow.VideoCaptureDeviceForm">
+    <Position X="4.25" Y="7.25" Width="2.75" />
+    <Members>
+      <Field Name="availableVideoInputs" Hidden="true" />
+      <Field Name="cancelButton" Hidden="true" />
+      <Field Name="captureSize" Hidden="true" />
+      <Field Name="components" Hidden="true" />
+      <Field Name="configureSnapshots" Hidden="true" />
+      <Field Name="devicesCombo" Hidden="true" />
+      <Field Name="groupBox1" Hidden="true" />
+      <Field Name="label1" Hidden="true" />
+      <Field Name="label2" Hidden="true" />
+      <Field Name="label3" Hidden="true" />
+      <Field Name="okButton" Hidden="true" />
+      <Field Name="pictureBox" Hidden="true" />
+      <Field Name="snapshotCapabilitiesDictionary" Hidden="true" />
+      <Field Name="snapshotResolutionsCombo" Hidden="true" />
+      <Field Name="snapshotSize" Hidden="true" />
+      <Field Name="snapshotsLabel" Hidden="true" />
+      <Field Name="videoCapabilitiesDictionary" Hidden="true" />
+      <Field Name="videoDevice" Hidden="true" />
+      <Field Name="videoDeviceMoniker" Hidden="true" />
+      <Field Name="videoDevices" Hidden="true" />
+      <Field Name="videoInput" Hidden="true" />
+      <Field Name="videoInputsCombo" Hidden="true" />
+      <Field Name="videoResolutionsCombo" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAAmAgAAJCQBABAAIQiIACACAyAAEAGAACAAoCAAAgA=</HashCode>
+      <FileName>VideoCaptureDeviceForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.DirectShow.VideoInput">
+    <Position X="8.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAQEAAAAAAAA=</HashCode>
+      <FileName>VideoInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="AForge.Video.DirectShow.CameraControlProperty">
+    <Position X="4.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAgAAEDAAAAAAAAAAAAAAAAAAAAIABAA=</HashCode>
+      <FileName>CameraControlProperty.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AForge.Video.DirectShow.CameraControlFlags">
+    <Position X="1.25" Y="6" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAACEAAAA=</HashCode>
+      <FileName>CameraControlProperty.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AForge.Video.DirectShow.PhysicalConnectorType">
+    <Position X="8.25" Y="6" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQFEIiEQQACAAAAAAAgqAICQABAAAAAIAAACgAAAEA=</HashCode>
+      <FileName>PhysicalConnectorType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

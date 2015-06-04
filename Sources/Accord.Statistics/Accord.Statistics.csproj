@@ -253,8 +253,10 @@
     <Compile Include="Kernels\ChiSquare.cs" />
     <Compile Include="Kernels\Circular.cs" />
     <Compile Include="Kernels\Gaussian`1.cs" />
+    <Compile Include="Kernels\Pearson.cs" />
     <Compile Include="Kernels\Normalized`1.cs" />
     <Compile Include="Kernels\InverseMultiquadric.cs" />
+    <Compile Include="Kernels\NormalizedPolynomial.cs" />
     <Compile Include="Kernels\Structures\KernelFunctionCache.cs" />
     <Compile Include="Kernels\Quadratic.cs" />
     <Compile Include="Kernels\SymmetricTriangle.cs" />

@@ -47,12 +47,19 @@
   <ItemGroup>
     <Compile Include="Accord.Audio.cs" />
     <Compile Include="Accord.cs" />
+    <Compile Include="Accord.Genetic.cs" />
+    <Compile Include="Accord.Fuzzy.cs" />
     <Compile Include="Accord.MachineLearning.cs" />
     <Compile Include="Accord.Audio.Formats.cs" />
     <Compile Include="Accord.Audition.cs" />
     <Compile Include="Accord.Math.cs" />
     <Compile Include="Accord.Neuro.cs" />
     <Compile Include="Accord.Statistics.cs" />
+    <Compile Include="Accord.Video.VFW.cs" />
+    <Compile Include="Accord.Video.Kinect.cs" />
+    <Compile Include="Accord.Video.Ximea.cs" />
+    <Compile Include="Accord.Video.DirectShow.cs" />
+    <Compile Include="Accord.Video.cs" />
     <Compile Include="Accord.Vision.cs" />
     <Compile Include="Accord.Controls.cs" />
     <Compile Include="Accord.IO.cs" />

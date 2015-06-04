@@ -158,6 +158,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accord.Video.DirectShow.cd" />
     <None Include="Icons\camera.png" />
   </ItemGroup>
   <ItemGroup>
