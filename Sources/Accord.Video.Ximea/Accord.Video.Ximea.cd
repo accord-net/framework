@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AForge.Video.Ximea.CameraParameter">
+    <Position X="0.5" Y="0.5" Width="2.5" />
+    <NestedTypes>
+      <Class Name="AForge.Video.Ximea.CameraParameter.AEAG" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CameraParameter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="AForge.Video.Ximea.CameraParameter.LED" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CameraParameter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="AForge.Video.Ximea.CameraParameter.GPO" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CameraParameter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="AForge.Video.Ximea.CameraParameter.GPI" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CameraParameter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="AForge.Video.Ximea.CameraParameter.LUT" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CameraParameter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="AForge.Video.Ximea.CameraParameter.ColorCorrectionMatrix" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CameraParameter.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAACGHIABQwAMhAigBABAEAQIAgBYDDAACAKAADBAAA=</HashCode>
+      <FileName>CameraParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.Ximea.XimeaCamera">
+    <Position X="3.5" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="deviceHandle" Hidden="true" />
+      <Field Name="deviceID" Hidden="true" />
+      <Field Name="isAcquisitionStarted" Hidden="true" />
+      <Field Name="sync" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QABAAEAIAJBAIAAAABAAAAAQAAAIAAEAQAABEACIAAA=</HashCode>
+      <FileName>XimeaCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.Ximea.XimeaVideoSource" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="0.5" Width="2" />
+    <Members>
+      <Field Name="bytesReceived" Hidden="true" />
+      <Field Name="camera" Hidden="true" />
+      <Field Name="deviceID" Hidden="true" />
+      <Field Name="frameInterval" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="stopEvent" Hidden="true" />
+      <Field Name="sync" Hidden="true" />
+      <Field Name="thread" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>QAAABAYAArBCEAkAABAAQAQAAAAIAAAIIUAAAIBIAAI=</HashCode>
+      <FileName>XimeaVideoSource.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="AForge.Video.Ximea.GpiMode">
+    <Position X="3.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GpiMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AForge.Video.Ximea.GpoMode">
+    <Position X="6" Y="5.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>BAAAAIAAQAAAAAAAAAAAAAQAAAAAAAAAAAQAAAAAAIA=</HashCode>
+      <FileName>GpoMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AForge.Video.Ximea.ImageFormat">
+    <Position X="7.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAABAAAAAEAIA=</HashCode>
+      <FileName>ImageFormat.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AForge.Video.Ximea.LedMode">
+    <Position X="3.5" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ACAAIIAAQAAIAAAAAAAAAAAAAAABAAAAAAQAQAAAAIA=</HashCode>
+      <FileName>LedMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AForge.Video.Ximea.TriggerSource">
+    <Position X="5.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAEAAAAAAAAAAAAACCAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TriggerSource.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

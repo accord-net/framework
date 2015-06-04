@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AForge.Video.AsyncVideoSource" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="2" Width="2.5" />
+    <Members>
+      <Field Name="framesProcessed" Hidden="true" />
+      <Field Name="imageProcessingThread" Hidden="true" />
+      <Field Name="isNewFrameAvailable" Hidden="true" />
+      <Field Name="isProcessingThreadAvailable" Hidden="true" />
+      <Field Name="lastVideoFrame" Hidden="true" />
+      <Field Name="nestedVideoSource" Hidden="true" />
+      <Field Name="skipFramesIfBusy" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAYAAiACAAyAABAEQAIQCAAAAAAAIQANAIAUAAI=</HashCode>
+      <FileName>AsyncVideoSource.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.ByteArrayUtils">
+    <Position X="9.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAA=</HashCode>
+      <FileName>ByteArrayUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.VideoException">
+    <Position X="12.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.JPEGStream" BaseTypeListCollapsed="true">
+    <Position X="11.25" Y="1.75" Width="2.25" />
+    <Members>
+      <Field Name="bufferSize" Hidden="true" />
+      <Field Name="bytesReceived" Hidden="true" />
+      <Field Name="forceBasicAuthentication" Hidden="true" />
+      <Field Name="frameInterval" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="login" Hidden="true" />
+      <Field Name="password" Hidden="true" />
+      <Field Name="preventCaching" Hidden="true" />
+      <Field Name="proxy" Hidden="true" />
+      <Field Name="readSize" Hidden="true" />
+      <Field Name="requestTimeout" Hidden="true" />
+      <Field Name="source" Hidden="true" />
+      <Field Name="stopEvent" Hidden="true" />
+      <Field Name="thread" Hidden="true" />
+      <Field Name="useSeparateConnectionGroup" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAALAYACiAKEAsIABCAQAQAAQAAAAEKIUAQAoBAEAI=</HashCode>
+      <FileName>JPEGStream.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.MJPEGStream" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="3.25" Width="2.25" />
+    <Members>
+      <Field Name="bufSize" Hidden="true" />
+      <Field Name="bytesReceived" Hidden="true" />
+      <Field Name="forceBasicAuthentication" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="login" Hidden="true" />
+      <Field Name="password" Hidden="true" />
+      <Field Name="proxy" Hidden="true" />
+      <Field Name="readSize" Hidden="true" />
+      <Field Name="reloadEvent" Hidden="true" />
+      <Field Name="requestTimeout" Hidden="true" />
+      <Field Name="source" Hidden="true" />
+      <Field Name="stopEvent" Hidden="true" />
+      <Field Name="thread" Hidden="true" />
+      <Field Name="userAgent" Hidden="true" />
+      <Field Name="useSeparateConnectionGroup" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AEAAbBYACiACEAsIABSAQAQAAAAAAAAKIQAQAoBAEAI=</HashCode>
+      <FileName>MJPEGStream.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.ScreenCaptureStream" BaseTypeListCollapsed="true">
+    <Position X="8" Y="2.25" Width="2.75" />
+    <Members>
+      <Field Name="frameInterval" Hidden="true" />
+      <Field Name="framesReceived" Hidden="true" />
+      <Field Name="region" Hidden="true" />
+      <Field Name="stopEvent" Hidden="true" />
+      <Field Name="thread" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACABAYAgiACAAkAABAAQAQAAAAAAAAIIUAAAIBAAAI=</HashCode>
+      <FileName>ScreenCaptureStream.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Video.NewFrameEventArgs">
+    <Position X="5.25" Y="0.75" Width="1.75" />
+    <Members>
+      <Field Name="frame" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAE=</HashCode>
+      <FileName>VideoEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Video.VideoSourceErrorEventArgs">
+    <Position X="8.25" Y="7" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>VideoEvents.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="AForge.Video.IVideoSource">
+    <Position X="14.25" Y="8" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAYAAiACAAgAABAAQAAAAAAAAAAAIQAAAIAAAAA=</HashCode>
+      <FileName>IVideoSource.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="AForge.Video.ReasonToFinishPlaying">
+    <Position X="0.5" Y="8.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAABAAAAAAAAAgAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>VideoEvents.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="AForge.Video.NewFrameEventHandler">
+    <Position X="3" Y="9.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>VideoEvents.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="AForge.Video.VideoSourceErrorEventHandler">
+    <Position X="8" Y="9.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>VideoEvents.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="AForge.Video.PlayingFinishedEventHandler">
+    <Position X="5.25" Y="9.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>VideoEvents.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
