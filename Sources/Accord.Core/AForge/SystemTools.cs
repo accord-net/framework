@@ -36,9 +36,12 @@ namespace AForge
         /// not provide any way to copy unmanaged blocks, but provides only methods to
         /// copy from unmanaged memory to managed memory and vise versa.</para></remarks>
         ///
-        public unsafe static IntPtr CopyUnmanagedMemory(IntPtr dst, IntPtr src, int count)
+        public static IntPtr CopyUnmanagedMemory(IntPtr dst, IntPtr src, int count)
         {
-            CopyUnmanagedMemory((byte*)dst.ToPointer(), (byte*)src.ToPointer(), count);
+            unsafe
+            {
+                CopyUnmanagedMemory((byte*)dst.ToPointer(), (byte*)src.ToPointer(), count);
+            }
             return dst;
         }
 
@@ -71,9 +74,12 @@ namespace AForge
         /// 
         /// <returns>Return's value of <paramref name="dst"/> - pointer to destination.</returns>
         /// 
-        public unsafe static IntPtr SetUnmanagedMemory(IntPtr dst, int filler, int count)
+        public static IntPtr SetUnmanagedMemory(IntPtr dst, int filler, int count)
         {
-            SetUnmanagedMemory((byte*)dst.ToPointer(), filler, count);
+            unsafe
+            {
+                SetUnmanagedMemory((byte*)dst.ToPointer(), filler, count);
+            }
             return dst;
         }
 

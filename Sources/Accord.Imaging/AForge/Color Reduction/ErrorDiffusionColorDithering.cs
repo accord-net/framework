@@ -192,7 +192,7 @@ namespace AForge.Imaging.ColorReduction
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image. It must 24 or 32 bpp color image.</exception>
         /// 
-        public unsafe Bitmap Apply( UnmanagedImage sourceImage )
+        public Bitmap Apply( UnmanagedImage sourceImage )
         {
             if ( ( sourceImage.PixelFormat != PixelFormat.Format24bppRgb ) &&
                  ( sourceImage.PixelFormat != PixelFormat.Format32bppRgb ) &&
@@ -234,50 +234,53 @@ namespace AForge.Imaging.ColorReduction
             int r, g, b;
 
             // do the job
-            byte* ptr = (byte*) source.ImageData.ToPointer( );
-            byte* dstBase = (byte*) destData.Scan0.ToPointer( );
-            byte colorIndex;
-
-            bool is8bpp = ( colorTable.Length > 16 );
-
-            // for each line
-            for ( y = 0; y < height; y++ )
+            unsafe
             {
-                byte* dst = dstBase + y * destData.Stride;
+                byte* ptr = (byte*) source.ImageData.ToPointer( );
+                byte* dstBase = (byte*) destData.Scan0.ToPointer( );
+                byte colorIndex;
 
-                // for each pixels
-                for ( x = 0; x < width; x++, ptr += pixelSize )
+                bool is8bpp = ( colorTable.Length > 16 );
+
+                // for each line
+                for ( y = 0; y < height; y++ )
                 {
-                    r = ptr[RGB.R];
-                    g = ptr[RGB.G];
-                    b = ptr[RGB.B];
+                    byte* dst = dstBase + y * destData.Stride;
 
-                    // get color from palette, which is the closest to current pixel's value
-                    Color closestColor = GetClosestColor( r, g, b, out colorIndex );
-
-                    // do error diffusion
-                    Diffuse( r - closestColor.R, g - closestColor.G, b - closestColor.B, ptr );
-
-                    // write color index as pixel's value to destination image
-                    if ( is8bpp )
+                    // for each pixels
+                    for ( x = 0; x < width; x++, ptr += pixelSize )
                     {
-                        *dst = colorIndex;
-                        dst++;
-                    }
-                    else
-                    {
-                        if ( x % 2 == 0 )
+                        r = ptr[RGB.R];
+                        g = ptr[RGB.G];
+                        b = ptr[RGB.B];
+
+                        // get color from palette, which is the closest to current pixel's value
+                        Color closestColor = GetClosestColor( r, g, b, out colorIndex );
+
+                        // do error diffusion
+                        Diffuse( r - closestColor.R, g - closestColor.G, b - closestColor.B, ptr );
+
+                        // write color index as pixel's value to destination image
+                        if ( is8bpp )
                         {
-                            *dst |= (byte) ( colorIndex << 4 );
+                            *dst = colorIndex;
+                            dst++;
                         }
                         else
                         {
-                            *dst |= ( colorIndex );
-                            dst++;
+                            if ( x % 2 == 0 )
+                            {
+                                *dst |= (byte) ( colorIndex << 4 );
+                            }
+                            else
+                            {
+                                *dst |= ( colorIndex );
+                                dst++;
+                            }
                         }
                     }
+                    ptr += offset;
                 }
-                ptr += offset;
             }
 
             destImage.UnlockBits( destData );

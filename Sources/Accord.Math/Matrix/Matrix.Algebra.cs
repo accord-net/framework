@@ -349,7 +349,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void Multiply(this double[,] a, double[,] b, double[,] result)
+        public static void Multiply(this double[,] a, double[,] b, double[,] result)
         {
             // TODO: enable argument checking
             // if (a.GetLength(1) != b.GetLength(0))
@@ -359,22 +359,24 @@ namespace Accord.Math
             int m = result.GetLength(0); //a.GetLength(0);
             int p = result.GetLength(1); //b.GetLength(1);
 
-
-            fixed (double* ptrA = a)
+            unsafe
             {
-                double[] Bcolj = new double[n];
-                for (int j = 0; j < p; j++)
+                fixed (double* ptrA = a)
                 {
-                    for (int k = 0; k < Bcolj.Length; k++)
-                        Bcolj[k] = b[k, j];
-
-                    double* Arowi = ptrA;
-                    for (int i = 0; i < m; i++)
+                    double[] Bcolj = new double[n];
+                    for (int j = 0; j < p; j++)
                     {
-                        double s = 0;
                         for (int k = 0; k < Bcolj.Length; k++)
-                            s += *(Arowi++) * Bcolj[k];
-                        result[i, j] = s;
+                            Bcolj[k] = b[k, j];
+
+                        double* Arowi = ptrA;
+                        for (int i = 0; i < m; i++)
+                        {
+                            double s = 0;
+                            for (int k = 0; k < Bcolj.Length; k++)
+                                s += *(Arowi++) * Bcolj[k];
+                            result[i, j] = s;
+                        }
                     }
                 }
             }
@@ -430,7 +432,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void Multiply(this double[,] a, double[,] b, double[][] result)
+        public static void Multiply(this double[,] a, double[,] b, double[][] result)
         {
             // TODO: enable argument checking
             // if (a.GetLength(1) != b.GetLength(0))
@@ -440,22 +442,24 @@ namespace Accord.Math
             int m = a.GetLength(0);
             int p = b.GetLength(1);
 
-
-            fixed (double* ptrA = a)
+            unsafe
             {
-                double[] Bcolj = new double[n];
-                for (int j = 0; j < p; j++)
+                fixed (double* ptrA = a)
                 {
-                    for (int k = 0; k < Bcolj.Length; k++)
-                        Bcolj[k] = b[k, j];
-
-                    double* Arowi = ptrA;
-                    for (int i = 0; i < m; i++)
+                    double[] Bcolj = new double[n];
+                    for (int j = 0; j < p; j++)
                     {
-                        double s = 0;
                         for (int k = 0; k < Bcolj.Length; k++)
-                            s += *(Arowi++) * Bcolj[k];
-                        result[i][j] = s;
+                            Bcolj[k] = b[k, j];
+
+                        double* Arowi = ptrA;
+                        for (int i = 0; i < m; i++)
+                        {
+                            double s = 0;
+                            for (int k = 0; k < Bcolj.Length; k++)
+                                s += *(Arowi++) * Bcolj[k];
+                            result[i][j] = s;
+                        }
                     }
                 }
             }
@@ -551,27 +555,30 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void Multiply(this float[,] a, float[,] b, float[,] result)
+        public static void Multiply(this float[,] a, float[,] b, float[,] result)
         {
             int acols = a.GetLength(1);
             int arows = a.GetLength(0);
             int bcols = b.GetLength(1);
 
-            fixed (float* ptrA = a)
+            unsafe
             {
-                float[] Bcolj = new float[acols];
-                for (int j = 0; j < bcols; j++)
+                fixed (float* ptrA = a)
                 {
-                    for (int k = 0; k < acols; k++)
-                        Bcolj[k] = b[k, j];
-
-                    float* Arowi = ptrA;
-                    for (int i = 0; i < arows; i++)
+                    float[] Bcolj = new float[acols];
+                    for (int j = 0; j < bcols; j++)
                     {
-                        float s = 0;
                         for (int k = 0; k < acols; k++)
-                            s += *(Arowi++) * Bcolj[k];
-                        result[i, j] = s;
+                            Bcolj[k] = b[k, j];
+
+                        float* Arowi = ptrA;
+                        for (int i = 0; i < arows; i++)
+                        {
+                            float s = 0;
+                            for (int k = 0; k < acols; k++)
+                                s += *(Arowi++) * Bcolj[k];
+                            result[i, j] = s;
+                        }
                     }
                 }
             }
@@ -618,29 +625,32 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B'</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         ///    
-        public static unsafe void MultiplyByTranspose(this double[,] a, double[,] b, double[,] result)
+        public static void MultiplyByTranspose(this double[,] a, double[,] b, double[,] result)
         {
             int n = a.GetLength(1);
             int m = a.GetLength(0);
             int p = b.GetLength(0);
 
-            fixed (double* ptrA = a)
-            fixed (double* ptrB = b)
-            fixed (double* ptrR = result)
+            unsafe
             {
-                double* rc = ptrR;
-
-                for (int i = 0; i < m; i++)
+                fixed (double* ptrA = a)
+                fixed (double* ptrB = b)
+                fixed (double* ptrR = result)
                 {
-                    double* bColj = ptrB;
-                    for (int j = 0; j < p; j++)
-                    {
-                        double* aColi = ptrA + n * i;
+                    double* rc = ptrR;
 
-                        double s = 0;
-                        for (int k = 0; k < n; k++)
-                            s += *(aColi++) * *(bColj++);
-                        *(rc++) = s;
+                    for (int i = 0; i < m; i++)
+                    {
+                        double* bColj = ptrB;
+                        for (int j = 0; j < p; j++)
+                        {
+                            double* aColi = ptrA + n * i;
+
+                            double s = 0;
+                            for (int k = 0; k < n; k++)
+                                s += *(aColi++) * *(bColj++);
+                            *(rc++) = s;
+                        }
                     }
                 }
             }
@@ -656,29 +666,32 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B'</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         ///    
-        public static unsafe void MultiplyByTranspose(this float[,] a, float[,] b, float[,] result)
+        public static void MultiplyByTranspose(this float[,] a, float[,] b, float[,] result)
         {
             int n = a.GetLength(1);
             int m = a.GetLength(0);
             int p = b.GetLength(0);
 
-            fixed (float* ptrA = a)
-            fixed (float* ptrB = b)
-            fixed (float* ptrR = result)
+            unsafe
             {
-                float* rc = ptrR;
-
-                for (int i = 0; i < m; i++)
+                fixed (float* ptrA = a)
+                fixed (float* ptrB = b)
+                fixed (float* ptrR = result)
                 {
-                    float* bColj = ptrB;
-                    for (int j = 0; j < p; j++)
-                    {
-                        float* aColi = ptrA + n * i;
+                    float* rc = ptrR;
 
-                        float s = 0;
-                        for (int k = 0; k < n; k++)
-                            s += *(aColi++) * *(bColj++);
-                        *(rc++) = s;
+                    for (int i = 0; i < m; i++)
+                    {
+                        float* bColj = ptrB;
+                        for (int j = 0; j < p; j++)
+                        {
+                            float* aColi = ptrA + n * i;
+
+                            float s = 0;
+                            for (int k = 0; k < n; k++)
+                                s += *(aColi++) * *(bColj++);
+                            *(rc++) = s;
+                        }
                     }
                 }
             }
@@ -731,7 +744,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A'*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void TransposeAndMultiply(this double[,] a, double[,] b, double[,] result)
+        public static void TransposeAndMultiply(this double[,] a, double[,] b, double[,] result)
         {
             if (a == null) throw new ArgumentNullException("a");
             if (b == null) throw new ArgumentNullException("b");
@@ -770,7 +783,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A'*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void TransposeAndMultiply(this double[][] a, double[][] b, double[][] result)
+        public static void TransposeAndMultiply(this double[][] a, double[][] b, double[][] result)
         {
             if (a == null) throw new ArgumentNullException("a");
             if (b == null) throw new ArgumentNullException("b");
@@ -825,7 +838,7 @@ namespace Accord.Math
         /// <param name="result">The vector <c>r</c> to store the product <c>r = A'*b</c>
         ///   of the given matrix <c>A</c> and vector <c>b</c>.</param>
         /// 
-        public static unsafe void TransposeAndMultiply(this double[,] a, double[] b, double[] result)
+        public static void TransposeAndMultiply(this double[,] a, double[] b, double[] result)
         {
             if (a == null) throw new ArgumentNullException("a");
             if (b == null) throw new ArgumentNullException("b");
@@ -866,7 +879,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void TransposeAndMultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
+        public static void TransposeAndMultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
         {
             if (a.GetLength(0) != b.Length)
                 throw new ArgumentException("Matrix dimensions must match.");
@@ -939,7 +952,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void MultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
+        public static void MultiplyByDiagonal(this double[,] a, double[] b, double[,] result)
         {
             if (a.GetLength(1) != b.Length)
                 throw new ArgumentException("Matrix dimensions must match.");
@@ -947,13 +960,16 @@ namespace Accord.Math
 
             int rows = a.GetLength(0);
 
-            fixed (double* ptrA = a, ptrR = result)
+            unsafe
             {
-                double* A = ptrA;
-                double* R = ptrR;
-                for (int i = 0; i < rows; i++)
-                    for (int j = 0; j < b.Length; j++)
-                        *R++ = *A++ * b[j];
+                fixed (double* ptrA = a, ptrR = result)
+                {
+                    double* A = ptrA;
+                    double* R = ptrR;
+                    for (int i = 0; i < rows; i++)
+                        for (int j = 0; j < b.Length; j++)
+                            *R++ = *A++ * b[j];
+                }
             }
         }
 
@@ -966,7 +982,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void MultiplyByDiagonal(this double[][] a, double[] b, double[][] result)
+        public static void MultiplyByDiagonal(this double[][] a, double[] b, double[][] result)
         {
             int rows = a.Length;
 
@@ -984,7 +1000,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void MultiplyByDiagonal(this float[][] a, float[] b, float[][] result)
+        public static void MultiplyByDiagonal(this float[][] a, float[] b, float[][] result)
         {
             int rows = a.Length;
 
@@ -1017,7 +1033,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void MultiplyByDiagonal(this float[,] a, float[] b, float[,] result)
+        public static void MultiplyByDiagonal(this float[,] a, float[] b, float[,] result)
         {
             if (a.GetLength(1) != b.Length)
                 throw new ArgumentException("Matrix dimensions must match.");
@@ -1025,13 +1041,16 @@ namespace Accord.Math
 
             int rows = a.GetLength(0);
 
-            fixed (float* ptrA = a, ptrR = result)
+            unsafe
             {
-                float* A = ptrA;
-                float* R = ptrR;
-                for (int i = 0; i < rows; i++)
-                    for (int j = 0; j < b.Length; j++)
-                        *R++ = *A++ * b[j];
+                fixed (float* ptrA = a, ptrR = result)
+                {
+                    float* A = ptrA;
+                    float* R = ptrR;
+                    for (int i = 0; i < rows; i++)
+                        for (int j = 0; j < b.Length; j++)
+                            *R++ = *A++ * b[j];
+                }
             }
         }
 
@@ -1059,7 +1078,7 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R = A*B</c>
         ///   of the given matrices <c>A</c> and <c>B</c>.</param>
         /// 
-        public static unsafe void DivideByDiagonal(this double[,] a, double[] b, double[,] result)
+        public static void DivideByDiagonal(this double[,] a, double[] b, double[,] result)
         {
             if (a.GetLength(1) != b.Length)
                 throw new ArgumentException("Matrix dimensions must match.");
@@ -1067,13 +1086,16 @@ namespace Accord.Math
 
             int rows = a.GetLength(0);
 
-            fixed (double* ptrA = a, ptrR = result)
+            unsafe
             {
-                double* A = ptrA;
-                double* R = ptrR;
-                for (int i = 0; i < rows; i++)
-                    for (int j = 0; j < b.Length; j++)
-                        *R++ = *A++ / b[j];
+                fixed (double* ptrA = a, ptrR = result)
+                {
+                    double* A = ptrA;
+                    double* R = ptrR;
+                    for (int i = 0; i < rows; i++)
+                        for (int j = 0; j < b.Length; j++)
+                            *R++ = *A++ / b[j];
+                }
             }
         }
 
@@ -1310,15 +1332,18 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R=A*x</c>
         ///   of the multiplication of the given matrix <c>A</c> and scalar <c>x</c>.</param>
         /// 
-        public unsafe static void Multiply(this double[,] matrix, double x, double[,] result)
+        public static void Multiply(this double[,] matrix, double x, double[,] result)
         {
             int length = matrix.Length;
 
-            fixed (double* ptrA = matrix, ptrR = result)
+            unsafe
             {
-                double* pa = ptrA, pr = ptrR;
-                for (int i = 0; i < length; i++, pa++, pr++)
-                    *pr = *pa * x;
+                fixed (double* ptrA = matrix, ptrR = result)
+                {
+                    double* pa = ptrA, pr = ptrR;
+                    for (int i = 0; i < length; i++, pa++, pr++)
+                        *pr = *pa * x;
+                }
             }
         }
 
@@ -1331,15 +1356,18 @@ namespace Accord.Math
         /// <param name="result">The matrix <c>R</c> to store the product <c>R=A*x</c>
         ///   of the multiplication of the given matrix <c>A</c> and scalar <c>x</c>.</param>
         /// 
-        public unsafe static void Multiply(this float[,] matrix, float x, float[,] result)
+        public static void Multiply(this float[,] matrix, float x, float[,] result)
         {
             int length = matrix.Length;
 
-            fixed (float* ptrA = matrix, ptrR = result)
+            unsafe
             {
-                float* pa = ptrA, pr = ptrR;
-                for (int i = 0; i < length; i++, pa++, pr++)
-                    *pr = *pa * x;
+                fixed (float* ptrA = matrix, ptrR = result)
+                {
+                    float* pa = ptrA, pr = ptrR;
+                    for (int i = 0; i < length; i++, pa++, pr++)
+                        *pr = *pa * x;
+                }
             }
         }
 
@@ -1912,7 +1940,7 @@ namespace Accord.Math
         /// 
         /// <returns>The Kronecker product of the two matrices.</returns>
         /// 
-        public unsafe static double[,] KroneckerProduct(this double[,] a, double[,] b)
+        public static double[,] KroneckerProduct(this double[,] a, double[,] b)
         {
             if (a == null) throw new ArgumentNullException("a");
             if (b == null) throw new ArgumentNullException("b");
@@ -1930,22 +1958,25 @@ namespace Accord.Math
 
             double[,] result = new double[crows, ccols];
 
-            fixed (double* ptrR = result, ptrA = a, ptrB = b)
+            unsafe
             {
-                double* A = ptrA, Ri = ptrR;
-
-                for (int i = 0; i < arows; Ri += block, i++)
+                fixed (double* ptrR = result, ptrA = a, ptrB = b)
                 {
-                    double* Rj = Ri;
+                    double* A = ptrA, Ri = ptrR;
 
-                    for (int j = 0; j < acols; j++, Rj += bcols, A++)
+                    for (int i = 0; i < arows; Ri += block, i++)
                     {
-                        double* R = Rj, B = ptrB;
+                        double* Rj = Ri;
 
-                        for (int k = 0; k < brows; k++, R += ccols)
+                        for (int j = 0; j < acols; j++, Rj += bcols, A++)
                         {
-                            for (int l = 0; l < bcols; l++, B++)
-                                *(R + l) = (*A) * (*B);
+                            double* R = Rj, B = ptrB;
+
+                            for (int k = 0; k < brows; k++, R += ccols)
+                            {
+                                for (int l = 0; l < bcols; l++, B++)
+                                    *(R + l) = (*A) * (*B);
+                            }
                         }
                     }
                 }
@@ -2019,7 +2050,7 @@ namespace Accord.Math
         /// 
         /// <returns>The sum of the given matrices.</returns>
         /// 
-        public unsafe static double[,] Add(this double[,] a, double[,] b)
+        public static double[,] Add(this double[,] a, double[,] b)
         {
             if (a.GetLength(0) != b.GetLength(0) || a.GetLength(1) != b.GetLength(1))
                 throw new ArgumentException("Matrix dimensions must match", "b");
@@ -2030,11 +2061,14 @@ namespace Accord.Math
 
             double[,] r = new double[rows, cols];
 
-            fixed (double* ptrA = a, ptrB = b, ptrR = r)
+            unsafe
             {
-                double* pa = ptrA, pb = ptrB, pr = ptrR;
-                for (int i = 0; i < length; i++, pa++, pb++, pr++)
-                    *pr = *pa + *pb;
+                fixed (double* ptrA = a, ptrB = b, ptrR = r)
+                {
+                    double* pa = ptrA, pb = ptrB, pr = ptrR;
+                    for (int i = 0; i < length; i++, pa++, pb++, pr++)
+                        *pr = *pa + *pb;
+                }
             }
 
             return r;
@@ -2340,7 +2374,7 @@ namespace Accord.Math
         /// 
         /// <returns>The subtraction of the given matrices.</returns>
         /// 
-        public unsafe static double[,] Subtract(this double[,] a, double[,] b, bool inPlace = false)
+        public static double[,] Subtract(this double[,] a, double[,] b, bool inPlace = false)
         {
             if (a == null) throw new ArgumentNullException("a");
             if (b == null) throw new ArgumentNullException("b");
@@ -2354,11 +2388,14 @@ namespace Accord.Math
 
             double[,] r = inPlace ? a : new double[rows, cols];
 
-            fixed (double* ptrA = a, ptrB = b, ptrR = r)
+            unsafe
             {
-                double* pa = ptrA, pb = ptrB, pr = ptrR;
-                for (int i = 0; i < length; i++, pa++, pb++, pr++)
-                    *pr = *pa - *pb;
+                fixed (double* ptrA = a, ptrB = b, ptrR = r)
+                {
+                    double* pa = ptrA, pb = ptrB, pr = ptrR;
+                    for (int i = 0; i < length; i++, pa++, pb++, pr++)
+                        *pr = *pa - *pb;
+                }
             }
             return r;
         }

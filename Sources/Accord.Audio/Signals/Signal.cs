@@ -271,28 +271,31 @@ namespace Accord.Audio
         ///   Computes the signal energy.
         /// </summary>
         /// 
-        public unsafe double GetEnergy()
+        public double GetEnergy()
         {
             double e = 0, v;
 
-            if (format != SampleFormat.Format128BitComplex)
+            unsafe
             {
-                // Iterate over all samples and compute energy
-                float* src = (float*)this.ptrData.ToPointer();
-                for (int i = 0; i < this.Samples; i++, src++)
+                if (format != SampleFormat.Format128BitComplex)
                 {
-                    v = (*src);
-                    e += v * v;
+                    // Iterate over all samples and compute energy
+                    float* src = (float*)this.ptrData.ToPointer();
+                    for (int i = 0; i < this.Samples; i++, src++)
+                    {
+                        v = (*src);
+                        e += v * v;
+                    }
                 }
-            }
-            else
-            {
-                // Iterate over all samples and compute energy
-                Complex* src = (Complex*)this.Data.ToPointer();
-                for (int i = 0; i < this.Samples; i++, src++)
+                else
                 {
-                    double m = (*src).Magnitude;
-                    e += m * m;
+                    // Iterate over all samples and compute energy
+                    Complex* src = (Complex*)this.Data.ToPointer();
+                    for (int i = 0; i < this.Samples; i++, src++)
+                    {
+                        double m = (*src).Magnitude;
+                        e += m * m;
+                    }
                 }
             }
 
@@ -309,19 +312,26 @@ namespace Accord.Audio
         ///   the retrieved value. Conversion is performed automatically from
         ///   the underlying signal sample format if supported.</returns>
         ///   
-        public unsafe float GetSample(int channel, int position)
+        public float GetSample(int channel, int position)
         {
-            void* ptr = ptrData.ToPointer();
-            int pos = position * Channels + channel;
+            float sample;
 
-            switch (format)
+            unsafe
             {
-                case SampleFormat.Format32BitIeeeFloat:
-                    return ((float*)ptr)[pos];
+                void* ptr = ptrData.ToPointer();
+                int pos = position * Channels + channel;
 
-                default:
-                    throw new NotSupportedException();
+                switch (format)
+                {
+                    case SampleFormat.Format32BitIeeeFloat:
+                        sample = ((float*)ptr)[pos];
+                        break;
+                    default:
+                        throw new NotSupportedException();
+                }
             }
+
+            return sample;
         }
 
         /// <summary>
@@ -334,19 +344,22 @@ namespace Accord.Audio
         ///   specifying the value to set. Conversion will be done automatically
         ///   to the underlying signal sample format if supported.</param>
         ///   
-        public unsafe void SetSample(int channel, int position, float value)
+        public void SetSample(int channel, int position, float value)
         {
-            void* ptr = ptrData.ToPointer();
-            int pos = position * Channels + channel;
-
-            switch (format)
+            unsafe
             {
-                case SampleFormat.Format32BitIeeeFloat:
-                    ((float*)ptr)[pos] = value;
-                    break;
+                void* ptr = ptrData.ToPointer();
+                int pos = position * Channels + channel;
 
-                default:
-                    throw new NotSupportedException();
+                switch (format)
+                {
+                    case SampleFormat.Format32BitIeeeFloat:
+                        ((float*)ptr)[pos] = value;
+                        break;
+
+                    default:
+                        throw new NotSupportedException();
+                }
             }
         }
 

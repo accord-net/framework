@@ -208,7 +208,7 @@ namespace Accord.Imaging
         /// <returns>A square matrix of double-precision values containing the GLCM for the
         ///   <paramref name="region"/> of the given <paramref name="source"/>.</returns>
         /// 
-        public unsafe double[,] Compute(UnmanagedImage source, Rectangle region)
+        public double[,] Compute(UnmanagedImage source, Rectangle region)
         {
             int width = region.Width;
             int height = region.Height;
@@ -219,79 +219,84 @@ namespace Accord.Imaging
             int startX = region.X;
             int startY = region.Y;
 
-            byte* src = (byte*)source.ImageData.ToPointer() + startY * stride + startX;
+            double[,] cooccurrence;
 
-            if (autoGray)
-                maxGray = max(width, height, offset, src);
-
-            numPairs = 0;
-            int size = maxGray + 1;
-            double[,] cooccurrence = new double[size, size];
-
-
-            switch (degree)
+            unsafe
             {
-                case CooccurrenceDegree.Degree0:
-                    for (int y = startY; y < height; y++)
-                    {
-                        for (int x = startX + distance; x < width; x++)
-                        {
-                            byte a = src[stride * y + (x - distance)];
-                            byte b = src[stride * y + x];
-                            cooccurrence[a, b]++;
-                            numPairs++;
-                        }
-                    }
-                    break;
+                byte* src = (byte*)source.ImageData.ToPointer() + startY * stride + startX;
 
-                case CooccurrenceDegree.Degree45:
-                    for (int y = startY + distance; y < height; y++)
-                    {
-                        for (int x = startX; x < width - distance; x++)
-                        {
-                            byte a = src[stride * y + x];
-                            byte b = src[stride * (y - distance) + (x + distance)];
-                            cooccurrence[a, b]++;
-                            numPairs++;
-                        }
-                    }
-                    break;
+                if (autoGray)
+                    maxGray = max(width, height, offset, src);
 
-                case CooccurrenceDegree.Degree90:
-                    for (int y = startY + distance; y < height; y++)
-                    {
-                        for (int x = startX; x < width; x++)
-                        {
-                            byte a = src[stride * (y - distance) + x];
-                            byte b = src[stride * y + x];
-                            cooccurrence[a, b]++;
-                            numPairs++;
-                        }
-                    }
-                    break;
+                numPairs = 0;
+                int size = maxGray + 1;
+                cooccurrence = new double[size, size];
 
-                case CooccurrenceDegree.Degree135:
-                    for (int y = startY + distance; y < height; y++)
-                    {
-                        int steps = width - 1;
-                        for (int x = startX; x < width - distance; x++)
-                        {
-                            byte a = src[stride * y + (steps - x)];
-                            byte b = src[stride * (y - distance) + (steps - distance - x)];
-                            cooccurrence[a, b]++;
-                            numPairs++;
-                        }
-                    }
-                    break;
-            }
 
-            if (normalize && numPairs > 0)
-            {
-                fixed (double* ptrMatrix = cooccurrence)
+                switch (degree)
                 {
-                    double* c = ptrMatrix;
-                    for (int i = 0; i < cooccurrence.Length; i++, c++)
-                        *c /= numPairs;
+                    case CooccurrenceDegree.Degree0:
+                        for (int y = startY; y < height; y++)
+                        {
+                            for (int x = startX + distance; x < width; x++)
+                            {
+                                byte a = src[stride * y + (x - distance)];
+                                byte b = src[stride * y + x];
+                                cooccurrence[a, b]++;
+                                numPairs++;
+                            }
+                        }
+                        break;
+
+                    case CooccurrenceDegree.Degree45:
+                        for (int y = startY + distance; y < height; y++)
+                        {
+                            for (int x = startX; x < width - distance; x++)
+                            {
+                                byte a = src[stride * y + x];
+                                byte b = src[stride * (y - distance) + (x + distance)];
+                                cooccurrence[a, b]++;
+                                numPairs++;
+                            }
+                        }
+                        break;
+
+                    case CooccurrenceDegree.Degree90:
+                        for (int y = startY + distance; y < height; y++)
+                        {
+                            for (int x = startX; x < width; x++)
+                            {
+                                byte a = src[stride * (y - distance) + x];
+                                byte b = src[stride * y + x];
+                                cooccurrence[a, b]++;
+                                numPairs++;
+                            }
+                        }
+                        break;
+
+                    case CooccurrenceDegree.Degree135:
+                        for (int y = startY + distance; y < height; y++)
+                        {
+                            int steps = width - 1;
+                            for (int x = startX; x < width - distance; x++)
+                            {
+                                byte a = src[stride * y + (steps - x)];
+                                byte b = src[stride * (y - distance) + (steps - distance - x)];
+                                cooccurrence[a, b]++;
+                                numPairs++;
+                            }
+                        }
+                        break;
+                }
+
+                if (normalize && numPairs > 0)
+                {
+                    fixed (double* ptrMatrix = cooccurrence)
+                    {
+                        double* c = ptrMatrix;
+                        for (int i = 0; i < cooccurrence.Length; i++, c++)
+                            *c /= numPairs;
+                    }
                 }
             }
 

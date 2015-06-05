@@ -581,7 +581,7 @@ namespace Accord.Imaging
         ///   Computes the sum of the pixels in a given image.
         /// </summary>
         /// 
-        public unsafe static int Sum(this BitmapData image)
+        public static int Sum(this BitmapData image)
         {
             return Sum(new UnmanagedImage(image));
         }
@@ -589,7 +589,7 @@ namespace Accord.Imaging
         /// <summary>
         ///   Computes the sum of the pixels in a given image.
         /// </summary>
-        public unsafe static int Sum(this UnmanagedImage image)
+        public static int Sum(this UnmanagedImage image)
         {
             if (image.PixelFormat != PixelFormat.Format8bppIndexed &&
                 image.PixelFormat != PixelFormat.Format16bppGrayScale)
@@ -601,26 +601,29 @@ namespace Accord.Imaging
 
             int sum = 0;
 
-            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                byte* src = (byte*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < height; y++)
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    for (int x = 0; x < width; x++, src++)
-                        sum += (*src);
-                    src += offset;
+                    byte* src = (byte*)image.ImageData.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src++)
+                            sum += (*src);
+                        src += offset;
+                    }
                 }
-            }
-            else
-            {
-                short* src = (short*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < height; y++)
+                else
                 {
-                    for (int x = 0; x < width; x++, src++)
-                        sum += (*src);
-                    src += offset;
+                    short* src = (short*)image.ImageData.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src++)
+                            sum += (*src);
+                        src += offset;
+                    }
                 }
             }
 
@@ -655,7 +658,7 @@ namespace Accord.Imaging
         /// <summary>
         ///   Computes the sum of the pixels in a given image.
         /// </summary>
-        public unsafe static int Sum(this UnmanagedImage image, Rectangle rectangle)
+        public static int Sum(this UnmanagedImage image, Rectangle rectangle)
         {
             if ((image.PixelFormat != PixelFormat.Format8bppIndexed) &&
                 (image.PixelFormat != PixelFormat.Format16bppGrayScale))
@@ -671,28 +674,31 @@ namespace Accord.Imaging
             int ry = rectangle.Y;
             int sum = 0;
 
-            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                byte* src = (byte*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < rheight; y++)
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    byte* p = src + stride * (ry + y) + rx;
+                    byte* src = (byte*)image.ImageData.ToPointer();
 
-                    for (int x = 0; x < rwidth; x++)
-                        sum += (*p++);
+                    for (int y = 0; y < rheight; y++)
+                    {
+                        byte* p = src + stride * (ry + y) + rx;
+
+                        for (int x = 0; x < rwidth; x++)
+                            sum += (*p++);
+                    }
                 }
-            }
-            else
-            {
-                ushort* src = (ushort*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < rheight; y++)
+                else
                 {
-                    ushort* p = src + stride * (ry + y) + rx;
+                    ushort* src = (ushort*)image.ImageData.ToPointer();
 
-                    for (int x = 0; x < rwidth; x++)
-                        sum += (*p++);
+                    for (int y = 0; y < rheight; y++)
+                    {
+                        ushort* p = src + stride * (ry + y) + rx;
+
+                        for (int x = 0; x < rwidth; x++)
+                            sum += (*p++);
+                    }
                 }
             }
 
@@ -786,7 +792,7 @@ namespace Accord.Imaging
         ///   Computes the standard deviation of image pixels.
         /// </summary>
         /// 
-        public unsafe static double StandardDeviation(this UnmanagedImage image, double mean)
+        public static double StandardDeviation(this UnmanagedImage image, double mean)
         {
             if (image.PixelFormat != PixelFormat.Format8bppIndexed &&
                 image.PixelFormat != PixelFormat.Format16bppGrayScale)
@@ -798,32 +804,35 @@ namespace Accord.Imaging
 
             double sum = 0;
 
-            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                byte* src = (byte*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < height; y++)
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    for (int x = 0; x < width; x++, src++)
+                    byte* src = (byte*)image.ImageData.ToPointer();
+
+                    for (int y = 0; y < height; y++)
                     {
-                        double u = (*src) - mean;
-                        sum += u * u;
+                        for (int x = 0; x < width; x++, src++)
+                        {
+                            double u = (*src) - mean;
+                            sum += u * u;
+                        }
+                        src += offset;
                     }
-                    src += offset;
                 }
-            }
-            else
-            {
-                short* src = (short*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < height; y++)
+                else
                 {
-                    for (int x = 0; x < width; x++, src++)
+                    short* src = (short*)image.ImageData.ToPointer();
+
+                    for (int y = 0; y < height; y++)
                     {
-                        double u = (*src) - mean;
-                        sum += u * u;
+                        for (int x = 0; x < width; x++, src++)
+                        {
+                            double u = (*src) - mean;
+                            sum += u * u;
+                        }
+                        src += offset;
                     }
-                    src += offset;
                 }
             }
 
@@ -859,7 +868,7 @@ namespace Accord.Imaging
         ///   Computes the standard deviation of image pixels.
         /// </summary>
         /// 
-        public unsafe static double StandardDeviation(this UnmanagedImage image, Rectangle rectangle, double mean)
+        public static double StandardDeviation(this UnmanagedImage image, Rectangle rectangle, double mean)
         {
             if (image.PixelFormat != PixelFormat.Format8bppIndexed &&
                 image.PixelFormat != PixelFormat.Format16bppGrayScale)
@@ -877,36 +886,39 @@ namespace Accord.Imaging
 
             double sum = 0;
 
-            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                byte* src = (byte*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < rheight; y++)
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    byte* p = src + stride * (ry + y) + rx;
+                    byte* src = (byte*)image.ImageData.ToPointer();
 
-                    for (int x = 0; x < rwidth; x++)
+                    for (int y = 0; y < rheight; y++)
                     {
-                        double u = (*p++) - mean;
-                        sum += u * u;
+                        byte* p = src + stride * (ry + y) + rx;
+
+                        for (int x = 0; x < rwidth; x++)
+                        {
+                            double u = (*p++) - mean;
+                            sum += u * u;
+                        }
+                        src += offset;
                     }
-                    src += offset;
                 }
-            }
-            else
-            {
-                short* src = (short*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < rheight; y++)
+                else
                 {
-                    short* p = src + stride * (ry + y) + rx;
+                    short* src = (short*)image.ImageData.ToPointer();
 
-                    for (int x = 0; x < rwidth; x++)
+                    for (int y = 0; y < rheight; y++)
                     {
-                        double u = (*p++) - mean;
-                        sum += u * u;
+                        short* p = src + stride * (ry + y) + rx;
+
+                        for (int x = 0; x < rwidth; x++)
+                        {
+                            double u = (*p++) - mean;
+                            sum += u * u;
+                        }
+                        src += offset;
                     }
-                    src += offset;
                 }
             }
 
@@ -974,7 +986,7 @@ namespace Accord.Imaging
         ///   Computes the maximum pixel value in the given image.
         /// </summary>
         /// 
-        public unsafe static int Max(this UnmanagedImage image, Rectangle rectangle)
+        public static int Max(this UnmanagedImage image, Rectangle rectangle)
         {
             if ((image.PixelFormat != PixelFormat.Format8bppIndexed) &&
                 (image.PixelFormat != PixelFormat.Format16bppGrayScale))
@@ -991,28 +1003,31 @@ namespace Accord.Imaging
 
             int max = 0;
 
-            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                byte* src = (byte*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < rheight; y++)
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    byte* p = src + stride * (ry + y) + rx;
+                    byte* src = (byte*)image.ImageData.ToPointer();
 
-                    for (int x = 0; x < rwidth; x++, p++)
-                        if (*p > max) max = *p;
+                    for (int y = 0; y < rheight; y++)
+                    {
+                        byte* p = src + stride * (ry + y) + rx;
+
+                        for (int x = 0; x < rwidth; x++, p++)
+                            if (*p > max) max = *p;
+                    }
                 }
-            }
-            else
-            {
-                ushort* src = (ushort*)image.ImageData.ToPointer();
-
-                for (int y = 0; y < rheight; y++)
+                else
                 {
-                    ushort* p = src + 2 * stride * (ry + y) + 2 * rx;
+                    ushort* src = (ushort*)image.ImageData.ToPointer();
 
-                    for (int x = 0; x < rwidth; x++, p++)
-                        if (*p > max) max = *p;
+                    for (int y = 0; y < rheight; y++)
+                    {
+                        ushort* p = src + 2 * stride * (ry + y) + 2 * rx;
+
+                        for (int x = 0; x < rwidth; x++, p++)
+                            if (*p > max) max = *p;
+                    }
                 }
             }
 
@@ -1023,7 +1038,7 @@ namespace Accord.Imaging
         ///   Computes the maximum pixel value in the given image.
         /// </summary>
         /// 
-        public unsafe static int Max(this UnmanagedImage image)
+        public static int Max(this UnmanagedImage image)
         {
             if ((image.PixelFormat != PixelFormat.Format8bppIndexed) &&
                 (image.PixelFormat != PixelFormat.Format16bppGrayScale))
@@ -1035,21 +1050,24 @@ namespace Accord.Imaging
 
             int max = 0;
 
-            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                byte* src = (byte*)image.ImageData.ToPointer();
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+                {
+                    byte* src = (byte*)image.ImageData.ToPointer();
 
-                for (int y = 0; y < height; y++)
-                    for (int x = 0; x < width; x++, src++)
-                        if (*src > max) max = *src;
-            }
-            else
-            {
-                ushort* src = (ushort*)image.ImageData.ToPointer();
+                    for (int y = 0; y < height; y++)
+                        for (int x = 0; x < width; x++, src++)
+                            if (*src > max) max = *src;
+                }
+                else
+                {
+                    ushort* src = (ushort*)image.ImageData.ToPointer();
 
-                for (int y = 0; y < height; y++)
-                    for (int x = 0; x < width; x++, src++)
-                        if (*src > max) max = *src;
+                    for (int y = 0; y < height; y++)
+                        for (int x = 0; x < width; x++, src++)
+                            if (*src > max) max = *src;
+                }
             }
 
             return max;
@@ -1059,7 +1077,7 @@ namespace Accord.Imaging
         ///   Computes the maximum pixel value in the given image.
         /// </summary>
         /// 
-        public unsafe static int Max(this UnmanagedImage image, int channel)
+        public static int Max(this UnmanagedImage image, int channel)
         {
             if ((image.PixelFormat != PixelFormat.Format32bppArgb) &&
                 (image.PixelFormat != PixelFormat.Format24bppRgb))
@@ -1072,11 +1090,14 @@ namespace Accord.Imaging
 
             int max = 0;
 
-            byte* src = (byte*)image.ImageData.ToPointer() + channel;
+            unsafe
+            {
+                byte* src = (byte*)image.ImageData.ToPointer() + channel;
 
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++, src += pixelSize)
-                    if (*src > max) max = *src;
+                for (int y = 0; y < height; y++)
+                    for (int x = 0; x < width; x++, src += pixelSize)
+                        if (*src > max) max = *src;
+            }
 
 
             return max;
@@ -1086,7 +1107,7 @@ namespace Accord.Imaging
         ///   Computes the maximum pixel value in the given image.
         /// </summary>
         /// 
-        public unsafe static int Min(this UnmanagedImage image, int channel)
+        public static int Min(this UnmanagedImage image, int channel)
         {
             if ((image.PixelFormat != PixelFormat.Format32bppArgb) &&
                 (image.PixelFormat != PixelFormat.Format24bppRgb))
@@ -1099,12 +1120,14 @@ namespace Accord.Imaging
 
             int min = int.MaxValue;
 
-            byte* src = (byte*)image.ImageData.ToPointer() + channel;
+            unsafe
+            {
+                byte* src = (byte*)image.ImageData.ToPointer() + channel;
 
-            for (int y = 0; y < height; y++)
-                for (int x = 0; x < width; x++, src += pixelSize)
-                    if (*src < min) min = *src;
-
+                for (int y = 0; y < height; y++)
+                    for (int x = 0; x < width; x++, src += pixelSize)
+                        if (*src < min) min = *src;
+            }
 
             return min;
         }

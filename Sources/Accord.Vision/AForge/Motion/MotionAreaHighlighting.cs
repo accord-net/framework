@@ -92,7 +92,7 @@ namespace AForge.Vision.Motion
         /// <exception cref="InvalidImagePropertiesException">Motion frame is not 8 bpp image, but it must be so.</exception>
         /// <exception cref="UnsupportedImageFormatException">Video frame must be 8 bpp grayscale image or 24/32 bpp color image.</exception>
         ///
-        public unsafe void ProcessFrame( UnmanagedImage videoFrame, UnmanagedImage motionFrame )
+        public void ProcessFrame( UnmanagedImage videoFrame, UnmanagedImage motionFrame )
         {
             if ( motionFrame.PixelFormat != PixelFormat.Format8bppIndexed )
             {
@@ -114,52 +114,55 @@ namespace AForge.Vision.Motion
             if ( ( motionFrame.Width != width ) || ( motionFrame.Height != height ) )
                 return;
 
-            byte* src = (byte*) videoFrame.ImageData.ToPointer( );
-            byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
-
-            int srcOffset = videoFrame.Stride - width * pixelSize;
-            int motionOffset = motionFrame.Stride - width;
-
-            if ( pixelSize == 1 )
+            unsafe
             {
-                // grayscale case
-                byte fillG = (byte) ( 0.2125 * highlightColor.R +
-                                      0.7154 * highlightColor.G +
-                                      0.0721 * highlightColor.B );
+                byte* src = (byte*) videoFrame.ImageData.ToPointer( );
+                byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
 
-                for ( int y = 0; y < height; y++ )
+                int srcOffset = videoFrame.Stride - width * pixelSize;
+                int motionOffset = motionFrame.Stride - width;
+
+                if ( pixelSize == 1 )
                 {
-                    for ( int x = 0; x < width; x++, motion++, src++ )
+                    // grayscale case
+                    byte fillG = (byte) ( 0.2125 * highlightColor.R +
+                                          0.7154 * highlightColor.G +
+                                          0.0721 * highlightColor.B );
+
+                    for ( int y = 0; y < height; y++ )
                     {
-                        if ( ( *motion != 0 ) && ( ( ( x + y ) & 1 ) == 0 ) )
+                        for ( int x = 0; x < width; x++, motion++, src++ )
                         {
-                            *src = fillG;
+                            if ( ( *motion != 0 ) && ( ( ( x + y ) & 1 ) == 0 ) )
+                            {
+                                *src = fillG;
+                            }
                         }
+                        src += srcOffset;
+                        motion += motionOffset;
                     }
-                    src += srcOffset;
-                    motion += motionOffset;
                 }
-            }
-            else
-            {
-                // color case
-                byte fillR = highlightColor.R;
-                byte fillG = highlightColor.G;
-                byte fillB = highlightColor.B;
-
-                for ( int y = 0; y < height; y++ )
+                else
                 {
-                    for ( int x = 0; x < width; x++, motion++, src += pixelSize )
+                    // color case
+                    byte fillR = highlightColor.R;
+                    byte fillG = highlightColor.G;
+                    byte fillB = highlightColor.B;
+
+                    for ( int y = 0; y < height; y++ )
                     {
-                        if ( ( *motion != 0 ) && ( ( ( x + y ) & 1 ) == 0 ) )
+                        for ( int x = 0; x < width; x++, motion++, src += pixelSize )
                         {
-                            src[RGB.R] = fillR;
-                            src[RGB.G] = fillG;
-                            src[RGB.B] = fillB;
+                            if ( ( *motion != 0 ) && ( ( ( x + y ) & 1 ) == 0 ) )
+                            {
+                                src[RGB.R] = fillR;
+                                src[RGB.G] = fillG;
+                                src[RGB.B] = fillB;
+                            }
                         }
+                        src += srcOffset;
+                        motion += motionOffset;
                     }
-                    src += srcOffset;
-                    motion += motionOffset;
                 }
             }
         }

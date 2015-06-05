@@ -212,7 +212,7 @@ namespace AForge.Imaging.ColorReduction
         /// 
         /// <exception cref="UnsupportedImageFormatException">Unsupported pixel format of the source image. It must 24 or 32 bpp color image.</exception>
         /// 
-        public unsafe Bitmap Apply(UnmanagedImage sourceImage)
+        public Bitmap Apply(UnmanagedImage sourceImage)
         {
             if ((sourceImage.PixelFormat != PixelFormat.Format24bppRgb) &&
                  (sourceImage.PixelFormat != PixelFormat.Format32bppRgb) &&
@@ -253,51 +253,54 @@ namespace AForge.Imaging.ColorReduction
 
 
             // do the job
-            byte* ptr = (byte*)sourceImage.ImageData.ToPointer();
-            byte* dstBase = (byte*)destData.Scan0.ToPointer();
-            byte colorIndex;
-
-            bool is8bpp = (colorTable.Length > 16);
-
-            // for each line
-            for (int y = 0; y < height; y++)
+            unsafe
             {
-                byte* dst = dstBase + y * destData.Stride;
+                byte* ptr = (byte*)sourceImage.ImageData.ToPointer();
+                byte* dstBase = (byte*)destData.Scan0.ToPointer();
+                byte colorIndex;
 
-                // for each pixels
-                for (int x = 0; x < width; x++, ptr += pixelSize)
+                bool is8bpp = (colorTable.Length > 16);
+
+                // for each line
+                for (int y = 0; y < height; y++)
                 {
-                    toAdd = matrix[(y % rows), (x % cols)];
-                    r = ptr[RGB.R] + toAdd;
-                    g = ptr[RGB.G] + toAdd;
-                    b = ptr[RGB.B] + toAdd;
+                    byte* dst = dstBase + y * destData.Stride;
 
-                    if (r > 255)
-                        r = 255;
-                    if (g > 255)
-                        g = 255;
-                    if (b > 255)
-                        b = 255;
-
-                    // get color from palette, which is the closest to current pixel's value
-                    GetClosestColor(r, g, b, out colorIndex);
-
-                    // write color index as pixel's value to destination image
-                    if (is8bpp)
+                    // for each pixels
+                    for (int x = 0; x < width; x++, ptr += pixelSize)
                     {
-                        *dst = colorIndex;
-                        dst++;
-                    }
-                    else
-                    {
-                        if (x % 2 == 0)
+                        toAdd = matrix[(y % rows), (x % cols)];
+                        r = ptr[RGB.R] + toAdd;
+                        g = ptr[RGB.G] + toAdd;
+                        b = ptr[RGB.B] + toAdd;
+
+                        if (r > 255)
+                            r = 255;
+                        if (g > 255)
+                            g = 255;
+                        if (b > 255)
+                            b = 255;
+
+                        // get color from palette, which is the closest to current pixel's value
+                        GetClosestColor(r, g, b, out colorIndex);
+
+                        // write color index as pixel's value to destination image
+                        if (is8bpp)
                         {
-                            *dst |= (byte)(colorIndex << 4);
+                            *dst = colorIndex;
+                            dst++;
                         }
                         else
                         {
-                            *dst |= (colorIndex);
-                            dst++;
+                            if (x % 2 == 0)
+                            {
+                                *dst |= (byte)(colorIndex << 4);
+                            }
+                            else
+                            {
+                                *dst |= (colorIndex);
+                                dst++;
+                            }
                         }
                     }
                 }

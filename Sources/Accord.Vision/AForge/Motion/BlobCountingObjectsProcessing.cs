@@ -253,7 +253,7 @@ namespace AForge.Vision.Motion
         /// <exception cref="InvalidImagePropertiesException">Motion frame is not 8 bpp image, but it must be so.</exception>
         /// <exception cref="UnsupportedImageFormatException">Video frame must be 8 bpp grayscale image or 24/32 bpp color image.</exception>
         /// 
-        public unsafe void ProcessFrame( UnmanagedImage videoFrame, UnmanagedImage motionFrame )
+        public void ProcessFrame( UnmanagedImage videoFrame, UnmanagedImage motionFrame )
         {
             if ( motionFrame.PixelFormat != PixelFormat.Format8bppIndexed )
             {

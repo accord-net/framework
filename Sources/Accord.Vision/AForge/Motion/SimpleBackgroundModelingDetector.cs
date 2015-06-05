@@ -348,7 +348,7 @@ namespace AForge.Vision.Motion
         /// (changes) in the processed frame.</para>
         /// </remarks>
         ///
-        public unsafe void ProcessFrame( UnmanagedImage videoFrame )
+        public void ProcessFrame( UnmanagedImage videoFrame )
         {
             lock ( sync )
             {
@@ -386,18 +386,54 @@ namespace AForge.Vision.Motion
                 // convert current image to grayscale
                 Tools.ConvertToGrayscale( videoFrame, motionFrame );
 
-                // pointers to background and current frames
-                byte* backFrame;
-                byte* currFrame;
-                int diff;
-
-                // update background frame
-                if ( millisecondsPerBackgroundUpdate == 0 )
+                unsafe
                 {
-                    // update background frame using frame counter as a base
-                    if ( ++framesCounter == framesPerBackgroundUpdate )
+                    // pointers to background and current frames
+                    byte* backFrame;
+                    byte* currFrame;
+                    int diff;
+
+                    // update background frame
+                    if ( millisecondsPerBackgroundUpdate == 0 )
                     {
-                        framesCounter = 0;
+                        // update background frame using frame counter as a base
+                        if ( ++framesCounter == framesPerBackgroundUpdate )
+                        {
+                            framesCounter = 0;
+
+                            backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
+                            currFrame = (byte*) motionFrame.ImageData.ToPointer( );
+
+                            for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
+                            {
+                                diff = *currFrame - *backFrame;
+                                if ( diff > 0 )
+                                {
+                                    ( *backFrame )++;
+                                }
+                                else if ( diff < 0 )
+                                {
+                                    ( *backFrame )--;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // update background frame using timer as a base
+
+                        // get current time and calculate difference
+                        DateTime currentTime = DateTime.Now;
+                        TimeSpan timeDff = currentTime - lastTimeMeasurment;
+                        // save current time as the last measurment
+                        lastTimeMeasurment = currentTime;
+
+                        int millisonds = (int) timeDff.TotalMilliseconds + millisecondsLeftUnprocessed;
+
+                        // save remainder so it could be taken into account in the future
+                        millisecondsLeftUnprocessed = millisonds % millisecondsPerBackgroundUpdate;
+                        // get amount for background update 
+                        int updateAmount = (int) ( millisonds / millisecondsPerBackgroundUpdate );
 
                         backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
                         currFrame = (byte*) motionFrame.ImageData.ToPointer( );
@@ -407,82 +443,49 @@ namespace AForge.Vision.Motion
                             diff = *currFrame - *backFrame;
                             if ( diff > 0 )
                             {
-                                ( *backFrame )++;
+                                ( *backFrame ) += (byte) ( (  diff < updateAmount ) ? diff :  updateAmount );
                             }
                             else if ( diff < 0 )
                             {
-                                ( *backFrame )--;
+                                ( *backFrame ) += (byte) ( ( -diff < updateAmount ) ? diff : -updateAmount );
                             }
                         }
                     }
-                }
-                else
-                {
-                    // update background frame using timer as a base
-
-                    // get current time and calculate difference
-                    DateTime currentTime = DateTime.Now;
-                    TimeSpan timeDff = currentTime - lastTimeMeasurment;
-                    // save current time as the last measurment
-                    lastTimeMeasurment = currentTime;
-
-                    int millisonds = (int) timeDff.TotalMilliseconds + millisecondsLeftUnprocessed;
-
-                    // save remainder so it could be taken into account in the future
-                    millisecondsLeftUnprocessed = millisonds % millisecondsPerBackgroundUpdate;
-                    // get amount for background update 
-                    int updateAmount = (int) ( millisonds / millisecondsPerBackgroundUpdate );
 
                     backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
                     currFrame = (byte*) motionFrame.ImageData.ToPointer( );
 
+                    // 1 - get difference between frames
+                    // 2 - threshold the difference
                     for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
                     {
-                        diff = *currFrame - *backFrame;
-                        if ( diff > 0 )
-                        {
-                            ( *backFrame ) += (byte) ( (  diff < updateAmount ) ? diff :  updateAmount );
-                        }
-                        else if ( diff < 0 )
-                        {
-                            ( *backFrame ) += (byte) ( ( -diff < updateAmount ) ? diff : -updateAmount );
-                        }
+                        // difference
+                        diff = (int) *currFrame - (int) *backFrame;
+                        // treshold
+                        *currFrame = ( ( diff >= differenceThreshold ) || ( diff <= differenceThresholdNeg ) ) ? (byte) 255 : (byte) 0;
                     }
-                }
 
-                backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
-                currFrame = (byte*) motionFrame.ImageData.ToPointer( );
-
-                // 1 - get difference between frames
-                // 2 - threshold the difference
-                for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
-                {
-                    // difference
-                    diff = (int) *currFrame - (int) *backFrame;
-                    // treshold
-                    *currFrame = ( ( diff >= differenceThreshold ) || ( diff <= differenceThresholdNeg ) ) ? (byte) 255 : (byte) 0;
-                }
-
-                if ( suppressNoise )
-                {
-                    // suppress noise and calculate motion amount
-                    AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                    erosionFilter.Apply( tempFrame, motionFrame );
-
-                    if ( keepObjectEdges )
+                    if ( suppressNoise )
                     {
+                        // suppress noise and calculate motion amount
                         AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                        dilatationFilter.Apply( tempFrame, motionFrame );
+                        erosionFilter.Apply( tempFrame, motionFrame );
+
+                        if ( keepObjectEdges )
+                        {
+                            AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
+                            dilatationFilter.Apply( tempFrame, motionFrame );
+                        }
                     }
-                }
 
-                // calculate amount of motion pixels
-                pixelsChanged = 0;
-                byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
+                    // calculate amount of motion pixels
+                    pixelsChanged = 0;
+                    byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
 
-                for ( int i = 0; i < frameSize; i++, motion++ )
-                {
-                    pixelsChanged += ( *motion & 1 );
+                    for ( int i = 0; i < frameSize; i++, motion++ )
+                    {
+                        pixelsChanged += ( *motion & 1 );
+                    }
                 }
             }
         }

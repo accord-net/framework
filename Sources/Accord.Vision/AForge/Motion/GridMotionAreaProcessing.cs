@@ -236,7 +236,7 @@ namespace AForge.Vision.Motion
         /// <exception cref="InvalidImagePropertiesException">Motion frame is not 8 bpp image, but it must be so.</exception>
         /// <exception cref="UnsupportedImageFormatException">Video frame must be 8 bpp grayscale image or 24/32 bpp color image.</exception>
         ///
-        public unsafe void ProcessFrame( UnmanagedImage videoFrame, UnmanagedImage motionFrame )
+        public void ProcessFrame( UnmanagedImage videoFrame, UnmanagedImage motionFrame )
         {
             if ( motionFrame.PixelFormat != PixelFormat.Format8bppIndexed )
             {
@@ -264,116 +264,119 @@ namespace AForge.Vision.Motion
             // temporary variables
             int xCell, yCell;
 
-            // process motion frame calculating amount of changed pixels
-            // in each grid's cell
-            byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
-            int motionOffset = motionFrame.Stride - width;
-
-            for ( int y = 0; y < height; y++ )
+            unsafe
             {
-                // get current grid's row
-                yCell = y / cellHeight;
-                // correct row number if image was not divided by grid equally
-                if ( yCell >= gridHeight )
-                    yCell = gridHeight - 1;
+                // process motion frame calculating amount of changed pixels
+                // in each grid's cell
+                byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
+                int motionOffset = motionFrame.Stride - width;
 
-                for ( int x = 0; x < width; x++, motion++ )
+                for ( int y = 0; y < height; y++ )
                 {
-                    if ( *motion != 0 )
+                    // get current grid's row
+                    yCell = y / cellHeight;
+                    // correct row number if image was not divided by grid equally
+                    if ( yCell >= gridHeight )
+                        yCell = gridHeight - 1;
+
+                    for ( int x = 0; x < width; x++, motion++ )
                     {
-                        // get current grid's collumn
-                        xCell = x / cellWidth;
-                        // correct column number if image was not divided by grid equally
-                        if ( xCell >= gridWidth )
-                            xCell = gridWidth - 1;
-
-                        motionGrid[yCell, xCell]++;
-                    }
-                }
-                motion += motionOffset;
-            }
-
-            // update motion grid converting absolute number of changed
-            // pixel to relative for each cell
-            int gridHeightM1 = gridHeight - 1;
-            int gridWidthM1  = gridWidth  - 1;
-
-            int lastRowHeight   = height - cellHeight * gridHeightM1;
-            int lastColumnWidth = width - cellWidth   * gridWidthM1;
-
-            for ( int y = 0; y < gridHeight; y++ )
-            {
-                int ch = ( y != gridHeightM1 ) ? cellHeight : lastRowHeight;
-
-                for ( int x = 0; x < gridWidth; x++ )
-                {
-                    int cw = ( x != gridWidthM1 ) ? cellWidth : lastColumnWidth;
-
-                    motionGrid[y, x] /= ( cw * ch );
-                }
-            }
-
-            if ( highlightMotionGrid )
-            {
-                // highlight motion grid - cells, which have enough motion
-
-                byte* src = (byte*) videoFrame.ImageData.ToPointer( );
-                int srcOffset = videoFrame.Stride - width * pixelSize;
-
-                if ( pixelSize == 1 )
-                {
-                    // grayscale case
-                    byte fillG = (byte) ( 0.2125 * highlightColor.R +
-                                          0.7154 * highlightColor.G +
-                                          0.0721 * highlightColor.B );
-
-                    for ( int y = 0; y < height; y++ )
-                    {
-                        yCell = y / cellHeight;
-                        if ( yCell >= gridHeight )
-                            yCell = gridHeight - 1;
-
-                        for ( int x = 0; x < width; x++, src++ )
+                        if ( *motion != 0 )
                         {
+                            // get current grid's collumn
                             xCell = x / cellWidth;
+                            // correct column number if image was not divided by grid equally
                             if ( xCell >= gridWidth )
                                 xCell = gridWidth - 1;
 
-                            if ( ( motionGrid[yCell, xCell] > motionAmountToHighlight ) && ( ( ( x + y ) & 1 ) == 0 ) )
-                            {
-                                *src = fillG;
-                            }
+                            motionGrid[yCell, xCell]++;
                         }
-                        src += srcOffset;
+                    }
+                    motion += motionOffset;
+                }
+
+                // update motion grid converting absolute number of changed
+                // pixel to relative for each cell
+                int gridHeightM1 = gridHeight - 1;
+                int gridWidthM1  = gridWidth  - 1;
+
+                int lastRowHeight   = height - cellHeight * gridHeightM1;
+                int lastColumnWidth = width - cellWidth   * gridWidthM1;
+
+                for ( int y = 0; y < gridHeight; y++ )
+                {
+                    int ch = ( y != gridHeightM1 ) ? cellHeight : lastRowHeight;
+
+                    for ( int x = 0; x < gridWidth; x++ )
+                    {
+                        int cw = ( x != gridWidthM1 ) ? cellWidth : lastColumnWidth;
+
+                        motionGrid[y, x] /= ( cw * ch );
                     }
                 }
-                else
+
+                if ( highlightMotionGrid )
                 {
-                    // color case
-                    byte fillR = highlightColor.R;
-                    byte fillG = highlightColor.G;
-                    byte fillB = highlightColor.B;
+                    // highlight motion grid - cells, which have enough motion
 
-                    for ( int y = 0; y < height; y++ )
+                    byte* src = (byte*) videoFrame.ImageData.ToPointer( );
+                    int srcOffset = videoFrame.Stride - width * pixelSize;
+
+                    if ( pixelSize == 1 )
                     {
-                        yCell = y / cellHeight;
-                        if ( yCell >= gridHeight )
-                            yCell = gridHeight - 1;
+                        // grayscale case
+                        byte fillG = (byte) ( 0.2125 * highlightColor.R +
+                                              0.7154 * highlightColor.G +
+                                              0.0721 * highlightColor.B );
 
-                        for ( int x = 0; x < width; x++, src += pixelSize )
+                        for ( int y = 0; y < height; y++ )
                         {
-                            xCell = x / cellWidth;
-                            if ( xCell >= gridWidth )
-                                xCell = gridWidth - 1;
+                            yCell = y / cellHeight;
+                            if ( yCell >= gridHeight )
+                                yCell = gridHeight - 1;
 
-                            if ( ( motionGrid[yCell, xCell] > motionAmountToHighlight ) && ( ( ( x + y ) & 1 ) == 0 ) )
+                            for ( int x = 0; x < width; x++, src++ )
                             {
-                                src[RGB.R] = fillR;
-                                src[RGB.G] = fillG;
-                                src[RGB.B] = fillB;
+                                xCell = x / cellWidth;
+                                if ( xCell >= gridWidth )
+                                    xCell = gridWidth - 1;
+
+                                if ( ( motionGrid[yCell, xCell] > motionAmountToHighlight ) && ( ( ( x + y ) & 1 ) == 0 ) )
+                                {
+                                    *src = fillG;
+                                }
                             }
+                            src += srcOffset;
                         }
-                        src += srcOffset;
+                    }
+                    else
+                    {
+                        // color case
+                        byte fillR = highlightColor.R;
+                        byte fillG = highlightColor.G;
+                        byte fillB = highlightColor.B;
+
+                        for ( int y = 0; y < height; y++ )
+                        {
+                            yCell = y / cellHeight;
+                            if ( yCell >= gridHeight )
+                                yCell = gridHeight - 1;
+
+                            for ( int x = 0; x < width; x++, src += pixelSize )
+                            {
+                                xCell = x / cellWidth;
+                                if ( xCell >= gridWidth )
+                                    xCell = gridWidth - 1;
+
+                                if ( ( motionGrid[yCell, xCell] > motionAmountToHighlight ) && ( ( ( x + y ) & 1 ) == 0 ) )
+                                {
+                                    src[RGB.R] = fillR;
+                                    src[RGB.G] = fillG;
+                                    src[RGB.B] = fillB;
+                                }
+                            }
+                            src += srcOffset;
+                        }
                     }
                 }
             }
