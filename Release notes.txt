@@ -4,22 +4,23 @@ Accord.NET Framework 3.0.0 release notes
 
 Version updates and fixes:
   - GC-70: Merge with AForge.NET.
+  - GC-90: Convert unit test projects to NUnit
 
 * General
   - This release marks a milestone in the Accord.NET Framework. Starting from this
     release, the AForge.NET Framework has been incorporated directly in the project,
-	meaning that we are now free to fix, maintain, transform and improve AForge.NET
-	directly.
+    meaning that we are now free to fix, maintain, transform and improve AForge.NET
+    directly.
 
   - This release provides most of the AForge.NET namespaces unchanged. This means
     that this specific version of Accord.NET Framework can be used as drop-in
-	replacement in any project currently using the AForge.NET Framework and that
+    replacement in any project currently using the AForge.NET Framework and that
     is willing to upgrade to Accord.NET sometime in the future.
 
   - This release is mostly a transition release to help projects using the AForge.NET
     framework make the transition to Accord.NET more easily. Further releases will be
-	aimed at improving the interaction between the two codebases and streamlining the
-	provided functionality.
+    aimed at improving the interaction between the two codebases and streamlining the
+    provided functionality.
 
 
 
