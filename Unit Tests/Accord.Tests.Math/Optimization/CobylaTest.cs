@@ -30,23 +30,6 @@ namespace Accord.Tests.Math
     public class CobylaTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void ConstructorTest1()
         {
@@ -83,7 +66,14 @@ namespace Accord.Tests.Math
             for (int i = 0; i < cobyla.Solution.Length; i++)
                 cobyla.Solution[i] = 1;
 
-            Assert.IsTrue(cobyla.Minimize());
+            bool success = cobyla.Minimize();
+
+            double violation = constraints[0].GetViolation(cobyla.Solution);
+
+            var status = cobyla.Status;
+
+
+            Assert.IsTrue(success);
             double minimum = cobyla.Value;
 
             double[] solution = cobyla.Solution;

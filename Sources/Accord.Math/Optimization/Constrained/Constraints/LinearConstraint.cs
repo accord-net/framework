@@ -255,6 +255,20 @@ namespace Accord.Math.Optimization
         }
 
         /// <summary>
+        ///   Gets whether this constraint is being violated 
+        ///   (within the current tolerance threshold).
+        /// </summary>
+        /// 
+        /// <param name="input">The function point.</param>
+        /// 
+        /// <returns>True if the constraint is being violated, false otherwise.</returns>
+        /// 
+        public bool IsViolated(double[] input)
+        {
+            return GetViolation(input) < -Tolerance;
+        }
+
+        /// <summary>
         ///   Attempts to create a <see cref="LinearConstraint"/>
         ///   from a <see cref="System.String"/> representation.
         /// </summary>
