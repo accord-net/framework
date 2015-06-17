@@ -36,7 +36,7 @@ namespace Accord.Tests.Imaging
     public class BlendTest
     {
 
-        [Test]
+        [Test, Ignore]
         public void Panorama_Example1()
         {
             Accord.Math.Tools.SetupGenerator(0);

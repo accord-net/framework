@@ -22,33 +22,15 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math;
     using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics;
     using NUnit.Framework;
     using System;
-    using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
-    using Accord.Math;
 
     [TestFixture]
     public class GeneralizedNormalDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]

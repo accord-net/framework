@@ -31,24 +31,6 @@ namespace Accord.Tests.Statistics
     public class CauchyDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
         [Test]
         public void CauchyDistributionConstructorTest()
         {
