@@ -267,7 +267,7 @@ namespace AForge.Vision.Motion
         /// (changes) in the processed frame.</para>
         /// </remarks>
         /// 
-        public unsafe void ProcessFrame( UnmanagedImage videoFrame )
+        public void ProcessFrame( UnmanagedImage videoFrame )
         {
             lock ( sync )
             {
@@ -307,44 +307,47 @@ namespace AForge.Vision.Motion
                 // convert current image to grayscale
                 Tools.ConvertToGrayscale( videoFrame, motionFrame );
 
-                // pointers to background and current frames
-                byte* backFrame;
-                byte* currFrame;
-                int diff;
-
-                backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
-                currFrame = (byte*) motionFrame.ImageData.ToPointer( );
-
-                // 1 - get difference between frames
-                // 2 - threshold the difference
-                for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
+                unsafe
                 {
-                    // difference
-                    diff = (int) *currFrame - (int) *backFrame;
-                    // treshold
-                    *currFrame = ( ( diff >= differenceThreshold ) || ( diff <= differenceThresholdNeg ) ) ? (byte) 255 : (byte) 0;
-                }
+                    // pointers to background and current frames
+                    byte* backFrame;
+                    byte* currFrame;
+                    int diff;
 
-                if ( suppressNoise )
-                {
-                    // suppress noise and calculate motion amount
-                    AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                    erosionFilter.Apply( tempFrame, motionFrame );
+                    backFrame = (byte*) backgroundFrame.ImageData.ToPointer( );
+                    currFrame = (byte*) motionFrame.ImageData.ToPointer( );
 
-                    if ( keepObjectEdges )
+                    // 1 - get difference between frames
+                    // 2 - threshold the difference
+                    for ( int i = 0; i < frameSize; i++, backFrame++, currFrame++ )
                     {
-                        AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                        dilatationFilter.Apply( tempFrame, motionFrame );
+                        // difference
+                        diff = (int) *currFrame - (int) *backFrame;
+                        // treshold
+                        *currFrame = ( ( diff >= differenceThreshold ) || ( diff <= differenceThresholdNeg ) ) ? (byte) 255 : (byte) 0;
                     }
-                }
 
-                // calculate amount of motion pixels
-                pixelsChanged = 0;
-                byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
+                    if ( suppressNoise )
+                    {
+                        // suppress noise and calculate motion amount
+                        AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
+                        erosionFilter.Apply( tempFrame, motionFrame );
 
-                for ( int i = 0; i < frameSize; i++, motion++ )
-                {
-                    pixelsChanged += ( *motion & 1 );
+                        if ( keepObjectEdges )
+                        {
+                            AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
+                            dilatationFilter.Apply( tempFrame, motionFrame );
+                        }
+                    }
+
+                    // calculate amount of motion pixels
+                    pixelsChanged = 0;
+                    byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
+
+                    for ( int i = 0; i < frameSize; i++, motion++ )
+                    {
+                        pixelsChanged += ( *motion & 1 );
+                    }
                 }
             }
         }

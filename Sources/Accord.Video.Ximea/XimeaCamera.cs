@@ -392,7 +392,7 @@ namespace AForge.Video.Ximea
         /// <remarks><para>The method calls <see cref="GetImage(int)"/> method specifying 5000 as the timeout
         /// value.</para></remarks>
         ///
-        public unsafe Bitmap GetImage( )
+        public Bitmap GetImage( )
         {
             return GetImage( 5000 );
         }
@@ -408,7 +408,7 @@ namespace AForge.Video.Ximea
         /// <remarks><para>The method calls <see cref="GetImage(int,bool)"/> method specifying <see langword="true"/>
         /// the <b>makeCopy</b> parameter.</para></remarks>
         ///
-        public unsafe Bitmap GetImage( int timeout )
+        public Bitmap GetImage( int timeout )
         {
             return GetImage( timeout, true );
         }

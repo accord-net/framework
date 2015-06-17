@@ -245,7 +245,7 @@ namespace Accord.Imaging.Moments
         /// <param name="image">The image.</param>
         /// <param name="area">The region of interest in the image to compute moments for.</param>
         /// 
-        public unsafe override void Compute(float[,] image, Rectangle area)
+        public override void Compute(float[,] image, Rectangle area)
         {
             int height = image.GetLength(0);
             int width = image.GetLength(1);
@@ -263,44 +263,47 @@ namespace Accord.Imaging.Moments
 
             int offset = width - (windowWidth - windowX);
 
-            fixed (float* ptrImage = image)
+            unsafe
             {
-                float* src = ptrImage + windowY * width + windowX;
-
-                // TODO: Walk using x and y directly instead of i and j.
-
-                for (int j = windowY; j < windowHeight; j++)
+                fixed (float* ptrImage = image)
                 {
-                    float y = j - windowY;
+                    float* src = ptrImage + windowY * width + windowX;
 
-                    for (int i = windowX; i < windowWidth; i++, src++)
+                    // TODO: Walk using x and y directly instead of i and j.
+
+                    for (int j = windowY; j < windowHeight; j++)
                     {
-                        float x = i - windowX;
+                        float y = j - windowY;
 
-                        float v = *src;
-
-                        M00 += v;
-                        M01 += y * v;
-                        M10 += x * v;
-
-                        if (Order >= 2)
+                        for (int i = windowX; i < windowWidth; i++, src++)
                         {
-                            M11 += x * y * v;
-                            M02 += y * y * v;
-                            M20 += x * x * v;
+                            float x = i - windowX;
+
+                            float v = *src;
+
+                            M00 += v;
+                            M01 += y * v;
+                            M10 += x * v;
+
+                            if (Order >= 2)
+                            {
+                                M11 += x * y * v;
+                                M02 += y * y * v;
+                                M20 += x * x * v;
+                            }
+
+                            if (Order >= 3)
+                            {
+                                M12 += x * y * y * v;
+                                M21 += x * x * y * v;
+
+                                M30 += x * x * x * v;
+                                M03 += y * y * y * v;
+                            }
                         }
 
-                        if (Order >= 3)
-                        {
-                            M12 += x * y * y * v;
-                            M21 += x * x * y * v;
-
-                            M30 += x * x * x * v;
-                            M03 += y * y * y * v;
-                        }
+                        src += offset;
                     }
-
-                    src += offset;
                 }
             }
 
@@ -316,7 +319,7 @@ namespace Accord.Imaging.Moments
         /// <param name="image">The image.</param>
         /// <param name="area">The region of interest in the image to compute moments for.</param>
         /// 
-        public unsafe override void Compute(UnmanagedImage image, Rectangle area)
+        public override void Compute(UnmanagedImage image, Rectangle area)
         {
             int height = image.Height;
             int width = image.Width;
@@ -334,88 +337,90 @@ namespace Accord.Imaging.Moments
             int windowWidth = Math.Min(windowX + area.Width, width);
             int windowHeight = Math.Min(windowY + area.Height, height);
 
-
-            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                int offset = stride - (windowWidth - windowX);
-
-                byte* src = (byte*)image.ImageData.ToPointer() + windowY * stride + windowX;
-
-                for (int j = windowY; j < windowHeight; j++)
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    float y = j - windowY;
+                    int offset = stride - (windowWidth - windowX);
 
-                    for (int i = windowX; i < windowWidth; i++, src++)
+                    byte* src = (byte*)image.ImageData.ToPointer() + windowY * stride + windowX;
+
+                    for (int j = windowY; j < windowHeight; j++)
                     {
-                        float x = i - windowX;
+                        float y = j - windowY;
 
-                        float v = *src;
-
-                        M00 += v;
-                        M01 += y * v;
-                        M10 += x * v;
-
-                        if (Order >= 2)
+                        for (int i = windowX; i < windowWidth; i++, src++)
                         {
-                            M11 += x * y * v;
-                            M02 += y * y * v;
-                            M20 += x * x * v;
+                            float x = i - windowX;
+
+                            float v = *src;
+
+                            M00 += v;
+                            M01 += y * v;
+                            M10 += x * v;
+
+                            if (Order >= 2)
+                            {
+                                M11 += x * y * v;
+                                M02 += y * y * v;
+                                M20 += x * x * v;
+                            }
+
+                            if (Order >= 3)
+                            {
+                                M12 += x * y * y * v;
+                                M21 += x * x * y * v;
+
+                                M30 += x * x * x * v;
+                                M03 += y * y * y * v;
+                            }
                         }
 
-                        if (Order >= 3)
-                        {
-                            M12 += x * y * y * v;
-                            M21 += x * x * y * v;
-
-                            M30 += x * x * x * v;
-                            M03 += y * y * y * v;
-                        }
+                        src += offset;
                     }
-
-                    src += offset;
                 }
-            }
-            else
-            {
-                // color images
-                int pixelSize = Bitmap.GetPixelFormatSize(image.PixelFormat) / 8;
-                int offset = stride - (windowWidth - windowX) * pixelSize;
-
-                byte* src = (byte*)image.ImageData.ToPointer() + windowY * stride + windowX * pixelSize;
-
-                for (int j = windowY; j < windowHeight; j++)
+                else
                 {
-                    float y = j - windowY;
+                    // color images
+                    int pixelSize = Bitmap.GetPixelFormatSize(image.PixelFormat) / 8;
+                    int offset = stride - (windowWidth - windowX) * pixelSize;
 
-                    for (int i = windowX; i < windowWidth; i++, src += pixelSize)
+                    byte* src = (byte*)image.ImageData.ToPointer() + windowY * stride + windowX * pixelSize;
+
+                    for (int j = windowY; j < windowHeight; j++)
                     {
-                        float x = i - windowX;
+                        float y = j - windowY;
 
-                        // BT709 - 0.2125, 0.7154, 0.0721 
-                        float v = (float)(0.2125 * src[RGB.R] + 0.7154 * src[RGB.G] + 0.0721 * src[RGB.B]);
-
-                        M00 += v;
-                        M01 += y * v;
-                        M10 += x * v;
-
-                        if (Order >= 2)
+                        for (int i = windowX; i < windowWidth; i++, src += pixelSize)
                         {
-                            M11 += x * y * v;
-                            M02 += y * y * v;
-                            M20 += x * x * v;
+                            float x = i - windowX;
+
+                            // BT709 - 0.2125, 0.7154, 0.0721 
+                            float v = (float)(0.2125 * src[RGB.R] + 0.7154 * src[RGB.G] + 0.0721 * src[RGB.B]);
+
+                            M00 += v;
+                            M01 += y * v;
+                            M10 += x * v;
+
+                            if (Order >= 2)
+                            {
+                                M11 += x * y * v;
+                                M02 += y * y * v;
+                                M20 += x * x * v;
+                            }
+
+                            if (Order >= 3)
+                            {
+                                M12 += x * y * y * v;
+                                M21 += x * x * y * v;
+
+                                M30 += x * x * x * v;
+                                M03 += y * y * y * v;
+                            }
                         }
 
-                        if (Order >= 3)
-                        {
-                            M12 += x * y * y * v;
-                            M21 += x * x * y * v;
-
-                            M30 += x * x * x * v;
-                            M03 += y * y * y * v;
-                        }
+                        src += offset;
                     }
-
-                    src += offset;
                 }
             }
 

@@ -106,7 +106,7 @@ namespace Accord.Imaging
         /// <returns>An array of run-length vectors containing level counts
         ///   for every width pixel in <paramref name="source"/>.</returns>
         /// 
-        public unsafe double[][] Compute(UnmanagedImage source)
+        public double[][] Compute(UnmanagedImage source)
         {
             int width = source.Width;
             int height = source.Height;
@@ -114,185 +114,190 @@ namespace Accord.Imaging
             int offset = stride - width;
             int maxGray = 255;
 
-            byte* src = (byte*)source.ImageData.ToPointer();
+            double[][] runMatrix;
 
-            if (autoGray)
-                maxGray = max(width, height, offset, src);
-
-            numPrimitives = 0;
-            double[][] runMatrix = new double[maxGray + 1][];
-            for (int i = 0; i < runMatrix.Length; i++)
-                runMatrix[i] = new double[width + 1];
-
-
-            switch (degree)
+            unsafe
             {
-                case CooccurrenceDegree.Degree0:
-                    for (int y = 0; y < height; y++)
-                    {
-                        int runs = 1;
-                        for (int x = 1; x < width; x++)
+                byte* src = (byte*)source.ImageData.ToPointer();
+
+                if (autoGray)
+                    maxGray = max(width, height, offset, src);
+
+                numPrimitives = 0;
+                runMatrix = new double[maxGray + 1][];
+                for (int i = 0; i < runMatrix.Length; i++)
+                    runMatrix[i] = new double[width + 1];
+
+
+                switch (degree)
+                {
+                    case CooccurrenceDegree.Degree0:
+                        for (int y = 0; y < height; y++)
                         {
-                            byte a = src[stride * y + (x - 1)];
-                            byte b = src[stride * y + x];
-
-                            if (a == b)
-                                runs++;
-
-                            else
+                            int runs = 1;
+                            for (int x = 1; x < width; x++)
                             {
-                                runMatrix[a][runs]++;
-                                numPrimitives++;
-                                runs = 1;
+                                byte a = src[stride * y + (x - 1)];
+                                byte b = src[stride * y + x];
+
+                                if (a == b)
+                                    runs++;
+
+                                else
+                                {
+                                    runMatrix[a][runs]++;
+                                    numPrimitives++;
+                                    runs = 1;
+                                }
+
+                                if ((a == b) && (x == width - 1)) runMatrix[a][runs]++;
+                                if ((a != b) && (x == width - 1)) runMatrix[b][1]++;
                             }
-
-                            if ((a == b) && (x == width - 1)) runMatrix[a][runs]++;
-                            if ((a != b) && (x == width - 1)) runMatrix[b][1]++;
                         }
-                    }
-                    break;
+                        break;
 
-                case CooccurrenceDegree.Degree45:
+                    case CooccurrenceDegree.Degree45:
 
-                    // Compute I(0,0) and I(height,width)
-                    runMatrix[0][1]++;
-                    runMatrix[height - 1][width - 1]++;
+                        // Compute I(0,0) and I(height,width)
+                        runMatrix[0][1]++;
+                        runMatrix[height - 1][width - 1]++;
 
-                    // Compute height
-                    for (int i = 1; i < height; i++)
-                    {
-                        int runs = 1;
-                        int steps = i;
-                        for (int j = 0; j < steps; j++)
+                        // Compute height
+                        for (int i = 1; i < height; i++)
                         {
-                            byte a = src[stride * (i - j) + j];
-                            byte b = src[stride * (i - j - 1) + j + 1];
-
-                            if (a == b)
-                                runs++;
-
-                            else
+                            int runs = 1;
+                            int steps = i;
+                            for (int j = 0; j < steps; j++)
                             {
-                                runMatrix[a][runs]++;
-                                numPrimitives++;
-                                runs = 1;
+                                byte a = src[stride * (i - j) + j];
+                                byte b = src[stride * (i - j - 1) + j + 1];
+
+                                if (a == b)
+                                    runs++;
+
+                                else
+                                {
+                                    runMatrix[a][runs]++;
+                                    numPrimitives++;
+                                    runs = 1;
+                                }
+
+                                if ((a == b) && (j == steps - 1)) runMatrix[a][runs]++;
+                                if ((a != b) && (j == steps - 1)) runMatrix[b][1]++;
                             }
-
-                            if ((a == b) && (j == steps - 1)) runMatrix[a][runs]++;
-                            if ((a != b) && (j == steps - 1)) runMatrix[b][1]++;
                         }
-                    }
 
-                    // Compute width
-                    for (int j = 1; j < width - 1; j++)
-                    {
-                        int runs = 1;
-                        int steps = height - j;
-                        for (int i = 1; i < steps; i++)
+                        // Compute width
+                        for (int j = 1; j < width - 1; j++)
                         {
-                            byte a = src[stride * (height - i) + j + i - 1];
-                            byte b = src[stride * (height - i - 1) + j + i];
-
-                            if (a == b)
-                                runs++;
-
-                            else
+                            int runs = 1;
+                            int steps = height - j;
+                            for (int i = 1; i < steps; i++)
                             {
-                                runMatrix[a][runs]++;
-                                numPrimitives++;
-                                runs = 1;
+                                byte a = src[stride * (height - i) + j + i - 1];
+                                byte b = src[stride * (height - i - 1) + j + i];
+
+                                if (a == b)
+                                    runs++;
+
+                                else
+                                {
+                                    runMatrix[a][runs]++;
+                                    numPrimitives++;
+                                    runs = 1;
+                                }
+
+                                if ((a == b) && (i == steps - 1)) runMatrix[a][runs]++;
+                                if ((a != b) && (i == steps - 1)) runMatrix[b][1]++;
+
                             }
-
-                            if ((a == b) && (i == steps - 1)) runMatrix[a][runs]++;
-                            if ((a != b) && (i == steps - 1)) runMatrix[b][1]++;
-
                         }
-                    }
-                    break;
+                        break;
 
-                case CooccurrenceDegree.Degree90:
-                    for (int j = 0; j < width; j++)
-                    {
-                        int runs = 1;
-                        for (int i = 0; i < height - 1; i++)
+                    case CooccurrenceDegree.Degree90:
+                        for (int j = 0; j < width; j++)
                         {
-                            byte a = src[stride * (height - i - 1) + j];
-                            byte b = src[stride * (height - i - 2) + j];
-
-                            if (a == b)
-                                runs++;
-
-                            else
+                            int runs = 1;
+                            for (int i = 0; i < height - 1; i++)
                             {
-                                runMatrix[a][runs]++;
-                                numPrimitives++;
-                                runs = 1;
+                                byte a = src[stride * (height - i - 1) + j];
+                                byte b = src[stride * (height - i - 2) + j];
+
+                                if (a == b)
+                                    runs++;
+
+                                else
+                                {
+                                    runMatrix[a][runs]++;
+                                    numPrimitives++;
+                                    runs = 1;
+                                }
+
+                                if ((a == b) && (i == height - 2)) runMatrix[a][runs]++;
+                                if ((a != b) && (i == height - 2)) runMatrix[b][1]++;
                             }
-
-                            if ((a == b) && (i == height - 2)) runMatrix[a][runs]++;
-                            if ((a != b) && (i == height - 2)) runMatrix[b][1]++;
                         }
-                    }
-                    break;
+                        break;
 
-                case CooccurrenceDegree.Degree135:
+                    case CooccurrenceDegree.Degree135:
 
-                    // Compute I(0,width) and I(height,0)
-                    runMatrix[0][width - 1]++;
-                    runMatrix[height - 1][0]++;
+                        // Compute I(0,width) and I(height,0)
+                        runMatrix[0][width - 1]++;
+                        runMatrix[height - 1][0]++;
 
-                    // Compute height
-                    for (int i = 1; i < width; i++)
-                    {
-                        int runs = 1;
-                        int steps = i;
-                        int w = width - 1;
-                        for (int j = 0; j < steps; j++)
+                        // Compute height
+                        for (int i = 1; i < width; i++)
                         {
-                            byte a = src[stride * (i - j) + (w)];
-                            byte b = src[stride * (i - j - 1) + (--w)];
-
-                            if (a == b)
-                                runs++;
-
-                            else
+                            int runs = 1;
+                            int steps = i;
+                            int w = width - 1;
+                            for (int j = 0; j < steps; j++)
                             {
-                                runMatrix[a][runs]++;
-                                numPrimitives++;
-                                runs = 1;
+                                byte a = src[stride * (i - j) + (w)];
+                                byte b = src[stride * (i - j - 1) + (--w)];
+
+                                if (a == b)
+                                    runs++;
+
+                                else
+                                {
+                                    runMatrix[a][runs]++;
+                                    numPrimitives++;
+                                    runs = 1;
+                                }
+
+                                if ((a == b) && (j == steps - 1)) runMatrix[a][runs]++;
+                                if ((a != b) && (j == steps - 1)) runMatrix[b][1]++;
                             }
-
-                            if ((a == b) && (j == steps - 1)) runMatrix[a][runs]++;
-                            if ((a != b) && (j == steps - 1)) runMatrix[b][1]++;
                         }
-                    }
 
-                    // Compute width
-                    for (int j = 1; j < width - 1; j++)
-                    {
-                        int runs = 1;
-                        int steps = height - j;
-                        int w = width - 1 - j;
-                        for (int i = 1; i < steps; i++)
+                        // Compute width
+                        for (int j = 1; j < width - 1; j++)
                         {
-                            byte a = src[stride * (height - i) + (w)];
-                            byte b = src[stride * (height - i - 1) + (--w)];
-
-                            if (a == b)
-                                runs++;
-
-                            else
+                            int runs = 1;
+                            int steps = height - j;
+                            int w = width - 1 - j;
+                            for (int i = 1; i < steps; i++)
                             {
-                                runMatrix[a][runs]++;
-                                numPrimitives++;
-                                runs = 1;
-                            }
+                                byte a = src[stride * (height - i) + (w)];
+                                byte b = src[stride * (height - i - 1) + (--w)];
 
-                            if ((a == b) && (i == steps - 1)) runMatrix[a][runs]++;
-                            if ((a != b) && (i == steps - 1)) runMatrix[b][1]++;
+                                if (a == b)
+                                    runs++;
+
+                                else
+                                {
+                                    runMatrix[a][runs]++;
+                                    numPrimitives++;
+                                    runs = 1;
+                                }
+
+                                if ((a == b) && (i == steps - 1)) runMatrix[a][runs]++;
+                                if ((a != b) && (i == steps - 1)) runMatrix[b][1]++;
+                            }
                         }
-                    }
-                    break;
+                        break;
+                }
             }
 
             return runMatrix;

@@ -40,7 +40,7 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void FillRectangle(BitmapData imageData, Rectangle rectangle, Color color)
+        public static void FillRectangle(BitmapData imageData, Rectangle rectangle, Color color)
         {
             FillRectangle(new UnmanagedImage(imageData), rectangle, color);
         }
@@ -55,7 +55,7 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void FillRectangle(UnmanagedImage image, Rectangle rectangle, Color color)
+        public static void FillRectangle(UnmanagedImage image, Rectangle rectangle, Color color)
         {
             CheckPixelFormat(image.PixelFormat);
 
@@ -84,91 +84,94 @@ namespace AForge.Imaging
             int startY = Math.Max(0, rectY1);
             int stopY = Math.Min(imageHeight - 1, rectY2);
 
-            // do the job
-            byte* ptr = (byte*)image.ImageData.ToPointer() + startY * stride + startX * pixelSize;
-
-            if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                // grayscale image
-                byte gray = (byte)(0.2125 * color.R + 0.7154 * color.G + 0.0721 * color.B);
+                // do the job
+                byte* ptr = (byte*)image.ImageData.ToPointer() + startY * stride + startX * pixelSize;
 
-                int fillWidth = stopX - startX + 1;
-
-                for (int y = startY; y <= stopY; y++)
+                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    AForge.SystemTools.SetUnmanagedMemory(ptr, gray, fillWidth);
-                    ptr += stride;
-                }
-            }
-            else if (image.PixelFormat == PixelFormat.Format32bppArgb)
-            {
-                // color 32 bpp ARGB image
-                double fillAlpha = color.A / 255.0;
-                double fillNegAlpha = 1.0 - fillAlpha;
+                    // grayscale image
+                    byte gray = (byte)(0.2125 * color.R + 0.7154 * color.G + 0.0721 * color.B);
 
-                double fillRedPart = fillAlpha * color.R;
-                double fillGreenPart = fillAlpha * color.G;
-                double fillBluePart = fillAlpha * color.B;
+                    int fillWidth = stopX - startX + 1;
 
-                int offset = stride - (stopX - startX + 1) * 4;
-
-                for (int y = startY; y <= stopY; y++)
-                {
-                    for (int x = startX; x <= stopX; x++, ptr += 4)
-                    {
-                        double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
-
-                        ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
-                        ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
-                        ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
-
-                        ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
-                    }
-                    ptr += offset;
-                }
-            }
-            else
-            {
-                // color 24/32 RGB image
-                byte red = color.R;
-                byte green = color.G;
-                byte blue = color.B;
-
-                int offset = stride - (stopX - startX + 1) * pixelSize;
-
-                if (color.A == 255)
-                {
-                    // just copy fill color if it is not transparent
                     for (int y = startY; y <= stopY; y++)
                     {
-                        for (int x = startX; x <= stopX; x++, ptr += pixelSize)
+                        AForge.SystemTools.SetUnmanagedMemory(ptr, gray, fillWidth);
+                        ptr += stride;
+                    }
+                }
+                else if (image.PixelFormat == PixelFormat.Format32bppArgb)
+                {
+                    // color 32 bpp ARGB image
+                    double fillAlpha = color.A / 255.0;
+                    double fillNegAlpha = 1.0 - fillAlpha;
+
+                    double fillRedPart = fillAlpha * color.R;
+                    double fillGreenPart = fillAlpha * color.G;
+                    double fillBluePart = fillAlpha * color.B;
+
+                    int offset = stride - (stopX - startX + 1) * 4;
+
+                    for (int y = startY; y <= stopY; y++)
+                    {
+                        for (int x = startX; x <= stopX; x++, ptr += 4)
                         {
-                            ptr[RGB.R] = red;
-                            ptr[RGB.G] = green;
-                            ptr[RGB.B] = blue;
+                            double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
+
+                            ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
+                            ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
+                            ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
+
+                            ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
                         }
                         ptr += offset;
                     }
                 }
                 else
                 {
-                    // do alpha blending for transparent colors
-                    int fillAlpha = color.A;
-                    int fillNegAlpha = 255 - fillAlpha;
+                    // color 24/32 RGB image
+                    byte red = color.R;
+                    byte green = color.G;
+                    byte blue = color.B;
 
-                    int fillRedPart = fillAlpha * color.R;
-                    int fillGreenPart = fillAlpha * color.G;
-                    int fillBluePart = fillAlpha * color.B;
+                    int offset = stride - (stopX - startX + 1) * pixelSize;
 
-                    for (int y = startY; y <= stopY; y++)
+                    if (color.A == 255)
                     {
-                        for (int x = startX; x <= stopX; x++, ptr += pixelSize)
+                        // just copy fill color if it is not transparent
+                        for (int y = startY; y <= stopY; y++)
                         {
-                            ptr[RGB.R] = (byte)((fillRedPart + fillNegAlpha * ptr[RGB.R]) / 255);
-                            ptr[RGB.G] = (byte)((fillGreenPart + fillNegAlpha * ptr[RGB.G]) / 255);
-                            ptr[RGB.B] = (byte)((fillBluePart + fillNegAlpha * ptr[RGB.B]) / 255);
+                            for (int x = startX; x <= stopX; x++, ptr += pixelSize)
+                            {
+                                ptr[RGB.R] = red;
+                                ptr[RGB.G] = green;
+                                ptr[RGB.B] = blue;
+                            }
+                            ptr += offset;
                         }
-                        ptr += offset;
+                    }
+                    else
+                    {
+                        // do alpha blending for transparent colors
+                        int fillAlpha = color.A;
+                        int fillNegAlpha = 255 - fillAlpha;
+
+                        int fillRedPart = fillAlpha * color.R;
+                        int fillGreenPart = fillAlpha * color.G;
+                        int fillBluePart = fillAlpha * color.B;
+
+                        for (int y = startY; y <= stopY; y++)
+                        {
+                            for (int x = startX; x <= stopX; x++, ptr += pixelSize)
+                            {
+                                ptr[RGB.R] = (byte)((fillRedPart + fillNegAlpha * ptr[RGB.R]) / 255);
+                                ptr[RGB.G] = (byte)((fillGreenPart + fillNegAlpha * ptr[RGB.G]) / 255);
+                                ptr[RGB.B] = (byte)((fillBluePart + fillNegAlpha * ptr[RGB.B]) / 255);
+                            }
+                            ptr += offset;
+                        }
                     }
                 }
             }
@@ -184,7 +187,7 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void Rectangle(BitmapData imageData, Rectangle rectangle, Color color)
+        public static void Rectangle(BitmapData imageData, Rectangle rectangle, Color color)
         {
             Rectangle(new UnmanagedImage(imageData), rectangle, color);
         }
@@ -199,7 +202,7 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void Rectangle(UnmanagedImage image, Rectangle rectangle, Color color)
+        public static void Rectangle(UnmanagedImage image, Rectangle rectangle, Color color)
         {
             CheckPixelFormat(image.PixelFormat);
 
@@ -240,7 +243,7 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void Line(BitmapData imageData, IntPoint point1, IntPoint point2, Color color)
+        public static void Line(BitmapData imageData, IntPoint point1, IntPoint point2, Color color)
         {
             Line(new UnmanagedImage(imageData), point1, point2, color);
         }
@@ -256,7 +259,7 @@ namespace AForge.Imaging
         /// 
         /// <exception cref="UnsupportedImageFormatException">The source image has incorrect pixel format.</exception>
         /// 
-        public static unsafe void Line(UnmanagedImage image, IntPoint point1, IntPoint point2, Color color)
+        public static void Line(UnmanagedImage image, IntPoint point1, IntPoint point2, Color color)
         {
             // TODO: faster line drawing algorithm may be implemented with integer math
 
@@ -324,152 +327,155 @@ namespace AForge.Imaging
             int dx = stopX - startX;
             int dy = stopY - startY;
 
-            if (Math.Abs(dx) >= Math.Abs(dy))
+            unsafe
             {
-                // the line is more horizontal, we'll plot along the X axis
-                float slope = (dx != 0) ? (float)dy / dx : 0;
-                int step = (dx > 0) ? 1 : -1;
-
-                // correct dx so last point is included as well
-                dx += step;
-
-                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+                if (Math.Abs(dx) >= Math.Abs(dy))
                 {
-                    // grayscale image
-                    for (int x = 0; x != dx; x += step)
+                    // the line is more horizontal, we'll plot along the X axis
+                    float slope = (dx != 0) ? (float)dy / dx : 0;
+                    int step = (dx > 0) ? 1 : -1;
+
+                    // correct dx so last point is included as well
+                    dx += step;
+
+                    if (image.PixelFormat == PixelFormat.Format8bppIndexed)
                     {
-                        int px = startX + x;
-                        int py = (int)((float)startY + (slope * (float)x));
-
-                        byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px;
-                        *ptr = gray;
-                    }
-                }
-                else if (image.PixelFormat == PixelFormat.Format32bppArgb)
-                {
-                    // color 32 ARGB image image
-                    for (int x = 0; x != dx; x += step)
-                    {
-                        int px = startX + x;
-                        int py = (int)((float)startY + (slope * (float)x));
-
-                        byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * 4;
-
-                        double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
-
-                        ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
-                        ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
-                        ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
-
-                        ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
-                    }
-                }
-                else
-                {
-                    // color 24/32 bpp RGB image
-                    if (color.A == 255)
-                    {
-                        // just copy color for none transparent colors
+                        // grayscale image
                         for (int x = 0; x != dx; x += step)
                         {
                             int px = startX + x;
                             int py = (int)((float)startY + (slope * (float)x));
 
-                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
-
-                            ptr[RGB.R] = color.R;
-                            ptr[RGB.G] = color.G;
-                            ptr[RGB.B] = color.B;
+                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px;
+                            *ptr = gray;
                         }
                     }
-                    else
+                    else if (image.PixelFormat == PixelFormat.Format32bppArgb)
                     {
-                        // do alpha blending for transparent colors
+                        // color 32 ARGB image image
                         for (int x = 0; x != dx; x += step)
                         {
                             int px = startX + x;
                             int py = (int)((float)startY + (slope * (float)x));
 
-                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
+                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * 4;
 
-                            ptr[RGB.R] = (byte)((fillRedPartInt + fillNegAlphaInt * ptr[RGB.R]) / 255);
-                            ptr[RGB.G] = (byte)((fillGreenPartInt + fillNegAlphaInt * ptr[RGB.G]) / 255);
-                            ptr[RGB.B] = (byte)((fillBluePartInt + fillNegAlphaInt * ptr[RGB.B]) / 255);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // the line is more vertical, we'll plot along the y axis.
-                float slope = (dy != 0) ? (float)dx / dy : 0;
-                int step = (dy > 0) ? 1 : -1;
+                            double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
 
-                // correct dy so last point is included as well
-                dy += step;
+                            ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
+                            ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
+                            ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
 
-                if (image.PixelFormat == PixelFormat.Format8bppIndexed)
-                {
-                    // grayscale image
-                    for (int y = 0; y != dy; y += step)
-                    {
-                        int px = (int)((float)startX + (slope * (float)y));
-                        int py = startY + y;
-
-                        byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px;
-                        *ptr = gray;
-                    }
-                }
-                else if (image.PixelFormat == PixelFormat.Format32bppArgb)
-                {
-                    // color 32 bpp ARGB image
-                    for (int y = 0; y != dy; y += step)
-                    {
-                        int px = (int)((float)startX + (slope * (float)y));
-                        int py = startY + y;
-
-                        byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * 4;
-
-                        double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
-
-                        ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
-                        ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
-                        ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
-
-                        ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
-                    }
-                }
-                else
-                {
-                    // color 24/32 bpp RGB image
-                    if (color.A == 255)
-                    {
-                        // just copy color for none transparent colors
-                        for (int y = 0; y != dy; y += step)
-                        {
-                            int px = (int)((float)startX + (slope * (float)y));
-                            int py = startY + y;
-
-                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
-
-                            ptr[RGB.R] = color.R;
-                            ptr[RGB.G] = color.G;
-                            ptr[RGB.B] = color.B;
+                            ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
                         }
                     }
                     else
                     {
-                        // do alpha blending for transparent colors
+                        // color 24/32 bpp RGB image
+                        if (color.A == 255)
+                        {
+                            // just copy color for none transparent colors
+                            for (int x = 0; x != dx; x += step)
+                            {
+                                int px = startX + x;
+                                int py = (int)((float)startY + (slope * (float)x));
+
+                                byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
+
+                                ptr[RGB.R] = color.R;
+                                ptr[RGB.G] = color.G;
+                                ptr[RGB.B] = color.B;
+                            }
+                        }
+                        else
+                        {
+                            // do alpha blending for transparent colors
+                            for (int x = 0; x != dx; x += step)
+                            {
+                                int px = startX + x;
+                                int py = (int)((float)startY + (slope * (float)x));
+
+                                byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
+
+                                ptr[RGB.R] = (byte)((fillRedPartInt + fillNegAlphaInt * ptr[RGB.R]) / 255);
+                                ptr[RGB.G] = (byte)((fillGreenPartInt + fillNegAlphaInt * ptr[RGB.G]) / 255);
+                                ptr[RGB.B] = (byte)((fillBluePartInt + fillNegAlphaInt * ptr[RGB.B]) / 255);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // the line is more vertical, we'll plot along the y axis.
+                    float slope = (dy != 0) ? (float)dx / dy : 0;
+                    int step = (dy > 0) ? 1 : -1;
+
+                    // correct dy so last point is included as well
+                    dy += step;
+
+                    if (image.PixelFormat == PixelFormat.Format8bppIndexed)
+                    {
+                        // grayscale image
                         for (int y = 0; y != dy; y += step)
                         {
                             int px = (int)((float)startX + (slope * (float)y));
                             int py = startY + y;
 
-                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
+                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px;
+                            *ptr = gray;
+                        }
+                    }
+                    else if (image.PixelFormat == PixelFormat.Format32bppArgb)
+                    {
+                        // color 32 bpp ARGB image
+                        for (int y = 0; y != dy; y += step)
+                        {
+                            int px = (int)((float)startX + (slope * (float)y));
+                            int py = startY + y;
 
-                            ptr[RGB.R] = (byte)((fillRedPartInt + fillNegAlphaInt * ptr[RGB.R]) / 255);
-                            ptr[RGB.G] = (byte)((fillGreenPartInt + fillNegAlphaInt * ptr[RGB.G]) / 255);
-                            ptr[RGB.B] = (byte)((fillBluePartInt + fillNegAlphaInt * ptr[RGB.B]) / 255);
+                            byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * 4;
+
+                            double srcAlphaPart = (ptr[RGB.A] / 255.0) * fillNegAlpha;
+
+                            ptr[RGB.R] = (byte)((fillRedPart + srcAlphaPart * ptr[RGB.R]));
+                            ptr[RGB.G] = (byte)((fillGreenPart + srcAlphaPart * ptr[RGB.G]));
+                            ptr[RGB.B] = (byte)((fillBluePart + srcAlphaPart * ptr[RGB.B]));
+
+                            ptr[RGB.A] = (byte)(255 * (fillAlpha + srcAlphaPart));
+                        }
+                    }
+                    else
+                    {
+                        // color 24/32 bpp RGB image
+                        if (color.A == 255)
+                        {
+                            // just copy color for none transparent colors
+                            for (int y = 0; y != dy; y += step)
+                            {
+                                int px = (int)((float)startX + (slope * (float)y));
+                                int py = startY + y;
+
+                                byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
+
+                                ptr[RGB.R] = color.R;
+                                ptr[RGB.G] = color.G;
+                                ptr[RGB.B] = color.B;
+                            }
+                        }
+                        else
+                        {
+                            // do alpha blending for transparent colors
+                            for (int y = 0; y != dy; y += step)
+                            {
+                                int px = (int)((float)startX + (slope * (float)y));
+                                int py = startY + y;
+
+                                byte* ptr = (byte*)image.ImageData.ToPointer() + py * stride + px * pixelSize;
+
+                                ptr[RGB.R] = (byte)((fillRedPartInt + fillNegAlphaInt * ptr[RGB.R]) / 255);
+                                ptr[RGB.G] = (byte)((fillGreenPartInt + fillNegAlphaInt * ptr[RGB.G]) / 255);
+                                ptr[RGB.B] = (byte)((fillBluePartInt + fillNegAlphaInt * ptr[RGB.B]) / 255);
+                            }
                         }
                     }
                 }

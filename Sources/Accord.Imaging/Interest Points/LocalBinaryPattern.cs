@@ -138,7 +138,7 @@ namespace Accord.Imaging
         ///   The source image has incorrect pixel format.
         /// </exception>
         /// 
-        public unsafe List<double[]> ProcessImage(UnmanagedImage image)
+        public List<double[]> ProcessImage(UnmanagedImage image)
         {
 
             // check image format
@@ -175,41 +175,44 @@ namespace Accord.Imaging
             // 1. Calculate 8-pixel neighborhood binary patterns 
             patterns = new int[height, width];
 
-            fixed (int* ptrPatterns = patterns)
+            unsafe
             {
-                // Begin skipping first line
-                byte* src = (byte*)grayImage.ImageData.ToPointer() + stride;
-                int* neighbors = ptrPatterns + width;
-
-                // for each line
-                for (int y = 1; y < height - 1; y++)
+                fixed (int* ptrPatterns = patterns)
                 {
-                    // skip first column
-                    neighbors++; src++;
+                    // Begin skipping first line
+                    byte* src = (byte*)grayImage.ImageData.ToPointer() + stride;
+                    int* neighbors = ptrPatterns + width;
 
-                    // for each inner pixel in line (skipping first and last)
-                    for (int x = 1; x < width - 1; x++, src++, neighbors++)
+                    // for each line
+                    for (int y = 1; y < height - 1; y++)
                     {
-                        // Retrieve the pixel neighborhood
-                        byte a11 = src[+stride + 1], a12 = src[+1], a13 = src[-stride + 1];
-                        byte a21 = src[+stride + 0], a22 = src[0], a23 = src[-stride + 0];
-                        byte a31 = src[+stride - 1], a32 = src[-1], a33 = src[-stride - 1];
+                        // skip first column
+                        neighbors++; src++;
 
-                        int sum = 0;
-                        if (a22 < a11) sum += 1 << 0;
-                        if (a22 < a12) sum += 1 << 1;
-                        if (a22 < a13) sum += 1 << 2;
-                        if (a22 < a21) sum += 1 << 3;
-                        if (a22 < a23) sum += 1 << 4;
-                        if (a22 < a31) sum += 1 << 5;
-                        if (a22 < a32) sum += 1 << 6;
-                        if (a22 < a33) sum += 1 << 7;
+                        // for each inner pixel in line (skipping first and last)
+                        for (int x = 1; x < width - 1; x++, src++, neighbors++)
+                        {
+                            // Retrieve the pixel neighborhood
+                            byte a11 = src[+stride + 1], a12 = src[+1], a13 = src[-stride + 1];
+                            byte a21 = src[+stride + 0], a22 = src[0], a23 = src[-stride + 0];
+                            byte a31 = src[+stride - 1], a32 = src[-1], a33 = src[-stride - 1];
 
-                        *neighbors = sum;
+                            int sum = 0;
+                            if (a22 < a11) sum += 1 << 0;
+                            if (a22 < a12) sum += 1 << 1;
+                            if (a22 < a13) sum += 1 << 2;
+                            if (a22 < a21) sum += 1 << 3;
+                            if (a22 < a23) sum += 1 << 4;
+                            if (a22 < a31) sum += 1 << 5;
+                            if (a22 < a32) sum += 1 << 6;
+                            if (a22 < a33) sum += 1 << 7;
+
+                            *neighbors = sum;
+                        }
+
+                        // Skip last column
+                        neighbors++; src += offset + 1;
                     }
-
-                    // Skip last column
-                    neighbors++; src += offset + 1;
                 }
             }
 

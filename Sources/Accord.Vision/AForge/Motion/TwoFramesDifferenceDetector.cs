@@ -211,7 +211,7 @@ namespace AForge.Vision.Motion
         /// (changes) in the processed frame.</para>
         /// </remarks>
         /// 
-        public unsafe void ProcessFrame( UnmanagedImage videoFrame )
+        public void ProcessFrame( UnmanagedImage videoFrame )
         {
             lock ( sync )
             {
@@ -247,39 +247,42 @@ namespace AForge.Vision.Motion
                 // convert current image to grayscale
                 Tools.ConvertToGrayscale( videoFrame, motionFrame );
 
-                // pointers to previous and current frames
-                byte* prevFrame = (byte*) previousFrame.ImageData.ToPointer( );
-                byte* currFrame = (byte*) motionFrame.ImageData.ToPointer( );
-                // difference value
-                int diff;
-
-                // 1 - get difference between frames
-                // 2 - threshold the difference
-                // 3 - copy current frame to previous frame
-                for ( int i = 0; i < frameSize; i++, prevFrame++, currFrame++ )
+                unsafe
                 {
-                    // difference
-                    diff = (int) *currFrame - (int) *prevFrame;
-                    // copy current frame to previous
-                    *prevFrame = *currFrame;
-                    // treshold
-                    *currFrame = ( ( diff >= differenceThreshold ) || ( diff <= differenceThresholdNeg ) ) ? (byte) 255 : (byte) 0;
-                }
+                    // pointers to previous and current frames
+                    byte* prevFrame = (byte*) previousFrame.ImageData.ToPointer( );
+                    byte* currFrame = (byte*) motionFrame.ImageData.ToPointer( );
+                    // difference value
+                    int diff;
 
-                if ( suppressNoise )
-                {
-                    // suppress noise and calculate motion amount
-                    AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
-                    erosionFilter.Apply( tempFrame, motionFrame );
-                }
+                    // 1 - get difference between frames
+                    // 2 - threshold the difference
+                    // 3 - copy current frame to previous frame
+                    for ( int i = 0; i < frameSize; i++, prevFrame++, currFrame++ )
+                    {
+                        // difference
+                        diff = (int) *currFrame - (int) *prevFrame;
+                        // copy current frame to previous
+                        *prevFrame = *currFrame;
+                        // treshold
+                        *currFrame = ( ( diff >= differenceThreshold ) || ( diff <= differenceThresholdNeg ) ) ? (byte) 255 : (byte) 0;
+                    }
 
-                // calculate amount of motion pixels
-                pixelsChanged = 0;
-                byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
+                    if ( suppressNoise )
+                    {
+                        // suppress noise and calculate motion amount
+                        AForge.SystemTools.CopyUnmanagedMemory( tempFrame.ImageData, motionFrame.ImageData, frameSize );
+                        erosionFilter.Apply( tempFrame, motionFrame );
+                    }
 
-                for ( int i = 0; i < frameSize; i++, motion++ )
-                {
-                    pixelsChanged += ( *motion & 1 );
+                    // calculate amount of motion pixels
+                    pixelsChanged = 0;
+                    byte* motion = (byte*) motionFrame.ImageData.ToPointer( );
+
+                    for ( int i = 0; i < frameSize; i++, motion++ )
+                    {
+                        pixelsChanged += ( *motion & 1 );
+                    }
                 }
             }
         }

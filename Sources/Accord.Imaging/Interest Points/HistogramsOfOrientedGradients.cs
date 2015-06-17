@@ -142,7 +142,7 @@ namespace Accord.Imaging
         ///   The source image has incorrect pixel format.
         /// </exception>
         /// 
-        public unsafe List<double[]> ProcessImage(UnmanagedImage image)
+        public List<double[]> ProcessImage(UnmanagedImage image)
         {
 
             // check image format
@@ -181,40 +181,43 @@ namespace Accord.Imaging
             direction = new float[height, width];
             magnitude = new float[height, width];
 
-            fixed (float* ptrDir = direction, ptrMag = magnitude)
+            unsafe
             {
-                // Begin skipping first line
-                byte* src = (byte*)grayImage.ImageData.ToPointer() + stride;
-                float* dir = ptrDir + width;
-                float* mag = ptrMag + width;
-
-                // for each line
-                for (int y = 1; y < height - 1; y++)
+                fixed (float* ptrDir = direction, ptrMag = magnitude)
                 {
-                    // skip first column
-                    dir++; mag++; src++;
+                    // Begin skipping first line
+                    byte* src = (byte*)grayImage.ImageData.ToPointer() + stride;
+                    float* dir = ptrDir + width;
+                    float* mag = ptrMag + width;
 
-                    // for each inner pixel in line (skipping first and last)
-                    for (int x = 1; x < width - 1; x++, src++, dir++, mag++)
+                    // for each line
+                    for (int y = 1; y < height - 1; y++)
                     {
-                        // Retrieve the pixel neighborhood
-                        byte a11 = src[+stride + 1], a12 = src[+1], a13 = src[-stride + 1];
-                        byte a21 = src[+stride + 0], /*  a22    */  a23 = src[-stride + 0];
-                        byte a31 = src[+stride - 1], a32 = src[-1], a33 = src[-stride - 1];
+                        // skip first column
+                        dir++; mag++; src++;
 
-                        // Convolution with horizontal differentiation kernel mask
-                        float h = ((a11 + a12 + a13) - (a31 + a32 + a33)) * 0.166666667f;
+                        // for each inner pixel in line (skipping first and last)
+                        for (int x = 1; x < width - 1; x++, src++, dir++, mag++)
+                        {
+                            // Retrieve the pixel neighborhood
+                            byte a11 = src[+stride + 1], a12 = src[+1], a13 = src[-stride + 1];
+                            byte a21 = src[+stride + 0], /*  a22    */  a23 = src[-stride + 0];
+                            byte a31 = src[+stride - 1], a32 = src[-1], a33 = src[-stride - 1];
 
-                        // Convolution with vertical differentiation kernel mask
-                        float v = ((a11 + a21 + a31) - (a13 + a23 + a33)) * 0.166666667f;
+                            // Convolution with horizontal differentiation kernel mask
+                            float h = ((a11 + a12 + a13) - (a31 + a32 + a33)) * 0.166666667f;
 
-                        // Store angles and magnitudes directly
-                        *dir = (float)Math.Atan2(v, h);
-                        *mag = (float)Math.Sqrt(h * h + v * v);
+                            // Convolution with vertical differentiation kernel mask
+                            float v = ((a11 + a21 + a31) - (a13 + a23 + a33)) * 0.166666667f;
+
+                            // Store angles and magnitudes directly
+                            *dir = (float)Math.Atan2(v, h);
+                            *mag = (float)Math.Sqrt(h * h + v * v);
+                        }
+
+                        // Skip last column
+                        dir++; mag++; src += offset + 1;
                     }
-
-                    // Skip last column
-                    dir++; mag++; src += offset + 1;
                 }
             }
 

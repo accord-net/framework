@@ -600,14 +600,17 @@ namespace Accord.Math
         ///   Fast inverse floating-point square root.
         /// </summary>
         /// 
-        public unsafe static float InvSqrt(float f)
+        public static float InvSqrt(float f)
         {
-            float xhalf = 0.5f * f;
-            Int32 i = *(Int32*)&f;
-            i = 0x5f375a86 - (i >> 1);
-            f = *(float*)&i;
-            f = f * (1.5f - xhalf * f * f);
-            return f;
+            unsafe
+            {
+                float xhalf = 0.5f * f;
+                Int32 i = *(Int32*)&f;
+                i = 0x5f375a86 - (i >> 1);
+                f = *(float*)&i;
+                f = f * (1.5f - xhalf * f * f);
+                return f;
+            }
         }
 
 
