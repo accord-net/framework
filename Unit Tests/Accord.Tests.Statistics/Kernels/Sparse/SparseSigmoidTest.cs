@@ -30,22 +30,14 @@ namespace Accord.Tests.Statistics
     public class SparseSigmoidTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void FunctionTest2()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            SparseLinearTest.SparseTest(new Sigmoid(), new SparseSigmoid());
+            SparseLinearTest.SparseTest(new Sigmoid(0, 0), new SparseSigmoid(0, 0));
+            SparseLinearTest.SparseTest(new Sigmoid(0, 3.6), new SparseSigmoid(0, 3.6));
+            SparseLinearTest.SparseTest(new Sigmoid(3.6, 0), new SparseSigmoid(3.6, 0));
         }
-
-
 
         [Test]
         public void FunctionTest()

@@ -30,22 +30,13 @@ namespace Accord.Tests.Statistics
     public class SparseLaplacianTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void FunctionTest2()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            SparseLinearTest.SparseTest(new Laplacian(), new SparseLaplacian());
+            SparseLinearTest.SparseTest(new Laplacian(0), new SparseLaplacian(0));
+            SparseLinearTest.SparseTest(new Laplacian(3.6), new SparseLaplacian(3.6));
         }
-
-
 
         [Test]
         public void FunctionTest()

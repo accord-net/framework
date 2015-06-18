@@ -34,6 +34,9 @@ namespace Accord.Statistics.Kernels.Sparse
     ///   The Gaussian kernel requires tuning for the proper value of σ. Different approaches
     ///   to this problem includes the use of brute force (i.e. using a grid-search algorithm)
     ///   or a gradient ascent optimization.</para>
+    ///   
+    /// <para>
+    ///   For an example on how to create a sparse kernel, please see the <see cref="SparseLinear"/> page.</para>
     ///    
     /// <para>
     ///   References:
@@ -55,7 +58,16 @@ namespace Accord.Statistics.Kernels.Sparse
         ///   Constructs a new Sparse Gaussian Kernel
         /// </summary>
         /// 
-        /// <param name="sigma">The standard deviation for the Gaussian distribution.</param>
+        public SparseGaussian()
+            : this(1)
+        {
+        }
+
+        /// <summary>
+        ///   Constructs a new Sparse Gaussian Kernel
+        /// </summary>
+        /// 
+        /// <param name="sigma">The standard deviation for the Gaussian distribution. Default is 1.</param>
         /// 
         public SparseGaussian(double sigma)
         {

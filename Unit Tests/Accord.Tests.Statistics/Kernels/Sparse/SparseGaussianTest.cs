@@ -31,22 +31,13 @@ namespace Accord.Tests.Statistics
     public class SparseGaussianTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void FunctionTest2()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            SparseLinearTest.SparseTest(new Gaussian(), new SparseGaussian());
+            SparseLinearTest.SparseTest(new Gaussian(0), new SparseGaussian(0));
+            SparseLinearTest.SparseTest(new Gaussian(3.6), new SparseGaussian(3.6));
         }
-
-
 
         [Test]
         public void FunctionTest()

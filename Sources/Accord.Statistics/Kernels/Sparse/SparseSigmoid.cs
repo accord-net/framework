@@ -54,6 +54,13 @@ namespace Accord.Statistics.Kernels.Sparse
         }
 
         /// <summary>
+        ///   Constructs a Sparse Sigmoid kernel.
+        /// </summary>
+        /// 
+        public SparseSigmoid()
+            : this(0.01, -Math.E) { }
+
+        /// <summary>
         ///   Gets or sets the kernel's gamma parameter.
         /// </summary>
         /// 
@@ -88,7 +95,7 @@ namespace Accord.Statistics.Kernels.Sparse
         /// 
         public override double Function(double[] x, double[] y)
         {
-            double sum = SparseLinear.Product(x,y);
+            double sum = SparseLinear.Product(x, y);
 
             return System.Math.Tanh(Gamma * sum + Constant);
         }

@@ -29,22 +29,13 @@ namespace Accord.Tests.Statistics
     [TestFixture]
     public class SparsePolynomialTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void FunctionTest2()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            SparseLinearTest.SparseTest(new Polynomial(1), new SparsePolynomial(1));
+            SparseLinearTest.SparseTest(new Polynomial(0), new SparsePolynomial(0));
+            SparseLinearTest.SparseTest(new Polynomial(3), new SparsePolynomial(3));
         }
-
 
 
         [Test]
