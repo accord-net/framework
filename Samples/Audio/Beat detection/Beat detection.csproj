@@ -65,25 +65,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Release\net40\Accord.Audio.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Audio.Formats, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Release\net40\Accord.Audio.Formats.dll</HintPath>
+    <Reference Include="Accord.Audio.DirectSound">
+      <HintPath>..\..\..\Release\net40\Accord.Audio.DirectSound.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Audition, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Release\net40\Accord.Audition.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.DirectSound, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Release\net40\Accord.DirectSound.dll</HintPath>
-    </Reference>
     <Reference Include="Accord.Math, Version=2.12.0.0, Culture=neutral, PublicKeyToken=fa1a88e29555ccf7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math, Version=2.2.3.0, Culture=neutral, PublicKeyToken=abba2e25397ee8c9, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX">
       <HintPath>..\..\..\Externals\SharpDX\net40\SharpDX.dll</HintPath>

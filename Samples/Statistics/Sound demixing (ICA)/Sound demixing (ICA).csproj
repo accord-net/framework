@@ -88,11 +88,8 @@
     <Reference Include="Accord.Audio">
       <HintPath>..\..\..\Release\net40\Accord.Audio.dll</HintPath>
     </Reference>
-    <Reference Include="Accord.Audio.Formats">
-      <HintPath>..\..\..\Release\net40\Accord.Audio.Formats.dll</HintPath>
-    </Reference>
-    <Reference Include="Accord.DirectSound">
-      <HintPath>..\..\..\Release\net40\Accord.DirectSound.dll</HintPath>
+    <Reference Include="Accord.Audio.DirectSound">
+      <HintPath>..\..\..\Release\net40\Accord.Audio.DirectSound.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math">
       <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
