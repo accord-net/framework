@@ -12,8 +12,8 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAgAAAgAAAAAAIAAQAAAAEAAAAAAA=</HashCode>
-      <FileName>CorrelationMatching.cs</FileName>
+      <HashCode>AAAAAgAAAAAAAAAAgAAAgAAAEAAIAAQAAAAEAAAAAAA=</HashCode>
+      <FileName>Interest Points\Matching\CorrelationMatching.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.HarrisCornersDetector" BaseTypeListCollapsed="true">
@@ -75,7 +75,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAAAIgJAAAAACEQABBAEABAAEAAAEAAAAgACIAAU=</HashCode>
+      <HashCode>AAAAAAAIgJAAAAACEQABBAEABgAEAAAEAAAAgACIAAU=</HashCode>
       <FileName>Tools.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -146,7 +146,7 @@
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAAAEAABAAAAQBEAAEAAAABAAAEBGABIAAhAABAAAA=</HashCode>
+      <HashCode>AAAAAEAABAAAAQBEAAEAAAABAAAEBGABIAAhAABAAQA=</HashCode>
       <FileName>Interest Points\SURF\SpeededUpRobustFeaturesDetector.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -304,15 +304,15 @@
   <Class Name="Accord.Imaging.BagOfVisualWords&lt;TPoint&gt;">
     <Position X="9.5" Y="18" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>BagOfVisualWords`1.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.KNearestNeighborMatching">
     <Position X="3" Y="11" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>KNearestNeighborMatching.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interest Points\Matching\KNearestNeighborMatching.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Imaging.BagOfVisualWords&lt;TPoint, TFeature&gt;">

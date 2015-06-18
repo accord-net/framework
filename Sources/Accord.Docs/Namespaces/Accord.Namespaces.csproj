@@ -49,6 +49,7 @@
     <Compile Include="Accord.cs" />
     <Compile Include="Accord.Genetic.cs" />
     <Compile Include="Accord.Fuzzy.cs" />
+    <Compile Include="Accord.Imaging.cs" />
     <Compile Include="Accord.MachineLearning.cs" />
     <Compile Include="Accord.Audio.Formats.cs" />
     <Compile Include="Accord.Audition.cs" />
