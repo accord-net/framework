@@ -982,7 +982,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double[] Generate(int samples)
         {
-            return Random(min, max, alpha, beta, samples);
+            return Random(alpha, beta, min, max, samples);
         }
 
         /// <summary>
@@ -993,7 +993,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Generate()
         {
-            return Random(min, max, alpha, beta);
+            return Random(alpha, beta, min, max);
         }
 
         /// <summary>

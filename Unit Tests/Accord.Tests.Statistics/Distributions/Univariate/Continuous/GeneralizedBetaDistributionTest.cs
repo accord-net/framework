@@ -22,32 +22,15 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
     using System;
-    using Accord.Math;
-    using Accord.Math.Differentiation;
 
     [TestFixture]
     public class GeneralizedBetaDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -285,10 +268,10 @@ namespace Accord.Tests.Statistics
             // Create a Beta from a minimum, maximum and most likely value
             var b = GeneralizedBetaDistribution.Vose(min: 1, max: 3, mode: 2);
 
-            double mean = b.Mean;     
-            double median = b.Median; 
-            double var = b.Variance;  
-            double mode = b.Mode;     
+            double mean = b.Mean;
+            double median = b.Median;
+            double var = b.Variance;
+            double mode = b.Mode;
 
             double min = b.Min;
             double max = b.Max;
@@ -461,7 +444,44 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
-        public void BetaGenerateTest()
+        public void BetaGenerateTest1()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int n = 100000;
+
+            var beta = new GeneralizedBetaDistribution(alpha: 2, beta: 3, min: 0, max: 1);
+            double[] samples = beta.Generate(samples: n);
+
+            Assert.AreEqual(n, samples.Length);
+
+            var actual = GeneralizedBetaDistribution.Estimate(samples, 0, 1);
+
+            Assert.AreEqual(2, actual.Alpha, 1e-2);
+            Assert.AreEqual(3, actual.Beta, 1e-2);
+        }
+
+        [Test]
+        public void BetaGenerateTest2()
+        {
+            Accord.Math.Tools.SetupGenerator(0);
+
+            int n = 100000;
+
+            var beta = new GeneralizedBetaDistribution(alpha: 2, beta: 3, min: 0, max: 1);
+            double[] samples = new double[n];
+
+            for (int i = 0; i < n; i++)
+                samples[i] = beta.Generate();
+
+            var actual = GeneralizedBetaDistribution.Estimate(samples, 0, 1);
+
+            Assert.AreEqual(2, actual.Alpha, 3e-2);
+            Assert.AreEqual(3, actual.Beta, 3e-2);
+        }
+
+        [Test]
+        public void BetaRandomTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
@@ -479,7 +499,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
-        public void BetaGenerateTest2()
+        public void BetaRandomTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
