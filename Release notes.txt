@@ -1,10 +1,11 @@
 Accord.NET Framework 3.0.0 release notes
 -----------------------------------------
-01.06.2015.
+01.07.2015.
 
 Version updates and fixes:
   - GC-70: Merge with AForge.NET.
   - GC-90: Convert unit test projects to NUnit
+  - GH-114: GeneralizedBetaDistribution's calls Random with wrong parameter order
 
 * General
   - This release marks a milestone in the Accord.NET Framework. Starting from this
