@@ -67,10 +67,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\..\..\..\Release\net40\Accord.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.dll</HintPath>
+    </Reference>
+    <Reference Include="Accord.Math">
+      <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Neuro">
-      <HintPath>..\..\..\..\Release\net40\Accord.Neuro.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Neuro.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
