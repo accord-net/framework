@@ -21,6 +21,8 @@ obj
 /Docs
 /Unit Tests/Accord.Tests.Math.Cpp/Debug
 /Unit Tests/Accord.Tests.Math.Cpp/Release
+/Unit Tests/packages
+
 /Sources/Debug
 /Sources/Release
 
