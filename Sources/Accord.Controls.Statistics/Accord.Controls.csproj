@@ -104,6 +104,7 @@
     <Compile Include="Boxes\HistogramBox.Designer.cs">
       <DependentUpon>HistogramBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="Tools.cs" />
     <Compile Include="ColorSequenceCollection.cs" />
     <Compile Include="Converters\RangeTypeConverter.cs" />
     <Compile Include="Boxes\DataSeriesBox.cs">

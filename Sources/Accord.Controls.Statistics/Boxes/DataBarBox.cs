@@ -163,8 +163,7 @@ namespace Accord.Controls
 
             formThread = new Thread(() =>
             {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
+                Accord.Controls.Tools.ConfigureWindowsFormsApplication();
 
                 // Show control in a form
                 form = new DataBarBox();
