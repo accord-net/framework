@@ -98,7 +98,7 @@
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj">
       <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
-      <Name>Accord.DirectSound</Name>
+      <Name>Accord.Audio.DirectSound</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Fuzzy\Accord.Fuzzy.csproj">
       <Project>{b631038f-e12c-4d0d-8b25-ff7f62fe62d1}</Project>

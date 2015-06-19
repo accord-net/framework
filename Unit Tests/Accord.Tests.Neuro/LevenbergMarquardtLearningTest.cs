@@ -717,6 +717,8 @@ namespace Accord.Tests.Neuro
                 output[i][0] = (data[i, 1] - yMin) * yFactor - 0.85; // set output
             }
 
+            Neuron.RandGenerator = new ThreadSafeRandom(0);
+
             // create multi-layer neural network
             ActivationNetwork network = new ActivationNetwork(
                 new BipolarSigmoidFunction(5),

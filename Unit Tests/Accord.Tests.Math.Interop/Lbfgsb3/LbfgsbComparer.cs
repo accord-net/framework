@@ -22,12 +22,10 @@
 
 namespace Accord.Tests.Math.Optimization
 {
+    using Accord.Math.Optimization;
+    using AccordTestsMathCpp2;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using AccordTestsMathCpp2;
-    using Accord.Math.Optimization;
 
     public class LbfgsbComparer
     {

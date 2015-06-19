@@ -25,7 +25,6 @@ namespace Accord.Tests.Math
     using Accord.Math.Optimization;
     using NUnit.Framework;
     using System;
-    using AccordTestsMathCpp2;
 
     [TestFixture]
     public class BroydenFletcherGoldfarbShannoTest
@@ -226,34 +225,6 @@ namespace Accord.Tests.Math
             double expectedMinimum = function(target.Solution);
             Assert.AreEqual(expectedMinimum, minimum);
         }
-
-        [Test]
-        public void ConstructorTest2()
-        {
-            Function function = // min f(x) = 10 * (x+1)^2 + y^2
-                x => 10.0 * Math.Pow(x[0] + 1.0, 2.0) + Math.Pow(x[1], 2.0);
-
-            Gradient gradient = x => new[] { 20 * (x[0] + 1), 2 * x[1] };
-
-
-            double[] start = new double[2];
-
-            BroydenFletcherGoldfarbShanno target = new BroydenFletcherGoldfarbShanno(2,
-                function.Invoke, gradient.Invoke);
-
-            Assert.IsTrue(target.Minimize());
-            double minimum = target.Value;
-
-            double[] solution = target.Solution;
-
-            Assert.AreEqual(0, minimum, 1e-10);
-            Assert.AreEqual(-1, solution[0], 1e-5);
-            Assert.AreEqual(0, solution[1], 1e-5);
-
-            double expectedMinimum = function(target.Solution);
-            Assert.AreEqual(expectedMinimum, minimum);
-        }
-
 
         [Test]
         public void lbfgsTest3()

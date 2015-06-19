@@ -24,7 +24,6 @@ namespace Accord.Tests.Math
 {
     using Accord.Math;
     using Accord.Math.Integration;
-    using AccordTestsMathCpp2;
     using NUnit.Framework;
     using System;
 
@@ -135,27 +134,6 @@ namespace Accord.Tests.Math
             double actual = NonAdaptiveGaussKronrod.Integrate(Math.Cos, 0, 2);
 
             Assert.AreEqual(expected, actual, 1e-6);
-        }
-
-        [Test]
-        public void InfiniteGaussKronrodTest()
-        {
-            for (int i = -10; i < 10; i++)
-            {
-                Func<double, double> pdf = (x) => Normal.Derivative(x - i);
-
-                Func<double, double> E = (x) => x * pdf(x);
-                UFunction UE = (x) => x * pdf(x);
-
-                double expected = Quadpack.Integrate(UE,
-                    Double.NegativeInfinity, Double.PositiveInfinity);
-
-                double actual = InfiniteAdaptiveGaussKronrod.Integrate(E,
-                    Double.NegativeInfinity, Double.PositiveInfinity);
-
-                Assert.AreEqual(expected, actual, 1e-3);
-                Assert.AreEqual(i, actual, 1e-3);
-            }
         }
 
     }

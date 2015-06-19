@@ -23,30 +23,16 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
+    using Accord.Tests.Math.Optimization;
+    using AccordTestsMathCpp2;
     using NUnit.Framework;
     using System;
-    using AccordTestsMathCpp2;
     using System.Collections.Generic;
-    using Accord.Tests.Math.Optimization;
-    using AForge;
 
     [TestFixture]
     public class LbfgsbComparisonTest
     {
         private List<Specification> problems;
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         public LbfgsbComparisonTest()
         {
