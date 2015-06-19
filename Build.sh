@@ -22,5 +22,5 @@ if [ $# -eq 0 ] || [ "$1" == "samples" ]; then
 	echo ""
 	echo "  - Building samples..."
 	echo ""
-	xbuild /p:Configuration=Release /p:Platform=x86 Samples/Samples.sln
+	xbuild /p:Configuration=Mono /p:Platform=x86 Samples/Samples.sln
 fi
