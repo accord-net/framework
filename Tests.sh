@@ -9,13 +9,13 @@ LIST=()
 LIST+=("${TESTS}Accord.Tests.Audio.dll")
 LIST+=("${TESTS}Accord.Tests.Controls.dll")
 LIST+=("${TESTS}Accord.Tests.Core.dll")
-#LIST="$LIST ${TESTS}Accord.Tests.Imaging.dll
-#LIST="$LIST ${TESTS}Accord.Tests.IO.dll
-#LIST="$LIST ${TESTS}Accord.Tests.MachineLearning.dll
-#LIST="$LIST ${TESTS}Accord.Tests.Math.dll
-#LIST="$LIST ${TESTS}Accord.Tests.Neuro.dll
-#LIST="$LIST ${TESTS}Accord.Tests.Vision.dll
-#LIST="$LIST ${TESTS}Accord.Tests.Statistics.dll
+LIST+=("${TESTS}Accord.Tests.Imaging.dll")
+LIST+=("${TESTS}Accord.Tests.IO.dll")
+LIST+=("${TESTS}Accord.Tests.MachineLearning.dll")
+LIST+=("${TESTS}Accord.Tests.Math.dll")
+LIST+=("${TESTS}Accord.Tests.Neuro.dll")
+LIST+=("${TESTS}Accord.Tests.Vision.dll")
+LIST+=("${TESTS}Accord.Tests.Statistics.dll")
 
 
 mono --runtime=v4.0 ${NUNIT} -noxml -nodots -labels -process=multiple "${LIST[@]/#/}"
