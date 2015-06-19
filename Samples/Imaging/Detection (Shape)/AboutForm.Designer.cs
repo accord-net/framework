@@ -1,4 +1,4 @@
-﻿namespace ShapeChecker
+﻿namespace SampleApp
 {
     partial class AboutForm
     {

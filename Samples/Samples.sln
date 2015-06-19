@@ -172,6 +172,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perceptron", "Neuro\Percept
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters (Tables)", "Statistics\Filters (Tables)\Filters (Tables).csproj", "{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detection (Shape)", "Imaging\Detection (Shape)\Detection (Shape).csproj", "{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -449,6 +451,10 @@ Global
 		{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B}.Debug|x86.Build.0 = Debug|x86
 		{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B}.Release|x86.ActiveCfg = Release|x86
 		{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B}.Release|x86.Build.0 = Release|x86
+		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}.Debug|x86.ActiveCfg = Debug|x86
+		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}.Debug|x86.Build.0 = Debug|x86
+		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}.Release|x86.ActiveCfg = Release|x86
+		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -525,6 +531,7 @@ Global
 		{651EBEC1-045E-4A74-A9F6-7E8DD223DD7A} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
 		{7FA21B39-6926-412C-BB5E-99F957E5CC19} = {BE29F5CB-80FB-4CF1-9135-800534B264D3}
 		{6449C3DE-E27F-45A6-AAED-BF7E3028CD0B} = {473A7C08-02A2-473A-BEC6-891F035674FD}
+		{722FD1AB-4193-45B1-A94E-10B6E5C9AA05} = {B0536923-080A-43F7-8C8A-C7D579AB0DB5}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Accord.NET.vsmdi

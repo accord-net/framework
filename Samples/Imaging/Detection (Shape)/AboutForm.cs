@@ -6,22 +6,22 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ShapeChecker
+namespace SampleApp
 {
     public partial class AboutForm : Form
     {
-        public AboutForm( )
+        public AboutForm()
         {
-            InitializeComponent( );
+            InitializeComponent();
 
             // initialize links
-            emailLabel.Links.Add( 0, emailLabel.Text.Length, "mailto:andrew.kirillov@aforgenet.com" );
-            aforgeLabel.Links.Add( 0, aforgeLabel.Text.Length, "http://www.aforgenet.com/framework/" );
+            emailLabel.Links.Add(0, emailLabel.Text.Length, "mailto:andrew.kirillov@aforgenet.com");
+            aforgeLabel.Links.Add(0, aforgeLabel.Text.Length, "http://www.aforgenet.com/framework/");
         }
 
-        private void LinkClicked( object sender, LinkLabelLinkClickedEventArgs e )
+        private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start( e.Link.LinkData.ToString( ) );
+            System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }
     }
 }
