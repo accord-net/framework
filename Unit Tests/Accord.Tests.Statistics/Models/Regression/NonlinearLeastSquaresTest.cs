@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
             double m = parameters[0];
             double s = parameters[1];
             double a = parameters[2];
-            double b = parameters[3];
+            // double b = parameters[3]; // not needed
             double x = input[0];
 
             Func<double, double> exp = System.Math.Exp;
@@ -115,7 +115,7 @@ namespace Accord.Tests.Statistics
             regression.Coefficients[2] = 1;
 
             // Run the function estimation algorithm
-            double error;
+            double error = Double.PositiveInfinity;
             for (int i = 0; i < 100; i++)
                 error = nls.Run(inputs, outputs);
 
@@ -123,6 +123,8 @@ namespace Accord.Tests.Statistics
             double[] predict = inputs.Apply(regression.Compute);
 
             Assert.IsTrue(nls.Algorithm is LevenbergMarquardt);
+
+            Assert.AreEqual(1318374605.8436923d, error);
 
             Assert.AreEqual(-12.025250289329851, regression.Coefficients[0], 1e-3);
             Assert.AreEqual(-0.082208180694676766, regression.Coefficients[1], 1e-3);
@@ -170,7 +172,7 @@ namespace Accord.Tests.Statistics
             regression.Coefficients[2] = 53805; // a
             regression.Coefficients[3] = -21330.11; //b
 
-            double error = 0;
+            double error = Double.PositiveInfinity;
             for (int i = 0; i < 100; i++)
                 error = nls.Run(inputs, outputs);
 
@@ -178,6 +180,8 @@ namespace Accord.Tests.Statistics
             double s = regression.Coefficients[1];
             double a = regression.Coefficients[2];
             double b = regression.Coefficients[3];
+
+            Assert.AreEqual(010345587.465428974, error);
 
             Assert.AreEqual(5.316196154830604, m, 1e-3);
             Assert.AreEqual(12.792301798208918, s, 1e-3);
@@ -256,7 +260,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.23859, regression.StandardErrors[0], 1e-3);
             Assert.AreEqual(6.06352, regression.StandardErrors[1], 3e-3);
         }
-
 
     }
 }

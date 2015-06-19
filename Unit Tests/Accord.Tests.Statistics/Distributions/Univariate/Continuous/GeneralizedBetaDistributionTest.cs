@@ -371,7 +371,6 @@ namespace Accord.Tests.Statistics
             int[] w = { 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 2 };
 
             var target = new GeneralizedBetaDistribution(1, 1);
-            var options = new GeneralizedBetaOptions() { Method = BetaEstimationMethod.Moments };
 
             target.Fit(x, w);
 

@@ -25,33 +25,17 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
     using System;
-    using Accord.Math;
 
     [TestFixture]
     public class EmpiricalHazardDistributionTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void EmpiricalHazardConstructorTest3()
         {
             double[] times = { 11, 10, 9, 8, 6, 5, 4, 2 };
             double[] values = { 0.22, 0.67, 1.00, 0.18, 1.00, 1.00, 1.00, 0.55 };
-            
+
 
             EmpiricalHazardDistribution distribution = new EmpiricalHazardDistribution(times, values);
 
@@ -195,23 +179,22 @@ namespace Accord.Tests.Statistics
 
             double[] expected = 
             {
-			    1.000000000000000,	
-			    0.999238023657475,	
-			    0.999238023657475,	
-			    0.999238023657475,	
-			    0.999238023657475,	
-			    0.999238023657475,	
-			    0.98893509519066469,	
-			    0.98893509519066469,
-			    0.96284543081744489,
-			    0.92957227114936058,	
-			    0.92957227114936058,	
+                1.000000000000000,	
+                0.999238023657475,	
+                0.999238023657475,	
+                0.999238023657475,	
+                0.999238023657475,	
+                0.999238023657475,	
+                0.98893509519066469,	
+                0.98893509519066469,
+                0.96284543081744489,
+                0.92957227114936058,	
+                0.92957227114936058,	
             };
 
 
             double[] hazardFunction = new double[expected.Length];
             double[] survivalFunction = new double[expected.Length];
-            double[] complementaryDistribution = new double[expected.Length];
 
             for (int i = 0; i < 11; i++)
                 hazardFunction[i] = target.CumulativeHazardFunction(i + 1);

@@ -22,34 +22,17 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
     using NUnit.Framework;
-    using Accord.Statistics.Analysis;
+    using System;
 
     [TestFixture]
     public class LinearNewtonMethodTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void LearnTest()
@@ -83,7 +66,8 @@ namespace Accord.Tests.MachineLearning
             var learn = new LinearNewtonMethod(machine, augmented, xor);
 
             // Run the learning algorithm
-            learn.Run();
+            double error = learn.Run();
+            Assert.AreEqual(0, error);
 
             int[] output = augmented.Apply(p => Math.Sign(machine.Compute(p)));
             for (int i = 0; i < output.Length; i++)
@@ -105,6 +89,7 @@ namespace Accord.Tests.MachineLearning
                 smo.UseComplexityHeuristic = true;
 
                 double error = smo.Run();
+                Assert.AreEqual(0.2, error);
 
                 Assert.AreEqual(0.11714451552090824, smo.Complexity);
 
@@ -128,6 +113,7 @@ namespace Accord.Tests.MachineLearning
                 smo.UseComplexityHeuristic = true;
 
                 double error = smo.Run();
+                Assert.AreEqual(0.18, error);
 
                 Assert.AreEqual(0.11714451552090821, smo.Complexity, 1e-15);
 

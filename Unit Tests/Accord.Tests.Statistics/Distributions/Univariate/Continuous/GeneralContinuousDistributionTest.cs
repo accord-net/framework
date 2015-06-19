@@ -25,25 +25,11 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
     using System;
+    using Accord.Math;
 
     [TestFixture]
     public class GeneralContinuousDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         [Test]
         public void UsageTest()
@@ -154,8 +140,8 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = normal.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-6);
+                double diff = Math.Abs(expected - actual) / expected;
+                Assert.IsTrue(diff < 1e-7);
             }
 
             testNormal(normal, 1);
@@ -264,8 +250,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = laplace.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-6);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-4));
             }
 
             testLaplace(laplace);
@@ -284,8 +269,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = laplace.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-5);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-5));
                 Assert.IsFalse(Double.IsNaN(expected));
                 Assert.IsFalse(Double.IsNaN(actual));
             }
@@ -352,8 +336,8 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = log.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-2);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-2));
+
                 Assert.IsFalse(Double.IsNaN(expected));
                 Assert.IsFalse(Double.IsNaN(actual));
             }
@@ -374,7 +358,8 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = log.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-7));
+ 
                 Assert.AreEqual(expected, actual, 1e-8);
             }
 
@@ -423,8 +408,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = chisq.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-8);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-7));
                 Assert.IsFalse(Double.IsNaN(actual));
                 Assert.IsFalse(Double.IsNaN(expected));
             }
@@ -445,8 +429,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = chisq.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-6);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-5));
                 Assert.IsFalse(Double.IsNaN(actual));
                 Assert.IsFalse(Double.IsNaN(expected));
             }
@@ -495,8 +478,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = gompertz.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-3));
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
@@ -517,8 +499,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = gompertz.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-7));
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
@@ -563,8 +544,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = nakagami.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 0.8));
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
@@ -585,8 +565,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = nakagami.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-2));
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
@@ -646,8 +625,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = vonMises.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-6);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-4));
             }
 
             testVonMises(vonMises, 1);

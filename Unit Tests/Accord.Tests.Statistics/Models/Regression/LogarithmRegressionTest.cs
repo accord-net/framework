@@ -22,30 +22,14 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Models.Regression.Linear;
     using Accord.Math;
+    using Accord.Statistics.Models.Regression.Linear;
     using NUnit.Framework;
     using System.Globalization;
 
     [TestFixture]
     public class LogarithmRegressionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
 
         [Test]
@@ -72,8 +56,8 @@ namespace Accord.Tests.Statistics
             string result = lr.ToString("N4", CultureInfo.InvariantCulture);
 
             // Result will be "y(x) = 6.1082x + 6.0993"
-            
 
+            Assert.AreEqual(2.8760006026675797, error);
             Assert.AreEqual(6.1081800414945704, lr.Slope);
             Assert.AreEqual(6.0993411396126653, lr.Intercept);
             Assert.AreEqual("y(x) = 6.1082x + 6.0993", result);

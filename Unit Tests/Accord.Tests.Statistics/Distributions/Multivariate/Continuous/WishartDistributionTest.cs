@@ -22,33 +22,13 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
     using NUnit.Framework;
-    using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics;
-    using System.Globalization;
 
     [TestFixture]
     public class WishartDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest4()
@@ -78,8 +58,8 @@ namespace Accord.Tests.Statistics
             //         175 112  504              7  14  42
 
             // (the above matrix representations have been transcribed to text using)
-            string scov = cov.ToString(DefaultMatrixFormatProvider.InvariantCulture);
-            string smean = meanm.ToString(DefaultMatrixFormatProvider.InvariantCulture);
+            // string scov = cov.ToString(DefaultMatrixFormatProvider.InvariantCulture);
+            // string smean = meanm.ToString(DefaultMatrixFormatProvider.InvariantCulture);
 
             // For compatibility reasons, .Mean stores a flattened mean matrix
             double[] mean = wishart.Mean; // { 28, 7, 7, 7, 14, 14, 7, 14, 42 }

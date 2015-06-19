@@ -22,33 +22,13 @@
 
 namespace Accord.Tests.Statistics
 {
+    using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
     using NUnit.Framework;
-    using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics;
-    using System.Globalization;
 
     [TestFixture]
     public class DirichletDistributionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ConstructorTest4()
@@ -68,7 +48,7 @@ namespace Accord.Tests.Statistics
             //       0.0329421259789253 0.0447071709713986 0.0941203599397865
 
             // (the above matrix representation has been transcribed to text using)
-            string str = cov.ToString(DefaultMatrixFormatProvider.InvariantCulture);
+            // string str = cov.ToString(DefaultMatrixFormatProvider.InvariantCulture);
             
 
             // Probability mass functions

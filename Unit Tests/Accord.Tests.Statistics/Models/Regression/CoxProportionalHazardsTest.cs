@@ -22,32 +22,15 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System;
     using Accord.Math;
+    using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Regression;
     using NUnit.Framework;
-    using Accord.Statistics.Distributions.Univariate;
+    using System;
 
     [TestFixture]
     public class CoxProportionalHazardsTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void RunTest()
@@ -154,7 +137,6 @@ namespace Accord.Tests.Statistics
 
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] time = data.GetColumn(1);
-            int[] output = data.GetColumn(2).ToInt32();
 
 
             double[] expected = 

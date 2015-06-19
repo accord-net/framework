@@ -22,35 +22,18 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
-    using System.Data;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using AForge;
     using NUnit.Framework;
+    using System;
+    using System.Data;
 
     [TestFixture]
     public class ID3LearningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         public static void CreateMitchellExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
         {
@@ -164,6 +147,8 @@ namespace Accord.Tests.MachineLearning
 
 
             double error = id3.Run(inputs, outputs);
+
+            Assert.AreEqual(0, error);
         }
 
         [Test]
@@ -377,6 +362,8 @@ namespace Accord.Tests.MachineLearning
 
             double error = id3.Run(inputs, outputs);
 
+            Assert.AreEqual(0, error);
+
             for (int i = 0; i < inputs.Length; i++)
             {
                 int y = tree.Compute(inputs[i]);
@@ -433,6 +420,8 @@ namespace Accord.Tests.MachineLearning
             outputs = symbols.ToArray<int>("PlayTennis");
 
             double error = id3.Run(inputs, outputs);
+
+            Assert.AreEqual(0, error);
 
             Assert.AreEqual(203, tree.Root.Branches.Count);
             Assert.IsTrue(tree.Root.Branches[100].IsLeaf);

@@ -22,31 +22,15 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System;
     using Accord.Math.Differentiation;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using NUnit.Framework;
+    using System;
 
     [TestFixture]
     public class LogisticGradientDescentTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         [Test]
         public void GradientTest()
@@ -131,15 +115,8 @@ namespace Accord.Tests.Statistics
         private static double[] finiteDifferences(double[][] input, double[] output, bool stochastic)
         {
             LogisticRegression regression;
-            LogisticGradientDescent teacher;
 
             regression = new LogisticRegression(inputs: 2);
-
-            teacher = new LogisticGradientDescent(regression)
-            {
-                Stochastic = stochastic,
-                LearningRate = 1e-4,
-            };
 
             FiniteDifferences diff = new FiniteDifferences(3);
 

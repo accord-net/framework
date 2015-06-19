@@ -22,8 +22,9 @@
 
 namespace Accord.Tests.Statistics.Models.Fields
 {
-    using System;
+    using Accord.Math;
     using Accord.Math.Differentiation;
+    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Fields;
@@ -33,32 +34,11 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
     using NUnit.Framework;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Math;
-    using Accord.Statistics.Models.Fields.Functions.Specialized;
-    using System.Collections.Generic;
-    using Accord.Statistics.Models.Fields.Features;
-    using System.Linq;
+    using System;
 
     [TestFixture]
     public class IndependentMarkovFunctionTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
 
         public static HiddenMarkovClassifier<Independent> CreateModel1()
         {
@@ -110,6 +90,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             // Train the sequence classifier using the algorithm
             double logLikelihood = teacher.Run(sequences, labels);
 
+            Assert.AreEqual(-13.271981026832929d, logLikelihood);
 
             return classifier;
         }
@@ -167,6 +148,8 @@ namespace Accord.Tests.Statistics.Models.Fields
 
             // Train the sequence classifier using the algorithm
             double logLikelihood = teacher.Run(sequences, labels);
+
+            Assert.AreEqual(double.NegativeInfinity, logLikelihood); // only one training sample per class
 
             return classifier;
         }
@@ -271,6 +254,8 @@ namespace Accord.Tests.Statistics.Models.Fields
             // Train the sequence classifier using the algorithm
             double logLikelihood = teacher.Run(sequences2, labels2);
 
+            Assert.AreEqual(-3.0493028798326081d, logLikelihood);
+
             return classifier;
         }
 
@@ -351,6 +336,8 @@ namespace Accord.Tests.Statistics.Models.Fields
                 teacher.Empirical = true;
 
             double logLikelihood = teacher.Run(words, labels);
+
+            Assert.AreEqual(208.38345600145777d, logLikelihood);
 
             return classifier;
         }

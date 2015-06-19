@@ -22,35 +22,13 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
-    using Accord.Math.Differentiation;
-    using Accord.Statistics.Models.Regression;
-    using Accord.Statistics.Models.Regression.Fitting;
-    using NUnit.Framework;
-    using Accord.Math;
-    using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.MachineLearning.VectorMachines;
+    using Accord.MachineLearning.VectorMachines.Learning;
+    using NUnit.Framework;
 
     [TestFixture]
     public class LinearRegressionNewtonMethodTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void RunTest()
@@ -88,6 +66,7 @@ namespace Accord.Tests.MachineLearning
 
             // Run the learning algorithm
             double error = learn.Run();
+            Assert.AreEqual(860.0, error);
 
             // Compute the answer for one particular example
             double fxy = machine.Compute(inputs[0]); // 1.0003849827673186

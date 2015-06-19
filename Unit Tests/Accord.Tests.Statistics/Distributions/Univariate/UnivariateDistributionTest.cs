@@ -37,19 +37,6 @@ namespace Accord.Tests.Statistics
     public class UnivariateDistributionTest
     {
 
-        [Test, Ignore]
-        public void ListDistributions()
-        {
-            var assembly = Assembly.GetAssembly(typeof(IDistribution));
-
-            int nuc, nud, nmc, nmd;
-
-            string uc = GetNames(assembly, typeof(UnivariateContinuousDistribution), out nuc);
-            string ud = GetNames(assembly, typeof(UnivariateDiscreteDistribution), out nud);
-            string mc = GetNames(assembly, typeof(MultivariateContinuousDistribution), out nmc);
-            string md = GetNames(assembly, typeof(MultivariateDiscreteDistribution), out nmd);
-        }
-
         private static string GetNames(Assembly assembly, Type baseType, out int count)
         {
             var distributions = assembly.GetTypes().Where(p =>
