@@ -151,6 +151,9 @@
     <None Include="Resources\excel\data3.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\excel\spreadsheet_names.xls">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\iris.scale.txt" />
   </ItemGroup>
   <ItemGroup>

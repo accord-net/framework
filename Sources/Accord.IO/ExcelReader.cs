@@ -267,7 +267,11 @@ namespace Accord.IO
                     string name = (string)table.Rows[i]["TABLE_NAME"];
 
                     // removes the trailing $ and other characters appended in the table name
-                    while (name.EndsWith("$", StringComparison.Ordinal))
+                    while (name.EndsWith("$", StringComparison.Ordinal)
+                        || name.EndsWith("$\"", StringComparison.Ordinal)
+                        || name.EndsWith("$\'", StringComparison.Ordinal)
+                        || name.EndsWith("$\"\'", StringComparison.Ordinal)
+                        || name.EndsWith("$\'\"", StringComparison.Ordinal))
                         name = name.Remove(name.Length - 1).Trim('"', '\'');
 
                     set.Add(name);
@@ -351,6 +355,24 @@ namespace Accord.IO
             }
 
             return dataset;
+        }
+
+
+        private bool unquote(string str, char quote, out string unquoted)
+        {
+            unquoted = str;
+
+            if (String.IsNullOrEmpty(str))
+                return false;
+
+            int length = str.Length;
+            if (length > 1 && str[0] == quote && str[length - 1] == quote)
+            {
+                unquoted = str.Substring(1, length - 2);
+                return true;
+            }
+
+            return false;
         }
 
     }

@@ -305,6 +305,16 @@ namespace Accord.Tests.IO.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] spreadsheet_names {
+            get {
+                object obj = ResourceManager.GetObject("spreadsheet_names", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] t10k_images_idx3_ubyte {
             get {
                 object obj = ResourceManager.GetObject("t10k_images_idx3_ubyte", resourceCulture);

@@ -318,6 +318,27 @@ namespace Accord.Tests.IO
         }
 
 
+        [Test]
+        public void SpreadsheetNames_Success()
+        {
+            string path = @"Resources\excel\spreadsheet_names.xls";
 
+            // Create a new reader, opening a given path
+            ExcelReader reader = new ExcelReader(path);
+
+            string[] sheets = reader.GetWorksheetList();
+
+            Assert.AreEqual(4, sheets.Length);
+            Assert.AreEqual("Example 1", sheets[0]);
+            Assert.AreEqual("Example 2", sheets[1]);
+            Assert.AreEqual("Example 3", sheets[2]);
+            Assert.AreEqual("References", sheets[3]);
+
+            // Finally, we can request an specific sheet:
+            DataTable table = reader.GetWorksheet(sheets[1]);
+
+            Assert.AreEqual(2, table.Columns.Count);
+            Assert.AreEqual(42, table.Rows.Count);
+        }
     }
 }
