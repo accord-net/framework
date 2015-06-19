@@ -1404,23 +1404,24 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("Intensive")]
         public void BigSampleLearnTest13()
         {
             Accord.Math.Tools.SetupGenerator(0);
 
-            var list = new List<double[][]>();
+            var list = new double[1000000][][];
 
             for (int i = 0; i < 1000000; i++)
             {
-                list.Add(new double[][]
+                list[i] = new double[][]
                 {
                     new double[] { 2, 1 },
                     new double[] { 5, 2 },
                     new double[] { 10, 3 },
-                });
+                };
             }
-
-            checkDegenerate(list.ToArray(), 3);
+            
+            checkDegenerate(list, 3);
         }
 
 
