@@ -22,32 +22,14 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Analysis;
-    using NUnit.Framework;
-    using System;
     using Accord.Math;
+    using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
+    using NUnit.Framework;
 
     [TestFixture]
     public class ProportionalHazardsAnalysisTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void ComputeTest1()

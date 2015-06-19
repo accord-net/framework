@@ -82,10 +82,10 @@
   <ItemGroup>
     <Content Include="Resources\License.txt" />
     <None Include="Accord.snk" />
-    <None Include="Resources\Grand Piano - Fazioli - major C middle.wav">
+    <None Include="Resources\c.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Grand Piano - Fazioli - major A middle.wav">
+    <None Include="Resources\a.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -32,6 +32,7 @@ namespace Accord.Tests.Statistics
 
 
         [Test]
+        [Category("WinForms")]
         public void ComputeTest1()
         {
             ScatterplotView target = new ScatterplotView();

@@ -32,6 +32,7 @@ namespace Accord.Tests.Statistics
 
 
         [Test]
+        [Category("WinForms")]
         public void ComputeTest1()
         {
             HistogramView target = new HistogramView();
@@ -49,6 +50,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("WinForms")]
         public void ComputeTest2()
         {
             HistogramView target = new HistogramView();

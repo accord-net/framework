@@ -92,7 +92,7 @@ namespace Accord.Tests.IO
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             string[] expected = Resources.L1R_LR_a9a
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                .Split(new[] { "\r\n" }, StringSplitOptions.None);
 
             Assert.AreEqual(expected.Length, actual.Length);
 
@@ -131,7 +131,7 @@ namespace Accord.Tests.IO
                 .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             string[] expected = Resources.L1R_LR_a9a
-                .Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+                .Split(new[] { "\r\n" }, StringSplitOptions.None);
 
             Assert.AreEqual(expected.Length, actual.Length);
 
