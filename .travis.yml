@@ -1,0 +1,7 @@
+language: csharp
+solution: Sources/Accord.NET.Mono.sln
+install:
+  - nuget restore Sources/Accord.NET.Mono.sln
+script:
+  - ./Build.sh 
+  - ./Tests.sh
