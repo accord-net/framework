@@ -16,7 +16,7 @@ set LIST=%LIST% "%TESTS%Accord.Tests.Neuro.dll"
 set LIST=%LIST% "%TESTS%Accord.Tests.Vision.dll" 
 set LIST=%LIST% "%TESTS%Accord.Tests.Statistics.dll" 
 
-%NUNIT% -noxml -nodots -labels -stoponerror /process=multiple %LIST% /framework:net-4.0
+%NUNIT% -noxml -nodots -labels /process=multiple %LIST% /framework:net-4.0
 
  
  
