@@ -1204,7 +1204,7 @@ namespace Accord.Tests.Math
                 { 1, 1 }
             };
 
-            double[,] actual = Matrix.Stack(A, B);
+            double[,] actual = Matrix.Stack<double>(new [] { A, B });
 
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
