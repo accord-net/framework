@@ -78,8 +78,8 @@ namespace AForge.Controls
 
         private Pen blackPen = new Pen(Color.Black);
 
-        private Range rangeX = new Range(0, 1);
-        private Range rangeY = new Range(0, 1);
+        private AForge.Range rangeX = new Range(0, 1);
+        private AForge.Range rangeY = new Range(0, 1);
 
         /// <summary>
         /// Chart's X range.
@@ -88,7 +88,7 @@ namespace AForge.Controls
         /// <remarks><para>The value sets the X range of data to be displayed on the chart.</para></remarks>
         /// 
         [Browsable(false)]
-        public Range RangeX
+        public AForge.Range RangeX
         {
             get { return rangeX; }
             set
@@ -106,7 +106,7 @@ namespace AForge.Controls
         /// <remarks>The value sets the Y range of data to be displayed on the chart.</remarks>
         ///
         [Browsable(false)]
-        public Range RangeY
+        public AForge.Range RangeY
         {
             get { return rangeY; }
             set
