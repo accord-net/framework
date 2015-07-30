@@ -148,4 +148,66 @@ namespace Accord.Math.Comparers
         }
 
     }
+
+    /// <summary>
+    ///   General comparer which supports multiple sorting directions.
+    /// </summary>
+    /// 
+    /// <example>
+    /// <code>
+    ///   // Assume we have values to sort
+    ///   double[] values = { 0, -5, 3, 1, 8 };
+    ///   
+    ///   // We can create an ad-hoc sorting rule
+    ///   Array.Sort(values, new GeneralComparer&lt;double>(ComparerDirection.Descending));
+    ///   
+    ///   // Result will be { 8, 5, 3, 1, 0 }.
+    /// </code>
+    /// </example>
+    /// 
+    /// <seealso cref="ElementComparer{T}"/>
+    /// <seealso cref="ArrayComparer{T}"/>
+    /// <seealso cref="GeneralComparer"/>
+    /// <seealso cref="CustomComparer{T}"/>
+    /// 
+    public class GeneralComparer<T> : IComparer<T> where T : IComparable<T>
+    {
+        private int direction = 1;
+
+        /// <summary>
+        ///   Gets or sets the sorting direction
+        ///   used by this comparer.
+        /// </summary>
+        /// 
+        public ComparerDirection Direction
+        {
+            get { return (ComparerDirection)direction; }
+            set { direction = (int)value; }
+        }
+
+        /// <summary>
+        ///   Constructs a new General Comparer.
+        /// </summary>
+        /// 
+        /// <param name="direction">The direction to compare.</param>
+        /// 
+        public GeneralComparer(ComparerDirection direction)
+        {
+            this.direction = (int)direction;
+        }
+
+        /// <summary>
+        ///   Compares two objects and returns a value indicating whether one is less than,
+        ///    equal to, or greater than the other.
+        /// </summary>
+        /// 
+        /// <param name="x">The first object to compare.</param>
+        /// <param name="y">The second object to compare.</param>
+        /// 
+        public int Compare(T x, T y)
+        {
+            return direction * x.CompareTo(y);
+        }
+
+    }
 }
