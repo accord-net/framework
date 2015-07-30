@@ -339,8 +339,6 @@ namespace Accord.Math
             return vector;
         }
 
-
-
         static T cast<T>(this object value)
         {
             return (T)Convert.ChangeType(value, typeof(T));

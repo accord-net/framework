@@ -110,23 +110,6 @@ namespace Accord
         }
 
         /// <summary>
-        ///   Converts an object into another type, irrespective of whether
-        ///   the conversion can be done at compile time or not. This can be
-        ///   used to convert generic types to numeric types during runtime.
-        /// </summary>
-        /// 
-        /// <typeparam name="T">The destination type.</typeparam>
-        /// 
-        /// <param name="value">The value to be converted.</param>
-        /// 
-        /// <returns>The result of the conversion.</returns>
-        /// 
-        public static T To<T>(this object value)
-        {
-            return (T)System.Convert.ChangeType(value, typeof(T));
-        }
-
-        /// <summary>
         ///   Gets the underlying buffer position for a StreamReader.
         /// </summary>
         /// 
