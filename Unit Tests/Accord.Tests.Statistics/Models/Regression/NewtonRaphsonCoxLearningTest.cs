@@ -29,27 +29,11 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Regression.Fitting;
     using NUnit.Framework;
     using Accord.Statistics.Distributions.Fitting;
+    using Accord.Statistics;
 
     [TestFixture]
     public class NewtonRaphsonCoxLearningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void RunTest()
@@ -71,19 +55,19 @@ namespace Accord.Tests.Statistics
                 { 60, 10, 1 },
             };
 
-            ProportionalHazards regression = new ProportionalHazards(1);
+            var regression = new ProportionalHazards(1);
 
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] time = data.GetColumn(1);
-            int[] output = data.GetColumn(2).ToInt32();
+            SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
-            ProportionalHazardsNewtonRaphson target = new ProportionalHazardsNewtonRaphson(regression);
+            var target = new ProportionalHazardsNewtonRaphson(regression);
 
             double error = target.Run(inputs, time, output);
 
             double log = -2 * regression.GetPartialLogLikelihood(inputs, time, output);
 
-
+            // Tested against http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
             Assert.AreEqual(0.3770, regression.Coefficients[0], 1e-4);
             Assert.IsFalse(Double.IsNaN(regression.Coefficients[0]));
 
@@ -131,14 +115,14 @@ namespace Accord.Tests.Statistics
                 { 60, 12, 10, 1 },
             };
 
-            ProportionalHazards regression = new ProportionalHazards(2);
+            var regression = new ProportionalHazards(2);
 
             double[][] inputs = data.Submatrix(null, 0, 1).ToArray();
             double[] time = data.GetColumn(2);
-            int[] output = data.GetColumn(3).ToInt32();
+            SurvivalOutcome[] output = data.GetColumn(3).To<SurvivalOutcome[]>();
 
 
-            ProportionalHazardsNewtonRaphson target = new ProportionalHazardsNewtonRaphson(regression);
+            var target = new ProportionalHazardsNewtonRaphson(regression);
 
 
             double error = target.Run(inputs, time, output);
@@ -187,13 +171,13 @@ namespace Accord.Tests.Statistics
                 { 60, 10, 1 },
             };
 
-            ProportionalHazards regression = new ProportionalHazards(1);
+            var regression = new ProportionalHazards(1);
 
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] time = data.GetColumn(1);
-            int[] output = data.GetColumn(2).ToInt32();
+            SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
-            ProportionalHazardsNewtonRaphson target = new ProportionalHazardsNewtonRaphson(regression);
+            var target = new ProportionalHazardsNewtonRaphson(regression);
 
             double error = target.Run(inputs, time, output);
 
@@ -231,13 +215,13 @@ namespace Accord.Tests.Statistics
                 { 60, 10, 1 },
             };
 
-            ProportionalHazards regression = new ProportionalHazards(1);
+            var regression = new ProportionalHazards(1);
 
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] time = data.GetColumn(1);
             int[] output = data.GetColumn(2).ToInt32();
 
-            ProportionalHazardsNewtonRaphson target = new ProportionalHazardsNewtonRaphson(regression);
+            var target = new ProportionalHazardsNewtonRaphson(regression);
 
             double error = target.Run(inputs, time, output);
 
@@ -272,11 +256,11 @@ namespace Accord.Tests.Statistics
             int[] censor = outputs.GetRow(1).ToInt32();
 
 
-            string inputStr = inputs.Transpose().ToString(Accord.Math.DefaultMatrixFormatProvider.InvariantCulture);
-            string outputStr = outputs.Transpose().ToString(Accord.Math.DefaultMatrixFormatProvider.InvariantCulture);
+            // string inputStr = inputs.Transpose().ToString(Accord.Math.DefaultMatrixFormatProvider.InvariantCulture);
+            // string outputStr = outputs.Transpose().ToString(Accord.Math.DefaultMatrixFormatProvider.InvariantCulture);
 
-            ProportionalHazards regression = new ProportionalHazards(2);
-            ProportionalHazardsNewtonRaphson target = new ProportionalHazardsNewtonRaphson(regression);
+            var regression = new ProportionalHazards(2);
+            var target = new ProportionalHazardsNewtonRaphson(regression);
 
             double error = target.Run(covariates, time, censor);
 
@@ -297,7 +281,7 @@ namespace Accord.Tests.Statistics
         [Test]
         public void PredictTest1()
         {
-            // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
+            // Data from: http://statpages.org/prophaz2.html
 
             double[,] data =
             {
@@ -314,38 +298,60 @@ namespace Accord.Tests.Statistics
                 { 60, 10, 1 },
             };
 
-            ProportionalHazards regression = new ProportionalHazards(1);
+            var regression = new ProportionalHazards(1);
 
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] time = data.GetColumn(1);
-            int[] output = data.GetColumn(2).ToInt32();
+            int[] censor = data.GetColumn(2).ToInt32();
 
 
-            ProportionalHazardsNewtonRaphson target = new ProportionalHazardsNewtonRaphson(regression);
+            var target = new ProportionalHazardsNewtonRaphson(regression);
 
-            double error = target.Run(inputs, time, output);
+            double error = target.Run(inputs, time, censor);
 
+            // Tested against http://statpages.org/prophaz2.html
+            Assert.AreEqual(0.3770, regression.Coefficients[0], 1e-4);
+            Assert.AreEqual(0.2542, regression.StandardErrors[0], 1e-4);
+            Assert.AreEqual(51.18181818181818, regression.Offsets[0]);
+
+            double mean = regression.Offsets[0];
+
+            // Baseline survivor function at predictor means
+            double[] baseline =
+            {
+                regression.Survival(2),
+                regression.Survival(7),
+                regression.Survival(9),
+                regression.Survival(10),
+            };
+
+            // Tested against http://statpages.org/prophaz2.html
+            Assert.AreEqual(0.9979, baseline[0], 1e-4);
+            Assert.AreEqual(0.9820, baseline[1], 1e-4);
+            Assert.AreEqual(0.9525, baseline[2], 1e-4);
+            Assert.AreEqual(0.8310, baseline[3], 1e-4);
 
             double[] expected = 
-            {
-                0.000000000000, 0.919466527073, 0.000074105451, 0.000001707560,
-                0.657371730925, 0.046771996036, 0.000074105451, 0.006836271860,
-                0.000008042445, 0.339562971888, 2.029832541310 
+            { 
+                0, 2.51908236823927, 0.000203028311170645, 4.67823782106946E-06, 1.07100164957025,
+                0.118590728553659, 0.000203028311170645, 0.0187294821517496, 1.31028937819308E-05,
+                0.436716853556834, 5.14665484304978
             };
 
             double[] actual = new double[inputs.Length];
             for (int i = 0; i < inputs.Length; i++)
-                actual[i] = regression.Compute(inputs[i], time[i]);
-
-            for (int i = 0; i < actual.Length; i++)
             {
-                Assert.AreEqual(expected[i], actual[i], 1e-6);
-                Assert.IsFalse(Double.IsNaN(actual[i]));
+                double a = actual[i] = regression.Compute(inputs[i], time[i]);
+                double e = expected[i];
+
+                Assert.AreEqual(e, a, 1e-3);
             }
+            // string exStr = actual.ToString(CSharpArrayFormatProvider.InvariantCulture);
         }
 
+
         [Test]
-        public void BaselineHazardTest()
+        public void BaselineHazardTestR()
         {
             double[,] data = 
             {
@@ -369,37 +375,242 @@ namespace Accord.Tests.Statistics
                 { 7,  0, 38 },
             };
 
+
             double[] time = data.GetColumn(0);
-            int[] censor = data.GetColumn(1).ToInt32();
+            SurvivalOutcome[] censor = data.GetColumn(1).To<SurvivalOutcome[]>();
             double[][] inputs = data.GetColumn(2).ToArray();
 
-            ProportionalHazards regression = new ProportionalHazards(1);
+            var regression = new ProportionalHazards(1);
 
             var target = new ProportionalHazardsNewtonRaphson(regression);
-            target.Normalize = false;
 
             double error = target.Run(inputs, time, censor);
-            double log = -2 * regression.GetPartialLogLikelihood(inputs, time, censor);
+            // Assert.AreEqual(-10.257417973830666, error, 1e-8);
 
-            EmpiricalHazardDistribution baseline = regression.BaselineHazard as EmpiricalHazardDistribution;
-         
-            double[] actual = new double[(int)baseline.Support.Max];
-            for (int i = (int)baseline.Support.Min; i < baseline.Support.Max; i++)
-                actual[i] = baseline.CumulativeHazardFunction(i);
+            /* 
+             library('survival')
+             options(digits=17)
+             time <- c(8, 4, 12, 6, 10, 8, 5, 5, 3, 14, 8, 11, 7, 7, 12, 8, 7)
+             x <- c(13, 56, 25, 64, 38, 80, 0, 81, 81, 38, 23, 99, 12, 36, 63, 92, 38)
+             c <- c(0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0)
+             
+             fit <- coxph(Surv(time, c) ~ x, ties="breslow")
+              
+             predict(fit,type="risk")
+              
+             fit$loglik
+              
+                    coef           exp(coef)          se(coef)               z              p
+            x 0.01633097532122  1.016465054586   0.01711960930183    0.9539338797573   0.340117112635
 
-            Assert.AreEqual(14, actual.Length);
+            Likelihood ratio test=0.94  on 1 df, p=0.332836850925  n= 17, number of events= 5  
+             */
+
+            // Tested against GNU R
+            Assert.AreEqual(49.352941176470587, regression.Offsets[0]);
+            Assert.AreEqual(0.01633097532122, regression.Coefficients[0], 1e-10);
+            Assert.AreEqual(0.01711960930183, regression.StandardErrors[0], 1e-10);
+            Assert.AreEqual(0.340117112635, regression.GetWaldTest(0).PValue, 1e-5);
+            Assert.AreEqual(-10.2879332934202168, regression.GetPartialLogLikelihood(time, censor));
+            Assert.AreEqual(-9.8190189050165948, regression.GetPartialLogLikelihood(inputs, time, censor));
+
+            double[] actual = inputs.Apply(regression.Compute);
+
+            /*
+             predict(r,type="risk")
+                [1] 0.55229166964915244 1.11466393245000361 0.67185866444081555 1.27023351821156782 0.83076808526813917 1.64953983529334769 0.44664925161695829 1.67669959872327912
+                [9] 1.67669959872327912 0.83076808526813917 0.65026895029003673 2.24967304521214029 0.54334545703992021 0.80407192663266613 1.24965783376477391 2.00665280971219540
+                [17] 0.83076808526813917    
+            */
 
             double[] expected = 
             {
-                0,0,0,
-                0.025000345517572315,0.052363663484639708,0.052363663484639708,0.052363663484639708,
-                0.16317880290786446,
-                0.34217461190678861,0.34217461190678861,0.34217461190678861,
-                0.34217461190678861,0.34217461190678861,0.34217461190678861
+                0.55229166964915244, 1.11466393245000361, 0.67185866444081555, 1.27023351821156782,
+                0.83076808526813917, 1.64953983529334769, 0.44664925161695829, 1.67669959872327912,
+                1.67669959872327912, 0.83076808526813917, 0.65026895029003673, 2.24967304521214029,
+                0.54334545703992021, 0.80407192663266613, 1.24965783376477391, 2.00665280971219540,
+                0.83076808526813917
             };
 
             for (int i = 0; i < actual.Length; i++)
                 Assert.AreEqual(expected[i], actual[i], 0.025);
+
+        }
+
+        [Test]
+        public void BaselineHazardTest()
+        {
+            double[,] data = 
+            {
+               // t   c  in
+                { 8,  0, -1.2372626521865966    },
+                { 4,  1,  0.22623087329625477   },
+                { 12, 0, -0.8288458543774289    },
+                { 6,  0,  0.49850873850236665   },
+                { 10, 0, -0.38639432341749696   },
+                { 8,  1,  1.0430644689145904    },
+                { 5,  0, -1.6797141831465285    },
+                { 5,  0,  1.0770992020653544    },
+                { 3,  1,  1.0770992020653544    },
+                { 14, 1, -0.38639432341749696   },
+                { 8,  0, -0.8969153206789568    },
+                { 11, 0,  1.6897243987791061    },
+                { 7,  0, -1.2712973853373605    },
+                { 7,  0, -0.38639432341749696   },
+                { 7,  1, -0.45446378971902495   },
+                { 12, 0,  0.4644740053516027    },
+                { 8,  0,  1.4514812667237584    },
+            };
+
+            double[] time = data.GetColumn(0);
+            SurvivalOutcome[] censor = data.GetColumn(1).To<SurvivalOutcome[]>();
+            double[][] inputs = data.GetColumn(2).ToArray();
+
+            var regression = new ProportionalHazards(1);
+
+            var target = new ProportionalHazardsNewtonRaphson(regression);
+
+            target.Normalize = false;
+            target.Lambda = 0;
+            regression.Coefficients[0] = 0.47983261821350764;
+
+            double error = target.Run(inputs, time, censor);
+
+            /* Tested against http://statpages.org/prophaz2.html
+                13, 8,  0
+                56, 4,  1
+                25, 12, 0
+                64, 6,  0
+                38, 10, 0
+                80, 8,  1
+                0 , 5,  0
+                81, 5,  0
+                81, 3,  1
+                38, 14, 1
+                23, 8,  0
+                99, 11, 0
+                12, 7,  0
+                38, 7,  0
+                36, 7,  1
+                63, 12, 0
+                92, 8,  0
+             */
+
+            double[] baseline =
+            {
+                regression.Survival(3),  // 0.9465           
+                regression.Survival(4),  // 0.8919
+                regression.Survival(7),  // 0.8231
+                regression.Survival(8),  // 0.7436
+                regression.Survival(12), // 0.7436
+                regression.Survival(14), // 0.0000
+            };
+
+            Assert.AreEqual(0.9465, baseline[0], 1e-4);
+            Assert.AreEqual(0.8919, baseline[1], 1e-4);
+            Assert.AreEqual(0.8231, baseline[2], 1e-4);
+            Assert.AreEqual(0.7436, baseline[3], 1e-4);
+            Assert.AreEqual(0.7436, baseline[4], 1e-4);
+            Assert.AreEqual(0.0000, baseline[5], 1e-4);
+
+            // The value of the baseline must be exact the same if it was computed
+            // after the Newton-Raphson or in a standalone EmpiricalHazard computation
+            double[] outputs = inputs.Apply(regression.Compute);
+            var empirical = EmpiricalHazardDistribution.Estimate(time, censor, outputs);
+
+            baseline = new[]
+            {
+                empirical.ComplementaryDistributionFunction(3),  // 0.9465           
+                empirical.ComplementaryDistributionFunction(4),  // 0.8919
+                empirical.ComplementaryDistributionFunction(7),  // 0.8231
+                empirical.ComplementaryDistributionFunction(8),  // 0.7436
+                empirical.ComplementaryDistributionFunction(12), // 0.7436
+                empirical.ComplementaryDistributionFunction(14), // 0.0000
+            };
+
+            Assert.AreEqual(0.9465, baseline[0], 1e-4);
+            Assert.AreEqual(0.8919, baseline[1], 1e-4);
+            Assert.AreEqual(0.8231, baseline[2], 1e-4);
+            Assert.AreEqual(0.7436, baseline[3], 1e-4);
+            Assert.AreEqual(0.7436, baseline[4], 1e-4);
+            Assert.AreEqual(0.0000, baseline[5], 1e-4);
+        }
+
+
+        [Test]
+        public void KaplanMeierTest2()
+        {
+            int[][] data = Groups.Expand(
+                new[] { 1, 2, 3, 4, 5, 6 },     // years
+                new[] { 3, 3, 3, 3, 3, 0 },     // died
+                new[] { 5, 10, 15, 20, 25, 10 } // censored
+            );
+
+            double[] time = data.GetColumn(0).ToDouble();
+            int[] censor = data.GetColumn(1);
+
+            ProportionalHazards kp;
+            ProportionalHazards km;
+
+            double errkm, errp;
+
+            {
+                km = new ProportionalHazards(inputs: 0);
+
+                var target = new ProportionalHazardsNewtonRaphson(km)
+                {
+                    Estimator = HazardEstimator.KaplanMeier
+                };
+
+                errkm = target.Run(time, censor);
+                Assert.AreEqual(-63.734599918211551, errkm);
+            }
+
+            {
+                kp = new ProportionalHazards(inputs: 0);
+
+                var target = new ProportionalHazardsNewtonRaphson(kp)
+                {
+                    Estimator = HazardEstimator.BreslowNelsonAalen
+                };
+
+                errp = target.Run(time, censor);
+                Assert.AreEqual(errkm, errp);
+            }
+        }
+
+        [Test]
+        public void KaplanMeierTest()
+        {
+            double[,] data =
+            {
+                //  time censor
+                {    1,    0   }, // died at time 1
+                {    2,    1   }, // lost at time 2
+                {    3,    0   }, // died at time 3
+                {    5,    0   }, // died at time 5
+                {    7,    1   }, // lost at time 7
+                {   11,    0   }, // ...
+                {    4,    0   },
+                {    6,    0   },
+                {    8,    0   },
+                {    9,    1   },
+                {    10,   1   },
+            };
+
+            double[] time = data.GetColumn(0);
+            int[] censor = data.GetColumn(1).ToInt32();
+
+            var regression = new ProportionalHazards(inputs: 0);
+
+            var target = new ProportionalHazardsNewtonRaphson(regression)
+            {
+                Estimator = HazardEstimator.KaplanMeier
+            };
+
+            double error = target.Run(time, censor);
+
+            Assert.AreEqual(-5.7037824746562009, error);
         }
     }
 }

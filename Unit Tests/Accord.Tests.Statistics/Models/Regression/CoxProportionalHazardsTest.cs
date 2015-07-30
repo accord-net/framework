@@ -59,7 +59,7 @@ namespace Accord.Tests.Statistics
 
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] time = data.GetColumn(1);
-            int[] output = data.GetColumn(2).ToInt32();
+            SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
 
             {

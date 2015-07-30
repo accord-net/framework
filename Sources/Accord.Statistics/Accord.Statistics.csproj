@@ -404,7 +404,7 @@
     <Compile Include="Models\Regression\Linear\SimpleLinearRegression.cs" />
     <Compile Include="Models\Regression\Nonlinear\LogisticRegression.cs" />
     <Compile Include="Models\Regression\Linear\PolynomialRegression.cs" />
-    <Compile Include="Models\Survival\Fitting\PartialNewtonRaphson.cs" />
+    <Compile Include="Models\Survival\Fitting\ProportionalHazardsNewtonRaphson.cs" />
     <Compile Include="Running\KalmanFilter2D.cs">
       <SubType>Code</SubType>
     </Compile>

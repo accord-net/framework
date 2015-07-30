@@ -24,6 +24,7 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Math;
     using Accord.Statistics.Analysis;
+    using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
     using NUnit.Framework;
 
@@ -36,7 +37,7 @@ namespace Accord.Tests.Statistics
         {
             // Consider the following example data, adapted from John C. Pezzullo's
             // example for his great Cox's proportional hazards model example in
-            // JavaScript (http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html). 
+            // JavaScript (http://statpages.org/prophaz2.html). 
 
             // In this data, we have three columns. The first column denotes the
             // input variables for the problem. The second column, the survival
@@ -62,7 +63,7 @@ namespace Accord.Tests.Statistics
             // First we will extract the input, times and outputs
             double[,] inputs = example.GetColumns(0);
             double[] times = example.GetColumn(1);
-            int[] output = example.GetColumn(2).ToInt32();
+            SurvivalOutcome[] output = example.GetColumn(2).To<SurvivalOutcome[]>();
 
             // Now we can proceed and create the analysis
             var cox = new ProportionalHazardsAnalysis(inputs, times, output);
@@ -123,16 +124,16 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(86.138421225296526, y1);
             Assert.AreEqual(0.00072281400325299814, y2);
 
-            Assert.AreEqual(0.065660458190496693, p1);
-            Assert.AreEqual(6.2907511049223928, p2);
+            Assert.AreEqual(0.17989138010770425, p1);
+            Assert.AreEqual(15.950244161356357, p2);
 
             Assert.AreEqual(1, coef.Length);
             Assert.AreEqual(0.37704239281490765, coef[0]);
             Assert.AreEqual(0.25415746361167235, stde[0]);
             Assert.AreEqual(1.4579661153488215, ratios[0]);
 
-            Assert.AreEqual(-2.0252666205735466, partial);
-            Assert.AreEqual(4.0505332411470931, deviance);
+            Assert.AreEqual(-2.0252666205735466, partial, 1e-6);
+            Assert.AreEqual(4.0505332411470931, deviance, 1e-6);
 
             Assert.AreEqual(0.13794183001851756, wald.PValue, 1e-4);
 

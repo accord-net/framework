@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Models.Regression.Fitting
 {
+    using Accord.Statistics.Distributions.Univariate;
 
     /// <summary>
     ///   Common interface for regression fitting methods.
@@ -37,7 +38,20 @@ namespace Accord.Statistics.Models.Regression.Fitting
         /// <param name="inputs">The input training data.</param>
         /// <param name="time">The time until the output happened.</param>
         /// <param name="censor">The indication variables used to signal
-        /// if the event ocurred or not.</param>
+        ///   if the event occurred or if it was censored.</param>
+        /// 
+        /// <returns>The error.</returns>
+        /// 
+        double Run(double[][] inputs, double[] time, SurvivalOutcome[] censor);
+
+        /// <summary>
+        ///   Runs the fitting algorithm.
+        /// </summary>
+        /// 
+        /// <param name="inputs">The input training data.</param>
+        /// <param name="time">The time until the output happened.</param>
+        /// <param name="censor">The indication variables used to signal
+        ///   if the event occurred or if it was censored.</param>
         /// 
         /// <returns>The error.</returns>
         /// 

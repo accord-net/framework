@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Distributions.Fitting
 {
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Math;
 
     /// <summary>
     ///   Options for Survival distributions.
@@ -30,13 +31,18 @@ namespace Accord.Statistics.Distributions.Fitting
     /// 
     public class SurvivalOptions : IFittingOptions
     {
+        /// <summary>
+        ///   Default survival estimation method. Returns <see cref="SurvivalEstimator.FlemingHarrington"/>.
+        /// </summary>
+        /// 
+        public const SurvivalEstimator DefaultSurvival = SurvivalEstimator.FlemingHarrington;
 
         /// <summary>
         ///   Gets or sets the values for
         ///   the right-censoring variable.
         /// </summary>
         /// 
-        public int[] Censor { get; set; }
+        public SurvivalOutcome[] Outcome { get; set; }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="SurvivalOptions"/> class.
@@ -45,6 +51,7 @@ namespace Accord.Statistics.Distributions.Fitting
         public SurvivalOptions()
         {
         }
+
     }
 
     /// <summary>
@@ -54,16 +61,30 @@ namespace Accord.Statistics.Distributions.Fitting
     public class EmpiricalHazardOptions : SurvivalOptions
     {
         /// <summary>
-        ///   Gets or sets the outputs of the hazards model.
+        ///   Default hazard estimator. Returns <see cref="HazardEstimator.BreslowNelsonAalen"/>.
         /// </summary>
         /// 
-        public double[] Output { get; set; }
+        public const HazardEstimator DefaultEstimator = HazardEstimator.BreslowNelsonAalen;
 
         /// <summary>
-        ///   Gets or sets the estimator to be used.
+        ///   Default tie handling method. Returns <see cref="HazardTiesMethod.Efron"/>.
+        /// </summary>
+        /// 
+        public const HazardTiesMethod DefaultTies = HazardTiesMethod.Efron;
+
+
+        /// <summary>
+        ///   Gets or sets the estimator to be used. Default is <see cref="HazardEstimator.BreslowNelsonAalen"/>.
         /// </summary>
         /// 
         public HazardEstimator Estimator { get; set; }
+
+        /// <summary>
+        ///   Gets or sets the tie handling method to be used. Default is <see cref="HazardTiesMethod.Efron"/>.
+        /// </summary>
+        /// 
+        public HazardTiesMethod Ties { get; set; }
+
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="EmpiricalHazardOptions"/> class.
@@ -71,7 +92,52 @@ namespace Accord.Statistics.Distributions.Fitting
         /// 
         public EmpiricalHazardOptions()
         {
-            Estimator = HazardEstimator.BreslowNelsonAalen;
+            Estimator = DefaultEstimator;
+            Ties = DefaultTies;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="EmpiricalHazardOptions"/> class.
+        /// </summary>
+        /// 
+        public EmpiricalHazardOptions(HazardEstimator estimator, SurvivalOutcome[] output)
+        {
+            Estimator = estimator;
+            Outcome = output;
+            Ties = DefaultTies;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="EmpiricalHazardOptions"/> class.
+        /// </summary>
+        /// 
+        public EmpiricalHazardOptions(HazardEstimator estimator, int[] output)
+        {
+            Estimator = estimator;
+            Outcome = output.To<SurvivalOutcome[]>();
+            Ties = HazardTiesMethod.Breslow;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="EmpiricalHazardOptions"/> class.
+        /// </summary>
+        /// 
+        public EmpiricalHazardOptions(HazardEstimator estimator, HazardTiesMethod ties, SurvivalOutcome[] outcome)
+        {
+            Estimator = estimator;
+            Outcome = outcome;
+            Ties = ties;
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="EmpiricalHazardOptions"/> class.
+        /// </summary>
+        /// 
+        public EmpiricalHazardOptions(HazardEstimator estimator, HazardTiesMethod ties, int[] output)
+        {
+            Estimator = estimator;
+            Outcome = output.To<SurvivalOutcome[]>();
+            Ties = ties;
         }
     }
 }
