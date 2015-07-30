@@ -211,6 +211,9 @@ namespace Accord.Math
                     // Stopping criteria is likelihood convergence
                     maxChange = Math.Abs(OldValues[0] - NewValues[0]) / Math.Abs(OldValues[0]);
 
+                    if (Double.IsNaN(maxChange))
+                        maxChange = 0;
+
                     for (int i = 1; i < OldValues.Length; i++)
                     {
                         double delta = Math.Abs(OldValues[i] - NewValues[i]) / Math.Abs(OldValues[i]);
@@ -219,6 +222,8 @@ namespace Accord.Math
                             maxChange = delta;
                     }
 
+                    if (Double.IsNaN(maxChange))
+                        return true;
 
                     if (maxChange <= tolerance)
                         return true;

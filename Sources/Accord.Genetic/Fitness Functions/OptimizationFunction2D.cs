@@ -70,8 +70,9 @@ namespace AForge.Genetic
         }
 
         // optimization ranges
-        private Range	rangeX = new Range( 0, 1 );
-        private Range	rangeY = new Range( 0, 1 );
+        private AForge.Range rangeX = new Range(0, 1);
+        private AForge.Range rangeY = new Range(0, 1);
+        
         // optimization mode
         private Modes mode = Modes.Maximization;
 
@@ -122,7 +123,7 @@ namespace AForge.Genetic
         /// <param name="rangeX">Specifies X variable's range.</param>
         /// <param name="rangeY">Specifies Y variable's range.</param>
         ///
-        public OptimizationFunction2D( Range rangeX, Range rangeY )
+        public OptimizationFunction2D(Range rangeX, Range rangeY)
         {
             this.rangeX = rangeX;
             this.rangeY = rangeY;
@@ -140,16 +141,16 @@ namespace AForge.Genetic
         /// <remarks>The method calculates fitness value of the specified
         /// chromosome.</remarks>
         ///
-        public double Evaluate( IChromosome chromosome )
+        public double Evaluate(IChromosome chromosome)
         {
             double[] xy;
 
             // do native translation first
-            xy = Translate( chromosome );
+            xy = Translate(chromosome);
             // get function value
-            double functionValue = OptimizationFunction( xy[0], xy[1] );
+            double functionValue = OptimizationFunction(xy[0], xy[1]);
             // return fitness value
-            return ( mode == Modes.Maximization ) ? functionValue : 1 / functionValue;
+            return (mode == Modes.Maximization) ? functionValue : 1 / functionValue;
         }
 
         /// <summary>
@@ -166,24 +167,24 @@ namespace AForge.Genetic
         /// represent function's input point (X and Y) encoded by the specified
         /// chromosome.</remarks>
         ///
-        public double[] Translate( IChromosome chromosome )
+        public double[] Translate(IChromosome chromosome)
         {
             // get chromosome's value
-            ulong	val = ( (BinaryChromosome) chromosome ).Value;
+            ulong val = ((BinaryChromosome)chromosome).Value;
             // chromosome's length
-            int		length = ( (BinaryChromosome) chromosome ).Length;
+            int length = ((BinaryChromosome)chromosome).Length;
             // length of X component
-            int		xLength = length / 2;
+            int xLength = length / 2;
             // length of Y component
-            int		yLength = length - xLength;
+            int yLength = length - xLength;
             // X maximum value - equal to X mask
-            ulong	xMax = 0xFFFFFFFFFFFFFFFF >> ( 64 - xLength );
+            ulong xMax = 0xFFFFFFFFFFFFFFFF >> (64 - xLength);
             // Y maximum value
-            ulong	yMax = 0xFFFFFFFFFFFFFFFF >> ( 64 - yLength );
+            ulong yMax = 0xFFFFFFFFFFFFFFFF >> (64 - yLength);
             // X component
-            double	xPart = val & xMax;
+            double xPart = val & xMax;
             // Y component;
-            double	yPart = val >> xLength;
+            double yPart = val >> xLength;
 
             // translate to optimization's funtion space
             double[] ret = new double[2];
@@ -206,6 +207,6 @@ namespace AForge.Genetic
         /// <remarks>The method should be overloaded by inherited class to
         /// specify the optimization function.</remarks>
         ///
-        public abstract double OptimizationFunction( double x, double y );
+        public abstract double OptimizationFunction(double x, double y);
     }
 }

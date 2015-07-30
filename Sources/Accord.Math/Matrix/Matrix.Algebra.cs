@@ -2596,10 +2596,27 @@ namespace Accord.Math
         /// 
         /// <returns>The subtraction of the given vector elements from the given scalar.</returns>
         /// 
+        public static double[] Subtract(this int x, double[] vector)
+        {
+            double[] r = new double[vector.Length];
+            for (int i = 0; i < vector.Length; i++)
+                r[i] = vector[i] - x;
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Subtracts a scalar from a vector.
+        /// </summary>
+        /// 
+        /// <param name="vector">A vector.</param>
+        /// <param name="x">A scalar.</param>
+        /// 
+        /// <returns>The subtraction of the given vector elements from the given scalar.</returns>
+        /// 
         public static double[] Subtract(this double x, double[] vector)
         {
             double[] r = new double[vector.Length];
-
             for (int i = 0; i < vector.Length; i++)
                 r[i] = vector[i] - x;
 

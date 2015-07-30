@@ -179,6 +179,12 @@ namespace Accord.Statistics
         /// 
         public static int[][] Expand(int[] data, int[] positives, int[] negatives)
         {
+            if (data.Length != positives.Length)
+                throw new DimensionMismatchException();
+
+            if (positives.Length != negatives.Length)
+                throw new DimensionMismatchException();
+
             List<int[]> rows = new List<int[]>();
 
             for (int i = 0; i < data.Length; i++)

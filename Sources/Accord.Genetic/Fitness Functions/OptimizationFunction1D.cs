@@ -75,7 +75,8 @@ namespace AForge.Genetic
         }
 
         // optimization range
-        private Range range = new Range( 0, 1 );
+        private AForge.Range range = new Range(0, 1);
+        
         // optimization mode
         private Modes mode = Modes.Maximization;
 
