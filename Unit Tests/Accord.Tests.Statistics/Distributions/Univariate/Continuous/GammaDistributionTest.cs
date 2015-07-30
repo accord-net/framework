@@ -22,11 +22,10 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System;
     using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
+    using System;
     using System.Globalization;
-    using Accord.Math;
 
     [TestFixture]
     public class GammaDistributionTest

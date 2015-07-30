@@ -819,7 +819,12 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public virtual double HazardFunction(double x)
         {
-            return ProbabilityDensityFunction(x) / ComplementaryDistributionFunction(x);
+            double f = ProbabilityDensityFunction(x);
+            if (f == 0)
+                return 0;
+
+            double s = ComplementaryDistributionFunction(x);
+            return f / s;
         }
 
         /// <summary>
