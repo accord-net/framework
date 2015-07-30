@@ -50,6 +50,7 @@ namespace Accord.Tests.Statistics
         }
 
         [Test]
+        [Category("WinForms")]
         public void ComputeTest2()
         {
             ScatterplotView target = new ScatterplotView();
