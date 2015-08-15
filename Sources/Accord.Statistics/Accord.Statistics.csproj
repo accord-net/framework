@@ -315,6 +315,7 @@
     <Compile Include="Kernels\Spline.cs" />
     <Compile Include="Kernels\TaylorGaussian.cs" />
     <Compile Include="Kernels\Tensor.cs" />
+    <Compile Include="Kernels\ThinSplinePlate.cs" />
     <Compile Include="Kernels\TStudent.cs" />
     <Compile Include="Kernels\Wave.cs" />
     <Compile Include="Kernels\Wavelet.cs" />
