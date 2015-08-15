@@ -1,0 +1,20 @@
+; Map file
+; 
+; 1st line - 2 numbers: map size (width and height)
+; 2st line - number of agents (n)
+; next n lines - two pairs of (x, y) coordinates of agent's start and stop positions
+; next (height) lines - map
+;
+; 0 - free space available for motion
+; 1 - wall
+;
+6 6
+1
+1 1 4 4
+
+1 1 1 1 1 1
+1 0 0 0 0 1
+1 0 0 0 0 1
+1 0 0 0 0 1
+1 0 0 0 0 1
+1 1 1 1 1 1

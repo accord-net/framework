@@ -1,4 +1,4 @@
-﻿namespace BeatDetector
+﻿namespace SampleApp
 {
     partial class MainForm
     {

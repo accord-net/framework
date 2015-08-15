@@ -23,29 +23,15 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
+    using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class GeneralContinuousDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        [TestMethod()]
+        [Test]
         public void UsageTest()
         {
             // Let's suppose we have a formula that defines a probability distribution
@@ -108,7 +94,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(14.770661223067844, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest0()
         {
             var original = new NormalDistribution(mean: 4, stdDev: 4.2);
@@ -121,7 +107,7 @@ namespace Accord.Tests.Statistics
             testNormal(normal, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             var original = new NormalDistribution(mean: 4, stdDev: 4.2);
@@ -141,7 +127,7 @@ namespace Accord.Tests.Statistics
             testNormal(normal, 1e3);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var original = new NormalDistribution(mean: 4, stdDev: 4.2);
@@ -154,8 +140,8 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = normal.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-6);
+                double diff = Math.Abs(expected - actual) / expected;
+                Assert.IsTrue(diff < 1e-7);
             }
 
             testNormal(normal, 1);
@@ -191,7 +177,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.4, icdf, 1e-7 * prec);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest3()
         {
             var original = new InverseGaussianDistribution(mean: 0.42, shape: 1.2);
@@ -211,7 +197,7 @@ namespace Accord.Tests.Statistics
             testInvGaussian(invGaussian);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest4()
         {
             var original = new InverseGaussianDistribution(mean: 0.42, shape: 1.2);
@@ -251,7 +237,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.26999999957543408, icdf, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest6()
         {
             var original = new LaplaceDistribution(location: 4, scale: 2);
@@ -264,14 +250,13 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = laplace.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-6);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-4));
             }
 
             testLaplace(laplace);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest7()
         {
             var original = new LaplaceDistribution(location: 4, scale: 2);
@@ -284,8 +269,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = laplace.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-5);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-5));
                 Assert.IsFalse(Double.IsNaN(expected));
                 Assert.IsFalse(Double.IsNaN(actual));
             }
@@ -321,7 +305,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.26999999840794775, icdf, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             var laplace = new LaplaceDistribution(location: 2, scale: 0.42);
@@ -339,7 +323,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(laplace.Median, target.Median, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest8()
         {
             var original = new LognormalDistribution(location: 0.42, shape: 1.1);
@@ -352,8 +336,8 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = log.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-2);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-2));
+
                 Assert.IsFalse(Double.IsNaN(expected));
                 Assert.IsFalse(Double.IsNaN(actual));
             }
@@ -361,7 +345,7 @@ namespace Accord.Tests.Statistics
             testLognormal(log);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest9()
         {
             var original = new LognormalDistribution(location: 0.42, shape: 1.1);
@@ -374,7 +358,8 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = log.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-7));
+ 
                 Assert.AreEqual(expected, actual, 1e-8);
             }
 
@@ -410,7 +395,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.26999997937815973, icdf, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest10()
         {
             var original = new ChiSquareDistribution(degreesOfFreedom: 7);
@@ -423,8 +408,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = chisq.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-8);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-7));
                 Assert.IsFalse(Double.IsNaN(actual));
                 Assert.IsFalse(Double.IsNaN(expected));
             }
@@ -432,7 +416,7 @@ namespace Accord.Tests.Statistics
             testChiSquare(chisq);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest11()
         {
             var original = new ChiSquareDistribution(degreesOfFreedom: 7);
@@ -445,8 +429,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = chisq.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-6);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-5));
                 Assert.IsFalse(Double.IsNaN(actual));
                 Assert.IsFalse(Double.IsNaN(expected));
             }
@@ -482,7 +465,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(6.2700000000852318, icdf, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest12()
         {
             var original = new GompertzDistribution(eta: 4.2, b: 1.1);
@@ -495,8 +478,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = gompertz.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-3));
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
@@ -504,7 +486,7 @@ namespace Accord.Tests.Statistics
             testGompertz(gompertz);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest13()
         {
             var original = new GompertzDistribution(eta: 4.2, b: 1.1);
@@ -517,8 +499,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = gompertz.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-7));
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
@@ -550,7 +531,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.26999999999766749, icdf, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest14()
         {
             var original = new NakagamiDistribution(shape: 2.4, spread: 4.2);
@@ -563,8 +544,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = nakagami.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 0.8));
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
@@ -572,7 +552,7 @@ namespace Accord.Tests.Statistics
             testNakagami(nakagami);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest15()
         {
             var original = new NakagamiDistribution(shape: 2.4, spread: 4.2);
@@ -585,8 +565,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.DistributionFunction(i);
                 double actual = nakagami.DistributionFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-3);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-2));
                 Assert.IsFalse(double.IsNaN(expected));
                 Assert.IsFalse(double.IsNaN(actual));
             }
@@ -622,7 +601,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.40, icdf, 1e-7);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest16()
         {
             var original = new VonMisesDistribution(mean: 0.42, concentration: 1.2);
@@ -633,7 +612,7 @@ namespace Accord.Tests.Statistics
             testVonMises(vonMises, 100);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest17()
         {
             var original = new VonMisesDistribution(mean: 0.42, concentration: 1.2);
@@ -646,8 +625,7 @@ namespace Accord.Tests.Statistics
                 double expected = original.ProbabilityDensityFunction(i);
                 double actual = vonMises.ProbabilityDensityFunction(i);
 
-                double diff = Math.Abs(expected - actual);
-                Assert.AreEqual(expected, actual, 1e-6);
+                Assert.IsTrue(expected.IsRelativelyEqual(actual, 1e-4));
             }
 
             testVonMises(vonMises, 1);
@@ -685,7 +663,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.39999999999, icdf, 1e-8 * prec);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDistributionFunctionTest()
         {
             double[] expected =
@@ -709,7 +687,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MedianTest2()
         {
             NormalDistribution original = new NormalDistribution(0.4, 2.2);

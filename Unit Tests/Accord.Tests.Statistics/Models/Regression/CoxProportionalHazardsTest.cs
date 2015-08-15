@@ -22,34 +22,17 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System;
     using Accord.Math;
-    using Accord.Statistics.Models.Regression;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Statistics.Distributions.Univariate;
+    using Accord.Statistics.Models.Regression;
+    using NUnit.Framework;
+    using System;
 
-    [TestClass()]
+    [TestFixture]
     public class CoxProportionalHazardsTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
@@ -76,7 +59,7 @@ namespace Accord.Tests.Statistics
 
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] time = data.GetColumn(1);
-            int[] output = data.GetColumn(2).ToInt32();
+            SurvivalOutcome[] output = data.GetColumn(2).To<SurvivalOutcome[]>();
 
 
             {
@@ -114,7 +97,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void PredictTest1()
         {
             // Data from: http://www.sph.emory.edu/~cdckms/CoxPH/prophaz2.html
@@ -154,7 +137,6 @@ namespace Accord.Tests.Statistics
 
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] time = data.GetColumn(1);
-            int[] output = data.GetColumn(2).ToInt32();
 
 
             double[] expected = 

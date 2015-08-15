@@ -25,12 +25,12 @@ namespace Accord.Tests.Imaging
     using System.Drawing;
     using Accord.Imaging.Moments;
     using Accord.Tests.Imaging.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Imaging.Converters;
     using Accord.Math;
 
 
-    [TestClass()]
+    [TestFixture]
     public class RawMomentsTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void RawMomentsConstructorTest()
         {
             Bitmap image = Resources.hu;
@@ -72,7 +72,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(4.599169E+11 / target.M03, 1, 1e-8);
         }
 
-        [TestMethod()]
+        [Test]
         public void RawMomentsConstructorTest2()
         {
             float[,] image; new ImageToMatrix()
@@ -97,7 +97,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(4.599169E+11 / target.M03, 1, 1e-8);
         }
 
-        [TestMethod()]
+        [Test]
         public void RawMomentsConstructorTest3()
         {
             float[,] img = 

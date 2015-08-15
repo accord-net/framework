@@ -26,13 +26,13 @@ namespace Accord.Tests.Math
     using System.Collections.Generic;
     using Accord.Math;
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.IO;
     using Accord.Tests.Math.Properties;
     using System.Globalization;
 
 
-    [TestClass()]
+    [TestFixture]
     public class GoldfarbIdnaniTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             double[,] D = Matrix.Identity(3);
@@ -92,7 +92,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest1()
         {
             double[,] D = Matrix.Identity(3);
@@ -132,7 +132,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             // Maximize f(x) = x² + 4y² -8x -16y
@@ -182,7 +182,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest3()
         {
             // Tested against R's QuadProg package
@@ -238,7 +238,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest4()
         {
 
@@ -287,7 +287,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest5()
         {
             // example from http://www.mail-archive.com/r-help@r-project.org/msg00831.html
@@ -334,7 +334,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest1()
         {
             double[,] D = Matrix.Identity(3);
@@ -362,7 +362,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(b.IsEqual(target.ConstraintValues));
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest2()
         {
             // Solve the following optimization problem:
@@ -469,7 +469,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest3()
         {
             // http://www.wolframalpha.com/input/?i=min+2x%C2%B2+-+xy+%2B+4y%C2%B2+-+5x+-+6y+s.t.+x+-+y++%3D%3D+++5%2C+x++%3E%3D++10
@@ -536,7 +536,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(success);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest10()
         {
             // http://www.wolframalpha.com/input/?i=minimize+f%28x%2Cy%29+%3D+2x%5E2+-+xy+%2B+4y%5E2+-+5x+-+6y+-+100%2C+s.t.+x+-+y++%3D+++5%2C+x++%3E%3D++10
@@ -571,7 +571,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(success);
         }
 
-        [TestMethod]
+        [Test]
         public void GoldfarbIdnaniConstructorTest11()
         {
             // http://www.wolframalpha.com/input/?i=minimize+f%28x%2Cy%29+%3D+2x%5E2+-+xy+%2B+4y%5E2+-+5x+-+6y+-+100%2C+s.t.+x+-+y++%3D+++5%2C+x++%3E%3D++10
@@ -606,7 +606,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(success);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest4()
         {
             // Solve the following optimization problem:
@@ -657,7 +657,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(d.IsEqual(actuald));
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest5()
         {
             // min 1x² - 2xy + 3y² +z² - 4x - 5y -z, 6x-7y <= 8, 9x + 1y <= 11, 9x-y <= 11, -z-y = 12
@@ -692,7 +692,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest6()
         {
             // min 1x² - 2xy + 3y² +z² - 4x - 5y -z, 6x-7y <= 8, 9x + 1y <= 11, 9x-y <= 11, -z-y = 12
@@ -723,7 +723,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest7()
         {
             // Solve the following optimization problem:
@@ -797,7 +797,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest8()
         {
             // Solve the following optimization problem:
@@ -855,7 +855,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(success);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniConstructorTest9()
         {
             // Solve the following optimization problem:
@@ -952,7 +952,7 @@ namespace Accord.Tests.Math
                 Assert.IsFalse(double.IsNaN(v));
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniMaximizeTest1()
         {
             // Solve the following optimization problem:
@@ -984,7 +984,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(5 / 8.0, solver.Solution[1]);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniParseGlobalizationTestBase()
         {
             // minimize 0.5x² + 0.2y² + 0.3xy s.t. 0.01x + 0.02y - 0.03 = 0 AND x + y = 100
@@ -1011,7 +1011,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(15553.60, result, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniParseGlobalizationTest()
         {
             var fr = CultureInfo.GetCultureInfo("fr-FR");
@@ -1043,7 +1043,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(15553.60, result, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniParseGlobalizationTest2()
         {
             String strObjective = 0.5.ToString(CultureInfo.InvariantCulture)
@@ -1071,7 +1071,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(15553.60, result, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniParseTest()
         {
             var s = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
@@ -1098,7 +1098,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(15553.60, result, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniMinimizeWithEqualityTest()
         {
             // This test reproduces Issue #33 at Google Code Tracker
@@ -1171,7 +1171,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniMinimizeLessThanWithEqualityTest()
         {
             // This test reproduces Issue #33 at Google Code Tracker
@@ -1241,7 +1241,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniLargeSampleTest1()
         {
             var Q = readMatrixFile(new StringReader(Resources.dmatFull));
@@ -1284,7 +1284,7 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniLargeSampleTest2()
         {
             var Q = readMatrixFile(new StringReader(Resources.dmatFull));
@@ -1330,7 +1330,7 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnaniLargeSampleTest3_InfiniteLoop()
         {
             var Q = readMatrixFile(new StringReader(Resources.dmatFull));
@@ -1379,7 +1379,7 @@ namespace Accord.Tests.Math
                 Assert.AreEqual(expected[i], actual[i], 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void GoldfarbIdnani3()
         {
             double[] bvec = { 1, 0, -1, 0, -1, 0, -1, 0, -1 };

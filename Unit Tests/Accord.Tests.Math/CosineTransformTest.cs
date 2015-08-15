@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using AForge.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class CosineTransformTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void ForwardTest()
         {
             double[,] input = 
@@ -82,7 +82,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(actual.IsEqual(expected, 0.05));
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             double[,] input =

@@ -24,11 +24,11 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
     using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class PrincipalComponentAnalysisTest
     {
 
@@ -63,7 +63,7 @@ namespace Accord.Tests.Statistics
             { 1.1,  0.9 }
         };
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Reproducing Lindsay Smith's "Tutorial on Principal Component Analysis"
@@ -180,7 +180,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, threshold: 1e-8));
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             // Reproducing Lindsay Smith's "Tutorial on Principal Component Analysis"
@@ -290,7 +290,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual, threshold: 1e-8));
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest()
         {
             PrincipalComponentAnalysis target = new PrincipalComponentAnalysis(data);
@@ -324,7 +324,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(result, expected, 0.01));
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest2()
         {
             // Lindsay's tutorial data
@@ -344,7 +344,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(result, actual, 0.01));
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest3()
         {
             PrincipalComponentAnalysis target = new PrincipalComponentAnalysis(data);
@@ -362,7 +362,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void FromCovarianceConstructorTest()
         {
             double[] mean = Accord.Statistics.Tools.Mean(data);
@@ -403,7 +403,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(reverse, data, 0.01));
         }
 
-        [TestMethod()]
+        [Test]
         public void FromCorrelationConstructorTest()
         {
             double[] mean = Accord.Statistics.Tools.Mean(data);
@@ -434,7 +434,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void Revert()
         {
             PrincipalComponentAnalysis target = new PrincipalComponentAnalysis(data);
@@ -452,7 +452,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(actual, data, 0.01));
         }
 
-        [TestMethod]
+        [Test]
         public void ExceptionTest()
         {
             double[,] data = 
@@ -480,8 +480,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
-        [DeploymentItem("Accord.Statistics.dll")]
+        [Test]
         public void adjustTest()
         {
             double[,] data = (double[,])PrincipalComponentAnalysisTest.data.Clone();
@@ -518,7 +517,7 @@ namespace Accord.Tests.Statistics
         /// <summary>
         ///A test for Transform
         ///</summary>
-        [TestMethod()]
+        [Test]
         public void TransformTest1()
         {
             PrincipalComponentAnalysis target = new PrincipalComponentAnalysis(data);

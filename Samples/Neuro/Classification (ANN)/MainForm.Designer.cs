@@ -1,4 +1,4 @@
-﻿namespace Classification.ANNs
+﻿namespace SampleApp
 {
     partial class MainForm
     {

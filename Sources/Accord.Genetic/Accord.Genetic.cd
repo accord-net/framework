@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AForge.Genetic.BinaryChromosome">
+    <Position X="4.5" Y="6.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAIAAAAAAAAAEAEAAAgBAAAAAAAAACAAwAEAAABA=</HashCode>
+      <FileName>Chromosomes\BinaryChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Genetic.ChromosomeBase">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEgAAAAIAAAAAQAAAAAAgAAAAAAAAAACAAAAEAAABA=</HashCode>
+      <FileName>Chromosomes\ChromosomeBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Genetic.DoubleArrayChromosome">
+    <Position X="13.25" Y="6.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAECAIAAAAAAAAAUAEAQAgBAEIAAAAAECIAwAEAAABA=</HashCode>
+      <FileName>Chromosomes\DoubleArrayChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Genetic.ExtendedGeneFunction" BaseTypeListCollapsed="true">
+    <Position X="21.25" Y="10.75" Width="2.75" />
+    <Members>
+      <Field Name="argumentsCount" Hidden="true" />
+      <Field Name="FunctionsCount" Hidden="true" />
+      <Field Name="rand" Hidden="true" />
+      <Field Name="type" Hidden="true" />
+      <Field Name="val" Hidden="true" />
+      <Field Name="variablesCount" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Enum Name="AForge.Genetic.ExtendedGeneFunction.Functions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Chromosomes\GP\ExtendedGeneFunction.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAAAAKAAAAAAAAAEBAIAAgAAACABAAAAAAAAAEAQABA=</HashCode>
+      <FileName>Chromosomes\GP\ExtendedGeneFunction.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="GeneType" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Genetic.GEPChromosome">
+    <Position X="7.25" Y="6.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>QEEAAIAAAAAAIAAEAWAAAkAgAQAEAAAACAAEAEAAABA=</HashCode>
+      <FileName>Chromosomes\GP\GEPChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Genetic.GPTreeChromosome">
+    <Position X="10" Y="6.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAIAAAAAAgAAEEAAgAgAAAAAAAAAACAAAwEAAANA=</HashCode>
+      <FileName>Chromosomes\GP\GPTreeChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Genetic.GPTreeNode" BaseTypeListCollapsed="true">
+    <Position X="18.25" Y="7.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAEAAAAAAAAAAAAAAAAAAAAABI=</HashCode>
+      <FileName>Chromosomes\GP\GPTreeNode.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="Gene" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="Children" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Genetic.SimpleGeneFunction" BaseTypeListCollapsed="true">
+    <Position X="18" Y="10.5" Width="2.75" />
+    <NestedTypes>
+      <Enum Name="AForge.Genetic.SimpleGeneFunction.Functions" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Chromosomes\GP\SimpleGeneFunction.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAKAAAAAAAAAEBAIAAgAAACABAAAAAAAAAEAQABA=</HashCode>
+      <FileName>Chromosomes\GP\SimpleGeneFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Genetic.PermutationChromosome">
+    <Position X="0.5" Y="11.25" Width="3.25" />
+    <InheritanceLine Type="AForge.Genetic.ShortArrayChromosome" FixedToPoint="true">
+      <Path>
+        <Point X="2.125" Y="10.694" />
+        <Point X="2.125" Y="11.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAEAgAAAAAAAQAAAAAAAAgAAAAAAAAAACAAAAEAAABA=</HashCode>
+      <FileName>Chromosomes\PermutationChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Genetic.ShortArrayChromosome">
+    <Position X="0.5" Y="6.25" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAEAAIAAAAAAAAAEAEAAAgBAAAAAACAACAAwAEAAABA=</HashCode>
+      <FileName>Chromosomes\ShortArrayChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Genetic.OptimizationFunction1D" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="17.5" Width="2" />
+    <NestedTypes>
+      <Enum Name="AForge.Genetic.OptimizationFunction1D.Modes" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Fitness Functions\OptimizationFunction1D.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AACAAAAIAIAACACAAAAAAgAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Fitness Functions\OptimizationFunction1D.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Genetic.OptimizationFunction2D" BaseTypeListCollapsed="true">
+    <Position X="5.75" Y="17.5" Width="2" />
+    <NestedTypes>
+      <Enum Name="AForge.Genetic.OptimizationFunction2D.Modes" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Fitness Functions\OptimizationFunction2D.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AACAAAAIAIAACACAAAAAAgAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Fitness Functions\OptimizationFunction2D.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Genetic.SymbolicRegressionFitness" BaseTypeListCollapsed="true">
+    <Position X="1" Y="17.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAUAAAEAAA=</HashCode>
+      <FileName>Fitness Functions\SymbolicRegressionFitness.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Genetic.TimeSeriesPredictionFitness" BaseTypeListCollapsed="true">
+    <Position X="8" Y="17.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAgAAAAAAAAQAAAAUAAAEAAA=</HashCode>
+      <FileName>Fitness Functions\TimeSeriesPredictionFitness.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Genetic.EliteSelection" BaseTypeListCollapsed="true">
+    <Position X="14" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Selection Algorithms\EliteSelection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Genetic.RankSelection" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="17.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Selection Algorithms\RankSelection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Genetic.RouletteWheelSelection" BaseTypeListCollapsed="true">
+    <Position X="11.75" Y="17.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Selection Algorithms\RouletteWheelSelection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="AForge.Genetic.IGPGene">
+    <Position X="21.5" Y="7.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAAAAAAgAAACAAAAAAAAAAAEAQABA=</HashCode>
+      <FileName>Chromosomes\GP\IGPGene.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AForge.Genetic.IChromosome">
+    <Position X="11" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEgAAAAAAAAAAAAAAAAAgAAAAAAAAAACAAAAEAAABA=</HashCode>
+      <FileName>Chromosomes\IChromosome.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AForge.Genetic.IFitnessFunction">
+    <Position X="4.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Fitness Functions\IFitnessFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AForge.Genetic.ISelectionMethod">
+    <Position X="13.75" Y="15.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Selection Algorithms\ISelectionMethod.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="AForge.Genetic.GPGeneType">
+    <Position X="25" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>Chromosomes\GP\IGPGene.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

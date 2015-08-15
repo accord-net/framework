@@ -30,9 +30,9 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Accord.Tests.MachineLearning.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SimplificationTest
     {
 
@@ -54,7 +54,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void LargeRunTest()
         {
 
@@ -74,7 +74,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.067515432098765427, newError);
         }
 
-        [TestMethod]
+        [Test]
         public void LargeRunTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -117,7 +117,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0.097, newError);
         }
 
-        [TestMethod()]
+        [Test]
         public void HypothesisTest()
         {
             bool[] actual =

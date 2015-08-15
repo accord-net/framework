@@ -23,17 +23,204 @@
 namespace Accord.Tests.IO
 {
     using Accord.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Data;
+    using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class ExcelReaderTest
     {
 
-        [TestMethod()]
+        [Test]
+        [Category("Office")]
+        public void TestExcel8_Data1()
+        {
+            string path = Path.Combine("Resources", "excel", "data1.xls");
+
+            ExcelReader withHeader = new ExcelReader(path, true);
+            ExcelReader sansHeader = new ExcelReader(path, false);
+
+            testData1(withHeader, sansHeader);
+        }
+
+
+        [Test]
+        [Category("Office")]
+        public void TestExcel12_Data1()
+        {
+            string path = Path.Combine("Resources", "excel", "data1.xlsx");
+
+            ExcelReader withHeader = new ExcelReader(path, true);
+            ExcelReader sansHeader = new ExcelReader(path, false);
+
+            testData1(withHeader, sansHeader);
+        }
+
+        private static void testData1(ExcelReader withHeader, ExcelReader sansHeader)
+        {
+            var sheets1 = withHeader.GetWorksheetList();
+            var sheets2 = sansHeader.GetWorksheetList();
+
+            Assert.AreEqual(1, sheets1.Length);
+            Assert.AreEqual(1, sheets2.Length);
+
+            Assert.AreEqual("testnormal", sheets1[0]);
+            Assert.AreEqual("testnormal", sheets2[0]);
+
+            var dataWithHeader = withHeader.GetWorksheet("testnormal");
+            var dataSansHeader = sansHeader.GetWorksheet("testnormal");
+
+            Assert.AreEqual(119, dataWithHeader.Rows.Count);
+            Assert.AreEqual(17, dataWithHeader.Columns.Count);
+
+            Assert.AreEqual(120, dataSansHeader.Rows.Count);
+            Assert.AreEqual(17, dataSansHeader.Columns.Count);
+
+            var firstRowWithHeader = dataWithHeader.Rows[0].ItemArray;
+            Assert.AreEqual("90", firstRowWithHeader[0]);
+            Assert.AreEqual("0", firstRowWithHeader[1]);
+            Assert.AreEqual("0", firstRowWithHeader[2]);
+            Assert.AreEqual("0", firstRowWithHeader[3]);
+            Assert.AreEqual("0", firstRowWithHeader[4]);
+
+            var firstRowSansHeader = dataSansHeader.Rows[0].ItemArray;
+            Assert.AreEqual("1", firstRowSansHeader[0]);
+            Assert.AreEqual("2", firstRowSansHeader[1]);
+            Assert.AreEqual("3", firstRowSansHeader[2]);
+            Assert.AreEqual("4", firstRowSansHeader[3]);
+            Assert.AreEqual("5", firstRowSansHeader[4]);
+        }
+
+
+
+
+        [Test]
+        [Category("Office")]
+        public void TestExcel8_Data2()
+        {
+            string path = Path.Combine("Resources", "excel", "data2.xls");
+
+            ExcelReader withHeader = new ExcelReader(path, true);
+            ExcelReader sansHeader = new ExcelReader(path, false);
+
+            testData2(withHeader, sansHeader);
+        }
+
+
+        [Test]
+        [Category("Office")]
+        public void TestExcel12_Data2()
+        {
+            string path = Path.Combine("Resources", "excel", "data2.xlsx");
+
+            ExcelReader withHeader = new ExcelReader(path, true);
+            ExcelReader sansHeader = new ExcelReader(path, false);
+
+            testData2(withHeader, sansHeader);
+        }
+
+        private static void testData2(ExcelReader withHeader, ExcelReader sansHeader)
+        {
+            var sheets1 = withHeader.GetWorksheetList();
+            var sheets2 = sansHeader.GetWorksheetList();
+
+            Assert.AreEqual(1, sheets1.Length);
+            Assert.AreEqual(1, sheets2.Length);
+
+            Assert.AreEqual("training", sheets1[0]);
+            Assert.AreEqual("training", sheets2[0]);
+
+            var dataWithHeader = withHeader.GetWorksheet("training");
+            var dataSansHeader = sansHeader.GetWorksheet("training");
+
+            Assert.AreEqual(19496, dataWithHeader.Rows.Count);
+            Assert.AreEqual(17, dataWithHeader.Columns.Count);
+
+            Assert.AreEqual(19497, dataSansHeader.Rows.Count);
+            Assert.AreEqual(17, dataSansHeader.Columns.Count);
+
+            var firstRowWithHeader = dataWithHeader.Rows[0].ItemArray;
+            Assert.AreEqual("80", firstRowWithHeader[0]);
+            Assert.AreEqual("0", firstRowWithHeader[1]);
+            Assert.AreEqual("0", firstRowWithHeader[2]);
+            Assert.AreEqual("0", firstRowWithHeader[3]);
+            Assert.AreEqual("0", firstRowWithHeader[4]);
+
+            var firstRowSansHeader = dataSansHeader.Rows[0].ItemArray;
+            Assert.AreEqual("1", firstRowSansHeader[0]);
+            Assert.AreEqual("2", firstRowSansHeader[1]);
+            Assert.AreEqual("3", firstRowSansHeader[2]);
+            Assert.AreEqual("4", firstRowSansHeader[3]);
+            Assert.AreEqual("5", firstRowSansHeader[4]);
+        }
+
+
+        [Test]
+        [Category("Office")]
+        public void TestExcel8_Data3()
+        {
+            string path = Path.Combine("Resources", "excel", "data3.xls");
+
+            ExcelReader withHeader = new ExcelReader(path, true);
+            ExcelReader sansHeader = new ExcelReader(path, false);
+
+            testData3(withHeader, sansHeader);
+        }
+
+
+        [Test]
+        [Category("Office")]
+        public void TestExcel12_Data3()
+        {
+            string path = Path.Combine("Resources", "excel", "data3.xlsx");
+
+            ExcelReader withHeader = new ExcelReader(path, true);
+            ExcelReader sansHeader = new ExcelReader(path, false);
+
+            testData3(withHeader, sansHeader);
+        }
+
+        private static void testData3(ExcelReader withHeader, ExcelReader sansHeader)
+        {
+            var sheets1 = withHeader.GetWorksheetList();
+            var sheets2 = sansHeader.GetWorksheetList();
+
+            Assert.AreEqual(1, sheets1.Length);
+            Assert.AreEqual(1, sheets2.Length);
+
+            Assert.AreEqual("training", sheets1[0]);
+            Assert.AreEqual("training", sheets2[0]);
+
+            var dataWithHeader = withHeader.GetWorksheet("training");
+            var dataSansHeader = sansHeader.GetWorksheet("training");
+
+            Assert.AreEqual(302, dataWithHeader.Rows.Count);
+            Assert.AreEqual(17, dataWithHeader.Columns.Count);
+
+            Assert.AreEqual(303, dataSansHeader.Rows.Count);
+            Assert.AreEqual(17, dataSansHeader.Columns.Count);
+
+            var firstRowWithHeader = dataWithHeader.Rows[0].ItemArray;
+            Assert.AreEqual("50", firstRowWithHeader[0]);
+            Assert.AreEqual("0", firstRowWithHeader[1]);
+            Assert.AreEqual("0", firstRowWithHeader[2]);
+            Assert.AreEqual("0", firstRowWithHeader[3]);
+            Assert.AreEqual("0", firstRowWithHeader[4]);
+
+            var firstRowSansHeader = dataSansHeader.Rows[0].ItemArray;
+            Assert.AreEqual("1", firstRowSansHeader[0]);
+            Assert.AreEqual("2", firstRowSansHeader[1]);
+            Assert.AreEqual("3", firstRowSansHeader[2]);
+            Assert.AreEqual("4", firstRowSansHeader[3]);
+            Assert.AreEqual("5", firstRowSansHeader[4]);
+        }
+
+
+        [Test]
+        [Category("Office")]
         public void ExcelReaderConstructorTest()
         {
-            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\sample.xls";
+            string path = Path.Combine("Resources", "sample.xls");
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);
@@ -49,31 +236,20 @@ namespace Accord.Tests.IO
             // can go further and transform it into a matrix to start
             // running other algorithms on it: 
 
+            Assert.AreEqual(4, sheets.Length);
+            Assert.AreEqual("Plan1", sheets[0]);
+            Assert.AreEqual("Plan2", sheets[1]);
+            Assert.AreEqual("Plan3", sheets[2]);
+            Assert.AreEqual("Sheet1", sheets[3]);
             Assert.AreEqual(3, table.Columns.Count);
             Assert.AreEqual(2, table.Rows.Count);
-
-            /*
-            double[,] matrix = table.ToMatrix();
-
-            // We can also do it retrieving the name for each column:
-            string[] columnNames; matrix = table.ToMatrix(out columnNames);
-
-            // Or we can extract specific columns into single arrays:
-            double[] column = table.Columns[0].ToArray();
-
-            // PS: you might need to import the Accord.Math namespace in
-            //   order to be able to call the ToMatrix extension methods. 
-
-            Assert.AreEqual(6, matrix.Length);
-            Assert.AreEqual(3, columnNames.Length);
-            Assert.AreEqual(2, column.Length);
-             */ 
         }
 
-        [TestMethod()]
+        [Test]
+        [Category("Office")]
         public void ConstructorExcel8Test()
         {
-            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\sample.xls";
+            string path = Path.Combine("Resources", "sample.xls");
             ExcelReader target = new ExcelReader(path);
 
             testWorksheets(target);
@@ -83,12 +259,11 @@ namespace Accord.Tests.IO
             testTables(target);
         }
 
-        [TestMethod()]
-        [Ignore()]
+        [Test]
         public void ConstructorExcel10Test()
         {
             // If a 64-bit ACE is installed, this test requires a 64-bit process to run correctly.
-            string path = @"..\..\..\Accord.Tests\Accord.Tests.Statistics\Resources\sample.xlsx";
+            string path = Path.Combine("Resources", "sample.xlsx");
             ExcelReader target = new ExcelReader(path);
 
             testWorksheets(target);
@@ -152,6 +327,28 @@ namespace Accord.Tests.IO
         }
 
 
+        [Test]
+        [Category("Office")]
+        public void SpreadsheetNames_Success()
+        {
+            string path = Path.Combine("Resources", "excel", "spreadsheet_names.xls");
 
+            // Create a new reader, opening a given path
+            ExcelReader reader = new ExcelReader(path);
+
+            string[] sheets = reader.GetWorksheetList();
+
+            Assert.AreEqual(4, sheets.Length);
+            Assert.AreEqual("Example 1", sheets[0]);
+            Assert.AreEqual("Example 2", sheets[1]);
+            Assert.AreEqual("Example 3", sheets[2]);
+            Assert.AreEqual("References", sheets[3]);
+
+            // Finally, we can request an specific sheet:
+            DataTable table = reader.GetWorksheet(sheets[1]);
+
+            Assert.AreEqual(2, table.Columns.Count);
+            Assert.AreEqual(42, table.Rows.Count);
+        }
     }
 }

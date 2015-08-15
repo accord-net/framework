@@ -8,7 +8,7 @@
     <ProjectGuid>{F6CFAC9E-A9AF-4DDF-9405-B4B3578E5154}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Classification.BoW</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Classification %28BoW%29</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
@@ -40,54 +40,35 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\..\packages\Accord.2.14.5-alpha\lib\net40\Accord.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Controls">
-      <HintPath>..\..\packages\Accord.Controls.2.14.5-alpha\lib\net40\Accord.Controls.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Controls.Imaging">
-      <HintPath>..\..\packages\Accord.Controls.Imaging.2.14.5-alpha\lib\net40\Accord.Controls.Imaging.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Controls.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Imaging">
-      <HintPath>..\..\packages\Accord.Imaging.2.14.5-alpha\lib\net40\Accord.Imaging.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="Accord.MachineLearning">
-      <HintPath>..\..\packages\Accord.MachineLearning.2.14.5-alpha\lib\net40\Accord.MachineLearning.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.MachineLearning.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math">
-      <HintPath>..\..\packages\Accord.Math.2.14.5-alpha\lib\net40\Accord.Math.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics">
-      <HintPath>..\..\packages\Accord.Statistics.2.14.5-alpha\lib\net40\Accord.Statistics.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge">
-      <HintPath>..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Controls">
-      <HintPath>..\..\packages\AForge.Controls.2.2.5\lib\AForge.Controls.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging">
-      <HintPath>..\..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Video">
-      <HintPath>..\..\packages\AForge.Video.2.2.5\lib\AForge.Video.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="ZedGraph">
-      <HintPath>..\..\packages\ZedGraph.5.1.6\lib\net35-Client\ZedGraph.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.cs">
@@ -120,8 +101,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="Accord.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -135,7 +118,6 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="framework.ico" />
-    <Content Include="License-LGPL.txt" />
     <Content Include="Resources\Cats\image_0001.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -805,13 +787,6 @@
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

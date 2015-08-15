@@ -161,7 +161,14 @@ namespace Accord.MachineLearning.Bayes
     /// 
     /// <code>
     /// // We will be computing the output label for a sunny, cool, humid and windy day:
-    /// double[] instance = codebook.Translate("Sunny", "Cool", "High", "Strong").ToDouble();
+    /// 
+    /// double[] instance = new double[] 
+    /// {
+    ///     codebook.Translate(columnName:"Outlook", value:"Sunny"), 
+    ///     12.0, 
+    ///     90.0,
+    ///     codebook.Translate(columnName:"Wind", value:"Strong")
+    /// };
     /// 
     /// // Now, we can feed this instance to our model
     /// int output = model.Compute(instance, out logLikelihood);
@@ -582,7 +589,23 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="input">The input instance.</param>
         /// <param name="logLikelihood">The log-likelihood for the instance.</param>
+        /// 
+        /// <returns>The most likely class for the instance.</returns>
+        /// 
+        public int Compute(double[] input, out double logLikelihood)
+        {
+            double[] responses;
+            return Compute(input, out logLikelihood, out responses);
+        }
+
+        /// <summary>
+        ///   Computes the most likely class for a given instance.
+        /// </summary>
+        /// 
+        /// <param name="input">The input instance.</param>
+        /// <param name="logLikelihood">The log-likelihood for the instance.</param>
         /// <param name="responses">The response probabilities for each class.</param>
+        /// 
         /// <returns>The most likely class for the instance.</returns>
         /// 
         public int Compute(double[] input, out double logLikelihood, out double[] responses)

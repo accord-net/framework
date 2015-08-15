@@ -42,40 +42,25 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accord">
-      <HintPath>..\..\packages\Accord.2.14.0\lib\net40\Accord.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Controls">
-      <HintPath>..\..\packages\Accord.Controls.2.14.0\lib\net40\Accord.Controls.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Imaging">
-      <HintPath>..\..\packages\Accord.Imaging.2.14.0\lib\net40\Accord.Imaging.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Imaging.dll</HintPath>
     </Reference>
     <Reference Include="Accord.MachineLearning">
-      <HintPath>..\..\packages\Accord.MachineLearning.2.14.0\lib\net40\Accord.MachineLearning.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.MachineLearning.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Math">
-      <HintPath>..\..\packages\Accord.Math.2.14.0\lib\net40\Accord.Math.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Math.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Neuro">
-      <HintPath>..\..\packages\Accord.Neuro.2.14.0\lib\net40\Accord.Neuro.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Neuro.dll</HintPath>
     </Reference>
     <Reference Include="Accord.Statistics">
-      <HintPath>..\..\packages\Accord.Statistics.2.14.0\lib\net40\Accord.Statistics.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge">
-      <HintPath>..\..\packages\AForge.2.2.5\lib\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Genetic">
-      <HintPath>..\..\packages\AForge.Genetic.2.2.5\lib\AForge.Genetic.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging">
-      <HintPath>..\..\packages\AForge.Imaging.2.2.5\lib\AForge.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <HintPath>..\..\packages\AForge.Math.2.2.5\lib\AForge.Math.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Neuro">
-      <HintPath>..\..\packages\AForge.Neuro.2.2.5\lib\AForge.Neuro.dll</HintPath>
+      <HintPath>..\..\..\Release\net40\Accord.Statistics.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>packages\MahApps.Metro.0.10.0.1\lib\net40\MahApps.Metro.dll</HintPath>
@@ -188,6 +173,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Accord.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

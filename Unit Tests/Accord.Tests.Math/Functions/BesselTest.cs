@@ -23,9 +23,9 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class BesselTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void BesselY0Test()
         {
             double actual;
@@ -55,7 +55,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0.037067103232088, actual, 0.000001);
         }
 
-        [TestMethod()]
+        [Test]
         public void BesselJTest()
         {
             double actual;
@@ -70,7 +70,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0.117351128521774, actual, 0.000001);
         }
 
-        [TestMethod()]
+        [Test]
         public void BesselYTest()
         {
             double actual;
@@ -82,7 +82,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(0.037067103232088, actual, 0.000001);
         }
 
-        [TestMethod()]
+        [Test]
         public void BesselJ0Test()
         {
             double actual;

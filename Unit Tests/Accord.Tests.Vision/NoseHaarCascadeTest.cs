@@ -23,32 +23,15 @@
 namespace Accord.Tests.Vision
 {
     using Accord.Vision.Detection.Cascades;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Vision.Detection;
     using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class NoseHaarCascadeTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void NoseHaarCascadeConstructorTest()
         {
             NoseHaarCascade actual = new NoseHaarCascade();

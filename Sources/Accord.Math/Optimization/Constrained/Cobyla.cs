@@ -54,7 +54,13 @@ namespace Accord.Math.Optimization
         ///   Size of rounding error is becoming damaging, terminating prematurely.
         /// </summary>
         /// 
-        DivergingRoundingErrors
+        DivergingRoundingErrors,
+
+        /// <summary>
+        ///   The posed constraints cannot be fulfilled.
+        /// </summary>
+        /// 
+        NoPossibleSolution
     }
 
 
@@ -913,6 +919,14 @@ namespace Accord.Math.Optimization
         L_620:
 
             maxfun = iterations;
+
+            if (status == CobylaStatus.Success)
+            {
+                // Check if all constraints have been fulfilled
+                for (int i = 0; i < constraints.Length; i++)
+                    if (constraints[i].IsViolated(x))
+                        status = CobylaStatus.NoPossibleSolution;
+            }
 
             return status;
         }

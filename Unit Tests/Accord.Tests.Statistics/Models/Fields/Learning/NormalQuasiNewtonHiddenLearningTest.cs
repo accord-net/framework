@@ -26,10 +26,10 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Fields;
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Fields.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class NormalQuasiNewtonHiddenLearningTest
     {
 
@@ -44,7 +44,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             var hmm = MarkovContinuousFunctionTest.CreateModel1();

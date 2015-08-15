@@ -11,7 +11,9 @@
     <projectUrl>http://accord-framework.net</projectUrl>
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>Histograms, scatterplots and tabular data viewers for scientific applications. This package is part of the Accord.NET Framework.</description>
+    <description>
+      Histograms, scatterplots and tabular data viewers for scientific applications. This package is part of the Accord.NET Framework.
+    </description>
     <summary>Accord.NET Control Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework statistics data visualization histogram scatterplot boxplot chart</tags>
     <dependencies>
@@ -19,9 +21,6 @@
       <dependency id="Accord.MachineLearning" version="$version$" />
       <dependency id="Accord.Math"            version="$version$" />
       <dependency id="Accord.Statistics"      version="$version$" />
-      
-      <dependency id="AForge"                 version="2.2.5" />
-      <dependency id="AForge.Math"            version="2.2.5" />
 
       <dependency id="ZedGraph"               version="5.1.6" />
     </dependencies>

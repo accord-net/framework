@@ -36,7 +36,7 @@ using System.Windows.Forms;
 using Accord.Imaging.Filters;
 using Accord.Math.Wavelets;
 
-namespace Wavelets
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
@@ -50,7 +50,7 @@ namespace Wavelets
 
             cbWavelet.DataSource = new String[] { "Haar", "CDF" };
 
-            lenna = Wavelets.Properties.Resources.lena512;
+            lenna = Properties.Resources.lena512;
 
             // Use 16bpp for enhanced precision
             lenna = AForge.Imaging.Image.Convert8bppTo16bpp( lenna);

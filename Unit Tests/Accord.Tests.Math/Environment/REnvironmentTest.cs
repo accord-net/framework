@@ -24,10 +24,10 @@ namespace Accord.Tests.Math
 {
     using Accord.Math.Environments;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class REnvironmentTest : REnvironment
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void eyeTest()
         {
             var x = c(1, 2, 3, 4);

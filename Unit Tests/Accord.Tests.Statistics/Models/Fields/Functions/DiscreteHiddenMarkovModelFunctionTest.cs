@@ -23,14 +23,14 @@
 namespace Accord.Tests.Statistics.Models.Fields
 {
     using Accord.Statistics.Models.Fields.Functions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Fields.Features;
     using Accord.Statistics.Models.Markov.Topology;
     using Accord.Statistics.Models.Markov.Learning;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class DiscreteHiddenMarkovModelFunctionTest
     {
 
@@ -98,7 +98,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             return hmm;
         }
 
-        [TestMethod()]
+        [Test]
         public void HiddenMarkovModelFunctionConstructorTest()
         {
             HiddenMarkovModel model = CreateModel1();
@@ -126,7 +126,7 @@ namespace Accord.Tests.Statistics.Models.Fields
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             HiddenMarkovModel model = CreateModel1();

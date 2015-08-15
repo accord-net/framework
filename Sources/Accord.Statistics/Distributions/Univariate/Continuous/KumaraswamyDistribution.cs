@@ -21,7 +21,7 @@
 //
 
 
-namespace Accord.Statistics.Distributions.Univariate.Continuous
+namespace Accord.Statistics.Distributions.Univariate
 {
 
     using System;

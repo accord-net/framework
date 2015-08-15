@@ -23,13 +23,13 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
     using Accord.Statistics;
     
     
-    [TestClass()]
+    [TestFixture]
     public class KModesTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void KModesConstructorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

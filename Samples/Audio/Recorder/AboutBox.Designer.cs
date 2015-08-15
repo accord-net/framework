@@ -1,4 +1,4 @@
-﻿namespace Recorder
+﻿namespace SampleApp
 {
     partial class AboutBox
     {

@@ -23,9 +23,9 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SpecialTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void BinomialTest()
         {
             int n = 63;
@@ -67,7 +67,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void Log1pTest()
         {
             double precision = 1e-16;
@@ -88,7 +88,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FactorialTest()
         {
             int n = 3;
@@ -102,7 +102,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e27);
         }
 
-        [TestMethod()]
+        [Test]
         public void LnFactorialTest()
         {
             int n = 4;
@@ -116,7 +116,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 0.0000000001);
         }
 
-        [TestMethod()]
+        [Test]
         public void EpsilonTest()
         {
             double x = 0.5;
@@ -135,7 +135,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void BinomialTest2()
         {
             int n = 6;
@@ -152,7 +152,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void InverseErfTest()
         {
             for (int i = 0; i < 100; i++)
@@ -168,7 +168,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseErfcTest()
         {
             for (int i = 0; i < 100; i++)

@@ -53,7 +53,7 @@ namespace Accord.Statistics.Kernels
             : this(0) { }
 
         /// <summary>
-        ///   Gets or sets the kernel's intercept term.
+        ///   Gets or sets the kernel's intercept term. Default is 0.
         /// </summary>
         /// 
         public double Constant
@@ -147,7 +147,7 @@ namespace Accord.Statistics.Kernels
         }
 
 
-
+            
         /// <summary>
         ///   Creates a new object that is a copy of the current instance.
         /// </summary>

@@ -25,10 +25,10 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class HypergeometricDistributionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
 
@@ -112,7 +112,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(6, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void HypergeometricDistributionConstructorTest()
         {
             bool thrown;
@@ -159,7 +159,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(dn * dm * (dN - dm) * (dN - dn) / (dN * dN * (dN - 1.0)), target.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
             int populationSize = 12;
@@ -177,7 +177,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.PopulationSuccess, actual.PopulationSuccess);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             int populationSize = 15;
@@ -191,7 +191,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             int populationSize = 15;
@@ -202,7 +202,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityMassFunctionTest()
         {
             int populationSize = 15;
@@ -217,7 +217,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityMassFunctionTest()
         {
             int N = 50;
@@ -231,7 +231,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityMassFunctionTest2()
         {
             int populationSize = 15;
@@ -246,7 +246,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest2()
         {
             // Verified against http://stattrek.com/online-calculator/hypergeometric.aspx
@@ -299,7 +299,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest3()
         {
             var h = new HypergeometricDistribution(9, 6, 1);

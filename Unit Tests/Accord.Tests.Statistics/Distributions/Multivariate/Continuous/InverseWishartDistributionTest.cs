@@ -22,35 +22,15 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Accord.Statistics.Distributions.Multivariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Math;
-    using Accord.Statistics.Distributions.Fitting;
-    using Accord.Statistics;
-    using System.Globalization;
+    using Accord.Statistics.Distributions.Multivariate;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class InverseWishartDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void ConstructorTest4()
         {
             // Create a Inverse Wishart with the parameters
@@ -77,8 +57,8 @@ namespace Accord.Tests.Statistics
             //   -4.56  -56.18       -0.2   5.3 
 
             // (the above matrix representations have been transcribed to text using)
-            string scov = cov.ToString(DefaultMatrixFormatProvider.InvariantCulture);
-            string smean = mmean.ToString(DefaultMatrixFormatProvider.InvariantCulture);
+            // string scov = cov.ToString(DefaultMatrixFormatProvider.InvariantCulture);
+            // string smean = mmean.ToString(DefaultMatrixFormatProvider.InvariantCulture);
 
             // For compatibility reasons, .Mean stores a flattened mean matrix
             double[] mean = invWishart.Mean; // { 1.7, -0.2, -0.2, 5.3 }

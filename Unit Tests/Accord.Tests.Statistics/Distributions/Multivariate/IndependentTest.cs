@@ -22,34 +22,17 @@
 
 namespace Accord.Tests.Statistics
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.Statistics;
+    using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics.Distributions.Fitting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class IndependentTest
     {
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var p1 = new NormalDistribution(4.2, 1);
@@ -72,9 +55,13 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4, target.Covariance[1, 1]);
             Assert.AreEqual(0, target.Covariance[0, 1]);
             Assert.AreEqual(0, target.Covariance[1, 0]);
+
+            var text = target.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
+
+            Assert.AreEqual("Independent(x0, x1; N(x0; μ = 4.20, σ² = 1.00) + N(x1; μ = 7.00, σ² = 4.00))", text);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityFunctionTest()
         {
             var p1 = new NormalDistribution(4.2, 1);
@@ -104,7 +91,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeFunctionTest()
         {
             var p1 = new NormalDistribution(4.2, 1);
@@ -131,7 +118,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double[][] data =
@@ -162,7 +149,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.Covariance[1, 0]);
         }
 
-        [TestMethod()]
+        [Test]
         public void FittingNoOptionsTest()
         {
             double[][] data1 =
@@ -212,7 +199,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown2);
         }
 
-        [TestMethod()]
+        [Test]
         public void FittingOptionsTest()
         {
             double[][] data1 =

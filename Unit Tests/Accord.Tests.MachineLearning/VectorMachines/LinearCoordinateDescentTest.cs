@@ -28,13 +28,13 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class LinearCoordinateDescentTest
     {
 
-        [TestMethod()]
+        [Test]
         public void LearnTest()
         {
 
@@ -73,7 +73,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(System.Math.Sign(xor[i]), System.Math.Sign(output[i]));
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest5()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;

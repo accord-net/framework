@@ -26,9 +26,9 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
+    [TestFixture]
     public class LogExpTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod]
+        [Test]
         public void ApplyTest()
         {
             Bitmap input = Properties.Resources.lena_color;
@@ -65,7 +65,7 @@ namespace Accord.Tests.Imaging
             //ImageBox.Show("reconstruction", reconstruction);
         }
 
-        [TestMethod]
+        [Test]
         public void ProcessImageTest()
         {
             double[,] diag = Matrix.Magic(5);

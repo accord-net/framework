@@ -24,12 +24,12 @@ namespace Accord.Tests.Statistics
 {
 
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Testing.Power;
     using System;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class PairedTTestTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void TTestConstructorTest()
         {
             // Suppose we would like to know the effect of a treatment (such

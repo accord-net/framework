@@ -36,28 +36,28 @@
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath>..\..\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>..\..\Release\net35</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <DocumentationFile>..\..\Release\net35\Accord.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\Release\net35\Accord.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>..\..\Release\net40</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <DocumentationFile>..\..\Release\net40\Accord.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\Release\net40\Accord.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
-    <OutputPath>..\..\Release\net45</OutputPath>
+    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <DocumentationFile>..\..\Release\net45\Accord.XML</DocumentationFile>
-    <CodeAnalysisLogFile>..\..\Release\net45\Accord.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -67,6 +67,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AForge\Delegates.cs" />
+    <Compile Include="AForge\DoublePoint.cs" />
+    <Compile Include="AForge\DoubleRange.cs" />
+    <Compile Include="AForge\EventArgs.cs" />
+    <Compile Include="AForge\Exceptions.cs" />
+    <Compile Include="AForge\IntPoint.cs" />
+    <Compile Include="AForge\IntRange.cs" />
+    <Compile Include="AForge\Parallel.cs" />
+    <Compile Include="AForge\Point.cs" />
+    <Compile Include="AForge\PolishExpression.cs" />
+    <Compile Include="AForge\Range.cs" />
+    <Compile Include="AForge\SystemTools.cs" />
+    <Compile Include="AForge\ThreadSafeRandom.cs" />
     <Compile Include="Attributes\RealAttribute.cs" />
     <Compile Include="Attributes\IntegerAttribute.cs" />
     <Compile Include="Cast.cs" />
@@ -74,6 +87,8 @@
     <Compile Include="Collections\KeyValuePairComparer`2.cs" />
     <Compile Include="Collections\TwoWayDictionary.cs" />
     <Compile Include="Compatibility\CancellationToken.cs" />
+    <Compile Include="Compatibility\Complex.cs" />
+    <Compile Include="Compatibility\ConcurrentBag.cs" />
     <Compile Include="Compatibility\ConcurrentStack.cs" />
     <Compile Include="Compatibility\AggregateException.cs" />
     <Compile Include="Compatibility\IReadOnlyCollection.cs" />
@@ -105,6 +120,9 @@
     <Compile Include="Collections\RedBlackTree`1.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Accord.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Accord.snk" />
     <None Include="Accord.Core.cd" />
     <None Include="Properties\VersionInfo.tt">

@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Diagnostics;
 
-    [TestClass()]
+    [TestFixture]
     public class GaussianTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod]
+        [Test]
         public void GaussianFunctionTest()
         {
             IKernel gaussian = new Gaussian(1);
@@ -73,7 +73,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod]
+        [Test]
         public void GaussianDistanceTest()
         {
             var gaussian = new Gaussian(1);
@@ -98,7 +98,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             double sigma = 0.1;
@@ -118,7 +118,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GammaSigmaTest()
         {
             Gaussian gaussian = new Gaussian(1);
@@ -144,7 +144,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-12);
         }
 
-        [TestMethod]
+        [Test]
         public void GammaSigmaSquaredTest()
         {
             Gaussian gaussian = new Gaussian(3.6);
@@ -168,7 +168,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0 / (2 * 49), gaussian.Gamma);
         }
 
-        [TestMethod]
+        [Test]
         public void FunctionTest2()
         {
             // Tested against R's kernlab
@@ -209,7 +209,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod]
+        [Test]
         public void GaussianReverseDistanceTest()
         {
             var gaussian = new Gaussian(4.2);
@@ -225,7 +225,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod]
+        [Test]
         public void GaussianEstimateTest()
         {
             // Suppose we have the following data 
@@ -247,7 +247,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(sigma * sigma, sigma2);
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandDistanceTest()
         {
             for (int i = 1; i <= 3; i++)
@@ -274,7 +274,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ExpandReverseDistanceTest()
         {
             for (int i = 1; i <= 3; i++)

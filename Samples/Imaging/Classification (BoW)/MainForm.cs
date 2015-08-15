@@ -46,7 +46,7 @@ using Accord.Math;
 using Accord.Statistics.Kernels;
 using AForge;
 
-namespace Classification.BoW
+namespace SampleApp
 {
     /// <summary>
     ///   Image classification sample application.

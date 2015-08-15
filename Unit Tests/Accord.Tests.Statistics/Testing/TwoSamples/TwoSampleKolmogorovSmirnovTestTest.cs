@@ -25,10 +25,10 @@ namespace Accord.Tests.Statistics
     using System;
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class TwoSampleKolmogorovSmirnovTestTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void TwoSampleKolmogorovSmirnovTestConstructorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -78,7 +78,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.00826, test.PValue, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void TwoSampleKolmogorovSmirnovTestConstructorTest2()
         {
             // The following example comes from the stats page of the College 
@@ -128,7 +128,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.270697775095498, oneTailLesser.PValue, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void TwoSampleKolmogorovSmirnovTestConstructorTest3()
         {
             double[] x = { 1, 2, 3, 4, 5 };

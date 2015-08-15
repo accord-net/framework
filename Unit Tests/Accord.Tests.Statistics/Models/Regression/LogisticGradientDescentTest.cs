@@ -22,33 +22,17 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System;
     using Accord.Math.Differentiation;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
+    using System;
 
-    [TestClass()]
+    [TestFixture]
     public class LogisticGradientDescentTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-        [TestMethod()]
+        [Test]
         public void GradientTest()
         {
             double[][] input =
@@ -86,7 +70,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void StochasticGradientTest()
         {
             double[][] input =
@@ -131,15 +115,8 @@ namespace Accord.Tests.Statistics
         private static double[] finiteDifferences(double[][] input, double[] output, bool stochastic)
         {
             LogisticRegression regression;
-            LogisticGradientDescent teacher;
 
             regression = new LogisticRegression(inputs: 2);
-
-            teacher = new LogisticGradientDescent(regression)
-            {
-                Stochastic = stochastic,
-                LearningRate = 1e-4,
-            };
 
             FiniteDifferences diff = new FiniteDifferences(3);
 
@@ -172,7 +149,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             // Suppose we have the following data about some patients.
@@ -251,7 +228,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(smokeOdds));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest1()
         {
             // Suppose we have the following data about some patients.

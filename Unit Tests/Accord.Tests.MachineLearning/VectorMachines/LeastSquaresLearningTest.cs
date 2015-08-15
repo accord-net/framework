@@ -27,10 +27,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Analysis;
 
-    [TestClass()]
+    [TestFixture]
     public class LeastSquaresLearningTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest()
         {
 
@@ -88,7 +88,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.AreEqual(System.Math.Sign(xor[i]), System.Math.Sign(output[i]));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest2()
         {
             double[][] inputs = yinyang.Submatrix(null, 0, 1).ToArray();
@@ -112,7 +112,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod]
+        [Test]
         [Ignore] // Usually takes 6 mins
         public void LargeLearningTest1()
         {
@@ -154,7 +154,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, error);
          }
 
-        [TestMethod()]
+        [Test]
         public void LeastSquaresConstructorTest()
         {
             double[][] inputs =

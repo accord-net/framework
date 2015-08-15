@@ -1,6 +1,6 @@
 ﻿The Accord.NET Framework
 
-Copyright (c) 2009-2015, César Roberto de Souza <cesarsouza at gmail.com>
+Copyright (c) 2009-2015, Accord.NET Authors <authors @ accord-framework.net>
 
     This library is free software; you can redistribute it and/or modify it under the terms of
     the GNU Lesser General Public License as published by the Free Software Foundation; either
@@ -31,9 +31,10 @@ Creative Commons Attribution/Share-Alike License. All referenced sections includ
 original article page. If you think you have found something which has not been properly linked, please
 let me know so it can be corrected.
 
-Overall framework architecture and style was greatly inspired by AForge.NET. The AForge.NET
-Framework is a copyrighted work by Andrew Kirillov. This framework (Accord.NET) is in no way
-affiliated with AForge.NET, its authors or contributors.
+Overall framework architecture and style was greatly inspired by AForge.NET. In May 2015, this project
+has been merged with the AForge.NET framework since public support for AForge.NET has ended. The original
+AForge.NET Framework is a copyrighted work by Andrew Kirillov, altough developed and shared under the same
+LGPL license.
 
 
 

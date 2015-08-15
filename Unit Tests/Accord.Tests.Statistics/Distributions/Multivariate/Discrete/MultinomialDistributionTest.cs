@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class MultinomialDistributionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
 
@@ -87,7 +87,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("Multinomial(x; n = 5, p = { 0.25, 0.75 })", str);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityMassFunctionTest()
         {
             MultinomialDistribution dist = new MultinomialDistribution(5, 0.25, 0.25, 0.25, 0.25);
@@ -100,7 +100,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityMassFunctionTest2()
         {
             // Example from http://onlinestatbook.com/2/probability/multinomial.html
@@ -115,7 +115,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityMassFunctionTest()
         {
             MultinomialDistribution dist = new MultinomialDistribution(5, 0.25, 0.25, 0.25, 0.25);
@@ -128,7 +128,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             MultinomialDistribution dist = new MultinomialDistribution(7, new double[2]);

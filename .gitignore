@@ -5,6 +5,7 @@ obj
 *.pidb
 *.suo
 *.vsp
+*.ipch
 
 /Setup/Accord.Setup.dll
 /Setup/Accord.Setup.pdb
@@ -20,6 +21,8 @@ obj
 /Docs
 /Unit Tests/Accord.Tests.Math.Cpp/Debug
 /Unit Tests/Accord.Tests.Math.Cpp/Release
+/Unit Tests/packages
+
 /Sources/Debug
 /Sources/Release
 

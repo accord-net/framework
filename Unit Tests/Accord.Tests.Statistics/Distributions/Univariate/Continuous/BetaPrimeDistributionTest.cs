@@ -23,29 +23,13 @@
 namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics.Distributions.Univariate.Continuous;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
 
-    [TestClass]
+    [TestFixture]
     public class BetaPrimeDistributionTest
     {
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-        [TestMethod]
+        [Test]
         public void Confirm_BetPrimeDistribution_Relative_to_F_Distribution()
         {
             double alpha = 4.0d;
@@ -69,7 +53,7 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
         }
 
 
-        [TestMethod()]
+        [Test]
         public void Constructor_ExtensiveTestForDocumentation()
         {
             // Create a new Beta-Prime distribution with shape (4,2)

@@ -24,15 +24,15 @@ namespace Accord.Tests.Statistics
 {
     using System.Linq;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Tools = Accord.Statistics.Tools;
     using Accord.Statistics;
 
-    [TestClass()]
+    [TestFixture]
     public class ToolsTest
     {
 
-        [TestMethod()]
+        [Test]
         public void CenteringTest()
         {
 
@@ -76,7 +76,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MahalanobisTest()
         {
             double[] x = { 1, 0 };
@@ -103,7 +103,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 0.0001);
         }
 
-        [TestMethod()]
+        [Test]
         public void SubgroupTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -140,7 +140,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void StandardDeviationTest4()
         {
             double[][] matrix = 
@@ -159,7 +159,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(stdev2.IsEqual(stdev));
         }
 
-        [TestMethod()]
+        [Test]
         public void StandardDeviationTest3()
         {
             double[,] matrix = 
@@ -178,7 +178,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(stdev2.IsEqual(stdev));
         }
 
-        [TestMethod()]
+        [Test]
         public void StandardDeviationTest2()
         {
             double[] values = { -5, 0.2, 2 };
@@ -187,7 +187,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedVarianceTest1()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
@@ -202,7 +202,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedVarianceTest3()
         {
             double[] weights = { 2, 1, 1, 1, 2, 3, 1, 3, 1, 1, 1, 1 };
@@ -214,7 +214,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.3655172413793104, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedVarianceTest2()
         {
             double[] original = { 5, 5, 1, 4, 1, 2, 2, 3, 3, 3, 4, 3, 3, 3, 4, 3, 2, 3 };
@@ -228,7 +228,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MeanTest4()
         {
             double[,] matrix = 
@@ -246,7 +246,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void MeanTest3()
         {
             double[] values = { -5, 0.2, 2 };
@@ -255,7 +255,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void MeanTest()
         {
             double[,] matrix = 
@@ -272,7 +272,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MedianTest1()
         {
             double[] values;
@@ -290,7 +290,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest2()
         {
             double[][] matrix = 
@@ -316,7 +316,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             double[,] matrix = 
@@ -342,7 +342,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(median.IsEqual(2.0000, 7.0000, 2.5000, 0.2000));
         }
 
-        [TestMethod()]
+        [Test]
         public void QuartileTest1()
         {
             double[] values = new double[] { 3, 4, 8 };
@@ -354,7 +354,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(8, q3);
         }
 
-        [TestMethod()]
+        [Test]
         public void QuartileTest2()
         {
             double[] values = new double[] { 1, 3, 3, 4, 5, 6, 6, 7, 8, 8 };
@@ -366,7 +366,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(7, q3);
         }
 
-        [TestMethod()]
+        [Test]
         public void QuartileTest3()
         {
             double[] values = new double[] { 102, 104, 105, 107, 108, 109, 110, 112, 115, 116, 118 };
@@ -378,7 +378,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(115, q3);
         }
 
-        [TestMethod()]
+        [Test]
         public void QuartileTest4()
         {
             // This is equivalent to R's type 6. This is the 
@@ -402,7 +402,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.28744808199999999, q3);
         }
 
-        [TestMethod()]
+        [Test]
         public void ModeTest1()
         {
             double[] values = { 3, 3, 1, 4 };
@@ -411,7 +411,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ModeTest()
         {
             double[,] matrix = 
@@ -427,7 +427,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ModeTest2()
         {
             double[] values = { 0, 1, 1, 2 };
@@ -437,7 +437,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ModeTest3()
         {
             double[] values = { 0, 1, 2, 2 };
@@ -447,7 +447,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ModeTest_NonComparable()
         {
             object a = new object();
@@ -486,7 +486,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4, count);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedModeTest_NonComparable()
         {
             object a = new object();
@@ -538,7 +538,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(c, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void ModeTest_Comparable()
         {
             int a = 1;
@@ -577,7 +577,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(4, count);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedModeTest1()
         {
             double[] values = { 0, 1, 1, 2 };
@@ -588,7 +588,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedModeTest2()
         {
             double[] values = { 0, 1, 1, 2 };
@@ -599,7 +599,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedCountsModeTest1()
         {
             double[] values = { 0, 1, 1, 2 };
@@ -610,7 +610,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void WeightedCountsModeTest2()
         {
             double[] values = { 0, 1, 1, 2 };
@@ -622,7 +622,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void CovarianceTest()
         {
             double[,] matrix = new double[,]
@@ -656,7 +656,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void CovarianceTest2()
         {
             double[][] matrix = new double[,]
@@ -690,7 +690,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void CovarianceTest3()
         {
             double[][] matrix = new double[,]
@@ -721,7 +721,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void CovarianceTest5()
         {
             double[][] matrix = new double[,]
@@ -754,7 +754,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void CovarianceTest6()
         {
             double[][] matrix = new double[,]
@@ -786,7 +786,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void CovarianceTest4()
         {
             double[] u = { -2, 1, 5 };
@@ -799,7 +799,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 0.0001);
         }
 
-        [TestMethod()]
+        [Test]
         public void VarianceTest7()
         {
             double[][] matrix = new double[,]
@@ -826,7 +826,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
 
-        [TestMethod()]
+        [Test]
         public void VarianceTest8()
         {
             double[,] matrix = 
@@ -853,7 +853,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 1e-10));
         }
 
-        [TestMethod()]
+        [Test]
         public void CorrelationTest()
         {
             // http://www.solvemymath.com/online_math_calculator/statistics/descriptive/correlation.php
@@ -885,7 +885,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ProportionsTest()
         {
             int[,] summary =
@@ -909,7 +909,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.000000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void GroupTest()
         {
 
@@ -941,7 +941,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ExtendTest()
         {
             int[,] summary =
@@ -976,7 +976,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(expected, actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ShuffleTest()
         {
             int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 };
@@ -989,7 +989,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ExtendTest2()
         {
             int[][] data = 
@@ -1024,7 +1024,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void KurtosisTest()
         {
             double[] values = { 3.4, 7.1, 1.5, 8.6, 4.9 };
@@ -1033,7 +1033,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void SkewnessTest()
         {
             double[] values = { 3.4, 7.1, 1.5, 8.6, 4.9 };
@@ -1042,7 +1042,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void KurtosisTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -1051,7 +1051,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(-1.1997826610738631, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void SkewnessTest2()
         {
             Accord.Math.Random.Generator.Seed = 0;
@@ -1061,7 +1061,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void WhiteningTest()
         {
             double[,] value = 
@@ -1088,7 +1088,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void PooledVarianceTest()
         {
             double[][] samples = 
@@ -1105,7 +1105,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void PooledStandardDeviationTest()
         {
             double[][] samples = 
@@ -1122,7 +1122,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void EntropyTest()
         {
             {
@@ -1154,7 +1154,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void RankTest1()
         {
             double[] values = { 2, 3, 4, 4, 5, 6, 8, 10, 10, 14, 16, 20, 32, 40 };
@@ -1165,7 +1165,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void RankTest2()
         {
             double[] values = { 7, 1, 2, 1, 7, 8, 1, 1, 2, 0, 10, 27 };
@@ -1178,7 +1178,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(copy.IsEqual(values));
         }
 
-        [TestMethod()]
+        [Test]
         public void MatrixModeTest2()
         {
             int[][] matrix = 
@@ -1199,7 +1199,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected[2], actual[2]);
         }
 
-        [TestMethod()]
+        [Test]
         public void MatrixModeTest3()
         {
             double[][] matrix = 
@@ -1220,7 +1220,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected[2], actual[2]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ModeTest4()
         {
             int[] values = { 2, 5, 1, 6, 4, 1, 2, 6, 2, 6, 8, 2, 6, 2, 2 };
@@ -1229,7 +1229,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void KurtosisMatrixTest1()
         {
             double[,] matrix = 
@@ -1258,7 +1258,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void KurtosisMatrixTest2()
         {
             double[][] matrix = 
@@ -1287,7 +1287,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void SkewnessMatrixTest1()
         {
             double[,] matrix = 
@@ -1315,7 +1315,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void SkewnessMatrixTest()
         {
             double[][] matrix = 

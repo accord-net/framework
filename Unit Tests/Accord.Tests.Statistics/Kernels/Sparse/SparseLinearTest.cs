@@ -24,30 +24,13 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SparseLinearTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Linear dense = new Linear(1);
@@ -76,7 +59,56 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
+        public void FunctionTest2()
+        {
+            SparseLinearTest.SparseTest(new Linear(), new SparseLinear());
+            SparseLinearTest.SparseTest(new Linear(1), new SparseLinear(1));
+        }
+
+        public static void SparseTest(KernelBase denseKernel, KernelBase sparseKernel)
+        {
+            double[][] sparse =
+            {
+                new double[] { },
+                new double[] { 2, 1 },
+                new double[] { 1, 1 },
+                new double[] { 1, 1, 2, 1 }
+            };
+
+            double[][] dense =
+            {
+                new double[] { 0, 0 },
+                new double[] { 0, 1 },
+                new double[] { 1, 0 },
+                new double[] { 1, 1 },
+            };
+
+            for (int i = 0; i < sparse.Length; i++)
+            {
+                for (int j = 0; j < sparse.Length; j++)
+                {
+                    double expected = denseKernel.Function(dense[i], dense[j]);
+                    double actual = sparseKernel.Function(sparse[i], sparse[j]);
+
+                    Assert.AreEqual(expected, actual);
+                }
+            }
+
+            for (int i = 0; i < sparse.Length; i++)
+            {
+                for (int j = 0; j < sparse.Length; j++)
+                {
+                    double expected = denseKernel.Distance(dense[i], dense[j]);
+                    double actual = sparseKernel.Distance(sparse[i], sparse[j]);
+
+                    Assert.AreEqual(expected, actual);
+                }
+            }
+        }
+
+
+        [Test]
         public void DistanceTest()
         {
             Linear dense = new Linear(1);

@@ -24,13 +24,13 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics;
     using Accord.Statistics.Running;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;  
+    using NUnit.Framework;  
     
-    [TestClass()]
+    [TestFixture]
     public class RunningNormalStatisticsTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ClearTest()
         {
             double[] values = { 0.5, -1.2, 0.7, 0.2, 1.1 };
@@ -52,7 +52,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(Tools.Variance(values2), target.Variance, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void MeanTest()
         {
             double[] values = { 0.5, -1.2, 0.7, 0.2, 1.1 };
@@ -68,7 +68,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void StandardDeviationTest()
         {
             double[] values = { 0.5, -1.2, 0.7, 0.2, 1.1 };
@@ -84,7 +84,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void VarianceTest()
         {
             double[] values = { 0.5, -1.2, 0.7, 0.2, 1.1 };
@@ -100,7 +100,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunningNormalStatisticsConstructorTest()
         {
             RunningNormalStatistics target = new RunningNormalStatistics();

@@ -24,12 +24,12 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class SkewNormalDistributionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             // Create a Skew normal distribution with location 2, scale 3 and shape 4.2
@@ -98,7 +98,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(9.7274879203457694, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var normal = SkewNormalDistribution.Normal(mean: 4, stdDev: 4.2);

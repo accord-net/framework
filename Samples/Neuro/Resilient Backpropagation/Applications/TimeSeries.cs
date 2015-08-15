@@ -48,7 +48,7 @@ using Accord.IO;
 using System.Globalization;
 using Accord.Math;
 
-namespace Samples.Rprop
+namespace SampleApp
 {
     public class TimeSeries : System.Windows.Forms.Form
     {
@@ -104,12 +104,8 @@ namespace Samples.Rprop
         private GroupBox groupBox3;
         private double[,] predictionDelimiter = new double[2, 2] { { 0, 0 }, { 0, 0 } };
 
-        // Constructor
         public TimeSeries()
         {
-            //
-            // Required for Windows Form Designer support
-            //
             InitializeComponent();
 
             // initialize chart control

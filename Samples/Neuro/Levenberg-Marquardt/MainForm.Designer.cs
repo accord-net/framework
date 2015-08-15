@@ -1,4 +1,4 @@
-﻿namespace Samples.LM
+﻿namespace SampleApp
 {
     partial class MainForm
     {

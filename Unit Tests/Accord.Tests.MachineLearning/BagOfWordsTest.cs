@@ -27,10 +27,10 @@ namespace Accord.Tests.MachineLearning
     using System.Runtime.Serialization.Formatters.Binary;
     using Accord.MachineLearning;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class BagOfWordsTest
     {
 
@@ -58,7 +58,7 @@ namespace Accord.Tests.MachineLearning
             "Sed consectetur nisl et diam mattis varius. Aliquam ornare tincidunt arcu eget adipiscing. Etiam quis augue lectus, vel sollicitudin lorem. Fusce lacinia, leo non porttitor adipiscing, mauris purus lobortis ipsum, id scelerisque erat neque eget nunc. Suspendisse potenti. Etiam non urna non libero pulvinar consequat ac vitae turpis. Nam urna eros, laoreet id sagittis eu, posuere in sapien. Phasellus semper convallis faucibus. Nulla fermentum faucibus tellus in rutrum. Maecenas quis risus augue, eu gravida massa.".Replace(",", "").Replace(".", "").Split(' ')
         };
 
-        [TestMethod()]
+        [Test]
         public void GetFeatureVectorTest()
         {
             BagOfWords target = new BagOfWords(texts);
@@ -75,7 +75,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.IsFalse(actual[i] == 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetFeatureVectorTest2()
         {
             BagOfWords target = new BagOfWords(texts);
@@ -92,7 +92,7 @@ namespace Accord.Tests.MachineLearning
                 Assert.IsFalse(actual[i] == 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             BagOfWords target = new BagOfWords();
@@ -116,7 +116,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void SerializationTest()
         {
             BagOfWords target = new BagOfWords();

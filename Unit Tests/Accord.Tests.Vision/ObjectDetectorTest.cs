@@ -23,16 +23,16 @@
 namespace Accord.Tests.Vision
 {
     using Accord.Vision;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Drawing;
     using Accord.Vision.Detection;
     using Accord.Vision.Detection.Cascades;
 
-    [TestClass()]
+    [TestFixture]
     public class ObjectDetectorTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ProcessFrame()
         {
             HaarCascade cascade = new FaceHaarCascade();
@@ -50,7 +50,7 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(59, target.DetectedObjects[0].Height);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProcessFrame2()
         {
             HaarCascade cascade = new FaceHaarCascade();
@@ -80,7 +80,7 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(123, target.DetectedObjects[0].Height);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProcessFrame3()
         {
             HaarCascade cascade = new FaceHaarCascade();
@@ -119,7 +119,7 @@ namespace Accord.Tests.Vision
             Assert.AreEqual(1, target.DetectedObjects.Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void MinSizeTest()
         {
             HaarCascade cascade = new FaceHaarCascade();
@@ -158,7 +158,7 @@ namespace Accord.Tests.Vision
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MaxSizeTest()
         {
             HaarCascade cascade = new FaceHaarCascade();

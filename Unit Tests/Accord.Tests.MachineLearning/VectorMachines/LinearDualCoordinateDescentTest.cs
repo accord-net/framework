@@ -22,36 +22,19 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
+    using System;
 
-    [TestClass()]
+    [TestFixture]
     public class LinearDualCoordinateDescentTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void LearnTest()
         {
 
@@ -83,14 +66,16 @@ namespace Accord.Tests.MachineLearning
             var learn = new LinearDualCoordinateDescent(machine, augmented, xor);
 
             // Run the learning algorithm
-            learn.Run();
+            double error = learn.Run();
+
+            Assert.AreEqual(0, error);
 
             int[] output = augmented.Apply(p => Math.Sign(machine.Compute(p)));
             for (int i = 0; i < output.Length; i++)
                 Assert.AreEqual(System.Math.Sign(xor[i]), System.Math.Sign(output[i]));
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest5()
         {
             var dataset = SequentialMinimalOptimizationTest.yinyang;
@@ -106,6 +91,8 @@ namespace Accord.Tests.MachineLearning
                 smo.UseComplexityHeuristic = true;
 
                 double error = smo.Run();
+
+                Assert.AreEqual(0.2, error);
 
                 Assert.AreEqual(0.11714451552090824, smo.Complexity);
 
@@ -130,6 +117,8 @@ namespace Accord.Tests.MachineLearning
 
                 double error = smo.Run();
 
+                Assert.AreEqual(0.18, error);
+
                 Assert.AreEqual(0.11714451552090821, smo.Complexity, 1e-15);
 
                 int[] actual = new int[labels.Length];
@@ -152,6 +141,8 @@ namespace Accord.Tests.MachineLearning
                 smo.Loss = Loss.L1;
 
                 double error = smo.Run();
+
+                Assert.AreEqual(0.2, error);
 
                 Assert.AreEqual(0.11714451552090821, smo.Complexity, 1e-15);
 

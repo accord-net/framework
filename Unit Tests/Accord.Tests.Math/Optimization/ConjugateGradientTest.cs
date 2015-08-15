@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     
-    [TestClass()]
+    [TestFixture]
     public class ConjugateGradientTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void MinimizeTest()
         {
             Func<double[], double> f = BroydenFletcherGoldfarbShannoTest.rosenbrockFunction;
@@ -88,7 +88,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(double.IsNaN(d[1]));
         }
 
-        [TestMethod()]
+        [Test]
         public void MinimizeTest2()
         {
             Func<double[], double> f = BroydenFletcherGoldfarbShannoTest.rosenbrockFunction;
@@ -129,7 +129,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(double.IsNaN(d[1]));
         }
 
-        [TestMethod()]
+        [Test]
         public void MinimizeTest3()
         {
             Func<double[], double> f = BroydenFletcherGoldfarbShannoTest.rosenbrockFunction;

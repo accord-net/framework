@@ -23,12 +23,12 @@
 namespace Accord.Tests.Audio
 {
     using Accord.DirectSound;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Audio;
     using Accord.Audio.Formats;
     using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class WaveEncoderTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Audio
 
 
 
-        [TestMethod()]
+        [Test]
         public void WaveEncoderConstructorTest()
         {
             // Load a file in PCM 16bpp format
@@ -65,7 +65,7 @@ namespace Accord.Tests.Audio
             // sizeof(int)   = 4
             // sizeof(short) = 2
 
-            UnmanagedMemoryStream sourceStream = Properties.Resources.Grand_Piano___Fazioli___major_A_middle;
+            UnmanagedMemoryStream sourceStream = Properties.Resources.a;
             MemoryStream destinationStream = new MemoryStream();
 
             // Create a decoder for the source stream

@@ -27,10 +27,10 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
 
-    [TestClass()]
+    [TestFixture]
     public class LogisticRegressionTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             // Suppose we have the following data about some patients.
@@ -151,7 +151,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
         }
 
-        [TestMethod()]
+        [Test]
         public void RegressTest()
         {
 
@@ -257,7 +257,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(analysis.Coefficients[1].ConfidenceUpper));
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             double[][] input =
@@ -322,7 +322,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.7678893101571855, regression.Coefficients[2], 1e-8);
         }
 
-        [TestMethod()]
+        [Test]
         public void LargeCoefficientsTest()
         {
             double[,] data =
@@ -441,7 +441,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(44.089493151268726, regression.Coefficients[3]);
         }
 
-        [TestMethod()]
+        [Test]
         public void RegularizationTest2()
         {
             CsvReader reader = CsvReader.FromText(Properties.Resources.regression, true);

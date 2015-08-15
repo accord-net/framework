@@ -24,10 +24,10 @@ namespace Accord.Tests.Math
 {
     using System;
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class LinearConstraintTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest1()
         {
             var f = new QuadraticObjectiveFunction("a + b = 0");
@@ -89,7 +89,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest2()
         {
             double a = 0, b = 0;

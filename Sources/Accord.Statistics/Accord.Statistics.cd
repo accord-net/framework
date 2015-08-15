@@ -3,12 +3,12 @@
   <Class Name="Accord.Statistics.Tools">
     <Position X="1.5" Y="1.25" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AQDBAkAIBYABhAgAAIADAAIwlCAABgFEgAAAgCAoFCQ=</HashCode>
-      <FileName>Tools.cs</FileName>
+      <HashCode>AQDBAkAIBYYRhAgAAIADAAI4lCgABgFEgAggoCAoFCQ=</HashCode>
+      <FileName>Measures\Measures.Matrix.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Accord.Statistics.Visualizations.Histogram">
-    <Position X="2.75" Y="10.25" Width="2" />
+    <Position X="8" Y="9" Width="2" />
     <Members>
       <Field Name="binCollection" Hidden="true" />
       <Field Name="binRanges" Hidden="true" />
@@ -36,7 +36,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Statistics.Visualizations.HistogramBin">
-    <Position X="0.5" Y="10.5" Width="1.5" />
+    <Position X="5.75" Y="9.25" Width="1.5" />
     <Members>
       <Field Name="histogram" Hidden="true" />
       <Field Name="index" Hidden="true" />
@@ -129,7 +129,7 @@
   <Class Name="Accord.Statistics.Filters.Codification" Collapsed="true">
     <Position X="7" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAIAAAAAAACAAAAAAAAAAAAAAEAAAACAA=</HashCode>
+      <HashCode>AAAAAAAAAAQAIAAAAAAACAAAAAAAAAAAAAAEAAAACAA=</HashCode>
       <FileName>Filters\Codification.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

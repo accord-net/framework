@@ -26,6 +26,7 @@ namespace Accord.MachineLearning.VectorMachines.Learning
     using Accord.Math;
     using System.Threading.Tasks;
     using System.Threading;
+    using System.Collections.Concurrent;
 
     /// <summary>
     ///   Configuration function to configure the learning algorithms
@@ -383,58 +384,66 @@ namespace Accord.MachineLearning.VectorMachines.Learning
 
             msvm.Reset();
 
+            // Save exceptions but process all machines
+            var exceptions = new ConcurrentBag<Exception>();
 
-            try
+            // For each class i
+            Parallel.For(0, total, k =>
             {
-                // For each class i
-                Parallel.For(0, total, k =>
+                if (token.IsCancellationRequested)
+                    return;
+
+                int i = pairs[k].Item1;
+                int j = pairs[k].Item2;
+
+                // We will start the binary sub-problem
+                var args = new SubproblemEventArgs(i, j);
+                OnSubproblemStarted(args);
+
+                // Retrieve the associated machine
+                KernelSupportVectorMachine machine = msvm[i, j];
+
+                // Retrieve the associated classes
+                int[] idx = outputs.Find(x => x == i || x == j);
+
+                double[][] subInputs = inputs.Submatrix(idx);
+                int[] subOutputs = outputs.Submatrix(idx);
+
+
+                // Transform it into a two-class problem
+                subOutputs.ApplyInPlace(x => x = (x == i) ? -1 : +1);
+
+                // Train the machine on the two-class problem.
+                var subproblem = configure(machine, subInputs, subOutputs, i, j);
+
+                var canCancel = (subproblem as ISupportCancellation);
+
+                try
                 {
-                    if (token.IsCancellationRequested)
-                        return;
-
-                    int i = pairs[k].Item1;
-                    int j = pairs[k].Item2;
-
-                    // We will start the binary sub-problem
-                    var args = new SubproblemEventArgs(i, j);
-                    OnSubproblemStarted(args);
-
-                    // Retrieve the associated machine
-                    KernelSupportVectorMachine machine = msvm[i, j];
-
-                    // Retrieve the associated classes
-                    int[] idx = outputs.Find(x => x == i || x == j);
-
-                    double[][] subInputs = inputs.Submatrix(idx);
-                    int[] subOutputs = outputs.Submatrix(idx);
-
-
-                    // Transform it into a two-class problem
-                    subOutputs.ApplyInPlace(x => x = (x == i) ? -1 : +1);
-
-                    // Train the machine on the two-class problem.
-                    var subproblem = configure(machine, subInputs, subOutputs, i, j);
-
-                    var canCancel = (subproblem as ISupportCancellation);
-
                     if (canCancel != null)
                         canCancel.Run(false, token);
                     else subproblem.Run(false);
+                }
+                catch (Exception ex)
+                {
+                    exceptions.Add(ex);
+                }
+
+                // Update and report progress
+                args.Progress = Interlocked.Increment(ref progress);
+                args.Maximum = total;
+
+                OnSubproblemFinished(args);
+            });
 
 
-                    // Update and report progress
-                    args.Progress = Interlocked.Increment(ref progress);
-                    args.Maximum = total;
-
-                    OnSubproblemFinished(args);
-                });
-            }
-            catch (AggregateException ae)
+            if (exceptions.Count > 0)
             {
-                if (ae.InnerException is ConvergenceException)
-                    throw ae.InnerException;
-                throw;
+                throw new AggregateException("One or more exceptions were thrown when teaching "
+                    + "the machines. Please check the InnerException property of this AggregateException "
+                    + "to discover what exactly caused this error.", exceptions);
             }
+
 
             // Compute error if required.
             return (computeError) ? ComputeError(inputs, outputs) : 0.0;

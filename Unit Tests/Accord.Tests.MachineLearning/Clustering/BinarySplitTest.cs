@@ -24,9 +24,9 @@ namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     
-    [TestClass()]
+    [TestFixture]
     public class BinarySplitTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void BinarySplitConstructorTest()
         {
 
@@ -103,7 +103,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(orig.IsEqual(observations));
         }
 
-        [TestMethod()]
+        [Test]
         public void BinarySplitConstructorTest3()
         {
             // Create a new algorithm

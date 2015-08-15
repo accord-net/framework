@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Testing;
 
-    [TestClass()]
+    [TestFixture]
     public class GompertzDistributionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var gompertz = new GompertzDistribution(eta: 4.2, b: 1.1);
@@ -92,7 +92,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.67295877422837591, range3.Max, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var gompertz = new GompertzDistribution(eta: 0.2, b: 1.1);
@@ -127,7 +127,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("Gompertz(x; η = 0.2, b = 1.1)", str);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest3()
         {
             try
@@ -145,7 +145,7 @@ namespace Accord.Tests.Statistics
             catch { }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             var target = new GompertzDistribution(eta: 42, b: 4.2);

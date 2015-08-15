@@ -122,13 +122,15 @@ namespace Classification.Bayes
             var y2 = bayes.Distributions[1, 1].Generate(1000);
 
             // Combine in a single graph
-            var w1 = Matrix.Stack(x1, y1).Transpose();
-            var w2 = Matrix.Stack(x2, y2).Transpose();
+            double[,] w1 = Matrix.Stack(x1, y1).Transpose();
+            double[,] w2 = Matrix.Stack(x2, y2).Transpose();
 
-            var z = Matrix.Vector(2000, value: 1.0);
-            for (int i = 0; i < 1000; i++) z[i] = 0;
+            double[] z = Matrix.Vector(2000, value: 1.0);
+            for (int i = 0; i < 1000; i++) 
+                z[i] = 0;
 
-            var graph = Matrix.Stack(w1, w2).Concatenate(z);
+            var a = Matrix.Stack<double>(new double[][,] { w1, w2 });
+            var graph = a.Concatenate(z);
 
             CreateScatterplot(zedGraphControl2, graph);
 

@@ -24,6 +24,7 @@
 namespace Accord
 {
     using System;
+    using System.Collections.Generic;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -34,12 +35,17 @@ namespace Accord
     [Serializable]
     public class AggregateException : Exception
     {
-        
-         /// <summary>
+
+        List<Exception> exceptions;
+
+        /// <summary>
         ///   Initializes a new instance of the <see cref="AggregateException"/> class.
         /// </summary>
         /// 
-        public AggregateException() { }
+        public AggregateException()
+        {
+            exceptions = new List<Exception>();
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="AggregateException"/> class.
@@ -48,7 +54,10 @@ namespace Accord
         /// <param name="message">Message providing some additional information.</param>
         /// 
         public AggregateException(string message) :
-            base(message) { }
+            base(message)
+        {
+            exceptions = new List<Exception>();
+        }
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="AggregateException"/> class.
@@ -58,7 +67,23 @@ namespace Accord
         /// <param name="innerException">The exception that is the cause of the current exception.</param>
         /// 
         public AggregateException(string message, Exception innerException) :
-            base(message, innerException) { }
+            base(message, innerException)
+        {
+            exceptions = new List<Exception>() { innerException };
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref="AggregateException"/> class.
+        /// </summary>
+        /// 
+        /// <param name="message">Message providing some additional information.</param>
+        /// <param name="innerExceptions">The exceptions that are the cause of the current exception.</param>
+        /// 
+        public AggregateException(string message, IEnumerable<Exception> innerExceptions) :
+            base(message, innerExceptions.GetEnumerator().Current)
+        {
+            exceptions = new List<Exception>(innerExceptions);
+        }
 
 
         /// <summary>

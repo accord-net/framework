@@ -20,42 +20,24 @@
 //    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 //
 
-using Accord.Statistics.Kernels.Sparse;
-using Accord.Statistics.Kernels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Accord.Tests.Statistics
 {
+    using Accord.Statistics.Kernels.Sparse;
+    using Accord.Statistics.Kernels;
+    using NUnit.Framework;
 
-
-    /// <summary>
-    ///This is a test class for SparseLinearTest and is intended
-    ///to contain all SparseLinearTest Unit Tests
-    ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class SparseCauchyTest
     {
 
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
+        [Test]
+        public void FunctionTest2()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            SparseLinearTest.SparseTest(new Cauchy(0), new SparseCauchy(0));
+            SparseLinearTest.SparseTest(new Cauchy(3.6), new SparseCauchy(3.6));
         }
 
-
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Cauchy dense = new Cauchy(3.6);
@@ -84,6 +66,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        
+
     }
 }

@@ -26,10 +26,10 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class ProbabilisticOutputLearningTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest1()
         {
             double[][] inputs = 
@@ -114,7 +114,7 @@ namespace Accord.Tests.MachineLearning
 
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest3()
         {
             // Example XOR problem
@@ -164,7 +164,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             double[][] inputs =

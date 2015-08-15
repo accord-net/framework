@@ -1,4 +1,4 @@
-﻿namespace Demixing.ICA
+﻿namespace SampleApp
 {
     partial class MainForm
     {
@@ -69,7 +69,7 @@
             // 
             // btnRunAnalysis
             // 
-            this.btnRunAnalysis.Image = global::Demixing.ICA.Properties.Resources.gears;
+            this.btnRunAnalysis.Image = global::SampleApp.Properties.Resources.gears;
             this.btnRunAnalysis.Location = new System.Drawing.Point(380, 153);
             this.btnRunAnalysis.Name = "btnRunAnalysis";
             this.btnRunAnalysis.Size = new System.Drawing.Size(161, 170);
@@ -82,7 +82,7 @@
             // btnSource1
             // 
             this.btnSource1.Enabled = false;
-            this.btnSource1.Image = global::Demixing.ICA.Properties.Resources.sound;
+            this.btnSource1.Image = global::SampleApp.Properties.Resources.sound;
             this.btnSource1.Location = new System.Drawing.Point(54, 261);
             this.btnSource1.Name = "btnSource1";
             this.btnSource1.Size = new System.Drawing.Size(139, 166);
@@ -94,7 +94,7 @@
             // 
             // btnMic2
             // 
-            this.btnMic2.Image = global::Demixing.ICA.Properties.Resources.mic;
+            this.btnMic2.Image = global::SampleApp.Properties.Resources.mic;
             this.btnMic2.Location = new System.Drawing.Point(158, 12);
             this.btnMic2.Name = "btnMic2";
             this.btnMic2.Size = new System.Drawing.Size(139, 163);
@@ -106,7 +106,7 @@
             // 
             // btnMic1
             // 
-            this.btnMic1.Image = global::Demixing.ICA.Properties.Resources.mic;
+            this.btnMic1.Image = global::SampleApp.Properties.Resources.mic;
             this.btnMic1.Location = new System.Drawing.Point(13, 12);
             this.btnMic1.Name = "btnMic1";
             this.btnMic1.Size = new System.Drawing.Size(139, 163);
@@ -119,7 +119,7 @@
             // btnSource2
             // 
             this.btnSource2.Enabled = false;
-            this.btnSource2.Image = global::Demixing.ICA.Properties.Resources.sound;
+            this.btnSource2.Image = global::SampleApp.Properties.Resources.sound;
             this.btnSource2.Location = new System.Drawing.Point(199, 261);
             this.btnSource2.Name = "btnSource2";
             this.btnSource2.Size = new System.Drawing.Size(139, 166);

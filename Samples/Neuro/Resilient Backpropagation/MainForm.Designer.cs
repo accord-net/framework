@@ -1,4 +1,4 @@
-﻿namespace Samples.Rprop
+﻿namespace SampleApp
 {
     partial class MainForm
     {

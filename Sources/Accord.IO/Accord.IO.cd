@@ -6,7 +6,7 @@
       <Field Name="strConnection" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>IABAAAAACAEECAAAAAEABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>IABAAAAACAEMCAAAAAEABCAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ExcelReader.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -17,7 +17,7 @@
       <Field Name="sampleSize" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAABAAACgAAQAAgQAAAAAQAAAAAAAQAAA=</HashCode>
+      <HashCode>AAAAAAAAACAAABAAACgAAQIAgQAAAAAQAAAAAgAUCAA=</HashCode>
       <FileName>SparseReader.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -32,7 +32,7 @@
       <Field Name="type" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AAAAEAAQACJAAAAAABgAABIgkAABAABgAABEAAAQAAA=</HashCode>
+      <HashCode>AAAAEAAQACJAAAAAAhgAABIgkAABAARgAABEAAAQAAA=</HashCode>
       <FileName>IdxReader.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -40,48 +40,61 @@
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Accord.IO.MatNode" BaseTypeListCollapsed="true">
-    <Position X="3.75" Y="3.75" Width="3.25" />
+  <Class Name="Accord.IO.CsvReader" BaseTypeListCollapsed="true">
+    <Position X="0.75" Y="6.25" Width="2.75" />
     <Members>
-      <Field Name="bytes" Hidden="true" />
-      <Field Name="compressed" Hidden="true" />
-      <Field Name="contents" Hidden="true" />
-      <Field Name="dimensions" Hidden="true" />
-      <Field Name="length" Hidden="true" />
-      <Field Name="matrixOffset" Hidden="true" />
-      <Field Name="matType" Hidden="true" />
-      <Field Name="readBytes" Hidden="true" />
-      <Field Name="reader" Hidden="true" />
-      <Field Name="startOffset" Hidden="true" />
-      <Property Name="this" Hidden="true" />
-      <Field Name="type" Hidden="true" />
-      <Field Name="typeSize" Hidden="true" />
-      <Field Name="value" Hidden="true" />
+      <Field Name="_buffer" Hidden="true" />
+      <Field Name="_bufferLength" Hidden="true" />
+      <Field Name="_bufferSize" Hidden="true" />
+      <Field Name="_currentRecordIndex" Hidden="true" />
+      <Field Name="_eof" Hidden="true" />
+      <Field Name="_eol" Hidden="true" />
+      <Field Name="_fieldCount" Hidden="true" />
+      <Field Name="_fieldHeaderComparer" Hidden="true" />
+      <Field Name="_fieldHeaderIndexes" Hidden="true" />
+      <Field Name="_fieldHeaders" Hidden="true" />
+      <Field Name="_fields" Hidden="true" />
+      <Field Name="_firstRecordInCache" Hidden="true" />
+      <Field Name="_initialized" Hidden="true" />
+      <Field Name="_isDisposed" Hidden="true" />
+      <Field Name="_lock" Hidden="true" />
+      <Field Name="_missingFieldFlag" Hidden="true" />
+      <Field Name="_nextFieldIndex" Hidden="true" />
+      <Field Name="_nextFieldStart" Hidden="true" />
+      <Field Name="_parseErrorFlag" Hidden="true" />
+      <Field Name="_reader" Hidden="true" />
+      <Field Name="DefaultBufferSize" Hidden="true" />
+      <Field Name="DefaultComment" Hidden="true" />
+      <Field Name="DefaultDelimiter" Hidden="true" />
+      <Field Name="DefaultEscape" Hidden="true" />
+      <Field Name="DefaultQuote" Hidden="true" />
+      <Field Name="delimiters" Hidden="true" />
     </Members>
+    <NestedTypes>
+      <Enum Name="Accord.IO.CsvReader.DataReaderValidations" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Csv\CsvReader.IDataReader.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Struct Name="Accord.IO.CsvReader.RecordEnumerator" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Csv\CsvReader.RecordEnumerator.cs</NewMemberFileName>
+        </TypeIdentifier>
+        <Lollipop Position="0.2" />
+      </Struct>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AGAAAAEAAAAAABAACmBAAAQQAAQBASgAAABgAAAQAAQ=</HashCode>
-      <FileName>MatNode.cs</FileName>
+      <HashCode>UQtiuBAnCLkglDigCGDBTZGCpgCIR43GKYSgCBiGIFc=</HashCode>
+      <FileName>Csv\CsvReader.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="this[System.String]" />
-      <Property Name="this[System.Int32]" />
-    </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Accord.IO.MatReader" BaseTypeListCollapsed="true">
-    <Position X="1" Y="3.75" Width="2" />
-    <Members>
-      <Field Name="contents" Hidden="true" />
-      <Field Name="reader" Hidden="true" />
-      <Property Name="this" Hidden="true" />
-    </Members>
+  <Class Name="Accord.IO.CsvWriter" BaseTypeListCollapsed="true">
+    <Position X="4" Y="6.25" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>IEAAAEAAACAgAAAACAAAAAAAgAAAAAAAAAAEAAAQAAA=</HashCode>
-      <FileName>MatReader.cs</FileName>
+      <HashCode>AAIAEAAEAKAAAACIAECAAAAAgAAAAAAAAQAgAAEAAAA=</HashCode>
+      <FileName>Csv\CsvWriter.cs</FileName>
     </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="this[System.Int32]" />
-    </ShowAsCollectionAssociation>
     <Lollipop Position="0.2" />
   </Class>
   <Enum Name="Accord.IO.IdxDataType">
@@ -89,6 +102,27 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAKAAAAAAAAAAAACAgAAAAAAAAAgAgA=</HashCode>
       <FileName>IdxReader.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.IO.MissingFieldAction">
+    <Position X="7.75" Y="8.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAEAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Csv\MissingFieldAction.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.IO.ParseErrorAction">
+    <Position X="7" Y="6.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAQAAAAAAAEAAAAA=</HashCode>
+      <FileName>Csv\ParseErrorAction.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Accord.IO.ValueTrimmingOptions">
+    <Position X="9.5" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAACAAAAAAAIAAAAEAAAA=</HashCode>
+      <FileName>Csv\ValueTrimmingOptions.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />

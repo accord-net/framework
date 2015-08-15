@@ -27,13 +27,13 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class NormalDistributionTest
     {
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest5()
         {
             var normal = new NormalDistribution(mean: 4, stdDev: 4.2);
@@ -84,7 +84,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(13.770661070971531, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             double expectedMean = 1.125;
@@ -109,7 +109,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expectedMean, target.Mean);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest2()
         {
             NormalDistribution target;
@@ -124,7 +124,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             double mean = 7;
@@ -147,7 +147,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1, target.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             bool thrown = false;
@@ -158,7 +158,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest3()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -198,7 +198,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.0008, sampleDev, 1e-4);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             double x = 3;
@@ -214,7 +214,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-15);
         }
 
-        [TestMethod()]
+        [Test]
         public void ToMultivariateTest()
         {
             double x = 3;
@@ -237,7 +237,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-15);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest2()
         {
             double expected, actual;
@@ -254,7 +254,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             double x = 3;
@@ -270,7 +270,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-15);
         }
 
-        [TestMethod()]
+        [Test]
         public void StandardDensityFunctionTest()
         {
             for (int i = -100; i < 100; i++)
@@ -284,7 +284,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LogStandardDensityFunctionTest()
         {
             for (int i = -100; i < 100; i++)
@@ -298,7 +298,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             double x = 3;
@@ -314,7 +314,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-15);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest3()
         {
             double expected, actual;
@@ -339,7 +339,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseDistributionFunctionTest()
         {
             double[] expected =
@@ -360,7 +360,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ZScoreTest()
         {
             double x = 5;
@@ -375,7 +375,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void CloneTest()
         {
             NormalDistribution target = new NormalDistribution(0.5, 4.2);
@@ -390,7 +390,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest()
         {
             NormalDistribution target = new NormalDistribution(2, 5);
@@ -403,7 +403,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5, actual.StandardDeviation, 0.01);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             NormalDistribution target = new NormalDistribution(4, 2);
@@ -419,7 +419,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, actual.StandardDeviation, 0.01);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             NormalDistribution target = new NormalDistribution(0.4, 2.2);
@@ -428,7 +428,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void EstimateTest()
         {
             double[] values = { 1 };

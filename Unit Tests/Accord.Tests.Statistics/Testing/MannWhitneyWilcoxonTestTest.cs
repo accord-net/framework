@@ -4,10 +4,10 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Math;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class MannWhitneyWilcoxonTestTest
     {
 
@@ -28,7 +28,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void MannWhitneyWilcoxonTestConstructorTest()
         {
             // The following example comes from Richard Lowry's page at
@@ -85,7 +85,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(test.Significant);
         }
 
-        [TestMethod()]
+        [Test]
         public void MannWhitneyWilcoxonTestConstructorTest1()
         {
             // Example from Conover, "Practical nonparametric statistics", 1999  (pg. 218)

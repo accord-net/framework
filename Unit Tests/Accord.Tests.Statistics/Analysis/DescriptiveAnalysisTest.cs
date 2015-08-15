@@ -25,10 +25,10 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using AForge;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class DescriptiveAnalysisTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisConstructorTest1()
         {
             // Suppose we would like to compute descriptive
@@ -72,7 +72,7 @@ namespace Accord.Tests.Statistics
             test(analysis);
         }
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisConstructorTest4()
         {
             double[][] data =
@@ -92,7 +92,7 @@ namespace Accord.Tests.Statistics
             test(analysis);
         }
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisConstructorTest3()
         {
             // Suppose we would like to compute descriptive
@@ -195,7 +195,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(62, quartiles[0].Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisConstructorTest()
         {
             double[,] data = Matrix.Magic(3);
@@ -365,7 +365,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5, quartiles[2].Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisOneSampleTest()
         {
             double[] data = { 52 };
@@ -454,7 +454,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(52, outerFence[0].Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisTwoSampleTest()
         {
             double[][] data = 
@@ -549,7 +549,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(53, outerFence[0].Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void DescriptiveAnalysisNSampleTest()
         {
             for (int i = 1; i < 100; i++)
@@ -614,7 +614,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void DataBindTest()
         {
             double[,] data =

@@ -30,9 +30,9 @@ namespace Accord.Tests.Imaging
     using AForge;
     using AForge.Imaging;
     using AForge.Imaging.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ImageToMatrixTest
     {
 
@@ -52,7 +52,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ImageToMatrixConstructorTest()
         {
             double min = -10;
@@ -64,7 +64,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(0, target.Channel);
         }
 
-        [TestMethod()]
+        [Test]
         public void ImageToMatrixConstructorTest1()
         {
             ImageToMatrix target = new ImageToMatrix();
@@ -74,7 +74,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(0, target.Channel);
         }
 
-        [TestMethod()]
+        [Test]
         public void ImageToMatrixConstructorTest2()
         {
             double min = -10;
@@ -87,7 +87,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(channel, target.Channel);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest()
         {
             ImageToMatrix target = new ImageToMatrix(min: 0, max: 255);
@@ -125,7 +125,7 @@ namespace Accord.Tests.Imaging
                     Assert.AreEqual(outputExpected[i, j], output[i, j]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest2()
         {
             // Load a test image
@@ -161,7 +161,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(equals);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest3()
         {
             double[] pixels = 
@@ -213,7 +213,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(16 * 16, matrix.Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConvertTest4()
         {
             ImageToMatrix target = new ImageToMatrix(min: 0, max: 255);

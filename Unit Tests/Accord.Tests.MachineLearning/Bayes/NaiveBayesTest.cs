@@ -27,16 +27,16 @@ namespace Accord.Tests.MachineLearning
     using Accord.MachineLearning.Bayes;
     using Accord.Math;
     using Accord.Statistics.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Data;
     using System.Text;
 
-    [TestClass()]
+    [TestFixture]
     public class NaiveBayesTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void NaiveBayesConstructorTest()
         {
             int classes = 0;
@@ -49,7 +49,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void NaiveBayesConstructorTest2()
         {
             int classes = 2;
@@ -62,7 +62,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void NaiveBayesConstructorTest3()
         {
             int classes = 2;
@@ -75,7 +75,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void NaiveBayesConstructorTest4()
         {
             int classes = 2;
@@ -91,7 +91,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             DataTable data = new DataTable("Mitchell's Tennis Example");
@@ -159,7 +159,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(2, responses.Length);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
 
@@ -251,7 +251,7 @@ namespace Accord.Tests.MachineLearning
             return sb.ToString().Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             // Let's say we have the following data to be classified
@@ -285,7 +285,8 @@ namespace Accord.Tests.MachineLearning
             };
 
             // Create a discrete naive Bayes model for 3 classes and 4 binary inputs
-            var bayes = new NaiveBayes(classes: 3, symbols: new int[] { 2, 2, 2, 2 });
+            int[] symbols = new int[] { 2, 2, 2, 2 };
+            var bayes = new NaiveBayes(3, symbols);
 
             // Teach the model. The error should be zero:
             double error = bayes.Estimate(inputs, outputs);
@@ -304,7 +305,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void DistributionsTest()
         {
             int classes = 3;

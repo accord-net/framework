@@ -23,6 +23,7 @@
 namespace Accord
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Data;
     using System.Globalization;
@@ -37,6 +38,24 @@ namespace Accord
     /// 
     public static class ExtensionMethods
     {
+
+        /// <summary>
+        ///   Copies a collection by calling the ICloneable.Clone method for each element inside it.
+        /// </summary>
+        /// 
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list">The collection to be cloned.</param>
+        /// 
+        /// <returns>A copy of the collection where each element has also been copied.</returns>
+        /// 
+        public static T DeepClone<T>(this T list) 
+            where T : IList<ICloneable>, ICloneable
+        {
+            T clone = (T)list.Clone();
+            for (int i = 0; i < clone.Count; i++)
+                clone[i] = (ICloneable)list[i].Clone();
+            return clone;
+        }
 
         /// <summary>
         ///   Creates and adds multiple <see cref="System.Data.DataColumn"/>
@@ -107,23 +126,6 @@ namespace Accord
             handle.Free();
 
             return true;
-        }
-
-        /// <summary>
-        ///   Converts an object into another type, irrespective of whether
-        ///   the conversion can be done at compile time or not. This can be
-        ///   used to convert generic types to numeric types during runtime.
-        /// </summary>
-        /// 
-        /// <typeparam name="T">The destination type.</typeparam>
-        /// 
-        /// <param name="value">The value to be converted.</param>
-        /// 
-        /// <returns>The result of the conversion.</returns>
-        /// 
-        public static T To<T>(this object value)
-        {
-            return (T)System.Convert.ChangeType(value, typeof(T));
         }
 
         /// <summary>

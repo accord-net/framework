@@ -25,9 +25,9 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class StepwiseLogisticRegressionAnalysisTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
 
@@ -176,7 +176,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void DoStepTest()
         {
 

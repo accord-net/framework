@@ -120,6 +120,23 @@ namespace Accord.Statistics.Distributions.Univariate
         }
 
         /// <summary>
+        ///   Creates a new <see cref="GeneralContinuousDistribution"/> with the given PDF and CDF functions.
+        /// </summary>
+        /// 
+        /// <param name="distribution">A distribution whose properties will be numerically estimated.</param>
+        /// 
+        public GeneralContinuousDistribution(UnivariateContinuousDistribution distribution)
+        {
+            if (distribution == null)
+                throw new ArgumentNullException("distribution");
+
+            this.method = new InfiniteAdaptiveGaussKronrod(100);
+            this.pdf = distribution.ProbabilityDensityFunction;
+            this.cdf = distribution.DistributionFunction;
+            this.support = distribution.Support;
+        }
+
+        /// <summary>
         ///   Creates a new <see cref="GeneralContinuousDistribution"/> 
         ///   from an existing <see cref="UnivariateContinuousDistribution">
         ///   continuous distribution</see>.

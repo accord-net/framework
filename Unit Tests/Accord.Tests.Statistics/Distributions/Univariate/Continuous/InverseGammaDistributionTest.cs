@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class InverseGammaDistributionTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void InverseGammaDistributionConstructorTest()
         {
             double actual, expected;
@@ -89,7 +89,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseGammaDistributionConstructorTest2()
         {
             var invGamma = new InverseGammaDistribution(shape: 0.42, scale: 0.5);
@@ -138,7 +138,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(38513.540845383861, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             var target = new InverseGammaDistribution(shape: 4.2, scale: 7.8);

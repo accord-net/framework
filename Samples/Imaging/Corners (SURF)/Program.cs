@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Corners.SURF
+namespace SampleApp
 {
     static class Program
     {

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Accord.Vision")]
-[assembly: AssemblyDescription("Accord.NET - Statistics Library")]
+[assembly: AssemblyDescription("Accord.NET - Vision Library")]
 [assembly: AssemblyConfiguration("")]
 
 // This sets the default COM visibility of types in the assembly to invisible.

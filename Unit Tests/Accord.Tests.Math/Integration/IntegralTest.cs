@@ -24,11 +24,10 @@ namespace Accord.Tests.Math
 {
     using Accord.Math;
     using Accord.Math.Integration;
-    using AccordTestsMathCpp2;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class IntegralTest
     {
 
@@ -37,7 +36,7 @@ namespace Accord.Tests.Math
             return 2 + Math.Cos(2 * Math.Sqrt(x));
         }
 
-        [TestMethod()]
+        [Test]
         public void TrapezoidalTest()
         {
             double actual;
@@ -63,7 +62,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void MultipleTests_Examples()
         {
             // Let's say we would like to compute the definite
@@ -99,7 +98,7 @@ namespace Accord.Tests.Math
             return 1 / x;
         }
 
-        [TestMethod()]
+        [Test]
         public void RombergTest()
         {
             // Example from http://www.mathstat.dal.ca/~tkolokol/classes/1500/romberg.pdf
@@ -128,34 +127,13 @@ namespace Accord.Tests.Math
             return x * Math.Exp(-(x * x));
         }
 
-        [TestMethod()]
+        [Test]
         public void GaussKronrodTest()
         {
             double expected = Math.Sin(2);
             double actual = NonAdaptiveGaussKronrod.Integrate(Math.Cos, 0, 2);
 
             Assert.AreEqual(expected, actual, 1e-6);
-        }
-
-        [TestMethod()]
-        public void InfiniteGaussKronrodTest()
-        {
-            for (int i = -10; i < 10; i++)
-            {
-                Func<double, double> pdf = (x) => Normal.Derivative(x - i);
-
-                Func<double, double> E = (x) => x * pdf(x);
-                UFunction UE = (x) => x * pdf(x);
-
-                double expected = Quadpack.Integrate(UE,
-                    Double.NegativeInfinity, Double.PositiveInfinity);
-
-                double actual = InfiniteAdaptiveGaussKronrod.Integrate(E,
-                    Double.NegativeInfinity, Double.PositiveInfinity);
-
-                Assert.AreEqual(expected, actual, 1e-3);
-                Assert.AreEqual(i, actual, 1e-3);
-            }
         }
 
     }

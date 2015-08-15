@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace BeatDetector
+namespace SampleApp
 {
     class Program
     {

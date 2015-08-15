@@ -4,7 +4,6 @@
     <ProjectGuid>{16A563A2-2D02-4B9E-B3F8-F36DD72F4477}</ProjectGuid>
     <RootNamespace>Accord.Tests.Imaging</RootNamespace>
     <AssemblyName>Accord.Tests.Imaging</AssemblyName>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
@@ -32,33 +31,24 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
-    <OutputPath>bin\Release\net35</OutputPath>
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net35\</OutputPath>
     <DefineConstants>TRACE;NET35</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
-    <OutputPath>bin\Release\net40</OutputPath>
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net40\</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
-    <OutputPath>bin\Release\net45</OutputPath>
+    <OutputPath>$(SolutionDir)..\Unit Tests\bin\Release\net45\</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AForge">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Imaging">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.Imaging.dll</HintPath>
-    </Reference>
-    <Reference Include="AForge.Math">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Externals\AForge.NET\AForge.Math.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\Externals\NUnit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -66,10 +56,8 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>c:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\PublicAssemblies\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <!--
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Release (3.5)|AnyCPU'">
@@ -100,6 +88,7 @@
     <Compile Include="Filters\VarianceTest.cs" />
     <Compile Include="HaralickTest.cs" />
     <Compile Include="Filters\KirschEdgeDetectorTest.cs" />
+    <Compile Include="IntegralImageTest.cs" />
     <Compile Include="LocalBinaryPatternsTest.cs" />
     <Compile Include="Filters\GaborTest.cs" />
     <Compile Include="HistogramsOfOrientedGradientsTest.cs" />
@@ -136,6 +125,7 @@
     <Compile Include="TestUtils.cs" />
     <Compile Include="ToolsTest.cs" />
     <Compile Include="Filters\WaveletTransformTest.cs" />
+    <Compile Include="UnmanagedImageTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Sources\Accord.Core\Accord.Core.csproj">
@@ -175,6 +165,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\noise-line.png" />
+    <None Include="Resources\blend_net35.png" />
+    <None Include="Resources\blend_net45.png" />
     <Content Include="Resources\SURF\surf-bug-1.bmp" />
     <None Include="Resources\wiki-flower.png" />
     <None Include="Resources\tt4.png" />
@@ -194,7 +186,6 @@
     <None Include="Resources\lena_color.jpg" />
     <None Include="Resources\PICT0107a.jpg" />
     <None Include="Resources\PICT0108a.jpg" />
-    <Content Include="Resources\blend-result.png" />
     <Content Include="Resources\Expected\variance_color_expected.png" />
     <Content Include="Resources\SURF\flower01.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -264,7 +255,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

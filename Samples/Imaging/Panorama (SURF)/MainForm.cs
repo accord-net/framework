@@ -37,14 +37,13 @@ using Accord.Imaging;
 using Accord.Imaging.Filters;
 using Accord.Math;
 using AForge;
-using Panorama.SURF.Properties;
 
-namespace Panorama
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
-        private Bitmap img1 = Resources.UFSCar_Lake1;
-        private Bitmap img2 = Resources.UFSCar_Lake2;
+        private Bitmap img1 = Properties.Resources.UFSCar_Lake1;
+        private Bitmap img2 = Properties.Resources.UFSCar_Lake2;
 
         private SpeededUpRobustFeaturePoint[] surfPoints1;
         private SpeededUpRobustFeaturePoint[] surfPoints2;

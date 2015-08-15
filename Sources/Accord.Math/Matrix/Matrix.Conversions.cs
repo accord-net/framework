@@ -23,6 +23,8 @@
 namespace Accord.Math
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Data;
     using System.Globalization;
     using System.Linq;
@@ -170,7 +172,7 @@ namespace Accord.Math
         ///   array.
         /// </summary>
         /// 
-        public unsafe static double[,] ToDouble(this float[,] matrix)
+        public static double[,] ToDouble(this float[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -178,14 +180,17 @@ namespace Accord.Math
 
             double[,] result = new double[rows, cols];
 
-            fixed (float* srcPtr = matrix)
-            fixed (double* dstPtr = result)
+            unsafe
             {
-                float* src = srcPtr;
-                double* dst = dstPtr;
+                fixed (float* srcPtr = matrix)
+                fixed (double* dstPtr = result)
+                {
+                    float* src = srcPtr;
+                    double* dst = dstPtr;
 
-                for (int i = 0; i < length; i++, src++, dst++)
-                    *dst = (double)*src;
+                    for (int i = 0; i < length; i++, src++, dst++)
+                        *dst = (double)*src;
+                }
             }
 
             return result;
@@ -196,7 +201,7 @@ namespace Accord.Math
         ///   precision floating point multidimensional array.
         /// </summary>
         /// 
-        public unsafe static double[,] ToDouble(this byte[,] matrix)
+        public static double[,] ToDouble(this byte[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -204,14 +209,17 @@ namespace Accord.Math
 
             double[,] result = new double[rows, cols];
 
-            fixed (byte* srcPtr = matrix)
-            fixed (double* dstPtr = result)
+            unsafe
             {
-                byte* src = srcPtr;
-                double* dst = dstPtr;
+                fixed (byte* srcPtr = matrix)
+                fixed (double* dstPtr = result)
+                {
+                    byte* src = srcPtr;
+                    double* dst = dstPtr;
 
-                for (int i = 0; i < length; i++, src++, dst++)
-                    *dst = (double)*src;
+                    for (int i = 0; i < length; i++, src++, dst++)
+                        *dst = (double)*src;
+                }
             }
 
             return result;
@@ -223,7 +231,7 @@ namespace Accord.Math
         ///   array.
         /// </summary>
         /// 
-        public unsafe static double[,] ToDouble(this int[,] matrix)
+        public static double[,] ToDouble(this int[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -231,14 +239,17 @@ namespace Accord.Math
 
             double[,] result = new double[rows, cols];
 
-            fixed (int* srcPtr = matrix)
-            fixed (double* dstPtr = result)
+            unsafe
             {
-                int* src = srcPtr;
-                double* dst = dstPtr;
+                fixed (int* srcPtr = matrix)
+                fixed (double* dstPtr = result)
+                {
+                    int* src = srcPtr;
+                    double* dst = dstPtr;
 
-                for (int i = 0; i < length; i++, src++, dst++)
-                    *dst = (double)*src;
+                    for (int i = 0; i < length; i++, src++, dst++)
+                        *dst = (double)*src;
+                }
             }
 
             return result;
@@ -250,7 +261,7 @@ namespace Accord.Math
         ///   array.
         /// </summary>
         /// 
-        public unsafe static float[,] ToSingle(this double[,] matrix)
+        public static float[,] ToSingle(this double[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -258,14 +269,17 @@ namespace Accord.Math
 
             float[,] result = new float[rows, cols];
 
-            fixed (double* srcPtr = matrix)
-            fixed (float* dstPtr = result)
+            unsafe
             {
-                double* src = srcPtr;
-                float* dst = dstPtr;
+                fixed (double* srcPtr = matrix)
+                fixed (float* dstPtr = result)
+                {
+                    double* src = srcPtr;
+                    float* dst = dstPtr;
 
-                for (int i = 0; i < length; i++, src++, dst++)
-                    *dst = (float)*src;
+                    for (int i = 0; i < length; i++, src++, dst++)
+                        *dst = (float)*src;
+                }
             }
 
             return result;
@@ -276,7 +290,7 @@ namespace Accord.Math
         /// </summary>
         /// <param name="matrix">The matrix to be truncated.</param>
         /// 
-        public unsafe static int[,] ToInt32(this double[,] matrix)
+        public static int[,] ToInt32(this double[,] matrix)
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
@@ -284,14 +298,17 @@ namespace Accord.Math
 
             int[,] result = new int[rows, cols];
 
-            fixed (double* srcPtr = matrix)
-            fixed (int* dstPtr = result)
+            unsafe
             {
-                double* src = srcPtr;
-                int* dst = dstPtr;
+                fixed (double* srcPtr = matrix)
+                fixed (int* dstPtr = result)
+                {
+                    double* src = srcPtr;
+                    int* dst = dstPtr;
 
-                for (int i = 0; i < length; i++, src++, dst++)
-                    *dst = (int)*src;
+                    for (int i = 0; i < length; i++, src++, dst++)
+                        *dst = (int)*src;
+                }
             }
 
             return result;
@@ -586,9 +603,104 @@ namespace Accord.Math
 
             return result;
         }
+
+        /// <summary>
+        ///   Converts an object into another type, irrespective of whether
+        ///   the conversion can be done at compile time or not. This can be
+        ///   used to convert generic types to numeric types during runtime.
+        /// </summary>
+        /// 
+        /// <typeparam name="T">The destination type.</typeparam>
+        /// 
+        /// <param name="value">The value to be converted.</param>
+        /// 
+        /// <returns>The result of the conversion.</returns>
+        /// 
+        public static T To<T>(this object value)
+        {
+            return (T)System.Convert.ChangeType(value, typeof(T));
+        }
+
+        /// <summary>
+        ///   Converts the values of a vector using the given converter expression.
+        /// </summary>
+        /// <typeparam name="TOutput">The type of the output.</typeparam>
+        /// <param name="array">The vector or array to be converted.</param>
+        /// 
+        public static TOutput To<TOutput>(this Array array)
+            where TOutput : class, ICloneable, IList, ICollection, IEnumerable
+#if !NET35
+            , IStructuralComparable, IStructuralEquatable
+#endif
+        {
+            var typeInput = array.GetType();
+            var typeOutput = typeof(TOutput);
+
+            var inputElementType = typeInput.GetElementType();
+            var outputElementType = typeOutput.GetElementType();
+
+            if (inputElementType.IsSubclassOf(typeof(Array)))
+            {
+                // Jagged array
+                throw new NotImplementedException();
+            }
+            else
+            {
+                // Multidimensional array
+                var dimensions = array.GetDimensions();
+                var result = Array.CreateInstance(outputElementType, dimensions);
+
+                foreach (var idx in GetIndices(array))
+                {
+                    object inputValue = array.GetValue(idx);
+                    object outputValue = null;
+
+                    if (outputElementType.IsEnum)
+                        outputValue = Enum.ToObject(outputElementType, (int)System.Convert.ChangeType(inputValue, typeof(int)));
+                    else
+                        outputValue = System.Convert.ChangeType(inputValue, outputElementType);
+
+                    result.SetValue(outputValue, idx);
+                }
+
+                return result as TOutput;
+            }
+        }
+
         #endregion
 
-
+        /// <summary>
+        ///   Creates a vector containing every index that can be used to
+        ///   address a given <paramref name="array"/>, in order.
+        /// </summary>
+        /// 
+        /// <param name="array">The array whose indices will be returned.</param>
+        /// 
+        /// <returns>
+        ///   An enumerable object that can be used to iterate over all
+        ///   positions of the given <paramref name="array">System.Array</paramref>.
+        /// </returns>
+        /// 
+        /// <example>
+        /// <code>
+        ///   double[,] a = 
+        ///   { 
+        ///      { 5.3, 2.3 },
+        ///      { 4.2, 9.2 }
+        ///   };
+        ///   
+        ///   foreach (int[] idx in a.GetIndices())
+        ///   {
+        ///      // Get the current element
+        ///      double e = (double)a.GetValue(idx);
+        ///   }
+        /// </code>
+        /// </example>
+        /// 
+        public static IEnumerable<int[]> GetIndices(this Array array)
+        {
+            return Accord.Math.Indices.From(array);
+        }
 
 
 
@@ -765,7 +877,7 @@ namespace Accord.Math
         /// 
         public static DataTable ToTable(this double[][] matrix)
         {
-            int cols = matrix.GetLength(1);
+            int cols = matrix[0].Length;
 
             String[] columnNames = new String[cols];
             for (int i = 0; i < columnNames.Length; i++)

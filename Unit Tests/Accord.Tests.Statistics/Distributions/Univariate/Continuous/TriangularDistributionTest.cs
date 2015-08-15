@@ -24,13 +24,13 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
     using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class TriangularDistributionTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             var tri = new TriangularDistribution(min: 1, max: 6, mode: 3);
@@ -98,7 +98,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(5.6127016687540774, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -122,7 +122,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(mode, target.Mode, 0.035);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);

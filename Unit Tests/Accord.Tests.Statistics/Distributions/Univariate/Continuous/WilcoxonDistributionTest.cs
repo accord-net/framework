@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
 
-    [TestClass()]
+    [TestFixture]
     public class WilcoxonDistributionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             double[] ranks = { 1, 2, 3, 4, 5.5, 5.5, 7, 8, 9, 10, 11, 12 };
@@ -88,7 +88,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("W+(x; R)", str);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             double[] ranks = { 1, 2, 3, 4, 5.5, 5.5, 7, 8, 9, 10, 11, 12 };
@@ -136,7 +136,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(67.99999981945885, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void WScore()
         {
             int[] signs = { -1, -1, +1, -1, +1, +1, +1, +1, +1, +1, +1, +1 };
@@ -170,7 +170,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityTest()
         {
             // Example from https://onlinecourses.science.psu.edu/stat414/node/319
@@ -189,7 +189,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeTest()
         {
             // Example from https://onlinecourses.science.psu.edu/stat414/node/319
@@ -209,7 +209,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeExactTest()
         {
             // example from https://onlinecourses.science.psu.edu/stat414/node/319
@@ -236,7 +236,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(200, inv);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             double[] ranks = { 1, 2, 3, 7 };

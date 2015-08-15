@@ -2,13 +2,17 @@
 
 open System
 open System.IO
- 
+
+open Accord
 open Accord.MachineLearning
 open Accord.MachineLearning.VectorMachines
 open Accord.MachineLearning.VectorMachines.Learning
 open Accord.Statistics.Kernels
+open NUnit.Framework
+
 
 type FSharpSvmTest() = 
+
 
     (* 
     The dataset I am using here is a subset of the Kaggle digit recognizer;
@@ -19,7 +23,7 @@ type FSharpSvmTest() =
     http://brandewinder.blob.core.windows.net/public/validationsample.csv
     *)
 
-    static member error = 0.0 
+    // static member error = 0.0 
 
     static member Run(cost : double) =
 
@@ -66,8 +70,14 @@ type FSharpSvmTest() =
         let config = SupportVectorMachineLearningConfigurationFunction(algorithm)
         learner.Algorithm <- config
  
-        let error = learner.Run()
- 
+        let error = 
+            try
+                learner.Run() 
+            with
+            | :? ConvergenceException -> System.Double.NaN
+            | :? AggregateException -> System.Double.NaN
+            
+
         (*
         Are we done yet? Not quite.
         The proof of the model is in how it deals with data 
@@ -80,8 +90,8 @@ type FSharpSvmTest() =
             Array.zip validationLabels validationObservations 
             |> Array.map (fun (l, o) -> if l = svm.Compute(o) then 1. else 0.)
             |> Array.average
-
-        (correct)
+            
+        (error, correct)
  (*
         let view =
             let rng = Random()
@@ -102,3 +112,29 @@ type FSharpSvmTest() =
         a REPL here is that I don't need to reload data, 
         I can just keep going. 
         *)
+
+
+    [<TestCase()>]
+    member x.ConvergenceException() =
+
+        let (error, validation) = FSharpSvmTest.Run(1.0)
+
+        Assert.AreEqual(Double.NaN, error)
+        Assert.AreEqual(0.9, validation)
+        
+                
+    [<TestCase()>]
+    member x.HappyCase() =
+
+        let (error, validation) = FSharpSvmTest.Run(0.1)
+        
+        Assert.AreEqual(0.9, validation)
+        Assert.AreEqual(0, error)
+
+
+    [<TestCase()>]
+    member x.FSharpTest_AutoComplexity() =
+        let (error, validation) = FSharpSvmTest.Run(0.0);
+
+        Assert.AreEqual(0.92, validation);
+        Assert.AreEqual(0.0546, error);

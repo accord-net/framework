@@ -23,10 +23,10 @@
 namespace Accord.Tests.Imaging
 {
     using Accord.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
 
-    [TestClass()]
+    [TestFixture]
     public class MatrixHTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void MultiplyTest()
         {
             MatrixH A = new MatrixH();

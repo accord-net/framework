@@ -27,6 +27,7 @@ namespace Accord.Statistics.Models.Regression
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Testing;
     using AForge;
+    using Accord.Math;
 
     /// <summary>
     ///   Cox's Proportional Hazards Model.
@@ -152,6 +153,40 @@ namespace Accord.Statistics.Models.Regression
         }
 
         /// <summary>
+        ///   Computes the model output for the given time.
+        /// </summary>
+        /// 
+        /// <param name="time">The event time.</param>
+        /// 
+        /// <returns>The probabilities of the event occurring at the given time.</returns>
+        /// 
+        public double Compute(double time)
+        {
+            if (BaselineHazard == null)
+                throw new InvalidOperationException();
+
+            return BaselineHazard.CumulativeHazardFunction(time);
+        }
+
+        /// <summary>
+        ///   Computes the model's baseline survival function. This method
+        ///   simply calls the <see cref="UnivariateContinuousDistribution.ComplementaryDistributionFunction"/>
+        ///   of the <see cref="BaselineHazard"/> function.
+        /// </summary>
+        /// 
+        /// <param name="time">The event time.</param>
+        /// 
+        /// <returns>The baseline survival function at the given time.</returns>
+        /// 
+        public double Survival(double time)
+        {
+            if (BaselineHazard == null)
+                throw new InvalidOperationException();
+
+            return BaselineHazard.ComplementaryDistributionFunction(time);
+        }
+
+        /// <summary>
         ///   Computes the model output for the given input vector.
         /// </summary>
         /// 
@@ -201,7 +236,7 @@ namespace Accord.Statistics.Models.Regression
         ///   calculated over the given data sets.
         /// </returns>
         /// 
-        public double GetDeviance(double[][] inputs, double[] time, int[] output)
+        public double GetDeviance(double[][] inputs, double[] time, SurvivalOutcome[] output)
         {
             return -2.0 * GetPartialLogLikelihood(inputs, time, output);
         }
@@ -221,6 +256,24 @@ namespace Accord.Statistics.Models.Regression
         /// 
         public double GetPartialLogLikelihood(double[][] inputs, double[] time, int[] output)
         {
+            return GetPartialLogLikelihood(inputs, time, output.To<SurvivalOutcome[]>());
+        }
+
+        /// <summary>
+        ///   Gets the Partial Log-Likelihood for the model.
+        /// </summary>
+        /// 
+        /// <param name="inputs">A set of input data.</param>
+        /// <param name="time">The time-to-event before the output occurs.</param>
+        /// <param name="output">The corresponding output data.</param>
+        ///
+        /// <returns>
+        ///   The Partial Log-Likelihood (a measure of performance)
+        ///   of the model calculated over the given data set.
+        /// </returns>
+        /// 
+        public double GetPartialLogLikelihood(double[][] inputs, double[] time, SurvivalOutcome[] output)
+        {
             double sum1 = 0, sum2 = 0;
             for (int i = 0; i < inputs.Length; i++)
             {
@@ -228,7 +281,7 @@ namespace Accord.Statistics.Models.Regression
 
                 // Compute the first sum
                 for (int j = 0; j < Coefficients.Length; j++)
-                    sum1 += Coefficients[j] * inputs[i][j];
+                    sum1 += Coefficients[j] * (inputs[i][j] - Offsets[j]);
 
                 // Compute the second sum
                 double sum = 0;
@@ -238,7 +291,7 @@ namespace Accord.Statistics.Models.Regression
                     {
                         double s = 0;
                         for (int k = 0; k < Coefficients.Length; k++)
-                            s += Coefficients[k] * (inputs[j][k]);
+                            s += Coefficients[k] * (inputs[j][k] - Offsets[k]);
                         sum += Math.Exp(s);
                     }
                 }
@@ -247,6 +300,58 @@ namespace Accord.Statistics.Models.Regression
 
             return sum1 - sum2;
         }
+
+        /// <summary>
+        ///   Gets the Partial Log-Likelihood for the model.
+        /// </summary>
+        /// 
+        /// <param name="time">The time-to-event before the output occurs.</param>
+        /// <param name="output">The corresponding output data.</param>
+        ///
+        /// <returns>
+        ///   The Partial Log-Likelihood (a measure of performance)
+        ///   of the model calculated over the given data set.
+        /// </returns>
+        /// 
+        public double GetPartialLogLikelihood(double[] time, int[] output)
+        {
+            return GetPartialLogLikelihood(time, output.To<SurvivalOutcome[]>());
+        }
+
+        /// <summary>
+        ///   Gets the Partial Log-Likelihood for the model.
+        /// </summary>
+        /// 
+        /// <param name="time">The time-to-event before the output occurs.</param>
+        /// <param name="output">The corresponding output data.</param>
+        ///
+        /// <returns>
+        ///   The Partial Log-Likelihood (a measure of performance)
+        ///   of the model calculated over the given data set.
+        /// </returns>
+        /// 
+        public double GetPartialLogLikelihood(double[] time, SurvivalOutcome[] output)
+        {
+            double sum2 = 0;
+            for (int i = 0; i < time.Length; i++)
+            {
+                if (output[i] == 0)
+                    continue;
+
+                // Compute the second sum
+                double sum = 0;
+                for (int j = 0; j < time.Length; j++)
+                {
+                    if (time[j] >= time[i])
+                        sum++;
+                }
+
+                sum2 += Math.Log(sum);
+            }
+
+            return -sum2;
+        }
+
 
         /// <summary>
         ///   Gets the 95% confidence interval for the
@@ -308,7 +413,7 @@ namespace Accord.Statistics.Models.Regression
         /// <returns>The Log-Likelihood ratio (a measure of performance
         /// between two models) calculated over the given data sets.</returns>
         /// 
-        public double GetLogLikelihoodRatio(double[][] input, double[] time, int[] output, ProportionalHazards hazards)
+        public double GetLogLikelihoodRatio(double[][] input, double[] time, SurvivalOutcome[] output, ProportionalHazards hazards)
         {
             return 2.0 * (this.GetPartialLogLikelihood(input, time, output) - hazards.GetPartialLogLikelihood(input, time, output));
         }
@@ -333,7 +438,7 @@ namespace Accord.Statistics.Models.Regression
         ///   simpler model is often called the "model chi-square".</para>
         /// </remarks>
         /// 
-        public ChiSquareTest ChiSquare(double[][] input, double[] time, int[] output)
+        public ChiSquareTest ChiSquare(double[][] input, double[] time, SurvivalOutcome[] output)
         {
             ProportionalHazards regression = new ProportionalHazards(Inputs);
 

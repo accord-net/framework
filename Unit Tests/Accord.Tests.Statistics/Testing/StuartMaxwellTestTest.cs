@@ -24,11 +24,11 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     
 
-    [TestClass()]
+    [TestFixture]
     public class StuartMaxwellTestTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
      
-        [TestMethod()]
+        [Test]
         public void StuartMaxwellTestConstructorTest()
         {
             // Example from http://www.john-uebersax.com/stat/mcnemar.htm#stuart

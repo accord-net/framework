@@ -23,11 +23,11 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math.Comparers;
 
-    [TestClass()]
+    [TestFixture]
     public class GeneralComparerTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void GeneralComparerConstructorTest()
         {
             double[] actual, expected;

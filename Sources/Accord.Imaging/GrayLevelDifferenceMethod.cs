@@ -102,7 +102,7 @@ namespace Accord.Imaging
         /// <returns>An histogram containing co-occurrences 
         /// for every gray level in <paramref name="source"/>.</returns>
         /// 
-        public unsafe int[] Compute(UnmanagedImage source)
+        public int[] Compute(UnmanagedImage source)
         {
             int width = source.Width;
             int height = source.Height;
@@ -110,68 +110,73 @@ namespace Accord.Imaging
             int offset = stride - width;
             int maxGray = 255;
 
-            byte* src = (byte*)source.ImageData.ToPointer();
+            int[] hist;
 
-            if (autoGray)
-                maxGray = max(width, height, offset, src);
-
-
-            int[] hist = new int[maxGray + 1];
-
-            switch (degree)
+            unsafe
             {
-                case CooccurrenceDegree.Degree0:
-                    for (int y = 0; y < height; y++)
-                    {
-                        for (int x = 1; x < width; x++)
-                        {
-                            byte a = src[stride * y + (x - 1)];
-                            byte b = src[stride * y + x];
-                            int bin = Math.Abs(a - b);
-                            hist[bin]++;
-                        }
-                    }
-                    break;
+                byte* src = (byte*)source.ImageData.ToPointer();
 
-                case CooccurrenceDegree.Degree45:
-                    for (int y = 1; y < height; y++)
-                    {
-                        for (int x = 0; x < width - 1; x++)
-                        {
-                            byte a = src[stride * y + x];
-                            byte b = src[stride * (y - 1) + (x + 1)];
-                            int bin = Math.Abs(a - b);
-                            hist[bin]++;
-                        }
-                    }
-                    break;
+                if (autoGray)
+                    maxGray = max(width, height, offset, src);
 
-                case CooccurrenceDegree.Degree90:
-                    for (int y = 1; y < height; y++)
-                    {
-                        for (int x = 0; x < width; x++)
-                        {
-                            byte a = src[stride * (y - 1) + x];
-                            byte b = src[stride * y + x];
-                            int bin = Math.Abs(a - b);
-                            hist[bin]++;
-                        }
-                    }
-                    break;
 
-                case CooccurrenceDegree.Degree135:
-                    for (int y = 1; y < height; y++)
-                    {
-                        int steps = width - 1;
-                        for (int x = 0; x < width - 1; x++)
+                hist = new int[maxGray + 1];
+
+                switch (degree)
+                {
+                    case CooccurrenceDegree.Degree0:
+                        for (int y = 0; y < height; y++)
                         {
-                            byte a = src[stride * y + (steps - x)];
-                            byte b = src[stride * (y - 1) + (steps - 1 - x)];
-                            int bin = Math.Abs(a - b);
-                            hist[bin]++;
+                            for (int x = 1; x < width; x++)
+                            {
+                                byte a = src[stride * y + (x - 1)];
+                                byte b = src[stride * y + x];
+                                int bin = Math.Abs(a - b);
+                                hist[bin]++;
+                            }
                         }
-                    }
-                    break;
+                        break;
+
+                    case CooccurrenceDegree.Degree45:
+                        for (int y = 1; y < height; y++)
+                        {
+                            for (int x = 0; x < width - 1; x++)
+                            {
+                                byte a = src[stride * y + x];
+                                byte b = src[stride * (y - 1) + (x + 1)];
+                                int bin = Math.Abs(a - b);
+                                hist[bin]++;
+                            }
+                        }
+                        break;
+
+                    case CooccurrenceDegree.Degree90:
+                        for (int y = 1; y < height; y++)
+                        {
+                            for (int x = 0; x < width; x++)
+                            {
+                                byte a = src[stride * (y - 1) + x];
+                                byte b = src[stride * y + x];
+                                int bin = Math.Abs(a - b);
+                                hist[bin]++;
+                            }
+                        }
+                        break;
+
+                    case CooccurrenceDegree.Degree135:
+                        for (int y = 1; y < height; y++)
+                        {
+                            int steps = width - 1;
+                            for (int x = 0; x < width - 1; x++)
+                            {
+                                byte a = src[stride * y + (steps - x)];
+                                byte b = src[stride * (y - 1) + (steps - 1 - x)];
+                                int bin = Math.Abs(a - b);
+                                hist[bin]++;
+                            }
+                        }
+                        break;
+                }
             }
 
             return hist;

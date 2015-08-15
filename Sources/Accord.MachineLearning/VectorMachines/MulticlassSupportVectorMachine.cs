@@ -888,6 +888,9 @@ namespace Accord.MachineLearning.VectorMachines
 
             if (machine.IsCompact)
             {
+                if (machine.Weights == null)
+                    throw new Exception();
+
                 // For linear machines, computation is simpler
                 for (int i = 0; i < machine.Weights.Length; i++)
                     sum += machine.Weights[i] * input[i];

@@ -26,10 +26,10 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Math;
     using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
 
-    [TestClass()]
+    [TestFixture]
     public class HaralickTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             int size = 255;
@@ -95,7 +95,7 @@ namespace Accord.Tests.Imaging
                 Assert.AreEqual(expected[i], actual[i], System.Math.Abs(expected[i]) * 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest2()
         {
             int size = 255;

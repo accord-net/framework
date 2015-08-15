@@ -1,6 +1,6 @@
 ; Accord.NET setup project
 
-#define VERSION GetStringFileInfo("..\..\Release\net40\Accord.dll", "ProductVersion")
+#define VERSION GetStringFileInfo("..\..\Release\net45\Accord.dll", "ProductVersion")
 #pragma message "Creating package for Accord.NET " + VERSION
 [Setup]
 AppName=Accord.NET Framework
@@ -10,7 +10,7 @@ AppPublisher=Accord.NET
 AppPublisherURL=http://accord-framework.net
 AppSupportURL=http://accord-framework.net
 AppUpdatesURL=http://accord-framework.net
-AppCopyright=Copyright © César Souza, 2009-2015
+AppCopyright=Copyright © Accord.NET authors, 2009-2015
 VersionInfoVersion={#VERSION}
 DefaultDirName={pf}\Accord.NET\Framework
 DefaultGroupName=Accord.NET\Framework
@@ -65,14 +65,17 @@ Source: "..\..\Setup\*";             DestDir: "{app}\Setup";         Components:
 Source: "..\..\Externals\*";         DestDir: "{app}\Externals";     Components: libs;     Flags: recursesubdirs; Excludes: "*.~*,*.pdb"
 
 ; Official, supported release:
+Source: "..\..\Release\net45\*";     DestDir: "{app}\Release\net45"; Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
 Source: "..\..\Release\net40\*";     DestDir: "{app}\Release\net40"; Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
 Source: "..\..\Release\net35\*";     DestDir: "{app}\Release\net35"; Components: libs;                            Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml,SlimDX.pdb"
 
 ; Extra GPL-only libraries:
+Source: "..\..\Release\net45\GPL\*"; DestDir: "{app}\Release\net45"; Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 Source: "..\..\Release\net40\GPL\*"; DestDir: "{app}\Release\net40"; Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 Source: "..\..\Release\net35\GPL\*"; DestDir: "{app}\Release\net35"; Components: libs/gpl; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 
 ; Extra Noncommercial libraries:
+Source: "..\..\Release\net45\Noncommercial\*"; DestDir: "{app}\Release\net45\Noncommercial\"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 Source: "..\..\Release\net40\Noncommercial\*"; DestDir: "{app}\Release\net40\Noncommercial\"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 Source: "..\..\Release\net35\Noncommercial\*"; DestDir: "{app}\Release\net35\Noncommercial\"; Components: libs/noc; Flags: recursesubdirs; Excludes: "*.~*,*.lastcodeanalysissucceeded,*.CodeAnalysisLog.xml"
 

@@ -23,14 +23,14 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Controls;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ScatterplotBoxTest
     {
 
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void ScatterplotBox_ShowTest1()
         {
             double[,] points = 

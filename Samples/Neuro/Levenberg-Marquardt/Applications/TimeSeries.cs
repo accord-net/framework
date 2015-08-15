@@ -44,7 +44,7 @@ using System.Globalization;
 using Accord.IO;
 using Accord.Math;
 
-namespace Samples.LM
+namespace SampleApp
 {
     public class TimeSeries : System.Windows.Forms.Form
     {
@@ -495,15 +495,6 @@ namespace Samples.LM
 
         }
         #endregion
-
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
-        {
-            Application.Run(new MainForm());
-        }
 
         // Delegates to enable async calls for setting controls properties
         private delegate void SetTextCallback(System.Windows.Forms.Control control, string text);

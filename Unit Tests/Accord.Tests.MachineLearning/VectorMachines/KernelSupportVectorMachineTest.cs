@@ -22,37 +22,20 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
     using Accord.MachineLearning.VectorMachines;
     using Accord.MachineLearning.VectorMachines.Learning;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using System.IO;
+    using Accord.Statistics.Kernels.Sparse;
+    using NUnit.Framework;
     using Accord.Math;
-    using Accord.Statistics.Analysis;
+    using System;
 
-    [TestClass()]
+    [TestFixture]
     public class KernelSupportVectorMachineTest
     {
 
 
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             // Example AND problem
@@ -97,7 +80,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(-0.328125, machine.Weights[3]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest3()
         {
             // Example AND problem
@@ -142,7 +125,57 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
+        public void SparseComputeTest()
+        {
+            // Example AND problem
+            double[][] inputs =
+            {
+                new double[] {          }, // 0 and 0: 0 (label -1)
+                new double[] {      2,1 }, // 0 and 1: 0 (label -1)
+                new double[] { 1,1      }, // 1 and 0: 0 (label -1)
+                new double[] { 1,1, 2,1 }  // 1 and 1: 1 (label +1)
+            };
+
+            // Dichotomy SVM outputs should be given as [-1;+1]
+            int[] labels =
+            {
+                // 0,  0,  0, 1
+                    -1, -1, -1, 1
+            };
+
+            // Create a Support Vector Machine for the given inputs
+            // (sparse machines should use 0 as the number of inputs)
+            var machine = new KernelSupportVectorMachine(new SparseLinear(), inputs: 0); 
+
+            // Instantiate a new learning algorithm for SVMs
+            var smo = new SequentialMinimalOptimization(machine, inputs, labels);
+
+            // Set up the learning algorithm
+            smo.Complexity = 100000.0;
+
+            // Run
+            double error = smo.Run(); // should be zero
+
+            double[] predicted = inputs.Apply(machine.Compute).Sign();
+
+            // Outputs should be -1, -1, -1, +1
+            Assert.AreEqual(-1, predicted[0]);
+            Assert.AreEqual(-1, predicted[1]);
+            Assert.AreEqual(-1, predicted[2]);
+            Assert.AreEqual(+1, predicted[3]);
+
+            Assert.AreEqual(error, 0);
+
+            // Same as ComputeTest3 test above
+            Assert.AreEqual(-3.0, machine.Threshold);
+            Assert.AreEqual(4, machine.Weights[0]);
+            Assert.AreEqual(-2, machine.Weights[1]);
+            Assert.AreEqual(-2, machine.Weights[2]);
+        }
+
+
+        [Test]
         public void ComputeTest2()
         {
             // XOR

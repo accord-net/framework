@@ -26,9 +26,9 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ReceiverOperatingCharacteristicTest
     {
 
@@ -36,7 +36,7 @@ namespace Accord.Tests.Statistics
         // Accord.Tests.MachineLearning assembly in the file
         // ReceiverOperatingCharacteristicSvmTest.cs
 
-        [TestMethod()]
+        [Test]
         public void ComputeTest()
         {
             // Example from
@@ -157,7 +157,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.04485087617325112, error); // DeLong estimate
         }
 
-        [TestMethod()]
+        [Test]
         public void ReceiverOperatingCharacteristicConstructorTest2()
         {
             double[] measurement = { 0, 0, 0, 0, 0, 1, 1, 1 };
@@ -217,7 +217,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void DeLongVarianceTest()
         {
             // Example from Sampling Variability of Nonparametric Estimates of the
@@ -317,7 +317,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(curve.Variance));
         }
 
-        [TestMethod()]
+        [Test]
         public void DeLongComparisonTest()
         {
             // Example from Sampling Variability of Nonparametric Estimates of the

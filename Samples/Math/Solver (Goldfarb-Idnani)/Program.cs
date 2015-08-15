@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Solver.QP
+namespace SampleApp
 {
     static class Program
     {

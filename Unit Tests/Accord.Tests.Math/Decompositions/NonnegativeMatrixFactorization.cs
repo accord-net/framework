@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class NonnegativeMatrixFactorizationTest
     {
 
@@ -45,7 +45,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void NonNegativeMatrixFactorizationConstructorTest()
         {
 
@@ -71,7 +71,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(R.IsEqual(X, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void NonNegativeMatrixFactorizationConstructorTest2()
         {
             double[] data = 

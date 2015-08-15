@@ -24,9 +24,9 @@ namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning.DecisionTrees;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class DecisionTreeCompilerTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.MachineLearning
 
 
 #if !NET35
-        [TestMethod()]
+        [Test]
         public void CreateTest()
         {
             DecisionTree tree;

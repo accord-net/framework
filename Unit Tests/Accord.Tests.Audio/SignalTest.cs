@@ -23,11 +23,11 @@
 namespace Accord.Tests.Audio
 {
     using Accord.Audio;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Audio.Windows;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class SignalTest
     {
 
@@ -57,7 +57,7 @@ namespace Accord.Tests.Audio
             { -0.22f, 0.2f  },
         };
 
-        [TestMethod()]
+        [Test]
         public void GetEnergyTest()
         {
             Signal target = Signal.FromArray(data, 8000);
@@ -67,7 +67,7 @@ namespace Accord.Tests.Audio
             Assert.AreEqual(expected, actual, 1e-4);
         }
 
-        [TestMethod()]
+        [Test]
         public void SignalConstructorTest()
         {
             Signal target = Signal.FromArray(data, 8000);
@@ -78,7 +78,7 @@ namespace Accord.Tests.Audio
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GetSampleTest()
         {
             float[,] data = (float[,])this.data.Clone();
@@ -102,7 +102,7 @@ namespace Accord.Tests.Audio
         }
 
 
-        [TestMethod()]
+        [Test]
         public void RectangularWindowTest()
         {
             int length = 3;

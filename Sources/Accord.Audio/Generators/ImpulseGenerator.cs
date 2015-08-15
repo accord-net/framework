@@ -24,6 +24,7 @@ namespace Accord.Audio.Generators
 {
     using System;
     using AForge.Math;
+    using System.Numerics;
 
     /// <summary>
     ///   Impulse train signal generator.
@@ -97,47 +98,50 @@ namespace Accord.Audio.Generators
         ///   Generates the given number of samples.
         /// </summary>
         /// 
-        public unsafe Signal Generate(int samples)
+        public Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
 
             int ti = interval * Channels;
 
-            if (Format == SampleFormat.Format32BitIeeeFloat)
+            unsafe
             {
-                for (int c = 0; c < Channels; c++)
+                if (Format == SampleFormat.Format32BitIeeeFloat)
                 {
-                    float* dst = (float*)signal.Data.ToPointer() + c;
-
-                    for (int i = 0; i < samples; i += interval, dst += ti)
+                    for (int c = 0; c < Channels; c++)
                     {
-                        *dst = ampMax;
+                        float* dst = (float*)signal.Data.ToPointer() + c;
 
-                        if (Pulses > 0 && i / interval >= Pulses)
-                            break;
+                        for (int i = 0; i < samples; i += interval, dst += ti)
+                        {
+                            *dst = ampMax;
+
+                            if (Pulses > 0 && i / interval >= Pulses)
+                                break;
+                        }
                     }
                 }
-            }
-            else if (Format == SampleFormat.Format128BitComplex)
-            {
-                Complex campMax = new Complex(ampMax, 0);
-
-                for (int c = 0; c < Channels; c++)
+                else if (Format == SampleFormat.Format128BitComplex)
                 {
-                    Complex* dst = (Complex*)signal.Data.ToPointer() + c;
+                    Complex campMax = new Complex(ampMax, 0);
 
-                    for (int i = 0; i < samples; i += interval, dst += ti)
+                    for (int c = 0; c < Channels; c++)
                     {
-                        *dst = campMax;
+                        Complex* dst = (Complex*)signal.Data.ToPointer() + c;
 
-                        if (Pulses > 0 && i / interval >= Pulses)
-                            break;
+                        for (int i = 0; i < samples; i += interval, dst += ti)
+                        {
+                            *dst = campMax;
+
+                            if (Pulses > 0 && i / interval >= Pulses)
+                                break;
+                        }
                     }
                 }
-            }
-            else
-            {
-                throw new UnsupportedSampleFormatException("Sample format is not supported by the filter.");
+                else
+                {
+                    throw new UnsupportedSampleFormatException("Sample format is not supported by the filter.");
+                }
             }
 
             return signal;

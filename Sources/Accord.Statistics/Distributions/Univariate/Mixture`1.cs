@@ -709,10 +709,9 @@ namespace Accord.Statistics.Distributions.Univariate
 
             for (int i = 0; i < coefficients.Length; i++)
             {
-                sb.AppendFormat("{0}*",
-                    coefficients[0].ToString(format, formatProvider));
+                sb.AppendFormat("{0}*", coefficients[i].ToString(format, formatProvider));
 
-                var fmt = components[1] as IFormattable;
+                var fmt = components[i] as IFormattable;
 
                 if (fmt != null)
                     sb.AppendFormat(fmt.ToString(format, formatProvider));

@@ -23,11 +23,11 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class LuDecompositionTest
     {
 
@@ -45,7 +45,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTestNaN()
         {
             int n = 5;
@@ -71,7 +71,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void SolveTest1()
         {
             double[,] value =
@@ -97,7 +97,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void InverseTest()
         {
             double[,] value =
@@ -122,7 +122,7 @@ namespace Accord.Tests.Math
 
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest()
         {
             double[,] value =
@@ -153,7 +153,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest3()
         {
             double[,] value =
@@ -184,7 +184,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expectedU, U, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest4()
         {
             double[,] value =
@@ -204,7 +204,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTest5()
         {
             double[,] value =
@@ -233,7 +233,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void SolveTransposeTest()
         {
             double[,] a = 
@@ -261,7 +261,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expected, actual, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void LuDecompositionConstructorTest()
         {
             double[,] value =
@@ -306,7 +306,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(Matrix.IsEqual(expectedU, actualU, 0.001));
         }
 
-        [TestMethod()]
+        [Test]
         public void LogDeterminantTest()
         {
             LuDecomposition lu = new LuDecomposition(CholeskyDecompositionTest.bigmatrix);
@@ -315,7 +315,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(lu.Nonsingular);
         }
 
-        [TestMethod()]
+        [Test]
         public void DeterminantTest()
         {
             double[,] value =
@@ -330,7 +330,7 @@ namespace Accord.Tests.Math
             Assert.IsTrue(lu.Nonsingular);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogDeterminantTest2()
         {
             double[,] value =

@@ -22,38 +22,23 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
-    using System.Data;
-    using System.IO;
     using Accord;
     using Accord.IO;
     using Accord.MachineLearning;
     using Accord.Math;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Tests.MachineLearning.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
+    using System;
+    using System.Data;
+    using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class GaussianMixtureModelTest
     {
 
-        private TestContext testContextInstance;
 
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void GaussianMixtureModelConstructorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -108,7 +93,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod]
+        [Test]
         public void GaussianMixtureModelTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -158,7 +143,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod]
+        [Test]
         public void GaussianMixtureModelTest3()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -182,7 +167,7 @@ namespace Accord.Tests.MachineLearning
                 });
         }
 
-        [TestMethod]
+        [Test]
         public void GaussianMixtureModelTest7()
         {
             double[][] values =
@@ -218,7 +203,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod]
+        [Test]
         public void GaussianMixtureModelTest4()
         {
 
@@ -294,7 +279,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod]
+        [Test]
         public void GaussianMixtureModelTest5()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -339,7 +324,7 @@ namespace Accord.Tests.MachineLearning
 
        
 
-        [TestMethod]
+        [Test]
         public void HighDimensionalTest()
         {
             for (int i = 0; i < 100; i++)
@@ -355,7 +340,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void LargeSampleTest()
         {
             Accord.Math.Tools.SetupGenerator(0);

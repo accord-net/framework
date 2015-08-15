@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class AndersonDarlingDistributionTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // Create a new Anderson Darling distribution (A²) for comparing against a Gaussian

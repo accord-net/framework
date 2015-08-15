@@ -47,7 +47,7 @@ namespace Accord.MachineLearning.Bayes
     ///   
     /// <para>
     ///   This class implements a discrete (integer-valued) Naive-Bayes classifier. There is also a 
-    ///   special <see cref="Normal(int, int)">named constructor to create classifiers assuming normal 
+    ///   special <see cref="NaiveBayes.Normal(int, int)">named constructor to create classifiers assuming normal 
     ///   distributions for each variable</see>. For arbitrary distribution classifiers, please see
     ///   <see cref="NaiveBayes{TDistribution}"/>. </para>
     /// 

@@ -275,7 +275,7 @@ namespace Accord.Imaging
         ///   The source image has incorrect pixel format.
         /// </exception>
         /// 
-        public unsafe List<IntPoint> ProcessImage(UnmanagedImage image)
+        public List<IntPoint> ProcessImage(UnmanagedImage image)
         {
 
             // check image format
@@ -315,49 +315,51 @@ namespace Accord.Imaging
             float[,] diffy = new float[height, width];
             float[,] diffxy = new float[height, width];
 
-
-            fixed (float* pdx = diffx, pdy = diffy, pdxy = diffxy)
+            unsafe
             {
-                // Begin skipping first line
-                byte* src = (byte*)grayImage.ImageData.ToPointer() + stride;
-                float* dx = pdx + width;
-                float* dy = pdy + width;
-                float* dxy = pdxy + width;
-
-                // for each line
-                for (int y = 1; y < height - 1; y++)
+                fixed (float* pdx = diffx, pdy = diffy, pdxy = diffxy)
                 {
-                    // skip first column
-                    dx++; dy++; dxy++; src++;
+                    // Begin skipping first line
+                    byte* src = (byte*)grayImage.ImageData.ToPointer() + stride;
+                    float* dx = pdx + width;
+                    float* dy = pdy + width;
+                    float* dxy = pdxy + width;
 
-                    // for each inner pixel in line (skipping first and last)
-                    for (int x = 1; x < width - 1; x++, src++, dx++, dy++, dxy++)
+                    // for each line
+                    for (int y = 1; y < height - 1; y++)
                     {
-                        // Retrieve the pixel neighborhood
-                        byte a11 = src[+stride + 1], a12 = src[+1], a13 = src[-stride + 1];
-                        byte a21 = src[+stride + 0], /*  a22    */  a23 = src[-stride + 0];
-                        byte a31 = src[+stride - 1], a32 = src[-1], a33 = src[-stride - 1];
+                        // skip first column
+                        dx++; dy++; dxy++; src++;
 
-                        // Convolution with horizontal differentiation kernel mask
-                        float h = ((a11 + a12 + a13) - (a31 + a32 + a33)) * 0.166666667f;
+                        // for each inner pixel in line (skipping first and last)
+                        for (int x = 1; x < width - 1; x++, src++, dx++, dy++, dxy++)
+                        {
+                            // Retrieve the pixel neighborhood
+                            byte a11 = src[+stride + 1], a12 = src[+1], a13 = src[-stride + 1];
+                            byte a21 = src[+stride + 0], /*  a22    */  a23 = src[-stride + 0];
+                            byte a31 = src[+stride - 1], a32 = src[-1], a33 = src[-stride - 1];
 
-                        // Convolution with vertical differentiation kernel mask
-                        float v = ((a11 + a21 + a31) - (a13 + a23 + a33)) * 0.166666667f;
+                            // Convolution with horizontal differentiation kernel mask
+                            float h = ((a11 + a12 + a13) - (a31 + a32 + a33)) * 0.166666667f;
 
-                        // Store squared differences directly
-                        *dx = h * h;
-                        *dy = v * v;
-                        *dxy = h * v;
+                            // Convolution with vertical differentiation kernel mask
+                            float v = ((a11 + a21 + a31) - (a13 + a23 + a33)) * 0.166666667f;
+
+                            // Store squared differences directly
+                            *dx = h * h;
+                            *dy = v * v;
+                            *dxy = h * v;
+                        }
+
+                        // Skip last column
+                        dx++; dy++; dxy++; 
+                        src += offset + 1;
                     }
 
-                    // Skip last column
-                    dx++; dy++; dxy++; 
-                    src += offset + 1;
+                    // Free some resources which wont be needed anymore
+                    if (image.PixelFormat != PixelFormat.Format8bppIndexed)
+                        grayImage.Dispose();
                 }
-
-                // Free some resources which wont be needed anymore
-                if (image.PixelFormat != PixelFormat.Format8bppIndexed)
-                    grayImage.Dispose();
             }
 
 
@@ -376,36 +378,39 @@ namespace Accord.Imaging
             // 3. Compute Harris Corner Response Map
             float[,] map = new float[height, width];
 
-            fixed (float* pdx = diffx, pdy = diffy, pdxy = diffxy, pmap = map)
+            unsafe
             {
-                float* dx = pdx;
-                float* dy = pdy;
-                float* dxy = pdxy;
-                float* H = pmap;
-                float M, A, B, C;
-
-                for (int y = 0; y < height; y++)
+                fixed (float* pdx = diffx, pdy = diffy, pdxy = diffxy, pmap = map)
                 {
-                    for (int x = 0; x < width; x++, dx++, dy++, dxy++, H++)
+                    float* dx = pdx;
+                    float* dy = pdy;
+                    float* dxy = pdxy;
+                    float* H = pmap;
+                    float M, A, B, C;
+
+                    for (int y = 0; y < height; y++)
                     {
-                        A = *dx;
-                        B = *dy;
-                        C = *dxy;
+                        for (int x = 0; x < width; x++, dx++, dy++, dxy++, H++)
+                        {
+                            A = *dx;
+                            B = *dy;
+                            C = *dxy;
 
-                        if (measure == HarrisCornerMeasure.Harris)
-                        {
-                            // Original Harris corner measure
-                            M = (A * B - C * C) - (k * ((A + B) * (A + B)));
-                        }
-                        else
-                        {
-                            // Harris-Noble corner measure
-                            M = (A * B - C * C) / (A + B + Constants.SingleEpsilon);
-                        }
+                            if (measure == HarrisCornerMeasure.Harris)
+                            {
+                                // Original Harris corner measure
+                                M = (A * B - C * C) - (k * ((A + B) * (A + B)));
+                            }
+                            else
+                            {
+                                // Harris-Noble corner measure
+                                M = (A * B - C * C) / (A + B + Constants.SingleEpsilon);
+                            }
 
-                        if (M > threshold)
-                        {
-                            *H = M; // insert value in the map
+                            if (M > threshold)
+                            {
+                                *H = M; // insert value in the map
+                            }
                         }
                     }
                 }

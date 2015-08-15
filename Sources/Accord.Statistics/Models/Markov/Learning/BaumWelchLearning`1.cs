@@ -205,7 +205,7 @@ namespace Accord.Statistics.Models.Markov.Learning
     ///         new double[] { 9, 8 }, // observation 2 of sequence 2
     ///         new double[] { 1, 0 }, // observation 3 of sequence 2
     ///     },
-    /// new double[][] // sequence 3
+    ///     new double[][] // sequence 3
     ///     {
     ///         new double[] { 1, 3 }, // observation 1 of sequence 3
     ///         new double[] { 8, 9 }, // observation 2 of sequence 3

@@ -22,38 +22,22 @@
 
 namespace Accord.Tests.Imaging
 {
-    using System.Drawing;
-    using System.IO;
-    using System.Runtime.Serialization.Formatters.Binary;
+    using Accord;
     using Accord.Imaging;
-    using System.Linq;
     using Accord.MachineLearning;
     using Accord.Math;
     using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
+    using System.Drawing;
     using System.Drawing.Imaging;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
 
-    [TestClass()]
+    [TestFixture]
     public class BagOfVisualWordsTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         // Load some test images
         static Bitmap[] images =
@@ -66,7 +50,7 @@ namespace Accord.Tests.Imaging
             Properties.Resources.flower06,
         };
 
-        [TestMethod()]
+        [Test]
         public void BagOfVisualWordsConstructorTest()
         {
             BagOfVisualWords bow = new BagOfVisualWords(10);
@@ -76,25 +60,25 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(10, bow.NumberOfWords);
             Assert.AreEqual(6, points.Length);
 
-            Assert.AreEqual(406, points[0].Count);
+            Assert.AreEqual(409, points[0].Count);
             Assert.AreEqual(727, points[1].Count);
-            Assert.AreEqual(549, points[2].Count);
-            Assert.AreEqual(458, points[3].Count);
-            Assert.AreEqual(723, points[4].Count);
-            Assert.AreEqual(1263, points[5].Count);
+            Assert.AreEqual(552, points[2].Count);
+            Assert.AreEqual(460, points[3].Count);
+            Assert.AreEqual(719, points[4].Count);
+            Assert.AreEqual(1265, points[5].Count);
 
             double tol = 1e-7;
-            Assert.AreEqual(388.043776954555, points[0][0].X, tol);
-            Assert.AreEqual(105.99327164889745, points[0][0].Y, tol);
+            Assert.AreEqual(388.04225639880224, points[0][0].X, tol);
+            Assert.AreEqual(105.9954439039073, points[0][0].Y, tol);
 
-            Assert.AreEqual(335.64548481033881, points[3][7].X, tol);
+            Assert.AreEqual(335.62395561144433, points[3][7].X, tol);
             Assert.AreEqual(152.14505651866821, points[2][3].Y, tol);
 
             Assert.AreEqual(573.691355494602, points[2][52].X, tol);
             Assert.AreEqual(153.6650841848263, points[1][11].Y, tol);
 
-            Assert.AreEqual(573.03087205188058, points[0][42].X, tol);
-            Assert.AreEqual(374.27580307739436, points[4][125].Y, tol);
+            Assert.AreEqual(289.54728415724327, points[0][42].X, tol);
+            Assert.AreEqual(373.99402540151056, points[4][125].Y, tol);
 
             foreach (var point in points)
             {
@@ -106,7 +90,7 @@ namespace Accord.Tests.Imaging
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void BagOfVisualWordsConstructorTest3()
         {
             MoravecCornersDetector moravec = new MoravecCornersDetector();
@@ -145,11 +129,11 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod()]
+        [Test]
         public void GetFeatureVectorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
-            Bitmap image = images[0];
+            Bitmap image = (Bitmap)images[0].Clone();
 
             // The Bag-of-Visual-Words model converts arbitrary-size images 
             // into fixed-length feature vectors. In this example, we will
@@ -172,9 +156,9 @@ namespace Accord.Tests.Imaging
 
             double[][] expected = 
             {
-                new double[] { 102, 58, 42, 24, 47, 53, 29, 26, 3, 22 },
-                new double[] { 90, 135, 71, 101, 26, 28, 105, 61, 62, 48 },
-                new double[] { 138, 36, 55, 56, 71, 61, 30, 47, 33, 22 } 
+                new double[] { 43, 39, 27, 21, 34, 30, 98, 51, 61, 5 },
+                new double[] { 69, 100, 61, 41, 114, 125, 85, 27, 34, 71 },
+                new double[] { 52, 46, 44, 19, 20, 51, 143, 73, 69, 35 } 
             };
 
             double[][] actual = new double[expected.Length][];
@@ -192,9 +176,11 @@ namespace Accord.Tests.Imaging
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void SerializeTest()
         {
+            var images = BagOfVisualWordsTest.images.DeepClone();
+
             Accord.Math.Tools.SetupGenerator(0);
 
             BagOfVisualWords bow = new BagOfVisualWords(10);
@@ -219,9 +205,11 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void SerializeTest2()
         {
+            var images = BagOfVisualWordsTest.images.DeepClone();
+
             Accord.Math.Tools.SetupGenerator(0);
 
             FastCornersDetector fast = new FastCornersDetector();
@@ -254,7 +242,7 @@ namespace Accord.Tests.Imaging
         }
 
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void LargeTest()
         {
             // Requires data from the National Data Science bowl

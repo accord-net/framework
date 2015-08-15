@@ -43,7 +43,7 @@ namespace Accord.Math
         ///   for more details.
         /// </example>
         /// 
-        public static string ToString(this double[,] matrix)
+        public static string ToString<T>(this T[,] matrix)
         {
             return ToString(matrix, DefaultMatrixFormatProvider.CurrentCulture);
         }
@@ -77,7 +77,7 @@ namespace Accord.Math
         /// </example>
         /// 
         /// 
-        public static string ToString(this double[,] matrix, bool multiline, IMatrixFormatProvider provider)
+        public static string ToString<T>(this T[,] matrix, bool multiline, IMatrixFormatProvider provider)
         {
             if (multiline)
             {
@@ -113,7 +113,7 @@ namespace Accord.Math
         /// </example>
         /// 
         /// 
-        public static string ToString(this double[,] matrix, IMatrixFormatProvider provider)
+        public static string ToString<T>(this T[,] matrix, IMatrixFormatProvider provider)
         {
             return ToString(matrix, null, provider);
         }
@@ -144,7 +144,7 @@ namespace Accord.Math
         /// </example>
         /// 
         /// 
-        public static string ToString(this double[,] matrix, string format, IMatrixFormatProvider provider)
+        public static string ToString<T>(this T[,] matrix, string format, IMatrixFormatProvider provider)
         {
             return MatrixFormatter.Format(format, matrix, provider);
         }
@@ -171,7 +171,7 @@ namespace Accord.Math
         /// </example>
         /// 
         /// 
-        public static string ToString(this double[,] matrix, string format)
+        public static string ToString<T>(this T[,] matrix, string format)
         {
             return MatrixFormatter.Format(format, matrix, DefaultMatrixFormatProvider.CurrentCulture);
         }
@@ -194,7 +194,7 @@ namespace Accord.Math
         /// </example>
         /// 
         /// 
-        public static string ToString(this double[][] matrix)
+        public static string ToString<T>(this T[][] matrix)
         {
             return ToString(matrix, DefaultMatrixFormatProvider.CurrentCulture);
         }
@@ -222,7 +222,7 @@ namespace Accord.Math
         /// </example>
         /// 
         /// 
-        public static string ToString(this double[][] matrix, IMatrixFormatProvider provider)
+        public static string ToString<T>(this T[][] matrix, IMatrixFormatProvider provider)
         {
             return ToString(matrix, null, provider);
         }
@@ -252,7 +252,7 @@ namespace Accord.Math
         ///   for more details.
         /// </example>
         /// 
-        public static string ToString(this double[][] matrix, string format, IMatrixFormatProvider provider)
+        public static string ToString<T>(this T[][] matrix, string format, IMatrixFormatProvider provider)
         {
             return MatrixFormatter.Format(format, matrix, provider);
         }
@@ -278,7 +278,7 @@ namespace Accord.Math
         ///   for more details.
         /// </example>
         /// 
-        public static string ToString(this double[][] matrix, string format)
+        public static string ToString<T>(this T[][] matrix, string format)
         {
             return MatrixFormatter.Format(format, matrix, DefaultMatrixFormatProvider.CurrentCulture);
         }
@@ -299,7 +299,7 @@ namespace Accord.Math
         ///   for examples and more details.
         /// </example>
         /// 
-        public static string ToString(this double[] array)
+        public static string ToString<T>(this T[] array)
         {
             return ToString(array, DefaultArrayFormatProvider.CurrentCulture);
         }
@@ -326,7 +326,7 @@ namespace Accord.Math
         ///   for examples and more details.
         /// </example>
         /// 
-        public static string ToString(this double[] array, IMatrixFormatProvider provider)
+        public static string ToString<T>(this T[] array, IMatrixFormatProvider provider)
         {
             return ToString(array, null, provider);
         }
@@ -357,7 +357,7 @@ namespace Accord.Math
         ///   for examples and more details.
         /// </example>
         /// 
-        public static string ToString(this double[] matrix, string format, IMatrixFormatProvider provider)
+        public static string ToString<T>(this T[] matrix, string format, IMatrixFormatProvider provider)
         {
             return MatrixFormatter.Format(format, matrix, provider);
         }
@@ -382,7 +382,7 @@ namespace Accord.Math
         ///   for examples and more details.
         /// </example>
         /// 
-        public static string ToString(this double[] array, string format)
+        public static string ToString<T>(this T[] array, string format)
         {
             return MatrixFormatter.Format(format, array, DefaultArrayFormatProvider.CurrentCulture);
         }

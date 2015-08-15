@@ -23,33 +23,15 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Distributions.Fitting;
 
-    [TestClass()]
+    [TestFixture]
     public class CauchyDistributionTest
     {
 
-
-        private TestContext testContextInstance;
-
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void CauchyDistributionConstructorTest()
         {
             double location = 2;
@@ -66,7 +48,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(Math.Log(scale) + Math.Log(4.0 * Math.PI), target.Entropy);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             double location = 2;
@@ -76,7 +58,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5), 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void CauchyDistributionConstructorTest1()
         {
             CauchyDistribution target = new CauchyDistribution();
@@ -86,7 +68,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             double[] expected = 
@@ -105,7 +87,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest()
         {
             CauchyDistribution target = new CauchyDistribution();
@@ -118,7 +100,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.21, target.Scale, 0.05);
         }
 
-        [TestMethod()]
+        [Test]
         public void FitTest2()
         {
             double[] observations = { 0.25, 0.12, 0.72, 0.21, 0.62, 0.12, 0.62, 0.12 };
@@ -152,7 +134,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityDensityFunctionTest()
         {
             double[] expected = 
@@ -171,7 +153,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityDensityFunctionTest()
         {
             double[] expected = 
@@ -190,7 +172,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CauchyDistributionConstructorTest2()
         {
             double location = 0.42;

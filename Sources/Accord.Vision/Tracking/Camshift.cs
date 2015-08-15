@@ -355,7 +355,7 @@ namespace Accord.Vision.Tracking
         /// <summary>
         ///   Generates a image of the histogram backprojection
         /// </summary>
-        public unsafe Bitmap GetBackprojection(PixelFormat format)
+        public Bitmap GetBackprojection(PixelFormat format)
         {
             return GetBackprojection(format, new Rectangle(0, 0,
                 map.GetLength(1), map.GetLength(0)));
@@ -388,7 +388,7 @@ namespace Accord.Vision.Tracking
         /// <summary>
         ///   Generates a image of the histogram backprojection
         /// </summary>
-        public unsafe void GetBackprojection(UnmanagedImage image, Rectangle rectangle)
+        public void GetBackprojection(UnmanagedImage image, Rectangle rectangle)
         {
             lock (sync)
             {
@@ -404,42 +404,44 @@ namespace Accord.Vision.Tracking
                 int stride = image.Stride;
                 int offset = stride - width * pixelSize;
 
-
-                // Do work
-                fixed (float* map_ptr = &map[starty, startx])
+                unsafe
                 {
-                    byte* dst = (byte*)image.ImageData.ToPointer();
-                    float* src = map_ptr;
-
-                    // Check if image is grayscale (8bpp)
-                    if (format == PixelFormat.Format8bppIndexed)
+                    // Do work
+                    fixed (float* map_ptr = &map[starty, startx])
                     {
-                        for (int y = 0; y < height; y++)
+                        byte* dst = (byte*)image.ImageData.ToPointer();
+                        float* src = map_ptr;
+
+                        // Check if image is grayscale (8bpp)
+                        if (format == PixelFormat.Format8bppIndexed)
                         {
-                            for (int x = 0; x < width; x++, dst++, src++)
+                            for (int y = 0; y < height; y++)
                             {
-                                // probability map contains values between 0 and 1
-                                *dst = (byte)Math.Floor(255f * (*src));
+                                for (int x = 0; x < width; x++, dst++, src++)
+                                {
+                                    // probability map contains values between 0 and 1
+                                    *dst = (byte)Math.Floor(255f * (*src));
+                                }
+                                dst += offset;
+                                src += srcOffset;
                             }
-                            dst += offset;
-                            src += srcOffset;
                         }
-                    }
 
-                    else // Image is 24bpp
-                    {
-                        for (int y = 0; y < height; y++)
+                        else // Image is 24bpp
                         {
-                            for (int x = 0; x < width; x++, dst += pixelSize, src++)
+                            for (int y = 0; y < height; y++)
                             {
-                                // probability map contains values between 0 and 1
-                                byte value = (byte)Math.Floor(255f * (*src));
-                                *(dst + 0) = value;
-                                *(dst + 1) = value;
-                                *(dst + 2) = value;
+                                for (int x = 0; x < width; x++, dst += pixelSize, src++)
+                                {
+                                    // probability map contains values between 0 and 1
+                                    byte value = (byte)Math.Floor(255f * (*src));
+                                    *(dst + 0) = value;
+                                    *(dst + 1) = value;
+                                    *(dst + 2) = value;
+                                }
+                                dst += offset;
+                                src += srcOffset;
                             }
-                            dst += offset;
-                            src += srcOffset;
                         }
                     }
                 }

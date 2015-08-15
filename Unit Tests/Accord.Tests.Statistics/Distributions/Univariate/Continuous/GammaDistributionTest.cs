@@ -22,13 +22,12 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System;
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
+    using System;
     using System.Globalization;
-    using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class GammaDistributionTest
     {
 
@@ -49,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void GammaDistributionConstructorTest()
         {
             double shape = 0.4;
@@ -70,7 +69,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(shape * scale * scale, target.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void GammaDistributionConstructorTest2()
         {
             var gamma = new GammaDistribution(theta: 4, k: 2);
@@ -119,7 +118,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(26.553408271975243, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             double shape = 0.4;
@@ -130,7 +129,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(target.Median, target.InverseDistributionFunction(0.5));
         }
 
-        [TestMethod()]
+        [Test]
         public void DensityFunctionTest()
         {
             double shape = 0.4;
@@ -161,7 +160,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void CumulativeFunctionTest()
         {
             double shape = 0.4;
@@ -186,7 +185,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -202,7 +201,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, actual.Shape, 0.01);
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerateTest3()
         {
             Accord.Math.Tools.SetupGenerator(1);
@@ -221,7 +220,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void NegativeValueTest()
         {
             double[] samples = NormalDistribution.Standard.Generate(100);

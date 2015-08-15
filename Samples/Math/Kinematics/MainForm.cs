@@ -39,7 +39,7 @@ using Accord.Controls;
 using Accord.Math.Kinematics;
 using AForge.Math;
 
-namespace DenavitKinematics
+namespace SampleApp
 {
     /// <summary>
     ///   Denavit-Hartenberg models for kinematic chains.

@@ -239,7 +239,7 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
-        public unsafe void Convert(UnmanagedImage input, out double[,] output)
+        public void Convert(UnmanagedImage input, out double[,] output)
         {
             int width = input.Width;
             int height = input.Height;
@@ -248,16 +248,19 @@ namespace Accord.Imaging.Converters
 
             output = new double[height, width];
 
-            fixed (double* ptrData = output)
+            unsafe
             {
-                double* dst = ptrData;
-                byte* src = (byte*)input.ImageData.ToPointer() + Channel;
-
-                for (int y = 0; y < height; y++)
+                fixed (double* ptrData = output)
                 {
-                    for (int x = 0; x < width; x++, src += pixelSize, dst++)
-                        *dst = Accord.Math.Tools.Scale(0, 255, Min, Max, *src);
-                    src += offset;
+                    double* dst = ptrData;
+                    byte* src = (byte*)input.ImageData.ToPointer() + Channel;
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src += pixelSize, dst++)
+                            *dst = Accord.Math.Tools.Scale(0, 255, Min, Max, *src);
+                        src += offset;
+                    }
                 }
             }
         }
@@ -307,7 +310,7 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
-        public unsafe void Convert(UnmanagedImage input, out byte[,] output)
+        public void Convert(UnmanagedImage input, out byte[,] output)
         {
             int width = input.Width;
             int height = input.Height;
@@ -316,16 +319,19 @@ namespace Accord.Imaging.Converters
 
             output = new byte[height, width];
 
-            fixed (byte* ptrData = output)
+            unsafe
             {
-                byte* dst = ptrData;
-                byte* src = (byte*)input.ImageData.ToPointer() + Channel;
-
-                for (int y = 0; y < height; y++)
+                fixed (byte* ptrData = output)
                 {
-                    for (int x = 0; x < width; x++, src += pixelSize, dst++)
-                        *dst = *src;
-                    src += offset;
+                    byte* dst = ptrData;
+                    byte* src = (byte*)input.ImageData.ToPointer() + Channel;
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src += pixelSize, dst++)
+                            *dst = *src;
+                        src += offset;
+                    }
                 }
             }
         }
@@ -339,7 +345,7 @@ namespace Accord.Imaging.Converters
         /// <param name="input">The input image to be converted.</param>
         /// <param name="output">The converted image.</param>
         /// 
-        public unsafe void Convert(UnmanagedImage input, out Color[,] output)
+        public void Convert(UnmanagedImage input, out Color[,] output)
         {
             int width = input.Width;
             int height = input.Height;
@@ -349,43 +355,46 @@ namespace Accord.Imaging.Converters
 
             output = new Color[input.Height, input.Width];
 
-            if (input.PixelFormat == PixelFormat.Format8bppIndexed)
+            unsafe
             {
-                byte* src = (byte*)input.ImageData.ToPointer();
-
-                for (int y = 0; y < height; y++)
+                if (input.PixelFormat == PixelFormat.Format8bppIndexed)
                 {
-                    for (int x = 0; x < width; x++, src += pixelSize)
-                        output[y, x] = Color.FromArgb(*src, *src, *src);
-                    src += offset;
-                }
-            }
-            else if (input.PixelFormat == PixelFormat.Format24bppRgb
-                  || input.PixelFormat == PixelFormat.Format32bppRgb)
-            {
-                byte* src = (byte*)input.ImageData.ToPointer();
+                    byte* src = (byte*)input.ImageData.ToPointer();
 
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++, src += pixelSize)
-                        output[y, x] = Color.FromArgb(src[RGB.R], src[RGB.G], src[RGB.B]);
-                    src += offset;
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src += pixelSize)
+                            output[y, x] = Color.FromArgb(*src, *src, *src);
+                        src += offset;
+                    }
                 }
-            }
-            else if (input.PixelFormat == PixelFormat.Format32bppArgb)
-            {
-                byte* src = (byte*)input.ImageData.ToPointer();
+                else if (input.PixelFormat == PixelFormat.Format24bppRgb
+                      || input.PixelFormat == PixelFormat.Format32bppRgb)
+                {
+                    byte* src = (byte*)input.ImageData.ToPointer();
 
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++, src += pixelSize)
-                        output[y, x] = Color.FromArgb(src[RGB.A], src[RGB.R], src[RGB.G], src[RGB.B]);
-                    src += offset;
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src += pixelSize)
+                            output[y, x] = Color.FromArgb(src[RGB.R], src[RGB.G], src[RGB.B]);
+                        src += offset;
+                    }
                 }
-            }
-            else
-            {
-                throw new UnsupportedImageFormatException("Pixel format is not supported.");
+                else if (input.PixelFormat == PixelFormat.Format32bppArgb)
+                {
+                    byte* src = (byte*)input.ImageData.ToPointer();
+
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++, src += pixelSize)
+                            output[y, x] = Color.FromArgb(src[RGB.A], src[RGB.R], src[RGB.G], src[RGB.B]);
+                        src += offset;
+                    }
+                }
+                else
+                {
+                    throw new UnsupportedImageFormatException("Pixel format is not supported.");
+                }
             }
         }
 

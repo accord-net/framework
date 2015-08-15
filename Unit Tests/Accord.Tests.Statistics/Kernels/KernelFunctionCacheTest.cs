@@ -3,13 +3,13 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
     using Accord.Math;
     using System.Linq;
 
-    [TestClass()]
+    [TestFixture]
     public class KernelFunctionCacheTest
     {
 
@@ -44,7 +44,7 @@ namespace Accord.Tests.Statistics
         };
 
 
-        [TestMethod()]
+        [Test]
         public void KernelFunctionCacheConstructorTest()
         {
             IKernel kernel = new Linear(1);
@@ -83,7 +83,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void KernelFunctionCacheConstructorTest2()
         {
             IKernel kernel = new Linear(1);
@@ -139,7 +139,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, target.Usage);
         }
 
-        [TestMethod()]
+        [Test]
         public void KernelFunctionCacheConstructorTest6()
         {
             IKernel kernel = new Gaussian(0.6);
@@ -190,7 +190,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, target.Usage);
         }
 
-        [TestMethod()]
+        [Test]
         public void KernelFunctionCacheConstructorTest5()
         {
             IKernel kernel = new Linear(1);
@@ -238,7 +238,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, target.Usage);
         }
 
-        [TestMethod()]
+        [Test]
         public void KernelFunctionCacheConstructorTest7()
         {
             double[][] inputs =
@@ -296,7 +296,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3, target.Hits);
             Assert.AreEqual(1.0, target.Usage);
         }
-        [TestMethod()]
+        [Test]
         public void KernelFunctionCacheConstructorTest3()
         {
             IKernel kernel = new Linear(1);
@@ -351,7 +351,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void KernelFunctionCacheConstructorTest4()
         {
             IKernel kernel = new Linear();

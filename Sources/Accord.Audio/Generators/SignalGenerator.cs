@@ -72,27 +72,30 @@ namespace Accord.Audio.Generators
         ///   Generates a signal.
         /// </summary>
         /// 
-        public unsafe Signal Generate(int samples)
+        public Signal Generate(int samples)
         {
             Signal signal = new Signal(Channels, samples, SamplingRate, Format);
 
-            if (Format == SampleFormat.Format32BitIeeeFloat)
+            unsafe
             {
-                var dst = (float*)signal.Data.ToPointer();
-                for (int i = 0; i < signal.Samples; i++)
-                    for (int c = 0; c < signal.Channels; c++, dst++)
-                        *dst = (float)(Function(i));
-            }
-            else if (Format == SampleFormat.Format64BitIeeeFloat)
-            {
-                var dst = (double*)signal.Data.ToPointer();
-                for (int i = 0; i < signal.Samples; i++)
-                    for (int c = 0; c < signal.Channels; c++, dst++)
-                        *dst = (double)(Function(i));
-            }
-            else
-            {
-                throw new UnsupportedSampleFormatException("Sample format is not supported by the filter.");
+                if (Format == SampleFormat.Format32BitIeeeFloat)
+                {
+                    var dst = (float*)signal.Data.ToPointer();
+                    for (int i = 0; i < signal.Samples; i++)
+                        for (int c = 0; c < signal.Channels; c++, dst++)
+                            *dst = (float)(Function(i));
+                }
+                else if (Format == SampleFormat.Format64BitIeeeFloat)
+                {
+                    var dst = (double*)signal.Data.ToPointer();
+                    for (int i = 0; i < signal.Samples; i++)
+                        for (int c = 0; c < signal.Channels; c++, dst++)
+                            *dst = (double)(Function(i));
+                }
+                else
+                {
+                    throw new UnsupportedSampleFormatException("Sample format is not supported by the filter.");
+                }
             }
 
             return signal;

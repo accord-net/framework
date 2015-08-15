@@ -26,9 +26,9 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging.Converters;
     using Accord.Imaging.Filters;
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class RobinsonEdgeDetectorTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest1()
         {
             Bitmap image = Properties.Resources.lena512;
@@ -62,7 +62,7 @@ namespace Accord.Tests.Imaging
             Assert.IsNotNull(edges);
         }
 
-        [TestMethod()]
+        [Test]
         public void ColorApplyTest1()
         {
             Bitmap image = Properties.Resources.lena_color;
@@ -75,7 +75,7 @@ namespace Accord.Tests.Imaging
             Assert.IsNotNull(edges);
         }
 
-        [TestMethod]
+        [Test]
         public void ProcessImageTest()
         {
             double[,] diag = Matrix.Magic(5);

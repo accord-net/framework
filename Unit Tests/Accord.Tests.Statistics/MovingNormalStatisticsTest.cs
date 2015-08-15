@@ -23,10 +23,10 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Moving;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics;    
     
-    [TestClass()]
+    [TestFixture]
     public class MovingNormalStatisticsTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void PushTest()
         {
             double[] values = { 0.24, 1.61, 2.22, 5.82 };
@@ -67,7 +67,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expectedVariance, actualVariance);
         }
 
-        [TestMethod()]
+        [Test]
         public void PushTest2()
         {
             double[] values = { 0.24, 1.61, 2.22, 5.82 };

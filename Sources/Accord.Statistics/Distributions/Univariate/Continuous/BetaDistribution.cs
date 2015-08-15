@@ -861,10 +861,46 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public static double Random(double alpha, double beta)
         {
-            double x = GammaDistribution.Random(alpha, 1);
-            double y = GammaDistribution.Random(beta, 1);
+            double r;
 
-            return x / (x + y);
+            if (alpha < 1)
+            {
+                double d = alpha + 1.0 - 1.0 / 3.0;
+                double c = 1.0 / Math.Sqrt(9 * d);
+
+                double U = Accord.Math.Tools.Random.Next();
+                r = Gamma.Random(d, c) * Math.Pow(U, 1.0 / alpha);
+            }
+            else
+            {
+                double d = alpha - 1.0 / 3.0;
+                double c = 1.0 / Math.Sqrt(9 * d);
+
+                r = Gamma.Random(d, c);
+            }
+
+            if (beta < 1)
+            {
+                double d = beta + 1.0 - 1.0 / 3.0;
+                double c = 1.0 / Math.Sqrt(9 * d);
+
+                double U = Accord.Math.Tools.Random.Next();
+
+                double x = r;
+                double y = Gamma.Random(d, c) * Math.Pow(U, 1.0 / beta);
+                r = x / (x + y);
+            }
+            else
+            {
+                double d = beta - 1.0 / 3.0;
+                double c = 1.0 / Math.Sqrt(9 * d);
+
+                double x = r;
+                double y = Gamma.Random(d, c);
+                r = x / (x + y);
+            }
+
+            return r;
         }
 
         #endregion

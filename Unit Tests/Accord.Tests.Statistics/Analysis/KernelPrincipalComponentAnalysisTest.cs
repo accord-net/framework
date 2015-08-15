@@ -26,10 +26,10 @@ namespace Accord.Tests.Statistics
     using Accord.Math;
     using Accord.Statistics.Analysis;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Data;
 
-    [TestClass()]
+    [TestFixture]
     public class KernelPrincipalComponentAnalysisTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
         };
 
 
-        [TestMethod()]
+        [Test]
         public void TransformTest()
         {
             // Using a linear kernel should be equivalent to standard PCA
@@ -91,7 +91,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, target.ComponentMatrix.GetLength(1));
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest2()
         {
             // Using a linear kernel should be equivalent to standard PCA
@@ -135,7 +135,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(result, projection, 0.000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest3()
         {
             // Using a linear kernel should be equivalent to standard PCA
@@ -160,7 +160,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest4()
         {
             // Tested against R's kernlab
@@ -540,7 +540,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest5()
         {
             int element = 10;
@@ -582,7 +582,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(result.IsEqual(expected, 1e-10));
         }
 
-        [TestMethod()]
+        [Test]
         public void TransformTest_Jagged()
         {
             double[][] sourceMatrix = new double[][]
@@ -639,7 +639,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(result, projection, 0.000001));
         }
 
-        [TestMethod()]
+        [Test]
         public void RevertTest()
         {
             // Using a linear kernel should be equivalent to standard PCA
@@ -661,11 +661,11 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(Matrix.IsEqual(data, preimage, 0.0001));
         }
 
-        [TestMethod()]
+        [Test]
         public void RevertTest2()
         {
 
-            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\examples.xls";
+            string path = @"Resources\examples.xls";
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);
@@ -698,11 +698,11 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(!reversion.HasNaN());
         }
 
-        [TestMethod()]
+        [Test]
         public void RevertTest3()
         {
 
-            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\examples.xls";
+            string path = @"Resources\examples.xls";
 
             // Create a new reader, opening a given path
             ExcelReader reader = new ExcelReader(path);

@@ -25,15 +25,15 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using AForge;
     using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Collections.Generic;
 
-    [TestClass()]
+    [TestFixture]
     public class FastCornersDetectorTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest()
         {
             UnmanagedImage image = UnmanagedImage.FromManagedImage(Properties.Resources.sample_black);
@@ -57,7 +57,7 @@ namespace Accord.Tests.Imaging
             Assert.AreEqual(137, actual[73].Y);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProcessImageTest2()
         {
             UnmanagedImage image = UnmanagedImage.FromManagedImage(Properties.Resources.lena512);

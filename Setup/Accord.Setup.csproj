@@ -17,7 +17,9 @@
     <None Include="Compile.sh" />
     <None Include="Compile.cmd" />
     <None Include="Installer\Build.cmd" />
-    <None Include="NuGet\Accord.DirectSound.nuspec" />
+    <None Include="NuGet\Accord.Fuzzy.nuspec" />
+    <None Include="NuGet\Accord.Genetic.nuspec" />
+    <None Include="NuGet\Accord.Audio.DirectSound.nuspec" />
     <None Include="NuGet\Accord.Audio.nuspec">
       <SubType>Designer</SubType>
     </None>
@@ -34,6 +36,12 @@
     <None Include="NuGet\Accord.Neuro.nuspec" />
     <None Include="NuGet\Accord.nuspec" />
     <None Include="NuGet\Accord.Statistics.nuspec" />
+    <None Include="NuGet\Accord.Video.FFMPEG.nuspec" />
+    <None Include="NuGet\Accord.Video.Kinect.nuspec" />
+    <None Include="NuGet\Accord.Video.Ximea.nuspec" />
+    <None Include="NuGet\Accord.Video.VFW.nuspec" />
+    <None Include="NuGet\Accord.Video.DirectShow.nuspec" />
+    <None Include="NuGet\Accord.Video.nuspec" />
     <None Include="NuGet\Accord.Vision.nuspec" />
     <None Include="NuGet\Build.cmd" />
     <None Include="NuGet\Accord.MachineLearning.GPL.nuspec" />
@@ -42,6 +50,10 @@
     <None Include="NuGet\NuGet.exe" />
     <None Include="Package.cmd" />
     <None Include="Publish.cmd" />
+    <None Include="Scripts\Accord.dll.targets">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\Accord.Video.Kinect.dll.targets" />
     <None Include="version.cmd" />
   </ItemGroup>
   <ItemGroup />

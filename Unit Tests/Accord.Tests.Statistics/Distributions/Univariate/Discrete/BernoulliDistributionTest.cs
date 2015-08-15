@@ -23,12 +23,12 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System.Globalization;
     using System.Linq;
 
 
-    [TestClass()]
+    [TestFixture]
     public class BernoulliDistributionTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var bern = new BernoulliDistribution(mean: 0.42);
@@ -101,7 +101,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.0, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityMassFunctionTest()
         {
             BernoulliDistribution target = new BernoulliDistribution(0.6);
@@ -112,7 +112,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogProbabilityMassFunctionTest()
         {
             BernoulliDistribution target = new BernoulliDistribution(0.6);
@@ -123,7 +123,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             BernoulliDistribution target = new BernoulliDistribution(0.6);
@@ -134,7 +134,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-6);
         }
 
-        [TestMethod()]
+        [Test]
         public void ComplementaryDistributionFunctionTest()
         {
             BernoulliDistribution target = new BernoulliDistribution(0.42);
@@ -164,7 +164,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             {
@@ -188,7 +188,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GenerationTest()
         {
             double prob = 0.5;

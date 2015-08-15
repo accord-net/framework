@@ -11,15 +11,15 @@
     <projectUrl>http://accord-framework.net</projectUrl>
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>Contains Support Vector Machines, Decision Trees, Naive Bayesian models, K-means, Gaussian Mixture models and general algorithms such as Ransac, Cross-validation and Grid-Search for machine-learning applications. This package is part of the Accord.NET Framework.</description>
+    <description>
+      Contains Support Vector Machines, Decision Trees, Naive Bayesian models, K-means, Gaussian Mixture models and general algorithms such as Ransac, Cross-validation and Grid-Search for machine-learning applications. This package is part of the Accord.NET Framework.
+    </description>
     <summary>Accord.NET Machine Learning Library from the Accord.NET framework.</summary>
     <tags>accord.net aforge.net aforge.net machine learning artificial intelligence svm kmeans kmodes gmm ransac kernel deep learning knn</tags>
     <dependencies>
       <dependency id="Accord"            version="$version$" />
       <dependency id="Accord.Math"       version="$version$" />
       <dependency id="Accord.Statistics" version="$version$" />
-      
-      <dependency id="AForge"            version="2.2.5" />
     </dependencies>
   </metadata>
   <files>

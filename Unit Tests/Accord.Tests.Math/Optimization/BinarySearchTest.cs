@@ -22,12 +22,12 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math;
 
 
-    [TestClass()]
+    [TestFixture]
     public class BinarySearchTest
     {
         double[] elements;
@@ -56,7 +56,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             // https://www.wolframalpha.com/input/?i=%28x%2B1%29+*+%28x%2B1%29+*+%28x%2B1%29+%2B+2+*+%28x%2B1%29+*+%28x%2B1%29+%3D+0%2C+x+is+integer
@@ -75,7 +75,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(-3, r2);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest4()
         {
             // (x+5)^3 + 2(x+5)^2 - 10(x+5)
@@ -90,7 +90,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(-5, root);
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest1()
         {
             Func<int, double> function = x => elements[x];
@@ -106,7 +106,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             Func<int, double> function = x => elements[x];

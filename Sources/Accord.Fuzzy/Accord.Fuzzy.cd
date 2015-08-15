@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AForge.Fuzzy.Clause">
+    <Position X="6" Y="3" Width="1.5" />
+    <Members>
+      <Field Name="label" Hidden="true" />
+      <Field Name="variable" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAABAEAAAAAgAAAAAAAAAAAAQAAAAEAAA=</HashCode>
+      <FileName>Clause.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Variable" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AForge.Fuzzy.Database">
+    <Position X="2.5" Y="3.5" Width="1.5" />
+    <Members>
+      <Field Name="variables" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAgAAAAAAAAAAAAAAAAAAAEQAA=</HashCode>
+      <FileName>Database.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Fuzzy.FuzzyOutput">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="outputList" Hidden="true" />
+      <Field Name="outputVar" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Class Name="AForge.Fuzzy.FuzzyOutput.OutputConstraint" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>FuzzyOutput.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAABAIAAAAAAAAAAAAAAAAAABAAAAAUAAAA=</HashCode>
+      <FileName>FuzzyOutput.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="OutputVariable" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="AForge.Fuzzy.FuzzySet">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="function" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACgAAAgAAAAQEAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FuzzySet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Fuzzy.InferenceSystem">
+    <Position X="2.5" Y="0.5" Width="2.5" />
+    <Members>
+      <Field Name="conormOperator" Hidden="true" />
+      <Field Name="database" Hidden="true" />
+      <Field Name="defuzzifier" Hidden="true" />
+      <Field Name="normOperator" Hidden="true" />
+      <Field Name="rulebase" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABAAAABAAAAAAABAAAAAQgAAAAAAAAAAIAACQAAQAQA=</HashCode>
+      <FileName>InferenceSystem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Fuzzy.LinguisticVariable">
+    <Position X="9.25" Y="1" Width="1.75" />
+    <Members>
+      <Field Name="end" Hidden="true" />
+      <Field Name="labels" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+      <Field Name="numericInput" Hidden="true" />
+      <Field Name="start" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAIIAAACCCAAABAgEAAAAAQQgAAEAAAAAABAAAAAAAA=</HashCode>
+      <FileName>LinguisticVariable.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Fuzzy.Rule">
+    <Position X="0.5" Y="5.75" Width="2" />
+    <Members>
+      <Field Name="conormOperator" Hidden="true" />
+      <Field Name="database" Hidden="true" />
+      <Field Name="name" Hidden="true" />
+      <Field Name="normOperator" Hidden="true" />
+      <Field Name="notOperator" Hidden="true" />
+      <Field Name="output" Hidden="true" />
+      <Field Name="rpnTokenList" Hidden="true" />
+      <Field Name="rule" Hidden="true" />
+      <Field Name="unaryOperators" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAIAAAABEEJAIAAQACAAEAAAAAAACAABAAAQ=</HashCode>
+      <FileName>Rule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Fuzzy.Rulebase">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <Members>
+      <Field Name="rules" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABAIAAIAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Rulebase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AForge.Fuzzy.MaximumCoNorm" BaseTypeListCollapsed="true">
+    <Position X="10" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\MaximumCoNorm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Fuzzy.MinimumNorm" BaseTypeListCollapsed="true">
+    <Position X="8" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\MinimumNorm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Fuzzy.NotOperator" BaseTypeListCollapsed="true">
+    <Position X="17" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\NotOperator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Fuzzy.ProductNorm" BaseTypeListCollapsed="true">
+    <Position X="12.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\ProductNorm.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Fuzzy.CentroidDefuzzifier" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="6.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Defuzzification\CentroidDefuzzifier.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Fuzzy.PiecewiseLinearFunction">
+    <Position X="15.5" Y="1" Width="2.75" />
+    <Members>
+      <Field Name="points" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAACgAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Membership Functions\PiecewiseLinearFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AForge.Fuzzy.SingletonFunction" BaseTypeListCollapsed="true">
+    <Position X="13" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACgAAAAAAAAAEAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Membership Functions\SingletonFunction.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="AForge.Fuzzy.TrapezoidalFunction">
+    <Position X="15.5" Y="3.5" Width="2.75" />
+    <NestedTypes>
+      <Enum Name="AForge.Fuzzy.TrapezoidalFunction.EdgeType" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Membership Functions\TrapezoidalFunction.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Membership Functions\TrapezoidalFunction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="AForge.Fuzzy.ICoNorm">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\ICoNorm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AForge.Fuzzy.INorm">
+    <Position X="9" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\INorm.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AForge.Fuzzy.IUnaryOperator">
+    <Position X="15.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Operators\IUnaryOperator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AForge.Fuzzy.IDefuzzifier">
+    <Position X="3.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Defuzzification\IDefuzzifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AForge.Fuzzy.IMembershipFunction">
+    <Position X="13" Y="0.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACgAAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Membership Functions\IMembershipFunction.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

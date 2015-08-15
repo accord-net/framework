@@ -26,6 +26,7 @@ namespace Accord.Audio
     using System.Runtime.InteropServices;
     using Accord.Math;
     using AForge.Math;
+    using System.Numerics;
 
     /// <summary>
     ///   Complex signal status.
@@ -177,7 +178,7 @@ namespace Accord.Audio
         public Complex[,] ToArray()
         {
             Complex[,] array = new Complex[Length, Channels];
-            
+
             GCHandle handle = GCHandle.Alloc(array, GCHandleType.Pinned);
             IntPtr pointer = handle.AddrOfPinnedObject();
             Marshal.Copy(RawData, 0, pointer, array.Length * Marshal.SizeOf(typeof(Complex)));

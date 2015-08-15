@@ -23,12 +23,12 @@
 namespace Accord.Tests.MachineLearning
 {
     using Accord.MachineLearning.Geometry;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math.Geometry;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class RansacPlaneTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod()]
+        [Test]
         public void RansacPlaneConstructorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -131,7 +131,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void RansacPlaneConstructorTest2()
         {
             Point3[] points = 

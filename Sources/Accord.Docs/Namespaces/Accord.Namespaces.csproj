@@ -35,10 +35,6 @@
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <ItemGroup>
-    <Reference Include="AForge.Neuro">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Externals\AForge.NET\AForge.Neuro.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -51,12 +47,20 @@
   <ItemGroup>
     <Compile Include="Accord.Audio.cs" />
     <Compile Include="Accord.cs" />
+    <Compile Include="Accord.Genetic.cs" />
+    <Compile Include="Accord.Fuzzy.cs" />
+    <Compile Include="Accord.Imaging.cs" />
     <Compile Include="Accord.MachineLearning.cs" />
     <Compile Include="Accord.Audio.Formats.cs" />
     <Compile Include="Accord.Audition.cs" />
     <Compile Include="Accord.Math.cs" />
     <Compile Include="Accord.Neuro.cs" />
     <Compile Include="Accord.Statistics.cs" />
+    <Compile Include="Accord.Video.VFW.cs" />
+    <Compile Include="Accord.Video.Kinect.cs" />
+    <Compile Include="Accord.Video.Ximea.cs" />
+    <Compile Include="Accord.Video.DirectShow.cs" />
+    <Compile Include="Accord.Video.cs" />
     <Compile Include="Accord.Vision.cs" />
     <Compile Include="Accord.Controls.cs" />
     <Compile Include="Accord.IO.cs" />
@@ -64,10 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Accord.Audio.Formats\Accord.Audio.Formats.csproj">
-      <Project>{ec70c2a7-2b49-40d3-ae82-4c2f6e1724af}</Project>
-      <Name>Accord.Audio.Formats</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Accord.Audio\Accord.Audio.csproj">
       <Project>{e7b65f08-82f1-438f-847a-2aac2bec9ac0}</Project>
       <Name>Accord.Audio</Name>
@@ -96,9 +96,17 @@
       <Project>{a177a90c-8207-466a-af70-f2b8452a42ac}</Project>
       <Name>Accord.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Accord.DirectSound\Accord.DirectSound.csproj">
+    <ProjectReference Include="..\..\Accord.Audio.DirectSound\Accord.Audio.DirectSound.csproj">
       <Project>{456db2e8-745a-4f87-a2bd-c43cf8677770}</Project>
-      <Name>Accord.DirectSound</Name>
+      <Name>Accord.Audio.DirectSound</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Fuzzy\Accord.Fuzzy.csproj">
+      <Project>{b631038f-e12c-4d0d-8b25-ff7f62fe62d1}</Project>
+      <Name>Accord.Fuzzy</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Genetic\Accord.Genetic.csproj">
+      <Project>{2efaa327-1789-4438-b9f5-e83acae12db2}</Project>
+      <Name>Accord.Genetic</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.IO\Accord.IO.csproj">
       <Project>{63184EBD-6B28-4066-AAEE-5B99431E31F4}</Project>
@@ -123,6 +131,26 @@
     <ProjectReference Include="..\..\Accord.Statistics\Accord.Statistics.csproj">
       <Project>{fd8101dd-c95d-42d6-ad44-ae01c25f2811}</Project>
       <Name>Accord.Statistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Video.DirectShow\Accord.Video.DirectShow.csproj">
+      <Project>{26cd2ce7-ff63-4669-83b0-7d9c8f3408ee}</Project>
+      <Name>Accord.Video.DirectShow</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Video.Kinect\Accord.Video.Kinect.csproj">
+      <Project>{9da8e727-4038-4e6b-90bd-853730fdfa49}</Project>
+      <Name>Accord.Video.Kinect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Video.VFW\Accord.Video.VFW.csproj">
+      <Project>{22e852c0-17ff-4106-9df6-41eabb8c0613}</Project>
+      <Name>Accord.Video.VFW</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Video.Ximea\Accord.Video.Ximea.csproj">
+      <Project>{aedd6cfb-747b-4077-9288-9cd2a86090f1}</Project>
+      <Name>Accord.Video.Ximea</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Accord.Video\Accord.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>Accord.Video</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Accord.Vision\Accord.Vision.csproj">
       <Project>{c70a159d-74a4-405f-9a7f-c17acf451cca}</Project>

@@ -22,7 +22,7 @@
 
 using Accord.Statistics.Models.Markov;
 using Accord.Statistics.Distributions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Accord.Math;
 using Accord.Statistics.Distributions.Univariate;
 using Accord.Statistics.Models.Markov.Learning;
@@ -35,7 +35,7 @@ namespace Accord.Tests.Statistics
     ///This is a test class for HiddenMarkovModelTest and is intended
     ///to contain all HiddenMarkovModelTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestFixture]
     public class TopologyTest
     {
 
@@ -59,7 +59,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void UniformTest()
         {
             // Create a new Ergodic hidden Markov model with three
@@ -79,7 +79,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(A.IsEqual(expected, 0.01));
         }
 
-        [TestMethod()]
+        [Test]
         public void ForwardTest()
         {
             // Create a new Forward-only hidden Markov model with
@@ -98,7 +98,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(actual.IsEqual(expected, 0.01));
         }
 
-        [TestMethod()]
+        [Test]
         public void ForwardTest2()
         {
             var topology = new Forward(3, 2);
@@ -120,7 +120,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(states, 3);
         }
 
-        [TestMethod()]
+        [Test]
         public void ForwardTest3()
         {
             var topology = new Forward(states: 3, deepness: 2);

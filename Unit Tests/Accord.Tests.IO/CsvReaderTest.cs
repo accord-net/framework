@@ -23,18 +23,18 @@
 namespace Accord.Tests.IO
 {
     using Accord.IO;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Data;
     using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class CsvReaderTest
     {
 
         // Tests from https://github.com/maxogden/csv-spectrum
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_Simple_NoHeaders()
         {
             var stream = new StringReader(Properties.Resources.csv_simple);
@@ -52,7 +52,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_Simple_WithHeaders()
         {
             {
@@ -89,7 +89,7 @@ namespace Accord.Tests.IO
         }
 
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_Simple_clrf()
         {
             var stream = new StringReader(Properties.Resources.csv_simple_crlf);
@@ -107,7 +107,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_newlines()
         {
             var stream = new StringReader(Properties.Resources.csv_newlines);
@@ -127,7 +127,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_newlines_clrf()
         {
             var stream = new StringReader(Properties.Resources.csv_newlines_crlf);
@@ -147,7 +147,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_quotes_and_newlines()
         {
             var stream = new StringReader(Properties.Resources.csv_quotes_and_newlines);
@@ -166,7 +166,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_escaped_quotes()
         {
             var stream = new StringReader(Properties.Resources.csv_escaped_quotes);
@@ -185,7 +185,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_commas_in_quotes()
         {
             var stream = new StringReader(Properties.Resources.csv_comma_in_quotes);
@@ -203,7 +203,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_empty()
         {
             var stream = new StringReader(Properties.Resources.csv_empty);
@@ -222,7 +222,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_empty_crlf()
         {
             var stream = new StringReader(Properties.Resources.csv_empty_crlf);
@@ -241,7 +241,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_utf8()
         {
             var stream = new StringReader(Properties.Resources.csv_utf8);
@@ -260,7 +260,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_tabs()
         {
             var stream = new StringReader(Properties.Resources.csv_tabs);
@@ -279,7 +279,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_french()
         {
             var stream = new StringReader(Properties.Resources.csv_french);
@@ -298,7 +298,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_pipes()
         {
             var stream = new StringReader(Properties.Resources.csv_pipes);
@@ -317,7 +317,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_double_quotes()
         {
             var stream = new StringReader(Properties.Resources.csv_double_quotes);
@@ -338,7 +338,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_error_recovery()
         {
             var stream = new StringReader(Properties.Resources.csv_error_recovery);
@@ -360,7 +360,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void CsvReader_Spaces()
         {
             string text = "\n"
@@ -384,7 +384,7 @@ namespace Accord.Tests.IO
             Assert.IsTrue(expected.IsEqual(actual));
         }
 
-        [TestMethod, Ignore]
+        [Test, Ignore]
         public void CsvReader_Comma()
         {
             string text = "\n"

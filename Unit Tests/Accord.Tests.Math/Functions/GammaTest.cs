@@ -23,10 +23,10 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class GammaTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             double[] x = 
@@ -95,7 +95,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void LogTest()
         {
             double[] x = 
@@ -142,7 +142,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void DigammaTest()
         {
             double[] x = { 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0 };
@@ -172,7 +172,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void GammaFunctionsTest()
         {
             double x = 0.17;
@@ -201,7 +201,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(35.915302055854525, tri);
         }
 
-        [TestMethod()]
+        [Test]
         public void GammaTest2()
         {
             double x = 171;
@@ -210,7 +210,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e+293);
         }
 
-        [TestMethod()]
+        [Test]
         public void LgammaTest()
         {
             double x = 57;
@@ -220,7 +220,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void DigammaTest2()
         {
             double x = 42;
@@ -229,7 +229,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void MultivariateGammaTest()
         {
             double expected = 35.342917352885181;
@@ -237,7 +237,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void GammaUpperRTest()
         {
             // Example values from

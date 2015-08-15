@@ -682,10 +682,6 @@ namespace Accord.MachineLearning
             return true;
         }
 
-        /// <summary>
-        ///   Gets the collection of clusters currently modeled by the clustering algorithm.
-        /// </summary>
-        /// 
         IClusterCollection<double[]> IClusteringAlgorithm<double[]>.Clusters
         {
             get { return clusters; }

@@ -23,6 +23,7 @@
 namespace Accord.Audio.Windows
 {
     using AForge.Math;
+    using System.Numerics;
 
     /// <summary>
     ///   Rectangular Window.
@@ -91,7 +92,7 @@ namespace Accord.Audio.Windows
         ///   Splits a signal using the current window.
         /// </summary>
         /// 
-        public unsafe Signal Apply(Signal signal, int sampleIndex)
+        public Signal Apply(Signal signal, int sampleIndex)
         {
             int channels = signal.Channels;
             int samples = signal.Length;
@@ -104,12 +105,15 @@ namespace Accord.Audio.Windows
             {
                 for (int c = 0; c < channels; c++)
                 {
-                    float* dst = (float*)result.Data.ToPointer() + c;
-                    float* src = (float*)signal.Data.ToPointer() + c + channels * sampleIndex;
-
-                    for (int i = 0; i < minLength; i++, dst += channels, src += channels)
+                    unsafe
                     {
-                        *dst = *src;
+                        float* dst = (float*)result.Data.ToPointer() + c;
+                        float* src = (float*)signal.Data.ToPointer() + c + channels * sampleIndex;
+
+                        for (int i = 0; i < minLength; i++, dst += channels, src += channels)
+                        {
+                            *dst = *src;
+                        }
                     }
                 }
             }
@@ -154,20 +158,23 @@ namespace Accord.Audio.Windows
         ///   Splits a signal using the window.
         /// </summary>
         /// 
-        public unsafe virtual double[] Apply(double[] signal, int sampleIndex)
+        public virtual double[] Apply(double[] signal, int sampleIndex)
         {
             int minLength = System.Math.Min(signal.Length - sampleIndex, Length);
 
             double[] result = new double[Length];
 
-            fixed (double* R = result)
-            fixed (double* S = signal)
+            unsafe
             {
-                double* dst = R;
-                double* src = S + sampleIndex;
+                fixed (double* R = result)
+                fixed (double* S = signal)
+                {
+                    double* dst = R;
+                    double* src = S + sampleIndex;
 
-                for (int i = 0; i < minLength; i++, dst++, src++)
-                    *dst = *src;
+                    for (int i = 0; i < minLength; i++, dst++, src++)
+                        *dst = *src;
+                }
             }
 
             return result;
@@ -177,7 +184,7 @@ namespace Accord.Audio.Windows
         ///   Splits a signal using the window.
         /// </summary>
         /// 
-        public unsafe virtual double[][] Apply(double[][] signal, int sampleIndex)
+        public virtual double[][] Apply(double[][] signal, int sampleIndex)
         {
             int channels = signal[0].Length;
 

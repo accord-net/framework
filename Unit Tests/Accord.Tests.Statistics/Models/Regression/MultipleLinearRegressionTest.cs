@@ -23,9 +23,9 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Regression.Linear;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class MultipleLinearRegressionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void RegressTest()
         {
             MultipleLinearRegression target = new MultipleLinearRegression(1, true);
@@ -81,7 +81,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("y(x0) = -0,264705882352941*x0 + 50,5882352941176", str);
         }
 
-        [TestMethod()]
+        [Test]
         public void RegressTest2()
         {
             MultipleLinearRegression target = new MultipleLinearRegression(2, false);
@@ -118,7 +118,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("y(x0, x1) = -0.264705882352941*x0 + 50.5882352941176*x1", str);
         }
 
-        [TestMethod()]
+        [Test]
         public void RegressTest3()
         {
             // We will try to model a plane as an equation in the form
@@ -165,7 +165,7 @@ namespace Accord.Tests.Statistics
 
         }
 
-        [TestMethod()]
+        [Test]
         public void RegressTest4()
         {
             int count = 1000;
@@ -201,7 +201,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void RegressTest5()
         {
             int count = 1000;
@@ -235,7 +235,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void RegressTest6()
         {
             MultipleLinearRegression target = new MultipleLinearRegression(2, false);

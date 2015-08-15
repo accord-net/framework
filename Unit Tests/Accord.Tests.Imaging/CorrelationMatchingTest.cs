@@ -21,7 +21,7 @@
 //
 
 using Accord.Imaging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System.Drawing;
 using AForge;
 using Accord.Math;
@@ -30,7 +30,7 @@ using System.Collections.Generic;
 namespace Accord.Tests.Imaging
 {
 
-    [TestClass()]
+    [TestFixture]
     public class CorrelationMatchingTest
     {
 
@@ -51,7 +51,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void MatchTest()
         {
             int windowSize = 3;
@@ -104,7 +104,7 @@ namespace Accord.Tests.Imaging
             Assert.IsTrue(actual.IsEqual(expected));
         }
 
-        [TestMethod()]
+        [Test]
         public void MatchTest2()
         {
             for (int windowSize = 1; windowSize <= 15; windowSize += 2)

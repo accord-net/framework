@@ -22,35 +22,18 @@
 
 namespace Accord.Tests.MachineLearning
 {
-    using System;
-    using System.Data;
     using Accord.MachineLearning.DecisionTrees;
     using Accord.MachineLearning.DecisionTrees.Learning;
     using Accord.Math;
     using Accord.Statistics.Filters;
     using AForge;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
+    using System;
+    using System.Data;
 
-    [TestClass()]
+    [TestFixture]
     public class ID3LearningTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         public static void CreateMitchellExample(out DecisionTree tree, out int[][] inputs, out int[] outputs)
         {
@@ -164,9 +147,11 @@ namespace Accord.Tests.MachineLearning
 
 
             double error = id3.Run(inputs, outputs);
+
+            Assert.AreEqual(0, error);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             int[][] inputs =
@@ -232,7 +217,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(0, tree.Root.Branches[1].Branches[1].Output); // 1 ^ 1 = 0
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             DecisionTree tree;
@@ -276,7 +261,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(tree.Root.Branches[2].Branches[1].IsLeaf);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest3()
         {
             DecisionTree tree;
@@ -312,7 +297,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstantDiscreteVariableTest()
         {
             DecisionTree tree;
@@ -377,6 +362,8 @@ namespace Accord.Tests.MachineLearning
 
             double error = id3.Run(inputs, outputs);
 
+            Assert.AreEqual(0, error);
+
             for (int i = 0; i < inputs.Length; i++)
             {
                 int y = tree.Compute(inputs[i]);
@@ -384,7 +371,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void IncompleteDiscreteVariableTest()
         {
             DecisionTree tree;
@@ -434,6 +421,8 @@ namespace Accord.Tests.MachineLearning
 
             double error = id3.Run(inputs, outputs);
 
+            Assert.AreEqual(0, error);
+
             Assert.AreEqual(203, tree.Root.Branches.Count);
             Assert.IsTrue(tree.Root.Branches[100].IsLeaf);
             Assert.IsNull(tree.Root.Branches[100].Output);
@@ -445,7 +434,7 @@ namespace Accord.Tests.MachineLearning
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ArgumentCheck1()
         {
             int[][] samples =
@@ -476,7 +465,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod]
+        [Test]
         public void ConsistencyTest1()
         {
             int[,] random = Matrix.Random(1000, 10, 0, 10).ToInt32();
@@ -509,7 +498,7 @@ namespace Accord.Tests.MachineLearning
 
 
 
-        [TestMethod]
+        [Test]
         public void LargeSampleTest1()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -538,7 +527,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(code.Length > 0);
         }
 
-        [TestMethod]
+        [Test]
         public void LargeSampleTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -573,7 +562,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(error < 0.15);
         }
 
-        [TestMethod]
+        [Test]
         public void LargeSampleTest_WithRepetition()
         {
             Accord.Math.Tools.SetupGenerator(0);

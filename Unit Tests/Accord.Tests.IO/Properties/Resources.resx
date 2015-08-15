@@ -125,57 +125,60 @@
     <value>..\Resources\t10k-images-idx3-ubyte.gz;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="csv_comma_in_quotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\comma_in_quotes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\comma_in_quotes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_double_quotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\new\double_quotes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\new\double_quotes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\empty.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\empty.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_empty_crlf" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\empty_crlf.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\empty_crlf.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_error_recovery" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\new\error_recovery.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\new\error_recovery.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_escaped_quotes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\escaped_quotes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\escaped_quotes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_french" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\new\french.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\new\french.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_json" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\json.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\json.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_newlines" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\newlines.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\newlines.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_newlines_crlf" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\newlines_crlf.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\newlines_crlf.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_pipes" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\new\pipes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\new\pipes.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_quotes_and_newlines" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\quotes_and_newlines.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\quotes_and_newlines.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_simple" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\simple.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\simple.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_simple_crlf" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\simple_crlf.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\simple_crlf.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_tabs" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\new\tabs.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\csv\new\tabs.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="csv_utf8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\csv\utf8.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+    <value>..\Resources\csv\utf8.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="a9a_test" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\liblinear\a9a.test;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\liblinear\a9a.test;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="a9a_train" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\liblinear\a9a.train;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+    <value>..\Resources\liblinear\a9a.train;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="spreadsheet_names" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\excel\spreadsheet_names.xls;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

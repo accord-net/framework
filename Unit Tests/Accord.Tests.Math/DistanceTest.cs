@@ -23,16 +23,16 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Math.Decompositions;
 
 
-    [TestClass()]
+    [TestFixture]
     public class DistanceTest
     {
 
-        [TestMethod()]
+        [Test]
         public void MahalanobisTest2()
         {
             // Example from Statistical Distance Calculator
@@ -64,7 +64,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 0.0000000000001);
         }
 
-        [TestMethod()]
+        [Test]
         public void MahalanobisTest3()
         {
             // Example from Statistical Distance Calculator
@@ -120,7 +120,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void MahalanobisTest4()
         {
             double[] x, y;
@@ -157,7 +157,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void MahalanobisTest5()
         {
             double[] x, y;
@@ -194,7 +194,7 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void MahalanobisTest6()
         {
             double[] x = { -1, 0, 0 };
@@ -217,7 +217,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ManhattanTest()
         {
             double[] x = { 3, 6 };
@@ -228,7 +228,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void EuclideanTest()
         {
             double[] x = new double[] { 2, 4, 1 };
@@ -239,7 +239,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ModularTest()
         {
             int a = 1;
@@ -252,7 +252,7 @@ namespace Accord.Tests.Math
         }
 
 
-        [TestMethod()]
+        [Test]
         public void BhattacharyyaTest()
         {
             double[,] X = 
@@ -276,7 +276,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void BhattacharyyaTest1()
         {
             double[] histogram1 = { 0.1, 0.5, 0.4 };
@@ -289,7 +289,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void BhattacharyyaTest2()
         {
             double[] x = { 2, 0, 0 };
@@ -317,7 +317,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void BhattacharyyaTest3()
         {
             double[] x = { 2, 1, 0 };
@@ -338,7 +338,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void BhattacharyyaTest4()
         {
             double[,] X = 
@@ -355,7 +355,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void EuclideanTest1()
         {
             double x1 = 1.5;
@@ -371,7 +371,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void IsMetricTest()
         {
             Assert.IsTrue(Distance.IsMetric(Distance.Euclidean));

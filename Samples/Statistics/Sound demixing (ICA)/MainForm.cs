@@ -38,7 +38,7 @@ using Accord.Statistics.Analysis;
 using System;
 using System.Windows.Forms;
 
-namespace Demixing.ICA
+namespace SampleApp
 {
     public partial class MainForm : Form
     {

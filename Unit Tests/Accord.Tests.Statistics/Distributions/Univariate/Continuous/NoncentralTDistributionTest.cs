@@ -24,11 +24,11 @@ namespace Accord.Tests.Statistics
 {
 
     using Accord.Statistics.Distributions.Univariate;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class NoncentralTDistributionTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest2()
         {
             var distribution = new NoncentralTDistribution(
@@ -97,7 +97,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(10.541194525031729, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistributionFunctionTest()
         {
             double[,] table = 
@@ -150,7 +150,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ProbabilityFunctionTest()
         {
             double[,] table = 
@@ -189,7 +189,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void MeanTest()
         {
             NoncentralTDistribution target;
@@ -219,7 +219,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(312.49612392294557, target.Variance);
         }
 
-        [TestMethod()]
+        [Test]
         public void MedianTest()
         {
             NoncentralTDistribution target = new NoncentralTDistribution(3.2, 4.57);

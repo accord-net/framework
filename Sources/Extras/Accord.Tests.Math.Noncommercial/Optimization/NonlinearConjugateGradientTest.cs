@@ -23,14 +23,14 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Optimization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class NonlinearConjugateGradientTest
     {
 
-        [TestMethod()]
+        [Test]
         public void MinimizeTest()
         {
             Func<double[], double> f = rosenbrockFunction;
@@ -70,7 +70,7 @@ namespace Accord.Tests.Math
             Assert.IsFalse(double.IsNaN(d[1]));
         }
 
-        [TestMethod()]
+        [Test]
         public void expDiffTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -114,7 +114,7 @@ namespace Accord.Tests.Math
             };
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest2()
         {
             Func<double[], double> function = // min f(x) = 10 * (x+1)^2 + y^2

@@ -663,7 +663,7 @@ namespace Accord.Math
             int[] vector = new int[array.Rank];
 
             for (int i = 0; i < vector.Length; i++)
-                vector[i] = array.GetUpperBound(i);
+                vector[i] = array.GetUpperBound(i) + 1;
 
             return vector;
         }
@@ -1286,7 +1286,7 @@ namespace Accord.Math
         #region Split
         /// <summary>
         ///   Splits a given vector into a smaller vectors of the given size.
-        ///   This operation can be reverted using <see cref="Merge"/>.
+        ///   This operation can be reverted using <see cref="Merge{T}(T[][], int)"/>.
         /// </summary>
         /// 
         /// <param name="vector">The vector to be splitted.</param>
@@ -1309,7 +1309,7 @@ namespace Accord.Math
 
         /// <summary>
         ///   Merges a series of vectors into a single vector. This
-        ///   operation can be reverted using <see cref="Split"/>.
+        ///   operation can be reverted using <see cref="Split{T}(T[], int)"/>.
         /// </summary>
         /// 
         /// <param name="vectors">The vectors to be merged.</param>
@@ -1321,6 +1321,30 @@ namespace Accord.Math
         {
             int n = vectors.Length * size;
             T[] r = new T[n * size];
+
+            int c = 0;
+            for (int i = 0; i < vectors.Length; i++)
+                for (int j = 0; j < vectors[i].Length; j++, c++)
+                    r[c] = vectors[i][j];
+
+            return r;
+        }
+
+        /// <summary>
+        ///   Merges a series of vectors into a single vector. This
+        ///   operation can be reverted using <see cref="Split{T}(T[], int)"/>.
+        /// </summary>
+        /// 
+        /// <param name="vectors">The vectors to be merged.</param>
+        /// 
+        /// <returns>A single array containing the given vectors.</returns>
+        /// 
+        public static T[] Merge<T>(this T[][] vectors)
+        {
+            int size = 0;
+            for (int i = 0; i < vectors.Length; i++)
+                size += vectors[i].Length;
+            T[] r = new T[size];
 
             int c = 0;
             for (int i = 0; i < vectors.Length; i++)

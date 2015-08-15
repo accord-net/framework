@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using System.Data;
     using Accord.Statistics.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class DiscretizationFilterTest
     {
 
@@ -45,7 +45,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest1()
         {
             DataTable table = ProjectionFilterTest.CreateTable();
@@ -72,7 +72,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("2", result.Rows[4]["Cost (M)"]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest()
         {
             DataTable input = new DataTable("Sample data");

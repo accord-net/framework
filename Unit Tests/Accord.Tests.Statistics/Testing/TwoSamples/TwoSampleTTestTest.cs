@@ -24,10 +24,10 @@ namespace Accord.Tests.Statistics
 {
 
     using Accord.Statistics.Testing;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Testing.Power;
 
-    [TestClass()]
+    [TestFixture]
     public class TwoSampleTTestTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void TTestConstructorTest()
         {
             // Example from http://en.wikipedia.org/wiki/Student%27s_t-test#Two-sample_T.C2.A02_test
@@ -95,7 +95,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0.038, test.PValue, 0.0015);
         }
 
-        [TestMethod()]
+        [Test]
         public void TTestConstructorTest2()
         {
 
@@ -133,7 +133,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(test.Significant);
         }
 
-        [TestMethod]
+        [Test]
         public void SampleSizeTest1()
         {
             // Example from http://udel.edu/~mcdonald/statttest.html

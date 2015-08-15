@@ -24,9 +24,9 @@ namespace Accord.Tests.Statistics
 {
     using System;
     using Accord.Statistics.Links;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ProbitLinkFunctionTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ProbitLinkFunctionConstructorTest()
         {
             ProbitLinkFunction target = new ProbitLinkFunction();
@@ -74,7 +74,7 @@ namespace Accord.Tests.Statistics
         }
 
       
-        [TestMethod()]
+        [Test]
         public void DerivativeTest()
         {
             ProbitLinkFunction target = new ProbitLinkFunction();

@@ -37,9 +37,10 @@ using AForge;
 using AForge.Math;
 using System;
 using System.Drawing;
+using System.Numerics;
 using System.Windows.Forms;
 
-namespace Fourier
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
@@ -79,7 +80,6 @@ namespace Fourier
             source.NewFrame += source_NewFrame;
             source.AudioSourceError += source_AudioSourceError;
             
-
             // Start it!
             source.Start();
         }

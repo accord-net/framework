@@ -24,12 +24,12 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using Accord.Statistics.Distributions.Multivariate;
     using System.Globalization;
 
-    [TestClass()]
+    [TestFixture]
     public class TukeyLambdaTest
     {
 
@@ -50,7 +50,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ConstructorTest()
         {
             var tukey = new TukeyLambdaDistribution(lambda: 0.14);
@@ -99,7 +99,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3.3841891582663117, range3.Max);
         }
 
-        [TestMethod()]
+        [Test]
         public void LogisticTest()
         {
             var target = new TukeyLambdaDistribution(lambda: 0);
@@ -108,7 +108,7 @@ namespace Accord.Tests.Statistics
             compare(target, logistic, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void UniformTest()
         {
             var target = new TukeyLambdaDistribution(lambda: 1);
@@ -117,7 +117,7 @@ namespace Accord.Tests.Statistics
             compare(target, uniform, 1e-10);
         }
 
-        [TestMethod()]
+        [Test]
         public void UniformTest2()
         {
             var target = new TukeyLambdaDistribution(lambda: 2);

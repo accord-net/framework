@@ -23,6 +23,7 @@
 namespace Accord.Statistics.Analysis
 {
     using Accord.Math;
+    using Accord.Statistics.Distributions.Univariate;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
     using Accord.Statistics.Testing;
@@ -178,7 +179,7 @@ namespace Accord.Statistics.Analysis
 
         private double[][] inputData;
         private double[] timeData;
-        private int[] censorData;
+        private SurvivalOutcome[] censorData;
 
         private string[] inputNames;
         private string timeName;
@@ -208,11 +209,14 @@ namespace Accord.Statistics.Analysis
         /// <param name="times">The output data for the analysis.</param>
         /// <param name="censor">The right-censoring indicative values.</param>
         /// 
-        public ProportionalHazardsAnalysis(double[,] inputs, double[] times, int[] censor)
+        public ProportionalHazardsAnalysis(double[,] inputs, double[] times, SurvivalOutcome[] censor)
         {
             // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (times == null) throw new ArgumentNullException("times");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (times == null) 
+                throw new ArgumentNullException("times");
 
             if (inputs.GetLength(0) != times.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
@@ -231,11 +235,14 @@ namespace Accord.Statistics.Analysis
         /// <param name="times">The output data for the analysis.</param>
         /// <param name="censor">The right-censoring indicative values.</param>
         /// 
-        public ProportionalHazardsAnalysis(double[][] inputs, double[] times, int[] censor)
+        public ProportionalHazardsAnalysis(double[][] inputs, double[] times, SurvivalOutcome[] censor)
         {
             // Initial argument checking
-            if (inputs == null) throw new ArgumentNullException("inputs");
-            if (times == null) throw new ArgumentNullException("times");
+            if (inputs == null) 
+                throw new ArgumentNullException("inputs");
+
+            if (times == null) 
+                throw new ArgumentNullException("times");
 
             if (inputs.Length != times.Length)
                 throw new ArgumentException("The number of rows in the input array must match the number of given outputs.");
@@ -257,7 +264,7 @@ namespace Accord.Statistics.Analysis
         /// <param name="timeName">The name of the time variable.</param>
         /// <param name="censorName">The name of the event indication variable.</param>
         /// 
-        public ProportionalHazardsAnalysis(double[][] inputs, double[] times, int[] censor,
+        public ProportionalHazardsAnalysis(double[][] inputs, double[] times, SurvivalOutcome[] censor,
             String[] inputNames, String timeName, String censorName)
             : this(inputs, times, censor)
         {
@@ -266,7 +273,7 @@ namespace Accord.Statistics.Analysis
             this.censorName = censorName;
         }
 
-        private void initialize(double[][] inputs, double[] outputs, int[] censor)
+        private void initialize(double[][] inputs, double[] outputs, SurvivalOutcome[] censor)
         {
             this.inputCount = inputs[0].Length;
             int coefficientCount = inputCount;
@@ -357,7 +364,7 @@ namespace Accord.Statistics.Analysis
         ///   interest happened or not.
         /// </summary>
         /// 
-        public int[] Events
+        public SurvivalOutcome[] Events
         {
             get { return censorData; }
         }
@@ -369,7 +376,7 @@ namespace Accord.Statistics.Analysis
         /// 
         public double[] Outputs
         {
-            get { return censorData.ToDouble(); }
+            get { return censorData.To<double[]>(); }
         }
 
         /// <summary>
@@ -601,8 +608,7 @@ namespace Accord.Statistics.Analysis
 
         private bool compute()
         {
-            ProportionalHazardsNewtonRaphson learning =
-                new ProportionalHazardsNewtonRaphson(regression);
+            var learning = new ProportionalHazardsNewtonRaphson(regression);
 
             Array.Clear(regression.Coefficients, 0, regression.Coefficients.Length);
 

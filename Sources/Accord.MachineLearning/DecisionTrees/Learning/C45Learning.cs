@@ -686,7 +686,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
                 if (outputs[i] < 0 || outputs[i] >= tree.OutputClasses)
                 {
                     throw new ArgumentOutOfRangeException("outputs",
-                      "The output label at index " + i + " should be equal to or higher than zero," +
+                      "The output label at index " + i + " should be equal to or higher than zero, " +
                       "and should be lesser than the number of output classes expected by the tree.");
                 }
             }

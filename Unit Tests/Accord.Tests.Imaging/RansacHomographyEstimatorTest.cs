@@ -24,29 +24,13 @@ namespace Accord.Tests.Imaging
 {
     using Accord.Imaging;
     using AForge;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class RansacHomographyEstimatorTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-        [TestMethod()]
+        [Test]
         public void EstimateTest()
         {
 

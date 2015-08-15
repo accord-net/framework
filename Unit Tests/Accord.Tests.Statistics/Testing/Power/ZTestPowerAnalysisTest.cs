@@ -25,9 +25,9 @@ namespace Accord.Tests.Statistics
 
     using Accord.Statistics.Testing;
     using Accord.Statistics.Testing.Power;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class ZTestPowerAnalysisTest
     {
 
@@ -49,7 +49,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void ZTestPowerAnalysisConstructorTest1()
         {
             ZTestPowerAnalysis target;
@@ -97,7 +97,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void ZTestPowerAnalysisConstructorTest2()
         {
             // When creating a power analysis, we have three things we can

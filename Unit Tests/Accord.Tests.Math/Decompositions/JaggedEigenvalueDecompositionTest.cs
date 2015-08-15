@@ -23,14 +23,14 @@
 namespace Accord.Tests.Math
 {
     using Accord.Math.Decompositions;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class JaggedEigenvalueDecompositionTest
     {
 
-        [TestMethod()]
+        [Test]
         public void InverseTestNaN()
         {
             int n = 5;
@@ -50,7 +50,7 @@ namespace Accord.Tests.Math
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void EigenvalueDecompositionConstructorTest()
         {
             // Symmetric test
@@ -92,7 +92,7 @@ namespace Accord.Tests.Math
 
 
 
-        [TestMethod()]
+        [Test]
         public void EigenvalueDecompositionConstructorTest2()
         {
             // Asymmetric test

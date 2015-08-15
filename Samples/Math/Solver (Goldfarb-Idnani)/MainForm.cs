@@ -36,7 +36,7 @@ using System;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Solver.QP
+namespace SampleApp
 {
     /// <summary>
     ///   Goldfarb-Idnani solver for Quadratic Programming (QP) problems

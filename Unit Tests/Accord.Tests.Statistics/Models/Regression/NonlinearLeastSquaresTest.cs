@@ -28,26 +28,11 @@ namespace Accord.Tests.Statistics
     using Accord.Math.Optimization;
     using Accord.Statistics.Models.Regression;
     using Accord.Statistics.Models.Regression.Fitting;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class NonLinearLeastSquaresTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         double function(double[] parameters, double[] input)
         {
@@ -65,7 +50,7 @@ namespace Accord.Tests.Statistics
             double m = parameters[0];
             double s = parameters[1];
             double a = parameters[2];
-            double b = parameters[3];
+            // double b = parameters[3]; // not needed
             double x = input[0];
 
             Func<double, double> exp = System.Math.Exp;
@@ -84,9 +69,11 @@ namespace Accord.Tests.Statistics
             result[3] = 1;
         }
 
-        [TestMethod()]
-        public void RunTest()
+        [Test]
+        public void ExampleTest()
         {
+            // Suppose we would like to map the continuous values in the
+            // second column to the integer values in the first column.
             double[,] data =
             {
                 { -40,    -21142.1111111111 },
@@ -100,9 +87,79 @@ namespace Accord.Tests.Statistics
                 {  40,    -15129.6111111111 },
             };
 
+            // Extract inputs and outputs
             double[][] inputs = data.GetColumn(0).ToArray();
             double[] outputs = data.GetColumn(1);
 
+            // Create a Nonlinear regression using 
+            var regression = new NonlinearRegression(3,
+
+                // Let's assume a quadratic model function: ax² + bx + c
+                function: (w, x) => w[0] * x[0] * x[0] + w[1] * x[0] + w[2], 
+
+                // Derivative in respect to the weights:
+                gradient: (w, x, r) =>
+                {
+                    r[0] = 2 * w[0]; // w.r.t a: 2a  
+                    r[1] = w[1];     // w.r.t b: b
+                    r[2] = w[2];     // w.r.t c: 0
+                }
+            );
+
+            // Create a non-linear least squares teacher
+            var nls = new NonlinearLeastSquares(regression);
+
+            // Initialize to some random values
+            regression.Coefficients[0] = 4.2;
+            regression.Coefficients[1] = 0.3;
+            regression.Coefficients[2] = 1;
+
+            // Run the function estimation algorithm
+            double error = Double.PositiveInfinity;
+            for (int i = 0; i < 100; i++)
+                error = nls.Run(inputs, outputs);
+
+            // Use the function to compute the input values
+            double[] predict = inputs.Apply(regression.Compute);
+
+            Assert.IsTrue(nls.Algorithm is LevenbergMarquardt);
+
+            Assert.AreEqual(1318374605.8436923d, error);
+
+            Assert.AreEqual(-12.025250289329851, regression.Coefficients[0], 1e-3);
+            Assert.AreEqual(-0.082208180694676766, regression.Coefficients[1], 1e-3);
+            Assert.AreEqual(-0.27402726898225627, regression.Coefficients[2], 1e-3);
+
+            Assert.AreEqual(-19237.386162968953, predict[0]);
+            Assert.AreEqual(-10820.533042245008, predict[1]);
+            Assert.AreEqual(-4808.7299793870288, predict[2]);
+            Assert.AreEqual(-1203.6211380089139, predict[5]);
+        }
+
+
+        [Test]
+        public void RunTest()
+        {
+            // Suppose we would like to map the continuous values in the
+            // second column to the integer values in the first column.
+            double[,] data =
+            {
+                { -40,    -21142.1111111111 },
+                { -30,    -21330.1111111111 },
+                { -20,    -12036.1111111111 },
+                { -10,      7255.3888888889 },
+                {   0,     32474.8888888889 },
+                {  10,     32474.8888888889 },
+                {  20,      9060.8888888889 },
+                {  30,    -11628.1111111111 },
+                {  40,    -15129.6111111111 },
+            };
+
+            // Extract inputs and outputs
+            double[][] inputs = data.GetColumn(0).ToArray();
+            double[] outputs = data.GetColumn(1);
+
+            // Create a Nonlinear regression using 
             NonlinearRegression regression = new NonlinearRegression(4, function, gradient);
 
 
@@ -115,7 +172,7 @@ namespace Accord.Tests.Statistics
             regression.Coefficients[2] = 53805; // a
             regression.Coefficients[3] = -21330.11; //b
 
-            double error = 0;
+            double error = Double.PositiveInfinity;
             for (int i = 0; i < 100; i++)
                 error = nls.Run(inputs, outputs);
 
@@ -123,6 +180,8 @@ namespace Accord.Tests.Statistics
             double s = regression.Coefficients[1];
             double a = regression.Coefficients[2];
             double b = regression.Coefficients[3];
+
+            Assert.AreEqual(010345587.465428974, error);
 
             Assert.AreEqual(5.316196154830604, m, 1e-3);
             Assert.AreEqual(12.792301798208918, s, 1e-3);
@@ -135,7 +194,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(b));
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest1()
         {
             // Example from https://en.wikipedia.org/wiki/Gauss%E2%80%93Newton_algorithm
@@ -201,7 +260,6 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(1.23859, regression.StandardErrors[0], 1e-3);
             Assert.AreEqual(6.06352, regression.StandardErrors[1], 3e-3);
         }
-
 
     }
 }

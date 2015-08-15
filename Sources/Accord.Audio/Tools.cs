@@ -27,6 +27,7 @@ namespace Accord.Audio
     using AForge.Math;
     using Accord.Math;
     using System.Collections.Generic;
+    using System.Numerics;
 
     /// <summary>
     ///   Tool functions for audio processing.
@@ -100,16 +101,17 @@ namespace Accord.Audio
         /// 
         public static double[] GetPowerSpectrum(Complex[] fft)
         {
-            if (fft == null) throw new ArgumentNullException("fft");
+            if (fft == null) 
+                throw new ArgumentNullException("fft");
 
             int n = (int)System.Math.Ceiling((fft.Length + 1) / 2.0);
 
             double[] mx = new double[n];
 
-            mx[0] = fft[0].SquaredMagnitude / fft.Length;
+            mx[0] = fft[0].SquaredMagnitude() / fft.Length;
 
             for (int i = 1; i < n; i++)
-                mx[i] = fft[i].SquaredMagnitude * 2.0 / fft.Length;
+                mx[i] = fft[i].SquaredMagnitude() * 2.0 / fft.Length;
 
             return mx;
         }
@@ -162,13 +164,14 @@ namespace Accord.Audio
         /// 
         public static double[] GetPowerCepstrum(Complex[] signal)
         {
-            if (signal == null) throw new ArgumentNullException("signal");
+            if (signal == null)
+                throw new ArgumentNullException("signal");
 
             FourierTransform.FFT(signal, FourierTransform.Direction.Backward);
 
             Complex[] logabs = new Complex[signal.Length];
             for (int i = 0; i < logabs.Length; i++)
-                logabs[i].Re = System.Math.Log(signal[i].Magnitude);
+                logabs[i] = new Complex(System.Math.Log(signal[i].Magnitude), 0);
 
             FourierTransform.FFT(logabs, FourierTransform.Direction.Forward);
 

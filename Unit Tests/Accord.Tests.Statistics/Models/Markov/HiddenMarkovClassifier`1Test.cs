@@ -29,16 +29,16 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Statistics.Models.Markov.Topology;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
 
 
-    [TestClass()]
+    [TestFixture]
     public class GenericSequenceClassifierTest
     {
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest1()
         {
             // Create a Continuous density Hidden Markov Model Sequence Classifier
@@ -94,7 +94,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(likelihood2));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest2()
         {
             // Creates a new Hidden Markov Model with 10 states
@@ -122,7 +122,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest3()
         {
             // Create a Continuous density Hidden Markov Model Sequence Classifier
@@ -195,7 +195,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(likelihood2));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest4()
         {
             // Create a Continuous density Hidden Markov Model Sequence Classifier
@@ -278,7 +278,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(likelihood2));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest5()
         {
             // Create a Continuous density Hidden Markov Model Sequence Classifier
@@ -359,7 +359,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(logLikelihood2));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest6()
         {
             // Create a Continuous density Hidden Markov Model Sequence Classifier
@@ -455,7 +455,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(response2));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest7()
         {
             // Create a Continuous density Hidden Markov Model Sequence Classifier
@@ -541,7 +541,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(likelihood2));
         }
 
-        [TestMethod()]
+        [Test]
         public void LearnTest8()
         {
             // Declare some testing data
@@ -678,7 +678,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void LearnTest9()
         {
             double[][][] inputs = large_gestures;

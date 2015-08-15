@@ -23,7 +23,7 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Models.Fields.Learning;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Models.Fields;
     using Accord.Statistics.Models.Markov;
     using Accord.Statistics.Models.Markov.Topology;
@@ -31,7 +31,7 @@ namespace Accord.Tests.Statistics
     using Accord.Statistics.Models.Markov.Learning;
     using Accord.Math;
 
-    [TestClass()]
+    [TestFixture]
     public class QuasiNewtonLearningTest
     {
 
@@ -78,7 +78,7 @@ namespace Accord.Tests.Statistics
             return hmm;
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             int nstates = 3;

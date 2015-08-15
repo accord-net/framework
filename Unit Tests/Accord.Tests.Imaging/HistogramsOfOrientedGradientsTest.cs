@@ -25,9 +25,9 @@ namespace Accord.Tests.Imaging
     using Accord.Imaging;
     using Accord.Imaging.Converters;
     using AForge.Imaging;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class HistogramsOfOrientedGradientsTest
     {
 
@@ -48,7 +48,7 @@ namespace Accord.Tests.Imaging
 
 
 
-        [TestMethod()]
+        [Test]
         public void MagnitudeDirectionTest()
         {
             byte[,] gradient = new byte[255, 255];

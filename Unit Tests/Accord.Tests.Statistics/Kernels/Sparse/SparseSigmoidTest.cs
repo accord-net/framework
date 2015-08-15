@@ -24,30 +24,22 @@ namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels.Sparse;
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class SparseSigmoidTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
+        [Test]
+        public void FunctionTest2()
         {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
+            SparseLinearTest.SparseTest(new Sigmoid(), new SparseSigmoid());
+            SparseLinearTest.SparseTest(new Sigmoid(0, 0), new SparseSigmoid(0, 0));
+            SparseLinearTest.SparseTest(new Sigmoid(0, 3.6), new SparseSigmoid(0, 3.6));
+            SparseLinearTest.SparseTest(new Sigmoid(3.6, 0), new SparseSigmoid(3.6, 0));
         }
 
-
-
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             Sigmoid dense = new Sigmoid(3.6, 1);
@@ -76,7 +68,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistanceTest()
         {
             Sigmoid dense = new Sigmoid(3.6, 1);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Samples.LM
+namespace SampleApp
 {
     /// <summary>
     ///   Levenberg-Marquardt multiple sample applications.

@@ -23,11 +23,11 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Analysis;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Math;
     using System;
 
-    [TestClass()]
+    [TestFixture]
     public class GeneralConfusionMatrixTest
     {
 
@@ -47,7 +47,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void GeneralConfusionMatrixConstructorTest()
         {
             int classes = 3;
@@ -73,7 +73,7 @@ namespace Accord.Tests.Statistics
             Assert.IsTrue(expectedMatrix.IsEqual(actualMatrix));
         }
 
-        [TestMethod()]
+        [Test]
         public void GeneralConfusionMatrixConstructorTest2()
         {
             int[,] matrix = 
@@ -92,7 +92,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.GeometricAgreement);
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTest()
         {
             int[,] matrix =
@@ -112,7 +112,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(23.367749664961245, target.GeometricAgreement);
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTest2()
         {
             int[,] matrix =
@@ -142,7 +142,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(24, target.GeometricAgreement, 1e-5);
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTest4()
         {
             // Example from Congalton
@@ -177,15 +177,15 @@ namespace Accord.Tests.Statistics
             double varD = Accord.Statistics.Testing.KappaTest.DeltaMethodKappaVariance(target);
 
             Assert.AreEqual(0.0007778, varD, 1e-7);
-            Assert.AreNotEqual(0.0007778, var, 1e-8);
-            Assert.AreNotEqual(0.0007778, var0, 1e-8);
+            Assert.AreEqual(0.00076995084473426684, var, 1e-10);
+            Assert.AreEqual(0.00074886435981842887, var0, 1e-10);
 
             Assert.IsFalse(double.IsNaN(var));
             Assert.IsFalse(double.IsNaN(var0));
             Assert.IsFalse(double.IsNaN(varD));
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaTest5()
         {
             // Example from University of York Department of Health Sciences,
@@ -212,7 +212,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void KappaVarianceTest1()
         {
             // Example from Ientilucci, Emmett (2006). "On Using and Computing the Kappa Statistic".
@@ -269,8 +269,8 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(0.00073735, varD, 1e-8);
 
 
-                Assert.AreNotEqual(0.00073735, var, 1e-8);
-                Assert.AreNotEqual(0.00073735, var0, 1e-8);
+                Assert.AreEqual(0.00071760415564207924, var, 1e-10);
+                Assert.AreEqual(0.00070251065008366978, var0, 1e-10);
 
                 Assert.IsFalse(double.IsNaN(var));
                 Assert.IsFalse(double.IsNaN(var0));
@@ -327,8 +327,8 @@ namespace Accord.Tests.Statistics
                 Assert.AreEqual(0.00087457, varD, 1e-8);
 
 
-                Assert.AreNotEqual(0.00087457, var, 1e-8);
-                Assert.AreNotEqual(0.00087457, var0, 1e-8);
+                Assert.AreEqual(0.00083016849579382347, var, 1e-10);
+                Assert.AreEqual(0.00067037111046188824, var0, 1e-10);
 
                 Assert.IsFalse(double.IsNaN(var));
                 Assert.IsFalse(double.IsNaN(var0));
@@ -336,7 +336,7 @@ namespace Accord.Tests.Statistics
             }
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaVarianceTest2()
         {
             // Example from http://vassarstats.net/kappa.html
@@ -374,15 +374,15 @@ namespace Accord.Tests.Statistics
 
             Assert.AreEqual(0.072, a.StandardError, 0.0005);
 
-            Assert.AreNotEqual(0.072, seD, 0.0005);
-            Assert.AreNotEqual(0.072, se0, 0.0005);
+            Assert.AreEqual(0.073534791185213152, seD, 1e-10);
+            Assert.AreEqual(0.073509316753225237, se0, 1e-10);
 
             Assert.IsFalse(double.IsNaN(se));
             Assert.IsFalse(double.IsNaN(se0));
             Assert.IsFalse(double.IsNaN(seD));
         }
 
-        [TestMethod()]
+        [Test]
         public void KappaVarianceTest3()
         {
             // Example from J. L. Fleiss, J. Cohen, B. S. Everitt, "Large sample
@@ -423,7 +423,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(double.IsNaN(a.VarianceUnderNull));
         }
 
-        [TestMethod()]
+        [Test]
         public void TotalTest()
         {
             int[,] matrix = 
@@ -447,7 +447,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(3 + 6 + 9, colTotals[2]);
         }
 
-        [TestMethod()]
+        [Test]
         public void GeometricAgreementTest()
         {
             int[,] matrix = 
@@ -464,7 +464,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ChiSquareTest()
         {
             int[,] matrix =
@@ -484,7 +484,7 @@ namespace Accord.Tests.Statistics
             Assert.IsFalse(Double.IsNaN(actual));
         }
 
-        [TestMethod()]
+        [Test]
         public void ChiSquareTest2()
         {
             int[,] matrix =

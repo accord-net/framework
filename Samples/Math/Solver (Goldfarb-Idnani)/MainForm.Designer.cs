@@ -1,4 +1,4 @@
-﻿namespace Solver.QP
+﻿namespace SampleApp
 {
     partial class MainForm
     {

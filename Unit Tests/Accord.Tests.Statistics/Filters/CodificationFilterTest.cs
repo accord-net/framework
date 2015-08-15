@@ -22,14 +22,14 @@
 
 namespace Accord.Tests.Statistics
 {
-    using System.Data;
+    using Accord.IO;
     using Accord.Math;
     using Accord.Statistics.Filters;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Accord.IO;
+    using NUnit.Framework;
     using System;
+    using System.Data;
 
-    [TestClass()]
+    [TestFixture]
     public class CodificationFilterTest
     {
 
@@ -37,7 +37,7 @@ namespace Accord.Tests.Statistics
         // at the Accord.Tests.MachineLearning assembly in the file
         // CodificationFilterSvmTest.cs
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest1()
         {
             DataTable table = ProjectionFilterTest.CreateTable();
@@ -64,7 +64,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(2, result.Rows[4]["Category"]);
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest()
         {
             Codification target = new Codification();
@@ -116,7 +116,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest3()
         {
             string[] names = { "child", "adult", "elder" };
@@ -144,10 +144,10 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual("elder", labelc);
         }
 
-        [TestMethod()]
+        [Test]
         public void ApplyTest4()
         {
-            string path = @"..\..\..\..\Unit Tests\Accord.Tests.Statistics\Resources\intrusion.xls";
+            string path = @"Resources\intrusion.xls";
 
             ExcelReader db = new ExcelReader(path, false, true);
 
@@ -170,7 +170,7 @@ namespace Accord.Tests.Statistics
         ///   This method tests, that the correct DataColumn is used 
         /// </summary>
         /// 
-        [TestMethod]
+        [Test]
         public void TranslateTest1()
         {
             string[] colNames = { "col1", "col2", "col3" };
@@ -215,7 +215,7 @@ namespace Accord.Tests.Statistics
         ///   Testing Codification.Translate(string[], string[])
         /// </summary>
         /// 
-        [TestMethod]
+        [Test]
         public void TranslateTest2()
         {
             string[] colNames = { "col1", "col2", "col3" };
@@ -267,7 +267,7 @@ namespace Accord.Tests.Statistics
         ///   This test assumes string input is given in correct column order - is otherwise identical to TranslateTest2
         /// </summary>
         /// 
-        [TestMethod]
+        [Test]
         public void TranslateTest3()
         {
             string[] colNames = { "col1", "col2", "col3" };

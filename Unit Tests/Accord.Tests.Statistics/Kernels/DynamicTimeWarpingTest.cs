@@ -23,9 +23,9 @@
 namespace Accord.Tests.Statistics
 {
     using Accord.Statistics.Kernels;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass()]
+    [TestFixture]
     public class DynamicTimeWarpingTest
     {
 
@@ -46,7 +46,7 @@ namespace Accord.Tests.Statistics
 
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest()
         {
             var x = new double[] { 0, 4, 2, 1 };
@@ -134,7 +134,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [Test]
         public void DistanceTest()
         {
             var x = new double[] { 0, 4, 2, 1 };
@@ -223,7 +223,7 @@ namespace Accord.Tests.Statistics
         }
 
 
-        [TestMethod()]
+        [Test]
         public void FunctionTest_EqualInputs()
         {
             var x = new double[] { 1, 2, 5, 1 };

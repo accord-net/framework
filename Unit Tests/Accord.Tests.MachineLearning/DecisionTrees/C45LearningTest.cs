@@ -28,11 +28,11 @@ namespace Accord.Tests.MachineLearning
     using Accord.Math;
     using Accord.Statistics.Filters;
     using Accord.Tests.MachineLearning.Properties;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using System;
     using System.Data;
 
-    [TestClass()]
+    [TestFixture]
     public class C45LearningTest
     {
 
@@ -88,7 +88,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             DecisionTree tree;
@@ -139,7 +139,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void LargeRunTest()
         {
             // This example uses the Nursery Database available from the University of
@@ -261,7 +261,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstantContinuousVariableTest()
         {
             DecisionTree tree;
@@ -324,7 +324,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod()]
+        [Test]
         public void ConstantDiscreteVariableTest()
         {
             DecisionTree tree;
@@ -387,7 +387,7 @@ namespace Accord.Tests.MachineLearning
         }
 
 
-        [TestMethod]
+        [Test]
         public void ConsistencyTest1()
         {
             double[,] random = Matrix.Random(1000, 10, 0.0, 1.0);
@@ -418,7 +418,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(tree.Root.Branches[1].IsLeaf);
         }
 
-        [TestMethod]
+        [Test]
         public void LargeSampleTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);
@@ -448,7 +448,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(error < 0.50);
         }
 
-        [TestMethod]
+        [Test]
         public void ArgumentCheck1()
         {
             double[][] samples =
@@ -479,7 +479,7 @@ namespace Accord.Tests.MachineLearning
             Assert.IsTrue(thrown);
         }
 
-        [TestMethod]
+        [Test]
         public void IrisDatasetTest()
         {
             string[][] text = Resources.iris_data.Split(
@@ -488,7 +488,7 @@ namespace Accord.Tests.MachineLearning
 
             double[][] inputs = new double[text.Length][];
             for (int i = 0; i < inputs.Length; i++)
-                inputs[i] = text[i].Submatrix(4).Convert(Double.Parse);
+                inputs[i] = text[i].Submatrix(4).Convert(s => Double.Parse(s, System.Globalization.CultureInfo.InvariantCulture));
 
             string[] labels = text.GetColumn(4);
 
@@ -526,7 +526,7 @@ namespace Accord.Tests.MachineLearning
             Assert.AreEqual(596, ruleText.Length);
         }
 
-        [TestMethod]
+        [Test]
         public void AttributeReuseTest1()
         {
             string[][] text = Resources.iris_data.Split(
@@ -535,7 +535,7 @@ namespace Accord.Tests.MachineLearning
 
             double[][] inputs = new double[text.Length][];
             for (int i = 0; i < inputs.Length; i++)
-                inputs[i] = text[i].Submatrix(4).Convert(Double.Parse);
+                inputs[i] = text[i].Submatrix(4).Convert(s => Double.Parse(s, System.Globalization.CultureInfo.InvariantCulture));
 
             string[] labels = text.GetColumn(4);
 

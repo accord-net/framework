@@ -11,15 +11,14 @@
     <projectUrl>http://accord-framework.net</projectUrl>
     <iconUrl>http://accord-framework.net/logo.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-    <description>Contains probability distributions, statistical models and methods such as Linear and Logistic regression, Hidden Markov Models, (Hidden) Conditional Random Fields, Principal Component Analysis, Partial Least Squares, Discriminant Analysis, Kernel methods and functions and many other related techniques. This package is part of the Accord.NET Framework.</description>
+    <description>
+      Contains probability distributions, statistical models and methods such as Linear and Logistic regression, Hidden Markov Models, (Hidden) Conditional Random Fields, Principal Component Analysis, Partial Least Squares, Discriminant Analysis, Kernel methods and functions and many other related techniques. This package is part of the Accord.NET Framework.
+    </description>
     <summary>Accord.NET Statistics Library from the Accord.NET Framework</summary>
     <tags>accord.net aforge.net framework statistics kernel methods pca kpca least squares markov models conditional random fields hmm crf hcrf logistic linear regression</tags>
     <dependencies>
       <dependency id="Accord"      version="$version$" />
       <dependency id="Accord.Math" version="$version$" />
-      
-      <dependency id="AForge"      version="2.2.5" />
-      <dependency id="AForge.Math" version="2.2.5" />
     </dependencies>
   </metadata>
   <files>

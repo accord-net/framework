@@ -28,11 +28,11 @@ namespace Accord.Tests.Statistics.Models.Fields
     using Accord.Statistics.Models.Fields.Functions;
     using Accord.Statistics.Models.Fields.Learning;
     using Accord.Statistics.Models.Markov;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using Accord.Statistics.Distributions.Multivariate;
     using Accord.Statistics.Distributions.Univariate;
 
-    [TestClass()]
+    [TestFixture]
     public class QuasiNewtonHiddenLearningTest
     {
 
@@ -73,7 +73,7 @@ namespace Accord.Tests.Statistics.Models.Fields
 
 
 
-        [TestMethod()]
+        [Test]
         public void RunTest()
         {
             HiddenMarkovClassifier hmm = DiscreteHiddenMarkovClassifierPotentialFunctionTest.CreateModel1();
@@ -118,7 +118,7 @@ namespace Accord.Tests.Statistics.Models.Fields
             Assert.IsTrue(ll1 > ll0);
         }
 
-        [TestMethod()]
+        [Test]
         public void RunTest2()
         {
             Accord.Math.Tools.SetupGenerator(0);

@@ -30,7 +30,6 @@ namespace Accord.Controls.Vision
     using AForge.Imaging;
     using AForge.Imaging.Filters;
     using AForge.Video;
-    using AForge.Video.DirectShow;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.Design;
@@ -299,7 +298,7 @@ namespace Accord.Controls.Vision
         ///   Gets or sets the video device used to track objects.
         /// </summary>
         /// 
-        /// <value>The <see cref="VideoCaptureDevice"/> used to track objects.</value>
+        /// <value>The <see cref="IVideoSource"/> used to track objects.</value>
         /// 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IVideoSource Device
@@ -320,27 +319,29 @@ namespace Accord.Controls.Vision
                     videoSource.NewFrame += source_NewFrame;
                     videoSource.PlayingFinished += videoSource_PlayingFinished;
                     videoSource.VideoSourceError += videoSource_VideoSourceError;
+                    /*
+                                        VideoCaptureDevice captureDevice = videoSource as VideoCaptureDevice;
 
-                    VideoCaptureDevice captureDevice = videoSource as VideoCaptureDevice;
-
-                    if (captureDevice != null)
-                        captureDevice.VideoResolution = selectResolution(captureDevice);
+                                        if (captureDevice != null)
+                                            captureDevice.VideoResolution = selectResolution(captureDevice);
+                     */
                 }
             }
         }
+        /*
+                private static VideoCapabilities selectResolution(VideoCaptureDevice device)
+                {
+                    foreach (var cap in device.VideoCapabilities)
+                    {
+                        if (cap.FrameSize.Height == 240)
+                            return cap;
+                        if (cap.FrameSize.Width == 320)
+                            return cap;
+                    }
 
-        private static VideoCapabilities selectResolution(VideoCaptureDevice device)
-        {
-            foreach (var cap in device.VideoCapabilities)
-            {
-                if (cap.FrameSize.Height == 240)
-                    return cap;
-                if (cap.FrameSize.Width == 320)
-                    return cap;
-            }
-
-            return device.VideoCapabilities.Last();
-        }
+                    return device.VideoCapabilities.Last();
+                }
+        */
 
         /// <summary>
         ///   Gets a value indicating whether this instance is

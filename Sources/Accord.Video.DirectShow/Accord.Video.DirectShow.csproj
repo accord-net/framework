@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectGuid>{26CD2CE7-FF63-4669-83B0-7D9C8F3408EE}</ProjectGuid>
+    <RootNamespace>Accord.Video.DirectShow</RootNamespace>
+    <AssemblyName>Accord.Video.DirectShow</AssemblyName>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <MapFileExtensions>true</MapFileExtensions>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <FileAlignment>4096</FileAlignment>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>$(SolutionDir)..\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET35|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Release\net35</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net35\Accord.Video.DirectShow.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net35\Accord.Video.DirectShow.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
+    <OutputPath>$(SolutionDir)..\Release\net40</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net40\Accord.Video.DirectShow.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net40\Accord.Video.DirectShow.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
+    <OutputPath>$(SolutionDir)..\Release\net45</OutputPath>
+    <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <DocumentationFile>$(SolutionDir)..\Release\net45\Accord.Video.DirectShow.XML</DocumentationFile>
+    <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Accord.Video.DirectShow.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Accord.Core\Properties\VersionInfo.cs">
+      <Link>Properties\VersionInfo.cs</Link>
+    </Compile>
+    <Compile Include="CameraControlProperty.cs" />
+    <Compile Include="FileVideoSource.cs" />
+    <Compile Include="Internals\IAMCameraControl.cs" />
+    <Compile Include="Internals\IAMCrossbar.cs" />
+    <Compile Include="Internals\IAMStreamConfig.cs" />
+    <Compile Include="Internals\IAMVideoControl.cs" />
+    <Compile Include="Internals\IBaseFilter.cs" />
+    <Compile Include="Internals\ICaptureGraphBuilder2.cs" />
+    <Compile Include="Internals\ICreateDevEnum.cs" />
+    <Compile Include="Internals\IEnumFilters.cs" />
+    <Compile Include="Internals\IEnumPins.cs" />
+    <Compile Include="Internals\IFileSourceFilter.cs" />
+    <Compile Include="Internals\IFilterGraph.cs" />
+    <Compile Include="Internals\IFilterGraph2.cs" />
+    <Compile Include="Internals\IGraphBuilder.cs" />
+    <Compile Include="Internals\IMediaControl.cs" />
+    <Compile Include="Internals\IMediaEventEx.cs" />
+    <Compile Include="Internals\IMediaFilter.cs" />
+    <Compile Include="Internals\IPersist.cs" />
+    <Compile Include="Internals\IPin.cs" />
+    <Compile Include="Internals\IPropertyBag.cs" />
+    <Compile Include="Internals\IReferenceClock.cs" />
+    <Compile Include="Internals\ISampleGrabber.cs" />
+    <Compile Include="Internals\ISampleGrabberCB.cs" />
+    <Compile Include="Internals\ISpecifyPropertyPages.cs" />
+    <Compile Include="Internals\IVideoWindow.cs" />
+    <Compile Include="Internals\Structures.cs" />
+    <Compile Include="Internals\Tools.cs" />
+    <Compile Include="Internals\Uuids.cs" />
+    <Compile Include="Internals\Win32.cs" />
+    <Compile Include="FilterInfo.cs" />
+    <Compile Include="FilterInfoCollection.cs" />
+    <Compile Include="PhysicalConnectorType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Uuids.cs" />
+    <Compile Include="VideoCapabilities.cs" />
+    <Compile Include="VideoCaptureDevice.cs" />
+    <Compile Include="VideoCaptureDeviceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="VideoCaptureDeviceForm.Designer.cs">
+      <DependentUpon>VideoCaptureDeviceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="VideoInput.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="VideoCaptureDeviceForm.resx">
+      <DependentUpon>VideoCaptureDeviceForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Accord.Video.DirectShow.cd" />
+    <None Include="Icons\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Accord.Video\Accord.Video.csproj">
+      <Project>{809725dc-6502-4732-a51c-deb7fea12975}</Project>
+      <Name>Accord.Video</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

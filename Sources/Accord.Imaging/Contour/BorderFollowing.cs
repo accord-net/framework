@@ -137,7 +137,7 @@ namespace Accord.Imaging
         /// <param name="image">A grayscale image.</param>
         /// <returns>A list of <see cref="IntPoint"/>s defining a contour.</returns>
         /// 
-        public unsafe List<IntPoint> FindContour(UnmanagedImage image)
+        public List<IntPoint> FindContour(UnmanagedImage image)
         {
             CheckPixelFormat(image.PixelFormat);
 
@@ -145,124 +145,127 @@ namespace Accord.Imaging
             int height = image.Height;
             int stride = image.Stride;
 
-            byte* src = (byte*)image.ImageData.ToPointer();
-
-
-            byte* start = null;
             List<IntPoint> contour = new List<IntPoint>();
 
-            IntPoint prevPosition = new IntPoint();
-
-            // 1. Find the lowest point in the image 
-
-            // The lowest point is searched first by lowest X, then lowest Y, to use
-            // the same ordering of AForge.NET's GrahamConvexHull. Unfortunately, this
-            // means we have to search our image by inspecting columns rather than rows.
-
-            bool found = false;
-
-            byte* col = src;
-            for (int x = 0; x < width && !found; x++, col++)
+            unsafe
             {
-                byte* row = col;
-                for (int y = 0; y < height && !found; y++, row += stride)
+                byte* src = (byte*)image.ImageData.ToPointer();
+
+                byte* start = null;
+
+                IntPoint prevPosition = new IntPoint();
+
+                // 1. Find the lowest point in the image 
+
+                // The lowest point is searched first by lowest X, then lowest Y, to use
+                // the same ordering of AForge.NET's GrahamConvexHull. Unfortunately, this
+                // means we have to search our image by inspecting columns rather than rows.
+
+                bool found = false;
+
+                byte* col = src;
+                for (int x = 0; x < width && !found; x++, col++)
                 {
-                    if (*row > Threshold)
+                    byte* row = col;
+                    for (int y = 0; y < height && !found; y++, row += stride)
                     {
-                        start = row;
-                        prevPosition = new IntPoint(x, y);
+                        if (*row > Threshold)
+                        {
+                            start = row;
+                            prevPosition = new IntPoint(x, y);
+                            contour.Add(prevPosition);
+                            found = true;
+                        }
+                    }
+                }
+
+                if (contour.Count == 0)
+                {
+                    // Empty image
+                    return contour;
+                }
+
+
+                // 2. Beginning on the first point, starting from left
+                //    neighbor and going into counter-clockwise direction,
+                //    find a neighbor pixel which is black.
+
+                int[] windowOffset =
+                { 
+                    +1,          // 0: Right
+                    -stride + 1, // 1: Top-Right
+                    -stride,     // 2: Top
+                    -stride - 1, // 3: Top-Left
+                    -1,          // 4: Left
+                    +stride - 1, // 5: Bottom-Left
+                    +stride,     // 6: Bottom
+                    +stride + 1, // 7: Bottom-Right
+                };
+
+                int direction = 4; // 4: Left
+                byte* current = start;
+                byte* previous = null;
+
+
+                do // Search until we find a dead end (or the starting pixel)
+                {
+                    found = false;
+
+                    // Search in the neighborhood window
+                    for (int i = 0; i < windowOffset.Length; i++)
+                    {
+                        // Find the next candidate neighbor point
+                        IntPoint next = prevPosition + positionOffset[direction];
+
+                        // Check if it is inside the blob area
+                        if (next.X < 0 || next.X >= width ||
+                            next.Y < 0 || next.Y >= height)
+                        {
+                            // It isn't. Change direction and continue.
+                            direction = (direction + 1) % windowOffset.Length;
+                            continue;
+                        }
+
+                        // Find the next candidate neighbor pixel
+                        byte* neighbor = unchecked(current + windowOffset[direction]);
+
+                        // Check if it is a colored pixel
+                        if (*neighbor <= Threshold)
+                        {
+                            // It isn't. Change direction and continue.
+                            direction = (direction + 1) % windowOffset.Length;
+                            continue;
+                        }
+
+                        // Check if it is a previously found pixel
+                        if (neighbor == previous || neighbor == start)
+                        {
+                            // We found a dead end.
+                            found = false; break;
+                        }
+
+                        // If we reached until here, we have
+                        //  found a neighboring black pixel.
+                        found = true; break;
+                    }
+
+                    if (found)
+                    {
+                        // Navigate to neighbor pixel
+                        previous = current;
+                        current = unchecked(current + windowOffset[direction]);
+
+                        // Add to the contour
+                        prevPosition += positionOffset[direction];
                         contour.Add(prevPosition);
-                        found = true;
+
+                        // Continue counter-clockwise search
+                        //  from the most promising direction
+                        direction = nextDirection[direction];
                     }
-                }
+
+                } while (found);
             }
-
-            if (contour.Count == 0)
-            {
-                // Empty image
-                return contour;
-            }
-
-
-            // 2. Beginning on the first point, starting from left
-            //    neighbor and going into counter-clockwise direction,
-            //    find a neighbor pixel which is black.
-
-            int[] windowOffset =
-            { 
-                +1,          // 0: Right
-                -stride + 1, // 1: Top-Right
-                -stride,     // 2: Top
-                -stride - 1, // 3: Top-Left
-                -1,          // 4: Left
-                +stride - 1, // 5: Bottom-Left
-                +stride,     // 6: Bottom
-                +stride + 1, // 7: Bottom-Right
-            };
-
-            int direction = 4; // 4: Left
-            byte* current = start;
-            byte* previous = null;
-
-
-            do // Search until we find a dead end (or the starting pixel)
-            {
-                found = false;
-
-                // Search in the neighborhood window
-                for (int i = 0; i < windowOffset.Length; i++)
-                {
-                    // Find the next candidate neighbor point
-                    IntPoint next = prevPosition + positionOffset[direction];
-
-                    // Check if it is inside the blob area
-                    if (next.X < 0 || next.X >= width ||
-                        next.Y < 0 || next.Y >= height)
-                    {
-                        // It isn't. Change direction and continue.
-                        direction = (direction + 1) % windowOffset.Length;
-                        continue;
-                    }
-
-                    // Find the next candidate neighbor pixel
-                    byte* neighbor = unchecked(current + windowOffset[direction]);
-
-                    // Check if it is a colored pixel
-                    if (*neighbor <= Threshold)
-                    {
-                        // It isn't. Change direction and continue.
-                        direction = (direction + 1) % windowOffset.Length;
-                        continue;
-                    }
-
-                    // Check if it is a previously found pixel
-                    if (neighbor == previous || neighbor == start)
-                    {
-                        // We found a dead end.
-                        found = false; break;
-                    }
-
-                    // If we reached until here, we have
-                    //  found a neighboring black pixel.
-                    found = true; break;
-                }
-
-                if (found)
-                {
-                    // Navigate to neighbor pixel
-                    previous = current;
-                    current = unchecked(current + windowOffset[direction]);
-
-                    // Add to the contour
-                    prevPosition += positionOffset[direction];
-                    contour.Add(prevPosition);
-
-                    // Continue counter-clockwise search
-                    //  from the most promising direction
-                    direction = nextDirection[direction];
-                }
-
-            } while (found);
 
 
             return contour;

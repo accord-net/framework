@@ -22,35 +22,19 @@
 
 namespace Accord.Tests.Audio
 {
-    using Accord.DirectSound;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Accord.Audio;
+    using Accord.DirectSound;
+    using NUnit.Framework;
+    using System.IO;
 
-    [TestClass()]
+    [TestFixture]
     public class WaveFileAudioSourceTest
     {
 
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
-
-        [TestMethod()]
+        [Test]
         public void WaveFileAudioSourceConstructorTest()
         {
-            string fileName = @"..\..\..\..\Unit Tests\Accord.Tests.Audio\Resources\Grand Piano - Fazioli - major A middle.wav";
+            string fileName = Path.Combine("Resources","a.wav");
 
             WaveFileAudioSource target = new WaveFileAudioSource(fileName);
 
