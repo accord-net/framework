@@ -24,27 +24,12 @@ namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
 {
     using System;
     using System.Globalization;
-    using Accord.Statistics.Distributions.Univariate.Continuous;
+    using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
 
     [TestFixture]
     public class KumaraswamyDistributionTest
     {
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [Test]
         public void Constructor_KumaraswamyDistribution_PDF_given_0d2_AND_1d2_Parameters_Moments_matches_R_output()
         {

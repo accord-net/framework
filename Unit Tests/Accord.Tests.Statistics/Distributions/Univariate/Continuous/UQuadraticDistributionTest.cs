@@ -23,27 +23,13 @@
 namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
 {
     using System;
-    using Accord.Statistics.Distributions.Univariate.Continuous;
+    using Accord.Statistics.Distributions.Univariate;
     using NUnit.Framework;
     using System.Globalization;
 
     [TestFixture]
     public class UQuadraticDistributionTest
     {
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
 
         [Test]
         public void Constructor_UQuadratic()

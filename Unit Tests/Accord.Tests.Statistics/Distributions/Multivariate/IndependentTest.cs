@@ -56,7 +56,7 @@ namespace Accord.Tests.Statistics
             Assert.AreEqual(0, target.Covariance[0, 1]);
             Assert.AreEqual(0, target.Covariance[1, 0]);
 
-            var text = target.ToString("N2");
+            var text = target.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
 
             Assert.AreEqual("Independent(x0, x1; N(x0; μ = 4.20, σ² = 1.00) + N(x1; μ = 7.00, σ² = 4.00))", text);
         }

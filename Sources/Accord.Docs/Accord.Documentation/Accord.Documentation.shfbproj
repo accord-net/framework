@@ -284,7 +284,7 @@
     <PresentationStyle>VS2013</PresentationStyle>
     <SyntaxFilters>C#, Visual Basic</SyntaxFilters>
     <NamingMethod>MemberName</NamingMethod>
-    <HelpFileVersion>2.15.0.0</HelpFileVersion>
+    <HelpFileVersion>3.0.0.0</HelpFileVersion>
     <FrameworkVersion>.NET Framework 4.5</FrameworkVersion>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, SealedProtected</VisibleItems>
     <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>

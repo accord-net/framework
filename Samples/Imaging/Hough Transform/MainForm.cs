@@ -60,9 +60,6 @@ namespace SampleApp
                     Bitmap image = AForge.Imaging.Image.Clone(tempImage, PixelFormat.Format24bppRgb);
                     tempImage.Dispose();
 
-                    // format image
-                    AForge.Imaging.Image.FormatImage(ref image);
-                    
                     // lock the source image
                     BitmapData sourceData = image.LockBits(
                         new Rectangle(0, 0, image.Width, image.Height),

@@ -22,6 +22,7 @@
 
 namespace Accord.Tests.Imaging
 {
+    using Accord;
     using Accord.Imaging;
     using Accord.MachineLearning;
     using Accord.Math;
@@ -178,6 +179,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SerializeTest()
         {
+            var images = BagOfVisualWordsTest.images.DeepClone();
+
             Accord.Math.Tools.SetupGenerator(0);
 
             BagOfVisualWords bow = new BagOfVisualWords(10);
@@ -205,6 +208,8 @@ namespace Accord.Tests.Imaging
         [Test]
         public void SerializeTest2()
         {
+            var images = BagOfVisualWordsTest.images.DeepClone();
+
             Accord.Math.Tools.SetupGenerator(0);
 
             FastCornersDetector fast = new FastCornersDetector();

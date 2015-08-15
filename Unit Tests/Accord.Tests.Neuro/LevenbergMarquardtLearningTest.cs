@@ -685,7 +685,7 @@ namespace Accord.Tests.Neuro
             using (TextReader stream = new StringReader(Properties.Resources.ZeroLambda))
             using (CsvReader reader = new CsvReader(stream, false))
             {
-                data = reader.ToTable().ToMatrix();
+                data = reader.ToTable().ToMatrix(System.Globalization.CultureInfo.InvariantCulture);
             }
 
             // number of learning samples
@@ -720,12 +720,12 @@ namespace Accord.Tests.Neuro
             Neuron.RandGenerator = new ThreadSafeRandom(0);
 
             // create multi-layer neural network
-            ActivationNetwork network = new ActivationNetwork(
+            var network = new ActivationNetwork(
                 new BipolarSigmoidFunction(5),
                 1, 12, 1);
 
             // create teacher
-            LevenbergMarquardtLearning teacher = new LevenbergMarquardtLearning(network, true);
+            var teacher = new LevenbergMarquardtLearning(network, true);
 
             teacher.LearningRate = 1;
 

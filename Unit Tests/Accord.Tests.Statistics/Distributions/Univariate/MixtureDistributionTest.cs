@@ -380,7 +380,7 @@ namespace Accord.Tests.Statistics
                 Threshold = 0
             });
 
-            var result = mixture.ToString("N2");
+            var result = mixture.ToString("N2", System.Globalization.CultureInfo.InvariantCulture);
 
             Assert.AreEqual("Mixture(x; 0.50*N(x; μ = -2.00, σ² = 0.25) + 0.50*N(x; μ = 4.00, σ² = 0.25))", result);
         }

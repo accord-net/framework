@@ -301,10 +301,6 @@ namespace Accord.DirectSound
         {
             if (thread == null)
             {
-                // check source
-                if (device == Guid.Empty)
-                    throw new ArgumentException("Audio source is not specified");
-
                 framesReceived = 0;
                 bytesReceived = 0;
 

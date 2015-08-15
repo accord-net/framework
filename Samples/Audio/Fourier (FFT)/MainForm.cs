@@ -80,7 +80,6 @@ namespace SampleApp
             source.NewFrame += source_NewFrame;
             source.AudioSourceError += source_AudioSourceError;
             
-
             // Start it!
             source.Start();
         }

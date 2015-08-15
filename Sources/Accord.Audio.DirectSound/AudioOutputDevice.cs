@@ -299,10 +299,6 @@ namespace Accord.DirectSound
         {
             if (thread == null)
             {
-                // check source
-                if (device == Guid.Empty)
-                    throw new ArgumentException("Audio output is not specified");
-
                 isPlaying = true;
 
                 // create events

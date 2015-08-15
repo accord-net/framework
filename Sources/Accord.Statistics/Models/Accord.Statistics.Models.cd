@@ -65,7 +65,7 @@
   <Class Name="Accord.Statistics.Models.Regression.LogisticRegression" BaseTypeListCollapsed="true">
     <Position X="12" Y="0.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>Models\Regression\Nonlinear\LogisticRegression.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -78,7 +78,7 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>BEAIAAAAAoAjCAYJBACIAAQAEAEAACAAAAQgABAAAAA=</HashCode>
+      <HashCode>BEAIAAIAAoAjCAYJBgCIAAYAEAAAACAAAAQgABAAAAA=</HashCode>
       <FileName>Analysis\StepwiseLogisticRegressionAnalysis.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -123,15 +123,15 @@
       <Field Name="regression" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>AACQABAAAAByQgAAVAIAAAoAkAAIAAAAAYAAAAEAgII=</HashCode>
-      <FileName>Models\Survival\Fitting\PartialNewtonRaphson.cs</FileName>
+      <HashCode>AAiQABAAAAByQgAAVAIAAAoAgIAIAAAAAYAAQAEAgII=</HashCode>
+      <FileName>Models\Survival\Fitting\ProportionalHazardsNewtonRaphson.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Accord.Statistics.Models.Regression.ProportionalHazards">
     <Position X="18.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>IEAAAAAAAAAABAAAAAACAIAIEEAAAQAAQAAAhAAAAFA=</HashCode>
+      <HashCode>IEQAAAAAAAAABAAAAAACAIAIEEAAAQAAQAAAhAAAAFA=</HashCode>
       <FileName>Models\Survival\ProportionalHazards.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -142,12 +142,13 @@
       <Field Name="decomposition" Hidden="true" />
       <Field Name="gradient" Hidden="true" />
       <Field Name="hessian" Hidden="true" />
+      <Field Name="lambda" Hidden="true" />
       <Field Name="parameterCount" Hidden="true" />
       <Field Name="previous" Hidden="true" />
       <Field Name="regression" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>QASQABAAAABAQgAAQAIAAAgAAAAIAAAAAYAAAAAAgAI=</HashCode>
+      <HashCode>QASQABAIAABAQgAAQAIAAggAAAAIAAAAAYAAAAAAgAI=</HashCode>
       <FileName>Models\Regression\Nonlinear\Fitting\IterativeReweightedLeastSquares.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />

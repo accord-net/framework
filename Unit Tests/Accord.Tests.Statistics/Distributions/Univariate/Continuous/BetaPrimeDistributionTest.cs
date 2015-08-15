@@ -23,28 +23,12 @@
 namespace Accord.Tests.Statistics.Distributions.Univariate.Continuous
 {
     using Accord.Statistics.Distributions.Univariate;
-    using Accord.Statistics.Distributions.Univariate.Continuous;
     using NUnit.Framework;
     using System.Globalization;
 
     [TestFixture]
     public class BetaPrimeDistributionTest
     {
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
         [Test]
         public void Confirm_BetPrimeDistribution_Relative_to_F_Distribution()
         {

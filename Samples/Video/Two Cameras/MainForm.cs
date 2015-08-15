@@ -115,8 +115,8 @@ namespace SampleApp
         private void StartCameras()
         {
             // create first video source
-            VideoCaptureDevice videoSource1 = new VideoCaptureDevice(videoDevices[camera1Combo.SelectedIndex].MonikerString);
-            videoSource1.DesiredFrameRate = 10;
+            var videoSource1 = new VideoCaptureDevice(videoDevices[camera1Combo.SelectedIndex].MonikerString);
+            // videoSource1.DesiredFrameRate = 10;
 
             videoSourcePlayer1.VideoSource = videoSource1;
             videoSourcePlayer1.Start();
@@ -126,8 +126,8 @@ namespace SampleApp
             {
                 System.Threading.Thread.Sleep(500);
 
-                VideoCaptureDevice videoSource2 = new VideoCaptureDevice(videoDevices[camera2Combo.SelectedIndex].MonikerString);
-                videoSource2.DesiredFrameRate = 10;
+                var videoSource2 = new VideoCaptureDevice(videoDevices[camera2Combo.SelectedIndex].MonikerString);
+                // videoSource2.DesiredFrameRate = 10;
 
                 videoSourcePlayer2.VideoSource = videoSource2;
                 videoSourcePlayer2.Start();

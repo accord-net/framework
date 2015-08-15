@@ -206,8 +206,6 @@
             this.chart1.BackColor = System.Drawing.Color.White;
             this.chart1.Location = new System.Drawing.Point(12, 27);
             this.chart1.Name = "chart1";
-            this.chart1.RangeX = ((AForge.DoubleRange)(resources.GetObject("chart1.RangeX")));
-            this.chart1.RangeY = ((AForge.DoubleRange)(resources.GetObject("chart1.RangeY")));
             this.chart1.SimpleMode = false;
             this.chart1.Size = new System.Drawing.Size(684, 367);
             this.chart1.TabIndex = 6;
