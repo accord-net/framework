@@ -1,6 +1,6 @@
 Accord.NET Framework 3.0.0 release notes
 -----------------------------------------
-01.07.2015.
+16.08.2015.
 
 Version updates and fixes:
   - GC-70: Merge with AForge.NET.
