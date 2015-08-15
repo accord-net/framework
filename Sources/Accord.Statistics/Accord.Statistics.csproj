@@ -277,7 +277,6 @@
     <Compile Include="Kernels\Base\IEstimable.cs" />
     <Compile Include="Kernels\Base\ITransform.cs" />
     <Compile Include="Kernels\Base\KernelBase.cs" />
-    <Compile Include="Kernels\ThinPlateSpline.cs" />
     <Compile Include="Kernels\Bessel.cs" />
     <Compile Include="Kernels\BSpline.cs" />
     <Compile Include="Kernels\Cauchy.cs" />
