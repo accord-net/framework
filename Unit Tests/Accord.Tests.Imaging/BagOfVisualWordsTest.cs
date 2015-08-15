@@ -133,7 +133,7 @@ namespace Accord.Tests.Imaging
         public void GetFeatureVectorTest()
         {
             Accord.Math.Tools.SetupGenerator(0);
-            Bitmap image = images[0];
+            Bitmap image = (Bitmap)images[0].Clone();
 
             // The Bag-of-Visual-Words model converts arbitrary-size images 
             // into fixed-length feature vectors. In this example, we will

@@ -628,8 +628,10 @@ namespace Accord.Math
         /// <param name="array">The vector or array to be converted.</param>
         /// 
         public static TOutput To<TOutput>(this Array array)
-            where TOutput : class, ICloneable, IList, ICollection, IEnumerable,
-            IStructuralComparable, IStructuralEquatable
+            where TOutput : class, ICloneable, IList, ICollection, IEnumerable
+#if !NET35
+            , IStructuralComparable, IStructuralEquatable
+#endif
         {
             var typeInput = array.GetType();
             var typeOutput = typeof(TOutput);

@@ -6,8 +6,9 @@
 
 
 :: Compile sources
-cmd /c "Compile.cmd"
-
+cd ..
+cmd /c "Build.cmd"
+cd Setup
 
 :: Build compressed archive
 cd Archiver
