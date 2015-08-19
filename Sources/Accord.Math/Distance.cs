@@ -393,7 +393,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double SquareEuclidean(double x1, double x2, double y1, double y2)
+        public static double SquareEuclidean(double x1, double y1, double x2, double y2)
         {
             double dx = x1 - x2;
             double dy = y1 - y2;
