@@ -98,7 +98,7 @@ namespace Accord.Audio.Filters
                 for (int i = 0; i < channels; i++, src++, dst++)
                     *dst = System.Math.Abs(*src);
 
-                for (int i = channels; i < length; i++)
+                for (int i = channels; i < length; i++, src++, dst++)
                 {
                     float abs = System.Math.Abs(*src);
                     *dst = dst[-channels] + Alpha * (abs - dst[-channels]);
