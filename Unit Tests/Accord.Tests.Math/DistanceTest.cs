@@ -238,6 +238,17 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
         }
 
+        [Test]
+        public void EuclideanTest2()
+        {
+            Assert.AreEqual(Distance.Euclidean(2, 4, 0, 1), 
+                Distance.Euclidean(new double[] { 2, 4 }, new double[] { 0, 1 }));
+
+            Assert.AreEqual(Distance.SquareEuclidean(2, 4, 0, 1),
+                Distance.SquareEuclidean(new double[] { 2, 4 }, new double[] { 0, 1 }));
+        }
+
+
 
         [Test]
         public void ModularTest()
