@@ -14,6 +14,7 @@ namespace AForge.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Bilateral filter implementation - edge preserving smoothing and noise reduction that uses chromatic and spatial factors.
@@ -95,8 +96,7 @@ namespace AForge.Imaging.Filters
         /// </summary>
         /// 
         /// <remarks><para>If the property is set to <see langword="true"/>, then this image processing
-        /// routine will run in parallel on the systems with multiple core/CPUs. The <see cref="AForge.Parallel.For"/>
-        /// is used to make it parallel.</para>
+        /// routine will run in parallel on the systems with multiple core/CPUs.</para>
         /// 
         /// <para>Default value is set to <see langword="false"/>.</para>
         /// </remarks>
