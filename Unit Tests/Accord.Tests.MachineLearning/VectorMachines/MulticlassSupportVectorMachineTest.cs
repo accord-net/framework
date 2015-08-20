@@ -22,6 +22,10 @@
 
 namespace Accord.Tests.MachineLearning
 {
+#if NET35
+    extern alias core;
+    using Parallel = core::System.Threading.Tasks.Parallel;
+#endif
 
     using System.IO;
     using System.Threading.Tasks;
@@ -34,23 +38,6 @@ namespace Accord.Tests.MachineLearning
     [TestFixture]
     public class MulticlassSupportVectorMachineTest
     {
-
-
-        private TestContext testContextInstance;
-
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-
 
         [Test]
         public void MulticlassSupportVectorMachineConstructorTest()
@@ -219,11 +206,8 @@ namespace Accord.Tests.MachineLearning
 
             int[] evals = new int[input.Length];
             int[] evalexp = { 8, 8, 7, 7, 7, 7, 6, 6 };
-#if NET35
-            AForge.Parallel.For(0, input.Length, i =>
-#else
+     
             Parallel.For(0, input.Length, i =>
-#endif
             {
                 double[] data = input[i];
                 double[] responses;
@@ -237,11 +221,7 @@ namespace Accord.Tests.MachineLearning
             for (int i = 0; i < evals.Length; i++)
                 Assert.AreEqual(evals[i], evalexp[i]);
 
-#if NET35
-            AForge.Parallel.For(0, input.Length, i =>
-#else
             Parallel.For(0, input.Length, i =>
-#endif
             {
                 double[] data = input[i];
                 double[] responses;
