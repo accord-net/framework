@@ -67,8 +67,7 @@ namespace Accord.Statistics.Kernels
             set
             {
                 omega = value;
-                double u = 2 * Math.Sqrt(Math.Pow(2, (1 / omega)) - 1) / sigma;
-                constant = u * u;
+                constant = 2 * Math.Sqrt(Math.Pow(2, (1 / omega)) - 1) / sigma;
             }
         }
 
@@ -82,8 +81,7 @@ namespace Accord.Statistics.Kernels
             set
             {
                 sigma = value;
-                double u = 2 * Math.Sqrt(Math.Pow(2, (1 / omega)) - 1) / sigma;
-                constant = u * u;
+                constant = 2 * Math.Sqrt(Math.Pow(2, (1 / omega)) - 1) / sigma;
             }
         }
 
@@ -98,14 +96,22 @@ namespace Accord.Statistics.Kernels
         /// 
         public override double Function(double[] x, double[] y)
         {
-            double sum = 0;
+            //Inner product
+            double xx = 0;
+            double yy = 0;
+            double xy = 0;
             for (int i = 0; i < x.Length; i++)
             {
-                double u = x[i] - y[i];
-                sum += u;
+                double u = x[i] * x[i];
+                double v = y[i] * y[i];
+                double uv = x[i] * y[i];
+                xx += u;
+                yy += v;
+                xy += uv;
             }
 
-            return 1 / Math.Pow(1 - sum * constant, omega);
+            double m = constant * Math.Sqrt(-2.0 * xy + xx + yy);
+            return 1.0 / Math.Pow(1.0 + m * m, omega);
         }
 
         /// <summary>
