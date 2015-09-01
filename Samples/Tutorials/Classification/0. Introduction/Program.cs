@@ -31,7 +31,6 @@ namespace ClassificationSample
             // Plot the data
             ScatterplotBox.Show("Yin-Yang", inputs, outputs).Hold();
 
-
             naiveBayes(inputs, outputs);
 
             decisionTree(inputs, outputs);
@@ -204,7 +203,7 @@ namespace ClassificationSample
 
 
             // Classify the samples using the model
-            int[] answers = inputs.Apply(network.Compute).GetColumn(0).ToInt32();
+            int[] answers = inputs.Apply(network.Compute).GetColumn(0).Apply(System.Math.Sign);
 
             // Plot the results
             ScatterplotBox.Show("Expected results", inputs, outputs);
