@@ -4,10 +4,9 @@
     <ProjectGuid>{7AB4BBCC-6222-423D-9FF9-BA9CB7C09199}</ProjectGuid>
     <RootNamespace>Accord.MachineLearning</RootNamespace>
     <AssemblyName>Accord.MachineLearning</AssemblyName>
-	
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-	<PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
@@ -16,17 +15,17 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Accord.snk</AssemblyOriginatorKeyFile>
     <OldToolsVersion>3.5</OldToolsVersion>
-	<CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <MapFileExtensions>true</MapFileExtensions>
-	<CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Accord.NET.ruleset</CodeAnalysisRuleSet>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <FileAlignment>4096</FileAlignment>
-	<Optimize>true</Optimize>
+    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <DebugSymbols>true</DebugSymbols>
-	<RunCodeAnalysis>true</RunCodeAnalysis>
-	<CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -34,7 +33,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DebugType>Full</DebugType>
     <Optimize>False</Optimize>
-	<RunCodeAnalysis>False</RunCodeAnalysis>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
     <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <OutputPath>..\..\Debug\</OutputPath>
@@ -44,24 +43,23 @@
     <DefineConstants>TRACE;CODE_ANALYSIS;NET35</DefineConstants>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-	<DocumentationFile>..\..\Release\net35\Accord.MachineLearning.XML</DocumentationFile>
-	<CodeAnalysisLogFile>..\..\Release\net35\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>..\..\Release\net35\Accord.MachineLearning.XML</DocumentationFile>
+    <CodeAnalysisLogFile>..\..\Release\net35\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET40|AnyCPU' ">
     <OutputPath>..\..\Release\net40</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET40</DefineConstants>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DocumentationFile>..\..\Release\net40\Accord.MachineLearning.XML</DocumentationFile>
-	<CodeAnalysisLogFile>..\..\Release\net40\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <CodeAnalysisLogFile>..\..\Release\net40\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'NET45|AnyCPU'">
     <OutputPath>..\..\Release\net45</OutputPath>
     <DefineConstants>TRACE;CODE_ANALYSIS;NET45</DefineConstants>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-	<DocumentationFile>..\..\Release\net45\Accord.MachineLearning.XML</DocumentationFile>
-	<CodeAnalysisLogFile>..\..\Release\net45\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <DocumentationFile>..\..\Release\net45\Accord.MachineLearning.XML</DocumentationFile>
+    <CodeAnalysisLogFile>..\..\Release\net45\Accord.MachineLearning.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
   </PropertyGroup>
-  
   <ItemGroup>
     <Reference Include="AForge">
       <SpecificVersion>False</SpecificVersion>
@@ -99,7 +97,7 @@
     <Compile Include="Clustering\KMeansCluster.cs" />
     <Compile Include="Clustering\IClusteringAlgorithm.cs" />
     <Compile Include="Clustering\KModesCluster.cs" />
-    <Compile Include="Clustering\MeanShift.cs" />
+    <Compile Include="Clustering\FastMeanShift.cs" />
     <Compile Include="DecisionTrees\Accord.MachineLearning.DecisionTrees.cs" />
     <Compile Include="DecisionTrees\ComparisonKind.cs" />
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
