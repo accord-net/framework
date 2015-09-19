@@ -192,8 +192,14 @@ namespace Accord.Math
         {
             double max = cast<double>(toMax);
             double min = cast<double>(toMin);
-            double result = (max - min) * (value - fromMin) / (fromMax - fromMin) + min;
+            double result;
+            if (fromMin != fromMax)
+                result = (max - min) * (value - fromMin) / (fromMax - fromMin) + min;
+            else
+                result = value;
+
             return cast<T>(result);
+
         }
 
         public static T[] Scale<T>(this double[] values, double fromMin, double fromMax, T toMin, T toMax)
@@ -202,8 +208,16 @@ namespace Accord.Math
             double min = cast<double>(toMin);
 
             var results = new T[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = cast<T>((max - min) * (values[i] - fromMin) / (fromMax - fromMin) + min);
+            if (fromMin != fromMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    results[i] = cast<T>((max - min) * (values[i] - fromMin) / (fromMax - fromMin) + min);
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                    results[i] = cast<T>(values[i]);
+            }
 
             return results;
         }
@@ -214,8 +228,16 @@ namespace Accord.Math
             double min = cast<double>(toMin);
 
             var results = new T[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = cast<T>((max - min) * (values[i] - fromMin) / (fromMax - fromMin) + min);
+            if (fromMin != fromMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    results[i] = cast<T>((max - min) * (values[i] - fromMin) / (fromMax - fromMin) + min);
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                    results[i] = cast<T>(values[i]);
+            }
 
             return results;
         }
@@ -226,8 +248,16 @@ namespace Accord.Math
             double min = cast<double>(toMin);
 
             var results = new T[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = cast<T>((max - min) * (values[i] - fromMin) / (fromMax - fromMin) + min);
+            if (fromMin != fromMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    results[i] = cast<T>((max - min) * (values[i] - fromMin) / (fromMax - fromMin) + min);
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                    results[i] = cast<T>(values[i]);
+            }
 
             return results;
         }

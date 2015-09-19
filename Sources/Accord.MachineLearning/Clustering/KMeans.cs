@@ -389,6 +389,7 @@ namespace Accord.MachineLearning
         [Obsolete("Please set the 'Tolerance' property instead of passing the 'threshold' parameter.")]
         public int[] Compute(double[][] points, double threshold)
         {
+
             return Compute(points, threshold, ComputeInformation);
         }
 
@@ -399,6 +400,7 @@ namespace Accord.MachineLearning
         /// <param name="data">The data where to compute the algorithm.</param>
         /// <param name="threshold">The relative convergence threshold
         ///   for the algorithm. Default is 1e-5.</param>
+        ///   This is used in weighted K-Means</param>
         /// <param name="computeInformation">Pass <c>true</c> to compute additional information
         ///   when the algorithm finishes, such as cluster variances and proportions; false
         ///   otherwise. Default is true.</param>
@@ -406,12 +408,46 @@ namespace Accord.MachineLearning
         [Obsolete("Please set the 'Tolerance' and 'ComputeInformation' properties instead of using this overload.")]
         public int[] Compute(double[][] data, double threshold, bool computeInformation)
         {
+            double[] dataWeights = createDefaultWeights(data);
+            return Compute(data, dataWeights, threshold, computeInformation);
+        }
+
+        /// <summary>
+        ///   Divides the input data into K clusters. 
+        /// </summary>
+        /// 
+        /// <param name="data">The data where to compute the algorithm.</param>
+        /// <param name="threshold">The relative convergence threshold
+        ///   for the algorithm. Default is 1e-5.</param>
+        /// <param name="dataWeights">The weight to consider for each data sample. 
+        ///   This is used in weighted K-Means</param>
+        /// <param name="computeInformation">Pass <c>true</c> to compute additional information
+        ///   when the algorithm finishes, such as cluster variances and proportions; false
+        ///   otherwise. Default is true.</param>
+        ///   
+        [Obsolete("Please set the 'Tolerance' and 'ComputeInformation' properties instead of using this overload.")]
+        public int[] Compute(double[][] data, double[] dataWeights, double threshold, bool computeInformation)
+        {
             // Initial argument checking
             if (data == null)
                 throw new ArgumentNullException("data");
 
             if (data.Length < K)
                 throw new ArgumentException("Not enough points. There should be more points than the number K of clusters.");
+
+            if (dataWeights == null)
+                throw new ArgumentNullException("dataWeights");
+
+            if (data.Length != dataWeights.Length)
+                throw new ArgumentException("Data weights vector must be the same length as data samples.");
+
+            for (int i = 0; i < dataWeights.Length; i++)
+                if (dataWeights[i] < 0)
+                    throw new ArgumentException("Data weights cannot be negative.");
+
+            double dataWeightSum = dataWeights.Sum();
+            if (dataWeightSum <= 0)
+                throw new ArgumentException("Data weights sum must be greater than zero.");
 
             if (threshold < 0)
                 throw new ArgumentException("Threshold should be a positive number.", "threshold");
@@ -431,7 +467,6 @@ namespace Accord.MachineLearning
             int rows = data.Length;
             int cols = data[0].Length;
 
-
             // Perform a random initialization of the clusters
             // if the algorithm has not been initialized before.
             //
@@ -440,29 +475,27 @@ namespace Accord.MachineLearning
                 Randomize(data);
             }
 
-
             // Initial variables
-            int[] count = new int[k];
             int[] labels = new int[rows];
+            double[] weightCount = new double[k];
             double[][] centroids = clusters.Centroids;
             double[][] newCentroids = new double[k][];
+
             for (int i = 0; i < newCentroids.Length; i++)
                 newCentroids[i] = new double[cols];
 
-            PerformClustering(data, threshold, newCentroids, count, labels, centroids);
-
+            PerformClustering(data, dataWeights, threshold, newCentroids, weightCount, labels, centroids);
 
             for (int i = 0; i < centroids.Length; i++)
             {
                 // Compute the proportion of samples in the cluster
-                clusters.Proportions[i] = count[i] / (double)data.Length;
+                clusters.Proportions[i] = weightCount[i] / dataWeightSum;
             }
-
 
             if (ComputeInformation)
             {
                 // Compute cluster information (optional)
-                for (int i = 0; i < centroids.Length; i++)
+                Parallel.For(0, centroids.Length, i =>
                 {
                     // Extract the data for the current cluster
                     double[][] sub = data.Submatrix(labels.Find(x => x == i));
@@ -477,9 +510,8 @@ namespace Accord.MachineLearning
                         // The cluster doesn't have any samples
                         clusters.Covariances[i] = new double[cols, cols];
                     }
-                }
+                });
             }
-
 
             // Return the classification result
             return labels;
@@ -491,23 +523,23 @@ namespace Accord.MachineLearning
         ///   before returning the method.
         /// </summary>
         /// 
-        protected virtual void PerformClustering(double[][] data, double threshold,
-            double[][] newCentroids, int[] count,
+        protected virtual void PerformClustering(double[][] data, double[] dataWeights, double threshold,
+            double[][] newCentroids, double[] countWeights,
             int[] labels, double[][] centroids)
         {
             Object[] syncObjects = new Object[K];
             for (int i = 0; i < syncObjects.Length; i++)
                 syncObjects[i] = new Object();
 
-
             bool shouldStop = false;
 
             while (!shouldStop) // Main loop
             {
-                // Reset the centroids and the member counters
-                for (int i = 0; i < newCentroids.Length; i++)
+                Parallel.For(0, newCentroids.Length, i =>
+                {
                     Array.Clear(newCentroids[i], 0, newCentroids[i].Length);
-                Array.Clear(count, 0, count.Length);
+                    countWeights[i] = 0.0;
+                });
 
                 // First we will accumulate the data points
                 // into their nearest clusters, storing this
@@ -518,47 +550,49 @@ namespace Accord.MachineLearning
                 {
                     // Get the point
                     double[] point = data[i];
+                    double weight = dataWeights[i];
 
                     // Get the nearest cluster centroid
                     int c = labels[i] = Clusters.Nearest(point);
-
-                    // Increase the cluster's sample counter
-                    Interlocked.Increment(ref count[c]);
 
                     // Get the closest cluster centroid
                     double[] centroid = newCentroids[c];
 
                     lock (syncObjects[c])
                     {
+                        // Increase the cluster's sample counter
+                        countWeights[c] += weight;
+
                         // Accumulate in the cluster centroid
                         for (int j = 0; j < point.Length; j++)
-                            centroid[j] += point[j];
+                            centroid[j] += point[j] * weight;
                     }
                 });
 
                 // Next we will compute each cluster's new centroid
                 //  by dividing the accumulated sums by the number of
                 //  samples in each cluster, thus averaging its members.
-                for (int i = 0; i < newCentroids.Length; i++)
+                Parallel.For(0, newCentroids.Length, i =>
                 {
-                    double clusterCount = count[i];
+                    double clusterWeightCount = countWeights[i];
 
-                    if (clusterCount != 0)
+                    if (clusterWeightCount > 0)
                     {
                         for (int j = 0; j < newCentroids[i].Length; j++)
-                            newCentroids[i][j] /= clusterCount;
+                            newCentroids[i][j] /= clusterWeightCount;
                     }
-                }
-
+                });
 
                 // The algorithm stops when there is no further change in the
                 //  centroids (relative difference is less than the threshold).
                 shouldStop = converged(centroids, newCentroids, threshold);
 
                 // go to next generation
-                for (int i = 0; i < centroids.Length; i++)
+                Parallel.For(0, centroids.Length, i =>
+                {
                     for (int j = 0; j < centroids[i].Length; j++)
                         centroids[i][j] = newCentroids[i][j];
+                });
             }
         }
 
@@ -649,6 +683,24 @@ namespace Accord.MachineLearning
         }
 
         /// <summary>
+        /// Create default weights for each data point,
+        /// this is used when all points have equal weight
+        /// </summary>
+        /// <param name="points">Data samples</param>
+        /// <returns>Equal weight vector</returns>
+        private double[] createDefaultWeights(double[][] points)
+        {
+            double[] dataWeights = new double[points.Length];
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                dataWeights[i] = 1;
+            }
+
+            return dataWeights;
+        }
+
+        /// <summary>
         ///   Determines if the algorithm has converged by comparing the
         ///   centroids between two consecutive iterations.
         /// </summary>
@@ -687,7 +739,6 @@ namespace Accord.MachineLearning
             get { return clusters; }
         }
 
-
         [OnDeserialized]
         private void OnDeserializedMethod(StreamingContext context)
         {
@@ -698,7 +749,6 @@ namespace Accord.MachineLearning
                 this.UseCentroidSeeding = true;
             }
         }
-
 
         #region Deprecated
         /// <summary>
@@ -733,4 +783,5 @@ namespace Accord.MachineLearning
         #endregion
 
     }
+
 }

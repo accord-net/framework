@@ -31,7 +31,6 @@ namespace ClassificationSample
             // Plot the data
             ScatterplotBox.Show("Yin-Yang", inputs, outputs).Hold();
 
-
             naiveBayes(inputs, outputs);
 
             decisionTree(inputs, outputs);
@@ -43,6 +42,9 @@ namespace ClassificationSample
             logistic(inputs, outputs);
 
             network(inputs, outputs);
+
+            multilabelsvm();
+
         }
 
         private static void naiveBayes(double[][] inputs, int[] outputs)
@@ -204,7 +206,7 @@ namespace ClassificationSample
 
 
             // Classify the samples using the model
-            int[] answers = inputs.Apply(network.Compute).GetColumn(0).ToInt32();
+            int[] answers = inputs.Apply(network.Compute).GetColumn(0).Apply(System.Math.Sign);
 
             // Plot the results
             ScatterplotBox.Show("Expected results", inputs, outputs);
@@ -248,6 +250,57 @@ namespace ClassificationSample
             ScatterplotBox.Show("Expected results", inputs, outputs);
             ScatterplotBox.Show("Logistic Regression results", inputs, answers)
                 .Hold();
+        }
+
+        private static void multilabelsvm()
+        {
+            // Sample data
+            // The following is simple auto association function
+            // where each input correspond to its own class. This
+            // problem should be easily solved by a Linear kernel.
+
+            // Sample input data
+            double[][] inputs =
+            {
+                new double[] { 0 },
+                new double[] { 3 },
+                new double[] { 1 },
+                new double[] { 2 },
+            };
+
+            // Outputs for each of the inputs
+            int[][] outputs =
+            {
+                new[] { -1,  1, -1 },
+                new[] { -1, -1,  1 },
+                new[] {  1,  1, -1 },
+                new[] { -1, -1, -1 },
+            };
+
+
+            // Create a new Linear kernel
+            IKernel kernel = new Linear();
+
+            // Create a new Multi-class Support Vector Machine with one input,
+            //  using the linear kernel and for four disjoint classes.
+            var machine = new MultilabelSupportVectorMachine(1, kernel, 3);
+
+            // Create the Multi-label learning algorithm for the machine
+            var teacher = new MultilabelSupportVectorLearning(machine, inputs, outputs);
+
+            // Configure the learning algorithm to use SMO to train the
+            //  underlying SVMs in each of the binary class subproblems.
+            teacher.Algorithm = (svm, classInputs, classOutputs, i, j) =>
+                new SequentialMinimalOptimization(svm, classInputs, classOutputs)
+                {
+                    // Create a hard SVM
+                    Complexity = 10000.0
+                };
+
+            // Run the learning algorithm
+            double error = teacher.Run();
+
+            int[][] answers = inputs.Apply(machine.Compute);
         }
 
     }
