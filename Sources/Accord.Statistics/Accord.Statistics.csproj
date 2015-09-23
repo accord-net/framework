@@ -312,6 +312,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Markov\Learning\Base\BaseViterbiLearning`1.cs" />
+    <Compile Include="Models\Regression\Nonlinear\Fitting\NonNegativeLeastSquares.cs" />
     <Compile Include="Running\IRunning`1.cs" />
     <Compile Include="Models\Markov\Hybrid\IHybridMarkovModel.cs" />
     <Compile Include="Models\Markov\Hybrid\HybridMarkovClassifier.cs" />

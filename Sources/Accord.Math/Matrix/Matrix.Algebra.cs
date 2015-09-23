@@ -734,7 +734,7 @@ namespace Accord.Math
 
             return r;
         }
-
+        
         /// <summary>
         ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and matrix <c>B</c>.
         /// </summary>
@@ -813,7 +813,7 @@ namespace Accord.Math
             }
         }
 
-
+        
         /// <summary>
         ///   Computes the product <c>A'*B</c> of matrix <c>A</c> transposed and vector <c>b</c>.
         /// </summary>
@@ -827,6 +827,21 @@ namespace Accord.Math
             double[] r = new double[a.GetLength(1)];
             TransposeAndMultiply(a, b, r);
             return r;
+        }
+
+        public static double[] TransposeAndMultiply(this double[][] a, double[] b)
+        {
+            var result = new double[a.Columns()];
+            for (var i = 0; i < result.Length; ++i)
+            {
+                var num = 0.0;
+                for (var j = 0; j < b.Length; ++j)
+                {
+                    num += a[j][i] * b[j];
+                }
+                result[i] = num;
+            }
+            return result;
         }
 
         /// <summary>
