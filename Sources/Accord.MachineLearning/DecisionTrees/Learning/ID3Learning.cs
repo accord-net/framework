@@ -309,7 +309,11 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
         private void split(DecisionNode root, int[][] input, int[] output, int height)
         {
+            // calculate and set the probability of an observation at this node being the positive class
 
+            double pos = output.Sum();
+            double obsCnt = output.Length;
+            root.Probability = pos / obsCnt;
             // 2. If all examples are for the same class, return the single-node
             //    tree with the output label corresponding to this common class.
             double entropy = Statistics.Tools.Entropy(output, outputClasses);

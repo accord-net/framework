@@ -62,6 +62,13 @@ namespace Accord.MachineLearning.DecisionTrees
         public double? Value { get; set; }
 
         /// <summary>
+        ///   Gets or sets the probability of an observation
+        ///   being the positive class at this node
+        /// </summary>
+        /// 
+        public double? Probability { get; set; }
+
+        /// <summary>
         ///   Gets or sets the type of the comparison which
         ///   should be done against <see cref="Value"/>.
         /// </summary>
