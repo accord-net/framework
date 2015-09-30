@@ -134,7 +134,24 @@ namespace Accord.MachineLearning.DecisionTrees
             if (Root == null)
                 throw new InvalidOperationException();
 
-            return Compute(input, Root);
+            return Convert.ToInt32(Compute(input, Root));
+        }
+
+        public double ComputeProba(int[] input)
+        {
+            double[] x = new double[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                x[i] = input[i];
+
+            return ComputeProba(x);
+        }
+
+        public double ComputeProba(double[] input)
+        {
+            if (Root == null)
+                throw new InvalidOperationException();
+
+            return Compute(input, Root, true);
         }
 
         /// <summary>
@@ -146,7 +163,7 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         /// <returns>A predicted class for the given input.</returns>
         /// 
-        public int Compute(double[] input, DecisionNode subtree)
+        public double Compute(double[] input, DecisionNode subtree, bool probability = false)
         {
             if (subtree == null) 
                 throw new ArgumentNullException("subtree");
@@ -164,8 +181,12 @@ namespace Accord.MachineLearning.DecisionTrees
                 {
                     // This is a leaf node. The decision
                     // process thus should stop here.
-
+                    if (probability){
+                        return current.Probability;
+                    }
+                    else {
                     return (current.Output.HasValue) ? current.Output.Value : -1;
+                    }
                 }
 
                 // This node is not a leaf. Continue the
