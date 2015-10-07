@@ -25,10 +25,8 @@ namespace Accord.MachineLearning.DecisionTrees
             mOutputCol = outputCol;
         }
 
-        public void Fit(DataTable data)
+        public void Fit(DataTable symbols)
         {
-            mCodebook = new Codification(data);
-            DataTable symbols = mCodebook.Apply(data);
             double[][] inputs = symbols.ToArray(mInputCols);
             int[] outputs = symbols.ToArray<int>(mOutputCol);
             DecisionVariable[] attributes = DecisionVariable.FromCodebook(mCodebook, mInputCols);
@@ -37,9 +35,8 @@ namespace Accord.MachineLearning.DecisionTrees
             c45.Run(inputs, outputs);
         }
 
-        public int[] Predict(DataTable data)
+        public int[] Predict(DataTable symbols)
         {
-            DataTable symbols = mCodebook.Apply(data);
             double[][] inputs = symbols.ToArray(mInputCols);
             return inputs.Select(x => predict(x)).ToArray();
         }

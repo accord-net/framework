@@ -40,13 +40,16 @@ namespace Accord.MachineLearning.DecisionTrees
             }
             mInputColumns = inputColumns;
             mOutputColumn = outputColumn;
-            mData = data;
+            mCodebook = new Codification(data);
+            DataTable symbols = mCodebook.Apply(data);
+            mData = symbols;
             createForest();
         }
 
         public string[] Predict(DataTable data, double threshold)
         {
-            int[][] treePreds = mTrees.Select(x => x.Predict(data)).ToArray();
+            DataTable symbols = mCodebook.Apply(data);
+            int[][] treePreds = mTrees.Select(x => x.Predict(symbols)).ToArray();
             List<double> predProbs = new List<double>();
             int i = 0;
             while(i < data.Rows.Count)
