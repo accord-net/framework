@@ -13,15 +13,15 @@ namespace Accord.MachineLearning.DecisionTrees
     {
         private List<ForestTree> mTrees = new List<ForestTree>();
         private List<double[][]> mSubsets = new List<double[][]>();
-        private static int mNRows;
-        private static int mNCols;
-        private static int mNTrees;
-        private static double mSizeOfRandomSample;
-        private static double mNColsPerRandomSample;
-        private static string[] mInputColumns;
-        private static string mOutputColumn;
-        private static DataTable mData;
-        private static Codification mCodebook;
+        private int mNRows;
+        private int mNCols;
+        private int mNTrees;
+        private double mSizeOfRandomSample;
+        private double mNColsPerRandomSample;
+        private string[] mInputColumns;
+        private string mOutputColumn;
+        private DataTable mData;
+        private Codification mCodebook;
 
         public RandomForest(double maxFeatures = 0, double sizeOfRandomSample = .632, int nTrees = 100)
         {
@@ -57,8 +57,8 @@ namespace Accord.MachineLearning.DecisionTrees
                 predProbs.Add(treePreds.Select(x => x[i]).Average());
                 i += 1;
             }
-            return predProbs.Select(x => mCodebook.Translate(mOutputColumn, Convert.ToInt32(x > threshold))).ToArray();
 
+            return predProbs.Select(x => mCodebook.Translate(mOutputColumn, Convert.ToInt32(x > threshold))).ToArray();
         }
 
 
@@ -77,7 +77,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 }
                 string[] inputColSubset = mInputColumns.Where(x => rnd.Next(100) < mNColsPerRandomSample * 100).ToArray();
                 inputColSubset = inputColSubset.Where(x => dataSubset.AsEnumerable().Select(y => y.Field<object>(x)).Distinct().Count() > 1).ToArray();
-                ForestTree tree = new ForestTree(inputColSubset, mOutputColumn);
+                ForestTree tree = new ForestTree(inputColSubset, mOutputColumn, mCodebook);
                 tree.Fit(dataSubset);
                 mTrees.Add(tree);
                 i += 1;

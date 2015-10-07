@@ -14,15 +14,16 @@ namespace Accord.MachineLearning.DecisionTrees
 {
     class ForestTree
     {
-        private static Codification mCodebook = null;
-        private static string[] mInputCols = null;
-        private static string mOutputCol = null;
+        private Codification mCodebook = null;
+        private string[] mInputCols = null;
+        private string mOutputCol = null;
         private DecisionTree mTree = null;
 
-        public ForestTree(string[] inputCols, string outputCol)
+        public ForestTree(string[] inputCols, string outputCol, Codification codebook)
         {
             mInputCols = inputCols;
             mOutputCol = outputCol;
+            mCodebook = codebook;
         }
 
         public void Fit(DataTable symbols)
