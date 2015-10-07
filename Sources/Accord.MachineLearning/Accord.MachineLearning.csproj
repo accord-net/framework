@@ -66,6 +66,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -90,6 +91,8 @@
     <Compile Include="Clustering\KModesCluster.cs" />
     <Compile Include="Clustering\MeanShift.cs" />
     <Compile Include="DecisionTrees\Accord.MachineLearning.DecisionTrees.cs" />
+    <Compile Include="DecisionTrees\ForestTree.cs" />
+    <Compile Include="DecisionTrees\RandomForest.cs" />
     <Compile Include="DecisionTrees\ComparisonKind.cs" />
     <Compile Include="DecisionTrees\DecisionBranchNodeCollection.cs" />
     <Compile Include="DecisionTrees\Learning\Accord.MachineLearning.DecisionTrees.Learning.cs" />
