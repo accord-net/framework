@@ -22,12 +22,14 @@ namespace Accord.MachineLearning.DecisionTrees
         private string mOutputColumn;
         private DataTable mData;
         private Codification mCodebook;
+        private int mDegreeOfParallelism;
 
-        public RandomForest(double maxFeatures = 0, double sizeOfRandomSample = .632, int nTrees = 100)
+        public RandomForest(double maxFeatures = 0, double sizeOfRandomSample = .632, int nTrees = 100, int degreeOfParallelism = 1)
         {
             mNColsPerRandomSample = maxFeatures;
             mSizeOfRandomSample = sizeOfRandomSample;
             mNTrees = nTrees;
+            mDegreeOfParallelism = degreeOfParallelism;
         }
 
         public void Fit(DataTable data, string[] inputColumns, string outputColumn)
@@ -64,8 +66,9 @@ namespace Accord.MachineLearning.DecisionTrees
 
         private void createForest()
         {
-            int i = 0;
-            while (i < mNTrees)
+            object lck = new object();
+            ParallelOptions options = new ParallelOptions {MaxDegreeOfParallelism = mDegreeOfParallelism};
+            Parallel.For(0, mNTrees, i =>
             {
                 Random rnd = new Random();
                 DataTable dataSubset = mData.AsEnumerable().Where(x => rnd.Next(100) < mSizeOfRandomSample * 100).CopyToDataTable();
@@ -79,9 +82,10 @@ namespace Accord.MachineLearning.DecisionTrees
                 inputColSubset = inputColSubset.Where(x => dataSubset.AsEnumerable().Select(y => y.Field<object>(x)).Distinct().Count() > 1).ToArray();
                 ForestTree tree = new ForestTree(inputColSubset, mOutputColumn, mCodebook);
                 tree.Fit(dataSubset);
-                mTrees.Add(tree);
-                i += 1;
-            }
+                lock (lck)
+                {mTrees.Add(tree);}
+                
+            } );
 
 
             
