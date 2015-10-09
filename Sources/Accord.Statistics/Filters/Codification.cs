@@ -622,16 +622,18 @@ namespace Accord.Statistics.Filters
                             {
                                 // Find the corresponding column
                                 var factorName = getFactorName(options, label);
-
-                                resultRow[factorName] = 1;
+                                try
+                                { resultRow[factorName] = 1; }
+                                catch{}
                             }
                         }
                         else if (options.VariableType == CodificationVariable.Categorical)
                         {
                             // Find the corresponding column
                             var factorName = getFactorName(options, label);
-
-                            resultRow[factorName] = 1;
+                            try
+                            { resultRow[factorName] = 1; }
+                            catch { }
                         }
                     }
                     else
@@ -728,13 +730,19 @@ namespace Accord.Statistics.Filters
                 DataTable d = data.DefaultView.ToTable(true, name);
 
                 // For each distinct value, create a corresponding integer
+                int n;
+                bool flag;
+                bool stringInd = false;
                 for (int i = 0; i < d.Rows.Count; i++)
                 {
                     // And register the String->Integer mapping
-                    map.Add(d.Rows[i][0] as string, i);
+                    string currVal = d.Rows[i][0] as string;
+                    stringInd = !int.TryParse(currVal, out n) & !Boolean.TryParse(currVal, out flag);
+                    map.Add(currVal, i);
                 }
-
-                Columns.Add(new Options(name, map));
+                Options options = new Options(name, map);
+                if (stringInd) { options.VariableType = CodificationVariable.Categorical; }
+                Columns.Add(options);
             }
         }
 
