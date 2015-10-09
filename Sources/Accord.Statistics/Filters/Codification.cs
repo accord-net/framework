@@ -727,15 +727,16 @@ namespace Accord.Statistics.Filters
                 // We'll create a mapping
                 string name = column.ColumnName;
                 var map = new Dictionary<string, int>();
-                map.Add("unknown", 0);
+                
                 // Do a select distinct to get distinct values
                 DataTable d = data.DefaultView.ToTable(true, name);
+                map.Add("unknown", d.Rows.Count);
 
                 // For each distinct value, create a corresponding integer
                 int n;
                 bool flag;
                 bool stringInd = false;
-                for (int i = 1; i < d.Rows.Count; i++)
+                for (int i = 0; i < d.Rows.Count; i++)
                 {
                     // And register the String->Integer mapping
                     string currVal = d.Rows[i][0] as string;

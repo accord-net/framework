@@ -37,15 +37,15 @@ namespace Accord.MachineLearning.DecisionTrees
         public void Fit(DataTable data, string[] inputColumns, string outputColumn)
         {
             mNRows = data.Rows.Count;
-            if (mNColsPerRandomSample == 0)
-            {
-                mNColsPerRandomSample = System.Math.Sqrt(mNCols) / mNCols;
-            }
             mInputColumns = inputColumns;
             mOutputColumn = outputColumn;
             mCodebook = new Codification(data);
             DataTable symbols = mCodebook.Apply(data);
             mNCols = symbols.Columns.Count - 1;
+            if (mNColsPerRandomSample == 0)
+            {
+                mNColsPerRandomSample = System.Math.Sqrt(mNCols) / mNCols;
+            }
             mData = symbols;
             createForest();
         }

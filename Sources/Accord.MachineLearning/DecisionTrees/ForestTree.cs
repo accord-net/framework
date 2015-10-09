@@ -30,7 +30,15 @@ namespace Accord.MachineLearning.DecisionTrees
         {
             double[][] inputs = symbols.ToArray(mInputCols);
             int[] outputs = symbols.ToArray<int>(mOutputCol);
-            DecisionVariable[] attributes = DecisionVariable.FromCodebook(mCodebook, mInputCols);
+            List<DecisionVariable> attributes = DecisionVariable.FromCodebook(mCodebook, mInputCols).ToList();
+            string[] initAttributeNms = attributes.Select(x => x.Name).ToArray();
+            foreach (string inputCol in mInputCols)
+            {
+                if (!initAttributeNms.Contains(inputCol))
+                {
+                    attributes.Add(new DecisionVariable(inputCol, DecisionVariableKind.Discrete));
+                }
+            }
             mTree = new DecisionTree(attributes, 2);
             C45Learning c45 = new C45Learning(mTree);
             c45.Run(inputs, outputs);
