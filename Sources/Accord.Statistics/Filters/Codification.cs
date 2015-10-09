@@ -613,7 +613,7 @@ namespace Accord.Statistics.Filters
                             // Get its corresponding integer
                             int value = 0;
                             try { value = map[label]; }
-                            catch { }
+                            catch { value = map["unknown"]; }
 
                             // Set the row to the integer
                             resultRow[name] = value;
