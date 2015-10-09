@@ -611,7 +611,9 @@ namespace Accord.Statistics.Filters
                         if (options.VariableType == CodificationVariable.Ordinal)
                         {
                             // Get its corresponding integer
-                            int value = map[label];
+                            int value = 0;
+                            try { value = map[label]; }
+                            catch { }
 
                             // Set the row to the integer
                             resultRow[name] = value;
@@ -725,7 +727,7 @@ namespace Accord.Statistics.Filters
                 // We'll create a mapping
                 string name = column.ColumnName;
                 var map = new Dictionary<string, int>();
-
+                map.Add("unknown", 0);
                 // Do a select distinct to get distinct values
                 DataTable d = data.DefaultView.ToTable(true, name);
 
@@ -733,7 +735,7 @@ namespace Accord.Statistics.Filters
                 int n;
                 bool flag;
                 bool stringInd = false;
-                for (int i = 0; i < d.Rows.Count; i++)
+                for (int i = 1; i < d.Rows.Count; i++)
                 {
                     // And register the String->Integer mapping
                     string currVal = d.Rows[i][0] as string;
@@ -741,7 +743,7 @@ namespace Accord.Statistics.Filters
                     map.Add(currVal, i);
                 }
                 Options options = new Options(name, map);
-                if (stringInd) { options.VariableType = CodificationVariable.Categorical; }
+                //if (stringInd) { options.VariableType = CodificationVariable.Categorical; }
                 Columns.Add(options);
             }
         }
