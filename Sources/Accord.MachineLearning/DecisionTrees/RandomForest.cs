@@ -40,6 +40,7 @@ namespace Accord.MachineLearning.DecisionTrees
             mInputColumns = inputColumns;
             mOutputColumn = outputColumn;
             mCodebook = new Codification(data);
+            mCodebook.Columns[mOutputColumn].Mapping.Remove("unknown");
             DataTable symbols = mCodebook.Apply(data);
             mNCols = symbols.Columns.Count - 1;
             if (mNColsPerRandomSample == 0)
@@ -58,7 +59,7 @@ namespace Accord.MachineLearning.DecisionTrees
             List<double> predProbs = new List<double>();
             Parallel.For(0, data.Rows.Count, mParallelOptions, i =>
             {
-                double predProb = treePreds.Select(x => x[i]).Average();
+                double predProb = treePreds.Where(x => x[i] > -1).Select(x => x[i]).Average();
                 lock (mLock)
                 { predProbs.Add(predProb); }
             });
@@ -79,9 +80,18 @@ namespace Accord.MachineLearning.DecisionTrees
                     dataSubset = mData.AsEnumerable().Where(x => rnd.Next(100) < mSizeOfRandomSample * 100).CopyToDataTable();
                     classCnt = dataSubset.AsEnumerable().Select(y => y.Field<object>(mOutputColumn)).Distinct().Count();
                 }
-                string[] inputColSubset = mInputColumns.Where(x => rnd.Next(100) < mNColsPerRandomSample * 100).ToArray();
-                inputColSubset = inputColSubset.Where(x => dataSubset.AsEnumerable().Select(y => y.Field<object>(x)).Distinct().Count() > 1).ToArray();
-                ForestTree tree = new ForestTree(inputColSubset, mOutputColumn, mCodebook);
+                string[] inputColSubset = mInputColumns.Where(x => dataSubset.AsEnumerable().Select(y => y.Field<object>(x)).Distinct().Count() > 1).ToArray();
+                List<DecisionVariable> attributes = DecisionVariable.FromCodebook(mCodebook, inputColSubset).ToList();
+                string[] initAttributeNms = attributes.Select(x => x.Name).ToArray();
+                foreach (string inputCol in inputColSubset)
+                {
+                    if (!initAttributeNms.Contains(inputCol))
+                    {
+                        attributes.Add(new DecisionVariable(inputCol, DecisionVariableKind.Discrete));
+                    }
+                }
+
+                ForestTree tree = new ForestTree(mNColsPerRandomSample, inputColSubset, mOutputColumn, mCodebook, attributes);
                 tree.Fit(dataSubset);
                 lock (mLock)
                 {mTrees.Add(tree);}

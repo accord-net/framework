@@ -76,6 +76,8 @@ namespace Accord.MachineLearning.DecisionTrees
         /// 
         public int InputCount { get; private set; }
 
+        public double pcntAttributesToUse { get; set; }
+
         /// <summary>
         ///   Creates a new <see cref="DecisionTree"/> to process
         ///   the given <paramref name="inputs"/> and the given
@@ -134,7 +136,9 @@ namespace Accord.MachineLearning.DecisionTrees
             if (Root == null)
                 throw new InvalidOperationException();
 
-            return Convert.ToInt32(Compute(input, Root));
+            int output = Convert.ToInt32(Compute(input, Root));
+            Convert.ToInt32(Compute(input, Root));
+            return output;
         }
 
         public double ComputeProba(int[] input)

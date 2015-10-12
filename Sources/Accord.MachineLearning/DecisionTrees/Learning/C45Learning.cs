@@ -169,7 +169,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private IntRange[] inputRanges;
         private int outputClasses;
 
-        private int join = 1;
+        private int join = 100;
         private int[] attributeUsageCount;
 
 
@@ -382,16 +382,27 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             // 4. Otherwise, try to select the attribute which
             //    best explains the data sample subset.
 
+            List<int> candInds = new List<int>();
+            Random rnd = new Random();
+            for (int i = 0; i < attributeUsageCount.Length; i++)
+            {
+                if (rnd.Next(100) < tree.pcntAttributesToUse * 100)
+                {
+                    candInds.Add(i);
+                }
+            }
+            candidateCount = candInds.Count;
             double[] scores = new double[candidateCount];
             double[] thresholds = new double[candidateCount];
             int[][][] partitions = new int[candidateCount][][];
 
             // Retrieve candidate attribute indices
             int[] candidates = new int[candidateCount];
-            for (int i = 0, k = 0; i < attributeUsageCount.Length; i++)
+            int k = 0;
+            foreach(int candInd in candInds)
             {
-                if (attributeUsageCount[i] < join)
-                    candidates[k++] = i;
+                if (attributeUsageCount[candInd] < join)
+                    candidates[k++] = candInd;
             }
 
 

@@ -15,38 +15,34 @@ namespace Accord.MachineLearning.DecisionTrees
     class ForestTree
     {
         private Codification mCodebook = null;
+        private double mPcntFeaturesToUse = 0;
         private string[] mInputCols = null;
         private string mOutputCol = null;
         private DecisionTree mTree = null;
+        List<DecisionVariable> mAttributes = null;
 
-        public ForestTree(string[] inputCols, string outputCol, Codification codebook)
+        public ForestTree(double pcntFeaturesToUse, string[] inputCols, string outputCol, Codification codebook, List<DecisionVariable> attributes)
         {
+            mPcntFeaturesToUse = pcntFeaturesToUse;
             mInputCols = inputCols;
             mOutputCol = outputCol;
             mCodebook = codebook;
+            mAttributes = attributes;
         }
 
         public void Fit(DataTable symbols)
         {
             double[][] inputs = symbols.ToArray(mInputCols);
             int[] outputs = symbols.ToArray<int>(mOutputCol);
-            List<DecisionVariable> attributes = DecisionVariable.FromCodebook(mCodebook, mInputCols).ToList();
-            string[] initAttributeNms = attributes.Select(x => x.Name).ToArray();
-            foreach (string inputCol in mInputCols)
-            {
-                if (!initAttributeNms.Contains(inputCol))
-                {
-                    attributes.Add(new DecisionVariable(inputCol, DecisionVariableKind.Discrete));
-                }
-            }
-            mTree = new DecisionTree(attributes, 2);
+            mTree = new DecisionTree(mAttributes, 2);
+            mTree.pcntAttributesToUse = mPcntFeaturesToUse;
             C45Learning c45 = new C45Learning(mTree);
             c45.Run(inputs, outputs);
         }
 
         public int[] Predict(DataTable symbols)
         {
-            double[][] inputs = symbols.ToArray(mInputCols);
+            double[][] inputs = symbols.ToArray();
             return inputs.Select(x => predict(x)).ToArray();
         }
 
