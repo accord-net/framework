@@ -44,8 +44,9 @@ namespace Accord.MachineLearning.DecisionTrees
             mNCols = symbols.Columns.Count - 1;
             if (mNColsPerRandomSample == 0)
             {
-                mNColsPerRandomSample = System.Math.Sqrt(mNCols) / mNCols;
+                mNColsPerRandomSample = System.Math.Sqrt(mNCols);
             }
+            mNColsPerRandomSample = mNColsPerRandomSample / mNCols;
             mData = symbols;
             createForest();
         }
