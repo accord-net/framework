@@ -37,6 +37,8 @@ namespace Accord.MachineLearning.DecisionTrees
             mTree = new DecisionTree(mAttributes, 2);
             mTree.pcntAttributesToUse = mPcntFeaturesToUse;
             C45Learning c45 = new C45Learning(mTree);
+            //c45.MaxHeight = 500;
+            c45.Join = 100;
             c45.Run(inputs, outputs);
         }
 

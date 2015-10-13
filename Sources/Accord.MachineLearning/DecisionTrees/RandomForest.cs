@@ -46,6 +46,8 @@ namespace Accord.MachineLearning.DecisionTrees
             if (mNColsPerRandomSample == 0)
             {
                 mNColsPerRandomSample = System.Math.Sqrt(mNCols);
+            } else {
+                mNColsPerRandomSample = mNCols * mNColsPerRandomSample;
             }
             mNColsPerRandomSample = mNColsPerRandomSample / mNCols;
             mData = symbols;
@@ -57,12 +59,12 @@ namespace Accord.MachineLearning.DecisionTrees
             DataTable symbols = mCodebook.Apply(data);
             int[][] treePreds = mTrees.Select(x => x.Predict(symbols)).ToArray();
             List<double> predProbs = new List<double>();
-            Parallel.For(0, data.Rows.Count, mParallelOptions, i =>
+            for(int i = 0; i < data.Rows.Count; i++)
             {
-                double predProb = treePreds.Where(x => x[i] > -1).Select(x => x[i]).Average();
-                lock (mLock)
-                { predProbs.Add(predProb); }
-            });
+                double predProb = treePreds.Select(x => x[i]).Average();
+                //double predProb = treePreds.Last()[i];
+                predProbs.Add(predProb);
+            }
 
             return predProbs.Select(x => mCodebook.Translate(mOutputColumn, Convert.ToInt32(x > threshold))).ToArray();
         }
@@ -71,6 +73,7 @@ namespace Accord.MachineLearning.DecisionTrees
         private void createForest()
         {
             Parallel.For(0, mNTrees, mParallelOptions, i =>
+            //for(int i = 0; i < mNTrees; i++)
             {
                 Random rnd = new Random();
                 DataTable dataSubset = mData.AsEnumerable().Where(x => rnd.Next(100) < mSizeOfRandomSample * 100).CopyToDataTable();
@@ -96,7 +99,8 @@ namespace Accord.MachineLearning.DecisionTrees
                 lock (mLock)
                 {mTrees.Add(tree);}
                 
-            } );
+            }
+            );
 
 
             

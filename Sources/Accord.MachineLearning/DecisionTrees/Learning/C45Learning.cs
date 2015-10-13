@@ -169,7 +169,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
         private IntRange[] inputRanges;
         private int outputClasses;
 
-        private int join = 100;
+        private int join = 1;
         private int[] attributeUsageCount;
 
 
