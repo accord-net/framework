@@ -615,8 +615,7 @@ namespace Accord.Statistics.Filters
                             try { value = map[label]; }
                             catch { 
                                 value = map.Values.Count + 1;
-                                map[label] = value;
-                            }
+                                map[label] = value;}
 
                             // Set the row to the integer
                             resultRow[name] = value;

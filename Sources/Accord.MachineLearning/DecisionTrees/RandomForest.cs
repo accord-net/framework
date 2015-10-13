@@ -84,14 +84,10 @@ namespace Accord.MachineLearning.DecisionTrees
                     classCnt = dataSubset.AsEnumerable().Select(y => y.Field<object>(mOutputColumn)).Distinct().Count();
                 }
                 string[] inputColSubset = mInputColumns.Where(x => dataSubset.AsEnumerable().Select(y => y.Field<object>(x)).Distinct().Count() > 1).ToArray();
-                List<DecisionVariable> attributes = DecisionVariable.FromCodebook(mCodebook, inputColSubset).ToList();
-                string[] initAttributeNms = attributes.Select(x => x.Name).ToArray();
+                List<DecisionVariable> attributes = new List<DecisionVariable>();
                 foreach (string inputCol in inputColSubset)
                 {
-                    if (!initAttributeNms.Contains(inputCol))
-                    {
-                        attributes.Add(new DecisionVariable(inputCol, DecisionVariableKind.Discrete));
-                    }
+                        attributes.Add(new DecisionVariable(inputCol, DecisionVariableKind.Continuous));
                 }
 
                 ForestTree tree = new ForestTree(mNColsPerRandomSample, inputColSubset, mOutputColumn, mCodebook, attributes);
