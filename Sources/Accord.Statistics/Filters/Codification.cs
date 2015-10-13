@@ -613,7 +613,10 @@ namespace Accord.Statistics.Filters
                             // Get its corresponding integer
                             int value = 0;
                             try { value = map[label]; }
-                            catch { value = map["unknown"]; }
+                            catch { 
+                                value = map.Values.Count + 1;
+                                map[label] = value;
+                            }
 
                             // Set the row to the integer
                             resultRow[name] = value;
@@ -727,25 +730,18 @@ namespace Accord.Statistics.Filters
                 // We'll create a mapping
                 string name = column.ColumnName;
                 var map = new Dictionary<string, int>();
-                
+
                 // Do a select distinct to get distinct values
                 DataTable d = data.DefaultView.ToTable(true, name);
-                map.Add("unknown", d.Rows.Count);
 
                 // For each distinct value, create a corresponding integer
-                int n;
-                bool flag;
-                bool stringInd = false;
                 for (int i = 0; i < d.Rows.Count; i++)
                 {
                     // And register the String->Integer mapping
-                    string currVal = d.Rows[i][0] as string;
-                    stringInd = !int.TryParse(currVal, out n) & !Boolean.TryParse(currVal, out flag);
-                    map.Add(currVal, i);
+                    map.Add(d.Rows[i][0] as string, i);
                 }
-                Options options = new Options(name, map);
-                //if (stringInd) { options.VariableType = CodificationVariable.Categorical; }
-                Columns.Add(options);
+
+                Columns.Add(new Options(name, map));
             }
         }
 
