@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using Accord.Statistics.Filters;
+using Accord.Math;
+using AForge;
 
 
 namespace Accord.MachineLearning.DecisionTrees
@@ -87,7 +89,9 @@ namespace Accord.MachineLearning.DecisionTrees
                 List<DecisionVariable> attributes = new List<DecisionVariable>();
                 foreach (string inputCol in inputColSubset)
                 {
-                        attributes.Add(new DecisionVariable(inputCol, DecisionVariableKind.Continuous));
+                    double[] colVals = dataSubset.ToArray<double>(inputCol);
+                    DoubleRange currRange = new DoubleRange(0, colVals.Max());
+                    attributes.Add(new DecisionVariable(inputCol, currRange));
                 }
 
                 ForestTree tree = new ForestTree(mNColsPerRandomSample, inputColSubset, mOutputColumn, mCodebook, attributes);
