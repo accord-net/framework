@@ -386,7 +386,7 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
             Random rnd = new Random();
             for (int i = 0; i < attributeUsageCount.Length; i++)
             {
-                if (rnd.Next(100) < tree.pcntAttributesToUse * 100)
+                if (rnd.Next(100) <= tree.pcntAttributesToUse * 100)
                 {
                     candInds.Add(i);
                 }
