@@ -48,6 +48,7 @@ namespace Accord.Statistics.Kernels
         {
             this.omega = omega;
             this.sigma = sigma;
+            this.constant = 2 * Math.Sqrt(Math.Pow(2, (1 / omega)) - 1) / sigma;
         }
 
         /// <summary>
