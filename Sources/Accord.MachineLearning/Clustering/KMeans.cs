@@ -399,7 +399,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="data">The data where to compute the algorithm.</param>
         /// <param name="threshold">The relative convergence threshold
-        ///   for the algorithm. Default is 1e-5.</param>
+        ///   for the algorithm. Default is 1e-5.
         ///   This is used in weighted K-Means</param>
         /// <param name="computeInformation">Pass <c>true</c> to compute additional information
         ///   when the algorithm finishes, such as cluster variances and proportions; false
