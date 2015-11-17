@@ -399,7 +399,7 @@ namespace Accord.MachineLearning
         /// 
         /// <param name="data">The data where to compute the algorithm.</param>
         /// <param name="threshold">The relative convergence threshold
-        ///   for the algorithm. Default is 1e-5.</param>
+        ///   for the algorithm. Default is 1e-5.
         ///   This is used in weighted K-Means</param>
         /// <param name="computeInformation">Pass <c>true</c> to compute additional information
         ///   when the algorithm finishes, such as cluster variances and proportions; false
@@ -408,7 +408,6 @@ namespace Accord.MachineLearning
         [Obsolete("Please set the 'Tolerance' and 'ComputeInformation' properties instead of using this overload.")]
         public int[] Compute(double[][] data, double threshold, bool computeInformation)
         {
-
             double[] dataWeights = createDefaultWeights(data);
             return Compute(data, dataWeights, threshold, computeInformation);
         }
