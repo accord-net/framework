@@ -2,7 +2,7 @@
 // AForge.NET framework
 // http://www.aforgenet.com/framework/
 //
-// Copyright © AForge.NET, 2009-2012
+// Copyright ?AForge.NET, 2009-2012
 // contacts@aforgenet.com
 //
 
@@ -14,9 +14,9 @@ namespace libffmpeg
 	extern "C"
 	{
 		// disable warnings about badly formed documentation from FFmpeg, which we don't need at all
-		#pragma warning(disable:4635) 
+		#pragma warning(disable:4635)
 		// disable warning about conversion int64 to int32
-		#pragma warning(disable:4244) 
+		#pragma warning(disable:4244)
 
 		#include "libavformat\avformat.h"
 		#include "libavformat\avio.h"
@@ -58,8 +58,8 @@ public:
 
 // Class constructor
 VideoFileReader::VideoFileReader( void ) :
-    data( nullptr ), disposed( false )
-{	
+	data( nullptr ), disposed( false )
+{
 	libffmpeg::av_register_all( );
 }
 
@@ -79,7 +79,7 @@ static libffmpeg::AVFormatContext* open_file( char* fileName )
 // Opens the specified video file
 void VideoFileReader::Open( String^ fileName )
 {
-    CheckIfDisposed( );
+	CheckIfDisposed( );
 
 	// close previous file if any was open
 	Close( );
@@ -92,10 +92,10 @@ void VideoFileReader::Open( String^ fileName )
 
 	// convert specified managed String to UTF8 unmanaged string
 	IntPtr ptr = System::Runtime::InteropServices::Marshal::StringToHGlobalUni( fileName );
-    wchar_t* nativeFileNameUnicode = (wchar_t*) ptr.ToPointer( );
-    int utf8StringSize = WideCharToMultiByte( CP_UTF8, 0, nativeFileNameUnicode, -1, NULL, 0, NULL, NULL );
-    char* nativeFileName = new char[utf8StringSize];
-    WideCharToMultiByte( CP_UTF8, 0, nativeFileNameUnicode, -1, nativeFileName, utf8StringSize, NULL, NULL );
+	wchar_t* nativeFileNameUnicode = (wchar_t*) ptr.ToPointer( );
+	int utf8StringSize = WideCharToMultiByte( CP_UTF8, 0, nativeFileNameUnicode, -1, NULL, 0, NULL, NULL );
+	char* nativeFileName = new char[utf8StringSize];
+	WideCharToMultiByte( CP_UTF8, 0, nativeFileNameUnicode, -1, nativeFileName, utf8StringSize, NULL, NULL );
 
 	try
 	{
@@ -157,7 +157,7 @@ void VideoFileReader::Open( String^ fileName )
 		// get some properties of the video file
 		m_width  = data->CodecContext->width;
 		m_height = data->CodecContext->height;
-		m_frameRate = data->VideoStream->r_frame_rate.num / data->VideoStream->r_frame_rate.den;
+		m_frameRate = (double)data->VideoStream->r_frame_rate.num / (double)data->VideoStream->r_frame_rate.den;
 		m_codecName = gcnew String( data->CodecContext->codec->name );
 		m_framesCount = data->VideoStream->nb_frames;
 
@@ -166,7 +166,7 @@ void VideoFileReader::Open( String^ fileName )
 	finally
 	{
 		System::Runtime::InteropServices::Marshal::FreeHGlobal( ptr );
-        delete [] nativeFileName;
+		delete [] nativeFileName;
 
 		if ( !success )
 		{
@@ -212,7 +212,7 @@ void VideoFileReader::Close(  )
 // Read next video frame of the current video file
 Bitmap^ VideoFileReader::ReadVideoFrame(  )
 {
-    CheckIfDisposed( );
+	CheckIfDisposed( );
 
 	if ( data == nullptr )
 	{
@@ -240,7 +240,7 @@ Bitmap^ VideoFileReader::ReadVideoFrame(  )
 			}
 
 			data->BytesRemaining -= bytesDecoded;
-					 
+
 			// did we finish the current frame? Then we can return
 			if ( frameFinished )
 			{
@@ -299,7 +299,7 @@ Bitmap^ VideoFileReader::ReadVideoFrame(  )
 Bitmap^ VideoFileReader::DecodeVideoFrame( )
 {
 	Bitmap^ bitmap = gcnew Bitmap( data->CodecContext->width, data->CodecContext->height, PixelFormat::Format24bppRgb );
-	
+
 	// lock the bitmap
 	BitmapData^ bitmapData = bitmap->LockBits( System::Drawing::Rectangle( 0, 0, data->CodecContext->width, data->CodecContext->height ),
 		ImageLockMode::ReadOnly, PixelFormat::Format24bppRgb );
