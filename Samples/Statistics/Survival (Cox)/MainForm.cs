@@ -17,7 +17,7 @@
 //      * Neither the name of the Accord.NET Framework authors nor the
 //        names of its contributors may be used to endorse or promote products
 //        derived from this software without specific prior written permission.
-// 
+//
 //  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 //  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 //  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -28,7 +28,7 @@
 //  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 //  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// 
+//
 
 using System;
 using System.Collections.Generic;
@@ -39,6 +39,7 @@ using System.Windows.Forms;
 using Accord.IO;
 using Accord.Math;
 using Accord.Statistics.Analysis;
+using Accord.Statistics.Distributions.Univariate;
 
 namespace Survival.Cox
 {
@@ -126,7 +127,7 @@ namespace Survival.Cox
             // Creates the input and output matrices from the source data table
             double[][] input;
             double[] time = timeTable.Columns[dependentName].ToArray();
-            int[] censor = censorTable.Columns[censorName].ToArray().ToInt32();
+            SurvivalOutcome[] censor = censorTable.Columns[censorName].ToArray().ToInt32().Select(x=>(SurvivalOutcome)x).ToArray();
 
             if (independentNames.Length == 0)
             {
