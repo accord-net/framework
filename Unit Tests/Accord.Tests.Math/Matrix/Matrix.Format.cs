@@ -73,7 +73,7 @@ namespace Accord.Tests.Math
 
             double[,] expected, actual;
 
-            expected = new double[,] 
+            expected = new double[,]
             {
                 { 1, 2 },
                 { 3, 4 },
@@ -117,7 +117,7 @@ namespace Accord.Tests.Math
 
             double[][] expected, actual;
 
-            expected = new double[][] 
+            expected = new double[][]
             {
                 new double[] { 1, 2 },
                 new double[] { 3, 4 },
@@ -157,7 +157,7 @@ namespace Accord.Tests.Math
         [Test]
         public void ToStringTest()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 1, 2 },
                 { 3, 4 },
@@ -170,22 +170,22 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
 
 
-            expected = "1 2 \r\n3 4";
+            expected = "1 2 " + Environment.NewLine + "3 4";
             actual = Matrix.ToString(matrix, DefaultMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
 
 
-            expected = "new double[][] {\r\n" +
-                       "    new double[] { 1, 2 },\r\n" +
-                       "    new double[] { 3, 4 } \r\n" +
+            expected = "new double[][] {" + Environment.NewLine +
+                       "    new double[] { 1, 2 }," + Environment.NewLine +
+                       "    new double[] { 3, 4 } " + Environment.NewLine +
                        "};";
             actual = Matrix.ToString(matrix, CSharpJaggedMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
 
 
-            expected = "new double[,] {\r\n" +
-                       "    { 1, 2 },\r\n" +
-                       "    { 3, 4 } \r\n" +
+            expected = "new double[,] {" + Environment.NewLine +
+                       "    { 1, 2 }," + Environment.NewLine +
+                       "    { 3, 4 } " + Environment.NewLine +
                        "};";
             actual = Matrix.ToString(matrix, CSharpMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
@@ -194,7 +194,7 @@ namespace Accord.Tests.Math
         [Test]
         public void ToStringTest2()
         {
-            double[][] matrix = 
+            double[][] matrix =
             {
                 new double[] { 1, 2 },
                 new double[] { 3, 4 },
@@ -207,22 +207,22 @@ namespace Accord.Tests.Math
             Assert.AreEqual(expected, actual);
 
 
-            expected = "1 2 \r\n3 4";
+            expected = "1 2 " + Environment.NewLine + "3 4";
             actual = Matrix.ToString(matrix, DefaultMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
 
 
-            expected = "new double[][] {\r\n" +
-                       "    new double[] { 1, 2 },\r\n" +
-                       "    new double[] { 3, 4 } \r\n" +
+            expected = "new double[][] {" + Environment.NewLine +
+                       "    new double[] { 1, 2 }," + Environment.NewLine +
+                       "    new double[] { 3, 4 } " + Environment.NewLine +
                        "};";
             actual = Matrix.ToString(matrix, CSharpJaggedMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
 
 
-            expected = "new double[,] {\r\n" +
-                       "    { 1, 2 },\r\n" +
-                       "    { 3, 4 } \r\n" +
+            expected = "new double[,] {" + Environment.NewLine +
+                       "    { 1, 2 }," + Environment.NewLine +
+                       "    { 3, 4 } " + Environment.NewLine +
                        "};";
             actual = Matrix.ToString(matrix, CSharpMatrixFormatProvider.InvariantCulture);
             Assert.AreEqual(expected, actual);
@@ -231,7 +231,7 @@ namespace Accord.Tests.Math
         [Test]
         public void StringFormat()
         {
-            double[,] matrix = 
+            double[,] matrix =
             {
                 { 1, 2 },
                 { 3, 4 },
@@ -284,7 +284,7 @@ namespace Accord.Tests.Math
         [Test]
         public void StringFormat2()
         {
-            double[][] matrix = 
+            double[][] matrix =
             {
                 new double[] { 1, 2 },
                 new double[] { 3, 4 },
