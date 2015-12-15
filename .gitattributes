@@ -1,5 +1,5 @@
 # Set default behaviour, in case users don't have core.autocrlf set.
-#* binary
+* binary
 
 # Explicitly declare text files we want to always be normalized and converted 
 # to native line endings on checkout.
@@ -12,7 +12,7 @@
 #*.bat    text eol=crlf
 #*.svg    text eol=crlf
 #*.csproj text eol=crlf
-*.cs     text eol=crlf
+#*.cs     text eol=crlf
 #*.tt     text eol=crlf
 #*.xml    text=auto
 
