@@ -55,7 +55,7 @@ namespace Accord.MachineLearning.DecisionTrees
             createForest();
         }
 
-        public string[] Predict(DataTable data, double threshold)
+        public string[] Predict(DataTable data, double threshold = .5)
         {
             DataTable symbols = mCodebook.Apply(data);
             int[][] treePreds = mTrees.Select(x => x.Predict(symbols)).ToArray();
