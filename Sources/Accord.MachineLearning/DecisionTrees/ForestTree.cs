@@ -12,12 +12,18 @@ using Accord.Math;
 
 namespace Accord.MachineLearning.DecisionTrees
 {
+	// wrapper class for a decision tree with random forest hyperparameters
     class ForestTree
     {
+		// categorical value encoding table
         private Codification mCodebook = null;
+		// proportion of features to use at each split
         private double mPcntFeaturesToUse = 0;
+		// names of feature columns
         private string[] mInputCols = null;
+		// name of label column
         private string mOutputCol = null;
+		// decision tree
         private DecisionTree mTree = null;
         List<DecisionVariable> mAttributes = null;
 
@@ -37,7 +43,6 @@ namespace Accord.MachineLearning.DecisionTrees
             mTree = new DecisionTree(mAttributes, 2);
             mTree.pcntAttributesToUse = mPcntFeaturesToUse;
             C45Learning c45 = new C45Learning(mTree);
-            //c45.MaxHeight = 500;
             c45.Join = 100;
             c45.Run(inputs, outputs);
         }

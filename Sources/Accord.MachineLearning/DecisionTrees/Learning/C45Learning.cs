@@ -380,7 +380,9 @@ namespace Accord.MachineLearning.DecisionTrees.Learning
 
 
             // 4. Otherwise, try to select the attribute which
-            //    best explains the data sample subset.
+            //    best explains the data sample subset. If the tree
+			//    is part of a random forest, only consider 
+			//    pcntAttributesToUse at each split point
 
             List<int> candInds = new List<int>();
             Random rnd = new Random();
