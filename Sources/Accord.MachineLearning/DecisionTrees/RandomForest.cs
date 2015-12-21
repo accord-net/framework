@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using Accord.Statistics.Filters;
 using Accord.Math;
 using AForge;
@@ -11,6 +14,7 @@ using AForge;
 
 namespace Accord.MachineLearning.DecisionTrees
 {
+    [Serializable]
     public class RandomForest
     {
 		// trees in the forest
@@ -36,6 +40,7 @@ namespace Accord.MachineLearning.DecisionTrees
 		// categorical value encoding table
         private Codification mCodebook;
 		// parallelism options and lock
+        [System.NonSerialized]
         private ParallelOptions mParallelOptions;
         private object mLock;
 
@@ -82,6 +87,64 @@ namespace Accord.MachineLearning.DecisionTrees
             }
 
             return predProbs.Select(x => mCodebook.Translate(mOutputColumn, Convert.ToInt32(x > threshold))).ToArray();
+        }
+
+        /// <summary>
+        ///   Loads a forest from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file from which the forest is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized forest.</returns>
+        /// 
+        public void Save(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                Save(fs);
+            }
+        }
+
+        /// <summary>
+        ///   Saves the forest to a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream to which the forest is to be serialized.</param>
+        /// 
+        public void Save(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+            b.Serialize(stream, this);
+        }
+
+        /// <summary>
+        ///   Loads a forest from a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream from which the forest is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized forest.</returns>
+        /// 
+        public static RandomForest Load(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+            return (RandomForest)b.Deserialize(stream);
+        }
+
+        /// <summary>
+        ///   Loads a tree from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the tree from which the machine is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized tree.</returns>
+        /// 
+        public static RandomForest Load(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Open))
+            {
+                return Load(fs);
+            }
         }
 
 

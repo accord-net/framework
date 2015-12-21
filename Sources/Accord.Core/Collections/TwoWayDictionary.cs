@@ -46,7 +46,7 @@ namespace Accord.Collections
     {
         private readonly IDictionary<TFirst, TSecond> firstToSecond;
 
-        [NonSerialized]
+        //[NonSerialized]
         private readonly IDictionary<TSecond, TFirst> secondToFirst;
 
         [NonSerialized]

@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using Accord.MachineLearning.DecisionTrees;
 using Accord.Statistics.Filters;
 using Accord.MachineLearning.DecisionTrees.Learning;
@@ -13,6 +16,7 @@ using Accord.Math;
 namespace Accord.MachineLearning.DecisionTrees
 {
 	// wrapper class for a decision tree with random forest hyperparameters
+    [Serializable]
     class ForestTree
     {
 		// categorical value encoding table
@@ -45,6 +49,64 @@ namespace Accord.MachineLearning.DecisionTrees
             C45Learning c45 = new C45Learning(mTree);
             c45.Join = 100;
             c45.Run(inputs, outputs);
+        }
+
+        /// <summary>
+        ///   Loads a tree from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the file from which the tree is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized tree.</returns>
+        /// 
+        public void Save(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Create))
+            {
+                Save(fs);
+            }
+        }
+
+        /// <summary>
+        ///   Saves the tree to a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream to which the tree is to be serialized.</param>
+        /// 
+        public void Save(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+            b.Serialize(stream, this);
+        }
+
+        /// <summary>
+        ///   Loads a tree from a stream.
+        /// </summary>
+        /// 
+        /// <param name="stream">The stream from which the tree is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized tree.</returns>
+        /// 
+        public static ForestTree Load(Stream stream)
+        {
+            BinaryFormatter b = new BinaryFormatter();
+            return (ForestTree)b.Deserialize(stream);
+        }
+
+        /// <summary>
+        ///   Loads a tree from a file.
+        /// </summary>
+        /// 
+        /// <param name="path">The path to the tree from which the machine is to be deserialized.</param>
+        /// 
+        /// <returns>The deserialized tree.</returns>
+        /// 
+        public static ForestTree Load(string path)
+        {
+            using (FileStream fs = new FileStream(path, FileMode.Open))
+            {
+                return Load(fs);
+            }
         }
 
         public int[] Predict(DataTable symbols)
