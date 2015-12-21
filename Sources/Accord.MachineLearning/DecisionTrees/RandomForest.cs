@@ -18,65 +18,65 @@ namespace Accord.MachineLearning.DecisionTrees
     public class RandomForest
     {
 		// trees in the forest
-        private List<ForestTree> mTrees = new List<ForestTree>();
+        private List<ForestTree> Trees = new List<ForestTree>();
 		// bootstrapped training samples
-        private List<double[][]> mSubsets = new List<double[][]>();
+        private List<double[][]> Subsets = new List<double[][]>();
 		// number of rows in the training data
-        private int mNRows;
+        private int NRows;
 		// number of columns in the training data
-        private int mNCols;
+        private int NCols;
 		// number of trees in the forest
-        private int mNTrees;
+        private int NTrees;
 		// proportion of the total training data to use in each bootstrapped sample (defaults to .632)
-        private double mSizeOfRandomSample;
+        private double SizeOfRandomSample;
 		// proportion of columns to consider at each split (defaults to the square root of the total number of columns divided by the total number of columns)
-        private double mNColsPerRandomSample;
+        private double NColsPerRandomSample;
 		// names of feature columns
-        private string[] mInputColumns;
+        private string[] InputColumns;
 		// name of label column
-        private string mOutputColumn;
+        private string OutputColumn;
 		// training data
-        private DataTable mData;
+        private DataTable TrainData;
 		// categorical value encoding table
-        private Codification mCodebook;
+        private Codification Codebook;
 		// parallelism options and lock
         [System.NonSerialized]
-        private ParallelOptions mParallelOptions;
-        private object mLock;
+        private ParallelOptions ParallelOptions;
+        private object MyLock;
 
         public RandomForest(double maxFeatures = 0, double sizeOfRandomSample = .632, int nTrees = 100, int degreeOfParallelism = 1)
         {
-            mNColsPerRandomSample = maxFeatures;
-            mSizeOfRandomSample = sizeOfRandomSample;
-            mNTrees = nTrees;
-            mParallelOptions = new ParallelOptions { MaxDegreeOfParallelism = degreeOfParallelism };
-            mLock = new object();
+            NColsPerRandomSample = maxFeatures;
+            SizeOfRandomSample = sizeOfRandomSample;
+            NTrees = nTrees;
+            ParallelOptions = new ParallelOptions { MaxDegreeOfParallelism = degreeOfParallelism };
+            MyLock = new object();
         }
 
         public void Fit(DataTable data, string[] inputColumns, string outputColumn)
         {
-            mNRows = data.Rows.Count;
-            mInputColumns = inputColumns;
-            mOutputColumn = outputColumn;
-            mCodebook = new Codification(data);
-            DataTable symbols = mCodebook.Apply(data);
-            mNCols = symbols.Columns.Count - 1;
-            if (mNColsPerRandomSample == 0)
+            NRows = data.Rows.Count;
+            InputColumns = inputColumns;
+            OutputColumn = outputColumn;
+            Codebook = new Codification(data);
+            DataTable symbols = Codebook.Apply(data);
+            NCols = symbols.Columns.Count - 1;
+            if (NColsPerRandomSample == 0)
             {
-                mNColsPerRandomSample = System.Math.Sqrt(mNCols);
+                NColsPerRandomSample = System.Math.Sqrt(NCols);
             } else {
-                mNColsPerRandomSample = mNCols * mNColsPerRandomSample;
+                NColsPerRandomSample = NCols * NColsPerRandomSample;
             }
-            mNColsPerRandomSample = mNColsPerRandomSample / mNCols;
-            mData = symbols;
+            NColsPerRandomSample = NColsPerRandomSample / NCols;
+            TrainData = symbols;
             createForest();
         }
 
         public string[] Predict(DataTable data, double threshold = .5)
         {
-            DataTable symbols = mCodebook.Apply(data);
+            DataTable symbols = Codebook.Apply(data);
 			// generate predictions for each data point from each tree in the forest
-            int[][] treePreds = mTrees.Select(x => x.Predict(symbols)).ToArray();
+            int[][] treePreds = Trees.Select(x => x.Predict(symbols)).ToArray();
 			// average the prediction of each tree for each datapoint to determine the final estimated class probability
             List<double> predProbs = new List<double>();
             for(int i = 0; i < data.Rows.Count; i++)
@@ -86,7 +86,7 @@ namespace Accord.MachineLearning.DecisionTrees
                 predProbs.Add(predProb);
             }
 
-            return predProbs.Select(x => mCodebook.Translate(mOutputColumn, Convert.ToInt32(x > threshold))).ToArray();
+            return predProbs.Select(x => Codebook.Translate(OutputColumn, Convert.ToInt32(x > threshold))).ToArray();
         }
 
         /// <summary>
@@ -150,19 +150,19 @@ namespace Accord.MachineLearning.DecisionTrees
 
         private void createForest()
         {
-            Parallel.For(0, mNTrees, mParallelOptions, i =>
+            Parallel.For(0, NTrees, ParallelOptions, i =>
             {
 				// create bootstrapped sample, while making sure each sample has at least one example of each class
                 Random rnd = new Random();
-                DataTable dataSubset = mData.AsEnumerable().Where(x => rnd.Next(100) <= mSizeOfRandomSample * 100).CopyToDataTable();
-                int classCnt = dataSubset.AsEnumerable().Select(y => y.Field<object>(mOutputColumn)).Distinct().Count();
+                DataTable dataSubset = TrainData.AsEnumerable().Where(x => rnd.Next(100) <= SizeOfRandomSample * 100).CopyToDataTable();
+                int classCnt = dataSubset.AsEnumerable().Select(y => y.Field<object>(OutputColumn)).Distinct().Count();
                 while (classCnt < 2)
                 {
-                    dataSubset = mData.AsEnumerable().Where(x => rnd.Next(100) <= mSizeOfRandomSample * 100).CopyToDataTable();
-                    classCnt = dataSubset.AsEnumerable().Select(y => y.Field<object>(mOutputColumn)).Distinct().Count();
+                    dataSubset = TrainData.AsEnumerable().Where(x => rnd.Next(100) <= SizeOfRandomSample * 100).CopyToDataTable();
+                    classCnt = dataSubset.AsEnumerable().Select(y => y.Field<object>(OutputColumn)).Distinct().Count();
                 }
 				// only use columns that have multiple values in the bootstrapped sample
-                string[] inputColSubset = mInputColumns.Where(x => dataSubset.AsEnumerable().Select(y => y.Field<object>(x)).Distinct().Count() > 1).ToArray();
+                string[] inputColSubset = InputColumns.Where(x => dataSubset.AsEnumerable().Select(y => y.Field<object>(x)).Distinct().Count() > 1).ToArray();
                 List<DecisionVariable> attributes = new List<DecisionVariable>();
                 foreach (string inputCol in inputColSubset)
                 {
@@ -171,10 +171,10 @@ namespace Accord.MachineLearning.DecisionTrees
                     attributes.Add(new DecisionVariable(inputCol, currRange));
                 }
 
-                ForestTree tree = new ForestTree(mNColsPerRandomSample, inputColSubset, mOutputColumn, mCodebook, attributes);
+                ForestTree tree = new ForestTree(NColsPerRandomSample, inputColSubset, OutputColumn, Codebook, attributes);
                 tree.Fit(dataSubset);
-                lock (mLock)
-                {mTrees.Add(tree);}
+                lock (MyLock)
+                {Trees.Add(tree);}
                 
             }
             );

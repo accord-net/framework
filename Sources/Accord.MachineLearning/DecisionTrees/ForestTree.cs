@@ -20,33 +20,33 @@ namespace Accord.MachineLearning.DecisionTrees
     class ForestTree
     {
 		// categorical value encoding table
-        private Codification mCodebook = null;
+        private Codification Codebook = null;
 		// proportion of features to use at each split
-        private double mPcntFeaturesToUse = 0;
+        private double PcntFeaturesToUse = 0;
 		// names of feature columns
-        private string[] mInputCols = null;
+        private string[] InputCols = null;
 		// name of label column
-        private string mOutputCol = null;
+        private string OutputCol = null;
 		// decision tree
-        private DecisionTree mTree = null;
-        List<DecisionVariable> mAttributes = null;
+        private DecisionTree Tree = null;
+        List<DecisionVariable> Attributes = null;
 
         public ForestTree(double pcntFeaturesToUse, string[] inputCols, string outputCol, Codification codebook, List<DecisionVariable> attributes)
         {
-            mPcntFeaturesToUse = pcntFeaturesToUse;
-            mInputCols = inputCols;
-            mOutputCol = outputCol;
-            mCodebook = codebook;
-            mAttributes = attributes;
+            PcntFeaturesToUse = pcntFeaturesToUse;
+            InputCols = inputCols;
+            OutputCol = outputCol;
+            Codebook = codebook;
+            Attributes = attributes;
         }
 
         public void Fit(DataTable symbols)
         {
-            double[][] inputs = symbols.ToArray(mInputCols);
-            int[] outputs = symbols.ToArray<int>(mOutputCol);
-            mTree = new DecisionTree(mAttributes, 2);
-            mTree.pcntAttributesToUse = mPcntFeaturesToUse;
-            C45Learning c45 = new C45Learning(mTree);
+            double[][] inputs = symbols.ToArray(InputCols);
+            int[] outputs = symbols.ToArray<int>(OutputCol);
+            Tree = new DecisionTree(Attributes, 2);
+            Tree.pcntAttributesToUse = PcntFeaturesToUse;
+            C45Learning c45 = new C45Learning(Tree);
             c45.Join = 100;
             c45.Run(inputs, outputs);
         }
@@ -117,7 +117,7 @@ namespace Accord.MachineLearning.DecisionTrees
 
         private int predict(double[] data)
         {
-            return mTree.Compute(data);
+            return Tree.Compute(data);
         }
 
     }
