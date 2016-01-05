@@ -289,7 +289,7 @@ namespace Accord.Statistics.Models.Regression.Fitting
 
                 // Convert to unit scores for increased accuracy
                 sdev = Accord.Statistics.Tools.StandardDeviation(inputs);
-                inputs = inputs.Subtract(means, 0).ElementwiseDivide(sdev, 0, inPlace: true);
+                inputs = Elementwise.Divide(inputs.Subtract(means, 0), sdev, 0);
 
                 for (int i = 0; i < regression.Coefficients.Length; i++)
                     regression.Coefficients[i] *= sdev[i];

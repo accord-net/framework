@@ -368,7 +368,7 @@ namespace Accord.Statistics.Analysis
 
 
             // Project into the kernel discriminant space
-            this.Result = K.Multiply(eigs);
+            this.Result = Matrix.Multiply(K, eigs);
 
 
             // Compute feature space means for later classification

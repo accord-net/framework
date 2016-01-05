@@ -186,8 +186,8 @@ namespace Accord.Statistics.Models.Markov.Topology
 
             if (logarithm)
             {
-                transitionMatrix = Matrix.Log(A);
-                initialState = Matrix.Log(pi);
+                transitionMatrix = A.Log();
+                initialState = pi.Log();
             }
             else
             {

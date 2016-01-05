@@ -379,7 +379,7 @@ namespace Accord.Statistics.Analysis
 
 
             // Project the original data into principal component space
-            this.Result = Kc.Multiply(eigs);
+            this.Result = Matrix.Multiply(Kc, eigs);
 
 
             // Computes additional information about the analysis and creates the
@@ -435,7 +435,7 @@ namespace Accord.Statistics.Analysis
 
             // Project into the kernel principal components
             double[,] result = new double[samples, dimensions];
-            newK.Multiply(ComponentMatrix, result: result);
+            Matrix.Multiply(newK, ComponentMatrix, result: result);
 
             return result;
         }
@@ -491,7 +491,7 @@ namespace Accord.Statistics.Analysis
             for (int i = 0; i < result.Length; i++)
                 result[i] = new double[dimensions];
 
-            newK.Multiply(ComponentMatrix, result: result);
+            Matrix.Multiply(newK, ComponentMatrix, result: result);
 
             return result;
         }
@@ -620,12 +620,12 @@ namespace Accord.Statistics.Analysis
 
                 // 4. Compute projections
                 //    Z = L*V';
-                double[,] Z = L.Multiply(V.Transpose());
+                double[,] Z = Matrix.MultiplyByTranspose(L, V);
 
 
                 // 5. Calculate distances
                 //    d02 = sum(Z.^2)';
-                double[] d02 = Matrix.Sum(Matrix.ElementwisePower(Z, 2));
+                double[] d02 = Matrix.Sum(Elementwise.Pow(Z, 2));
 
 
                 // 6. Get the pre-image using z = -0.5*inv(Z')*(d2-d02)

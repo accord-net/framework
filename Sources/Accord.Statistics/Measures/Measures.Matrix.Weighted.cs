@@ -421,7 +421,7 @@ namespace Accord.Statistics
         /// 
         public static double[] WeightedStandardDeviation(this double[,] matrix, int[] weights, double[] means)
         {
-            return Matrix.Sqrt(WeightedVariance(matrix, weights, means));
+            return Elementwise.Sqrt(WeightedVariance(matrix, weights, means));
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace Accord.Statistics
         /// 
         public static double[] WeightedStandardDeviation(this double[][] matrix, int[] weights, double[] means, bool unbiased = true)
         {
-            return Matrix.Sqrt(WeightedVariance(matrix, weights, means, unbiased));
+            return Elementwise.Sqrt(WeightedVariance(matrix, weights, means, unbiased));
         }
 
         /// <summary>
@@ -531,7 +531,7 @@ namespace Accord.Statistics
         /// 
         public static double[] WeightedStandardDeviation(this double[,] matrix, double[] weights, double[] means)
         {
-            return Matrix.Sqrt(WeightedVariance(matrix, weights, means));
+            return Elementwise.Sqrt(WeightedVariance(matrix, weights, means));
         }
 
         /// <summary>
@@ -572,7 +572,7 @@ namespace Accord.Statistics
         /// 
         public static double[] WeightedStandardDeviation(this double[][] matrix, double[] weights, double[] means, bool unbiased = true)
         {
-            return Matrix.Sqrt(WeightedVariance(matrix, weights, means, unbiased));
+            return Elementwise.Sqrt(WeightedVariance(matrix, weights, means, unbiased));
         }
 
         /// <summary>

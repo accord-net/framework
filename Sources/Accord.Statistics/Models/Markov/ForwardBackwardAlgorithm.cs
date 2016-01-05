@@ -41,9 +41,9 @@ namespace Accord.Statistics.Models.Markov
         public static void Forward(HiddenMarkovModel model, int[] observations, double[] scaling, double[,] fwd)
         {
             int states = model.States;
-            var A = Matrix.Exp(model.Transitions);
-            var B = Matrix.Exp(model.Emissions);
-            var pi = Matrix.Exp(model.Probabilities);
+            var A = model.Transitions.Exp();
+            var B = model.Emissions.Exp();
+            var pi = model.Probabilities.Exp();
 
             int T = observations.Length;
             double s = 0;
@@ -101,9 +101,9 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] Forward(HiddenMarkovModel model, int[] observations)
         {
             int states = model.States;
-            var A = Matrix.Exp(model.Transitions);
-            var B = Matrix.Exp(model.Emissions);
-            var pi = Matrix.Exp(model.Probabilities);
+            var A = Elementwise.Exp(model.Transitions);
+            var B = Elementwise.Exp(model.Emissions);
+            var pi = Elementwise.Exp(model.Probabilities);
 
             int T = observations.Length;
             double[,] fwd = new double[T, states];
@@ -186,9 +186,9 @@ namespace Accord.Statistics.Models.Markov
                        where TDistribution : IDistribution
         {
             int states = model.States;
-            var A = Matrix.Exp(model.Transitions);
+            var A = Elementwise.Exp(model.Transitions);
             var B = model.Emissions;
-            var pi = Matrix.Exp(model.Probabilities);
+            var pi = Elementwise.Exp(model.Probabilities);
 
             int T = observations.Length;
             double s = 0;
@@ -296,8 +296,8 @@ namespace Accord.Statistics.Models.Markov
         public static void Backward(HiddenMarkovModel model, int[] observations, double[] scaling, double[,] bwd)
         {
             int states = model.States;
-            var A = Matrix.Exp(model.Transitions);
-            var B = Matrix.Exp(model.Emissions);
+            var A = Elementwise.Exp(model.Transitions);
+            var B = Elementwise.Exp(model.Emissions);
 
             int T = observations.Length;
 
@@ -334,8 +334,8 @@ namespace Accord.Statistics.Models.Markov
         public static double[,] Backward(HiddenMarkovModel model, int[] observations)
         {
             int states = model.States;
-            var A = Matrix.Exp(model.Transitions);
-            var B = Matrix.Exp(model.Emissions);
+            var A = Elementwise.Exp(model.Transitions);
+            var B = Elementwise.Exp(model.Emissions);
 
             int T = observations.Length;
             double[,] bwd = new double[T, states];
@@ -398,7 +398,7 @@ namespace Accord.Statistics.Models.Markov
             where TDistribution : IDistribution
         {
             int states = model.States;
-            var A = Matrix.Exp(model.Transitions);
+            var A = Elementwise.Exp(model.Transitions);
             var B = model.Emissions;
 
             int T = observations.Length;

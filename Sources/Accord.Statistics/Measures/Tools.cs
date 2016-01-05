@@ -448,7 +448,7 @@ namespace Accord.Statistics
                     transformMatrix[i, j] /= Math.Sqrt(singularValues[j]);
 
             // Return the transformed data
-            return value.Multiply(transformMatrix);
+            return Matrix.Multiply(value, transformMatrix);
         }
 
 
@@ -576,7 +576,7 @@ namespace Accord.Statistics
             double[,] Q = gso.OrthogonalFactor;
 
             double[] diagonal = Matrix.Random(size, minValue, maxValue).Abs();
-            double[,] psd = Q.TransposeAndMultiplyByDiagonal(diagonal).Multiply(Q);
+            double[,] psd = Matrix.Multiply(Q.TransposeAndMultiplyByDiagonal(diagonal), Q);
 
             System.Diagnostics.Debug.Assert(psd.IsPositiveDefinite());
 
@@ -586,7 +586,7 @@ namespace Accord.Statistics
 
         /// <summary>
         ///   Computes the kernel distance for a kernel function even if it doesn't
-        ///   implement the <see cref="IDistance"/> interface. Can be used to check
+        ///   implement the <see cref="Accord.Math.Distances.IDistance"/> interface. Can be used to check
         ///   the proper implementation of the distance function.
         /// </summary>
         /// 

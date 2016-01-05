@@ -503,7 +503,7 @@ namespace Accord.Statistics.Analysis
             this.DiscriminantMatrix = eigs;
 
             // Create projections into latent space
-            this.result = source.Multiply(eigenvectors);
+            this.result = Matrix.Multiply(source, eigenvectors);
 
 
             // Compute feature space means for later classification

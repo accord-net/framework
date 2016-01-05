@@ -106,6 +106,9 @@
     <Compile Include="Analysis\Performance\ReceiverOperatingCharacteristic.cs" />
     <Compile Include="Analysis\StepwiseLogisticRegressionAnalysis.cs" />
     <Compile Include="Circular.cs" />
+    <Compile Include="Distances\Bhattacharyya.cs" />
+    <Compile Include="Distances\IDivergence.cs" />
+    <Compile Include="Distances\LogLikelihood.cs" />
     <Compile Include="Distributions\Accord.Statistics.Distributions.cs" />
     <Compile Include="Distributions\Density Kernels\Accord.Statistics.Distributions.DensityKernels.cs" />
     <Compile Include="Distributions\Density Kernels\IDensityKernel.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="Distributions\Multivariate\Continuous\InverseWishartDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\VonMisesFisherDistribution.cs" />
     <Compile Include="Distributions\Multivariate\Continuous\WishartDistribution.cs" />
+    <Compile Include="Distributions\Multivariate\IMixtureComponent.cs" />
     <Compile Include="Distributions\Multivariate\Independent.cs" />
     <Compile Include="Distributions\Univariate\Accord.Statistics.Distributions.Univariate.cs" />
     <Compile Include="Distributions\Univariate\Base\IUnivariateDistribution.cs" />
@@ -242,8 +246,8 @@
     <Compile Include="Group.cs" />
     <Compile Include="Kernels\Additive.cs" />
     <Compile Include="Kernels\Anova.cs" />
+    <Compile Include="Kernels\Base\IKernel`1.cs" />
     <Compile Include="Kernels\Base\IRadialBasisKernel.cs" />
-    <Compile Include="Kernels\Base\IDistance.cs" />
     <Compile Include="Kernels\Base\IEstimable.cs" />
     <Compile Include="Kernels\Base\ITransform.cs" />
     <Compile Include="Kernels\Base\KernelBase.cs" />

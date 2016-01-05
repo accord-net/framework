@@ -931,7 +931,7 @@ namespace Accord.Statistics.Models.Markov
                 for (int t = 0; t < observations.Length; t++)
                 {
                     // Navigate randomly on one of the state transitions
-                    int state = GeneralDiscreteDistribution.Random(Matrix.Exp(transitions));
+                    int state = GeneralDiscreteDistribution.Random(Elementwise.Exp(transitions));
 
                     // Generate a sample for the state
                     double[] symbol = multivariate[state].Generate();
@@ -960,7 +960,7 @@ namespace Accord.Statistics.Models.Markov
                 for (int t = 0; t < observations.Length; t++)
                 {
                     // Navigate randomly on one of the state transitions
-                    int state = GeneralDiscreteDistribution.Random(Matrix.Exp(transitions));
+                    int state = GeneralDiscreteDistribution.Random(Elementwise.Exp(transitions));
 
                     // Generate a sample for the state
                     double symbol = univariate[state].Generate();

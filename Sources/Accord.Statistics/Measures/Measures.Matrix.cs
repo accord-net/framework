@@ -311,7 +311,7 @@ namespace Accord.Statistics
         /// 
         public static double[] StandardDeviation(this double[,] matrix, double[] means)
         {
-            return Matrix.Sqrt(Variance(matrix, means));
+            return Elementwise.Sqrt(Variance(matrix, means));
         }
 
         /// <summary>
@@ -350,7 +350,7 @@ namespace Accord.Statistics
         /// 
         public static double[] StandardDeviation(this double[][] matrix, double[] means, bool unbiased = true)
         {
-            return Matrix.Sqrt(Variance(matrix, means, unbiased));
+            return Elementwise.Sqrt(Variance(matrix, means, unbiased));
         }
 
         /// <summary>
@@ -1328,8 +1328,8 @@ namespace Accord.Statistics
 
             if (dimension == 0)
             {
-                if (means.Length != cols) throw new ArgumentException(
-                    "Length of the mean vector should equal the number of columns", "means");
+                if (means.Length != cols)
+                    throw new ArgumentException("Length of the mean vector should equal the number of columns", "means");
 
                 cov = new double[cols, cols];
                 for (int i = 0; i < cols; i++)
@@ -1546,8 +1546,8 @@ namespace Accord.Statistics
 
             if (dimension == 0)
             {
-                if (means.Length != cols) throw new ArgumentException(
-                    "Length of the mean vector should equal the number of columns", "means");
+                if (means.Length != cols)
+                    throw new ArgumentException("Length of the mean vector should equal the number of columns", "means");
 
                 cov = new double[cols, cols];
                 for (int i = 0; i < cols; i++)
@@ -1565,8 +1565,8 @@ namespace Accord.Statistics
             }
             else if (dimension == 1)
             {
-                if (means.Length != rows) throw new ArgumentException(
-                    "Length of the mean vector should equal the number of rows", "means");
+                if (means.Length != rows)
+                    throw new ArgumentException("Length of the mean vector should equal the number of rows", "means");
 
                 cov = new double[rows, rows];
                 for (int i = 0; i < rows; i++)
