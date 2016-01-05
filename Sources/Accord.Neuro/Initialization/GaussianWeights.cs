@@ -22,8 +22,7 @@
 
 namespace Accord.Neuro
 {
-    using AForge.Math.Random;
-    using AForge.Neuro;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Gaussian weight initialization.

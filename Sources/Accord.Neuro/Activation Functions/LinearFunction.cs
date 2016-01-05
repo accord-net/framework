@@ -24,7 +24,6 @@ namespace Accord.Neuro
 {
     using System;
     using AForge;
-    using AForge.Neuro;
 
     /// <summary>
     ///   Linear activation function.

@@ -22,7 +22,6 @@
 
 namespace Accord.Neuro.ActivationFunctions
 {
-    using AForge.Neuro;
 
     /// <summary>
     ///   Common interface for stochastic activation functions.

@@ -28,7 +28,6 @@ namespace Accord.Neuro.Networks
     using System.Runtime.Serialization.Formatters.Binary;
     using Accord.Neuro.ActivationFunctions;
     using Accord.Neuro.Layers;
-    using AForge.Neuro;
     using Accord.Neuro.Neurons;
 
     /// <summary>

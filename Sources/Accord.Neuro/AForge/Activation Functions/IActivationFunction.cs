@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.Neuro
+namespace Accord.Neuro
 {
     using System;
 

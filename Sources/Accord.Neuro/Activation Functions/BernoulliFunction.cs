@@ -24,7 +24,6 @@ namespace Accord.Neuro.ActivationFunctions
 {
     using System;
     using AForge;
-    using AForge.Neuro;
     using Accord.Neuro.Neurons;
     using Accord.Neuro.Networks;
     using Accord.Statistics.Distributions.Univariate;

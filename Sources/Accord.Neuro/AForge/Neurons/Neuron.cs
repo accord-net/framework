@@ -6,10 +6,11 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Neuro
+namespace Accord.Neuro
 {
     using System;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Base neuron class.

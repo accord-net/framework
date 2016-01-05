@@ -23,7 +23,6 @@
 namespace Accord.Neuro.Visualization
 {
     using Accord.Math;
-    using AForge.Neuro;
 
     /// <summary>
     ///   Activation-Maximization method for visualizing neuron's roles.

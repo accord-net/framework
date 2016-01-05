@@ -26,8 +26,6 @@ namespace Accord.Neuro.Learning
     using System.Collections.Generic;
     using Accord.Neuro.Layers;
     using Accord.Neuro.Networks;
-    using AForge.Neuro.Learning;
-    using AForge.Neuro;
 
     /// <summary>
     ///   Delegate used to configure and create layer-specific learning algorithms.

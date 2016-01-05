@@ -27,11 +27,11 @@ namespace Accord.Neuro.Learning
     using System.Threading.Tasks;
     using Accord.Math;
     using Accord.Math.Decompositions;
-    using AForge.Neuro;
 
     /// <summary>
     ///   The Jacobian computation method used by the Levenberg-Marquardt.
     /// </summary>
+    /// 
     public enum JacobianMethod
     {
         /// <summary>
@@ -206,7 +206,7 @@ namespace Accord.Neuro.Learning
     /// </para>   
     /// </remarks>
     /// 
-    public class LevenbergMarquardtLearning : AForge.Neuro.Learning.ISupervisedLearning
+    public class LevenbergMarquardtLearning : ISupervisedLearning
     {
 
         private const double lambdaMax = 1e25;

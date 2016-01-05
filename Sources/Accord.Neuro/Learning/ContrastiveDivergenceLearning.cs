@@ -29,7 +29,6 @@ namespace Accord.Neuro.Learning
     using Accord.Neuro.Networks;
     using Accord.Neuro.Neurons;
     using Accord.Math;
-    using AForge.Neuro.Learning;
     using Accord.Neuro.ActivationFunctions;
 
 
