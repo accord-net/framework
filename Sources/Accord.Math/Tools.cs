@@ -23,14 +23,13 @@
 namespace Accord.Math
 {
     using Accord.Math.Random;
-    using AForge;
     using System;
 
     /// <summary>
     ///   Set of mathematical tools.
     /// </summary>
     /// 
-    public static class Tools
+    public static partial class Tools
     {
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace Accord.Math
         ///   <see cref="Random">internal number generator</see>.
         /// </summary>
         ///
-        // TODO: Mark as obsolete
+        [Obsolete("Please set the Seed property of Accord.Math.Random.Generator instead.")]
         public static void SetupGenerator(int? seed)
         {
             Generator.Seed = seed;

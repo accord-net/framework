@@ -235,7 +235,7 @@ namespace Accord.Math
             }
 
             if (normalized)
-                kernel.Divide(sum, inPlace: true);
+                kernel.Divide(sum, result: kernel);
 
             return kernel;
         }

@@ -1022,7 +1022,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            var VL = v.Multiply(Ls);
+            var VL = Matrix.Multiply(v, Ls);
 
             //(V x L* x Ut) x Y
             int vrows = v.GetLength(0);
@@ -1040,7 +1040,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L* x Ut x Y)
-            return VLU.Multiply(Y);
+            return Matrix.Multiply(VLU, Y);
         }
 
         /// <summary>
@@ -1084,7 +1084,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            <#=T#>[,] VL = v.Multiply(Ls);
+            <#=T#>[,] VL = Matrix.Multiply(v, Ls);
 
             //(V x L* x Ut) x Y
             int vrows = v.GetLength(0);
@@ -1148,7 +1148,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L*) x Ut x Y
-            var VL = v.Multiply(Ls);
+            var VL = Matrix.Multiply(v, Ls);
 
             //(V x L* x Ut) x Y
             int urows = u.GetLength(0);
@@ -1166,7 +1166,7 @@ namespace Accord.Math.Decompositions
             }
 
             //(V x L* x Ut x Y)
-            return VLU.Multiply(Y);
+            return Matrix.Multiply(VLU, Y);
         }
 
         /// <summary>

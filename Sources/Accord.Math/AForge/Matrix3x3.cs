@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Math
+namespace Accord.Math
 {
     using System;
 

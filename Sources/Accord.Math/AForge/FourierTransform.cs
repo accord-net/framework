@@ -9,7 +9,7 @@
 // http://www.exocortex.org/dsp/
 //
 
-namespace AForge.Math
+namespace Accord.Math
 {
     using System;
     using System.Numerics;

@@ -10,6 +10,7 @@ namespace AForge.Math
 {
     using System;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Set of statistics functions.
@@ -44,22 +45,22 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
-        public static double Mean( int[] values )
+        public static double Mean(int[] values)
         {
-            int     hits;
-            double  total = 0;
-            double  mean = 0;
+            int hits;
+            double total = 0;
+            double mean = 0;
 
             // for all values
-            for ( int i = 0, n = values.Length; i < n; i++ )
+            for (int i = 0, n = values.Length; i < n; i++)
             {
                 hits = values[i];
                 // accumulate mean
-                mean += (double) i * hits;
+                mean += (double)i * hits;
                 // accumalate total
                 total += hits;
             }
-            return ( total == 0 ) ? 0 : mean / total;
+            return (total == 0) ? 0 : mean / total;
         }
 
         /// <summary>
@@ -86,9 +87,9 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
-        public static double StdDev( int[] values )
+        public static double StdDev(int[] values)
         {
-            return StdDev( values, Mean( values ) );
+            return StdDev(values, Mean(values));
         }
 
         /// <summary>
@@ -110,25 +111,25 @@ namespace AForge.Math
         /// using <see cref="Mean"/> method.</para>
         /// </remarks>
         /// 
-        public static double StdDev( int[] values, double mean )
+        public static double StdDev(int[] values, double mean)
         {
-            double  stddev = 0;
-            double  diff;
-            int     hits;
-            int     total = 0;
+            double stddev = 0;
+            double diff;
+            int hits;
+            int total = 0;
 
             // for all values
-            for ( int i = 0, n = values.Length; i < n; i++ )
+            for (int i = 0, n = values.Length; i < n; i++)
             {
                 hits = values[i];
-                diff = (double) i - mean;
+                diff = (double)i - mean;
                 // accumulate std.dev.
                 stddev += diff * diff * hits;
                 // accumalate total
                 total += hits;
             }
 
-            return ( total == 0 ) ? 0 : Math.Sqrt( stddev / total );
+            return (total == 0) ? 0 : Math.Sqrt(stddev / total);
         }
 
         /// <summary>
@@ -160,14 +161,14 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
-        public static int Median( int[] values )
+        public static int Median(int[] values)
         {
             int total = 0, n = values.Length;
 
             // for all values
-            for ( int i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++)
             {
-                // accumalate total
+                // accumulate total
                 total += values[i];
             }
 
@@ -175,10 +176,10 @@ namespace AForge.Math
             int median = 0, v = 0;
 
             // find median value
-            for ( ; median < n; median++ )
+            for (; median < n; median++)
             {
                 v += values[median];
-                if ( v >= halfTotal )
+                if (v >= halfTotal)
                     break;
             }
 
@@ -215,35 +216,37 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
-        public static IntRange GetRange( int[] values, double percent )
+        public static Accord.IntRange GetRange(int[] values, double percent)
         {
             int total = 0, n = values.Length;
 
             // for all values
-            for ( int i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++)
             {
-                // accumalate total
+                // accumulate total
                 total += values[i];
             }
 
             int min, max, hits;
-            int h = (int) ( total * ( percent + ( 1 - percent ) / 2 ) );
+            int h = (int)(total * (percent + (1 - percent) / 2));
 
             // get range min value
-            for ( min = 0, hits = total; min < n; min++ )
+            for (min = 0, hits = total; min < n; min++)
             {
                 hits -= values[min];
-                if ( hits < h )
+                if (hits < h)
                     break;
             }
+
             // get range max value
-            for ( max = n - 1, hits = total; max >= 0; max-- )
+            for (max = n - 1, hits = total; max >= 0; max--)
             {
                 hits -= values[max];
-                if ( hits < h )
+                if (hits < h)
                     break;
             }
-            return new IntRange( min, max );
+
+            return new IntRange(min, max);
         }
 
         /// <summary>
@@ -284,29 +287,29 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
-        public static double Entropy( int[] values )
+        public static double Entropy(int[] values)
         {
-            int     n = values.Length;
-            int     total = 0;
-            double  entropy = 0;
-            double  p;
+            int n = values.Length;
+            int total = 0;
+            double entropy = 0;
+            double p;
 
             // calculate total amount of hits
-            for ( int i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++)
             {
                 total += values[i];
             }
 
-            if ( total != 0 )
+            if (total != 0)
             {
                 // for all values
-                for ( int i = 0; i < n; i++ )
+                for (int i = 0; i < n; i++)
                 {
                     // get item's probability
-                    p = (double) values[i] / total;
+                    p = (double)values[i] / total;
                     // calculate entropy
-                    if ( p != 0 )
-                        entropy += ( -p * Math.Log( p, 2 ) );
+                    if (p != 0)
+                        entropy += (-p * Math.Log(p, 2));
                 }
             }
             return entropy;
@@ -339,13 +342,13 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
-        public static int Mode( int[] values )
+        public static int Mode(int[] values)
         {
             int mode = 0, curMax = 0;
 
-            for ( int i = 0, length = values.Length; i < length; i++ )
+            for (int i = 0, length = values.Length; i < length; i++)
             {
-                if ( values[i] > curMax )
+                if (values[i] > curMax)
                 {
                     curMax = values[i];
                     mode = i;

@@ -75,8 +75,9 @@ namespace Accord.Math.Decompositions
 
                     for (int i = 0; i < j; i++)
                     {
-                        r[i, j] = q.GetColumn(i).InnerProduct(v);
-                        v = v.Subtract(r[i, j].Multiply(q.GetColumn(i)));
+                        r[i, j] = q.GetColumn(i).Inner(v);
+                        var t = r[i, j].Multiply(q.GetColumn(i));
+                        v.Subtract(t, result: v);
                     }
 
                     r[j, j] = Norm.Euclidean(v);
@@ -93,7 +94,7 @@ namespace Accord.Math.Decompositions
 
                     for (int i = 0; i < j; i++)
                     {
-                        r[i, j] = q.GetColumn(j).InnerProduct(a);
+                        r[i, j] = q.GetColumn(j).Inner(a);
                         v = v.Subtract(r[i, j].Multiply(q.GetColumn(i)));
                     }
 

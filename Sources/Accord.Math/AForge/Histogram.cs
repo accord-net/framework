@@ -31,13 +31,13 @@ namespace AForge.Math
     [Serializable]
     public class Histogram
     {
-        private int[]   values;
-        private double  mean = 0;
-        private double  stdDev = 0;
-        private int     median = 0;
-        private int     min;
-        private int     max;
-        private long    total;
+        private int[] values;
+        private double mean = 0;
+        private double stdDev = 0;
+        private int median = 0;
+        private int min;
+        private int max;
+        private long total;
 
         /// <summary>
         /// Values of the histogram.
@@ -185,10 +185,10 @@ namespace AForge.Math
         /// but array values are treated as "probabilities" (total amount of hits).
         /// </para></remarks>
         /// 
-        public Histogram( int[] values )
+        public Histogram(int[] values)
         {
             this.values = values;
-            Update( );
+            Update();
         }
 
         /// <summary>
@@ -213,9 +213,9 @@ namespace AForge.Math
         /// </code>
         /// </remarks>
         /// 
-        public IntRange GetRange( double percent )
+        public Accord.IntRange GetRange(double percent)
         {
-            return Statistics.GetRange( values, percent );
+            return AForge.Math.Statistics.GetRange(values, percent);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace AForge.Math
         /// through <see cref="Values"/> property and updated after that.
         /// </remarks>
         /// 
-        public void Update( )
+        public void Update()
         {
             int i, n = values.Length;
 
@@ -237,24 +237,24 @@ namespace AForge.Math
             total = 0;
 
             // calculate min and max
-            for ( i = 0; i < n; i++ )
+            for (i = 0; i < n; i++)
             {
-                if ( values[i] != 0 )
+                if (values[i] != 0)
                 {
                     // max
-                    if ( i > max )
+                    if (i > max)
                         max = i;
                     // min
-                    if ( i < min )
+                    if (i < min)
                         min = i;
 
                     total += values[i];
                 }
             }
 
-            mean   = Statistics.Mean( values );
-            stdDev = Statistics.StdDev( values, mean );
-            median = Statistics.Median( values );
+            mean = AForge.Math.Statistics.Mean(values);
+            stdDev = AForge.Math.Statistics.StdDev(values, mean);
+            median = AForge.Math.Statistics.Median(values);
         }
     }
 }

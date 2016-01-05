@@ -37,9 +37,6 @@ namespace Accord.Math.Geometry
     using System;
     using System.Collections.Generic;
     using Accord.Math;
-    using AForge;
-    using AForge.Math;
-    using AForge.Math.Geometry;
     using System.Numerics;
 
     /// <summary>

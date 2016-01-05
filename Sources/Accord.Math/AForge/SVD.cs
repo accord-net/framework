@@ -6,7 +6,7 @@
 // aforge.net@gmail.com
 //
 
-namespace AForge.Math
+namespace Accord.Math
 {
     using System;
 

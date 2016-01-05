@@ -43,6 +43,7 @@
 
 namespace Accord.Math
 {
+    using Accord.Math.Random;
     using System;
 
     /// <summary>
@@ -872,8 +873,7 @@ namespace Accord.Math
         /// 
         public static double Random(double d, double c)
         {
-            var g = new AForge.Math.Random.GaussianGenerator(0,
-                1, Accord.Math.Tools.Random.Next());
+            var g = new GaussianGenerator(0, 1, Tools.Random.Next());
 
             // References:
             //
