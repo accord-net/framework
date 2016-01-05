@@ -10,7 +10,7 @@
 #include "VideoFileSource.h"
 #include "VideoFileReader.h"
 
-namespace AForge { namespace Video { namespace FFMPEG
+namespace Accord { namespace Video { namespace FFMPEG
 {
 
 VideoFileSource::VideoFileSource( String^ fileName )

@@ -11,9 +11,9 @@
 using namespace System;
 using namespace System::Drawing;
 using namespace System::Drawing::Imaging;
-using namespace AForge::Video;
+using namespace Accord::Video;
 
-namespace AForge { namespace Video { namespace FFMPEG
+namespace Accord { namespace Video { namespace FFMPEG
 {
 	ref struct ReaderPrivateData;
 
