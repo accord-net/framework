@@ -5,10 +5,9 @@
 // Copyright © AForge.NET, 2007-2011
 // contacts@aforgenet.com
 //
-namespace AForge.Fuzzy
+namespace Accord.Fuzzy
 {
     using System;
-    using AForge;
 
     /// <summary>
     /// Product Norm, used to calculate the linguistic value of a AND operation. 
