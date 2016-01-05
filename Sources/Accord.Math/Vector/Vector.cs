@@ -1,10 +1,4 @@
-﻿using Accord.Math.Comparers;
-using AForge;
-using AForge.Math.Random;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-// Accord Math Library
+﻿// Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
 //
@@ -28,7 +22,16 @@ using System.Linq;
 
 namespace Accord.Math
 {
-    internal static partial class Vector
+    using Accord.Math.Comparers;
+    using System;
+    using System.Collections.Generic;
+
+    /// <summary>
+    ///   Static class Vector. Defines a set of extension methods
+    ///   that operates mainly on single-dimensional arrays.
+    /// </summary>
+    /// 
+    public static partial class Vector
     {
         /// <summary>
         ///   Shuffles an array.
@@ -258,6 +261,23 @@ namespace Accord.Math
         ///   Creates a vector with uniformly distributed random data.
         /// </summary>
         /// 
+        public static int[] Random(int size, int min, int max)
+        {
+            if (size < 0)
+                throw new ArgumentOutOfRangeException("size", size, "Size must be a positive integer.");
+
+            var random = Accord.Math.Random.Generator.Random;
+
+            var vector = new int[size];
+            for (int i = 0; i < size; i++)
+                vector[i] = random.Next(max, min);
+            return vector;
+        }
+
+        /// <summary>
+        ///   Creates a vector with uniformly distributed random data.
+        /// </summary>
+        /// 
         public static double[] Random(int size, double min, double max)
         {
             if (size < 0)
@@ -288,148 +308,79 @@ namespace Accord.Math
             return vector;
         }
 
-
-
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Draws a random sample from a group of observations, without repetitions.
         /// </summary>
         /// 
-        public static int[] Interval(int a, int b)
+        /// <typeparam name="T">The type of the observations.</typeparam>
+        /// 
+        /// <param name="values">The observation vector.</param>
+        /// <param name="size">The size of the sample to be drawn (how many samples to get).</param>
+        /// 
+        /// <returns>A vector containing the samples drawn from <paramref name="values"/>.</returns>
+        /// 
+        public static T[] Sample<T>(T[] values, int size)
         {
-            return Interval(a, b, 1.0);
+            return values.Submatrix(Indices.Random(size));
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Counts how many times an integer label appears in a vector (i.e. creates 
+        ///   an histogram of integer values assuming possible values start at zero and
+        ///   go up to the maximum value of in the vector).
         /// </summary>
         /// 
-        public static T[] Interval<T>(T a, T b, double stepSize)
+        /// <param name="labels">An array containing the integer labels to be counted.</param>
+        /// 
+        /// <returns>
+        ///   An integer array of size corresponding to the maximum label in the vector
+        ///   <paramref name="labels"/>, containing how many times each possible label 
+        ///   appears in <paramref name="labels"/>.
+        /// </returns>
+        /// 
+        public static int[] Histogram(int[] labels)
         {
-            double from = cast<double>(a);
-            double to = cast<double>(b);
-
-            T[] r;
-
-            if (from > to)
-            {
-                double range = from - to;
-                int steps = (int)System.Math.Ceiling(range / stepSize) + 1;
-
-                r = new T[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = cast<T>(from - i * stepSize);
-                r[steps - 1] = cast<T>(to);
-            }
-            else
-            {
-                double range = to - from;
-                int steps = (int)System.Math.Ceiling(range == 0 ? 0 : range / stepSize) + 1;
-
-                r = new T[steps];
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = cast<T>(from + i * stepSize);
-                r[steps - 1] = cast<T>(to);
-            }
-
-            return r;
+            return Histogram(labels, new int[labels.Max()]);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Counts how many times an integer label appears in a vector (i.e. creates 
+        ///   an histogram of integer values assuming possible values start at zero and
+        ///   go up to the value of <paramref name="size"/>).
         /// </summary>
         /// 
-        public static T[] Interval<T>(T a, T b, int steps)
+        /// <param name="labels">An array containing the integer labels to be counted.</param>
+        /// <param name="size">The number of labels (will be the size of the generated histogram).</param>
+        /// 
+        /// <returns>
+        ///   An integer array of size <paramref name="size"/> containing how many 
+        ///   times each possible label appears in <paramref name="labels"/>.
+        /// </returns>
+        /// 
+        public static int[] Histogram(int[] labels, int size)
         {
-            double from = cast<double>(a);
-            double to = cast<double>(b);
-
-            if (from == to)
-            {
-                return new T[] { a };
-            }
-
-            if (steps == Int32.MaxValue)
-            {
-                throw new ArgumentOutOfRangeException("steps",
-                    "input must be lesser than Int32.MaxValue");
-            }
-
-            var r = new T[steps + 1];
-
-            if (from > to)
-            {
-                double range = from - to;
-                double stepSize = range / steps;
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = cast<T>(from - i * stepSize);
-                r[steps] = cast<T>(to);
-            }
-            else
-            {
-                double range = to - from;
-                double stepSize = range / steps;
-                for (int i = 0; i < r.Length; i++)
-                    r[i] = cast<T>(from + i * stepSize);
-                r[steps] = cast<T>(to);
-            }
-
-            return r;
+            return Histogram(labels, new int[size]);
         }
 
         /// <summary>
-        ///   Creates an interval vector.
+        ///   Counts how many times an integer label appears in a vector (i.e. creates 
+        ///   an histogram of integer values assuming possible values start at zero and
+        ///   go up to the maximum value of in the vector).
         /// </summary>
         /// 
-        public static double[] Interval(this DoubleRange range, int steps)
-        {
-            return Interval(range.Min, range.Max, steps);
-        }
-
-        /// <summary>
-        ///   Creates an interval vector.
-        /// </summary>
+        /// <param name="labels">An array containing the integer labels to be counted.</param>
+        /// <param name="result">The histogram to were the counts will be added. This
+        ///   vector should have been zeroed out before being passed to this method.</param>
         /// 
-        public static int[] Interval(this IntRange range, int steps)
-        {
-            return Interval(range.Min, range.Max, steps);
-        }
-
-        /// <summary>
-        ///   Creates an interval vector.
-        /// </summary>
+        /// <returns>
+        ///   The same vector <paramref name="result"/> passed as an argument.
+        /// </returns>
         /// 
-        public static float[] Interval(this Range range, int steps)
+        public static int[] Histogram(int[] labels, int[] result)
         {
-            return Interval(range.Min, range.Max, steps);
+            for (int i = 0; i < labels.Length; i++)
+                result[labels[i]]++;
+            return result;
         }
-
-        /// <summary>
-        ///   Creates an interval vector.
-        /// </summary>
-        /// 
-        public static double[] Interval(this DoubleRange range, double stepSize)
-        {
-            return Interval(range.Min, range.Max, stepSize);
-        }
-
-        /// <summary>
-        ///   Creates an interval vector.
-        /// </summary>
-        /// 
-        public static int[] Interval(this IntRange range, double stepSize)
-        {
-            return Interval(range.Min, range.Max, stepSize);
-        }
-
-        /// <summary>
-        ///   Creates an interval vector.
-        /// </summary>
-        /// 
-        public static float[] Interval(this Range range, double stepSize)
-        {
-            return Interval(range.Min, range.Max, stepSize);
-        }
-
-
     }
 }
