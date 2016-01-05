@@ -9,7 +9,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace AForge.Video.Ximea.Internal
+namespace Accord.Video.Ximea.Internal
 {
     internal static class XimeaAPI
     {

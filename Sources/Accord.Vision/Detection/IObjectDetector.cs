@@ -23,7 +23,7 @@
 namespace Accord.Vision.Detection
 {
     using System.Drawing;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Object detector interface.

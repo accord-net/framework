@@ -7,7 +7,7 @@
 // Written by Jeremy Noring 
 // kidjan@gmail.com
 
-namespace AForge.Video.DirectShow.Internals
+namespace Accord.Video.DirectShow.Internals
 {
     using System;
     using System.Runtime.InteropServices;

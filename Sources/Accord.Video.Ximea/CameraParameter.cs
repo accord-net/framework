@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.Ximea
+namespace Accord.Video.Ximea
 {
     using System;
     

@@ -13,9 +13,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using AForge.Video.DirectShow;
+using Accord.Video.DirectShow;
 
-namespace AForge.Video.DirectShow
+namespace Accord.Video.DirectShow
 {
     /// <summary>
     /// Local video device selection form.

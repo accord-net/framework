@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.Kinect
+namespace Accord.Video.Kinect
 {
     using System;
     using System.Collections.Generic;
@@ -14,9 +14,9 @@ namespace AForge.Video.Kinect
     using System.Drawing.Imaging;
     using System.Runtime.InteropServices;
 
-    using AForge;
-    using AForge.Imaging;
-    using AForge.Video;
+    using Accord;
+    using Accord.Imaging;
+    using Accord.Video;
 
     /// <summary>
     /// Enumeration of video camera modes for the <see cref="KinectVideoCamera"/>.
@@ -38,7 +38,7 @@ namespace AForge.Video.Kinect
         /// </summary>
         InfraRed
     }
-    
+
     /// <summary>
     /// Video source for Microsoft Kinect's video camera.
     /// </summary>
@@ -86,10 +86,10 @@ namespace AForge.Video.Kinect
         // camera resolution to set
         private CameraResolution resolution = CameraResolution.Medium;
         // list of currently running cameras
-        private static List<int> runningCameras = new List<int>( );
+        private static List<int> runningCameras = new List<int>();
 
         // dummy object to lock for synchronization
-        private object sync = new object( );
+        private object sync = new object();
 
         /// <summary>
         /// New frame event.
@@ -172,9 +172,9 @@ namespace AForge.Video.Kinect
         {
             get
             {
-                lock ( sync )
+                lock (sync)
                 {
-                    return ( device != null );
+                    return (device != null);
                 }
             }
         }
@@ -221,7 +221,7 @@ namespace AForge.Video.Kinect
         /// 
         /// <param name="deviceID">Kinect's device ID (index) to connect to.</param>
         /// 
-        public KinectVideoCamera( int deviceID )
+        public KinectVideoCamera(int deviceID)
         {
             this.deviceID = deviceID;
         }
@@ -233,9 +233,9 @@ namespace AForge.Video.Kinect
         /// <param name="deviceID">Kinect's device ID (index) to connect to.</param>
         /// <param name="resolution">Resolution of video camera to set.</param>
         /// 
-        public KinectVideoCamera( int deviceID, CameraResolution resolution )
+        public KinectVideoCamera(int deviceID, CameraResolution resolution)
         {
-            this.deviceID   = deviceID;
+            this.deviceID = deviceID;
             this.resolution = resolution;
         }
 
@@ -247,9 +247,9 @@ namespace AForge.Video.Kinect
         /// <param name="resolution">Resolution of video camera to set.</param>
         /// <param name="cameraMode">Sets video camera mode.</param>
         /// 
-        public KinectVideoCamera( int deviceID, CameraResolution resolution, VideoCameraMode cameraMode )
+        public KinectVideoCamera(int deviceID, CameraResolution resolution, VideoCameraMode cameraMode)
         {
-            this.deviceID   = deviceID;
+            this.deviceID = deviceID;
             this.resolution = resolution;
             this.cameraMode = cameraMode;
         }
@@ -270,83 +270,83 @@ namespace AForge.Video.Kinect
         /// <exception cref="ConnectionFailedException">Could not connect to Kinect's video camera.</exception>
         /// <exception cref="DeviceBusyException">Another connection to the specified video camera is already running.</exception>
         /// 
-        public void Start( )
+        public void Start()
         {
-            lock ( sync )
+            lock (sync)
             {
-                lock ( runningCameras )
+                lock (runningCameras)
                 {
-                    if ( device == null )
+                    if (device == null)
                     {
                         bool success = false;
 
                         try
                         {
-                            if ( runningCameras.Contains( deviceID ) )
+                            if (runningCameras.Contains(deviceID))
                             {
-                                throw new DeviceBusyException( "Another connection to the specified video camera is already running." );
+                                throw new DeviceBusyException("Another connection to the specified video camera is already running.");
                             }
 
                             // get Kinect device
-                            device = Kinect.GetDevice( deviceID );
+                            device = Kinect.GetDevice(deviceID);
 
                             KinectNative.VideoCameraFormat dataFormat = KinectNative.VideoCameraFormat.RGB;
- 
-                            if ( cameraMode == VideoCameraMode.Bayer )
+
+                            if (cameraMode == VideoCameraMode.Bayer)
                             {
                                 dataFormat = KinectNative.VideoCameraFormat.Bayer;
                             }
-                            else if ( cameraMode == VideoCameraMode.InfraRed )
+                            else if (cameraMode == VideoCameraMode.InfraRed)
                             {
                                 dataFormat = KinectNative.VideoCameraFormat.IR8Bit;
                             }
 
                             // find video format parameters
-                            videoModeInfo = KinectNative.freenect_find_video_mode( resolution, dataFormat );
+                            videoModeInfo = KinectNative.freenect_find_video_mode(resolution, dataFormat);
 
-                            if ( videoModeInfo.IsValid == 0 )
+                            if (videoModeInfo.IsValid == 0)
                             {
-                                throw new ArgumentException( "The specified resolution is not supported for the selected mode of the Kinect video camera." );
+                                throw new ArgumentException("The specified resolution is not supported for the selected mode of the Kinect video camera.");
                             }
 
                             // set video format
-                            if ( KinectNative.freenect_set_video_mode( device.RawDevice, videoModeInfo ) != 0 )
+                            if (KinectNative.freenect_set_video_mode(device.RawDevice, videoModeInfo) != 0)
                             {
-                                throw new VideoException( "Could not switch to the specified video format." );
+                                throw new VideoException("Could not switch to the specified video format.");
                             }
 
                             // allocate video buffer and provide it freenect
-                            imageBuffer = Marshal.AllocHGlobal( (int) videoModeInfo.Bytes );
-                            KinectNative.freenect_set_video_buffer( device.RawDevice, imageBuffer );
+                            imageBuffer = Marshal.AllocHGlobal((int)videoModeInfo.Bytes);
+                            KinectNative.freenect_set_video_buffer(device.RawDevice, imageBuffer);
 
                             // set video callback
-                            videoCallback = new KinectNative.FreenectVideoDataCallback( HandleDataReceived );
-                            KinectNative.freenect_set_video_callback( device.RawDevice, videoCallback );
+                            videoCallback = new KinectNative.FreenectVideoDataCallback(HandleDataReceived);
+                            KinectNative.freenect_set_video_callback(device.RawDevice, videoCallback);
 
                             // start the camera
-                            if ( KinectNative.freenect_start_video( device.RawDevice ) != 0 )
+                            if (KinectNative.freenect_start_video(device.RawDevice) != 0)
                             {
-                                throw new ConnectionFailedException( "Could not start video stream." );
+                                throw new ConnectionFailedException("Could not start video stream.");
                             }
 
                             success = true;
-                            runningCameras.Add( deviceID );
+                            runningCameras.Add(deviceID);
 
-                            device.AddFailureHandler( deviceID, Stop );
+                            device.AddFailureHandler(deviceID, Stop);
                         }
                         finally
                         {
-                            if ( !success )
+                            if (!success)
                             {
-                                if ( device != null )
+                                if (device != null)
                                 {
-                                    device.Dispose( );
+                                    device.Dispose();
                                     device = null;
                                 }
 
-                                if ( imageBuffer != IntPtr.Zero )
+                                if (imageBuffer != IntPtr.Zero)
                                 {
-                                    Marshal.FreeHGlobal( imageBuffer );
+                                    Marshal.FreeHGlobal(imageBuffer);
                                     imageBuffer = IntPtr.Zero;
                                 }
                             }
@@ -363,9 +363,9 @@ namespace AForge.Video.Kinect
         /// <remarks><para><note>Calling this method is equivalent to calling <see cref="Stop"/>
         /// for Kinect video camera.</note></para></remarks>
         /// 
-        public void SignalToStop( )
+        public void SignalToStop()
         {
-            Stop( );
+            Stop();
         }
 
         /// <summary>
@@ -375,9 +375,9 @@ namespace AForge.Video.Kinect
         /// <remarks><para><note>Calling this method is equivalent to calling <see cref="Stop"/>
         /// for Kinect video camera.</note></para></remarks>
         /// 
-        public void WaitForStop( )
+        public void WaitForStop()
         {
-            Stop( );
+            Stop();
         }
 
         /// <summary>
@@ -388,35 +388,35 @@ namespace AForge.Video.Kinect
         /// and does not consume any resources.</para>
         /// </remarks>
         /// 
-        public void Stop( )
+        public void Stop()
         {
-            lock ( sync )
+            lock (sync)
             {
-                lock ( runningCameras )
+                lock (runningCameras)
                 {
-                    if ( device != null )
+                    if (device != null)
                     {
-                        bool deviceFailed = device.IsDeviceFailed( deviceID );
+                        bool deviceFailed = device.IsDeviceFailed(deviceID);
 
-                        if ( !deviceFailed )
+                        if (!deviceFailed)
                         {
-                            KinectNative.freenect_stop_video( device.RawDevice );
+                            KinectNative.freenect_stop_video(device.RawDevice);
                         }
 
-                        device.Dispose( );
+                        device.Dispose();
                         device = null;
-                        runningCameras.Remove( deviceID );
+                        runningCameras.Remove(deviceID);
 
-                        if ( PlayingFinished != null )
+                        if (PlayingFinished != null)
                         {
-                            PlayingFinished( this, ( !deviceFailed ) ?
-                                ReasonToFinishPlaying.StoppedByUser : ReasonToFinishPlaying.DeviceLost );
+                            PlayingFinished(this, (!deviceFailed) ?
+                                ReasonToFinishPlaying.StoppedByUser : ReasonToFinishPlaying.DeviceLost);
                         }
                     }
 
-                    if ( imageBuffer != IntPtr.Zero )
+                    if (imageBuffer != IntPtr.Zero)
                     {
-                        Marshal.FreeHGlobal( imageBuffer );
+                        Marshal.FreeHGlobal(imageBuffer);
                         imageBuffer = IntPtr.Zero;
                     }
 
@@ -428,9 +428,9 @@ namespace AForge.Video.Kinect
         // New video data event handler
         private KinectNative.FreenectVideoDataCallback videoCallback = null;
 
-        private void HandleDataReceived( IntPtr device, IntPtr imageData, UInt32 timeStamp )
+        private void HandleDataReceived(IntPtr device, IntPtr imageData, UInt32 timeStamp)
         {
-            int width  = videoModeInfo.Width;
+            int width = videoModeInfo.Width;
             int height = videoModeInfo.Height;
 
             Bitmap image = null;
@@ -438,26 +438,26 @@ namespace AForge.Video.Kinect
 
             try
             {
-                image = ( cameraMode == VideoCameraMode.Color ) ?
-                    new Bitmap( width, height, PixelFormat.Format24bppRgb ) :
-                    AForge.Imaging.Image.CreateGrayscaleImage( width, height );
+                image = (cameraMode == VideoCameraMode.Color) ?
+                    new Bitmap(width, height, PixelFormat.Format24bppRgb) :
+                    Accord.Imaging.Image.CreateGrayscaleImage(width, height);
 
-                data = image.LockBits( new Rectangle( 0, 0, width, height ),
-                    ImageLockMode.ReadWrite, image.PixelFormat );
+                data = image.LockBits(new Rectangle(0, 0, width, height),
+                    ImageLockMode.ReadWrite, image.PixelFormat);
 
                 unsafe
                 {
-                    byte* dst = (byte*) data.Scan0.ToPointer( );
-                    byte* src = (byte*) imageBuffer.ToPointer( );
+                    byte* dst = (byte*)data.Scan0.ToPointer();
+                    byte* src = (byte*)imageBuffer.ToPointer();
 
-                    if ( cameraMode == VideoCameraMode.Color )
+                    if (cameraMode == VideoCameraMode.Color)
                     {
                         // color RGB 24 mode
                         int offset = data.Stride - width * 3;
 
-                        for ( int y = 0; y < height; y++ )
+                        for (int y = 0; y < height; y++)
                         {
-                            for ( int x = 0; x < width; x++, src += 3, dst += 3 )
+                            for (int x = 0; x < width; x++, src += 3, dst += 3)
                             {
                                 dst[0] = src[2];
                                 dst[1] = src[1];
@@ -471,52 +471,52 @@ namespace AForge.Video.Kinect
                         // infra red mode - grayscale output
                         int stride = data.Stride;
 
-                        if ( stride != width )
+                        if (stride != width)
                         {
-                            for ( int y = 0; y < height; y++ )
+                            for (int y = 0; y < height; y++)
                             {
-                                SystemTools.CopyUnmanagedMemory( dst, src, width );
+                                SystemTools.CopyUnmanagedMemory(dst, src, width);
                                 dst += stride;
                                 src += width;
                             }
                         }
                         else
                         {
-                            SystemTools.CopyUnmanagedMemory( dst, src, width * height );
+                            SystemTools.CopyUnmanagedMemory(dst, src, width * height);
                         }
                     }
                 }
-                image.UnlockBits( data );
+                image.UnlockBits(data);
 
                 framesReceived++;
                 bytesReceived += width * height;
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
-                if ( VideoSourceError != null )
+                if (VideoSourceError != null)
                 {
-                    VideoSourceError( this, new VideoSourceErrorEventArgs( ex.Message ) );
+                    VideoSourceError(this, new VideoSourceErrorEventArgs(ex.Message));
                 }
 
-                if ( image != null )
+                if (image != null)
                 {
-                    if ( data != null )
+                    if (data != null)
                     {
-                        image.UnlockBits( data );
+                        image.UnlockBits(data);
                     }
-                    image.Dispose( );
+                    image.Dispose();
                     image = null;
                 }
             }
 
-            if ( image != null )
+            if (image != null)
             {
-                if ( NewFrame != null )
+                if (NewFrame != null)
                 {
-                    NewFrame( this, new NewFrameEventArgs( image ) );
+                    NewFrame(this, new NewFrameEventArgs(image));
                 }
 
-                image.Dispose( );
+                image.Dispose();
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace AForge.Video.DirectShow
+﻿namespace Accord.Video.DirectShow
 {
     partial class VideoCaptureDeviceForm
     {

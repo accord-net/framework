@@ -6,13 +6,13 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Video.Ximea
+namespace Accord.Video.Ximea
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Text;
-    using AForge.Video.Ximea.Internal;
+    using Accord.Video.Ximea.Internal;
 
     /// <summary>
     /// The class provides access to XIMEA cameras.
@@ -513,14 +513,14 @@ namespace AForge.Video.Ximea
                             // copy image
                             for ( int y = 0; y < ximeaImage.Height; y++ )
                             {
-                                AForge.SystemTools.CopyUnmanagedMemory( dst, src, lineSize );
+                                Accord.SystemTools.CopyUnmanagedMemory( dst, src, lineSize );
                                 dst += dstStride;
                                 src += stride;
                             }
                         }
                         else
                         {
-                            AForge.SystemTools.CopyUnmanagedMemory( dst, src, stride * ximeaImage.Height );
+                            Accord.SystemTools.CopyUnmanagedMemory( dst, src, stride * ximeaImage.Height );
                         }
                     }
 

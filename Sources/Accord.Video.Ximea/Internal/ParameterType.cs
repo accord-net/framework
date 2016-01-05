@@ -8,7 +8,7 @@
 
 using System;
 
-namespace AForge.Video.Ximea.Internal
+namespace Accord.Video.Ximea.Internal
 {
     internal enum ParameterType
     {
