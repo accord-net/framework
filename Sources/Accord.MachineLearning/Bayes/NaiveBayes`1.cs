@@ -626,7 +626,7 @@ namespace Accord.MachineLearning.Bayes
                 evidence += responses[i] = Math.Exp(responses[i]);
 
             // Transform back into probabilities
-            responses.Divide(evidence, inPlace: true);
+            responses.Divide(evidence, result: responses);
 
             return argmax;
         }
@@ -650,10 +650,11 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="stream">The stream to which the Naïve Bayes model is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public virtual void Save(Stream stream)
         {
-            BinaryFormatter b = new BinaryFormatter();
-            b.Serialize(stream, this);
+            Accord.IO.Serializer.Save(this, stream);
         }
 
         /// <summary>
@@ -662,12 +663,11 @@ namespace Accord.MachineLearning.Bayes
         /// 
         /// <param name="path">The path to the file to which the Naïve Bayes model is to be serialized.</param>
         /// 
+        [Obsolete("Please use Accord.IO.Serializer.Save() instead (or use it as an extension method).")]
+
         public void Save(string path)
         {
-            using (FileStream fs = new FileStream(path, FileMode.Create))
-            {
-                Save(fs);
-            }
+            Accord.IO.Serializer.Save(this, path);
         }
     }
 }

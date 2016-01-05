@@ -26,6 +26,7 @@ namespace Accord.MachineLearning.Structures
     using System.Collections.Generic;
     using Accord.Math;
     using Accord.Math.Comparers;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   K-dimensional tree.
@@ -172,7 +173,7 @@ namespace Accord.MachineLearning.Structures
         private int leaves;
 
         private KDTreeNode<T> root;
-        private Func<double[], double[], double> distance = Accord.Math.Distance.Euclidean;
+        private IMetric<double[]> distance = new Accord.Math.Distances.Euclidean();
 
 
         /// <summary>
@@ -199,15 +200,10 @@ namespace Accord.MachineLearning.Structures
         ///   measure distances amongst points on this tree
         /// </summary>
         /// 
-        public Func<double[], double[], double> Distance
+        public IMetric<double[]> Distance
         {
             get { return distance; }
-            set
-            {
-                if (!Accord.Math.Distance.IsMetric(value))
-                    throw new ArgumentException("The tree needs a real distance metric that respects the Triangle inequality.");
-                distance = value;
-            }
+            set { distance = value; }
         }
 
         /// <summary>
@@ -305,14 +301,26 @@ namespace Accord.MachineLearning.Structures
         /// 
         /// <returns>A list of neighbor points, ordered by distance.</returns>
         /// 
-        public KDTreeNodeCollection<T> Nearest(double[] position, double radius, int maximum)
+        public ICollection<KDTreeNodeDistance<T>> Nearest(double[] position, double radius, int maximum)
         {
-            var list = new KDTreeNodeCollection<T>(maximum);
+            if (maximum == 0)
+            {
+                var list = new KDTreeNodeList<T>();
 
-            if (root != null)
-                nearest(root, position, radius, list);
+                if (root != null)
+                    nearest(root, position, radius, list);
 
-            return list;
+                return list;
+            }
+            else
+            {
+                var list = new KDTreeNodeCollection<T>(maximum);
+
+                if (root != null)
+                    nearest(root, position, radius, list);
+
+                return list;
+            }
         }
 
         /// <summary>
@@ -380,7 +388,7 @@ namespace Accord.MachineLearning.Structures
         public KDTreeNode<T> Nearest(double[] position, out double distance)
         {
             KDTreeNode<T> result = root;
-            distance = Distance(root.Position, position);
+            distance = Distance.Distance(root.Position, position);
 
             nearest(root, position, ref result, ref distance);
 
@@ -427,7 +435,7 @@ namespace Accord.MachineLearning.Structures
         public KDTreeNode<T> ApproximateNearest(double[] position, double percentage, out double distance)
         {
             KDTreeNode<T> result = root;
-            distance = Distance(root.Position, position);
+            distance = Distance.Distance(root.Position, position);
 
             int maxLeaves = (int)(leaves * percentage);
 
@@ -582,7 +590,7 @@ namespace Accord.MachineLearning.Structures
             // node is within the desired radius, and if it
             // is, add to the list of nearest nodes.
 
-            double d = distance(position, current.Position);
+            double d = distance.Distance(position, current.Position);
 
             if (d <= radius)
                 list.Add(new KDTreeNodeDistance<T>(current, d));
@@ -619,7 +627,7 @@ namespace Accord.MachineLearning.Structures
         private void nearest(KDTreeNode<T> current, double[] position, KDTreeNodeCollection<T> list)
         {
             // Compute distance from this node to the point
-            double d = distance(position, current.Position);
+            double d = distance.Distance(position, current.Position);
 
 
             list.Add(current, d);
@@ -656,7 +664,7 @@ namespace Accord.MachineLearning.Structures
         private void nearest(KDTreeNode<T> current, double[] position, ref KDTreeNode<T> match, ref double minDistance)
         {
             // Compute distance from this node to the point
-            double d = distance(position, current.Position);
+            double d = distance.Distance(position, current.Position);
 
             if (d < minDistance)
             {
@@ -697,7 +705,7 @@ namespace Accord.MachineLearning.Structures
             KDTreeNodeCollection<T> list, int maxLeaves, ref int visited)
         {
             // Compute distance from this node to the point
-            double d = distance(position, current.Position);
+            double d = distance.Distance(position, current.Position);
 
             list.Add(current, d);
 
@@ -742,7 +750,7 @@ namespace Accord.MachineLearning.Structures
            ref KDTreeNode<T> match, ref double minDistance, int maxLeaves, ref int visited)
         {
             // Compute distance from this node to the point
-            double d = distance(position, current.Position);
+            double d = distance.Distance(position, current.Position);
 
             // Base: node is leaf
             if (d < minDistance)

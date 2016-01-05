@@ -5,7 +5,7 @@
 // andrew.kirillov@gmail.com
 //
 
-namespace AForge.MachineLearning
+namespace Accord.MachineLearning
 {
     using System;
 

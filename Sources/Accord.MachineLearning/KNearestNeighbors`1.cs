@@ -25,6 +25,7 @@ namespace Accord.MachineLearning
     using System;
     using System.Linq;
     using Accord.Math;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   K-Nearest Neighbor (k-NN) algorithm.
@@ -155,7 +156,7 @@ namespace Accord.MachineLearning
 
         private int classCount;
 
-        private Func<T, T, double> distance;
+        private IDistance<T> distance;
 
         private double[] distances;
 
@@ -170,7 +171,7 @@ namespace Accord.MachineLearning
         /// <param name="outputs">The associated labels for the input points.</param>
         /// <param name="distance">The distance measure to use in the decision.</param>
         /// 
-        public KNearestNeighbors(int k, T[] inputs, int[] outputs, Func<T, T, double> distance)
+        public KNearestNeighbors(int k, T[] inputs, int[] outputs, IDistance<T> distance)
         {
             checkArgs(k, null, inputs, outputs, distance);
 
@@ -190,14 +191,14 @@ namespace Accord.MachineLearning
         /// <param name="outputs">The associated labels for the input points.</param>
         /// <param name="distance">The distance measure to use in the decision.</param>
         /// 
-        public KNearestNeighbors(int k, int classes, T[] inputs, int[] outputs, Func<T, T, double> distance)
+        public KNearestNeighbors(int k, int classes, T[] inputs, int[] outputs, IDistance<T> distance)
         {
             checkArgs(k, classes, inputs, outputs, distance);
 
             initialize(k, classes, inputs, outputs, distance);
         }
 
-        private void initialize(int k, int classes, T[] inputs, int[] outputs, Func<T, T, double> distance)
+        private void initialize(int k, int classes, T[] inputs, int[] outputs, IDistance<T> distance)
         {
             this.inputs = inputs;
             this.outputs = outputs;
@@ -247,7 +248,7 @@ namespace Accord.MachineLearning
         ///   as a distance metric between data points.
         /// </summary>
         /// 
-        public Func<T, T, double> Distance
+        public IDistance<T> Distance
         {
             get { return distance; }
             set { distance = value; }
@@ -321,7 +322,7 @@ namespace Accord.MachineLearning
         {
             // Compute all distances
             for (int i = 0; i < inputs.Length; i++)
-                distances[i] = distance(input, inputs[i]);
+                distances[i] = distance.Distance(input, inputs[i]);
 
             int[] idx = distances.Bottom(k, inPlace: true);
 
@@ -361,7 +362,7 @@ namespace Accord.MachineLearning
         {
             // Compute all distances
             for (int i = 0; i < inputs.Length; i++)
-                distances[i] = distance(input, inputs[i]);
+                distances[i] = distance.Distance(input, inputs[i]);
 
             int[] idx = distances.Bottom(k, inPlace: true);
 
@@ -372,7 +373,7 @@ namespace Accord.MachineLearning
 
 
 
-        private static void checkArgs(int k, int? classes, T[] inputs, int[] outputs, Func<T, T, double> distance)
+        private static void checkArgs(int k, int? classes, T[] inputs, int[] outputs, IDistance<T> distance)
         {
             if (k <= 0)
                 throw new ArgumentOutOfRangeException("k", "Number of neighbors should be greater than zero.");

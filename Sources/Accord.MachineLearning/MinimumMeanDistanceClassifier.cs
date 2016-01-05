@@ -24,6 +24,7 @@ namespace Accord.MachineLearning
 {
     using System;
     using Accord.Math;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Minimum (Mean) Distance Classifier.
@@ -37,10 +38,11 @@ namespace Accord.MachineLearning
     ///   having the same label as this class.
     /// </remarks>
     /// 
+    [Serializable]
     public class MinimumMeanDistanceClassifier
     {
         private double[][] means;
-        private Func<double[], double[], double> distance;
+        private IDistance<double[]> distance;
 
         /// <summary>
         ///   Initializes a new instance of the <see cref="MinimumMeanDistanceClassifier"/> class.
@@ -52,7 +54,7 @@ namespace Accord.MachineLearning
         /// 
         public MinimumMeanDistanceClassifier(double[][] inputs, int[] outputs)
         {
-            this.init(inputs, outputs, Distance.SquareEuclidean);
+            this.init(inputs, outputs, new SquareEuclidean());
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace Accord.MachineLearning
         /// <param name="outputs">The output labels associated with each
         ///   <paramref name="inputs">input points</paramref>.</param>
         ///   
-        public MinimumMeanDistanceClassifier(Func<double[], double[], double> distance,
+        public MinimumMeanDistanceClassifier(IDistance<double[]> distance,
             double[][] inputs, int[] outputs)
         {
             if (distance == null)
@@ -74,7 +76,7 @@ namespace Accord.MachineLearning
             this.init(inputs, outputs, distance);
         }
 
-        private void init(double[][] inputs, int[] outputs, Func<double[], double[], double> distance)
+        private void init(double[][] inputs, int[] outputs, IDistance<double[]> distance)
         {
             this.distance = distance;
 
@@ -116,7 +118,7 @@ namespace Accord.MachineLearning
             distances = new double[means.Length];
 
             for (int i = 0; i < distances.Length; i++)
-                distances[i] = distance(input, means[i]);
+                distances[i] = distance.Distance(input, means[i]);
 
             int imin;
             distances.Min(out imin);
