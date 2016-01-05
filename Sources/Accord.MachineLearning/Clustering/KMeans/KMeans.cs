@@ -326,8 +326,8 @@ namespace Accord.MachineLearning
         /// </summary>
         /// 
         /// <param name="k">The number of clusters to divide the input data into.</param>    
-        /// <param name="distance">The distance function to use. Default is to
-        /// use the <see cref="Accord.Math.Distance.SquareEuclidean(double[], double[])"/> distance.</param>
+        /// <param name="distance">The distance function to use. Default is to use the 
+        /// <see cref="Accord.Math.Distance.SquareEuclidean(double[], double[])"/> distance.</param>
         /// 
         public KMeans(int k, IDistance<double[]> distance)
         {
