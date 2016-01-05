@@ -297,7 +297,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -676,7 +676,7 @@ namespace Accord.Statistics.Distributions.Univariate
         {
             double[] r = new double[samples];
 
-            var g = new AForge.Math.Random.GaussianGenerator(
+            var g = new Accord.Math.Random.GaussianGenerator(
                 (float)mean, (float)stdDev, Accord.Math.Tools.Random.Next());
 
             for (int i = 0; i < r.Length; i++)
@@ -693,7 +693,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// 
         public override double Generate()
         {
-            var g = new AForge.Math.Random.GaussianGenerator(
+            var g = new Accord.Math.Random.GaussianGenerator(
                 (float)mean, (float)stdDev, Accord.Math.Tools.Random.Next());
 
             return g.Next();

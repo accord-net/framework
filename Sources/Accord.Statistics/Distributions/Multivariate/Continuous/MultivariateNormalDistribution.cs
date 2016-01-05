@@ -28,7 +28,8 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using AForge.Math.Random;
+    using System.Runtime.CompilerServices;
+    using Accord.Math.Random;
 
     /// <summary>
     ///   Multivariate Normal (Gaussian) distribution.
@@ -217,7 +218,7 @@ namespace Accord.Statistics.Distributions.Multivariate
                 throw new DimensionMismatchException("covariance",
                     "Covariance matrix should have the same dimensions as mean vector's length.");
 
-            CholeskyDecomposition chol = new CholeskyDecomposition(covariance,
+            var chol = new CholeskyDecomposition(covariance,
                 robust: false, lowerTriangular: true);
 
             if (!chol.PositiveDefinite)
@@ -239,7 +240,6 @@ namespace Accord.Statistics.Distributions.Multivariate
             double lndet;
 
             // Transforming to log operations, we have:
-
             if (cd != null)
                 lndet = cd.LogDeterminant;
             else lndet = svd.LogPseudoDeterminant;
@@ -386,22 +386,7 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public override double ProbabilityDensityFunction(params double[] x)
         {
-            if (x.Length != Dimension)
-                throw new DimensionMismatchException("x", "The vector should have the same dimension as the distribution.");
-
-            double[] z = new double[mean.Length];
-            for (int i = 0; i < x.Length; i++)
-                z[i] = x[i] - mean[i];
-
-            double[] a = (chol == null) ? svd.Solve(z) : chol.Solve(z);
-
-            double b = 0;
-            for (int i = 0; i < z.Length; i++)
-                b += a[i] * z[i];
-
-            double r = Math.Exp(lnconstant - b * 0.5);
-
-            return r;
+            return Math.Exp(-0.5 * Mahalanobis(x) + lnconstant);
         }
 
         /// <summary>
@@ -421,10 +406,26 @@ namespace Accord.Statistics.Distributions.Multivariate
         /// 
         public override double LogProbabilityDensityFunction(params double[] x)
         {
+            return -0.5 * Mahalanobis(x) + lnconstant;
+        }
+
+        /// <summary>
+        ///   Gets the Mahalanobis distance between a sample and this distribution.
+        /// </summary>
+        /// 
+        /// <param name="x">A point in the distribution space.</param>
+        /// 
+        /// <returns>The Mahalanobis distance between the point and this distribution.</returns>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public double Mahalanobis(double[] x)
+        {
             if (x.Length != Dimension)
                 throw new DimensionMismatchException("x", "The vector should have the same dimension as the distribution.");
 
-            double[] z = new double[mean.Length];
+            var z = new double[mean.Length];
             for (int i = 0; i < x.Length; i++)
                 z[i] = x[i] - mean[i];
 
@@ -433,8 +434,7 @@ namespace Accord.Statistics.Distributions.Multivariate
             double b = 0;
             for (int i = 0; i < z.Length; i++)
                 b += a[i] * z[i];
-
-            return lnconstant - b * 0.5;
+            return b;
         }
 
 

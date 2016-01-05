@@ -126,7 +126,7 @@ namespace Accord.Statistics.Distributions.Fitting
                 LogGamma[k] = new double[N];
 
             // Clone the current distribution values
-            double[] logPi = Matrix.Log(coefficients);
+            double[] logPi = coefficients.Log();
             var pdf = new IFittableDistribution<TObservation>[components.Length];
 
             for (int i = 0; i < components.Length; i++)

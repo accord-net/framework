@@ -112,7 +112,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.IntRange"/> containing
+        /// <value>A <see cref="IntRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         public abstract IntRange Support { get; }
@@ -226,7 +226,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   A <see cref="DoubleRange" /> containing 
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -240,7 +240,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   A <see cref="DoubleRange" /> containing 
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -254,7 +254,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing 
+        ///   A <see cref="DoubleRange" /> containing 
         ///   the support interval for this distribution.
         /// </value>
         /// 

@@ -28,7 +28,6 @@ namespace Accord.Statistics.Distributions.Multivariate
     using Accord.Statistics.Distributions;
     using Accord.Statistics.Distributions.Fitting;
     using Accord.Statistics.Distributions.Univariate;
-    using AForge.Math.Random;
 
     /// <summary>
     ///   Von-Mises Fisher distribution.

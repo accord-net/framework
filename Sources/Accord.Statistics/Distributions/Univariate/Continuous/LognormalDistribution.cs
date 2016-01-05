@@ -224,7 +224,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -400,7 +400,7 @@ namespace Accord.Statistics.Distributions.Univariate
 
             double mu, var;
 
-            observations = Matrix.Log(observations);
+            observations = Elementwise.Log(observations);
 
             if (weights != null)
             {

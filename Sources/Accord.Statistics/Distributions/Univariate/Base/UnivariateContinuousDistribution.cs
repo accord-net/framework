@@ -119,7 +119,7 @@ namespace Accord.Statistics.Distributions.Univariate
         ///   Gets the support interval for this distribution.
         /// </summary>
         /// 
-        /// <value>A <see cref="AForge.DoubleRange"/> containing
+        /// <value>A <see cref="DoubleRange"/> containing
         ///  the support interval for this distribution.</value>
         ///  
         public abstract DoubleRange Support { get; }

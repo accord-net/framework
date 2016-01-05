@@ -235,7 +235,7 @@ namespace Accord.Statistics.Distributions.Univariate
         /// </summary>
         /// 
         /// <value>
-        ///   A <see cref="AForge.DoubleRange" /> containing
+        ///   A <see cref="DoubleRange" /> containing
         ///   the support interval for this distribution.
         /// </value>
         /// 
@@ -369,7 +369,7 @@ namespace Accord.Statistics.Distributions.Univariate
             // Nakagami-m Parameter and Its Application in Echocardiography", 
             // Radioengineering, 13 (1), 8–12
 
-            double[] x2 = Matrix.ElementwisePower(observations, 2);
+            double[] x2 = Elementwise.Pow(observations, 2);
 
             double mean, var;
             if (weights == null)
