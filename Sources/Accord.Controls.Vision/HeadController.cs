@@ -27,9 +27,9 @@ namespace Accord.Controls.Vision
     using Accord.Vision.Detection.Cascades;
     using Accord.Vision.Tracking;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
-    using AForge.Video;
+    using Accord.Imaging;
+    using Accord.Imaging.Filters;
+    using Accord.Video;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.Design;
@@ -660,10 +660,10 @@ namespace Accord.Controls.Vision
             DoubleRange unit = new DoubleRange(-1, 1);
             DoubleRange circle = new DoubleRange(Math.PI, 0);
 
-            currentX = (float)Tools.Scale(xaxisRange, unit, obj.Center.X);
-            currentY = (float)Tools.Scale(yaxisRange, unit, obj.Center.Y);
-            currentAngle = (float)Tools.Scale(angleRange, circle, obj.Angle);
-            currentScale = (float)Tools.Scale(scaleRange, unit, Math.Sqrt(obj.Area));
+            currentX = (float)Accord.Math.Tools.Scale(xaxisRange, unit, obj.Center.X);
+            currentY = (float)Accord.Math.Tools.Scale(yaxisRange, unit, obj.Center.Y);
+            currentAngle = (float)Accord.Math.Tools.Scale(angleRange, circle, obj.Angle);
+            currentScale = (float)Accord.Math.Tools.Scale(scaleRange, unit, Math.Sqrt(obj.Area));
         }
 
 

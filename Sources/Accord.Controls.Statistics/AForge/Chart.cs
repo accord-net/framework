@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     using System;
     using System.Collections.Generic;
@@ -15,6 +15,7 @@ namespace AForge.Controls
     using System.Data;
     using System.Windows.Forms;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Chart control.
@@ -36,7 +37,7 @@ namespace AForge.Controls
     /// // add new data series to the chart
     /// chart.AddDataSeries( "Test", Color.DarkGreen, Chart.SeriesType.ConnectedDots, 3 );
     /// // set X range to display
-    /// chart.RangeX = new AForge.Range( 0, 9 );
+    /// chart.RangeX = new Range( 0, 9 );
     /// // update the chart
     /// chart.UpdateDataSeries( "Test", testValues );
     /// </code>
@@ -78,8 +79,8 @@ namespace AForge.Controls
 
         private Pen blackPen = new Pen(Color.Black);
 
-        private AForge.Range rangeX = new Range(0, 1);
-        private AForge.Range rangeY = new Range(0, 1);
+        private Range rangeX = new Range(0, 1);
+        private Range rangeY = new Range(0, 1);
 
         /// <summary>
         /// Chart's X range.
@@ -88,7 +89,7 @@ namespace AForge.Controls
         /// <remarks><para>The value sets the X range of data to be displayed on the chart.</para></remarks>
         /// 
         [Browsable(false)]
-        public AForge.Range RangeX
+        public Range RangeX
         {
             get { return rangeX; }
             set
@@ -106,7 +107,7 @@ namespace AForge.Controls
         /// <remarks>The value sets the Y range of data to be displayed on the chart.</remarks>
         ///
         [Browsable(false)]
-        public AForge.Range RangeY
+        public Range RangeY
         {
             get { return rangeY; }
             set

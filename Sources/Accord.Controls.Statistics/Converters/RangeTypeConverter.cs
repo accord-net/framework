@@ -29,8 +29,8 @@ namespace Accord.Controls
     using System.Collections;
 
     /// <summary>
-    ///   Type converter for <see cref="AForge.DoubleRange"/>
-    ///   and <see cref="AForge.IntRange"/> objects.
+    ///   Type converter for <see cref="DoubleRange"/>
+    ///   and <see cref="IntRange"/> objects.
     /// </summary>
     /// 
     public class RangeTypeConverter : TypeConverter

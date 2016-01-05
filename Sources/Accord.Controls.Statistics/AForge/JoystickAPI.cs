@@ -9,7 +9,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     internal static class JoystickAPI
     {

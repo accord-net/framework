@@ -13,9 +13,9 @@ using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
 
-using AForge.Imaging;
+using Accord.Imaging;
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     /// <summary>
     /// Hue picker control.
@@ -231,7 +231,7 @@ namespace AForge.Controls
                 {
                     hsl.Hue = i;
                     // convert from HSL to RGB
-                    AForge.Imaging.HSL.ToRGB(hsl, rgb);
+                    Accord.Imaging.HSL.ToRGB(hsl, rgb);
                     // create brush
                     brush = new SolidBrush(rgb.Color);
                     // draw one hue value
@@ -251,7 +251,7 @@ namespace AForge.Controls
                     {
                         hsl.Hue = i;
                         // convert from HSL to RGB
-                        AForge.Imaging.HSL.ToRGB(hsl, rgb);
+                        Accord.Imaging.HSL.ToRGB(hsl, rgb);
                         // create brush
                         brush = new SolidBrush(rgb.Color);
                     }

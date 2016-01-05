@@ -34,8 +34,8 @@ namespace Accord.Controls.Vision
     using Accord.Vision.Detection.Cascades;
     using Accord.Vision.Tracking;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Video;
+    using Accord.Imaging;
+    using Accord.Video;
 
     /// <summary>
     ///   Face-based tracking controller.
@@ -450,11 +450,11 @@ namespace Accord.Controls.Vision
             DoubleRange scaleY = new DoubleRange(0, height);
             DoubleRange unit = new DoubleRange(-1, 1);
 
-            this.rawX = (float)Tools.Scale(scaleX, unit, obj.Center.X);
-            this.rawY = (float)Tools.Scale(scaleY, unit, obj.Center.Y);
+            this.rawX = (float)Accord.Math.Tools.Scale(scaleX, unit, obj.Center.X);
+            this.rawY = (float)Accord.Math.Tools.Scale(scaleY, unit, obj.Center.Y);
 
-            double newPositionX = Tools.Scale(xaxisRange, unit, rawX);
-            double newPositionY = Tools.Scale(yaxisRange, unit, rawY);
+            double newPositionX = Accord.Math.Tools.Scale(xaxisRange, unit, rawX);
+            double newPositionY = Accord.Math.Tools.Scale(yaxisRange, unit, rawY);
 
             xsmooth.Push(newPositionX);
             ysmooth.Push(newPositionY);

@@ -11,7 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace AForge.Controls
+namespace Accord.Controls
 {
     /// <summary>
     /// Manipulator control.
