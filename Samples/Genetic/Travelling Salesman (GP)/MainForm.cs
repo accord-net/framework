@@ -14,9 +14,9 @@ using System.Windows.Forms;
 using System.Data;
 using System.Threading;
 
-using AForge;
-using AForge.Genetic;
-using AForge.Controls;
+using Accord.Genetic;
+using Accord.Controls;
+using Accord;
 
 namespace SampleApp
 {
@@ -24,7 +24,7 @@ namespace SampleApp
     public class MainForm : System.Windows.Forms.Form
     {
         private System.Windows.Forms.GroupBox groupBox1;
-        private AForge.Controls.Chart mapControl;
+        private Accord.Controls.Chart mapControl;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox citiesCountBox;
         private System.Windows.Forms.Button generateMapButton;
@@ -108,7 +108,7 @@ namespace SampleApp
             this.generateMapButton = new System.Windows.Forms.Button();
             this.citiesCountBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.mapControl = new AForge.Controls.Chart();
+            this.mapControl = new Accord.Controls.Chart();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.greedyCrossoverBox = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -171,8 +171,8 @@ namespace SampleApp
             // 
             this.mapControl.Location = new System.Drawing.Point(16, 29);
             this.mapControl.Name = "mapControl";
-            this.mapControl.RangeX = ((AForge.Range)(resources.GetObject("mapControl.RangeX")));
-            this.mapControl.RangeY = ((AForge.Range)(resources.GetObject("mapControl.RangeY")));
+            this.mapControl.RangeX = ((Range)(resources.GetObject("mapControl.RangeX")));
+            this.mapControl.RangeY = ((Range)(resources.GetObject("mapControl.RangeY")));
             this.mapControl.Size = new System.Drawing.Size(448, 409);
             this.mapControl.TabIndex = 0;
             // 

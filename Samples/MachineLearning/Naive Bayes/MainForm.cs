@@ -45,7 +45,7 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace Classification.Bayes
+namespace SampleApp
 {
     /// <summary>
     ///   Classification using Naive Bayes.

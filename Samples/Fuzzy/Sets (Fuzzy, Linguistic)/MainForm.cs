@@ -14,9 +14,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-using AForge.Fuzzy;
-using AForge.Controls;
-using AForge;
+using Accord.Fuzzy;
+using Accord.Controls;
+using Accord;
 
 namespace SampleApp
 {

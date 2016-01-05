@@ -39,7 +39,6 @@ using Accord.Math;
 using Accord.Statistics.Analysis;
 using Accord.Statistics.Kernels;
 using AForge;
-using Components;
 using System;
 using System.Data;
 using System.Drawing;
@@ -47,7 +46,7 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace Classification.SVMs
+namespace SampleApp
 {
     /// <summary>
     ///   Classification sample application using Kernel Support Vector Machines.

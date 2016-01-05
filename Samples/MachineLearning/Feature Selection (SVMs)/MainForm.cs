@@ -47,7 +47,7 @@ using AForge;
 using Components;
 using ZedGraph;
 
-namespace Classification.SVMs
+namespace SampleApp
 {
     /// <summary>
     ///   Classification sample application using L1 regularized Logistic Regression Machines.

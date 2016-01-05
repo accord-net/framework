@@ -15,9 +15,9 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-using AForge;
-using AForge.Imaging;
-using AForge.Math.Geometry;
+using Accord;
+using Accord.Imaging;
+using Accord.Math.Geometry;
 
 namespace SampleApp
 {
@@ -99,7 +99,7 @@ namespace SampleApp
 
             selectedBlobID = 0;
 
-            this.image = AForge.Imaging.Image.Clone(image, PixelFormat.Format24bppRgb);
+            this.image = Accord.Imaging.Image.Clone(image, PixelFormat.Format24bppRgb);
             imageWidth = this.image.Width;
             imageHeight = this.image.Height;
 

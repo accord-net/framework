@@ -40,7 +40,7 @@ using System.Diagnostics;
 using Accord.Math.Decompositions;
 
 
-namespace MatrixOperations
+namespace SampleApp
 {
     class Program
     {
@@ -106,11 +106,10 @@ namespace MatrixOperations
             // 2.5 Elementwise operations
 
             // 2.5.1 Elementwise multiplication
-            A.ElementwiseMultiply(B); // A.*B
+            Elementwise.Multiply(A, B); // A.*B
 
             // 2.5.1 Elementwise division
-            A.ElementwiseDivide(B); // A./B
-
+            Elementwise.Divide(A, B); 
             #endregion
 
 

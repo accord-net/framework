@@ -36,7 +36,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem( );
             this.statusStrip = new System.Windows.Forms.StatusStrip( );
             this.splitContainer1 = new System.Windows.Forms.SplitContainer( );
-            this.pictureBox = new AForge.Controls.PictureBox( );
+            this.pictureBox = new Accord.Controls.PictureBox( );
             this.propertyGrid = new System.Windows.Forms.PropertyGrid( );
             this.mainMenuStrip.SuspendLayout( );
             this.splitContainer1.Panel1.SuspendLayout( );
@@ -175,7 +175,7 @@
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.PropertyGrid propertyGrid;
-        private AForge.Controls.PictureBox pictureBox;
+        private Accord.Controls.PictureBox pictureBox;
     }
 }
 

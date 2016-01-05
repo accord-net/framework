@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Clustering.GMMs
+namespace SampleApp
 {
     static class Program
     {

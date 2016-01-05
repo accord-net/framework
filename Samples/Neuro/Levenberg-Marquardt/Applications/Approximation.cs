@@ -35,13 +35,13 @@
 //   http://www.aforgenet.com/framework/
 //
 
+using Accord;
 using Accord.IO;
 using Accord.Math;
 using Accord.Neuro;
 using Accord.Neuro.Learning;
 using AForge;
-using AForge.Controls;
-using AForge.Neuro;
+using Accord.Controls;
 using System;
 using System.Drawing;
 using System.Globalization;
@@ -63,7 +63,7 @@ namespace SampleApp
         private System.Windows.Forms.ColumnHeader yColumnHeader;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.GroupBox groupBox2;
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.TextBox alphaBox;
         private System.Windows.Forms.Label label2;
@@ -153,7 +153,7 @@ namespace SampleApp
             this.loadDataButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.cbNguyenWidrow = new System.Windows.Forms.CheckBox();
             this.cbRegularization = new System.Windows.Forms.CheckBox();
@@ -241,8 +241,8 @@ namespace SampleApp
             // 
             this.chart.Location = new System.Drawing.Point(16, 29);
             this.chart.Name = "chart";
-            this.chart.RangeX = ((AForge.Range)(resources.GetObject("chart.RangeX")));
-            this.chart.RangeY = ((AForge.Range)(resources.GetObject("chart.RangeY")));
+            this.chart.RangeX = ((Range)(resources.GetObject("chart.RangeX")));
+            this.chart.RangeY = ((Range)(resources.GetObject("chart.RangeY")));
             this.chart.Size = new System.Drawing.Size(448, 424);
             this.chart.TabIndex = 0;
             // 

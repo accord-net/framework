@@ -39,7 +39,7 @@ using Accord.Math;
 using Accord.Statistics.Distributions.Multivariate;
 using ZedGraph;
 
-namespace Clustering.GMMs
+namespace SampleApp
 {
     /// <summary>
     ///   Clustering sample application. This application produces random data from

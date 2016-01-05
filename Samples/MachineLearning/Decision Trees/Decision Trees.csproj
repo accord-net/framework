@@ -8,7 +8,7 @@
     <ProjectGuid>{67D5F5DD-95D8-4DF3-B4F4-B43A2FCFE02F}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Classification.Trees</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Decision Trees</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

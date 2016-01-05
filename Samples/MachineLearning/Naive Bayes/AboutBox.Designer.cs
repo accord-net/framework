@@ -1,4 +1,4 @@
-﻿namespace Classification.Bayes
+﻿namespace SampleApp
 {
     partial class AboutBox
     {

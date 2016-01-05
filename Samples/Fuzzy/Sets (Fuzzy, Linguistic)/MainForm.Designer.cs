@@ -29,7 +29,7 @@ namespace SampleApp
         private void InitializeComponent( )
         {
             this.runFuzzySetTestButton = new System.Windows.Forms.Button();
-            this.chart = new AForge.Controls.Chart();
+            this.chart = new Accord.Controls.Chart();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -135,7 +135,7 @@ namespace SampleApp
         #endregion
 
         private System.Windows.Forms.Button runFuzzySetTestButton;
-        private AForge.Controls.Chart chart;
+        private Accord.Controls.Chart chart;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;

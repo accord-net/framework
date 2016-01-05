@@ -1,4 +1,4 @@
-﻿namespace Classification.Trees
+﻿namespace SampleApp
 {
     partial class MainForm
     {

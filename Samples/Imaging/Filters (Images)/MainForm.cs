@@ -14,10 +14,10 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Data;
 
-using AForge;
-using AForge.Imaging;
-using AForge.Imaging.Filters;
-using AForge.Imaging.Textures;
+using Accord;
+using Accord.Imaging;
+using Accord.Imaging.Filters;
+using Accord.Imaging.Textures;
 
 namespace SampleApp
 {
@@ -524,7 +524,7 @@ namespace SampleApp
                         // make sure the image has 24 bpp format
                         if (sourceImage.PixelFormat != PixelFormat.Format24bppRgb)
                         {
-                            Bitmap temp = AForge.Imaging.Image.Clone(sourceImage, PixelFormat.Format24bppRgb);
+                            Bitmap temp = Accord.Imaging.Image.Clone(sourceImage, PixelFormat.Format24bppRgb);
                             sourceImage.Dispose();
                             sourceImage = temp;
                         }

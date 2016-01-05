@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="DeepLearning.PerfWindow"
+﻿<Controls:MetroWindow x:Class="SampleApp.PerfWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Performance Measures" Height="441" Width="880"
@@ -9,8 +9,8 @@
         mc:Ignorable="d" 
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-        xmlns:vm="clr-namespace:DeepLearning.ViewModel"
-        xmlns:my="clr-namespace:DeepLearning.Converters"
+        xmlns:vm="clr-namespace:SampleApp.ViewModel"
+        xmlns:my="clr-namespace:SampleApp.Converters"
         xmlns:xcdg="http://schemas.xceed.com/wpf/xaml/datagrid">
     <Window.Resources>
         <ResourceDictionary>

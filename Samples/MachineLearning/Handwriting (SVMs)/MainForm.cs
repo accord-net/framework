@@ -34,7 +34,7 @@ using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
 using Accord.Statistics.Kernels;
-using Handwriting.SVMs.Properties;
+using SampleApp.Properties;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -42,7 +42,7 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace Handwriting.SVMs
+namespace SampleApp
 {
     /// <summary>
     ///   Handwritten digits recognition sample application using

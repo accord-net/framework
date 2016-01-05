@@ -30,6 +30,7 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
+using Accord;
 using Accord.IO;
 using Accord.MachineLearning.DecisionTrees;
 using Accord.MachineLearning.DecisionTrees.Learning;
@@ -44,7 +45,7 @@ using System.IO;
 using System.Windows.Forms;
 using ZedGraph;
 
-namespace Classification.Trees
+namespace SampleApp
 {
     /// <summary>
     ///   Classification using Decision Trees.

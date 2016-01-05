@@ -43,11 +43,10 @@ using Accord.MachineLearning.VectorMachines;
 using Accord.MachineLearning.VectorMachines.Learning;
 using Accord.Math;
 using Accord.Statistics.Kernels;
-using AForge;
 using Components;
 using ZedGraph;
 
-namespace Regression.SVMs
+namespace SampleApp
 {
     public partial class MainForm : Form
     {
@@ -201,7 +200,7 @@ namespace Regression.SVMs
 
             // Compute R² and Sum-of-squares error
             double rSquared = Accord.Statistics.Tools.Determination(output, expected);
-            double error = expected.Subtract(output).ElementwisePower(2).Sum() / output.Length;
+            double error = Elementwise.Pow(expected.Subtract(output), 2).Sum() / output.Length;
 
 
             // Anonymous magic! :D
@@ -222,7 +221,7 @@ namespace Regression.SVMs
         private IKernel createKernel()
         {
             if (rbGaussian.Checked)
-                return new Gaussian((double)numSigma.Value);
+                return new Accord.Statistics.Kernels.Gaussian((double)numSigma.Value);
 
             if (rbPolynomial.Checked)
             {

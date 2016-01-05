@@ -7,7 +7,7 @@
 //
 
 using System;
-using AForge.Genetic;
+using Accord.Genetic;
 
 namespace SampleApp
 {

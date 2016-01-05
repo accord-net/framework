@@ -1,4 +1,4 @@
-﻿namespace Clustering.K_Means
+﻿namespace SampleApp
 {
     partial class MainForm
     {
@@ -46,7 +46,7 @@
             this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox.Image = global::Clustering.K_Means.Properties.Resources.leaf;
+            this.pictureBox.Image = global::SampleApp.Properties.Resources.leaf;
             this.pictureBox.Location = new System.Drawing.Point(18, 18);
             this.pictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox.Name = "pictureBox";

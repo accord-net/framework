@@ -30,7 +30,7 @@
 //  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // 
 
-namespace Gestures
+namespace SampleApp
 {
     using System;
     using System.Collections.Generic;

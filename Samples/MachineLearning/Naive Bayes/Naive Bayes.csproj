@@ -8,7 +8,7 @@
     <ProjectGuid>{79DAA213-B774-444D-85B1-7AA727C036E7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Classification.Bayes</RootNamespace>
+    <RootNamespace>SampleApp</RootNamespace>
     <AssemblyName>Naive Bayes</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>

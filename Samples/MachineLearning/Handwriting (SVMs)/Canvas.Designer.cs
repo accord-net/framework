@@ -1,4 +1,4 @@
-﻿namespace Handwriting
+﻿namespace SampleApp
 {
     partial class Canvas
     {
