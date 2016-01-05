@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -117,7 +117,7 @@ namespace AForge.Imaging.Filters
 
             // create new image of required format
             Bitmap dstImage = (dstPixelFormat == PixelFormat.Format8bppIndexed) ?
-                AForge.Imaging.Image.CreateGrayscaleImage(width, height) :
+                Accord.Imaging.Image.CreateGrayscaleImage(width, height) :
                 new Bitmap(width, height, dstPixelFormat);
 
             // lock destination bitmap data
@@ -328,7 +328,7 @@ namespace AForge.Imaging.Filters
                 int size = image.Stride * image.Height;
 
                 IntPtr imageCopy = MemoryManager.Alloc(size);
-                AForge.SystemTools.CopyUnmanagedMemory(imageCopy, image.ImageData, size);
+                Accord.SystemTools.CopyUnmanagedMemory(imageCopy, image.ImageData, size);
 
                 // process the filter
                 ProcessFilter(

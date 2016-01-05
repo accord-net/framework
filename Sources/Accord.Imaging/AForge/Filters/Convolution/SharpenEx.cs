@@ -7,7 +7,7 @@
 // Original idea of the SharpenEx found in Paint.NET project
 // http://www.eecs.wsu.edu/paint.net/
 //
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Drawing;

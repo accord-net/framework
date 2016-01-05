@@ -23,7 +23,7 @@
 namespace Accord.Imaging.Moments
 {
     using System.Drawing;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Common interface for image moments.

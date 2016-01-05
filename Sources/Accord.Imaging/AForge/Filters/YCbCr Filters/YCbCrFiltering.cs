@@ -5,13 +5,14 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Color filtering in YCbCr color space.
@@ -245,7 +246,7 @@ namespace AForge.Imaging.Filters
                     rgb.Blue = ptr[RGB.B];
 
                     // convert to YCbCr
-                    AForge.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                    Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
 
                     // check YCbCr values
                     if (
@@ -278,7 +279,7 @@ namespace AForge.Imaging.Filters
                     if (updated)
                     {
                         // convert back to RGB
-                        AForge.Imaging.YCbCr.ToRGB(ycbcr, rgb);
+                        Accord.Imaging.YCbCr.ToRGB(ycbcr, rgb);
 
                         ptr[RGB.R] = rgb.Red;
                         ptr[RGB.G] = rgb.Green;

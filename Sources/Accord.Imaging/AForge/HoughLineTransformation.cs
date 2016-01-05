@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Collections.Generic;
@@ -548,7 +548,7 @@ namespace AForge.Imaging
             int height = houghMap.GetLength(0);
 
             // create new image
-            Bitmap image = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            Bitmap image = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
 
             // lock destination bitmap data
             BitmapData imageData = image.LockBits(

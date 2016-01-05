@@ -5,7 +5,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -133,7 +133,7 @@ namespace AForge.Imaging.Filters
                     rgb.Blue = src[RGB.B];
 
                     // convert to YCbCr
-                    AForge.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                    Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
 
                     switch (channel)
                     {

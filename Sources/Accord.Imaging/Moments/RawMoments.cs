@@ -25,7 +25,7 @@ namespace Accord.Imaging.Moments
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Raw image moments.

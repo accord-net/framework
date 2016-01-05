@@ -6,7 +6,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.IO;
@@ -220,7 +220,7 @@ namespace AForge.Imaging
                 new Rectangle(0, 0, width, height),
                 ImageLockMode.ReadWrite, destination.PixelFormat);
 
-            AForge.SystemTools.CopyUnmanagedMemory(destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
+            Accord.SystemTools.CopyUnmanagedMemory(destinationData.Scan0, sourceData.Scan0, height * sourceData.Stride);
 
             // unlock destination image
             destination.UnlockBits(destinationData);
@@ -286,7 +286,7 @@ namespace AForge.Imaging
         /// 
         /// <para>Sample usage:</para>
         /// <code>
-        /// Bitmap image = AForge.Imaging.Image.FromFile( "test.jpg" );
+        /// Bitmap image = Accord.Imaging.Image.FromFile( "test.jpg" );
         /// </code>
         /// </remarks>
         /// 

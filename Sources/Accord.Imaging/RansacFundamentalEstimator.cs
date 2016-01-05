@@ -157,7 +157,7 @@ namespace Accord.Imaging
         /// 
         /// <returns>The homography matrix matching x1 and x2.</returns>
         /// 
-        public float[,] Estimate(AForge.Point[] points1, AForge.Point[] points2)
+        public float[,] Estimate(Accord.Point[] points1, Accord.Point[] points2)
         {
             // Initial argument checks
             if (points1.Length != points2.Length)

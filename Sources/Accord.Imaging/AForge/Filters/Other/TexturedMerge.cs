@@ -6,8 +6,9 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
+    using Accord.Imaging.Textures;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -69,12 +70,12 @@ namespace AForge.Imaging.Filters
     public class TexturedMerge : BaseInPlaceFilter2
     {
         // texture generator
-        private AForge.Imaging.Textures.ITextureGenerator textureGenerator;
+        private ITextureGenerator textureGenerator;
         // generated texture
         private float[,] texture = null;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -116,17 +117,17 @@ namespace AForge.Imaging.Filters
         /// <para><note>The property has priority over the <see cref="Texture"/> property.</note></para>
         /// </remarks>
         /// 
-        public AForge.Imaging.Textures.ITextureGenerator TextureGenerator
+        public ITextureGenerator TextureGenerator
         {
             get { return textureGenerator; }
             set { textureGenerator = value; }
         }
 
         // Private constructor to do common initialization
-        private TexturedMerge( )
+        private TexturedMerge()
         {
             formatTranslations[PixelFormat.Format8bppIndexed] = PixelFormat.Format8bppIndexed;
-            formatTranslations[PixelFormat.Format24bppRgb]    = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
         }
 
         /// <summary>
@@ -135,7 +136,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="texture">Generated texture.</param>
         /// 
-        public TexturedMerge( float[,] texture ) : this( )
+        public TexturedMerge(float[,] texture)
+            : this()
         {
             this.texture = texture;
         }
@@ -146,7 +148,8 @@ namespace AForge.Imaging.Filters
         /// 
         /// <param name="generator">Texture generator.</param>
         /// 
-        public TexturedMerge( AForge.Imaging.Textures.ITextureGenerator generator ) : this( )
+        public TexturedMerge(ITextureGenerator generator)
+            : this()
         {
             this.textureGenerator = generator;
         }
@@ -158,48 +161,48 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="overlay">Overlay image data.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, UnmanagedImage overlay )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, UnmanagedImage overlay)
         {
             // get image dimension
-            int width	= image.Width;
-            int height	= image.Height;
+            int width = image.Width;
+            int height = image.Height;
 
             // width and height to process
-            int widthToProcess  = width;
+            int widthToProcess = width;
             int heightToProcess = height;
 
             // if generator was specified, then generate a texture
             // otherwise use provided texture
-            if ( textureGenerator != null )
+            if (textureGenerator != null)
             {
-                texture = textureGenerator.Generate( width, height );
+                texture = textureGenerator.Generate(width, height);
             }
             else
             {
-                widthToProcess  = Math.Min( width, texture.GetLength( 1 ) );
-                heightToProcess = Math.Min( height, texture.GetLength( 0 ) );
+                widthToProcess = Math.Min(width, texture.GetLength(1));
+                heightToProcess = Math.Min(height, texture.GetLength(0));
             }
 
-            int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(image.PixelFormat) / 8;
             int srcOffset = image.Stride - widthToProcess * pixelSize;
             int ovrOffset = overlay.Stride - widthToProcess * pixelSize;
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
-            byte* ovr = (byte*) overlay.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
+            byte* ovr = (byte*)overlay.ImageData.ToPointer();
 
             // for each line
-            for ( int y = 0; y < heightToProcess; y++ )
+            for (int y = 0; y < heightToProcess; y++)
             {
                 // for each pixel
-                for ( int x = 0; x < widthToProcess; x++ )
+                for (int x = 0; x < widthToProcess; x++)
                 {
                     double t1 = texture[y, x];
                     double t2 = 1 - t1;
 
-                    for ( int i = 0; i < pixelSize; i++, ptr++, ovr++ )
+                    for (int i = 0; i < pixelSize; i++, ptr++, ovr++)
                     {
-                        *ptr = (byte) Math.Min( 255.0f, *ptr * t1 + *ovr * t2 );
+                        *ptr = (byte)Math.Min(255.0f, *ptr * t1 + *ovr * t2);
                     }
                 }
                 ptr += srcOffset;

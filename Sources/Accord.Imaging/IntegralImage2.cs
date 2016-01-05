@@ -22,7 +22,6 @@
 
 namespace Accord.Imaging
 {
-    using AForge.Imaging;
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;

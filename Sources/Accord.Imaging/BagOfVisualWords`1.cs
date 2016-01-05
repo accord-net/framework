@@ -24,7 +24,7 @@ namespace Accord.Imaging
 {
     using Accord.MachineLearning;
     using Accord.Math;
-    using AForge.Imaging;
+    using Accord.Imaging;
     using System;
     using System.Collections.Generic;
     using System.Drawing;
@@ -137,8 +137,8 @@ namespace Accord.Imaging
         {
             return new KMeans(numberOfWords)
             {
-                ComputeInformation = false,
-                UseCentroidSeeding = false
+                ComputeCovariances = false,
+                UseSeeding = Seeding.KMeansPlusPlus
             };
         }
     }

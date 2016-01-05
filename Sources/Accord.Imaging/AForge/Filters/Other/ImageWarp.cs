@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -190,7 +190,7 @@ namespace AForge.Imaging.Filters
                 // copy remaining pixel in the row
                 if (width != widthToProcess)
                 {
-                    AForge.SystemTools.CopyUnmanagedMemory(dst, src + y * srcStride + widthToProcess * pixelSize, (width - widthToProcess) * pixelSize);
+                    Accord.SystemTools.CopyUnmanagedMemory(dst, src + y * srcStride + widthToProcess * pixelSize, (width - widthToProcess) * pixelSize);
                 }
 
                 dst += dstOffset;
@@ -199,7 +199,7 @@ namespace AForge.Imaging.Filters
             // copy remaining rows of pixels
             for (int y = heightToProcess; y < height; y++, dst += dstStride)
             {
-                AForge.SystemTools.CopyUnmanagedMemory(dst, src + y * srcStride, width * pixelSize);
+                Accord.SystemTools.CopyUnmanagedMemory(dst, src + y * srcStride, width * pixelSize);
             }
         }
     }

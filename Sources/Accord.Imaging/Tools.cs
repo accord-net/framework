@@ -52,7 +52,7 @@ namespace Accord.Imaging
     using System.Drawing.Imaging;
     using Accord.Math;
     using Accord.Math.Decompositions;
-    using AForge.Imaging;
+    using Accord.Imaging;
     using Accord.Math.Geometry;
     using AForge.Math;
     using System.IO;
@@ -1610,7 +1610,7 @@ namespace Accord.Imaging
             int width = pixels.GetLength(1);
             int height = pixels.GetLength(0);
 
-            Bitmap bitmap = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            Bitmap bitmap = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
 
             BitmapData data = bitmap.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.WriteOnly, bitmap.PixelFormat);
@@ -1652,8 +1652,8 @@ namespace Accord.Imaging
             int width = pixels.GetLength(1);
             int height = pixels.GetLength(0);
 
-            Bitmap bitmap = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
-            bitmap = AForge.Imaging.Image.Convert8bppTo16bpp(bitmap);
+            Bitmap bitmap = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
+            bitmap = Accord.Imaging.Image.Convert8bppTo16bpp(bitmap);
 
             BitmapData data = bitmap.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.WriteOnly, bitmap.PixelFormat);
@@ -1697,7 +1697,7 @@ namespace Accord.Imaging
         [Obsolete("Please use the converters in the Imaging.Converters namespace.")]
         public static Bitmap ToBitmap(this double[] pixels, int width, int height, double min, double max)
         {
-            Bitmap bitmap = AForge.Imaging.Image.CreateGrayscaleImage(width, height);
+            Bitmap bitmap = Accord.Imaging.Image.CreateGrayscaleImage(width, height);
 
             BitmapData data = bitmap.LockBits(new Rectangle(0, 0, width, height),
                 ImageLockMode.WriteOnly, bitmap.PixelFormat);

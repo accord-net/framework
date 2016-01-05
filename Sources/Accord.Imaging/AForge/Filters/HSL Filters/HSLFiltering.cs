@@ -5,13 +5,14 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Color filtering in HSL color space.
@@ -62,21 +63,21 @@ namespace AForge.Imaging.Filters
     /// 
     public class HSLFiltering : BaseInPlacePartialFilter
     {
-        private IntRange hue = new IntRange( 0, 359 );
-        private Range saturation = new Range( 0.0f, 1.0f );
-        private Range luminance = new Range( 0.0f, 1.0f );
+        private IntRange hue = new IntRange(0, 359);
+        private Range saturation = new Range(0.0f, 1.0f);
+        private Range luminance = new Range(0.0f, 1.0f);
 
-        private int   fillH = 0;
+        private int fillH = 0;
         private float fillS = 0.0f;
         private float fillL = 0.0f;
-        private bool  fillOutsideRange = true;
+        private bool fillOutsideRange = true;
 
         private bool updateH = true;
         private bool updateS = true;
         private bool updateL = true;
 
         // private format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
 
         /// <summary>
         /// Format translations dictionary.
@@ -124,7 +125,7 @@ namespace AForge.Imaging.Filters
         /// </summary>
         public HSL FillColor
         {
-            get { return new HSL( fillH, fillS, fillL ); }
+            get { return new HSL(fillH, fillS, fillL); }
             set
             {
                 fillH = value.Hue;
@@ -198,10 +199,10 @@ namespace AForge.Imaging.Filters
         /// <summary>
         /// Initializes a new instance of the <see cref="HSLFiltering"/> class.
         /// </summary>
-        public HSLFiltering( )
+        public HSLFiltering()
         {
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
@@ -213,8 +214,8 @@ namespace AForge.Imaging.Filters
         /// <param name="saturation">Range of saturation component.</param>
         /// <param name="luminance">Range of luminance component.</param>
         /// 
-        public HSLFiltering( IntRange hue, Range saturation, Range luminance ) :
-            this( )
+        public HSLFiltering(IntRange hue, Range saturation, Range luminance) :
+            this()
         {
             this.hue = hue;
             this.saturation = saturation;
@@ -228,77 +229,77 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
             // get pixel size
-            int pixelSize = ( image.PixelFormat == PixelFormat.Format24bppRgb ) ? 3 : 4;
+            int pixelSize = (image.PixelFormat == PixelFormat.Format24bppRgb) ? 3 : 4;
 
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
-            RGB rgb = new RGB( );
-            HSL hsl = new HSL( );
+            RGB rgb = new RGB();
+            HSL hsl = new HSL();
 
             bool updated;
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * image.Stride + startX * pixelSize );
+            ptr += (startY * image.Stride + startX * pixelSize);
 
             // for each row
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                for (int x = startX; x < stopX; x++, ptr += pixelSize)
                 {
-                    updated   = false;
-                    rgb.Red   = ptr[RGB.R];
+                    updated = false;
+                    rgb.Red = ptr[RGB.R];
                     rgb.Green = ptr[RGB.G];
-                    rgb.Blue  = ptr[RGB.B];
+                    rgb.Blue = ptr[RGB.B];
 
                     // convert to HSL
-                    AForge.Imaging.HSL.FromRGB( rgb, hsl );
+                    Accord.Imaging.HSL.FromRGB(rgb, hsl);
 
                     // check HSL values
                     if (
-                        ( hsl.Saturation >= saturation.Min ) && ( hsl.Saturation <= saturation.Max ) &&
-                        ( hsl.Luminance >= luminance.Min ) && ( hsl.Luminance <= luminance.Max ) &&
+                        (hsl.Saturation >= saturation.Min) && (hsl.Saturation <= saturation.Max) &&
+                        (hsl.Luminance >= luminance.Min) && (hsl.Luminance <= luminance.Max) &&
                         (
-                        ( ( hue.Min < hue.Max ) && ( hsl.Hue >= hue.Min ) && ( hsl.Hue <= hue.Max ) ) ||
-                        ( ( hue.Min > hue.Max ) && ( ( hsl.Hue >= hue.Min ) || ( hsl.Hue <= hue.Max ) ) )
+                        ((hue.Min < hue.Max) && (hsl.Hue >= hue.Min) && (hsl.Hue <= hue.Max)) ||
+                        ((hue.Min > hue.Max) && ((hsl.Hue >= hue.Min) || (hsl.Hue <= hue.Max)))
                         )
                         )
                     {
-                        if ( !fillOutsideRange )
+                        if (!fillOutsideRange)
                         {
-                            if ( updateH ) hsl.Hue = fillH;
-                            if ( updateS ) hsl.Saturation = fillS;
-                            if ( updateL ) hsl.Luminance = fillL;
+                            if (updateH) hsl.Hue = fillH;
+                            if (updateS) hsl.Saturation = fillS;
+                            if (updateL) hsl.Luminance = fillL;
 
                             updated = true;
                         }
                     }
                     else
                     {
-                        if ( fillOutsideRange )
+                        if (fillOutsideRange)
                         {
-                            if ( updateH ) hsl.Hue = fillH;
-                            if ( updateS ) hsl.Saturation = fillS;
-                            if ( updateL ) hsl.Luminance = fillL;
+                            if (updateH) hsl.Hue = fillH;
+                            if (updateS) hsl.Saturation = fillS;
+                            if (updateL) hsl.Luminance = fillL;
 
                             updated = true;
                         }
                     }
 
-                    if ( updated )
+                    if (updated)
                     {
                         // convert back to RGB
-                        AForge.Imaging.HSL.ToRGB( hsl, rgb );
+                        Accord.Imaging.HSL.ToRGB(hsl, rgb);
 
                         ptr[RGB.R] = rgb.Red;
                         ptr[RGB.G] = rgb.Green;

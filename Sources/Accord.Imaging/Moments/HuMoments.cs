@@ -24,7 +24,7 @@ namespace Accord.Imaging.Moments
 {
     using System;
     using System.Drawing;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Hu's set of invariant image moments.

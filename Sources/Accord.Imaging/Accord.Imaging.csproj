@@ -231,7 +231,6 @@
     <Compile Include="AForge\Filters\Transform\ResizeNearestNeighbor.cs" />
     <Compile Include="AForge\Filters\Transform\RotateBicubic.cs" />
     <Compile Include="AForge\Filters\Transform\RotateBilinear.cs" />
-    <Compile Include="AForge\Filters\Transform\RotateNearestNeighbor.cs" />
     <Compile Include="AForge\Filters\Transform\Shrink.cs" />
     <Compile Include="AForge\Filters\Transform\SimpleQuadrilateralTransformation.cs" />
     <Compile Include="AForge\Filters\Transform\TransformFromPolar.cs" />

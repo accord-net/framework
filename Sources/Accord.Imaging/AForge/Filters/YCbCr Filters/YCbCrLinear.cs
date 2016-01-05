@@ -5,13 +5,14 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
+    using Accord;
 
     /// <summary>
     /// Linear correction of YCbCr channels.
@@ -45,15 +46,17 @@ namespace AForge.Imaging.Filters
     /// 
     public class YCbCrLinear : BaseInPlacePartialFilter
     {
-        private Range inY  = new Range(  0.0f, 1.0f );
-        private Range inCb = new Range( -0.5f, 0.5f );
-        private Range inCr = new Range( -0.5f, 0.5f );
+        private Range inY = new Range(0.0f, 1.0f);
+        private Range inCb = new Range(-0.5f, 0.5f);
+        private Range inCr = new Range(-0.5f, 0.5f);
 
-        private Range outY  = new Range(  0.0f, 1.0f );
-        private Range outCb = new Range( -0.5f, 0.5f );
-        private Range outCr = new Range( -0.5f, 0.5f );
+        private Range outY = new Range(0.0f, 1.0f);
+        private Range outCb = new Range(-0.5f, 0.5f);
+        private Range outCr = new Range(-0.5f, 0.5f);
 
-        #region Public Propertis
+        // format translation dictionary
+        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>();
+
 
         /// <summary>
         /// Y component's input range.
@@ -127,10 +130,7 @@ namespace AForge.Imaging.Filters
             set { outCr = value; }
         }
 
-        #endregion
 
-        // format translation dictionary
-        private Dictionary<PixelFormat, PixelFormat> formatTranslations = new Dictionary<PixelFormat, PixelFormat>( );
 
         /// <summary>
         /// Format translations dictionary.
@@ -144,10 +144,10 @@ namespace AForge.Imaging.Filters
         /// Initializes a new instance of the <see cref="YCbCrLinear"/> class.
         /// </summary>
         /// 
-        public YCbCrLinear( )
+        public YCbCrLinear()
         {
-            formatTranslations[PixelFormat.Format24bppRgb]  = PixelFormat.Format24bppRgb;
-            formatTranslations[PixelFormat.Format32bppRgb]  = PixelFormat.Format32bppRgb;
+            formatTranslations[PixelFormat.Format24bppRgb] = PixelFormat.Format24bppRgb;
+            formatTranslations[PixelFormat.Format32bppRgb] = PixelFormat.Format32bppRgb;
             formatTranslations[PixelFormat.Format32bppArgb] = PixelFormat.Format32bppArgb;
         }
 
@@ -158,92 +158,93 @@ namespace AForge.Imaging.Filters
         /// <param name="image">Source image data.</param>
         /// <param name="rect">Image rectangle for processing by the filter.</param>
         ///
-        protected override unsafe void ProcessFilter( UnmanagedImage image, Rectangle rect )
+        protected override unsafe void ProcessFilter(UnmanagedImage image, Rectangle rect)
         {
-            int pixelSize = Image.GetPixelFormatSize( image.PixelFormat ) / 8;
+            int pixelSize = Image.GetPixelFormatSize(image.PixelFormat) / 8;
 
-            int startX  = rect.Left;
-            int startY  = rect.Top;
-            int stopX   = startX + rect.Width;
-            int stopY   = startY + rect.Height;
-            int offset  = image.Stride - rect.Width * pixelSize;
+            int startX = rect.Left;
+            int startY = rect.Top;
+            int stopX = startX + rect.Width;
+            int stopY = startY + rect.Height;
+            int offset = image.Stride - rect.Width * pixelSize;
 
-            RGB     rgb = new RGB( );
-            YCbCr   ycbcr = new YCbCr( );
+            RGB rgb = new RGB();
+            YCbCr ycbcr = new YCbCr();
 
-            float ky  = 0, by  = 0;
+            float ky = 0, by = 0;
             float kcb = 0, bcb = 0;
             float kcr = 0, bcr = 0;
 
             // Y line parameters
-            if ( inY.Max != inY.Min )
+            if (inY.Max != inY.Min)
             {
-                ky = ( outY.Max - outY.Min ) / ( inY.Max - inY.Min );
+                ky = (outY.Max - outY.Min) / (inY.Max - inY.Min);
                 by = outY.Min - ky * inY.Min;
             }
             // Cb line parameters
-            if ( inCb.Max != inCb.Min )
+            if (inCb.Max != inCb.Min)
             {
-                kcb = ( outCb.Max - outCb.Min ) / ( inCb.Max - inCb.Min );
+                kcb = (outCb.Max - outCb.Min) / (inCb.Max - inCb.Min);
                 bcb = outCb.Min - kcb * inCb.Min;
             }
             // Cr line parameters
-            if ( inCr.Max != inCr.Min )
+            if (inCr.Max != inCr.Min)
             {
-                kcr = ( outCr.Max - outCr.Min ) / ( inCr.Max - inCr.Min );
+                kcr = (outCr.Max - outCr.Min) / (inCr.Max - inCr.Min);
                 bcr = outCr.Min - kcr * inCr.Min;
             }
 
             // do the job
-            byte* ptr = (byte*) image.ImageData.ToPointer( );
+            byte* ptr = (byte*)image.ImageData.ToPointer();
 
             // allign pointer to the first pixel to process
-            ptr += ( startY * image.Stride + startX * pixelSize );
+            ptr += (startY * image.Stride + startX * pixelSize);
 
             // for each row
-            for ( int y = startY; y < stopY; y++ )
+            for (int y = startY; y < stopY; y++)
             {
                 // for each pixel
-                for ( int x = startX; x < stopX; x++, ptr += pixelSize )
+                for (int x = startX; x < stopX; x++, ptr += pixelSize)
                 {
-                    rgb.Red     = ptr[RGB.R];
-                    rgb.Green   = ptr[RGB.G];
-                    rgb.Blue    = ptr[RGB.B];
+                    rgb.Red = ptr[RGB.R];
+                    rgb.Green = ptr[RGB.G];
+                    rgb.Blue = ptr[RGB.B];
 
                     // convert to YCbCr
-                    AForge.Imaging.YCbCr.FromRGB( rgb, ycbcr );
+                    Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
 
                     // correct Y
-                    if ( ycbcr.Y >= inY.Max )
+                    if (ycbcr.Y >= inY.Max)
                         ycbcr.Y = outY.Max;
-                    else if ( ycbcr.Y <= inY.Min )
+                    else if (ycbcr.Y <= inY.Min)
                         ycbcr.Y = outY.Min;
                     else
                         ycbcr.Y = ky * ycbcr.Y + by;
 
                     // correct Cb
-                    if ( ycbcr.Cb >= inCb.Max )
+                    if (ycbcr.Cb >= inCb.Max)
                         ycbcr.Cb = outCb.Max;
-                    else if ( ycbcr.Cb <= inCb.Min )
+                    else if (ycbcr.Cb <= inCb.Min)
                         ycbcr.Cb = outCb.Min;
                     else
                         ycbcr.Cb = kcb * ycbcr.Cb + bcb;
 
                     // correct Cr
-                    if ( ycbcr.Cr >= inCr.Max )
+                    if (ycbcr.Cr >= inCr.Max)
                         ycbcr.Cr = outCr.Max;
-                    else if ( ycbcr.Cr <= inCr.Min )
+                    else if (ycbcr.Cr <= inCr.Min)
                         ycbcr.Cr = outCr.Min;
                     else
                         ycbcr.Cr = kcr * ycbcr.Cr + bcr;
 
                     // convert back to RGB
-                    AForge.Imaging.YCbCr.ToRGB( ycbcr, rgb );
+                    Accord.Imaging.YCbCr.ToRGB(ycbcr, rgb);
 
                     ptr[RGB.R] = rgb.Red;
                     ptr[RGB.G] = rgb.Green;
                     ptr[RGB.B] = rgb.Blue;
                 }
+
                 ptr += offset;
             }
         }

@@ -9,7 +9,7 @@
 // admin@franknagl.de
 // www.franknagl.de
 //
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;

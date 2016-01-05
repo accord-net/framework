@@ -5,7 +5,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -69,7 +69,7 @@ namespace AForge.Imaging.Filters
         /// ARGB channel to replace.
         /// </summary>
         /// 
-        /// <remarks><para>Default value is set to <see cref="AForge.Imaging.RGB.R"/>.</para></remarks>
+        /// <remarks><para>Default value is set to <see cref="Accord.Imaging.RGB.R"/>.</para></remarks>
         /// 
         /// <exception cref="ArgumentException">Invalid channel is specified.</exception>
         /// 

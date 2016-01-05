@@ -25,7 +25,6 @@ namespace Accord.Imaging.Converters
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
 
     /// <summary>
     ///   Jagged array to Bitmap converter.
@@ -173,7 +172,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(double[] input, out Bitmap output)
         {
-            output = AForge.Imaging.Image.CreateGrayscaleImage(Width, Height);
+            output = Accord.Imaging.Image.CreateGrayscaleImage(Width, Height);
 
             BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
                 ImageLockMode.WriteOnly, output.PixelFormat);
@@ -207,7 +206,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(float[] input, out Bitmap output)
         {
-            output = AForge.Imaging.Image.CreateGrayscaleImage(Width, Height);
+            output = Accord.Imaging.Image.CreateGrayscaleImage(Width, Height);
 
             BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
                 ImageLockMode.WriteOnly, output.PixelFormat);
@@ -246,7 +245,7 @@ namespace Accord.Imaging.Converters
         /// 
         public void Convert(byte[] input, out Bitmap output)
         {
-            output = AForge.Imaging.Image.CreateGrayscaleImage(Width, Height);
+            output = Accord.Imaging.Image.CreateGrayscaleImage(Width, Height);
 
             BitmapData data = output.LockBits(new Rectangle(0, 0, Width, Height),
                 ImageLockMode.WriteOnly, output.PixelFormat);

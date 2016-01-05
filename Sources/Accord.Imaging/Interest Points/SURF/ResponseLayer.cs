@@ -28,7 +28,7 @@ namespace Accord.Imaging
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Response filter.

@@ -25,8 +25,6 @@ namespace Accord.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing.Imaging;
     using Accord.Math.Wavelets;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
 
     /// <summary>
     ///   Wavelet transform filter.
@@ -159,7 +157,7 @@ namespace Accord.Imaging.Filters
             int dstOffset = destinationData.Stride - width * dstPixelSize;
 
             // check image size
-            if ((!AForge.Math.Tools.IsPowerOf2(width)) || (!AForge.Math.Tools.IsPowerOf2(height)))
+            if ((!Accord.Math.Tools.IsPowerOf2(width)) || (!Accord.Math.Tools.IsPowerOf2(height)))
             {
                 throw new InvalidImagePropertiesException("Image width and height should be power of 2.");
             }

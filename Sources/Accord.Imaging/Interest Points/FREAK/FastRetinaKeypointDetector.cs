@@ -22,9 +22,8 @@
 
 namespace Accord.Imaging
 {
+    using Accord.Imaging.Filters;
     using AForge;
-    using AForge.Imaging;
-    using AForge.Imaging.Filters;
     using System;
     using System.Collections.Generic;
     using System.Drawing;

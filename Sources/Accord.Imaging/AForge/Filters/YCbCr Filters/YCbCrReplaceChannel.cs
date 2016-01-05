@@ -5,7 +5,7 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -276,7 +276,7 @@ namespace AForge.Imaging.Filters
                     rgb.Blue = dst[RGB.B];
 
                     // convert to YCbCr
-                    AForge.Imaging.YCbCr.FromRGB(rgb, ycbcr);
+                    Accord.Imaging.YCbCr.FromRGB(rgb, ycbcr);
 
                     switch (channel)
                     {
@@ -294,7 +294,7 @@ namespace AForge.Imaging.Filters
                     }
 
                     // convert back to RGB
-                    AForge.Imaging.YCbCr.ToRGB(ycbcr, rgb);
+                    Accord.Imaging.YCbCr.ToRGB(ycbcr, rgb);
 
                     dst[RGB.R] = rgb.Red;
                     dst[RGB.G] = rgb.Green;

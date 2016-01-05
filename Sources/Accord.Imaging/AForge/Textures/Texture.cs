@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Textures
+namespace Accord.Imaging.Textures
 {
     using System;
     using System.Drawing;
@@ -50,7 +50,7 @@ namespace AForge.Imaging.Textures
             int height = texture.GetLength( 0 );
 
             // create new grawscale image
-            Bitmap dstImage = AForge.Imaging.Image.CreateGrayscaleImage( width, height );
+            Bitmap dstImage = Accord.Imaging.Image.CreateGrayscaleImage( width, height );
 
             // lock destination bitmap data
             BitmapData dstData = dstImage.LockBits(

@@ -6,12 +6,13 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.ComplexFilters
+namespace Accord.Imaging.ComplexFilters
 {
     using System;
     using AForge;
     using AForge.Math;
     using System.Numerics;
+    using Accord;
 
     /// <summary>
     /// Filtering of frequencies outside of specified range in complex Fourier

@@ -5,7 +5,7 @@
 // Copyright © Andrew Kirillov, 2005-2009
 // andrew.kirillov@aforgenet.com
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;

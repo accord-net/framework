@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -217,7 +217,7 @@ namespace AForge.Imaging.Filters
 
                 for (int y = startY; y < stopY; y++)
                 {
-                    AForge.SystemTools.SetUnmanagedMemory(ptr, fillGray, fillWidth);
+                    Accord.SystemTools.SetUnmanagedMemory(ptr, fillGray, fillWidth);
                     ptr += stride;
                 }
             }

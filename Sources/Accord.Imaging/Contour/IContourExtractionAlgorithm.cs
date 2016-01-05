@@ -26,7 +26,7 @@ namespace Accord.Imaging
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Common interface for contour extraction algorithm.

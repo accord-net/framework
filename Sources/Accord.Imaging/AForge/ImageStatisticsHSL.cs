@@ -6,13 +6,15 @@
 // contacts@aforgenet.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using AForge;
     using AForge.Math;
+    using Accord;
+    using Accord.Math;
 
     /// <summary>
     /// Gather statistics about image in HSL color space.
@@ -37,7 +39,7 @@ namespace AForge.Imaging
     /// </code>
     /// </remarks>
     /// 
-    /// <seealso cref="AForge.Math.ContinuousHistogram"/>
+    /// <seealso cref="Accord.Math.ContinuousHistogram"/>
     /// 
     public class ImageStatisticsHSL
     {
@@ -343,7 +345,7 @@ namespace AForge.Imaging
                         rgb.Blue = p[RGB.B];
 
                         // convert to HSL color space
-                        AForge.Imaging.HSL.FromRGB(rgb, hsl);
+                        Accord.Imaging.HSL.FromRGB(rgb, hsl);
 
                         s[(int)(hsl.Saturation * 255)]++;
                         l[(int)(hsl.Luminance * 255)]++;
@@ -375,7 +377,7 @@ namespace AForge.Imaging
                         rgb.Blue = p[RGB.B];
 
                         // convert to HSL color space
-                        AForge.Imaging.HSL.FromRGB(rgb, hsl);
+                        Accord.Imaging.HSL.FromRGB(rgb, hsl);
 
                         s[(int)(hsl.Saturation * 255)]++;
                         l[(int)(hsl.Luminance * 255)]++;

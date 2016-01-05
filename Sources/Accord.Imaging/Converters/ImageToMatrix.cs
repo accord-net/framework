@@ -24,7 +24,7 @@ namespace Accord.Imaging.Converters
 {
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
+    using Accord.Imaging;
 
     /// <summary>
     ///   Bitmap to multidimensional matrix converter.

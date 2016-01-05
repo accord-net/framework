@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -146,7 +146,7 @@ namespace AForge.Imaging.Filters
             for (int y = startY; y < stopY; y++)
             {
                 // make destination image filled with background color
-                AForge.SystemTools.SetUnmanagedMemory(dst + startX, bg, stopX - startX);
+                Accord.SystemTools.SetUnmanagedMemory(dst + startX, bg, stopX - startX);
 
                 start = -1;
                 // for each pixel

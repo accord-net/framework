@@ -9,7 +9,7 @@
 // alejamp@gmail.com
 //
 
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Collections.Generic;

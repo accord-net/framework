@@ -57,7 +57,7 @@ namespace Accord.Imaging
     using System.Linq;
     using Accord.Math;
     using AForge;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     ///   Maximum cross-correlation feature point matching algorithm.

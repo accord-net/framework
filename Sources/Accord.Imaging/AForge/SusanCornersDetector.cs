@@ -8,13 +8,13 @@
 // Copyright © Frank Nagl, 2007
 // admin@franknagl.de
 //
-namespace AForge.Imaging
+namespace Accord.Imaging
 {
     using System;
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.Collections.Generic;
-    using AForge.Imaging.Filters;
+    using Accord.Imaging.Filters;
 
     /// <summary>
     /// Susan corners detector.

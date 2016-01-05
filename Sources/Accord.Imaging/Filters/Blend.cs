@@ -26,7 +26,7 @@ namespace Accord.Imaging.Filters
     using System.Collections.Generic;
     using System.Drawing;
     using System.Drawing.Imaging;
-    using AForge.Imaging;
+    using Accord.Imaging;
     using Matrix = Accord.Math.Matrix;
 
     /// <summary>
@@ -102,7 +102,7 @@ namespace Accord.Imaging.Filters
     /// 
     /// <seealso cref="RansacHomographyEstimator"/>
     /// 
-    public class Blend : AForge.Imaging.Filters.BaseTransformationFilter
+    public class Blend : BaseTransformationFilter
     {
 
         private MatrixH homography;

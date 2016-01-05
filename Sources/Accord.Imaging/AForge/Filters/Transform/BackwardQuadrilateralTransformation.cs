@@ -6,7 +6,7 @@
 // andrew.kirillov@aforgenet.com
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
@@ -14,7 +14,7 @@ namespace AForge.Imaging.Filters
     using System.Drawing.Imaging;
 
     using AForge;
-    using AForge.Math.Geometry;
+    using Accord.Math.Geometry;
 
     /// <summary>
     /// Performs backward quadrilateral transformation into an area in destination image.

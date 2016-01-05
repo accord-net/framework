@@ -8,7 +8,7 @@
 // http://www.pages.drexel.edu/~weg22/can_tut.html
 //
 
-namespace AForge.Imaging.Filters
+namespace Accord.Imaging.Filters
 {
     using System;
     using System.Collections.Generic;
