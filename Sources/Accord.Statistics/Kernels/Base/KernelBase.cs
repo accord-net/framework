@@ -22,6 +22,7 @@
 
 namespace Accord.Statistics.Kernels
 {
+    using Accord.Math.Distances;
     using System;
 
     /// <summary>
@@ -64,5 +65,55 @@ namespace Accord.Statistics.Kernels
         /// </returns>
         /// 
         public abstract double Function(double[] x, double[] y);
+
+        /// <summary>
+        ///   Creates the Gram matrix from the given vectors.
+        /// </summary>
+        /// 
+        /// <param name="x">The vectors.</param>
+        /// 
+        /// <param name="result">An optional matrix where the result should be stored in.</param>
+        ///   
+        /// <returns>A symmetric matrix containing the dot-products in
+        ///   feature (kernel) space between all vectors in <paramref name="x"/>.</returns>
+        ///   
+        public virtual double[,] ToMatrix(double[][] x, double[,] result = null)
+        {
+            if (result == null)
+                result = new double[x.Length, x.Length];
+            
+            for (int i = 0; i < x.Length; i++)
+                for (int j = i; j < x.Length; j++)
+                    result[j, i] = result[i, j] = Function(x[i], x[j]);
+            
+            return result;
+        }
+
+        /// <summary>
+        ///   Creates the Gram matrix containing all dot products in feature
+        ///   (kernel) space between each vector in <paramref name="x">x</paramref>
+        ///   and the ones in <paramref name="y">y</paramref>.
+        /// </summary>
+        /// 
+        /// <param name="x">The first vectors.</param>
+        /// <param name="y">The second vectors.</param>
+        /// 
+        /// <param name="result">An optional matrix where the result should be stored in.</param>
+        ///   
+        /// <returns>A symmetric matrix containing the dot-products in
+        ///   feature (kernel) space between each vector in <paramref name="x"/>
+        ///   and the ones in <paramref name="y"/>.</returns>
+        ///   
+        public virtual double[,] ToMatrix(double[][] x, double[][] y, double[,] result = null)
+        {
+            if (result == null)
+                result = new double[x.Length, y.Length];
+            
+            for (int i = 0; i < x.Length; i++)
+                for (int j = i; j < x.Length; j++)
+                    result[j, i] = result[i, j] = Function(x[i], y[j]);
+            
+            return result;
+        }
     }
 }

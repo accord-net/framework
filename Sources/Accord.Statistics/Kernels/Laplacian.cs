@@ -24,6 +24,7 @@ namespace Accord.Statistics.Kernels
 {
     using System;
     using AForge;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Laplacian Kernel.

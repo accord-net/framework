@@ -23,7 +23,7 @@
 namespace Accord.Statistics.Kernels.Sparse
 {
     using System;
-    using AForge;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Sparse Laplacian Kernel.

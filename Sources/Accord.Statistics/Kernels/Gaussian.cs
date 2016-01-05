@@ -25,6 +25,7 @@ namespace Accord.Statistics.Kernels
     using System;
     using AForge;
     using Accord.Math;
+    using Accord.Math.Distances;
 
     /// <summary>
     ///   Gaussian Kernel.
