@@ -62,6 +62,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Numerics" Condition="'$(Configuration)' != 'NET35'" />
@@ -113,6 +116,33 @@
     <Compile Include="AForge\Tools.cs" />
     <Compile Include="AForge\Vector3.cs" />
     <Compile Include="AForge\Vector4.cs" />
+    <Compile Include="Distance.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Distance.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Distances\Base\IMetric.cs" />
+    <Compile Include="Distances\Base\ISimilarity.cs" />
+    <Compile Include="Distances\Hamming.cs" />
+    <Compile Include="Distances\Jaccard`1.cs" />
+    <Compile Include="Distances\Hellinger.cs" />
+    <Compile Include="Distances\Canberra.cs" />
+    <Compile Include="Distances\Chebyshev.cs" />
+    <Compile Include="Distances\Levenshtein.cs" />
+    <Compile Include="Distances\Mahalanobis.cs" />
+    <Compile Include="Distances\PearsonCorrelation.cs" />
+    <Compile Include="Distances\Cosine.cs" />
+    <Compile Include="Distances\Modular.cs" />
+    <Compile Include="Distances\Minkowski.cs" />
+    <Compile Include="Distances\Hamming`1.cs" />
+    <Compile Include="Distances\Levenshtein`1.cs" />
+    <Compile Include="Distances\Chessboard.cs" />
+    <Compile Include="Distances\Manhattan.cs" />
+    <Compile Include="Distances\BrayCurtis.cs" />
+    <Compile Include="Distances\SquaredMahalanobis.cs" />
+    <Compile Include="Distances\SquareEuclidean.cs" />
+    <Compile Include="Distances\Euclidean.cs" />
+    <Compile Include="Distances\Base\IDistance.cs" />
     <Compile Include="Indices.cs" />
     <Compile Include="IO\Mat\MatArrayFlags.cs" />
     <Compile Include="IO\Mat\MatArrayType.cs" />
@@ -122,6 +152,24 @@
     <Compile Include="IO\Mat\MatNode.cs" />
     <Compile Include="IO\Mat\MatReader.cs" />
     <Compile Include="IO\Mat\MatSparse.cs" />
+    <Compile Include="Matrix\Matrix.Add.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Divide.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Elementwise1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Elementwise.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Multiply.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Matrix.Subtract.cs">
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Matrix\Product.cs" />
     <Compile Include="Optimization\Unconstrained\FanChenLinQuadraticOptimization.cs" />
     <Compile Include="Random\Generator.cs" />
     <Compile Include="Comparers\Accord.Math.Comparers.cs" />
@@ -414,14 +462,63 @@
     <Compile Include="Functions\Bessel.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Jagged.cs" />
-    <Compile Include="Vector\Vector.Scale.cs" />
+    <Compile Include="Matrix\Jagged.Construction.cs" />
+    <Compile Include="Vector\Vector.Interval.cs">
+      <DependentUpon>Vector.Interval.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Vector\Vector.Range.cs">
+      <DependentUpon>Vector.Range.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Vector\Vector.cs" />
+    <Compile Include="Vector\Vector.Scale.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Vector.Scale.tt</DependentUpon>
+    </Compile>
     <Compile Include="Wavelets\CDF97.cs" />
     <Compile Include="Wavelets\Haar.cs" />
     <Compile Include="Wavelets\Base\IWavelet.cs" />
+    <None Include="Distance.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Distance.Generated.cs</LastGenOutput>
+    </None>
     <None Include="Integration\Accord.Math.Integration.cd" />
+    <None Include="Matrix\Matrix.Elementwise.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Matrix.Elementwise1.cs</LastGenOutput>
+      <LastOutputs>.\Matrix.Elementwise1.cs</LastOutputs>
+    </None>
+    <None Include="Matrix\Matrix.Elementwise2.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastOutputs>
+.\Matrix.Add.cs
+.\Matrix.Divide.cs
+.\Matrix.Elementwise2.txt
+.\Matrix.Multiply.cs
+.\Matrix.Subtract.cs
+</LastOutputs>
+      <LastGenOutput>Matrix.Elementwise2.txt</LastGenOutput>
+    </None>
     <None Include="Optimization\Accord.Math.Optimization.cd" />
+    <None Include="Vector\Vector.Interval.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Vector.Interval.cs</LastGenOutput>
+      <LastOutputs>.\Vector.Interval.cs</LastOutputs>
+    </None>
+    <None Include="Vector\Vector.Range.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Vector.Range.cs</LastGenOutput>
+      <LastOutputs>.\Vector.Range.cs</LastOutputs>
+    </None>
+    <None Include="Vector\Vector.Scale.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Vector.Scale.cs</LastGenOutput>
+      <LastOutputs>.\Vector.Scale.cs</LastOutputs>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Accord.Math.cd" />
@@ -517,6 +614,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SingularValueDecomposition.tt</DependentUpon>
+    </Content>
+    <Content Include="Matrix\Matrix.Elementwise2.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Matrix.Elementwise2.tt</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup />
