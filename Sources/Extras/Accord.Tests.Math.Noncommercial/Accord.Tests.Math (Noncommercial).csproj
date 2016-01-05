@@ -44,11 +44,13 @@
     <OutputPath>bin\Release\net40</OutputPath>
     <DefineConstants>TRACE;NET40</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'NET45|AnyCPU' ">
     <OutputPath>bin\Release\net45</OutputPath>
     <DefineConstants>TRACE;NET45</DefineConstants>
     <PlatformTarget>x86</PlatformTarget>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework">

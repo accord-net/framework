@@ -58,6 +58,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <DocumentationFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.XML</DocumentationFile>
     <CodeAnalysisLogFile>$(SolutionDir)..\Release\net45\Noncommercial\Accord.Math.Noncommercial.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
+    <NoWarn>0612, 0618</NoWarn>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>

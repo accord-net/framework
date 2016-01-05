@@ -22,7 +22,6 @@
 
 namespace Accord.Fuzzy
 {
-    using AForge.Fuzzy;
     using System.Runtime.CompilerServices;
 
     /// <summary>
