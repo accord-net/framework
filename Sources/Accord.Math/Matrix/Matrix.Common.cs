@@ -2065,9 +2065,9 @@ namespace Accord.Math
 
 
             T[,] result = new T[rows, cols];
-
-            for (int j = 0, k = 0; j < cols; j++)
-                for (int i = 0; i < rows; i++)
+            int k = 0;
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
                     result[i, j] = array[k++];
 
             return result;
@@ -2095,10 +2095,12 @@ namespace Accord.Math
         /// 
         public static T[] Reshape<T>(this T[,] matrix, int dimension)
         {
-            if (matrix == null) throw new ArgumentNullException("matrix");
+            if (matrix == null)
+                throw new ArgumentNullException("matrix");
 
-            if (dimension < 0) throw new ArgumentOutOfRangeException("dimension", dimension,
-                "Vector's dimension must be a positive integer.");
+            if (dimension < 0)
+                throw new ArgumentOutOfRangeException("dimension", dimension,
+                    "Vector's dimension must be a positive integer.");
 
             if (matrix.Rank > 2)
                 throw new RankException("The method only works with matrices of rank 2.");

@@ -681,6 +681,45 @@ namespace Accord.Math
         #region Element ranges (maximum and minimum)
 
 
+        /// <summary>
+        ///   Gets the maximum element in a vector.
+        /// </summary>
+        /// 
+        public static int ArgMax<T>(this T[] values) where T : IComparable
+        {
+            int imax = 0;
+            T max = values[0];
+            for (int i = 1; i < values.Length; i++)
+            {
+                if (values[i].CompareTo(max) > 0)
+                {
+                    max = values[i];
+                    imax = i;
+                }
+            }
+
+            return imax;
+        }
+
+        /// <summary>
+        ///   Gets the maximum element in a vector.
+        /// </summary>
+        /// 
+        public static int ArgMax<T>(this T[] values, out T max) where T : IComparable
+        {
+            int imax = 0;
+            max = values[0];
+            for (int i = 1; i < values.Length; i++)
+            {
+                if (values[i].CompareTo(max) > 0)
+                {
+                    max = values[i];
+                    imax = i;
+                }
+            }
+
+            return imax;
+        }
 
         /// <summary>
         ///   Gets the maximum non-null element in a vector.
@@ -753,6 +792,45 @@ namespace Accord.Math
             return Max(values, out imax);
         }
 
+        /// <summary>
+        ///   Gets the minimum element in a vector.
+        /// </summary>
+        /// 
+        public static int ArgMin<T>(this T[] values) where T : IComparable
+        {
+            int imin = 0;
+            T min = values[0];
+            for (int i = 1; i < values.Length; i++)
+            {
+                if (values[i].CompareTo(min) < 0)
+                {
+                    min = values[i];
+                    imin = i;
+                }
+            }
+
+            return imin;
+        }
+
+        /// <summary>
+        ///   Gets the minimum element in a vector.
+        /// </summary>
+        /// 
+        public static int ArgMin<T>(this T[] values, out T min) where T : IComparable
+        {
+            int imin = 0;
+            min = values[0];
+            for (int i = 1; i < values.Length; i++)
+            {
+                if (values[i].CompareTo(min) < 0)
+                {
+                    min = values[i];
+                    imin = i;
+                }
+            }
+
+            return imin;
+        }
 
         /// <summary>
         ///   Gets the minimum element in a vector.

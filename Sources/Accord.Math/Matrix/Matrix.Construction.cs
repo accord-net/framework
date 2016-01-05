@@ -24,7 +24,8 @@ namespace Accord.Math
     using System;
     using System.Collections.Generic;
     using AForge;
-    using AForge.Math.Random;
+    using System.Runtime.CompilerServices;
+    using Accord.Math.Random;
 
 
     public static partial class Matrix
@@ -89,6 +90,118 @@ namespace Accord.Math
         public static T[,] Create<T>(int size)
         {
             return Create(size, default(T));
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] CreateAs<T>(T[,] matrix)
+        {
+            return new T[matrix.GetLength(0), matrix.GetLength(1)];
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[,] CreateAs<T>(T[][] matrix)
+        {
+            return new T[matrix.Length, matrix[0].Length];
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] JaggedAs<T>(T[,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            T[][] r = new T[rows][];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = new T[cols];
+            return r;
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static T[][] JaggedAs<T>(T[][] matrix)
+        {
+            T[][] r = new T[matrix.Length][];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = new T[matrix[i].Length];
+            return r;
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[,] CreateAs<TInput, TOutput>(TInput[,] matrix)
+        {
+            return new TOutput[matrix.GetLength(0), matrix.GetLength(1)];
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[,] CreateAs<TInput, TOutput>(TInput[][] matrix)
+        {
+            return new TOutput[matrix.Length, matrix[0].Length];
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[][] JaggedAs<TInput, TOutput>(TInput[,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            var r = new TOutput[rows][];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = new TOutput[cols];
+            return r;
+        }
+
+        /// <summary>
+        ///   Returns a new multidimensional matrix.
+        /// </summary>
+        /// 
+#if NET45
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        public static TOutput[][] JaggedAs<TInput, TOutput>(TInput[][] matrix)
+        {
+            var r = new TOutput[matrix.Length][];
+            for (int i = 0; i < r.Length; i++)
+                r[i] = new TOutput[matrix[i].Length];
+            return r;
         }
 
         /// <summary>
@@ -405,7 +518,7 @@ namespace Accord.Math
             if (size < 0)
             {
                 throw new ArgumentOutOfRangeException("size", size,
-                "The size of the centering matrix must be a positive integer.");
+                    "The size of the centering matrix must be a positive integer.");
             }
 
             double[,] C = Matrix.Create(size, -1.0 / size);
