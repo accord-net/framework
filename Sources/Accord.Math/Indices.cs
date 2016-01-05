@@ -32,7 +32,7 @@ namespace Accord.Math
     /// </summary>
     /// 
     // TODO: Make it public and obsolete the previous equivalent methods
-    internal static class Indices
+    public static class Indices
     {
 
         /// <summary>
