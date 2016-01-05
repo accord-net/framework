@@ -26,15 +26,14 @@ namespace Accord.Math.Random
     using System.Diagnostics.CodeAnalysis;
     using System.Threading;
 
-    // TODO: Make this class public, search solution for
-    //
-    //    SetupGenerator
-    //
-    // and replace by 
-    //
-    //    Accord.Math.Random.Generator.Seed = value
-    //
-    internal static class Generator
+    /// <summary>
+    ///   Framework-wide random number generator. If you would like
+    ///   to always generate the same results when using the framework,
+    ///   set the <see cref="Seed"/> property of this class to a fixed
+    ///   value.
+    /// </summary>
+    /// 
+    public static class Generator
     {
 
         private static int? seed;
