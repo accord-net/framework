@@ -1,4 +1,4 @@
-﻿ 
+﻿
 // Accord Math Library
 // The Accord.NET Framework
 // http://accord-framework.net
@@ -595,7 +595,7 @@ namespace Accord.Math
 #if NET45
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        public static double Euclidean(System.Tuple<double,double> x, System.Tuple<double,double> y)
+        public static double Euclidean(Tuple<double, double> x, Tuple<double, double> y)
         {
             return cacheEuclidean.Distance(x, y);
         }

@@ -176,6 +176,7 @@ namespace Accord.MachineLearning
 
             double error = 0.0;
 
+#if !NET35
             Parallel.For(0, data.Length,
 
                 () => 0.0,
@@ -192,7 +193,15 @@ namespace Accord.MachineLearning
                     lock (labels)
                         error += acc;
                 });
+#else
+            for (int i = 0; i < data.Length; i++)
+            {
 
+                double distance;
+                tree.Nearest(data[i], out distance);
+                error += weights[i] * distance;
+            }
+#endif
             return error / weights.Sum();
         }
 

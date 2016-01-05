@@ -729,13 +729,13 @@ namespace Accord.Neuro.Learning
     ///   AForge.Neuro.Learning.ResilientBackpropagationLearning.
     /// </summary>
     /// 
-    public class ParallelResilientBackpropagationLearning : AForge.Neuro.Learning.ResilientBackpropagationLearning
+    public class ParallelResilientBackpropagationLearning : ResilientBackpropagationLearning
     {
         /// <summary>
         ///   Initializes a new instance of the <see cref="ParallelResilientBackpropagationLearning"/> class.
         /// </summary>
         /// 
-        public ParallelResilientBackpropagationLearning(AForge.Neuro.ActivationNetwork network)
+        public ParallelResilientBackpropagationLearning(ActivationNetwork network)
             : base(network) { }
 
         /// <summary>
