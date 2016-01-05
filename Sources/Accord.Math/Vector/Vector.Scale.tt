@@ -48,8 +48,10 @@ namespace Accord.Math
         ///   Converts a value from one scale to another scale.
         /// </summary>
         /// 
-        public static <#=o#> Scale(this <#=i#> value, <#=i#> fromMin, <#=i#> fromMax, <#=o#> toMin, <#=o#> toMax <# if (o == i) { #>, bool inPlace = false<# } #>)
+        public static <#=o#> Scale(this <#=i#> value, <#=i#> fromMin, <#=i#> fromMax, <#=o#> toMin, <#=o#> toMax)
         {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (<#=o#>)value;
             return (<#=o#>)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
         }
 
@@ -57,42 +59,40 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static <#=o#>[] Scale(this <#=i#>[] values, <#=i#> fromMin, <#=i#> fromMax, <#=o#> toMin, <#=o#> toMax <# if (o == i) { #>, bool inPlace = false<# } #>)
+        public static <#=o#>[] Scale(this <#=i#>[] values, <#=i#> fromMin, <#=i#> fromMax, <#=o#> toMin, <#=o#> toMax, <#=o#>[] result)
         {
-            <#=o#>[] results = <# if (o == i) { #> inPlace ? values : <# } #> new <#=o#>[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (<#=o#>)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+<#      
+            if (o == i)
+            {
+#>
+                return values;
+<#      
+            }
+            else                    
+            {
+#>
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (<#=o#>)values[i];                
+                return result;
+<#
+            }
+#>
+            }
 
-            return results;
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (<#=o#>)((toMax - toMin) * (values[i] - fromMin) / (<#=o#>)(fromMax - fromMin) + toMin);
+            return result;
         }
+
+
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static <#=o#>[] Scale(this <#=i#>[] values, <#=o#> toMin, <#=o#> toMax <# if (o == i) { #>, bool inPlace = false<# } #>)
-        {
-            <#=i#> fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax<# if (o == i) { #>, inPlace<# } #>);
-        }
-<#
-        }
-    }
-
-    string[] rangeTypes = { "int", "float", "double" };
-
-    foreach (var i in rangeTypes)
-    {
-        foreach(var o in rangeTypes)
-        {
-#>
-
-        /// <summary>
-        ///   Converts one value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static <#=o#> Scale(this <#=i#> value, IRange<<#=i#>> fromRange, IRange<<#=o#>> toRange<# if (o == i) { #>, bool inPlace = false<# } #>)
+        public static <#=o#> Scale(this <#=i#> value, IRange<<#=i#>> fromRange, IRange<<#=o#>> toRange)
         {
             return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
         }
@@ -101,18 +101,62 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static <#=o#>[] Scale(this <#=i#>[] values, IRange<<#=i#>> fromRange, IRange<<#=o#>> toRange<# if (o == i) { #>, bool inPlace = false<# } #>)
+        public static <#=o#>[] Scale(this <#=i#>[] values, <#=i#> fromMin, <#=i#> fromMax, <#=o#> toMin, <#=o#> toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new <#=o#>[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static <#=o#>[] Scale(this <#=i#>[] values, IRange<<#=o#>> toRange<# if (o == i) { #>, bool inPlace = false<# } #>)
+        public static <#=o#>[] Scale(this <#=i#>[] values, <#=o#> toMin, <#=o#> toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            <#=o#>[] result = new <#=o#>[values.Length];
+            <#=i#> fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static <#=o#>[] Scale(this <#=i#>[] values, <#=o#> toMin, <#=o#> toMax, <#=o#>[] result)
+        {
+            <#=i#> fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static <#=o#>[] Scale(this <#=i#>[] values, IRange<<#=i#>> fromRange, IRange<<#=o#>> toRange, <#=o#>[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static <#=o#>[] Scale(this <#=i#>[] values, IRange<<#=i#>> fromRange, IRange<<#=o#>> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new <#=o#>[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static <#=o#>[] Scale(this <#=i#>[] values, IRange<<#=o#>> toRange, <#=o#>[] result)
+        {
+            <#=i#> fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
         }
 <#
         }

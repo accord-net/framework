@@ -36,8 +36,10 @@ namespace Accord.Math
         ///   Converts a value from one scale to another scale.
         /// </summary>
         /// 
-        public static int Scale(this int value, int fromMin, int fromMax, int toMin, int toMax , bool inPlace = false)
+        public static int Scale(this int value, int fromMin, int fromMax, int toMin, int toMax)
         {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (int)value;
             return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
         }
 
@@ -45,1567 +47,25 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static int[] Scale(this int[] values, int fromMin, int fromMax, int toMin, int toMax , bool inPlace = false)
+        public static int[] Scale(this int[] values, int fromMin, int fromMax, int toMin, int toMax, int[] result)
         {
-            int[] results =  inPlace ? values :  new int[values.Length];
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                return values;
+            }
+
             for (int i = 0; i < values.Length; i++)
-                results[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this int[] values, int toMin, int toMax , bool inPlace = false)
-        {
-            int fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax, inPlace);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float Scale(this int value, int fromMin, int fromMax, float toMin, float toMax )
-        {
-            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this int[] values, int fromMin, int fromMax, float toMin, float toMax )
-        {
-            float[] results =  new float[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this int[] values, float toMin, float toMax )
-        {
-            int fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double Scale(this int value, int fromMin, int fromMax, double toMin, double toMax )
-        {
-            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this int[] values, int fromMin, int fromMax, double toMin, double toMax )
-        {
-            double[] results =  new double[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this int[] values, double toMin, double toMax )
-        {
-            int fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short Scale(this int value, int fromMin, int fromMax, short toMin, short toMax )
-        {
-            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this int[] values, int fromMin, int fromMax, short toMin, short toMax )
-        {
-            short[] results =  new short[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this int[] values, short toMin, short toMax )
-        {
-            int fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte Scale(this int value, int fromMin, int fromMax, byte toMin, byte toMax )
-        {
-            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this int[] values, int fromMin, int fromMax, byte toMin, byte toMax )
-        {
-            byte[] results =  new byte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this int[] values, byte toMin, byte toMax )
-        {
-            int fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte Scale(this int value, int fromMin, int fromMax, sbyte toMin, sbyte toMax )
-        {
-            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this int[] values, int fromMin, int fromMax, sbyte toMin, sbyte toMax )
-        {
-            sbyte[] results =  new sbyte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this int[] values, sbyte toMin, sbyte toMax )
-        {
-            int fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long Scale(this int value, int fromMin, int fromMax, long toMin, long toMax )
-        {
-            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this int[] values, int fromMin, int fromMax, long toMin, long toMax )
-        {
-            long[] results =  new long[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this int[] values, long toMin, long toMax )
-        {
-            int fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int Scale(this float value, float fromMin, float fromMax, int toMin, int toMax )
-        {
-            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this float[] values, float fromMin, float fromMax, int toMin, int toMax )
-        {
-            int[] results =  new int[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this float[] values, int toMin, int toMax )
-        {
-            float fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float Scale(this float value, float fromMin, float fromMax, float toMin, float toMax , bool inPlace = false)
-        {
-            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this float[] values, float fromMin, float fromMax, float toMin, float toMax , bool inPlace = false)
-        {
-            float[] results =  inPlace ? values :  new float[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this float[] values, float toMin, float toMax , bool inPlace = false)
-        {
-            float fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax, inPlace);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double Scale(this float value, float fromMin, float fromMax, double toMin, double toMax )
-        {
-            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this float[] values, float fromMin, float fromMax, double toMin, double toMax )
-        {
-            double[] results =  new double[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this float[] values, double toMin, double toMax )
-        {
-            float fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short Scale(this float value, float fromMin, float fromMax, short toMin, short toMax )
-        {
-            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this float[] values, float fromMin, float fromMax, short toMin, short toMax )
-        {
-            short[] results =  new short[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this float[] values, short toMin, short toMax )
-        {
-            float fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte Scale(this float value, float fromMin, float fromMax, byte toMin, byte toMax )
-        {
-            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this float[] values, float fromMin, float fromMax, byte toMin, byte toMax )
-        {
-            byte[] results =  new byte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this float[] values, byte toMin, byte toMax )
-        {
-            float fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte Scale(this float value, float fromMin, float fromMax, sbyte toMin, sbyte toMax )
-        {
-            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this float[] values, float fromMin, float fromMax, sbyte toMin, sbyte toMax )
-        {
-            sbyte[] results =  new sbyte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this float[] values, sbyte toMin, sbyte toMax )
-        {
-            float fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long Scale(this float value, float fromMin, float fromMax, long toMin, long toMax )
-        {
-            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this float[] values, float fromMin, float fromMax, long toMin, long toMax )
-        {
-            long[] results =  new long[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this float[] values, long toMin, long toMax )
-        {
-            float fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int Scale(this double value, double fromMin, double fromMax, int toMin, int toMax )
-        {
-            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this double[] values, double fromMin, double fromMax, int toMin, int toMax )
-        {
-            int[] results =  new int[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this double[] values, int toMin, int toMax )
-        {
-            double fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float Scale(this double value, double fromMin, double fromMax, float toMin, float toMax )
-        {
-            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this double[] values, double fromMin, double fromMax, float toMin, float toMax )
-        {
-            float[] results =  new float[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this double[] values, float toMin, float toMax )
-        {
-            double fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double Scale(this double value, double fromMin, double fromMax, double toMin, double toMax , bool inPlace = false)
-        {
-            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this double[] values, double fromMin, double fromMax, double toMin, double toMax , bool inPlace = false)
-        {
-            double[] results =  inPlace ? values :  new double[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this double[] values, double toMin, double toMax , bool inPlace = false)
-        {
-            double fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax, inPlace);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short Scale(this double value, double fromMin, double fromMax, short toMin, short toMax )
-        {
-            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this double[] values, double fromMin, double fromMax, short toMin, short toMax )
-        {
-            short[] results =  new short[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this double[] values, short toMin, short toMax )
-        {
-            double fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte Scale(this double value, double fromMin, double fromMax, byte toMin, byte toMax )
-        {
-            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this double[] values, double fromMin, double fromMax, byte toMin, byte toMax )
-        {
-            byte[] results =  new byte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this double[] values, byte toMin, byte toMax )
-        {
-            double fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte Scale(this double value, double fromMin, double fromMax, sbyte toMin, sbyte toMax )
-        {
-            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this double[] values, double fromMin, double fromMax, sbyte toMin, sbyte toMax )
-        {
-            sbyte[] results =  new sbyte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this double[] values, sbyte toMin, sbyte toMax )
-        {
-            double fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long Scale(this double value, double fromMin, double fromMax, long toMin, long toMax )
-        {
-            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this double[] values, double fromMin, double fromMax, long toMin, long toMax )
-        {
-            long[] results =  new long[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this double[] values, long toMin, long toMax )
-        {
-            double fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int Scale(this short value, short fromMin, short fromMax, int toMin, int toMax )
-        {
-            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this short[] values, short fromMin, short fromMax, int toMin, int toMax )
-        {
-            int[] results =  new int[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this short[] values, int toMin, int toMax )
-        {
-            short fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float Scale(this short value, short fromMin, short fromMax, float toMin, float toMax )
-        {
-            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this short[] values, short fromMin, short fromMax, float toMin, float toMax )
-        {
-            float[] results =  new float[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this short[] values, float toMin, float toMax )
-        {
-            short fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double Scale(this short value, short fromMin, short fromMax, double toMin, double toMax )
-        {
-            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this short[] values, short fromMin, short fromMax, double toMin, double toMax )
-        {
-            double[] results =  new double[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this short[] values, double toMin, double toMax )
-        {
-            short fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short Scale(this short value, short fromMin, short fromMax, short toMin, short toMax , bool inPlace = false)
-        {
-            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this short[] values, short fromMin, short fromMax, short toMin, short toMax , bool inPlace = false)
-        {
-            short[] results =  inPlace ? values :  new short[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this short[] values, short toMin, short toMax , bool inPlace = false)
-        {
-            short fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax, inPlace);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte Scale(this short value, short fromMin, short fromMax, byte toMin, byte toMax )
-        {
-            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this short[] values, short fromMin, short fromMax, byte toMin, byte toMax )
-        {
-            byte[] results =  new byte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this short[] values, byte toMin, byte toMax )
-        {
-            short fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte Scale(this short value, short fromMin, short fromMax, sbyte toMin, sbyte toMax )
-        {
-            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this short[] values, short fromMin, short fromMax, sbyte toMin, sbyte toMax )
-        {
-            sbyte[] results =  new sbyte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this short[] values, sbyte toMin, sbyte toMax )
-        {
-            short fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long Scale(this short value, short fromMin, short fromMax, long toMin, long toMax )
-        {
-            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this short[] values, short fromMin, short fromMax, long toMin, long toMax )
-        {
-            long[] results =  new long[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this short[] values, long toMin, long toMax )
-        {
-            short fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int Scale(this byte value, byte fromMin, byte fromMax, int toMin, int toMax )
-        {
-            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this byte[] values, byte fromMin, byte fromMax, int toMin, int toMax )
-        {
-            int[] results =  new int[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this byte[] values, int toMin, int toMax )
-        {
-            byte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float Scale(this byte value, byte fromMin, byte fromMax, float toMin, float toMax )
-        {
-            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this byte[] values, byte fromMin, byte fromMax, float toMin, float toMax )
-        {
-            float[] results =  new float[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this byte[] values, float toMin, float toMax )
-        {
-            byte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double Scale(this byte value, byte fromMin, byte fromMax, double toMin, double toMax )
-        {
-            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this byte[] values, byte fromMin, byte fromMax, double toMin, double toMax )
-        {
-            double[] results =  new double[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this byte[] values, double toMin, double toMax )
-        {
-            byte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short Scale(this byte value, byte fromMin, byte fromMax, short toMin, short toMax )
-        {
-            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this byte[] values, byte fromMin, byte fromMax, short toMin, short toMax )
-        {
-            short[] results =  new short[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this byte[] values, short toMin, short toMax )
-        {
-            byte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte Scale(this byte value, byte fromMin, byte fromMax, byte toMin, byte toMax , bool inPlace = false)
-        {
-            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this byte[] values, byte fromMin, byte fromMax, byte toMin, byte toMax , bool inPlace = false)
-        {
-            byte[] results =  inPlace ? values :  new byte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this byte[] values, byte toMin, byte toMax , bool inPlace = false)
-        {
-            byte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax, inPlace);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte Scale(this byte value, byte fromMin, byte fromMax, sbyte toMin, sbyte toMax )
-        {
-            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this byte[] values, byte fromMin, byte fromMax, sbyte toMin, sbyte toMax )
-        {
-            sbyte[] results =  new sbyte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this byte[] values, sbyte toMin, sbyte toMax )
-        {
-            byte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long Scale(this byte value, byte fromMin, byte fromMax, long toMin, long toMax )
-        {
-            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this byte[] values, byte fromMin, byte fromMax, long toMin, long toMax )
-        {
-            long[] results =  new long[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this byte[] values, long toMin, long toMax )
-        {
-            byte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int Scale(this sbyte value, sbyte fromMin, sbyte fromMax, int toMin, int toMax )
-        {
-            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, int toMin, int toMax )
-        {
-            int[] results =  new int[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this sbyte[] values, int toMin, int toMax )
-        {
-            sbyte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float Scale(this sbyte value, sbyte fromMin, sbyte fromMax, float toMin, float toMax )
-        {
-            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, float toMin, float toMax )
-        {
-            float[] results =  new float[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this sbyte[] values, float toMin, float toMax )
-        {
-            sbyte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double Scale(this sbyte value, sbyte fromMin, sbyte fromMax, double toMin, double toMax )
-        {
-            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, double toMin, double toMax )
-        {
-            double[] results =  new double[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this sbyte[] values, double toMin, double toMax )
-        {
-            sbyte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short Scale(this sbyte value, sbyte fromMin, sbyte fromMax, short toMin, short toMax )
-        {
-            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, short toMin, short toMax )
-        {
-            short[] results =  new short[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this sbyte[] values, short toMin, short toMax )
-        {
-            sbyte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte Scale(this sbyte value, sbyte fromMin, sbyte fromMax, byte toMin, byte toMax )
-        {
-            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, byte toMin, byte toMax )
-        {
-            byte[] results =  new byte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this sbyte[] values, byte toMin, byte toMax )
-        {
-            sbyte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte Scale(this sbyte value, sbyte fromMin, sbyte fromMax, sbyte toMin, sbyte toMax , bool inPlace = false)
-        {
-            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, sbyte toMin, sbyte toMax , bool inPlace = false)
-        {
-            sbyte[] results =  inPlace ? values :  new sbyte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this sbyte[] values, sbyte toMin, sbyte toMax , bool inPlace = false)
-        {
-            sbyte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax, inPlace);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long Scale(this sbyte value, sbyte fromMin, sbyte fromMax, long toMin, long toMax )
-        {
-            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+                result[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (int)(fromMax - fromMin) + toMin);
+            return result;
         }
 
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, long toMin, long toMax )
-        {
-            long[] results =  new long[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this sbyte[] values, long toMin, long toMax )
-        {
-            sbyte fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int Scale(this long value, long fromMin, long fromMax, int toMin, int toMax )
-        {
-            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this long[] values, long fromMin, long fromMax, int toMin, int toMax )
-        {
-            int[] results =  new int[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static int[] Scale(this long[] values, int toMin, int toMax )
-        {
-            long fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float Scale(this long value, long fromMin, long fromMax, float toMin, float toMax )
-        {
-            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this long[] values, long fromMin, long fromMax, float toMin, float toMax )
-        {
-            float[] results =  new float[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static float[] Scale(this long[] values, float toMin, float toMax )
-        {
-            long fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double Scale(this long value, long fromMin, long fromMax, double toMin, double toMax )
-        {
-            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this long[] values, long fromMin, long fromMax, double toMin, double toMax )
-        {
-            double[] results =  new double[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static double[] Scale(this long[] values, double toMin, double toMax )
-        {
-            long fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short Scale(this long value, long fromMin, long fromMax, short toMin, short toMax )
-        {
-            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this long[] values, long fromMin, long fromMax, short toMin, short toMax )
-        {
-            short[] results =  new short[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static short[] Scale(this long[] values, short toMin, short toMax )
-        {
-            long fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte Scale(this long value, long fromMin, long fromMax, byte toMin, byte toMax )
-        {
-            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this long[] values, long fromMin, long fromMax, byte toMin, byte toMax )
-        {
-            byte[] results =  new byte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static byte[] Scale(this long[] values, byte toMin, byte toMax )
-        {
-            long fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte Scale(this long value, long fromMin, long fromMax, sbyte toMin, sbyte toMax )
-        {
-            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this long[] values, long fromMin, long fromMax, sbyte toMin, sbyte toMax )
-        {
-            sbyte[] results =  new sbyte[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
-
-            return results;
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static sbyte[] Scale(this long[] values, sbyte toMin, sbyte toMax )
-        {
-            long fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax);
-        }
-        /// <summary>
-        ///   Converts a value from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long Scale(this long value, long fromMin, long fromMax, long toMin, long toMax , bool inPlace = false)
-        {
-            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
-        }
-
-        /// <summary>
-        ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this long[] values, long fromMin, long fromMax, long toMin, long toMax , bool inPlace = false)
-        {
-            long[] results =  inPlace ? values :  new long[values.Length];
-            for (int i = 0; i < values.Length; i++)
-                results[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (fromMax - fromMin) + toMin);
 
-            return results;
-        }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
-        /// </summary>
-        /// 
-        public static long[] Scale(this long[] values, long toMin, long toMax , bool inPlace = false)
-        {
-            long fromMin, fromMax;
-            values.Range(out fromMin, out fromMax);
-            return Scale(values, fromMin, fromMax, toMin, toMax, inPlace);
-        }
-
-        /// <summary>
-        ///   Converts one value from one scale to another scale.
         /// </summary>
         /// 
-        public static int Scale(this int value, IRange<int> fromRange, IRange<int> toRange, bool inPlace = false)
+        public static int Scale(this int value, IRange<int> fromRange, IRange<int> toRange)
         {
             return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
         }
@@ -1614,22 +74,96 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static int[] Scale(this int[] values, IRange<int> fromRange, IRange<int> toRange, bool inPlace = false)
+        public static int[] Scale(this int[] values, int fromMin, int fromMax, int toMin, int toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new int[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static int[] Scale(this int[] values, IRange<int> toRange, bool inPlace = false)
+        public static int[] Scale(this int[] values, int toMin, int toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            int[] result = new int[values.Length];
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
         /// <summary>
-        ///   Converts one value from one scale to another scale.
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this int[] values, int toMin, int toMax, int[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this int[] values, IRange<int> fromRange, IRange<int> toRange, int[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this int[] values, IRange<int> fromRange, IRange<int> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this int[] values, IRange<int> toRange, int[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this int value, int fromMin, int fromMax, float toMin, float toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (float)value;
+            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this int[] values, int fromMin, int fromMax, float toMin, float toMax, float[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (float)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (float)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
         public static float Scale(this int value, IRange<int> fromRange, IRange<float> toRange)
@@ -1641,22 +175,96 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static float[] Scale(this int[] values, IRange<int> fromRange, IRange<float> toRange)
+        public static float[] Scale(this int[] values, int fromMin, int fromMax, float toMin, float toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new float[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static float[] Scale(this int[] values, IRange<float> toRange)
+        public static float[] Scale(this int[] values, float toMin, float toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            float[] result = new float[values.Length];
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
         /// <summary>
-        ///   Converts one value from one scale to another scale.
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this int[] values, float toMin, float toMax, float[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this int[] values, IRange<int> fromRange, IRange<float> toRange, float[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this int[] values, IRange<int> fromRange, IRange<float> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this int[] values, IRange<float> toRange, float[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this int value, int fromMin, int fromMax, double toMin, double toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (double)value;
+            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this int[] values, int fromMin, int fromMax, double toMin, double toMax, double[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (double)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (double)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
         public static double Scale(this int value, IRange<int> fromRange, IRange<double> toRange)
@@ -1668,22 +276,500 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static double[] Scale(this int[] values, IRange<int> fromRange, IRange<double> toRange)
+        public static double[] Scale(this int[] values, int fromMin, int fromMax, double toMin, double toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new double[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static double[] Scale(this int[] values, IRange<double> toRange)
+        public static double[] Scale(this int[] values, double toMin, double toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            double[] result = new double[values.Length];
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
         /// <summary>
-        ///   Converts one value from one scale to another scale.
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this int[] values, double toMin, double toMax, double[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this int[] values, IRange<int> fromRange, IRange<double> toRange, double[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this int[] values, IRange<int> fromRange, IRange<double> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this int[] values, IRange<double> toRange, double[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this int value, int fromMin, int fromMax, short toMin, short toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (short)value;
+            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this int[] values, int fromMin, int fromMax, short toMin, short toMax, short[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (short)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (short)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this int value, IRange<int> fromRange, IRange<short> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this int[] values, int fromMin, int fromMax, short toMin, short toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this int[] values, short toMin, short toMax)
+        {
+            short[] result = new short[values.Length];
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this int[] values, short toMin, short toMax, short[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this int[] values, IRange<int> fromRange, IRange<short> toRange, short[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this int[] values, IRange<int> fromRange, IRange<short> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this int[] values, IRange<short> toRange, short[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this int value, int fromMin, int fromMax, byte toMin, byte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (byte)value;
+            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this int[] values, int fromMin, int fromMax, byte toMin, byte toMax, byte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (byte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (byte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this int value, IRange<int> fromRange, IRange<byte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this int[] values, int fromMin, int fromMax, byte toMin, byte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this int[] values, byte toMin, byte toMax)
+        {
+            byte[] result = new byte[values.Length];
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this int[] values, byte toMin, byte toMax, byte[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this int[] values, IRange<int> fromRange, IRange<byte> toRange, byte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this int[] values, IRange<int> fromRange, IRange<byte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this int[] values, IRange<byte> toRange, byte[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this int value, int fromMin, int fromMax, sbyte toMin, sbyte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (sbyte)value;
+            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this int[] values, int fromMin, int fromMax, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (sbyte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (sbyte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this int value, IRange<int> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this int[] values, int fromMin, int fromMax, sbyte toMin, sbyte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this int[] values, sbyte toMin, sbyte toMax)
+        {
+            sbyte[] result = new sbyte[values.Length];
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this int[] values, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this int[] values, IRange<int> fromRange, IRange<sbyte> toRange, sbyte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this int[] values, IRange<int> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this int[] values, IRange<sbyte> toRange, sbyte[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this int value, int fromMin, int fromMax, long toMin, long toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (long)value;
+            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this int[] values, int fromMin, int fromMax, long toMin, long toMax, long[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (long)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (long)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this int value, IRange<int> fromRange, IRange<long> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this int[] values, int fromMin, int fromMax, long toMin, long toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this int[] values, long toMin, long toMax)
+        {
+            long[] result = new long[values.Length];
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this int[] values, long toMin, long toMax, long[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this int[] values, IRange<int> fromRange, IRange<long> toRange, long[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this int[] values, IRange<int> fromRange, IRange<long> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this int[] values, IRange<long> toRange, long[] result)
+        {
+            int fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this float value, float fromMin, float fromMax, int toMin, int toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (int)value;
+            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this float[] values, float fromMin, float fromMax, int toMin, int toMax, int[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (int)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (int)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
         public static int Scale(this float value, IRange<float> fromRange, IRange<int> toRange)
@@ -1695,25 +781,97 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static int[] Scale(this float[] values, IRange<float> fromRange, IRange<int> toRange)
+        public static int[] Scale(this float[] values, float fromMin, float fromMax, int toMin, int toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new int[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static int[] Scale(this float[] values, IRange<int> toRange)
+        public static int[] Scale(this float[] values, int toMin, int toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            int[] result = new int[values.Length];
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
         /// <summary>
-        ///   Converts one value from one scale to another scale.
+        ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static float Scale(this float value, IRange<float> fromRange, IRange<float> toRange, bool inPlace = false)
+        public static int[] Scale(this float[] values, int toMin, int toMax, int[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this float[] values, IRange<float> fromRange, IRange<int> toRange, int[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this float[] values, IRange<float> fromRange, IRange<int> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this float[] values, IRange<int> toRange, int[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this float value, float fromMin, float fromMax, float toMin, float toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (float)value;
+            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this float[] values, float fromMin, float fromMax, float toMin, float toMax, float[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                return values;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (float)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this float value, IRange<float> fromRange, IRange<float> toRange)
         {
             return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
         }
@@ -1722,22 +880,96 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static float[] Scale(this float[] values, IRange<float> fromRange, IRange<float> toRange, bool inPlace = false)
+        public static float[] Scale(this float[] values, float fromMin, float fromMax, float toMin, float toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new float[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static float[] Scale(this float[] values, IRange<float> toRange, bool inPlace = false)
+        public static float[] Scale(this float[] values, float toMin, float toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            float[] result = new float[values.Length];
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
         /// <summary>
-        ///   Converts one value from one scale to another scale.
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this float[] values, float toMin, float toMax, float[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this float[] values, IRange<float> fromRange, IRange<float> toRange, float[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this float[] values, IRange<float> fromRange, IRange<float> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this float[] values, IRange<float> toRange, float[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this float value, float fromMin, float fromMax, double toMin, double toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (double)value;
+            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this float[] values, float fromMin, float fromMax, double toMin, double toMax, double[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (double)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (double)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
         public static double Scale(this float value, IRange<float> fromRange, IRange<double> toRange)
@@ -1749,22 +981,500 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static double[] Scale(this float[] values, IRange<float> fromRange, IRange<double> toRange)
+        public static double[] Scale(this float[] values, float fromMin, float fromMax, double toMin, double toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new double[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static double[] Scale(this float[] values, IRange<double> toRange)
+        public static double[] Scale(this float[] values, double toMin, double toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            double[] result = new double[values.Length];
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
         /// <summary>
-        ///   Converts one value from one scale to another scale.
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this float[] values, double toMin, double toMax, double[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this float[] values, IRange<float> fromRange, IRange<double> toRange, double[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this float[] values, IRange<float> fromRange, IRange<double> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this float[] values, IRange<double> toRange, double[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this float value, float fromMin, float fromMax, short toMin, short toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (short)value;
+            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this float[] values, float fromMin, float fromMax, short toMin, short toMax, short[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (short)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (short)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this float value, IRange<float> fromRange, IRange<short> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this float[] values, float fromMin, float fromMax, short toMin, short toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this float[] values, short toMin, short toMax)
+        {
+            short[] result = new short[values.Length];
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this float[] values, short toMin, short toMax, short[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this float[] values, IRange<float> fromRange, IRange<short> toRange, short[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this float[] values, IRange<float> fromRange, IRange<short> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this float[] values, IRange<short> toRange, short[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this float value, float fromMin, float fromMax, byte toMin, byte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (byte)value;
+            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this float[] values, float fromMin, float fromMax, byte toMin, byte toMax, byte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (byte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (byte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this float value, IRange<float> fromRange, IRange<byte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this float[] values, float fromMin, float fromMax, byte toMin, byte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this float[] values, byte toMin, byte toMax)
+        {
+            byte[] result = new byte[values.Length];
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this float[] values, byte toMin, byte toMax, byte[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this float[] values, IRange<float> fromRange, IRange<byte> toRange, byte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this float[] values, IRange<float> fromRange, IRange<byte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this float[] values, IRange<byte> toRange, byte[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this float value, float fromMin, float fromMax, sbyte toMin, sbyte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (sbyte)value;
+            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this float[] values, float fromMin, float fromMax, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (sbyte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (sbyte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this float value, IRange<float> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this float[] values, float fromMin, float fromMax, sbyte toMin, sbyte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this float[] values, sbyte toMin, sbyte toMax)
+        {
+            sbyte[] result = new sbyte[values.Length];
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this float[] values, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this float[] values, IRange<float> fromRange, IRange<sbyte> toRange, sbyte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this float[] values, IRange<float> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this float[] values, IRange<sbyte> toRange, sbyte[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this float value, float fromMin, float fromMax, long toMin, long toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (long)value;
+            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this float[] values, float fromMin, float fromMax, long toMin, long toMax, long[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (long)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (long)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this float value, IRange<float> fromRange, IRange<long> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this float[] values, float fromMin, float fromMax, long toMin, long toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this float[] values, long toMin, long toMax)
+        {
+            long[] result = new long[values.Length];
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this float[] values, long toMin, long toMax, long[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this float[] values, IRange<float> fromRange, IRange<long> toRange, long[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this float[] values, IRange<float> fromRange, IRange<long> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this float[] values, IRange<long> toRange, long[] result)
+        {
+            float fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this double value, double fromMin, double fromMax, int toMin, int toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (int)value;
+            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this double[] values, double fromMin, double fromMax, int toMin, int toMax, int[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (int)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (int)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
         public static int Scale(this double value, IRange<double> fromRange, IRange<int> toRange)
@@ -1776,22 +1486,96 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static int[] Scale(this double[] values, IRange<double> fromRange, IRange<int> toRange)
+        public static int[] Scale(this double[] values, double fromMin, double fromMax, int toMin, int toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new int[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static int[] Scale(this double[] values, IRange<int> toRange)
+        public static int[] Scale(this double[] values, int toMin, int toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            int[] result = new int[values.Length];
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
         /// <summary>
-        ///   Converts one value from one scale to another scale.
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this double[] values, int toMin, int toMax, int[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this double[] values, IRange<double> fromRange, IRange<int> toRange, int[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this double[] values, IRange<double> fromRange, IRange<int> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this double[] values, IRange<int> toRange, int[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this double value, double fromMin, double fromMax, float toMin, float toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (float)value;
+            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this double[] values, double fromMin, double fromMax, float toMin, float toMax, float[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (float)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (float)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
         public static float Scale(this double value, IRange<double> fromRange, IRange<float> toRange)
@@ -1803,25 +1587,97 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static float[] Scale(this double[] values, IRange<double> fromRange, IRange<float> toRange)
+        public static float[] Scale(this double[] values, double fromMin, double fromMax, float toMin, float toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new float[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static float[] Scale(this double[] values, IRange<float> toRange)
+        public static float[] Scale(this double[] values, float toMin, float toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            float[] result = new float[values.Length];
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
         }
 
         /// <summary>
-        ///   Converts one value from one scale to another scale.
+        ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static double Scale(this double value, IRange<double> fromRange, IRange<double> toRange, bool inPlace = false)
+        public static float[] Scale(this double[] values, float toMin, float toMax, float[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this double[] values, IRange<double> fromRange, IRange<float> toRange, float[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this double[] values, IRange<double> fromRange, IRange<float> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this double[] values, IRange<float> toRange, float[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this double value, double fromMin, double fromMax, double toMin, double toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (double)value;
+            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this double[] values, double fromMin, double fromMax, double toMin, double toMax, double[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                return values;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (double)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this double value, IRange<double> fromRange, IRange<double> toRange)
         {
             return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
         }
@@ -1830,18 +1686,3286 @@ namespace Accord.Math
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static double[] Scale(this double[] values, IRange<double> fromRange, IRange<double> toRange, bool inPlace = false)
+        public static double[] Scale(this double[] values, double fromMin, double fromMax, double toMin, double toMax)
         {
-            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+            return Scale(values, fromMin, fromMax, toMin, toMax, new double[values.Length]);
         }
 
         /// <summary>
         ///   Converts values from one scale to another scale.
         /// </summary>
         /// 
-        public static double[] Scale(this double[] values, IRange<double> toRange, bool inPlace = false)
+        public static double[] Scale(this double[] values, double toMin, double toMax)
         {
-            return Scale(values, toRange.Min, toRange.Max);
+            double[] result = new double[values.Length];
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this double[] values, double toMin, double toMax, double[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this double[] values, IRange<double> fromRange, IRange<double> toRange, double[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this double[] values, IRange<double> fromRange, IRange<double> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this double[] values, IRange<double> toRange, double[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this double value, double fromMin, double fromMax, short toMin, short toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (short)value;
+            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this double[] values, double fromMin, double fromMax, short toMin, short toMax, short[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (short)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (short)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this double value, IRange<double> fromRange, IRange<short> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this double[] values, double fromMin, double fromMax, short toMin, short toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this double[] values, short toMin, short toMax)
+        {
+            short[] result = new short[values.Length];
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this double[] values, short toMin, short toMax, short[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this double[] values, IRange<double> fromRange, IRange<short> toRange, short[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this double[] values, IRange<double> fromRange, IRange<short> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this double[] values, IRange<short> toRange, short[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this double value, double fromMin, double fromMax, byte toMin, byte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (byte)value;
+            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this double[] values, double fromMin, double fromMax, byte toMin, byte toMax, byte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (byte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (byte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this double value, IRange<double> fromRange, IRange<byte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this double[] values, double fromMin, double fromMax, byte toMin, byte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this double[] values, byte toMin, byte toMax)
+        {
+            byte[] result = new byte[values.Length];
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this double[] values, byte toMin, byte toMax, byte[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this double[] values, IRange<double> fromRange, IRange<byte> toRange, byte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this double[] values, IRange<double> fromRange, IRange<byte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this double[] values, IRange<byte> toRange, byte[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this double value, double fromMin, double fromMax, sbyte toMin, sbyte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (sbyte)value;
+            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this double[] values, double fromMin, double fromMax, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (sbyte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (sbyte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this double value, IRange<double> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this double[] values, double fromMin, double fromMax, sbyte toMin, sbyte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this double[] values, sbyte toMin, sbyte toMax)
+        {
+            sbyte[] result = new sbyte[values.Length];
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this double[] values, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this double[] values, IRange<double> fromRange, IRange<sbyte> toRange, sbyte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this double[] values, IRange<double> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this double[] values, IRange<sbyte> toRange, sbyte[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this double value, double fromMin, double fromMax, long toMin, long toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (long)value;
+            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this double[] values, double fromMin, double fromMax, long toMin, long toMax, long[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (long)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (long)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this double value, IRange<double> fromRange, IRange<long> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this double[] values, double fromMin, double fromMax, long toMin, long toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this double[] values, long toMin, long toMax)
+        {
+            long[] result = new long[values.Length];
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this double[] values, long toMin, long toMax, long[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this double[] values, IRange<double> fromRange, IRange<long> toRange, long[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this double[] values, IRange<double> fromRange, IRange<long> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this double[] values, IRange<long> toRange, long[] result)
+        {
+            double fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this short value, short fromMin, short fromMax, int toMin, int toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (int)value;
+            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this short[] values, short fromMin, short fromMax, int toMin, int toMax, int[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (int)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (int)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this short value, IRange<short> fromRange, IRange<int> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this short[] values, short fromMin, short fromMax, int toMin, int toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this short[] values, int toMin, int toMax)
+        {
+            int[] result = new int[values.Length];
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this short[] values, int toMin, int toMax, int[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this short[] values, IRange<short> fromRange, IRange<int> toRange, int[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this short[] values, IRange<short> fromRange, IRange<int> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this short[] values, IRange<int> toRange, int[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this short value, short fromMin, short fromMax, float toMin, float toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (float)value;
+            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this short[] values, short fromMin, short fromMax, float toMin, float toMax, float[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (float)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (float)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this short value, IRange<short> fromRange, IRange<float> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this short[] values, short fromMin, short fromMax, float toMin, float toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this short[] values, float toMin, float toMax)
+        {
+            float[] result = new float[values.Length];
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this short[] values, float toMin, float toMax, float[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this short[] values, IRange<short> fromRange, IRange<float> toRange, float[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this short[] values, IRange<short> fromRange, IRange<float> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this short[] values, IRange<float> toRange, float[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this short value, short fromMin, short fromMax, double toMin, double toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (double)value;
+            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this short[] values, short fromMin, short fromMax, double toMin, double toMax, double[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (double)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (double)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this short value, IRange<short> fromRange, IRange<double> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this short[] values, short fromMin, short fromMax, double toMin, double toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this short[] values, double toMin, double toMax)
+        {
+            double[] result = new double[values.Length];
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this short[] values, double toMin, double toMax, double[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this short[] values, IRange<short> fromRange, IRange<double> toRange, double[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this short[] values, IRange<short> fromRange, IRange<double> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this short[] values, IRange<double> toRange, double[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this short value, short fromMin, short fromMax, short toMin, short toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (short)value;
+            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this short[] values, short fromMin, short fromMax, short toMin, short toMax, short[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                return values;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (short)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this short value, IRange<short> fromRange, IRange<short> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this short[] values, short fromMin, short fromMax, short toMin, short toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this short[] values, short toMin, short toMax)
+        {
+            short[] result = new short[values.Length];
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this short[] values, short toMin, short toMax, short[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this short[] values, IRange<short> fromRange, IRange<short> toRange, short[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this short[] values, IRange<short> fromRange, IRange<short> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this short[] values, IRange<short> toRange, short[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this short value, short fromMin, short fromMax, byte toMin, byte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (byte)value;
+            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this short[] values, short fromMin, short fromMax, byte toMin, byte toMax, byte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (byte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (byte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this short value, IRange<short> fromRange, IRange<byte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this short[] values, short fromMin, short fromMax, byte toMin, byte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this short[] values, byte toMin, byte toMax)
+        {
+            byte[] result = new byte[values.Length];
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this short[] values, byte toMin, byte toMax, byte[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this short[] values, IRange<short> fromRange, IRange<byte> toRange, byte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this short[] values, IRange<short> fromRange, IRange<byte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this short[] values, IRange<byte> toRange, byte[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this short value, short fromMin, short fromMax, sbyte toMin, sbyte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (sbyte)value;
+            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this short[] values, short fromMin, short fromMax, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (sbyte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (sbyte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this short value, IRange<short> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this short[] values, short fromMin, short fromMax, sbyte toMin, sbyte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this short[] values, sbyte toMin, sbyte toMax)
+        {
+            sbyte[] result = new sbyte[values.Length];
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this short[] values, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this short[] values, IRange<short> fromRange, IRange<sbyte> toRange, sbyte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this short[] values, IRange<short> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this short[] values, IRange<sbyte> toRange, sbyte[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this short value, short fromMin, short fromMax, long toMin, long toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (long)value;
+            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this short[] values, short fromMin, short fromMax, long toMin, long toMax, long[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (long)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (long)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this short value, IRange<short> fromRange, IRange<long> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this short[] values, short fromMin, short fromMax, long toMin, long toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this short[] values, long toMin, long toMax)
+        {
+            long[] result = new long[values.Length];
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this short[] values, long toMin, long toMax, long[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this short[] values, IRange<short> fromRange, IRange<long> toRange, long[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this short[] values, IRange<short> fromRange, IRange<long> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this short[] values, IRange<long> toRange, long[] result)
+        {
+            short fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this byte value, byte fromMin, byte fromMax, int toMin, int toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (int)value;
+            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this byte[] values, byte fromMin, byte fromMax, int toMin, int toMax, int[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (int)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (int)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this byte value, IRange<byte> fromRange, IRange<int> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this byte[] values, byte fromMin, byte fromMax, int toMin, int toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this byte[] values, int toMin, int toMax)
+        {
+            int[] result = new int[values.Length];
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this byte[] values, int toMin, int toMax, int[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this byte[] values, IRange<byte> fromRange, IRange<int> toRange, int[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this byte[] values, IRange<byte> fromRange, IRange<int> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this byte[] values, IRange<int> toRange, int[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this byte value, byte fromMin, byte fromMax, float toMin, float toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (float)value;
+            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this byte[] values, byte fromMin, byte fromMax, float toMin, float toMax, float[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (float)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (float)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this byte value, IRange<byte> fromRange, IRange<float> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this byte[] values, byte fromMin, byte fromMax, float toMin, float toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this byte[] values, float toMin, float toMax)
+        {
+            float[] result = new float[values.Length];
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this byte[] values, float toMin, float toMax, float[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this byte[] values, IRange<byte> fromRange, IRange<float> toRange, float[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this byte[] values, IRange<byte> fromRange, IRange<float> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this byte[] values, IRange<float> toRange, float[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this byte value, byte fromMin, byte fromMax, double toMin, double toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (double)value;
+            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this byte[] values, byte fromMin, byte fromMax, double toMin, double toMax, double[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (double)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (double)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this byte value, IRange<byte> fromRange, IRange<double> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this byte[] values, byte fromMin, byte fromMax, double toMin, double toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this byte[] values, double toMin, double toMax)
+        {
+            double[] result = new double[values.Length];
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this byte[] values, double toMin, double toMax, double[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this byte[] values, IRange<byte> fromRange, IRange<double> toRange, double[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this byte[] values, IRange<byte> fromRange, IRange<double> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this byte[] values, IRange<double> toRange, double[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this byte value, byte fromMin, byte fromMax, short toMin, short toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (short)value;
+            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this byte[] values, byte fromMin, byte fromMax, short toMin, short toMax, short[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (short)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (short)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this byte value, IRange<byte> fromRange, IRange<short> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this byte[] values, byte fromMin, byte fromMax, short toMin, short toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this byte[] values, short toMin, short toMax)
+        {
+            short[] result = new short[values.Length];
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this byte[] values, short toMin, short toMax, short[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this byte[] values, IRange<byte> fromRange, IRange<short> toRange, short[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this byte[] values, IRange<byte> fromRange, IRange<short> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this byte[] values, IRange<short> toRange, short[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this byte value, byte fromMin, byte fromMax, byte toMin, byte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (byte)value;
+            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this byte[] values, byte fromMin, byte fromMax, byte toMin, byte toMax, byte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                return values;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (byte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this byte value, IRange<byte> fromRange, IRange<byte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this byte[] values, byte fromMin, byte fromMax, byte toMin, byte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this byte[] values, byte toMin, byte toMax)
+        {
+            byte[] result = new byte[values.Length];
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this byte[] values, byte toMin, byte toMax, byte[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this byte[] values, IRange<byte> fromRange, IRange<byte> toRange, byte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this byte[] values, IRange<byte> fromRange, IRange<byte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this byte[] values, IRange<byte> toRange, byte[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this byte value, byte fromMin, byte fromMax, sbyte toMin, sbyte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (sbyte)value;
+            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this byte[] values, byte fromMin, byte fromMax, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (sbyte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (sbyte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this byte value, IRange<byte> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this byte[] values, byte fromMin, byte fromMax, sbyte toMin, sbyte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this byte[] values, sbyte toMin, sbyte toMax)
+        {
+            sbyte[] result = new sbyte[values.Length];
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this byte[] values, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this byte[] values, IRange<byte> fromRange, IRange<sbyte> toRange, sbyte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this byte[] values, IRange<byte> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this byte[] values, IRange<sbyte> toRange, sbyte[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this byte value, byte fromMin, byte fromMax, long toMin, long toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (long)value;
+            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this byte[] values, byte fromMin, byte fromMax, long toMin, long toMax, long[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (long)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (long)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this byte value, IRange<byte> fromRange, IRange<long> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this byte[] values, byte fromMin, byte fromMax, long toMin, long toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this byte[] values, long toMin, long toMax)
+        {
+            long[] result = new long[values.Length];
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this byte[] values, long toMin, long toMax, long[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this byte[] values, IRange<byte> fromRange, IRange<long> toRange, long[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this byte[] values, IRange<byte> fromRange, IRange<long> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this byte[] values, IRange<long> toRange, long[] result)
+        {
+            byte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this sbyte value, sbyte fromMin, sbyte fromMax, int toMin, int toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (int)value;
+            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, int toMin, int toMax, int[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (int)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (int)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this sbyte value, IRange<sbyte> fromRange, IRange<int> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, int toMin, int toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this sbyte[] values, int toMin, int toMax)
+        {
+            int[] result = new int[values.Length];
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this sbyte[] values, int toMin, int toMax, int[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<int> toRange, int[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<int> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this sbyte[] values, IRange<int> toRange, int[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this sbyte value, sbyte fromMin, sbyte fromMax, float toMin, float toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (float)value;
+            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, float toMin, float toMax, float[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (float)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (float)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this sbyte value, IRange<sbyte> fromRange, IRange<float> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, float toMin, float toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this sbyte[] values, float toMin, float toMax)
+        {
+            float[] result = new float[values.Length];
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this sbyte[] values, float toMin, float toMax, float[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<float> toRange, float[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<float> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this sbyte[] values, IRange<float> toRange, float[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this sbyte value, sbyte fromMin, sbyte fromMax, double toMin, double toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (double)value;
+            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, double toMin, double toMax, double[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (double)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (double)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this sbyte value, IRange<sbyte> fromRange, IRange<double> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, double toMin, double toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this sbyte[] values, double toMin, double toMax)
+        {
+            double[] result = new double[values.Length];
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this sbyte[] values, double toMin, double toMax, double[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<double> toRange, double[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<double> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this sbyte[] values, IRange<double> toRange, double[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this sbyte value, sbyte fromMin, sbyte fromMax, short toMin, short toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (short)value;
+            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, short toMin, short toMax, short[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (short)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (short)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this sbyte value, IRange<sbyte> fromRange, IRange<short> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, short toMin, short toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this sbyte[] values, short toMin, short toMax)
+        {
+            short[] result = new short[values.Length];
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this sbyte[] values, short toMin, short toMax, short[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<short> toRange, short[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<short> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this sbyte[] values, IRange<short> toRange, short[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this sbyte value, sbyte fromMin, sbyte fromMax, byte toMin, byte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (byte)value;
+            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, byte toMin, byte toMax, byte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (byte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (byte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this sbyte value, IRange<sbyte> fromRange, IRange<byte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, byte toMin, byte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this sbyte[] values, byte toMin, byte toMax)
+        {
+            byte[] result = new byte[values.Length];
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this sbyte[] values, byte toMin, byte toMax, byte[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<byte> toRange, byte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<byte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this sbyte[] values, IRange<byte> toRange, byte[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this sbyte value, sbyte fromMin, sbyte fromMax, sbyte toMin, sbyte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (sbyte)value;
+            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                return values;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (sbyte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this sbyte value, IRange<sbyte> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, sbyte toMin, sbyte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this sbyte[] values, sbyte toMin, sbyte toMax)
+        {
+            sbyte[] result = new sbyte[values.Length];
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this sbyte[] values, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<sbyte> toRange, sbyte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this sbyte[] values, IRange<sbyte> toRange, sbyte[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this sbyte value, sbyte fromMin, sbyte fromMax, long toMin, long toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (long)value;
+            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, long toMin, long toMax, long[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (long)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (long)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this sbyte value, IRange<sbyte> fromRange, IRange<long> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this sbyte[] values, sbyte fromMin, sbyte fromMax, long toMin, long toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this sbyte[] values, long toMin, long toMax)
+        {
+            long[] result = new long[values.Length];
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this sbyte[] values, long toMin, long toMax, long[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<long> toRange, long[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this sbyte[] values, IRange<sbyte> fromRange, IRange<long> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this sbyte[] values, IRange<long> toRange, long[] result)
+        {
+            sbyte fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this long value, long fromMin, long fromMax, int toMin, int toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (int)value;
+            return (int)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this long[] values, long fromMin, long fromMax, int toMin, int toMax, int[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (int)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (int)((toMax - toMin) * (values[i] - fromMin) / (int)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int Scale(this long value, IRange<long> fromRange, IRange<int> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this long[] values, long fromMin, long fromMax, int toMin, int toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this long[] values, int toMin, int toMax)
+        {
+            int[] result = new int[values.Length];
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this long[] values, int toMin, int toMax, int[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this long[] values, IRange<long> fromRange, IRange<int> toRange, int[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this long[] values, IRange<long> fromRange, IRange<int> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new int[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static int[] Scale(this long[] values, IRange<int> toRange, int[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this long value, long fromMin, long fromMax, float toMin, float toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (float)value;
+            return (float)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this long[] values, long fromMin, long fromMax, float toMin, float toMax, float[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (float)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (float)((toMax - toMin) * (values[i] - fromMin) / (float)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float Scale(this long value, IRange<long> fromRange, IRange<float> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this long[] values, long fromMin, long fromMax, float toMin, float toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this long[] values, float toMin, float toMax)
+        {
+            float[] result = new float[values.Length];
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this long[] values, float toMin, float toMax, float[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this long[] values, IRange<long> fromRange, IRange<float> toRange, float[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this long[] values, IRange<long> fromRange, IRange<float> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new float[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static float[] Scale(this long[] values, IRange<float> toRange, float[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this long value, long fromMin, long fromMax, double toMin, double toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (double)value;
+            return (double)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this long[] values, long fromMin, long fromMax, double toMin, double toMax, double[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (double)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (double)((toMax - toMin) * (values[i] - fromMin) / (double)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double Scale(this long value, IRange<long> fromRange, IRange<double> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this long[] values, long fromMin, long fromMax, double toMin, double toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this long[] values, double toMin, double toMax)
+        {
+            double[] result = new double[values.Length];
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this long[] values, double toMin, double toMax, double[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this long[] values, IRange<long> fromRange, IRange<double> toRange, double[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this long[] values, IRange<long> fromRange, IRange<double> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new double[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static double[] Scale(this long[] values, IRange<double> toRange, double[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this long value, long fromMin, long fromMax, short toMin, short toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (short)value;
+            return (short)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this long[] values, long fromMin, long fromMax, short toMin, short toMax, short[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (short)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (short)((toMax - toMin) * (values[i] - fromMin) / (short)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short Scale(this long value, IRange<long> fromRange, IRange<short> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this long[] values, long fromMin, long fromMax, short toMin, short toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this long[] values, short toMin, short toMax)
+        {
+            short[] result = new short[values.Length];
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this long[] values, short toMin, short toMax, short[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this long[] values, IRange<long> fromRange, IRange<short> toRange, short[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this long[] values, IRange<long> fromRange, IRange<short> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new short[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static short[] Scale(this long[] values, IRange<short> toRange, short[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this long value, long fromMin, long fromMax, byte toMin, byte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (byte)value;
+            return (byte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this long[] values, long fromMin, long fromMax, byte toMin, byte toMax, byte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (byte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (byte)((toMax - toMin) * (values[i] - fromMin) / (byte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte Scale(this long value, IRange<long> fromRange, IRange<byte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this long[] values, long fromMin, long fromMax, byte toMin, byte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this long[] values, byte toMin, byte toMax)
+        {
+            byte[] result = new byte[values.Length];
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this long[] values, byte toMin, byte toMax, byte[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this long[] values, IRange<long> fromRange, IRange<byte> toRange, byte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this long[] values, IRange<long> fromRange, IRange<byte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new byte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static byte[] Scale(this long[] values, IRange<byte> toRange, byte[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this long value, long fromMin, long fromMax, sbyte toMin, sbyte toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (sbyte)value;
+            return (sbyte)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this long[] values, long fromMin, long fromMax, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                for (int i = 0; i < values.Length; i++)
+                    result[i] = (sbyte)values[i];                
+                return result;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (sbyte)((toMax - toMin) * (values[i] - fromMin) / (sbyte)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte Scale(this long value, IRange<long> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this long[] values, long fromMin, long fromMax, sbyte toMin, sbyte toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this long[] values, sbyte toMin, sbyte toMax)
+        {
+            sbyte[] result = new sbyte[values.Length];
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this long[] values, sbyte toMin, sbyte toMax, sbyte[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this long[] values, IRange<long> fromRange, IRange<sbyte> toRange, sbyte[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this long[] values, IRange<long> fromRange, IRange<sbyte> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new sbyte[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static sbyte[] Scale(this long[] values, IRange<sbyte> toRange, sbyte[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
+        }
+        /// <summary>
+        ///   Converts a value from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this long value, long fromMin, long fromMax, long toMin, long toMax)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+                return (long)value;
+            return (long)((toMax - toMin) * (value - fromMin) / (fromMax - fromMin) + toMin);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this long[] values, long fromMin, long fromMax, long toMin, long toMax, long[] result)
+        {
+            if (fromMin == fromMax && fromMin == toMin && fromMin == toMax)
+            {
+                return values;
+            }
+
+            for (int i = 0; i < values.Length; i++)
+                result[i] = (long)((toMax - toMin) * (values[i] - fromMin) / (long)(fromMax - fromMin) + toMin);
+            return result;
+        }
+
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long Scale(this long value, IRange<long> fromRange, IRange<long> toRange)
+        {
+            return Scale(value, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this long[] values, long fromMin, long fromMax, long toMin, long toMax)
+        {
+            return Scale(values, fromMin, fromMax, toMin, toMax, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this long[] values, long toMin, long toMax)
+        {
+            long[] result = new long[values.Length];
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this long[] values, long toMin, long toMax, long[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toMin, toMax, result);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this long[] values, IRange<long> fromRange, IRange<long> toRange, long[] result)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, result);
+        }
+
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this long[] values, IRange<long> fromRange, IRange<long> toRange)
+        {
+            return Scale(values, fromRange.Min, fromRange.Max, toRange.Min, toRange.Max, new long[values.Length]);
+        }
+
+        /// <summary>
+        ///   Converts values from one scale to another scale.
+        /// </summary>
+        /// 
+        public static long[] Scale(this long[] values, IRange<long> toRange, long[] result)
+        {
+            long fromMin, fromMax;
+            values.Range(out fromMin, out fromMax);
+            return Scale(values, fromMin, fromMax, toRange.Min, toRange.Max, result);
         }
     }
 }
